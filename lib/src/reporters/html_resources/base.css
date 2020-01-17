@@ -1,0 +1,312 @@
+/* Start ============== NORMALIZE =============== */
+
+/*! based on normalize.css v5.0.0 | MIT License | github.com/necolas */
+
+/*
+* 1. Change the default font family in all browsers (opinionated).
+* 2. Prevent adjustments of font size after orientation changes in
+*    IE on Windows Phone and in iOS.
+*/
+
+/* Document ========================================================================== */
+
+html {
+  font-family: sans-serif; /* 1 */
+  -ms-text-size-adjust: 100%; /* 2 */
+  -webkit-text-size-adjust: 100%; /* 2 */
+}
+
+/* Sections ========================================================================== */
+
+/*
+* Remove the margin in all browsers (opinionated).
+*/
+body {
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+/* Grouping content ========================================================================== */
+
+/*
+* 1. Add the correct box sizing in Firefox.
+* 2. Show the overflow in Edge and IE.
+*/
+hr {
+  box-sizing: content-box; /* 1 */
+  height: 0; /* 1 */
+  overflow: visible; /* 2 */
+}
+
+/* Text-level semantics ========================================================================== */
+
+/*
+* Remove gaps in links underline in iOS 8+ and Safari 8+.
+*/
+a {
+  -webkit-text-decoration-skip: objects;
+  outline: none;
+}
+
+/*
+* Remove the outline on focused links when they are also active or hovered
+* in all browsers (opinionated).
+*/
+a:active,
+a:hover {
+  outline-width: 0;
+}
+
+/*
+* Prevent text blurriness in Firefox on macOS
+* link: https://stackoverflow.com/a/44898465
+*/
+@supports (-moz-appearance: meterbar) and (background-blend-mode: difference, normal) {
+
+  body {
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* ============== NORMALIZE =============== End */
+
+/* Start ============== BASE =============== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  padding: 24px;
+  font-family: "Open sans", "Lucida grande", "Segoe UI", Arial, Verdana, Tahoma, sans-serif;
+  font-size: 14px;
+}
+
+table {
+  width: 100%;
+  margin: 0;
+  border-spacing: 0;
+  font-size: inherit;
+}
+
+table td {
+  vertical-align: top;
+}
+
+pre,
+code {
+  margin: 0;
+  font-family: "Courier New", monospace;
+  font-size: 1em;
+}
+
+/* ============== BASE =============== END */
+
+/* Start ============== CUSTOM =============== */
+a {
+  text-decoration: none;
+  color: #4488ff;
+}
+
+a:hover {
+  opacity: .7;
+}
+
+.metric-header {
+  margin-bottom: 24px;
+  font-size: 18px;
+}
+
+.metric-wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.metrics-total-table {
+  width: calc(100% - 360px);
+  border-top: 1px solid rgba(0,0,0,0.32);
+  border-left: 1px solid rgba(0,0,0,0.32);
+}
+
+.metrics-total-table th,
+.metrics-total-table td {
+  padding: 8px;
+  border-right: 1px solid rgba(0,0,0,0.32);
+}
+
+.metrics-total-table td {
+  border-bottom: 1px solid rgba(0,0,0,0.32);
+}
+
+.metrics-total-table th {
+  border-bottom: 2px solid rgba(0,0,0,0.32);
+}
+
+.metrics-total-table tr th:first-child,
+.metrics-total-table tr td:first-child {
+  text-align: left;
+  min-width: 128px;
+}
+
+.metrics-total-table tr td {
+  word-break: break-all;
+}
+
+.metrics-total-table tr th:not(:first-child) {
+  width: 128px;
+}
+
+.metrics-total-table tr td:not(:first-child) {
+  text-align: center;
+}
+
+.metrics-totals {
+  width: 352px;
+}
+
+.metrics-total {
+  padding: 8px 12px;
+  background-color: rgba(106, 200, 236, 0.35);
+}
+
+.metrics-total--violations,
+.with-violations {
+  background-color: rgba(252, 142, 0, 0.35);
+}
+
+.metrics-total + .metrics-total {
+  margin-top: 8px;
+}
+
+.metrics-total__count {
+  font-weight: bold;
+}
+
+.metrics-source-code {
+  margin-top: 24px;
+  border: 1px solid #ccc;
+}
+
+.metrics-source-code__header td {
+  padding: 8px;
+  font-family: "Open sans", "Lucida grande", "Segoe UI", Arial, Verdana, Tahoma, sans-serif;
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: .083em;
+  text-transform: uppercase;
+  border-bottom: 1px solid #ccc;
+}
+
+.metrics-source-code__number-lines {
+  width: 48px;
+  border-right: 1px solid #ccc;
+  text-align: right
+}
+
+.metrics-source-code__number-lines a {
+  padding: 0 4px;
+  text-decoration: none;
+  color: #4488ff;
+}
+
+.metrics-source-code__number-lines a:hover {
+  color: #2fd5d9;
+}
+
+.metrics-source-code__number-lines a:focus-within {
+  background-color: #4488ff;
+  color: #fff;
+}
+
+.metrics-source-code__body .metrics-source-code__number-lines {
+  padding: 8px 4px;
+}
+
+.metrics-source-code__complexity {
+  width: 112px;
+  padding: 8px 0;
+  border-right: 1px solid #ccc;
+}
+
+pre.prettyprint.prettyprint {
+  border: 0;
+  padding: 0;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.metrics-source-code__text {
+  padding: 0 8px;
+}
+
+.metrics-source-code__text::after {
+  content: "";
+  position: absolute;
+  left: calc(112px + 48px + 16px + 8px);
+  width: calc(100% - 112px - 48px - 16px - 32px);
+  height: 16px;
+  background-color: inherit;
+  z-index: -1;
+}
+
+.metrics-source-code__code {
+  position: relative;
+  padding: 8px;
+  line-height: 16px;
+}
+
+.metrics-source-code__line--normal-complexity {
+  background-color: #33bb1159;
+}
+
+.metrics-source-code__line--noted-complexity {
+  background-color: #59c5ff59;
+}
+
+.metrics-source-code__line--warning-complexity {
+  background-color: #fc8e0059;
+}
+
+.metrics-source-code__line--attention-complexity {
+  background-color: #f1586659;
+}
+
+.metrics-source-code__text--normal-complexity {
+  background-color: #33bb1126;
+}
+
+.metrics-source-code__text--noted-complexity {
+  background-color: #59c5ff26;
+}
+
+.metrics-source-code__text--warning-complexity {
+  background-color: #fc8e0026;
+}
+
+.metrics-source-code__text--attention-complexity {
+  background-color: #f1586626;
+}
+
+.metrics-source-code__text--with-icon {
+  display: flex;
+  align-items: center;
+  height: 16px;
+  font-size: 12px;
+}
+
+/* ============== CUSTOM =============== END */
+
