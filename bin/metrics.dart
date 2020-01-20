@@ -47,7 +47,7 @@ void main(List<String> args) {
   }
 
   if (showUsage) {
-    print('Usage: dartanalyzer [options...] <directory>');
+    print('Usage: metrics [options...] <directory>');
     print(parser.usage);
     return;
   }
