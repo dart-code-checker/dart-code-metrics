@@ -42,12 +42,12 @@ void main(List<String> args) {
     showUsage = true;
   }
 
-  if (arguments[helpFlagName] as bool || arguments.rest.length != 1) {
+  if (arguments == null || arguments[helpFlagName] as bool || arguments.rest.length != 1) {
     showUsage = true;
   }
 
   if (showUsage) {
-    print('Usage: dartanalyzer [options...] <directory>');
+    print('Usage: metrics [options...] <directory>');
     print(parser.usage);
     return;
   }
