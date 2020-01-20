@@ -1,0 +1,40 @@
+name: build
+
+on: [push]
+
+jobs:
+  build-dart-latest:
+
+    runs-on: ubuntu-latest
+
+    container:
+      image:  google/dart:latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install dependencies
+      run: pub get
+    - name: Run dartanalyzer
+      run: dartanalyzer --fatal-warnings --fatal-infos --fatal-lints lib/ test/
+    - name: Run dartfmt
+      run: dartfmt --set-exit-if-changed -l 120 -n .
+    - name: Run tests
+      run: pub run test
+
+  build-dart-2-4:
+
+    runs-on: ubuntu-latest
+
+    container:
+      image:  google/dart:2.4
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install dependencies
+      run: pub get
+    - name: Run dartanalyzer
+      run: dartanalyzer --fatal-warnings --fatal-infos --fatal-lints lib/ test/
+    - name: Run dartfmt
+      run: dartfmt --set-exit-if-changed -l 120 -n .
+    - name: Run tests
+      run: pub run test
