@@ -33,7 +33,7 @@ class CodeClimateIssue {
   }
 
   Map<String, Object> toJson() {
-    return <String,Object> {
+    return <String, Object>{
       'type': type,
       'check_name': check_name,
       'categories': categories,
@@ -47,10 +47,11 @@ class CodeClimateIssue {
 
 class CodeClimateIssueContent {
   final String body;
+
   CodeClimateIssueContent(this.body);
 
   Map<String, Object> toJson() {
-    return <String,Object> {
+    return <String, Object>{
       'body': body,
     };
   }
@@ -59,10 +60,11 @@ class CodeClimateIssueContent {
 class CodeClimateLocation {
   final String path;
   final CodeClimatePosition positions;
+
   CodeClimateLocation(this.path, this.positions);
 
   Map<String, Object> toJson() {
-    return <String,Object> {
+    return <String, Object>{
       'path': path,
       'positions': positions.toJson(),
     };
@@ -72,10 +74,11 @@ class CodeClimateLocation {
 class CodeClimatePosition {
   final CodeClimateLineColumnPosition begin;
   final CodeClimateLineColumnPosition end;
+
   CodeClimatePosition(this.begin, this.end);
 
   Map<String, Object> toJson() {
-    return <String,Object> {
+    return <String, Object>{
       'begin': begin.toJson(),
       'end': end.toJson(),
     };
@@ -84,10 +87,11 @@ class CodeClimatePosition {
 
 class CodeClimateLineColumnPosition {
   final num line;
+
   CodeClimateLineColumnPosition(this.line);
 
   Map<String, Object> toJson() {
-    return <String,Object> {
+    return <String, Object>{
       'line': line,
       'column': 1,
     };
