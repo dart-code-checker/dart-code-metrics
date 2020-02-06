@@ -4,7 +4,6 @@ import 'package:args/args.dart';
 import 'package:glob/glob.dart';
 import 'package:metrics/metrics_analyzer.dart';
 import 'package:metrics/reporters.dart';
-import 'package:metrics/src/reporters/code_climate/code_climate_reporter.dart';
 
 void main(List<String> args) {
   const helpFlagName = 'help';

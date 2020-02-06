@@ -1,9 +1,9 @@
 class CodeClimateIssue {
-  final String type = 'issue';
-  final String check_name;
-  final List<String> categories = ['Complexity'];
-  final num remediation_points = 50000;
+  static const String type = 'issue';
+  static const Iterable<String> categories = ['Complexity'];
+  static const int remediation_points = 50000;
 
+  final String check_name;
   final String description;
   final CodeClimateLocation location;
 
