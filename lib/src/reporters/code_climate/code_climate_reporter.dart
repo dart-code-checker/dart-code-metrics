@@ -9,8 +9,9 @@ import 'package:metrics/src/reporters/reporter.dart';
 import 'package:metrics/src/reporters/utility_selector.dart';
 
 class CodeClimateReporter implements Reporter {
+  static const _nullCharacter = '\u0000';
+
   final Config reportConfig;
-  static const String _nullCharacter = '\u0000';
   CodeClimateReporter({@required this.reportConfig});
 
   @override
@@ -19,7 +20,7 @@ class CodeClimateReporter implements Reporter {
       return;
     }
 
-    final data = records.map(_toIssues).expand((r) => r).toList(growable: false);
+    final data = records.map(_toIssues).expand((r) => r);
     for (final issue in data) {
       print(json.encode(issue) + _nullCharacter);
     }
@@ -27,24 +28,29 @@ class CodeClimateReporter implements Reporter {
 
   bool _isIssueLevel(ViolationLevel level) => level == ViolationLevel.warning || level == ViolationLevel.alarm;
 
-  List<CodeClimateIssue> _toIssues(ComponentRecord record) {
+  Iterable<CodeClimateIssue> _toIssues(ComponentRecord record) {
     final result = <CodeClimateIssue>[];
+
     for (final key in record.records.keys) {
       final func = record.records[key];
       final report = UtilitySelector.functionReport(func, reportConfig);
+
       if (_isIssueLevel(report.linesOfCodeViolationLevel)) {
         result.add(CodeClimateIssue.linesOfCode(
             func.firstLine, func.lastLine, record.relativePath, key, reportConfig.linesOfCodeWarningLevel));
       }
+
       if (_isIssueLevel(report.cyclomaticComplexityViolationLevel)) {
         result.add(CodeClimateIssue.cyclomaticComplexity(func.firstLine, func.lastLine, report.cyclomaticComplexity,
             record.relativePath, key, reportConfig.linesOfCodeWarningLevel));
       }
+
       if (_isIssueLevel(report.maintainabilityIndexViolationLevel)) {
         result.add(CodeClimateIssue.maintainabilityIndex(
             func.firstLine, func.lastLine, report.maintainabilityIndex, record.relativePath, key));
       }
     }
+
     return result;
   }
 }

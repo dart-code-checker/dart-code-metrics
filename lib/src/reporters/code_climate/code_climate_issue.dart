@@ -1,13 +1,54 @@
+import 'package:meta/meta.dart';
+
+@immutable
+class CodeClimateLineColumnPosition {
+  final int line;
+
+  const CodeClimateLineColumnPosition(this.line);
+
+  Map<String, int> toJson() => {
+        'line': line,
+        'column': 1,
+      };
+}
+
+@immutable
+class CodeClimatePosition {
+  final CodeClimateLineColumnPosition begin;
+  final CodeClimateLineColumnPosition end;
+
+  const CodeClimatePosition(this.begin, this.end);
+
+  Map<String, Object> toJson() => {
+        'begin': begin.toJson(),
+        'end': end.toJson(),
+      };
+}
+
+@immutable
+class CodeClimateLocation {
+  final String path;
+  final CodeClimatePosition positions;
+
+  const CodeClimateLocation(this.path, this.positions);
+
+  Map<String, Object> toJson() => {
+        'path': path,
+        'positions': positions.toJson(),
+      };
+}
+
+@immutable
 class CodeClimateIssue {
   static const String type = 'issue';
   static const Iterable<String> categories = ['Complexity'];
-  static const int remediation_points = 50000;
+  static const int remediationPoints = 50000;
 
-  final String check_name;
+  final String checkName;
   final String description;
   final CodeClimateLocation location;
 
-  CodeClimateIssue._(this.check_name, this.description, this.location);
+  const CodeClimateIssue._(this.checkName, this.description, this.location);
 
   factory CodeClimateIssue._create(String name, String desc, int startLine, int endLine, String fileName) {
     final position =
@@ -37,67 +78,12 @@ class CodeClimateIssue {
     return CodeClimateIssue._create('maintainabilityIndex', desc, startLine, endLine, fileName);
   }
 
-  Map<String, Object> toJson() {
-    return <String, Object>{
-      'type': type,
-      'check_name': check_name,
-      'categories': categories,
-      'remediation_points': remediation_points,
-      'description': description,
-      'location': location.toJson(),
-    };
-  }
-}
-
-class CodeClimateIssueContent {
-  final String body;
-
-  CodeClimateIssueContent(this.body);
-
-  Map<String, Object> toJson() {
-    return <String, Object>{
-      'body': body,
-    };
-  }
-}
-
-class CodeClimateLocation {
-  final String path;
-  final CodeClimatePosition positions;
-
-  CodeClimateLocation(this.path, this.positions);
-
-  Map<String, Object> toJson() {
-    return <String, Object>{
-      'path': path,
-      'positions': positions.toJson(),
-    };
-  }
-}
-
-class CodeClimatePosition {
-  final CodeClimateLineColumnPosition begin;
-  final CodeClimateLineColumnPosition end;
-
-  CodeClimatePosition(this.begin, this.end);
-
-  Map<String, Object> toJson() {
-    return <String, Object>{
-      'begin': begin.toJson(),
-      'end': end.toJson(),
-    };
-  }
-}
-
-class CodeClimateLineColumnPosition {
-  final num line;
-
-  CodeClimateLineColumnPosition(this.line);
-
-  Map<String, Object> toJson() {
-    return <String, Object>{
-      'line': line,
-      'column': 1,
-    };
-  }
+  Map<String, Object> toJson() => {
+        'type': type,
+        'check_name': checkName,
+        'categories': categories,
+        'remediation_points': remediationPoints,
+        'description': description,
+        'location': location.toJson(),
+      };
 }
