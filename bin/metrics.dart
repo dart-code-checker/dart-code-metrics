@@ -22,7 +22,7 @@ void main(List<String> args) {
         abbr: 'r',
         help: 'The format of the output of the analysis',
         valueHelp: 'console',
-        allowed: ['console', 'json', 'html'],
+        allowed: ['console', 'json', 'html', 'codeclimate'],
         defaultsTo: 'console')
     ..addOption(cyclomaticComplexityThreshold,
         help: 'Cyclomatic complexity threshold', valueHelp: '20', defaultsTo: '20')
@@ -81,6 +81,9 @@ void main(List<String> args) {
       break;
     case 'html':
       HtmlReporter(reportConfig: config).report(runner.results());
+      break;
+    case 'codeclimate':
+      CodeClimateReporter(reportConfig: config).report(runner.results());
       break;
     default:
       throw ArgumentError.value(arguments[reporterOptionName], reporterOptionName);
