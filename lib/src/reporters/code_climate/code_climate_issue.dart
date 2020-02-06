@@ -1,21 +1,19 @@
 class CodeClimateIssue {
   final String type = 'issue';
   final String check_name;
-  final List<String> categories = ['Style'];
+  final List<String> categories = ['Complexity'];
   final num remediation_points = 50000;
 
-  final CodeClimateIssueContent content;
   final String description;
   final CodeClimateLocation location;
 
-  CodeClimateIssue._(this.check_name, this.content, this.description, this.location);
+  CodeClimateIssue._(this.check_name, this.description, this.location);
 
   factory CodeClimateIssue._create(String name, String desc, int startLine, int endLine, String fileName) {
-    final content = CodeClimateIssueContent(desc);
     final position =
         CodeClimatePosition(CodeClimateLineColumnPosition(startLine), CodeClimateLineColumnPosition(endLine));
     final location = CodeClimateLocation(fileName, position);
-    return CodeClimateIssue._(name, content, desc, location);
+    return CodeClimateIssue._(name, desc, location);
   }
 
   factory CodeClimateIssue.linesOfCode(
@@ -35,7 +33,7 @@ class CodeClimateIssue {
   factory CodeClimateIssue.maintainabilityIndex(
       int startLine, int endLine, double value, String fileName, String functionName) {
     final desc =
-        'Function `$functionName` has a Maintainability Index of $value (max 40 allowed). Consider refactoring.';
+        'Function `$functionName` has a Maintainability Index of $value (min 40 allowed). Consider refactoring.';
     return CodeClimateIssue._create('maintainabilityIndex', desc, startLine, endLine, fileName);
   }
 
@@ -45,7 +43,6 @@ class CodeClimateIssue {
       'check_name': check_name,
       'categories': categories,
       'remediation_points': remediation_points,
-      'content': content.toJson(),
       'description': description,
       'location': location.toJson(),
     };

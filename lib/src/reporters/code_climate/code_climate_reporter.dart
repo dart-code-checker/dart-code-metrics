@@ -10,7 +10,7 @@ import 'package:metrics/src/reporters/utility_selector.dart';
 
 class CodeClimateReporter implements Reporter {
   final Config reportConfig;
-
+  static const String _nullCharacter = '\u0000';
   CodeClimateReporter({@required this.reportConfig});
 
   @override
@@ -21,7 +21,7 @@ class CodeClimateReporter implements Reporter {
 
     final data = records.map(_toIssues).expand((r) => r).toList(growable: false);
     for (final issue in data) {
-      print(json.encode(issue));
+      print(json.encode(issue) + _nullCharacter);
     }
   }
 
