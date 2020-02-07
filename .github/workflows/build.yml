@@ -15,7 +15,7 @@ jobs:
     - name: Install dependencies
       run: pub get
     - name: Run dartanalyzer
-      run: dartanalyzer --fatal-warnings --fatal-infos --fatal-lints lib/ test/
+      run: dartanalyzer --fatal-warnings --fatal-infos --fatal-lints bin/ lib/ test/
     - name: Run dartfmt
       run: dartfmt --set-exit-if-changed -l 120 -n .
     - name: Run tests
@@ -33,7 +33,7 @@ jobs:
     - name: Install dependencies
       run: pub get
     - name: Run dartanalyzer
-      run: dartanalyzer --fatal-warnings --fatal-infos --fatal-lints lib/ test/
+      run: dartanalyzer --fatal-warnings --fatal-infos --fatal-lints bin/ lib/ test/
     - name: Run dartfmt
       run: dartfmt --set-exit-if-changed -l 120 -n .
     - name: Run tests
