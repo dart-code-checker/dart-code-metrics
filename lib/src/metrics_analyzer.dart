@@ -2,14 +2,14 @@
 import 'package:analyzer/analyzer.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:built_collection/built_collection.dart';
-import 'package:metrics/src/cyclomatic_complexity/control_flow_ast_visitor.dart';
-import 'package:metrics/src/cyclomatic_complexity/cyclomatic_config.dart';
-import 'package:metrics/src/cyclomatic_complexity/models/scoped_declaration.dart';
-import 'package:metrics/src/halstead_volume/halstead_volume_ast_visitor.dart';
-import 'package:metrics/src/lines_of_code/function_body_ast_visitor.dart';
-import 'package:metrics/src/metrics_analysis_recorder.dart';
-import 'package:metrics/src/models/function_record.dart';
-import 'package:metrics/src/scope_ast_visitor.dart';
+import 'package:dart_code_metrics/src/cyclomatic_complexity/control_flow_ast_visitor.dart';
+import 'package:dart_code_metrics/src/cyclomatic_complexity/cyclomatic_config.dart';
+import 'package:dart_code_metrics/src/cyclomatic_complexity/models/scoped_declaration.dart';
+import 'package:dart_code_metrics/src/halstead_volume/halstead_volume_ast_visitor.dart';
+import 'package:dart_code_metrics/src/lines_of_code/function_body_ast_visitor.dart';
+import 'package:dart_code_metrics/src/metrics_analysis_recorder.dart';
+import 'package:dart_code_metrics/src/models/function_record.dart';
+import 'package:dart_code_metrics/src/scope_ast_visitor.dart';
 
 String getQualifiedName(ScopedDeclaration dec) {
   final declaration = dec.declaration;

@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
+import 'package:dart_code_metrics/metrics_analyzer.dart';
+import 'package:dart_code_metrics/reporters.dart';
 import 'package:glob/glob.dart';
-import 'package:metrics/metrics_analyzer.dart';
-import 'package:metrics/reporters.dart';
 
 void main(List<String> args) {
   const helpFlagName = 'help';

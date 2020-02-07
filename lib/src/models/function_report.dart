@@ -1,5 +1,5 @@
+import 'package:dart_code_metrics/src/models/violation_level.dart';
 import 'package:meta/meta.dart';
-import 'package:metrics/src/models/violation_level.dart';
 
 @immutable
 class FunctionReport {

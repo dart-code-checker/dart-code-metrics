@@ -1,7 +1,7 @@
 @TestOn('vm')
 // ignore_for_file: deprecated_member_use
 import 'package:analyzer/analyzer.dart';
-import 'package:metrics/src/scope_ast_visitor.dart';
+import 'package:dart_code_metrics/src/scope_ast_visitor.dart';
 import 'package:test/test.dart';
 
 void main() {

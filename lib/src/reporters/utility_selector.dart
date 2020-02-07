@@ -1,11 +1,11 @@
 import 'dart:math';
 
-import 'package:metrics/src/models/component_record.dart';
-import 'package:metrics/src/models/component_report.dart';
-import 'package:metrics/src/models/config.dart';
-import 'package:metrics/src/models/function_record.dart';
-import 'package:metrics/src/models/function_report.dart';
-import 'package:metrics/src/models/violation_level.dart';
+import 'package:dart_code_metrics/src/models/component_record.dart';
+import 'package:dart_code_metrics/src/models/component_report.dart';
+import 'package:dart_code_metrics/src/models/config.dart';
+import 'package:dart_code_metrics/src/models/function_record.dart';
+import 'package:dart_code_metrics/src/models/function_report.dart';
+import 'package:dart_code_metrics/src/models/violation_level.dart';
 
 double log2(num a) => log(a) / ln2;
 

@@ -1,6 +1,6 @@
-import 'package:metrics/src/metrics_analysis_recorder.dart';
-import 'package:metrics/src/metrics_analyzer.dart';
-import 'package:metrics/src/models/component_record.dart';
+import 'package:dart_code_metrics/src/metrics_analysis_recorder.dart';
+import 'package:dart_code_metrics/src/metrics_analyzer.dart';
+import 'package:dart_code_metrics/src/models/component_record.dart';
 
 class MetricsAnalysisRunner {
   final MetricsAnalysisRecorder _recorder;

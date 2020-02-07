@@ -1,10 +1,10 @@
 import 'package:ansicolor/ansicolor.dart';
+import 'package:dart_code_metrics/src/models/component_record.dart';
+import 'package:dart_code_metrics/src/models/config.dart';
+import 'package:dart_code_metrics/src/models/violation_level.dart';
+import 'package:dart_code_metrics/src/reporters/reporter.dart';
+import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
 import 'package:meta/meta.dart';
-import 'package:metrics/src/models/component_record.dart';
-import 'package:metrics/src/models/config.dart';
-import 'package:metrics/src/models/violation_level.dart';
-import 'package:metrics/src/reporters/reporter.dart';
-import 'package:metrics/src/reporters/utility_selector.dart';
 
 class ConsoleReporter implements Reporter {
   final Config reportConfig;
