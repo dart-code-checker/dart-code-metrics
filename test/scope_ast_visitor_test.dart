@@ -28,7 +28,7 @@ void main() {
 
       expect(visitor.declarations.length, equals(1));
       expect(visitor.declarations.first.declaration, isNotNull);
-      expect(visitor.declarations.first.enclosingClass, isNotNull);
+      expect(visitor.declarations.first.declarationIdentifier, isNotNull);
     });
   });
 }

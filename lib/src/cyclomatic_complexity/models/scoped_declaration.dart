@@ -4,7 +4,7 @@ import 'package:meta/meta.dart';
 @immutable
 class ScopedDeclaration {
   final Declaration declaration;
-  final NamedCompilationUnitMember enclosingClass;
+  final SimpleIdentifier declarationIdentifier;
 
-  const ScopedDeclaration(this.declaration, this.enclosingClass);
+  const ScopedDeclaration(this.declaration, this.declarationIdentifier);
 }

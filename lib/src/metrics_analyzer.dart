@@ -18,7 +18,7 @@ String getQualifiedName(ScopedDeclaration dec) {
   if (declaration is FunctionDeclaration) {
     return declaration.name.toString();
   } else if (declaration is MethodDeclaration) {
-    return '${dec.enclosingClass.name}.${declaration.name}';
+    return '${dec.declarationIdentifier}.${declaration.name}';
   }
 
   return null;
