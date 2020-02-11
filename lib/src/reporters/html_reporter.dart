@@ -90,8 +90,8 @@ class HtmlReporter implements Reporter {
   void _copyResources(String reportFolder) {
     const baseStylesheet = 'base';
 
-    const res =
-        Resource('package:metrics/src/reporters/html_resources/base.css');
+    const res = Resource(
+        'package:dart_code_metrics/src/reporters/html_resources/base.css');
     res.readAsString().then((content) {
       File(path.setExtension(path.join(reportFolder, baseStylesheet), '.css'))
         ..createSync(recursive: true)
