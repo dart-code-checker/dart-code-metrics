@@ -8,7 +8,7 @@ import 'package:dart_code_metrics/src/models/violation_level.dart';
 import 'package:dart_code_metrics/src/reporters/reporter.dart';
 import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
 import 'package:meta/meta.dart';
-import 'package:path/path.dart' as path;
+import 'package:path/path.dart' as p;
 import 'package:resource/resource.dart';
 
 const _violationLevelFunctionStyle = {
@@ -93,7 +93,7 @@ class HtmlReporter implements Reporter {
     const res = Resource(
         'package:dart_code_metrics/src/reporters/html_resources/base.css');
     res.readAsString().then((content) {
-      File(path.setExtension(path.join(reportFolder, baseStylesheet), '.css'))
+      File(p.setExtension(p.join(reportFolder, baseStylesheet), '.css'))
         ..createSync(recursive: true)
         ..writeAsStringSync(content);
     });
@@ -208,24 +208,20 @@ class HtmlReporter implements Reporter {
   void _generateFoldersReports(
       String reportDirectory, Iterable<ComponentRecord> records) {
     final folders =
-        records.map((record) => path.dirname(record.relativePath)).toSet();
+        records.map((record) => p.dirname(record.relativePath)).toSet();
 
     for (final folder in folders) {
-      _generateFolderReport(
-          reportDirectory,
-          folder,
-          records
-              .where((record) => path.dirname(record.relativePath) == folder));
+      _generateFolderReport(reportDirectory, folder,
+          records.where((record) => p.dirname(record.relativePath) == folder));
     }
 
     final tableRecords = folders.map((folder) {
       final report = UtilitySelector.analysisReportForRecords(
-          records
-              .where((record) => path.dirname(record.relativePath) == folder),
+          records.where((record) => p.dirname(record.relativePath) == folder),
           reportConfig);
       return ReportTableRecord(
           title: folder,
-          link: path.join(folder, 'index.html'),
+          link: p.join(folder, 'index.html'),
           cyclomaticComplexity: report.totalCyclomaticComplexity,
           cyclomaticComplexityViolations:
               report.totalCyclomaticComplexityViolations,
@@ -252,7 +248,7 @@ class HtmlReporter implements Reporter {
 
     final htmlDocument = Document()..append(html);
 
-    File(path.join(reportDirectory, 'index.html'))
+    File(p.join(reportDirectory, 'index.html'))
       ..createSync(recursive: true)
       ..writeAsStringSync(
           htmlDocument.outerHtml.replaceAll('&amp;nbsp;', '&nbsp;'));
@@ -262,11 +258,11 @@ class HtmlReporter implements Reporter {
       Iterable<ComponentRecord> records) {
     final tableRecords = records.map((record) {
       final report = UtilitySelector.analysisReport(record, reportConfig);
-      final fileName = path.basename(record.relativePath);
+      final fileName = p.basename(record.relativePath);
 
       return ReportTableRecord(
           title: fileName,
-          link: path.setExtension(fileName, '.html'),
+          link: p.setExtension(fileName, '.html'),
           cyclomaticComplexity: report.totalCyclomaticComplexity,
           cyclomaticComplexityViolations:
               report.totalCyclomaticComplexityViolations,
@@ -284,12 +280,12 @@ class HtmlReporter implements Reporter {
         ..append(Element.tag('meta')..attributes['charset'] = 'utf-8')
         ..append(Element.tag('link')
           ..attributes['rel'] = 'stylesheet'
-          ..attributes['href'] = path.relative('base.css', from: folder)))
+          ..attributes['href'] = p.relative('base.css', from: folder)))
       ..append(Element.tag('body')
         ..append(Element.tag('h1')
           ..classes.add('metric-header')
           ..append(Element.tag('a')
-            ..attributes['href'] = path.relative('index.html', from: folder)
+            ..attributes['href'] = p.relative('index.html', from: folder)
             ..text = 'All files')
           ..append(Element.tag('span')..text = ' : ')
           ..append(Element.tag('span')..text = folder))
@@ -297,7 +293,7 @@ class HtmlReporter implements Reporter {
 
     final htmlDocument = Document()..append(html);
 
-    File(path.join(reportDirectory, folder, 'index.html'))
+    File(p.join(reportDirectory, folder, 'index.html'))
       ..createSync(recursive: true)
       ..writeAsStringSync(
           htmlDocument.outerHtml.replaceAll('&amp;nbsp;', '&nbsp;'));
@@ -394,15 +390,15 @@ class HtmlReporter implements Reporter {
       ..append(Element.tag('h1')
         ..classes.add('metric-header')
         ..append(Element.tag('a')
-          ..attributes['href'] = path.relative('index.html',
-              from: path.dirname(record.relativePath))
+          ..attributes['href'] =
+              p.relative('index.html', from: p.dirname(record.relativePath))
           ..text = 'All files')
         ..append(Element.tag('span')..text = ' : ')
         ..append(Element.tag('a')
           ..attributes['href'] = 'index.html'
-          ..text = path.dirname(record.relativePath))
-        ..append(Element.tag('span')
-          ..text = '/${path.basename(record.relativePath)}'))
+          ..text = p.dirname(record.relativePath))
+        ..append(
+            Element.tag('span')..text = '/${p.basename(record.relativePath)}'))
       ..append(_generateTotalMetrics(
           withCyclomaticComplexityViolations
               ? _cyclomaticComplexityWithViolations
@@ -459,7 +455,7 @@ class HtmlReporter implements Reporter {
       ..append(Element.tag('link')
         ..attributes['rel'] = 'stylesheet'
         ..attributes['href'] =
-            path.relative('base.css', from: path.dirname(record.relativePath)));
+            p.relative('base.css', from: p.dirname(record.relativePath)));
 
     final html = Element.tag('html')
       ..attributes['lang'] = 'en'
@@ -468,8 +464,7 @@ class HtmlReporter implements Reporter {
 
     final htmlDocument = Document()..append(html);
 
-    File(path.setExtension(
-        path.join(reportDirectory, record.relativePath), '.html'))
+    File(p.setExtension(p.join(reportDirectory, record.relativePath), '.html'))
       ..createSync(recursive: true)
       ..writeAsStringSync(
           htmlDocument.outerHtml.replaceAll('&amp;nbsp;', '&nbsp;'));

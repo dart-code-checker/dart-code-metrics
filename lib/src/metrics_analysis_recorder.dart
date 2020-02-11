@@ -1,7 +1,7 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
-import 'package:path/path.dart' as path;
+import 'package:path/path.dart' as p;
 
 class MetricsAnalysisRecorder {
   String _fileGroupPath;
@@ -22,7 +22,7 @@ class MetricsAnalysisRecorder {
 
     _fileGroupPath = filePath;
     _relativeGroupPath = rootDirectory != null
-        ? path.relative(filePath, from: rootDirectory)
+        ? p.relative(filePath, from: rootDirectory)
         : filePath;
     _groupRecords = {};
   }
