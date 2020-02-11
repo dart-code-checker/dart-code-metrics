@@ -21,13 +21,17 @@ class MetricsAnalysisRecorder {
     }
 
     _fileGroupPath = filePath;
-    _relativeGroupPath = rootDirectory != null ? path.relative(filePath, from: rootDirectory) : filePath;
+    _relativeGroupPath = rootDirectory != null
+        ? path.relative(filePath, from: rootDirectory)
+        : filePath;
     _groupRecords = {};
   }
 
   void endRecordFile() {
     _records.add(ComponentRecord(
-        fullPath: _fileGroupPath, relativePath: _relativeGroupPath, records: BuiltMap.from(_groupRecords)));
+        fullPath: _fileGroupPath,
+        relativePath: _relativeGroupPath,
+        records: BuiltMap.from(_groupRecords)));
     _relativeGroupPath = null;
     _fileGroupPath = null;
     _groupRecords = null;
@@ -38,7 +42,8 @@ class MetricsAnalysisRecorder {
       throw ArgumentError.notNull('recordName');
     }
     if (_groupRecords == null) {
-      throw StateError('No record groups have been started. Use `startRecordFile` before `record`');
+      throw StateError(
+          'No record groups have been started. Use `startRecordFile` before `record`');
     }
 
     _groupRecords[recordName] = report;

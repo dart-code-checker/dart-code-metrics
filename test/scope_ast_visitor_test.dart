@@ -8,13 +8,15 @@ void main() {
   group('analyze file with ', () {
     test('abstract class', () {
       final visitor = ScopeAstVisitor();
-      parseDartFile('./test/scope_ast_visitor_test/sample_abstract_class.dart').visitChildren(visitor);
+      parseDartFile('./test/scope_ast_visitor_test/sample_abstract_class.dart')
+          .visitChildren(visitor);
 
       expect(visitor.declarations, isEmpty);
     });
     test('mixin', () {
       final visitor = ScopeAstVisitor();
-      parseDartFile('./test/scope_ast_visitor_test/sample_mixin.dart').visitChildren(visitor);
+      parseDartFile('./test/scope_ast_visitor_test/sample_mixin.dart')
+          .visitChildren(visitor);
 
       expect(visitor.declarations.length, equals(1));
       expect(visitor.declarations.first.declaration, isNotNull);

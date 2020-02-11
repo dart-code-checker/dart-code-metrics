@@ -9,5 +9,8 @@ class ComponentRecord {
 
   final BuiltMap<String, FunctionRecord> records;
 
-  const ComponentRecord({@required this.fullPath, @required this.relativePath, @required this.records});
+  const ComponentRecord(
+      {@required this.fullPath,
+      @required this.relativePath,
+      @required this.records});
 }

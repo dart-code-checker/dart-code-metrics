@@ -14,13 +14,15 @@ class FunctionBodyAstVisitor extends RecursiveAstVisitor<Object> {
 
   @override
   void visitBlockFunctionBody(BlockFunctionBody node) {
-    _collectFunctionBodyData(node.block.leftBracket.next, node.block.rightBracket);
+    _collectFunctionBodyData(
+        node.block.leftBracket.next, node.block.rightBracket);
     super.visitBlockFunctionBody(node);
   }
 
   @override
   void visitExpressionFunctionBody(ExpressionFunctionBody node) {
-    _collectFunctionBodyData(node.expression.beginToken.previous, node.expression.endToken.next);
+    _collectFunctionBodyData(
+        node.expression.beginToken.previous, node.expression.endToken.next);
     node.visitChildren(this);
   }
 

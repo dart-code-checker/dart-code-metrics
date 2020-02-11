@@ -50,32 +50,37 @@ class CodeClimateIssue {
 
   const CodeClimateIssue._(this.checkName, this.description, this.location);
 
-  factory CodeClimateIssue._create(String name, String desc, int startLine, int endLine, String fileName) {
-    final position =
-        CodeClimatePosition(CodeClimateLineColumnPosition(startLine), CodeClimateLineColumnPosition(endLine));
+  factory CodeClimateIssue._create(
+      String name, String desc, int startLine, int endLine, String fileName) {
+    final position = CodeClimatePosition(
+        CodeClimateLineColumnPosition(startLine),
+        CodeClimateLineColumnPosition(endLine));
     final location = CodeClimateLocation(fileName, position);
     return CodeClimateIssue._(name, desc, location);
   }
 
-  factory CodeClimateIssue.linesOfCode(
-      int startLine, int endLine, String fileName, String functionName, int threshold) {
+  factory CodeClimateIssue.linesOfCode(int startLine, int endLine,
+      String fileName, String functionName, int threshold) {
     final desc =
         'Function `$functionName` has ${endLine - startLine} lines of code (exceeds $threshold allowed). Consider refactoring.';
-    return CodeClimateIssue._create('linesOfCode', desc, startLine, endLine, fileName);
+    return CodeClimateIssue._create(
+        'linesOfCode', desc, startLine, endLine, fileName);
   }
 
-  factory CodeClimateIssue.cyclomaticComplexity(
-      int startLine, int endLine, int value, String fileName, String functionName, int threshold) {
+  factory CodeClimateIssue.cyclomaticComplexity(int startLine, int endLine,
+      int value, String fileName, String functionName, int threshold) {
     final desc =
         'Function `$functionName` has a Cyclomatic Complexity of $value (exceeds $threshold allowed). Consider refactoring.';
-    return CodeClimateIssue._create('cyclomaticComplexity', desc, startLine, endLine, fileName);
+    return CodeClimateIssue._create(
+        'cyclomaticComplexity', desc, startLine, endLine, fileName);
   }
 
-  factory CodeClimateIssue.maintainabilityIndex(
-      int startLine, int endLine, double value, String fileName, String functionName) {
+  factory CodeClimateIssue.maintainabilityIndex(int startLine, int endLine,
+      double value, String fileName, String functionName) {
     final desc =
         'Function `$functionName` has a Maintainability Index of $value (min 40 allowed). Consider refactoring.';
-    return CodeClimateIssue._create('maintainabilityIndex', desc, startLine, endLine, fileName);
+    return CodeClimateIssue._create(
+        'maintainabilityIndex', desc, startLine, endLine, fileName);
   }
 
   Map<String, Object> toJson() => {

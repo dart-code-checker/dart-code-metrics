@@ -10,7 +10,8 @@ import 'package:dart_code_metrics/src/models/violation_level.dart';
 double log2(num a) => log(a) / ln2;
 
 class UtilitySelector {
-  static ComponentReport analysisReportForRecords(Iterable<ComponentRecord> records, Config config) {
+  static ComponentReport analysisReportForRecords(
+      Iterable<ComponentRecord> records, Config config) {
     final report = records.fold<ComponentReport>(
         const ComponentReport(
             averageMaintainabilityIndex: 0,
@@ -22,21 +23,30 @@ class UtilitySelector {
       final report = analysisReport(record, config);
 
       return ComponentReport(
-          averageMaintainabilityIndex: prevValue.averageMaintainabilityIndex + report.averageMaintainabilityIndex,
+          averageMaintainabilityIndex: prevValue.averageMaintainabilityIndex +
+              report.averageMaintainabilityIndex,
           totalMaintainabilityIndexViolations:
-              prevValue.totalMaintainabilityIndexViolations + report.totalMaintainabilityIndexViolations,
-          totalCyclomaticComplexity: prevValue.totalCyclomaticComplexity + report.totalCyclomaticComplexity,
+              prevValue.totalMaintainabilityIndexViolations +
+                  report.totalMaintainabilityIndexViolations,
+          totalCyclomaticComplexity: prevValue.totalCyclomaticComplexity +
+              report.totalCyclomaticComplexity,
           totalCyclomaticComplexityViolations:
-              prevValue.totalCyclomaticComplexityViolations + report.totalCyclomaticComplexityViolations,
-          totalLinesOfCode: prevValue.totalLinesOfCode + report.totalLinesOfCode,
-          totalLinesOfCodeViolations: prevValue.totalLinesOfCodeViolations + report.totalLinesOfCodeViolations);
+              prevValue.totalCyclomaticComplexityViolations +
+                  report.totalCyclomaticComplexityViolations,
+          totalLinesOfCode:
+              prevValue.totalLinesOfCode + report.totalLinesOfCode,
+          totalLinesOfCodeViolations: prevValue.totalLinesOfCodeViolations +
+              report.totalLinesOfCodeViolations);
     });
 
     return ComponentReport(
-        averageMaintainabilityIndex: report.averageMaintainabilityIndex / records.length,
-        totalMaintainabilityIndexViolations: report.totalMaintainabilityIndexViolations,
+        averageMaintainabilityIndex:
+            report.averageMaintainabilityIndex / records.length,
+        totalMaintainabilityIndexViolations:
+            report.totalMaintainabilityIndexViolations,
         totalCyclomaticComplexity: report.totalCyclomaticComplexity,
-        totalCyclomaticComplexityViolations: report.totalCyclomaticComplexityViolations,
+        totalCyclomaticComplexityViolations:
+            report.totalCyclomaticComplexityViolations,
         totalLinesOfCode: report.totalLinesOfCode,
         totalLinesOfCodeViolations: report.totalLinesOfCodeViolations);
   }
@@ -59,7 +69,8 @@ class UtilitySelector {
       }
 
       totalCyclomaticComplexity += report.cyclomaticComplexity;
-      if (report.cyclomaticComplexity >= config.cyclomaticComplexityWarningLevel) {
+      if (report.cyclomaticComplexity >=
+          config.cyclomaticComplexityWarningLevel) {
         ++totalCyclomaticComplexityViolations;
       }
 
@@ -70,27 +81,31 @@ class UtilitySelector {
     }
 
     return ComponentReport(
-        averageMaintainabilityIndex: averageMaintainabilityIndex / record.records.values.length,
-        totalMaintainabilityIndexViolations: totalMaintainabilityIndexViolations,
+        averageMaintainabilityIndex:
+            averageMaintainabilityIndex / record.records.values.length,
+        totalMaintainabilityIndexViolations:
+            totalMaintainabilityIndexViolations,
         totalCyclomaticComplexity: totalCyclomaticComplexity,
-        totalCyclomaticComplexityViolations: totalCyclomaticComplexityViolations,
+        totalCyclomaticComplexityViolations:
+            totalCyclomaticComplexityViolations,
         totalLinesOfCode: totalLinesOfCode,
         totalLinesOfCodeViolations: totalLinesOfCodeViolations);
   }
 
   static FunctionReport functionReport(FunctionRecord function, Config config) {
-    final cyclomaticComplexity =
-        function.cyclomaticLinesComplexity.values.fold<int>(0, (prevValue, nextValue) => prevValue + nextValue) + 1;
+    final cyclomaticComplexity = function.cyclomaticLinesComplexity.values
+            .fold<int>(0, (prevValue, nextValue) => prevValue + nextValue) +
+        1;
 
     final linesOfCode = function.linesWithCode.length;
 
     // Total number of occurrences of operators.
-    final totalNumberOfOccurrencesOfOperators =
-        function.operators.values.fold<int>(0, (prevValue, nextValue) => prevValue + nextValue);
+    final totalNumberOfOccurrencesOfOperators = function.operators.values
+        .fold<int>(0, (prevValue, nextValue) => prevValue + nextValue);
 
     // Total number of occurrences of operands
-    final totalNumberOfOccurrencesOfOperands =
-        function.operands.values.fold<int>(0, (prevValue, nextValue) => prevValue + nextValue);
+    final totalNumberOfOccurrencesOfOperands = function.operands.values
+        .fold<int>(0, (prevValue, nextValue) => prevValue + nextValue);
 
     // Number of distinct operators.
     final numberOfDistinctOperators = function.operators.keys.length;
@@ -99,39 +114,52 @@ class UtilitySelector {
     final numberOfDistinctOperands = function.operands.keys.length;
 
     // Halstead Program Length – The total number of operator occurrences and the total number of operand occurrences.
-    final halsteadProgramLength = totalNumberOfOccurrencesOfOperators + totalNumberOfOccurrencesOfOperands;
+    final halsteadProgramLength = totalNumberOfOccurrencesOfOperators +
+        totalNumberOfOccurrencesOfOperands;
 
     // Halstead Vocabulary – The total number of unique operator and unique operand occurrences.
-    final halsteadVocabulary = numberOfDistinctOperators + numberOfDistinctOperands;
+    final halsteadVocabulary =
+        numberOfDistinctOperators + numberOfDistinctOperands;
 
     // Program Volume – Proportional to program size, represents the size, in bits, of space necessary for storing the program. This parameter is dependent on specific algorithm implementation.
-    final halsteadVolume = halsteadProgramLength * log2(max(1, halsteadVocabulary));
+    final halsteadVolume =
+        halsteadProgramLength * log2(max(1, halsteadVocabulary));
 
     final maintainabilityIndex = max(
             0,
-            (171 - 5.2 * log(max(1, halsteadVolume)) - 0.23 * cyclomaticComplexity - 16.2 * log(max(1, linesOfCode))) *
+            (171 -
+                    5.2 * log(max(1, halsteadVolume)) -
+                    0.23 * cyclomaticComplexity -
+                    16.2 * log(max(1, linesOfCode))) *
                 100 /
                 171)
         .toDouble();
 
     return FunctionReport(
         cyclomaticComplexity: cyclomaticComplexity,
-        cyclomaticComplexityViolationLevel:
-            _violationLevel(cyclomaticComplexity, config.cyclomaticComplexityWarningLevel),
+        cyclomaticComplexityViolationLevel: _violationLevel(
+            cyclomaticComplexity, config.cyclomaticComplexityWarningLevel),
         linesOfCode: linesOfCode,
-        linesOfCodeViolationLevel: _violationLevel(linesOfCode, config.linesOfCodeWarningLevel),
+        linesOfCodeViolationLevel:
+            _violationLevel(linesOfCode, config.linesOfCodeWarningLevel),
         maintainabilityIndex: maintainabilityIndex,
-        maintainabilityIndexViolationLevel: _maintainabilityIndexViolationLevel(maintainabilityIndex));
+        maintainabilityIndexViolationLevel:
+            _maintainabilityIndexViolationLevel(maintainabilityIndex));
   }
 
   static ViolationLevel functionViolationLevel(FunctionReport report) {
     final values = ViolationLevel.values.toList();
 
-    final cyclomaticComplexityViolationLevelIndex = values.indexOf(report.cyclomaticComplexityViolationLevel);
-    final linesOfCodeViolationLevelIndex = values.indexOf(report.linesOfCodeViolationLevel);
-    final maintainabilityIndexViolationLevelIndex = values.indexOf(report.maintainabilityIndexViolationLevel);
+    final cyclomaticComplexityViolationLevelIndex =
+        values.indexOf(report.cyclomaticComplexityViolationLevel);
+    final linesOfCodeViolationLevelIndex =
+        values.indexOf(report.linesOfCodeViolationLevel);
+    final maintainabilityIndexViolationLevelIndex =
+        values.indexOf(report.maintainabilityIndexViolationLevel);
 
-    final highestLevelIndex = max(max(cyclomaticComplexityViolationLevelIndex, linesOfCodeViolationLevelIndex),
+    final highestLevelIndex = max(
+        max(cyclomaticComplexityViolationLevelIndex,
+            linesOfCodeViolationLevelIndex),
         maintainabilityIndexViolationLevelIndex);
 
     return values.elementAt(highestLevelIndex);

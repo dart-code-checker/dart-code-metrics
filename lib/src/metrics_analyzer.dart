@@ -30,13 +30,16 @@ class MetricsAnalyzer {
 
   void runAnalysis(String filePath, String rootFolder) {
     final visitor = ScopeAstVisitor();
-    final compilationUnit = parseDartFile(filePath, suppressErrors: true)..visitChildren(visitor);
+    final compilationUnit = parseDartFile(filePath, suppressErrors: true)
+      ..visitChildren(visitor);
     if (visitor.declarations.isNotEmpty) {
       _recorder.startRecordFile(filePath, rootFolder);
 
       for (final scopedDeclaration in visitor.declarations) {
-        final controlFlowAstVisitor = ControlFlowAstVisitor(defaultCyclomaticConfig, compilationUnit.lineInfo);
-        final functionBodyAstVisitor = FunctionBodyAstVisitor(compilationUnit.lineInfo);
+        final controlFlowAstVisitor = ControlFlowAstVisitor(
+            defaultCyclomaticConfig, compilationUnit.lineInfo);
+        final functionBodyAstVisitor =
+            FunctionBodyAstVisitor(compilationUnit.lineInfo);
         final halsteadVolumeAstVisitor = HalsteadVolumeAstVisitor();
 
         scopedDeclaration.declaration.visitChildren(controlFlowAstVisitor);
@@ -47,10 +50,14 @@ class MetricsAnalyzer {
             getQualifiedName(scopedDeclaration),
             FunctionRecord(
                 firstLine: compilationUnit.lineInfo
-                    .getLocation(scopedDeclaration.declaration.firstTokenAfterCommentAndMetadata.offset)
+                    .getLocation(scopedDeclaration
+                        .declaration.firstTokenAfterCommentAndMetadata.offset)
                     .lineNumber,
-                lastLine: compilationUnit.lineInfo.getLocation(scopedDeclaration.declaration.endToken.end).lineNumber,
-                cyclomaticLinesComplexity: BuiltMap.from(controlFlowAstVisitor.complexityLines),
+                lastLine: compilationUnit.lineInfo
+                    .getLocation(scopedDeclaration.declaration.endToken.end)
+                    .lineNumber,
+                cyclomaticLinesComplexity:
+                    BuiltMap.from(controlFlowAstVisitor.complexityLines),
                 linesWithCode: functionBodyAstVisitor.linesWithCode,
                 operators: BuiltMap.from(halsteadVolumeAstVisitor.operators),
                 operands: BuiltMap.from(halsteadVolumeAstVisitor.operands)));

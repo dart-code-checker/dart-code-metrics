@@ -23,7 +23,8 @@ class ControlFlowAstVisitor extends RecursiveAstVisitor<Object> {
 
   @override
   void visitBlockFunctionBody(BlockFunctionBody node) {
-    _collectFunctionBodyData(node.block.leftBracket.next, node.block.rightBracket);
+    _collectFunctionBodyData(
+        node.block.leftBracket.next, node.block.rightBracket);
     super.visitBlockFunctionBody(node);
   }
 
@@ -41,7 +42,8 @@ class ControlFlowAstVisitor extends RecursiveAstVisitor<Object> {
 
   @override
   void visitExpressionFunctionBody(ExpressionFunctionBody node) {
-    _collectFunctionBodyData(node.expression.beginToken.previous, node.expression.endToken.next);
+    _collectFunctionBodyData(
+        node.expression.beginToken.previous, node.expression.endToken.next);
     node.visitChildren(this);
   }
 
@@ -102,6 +104,7 @@ class ControlFlowAstVisitor extends RecursiveAstVisitor<Object> {
   void _increaseComplexity(String flowType, SyntacticEntity entity) {
     final entityComplexity = _config.complexityByControlFlowType(flowType);
     final entityLineNumber = _lineInfo.getLocation(entity.offset).lineNumber;
-    _complexityLines[entityLineNumber] = (_complexityLines[entityLineNumber] ?? 0) + entityComplexity;
+    _complexityLines[entityLineNumber] =
+        (_complexityLines[entityLineNumber] ?? 0) + entityComplexity;
   }
 }
