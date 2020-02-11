@@ -20,6 +20,7 @@ dependencies:
   resource: ^2.1.0
 
 dev_dependencies:
+  dependency_validator: ^1.4.0
   pedantic: ^1.9.0
   test: ^1.9.0
 
