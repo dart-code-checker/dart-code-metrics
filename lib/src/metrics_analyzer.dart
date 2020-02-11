@@ -1,5 +1,5 @@
-// ignore_for_file: deprecated_member_use
-import 'package:analyzer/analyzer.dart';
+import 'package:analyzer/dart/analysis/features.dart';
+import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:dart_code_metrics/src/cyclomatic_complexity/control_flow_ast_visitor.dart';
@@ -10,6 +10,7 @@ import 'package:dart_code_metrics/src/lines_of_code/function_body_ast_visitor.da
 import 'package:dart_code_metrics/src/metrics_analysis_recorder.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/scope_ast_visitor.dart';
+import 'package:path/path.dart' as p;
 
 String getQualifiedName(ScopedDeclaration dec) {
   final declaration = dec.declaration;
@@ -30,16 +31,20 @@ class MetricsAnalyzer {
 
   void runAnalysis(String filePath, String rootFolder) {
     final visitor = ScopeAstVisitor();
-    final compilationUnit = parseDartFile(filePath, suppressErrors: true)
-      ..visitChildren(visitor);
+    final parseResult = parseFile(
+        path: p.normalize(p.absolute(filePath)),
+        featureSet: FeatureSet.fromEnableFlags([]),
+        throwIfDiagnostics: false);
+    parseResult.unit.visitChildren(visitor);
+
     if (visitor.declarations.isNotEmpty) {
       _recorder.startRecordFile(filePath, rootFolder);
 
       for (final scopedDeclaration in visitor.declarations) {
         final controlFlowAstVisitor = ControlFlowAstVisitor(
-            defaultCyclomaticConfig, compilationUnit.lineInfo);
+            defaultCyclomaticConfig, parseResult.lineInfo);
         final functionBodyAstVisitor =
-            FunctionBodyAstVisitor(compilationUnit.lineInfo);
+            FunctionBodyAstVisitor(parseResult.lineInfo);
         final halsteadVolumeAstVisitor = HalsteadVolumeAstVisitor();
 
         scopedDeclaration.declaration.visitChildren(controlFlowAstVisitor);
@@ -49,11 +54,11 @@ class MetricsAnalyzer {
         _recorder.record(
             getQualifiedName(scopedDeclaration),
             FunctionRecord(
-                firstLine: compilationUnit.lineInfo
+                firstLine: parseResult.lineInfo
                     .getLocation(scopedDeclaration
                         .declaration.firstTokenAfterCommentAndMetadata.offset)
                     .lineNumber,
-                lastLine: compilationUnit.lineInfo
+                lastLine: parseResult.lineInfo
                     .getLocation(scopedDeclaration.declaration.endToken.end)
                     .lineNumber,
                 cyclomaticLinesComplexity:
