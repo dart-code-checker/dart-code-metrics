@@ -1,24 +1,34 @@
 @TestOn('vm')
-// ignore_for_file: deprecated_member_use
-import 'package:analyzer/analyzer.dart';
+import 'package:analyzer/dart/analysis/features.dart';
+import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:dart_code_metrics/src/scope_ast_visitor.dart';
+import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
 void main() {
   group('analyze file with ', () {
     test('abstract class', () {
       final visitor = ScopeAstVisitor();
-      parseDartFile('./test/scope_ast_visitor_test/sample_abstract_class.dart').visitChildren(visitor);
+      parseFile(
+              path: p.normalize(p.absolute(
+                  './test/scope_ast_visitor_test/sample_abstract_class.dart')),
+              featureSet: FeatureSet.fromEnableFlags([]))
+          .unit
+          .visitChildren(visitor);
 
       expect(visitor.declarations, isEmpty);
     });
     test('mixin', () {
       final visitor = ScopeAstVisitor();
-      parseDartFile('./test/scope_ast_visitor_test/sample_mixin.dart').visitChildren(visitor);
+      parseFile(
+          path: p.normalize(
+              p.absolute('./test/scope_ast_visitor_test/sample_mixin.dart')),
+          featureSet:
+              FeatureSet.fromEnableFlags([])).unit.visitChildren(visitor);
 
       expect(visitor.declarations.length, equals(1));
       expect(visitor.declarations.first.declaration, isNotNull);
-      expect(visitor.declarations.first.enclosingClass, isNotNull);
+      expect(visitor.declarations.first.declarationIdentifier, isNotNull);
     });
   });
 }

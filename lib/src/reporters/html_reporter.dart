@@ -8,7 +8,7 @@ import 'package:dart_code_metrics/src/models/violation_level.dart';
 import 'package:dart_code_metrics/src/reporters/reporter.dart';
 import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
 import 'package:meta/meta.dart';
-import 'package:path/path.dart' as path;
+import 'package:path/path.dart' as p;
 import 'package:resource/resource.dart';
 
 const _violationLevelFunctionStyle = {
@@ -26,11 +26,13 @@ const _violationLevelLineStyle = {
 };
 
 const _cyclomaticComplexity = 'Cyclomatic complexity';
-const _cyclomaticComplexityWithViolations = 'Cyclomatic complexity / violations';
+const _cyclomaticComplexityWithViolations =
+    'Cyclomatic complexity / violations';
 const _linesOfCode = 'Lines of code';
 const _linesOfCodeWithViolations = 'Lines of code / violations';
 const _maintainabilityIndex = 'Maintainability index';
-const _maintainabilityIndexWithViolations = 'Maintainability index / violations';
+const _maintainabilityIndexWithViolations =
+    'Maintainability index / violations';
 
 @immutable
 class ReportTableRecord {
@@ -88,38 +90,49 @@ class HtmlReporter implements Reporter {
   void _copyResources(String reportFolder) {
     const baseStylesheet = 'base';
 
-    const res = Resource('package:metrics/src/reporters/html_resources/base.css');
+    const res = Resource(
+        'package:dart_code_metrics/src/reporters/html_resources/base.css');
     res.readAsString().then((content) {
-      File(path.setExtension(path.join(reportFolder, baseStylesheet), '.css'))
+      File(p.setExtension(p.join(reportFolder, baseStylesheet), '.css'))
         ..createSync(recursive: true)
         ..writeAsStringSync(content);
     });
   }
 
   Element _generateTable(String title, Iterable<ReportTableRecord> records) {
-    final sortedRecords = records.toList()..sort((a, b) => a.title.compareTo(b.title));
+    final sortedRecords = records.toList()
+      ..sort((a, b) => a.title.compareTo(b.title));
 
-    final totalComplexity = sortedRecords.fold<int>(0, (prevValue, record) => prevValue + record.cyclomaticComplexity);
-    final totalComplexityViolations =
-        sortedRecords.fold<int>(0, (prevValue, record) => prevValue + record.cyclomaticComplexityViolations);
-    final totalLinesOfCode = sortedRecords.fold<int>(0, (prevValue, record) => prevValue + record.linesOfCode);
-    final totalLinesOfCodeViolations =
-        sortedRecords.fold<int>(0, (prevValue, record) => prevValue + record.linesOfCodeViolations);
-    final averageMaintainabilityIndex =
-        sortedRecords.fold<double>(0, (prevValue, record) => prevValue + record.maintainabilityIndex) /
-            sortedRecords.length;
-    final totalMaintainabilityIndexViolations =
-        sortedRecords.fold<int>(0, (prevValue, record) => prevValue + record.maintainabilityIndexViolations);
+    final totalComplexity = sortedRecords.fold<int>(
+        0, (prevValue, record) => prevValue + record.cyclomaticComplexity);
+    final totalComplexityViolations = sortedRecords.fold<int>(
+        0,
+        (prevValue, record) =>
+            prevValue + record.cyclomaticComplexityViolations);
+    final totalLinesOfCode = sortedRecords.fold<int>(
+        0, (prevValue, record) => prevValue + record.linesOfCode);
+    final totalLinesOfCodeViolations = sortedRecords.fold<int>(
+        0, (prevValue, record) => prevValue + record.linesOfCodeViolations);
+    final averageMaintainabilityIndex = sortedRecords.fold<double>(
+            0, (prevValue, record) => prevValue + record.maintainabilityIndex) /
+        sortedRecords.length;
+    final totalMaintainabilityIndexViolations = sortedRecords.fold<int>(
+        0,
+        (prevValue, record) =>
+            prevValue + record.maintainabilityIndexViolations);
 
     final withCyclomaticComplexityViolations = totalComplexityViolations > 0;
     final withLinesOfCodeViolations = totalLinesOfCodeViolations > 0;
-    final withMaintainabilityIndexViolations = totalMaintainabilityIndexViolations > 0;
+    final withMaintainabilityIndexViolations =
+        totalMaintainabilityIndexViolations > 0;
 
     final tableContent = Element.tag('tbody');
     for (final record in sortedRecords) {
-      final recordHaveCyclomaticComplexityViolations = record.cyclomaticComplexityViolations > 0;
+      final recordHaveCyclomaticComplexityViolations =
+          record.cyclomaticComplexityViolations > 0;
       final recordHaveLinesOfCodeViolations = record.linesOfCodeViolations > 0;
-      final recordHaveMaintainabilityIndexViolations = record.maintainabilityIndexViolations > 0;
+      final recordHaveMaintainabilityIndexViolations =
+          record.maintainabilityIndexViolations > 0;
 
       tableContent.append(Element.tag('tr')
         ..append(Element.tag('td')
@@ -130,24 +143,32 @@ class HtmlReporter implements Reporter {
           ..text = recordHaveCyclomaticComplexityViolations
               ? '${record.cyclomaticComplexity} / ${record.cyclomaticComplexityViolations}'
               : '${record.cyclomaticComplexity}'
-          ..classes.add(recordHaveCyclomaticComplexityViolations ? 'with-violations' : ''))
+          ..classes.add(recordHaveCyclomaticComplexityViolations
+              ? 'with-violations'
+              : ''))
         ..append(Element.tag('td')
           ..text = recordHaveLinesOfCodeViolations
               ? '${record.linesOfCode} / ${record.linesOfCodeViolations}'
               : '${record.linesOfCode}'
-          ..classes.add(recordHaveLinesOfCodeViolations ? 'with-violations' : ''))
+          ..classes
+              .add(recordHaveLinesOfCodeViolations ? 'with-violations' : ''))
         ..append(Element.tag('td')
           ..text = recordHaveMaintainabilityIndexViolations
               ? '${record.maintainabilityIndex.toInt()} / ${record.maintainabilityIndexViolations}'
               : '${record.maintainabilityIndex.toInt()}'
-          ..classes.add(recordHaveMaintainabilityIndexViolations ? 'with-violations' : '')));
+          ..classes.add(recordHaveMaintainabilityIndexViolations
+              ? 'with-violations'
+              : '')));
     }
 
-    final cyclomaticComplexityTitle =
-        withCyclomaticComplexityViolations ? _cyclomaticComplexityWithViolations : _cyclomaticComplexity;
-    final linesOfCodeTitle = withLinesOfCodeViolations ? _linesOfCodeWithViolations : _linesOfCode;
-    final maintainabilityIndexTitle =
-        withMaintainabilityIndexViolations ? _maintainabilityIndexWithViolations : _maintainabilityIndex;
+    final cyclomaticComplexityTitle = withCyclomaticComplexityViolations
+        ? _cyclomaticComplexityWithViolations
+        : _cyclomaticComplexity;
+    final linesOfCodeTitle =
+        withLinesOfCodeViolations ? _linesOfCodeWithViolations : _linesOfCode;
+    final maintainabilityIndexTitle = withMaintainabilityIndexViolations
+        ? _maintainabilityIndexWithViolations
+        : _maintainabilityIndex;
 
     final table = Element.tag('table')
       ..classes.add('metrics-total-table')
@@ -166,11 +187,15 @@ class HtmlReporter implements Reporter {
         ..classes.add('metrics-totals')
         ..append(_generateTotalMetrics(
             cyclomaticComplexityTitle,
-            withCyclomaticComplexityViolations ? '$totalComplexity / $totalComplexityViolations' : '$totalComplexity',
+            withCyclomaticComplexityViolations
+                ? '$totalComplexity / $totalComplexityViolations'
+                : '$totalComplexity',
             withCyclomaticComplexityViolations))
         ..append(_generateTotalMetrics(
             linesOfCodeTitle,
-            withLinesOfCodeViolations ? '$totalLinesOfCode / $totalLinesOfCodeViolations' : '$totalLinesOfCode',
+            withLinesOfCodeViolations
+                ? '$totalLinesOfCode / $totalLinesOfCodeViolations'
+                : '$totalLinesOfCode',
             withLinesOfCodeViolations))
         ..append(_generateTotalMetrics(
             maintainabilityIndexTitle,
@@ -180,26 +205,31 @@ class HtmlReporter implements Reporter {
             withMaintainabilityIndexViolations)));
   }
 
-  void _generateFoldersReports(String reportDirectory, Iterable<ComponentRecord> records) {
-    final folders = records.map((record) => path.dirname(record.relativePath)).toSet();
+  void _generateFoldersReports(
+      String reportDirectory, Iterable<ComponentRecord> records) {
+    final folders =
+        records.map((record) => p.dirname(record.relativePath)).toSet();
 
     for (final folder in folders) {
-      _generateFolderReport(
-          reportDirectory, folder, records.where((record) => path.dirname(record.relativePath) == folder));
+      _generateFolderReport(reportDirectory, folder,
+          records.where((record) => p.dirname(record.relativePath) == folder));
     }
 
     final tableRecords = folders.map((folder) {
       final report = UtilitySelector.analysisReportForRecords(
-          records.where((record) => path.dirname(record.relativePath) == folder), reportConfig);
+          records.where((record) => p.dirname(record.relativePath) == folder),
+          reportConfig);
       return ReportTableRecord(
           title: folder,
-          link: path.join(folder, 'index.html'),
+          link: p.join(folder, 'index.html'),
           cyclomaticComplexity: report.totalCyclomaticComplexity,
-          cyclomaticComplexityViolations: report.totalCyclomaticComplexityViolations,
+          cyclomaticComplexityViolations:
+              report.totalCyclomaticComplexityViolations,
           linesOfCode: report.totalLinesOfCode,
           linesOfCodeViolations: report.totalLinesOfCodeViolations,
           maintainabilityIndex: report.averageMaintainabilityIndex,
-          maintainabilityIndexViolations: report.totalMaintainabilityIndexViolations);
+          maintainabilityIndexViolations:
+              report.totalMaintainabilityIndexViolations);
     });
 
     final html = Element.tag('html')
@@ -218,25 +248,29 @@ class HtmlReporter implements Reporter {
 
     final htmlDocument = Document()..append(html);
 
-    File(path.join(reportDirectory, 'index.html'))
+    File(p.join(reportDirectory, 'index.html'))
       ..createSync(recursive: true)
-      ..writeAsStringSync(htmlDocument.outerHtml.replaceAll('&amp;nbsp;', '&nbsp;'));
+      ..writeAsStringSync(
+          htmlDocument.outerHtml.replaceAll('&amp;nbsp;', '&nbsp;'));
   }
 
-  void _generateFolderReport(String reportDirectory, String folder, Iterable<ComponentRecord> records) {
+  void _generateFolderReport(String reportDirectory, String folder,
+      Iterable<ComponentRecord> records) {
     final tableRecords = records.map((record) {
       final report = UtilitySelector.analysisReport(record, reportConfig);
-      final fileName = path.basename(record.relativePath);
+      final fileName = p.basename(record.relativePath);
 
       return ReportTableRecord(
           title: fileName,
-          link: path.setExtension(fileName, '.html'),
+          link: p.setExtension(fileName, '.html'),
           cyclomaticComplexity: report.totalCyclomaticComplexity,
-          cyclomaticComplexityViolations: report.totalCyclomaticComplexityViolations,
+          cyclomaticComplexityViolations:
+              report.totalCyclomaticComplexityViolations,
           linesOfCode: report.totalLinesOfCode,
           linesOfCodeViolations: report.totalLinesOfCodeViolations,
           maintainabilityIndex: report.averageMaintainabilityIndex,
-          maintainabilityIndexViolations: report.totalMaintainabilityIndexViolations);
+          maintainabilityIndexViolations:
+              report.totalMaintainabilityIndexViolations);
     });
 
     final html = Element.tag('html')
@@ -246,12 +280,12 @@ class HtmlReporter implements Reporter {
         ..append(Element.tag('meta')..attributes['charset'] = 'utf-8')
         ..append(Element.tag('link')
           ..attributes['rel'] = 'stylesheet'
-          ..attributes['href'] = path.relative('base.css', from: folder)))
+          ..attributes['href'] = p.relative('base.css', from: folder)))
       ..append(Element.tag('body')
         ..append(Element.tag('h1')
           ..classes.add('metric-header')
           ..append(Element.tag('a')
-            ..attributes['href'] = path.relative('index.html', from: folder)
+            ..attributes['href'] = p.relative('index.html', from: folder)
             ..text = 'All files')
           ..append(Element.tag('span')..text = ' : ')
           ..append(Element.tag('span')..text = folder))
@@ -259,16 +293,18 @@ class HtmlReporter implements Reporter {
 
     final htmlDocument = Document()..append(html);
 
-    File(path.join(reportDirectory, folder, 'index.html'))
+    File(p.join(reportDirectory, folder, 'index.html'))
       ..createSync(recursive: true)
-      ..writeAsStringSync(htmlDocument.outerHtml.replaceAll('&amp;nbsp;', '&nbsp;'));
+      ..writeAsStringSync(
+          htmlDocument.outerHtml.replaceAll('&amp;nbsp;', '&nbsp;'));
   }
 
   void _generateSourceReport(String reportDirectory, ComponentRecord record) {
     final sourceFileContent = File(record.fullPath).readAsStringSync();
     final sourceFileLines = LineSplitter.split(sourceFileContent);
 
-    final linesIndices = Element.tag('td')..classes.add('metrics-source-code__number-lines');
+    final linesIndices = Element.tag('td')
+      ..classes.add('metrics-source-code__number-lines');
     for (var i = 1; i <= sourceFileLines.length; ++i) {
       linesIndices
         ..append(Element.tag('a')..attributes['name'] = 'L$i')
@@ -278,23 +314,28 @@ class HtmlReporter implements Reporter {
         ..append(Element.tag('br'));
     }
 
-    final cyclomaticValues = Element.tag('td')..classes.add('metrics-source-code__complexity');
+    final cyclomaticValues = Element.tag('td')
+      ..classes.add('metrics-source-code__complexity');
     for (var i = 1; i <= sourceFileLines.length; ++i) {
       final functionReport = record.records.values.firstWhere(
-          (functionReport) => functionReport.firstLine <= i && functionReport.lastLine >= i,
+          (functionReport) =>
+              functionReport.firstLine <= i && functionReport.lastLine >= i,
           orElse: () => null);
 
-      final complexityValueElement = Element.tag('div')..classes.add('metrics-source-code__text');
+      final complexityValueElement = Element.tag('div')
+        ..classes.add('metrics-source-code__text');
 
       var line = ' ';
       if (functionReport != null) {
-        final report = UtilitySelector.functionReport(functionReport, reportConfig);
+        final report =
+            UtilitySelector.functionReport(functionReport, reportConfig);
 
         if (functionReport.firstLine == i) {
           line = 'ⓘ';
 
           complexityValueElement.attributes['class'] =
-              '${complexityValueElement.attributes['class']} metrics-source-code__text--with-icon'.trim();
+              '${complexityValueElement.attributes['class']} metrics-source-code__text--with-icon'
+                  .trim();
 
           complexityValueElement.attributes['title'] = 'Function stats:'
               '\n${_cyclomaticComplexity.toLowerCase()}: ${report.cyclomaticComplexity}'
@@ -305,7 +346,8 @@ class HtmlReporter implements Reporter {
               '\n${_maintainabilityIndex.toLowerCase()} violation level: ${report.maintainabilityIndexViolationLevel.toString().toLowerCase()}';
         }
 
-        final lineWithComplexityIncrement = functionReport.cyclomaticLinesComplexity.containsKey(i);
+        final lineWithComplexityIncrement =
+            functionReport.cyclomaticLinesComplexity.containsKey(i);
         if (lineWithComplexityIncrement) {
           line = '$line +${functionReport.cyclomaticLinesComplexity[i]}'.trim();
         }
@@ -316,7 +358,8 @@ class HtmlReporter implements Reporter {
           line += ' c';
         }
 */
-        final functionViolationLevel = UtilitySelector.functionViolationLevel(report);
+        final functionViolationLevel =
+            UtilitySelector.functionViolationLevel(report);
 
         final lineViolationStyle = lineWithComplexityIncrement
             ? _violationLevelLineStyle[functionViolationLevel]
@@ -337,23 +380,29 @@ class HtmlReporter implements Reporter {
 
     final report = UtilitySelector.analysisReport(record, reportConfig);
 
-    final withCyclomaticComplexityViolations = report.totalCyclomaticComplexityViolations > 0;
+    final withCyclomaticComplexityViolations =
+        report.totalCyclomaticComplexityViolations > 0;
     final withLinesOfCodeViolations = report.totalLinesOfCodeViolations > 0;
-    final totalMaintainabilityIndexViolations = report.totalMaintainabilityIndexViolations > 0;
+    final totalMaintainabilityIndexViolations =
+        report.totalMaintainabilityIndexViolations > 0;
 
     final body = Element.tag('body')
       ..append(Element.tag('h1')
         ..classes.add('metric-header')
         ..append(Element.tag('a')
-          ..attributes['href'] = path.relative('index.html', from: path.dirname(record.relativePath))
+          ..attributes['href'] =
+              p.relative('index.html', from: p.dirname(record.relativePath))
           ..text = 'All files')
         ..append(Element.tag('span')..text = ' : ')
         ..append(Element.tag('a')
           ..attributes['href'] = 'index.html'
-          ..text = path.dirname(record.relativePath))
-        ..append(Element.tag('span')..text = '/${path.basename(record.relativePath)}'))
+          ..text = p.dirname(record.relativePath))
+        ..append(
+            Element.tag('span')..text = '/${p.basename(record.relativePath)}'))
       ..append(_generateTotalMetrics(
-          withCyclomaticComplexityViolations ? _cyclomaticComplexityWithViolations : _cyclomaticComplexity,
+          withCyclomaticComplexityViolations
+              ? _cyclomaticComplexityWithViolations
+              : _cyclomaticComplexity,
           withCyclomaticComplexityViolations
               ? '${report.totalCyclomaticComplexity} / ${report.totalCyclomaticComplexityViolations}'
               : '${report.totalCyclomaticComplexity}',
@@ -365,7 +414,9 @@ class HtmlReporter implements Reporter {
               : '${report.totalLinesOfCode}',
           withLinesOfCodeViolations))
       ..append(_generateTotalMetrics(
-          totalMaintainabilityIndexViolations ? _maintainabilityIndexWithViolations : _maintainabilityIndex,
+          totalMaintainabilityIndexViolations
+              ? _maintainabilityIndexWithViolations
+              : _maintainabilityIndex,
           totalMaintainabilityIndexViolations
               ? '${report.averageMaintainabilityIndex.toInt()} / ${report.totalMaintainabilityIndexViolations}'
               : '${report.averageMaintainabilityIndex.toInt()}',
@@ -376,7 +427,8 @@ class HtmlReporter implements Reporter {
           ..append(Element.tag('thead')
             ..classes.add('metrics-source-code__header')
             ..append(Element.tag('tr')
-              ..append(Element.tag('td')..classes.add('metrics-source-code__number-lines'))
+              ..append(Element.tag('td')
+                ..classes.add('metrics-source-code__number-lines'))
               ..append(Element.tag('td')
                 ..classes.add('metrics-source-code__complexity')
                 ..text = 'Complexity')
@@ -385,18 +437,25 @@ class HtmlReporter implements Reporter {
                 ..text = 'Source code')))
           ..append(Element.tag('tbody')
             ..classes.add('metrics-source-code__body')
-            ..append(Element.tag('tr')..append(linesIndices)..append(cyclomaticValues)..append(codeBlock)))))
+            ..append(Element.tag('tr')
+              ..append(linesIndices)
+              ..append(cyclomaticValues)
+              ..append(codeBlock)))))
       ..append(Element.tag('script')
-        ..attributes['src'] = 'https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.min.js')
+        ..attributes['src'] =
+            'https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.min.js')
       ..append(Element.tag('script')
-        ..attributes['src'] = 'https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/lang-dart.min.js');
+        ..attributes['src'] =
+            'https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/lang-dart.min.js');
 
     final head = Element.tag('head')
-      ..append(Element.tag('title')..text = 'Metrics report for ${record.relativePath}')
+      ..append(Element.tag('title')
+        ..text = 'Metrics report for ${record.relativePath}')
       ..append(Element.tag('meta')..attributes['charset'] = 'utf-8')
       ..append(Element.tag('link')
         ..attributes['rel'] = 'stylesheet'
-        ..attributes['href'] = path.relative('base.css', from: path.dirname(record.relativePath)));
+        ..attributes['href'] =
+            p.relative('base.css', from: p.dirname(record.relativePath)));
 
     final html = Element.tag('html')
       ..attributes['lang'] = 'en'
@@ -405,17 +464,21 @@ class HtmlReporter implements Reporter {
 
     final htmlDocument = Document()..append(html);
 
-    File(path.setExtension(path.join(reportDirectory, record.relativePath), '.html'))
+    File(p.setExtension(p.join(reportDirectory, record.relativePath), '.html'))
       ..createSync(recursive: true)
-      ..writeAsStringSync(htmlDocument.outerHtml.replaceAll('&amp;nbsp;', '&nbsp;'));
+      ..writeAsStringSync(
+          htmlDocument.outerHtml.replaceAll('&amp;nbsp;', '&nbsp;'));
   }
 
-  Element _generateTotalMetrics(String name, String value, bool violations) => Element.tag('div')
-    ..classes.add(!violations ? 'metrics-total' : 'metrics-total metrics-total--violations')
-    ..append(Element.tag('span')
-      ..classes.add('metrics-total__label')
-      ..text = '$name : ')
-    ..append(Element.tag('span')
-      ..classes.add('metrics-total__count')
-      ..text = value);
+  Element _generateTotalMetrics(String name, String value, bool violations) =>
+      Element.tag('div')
+        ..classes.add(!violations
+            ? 'metrics-total'
+            : 'metrics-total metrics-total--violations')
+        ..append(Element.tag('span')
+          ..classes.add('metrics-total__label')
+          ..text = '$name : ')
+        ..append(Element.tag('span')
+          ..classes.add('metrics-total__count')
+          ..text = value);
 }

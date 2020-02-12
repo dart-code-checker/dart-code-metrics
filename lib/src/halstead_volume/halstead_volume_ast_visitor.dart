@@ -11,13 +11,15 @@ class HalsteadVolumeAstVisitor extends RecursiveAstVisitor<Object> {
 
   @override
   void visitBlockFunctionBody(BlockFunctionBody node) {
-    _analyzeFunctionBodyData(node.block.leftBracket.next, node.block.rightBracket);
+    _analyzeFunctionBodyData(
+        node.block.leftBracket.next, node.block.rightBracket);
     super.visitBlockFunctionBody(node);
   }
 
   @override
   void visitExpressionFunctionBody(ExpressionFunctionBody node) {
-    _analyzeFunctionBodyData(node.expression.beginToken.previous, node.expression.endToken.next);
+    _analyzeFunctionBodyData(
+        node.expression.beginToken.previous, node.expression.endToken.next);
     node.visitChildren(this);
   }
 

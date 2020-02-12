@@ -26,33 +26,40 @@ class ConsoleReporter implements Reporter {
       final lines = <String>[];
 
       analysisRecord.records.forEach((source, functionReport) {
-        final report = UtilitySelector.functionReport(functionReport, reportConfig);
+        final report =
+            UtilitySelector.functionReport(functionReport, reportConfig);
 
         switch (report.cyclomaticComplexityViolationLevel) {
           case ViolationLevel.alarm:
-            lines.add('${_redPen('ALARM')}   $source - complexity: ${_redPen('${report.cyclomaticComplexity}')}');
+            lines.add(
+                '${_redPen('ALARM')}   $source - complexity: ${_redPen('${report.cyclomaticComplexity}')}');
             break;
           case ViolationLevel.warning:
-            lines.add('${_yellowPen('WARNING')} $source - complexity: ${_yellowPen('${report.cyclomaticComplexity}')}');
+            lines.add(
+                '${_yellowPen('WARNING')} $source - complexity: ${_yellowPen('${report.cyclomaticComplexity}')}');
             break;
           case ViolationLevel.noted:
-            lines.add('${_bluePen('NOTED')}   $source - complexity: ${_yellowPen('${report.cyclomaticComplexity}')}');
+            lines.add(
+                '${_bluePen('NOTED')}   $source - complexity: ${_yellowPen('${report.cyclomaticComplexity}')}');
             break;
           case ViolationLevel.none:
             if (reportAll) {
-              lines.add('        $source - complexity: ${report.cyclomaticComplexity}');
+              lines.add(
+                  '        $source - complexity: ${report.cyclomaticComplexity}');
             }
             break;
         }
       });
 
       if (lines.isNotEmpty || reportAll) {
-        final report = UtilitySelector.analysisReport(analysisRecord, reportConfig);
+        final report =
+            UtilitySelector.analysisReport(analysisRecord, reportConfig);
 
         var consoleRecord = analysisRecord.relativePath;
         consoleRecord += ' - complexity: ${report.totalCyclomaticComplexity}';
         if (report.totalCyclomaticComplexityViolations > 0) {
-          consoleRecord += '  complexity violations: ${_yellowPen('${report.totalCyclomaticComplexityViolations}')}';
+          consoleRecord +=
+              '  complexity violations: ${_yellowPen('${report.totalCyclomaticComplexityViolations}')}';
         }
         consoleRecord += '  lines of code: ${report.totalLinesOfCode}';
 
@@ -62,11 +69,14 @@ class ConsoleReporter implements Reporter {
       }
     }
 
-    final report = UtilitySelector.analysisReportForRecords(records, reportConfig);
+    final report =
+        UtilitySelector.analysisReportForRecords(records, reportConfig);
 
-    var packageTotalRecord = 'Total complexity: ${report.totalCyclomaticComplexity}';
+    var packageTotalRecord =
+        'Total complexity: ${report.totalCyclomaticComplexity}';
     if (report.totalCyclomaticComplexityViolations > 0) {
-      packageTotalRecord += '  complexity violations: ${_yellowPen('${report.totalCyclomaticComplexityViolations}')}';
+      packageTotalRecord +=
+          '  complexity violations: ${_yellowPen('${report.totalCyclomaticComplexityViolations}')}';
     }
     packageTotalRecord += '  lines of code: ${report.totalLinesOfCode}';
 

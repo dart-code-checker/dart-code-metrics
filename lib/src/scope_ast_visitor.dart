@@ -5,15 +5,22 @@ import 'package:dart_code_metrics/src/cyclomatic_complexity/models/scoped_declar
 class ScopeAstVisitor extends RecursiveAstVisitor<Object> {
   final _declarations = <ScopedDeclaration>[];
 
-  ClassOrMixinDeclaration _enclosingClass;
+  SimpleIdentifier _declarationIdentifier;
 
   Iterable<ScopedDeclaration> get declarations => _declarations;
 
   @override
   void visitClassDeclaration(ClassDeclaration node) {
-    _enclosingClass = node;
+    _declarationIdentifier = node.name;
     super.visitClassDeclaration(node);
-    _enclosingClass = null;
+    _declarationIdentifier = null;
+  }
+
+  @override
+  void visitExtensionDeclaration(ExtensionDeclaration node) {
+    _declarationIdentifier = node.name;
+    super.visitExtensionDeclaration(node);
+    _declarationIdentifier = null;
   }
 
   @override
@@ -32,12 +39,12 @@ class ScopeAstVisitor extends RecursiveAstVisitor<Object> {
 
   @override
   void visitMixinDeclaration(MixinDeclaration node) {
-    _enclosingClass = node;
+    _declarationIdentifier = node.name;
     super.visitMixinDeclaration(node);
-    _enclosingClass = null;
+    _declarationIdentifier = null;
   }
 
   void _registerDeclaration(Declaration node) {
-    _declarations.add(ScopedDeclaration(node, _enclosingClass));
+    _declarations.add(ScopedDeclaration(node, _declarationIdentifier));
   }
 }

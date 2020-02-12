@@ -17,7 +17,8 @@ void main(List<String> args) {
   var showUsage = false;
 
   final parser = ArgParser()
-    ..addFlag(helpFlagName, abbr: 'h', help: 'Print this usage information.', negatable: false)
+    ..addFlag(helpFlagName,
+        abbr: 'h', help: 'Print this usage information.', negatable: false)
     ..addOption(reporterOptionName,
         abbr: 'r',
         help: 'The format of the output of the analysis',
@@ -25,9 +26,15 @@ void main(List<String> args) {
         allowed: ['console', 'json', 'html', 'codeclimate'],
         defaultsTo: 'console')
     ..addOption(cyclomaticComplexityThreshold,
-        help: 'Cyclomatic complexity threshold', valueHelp: '20', defaultsTo: '20')
-    ..addOption(linesOfCodeThreshold, help: 'Lines of code threshold', valueHelp: '50', defaultsTo: '50')
-    ..addOption(rootFolderName, help: 'Root folder', valueHelp: './', defaultsTo: Directory.current.path)
+        help: 'Cyclomatic complexity threshold',
+        valueHelp: '20',
+        defaultsTo: '20')
+    ..addOption(linesOfCodeThreshold,
+        help: 'Lines of code threshold', valueHelp: '50', defaultsTo: '50')
+    ..addOption(rootFolderName,
+        help: 'Root folder',
+        valueHelp: './',
+        defaultsTo: Directory.current.path)
     ..addOption(ignoredFilesName,
         help: 'Filepaths in Glob syntax to be ignored',
         valueHelp: '{/**.g.dart,/**.template.dart}',
@@ -42,7 +49,9 @@ void main(List<String> args) {
     showUsage = true;
   }
 
-  if (arguments == null || arguments[helpFlagName] as bool || arguments.rest.length != 1) {
+  if (arguments == null ||
+      arguments[helpFlagName] as bool ||
+      arguments.rest.length != 1) {
     showUsage = true;
   }
 
@@ -61,20 +70,27 @@ void main(List<String> args) {
   final ignoreFilesPattern = arguments[ignoredFilesName] as Object;
   if (ignoreFilesPattern is String && ignoreFilesPattern.isNotEmpty) {
     final ignoreFilesGlob = Glob(ignoreFilesPattern);
-    dartFilePaths = dartFilePaths.where((path) => !ignoreFilesGlob.matches(path));
+    dartFilePaths =
+        dartFilePaths.where((path) => !ignoreFilesGlob.matches(path));
   }
 
   final recorder = MetricsAnalysisRecorder();
   final analyzer = MetricsAnalyzer(recorder);
-  final runner = MetricsAnalysisRunner(recorder, analyzer, dartFilePaths, rootFolder: rootFolder)..run();
+  final runner = MetricsAnalysisRunner(recorder, analyzer, dartFilePaths,
+      rootFolder: rootFolder)
+    ..run();
 
   final config = Config(
-      cyclomaticComplexityWarningLevel: int.parse(arguments[cyclomaticComplexityThreshold] as String),
-      linesOfCodeWarningLevel: int.parse(arguments[linesOfCodeThreshold] as String));
+      cyclomaticComplexityWarningLevel:
+          int.parse(arguments[cyclomaticComplexityThreshold] as String),
+      linesOfCodeWarningLevel:
+          int.parse(arguments[linesOfCodeThreshold] as String));
 
   switch (arguments[reporterOptionName] as String) {
     case 'console':
-      ConsoleReporter(reportConfig: config, reportAll: arguments[verboseName] as bool).report(runner.results());
+      ConsoleReporter(
+              reportConfig: config, reportAll: arguments[verboseName] as bool)
+          .report(runner.results());
       break;
     case 'json':
       JsonReporter(reportConfig: config).report(runner.results());
@@ -86,6 +102,7 @@ void main(List<String> args) {
       CodeClimateReporter(reportConfig: config).report(runner.results());
       break;
     default:
-      throw ArgumentError.value(arguments[reporterOptionName], reporterOptionName);
+      throw ArgumentError.value(
+          arguments[reporterOptionName], reporterOptionName);
   }
 }

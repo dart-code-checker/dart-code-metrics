@@ -26,11 +26,18 @@ class JsonReporter implements Reporter {
           final report = UtilitySelector.functionReport(value, reportConfig);
           return MapEntry(key, {
             'cyclomatic-complexity': report.cyclomaticComplexity,
-            'cyclomatic-complexity-violation-level': report.cyclomaticComplexityViolationLevel.toString().toLowerCase(),
+            'cyclomatic-complexity-violation-level': report
+                .cyclomaticComplexityViolationLevel
+                .toString()
+                .toLowerCase(),
             'lines-of-code': report.linesOfCode,
-            'lines-of-code-violation-level': report.linesOfCodeViolationLevel.toString().toLowerCase(),
+            'lines-of-code-violation-level':
+                report.linesOfCodeViolationLevel.toString().toLowerCase(),
             'maintainability-index': report.maintainabilityIndex.toInt(),
-            'maintainability-index-violation-level': report.maintainabilityIndexViolationLevel.toString().toLowerCase(),
+            'maintainability-index-violation-level': report
+                .maintainabilityIndexViolationLevel
+                .toString()
+                .toLowerCase(),
           });
         })
       };

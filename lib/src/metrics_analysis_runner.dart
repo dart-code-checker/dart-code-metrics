@@ -8,7 +8,8 @@ class MetricsAnalysisRunner {
   final Iterable<String> _filePaths;
   final String _rootFolder;
 
-  MetricsAnalysisRunner(this._recorder, this._analyzer, this._filePaths, {String rootFolder})
+  MetricsAnalysisRunner(this._recorder, this._analyzer, this._filePaths,
+      {String rootFolder})
       : _rootFolder = rootFolder;
 
   Iterable<ComponentRecord> results() => _recorder.records();
