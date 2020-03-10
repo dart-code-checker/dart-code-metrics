@@ -9,8 +9,6 @@ import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
 import 'package:meta/meta.dart';
 
 class CodeClimateReporter implements Reporter {
-  static const _nullCharacter = '\u0000';
-
   final Config reportConfig;
   CodeClimateReporter({@required this.reportConfig});
 
@@ -20,10 +18,7 @@ class CodeClimateReporter implements Reporter {
       return;
     }
 
-    final data = records.map(_toIssues).expand((r) => r);
-    for (final issue in data) {
-      print(json.encode(issue) + _nullCharacter);
-    }
+    print(json.encode(records.map(_toIssues).expand((r) => r).toList()));
   }
 
   bool _isIssueLevel(ViolationLevel level) =>
