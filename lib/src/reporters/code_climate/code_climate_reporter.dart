@@ -43,7 +43,7 @@ class CodeClimateReporter implements Reporter {
             report.cyclomaticComplexity,
             record.relativePath,
             key,
-            reportConfig.linesOfCodeWarningLevel));
+            reportConfig.cyclomaticComplexityWarningLevel));
       }
 
       if (_isIssueLevel(report.maintainabilityIndexViolationLevel)) {
