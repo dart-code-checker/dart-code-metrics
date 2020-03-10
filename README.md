@@ -5,6 +5,6 @@
 
 ### Simple usage:
 ```bash
-pub global activate metrics
+pub global activate dart_code_metrics
 metrics lib
 ```
