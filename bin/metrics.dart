@@ -53,6 +53,9 @@ void main(List<String> args) {
       arguments[helpFlagName] as bool ||
       arguments.rest.length != 1) {
     showUsage = true;
+  } else if (!File(arguments.rest.single).existsSync()) {
+    print("Can't find directory ${arguments.rest.single}");
+    showUsage = true;
   }
 
   if (showUsage) {
@@ -62,7 +65,7 @@ void main(List<String> args) {
   }
 
   final rootFolder = arguments[rootFolderName] as String;
-  var dartFilePaths = Glob('${arguments.rest.first}**.dart')
+  var dartFilePaths = Glob('${arguments.rest.single}**.dart')
       .listSync(root: rootFolder, followLinks: false)
       .whereType<File>()
       .map((entity) => entity.path);

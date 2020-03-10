@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.2
+- Improve CodeClimate report
+
 ## 1.1.1
 - Added support extension methods
 
