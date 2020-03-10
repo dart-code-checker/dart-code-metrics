@@ -1,34 +1,25 @@
+import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
 import 'package:meta/meta.dart';
 
 @immutable
-class CodeClimateLineColumnPosition {
-  final int line;
+class CodeClimateLocationLines {
+  final int begin;
+  final int end;
 
-  const CodeClimateLineColumnPosition(this.line);
+  const CodeClimateLocationLines(this.begin, this.end);
 
   Map<String, int> toJson() => {
-        'line': line,
-        'column': 1,
-      };
-}
-
-@immutable
-class CodeClimatePosition {
-  final CodeClimateLineColumnPosition begin;
-  final CodeClimateLineColumnPosition end;
-
-  const CodeClimatePosition(this.begin, this.end);
-
-  Map<String, Object> toJson() => {
-        'begin': begin.toJson(),
-        'end': end.toJson(),
+        'begin': begin,
+        'end': end,
       };
 }
 
 @immutable
 class CodeClimateLocation {
   final String path;
-  final CodeClimatePosition positions;
+  final CodeClimateLocationLines positions;
 
   const CodeClimateLocation(this.path, this.positions);
 
@@ -47,16 +38,19 @@ class CodeClimateIssue {
   final String checkName;
   final String description;
   final CodeClimateLocation location;
+  final String fingerprint;
 
-  const CodeClimateIssue._(this.checkName, this.description, this.location);
+  const CodeClimateIssue._(
+      this.checkName, this.description, this.location, this.fingerprint);
 
   factory CodeClimateIssue._create(
       String name, String desc, int startLine, int endLine, String fileName) {
-    final position = CodeClimatePosition(
-        CodeClimateLineColumnPosition(startLine),
-        CodeClimateLineColumnPosition(endLine));
-    final location = CodeClimateLocation(fileName, position);
-    return CodeClimateIssue._(name, desc, location);
+    final locationLines = CodeClimateLocationLines(startLine, endLine);
+    final location = CodeClimateLocation(fileName, locationLines);
+    final fingerprint = md5
+        .convert(utf8.encode('$name $desc $startLine $endLine $fileName'))
+        .toString();
+    return CodeClimateIssue._(name, desc, location, fingerprint);
   }
 
   factory CodeClimateIssue.linesOfCode(int startLine, int endLine,
@@ -86,9 +80,10 @@ class CodeClimateIssue {
   Map<String, Object> toJson() => {
         'type': type,
         'check_name': checkName,
-        'categories': categories,
-        'remediation_points': remediationPoints,
         'description': description,
+        'categories': categories,
         'location': location.toJson(),
+        'remediation_points': remediationPoints,
+        'fingerprint': fingerprint,
       };
 }
