@@ -39,3 +39,6 @@ Usage: metrics [options...] <directory>
 
     --verbose
 ```
+
+### Use as library
+See `example/example.dart`
