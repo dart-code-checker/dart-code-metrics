@@ -2,6 +2,15 @@
 [![Pub Version](https://img.shields.io/pub/v/dart_code_metrics?style=flat)](https://pub.dev/packages/dart_code_metrics/)
 
 ### The Dart command line tool which helps to improve code quality
+Reports:
+* Cyclomatic complexity of methods
+* Too long methods
+
+Output formats:
+* Plain terminal
+* JSON
+* HTML
+* Codeclimate
 
 ### Simple usage:
 ```bash
