@@ -1,4 +1,8 @@
 # Changelog
+## Unreleased
+- Add some dartdocs
+- Update readme
+- Add library usage example
 
 ## 1.1.3
 - Fix validate input arguments
