@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.3
+- Fix validate input arguments
+
 ## 1.1.2
 - Improve CodeClimate report
 

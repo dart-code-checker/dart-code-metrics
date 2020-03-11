@@ -53,7 +53,7 @@ void main(List<String> args) {
       arguments[helpFlagName] as bool ||
       arguments.rest.length != 1) {
     showUsage = true;
-  } else if (!File(arguments.rest.single).existsSync()) {
+  } else if (!Directory(arguments.rest.single).existsSync()) {
     print("Can't find directory ${arguments.rest.single}");
     showUsage = true;
   }
