@@ -4,7 +4,6 @@ description: |
   Reports cyclomatic complexity and method length in plain console, JSON, HTML and Codeclimate formats
 version: 1.1.4
 homepage: https://github.com/wrike/dart-code-metrics
-author: Dmitry Krutskih <dmitry.krutskikh@team.wrike.com>
 
 environment:
   sdk: ">=2.4.0 <3.0.0"
