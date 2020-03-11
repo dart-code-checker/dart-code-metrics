@@ -19,13 +19,13 @@ class CodeClimateLocationLines {
 @immutable
 class CodeClimateLocation {
   final String path;
-  final CodeClimateLocationLines positions;
+  final CodeClimateLocationLines lines;
 
-  const CodeClimateLocation(this.path, this.positions);
+  const CodeClimateLocation(this.path, this.lines);
 
   Map<String, Object> toJson() => {
         'path': path,
-        'positions': positions.toJson(),
+        'lines': lines.toJson(),
       };
 }
 
