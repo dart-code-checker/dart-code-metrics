@@ -8,3 +8,25 @@
 pub global activate dart_code_metrics
 metrics lib
 ```
+
+### Full usage:
+```bash
+Usage: metrics [options...] <directory>
+-h, --help                                             Print this usage information.
+-r, --reporter=<console>                               The format of the output of the analysis
+                                                       [console (default), json, html, codeclimate]
+
+    --cyclomatic-complexity=<20>                       Cyclomatic complexity threshold
+                                                       (defaults to "20")
+
+    --lines-of-code=<50>                               Lines of code threshold
+                                                       (defaults to "50")
+
+    --root-folder=<./>                                 Root folder
+                                                       (defaults to current directory)
+
+    --ignore-files=<{/**.g.dart,/**.template.dart}>    Filepaths in Glob syntax to be ignored
+                                                       (defaults to "{/**.g.dart,/**.template.dart}")
+
+    --verbose
+```
