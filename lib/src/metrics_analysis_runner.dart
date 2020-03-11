@@ -2,6 +2,8 @@ import 'package:dart_code_metrics/src/metrics_analysis_recorder.dart';
 import 'package:dart_code_metrics/src/metrics_analyzer.dart';
 import 'package:dart_code_metrics/src/models/component_record.dart';
 
+/// Coordinates [MetricsAnalysisRecorder] and [MetricsAnalyzer] to collect code quality info
+/// Use [ConsoleReporter], [HtmlReporter], [JsonReporter] or [CodeClimateReporter] to produce reports from collected info
 class MetricsAnalysisRunner {
   final MetricsAnalysisRecorder _recorder;
   final MetricsAnalyzer _analyzer;
@@ -12,8 +14,10 @@ class MetricsAnalysisRunner {
       {String rootFolder})
       : _rootFolder = rootFolder;
 
+  /// Get results of analysis run. Will return empty iterable if [run()] wasn't executed yet
   Iterable<ComponentRecord> results() => _recorder.records();
 
+  /// Perform analysis of file paths passed in constructor
   void run() {
     for (final file in _filePaths) {
       _analyzer.runAnalysis(file, _rootFolder);

@@ -6,6 +6,7 @@ import 'package:dart_code_metrics/src/reporters/reporter.dart';
 import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
 import 'package:meta/meta.dart';
 
+/// Machine-readable report in JSON format
 class JsonReporter implements Reporter {
   final Config reportConfig;
 

@@ -8,6 +8,7 @@ import 'package:dart_code_metrics/src/reporters/reporter.dart';
 import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
 import 'package:meta/meta.dart';
 
+/// Creates reports in Codeclimate format widely understood by various CI and analysis tools
 class CodeClimateReporter implements Reporter {
   final Config reportConfig;
   CodeClimateReporter({@required this.reportConfig});
