@@ -6,8 +6,11 @@ import 'package:dart_code_metrics/src/reporters/reporter.dart';
 import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
 import 'package:meta/meta.dart';
 
+/// Plain terminal reporter
 class ConsoleReporter implements Reporter {
   final Config reportConfig;
+
+  /// If true will report info about all files even if they're not above warning threshold
   final bool reportAll;
 
   final _redPen = AnsiPen()..red();

@@ -24,6 +24,8 @@ String getQualifiedName(ScopedDeclaration dec) {
   return null;
 }
 
+/// Performs code quality analysis on specified files
+/// See [MetricsAnalysisRunner] to get analysis info
 class MetricsAnalyzer {
   final MetricsAnalysisRecorder _recorder;
 

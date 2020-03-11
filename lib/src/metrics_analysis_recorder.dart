@@ -3,6 +3,8 @@ import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:path/path.dart' as p;
 
+/// Holds analysis records in format-agnostic way
+/// See [MetricsAnalysisRunner] to get analysis info
 class MetricsAnalysisRecorder {
   String _fileGroupPath;
   String _relativeGroupPath;

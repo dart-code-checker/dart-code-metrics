@@ -59,6 +59,7 @@ class ReportTableRecord {
       @required this.maintainabilityIndexViolations});
 }
 
+/// HTML-doc reporter
 class HtmlReporter implements Reporter {
   final Config reportConfig;
   final String reportFolder;
