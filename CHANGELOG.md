@@ -1,5 +1,6 @@
 # Changelog
-## Unreleased
+
+## 1.1.4
 - Add some dartdocs
 - Update readme
 - Add library usage example
