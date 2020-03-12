@@ -13,17 +13,29 @@ class ConsoleReporter implements Reporter {
   /// If true will report info about all files even if they're not above warning threshold
   final bool reportAll;
 
-  final _redPen = AnsiPen()..red();
-  final _yellowPen = AnsiPen()..yellow();
-  final _bluePen = AnsiPen()..blue();
+  final _colorPens = {
+    ViolationLevel.alarm: AnsiPen()..red(),
+    ViolationLevel.warning: AnsiPen()..yellow(),
+    ViolationLevel.noted: AnsiPen()..blue(),
+    ViolationLevel.none: AnsiPen()..white(),
+  };
+
+  final _humanReadableLabel = {
+    ViolationLevel.alarm: 'ALARM',
+    ViolationLevel.warning: 'WARNING',
+    ViolationLevel.noted: 'NOTED',
+    ViolationLevel.none: '',
+  };
 
   ConsoleReporter({@required this.reportConfig, this.reportAll = false});
 
   @override
-  void report(Iterable<ComponentRecord> records) {
+  Iterable<String> report(Iterable<ComponentRecord> records) {
     if (records?.isEmpty ?? true) {
-      return;
+      return [];
     }
+
+    final reportStrings = <String>[];
 
     for (final analysisRecord in records) {
       final lines = <String>[];
@@ -31,58 +43,27 @@ class ConsoleReporter implements Reporter {
       analysisRecord.records.forEach((source, functionReport) {
         final report =
             UtilitySelector.functionReport(functionReport, reportConfig);
+        final violationLevel = UtilitySelector.functionViolationLevel(report);
 
-        switch (report.cyclomaticComplexityViolationLevel) {
-          case ViolationLevel.alarm:
-            lines.add(
-                '${_redPen('ALARM')}   $source - complexity: ${_redPen('${report.cyclomaticComplexity}')}');
-            break;
-          case ViolationLevel.warning:
-            lines.add(
-                '${_yellowPen('WARNING')} $source - complexity: ${_yellowPen('${report.cyclomaticComplexity}')}');
-            break;
-          case ViolationLevel.noted:
-            lines.add(
-                '${_bluePen('NOTED')}   $source - complexity: ${_yellowPen('${report.cyclomaticComplexity}')}');
-            break;
-          case ViolationLevel.none:
-            if (reportAll) {
-              lines.add(
-                  '        $source - complexity: ${report.cyclomaticComplexity}');
-            }
-            break;
+        if (reportAll || _isIssueLevel(violationLevel)) {
+          lines.add(
+              '${_colorPens[violationLevel](_humanReadableLabel[violationLevel]?.padRight(8))}$source - '
+              'cyclomatic complexity: ${_colorPens[report.cyclomaticComplexityViolationLevel]('${report.cyclomaticComplexity}')}, '
+              'lines of code: ${_colorPens[report.linesOfCodeViolationLevel]('${report.linesOfCode}')}, '
+              'maintainability index: ${_colorPens[report.maintainabilityIndexViolationLevel]('${report.maintainabilityIndex.toInt()}')}, ');
         }
       });
 
-      if (lines.isNotEmpty || reportAll) {
-        final report =
-            UtilitySelector.analysisReport(analysisRecord, reportConfig);
-
-        var consoleRecord = analysisRecord.relativePath;
-        consoleRecord += ' - complexity: ${report.totalCyclomaticComplexity}';
-        if (report.totalCyclomaticComplexityViolations > 0) {
-          consoleRecord +=
-              '  complexity violations: ${_yellowPen('${report.totalCyclomaticComplexityViolations}')}';
-        }
-        consoleRecord += '  lines of code: ${report.totalLinesOfCode}';
-
-        print(consoleRecord);
-        lines.forEach(print);
-        print('');
+      if (lines.isNotEmpty) {
+        reportStrings.add('${analysisRecord.relativePath}:');
+        reportStrings.addAll(lines);
+        reportStrings.add('');
       }
     }
 
-    final report =
-        UtilitySelector.analysisReportForRecords(records, reportConfig);
-
-    var packageTotalRecord =
-        'Total complexity: ${report.totalCyclomaticComplexity}';
-    if (report.totalCyclomaticComplexityViolations > 0) {
-      packageTotalRecord +=
-          '  complexity violations: ${_yellowPen('${report.totalCyclomaticComplexityViolations}')}';
-    }
-    packageTotalRecord += '  lines of code: ${report.totalLinesOfCode}';
-
-    print(packageTotalRecord);
+    return reportStrings;
   }
+
+  bool _isIssueLevel(ViolationLevel level) =>
+      level == ViolationLevel.warning || level == ViolationLevel.alarm;
 }

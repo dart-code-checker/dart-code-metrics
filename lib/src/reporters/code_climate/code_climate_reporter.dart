@@ -14,13 +14,10 @@ class CodeClimateReporter implements Reporter {
   CodeClimateReporter({@required this.reportConfig});
 
   @override
-  void report(Iterable<ComponentRecord> records) {
-    if (records?.isEmpty ?? true) {
-      return;
-    }
-
-    print(json.encode(records.map(_toIssues).expand((r) => r).toList()));
-  }
+  Iterable<String> report(Iterable<ComponentRecord> records) =>
+      (records?.isNotEmpty ?? false)
+          ? [json.encode(records.map(_toIssues).expand((r) => r).toList())]
+          : [];
 
   bool _isIssueLevel(ViolationLevel level) =>
       level == ViolationLevel.warning || level == ViolationLevel.alarm;
@@ -33,8 +30,13 @@ class CodeClimateReporter implements Reporter {
       final report = UtilitySelector.functionReport(func, reportConfig);
 
       if (_isIssueLevel(report.linesOfCodeViolationLevel)) {
-        result.add(CodeClimateIssue.linesOfCode(func.firstLine, func.lastLine,
-            record.relativePath, key, reportConfig.linesOfCodeWarningLevel));
+        result.add(CodeClimateIssue.linesOfCode(
+            func.firstLine,
+            func.lastLine,
+            func.linesWithCode.length,
+            record.relativePath,
+            key,
+            reportConfig.linesOfCodeWarningLevel));
       }
 
       if (_isIssueLevel(report.cyclomaticComplexityViolationLevel)) {
@@ -51,7 +53,7 @@ class CodeClimateReporter implements Reporter {
         result.add(CodeClimateIssue.maintainabilityIndex(
             func.firstLine,
             func.lastLine,
-            report.maintainabilityIndex,
+            report.maintainabilityIndex.toInt(),
             record.relativePath,
             key));
       }

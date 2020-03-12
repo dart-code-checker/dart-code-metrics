@@ -13,13 +13,10 @@ class JsonReporter implements Reporter {
   JsonReporter({@required this.reportConfig});
 
   @override
-  void report(Iterable<ComponentRecord> records) {
-    if (records?.isEmpty ?? true) {
-      return;
-    }
-
-    print(json.encode(records.map(_analysisRecordToJson).toList()));
-  }
+  Iterable<String> report(Iterable<ComponentRecord> records) =>
+      (records?.isNotEmpty ?? false)
+          ? [json.encode(records.map(_analysisRecordToJson).toList())]
+          : [];
 
   Map<String, Object> _analysisRecordToJson(ComponentRecord record) => {
         'source': record.relativePath,

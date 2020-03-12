@@ -53,10 +53,10 @@ class CodeClimateIssue {
     return CodeClimateIssue._(name, desc, location, fingerprint);
   }
 
-  factory CodeClimateIssue.linesOfCode(int startLine, int endLine,
+  factory CodeClimateIssue.linesOfCode(int startLine, int endLine, int value,
       String fileName, String functionName, int threshold) {
     final desc =
-        'Function `$functionName` has ${endLine - startLine} lines of code (exceeds $threshold allowed). Consider refactoring.';
+        'Function `$functionName` has $value lines of code (exceeds $threshold allowed). Consider refactoring.';
     return CodeClimateIssue._create(
         'linesOfCode', desc, startLine, endLine, fileName);
   }
@@ -70,7 +70,7 @@ class CodeClimateIssue {
   }
 
   factory CodeClimateIssue.maintainabilityIndex(int startLine, int endLine,
-      double value, String fileName, String functionName) {
+      int value, String fileName, String functionName) {
     final desc =
         'Function `$functionName` has a Maintainability Index of $value (min 40 allowed). Consider refactoring.';
     return CodeClimateIssue._create(

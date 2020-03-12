@@ -67,17 +67,16 @@ class HtmlReporter implements Reporter {
   HtmlReporter({this.reportConfig, this.reportFolder = 'metrics'});
 
   @override
-  void report(Iterable<ComponentRecord> records) {
-    if (records?.isEmpty ?? true) {
-      return;
+  Iterable<String> report(Iterable<ComponentRecord> records) {
+    if (records?.isNotEmpty ?? false) {
+      _createReportDirectory(reportFolder);
+      _copyResources(reportFolder);
+      for (final record in records) {
+        _generateSourceReport(reportFolder, record);
+      }
+      _generateFoldersReports(reportFolder, records);
     }
-
-    _createReportDirectory(reportFolder);
-    _copyResources(reportFolder);
-    for (final record in records) {
-      _generateSourceReport(reportFolder, record);
-    }
-    _generateFoldersReports(reportFolder, records);
+    return [];
   }
 
   void _createReportDirectory(String directoryName) {
