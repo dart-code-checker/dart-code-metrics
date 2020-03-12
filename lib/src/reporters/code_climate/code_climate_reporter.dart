@@ -14,13 +14,10 @@ class CodeClimateReporter implements Reporter {
   CodeClimateReporter({@required this.reportConfig});
 
   @override
-  void report(Iterable<ComponentRecord> records) {
-    if (records?.isEmpty ?? true) {
-      return;
-    }
-
-    print(json.encode(records.map(_toIssues).expand((r) => r).toList()));
-  }
+  Iterable<String> report(Iterable<ComponentRecord> records) =>
+      (records?.isNotEmpty ?? false)
+          ? [json.encode(records.map(_toIssues).expand((r) => r).toList())]
+          : [];
 
   bool _isIssueLevel(ViolationLevel level) =>
       level == ViolationLevel.warning || level == ViolationLevel.alarm;

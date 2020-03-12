@@ -30,10 +30,12 @@ class ConsoleReporter implements Reporter {
   ConsoleReporter({@required this.reportConfig, this.reportAll = false});
 
   @override
-  void report(Iterable<ComponentRecord> records) {
+  Iterable<String> report(Iterable<ComponentRecord> records) {
     if (records?.isEmpty ?? true) {
-      return;
+      return [];
     }
+
+    final reportStrings = <String>[];
 
     for (final analysisRecord in records) {
       final lines = <String>[];
@@ -53,11 +55,13 @@ class ConsoleReporter implements Reporter {
       });
 
       if (lines.isNotEmpty) {
-        print('${analysisRecord.relativePath}:');
-        lines.forEach(print);
-        print('');
+        reportStrings.add('${analysisRecord.relativePath}:');
+        reportStrings.addAll(lines);
+        reportStrings.add('');
       }
     }
+
+    return reportStrings;
   }
 
   bool _isIssueLevel(ViolationLevel level) =>

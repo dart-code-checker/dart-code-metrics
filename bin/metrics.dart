@@ -89,23 +89,26 @@ void main(List<String> args) {
       linesOfCodeWarningLevel:
           int.parse(arguments[linesOfCodeThreshold] as String));
 
+  Reporter reporter;
+
   switch (arguments[reporterOptionName] as String) {
     case 'console':
-      ConsoleReporter(
-              reportConfig: config, reportAll: arguments[verboseName] as bool)
-          .report(runner.results());
+      reporter = ConsoleReporter(
+          reportConfig: config, reportAll: arguments[verboseName] as bool);
       break;
     case 'json':
-      JsonReporter(reportConfig: config).report(runner.results());
+      reporter = JsonReporter(reportConfig: config);
       break;
     case 'html':
-      HtmlReporter(reportConfig: config).report(runner.results());
+      reporter = HtmlReporter(reportConfig: config);
       break;
     case 'codeclimate':
-      CodeClimateReporter(reportConfig: config).report(runner.results());
+      reporter = CodeClimateReporter(reportConfig: config);
       break;
     default:
       throw ArgumentError.value(
           arguments[reporterOptionName], reporterOptionName);
   }
+
+  reporter.report(runner.results()).forEach(print);
 }
