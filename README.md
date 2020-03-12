@@ -19,7 +19,7 @@ metrics lib
 ```
 
 ### Full usage:
-```bash
+```
 Usage: metrics [options...] <directory>
 -h, --help                                             Print this usage information.
 -r, --reporter=<console>                               The format of the output of the analysis
