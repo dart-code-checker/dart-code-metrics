@@ -70,7 +70,7 @@ class CodeClimateIssue {
   }
 
   factory CodeClimateIssue.maintainabilityIndex(int startLine, int endLine,
-      double value, String fileName, String functionName) {
+      int value, String fileName, String functionName) {
     final desc =
         'Function `$functionName` has a Maintainability Index of $value (min 40 allowed). Consider refactoring.';
     return CodeClimateIssue._create(

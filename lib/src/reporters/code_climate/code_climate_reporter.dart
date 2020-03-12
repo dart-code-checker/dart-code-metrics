@@ -56,7 +56,7 @@ class CodeClimateReporter implements Reporter {
         result.add(CodeClimateIssue.maintainabilityIndex(
             func.firstLine,
             func.lastLine,
-            report.maintainabilityIndex,
+            report.maintainabilityIndex.toInt(),
             record.relativePath,
             key));
       }
