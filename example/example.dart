@@ -31,7 +31,7 @@ void main() {
   final reporter = ConsoleReporter(reportConfig: reporterConfig);
 
   // Now pass collected analysis reports from runner to reporter and that's it
-  reporter.report(runner.results());
+  reporter.report(runner.results()).forEach(print);
 
   // There is also JsonReporter for making machine-readable reports
   // HtmlReporter produces fancy html-documents with bells and whistles
