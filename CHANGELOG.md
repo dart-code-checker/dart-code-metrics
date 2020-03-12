@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.5
+- Tweak console reporter
+
 ## 1.1.4
 - Add some dartdocs
 - Update readme
