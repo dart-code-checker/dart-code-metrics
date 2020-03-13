@@ -5,49 +5,49 @@ import 'package:dart_code_metrics/metrics_analyzer.dart';
 import 'package:dart_code_metrics/reporters.dart';
 import 'package:glob/glob.dart';
 
-const usageHeader = 'Usage: metrics [options...] <directories>';
-const helpFlagName = 'help';
-const reporterOptionName = 'reporter';
-const cyclomaticComplexityThreshold = 'cyclomatic-complexity';
-const linesOfCodeThreshold = 'lines-of-code';
-const verboseName = 'verbose';
-const ignoredFilesName = 'ignore-files';
-const rootFolderName = 'root-folder';
+const _usageHeader = 'Usage: metrics [options...] <directories>';
+const _helpFlagName = 'help';
+const _reporterOptionName = 'reporter';
+const _cyclomaticComplexityThreshold = 'cyclomatic-complexity';
+const _linesOfCodeThreshold = 'lines-of-code';
+const _verboseName = 'verbose';
+const _ignoredFilesName = 'ignore-files';
+const _rootFolderName = 'root-folder';
 
 final parser = ArgParser()
-  ..addFlag(helpFlagName,
+  ..addFlag(_helpFlagName,
       abbr: 'h', help: 'Print this usage information.', negatable: false)
-  ..addOption(reporterOptionName,
+  ..addOption(_reporterOptionName,
       abbr: 'r',
       help: 'The format of the output of the analysis',
       valueHelp: 'console',
       allowed: ['console', 'json', 'html', 'codeclimate'],
       defaultsTo: 'console')
-  ..addOption(cyclomaticComplexityThreshold,
+  ..addOption(_cyclomaticComplexityThreshold,
       help: 'Cyclomatic complexity threshold',
       valueHelp: '20',
-      defaultsTo: '20',
-      callback: (String i) { if (int.tryParse(i) == null) print('$cyclomaticComplexityThreshold:'); }
-  )
-  ..addOption(linesOfCodeThreshold,
-      help: 'Lines of code threshold', valueHelp: '50', defaultsTo: '50',
-      callback: (String i) { if (int.tryParse(i) == null) print('$linesOfCodeThreshold:'); }
-  )
-  ..addOption(rootFolderName,
-      help: 'Root folder',
-      valueHelp: './',
-      defaultsTo: Directory.current.path)
-  ..addOption(ignoredFilesName,
+      defaultsTo: '20', callback: (String i) {
+    if (int.tryParse(i) == null) print('$_cyclomaticComplexityThreshold:');
+  })
+  ..addOption(_linesOfCodeThreshold,
+      help: 'Lines of code threshold',
+      valueHelp: '50',
+      defaultsTo: '50', callback: (String i) {
+    if (int.tryParse(i) == null) print('$_linesOfCodeThreshold:');
+  })
+  ..addOption(_rootFolderName,
+      help: 'Root folder', valueHelp: './', defaultsTo: Directory.current.path)
+  ..addOption(_ignoredFilesName,
       help: 'Filepaths in Glob syntax to be ignored',
       valueHelp: '{/**.g.dart,/**.template.dart}',
       defaultsTo: '{/**.g.dart,/**.template.dart}')
-  ..addFlag(verboseName, negatable: false);
+  ..addFlag(_verboseName, negatable: false);
 
 void main(List<String> args) {
   try {
     final arguments = parser.parse(args);
 
-    if (arguments[helpFlagName] as bool) {
+    if (arguments[_helpFlagName] as bool) {
       _showUsageAndExit(0);
     }
 
@@ -64,13 +64,13 @@ void main(List<String> args) {
     // TODO: check that directories to analyze are all children of root folder
 
     _runAnalysis(
-        arguments[rootFolderName] as String,
+        arguments[_rootFolderName] as String,
         arguments.rest,
-        arguments[ignoredFilesName] as String,
-        int.parse(arguments[cyclomaticComplexityThreshold] as String),
-        int.parse(arguments[linesOfCodeThreshold] as String),
-        arguments[reporterOptionName] as String,
-        arguments[verboseName] as bool);
+        arguments[_ignoredFilesName] as String,
+        int.parse(arguments[_cyclomaticComplexityThreshold] as String),
+        int.parse(arguments[_linesOfCodeThreshold] as String),
+        arguments[_reporterOptionName] as String,
+        arguments[_verboseName] as bool);
   } on FormatException catch (e) {
     print('${e.message}\n');
     _showUsageAndExit(1);
@@ -81,7 +81,7 @@ void main(List<String> args) {
 }
 
 void _showUsageAndExit(int exitCode) {
-  print(usageHeader);
+  print(_usageHeader);
   print(parser.usage);
   exit(exitCode);
 }
