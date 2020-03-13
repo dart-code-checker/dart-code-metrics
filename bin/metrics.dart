@@ -40,38 +40,42 @@ final parser = ArgParser()
   ..addFlag(verboseName, negatable: false);
 
 void main(List<String> args) {
-  ArgResults arguments;
-
   try {
-    arguments = parser.parse(args);
+    final arguments = parser.parse(args);
+
+    if (arguments[helpFlagName] as bool) {
+      _showUsageAndExit(0);
+    }
+
+    if (arguments.rest.length != 1) {
+      throw _InvalidArgumentException('Invalid number of directories. Only one is allowed');
+    }
+
+    if (!Directory(arguments.rest.single).existsSync()) {
+      throw _InvalidArgumentException("${arguments.rest.single} doesn't exist or not a directory");
+    }
+
+    _runAnalysis(
+        arguments[rootFolderName] as String,
+        arguments.rest.single,
+        arguments[ignoredFilesName] as String,
+        int.parse(arguments[cyclomaticComplexityThreshold] as String),
+        int.parse(arguments[linesOfCodeThreshold] as String),
+        arguments[reporterOptionName] as String,
+        arguments[verboseName] as bool);
   } on FormatException catch (e) {
     print('${e.message}\n');
-    _showUsageAndExit();
+    _showUsageAndExit(1);
+  } on _InvalidArgumentException catch (e) {
+    print('${e.message}\n');
+    _showUsageAndExit(1);
   }
-
-  if (arguments == null ||
-      arguments[helpFlagName] as bool ||
-      arguments.rest.length != 1) {
-    _showUsageAndExit();
-  } else if (!Directory(arguments.rest.single).existsSync()) {
-    print("Can't find directory ${arguments.rest.single}");
-    _showUsageAndExit();
-  }
-
-  _runAnalysis(
-      arguments[rootFolderName] as String,
-      arguments.rest.single,
-      arguments[ignoredFilesName] as String,
-      int.parse(arguments[cyclomaticComplexityThreshold] as String),
-      int.parse(arguments[linesOfCodeThreshold] as String),
-      arguments[reporterOptionName] as String,
-      arguments[verboseName] as bool);
 }
 
-void _showUsageAndExit() {
+void _showUsageAndExit(int exitCode) {
   print(usageHeader);
   print(parser.usage);
-  exit(1);
+  exit(exitCode);
 }
 
 void _runAnalysis(String rootFolder, String analysisDirectory, String ignoreFilesPattern,
@@ -113,4 +117,9 @@ void _runAnalysis(String rootFolder, String analysisDirectory, String ignoreFile
   }
 
   reporter.report(runner.results()).forEach(print);
+}
+
+class _InvalidArgumentException implements Exception {
+  final String message;
+  _InvalidArgumentException(this.message);
 }
