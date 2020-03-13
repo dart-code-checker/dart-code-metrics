@@ -64,37 +64,40 @@ void main(List<String> args) {
     return;
   }
 
-  final rootFolder = arguments[rootFolderName] as String;
-  var dartFilePaths = Glob('${arguments.rest.single}**.dart')
+  _runAnalysis(
+      arguments[rootFolderName] as String,
+      arguments.rest.single,
+      arguments[ignoredFilesName] as String,
+      int.parse(arguments[cyclomaticComplexityThreshold] as String),
+      int.parse(arguments[linesOfCodeThreshold] as String),
+      arguments[reporterOptionName] as String,
+      arguments[verboseName] as bool);
+}
+
+void _runAnalysis(String rootFolder, String analysisDirectory, String ignoreFilesPattern,
+    int cyclomaticComplexityThreshold, int linesOfCodeThreshold, String reporterType, bool verbose) {
+  var dartFilePaths = Glob('$analysisDirectory**.dart')
       .listSync(root: rootFolder, followLinks: false)
       .whereType<File>()
       .map((entity) => entity.path);
 
-  final ignoreFilesPattern = arguments[ignoredFilesName] as Object;
-  if (ignoreFilesPattern is String && ignoreFilesPattern.isNotEmpty) {
+  if (ignoreFilesPattern.isNotEmpty) {
     final ignoreFilesGlob = Glob(ignoreFilesPattern);
-    dartFilePaths =
-        dartFilePaths.where((path) => !ignoreFilesGlob.matches(path));
+    dartFilePaths = dartFilePaths.where((path) => !ignoreFilesGlob.matches(path));
   }
 
   final recorder = MetricsAnalysisRecorder();
   final analyzer = MetricsAnalyzer(recorder);
-  final runner = MetricsAnalysisRunner(recorder, analyzer, dartFilePaths,
-      rootFolder: rootFolder)
-    ..run();
+  final runner = MetricsAnalysisRunner(recorder, analyzer, dartFilePaths, rootFolder: rootFolder)..run();
 
   final config = Config(
-      cyclomaticComplexityWarningLevel:
-          int.parse(arguments[cyclomaticComplexityThreshold] as String),
-      linesOfCodeWarningLevel:
-          int.parse(arguments[linesOfCodeThreshold] as String));
+      cyclomaticComplexityWarningLevel: cyclomaticComplexityThreshold, linesOfCodeWarningLevel: linesOfCodeThreshold);
 
   Reporter reporter;
 
-  switch (arguments[reporterOptionName] as String) {
+  switch (reporterType) {
     case 'console':
-      reporter = ConsoleReporter(
-          reportConfig: config, reportAll: arguments[verboseName] as bool);
+      reporter = ConsoleReporter(reportConfig: config, reportAll: verbose);
       break;
     case 'json':
       reporter = JsonReporter(reportConfig: config);
@@ -106,8 +109,7 @@ void main(List<String> args) {
       reporter = CodeClimateReporter(reportConfig: config);
       break;
     default:
-      throw ArgumentError.value(
-          arguments[reporterOptionName], reporterOptionName);
+      throw ArgumentError.value(reporterType, 'reporter');
   }
 
   reporter.report(runner.results()).forEach(print);
