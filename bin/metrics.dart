@@ -5,6 +5,7 @@ import 'package:dart_code_metrics/metrics_analyzer.dart';
 import 'package:dart_code_metrics/reporters.dart';
 import 'package:glob/glob.dart';
 
+const usageHeader = 'Usage: metrics [options...] <directory>';
 const helpFlagName = 'help';
 const reporterOptionName = 'reporter';
 const cyclomaticComplexityThreshold = 'cyclomatic-complexity';
@@ -67,7 +68,7 @@ void main(List<String> args) {
 }
 
 void _showUsageAndExit() {
-  print('Usage: metrics [options...] <directory>');
+  print(usageHeader);
   print(parser.usage);
   exit(1);
 }
