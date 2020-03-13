@@ -39,29 +39,21 @@ final parser = ArgParser()
   ..addFlag(verboseName, negatable: false);
 
 void main(List<String> args) {
-  var showUsage = false;
-
   ArgResults arguments;
 
   try {
     arguments = parser.parse(args);
   } on FormatException catch (_) {
-    showUsage = true;
+    _showUsageAndExit();
   }
 
   if (arguments == null ||
       arguments[helpFlagName] as bool ||
       arguments.rest.length != 1) {
-    showUsage = true;
+    _showUsageAndExit();
   } else if (!Directory(arguments.rest.single).existsSync()) {
     print("Can't find directory ${arguments.rest.single}");
-    showUsage = true;
-  }
-
-  if (showUsage) {
-    print('Usage: metrics [options...] <directory>');
-    print(parser.usage);
-    return;
+    _showUsageAndExit();
   }
 
   _runAnalysis(
@@ -72,6 +64,12 @@ void main(List<String> args) {
       int.parse(arguments[linesOfCodeThreshold] as String),
       arguments[reporterOptionName] as String,
       arguments[verboseName] as bool);
+}
+
+void _showUsageAndExit() {
+  print('Usage: metrics [options...] <directory>');
+  print(parser.usage);
+  exit(1);
 }
 
 void _runAnalysis(String rootFolder, String analysisDirectory, String ignoreFilesPattern,
