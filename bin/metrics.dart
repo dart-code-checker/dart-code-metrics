@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:dart_code_metrics/metrics_analyzer.dart';
 import 'package:dart_code_metrics/reporters.dart';
 import 'package:dart_code_metrics/src/cli/arguments_parser.dart';
+import 'package:dart_code_metrics/src/cli/arguments_validation.dart';
+import 'package:dart_code_metrics/src/cli/arguments_validation_exceptions.dart';
 import 'package:glob/glob.dart';
 
 final parser = argumentsParser();
@@ -15,19 +17,7 @@ void main(List<String> args) {
       _showUsageAndExit(0);
     }
 
-    if (arguments.rest.isEmpty) {
-      throw _InvalidArgumentException(
-          'Invalid number of directories. At least one must be specified');
-    }
-
-    arguments.rest.forEach((p) {
-      if (!Directory(p).existsSync()) {
-        throw _InvalidArgumentException(
-            "$p doesn't exist or isn't a directory");
-      }
-    });
-
-    // TODO: check that directories to analyze are all children of root folder
+    validateArguments(arguments);
 
     _runAnalysis(
         arguments[rootFolderName] as String,
@@ -40,7 +30,7 @@ void main(List<String> args) {
   } on FormatException catch (e) {
     print('${e.message}\n');
     _showUsageAndExit(1);
-  } on _InvalidArgumentException catch (e) {
+  } on InvalidArgumentException catch (e) {
     print('${e.message}\n');
     _showUsageAndExit(1);
   }
@@ -102,9 +92,4 @@ void _runAnalysis(
   }
 
   reporter.report(runner.results()).forEach(print);
-}
-
-class _InvalidArgumentException implements Exception {
-  final String message;
-  _InvalidArgumentException(this.message);
 }
