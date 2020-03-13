@@ -14,7 +14,7 @@ const _verboseName = 'verbose';
 const _ignoredFilesName = 'ignore-files';
 const _rootFolderName = 'root-folder';
 
-final parser = ArgParser()
+final _parser = ArgParser()
   ..addFlag(_helpFlagName,
       abbr: 'h', help: 'Print this usage information.', negatable: false)
   ..addOption(_reporterOptionName,
@@ -45,7 +45,7 @@ final parser = ArgParser()
 
 void main(List<String> args) {
   try {
-    final arguments = parser.parse(args);
+    final arguments = _parser.parse(args);
 
     if (arguments[_helpFlagName] as bool) {
       _showUsageAndExit(0);
@@ -84,7 +84,7 @@ void main(List<String> args) {
 
 void _showUsageAndExit(int exitCode) {
   print(_usageHeader);
-  print(parser.usage);
+  print(_parser.usage);
   exit(exitCode);
 }
 
