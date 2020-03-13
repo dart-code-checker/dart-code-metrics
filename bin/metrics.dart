@@ -5,7 +5,7 @@ import 'package:dart_code_metrics/metrics_analyzer.dart';
 import 'package:dart_code_metrics/reporters.dart';
 import 'package:glob/glob.dart';
 
-const usageHeader = 'Usage: metrics [options...] <directory>';
+const usageHeader = 'Usage: metrics [options...] <directories>';
 const helpFlagName = 'help';
 const reporterOptionName = 'reporter';
 const cyclomaticComplexityThreshold = 'cyclomatic-complexity';
@@ -51,17 +51,19 @@ void main(List<String> args) {
       _showUsageAndExit(0);
     }
 
-    if (arguments.rest.length != 1) {
-      throw _InvalidArgumentException('Invalid number of directories. Only one is allowed');
+    if (arguments.rest.isEmpty) {
+      throw _InvalidArgumentException('Invalid number of directories. At least one must be specified');
     }
 
-    if (!Directory(arguments.rest.single).existsSync()) {
-      throw _InvalidArgumentException("${arguments.rest.single} doesn't exist or not a directory");
-    }
+    arguments.rest.forEach((p) {
+      if (!Directory(p).existsSync()) {
+        throw _InvalidArgumentException("$p doesn't exist or isn't a directory");
+      }
+    });
 
     _runAnalysis(
         arguments[rootFolderName] as String,
-        arguments.rest.single,
+        arguments.rest,
         arguments[ignoredFilesName] as String,
         int.parse(arguments[cyclomaticComplexityThreshold] as String),
         int.parse(arguments[linesOfCodeThreshold] as String),
@@ -82,12 +84,12 @@ void _showUsageAndExit(int exitCode) {
   exit(exitCode);
 }
 
-void _runAnalysis(String rootFolder, String analysisDirectory, String ignoreFilesPattern,
+void _runAnalysis(String rootFolder, Iterable<String> analysisDirectories, String ignoreFilesPattern,
     int cyclomaticComplexityThreshold, int linesOfCodeThreshold, String reporterType, bool verbose) {
-  var dartFilePaths = Glob('$analysisDirectory**.dart')
+  var dartFilePaths = analysisDirectories.expand((directory) => Glob('$directory**.dart')
       .listSync(root: rootFolder, followLinks: false)
       .whereType<File>()
-      .map((entity) => entity.path);
+      .map((entity) => entity.path));
 
   if (ignoreFilesPattern.isNotEmpty) {
     final ignoreFilesGlob = Glob(ignoreFilesPattern);
