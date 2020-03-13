@@ -1,4 +1,6 @@
 # Changelog
+# 1.2.0
+- Allow to analyze multiple directories
 
 ## 1.1.5
 - Tweak console reporter
