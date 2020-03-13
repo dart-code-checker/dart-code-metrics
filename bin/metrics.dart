@@ -60,6 +60,8 @@ void main(List<String> args) {
         throw _InvalidArgumentException("$p doesn't exist or isn't a directory");
       }
     });
+    
+    // TODO: check that directories to analyze are all children of root folder
 
     _runAnalysis(
         arguments[rootFolderName] as String,
