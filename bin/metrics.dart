@@ -44,7 +44,8 @@ void main(List<String> args) {
 
   try {
     arguments = parser.parse(args);
-  } on FormatException catch (_) {
+  } on FormatException catch (e) {
+    print('${e.message}\n');
     _showUsageAndExit();
   }
 
