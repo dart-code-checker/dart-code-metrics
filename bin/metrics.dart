@@ -26,9 +26,13 @@ final parser = ArgParser()
   ..addOption(cyclomaticComplexityThreshold,
       help: 'Cyclomatic complexity threshold',
       valueHelp: '20',
-      defaultsTo: '20')
+      defaultsTo: '20',
+      callback: (String i) { if (int.tryParse(i) == null) print('$cyclomaticComplexityThreshold:'); }
+  )
   ..addOption(linesOfCodeThreshold,
-      help: 'Lines of code threshold', valueHelp: '50', defaultsTo: '50')
+      help: 'Lines of code threshold', valueHelp: '50', defaultsTo: '50',
+      callback: (String i) { if (int.tryParse(i) == null) print('$linesOfCodeThreshold:'); }
+  )
   ..addOption(rootFolderName,
       help: 'Root folder',
       valueHelp: './',
