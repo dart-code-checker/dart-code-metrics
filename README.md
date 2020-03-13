@@ -20,7 +20,7 @@ metrics lib
 
 ### Full usage:
 ```
-Usage: metrics [options...] <directory>
+Usage: metrics [options...] <directories>
 -h, --help                                             Print this usage information.
 -r, --reporter=<console>                               The format of the output of the analysis
                                                        [console (default), json, html, codeclimate]
