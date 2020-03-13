@@ -5,41 +5,41 @@ import 'package:dart_code_metrics/metrics_analyzer.dart';
 import 'package:dart_code_metrics/reporters.dart';
 import 'package:glob/glob.dart';
 
+const helpFlagName = 'help';
+const reporterOptionName = 'reporter';
+const cyclomaticComplexityThreshold = 'cyclomatic-complexity';
+const linesOfCodeThreshold = 'lines-of-code';
+const verboseName = 'verbose';
+const ignoredFilesName = 'ignore-files';
+const rootFolderName = 'root-folder';
+
+final parser = ArgParser()
+  ..addFlag(helpFlagName,
+      abbr: 'h', help: 'Print this usage information.', negatable: false)
+  ..addOption(reporterOptionName,
+      abbr: 'r',
+      help: 'The format of the output of the analysis',
+      valueHelp: 'console',
+      allowed: ['console', 'json', 'html', 'codeclimate'],
+      defaultsTo: 'console')
+  ..addOption(cyclomaticComplexityThreshold,
+      help: 'Cyclomatic complexity threshold',
+      valueHelp: '20',
+      defaultsTo: '20')
+  ..addOption(linesOfCodeThreshold,
+      help: 'Lines of code threshold', valueHelp: '50', defaultsTo: '50')
+  ..addOption(rootFolderName,
+      help: 'Root folder',
+      valueHelp: './',
+      defaultsTo: Directory.current.path)
+  ..addOption(ignoredFilesName,
+      help: 'Filepaths in Glob syntax to be ignored',
+      valueHelp: '{/**.g.dart,/**.template.dart}',
+      defaultsTo: '{/**.g.dart,/**.template.dart}')
+  ..addFlag(verboseName, negatable: false);
+
 void main(List<String> args) {
-  const helpFlagName = 'help';
-  const reporterOptionName = 'reporter';
-  const cyclomaticComplexityThreshold = 'cyclomatic-complexity';
-  const linesOfCodeThreshold = 'lines-of-code';
-  const verboseName = 'verbose';
-  const ignoredFilesName = 'ignore-files';
-  const rootFolderName = 'root-folder';
-
   var showUsage = false;
-
-  final parser = ArgParser()
-    ..addFlag(helpFlagName,
-        abbr: 'h', help: 'Print this usage information.', negatable: false)
-    ..addOption(reporterOptionName,
-        abbr: 'r',
-        help: 'The format of the output of the analysis',
-        valueHelp: 'console',
-        allowed: ['console', 'json', 'html', 'codeclimate'],
-        defaultsTo: 'console')
-    ..addOption(cyclomaticComplexityThreshold,
-        help: 'Cyclomatic complexity threshold',
-        valueHelp: '20',
-        defaultsTo: '20')
-    ..addOption(linesOfCodeThreshold,
-        help: 'Lines of code threshold', valueHelp: '50', defaultsTo: '50')
-    ..addOption(rootFolderName,
-        help: 'Root folder',
-        valueHelp: './',
-        defaultsTo: Directory.current.path)
-    ..addOption(ignoredFilesName,
-        help: 'Filepaths in Glob syntax to be ignored',
-        valueHelp: '{/**.g.dart,/**.template.dart}',
-        defaultsTo: '{/**.g.dart,/**.template.dart}')
-    ..addFlag(verboseName, negatable: false);
 
   ArgResults arguments;
 
