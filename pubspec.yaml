@@ -22,6 +22,7 @@ dependencies:
   resource: ^2.1.0
 
 dev_dependencies:
+  coverage: ^0.13.5
   dependency_validator: ^1.4.0
   mockito: ^4.1.0
   pedantic: ^1.9.0
