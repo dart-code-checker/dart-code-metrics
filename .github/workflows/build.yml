@@ -15,15 +15,19 @@ jobs:
     - name: Install dependencies
       run: pub get
     - name: Run dependency validator
-      run: pub run dependency_validator
+      run: pub run dependency_validator --ignore coveralls
     - name: Run dartanalyzer
       run: dartanalyzer --fatal-warnings --fatal-infos --fatal-lints bin/ lib/ test/
     - name: Run dartfmt
       run: dartfmt --set-exit-if-changed -n .
     - name: Run tests
+      env:
+          COVERALLS_REPO_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      if: success()
       run:  |
         pub run test --coverage=coverage
         pub run coverage:format_coverage --packages=.packages -i coverage -o coverage/coverage.lcov --lcov --report-on=lib
+        pub run coveralls:coveralls coverage/coverage.lcov
 
   build-dart-2-4:
 
@@ -37,7 +41,7 @@ jobs:
     - name: Install dependencies
       run: pub get
     - name: Run dependency validator
-      run: pub run dependency_validator
+      run: pub run dependency_validator --ignore coveralls
     - name: Run dartanalyzer
       run: dartanalyzer --fatal-warnings --fatal-infos --fatal-lints bin/ lib/ test/
     - name: Run dartfmt
