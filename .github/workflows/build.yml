@@ -21,7 +21,7 @@ jobs:
     - name: Run dartfmt
       run: dartfmt --set-exit-if-changed -n .
     - name: Run tests
-      run: pub run test
+      run: pub run test --coverage=coverage
 
   build-dart-2-4:
 
