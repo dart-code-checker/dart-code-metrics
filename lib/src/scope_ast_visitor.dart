@@ -17,6 +17,14 @@ class ScopeAstVisitor extends RecursiveAstVisitor<Object> {
   }
 
   @override
+  void visitConstructorDeclaration(ConstructorDeclaration node) {
+    if (node.body is! EmptyFunctionBody) {
+      _registerDeclaration(node);
+    }
+    super.visitConstructorDeclaration(node);
+  }
+
+  @override
   void visitExtensionDeclaration(ExtensionDeclaration node) {
     _declarationIdentifier = node.name;
     super.visitExtensionDeclaration(node);

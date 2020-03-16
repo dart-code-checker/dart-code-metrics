@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
+import 'package:dart_code_metrics/src/models/config.dart';
 
 const usageHeader = 'Usage: metrics [options...] <directories>';
 const helpFlagName = 'help';
@@ -22,14 +23,15 @@ ArgParser argumentsParser() => ArgParser()
       defaultsTo: 'console')
   ..addOption(cyclomaticComplexityThreshold,
       help: 'Cyclomatic complexity threshold',
-      valueHelp: '20',
-      defaultsTo: '20', callback: (String i) {
+      valueHelp: '$cyclomaticComplexityDefaultWarningLevel',
+      defaultsTo: '$cyclomaticComplexityDefaultWarningLevel',
+      callback: (String i) {
     if (int.tryParse(i) == null) print('$cyclomaticComplexityThreshold:');
   })
   ..addOption(linesOfCodeThreshold,
       help: 'Lines of code threshold',
-      valueHelp: '50',
-      defaultsTo: '50', callback: (String i) {
+      valueHelp: '$linesOfCodeDefaultWarningLevel',
+      defaultsTo: '$linesOfCodeDefaultWarningLevel', callback: (String i) {
     if (int.tryParse(i) == null) print('$linesOfCodeThreshold:');
   })
   ..addOption(rootFolderName,

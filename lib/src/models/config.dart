@@ -1,5 +1,8 @@
 import 'package:meta/meta.dart';
 
+const cyclomaticComplexityDefaultWarningLevel = 20;
+const linesOfCodeDefaultWarningLevel = 50;
+
 /// Reporter config to use with various [Reporter]s
 @immutable
 class Config {
@@ -7,6 +10,7 @@ class Config {
   final int linesOfCodeWarningLevel;
 
   const Config(
-      {@required this.cyclomaticComplexityWarningLevel,
-      @required this.linesOfCodeWarningLevel});
+      {this.cyclomaticComplexityWarningLevel =
+          cyclomaticComplexityDefaultWarningLevel,
+      this.linesOfCodeWarningLevel = linesOfCodeDefaultWarningLevel});
 }

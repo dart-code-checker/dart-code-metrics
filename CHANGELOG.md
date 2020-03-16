@@ -1,8 +1,10 @@
 # Changelog
+
 # 1.2.1
 - Validate root-folder argument
 - Fix paths to analyze fail to validate with non-default root-folder
 - Fix paths weren't validated to be inside root-folder
+- Support factory constructors analysis
 
 # 1.2.0
 - Allow to analyze multiple directories

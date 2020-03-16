@@ -166,11 +166,11 @@ class UtilitySelector {
   }
 
   static ViolationLevel _violationLevel(int value, int warningLevel) {
-    if (value >= warningLevel * 2) {
+    if (value > warningLevel * 2) {
       return ViolationLevel.alarm;
-    } else if (value >= warningLevel) {
+    } else if (value > warningLevel) {
       return ViolationLevel.warning;
-    } else if (value >= (warningLevel / 2).floor()) {
+    } else if (value > (warningLevel / 2).floor()) {
       return ViolationLevel.noted;
     }
 
