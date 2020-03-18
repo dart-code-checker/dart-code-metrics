@@ -7,7 +7,7 @@ import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
 void main() {
-  group('analyze file with ', () {
+  group('analyze file with', () {
     test('abstract class', () {
       final visitor = ScopeAstVisitor();
       parseFile(
