@@ -146,7 +146,10 @@ class UtilitySelector {
             _violationLevel(linesOfCode, config.linesOfCodeWarningLevel),
         maintainabilityIndex: maintainabilityIndex,
         maintainabilityIndexViolationLevel:
-            _maintainabilityIndexViolationLevel(maintainabilityIndex));
+            _maintainabilityIndexViolationLevel(maintainabilityIndex),
+        argumentsCount: function.argumentsCount,
+        argumentsCountViolationLevel: _violationLevel(
+            function.argumentsCount, config.numberOfArgumentsWarningLevel));
   }
 
   static ViolationLevel functionViolationLevel(FunctionReport report) {
@@ -156,6 +159,7 @@ class UtilitySelector {
       report.cyclomaticComplexityViolationLevel,
       report.linesOfCodeViolationLevel,
       report.maintainabilityIndexViolationLevel,
+      report.argumentsCountViolationLevel,
     ].map(values.indexOf));
 
     return values.elementAt(highestLevelIndex);
