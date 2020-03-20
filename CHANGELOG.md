@@ -1,5 +1,7 @@
 # Changelog
 
+#Unreleased
+
 # 1.2.1
 - Validate root-folder argument
 - Fix paths to analyze fail to validate with non-default root-folder

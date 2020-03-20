@@ -45,12 +45,22 @@ class ConsoleReporter implements Reporter {
             UtilitySelector.functionReport(functionReport, reportConfig);
         final violationLevel = UtilitySelector.functionViolationLevel(report);
 
-        if (reportAll || _isIssueLevel(violationLevel)) {
+        if (reportAll || UtilitySelector.isIssueLevel(violationLevel)) {
+          final violations = [
+            if (reportAll ||
+                report.cyclomaticComplexityViolationLevel !=
+                    ViolationLevel.none)
+              'cyclomatic complexity: ${_colorPens[report.cyclomaticComplexityViolationLevel]('${report.cyclomaticComplexity}')}',
+            if (reportAll ||
+                report.linesOfCodeViolationLevel != ViolationLevel.none)
+              'lines of code: ${_colorPens[report.linesOfCodeViolationLevel]('${report.linesOfCode}')}',
+            if (reportAll ||
+                report.maintainabilityIndexViolationLevel !=
+                    ViolationLevel.none)
+              'maintainability index: ${_colorPens[report.maintainabilityIndexViolationLevel]('${report.maintainabilityIndex.toInt()}')}',
+          ];
           lines.add(
-              '${_colorPens[violationLevel](_humanReadableLabel[violationLevel]?.padRight(8))}$source - '
-              'cyclomatic complexity: ${_colorPens[report.cyclomaticComplexityViolationLevel]('${report.cyclomaticComplexity}')}, '
-              'lines of code: ${_colorPens[report.linesOfCodeViolationLevel]('${report.linesOfCode}')}, '
-              'maintainability index: ${_colorPens[report.maintainabilityIndexViolationLevel]('${report.maintainabilityIndex.toInt()}')}, ');
+              '${_colorPens[violationLevel](_humanReadableLabel[violationLevel]?.padRight(8))}$source - ${violations.join(', ')}');
         }
       });
 
@@ -63,7 +73,4 @@ class ConsoleReporter implements Reporter {
 
     return reportStrings;
   }
-
-  bool _isIssueLevel(ViolationLevel level) =>
-      level == ViolationLevel.warning || level == ViolationLevel.alarm;
 }

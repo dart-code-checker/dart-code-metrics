@@ -6,6 +6,7 @@ import 'package:dart_code_metrics/src/models/config.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/models/function_report.dart';
 import 'package:dart_code_metrics/src/models/violation_level.dart';
+import 'package:quiver/iterables.dart' as quiver;
 
 double log2(num a) => log(a) / ln2;
 
@@ -150,20 +151,17 @@ class UtilitySelector {
   static ViolationLevel functionViolationLevel(FunctionReport report) {
     final values = ViolationLevel.values.toList();
 
-    final cyclomaticComplexityViolationLevelIndex =
-        values.indexOf(report.cyclomaticComplexityViolationLevel);
-    final linesOfCodeViolationLevelIndex =
-        values.indexOf(report.linesOfCodeViolationLevel);
-    final maintainabilityIndexViolationLevelIndex =
-        values.indexOf(report.maintainabilityIndexViolationLevel);
-
-    final highestLevelIndex = max(
-        max(cyclomaticComplexityViolationLevelIndex,
-            linesOfCodeViolationLevelIndex),
-        maintainabilityIndexViolationLevelIndex);
+    final highestLevelIndex = quiver.max([
+      report.cyclomaticComplexityViolationLevel,
+      report.linesOfCodeViolationLevel,
+      report.maintainabilityIndexViolationLevel,
+    ].map(values.indexOf));
 
     return values.elementAt(highestLevelIndex);
   }
+
+  static bool isIssueLevel(ViolationLevel level) =>
+      level == ViolationLevel.warning || level == ViolationLevel.alarm;
 
   static ViolationLevel _violationLevel(int value, int warningLevel) {
     if (value > warningLevel * 2) {
