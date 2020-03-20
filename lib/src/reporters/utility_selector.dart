@@ -160,6 +160,9 @@ class UtilitySelector {
     return values.elementAt(highestLevelIndex);
   }
 
+  static bool isIssueLevel(ViolationLevel level) =>
+      level == ViolationLevel.warning || level == ViolationLevel.alarm;
+
   static ViolationLevel _violationLevel(int value, int warningLevel) {
     if (value > warningLevel * 2) {
       return ViolationLevel.alarm;

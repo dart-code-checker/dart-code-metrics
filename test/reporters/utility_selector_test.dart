@@ -31,5 +31,19 @@ void main() {
               maintainabilityIndexViolationLevel: ViolationLevel.noted)),
           ViolationLevel.noted);
     });
+    test('isIssueLevel', () {
+      const violationsMapping = {
+        ViolationLevel.none: isFalse,
+        ViolationLevel.noted: isFalse,
+        ViolationLevel.warning: isTrue,
+        ViolationLevel.alarm: isTrue,
+      };
+
+      assert(violationsMapping.keys.length == ViolationLevel.values.length);
+
+      violationsMapping.forEach((key, value) {
+        expect(UtilitySelector.isIssueLevel(key), value);
+      });
+    });
   });
 }

@@ -45,7 +45,7 @@ class ConsoleReporter implements Reporter {
             UtilitySelector.functionReport(functionReport, reportConfig);
         final violationLevel = UtilitySelector.functionViolationLevel(report);
 
-        if (reportAll || _isIssueLevel(violationLevel)) {
+        if (reportAll || UtilitySelector.isIssueLevel(violationLevel)) {
           final violations = [
             if (reportAll ||
                 report.cyclomaticComplexityViolationLevel !=
@@ -73,7 +73,4 @@ class ConsoleReporter implements Reporter {
 
     return reportStrings;
   }
-
-  bool _isIssueLevel(ViolationLevel level) =>
-      level == ViolationLevel.warning || level == ViolationLevel.alarm;
 }
