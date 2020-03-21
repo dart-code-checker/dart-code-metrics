@@ -25,6 +25,7 @@ void main(List<String> args) {
         arguments[ignoredFilesName] as String,
         int.parse(arguments[cyclomaticComplexityThreshold] as String),
         int.parse(arguments[linesOfCodeThreshold] as String),
+        int.parse(arguments[numberOfArgumentsThreshold] as String),
         arguments[reporterOptionName] as String,
         arguments[verboseName] as bool);
   } on FormatException catch (e) {
@@ -48,6 +49,7 @@ void _runAnalysis(
     String ignoreFilesPattern,
     int cyclomaticComplexityThreshold,
     int linesOfCodeThreshold,
+    int numberOfArgumentsWarningLevel,
     String reporterType,
     bool verbose) {
   var dartFilePaths = analysisDirectories.expand((directory) =>
@@ -70,7 +72,8 @@ void _runAnalysis(
 
   final config = Config(
       cyclomaticComplexityWarningLevel: cyclomaticComplexityThreshold,
-      linesOfCodeWarningLevel: linesOfCodeThreshold);
+      linesOfCodeWarningLevel: linesOfCodeThreshold,
+      numberOfArgumentsWarningLevel: numberOfArgumentsWarningLevel);
 
   Reporter reporter;
 
