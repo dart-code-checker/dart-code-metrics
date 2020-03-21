@@ -36,7 +36,7 @@ ArgParser argumentsParser() => ArgParser()
     if (int.tryParse(i) == null) print('$linesOfCodeThreshold:');
   })
   ..addOption(numberOfArgumentsThreshold,
-      help: 'NUmber of arguments threshold',
+      help: 'Number of arguments threshold',
       valueHelp: '$numberOfArgumentsDefaultWarningLevel',
       defaultsTo: '$numberOfArgumentsDefaultWarningLevel',
       callback: (String i) {
