@@ -57,6 +57,16 @@ class CodeClimateReporter implements Reporter {
             record.relativePath,
             key));
       }
+
+      if (UtilitySelector.isIssueLevel(report.argumentsCountViolationLevel)) {
+        result.add(CodeClimateIssue.numberOfArguments(
+            func.firstLine,
+            func.lastLine,
+            func.argumentsCount,
+            record.relativePath,
+            key,
+            reportConfig.numberOfArgumentsWarningLevel));
+      }
     }
 
     return result;
