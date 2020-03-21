@@ -15,6 +15,8 @@ class UtilitySelector {
       Iterable<ComponentRecord> records, Config config) {
     final report = records.fold<ComponentReport>(
         const ComponentReport(
+            averageArgumentsCount: 0,
+            totalArgumentsCountViolations: 0,
             averageMaintainabilityIndex: 0,
             totalMaintainabilityIndexViolations: 0,
             totalCyclomaticComplexity: 0,
@@ -24,6 +26,11 @@ class UtilitySelector {
       final report = componentReport(record, config);
 
       return ComponentReport(
+          averageArgumentsCount:
+              prevValue.averageArgumentsCount + report.averageArgumentsCount,
+          totalArgumentsCountViolations:
+              prevValue.totalArgumentsCountViolations +
+                  report.totalArgumentsCountViolations,
           averageMaintainabilityIndex: prevValue.averageMaintainabilityIndex +
               report.averageMaintainabilityIndex,
           totalMaintainabilityIndexViolations:
@@ -41,6 +48,9 @@ class UtilitySelector {
     });
 
     return ComponentReport(
+        averageArgumentsCount:
+            (report.averageArgumentsCount / records.length + 0.5).toInt(),
+        totalArgumentsCountViolations: report.totalArgumentsCountViolations,
         averageMaintainabilityIndex:
             report.averageMaintainabilityIndex / records.length,
         totalMaintainabilityIndexViolations:
