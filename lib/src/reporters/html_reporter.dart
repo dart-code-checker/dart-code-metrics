@@ -257,7 +257,7 @@ class HtmlReporter implements Reporter {
   void _generateFolderReport(String reportDirectory, String folder,
       Iterable<ComponentRecord> records) {
     final tableRecords = records.map((record) {
-      final report = UtilitySelector.analysisReport(record, reportConfig);
+      final report = UtilitySelector.componentReport(record, reportConfig);
       final fileName = p.basename(record.relativePath);
 
       return ReportTableRecord(
@@ -378,7 +378,7 @@ class HtmlReporter implements Reporter {
         ..classes.add('prettyprint lang-dart')
         ..text = sourceFileContent);
 
-    final report = UtilitySelector.analysisReport(record, reportConfig);
+    final report = UtilitySelector.componentReport(record, reportConfig);
 
     final withCyclomaticComplexityViolations =
         report.totalCyclomaticComplexityViolations > 0;

@@ -21,7 +21,7 @@ class UtilitySelector {
             totalCyclomaticComplexityViolations: 0,
             totalLinesOfCode: 0,
             totalLinesOfCodeViolations: 0), (prevValue, record) {
-      final report = analysisReport(record, config);
+      final report = componentReport(record, config);
 
       return ComponentReport(
           averageMaintainabilityIndex: prevValue.averageMaintainabilityIndex +
@@ -52,7 +52,8 @@ class UtilitySelector {
         totalLinesOfCodeViolations: report.totalLinesOfCodeViolations);
   }
 
-  static ComponentReport analysisReport(ComponentRecord record, Config config) {
+  static ComponentReport componentReport(
+      ComponentRecord record, Config config) {
     var averageMaintainabilityIndex = 0.0;
     var totalMaintainabilityIndexViolations = 0;
     var totalCyclomaticComplexity = 0;
