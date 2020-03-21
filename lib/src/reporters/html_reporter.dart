@@ -33,6 +33,8 @@ const _linesOfCodeWithViolations = 'Lines of code / violations';
 const _maintainabilityIndex = 'Maintainability index';
 const _maintainabilityIndexWithViolations =
     'Maintainability index / violations';
+const _nuberOfArguments = 'Number of Arguments';
+const _nuberOfArgumentsWithViolations = 'Number of Arguments / violations';
 
 @immutable
 class ReportTableRecord {
@@ -48,6 +50,9 @@ class ReportTableRecord {
   final double maintainabilityIndex;
   final int maintainabilityIndexViolations;
 
+  final int averageArgumentsCount;
+  final int argumentsCountViolations;
+
   const ReportTableRecord(
       {@required this.title,
       @required this.link,
@@ -56,7 +61,9 @@ class ReportTableRecord {
       @required this.linesOfCode,
       @required this.linesOfCodeViolations,
       @required this.maintainabilityIndex,
-      @required this.maintainabilityIndexViolations});
+      @required this.maintainabilityIndexViolations,
+      @required this.averageArgumentsCount,
+      @required this.argumentsCountViolations});
 }
 
 /// HTML-doc reporter
@@ -120,11 +127,21 @@ class HtmlReporter implements Reporter {
         0,
         (prevValue, record) =>
             prevValue + record.maintainabilityIndexViolations);
+    final averageArgumentsCount = (sortedRecords.fold<int>(
+                    0,
+                    (prevValue, record) =>
+                        prevValue + record.averageArgumentsCount) /
+                sortedRecords.length +
+            0.5)
+        .toInt();
+    final totalArgumentsCountViolations = sortedRecords.fold<int>(
+        0, (prevValue, record) => prevValue + record.argumentsCountViolations);
 
     final withCyclomaticComplexityViolations = totalComplexityViolations > 0;
     final withLinesOfCodeViolations = totalLinesOfCodeViolations > 0;
     final withMaintainabilityIndexViolations =
         totalMaintainabilityIndexViolations > 0;
+    final withArgumentsCountViolations = totalArgumentsCountViolations > 0;
 
     final tableContent = Element.tag('tbody');
     for (final record in sortedRecords) {
@@ -133,6 +150,8 @@ class HtmlReporter implements Reporter {
       final recordHaveLinesOfCodeViolations = record.linesOfCodeViolations > 0;
       final recordHaveMaintainabilityIndexViolations =
           record.maintainabilityIndexViolations > 0;
+      final recordArgumentsCountViolations =
+          record.argumentsCountViolations > 0;
 
       tableContent.append(Element.tag('tr')
         ..append(Element.tag('td')
@@ -158,6 +177,13 @@ class HtmlReporter implements Reporter {
               : '${record.maintainabilityIndex.toInt()}'
           ..classes.add(recordHaveMaintainabilityIndexViolations
               ? 'with-violations'
+              : ''))
+        ..append(Element.tag('td')
+          ..text = recordArgumentsCountViolations
+              ? '${record.averageArgumentsCount} / ${record.argumentsCountViolations}'
+              : '${record.averageArgumentsCount}'
+          ..classes.add(recordHaveMaintainabilityIndexViolations
+              ? 'with-violations'
               : '')));
     }
 
@@ -169,6 +195,9 @@ class HtmlReporter implements Reporter {
     final maintainabilityIndexTitle = withMaintainabilityIndexViolations
         ? _maintainabilityIndexWithViolations
         : _maintainabilityIndex;
+    final argumentsCountTitle = withArgumentsCountViolations
+        ? _nuberOfArgumentsWithViolations
+        : _nuberOfArguments;
 
     final table = Element.tag('table')
       ..classes.add('metrics-total-table')
@@ -177,7 +206,8 @@ class HtmlReporter implements Reporter {
           ..append(Element.tag('th')..text = title)
           ..append(Element.tag('th')..text = cyclomaticComplexityTitle)
           ..append(Element.tag('th')..text = linesOfCodeTitle)
-          ..append(Element.tag('th')..text = maintainabilityIndexTitle)))
+          ..append(Element.tag('th')..text = maintainabilityIndexTitle)
+          ..append(Element.tag('th')..text = argumentsCountTitle)))
       ..append(tableContent);
 
     return Element.tag('div')
@@ -202,6 +232,12 @@ class HtmlReporter implements Reporter {
             withMaintainabilityIndexViolations
                 ? '${averageMaintainabilityIndex.toInt()} / $totalMaintainabilityIndexViolations'
                 : '${averageMaintainabilityIndex.toInt()}',
+            withMaintainabilityIndexViolations))
+        ..append(_generateTotalMetrics(
+            argumentsCountTitle,
+            withArgumentsCountViolations
+                ? '$averageArgumentsCount / $totalArgumentsCountViolations'
+                : '$averageArgumentsCount',
             withMaintainabilityIndexViolations)));
   }
 
@@ -229,7 +265,9 @@ class HtmlReporter implements Reporter {
           linesOfCodeViolations: report.totalLinesOfCodeViolations,
           maintainabilityIndex: report.averageMaintainabilityIndex,
           maintainabilityIndexViolations:
-              report.totalMaintainabilityIndexViolations);
+              report.totalMaintainabilityIndexViolations,
+          averageArgumentsCount: report.averageArgumentsCount,
+          argumentsCountViolations: report.totalArgumentsCountViolations);
     });
 
     final html = Element.tag('html')
@@ -270,7 +308,9 @@ class HtmlReporter implements Reporter {
           linesOfCodeViolations: report.totalLinesOfCodeViolations,
           maintainabilityIndex: report.averageMaintainabilityIndex,
           maintainabilityIndexViolations:
-              report.totalMaintainabilityIndexViolations);
+              report.totalMaintainabilityIndexViolations,
+          averageArgumentsCount: report.averageArgumentsCount,
+          argumentsCountViolations: report.totalArgumentsCountViolations);
     });
 
     final html = Element.tag('html')
@@ -343,7 +383,9 @@ class HtmlReporter implements Reporter {
               '\n${_linesOfCode.toLowerCase()}: ${report.linesOfCode}'
               '\n${_linesOfCode.toLowerCase()} violation level: ${report.linesOfCodeViolationLevel.toString().toLowerCase()}'
               '\n${_maintainabilityIndex.toLowerCase()}: ${report.maintainabilityIndex.toInt()}'
-              '\n${_maintainabilityIndex.toLowerCase()} violation level: ${report.maintainabilityIndexViolationLevel.toString().toLowerCase()}';
+              '\n${_maintainabilityIndex.toLowerCase()} violation level: ${report.maintainabilityIndexViolationLevel.toString().toLowerCase()}'
+              '\n${_nuberOfArguments.toLowerCase()}: ${report.argumentsCount}'
+              '\n${_nuberOfArguments.toLowerCase()} violation level: ${report.argumentsCountViolationLevel.toString().toLowerCase()}';
         }
 
         final lineWithComplexityIncrement =
@@ -380,11 +422,13 @@ class HtmlReporter implements Reporter {
 
     final report = UtilitySelector.componentReport(record, reportConfig);
 
+    final totalMaintainabilityIndexViolations =
+        report.totalMaintainabilityIndexViolations > 0;
+    final withArgumentsCountViolations =
+        report.totalArgumentsCountViolations > 0;
     final withCyclomaticComplexityViolations =
         report.totalCyclomaticComplexityViolations > 0;
     final withLinesOfCodeViolations = report.totalLinesOfCodeViolations > 0;
-    final totalMaintainabilityIndexViolations =
-        report.totalMaintainabilityIndexViolations > 0;
 
     final body = Element.tag('body')
       ..append(Element.tag('h1')
@@ -421,6 +465,14 @@ class HtmlReporter implements Reporter {
               ? '${report.averageMaintainabilityIndex.toInt()} / ${report.totalMaintainabilityIndexViolations}'
               : '${report.averageMaintainabilityIndex.toInt()}',
           totalMaintainabilityIndexViolations))
+      ..append(_generateTotalMetrics(
+          withArgumentsCountViolations
+              ? _nuberOfArgumentsWithViolations
+              : _nuberOfArguments,
+          withArgumentsCountViolations
+              ? '${report.averageArgumentsCount} / ${report.totalArgumentsCountViolations}'
+              : '${report.averageArgumentsCount}',
+          withArgumentsCountViolations))
       ..append(Element.tag('pre')
         ..append(Element.tag('table')
           ..classes.add('metrics-source-code')
