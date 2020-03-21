@@ -54,6 +54,8 @@ class UtilitySelector {
 
   static ComponentReport componentReport(
       ComponentRecord record, Config config) {
+    var totalArgumentsCount = 0;
+    var totalArgumentsCountViolations = 0;
     var averageMaintainabilityIndex = 0.0;
     var totalMaintainabilityIndexViolations = 0;
     var totalCyclomaticComplexity = 0;
@@ -63,6 +65,11 @@ class UtilitySelector {
 
     for (final record in record.records.values) {
       final report = functionReport(record, config);
+
+      totalArgumentsCount += report.argumentsCount;
+      if (isIssueLevel(report.argumentsCountViolationLevel)) {
+        ++totalArgumentsCountViolations;
+      }
 
       averageMaintainabilityIndex += report.maintainabilityIndex;
       if (report.maintainabilityIndexViolationLevel == ViolationLevel.warning ||
@@ -83,6 +90,9 @@ class UtilitySelector {
     }
 
     return ComponentReport(
+        averageArgumentsCount:
+            (totalArgumentsCount / record.records.values.length + 0.5).toInt(),
+        totalArgumentsCountViolations: totalArgumentsCountViolations,
         averageMaintainabilityIndex:
             averageMaintainabilityIndex / record.records.values.length,
         totalMaintainabilityIndexViolations:
