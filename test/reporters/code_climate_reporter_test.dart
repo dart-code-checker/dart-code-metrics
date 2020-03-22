@@ -33,6 +33,7 @@ void main() {
 
       expect(report, isEmpty);
     });
+
     test('with a lot of arguments', () {
       final records = [
         ComponentRecord(
