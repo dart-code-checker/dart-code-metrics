@@ -13,16 +13,8 @@ double log2(num a) => log(a) / ln2;
 class UtilitySelector {
   static ComponentReport analysisReportForRecords(
       Iterable<ComponentRecord> records, Config config) {
-    final report = records.fold<ComponentReport>(
-        const ComponentReport(
-            averageArgumentsCount: 0,
-            totalArgumentsCountViolations: 0,
-            averageMaintainabilityIndex: 0,
-            totalMaintainabilityIndexViolations: 0,
-            totalCyclomaticComplexity: 0,
-            totalCyclomaticComplexityViolations: 0,
-            totalLinesOfCode: 0,
-            totalLinesOfCodeViolations: 0), (prevValue, record) {
+    final report = records.fold<ComponentReport>(ComponentReport.empty(),
+        (prevValue, record) {
       final report = componentReport(record, config);
 
       return ComponentReport(

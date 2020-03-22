@@ -23,4 +23,14 @@ class ComponentReport {
       @required this.totalCyclomaticComplexityViolations,
       @required this.totalLinesOfCode,
       @required this.totalLinesOfCodeViolations});
+
+  const ComponentReport.empty()
+      : averageArgumentsCount = 0,
+        totalArgumentsCountViolations = 0,
+        averageMaintainabilityIndex = 0,
+        totalMaintainabilityIndexViolations = 0,
+        totalCyclomaticComplexity = 0,
+        totalCyclomaticComplexityViolations = 0,
+        totalLinesOfCode = 0,
+        totalLinesOfCodeViolations = 0;
 }
