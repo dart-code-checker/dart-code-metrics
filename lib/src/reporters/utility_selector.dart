@@ -41,7 +41,7 @@ class UtilitySelector {
 
     return ComponentReport(
         averageArgumentsCount:
-            (report.averageArgumentsCount / records.length + 0.5).toInt(),
+            (report.averageArgumentsCount / records.length).round(),
         totalArgumentsCountViolations: report.totalArgumentsCountViolations,
         averageMaintainabilityIndex:
             report.averageMaintainabilityIndex / records.length,
@@ -93,7 +93,7 @@ class UtilitySelector {
 
     return ComponentReport(
         averageArgumentsCount:
-            (totalArgumentsCount / record.records.values.length + 0.5).toInt(),
+            (totalArgumentsCount / record.records.values.length).round(),
         totalArgumentsCountViolations: totalArgumentsCountViolations,
         averageMaintainabilityIndex:
             averageMaintainabilityIndex / record.records.values.length,
