@@ -13,17 +13,16 @@ double log2(num a) => log(a) / ln2;
 class UtilitySelector {
   static ComponentReport analysisReportForRecords(
       Iterable<ComponentRecord> records, Config config) {
-    final report = records.fold<ComponentReport>(
-        const ComponentReport(
-            averageMaintainabilityIndex: 0,
-            totalMaintainabilityIndexViolations: 0,
-            totalCyclomaticComplexity: 0,
-            totalCyclomaticComplexityViolations: 0,
-            totalLinesOfCode: 0,
-            totalLinesOfCodeViolations: 0), (prevValue, record) {
-      final report = analysisReport(record, config);
+    final report = records.fold<ComponentReport>(ComponentReport.empty(),
+        (prevValue, record) {
+      final report = componentReport(record, config);
 
       return ComponentReport(
+          averageArgumentsCount:
+              prevValue.averageArgumentsCount + report.averageArgumentsCount,
+          totalArgumentsCountViolations:
+              prevValue.totalArgumentsCountViolations +
+                  report.totalArgumentsCountViolations,
           averageMaintainabilityIndex: prevValue.averageMaintainabilityIndex +
               report.averageMaintainabilityIndex,
           totalMaintainabilityIndexViolations:
@@ -41,6 +40,9 @@ class UtilitySelector {
     });
 
     return ComponentReport(
+        averageArgumentsCount:
+            (report.averageArgumentsCount / records.length).round(),
+        totalArgumentsCountViolations: report.totalArgumentsCountViolations,
         averageMaintainabilityIndex:
             report.averageMaintainabilityIndex / records.length,
         totalMaintainabilityIndexViolations:
@@ -52,7 +54,10 @@ class UtilitySelector {
         totalLinesOfCodeViolations: report.totalLinesOfCodeViolations);
   }
 
-  static ComponentReport analysisReport(ComponentRecord record, Config config) {
+  static ComponentReport componentReport(
+      ComponentRecord record, Config config) {
+    var totalArgumentsCount = 0;
+    var totalArgumentsCountViolations = 0;
     var averageMaintainabilityIndex = 0.0;
     var totalMaintainabilityIndexViolations = 0;
     var totalCyclomaticComplexity = 0;
@@ -62,6 +67,11 @@ class UtilitySelector {
 
     for (final record in record.records.values) {
       final report = functionReport(record, config);
+
+      totalArgumentsCount += report.argumentsCount;
+      if (isIssueLevel(report.argumentsCountViolationLevel)) {
+        ++totalArgumentsCountViolations;
+      }
 
       averageMaintainabilityIndex += report.maintainabilityIndex;
       if (report.maintainabilityIndexViolationLevel == ViolationLevel.warning ||
@@ -82,6 +92,9 @@ class UtilitySelector {
     }
 
     return ComponentReport(
+        averageArgumentsCount:
+            (totalArgumentsCount / record.records.values.length).round(),
+        totalArgumentsCountViolations: totalArgumentsCountViolations,
         averageMaintainabilityIndex:
             averageMaintainabilityIndex / record.records.values.length,
         totalMaintainabilityIndexViolations:
@@ -145,7 +158,10 @@ class UtilitySelector {
             _violationLevel(linesOfCode, config.linesOfCodeWarningLevel),
         maintainabilityIndex: maintainabilityIndex,
         maintainabilityIndexViolationLevel:
-            _maintainabilityIndexViolationLevel(maintainabilityIndex));
+            _maintainabilityIndexViolationLevel(maintainabilityIndex),
+        argumentsCount: function.argumentsCount,
+        argumentsCountViolationLevel: _violationLevel(
+            function.argumentsCount, config.numberOfArgumentsWarningLevel));
   }
 
   static ViolationLevel functionViolationLevel(FunctionReport report) {
@@ -155,6 +171,7 @@ class UtilitySelector {
       report.cyclomaticComplexityViolationLevel,
       report.linesOfCodeViolationLevel,
       report.maintainabilityIndexViolationLevel,
+      report.argumentsCountViolationLevel,
     ].map(values.indexOf));
 
     return values.elementAt(highestLevelIndex);

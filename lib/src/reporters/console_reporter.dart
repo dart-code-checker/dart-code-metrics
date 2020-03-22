@@ -58,6 +58,9 @@ class ConsoleReporter implements Reporter {
                 report.maintainabilityIndexViolationLevel !=
                     ViolationLevel.none)
               'maintainability index: ${_colorPens[report.maintainabilityIndexViolationLevel]('${report.maintainabilityIndex.toInt()}')}',
+            if (reportAll ||
+                report.argumentsCountViolationLevel != ViolationLevel.none)
+              'number of arguments: ${_colorPens[report.argumentsCountViolationLevel]('${report.argumentsCount}')}',
           ];
           lines.add(
               '${_colorPens[violationLevel](_humanReadableLabel[violationLevel]?.padRight(8))}$source - ${violations.join(', ')}');

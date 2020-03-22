@@ -24,8 +24,10 @@ void main() {
   // For a simple example we would report results to terminal
 
   // First of all config has to be created for a reporter
-  final reporterConfig =
-      Config(cyclomaticComplexityWarningLevel: 10, linesOfCodeWarningLevel: 50);
+  final reporterConfig = Config(
+      cyclomaticComplexityWarningLevel: 10,
+      linesOfCodeWarningLevel: 50,
+      numberOfArgumentsWarningLevel: 4);
 
   // Now the reporter itself
   final reporter = ConsoleReporter(reportConfig: reporterConfig);

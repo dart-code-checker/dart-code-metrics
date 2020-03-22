@@ -1,6 +1,7 @@
 # Changelog
 
-#Unreleased
+# 1.3.0
+- Add Number of Arguments metrics
 
 # 1.2.1
 - Validate root-folder argument

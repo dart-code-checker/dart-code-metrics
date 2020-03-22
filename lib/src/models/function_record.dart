@@ -6,6 +6,8 @@ class FunctionRecord {
   final int firstLine;
   final int lastLine;
 
+  final int argumentsCount;
+
   final BuiltMap<int, int> cyclomaticLinesComplexity;
 
   final Iterable<int> linesWithCode;
@@ -16,6 +18,7 @@ class FunctionRecord {
   const FunctionRecord(
       {@required this.firstLine,
       @required this.lastLine,
+      @required this.argumentsCount,
       @required this.cyclomaticLinesComplexity,
       @required this.linesWithCode,
       @required this.operators,

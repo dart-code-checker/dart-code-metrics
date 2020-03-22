@@ -18,25 +18,35 @@ class JsonReporter implements Reporter {
           ? [json.encode(records.map(_analysisRecordToJson).toList())]
           : [];
 
-  Map<String, Object> _analysisRecordToJson(ComponentRecord record) => {
-        'source': record.relativePath,
-        'records': record.records.asMap().map((key, value) {
-          final report = UtilitySelector.functionReport(value, reportConfig);
-          return MapEntry(key, {
-            'cyclomatic-complexity': report.cyclomaticComplexity,
-            'cyclomatic-complexity-violation-level': report
-                .cyclomaticComplexityViolationLevel
-                .toString()
-                .toLowerCase(),
-            'lines-of-code': report.linesOfCode,
-            'lines-of-code-violation-level':
-                report.linesOfCodeViolationLevel.toString().toLowerCase(),
-            'maintainability-index': report.maintainabilityIndex.toInt(),
-            'maintainability-index-violation-level': report
-                .maintainabilityIndexViolationLevel
-                .toString()
-                .toLowerCase(),
-          });
-        })
-      };
+  Map<String, Object> _analysisRecordToJson(ComponentRecord record) {
+    final componentReport =
+        UtilitySelector.componentReport(record, reportConfig);
+    return {
+      'source': record.relativePath,
+      'records': record.records.asMap().map((key, value) {
+        final report = UtilitySelector.functionReport(value, reportConfig);
+        return MapEntry(key, {
+          'cyclomatic-complexity': report.cyclomaticComplexity,
+          'cyclomatic-complexity-violation-level': report
+              .cyclomaticComplexityViolationLevel
+              .toString()
+              .toLowerCase(),
+          'lines-of-code': report.linesOfCode,
+          'lines-of-code-violation-level':
+              report.linesOfCodeViolationLevel.toString().toLowerCase(),
+          'maintainability-index': report.maintainabilityIndex.toInt(),
+          'maintainability-index-violation-level': report
+              .maintainabilityIndexViolationLevel
+              .toString()
+              .toLowerCase(),
+          'number-of-arguments': report.argumentsCount,
+          'number-of-arguments-violation-level':
+              report.argumentsCountViolationLevel.toString().toLowerCase(),
+        });
+      }),
+      'average-number-of-arguments': componentReport.averageArgumentsCount,
+      'total-number-of-arguments-violations':
+          componentReport.totalArgumentsCountViolations,
+    };
+  }
 }

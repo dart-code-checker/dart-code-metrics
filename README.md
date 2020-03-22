@@ -5,6 +5,7 @@
 Reports:
 * Cyclomatic complexity of methods
 * Too long methods
+* Number of Arguments
 
 Output formats:
 * Plain terminal
@@ -30,6 +31,9 @@ Usage: metrics [options...] <directories>
 
     --lines-of-code=<50>                               Lines of code threshold
                                                        (defaults to "50")
+
+    --number-of-arguments=<4>                          Number of arguments threshold
+                                                       (defaults to "4")
 
     --root-folder=<./>                                 Root folder
                                                        (defaults to current directory)

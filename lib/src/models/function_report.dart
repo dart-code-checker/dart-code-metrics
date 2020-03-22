@@ -12,11 +12,16 @@ class FunctionReport {
   final double maintainabilityIndex;
   final ViolationLevel maintainabilityIndexViolationLevel;
 
+  final int argumentsCount;
+  final ViolationLevel argumentsCountViolationLevel;
+
   const FunctionReport(
       {@required this.cyclomaticComplexity,
       @required this.cyclomaticComplexityViolationLevel,
       @required this.linesOfCode,
       @required this.linesOfCodeViolationLevel,
       @required this.maintainabilityIndex,
-      @required this.maintainabilityIndexViolationLevel});
+      @required this.maintainabilityIndexViolationLevel,
+      @required this.argumentsCount,
+      @required this.argumentsCountViolationLevel});
 }

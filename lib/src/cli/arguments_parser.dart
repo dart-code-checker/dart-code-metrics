@@ -8,6 +8,7 @@ const helpFlagName = 'help';
 const reporterOptionName = 'reporter';
 const cyclomaticComplexityThreshold = 'cyclomatic-complexity';
 const linesOfCodeThreshold = 'lines-of-code';
+const numberOfArgumentsThreshold = 'number-of-arguments';
 const verboseName = 'verbose';
 const ignoredFilesName = 'ignore-files';
 const rootFolderName = 'root-folder';
@@ -33,6 +34,13 @@ ArgParser argumentsParser() => ArgParser()
       valueHelp: '$linesOfCodeDefaultWarningLevel',
       defaultsTo: '$linesOfCodeDefaultWarningLevel', callback: (String i) {
     if (int.tryParse(i) == null) print('$linesOfCodeThreshold:');
+  })
+  ..addOption(numberOfArgumentsThreshold,
+      help: 'Number of arguments threshold',
+      valueHelp: '$numberOfArgumentsDefaultWarningLevel',
+      defaultsTo: '$numberOfArgumentsDefaultWarningLevel',
+      callback: (String i) {
+    if (int.tryParse(i) == null) print('$numberOfArgumentsThreshold:');
   })
   ..addOption(rootFolderName,
       help: 'Root folder', valueHelp: './', defaultsTo: Directory.current.path)
