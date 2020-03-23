@@ -7,7 +7,7 @@ int getArgumentsCount(ScopedDeclaration dec) {
   int argumentsCount;
   if (declaration is FunctionDeclaration) {
     argumentsCount =
-        declaration.functionExpression.parameters.parameters.length;
+        declaration.functionExpression?.parameters?.parameters?.length;
   } else if (declaration is MethodDeclaration) {
     argumentsCount = declaration?.parameters?.parameters?.length;
   }
