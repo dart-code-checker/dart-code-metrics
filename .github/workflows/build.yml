@@ -27,6 +27,7 @@ jobs:
       run:  |
         pub run test --coverage=coverage
         pub run coverage:format_coverage --packages=.packages -i coverage -o coverage/coverage.lcov --lcov --report-on=lib
+        pub run tool/format_coverage.dart
         pub run coveralls:coveralls coverage/coverage.lcov
 
   build-dart-2-4:
