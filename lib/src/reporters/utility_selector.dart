@@ -13,47 +13,10 @@ double log2(num a) => log(a) / ln2;
 
 class UtilitySelector {
   static ComponentReport analysisReportForRecords(
-      Iterable<ComponentRecord> records, Config config) {
-    final report = records.fold<ComponentReport>(ComponentReport.empty(),
-        (prevValue, record) {
-      final report = componentReport(record, config);
-
-      return ComponentReport(
-          averageArgumentsCount:
-              prevValue.averageArgumentsCount + report.averageArgumentsCount,
-          totalArgumentsCountViolations:
-              prevValue.totalArgumentsCountViolations +
-                  report.totalArgumentsCountViolations,
-          averageMaintainabilityIndex: prevValue.averageMaintainabilityIndex +
-              report.averageMaintainabilityIndex,
-          totalMaintainabilityIndexViolations:
-              prevValue.totalMaintainabilityIndexViolations +
-                  report.totalMaintainabilityIndexViolations,
-          totalCyclomaticComplexity: prevValue.totalCyclomaticComplexity +
-              report.totalCyclomaticComplexity,
-          totalCyclomaticComplexityViolations:
-              prevValue.totalCyclomaticComplexityViolations +
-                  report.totalCyclomaticComplexityViolations,
-          totalLinesOfCode:
-              prevValue.totalLinesOfCode + report.totalLinesOfCode,
-          totalLinesOfCodeViolations: prevValue.totalLinesOfCodeViolations +
-              report.totalLinesOfCodeViolations);
-    });
-
-    return ComponentReport(
-        averageArgumentsCount:
-            (report.averageArgumentsCount / records.length).round(),
-        totalArgumentsCountViolations: report.totalArgumentsCountViolations,
-        averageMaintainabilityIndex:
-            report.averageMaintainabilityIndex / records.length,
-        totalMaintainabilityIndexViolations:
-            report.totalMaintainabilityIndexViolations,
-        totalCyclomaticComplexity: report.totalCyclomaticComplexity,
-        totalCyclomaticComplexityViolations:
-            report.totalCyclomaticComplexityViolations,
-        totalLinesOfCode: report.totalLinesOfCode,
-        totalLinesOfCodeViolations: report.totalLinesOfCodeViolations);
-  }
+          Iterable<ComponentRecord> records, Config config) =>
+      records
+          .map((r) => componentReport(r, config))
+          .reduce(mergeComponentReports);
 
   static ComponentReport componentReport(
       ComponentRecord record, Config config) {
