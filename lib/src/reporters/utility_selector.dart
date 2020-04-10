@@ -65,19 +65,16 @@ class UtilitySelector {
   }
 
   static FunctionReport functionReport(FunctionRecord function, Config config) {
-    final cyclomaticComplexity = function.cyclomaticLinesComplexity.values
-            .fold<int>(0, (prevValue, nextValue) => prevValue + nextValue) +
-        1;
+    final cyclomaticComplexity =
+        sum(function.cyclomaticLinesComplexity.values) + 1;
 
     final linesOfCode = function.linesWithCode.length;
 
     // Total number of occurrences of operators.
-    final totalNumberOfOccurrencesOfOperators = function.operators.values
-        .fold<int>(0, (prevValue, nextValue) => prevValue + nextValue);
+    final totalNumberOfOccurrencesOfOperators = sum(function.operators.values);
 
     // Total number of occurrences of operands
-    final totalNumberOfOccurrencesOfOperands = function.operands.values
-        .fold<int>(0, (prevValue, nextValue) => prevValue + nextValue);
+    final totalNumberOfOccurrencesOfOperands = sum(function.operands.values);
 
     // Number of distinct operators.
     final numberOfDistinctOperators = function.operators.keys.length;
@@ -109,9 +106,9 @@ class UtilitySelector {
 
     return FunctionReport(
         cyclomaticComplexity: FunctionReportMetric<int>(
-            value: cyclomaticComplexity,
-            violationLevel: _violationLevel(
-                cyclomaticComplexity, config.cyclomaticComplexityWarningLevel)),
+            value: cyclomaticComplexity.round(),
+            violationLevel: _violationLevel(cyclomaticComplexity.round(),
+                config.cyclomaticComplexityWarningLevel)),
         linesOfCode: FunctionReportMetric<int>(
             value: linesOfCode,
             violationLevel:
