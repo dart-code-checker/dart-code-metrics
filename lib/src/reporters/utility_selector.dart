@@ -11,6 +11,10 @@ import 'package:quiver/iterables.dart' as quiver;
 
 double log2(num a) => log(a) / ln2;
 
+num sum(Iterable<num> it) => it.fold(0, (a, b) => a + b);
+
+double avg(Iterable<num> it) => sum(it) / it.length;
+
 class UtilitySelector {
   static ComponentReport analysisReportForRecords(
           Iterable<ComponentRecord> records, Config config) =>
@@ -20,51 +24,43 @@ class UtilitySelector {
 
   static ComponentReport componentReport(
       ComponentRecord record, Config config) {
-    var totalCyclomaticComplexity = 0;
-    var totalCyclomaticComplexityViolations = 0;
-    var totalLinesOfCode = 0;
-    var totalLinesOfCodeViolations = 0;
-    var averageMaintainabilityIndex = 0.0;
-    var totalMaintainabilityIndexViolations = 0;
-    var totalArgumentsCount = 0;
-    var totalArgumentsCountViolations = 0;
+    final functionReports =
+        record.records.values.map((r) => functionReport(r, config));
 
-    for (final record in record.records.values) {
-      final report = functionReport(record, config);
+    final averageArgumentCount =
+        avg(functionReports.map((r) => r.argumentsCount.value));
+    final totalArgumentsCountViolations = functionReports
+        .where((r) => isIssueLevel(r.argumentsCount.violationLevel))
+        .length;
 
-      totalCyclomaticComplexity += report.cyclomaticComplexity.value;
-      if (isIssueLevel(report.cyclomaticComplexity.violationLevel)) {
-        ++totalCyclomaticComplexityViolations;
-      }
+    final averageMaintainabilityIndex =
+        avg(functionReports.map((r) => r.maintainabilityIndex.value));
+    final totalMaintainabilityIndexViolations = functionReports
+        .where((r) => isIssueLevel(r.maintainabilityIndex.violationLevel))
+        .length;
 
-      totalLinesOfCode += report.linesOfCode.value;
-      if (isIssueLevel(report.linesOfCode.violationLevel)) {
-        ++totalLinesOfCodeViolations;
-      }
+    final totalCyclomaticComplexity =
+        sum(functionReports.map((r) => r.cyclomaticComplexity.value));
+    final totalCyclomaticComplexityViolations = functionReports
+        .where((r) => isIssueLevel(r.cyclomaticComplexity.violationLevel))
+        .length;
 
-      averageMaintainabilityIndex += report.maintainabilityIndex.value;
-      if (isIssueLevel(report.maintainabilityIndex.violationLevel)) {
-        ++totalMaintainabilityIndexViolations;
-      }
-
-      totalArgumentsCount += report.argumentsCount.value;
-      if (isIssueLevel(report.argumentsCount.violationLevel)) {
-        ++totalArgumentsCountViolations;
-      }
-    }
+    final totalLinesOfCode =
+        sum(functionReports.map((r) => r.linesOfCode.value));
+    final totalLinesOfCodeViolations = functionReports
+        .where((r) => isIssueLevel(r.linesOfCode.violationLevel))
+        .length;
 
     return ComponentReport(
-        averageArgumentsCount:
-            (totalArgumentsCount / record.records.values.length).round(),
+        averageArgumentsCount: averageArgumentCount.round(),
         totalArgumentsCountViolations: totalArgumentsCountViolations,
-        averageMaintainabilityIndex:
-            averageMaintainabilityIndex / record.records.values.length,
+        averageMaintainabilityIndex: averageMaintainabilityIndex,
         totalMaintainabilityIndexViolations:
             totalMaintainabilityIndexViolations,
-        totalCyclomaticComplexity: totalCyclomaticComplexity,
+        totalCyclomaticComplexity: totalCyclomaticComplexity.round(),
         totalCyclomaticComplexityViolations:
             totalCyclomaticComplexityViolations,
-        totalLinesOfCode: totalLinesOfCode,
+        totalLinesOfCode: totalLinesOfCode.round(),
         totalLinesOfCodeViolations: totalLinesOfCodeViolations);
   }
 
