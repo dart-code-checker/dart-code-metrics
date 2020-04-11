@@ -1,5 +1,8 @@
 # Changelog
 
+# Unreleased
+- Drop dependency on built_collection
+
 # 1.3.1
 - Fix get arguments count
 

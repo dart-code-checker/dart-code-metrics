@@ -1,6 +1,5 @@
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
-import 'package:built_collection/built_collection.dart';
 import 'package:dart_code_metrics/src/cyclomatic_complexity/control_flow_ast_visitor.dart';
 import 'package:dart_code_metrics/src/cyclomatic_complexity/cyclomatic_config.dart';
 import 'package:dart_code_metrics/src/halstead_volume/halstead_volume_ast_visitor.dart';
@@ -52,10 +51,10 @@ class MetricsAnalyzer {
                     .lineNumber,
                 argumentsCount: getArgumentsCount(scopedDeclaration),
                 cyclomaticLinesComplexity:
-                    BuiltMap.from(controlFlowAstVisitor.complexityLines),
+                    Map.unmodifiable(controlFlowAstVisitor.complexityLines),
                 linesWithCode: functionBodyAstVisitor.linesWithCode,
-                operators: BuiltMap.from(halsteadVolumeAstVisitor.operators),
-                operands: BuiltMap.from(halsteadVolumeAstVisitor.operands)));
+                operators: Map.unmodifiable(halsteadVolumeAstVisitor.operators),
+                operands: Map.unmodifiable(halsteadVolumeAstVisitor.operands)));
       }
 
       _recorder.endRecordFile();

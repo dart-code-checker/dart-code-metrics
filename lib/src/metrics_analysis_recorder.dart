@@ -1,4 +1,3 @@
-import 'package:built_collection/built_collection.dart';
 import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:path/path.dart' as p;
@@ -33,7 +32,7 @@ class MetricsAnalysisRecorder {
     _records.add(ComponentRecord(
         fullPath: _fileGroupPath,
         relativePath: _relativeGroupPath,
-        records: BuiltMap.from(_groupRecords)));
+        records: Map.unmodifiable(_groupRecords)));
     _relativeGroupPath = null;
     _fileGroupPath = null;
     _groupRecords = null;

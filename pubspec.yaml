@@ -12,7 +12,6 @@ dependencies:
   analyzer: '>=0.38.0 <0.40.0'
   ansicolor: ^1.0.0
   args: ^1.5.0
-  built_collection: ^4.2.0
   crypto: ^2.1.0
   glob: ^1.2.0
   html: '>=0.13.0 < 1.0.0'

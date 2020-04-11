@@ -1,4 +1,3 @@
-import 'package:built_collection/built_collection.dart';
 import 'package:meta/meta.dart';
 
 @immutable
@@ -8,12 +7,12 @@ class FunctionRecord {
 
   final int argumentsCount;
 
-  final BuiltMap<int, int> cyclomaticLinesComplexity;
+  final Map<int, int> cyclomaticLinesComplexity;
 
   final Iterable<int> linesWithCode;
 
-  final BuiltMap<String, int> operators;
-  final BuiltMap<String, int> operands;
+  final Map<String, int> operators;
+  final Map<String, int> operands;
 
   const FunctionRecord(
       {@required this.firstLine,

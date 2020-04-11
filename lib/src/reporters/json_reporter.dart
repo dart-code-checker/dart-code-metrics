@@ -23,7 +23,7 @@ class JsonReporter implements Reporter {
         UtilitySelector.componentReport(record, reportConfig);
     return {
       'source': record.relativePath,
-      'records': record.records.asMap().map((key, value) {
+      'records': record.records.map((key, value) {
         final report = UtilitySelector.functionReport(value, reportConfig);
         return MapEntry(key, {
           'cyclomatic-complexity': report.cyclomaticComplexity,

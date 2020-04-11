@@ -1,4 +1,3 @@
-import 'package:built_collection/built_collection.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/models/function_report.dart';
 import 'package:dart_code_metrics/src/models/violation_level.dart';
@@ -15,10 +14,10 @@ FunctionRecord buildFunctionRecordStub(
       firstLine: firstLine,
       lastLine: lastLine,
       argumentsCount: argumentsCount,
-      cyclomaticLinesComplexity: BuiltMap.from(cyclomaticLinesComplexity),
+      cyclomaticLinesComplexity: Map.unmodifiable(cyclomaticLinesComplexity),
       linesWithCode: linesWithCode,
-      operators: BuiltMap.from(operators),
-      operands: BuiltMap.from(operands),
+      operators: Map.unmodifiable(operators),
+      operands: Map.unmodifiable(operands),
     );
 
 FunctionReport buildFunctionReportStub(
