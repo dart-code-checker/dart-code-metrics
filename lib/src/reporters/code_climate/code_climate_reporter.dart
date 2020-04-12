@@ -47,11 +47,11 @@ class CodeClimateReporter implements Reporter {
       }
 
       if (UtilitySelector.isIssueLevel(
-          report.maintainabilityIndexViolationLevel)) {
+          report.maintainabilityIndex.violationLevel)) {
         result.add(CodeClimateIssue.maintainabilityIndex(
             func.firstLine,
             func.lastLine,
-            report.maintainabilityIndex.toInt(),
+            report.maintainabilityIndex.value.toInt(),
             record.relativePath,
             key));
       }

@@ -84,9 +84,10 @@ class UtilitySelector {
         ++totalArgumentsCountViolations;
       }
 
-      averageMaintainabilityIndex += report.maintainabilityIndex;
-      if (report.maintainabilityIndexViolationLevel == ViolationLevel.warning ||
-          report.maintainabilityIndexViolationLevel == ViolationLevel.alarm) {
+      averageMaintainabilityIndex += report.maintainabilityIndex.value;
+      if (report.maintainabilityIndex.violationLevel ==
+              ViolationLevel.warning ||
+          report.maintainabilityIndex.violationLevel == ViolationLevel.alarm) {
         ++totalMaintainabilityIndexViolations;
       }
     }
@@ -158,9 +159,10 @@ class UtilitySelector {
             value: linesOfCode,
             violationLevel:
                 _violationLevel(linesOfCode, config.linesOfCodeWarningLevel)),
-        maintainabilityIndex: maintainabilityIndex,
-        maintainabilityIndexViolationLevel:
-            _maintainabilityIndexViolationLevel(maintainabilityIndex),
+        maintainabilityIndex: FunctionReportMetric<double>(
+            value: maintainabilityIndex,
+            violationLevel:
+                _maintainabilityIndexViolationLevel(maintainabilityIndex)),
         argumentsCount: function.argumentsCount,
         argumentsCountViolationLevel: _violationLevel(
             function.argumentsCount, config.numberOfArgumentsWarningLevel));
@@ -172,7 +174,7 @@ class UtilitySelector {
     final highestLevelIndex = quiver.max([
       report.cyclomaticComplexity.violationLevel,
       report.linesOfCode.violationLevel,
-      report.maintainabilityIndexViolationLevel,
+      report.maintainabilityIndex.violationLevel,
       report.argumentsCountViolationLevel,
     ].map(values.indexOf));
 

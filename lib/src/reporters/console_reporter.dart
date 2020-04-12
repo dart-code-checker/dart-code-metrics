@@ -52,10 +52,8 @@ class ConsoleReporter implements Reporter {
               _report(report.cyclomaticComplexity, 'cyclomatic complexity'),
             if (reportAll || _isNeedToReport(report.linesOfCode))
               _report(report.linesOfCode, 'lines of code'),
-            if (reportAll ||
-                report.maintainabilityIndexViolationLevel !=
-                    ViolationLevel.none)
-              'maintainability index: ${_colorPens[report.maintainabilityIndexViolationLevel]('${report.maintainabilityIndex.toInt()}')}',
+            if (reportAll || _isNeedToReport(report.maintainabilityIndex))
+              _report(report.maintainabilityIndex, 'maintainability index'),
             if (reportAll ||
                 report.argumentsCountViolationLevel != ViolationLevel.none)
               'number of arguments: ${_colorPens[report.argumentsCountViolationLevel]('${report.argumentsCount}')}',

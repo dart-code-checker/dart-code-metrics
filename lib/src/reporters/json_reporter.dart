@@ -29,18 +29,15 @@ class JsonReporter implements Reporter {
         return MapEntry(
             key,
             {
-              'maintainability-index': report.maintainabilityIndex.toInt(),
-              'maintainability-index-violation-level': report
-                  .maintainabilityIndexViolationLevel
-                  .toString()
-                  .toLowerCase(),
               'number-of-arguments': report.argumentsCount,
               'number-of-arguments-violation-level':
                   report.argumentsCountViolationLevel.toString().toLowerCase(),
             }
               ..addAll(
                   _report(report.cyclomaticComplexity, 'cyclomatic-complexity'))
-              ..addAll(_report(report.linesOfCode, 'lines-of-code')));
+              ..addAll(_report(report.linesOfCode, 'lines-of-code'))
+              ..addAll(_report(
+                  report.maintainabilityIndex, 'maintainability-index')));
       }),
       'average-number-of-arguments': componentReport.averageArgumentsCount,
       'total-number-of-arguments-violations':

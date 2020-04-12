@@ -36,7 +36,8 @@ FunctionReport buildFunctionReportStub(
             violationLevel: cyclomaticComplexityViolationLevel),
         linesOfCode: FunctionReportMetric<int>(
             value: linesOfCode, violationLevel: linesOfCodeViolationLevel),
-        maintainabilityIndex: maintainabilityIndex,
-        maintainabilityIndexViolationLevel: maintainabilityIndexViolationLevel,
+        maintainabilityIndex: FunctionReportMetric<double>(
+            value: maintainabilityIndex,
+            violationLevel: maintainabilityIndexViolationLevel),
         argumentsCount: argumentsCount,
         argumentsCountViolationLevel: argumentsCountViolationLevel);
