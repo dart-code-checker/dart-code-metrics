@@ -61,10 +61,10 @@ class UtilitySelector {
     var totalCyclomaticComplexityViolations = 0;
     var totalLinesOfCode = 0;
     var totalLinesOfCodeViolations = 0;
-    var totalArgumentsCount = 0;
-    var totalArgumentsCountViolations = 0;
     var averageMaintainabilityIndex = 0.0;
     var totalMaintainabilityIndexViolations = 0;
+    var totalArgumentsCount = 0;
+    var totalArgumentsCountViolations = 0;
 
     for (final record in record.records.values) {
       final report = functionReport(record, config);
@@ -79,16 +79,16 @@ class UtilitySelector {
         ++totalLinesOfCodeViolations;
       }
 
-      totalArgumentsCount += report.argumentsCount;
-      if (isIssueLevel(report.argumentsCountViolationLevel)) {
-        ++totalArgumentsCountViolations;
-      }
-
       averageMaintainabilityIndex += report.maintainabilityIndex.value;
       if (report.maintainabilityIndex.violationLevel ==
               ViolationLevel.warning ||
           report.maintainabilityIndex.violationLevel == ViolationLevel.alarm) {
         ++totalMaintainabilityIndexViolations;
+      }
+
+      totalArgumentsCount += report.argumentsCount;
+      if (isIssueLevel(report.argumentsCountViolationLevel)) {
+        ++totalArgumentsCountViolations;
       }
     }
 
