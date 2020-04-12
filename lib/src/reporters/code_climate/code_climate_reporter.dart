@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/config.dart';
-import 'package:dart_code_metrics/src/models/violation_level.dart';
 import 'package:dart_code_metrics/src/reporters/code_climate/code_climate_issue.dart';
 import 'package:dart_code_metrics/src/reporters/reporter.dart';
 import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
