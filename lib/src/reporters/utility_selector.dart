@@ -85,8 +85,8 @@ class UtilitySelector {
         ++totalMaintainabilityIndexViolations;
       }
 
-      totalLinesOfCode += report.linesOfCode;
-      if (report.linesOfCode >= config.linesOfCodeWarningLevel) {
+      totalLinesOfCode += report.linesOfCode.value;
+      if (report.linesOfCode.value >= config.linesOfCodeWarningLevel) {
         ++totalLinesOfCodeViolations;
       }
     }
@@ -154,9 +154,10 @@ class UtilitySelector {
             value: cyclomaticComplexity,
             violationLevel: _violationLevel(
                 cyclomaticComplexity, config.cyclomaticComplexityWarningLevel)),
-        linesOfCode: linesOfCode,
-        linesOfCodeViolationLevel:
-            _violationLevel(linesOfCode, config.linesOfCodeWarningLevel),
+        linesOfCode: FunctionReportMetric<int>(
+            value: linesOfCode,
+            violationLevel:
+                _violationLevel(linesOfCode, config.linesOfCodeWarningLevel)),
         maintainabilityIndex: maintainabilityIndex,
         maintainabilityIndexViolationLevel:
             _maintainabilityIndexViolationLevel(maintainabilityIndex),
@@ -170,7 +171,7 @@ class UtilitySelector {
 
     final highestLevelIndex = quiver.max([
       report.cyclomaticComplexity.violationLevel,
-      report.linesOfCodeViolationLevel,
+      report.linesOfCode.violationLevel,
       report.maintainabilityIndexViolationLevel,
       report.argumentsCountViolationLevel,
     ].map(values.indexOf));

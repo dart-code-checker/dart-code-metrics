@@ -29,9 +29,6 @@ class JsonReporter implements Reporter {
         return MapEntry(
             key,
             {
-              'lines-of-code': report.linesOfCode,
-              'lines-of-code-violation-level':
-                  report.linesOfCodeViolationLevel.toString().toLowerCase(),
               'maintainability-index': report.maintainabilityIndex.toInt(),
               'maintainability-index-violation-level': report
                   .maintainabilityIndexViolationLevel
@@ -40,8 +37,10 @@ class JsonReporter implements Reporter {
               'number-of-arguments': report.argumentsCount,
               'number-of-arguments-violation-level':
                   report.argumentsCountViolationLevel.toString().toLowerCase(),
-            }..addAll(
-                _report(report.cyclomaticComplexity, 'cyclomatic-complexity')));
+            }
+              ..addAll(
+                  _report(report.cyclomaticComplexity, 'cyclomatic-complexity'))
+              ..addAll(_report(report.linesOfCode, 'lines-of-code')));
       }),
       'average-number-of-arguments': componentReport.averageArgumentsCount,
       'total-number-of-arguments-violations':

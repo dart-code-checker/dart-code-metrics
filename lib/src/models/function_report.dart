@@ -5,9 +5,7 @@ import 'package:meta/meta.dart';
 @immutable
 class FunctionReport {
   final FunctionReportMetric<int> cyclomaticComplexity;
-
-  final int linesOfCode;
-  final ViolationLevel linesOfCodeViolationLevel;
+  final FunctionReportMetric<int> linesOfCode;
 
   final double maintainabilityIndex;
   final ViolationLevel maintainabilityIndexViolationLevel;
@@ -18,7 +16,6 @@ class FunctionReport {
   const FunctionReport(
       {@required this.cyclomaticComplexity,
       @required this.linesOfCode,
-      @required this.linesOfCodeViolationLevel,
       @required this.maintainabilityIndex,
       @required this.maintainabilityIndexViolationLevel,
       @required this.argumentsCount,

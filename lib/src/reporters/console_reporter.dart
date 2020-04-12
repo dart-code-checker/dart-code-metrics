@@ -50,9 +50,8 @@ class ConsoleReporter implements Reporter {
           final violations = [
             if (reportAll || _isNeedToReport(report.cyclomaticComplexity))
               _report(report.cyclomaticComplexity, 'cyclomatic complexity'),
-            if (reportAll ||
-                report.linesOfCodeViolationLevel != ViolationLevel.none)
-              'lines of code: ${_colorPens[report.linesOfCodeViolationLevel]('${report.linesOfCode}')}',
+            if (reportAll || _isNeedToReport(report.linesOfCode))
+              _report(report.linesOfCode, 'lines of code'),
             if (reportAll ||
                 report.maintainabilityIndexViolationLevel !=
                     ViolationLevel.none)
