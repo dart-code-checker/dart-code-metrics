@@ -48,9 +48,9 @@ class ConsoleReporter implements Reporter {
         if (reportAll || UtilitySelector.isIssueLevel(violationLevel)) {
           final violations = [
             if (reportAll ||
-                report.cyclomaticComplexityViolationLevel !=
+                report.cyclomaticComplexity.violationLevel !=
                     ViolationLevel.none)
-              'cyclomatic complexity: ${_colorPens[report.cyclomaticComplexityViolationLevel]('${report.cyclomaticComplexity}')}',
+              'cyclomatic complexity: ${_colorPens[report.cyclomaticComplexity.violationLevel]('${report.cyclomaticComplexity.value}')}',
             if (reportAll ||
                 report.linesOfCodeViolationLevel != ViolationLevel.none)
               'lines of code: ${_colorPens[report.linesOfCodeViolationLevel]('${report.linesOfCode}')}',

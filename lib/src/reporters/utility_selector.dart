@@ -5,6 +5,7 @@ import 'package:dart_code_metrics/src/models/component_report.dart';
 import 'package:dart_code_metrics/src/models/config.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/models/function_report.dart';
+import 'package:dart_code_metrics/src/models/function_report_metric.dart';
 import 'package:dart_code_metrics/src/models/violation_level.dart';
 import 'package:quiver/iterables.dart' as quiver;
 
@@ -79,8 +80,8 @@ class UtilitySelector {
         ++totalMaintainabilityIndexViolations;
       }
 
-      totalCyclomaticComplexity += report.cyclomaticComplexity;
-      if (report.cyclomaticComplexity >=
+      totalCyclomaticComplexity += report.cyclomaticComplexity.value;
+      if (report.cyclomaticComplexity.value >=
           config.cyclomaticComplexityWarningLevel) {
         ++totalCyclomaticComplexityViolations;
       }
@@ -150,9 +151,10 @@ class UtilitySelector {
         .toDouble();
 
     return FunctionReport(
-        cyclomaticComplexity: cyclomaticComplexity,
-        cyclomaticComplexityViolationLevel: _violationLevel(
-            cyclomaticComplexity, config.cyclomaticComplexityWarningLevel),
+        cyclomaticComplexity: FunctionReportMetric<int>(
+            value: cyclomaticComplexity,
+            violationLevel: _violationLevel(
+                cyclomaticComplexity, config.cyclomaticComplexityWarningLevel)),
         linesOfCode: linesOfCode,
         linesOfCodeViolationLevel:
             _violationLevel(linesOfCode, config.linesOfCodeWarningLevel),
@@ -168,7 +170,7 @@ class UtilitySelector {
     final values = ViolationLevel.values.toList();
 
     final highestLevelIndex = quiver.max([
-      report.cyclomaticComplexityViolationLevel,
+      report.cyclomaticComplexity.violationLevel,
       report.linesOfCodeViolationLevel,
       report.maintainabilityIndexViolationLevel,
       report.argumentsCountViolationLevel,

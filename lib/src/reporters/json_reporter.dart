@@ -26,9 +26,9 @@ class JsonReporter implements Reporter {
       'records': record.records.map((key, value) {
         final report = UtilitySelector.functionReport(value, reportConfig);
         return MapEntry(key, {
-          'cyclomatic-complexity': report.cyclomaticComplexity,
+          'cyclomatic-complexity': report.cyclomaticComplexity.value,
           'cyclomatic-complexity-violation-level': report
-              .cyclomaticComplexityViolationLevel
+              .cyclomaticComplexity.violationLevel
               .toString()
               .toLowerCase(),
           'lines-of-code': report.linesOfCode,

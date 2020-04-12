@@ -378,8 +378,8 @@ class HtmlReporter implements Reporter {
                   .trim();
 
           complexityValueElement.attributes['title'] = 'Function stats:'
-              '\n${_cyclomaticComplexity.toLowerCase()}: ${report.cyclomaticComplexity}'
-              '\n${_cyclomaticComplexity.toLowerCase()} violation level: ${report.cyclomaticComplexityViolationLevel.toString().toLowerCase()}'
+              '\n${_cyclomaticComplexity.toLowerCase()}: ${report.cyclomaticComplexity.value}'
+              '\n${_cyclomaticComplexity.toLowerCase()} violation level: ${report.cyclomaticComplexity.violationLevel.toString().toLowerCase()}'
               '\n${_linesOfCode.toLowerCase()}: ${report.linesOfCode}'
               '\n${_linesOfCode.toLowerCase()} violation level: ${report.linesOfCodeViolationLevel.toString().toLowerCase()}'
               '\n${_maintainabilityIndex.toLowerCase()}: ${report.maintainabilityIndex.toInt()}'

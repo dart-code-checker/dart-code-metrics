@@ -1,10 +1,10 @@
+import 'package:dart_code_metrics/src/models/function_report_metric.dart';
 import 'package:dart_code_metrics/src/models/violation_level.dart';
 import 'package:meta/meta.dart';
 
 @immutable
 class FunctionReport {
-  final int cyclomaticComplexity;
-  final ViolationLevel cyclomaticComplexityViolationLevel;
+  final FunctionReportMetric<int> cyclomaticComplexity;
 
   final int linesOfCode;
   final ViolationLevel linesOfCodeViolationLevel;
@@ -17,7 +17,6 @@ class FunctionReport {
 
   const FunctionReport(
       {@required this.cyclomaticComplexity,
-      @required this.cyclomaticComplexityViolationLevel,
       @required this.linesOfCode,
       @required this.linesOfCodeViolationLevel,
       @required this.maintainabilityIndex,
