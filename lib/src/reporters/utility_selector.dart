@@ -75,7 +75,7 @@ class UtilitySelector {
       }
 
       totalLinesOfCode += report.linesOfCode.value;
-      if (report.linesOfCode.value >= config.linesOfCodeWarningLevel) {
+      if (isIssueLevel(report.linesOfCode.violationLevel)) {
         ++totalLinesOfCodeViolations;
       }
 
