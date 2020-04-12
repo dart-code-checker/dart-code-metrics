@@ -1,5 +1,4 @@
 @TestOn('vm')
-import 'package:built_collection/built_collection.dart';
 import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/config.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
@@ -23,7 +22,7 @@ void main() {
         ComponentRecord(
             fullPath: '/home/developer/work/project/example.dart',
             relativePath: 'example.dart',
-            records: BuiltMap.from(<String, FunctionRecord>{
+            records: Map.unmodifiable(<String, FunctionRecord>{
               'function': buildFunctionRecordStub(argumentsCount: 0)
             }))
       ];
@@ -41,7 +40,7 @@ void main() {
         ComponentRecord(
             fullPath: '/home/developer/work/project/example.dart',
             relativePath: 'example.dart',
-            records: BuiltMap.from(<String, FunctionRecord>{
+            records: Map.unmodifiable(<String, FunctionRecord>{
               'function': buildFunctionRecordStub(argumentsCount: 10)
             }))
       ];

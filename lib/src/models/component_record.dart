@@ -1,4 +1,3 @@
-import 'package:built_collection/built_collection.dart';
 import 'package:meta/meta.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 
@@ -7,7 +6,7 @@ class ComponentRecord {
   final String fullPath;
   final String relativePath;
 
-  final BuiltMap<String, FunctionRecord> records;
+  final Map<String, FunctionRecord> records;
 
   const ComponentRecord(
       {@required this.fullPath,

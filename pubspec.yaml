@@ -12,7 +12,6 @@ dependencies:
   analyzer: '>=0.38.0 <0.40.0'
   ansicolor: ^1.0.0
   args: ^1.5.0
-  built_collection: ^4.2.0
   crypto: ^2.1.0
   glob: ^1.2.0
   html: '>=0.13.0 < 1.0.0'
@@ -24,11 +23,11 @@ dependencies:
 dev_dependencies:
   coverage: ^0.13.5
   coveralls: ^5.4.0
-  dependency_validator: ^1.4.0
+  dependency_validator: ^1.5.0
   lcov: ^5.4.0
   mockito: ^4.1.0
   pedantic: ^1.9.0
-  test: ^1.11.0
+  test: ^1.13.0
 
 executables:
   metrics:

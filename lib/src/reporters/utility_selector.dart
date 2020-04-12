@@ -5,6 +5,7 @@ import 'package:dart_code_metrics/src/models/component_report.dart';
 import 'package:dart_code_metrics/src/models/config.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/models/function_report.dart';
+import 'package:dart_code_metrics/src/models/function_report_metric.dart';
 import 'package:dart_code_metrics/src/models/violation_level.dart';
 import 'package:quiver/iterables.dart' as quiver;
 
@@ -56,38 +57,36 @@ class UtilitySelector {
 
   static ComponentReport componentReport(
       ComponentRecord record, Config config) {
-    var totalArgumentsCount = 0;
-    var totalArgumentsCountViolations = 0;
-    var averageMaintainabilityIndex = 0.0;
-    var totalMaintainabilityIndexViolations = 0;
     var totalCyclomaticComplexity = 0;
     var totalCyclomaticComplexityViolations = 0;
     var totalLinesOfCode = 0;
     var totalLinesOfCodeViolations = 0;
+    var averageMaintainabilityIndex = 0.0;
+    var totalMaintainabilityIndexViolations = 0;
+    var totalArgumentsCount = 0;
+    var totalArgumentsCountViolations = 0;
 
     for (final record in record.records.values) {
       final report = functionReport(record, config);
 
-      totalArgumentsCount += report.argumentsCount;
-      if (isIssueLevel(report.argumentsCountViolationLevel)) {
-        ++totalArgumentsCountViolations;
-      }
-
-      averageMaintainabilityIndex += report.maintainabilityIndex;
-      if (report.maintainabilityIndexViolationLevel == ViolationLevel.warning ||
-          report.maintainabilityIndexViolationLevel == ViolationLevel.alarm) {
-        ++totalMaintainabilityIndexViolations;
-      }
-
-      totalCyclomaticComplexity += report.cyclomaticComplexity;
-      if (report.cyclomaticComplexity >=
-          config.cyclomaticComplexityWarningLevel) {
+      totalCyclomaticComplexity += report.cyclomaticComplexity.value;
+      if (isIssueLevel(report.cyclomaticComplexity.violationLevel)) {
         ++totalCyclomaticComplexityViolations;
       }
 
-      totalLinesOfCode += report.linesOfCode;
-      if (report.linesOfCode >= config.linesOfCodeWarningLevel) {
+      totalLinesOfCode += report.linesOfCode.value;
+      if (isIssueLevel(report.linesOfCode.violationLevel)) {
         ++totalLinesOfCodeViolations;
+      }
+
+      averageMaintainabilityIndex += report.maintainabilityIndex.value;
+      if (isIssueLevel(report.maintainabilityIndex.violationLevel)) {
+        ++totalMaintainabilityIndexViolations;
+      }
+
+      totalArgumentsCount += report.argumentsCount.value;
+      if (isIssueLevel(report.argumentsCount.violationLevel)) {
+        ++totalArgumentsCountViolations;
       }
     }
 
@@ -150,28 +149,32 @@ class UtilitySelector {
         .toDouble();
 
     return FunctionReport(
-        cyclomaticComplexity: cyclomaticComplexity,
-        cyclomaticComplexityViolationLevel: _violationLevel(
-            cyclomaticComplexity, config.cyclomaticComplexityWarningLevel),
-        linesOfCode: linesOfCode,
-        linesOfCodeViolationLevel:
-            _violationLevel(linesOfCode, config.linesOfCodeWarningLevel),
-        maintainabilityIndex: maintainabilityIndex,
-        maintainabilityIndexViolationLevel:
-            _maintainabilityIndexViolationLevel(maintainabilityIndex),
-        argumentsCount: function.argumentsCount,
-        argumentsCountViolationLevel: _violationLevel(
-            function.argumentsCount, config.numberOfArgumentsWarningLevel));
+        cyclomaticComplexity: FunctionReportMetric<int>(
+            value: cyclomaticComplexity,
+            violationLevel: _violationLevel(
+                cyclomaticComplexity, config.cyclomaticComplexityWarningLevel)),
+        linesOfCode: FunctionReportMetric<int>(
+            value: linesOfCode,
+            violationLevel:
+                _violationLevel(linesOfCode, config.linesOfCodeWarningLevel)),
+        maintainabilityIndex: FunctionReportMetric<double>(
+            value: maintainabilityIndex,
+            violationLevel:
+                _maintainabilityIndexViolationLevel(maintainabilityIndex)),
+        argumentsCount: FunctionReportMetric<int>(
+            value: function.argumentsCount,
+            violationLevel: _violationLevel(function.argumentsCount,
+                config.numberOfArgumentsWarningLevel)));
   }
 
   static ViolationLevel functionViolationLevel(FunctionReport report) {
     final values = ViolationLevel.values.toList();
 
     final highestLevelIndex = quiver.max([
-      report.cyclomaticComplexityViolationLevel,
-      report.linesOfCodeViolationLevel,
-      report.maintainabilityIndexViolationLevel,
-      report.argumentsCountViolationLevel,
+      report.cyclomaticComplexity.violationLevel,
+      report.linesOfCode.violationLevel,
+      report.maintainabilityIndex.violationLevel,
+      report.argumentsCount.violationLevel,
     ].map(values.indexOf));
 
     return values.elementAt(highestLevelIndex);

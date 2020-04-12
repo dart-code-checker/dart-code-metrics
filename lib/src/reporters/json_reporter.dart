@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/config.dart';
+import 'package:dart_code_metrics/src/models/function_report_metric.dart';
 import 'package:dart_code_metrics/src/reporters/reporter.dart';
 import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
 import 'package:meta/meta.dart';
@@ -23,25 +24,13 @@ class JsonReporter implements Reporter {
         UtilitySelector.componentReport(record, reportConfig);
     return {
       'source': record.relativePath,
-      'records': record.records.asMap().map((key, value) {
+      'records': record.records.map((key, value) {
         final report = UtilitySelector.functionReport(value, reportConfig);
         return MapEntry(key, {
-          'cyclomatic-complexity': report.cyclomaticComplexity,
-          'cyclomatic-complexity-violation-level': report
-              .cyclomaticComplexityViolationLevel
-              .toString()
-              .toLowerCase(),
-          'lines-of-code': report.linesOfCode,
-          'lines-of-code-violation-level':
-              report.linesOfCodeViolationLevel.toString().toLowerCase(),
-          'maintainability-index': report.maintainabilityIndex.toInt(),
-          'maintainability-index-violation-level': report
-              .maintainabilityIndexViolationLevel
-              .toString()
-              .toLowerCase(),
-          'number-of-arguments': report.argumentsCount,
-          'number-of-arguments-violation-level':
-              report.argumentsCountViolationLevel.toString().toLowerCase(),
+          ..._report(report.cyclomaticComplexity, 'cyclomatic-complexity'),
+          ..._report(report.linesOfCode, 'lines-of-code'),
+          ..._report(report.maintainabilityIndex, 'maintainability-index'),
+          ..._report(report.argumentsCount, 'number-of-arguments'),
         });
       }),
       'average-number-of-arguments': componentReport.averageArgumentsCount,
@@ -49,4 +38,12 @@ class JsonReporter implements Reporter {
           componentReport.totalArgumentsCountViolations,
     };
   }
+
+  Map<String, Object> _report(
+          FunctionReportMetric<num> metric, String metricName) =>
+      {
+        metricName: metric.value.toInt(),
+        '$metricName-violation-level':
+            metric.violationLevel.toString().toLowerCase()
+      };
 }

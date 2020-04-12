@@ -1,6 +1,6 @@
-import 'package:built_collection/built_collection.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/models/function_report.dart';
+import 'package:dart_code_metrics/src/models/function_report_metric.dart';
 import 'package:dart_code_metrics/src/models/violation_level.dart';
 
 FunctionRecord buildFunctionRecordStub(
@@ -15,10 +15,10 @@ FunctionRecord buildFunctionRecordStub(
       firstLine: firstLine,
       lastLine: lastLine,
       argumentsCount: argumentsCount,
-      cyclomaticLinesComplexity: BuiltMap.from(cyclomaticLinesComplexity),
+      cyclomaticLinesComplexity: Map.unmodifiable(cyclomaticLinesComplexity),
       linesWithCode: linesWithCode,
-      operators: BuiltMap.from(operators),
-      operands: BuiltMap.from(operands),
+      operators: Map.unmodifiable(operators),
+      operands: Map.unmodifiable(operands),
     );
 
 FunctionReport buildFunctionReportStub(
@@ -31,11 +31,14 @@ FunctionReport buildFunctionReportStub(
         int argumentsCount = 0,
         ViolationLevel argumentsCountViolationLevel = ViolationLevel.none}) =>
     FunctionReport(
-        cyclomaticComplexity: cyclomaticComplexity,
-        cyclomaticComplexityViolationLevel: cyclomaticComplexityViolationLevel,
-        linesOfCode: linesOfCode,
-        linesOfCodeViolationLevel: linesOfCodeViolationLevel,
-        maintainabilityIndex: maintainabilityIndex,
-        maintainabilityIndexViolationLevel: maintainabilityIndexViolationLevel,
-        argumentsCount: argumentsCount,
-        argumentsCountViolationLevel: argumentsCountViolationLevel);
+        cyclomaticComplexity: FunctionReportMetric<int>(
+            value: cyclomaticComplexity,
+            violationLevel: cyclomaticComplexityViolationLevel),
+        linesOfCode: FunctionReportMetric<int>(
+            value: linesOfCode, violationLevel: linesOfCodeViolationLevel),
+        maintainabilityIndex: FunctionReportMetric<double>(
+            value: maintainabilityIndex,
+            violationLevel: maintainabilityIndexViolationLevel),
+        argumentsCount: FunctionReportMetric<int>(
+            value: argumentsCount,
+            violationLevel: argumentsCountViolationLevel));

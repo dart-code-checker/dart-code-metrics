@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/config.dart';
-import 'package:dart_code_metrics/src/models/violation_level.dart';
 import 'package:dart_code_metrics/src/reporters/code_climate/code_climate_issue.dart';
 import 'package:dart_code_metrics/src/reporters/reporter.dart';
 import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
@@ -19,9 +18,6 @@ class CodeClimateReporter implements Reporter {
           ? [json.encode(records.map(_toIssues).expand((r) => r).toList())]
           : [];
 
-  bool _isIssueLevel(ViolationLevel level) =>
-      level == ViolationLevel.warning || level == ViolationLevel.alarm;
-
   Iterable<CodeClimateIssue> _toIssues(ComponentRecord record) {
     final result = <CodeClimateIssue>[];
 
@@ -29,40 +25,42 @@ class CodeClimateReporter implements Reporter {
       final func = record.records[key];
       final report = UtilitySelector.functionReport(func, reportConfig);
 
-      if (_isIssueLevel(report.linesOfCodeViolationLevel)) {
-        result.add(CodeClimateIssue.linesOfCode(
-            func.firstLine,
-            func.lastLine,
-            func.linesWithCode.length,
-            record.relativePath,
-            key,
-            reportConfig.linesOfCodeWarningLevel));
-      }
-
-      if (_isIssueLevel(report.cyclomaticComplexityViolationLevel)) {
+      if (UtilitySelector.isIssueLevel(
+          report.cyclomaticComplexity.violationLevel)) {
         result.add(CodeClimateIssue.cyclomaticComplexity(
             func.firstLine,
             func.lastLine,
-            report.cyclomaticComplexity,
+            report.cyclomaticComplexity.value,
             record.relativePath,
             key,
             reportConfig.cyclomaticComplexityWarningLevel));
       }
 
-      if (_isIssueLevel(report.maintainabilityIndexViolationLevel)) {
+      if (UtilitySelector.isIssueLevel(report.linesOfCode.violationLevel)) {
+        result.add(CodeClimateIssue.linesOfCode(
+            func.firstLine,
+            func.lastLine,
+            report.linesOfCode.value,
+            record.relativePath,
+            key,
+            reportConfig.linesOfCodeWarningLevel));
+      }
+
+      if (UtilitySelector.isIssueLevel(
+          report.maintainabilityIndex.violationLevel)) {
         result.add(CodeClimateIssue.maintainabilityIndex(
             func.firstLine,
             func.lastLine,
-            report.maintainabilityIndex.toInt(),
+            report.maintainabilityIndex.value.toInt(),
             record.relativePath,
             key));
       }
 
-      if (UtilitySelector.isIssueLevel(report.argumentsCountViolationLevel)) {
+      if (UtilitySelector.isIssueLevel(report.argumentsCount.violationLevel)) {
         result.add(CodeClimateIssue.numberOfArguments(
             func.firstLine,
             func.lastLine,
-            func.argumentsCount,
+            report.argumentsCount.value,
             record.relativePath,
             key,
             reportConfig.numberOfArgumentsWarningLevel));

@@ -1,6 +1,7 @@
 import 'package:ansicolor/ansicolor.dart';
 import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/config.dart';
+import 'package:dart_code_metrics/src/models/function_report_metric.dart';
 import 'package:dart_code_metrics/src/models/violation_level.dart';
 import 'package:dart_code_metrics/src/reporters/reporter.dart';
 import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
@@ -47,20 +48,14 @@ class ConsoleReporter implements Reporter {
 
         if (reportAll || UtilitySelector.isIssueLevel(violationLevel)) {
           final violations = [
-            if (reportAll ||
-                report.cyclomaticComplexityViolationLevel !=
-                    ViolationLevel.none)
-              'cyclomatic complexity: ${_colorPens[report.cyclomaticComplexityViolationLevel]('${report.cyclomaticComplexity}')}',
-            if (reportAll ||
-                report.linesOfCodeViolationLevel != ViolationLevel.none)
-              'lines of code: ${_colorPens[report.linesOfCodeViolationLevel]('${report.linesOfCode}')}',
-            if (reportAll ||
-                report.maintainabilityIndexViolationLevel !=
-                    ViolationLevel.none)
-              'maintainability index: ${_colorPens[report.maintainabilityIndexViolationLevel]('${report.maintainabilityIndex.toInt()}')}',
-            if (reportAll ||
-                report.argumentsCountViolationLevel != ViolationLevel.none)
-              'number of arguments: ${_colorPens[report.argumentsCountViolationLevel]('${report.argumentsCount}')}',
+            if (reportAll || _isNeedToReport(report.cyclomaticComplexity))
+              _report(report.cyclomaticComplexity, 'cyclomatic complexity'),
+            if (reportAll || _isNeedToReport(report.linesOfCode))
+              _report(report.linesOfCode, 'lines of code'),
+            if (reportAll || _isNeedToReport(report.maintainabilityIndex))
+              _report(report.maintainabilityIndex, 'maintainability index'),
+            if (reportAll || _isNeedToReport(report.argumentsCount))
+              _report(report.argumentsCount, 'number of arguments'),
           ];
           lines.add(
               '${_colorPens[violationLevel](_humanReadableLabel[violationLevel]?.padRight(8))}$source - ${violations.join(', ')}');
@@ -76,4 +71,10 @@ class ConsoleReporter implements Reporter {
 
     return reportStrings;
   }
+
+  bool _isNeedToReport(FunctionReportMetric metric) =>
+      metric.violationLevel != ViolationLevel.none;
+
+  String _report(FunctionReportMetric<num> metric, String humanReadableName) =>
+      '$humanReadableName: ${_colorPens[metric.violationLevel]('${metric.value.toInt()}')}';
 }

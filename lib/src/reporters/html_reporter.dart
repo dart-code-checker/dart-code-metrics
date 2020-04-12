@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dart_code_metrics/src/models/function_report_metric.dart';
 import 'package:html/dom.dart';
 import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/config.dart';
@@ -378,14 +379,10 @@ class HtmlReporter implements Reporter {
                   .trim();
 
           complexityValueElement.attributes['title'] = 'Function stats:'
-              '\n${_cyclomaticComplexity.toLowerCase()}: ${report.cyclomaticComplexity}'
-              '\n${_cyclomaticComplexity.toLowerCase()} violation level: ${report.cyclomaticComplexityViolationLevel.toString().toLowerCase()}'
-              '\n${_linesOfCode.toLowerCase()}: ${report.linesOfCode}'
-              '\n${_linesOfCode.toLowerCase()} violation level: ${report.linesOfCodeViolationLevel.toString().toLowerCase()}'
-              '\n${_maintainabilityIndex.toLowerCase()}: ${report.maintainabilityIndex.toInt()}'
-              '\n${_maintainabilityIndex.toLowerCase()} violation level: ${report.maintainabilityIndexViolationLevel.toString().toLowerCase()}'
-              '\n${_nuberOfArguments.toLowerCase()}: ${report.argumentsCount}'
-              '\n${_nuberOfArguments.toLowerCase()} violation level: ${report.argumentsCountViolationLevel.toString().toLowerCase()}';
+              '${_report(report.cyclomaticComplexity, _cyclomaticComplexity)}'
+              '${_report(report.linesOfCode, _linesOfCode)}'
+              '${_report(report.maintainabilityIndex, _maintainabilityIndex)}'
+              '${_report(report.argumentsCount, _nuberOfArguments)}';
         }
 
         final lineWithComplexityIncrement =
@@ -533,4 +530,8 @@ class HtmlReporter implements Reporter {
         ..append(Element.tag('span')
           ..classes.add('metrics-total__count')
           ..text = value);
+
+  String _report(FunctionReportMetric<num> metric, String humanReadableName) =>
+      '\n${humanReadableName.toLowerCase()}: ${metric.value}'
+      '\n${humanReadableName.toLowerCase()} violation level: ${metric.violationLevel.toString().toLowerCase()}';
 }
