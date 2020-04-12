@@ -70,8 +70,7 @@ class UtilitySelector {
       final report = functionReport(record, config);
 
       totalCyclomaticComplexity += report.cyclomaticComplexity.value;
-      if (report.cyclomaticComplexity.value >=
-          config.cyclomaticComplexityWarningLevel) {
+      if (isIssueLevel(report.cyclomaticComplexity.violationLevel)) {
         ++totalCyclomaticComplexityViolations;
       }
 
