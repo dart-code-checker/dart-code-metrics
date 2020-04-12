@@ -25,16 +25,6 @@ class CodeClimateReporter implements Reporter {
       final func = record.records[key];
       final report = UtilitySelector.functionReport(func, reportConfig);
 
-      if (UtilitySelector.isIssueLevel(report.linesOfCodeViolationLevel)) {
-        result.add(CodeClimateIssue.linesOfCode(
-            func.firstLine,
-            func.lastLine,
-            func.linesWithCode.length,
-            record.relativePath,
-            key,
-            reportConfig.linesOfCodeWarningLevel));
-      }
-
       if (UtilitySelector.isIssueLevel(
           report.cyclomaticComplexity.violationLevel)) {
         result.add(CodeClimateIssue.cyclomaticComplexity(
@@ -44,6 +34,16 @@ class CodeClimateReporter implements Reporter {
             record.relativePath,
             key,
             reportConfig.cyclomaticComplexityWarningLevel));
+      }
+
+      if (UtilitySelector.isIssueLevel(report.linesOfCodeViolationLevel)) {
+        result.add(CodeClimateIssue.linesOfCode(
+            func.firstLine,
+            func.lastLine,
+            func.linesWithCode.length,
+            record.relativePath,
+            key,
+            reportConfig.linesOfCodeWarningLevel));
       }
 
       if (UtilitySelector.isIssueLevel(
