@@ -29,14 +29,14 @@ void main() {
         final record = buildFunctionRecordStub(argumentsCount: 0);
         final report = UtilitySelector.functionReport(record, Config());
 
-        expect(report.argumentsCount, 0);
-        expect(report.argumentsCountViolationLevel, ViolationLevel.none);
+        expect(report.argumentsCount.value, 0);
+        expect(report.argumentsCount.violationLevel, ViolationLevel.none);
       });
       test('with a lot of arguments', () {
         final record = buildFunctionRecordStub(argumentsCount: 10);
         final report = UtilitySelector.functionReport(record, Config());
-        expect(report.argumentsCount, 10);
-        expect(report.argumentsCountViolationLevel, ViolationLevel.alarm);
+        expect(report.argumentsCount.value, 10);
+        expect(report.argumentsCount.violationLevel, ViolationLevel.alarm);
       });
     });
     test(

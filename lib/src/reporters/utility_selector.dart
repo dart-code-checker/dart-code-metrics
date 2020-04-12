@@ -84,8 +84,8 @@ class UtilitySelector {
         ++totalMaintainabilityIndexViolations;
       }
 
-      totalArgumentsCount += report.argumentsCount;
-      if (isIssueLevel(report.argumentsCountViolationLevel)) {
+      totalArgumentsCount += report.argumentsCount.value;
+      if (isIssueLevel(report.argumentsCount.violationLevel)) {
         ++totalArgumentsCountViolations;
       }
     }
@@ -161,9 +161,10 @@ class UtilitySelector {
             value: maintainabilityIndex,
             violationLevel:
                 _maintainabilityIndexViolationLevel(maintainabilityIndex)),
-        argumentsCount: function.argumentsCount,
-        argumentsCountViolationLevel: _violationLevel(
-            function.argumentsCount, config.numberOfArgumentsWarningLevel));
+        argumentsCount: FunctionReportMetric<int>(
+            value: function.argumentsCount,
+            violationLevel: _violationLevel(function.argumentsCount,
+                config.numberOfArgumentsWarningLevel)));
   }
 
   static ViolationLevel functionViolationLevel(FunctionReport report) {
@@ -173,7 +174,7 @@ class UtilitySelector {
       report.cyclomaticComplexity.violationLevel,
       report.linesOfCode.violationLevel,
       report.maintainabilityIndex.violationLevel,
-      report.argumentsCountViolationLevel,
+      report.argumentsCount.violationLevel,
     ].map(values.indexOf));
 
     return values.elementAt(highestLevelIndex);

@@ -54,9 +54,8 @@ class ConsoleReporter implements Reporter {
               _report(report.linesOfCode, 'lines of code'),
             if (reportAll || _isNeedToReport(report.maintainabilityIndex))
               _report(report.maintainabilityIndex, 'maintainability index'),
-            if (reportAll ||
-                report.argumentsCountViolationLevel != ViolationLevel.none)
-              'number of arguments: ${_colorPens[report.argumentsCountViolationLevel]('${report.argumentsCount}')}',
+            if (reportAll || _isNeedToReport(report.argumentsCount))
+              _report(report.argumentsCount, 'number of arguments'),
           ];
           lines.add(
               '${_colorPens[violationLevel](_humanReadableLabel[violationLevel]?.padRight(8))}$source - ${violations.join(', ')}');

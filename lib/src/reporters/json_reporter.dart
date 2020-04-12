@@ -26,18 +26,12 @@ class JsonReporter implements Reporter {
       'source': record.relativePath,
       'records': record.records.map((key, value) {
         final report = UtilitySelector.functionReport(value, reportConfig);
-        return MapEntry(
-            key,
-            {
-              'number-of-arguments': report.argumentsCount,
-              'number-of-arguments-violation-level':
-                  report.argumentsCountViolationLevel.toString().toLowerCase(),
-            }
-              ..addAll(
-                  _report(report.cyclomaticComplexity, 'cyclomatic-complexity'))
-              ..addAll(_report(report.linesOfCode, 'lines-of-code'))
-              ..addAll(_report(
-                  report.maintainabilityIndex, 'maintainability-index')));
+        return MapEntry(key, {
+          ..._report(report.cyclomaticComplexity, 'cyclomatic-complexity'),
+          ..._report(report.linesOfCode, 'lines-of-code'),
+          ..._report(report.maintainabilityIndex, 'maintainability-index'),
+          ..._report(report.argumentsCount, 'number-of-arguments'),
+        });
       }),
       'average-number-of-arguments': componentReport.averageArgumentsCount,
       'total-number-of-arguments-violations':

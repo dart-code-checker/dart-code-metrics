@@ -39,5 +39,6 @@ FunctionReport buildFunctionReportStub(
         maintainabilityIndex: FunctionReportMetric<double>(
             value: maintainabilityIndex,
             violationLevel: maintainabilityIndexViolationLevel),
-        argumentsCount: argumentsCount,
-        argumentsCountViolationLevel: argumentsCountViolationLevel);
+        argumentsCount: FunctionReportMetric<int>(
+            value: argumentsCount,
+            violationLevel: argumentsCountViolationLevel));

@@ -56,11 +56,11 @@ class CodeClimateReporter implements Reporter {
             key));
       }
 
-      if (UtilitySelector.isIssueLevel(report.argumentsCountViolationLevel)) {
+      if (UtilitySelector.isIssueLevel(report.argumentsCount.violationLevel)) {
         result.add(CodeClimateIssue.numberOfArguments(
             func.firstLine,
             func.lastLine,
-            func.argumentsCount,
+            report.argumentsCount.value,
             record.relativePath,
             key,
             reportConfig.numberOfArgumentsWarningLevel));

@@ -382,8 +382,7 @@ class HtmlReporter implements Reporter {
               '${_report(report.cyclomaticComplexity, _cyclomaticComplexity)}'
               '${_report(report.linesOfCode, _linesOfCode)}'
               '${_report(report.maintainabilityIndex, _maintainabilityIndex)}'
-              '\n${_nuberOfArguments.toLowerCase()}: ${report.argumentsCount}'
-              '\n${_nuberOfArguments.toLowerCase()} violation level: ${report.argumentsCountViolationLevel.toString().toLowerCase()}';
+              '${_report(report.argumentsCount, _nuberOfArguments)}';
         }
 
         final lineWithComplexityIncrement =
