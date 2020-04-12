@@ -1,6 +1,7 @@
 import 'package:ansicolor/ansicolor.dart';
 import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/config.dart';
+import 'package:dart_code_metrics/src/models/function_report_metric.dart';
 import 'package:dart_code_metrics/src/models/violation_level.dart';
 import 'package:dart_code_metrics/src/reporters/reporter.dart';
 import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
@@ -47,10 +48,8 @@ class ConsoleReporter implements Reporter {
 
         if (reportAll || UtilitySelector.isIssueLevel(violationLevel)) {
           final violations = [
-            if (reportAll ||
-                report.cyclomaticComplexity.violationLevel !=
-                    ViolationLevel.none)
-              'cyclomatic complexity: ${_colorPens[report.cyclomaticComplexity.violationLevel]('${report.cyclomaticComplexity.value}')}',
+            if (reportAll || _isNeedToReport(report.cyclomaticComplexity))
+              _report(report.cyclomaticComplexity, 'cyclomatic complexity'),
             if (reportAll ||
                 report.linesOfCodeViolationLevel != ViolationLevel.none)
               'lines of code: ${_colorPens[report.linesOfCodeViolationLevel]('${report.linesOfCode}')}',
@@ -76,4 +75,10 @@ class ConsoleReporter implements Reporter {
 
     return reportStrings;
   }
+
+  bool _isNeedToReport(FunctionReportMetric metric) =>
+      metric.violationLevel != ViolationLevel.none;
+
+  String _report(FunctionReportMetric<num> metric, String humanReadableName) =>
+      '$humanReadableName: ${_colorPens[metric.violationLevel]('${metric.value.toInt()}')}';
 }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dart_code_metrics/src/models/function_report_metric.dart';
 import 'package:html/dom.dart';
 import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/config.dart';
@@ -378,8 +379,7 @@ class HtmlReporter implements Reporter {
                   .trim();
 
           complexityValueElement.attributes['title'] = 'Function stats:'
-              '\n${_cyclomaticComplexity.toLowerCase()}: ${report.cyclomaticComplexity.value}'
-              '\n${_cyclomaticComplexity.toLowerCase()} violation level: ${report.cyclomaticComplexity.violationLevel.toString().toLowerCase()}'
+              '${_report(report.cyclomaticComplexity, _cyclomaticComplexity)}'
               '\n${_linesOfCode.toLowerCase()}: ${report.linesOfCode}'
               '\n${_linesOfCode.toLowerCase()} violation level: ${report.linesOfCodeViolationLevel.toString().toLowerCase()}'
               '\n${_maintainabilityIndex.toLowerCase()}: ${report.maintainabilityIndex.toInt()}'
@@ -533,4 +533,8 @@ class HtmlReporter implements Reporter {
         ..append(Element.tag('span')
           ..classes.add('metrics-total__count')
           ..text = value);
+
+  String _report(FunctionReportMetric<num> metric, String humanReadableName) =>
+      '\n${humanReadableName.toLowerCase()}: ${metric.value}'
+      '\n${humanReadableName.toLowerCase()} violation level: ${metric.violationLevel.toString().toLowerCase()}';
 }
