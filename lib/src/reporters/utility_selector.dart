@@ -80,9 +80,7 @@ class UtilitySelector {
       }
 
       averageMaintainabilityIndex += report.maintainabilityIndex.value;
-      if (report.maintainabilityIndex.violationLevel ==
-              ViolationLevel.warning ||
-          report.maintainabilityIndex.violationLevel == ViolationLevel.alarm) {
+      if (isIssueLevel(report.maintainabilityIndex.violationLevel)) {
         ++totalMaintainabilityIndexViolations;
       }
 
