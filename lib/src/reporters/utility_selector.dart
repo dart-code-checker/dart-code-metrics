@@ -59,12 +59,12 @@ class UtilitySelector {
       ComponentRecord record, Config config) {
     var totalCyclomaticComplexity = 0;
     var totalCyclomaticComplexityViolations = 0;
+    var totalLinesOfCode = 0;
+    var totalLinesOfCodeViolations = 0;
     var totalArgumentsCount = 0;
     var totalArgumentsCountViolations = 0;
     var averageMaintainabilityIndex = 0.0;
     var totalMaintainabilityIndexViolations = 0;
-    var totalLinesOfCode = 0;
-    var totalLinesOfCodeViolations = 0;
 
     for (final record in record.records.values) {
       final report = functionReport(record, config);
@@ -72,6 +72,11 @@ class UtilitySelector {
       totalCyclomaticComplexity += report.cyclomaticComplexity.value;
       if (isIssueLevel(report.cyclomaticComplexity.violationLevel)) {
         ++totalCyclomaticComplexityViolations;
+      }
+
+      totalLinesOfCode += report.linesOfCode.value;
+      if (report.linesOfCode.value >= config.linesOfCodeWarningLevel) {
+        ++totalLinesOfCodeViolations;
       }
 
       totalArgumentsCount += report.argumentsCount;
@@ -83,11 +88,6 @@ class UtilitySelector {
       if (report.maintainabilityIndexViolationLevel == ViolationLevel.warning ||
           report.maintainabilityIndexViolationLevel == ViolationLevel.alarm) {
         ++totalMaintainabilityIndexViolations;
-      }
-
-      totalLinesOfCode += report.linesOfCode.value;
-      if (report.linesOfCode.value >= config.linesOfCodeWarningLevel) {
-        ++totalLinesOfCodeViolations;
       }
     }
 
