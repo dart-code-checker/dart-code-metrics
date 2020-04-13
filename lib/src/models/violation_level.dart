@@ -1,4 +1,4 @@
-class ViolationLevel {
+class ViolationLevel implements Comparable<ViolationLevel> {
   static const ViolationLevel none = ViolationLevel._('None');
   static const ViolationLevel noted = ViolationLevel._('Noted');
   static const ViolationLevel warning = ViolationLevel._('Warning');
@@ -21,4 +21,15 @@ class ViolationLevel {
 
   @override
   String toString() => _name;
+
+  @override
+  int compareTo(ViolationLevel other) {
+    final valuesList = values.toList(growable: false);
+    return valuesList.indexOf(this).compareTo(valuesList.indexOf(other));
+  }
+
+  bool operator >(ViolationLevel other) => compareTo(other) > 0;
+  bool operator >=(ViolationLevel other) => compareTo(other) >= 0;
+  bool operator <(ViolationLevel other) => compareTo(other) < 0;
+  bool operator <=(ViolationLevel other) => compareTo(other) <= 0;
 }
