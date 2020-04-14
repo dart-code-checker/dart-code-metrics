@@ -123,18 +123,13 @@ class UtilitySelector {
                 config.numberOfArgumentsWarningLevel)));
   }
 
-  static ViolationLevel functionViolationLevel(FunctionReport report) {
-    final values = ViolationLevel.values.toList();
-
-    final highestLevelIndex = quiver.max([
-      report.cyclomaticComplexity.violationLevel,
-      report.linesOfCode.violationLevel,
-      report.maintainabilityIndex.violationLevel,
-      report.argumentsCount.violationLevel,
-    ].map(values.indexOf));
-
-    return values.elementAt(highestLevelIndex);
-  }
+  static ViolationLevel functionViolationLevel(FunctionReport report) =>
+      quiver.max([
+        report.cyclomaticComplexity.violationLevel,
+        report.linesOfCode.violationLevel,
+        report.maintainabilityIndex.violationLevel,
+        report.argumentsCount.violationLevel,
+      ]);
 
   static bool isIssueLevel(ViolationLevel level) =>
       level == ViolationLevel.warning || level == ViolationLevel.alarm;
