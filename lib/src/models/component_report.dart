@@ -1,5 +1,28 @@
 import 'package:meta/meta.dart';
 
+ComponentReport mergeComponentReports(ComponentReport lhs,
+        ComponentReport rhs) =>
+    ComponentReport(
+        averageArgumentsCount:
+            ((lhs.averageArgumentsCount + rhs.averageArgumentsCount) / 2)
+                .round(),
+        totalArgumentsCountViolations: lhs.totalArgumentsCountViolations +
+            rhs.totalArgumentsCountViolations,
+        averageMaintainabilityIndex: (lhs.averageMaintainabilityIndex +
+                rhs.averageMaintainabilityIndex) /
+            2,
+        totalMaintainabilityIndexViolations:
+            lhs.totalMaintainabilityIndexViolations +
+                rhs.totalMaintainabilityIndexViolations,
+        totalCyclomaticComplexity:
+            lhs.totalCyclomaticComplexity + rhs.totalCyclomaticComplexity,
+        totalCyclomaticComplexityViolations:
+            lhs.totalCyclomaticComplexityViolations +
+                rhs.totalCyclomaticComplexityViolations,
+        totalLinesOfCode: lhs.totalLinesOfCode + rhs.totalLinesOfCode,
+        totalLinesOfCodeViolations:
+            lhs.totalLinesOfCodeViolations + rhs.totalLinesOfCodeViolations);
+
 @immutable
 class ComponentReport {
   final int averageArgumentsCount;
@@ -23,14 +46,4 @@ class ComponentReport {
       @required this.totalCyclomaticComplexityViolations,
       @required this.totalLinesOfCode,
       @required this.totalLinesOfCodeViolations});
-
-  const ComponentReport.empty()
-      : averageArgumentsCount = 0,
-        totalArgumentsCountViolations = 0,
-        averageMaintainabilityIndex = 0,
-        totalMaintainabilityIndexViolations = 0,
-        totalCyclomaticComplexity = 0,
-        totalCyclomaticComplexityViolations = 0,
-        totalLinesOfCode = 0,
-        totalLinesOfCodeViolations = 0;
 }
