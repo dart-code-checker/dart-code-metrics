@@ -14,7 +14,7 @@ class ViolationLevel {
   final String _name;
 
   factory ViolationLevel.fromString(String s) =>
-      values.firstWhere((v) => v.toString().toLowerCase() == s.toLowerCase(),
+      values.firstWhere((v) => v.toString().toLowerCase() == s?.toLowerCase(),
           orElse: () => null);
 
   const ViolationLevel._(this._name);
