@@ -134,6 +134,14 @@ class UtilitySelector {
   static bool isIssueLevel(ViolationLevel level) =>
       level == ViolationLevel.warning || level == ViolationLevel.alarm;
 
+  static ViolationLevel maxViolationLevel(
+          Iterable<ComponentRecord> records, Config config) =>
+      quiver.max(records
+          .expand((componentRecord) => componentRecord.records.values.map(
+              (functionRecord) =>
+                  UtilitySelector.functionReport(functionRecord, config)))
+          .map(UtilitySelector.functionViolationLevel));
+
   static ViolationLevel _violationLevel(int value, int warningLevel) {
     if (value > warningLevel * 2) {
       return ViolationLevel.alarm;
