@@ -1,6 +1,6 @@
 # Changelog
 
-# Unreleased
+# 1.4.0
 - Drop dependency on built_collection
 - Add set-exit-on-violation-level cli argument
 
