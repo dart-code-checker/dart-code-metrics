@@ -2,6 +2,7 @@
 
 # Unreleased
 - Drop dependency on built_collection
+- Add set-exit-on-violation-level cli argument
 
 # 1.3.1
 - Fix get arguments count
