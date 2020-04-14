@@ -42,6 +42,8 @@ Usage: metrics [options...] <directories>
                                                        (defaults to "{/**.g.dart,/**.template.dart}")
 
     --verbose
+    --set-exit-on-violation-level=<warning>            Set exit code 2 if code violations same or higher level than selected are detected
+                                                       [noted, warning, alarm]
 ```
 
 ### Use as library

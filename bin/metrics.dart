@@ -5,6 +5,8 @@ import 'package:dart_code_metrics/reporters.dart';
 import 'package:dart_code_metrics/src/cli/arguments_parser.dart';
 import 'package:dart_code_metrics/src/cli/arguments_validation.dart';
 import 'package:dart_code_metrics/src/cli/arguments_validation_exceptions.dart';
+import 'package:dart_code_metrics/src/models/violation_level.dart';
+import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
 import 'package:glob/glob.dart';
 
 final parser = argumentsParser();
@@ -27,7 +29,9 @@ void main(List<String> args) {
         int.parse(arguments[linesOfCodeThreshold] as String),
         int.parse(arguments[numberOfArgumentsThreshold] as String),
         arguments[reporterOptionName] as String,
-        arguments[verboseName] as bool);
+        arguments[verboseName] as bool,
+        ViolationLevel.fromString(
+            arguments[setExitOnViolationLevel] as String));
   } on FormatException catch (e) {
     print('${e.message}\n');
     _showUsageAndExit(1);
@@ -51,7 +55,8 @@ void _runAnalysis(
     int linesOfCodeThreshold,
     int numberOfArgumentsWarningLevel,
     String reporterType,
-    bool verbose) {
+    bool verbose,
+    ViolationLevel setExitOnViolationLevel) {
   var dartFilePaths = analysisDirectories.expand((directory) =>
       Glob('$directory**.dart')
           .listSync(root: rootFolder, followLinks: false)
@@ -95,4 +100,10 @@ void _runAnalysis(
   }
 
   reporter.report(runner.results()).forEach(print);
+
+  if (setExitOnViolationLevel != null &&
+      UtilitySelector.maxViolationLevel(runner.results(), config) >=
+          setExitOnViolationLevel) {
+    exit(2);
+  }
 }

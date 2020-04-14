@@ -12,6 +12,7 @@ const numberOfArgumentsThreshold = 'number-of-arguments';
 const verboseName = 'verbose';
 const ignoredFilesName = 'ignore-files';
 const rootFolderName = 'root-folder';
+const setExitOnViolationLevel = 'set-exit-on-violation-level';
 
 ArgParser argumentsParser() => ArgParser()
   ..addFlag(helpFlagName,
@@ -48,4 +49,9 @@ ArgParser argumentsParser() => ArgParser()
       help: 'Filepaths in Glob syntax to be ignored',
       valueHelp: '{/**.g.dart,/**.template.dart}',
       defaultsTo: '{/**.g.dart,/**.template.dart}')
-  ..addFlag(verboseName, negatable: false);
+  ..addFlag(verboseName, negatable: false)
+  ..addOption(setExitOnViolationLevel,
+      allowed: ['noted', 'warning', 'alarm'],
+      valueHelp: 'warning',
+      help:
+          'Set exit code 2 if code violations same or higher level than selected are detected');
