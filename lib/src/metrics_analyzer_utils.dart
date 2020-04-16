@@ -15,7 +15,7 @@ int getArgumentsCount(ScopedDeclaration dec) {
   return argumentsCount ?? 0;
 }
 
-String getQualifiedName(ScopedDeclaration dec) {
+String getHumanReadableName(ScopedDeclaration dec) {
   final declaration = dec.declaration;
 
   if (declaration is FunctionDeclaration) {
