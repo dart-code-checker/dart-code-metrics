@@ -15,7 +15,7 @@ FunctionRecord buildFunctionRecordStub(
       firstLine: firstLine,
       lastLine: lastLine,
       argumentsCount: argumentsCount,
-      cyclomaticLinesComplexity: Map.unmodifiable(cyclomaticLinesComplexity),
+      cyclomaticComplexityLines: Map.unmodifiable(cyclomaticLinesComplexity),
       linesWithCode: linesWithCode,
       operators: Map.unmodifiable(operators),
       operands: Map.unmodifiable(operands),

@@ -66,7 +66,7 @@ class UtilitySelector {
 
   static FunctionReport functionReport(FunctionRecord function, Config config) {
     final cyclomaticComplexity =
-        sum(function.cyclomaticLinesComplexity.values) + 1;
+        sum(function.cyclomaticComplexityLines.values) + 1;
 
     final linesOfCode = function.linesWithCode.length;
 
