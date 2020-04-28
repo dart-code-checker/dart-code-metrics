@@ -1,6 +1,8 @@
 include: package:pedantic/analysis_options.yaml
 
 analyzer:
+  plugins:
+    - dart_code_metrics
   strong-mode:
     implicit-casts: false
     implicit-dynamic: false
