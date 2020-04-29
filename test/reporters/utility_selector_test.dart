@@ -13,13 +13,15 @@ void main() {
     test('componentReport calculate report for file', () {
       final report = UtilitySelector.componentReport(
           ComponentRecord(
-              fullPath: '/home/developer/work/project/example.dart',
-              relativePath: 'example.dart',
-              records: Map.unmodifiable(<String, FunctionRecord>{
-                'function': buildFunctionRecordStub(argumentsCount: 0),
-                'function2': buildFunctionRecordStub(argumentsCount: 6),
-                'function3': buildFunctionRecordStub(argumentsCount: 10),
-              })),
+            fullPath: '/home/developer/work/project/example.dart',
+            relativePath: 'example.dart',
+            records: Map.unmodifiable(<String, FunctionRecord>{
+              'function': buildFunctionRecordStub(argumentsCount: 0),
+              'function2': buildFunctionRecordStub(argumentsCount: 6),
+              'function3': buildFunctionRecordStub(argumentsCount: 10),
+            }),
+            issues: const [],
+          ),
           const Config());
       expect(report.averageArgumentsCount, 5);
       expect(report.totalArgumentsCountViolations, 2);

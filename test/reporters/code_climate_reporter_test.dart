@@ -24,7 +24,8 @@ void main() {
             relativePath: 'example.dart',
             records: Map.unmodifiable(<String, FunctionRecord>{
               'function': buildFunctionRecordStub(argumentsCount: 0)
-            }))
+            }),
+            issues: const [])
       ];
 
       final report =
@@ -40,7 +41,8 @@ void main() {
             relativePath: 'example.dart',
             records: Map.unmodifiable(<String, FunctionRecord>{
               'function': buildFunctionRecordStub(argumentsCount: 10)
-            }))
+            }),
+            issues: const [])
       ];
 
       final report =

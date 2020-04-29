@@ -20,11 +20,13 @@ void main() {
     test('without arguments', () {
       final records = [
         ComponentRecord(
-            fullPath: '/home/developer/work/project/example.dart',
-            relativePath: 'example.dart',
-            records: Map.unmodifiable(<String, FunctionRecord>{
-              'function': buildFunctionRecordStub(argumentsCount: 0)
-            }))
+          fullPath: '/home/developer/work/project/example.dart',
+          relativePath: 'example.dart',
+          records: Map.unmodifiable(<String, FunctionRecord>{
+            'function': buildFunctionRecordStub(argumentsCount: 0)
+          }),
+          issues: const [],
+        )
       ];
 
       final report = _reporter.report(records);
@@ -38,11 +40,13 @@ void main() {
     test('with a lot of arguments', () {
       final records = [
         ComponentRecord(
-            fullPath: '/home/developer/work/project/example.dart',
-            relativePath: 'example.dart',
-            records: Map.unmodifiable(<String, FunctionRecord>{
-              'function': buildFunctionRecordStub(argumentsCount: 10)
-            }))
+          fullPath: '/home/developer/work/project/example.dart',
+          relativePath: 'example.dart',
+          records: Map.unmodifiable(<String, FunctionRecord>{
+            'function': buildFunctionRecordStub(argumentsCount: 10)
+          }),
+          issues: const [],
+        )
       ];
 
       final report = _reporter.report(records).toList();

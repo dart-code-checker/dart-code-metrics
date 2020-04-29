@@ -1,3 +1,4 @@
+import 'package:dart_code_metrics/src/models/code_issue.dart';
 import 'package:meta/meta.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 
@@ -8,8 +9,12 @@ class ComponentRecord {
 
   final Map<String, FunctionRecord> records;
 
-  const ComponentRecord(
-      {@required this.fullPath,
-      @required this.relativePath,
-      @required this.records});
+  final Iterable<CodeIssue> issues;
+
+  const ComponentRecord({
+    @required this.fullPath,
+    @required this.relativePath,
+    @required this.records,
+    @required this.issues,
+  });
 }

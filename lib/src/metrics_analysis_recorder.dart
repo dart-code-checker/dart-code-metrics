@@ -1,3 +1,4 @@
+import 'package:dart_code_metrics/src/models/code_issue.dart';
 import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:path/path.dart' as p;
@@ -8,6 +9,7 @@ class MetricsAnalysisRecorder {
   String _fileGroupPath;
   String _relativeGroupPath;
   Map<String, FunctionRecord> _groupRecords;
+  List<CodeIssue> _issues;
 
   final _records = <ComponentRecord>[];
   Iterable<ComponentRecord> records() => _records;
@@ -26,16 +28,19 @@ class MetricsAnalysisRecorder {
         ? p.relative(filePath, from: rootDirectory)
         : filePath;
     _groupRecords = {};
+    _issues = [];
   }
 
   void endRecordFile() {
     _records.add(ComponentRecord(
         fullPath: _fileGroupPath,
         relativePath: _relativeGroupPath,
-        records: Map.unmodifiable(_groupRecords)));
+        records: Map.unmodifiable(_groupRecords),
+        issues: _issues));
     _relativeGroupPath = null;
     _fileGroupPath = null;
     _groupRecords = null;
+    _issues = null;
   }
 
   void record(String recordName, FunctionRecord report) {

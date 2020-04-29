@@ -20,13 +20,15 @@ void main() {
     test('component', () {
       final records = [
         ComponentRecord(
-            fullPath: '/home/developer/work/project/example.dart',
-            relativePath: 'example.dart',
-            records: Map.unmodifiable(<String, FunctionRecord>{
-              'function': buildFunctionRecordStub(argumentsCount: 0),
-              'function2': buildFunctionRecordStub(argumentsCount: 6),
-              'function3': buildFunctionRecordStub(argumentsCount: 10),
-            }))
+          fullPath: '/home/developer/work/project/example.dart',
+          relativePath: 'example.dart',
+          records: Map.unmodifiable(<String, FunctionRecord>{
+            'function': buildFunctionRecordStub(argumentsCount: 0),
+            'function2': buildFunctionRecordStub(argumentsCount: 6),
+            'function3': buildFunctionRecordStub(argumentsCount: 10),
+          }),
+          issues: const [],
+        )
       ];
 
       final report =
@@ -41,11 +43,13 @@ void main() {
       test('without arguments', () {
         final records = [
           ComponentRecord(
-              fullPath: '/home/developer/work/project/example.dart',
-              relativePath: 'example.dart',
-              records: Map.unmodifiable(<String, FunctionRecord>{
-                'function': buildFunctionRecordStub(argumentsCount: 0)
-              }))
+            fullPath: '/home/developer/work/project/example.dart',
+            relativePath: 'example.dart',
+            records: Map.unmodifiable(<String, FunctionRecord>{
+              'function': buildFunctionRecordStub(argumentsCount: 0)
+            }),
+            issues: const [],
+          )
         ];
 
         final report =
@@ -61,11 +65,13 @@ void main() {
       test('with a lot of arguments', () {
         final records = [
           ComponentRecord(
-              fullPath: '/home/developer/work/project/example.dart',
-              relativePath: 'example.dart',
-              records: Map.unmodifiable(<String, FunctionRecord>{
-                'function': buildFunctionRecordStub(argumentsCount: 10)
-              }))
+            fullPath: '/home/developer/work/project/example.dart',
+            relativePath: 'example.dart',
+            records: Map.unmodifiable(<String, FunctionRecord>{
+              'function': buildFunctionRecordStub(argumentsCount: 10)
+            }),
+            issues: const [],
+          )
         ];
 
         final report =
