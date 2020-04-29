@@ -105,6 +105,8 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
       ResolvedUnitResult analysisResult) {
     final result = <plugin.AnalysisError, plugin.PrioritizedSourceChange>{};
 
+    if (isSupported(analysisResult)) {}
+
     return result;
   }
 }
