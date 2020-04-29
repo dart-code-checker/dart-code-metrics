@@ -8,27 +8,13 @@ import 'package:analyzer/src/dart/analysis/driver.dart';
 import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart' as plugin;
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
-import 'package:dart_code_metrics/src/analyzer_plugin/checker.dart';
+import 'package:dart_code_metrics/src/analyzer_plugin/analyzer_plugin_utils.dart';
 
 class MetricsAnalyzerPlugin extends ServerPlugin {
-  final Checker checker = Checker();
-
   MetricsAnalyzerPlugin(ResourceProvider provider) : super(provider);
 
   @override
-  AnalysisDriverGeneric createAnalysisDriver(plugin.ContextRoot contextRoot) {
-    final root = ContextRoot(contextRoot.root, contextRoot.exclude,
-        pathContext: resourceProvider.pathContext)
-      ..optionsFilePath = contextRoot.optionsFile;
-    final contextBuilder = ContextBuilder(resourceProvider, sdkManager, null)
-      ..analysisDriverScheduler = analysisDriverScheduler
-      ..byteStore = byteStore
-      ..performanceLog = performanceLog
-      ..fileContentOverlay = fileContentOverlay;
-    final result = contextBuilder.buildDriver(root);
-    result.results.listen(_processResult);
-    return result;
-  }
+  String get contactInfo => 'https://github.com/wrike/dart-code-metrics/issues';
 
   @override
   List<String> get fileGlobsToAnalyze => const ['*.dart'];
@@ -40,31 +26,30 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
   String get version => '1.4.0';
 
   @override
-  String get contactInfo => 'https://github.com/wrike/dart-code-metrics/issues';
-
-  void _processResult(ResolvedUnitResult analysisResult) {
-    try {
-      if (analysisResult.unit == null ||
-          analysisResult.libraryElement == null) {
-        channel.sendNotification(
-            plugin.AnalysisErrorsParams(analysisResult.path, [])
-                .toNotification());
-      } else {
-        final checkResult = checker.check(analysisResult.libraryElement);
-        channel.sendNotification(plugin.AnalysisErrorsParams(
-                analysisResult.path, checkResult.keys.toList())
-            .toNotification());
-      }
-    } catch (e, stackTrace) {
-      channel.sendNotification(
-          plugin.PluginErrorParams(false, e.toString(), stackTrace.toString())
-              .toNotification());
-    }
+  void contentChanged(String path) {
+    super.driverForPath(path).addFile(path);
   }
 
   @override
-  void contentChanged(String path) {
-    super.driverForPath(path).addFile(path);
+  AnalysisDriverGeneric createAnalysisDriver(plugin.ContextRoot contextRoot) {
+    final root = ContextRoot(contextRoot.root, contextRoot.exclude,
+        pathContext: resourceProvider.pathContext)
+      ..optionsFilePath = contextRoot.optionsFile;
+
+    final contextBuilder = ContextBuilder(resourceProvider, sdkManager, null)
+      ..analysisDriverScheduler = analysisDriverScheduler
+      ..byteStore = byteStore
+      ..performanceLog = performanceLog
+      ..fileContentOverlay = fileContentOverlay;
+
+    final dartDriver = contextBuilder.buildDriver(root);
+    dartDriver
+      ..analysisContext
+          .contextRoot
+          .analyzedFiles()
+          .forEach(dartDriver.getResult)
+      ..results.listen(_processResult);
+    return dartDriver;
   }
 
   @override
@@ -75,10 +60,10 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
           await (driverForPath(parameters.file) as AnalysisDriver)
               .getResult(parameters.file);
 
-      final checkResult = checker.check(analysisResult.libraryElement);
+      final checkResult = _check(analysisResult);
 
       final fixes = <plugin.AnalysisErrorFixes>[];
-      for (var error in checkResult.keys) {
+      for (final error in checkResult.keys) {
         if (error.location.file == parameters.file &&
             checkResult[error].change.edits.single.edits.isNotEmpty) {
           fixes.add(
@@ -93,5 +78,33 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
               .toNotification());
       return plugin.EditGetFixesResult([]);
     }
+  }
+
+  void _processResult(ResolvedUnitResult analysisResult) {
+    try {
+      if (analysisResult.unit != null &&
+          analysisResult.libraryElement != null) {
+        final checkResult = _check(analysisResult);
+
+        channel.sendNotification(plugin.AnalysisErrorsParams(
+                analysisResult.path, checkResult.keys.toList())
+            .toNotification());
+      } else {
+        channel.sendNotification(
+            plugin.AnalysisErrorsParams(analysisResult.path, [])
+                .toNotification());
+      }
+    } catch (e, stackTrace) {
+      channel.sendNotification(
+          plugin.PluginErrorParams(false, e.toString(), stackTrace.toString())
+              .toNotification());
+    }
+  }
+
+  Map<plugin.AnalysisError, plugin.PrioritizedSourceChange> _check(
+      ResolvedUnitResult analysisResult) {
+    final result = <plugin.AnalysisError, plugin.PrioritizedSourceChange>{};
+
+    return result;
   }
 }
