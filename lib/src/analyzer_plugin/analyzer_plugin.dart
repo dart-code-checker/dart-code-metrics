@@ -60,16 +60,11 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
           await (driverForPath(parameters.file) as AnalysisDriver)
               .getResult(parameters.file);
 
-      final checkResult = _check(analysisResult);
-
-      final fixes = <plugin.AnalysisErrorFixes>[];
-      for (final error in checkResult.keys) {
-        if (error.location.file == parameters.file &&
-            checkResult[error].change.edits.single.edits.isNotEmpty) {
-          fixes.add(
-              plugin.AnalysisErrorFixes(error, fixes: [checkResult[error]]));
-        }
-      }
+      final fixes = _check(analysisResult)
+          .where((fix) =>
+              fix.error.location.file == parameters.file &&
+              fix.fixes.isNotEmpty)
+          .toList();
 
       return plugin.EditGetFixesResult(fixes);
     } catch (e, stackTrace) {
@@ -84,10 +79,10 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     try {
       if (analysisResult.unit != null &&
           analysisResult.libraryElement != null) {
-        final checkResult = _check(analysisResult);
+        final fixes = _check(analysisResult);
 
         channel.sendNotification(plugin.AnalysisErrorsParams(
-                analysisResult.path, checkResult.keys.toList())
+                analysisResult.path, fixes.map((fix) => fix.error).toList())
             .toNotification());
       } else {
         channel.sendNotification(
@@ -101,9 +96,9 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     }
   }
 
-  Map<plugin.AnalysisError, plugin.PrioritizedSourceChange> _check(
+  Iterable<plugin.AnalysisErrorFixes> _check(
       ResolvedUnitResult analysisResult) {
-    final result = <plugin.AnalysisError, plugin.PrioritizedSourceChange>{};
+    final result = <plugin.AnalysisErrorFixes>[];
 
     if (isSupported(analysisResult)) {}
 
