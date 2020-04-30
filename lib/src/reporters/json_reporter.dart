@@ -33,6 +33,20 @@ class JsonReporter implements Reporter {
           ..._report(report.argumentsCount, 'number-of-arguments'),
         });
       }),
+      'issues': record.issues
+          .map((issue) => {
+                'severity': issue.severity.toString().split('.').last,
+                'ruleId': issue.ruleId,
+                if (issue.ruleDocumentationUri != null)
+                  'ruleDocumentationUrl': issue.ruleDocumentationUri.toString(),
+                'lineNumber': issue.sourceSpan.start.line,
+                'columnNumber': issue.sourceSpan.start.column,
+                'message': issue.message,
+                if (issue.correction != null) 'correction': issue.correction,
+                if (issue.correctionComment != null)
+                  'correctionComment': issue.correctionComment,
+              })
+          .toList(),
       'average-number-of-arguments': componentReport.averageArgumentsCount,
       'total-number-of-arguments-violations':
           componentReport.totalArgumentsCountViolations,
