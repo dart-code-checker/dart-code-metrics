@@ -13,7 +13,7 @@ double log2(num a) => log(a) / ln2;
 
 num sum(Iterable<num> it) => it.fold(0, (a, b) => a + b);
 
-double avg(Iterable<num> it) => sum(it) / it.length;
+double avg(Iterable<num> it) => it.isNotEmpty ? sum(it) / it.length : 0;
 
 class UtilitySelector {
   static ComponentReport analysisReportForRecords(
