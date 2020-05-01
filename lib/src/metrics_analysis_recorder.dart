@@ -47,11 +47,21 @@ class MetricsAnalysisRecorder {
     if (recordName == null) {
       throw ArgumentError.notNull('recordName');
     }
-    if (_groupRecords == null) {
-      throw StateError(
-          'No record groups have been started. Use `startRecordFile` before `record`');
-    }
+    _checkState();
 
     _groupRecords[recordName] = report;
+  }
+
+  void recordIssues(Iterable<CodeIssue> issues) {
+    _checkState();
+
+    _issues.addAll(issues);
+  }
+
+  void _checkState() {
+    if (_groupRecords == null) {
+      throw StateError(
+          'No record groups have been started. Use `startRecordFile` before record any data');
+    }
   }
 }
