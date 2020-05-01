@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
+import 'package:dart_code_metrics/src/models/code_issue.dart';
+import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
 import 'package:meta/meta.dart';
 
 @immutable
@@ -32,25 +34,26 @@ class CodeClimateLocation {
 @immutable
 class CodeClimateIssue {
   static const String type = 'issue';
-  static const Iterable<String> categories = ['Complexity'];
   static const int remediationPoints = 50000;
 
   final String checkName;
   final String description;
+  final Iterable<String> categories;
   final CodeClimateLocation location;
   final String fingerprint;
 
-  const CodeClimateIssue._(
-      this.checkName, this.description, this.location, this.fingerprint);
+  const CodeClimateIssue._(this.checkName, this.description, this.categories,
+      this.location, this.fingerprint);
 
   factory CodeClimateIssue._create(
-      String name, String desc, int startLine, int endLine, String fileName) {
+      String name, String desc, int startLine, int endLine, String fileName,
+      {Iterable<String> categories = const ['Complexity']}) {
     final locationLines = CodeClimateLocationLines(startLine, endLine);
     final location = CodeClimateLocation(fileName, locationLines);
     final fingerprint = md5
         .convert(utf8.encode('$name $desc $startLine $endLine $fileName'))
         .toString();
-    return CodeClimateIssue._(name, desc, location, fingerprint);
+    return CodeClimateIssue._(name, desc, categories, location, fingerprint);
   }
 
   factory CodeClimateIssue.linesOfCode(int startLine, int endLine, int value,
@@ -83,6 +86,16 @@ class CodeClimateIssue {
         'Function `$functionName` has $value number of arguments (exceeds $threshold allowed). Consider refactoring.';
     return CodeClimateIssue._create(
         'numberOfArguments', desc, startLine, endLine, fileName);
+  }
+
+  factory CodeClimateIssue.fromCodeIssue(CodeIssue issue, String fileName) {
+    const severityHumanReadable = {
+      CodeIssueSeverity.style: ['Style'],
+    };
+
+    return CodeClimateIssue._create(issue.ruleId, issue.message,
+        issue.sourceSpan.start.line, issue.sourceSpan.start.line, fileName,
+        categories: severityHumanReadable[issue.severity]);
   }
 
   Map<String, Object> toJson() => {
