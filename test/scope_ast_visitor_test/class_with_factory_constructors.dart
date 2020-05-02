@@ -2,7 +2,7 @@ class SampleClass {
   const SampleClass._();
 
   factory SampleClass._create() {
-    return SampleClass._();
+    return const SampleClass._();
   }
 
   factory SampleClass.createInstance() {

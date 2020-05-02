@@ -42,14 +42,14 @@ void main() {
 
       expect(visitor.declarations.length, equals(2));
       expect(visitor.declarations.first.declaration,
-          TypeMatcher<ConstructorDeclaration>());
+          const TypeMatcher<ConstructorDeclaration>());
       expect(
           (visitor.declarations.first.declaration as ConstructorDeclaration)
               .name
               .toString(),
           '_create');
       expect(visitor.declarations.last.declaration,
-          TypeMatcher<ConstructorDeclaration>());
+          const TypeMatcher<ConstructorDeclaration>());
       expect(
           (visitor.declarations.last.declaration as ConstructorDeclaration)
               .name
