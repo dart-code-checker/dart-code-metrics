@@ -61,6 +61,7 @@ linter:
     - package_prefixed_library_names
     - parameter_assignments
     - prefer_asserts_in_initializer_lists
+    - prefer_asserts_with_message
     - prefer_const_constructors
     - prefer_const_constructors_in_immutables
     - prefer_const_declarations

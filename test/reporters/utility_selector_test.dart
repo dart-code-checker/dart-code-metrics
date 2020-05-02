@@ -78,7 +78,8 @@ void main() {
         ViolationLevel.alarm: isTrue,
       };
 
-      assert(violationsMapping.keys.length == ViolationLevel.values.length);
+      assert(violationsMapping.keys.length == ViolationLevel.values.length,
+          'invalid sizes');
 
       violationsMapping.forEach((key, value) {
         expect(UtilitySelector.isIssueLevel(key), value);
