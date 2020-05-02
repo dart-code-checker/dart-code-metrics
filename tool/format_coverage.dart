@@ -64,7 +64,7 @@ lcov.Record _fileToUncoveredRecord(String filePath) {
 
 Iterable<File> _findSourceFiles(Directory directory, bool skipGenerated) {
   final sourceFiles = <File>[];
-  for (var fileOrDir in directory.listSync()) {
+  for (final fileOrDir in directory.listSync()) {
     if (fileOrDir is File &&
         _isSourceFileHaveValidExtension(fileOrDir) &&
         _isSourceFileNotPartOfLibrary(fileOrDir)) {
