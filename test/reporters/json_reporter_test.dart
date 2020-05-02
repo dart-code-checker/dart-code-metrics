@@ -14,7 +14,7 @@ void main() {
     JsonReporter _reporter;
 
     setUp(() {
-      _reporter = JsonReporter(reportConfig: Config());
+      _reporter = JsonReporter(reportConfig: const Config());
     });
 
     test('component', () {

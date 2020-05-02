@@ -33,8 +33,8 @@ void main() {
 
       test('returns ViolationLevel.none if no violations', () {
         expect(
-            UtilitySelector.maxViolationLevel(
-                componentRecords, Config(linesOfCodeWarningLevel: 100500)),
+            UtilitySelector.maxViolationLevel(componentRecords,
+                const Config(linesOfCodeWarningLevel: 100500)),
             ViolationLevel.none);
       });
 
@@ -42,7 +42,7 @@ void main() {
           () {
         expect(
             UtilitySelector.maxViolationLevel(
-                componentRecords, Config(linesOfCodeWarningLevel: 20)),
+                componentRecords, const Config(linesOfCodeWarningLevel: 20)),
             ViolationLevel.warning);
       });
 
@@ -51,7 +51,7 @@ void main() {
           () {
         expect(
             UtilitySelector.maxViolationLevel(
-                componentRecords, Config(linesOfCodeWarningLevel: 15)),
+                componentRecords, const Config(linesOfCodeWarningLevel: 15)),
             ViolationLevel.warning);
       });
     });

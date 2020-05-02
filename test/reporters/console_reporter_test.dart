@@ -13,9 +13,9 @@ void main() {
     ConsoleReporter _verboseReporter;
 
     setUp(() {
-      _reporter = ConsoleReporter(reportConfig: Config());
+      _reporter = ConsoleReporter(reportConfig: const Config());
       _verboseReporter =
-          ConsoleReporter(reportConfig: Config(), reportAll: true);
+          ConsoleReporter(reportConfig: const Config(), reportAll: true);
     });
     test('without arguments', () {
       final records = [

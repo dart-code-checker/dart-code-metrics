@@ -20,21 +20,21 @@ void main() {
                 'function2': buildFunctionRecordStub(argumentsCount: 6),
                 'function3': buildFunctionRecordStub(argumentsCount: 10),
               })),
-          Config());
+          const Config());
       expect(report.averageArgumentsCount, 5);
       expect(report.totalArgumentsCountViolations, 2);
     });
     group('functionReport calculate report for function', () {
       test('without arguments', () {
         final record = buildFunctionRecordStub(argumentsCount: 0);
-        final report = UtilitySelector.functionReport(record, Config());
+        final report = UtilitySelector.functionReport(record, const Config());
 
         expect(report.argumentsCount.value, 0);
         expect(report.argumentsCount.violationLevel, ViolationLevel.none);
       });
       test('with a lot of arguments', () {
         final record = buildFunctionRecordStub(argumentsCount: 10);
-        final report = UtilitySelector.functionReport(record, Config());
+        final report = UtilitySelector.functionReport(record, const Config());
         expect(report.argumentsCount.value, 10);
         expect(report.argumentsCount.violationLevel, ViolationLevel.alarm);
       });
@@ -78,7 +78,8 @@ void main() {
         ViolationLevel.alarm: isTrue,
       };
 
-      assert(violationsMapping.keys.length == ViolationLevel.values.length);
+      assert(violationsMapping.keys.length == ViolationLevel.values.length,
+          'invalid sizes');
 
       violationsMapping.forEach((key, value) {
         expect(UtilitySelector.isIssueLevel(key), value);

@@ -14,7 +14,7 @@ void main() {
     CodeClimateReporter _reporter;
 
     setUp(() {
-      _reporter = CodeClimateReporter(reportConfig: Config());
+      _reporter = CodeClimateReporter(reportConfig: const Config());
     });
 
     test('without arguments', () {
