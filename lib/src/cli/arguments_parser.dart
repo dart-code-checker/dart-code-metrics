@@ -28,20 +28,26 @@ ArgParser argumentsParser() => ArgParser()
       valueHelp: '$cyclomaticComplexityDefaultWarningLevel',
       defaultsTo: '$cyclomaticComplexityDefaultWarningLevel',
       callback: (String i) {
-    if (int.tryParse(i) == null) print('$cyclomaticComplexityThreshold:');
+    if (int.tryParse(i) == null) {
+      print('$cyclomaticComplexityThreshold:');
+    }
   })
   ..addOption(linesOfCodeThreshold,
       help: 'Lines of code threshold',
       valueHelp: '$linesOfCodeDefaultWarningLevel',
       defaultsTo: '$linesOfCodeDefaultWarningLevel', callback: (String i) {
-    if (int.tryParse(i) == null) print('$linesOfCodeThreshold:');
+    if (int.tryParse(i) == null) {
+      print('$linesOfCodeThreshold:');
+    }
   })
   ..addOption(numberOfArgumentsThreshold,
       help: 'Number of arguments threshold',
       valueHelp: '$numberOfArgumentsDefaultWarningLevel',
       defaultsTo: '$numberOfArgumentsDefaultWarningLevel',
       callback: (String i) {
-    if (int.tryParse(i) == null) print('$numberOfArgumentsThreshold:');
+    if (int.tryParse(i) == null) {
+      print('$numberOfArgumentsThreshold:');
+    }
   })
   ..addOption(rootFolderName,
       help: 'Root folder', valueHelp: './', defaultsTo: Directory.current.path)
