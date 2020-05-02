@@ -67,6 +67,7 @@ linter:
     - prefer_const_declarations
     - prefer_const_literals_to_create_immutables
     - prefer_constructors_over_static_methods
+    - prefer_expression_function_bodies
     - prefer_final_in_for_each
     - prefer_final_locals
     - prefer_foreach
