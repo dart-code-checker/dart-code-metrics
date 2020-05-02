@@ -3,9 +3,9 @@ import 'package:dart_code_metrics/reporters.dart';
 
 void main() {
   // Get some files you would like to analyze
-  final filesToAnalyze = ['some_file.dart', 'another_file.dart'];
+  const filesToAnalyze = ['some_file.dart', 'another_file.dart'];
   // Root folder path is used to resolve relative file paths
-  final rootFolder = 'lib/src';
+  const rootFolder = 'lib/src';
 
   // Recorder keeps reported issues in format-agnostic way
   final recorder = MetricsAnalysisRecorder();
