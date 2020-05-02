@@ -22,13 +22,14 @@ void checkPathsToAnalyzeNotEmpty(ArgResults arguments) {
 
 void checkPathsExistAndDirectories(ArgResults arguments) {
   final rootFolderPath = arguments[rootFolderName] as String;
-  arguments.rest.forEach((p) {
-    final absolutePath = path.join(rootFolderPath, p);
+
+  for (final relativePath in arguments.rest) {
+    final absolutePath = path.join(rootFolderPath, relativePath);
     if (!Directory(absolutePath).existsSync()) {
       throw InvalidArgumentException(
           "$absolutePath doesn't exist or isn't a directory");
     }
-  });
+  }
 }
 
 void checkRootFolderExistAndDirectory(ArgResults arguments) {
