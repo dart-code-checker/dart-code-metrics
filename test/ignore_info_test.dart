@@ -1,7 +1,7 @@
+@TestOn('vm')
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:dart_code_metrics/src/ignore_info.dart';
-@TestOn('vm')
 import 'package:test/test.dart';
 
 const _content = '''
