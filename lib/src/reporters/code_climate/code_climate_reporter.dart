@@ -68,6 +68,9 @@ class CodeClimateReporter implements Reporter {
       }
     }
 
+    result.addAll(record.issues.map(
+        (issue) => CodeClimateIssue.fromCodeIssue(issue, record.relativePath)));
+
     return result;
   }
 }

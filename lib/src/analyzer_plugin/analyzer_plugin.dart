@@ -9,8 +9,12 @@ import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart' as plugin;
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
 import 'package:dart_code_metrics/src/analyzer_plugin/analyzer_plugin_utils.dart';
+import 'package:dart_code_metrics/src/ignore_info.dart';
+import 'package:dart_code_metrics/src/rules/double_literal_format_rule.dart';
 
 class MetricsAnalyzerPlugin extends ServerPlugin {
+  final _rule = DoubleLiteralFormatRule();
+
   MetricsAnalyzerPlugin(ResourceProvider provider) : super(provider);
 
   @override
@@ -100,7 +104,17 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
       ResolvedUnitResult analysisResult) {
     final result = <plugin.AnalysisErrorFixes>[];
 
-    if (isSupported(analysisResult)) {}
+    if (isSupported(analysisResult)) {
+      final ignores = IgnoreInfo.calculateIgnores(
+          analysisResult.content, analysisResult.lineInfo);
+
+      result.addAll(_rule
+          .check(analysisResult.unit, analysisResult.uri)
+          .where((issue) =>
+              !ignores.ignoredAt(issue.ruleId, issue.sourceSpan.start.line))
+          .map(
+              (issue) => codeIssueToAnalysisErrorFixes(issue, analysisResult)));
+    }
 
     return result;
   }

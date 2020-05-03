@@ -1,4 +1,5 @@
 import 'package:ansicolor/ansicolor.dart';
+import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
 import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/config.dart';
 import 'package:dart_code_metrics/src/models/function_report_metric.dart';
@@ -26,6 +27,14 @@ class ConsoleReporter implements Reporter {
     ViolationLevel.warning: 'WARNING',
     ViolationLevel.noted: 'NOTED',
     ViolationLevel.none: '',
+  };
+
+  final _severityColors = {
+    CodeIssueSeverity.style: AnsiPen()..blue(),
+  };
+
+  final _severityHumanReadable = {
+    CodeIssueSeverity.style: 'Style',
   };
 
   ConsoleReporter({@required this.reportConfig, this.reportAll = false});
@@ -61,6 +70,18 @@ class ConsoleReporter implements Reporter {
               '${_colorPens[violationLevel](_humanReadableLabel[violationLevel]?.padRight(8))}$source - ${violations.join(', ')}');
         }
       });
+
+      for (final issue in analysisRecord.issues) {
+        final severity =
+            '${_severityColors[issue.severity](_severityHumanReadable[issue.severity]?.padRight(8))}';
+        final position =
+            '${issue.sourceSpan.start.line}:${issue.sourceSpan.start.column}';
+        final rule = [
+          issue.ruleId,
+          if (issue.ruleDocumentationUri != null) issue.ruleDocumentationUri
+        ].join(' ');
+        lines.add('$severity${[issue.message, position, rule].join(' : ')}');
+      }
 
       if (lines.isNotEmpty) {
         reportStrings.add('${analysisRecord.relativePath}:');

@@ -1,5 +1,6 @@
 import 'package:dart_code_metrics/metrics_analyzer.dart';
 import 'package:dart_code_metrics/src/models/component_record.dart';
+import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/models/violation_level.dart';
 import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
 import 'package:test/test.dart';
@@ -12,23 +13,29 @@ void main() {
       const relativePathStub = 'lib/src/foo.dart';
       final componentRecords = [
         ComponentRecord(
-            fullPath: fullPathStub,
-            relativePath: relativePathStub,
-            records: {
-              'a': buildFunctionRecordStub(linesWithCode: List.filled(10, 0))
-            }),
+          fullPath: fullPathStub,
+          relativePath: relativePathStub,
+          records: Map.unmodifiable(<String, FunctionRecord>{
+            'a': buildFunctionRecordStub(linesWithCode: List.filled(10, 0))
+          }),
+          issues: const [],
+        ),
         ComponentRecord(
-            fullPath: fullPathStub,
-            relativePath: relativePathStub,
-            records: {
-              'a': buildFunctionRecordStub(linesWithCode: List.filled(20, 0))
-            }),
+          fullPath: fullPathStub,
+          relativePath: relativePathStub,
+          records: Map.unmodifiable(<String, FunctionRecord>{
+            'a': buildFunctionRecordStub(linesWithCode: List.filled(20, 0))
+          }),
+          issues: const [],
+        ),
         ComponentRecord(
-            fullPath: fullPathStub,
-            relativePath: relativePathStub,
-            records: {
-              'a': buildFunctionRecordStub(linesWithCode: List.filled(30, 0))
-            }),
+          fullPath: fullPathStub,
+          relativePath: relativePathStub,
+          records: Map.unmodifiable(<String, FunctionRecord>{
+            'a': buildFunctionRecordStub(linesWithCode: List.filled(30, 0))
+          }),
+          issues: const [],
+        ),
       ];
 
       test('returns ViolationLevel.none if no violations', () {
