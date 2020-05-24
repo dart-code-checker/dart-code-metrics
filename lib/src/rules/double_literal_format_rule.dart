@@ -24,6 +24,7 @@ class DoubleLiteralFormatRule extends BaseRule {
 
   const DoubleLiteralFormatRule() : super(id: 'double-literal-format');
 
+  @override
   Iterable<CodeIssue> check(CompilationUnit unit, Uri sourceUrl) {
     final _visitor = _Visitor();
 

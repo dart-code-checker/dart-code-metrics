@@ -8,16 +8,19 @@ import 'package:dart_code_metrics/src/lines_of_code/function_body_ast_visitor.da
 import 'package:dart_code_metrics/src/metrics_analysis_recorder.dart';
 import 'package:dart_code_metrics/src/metrics_analyzer_utils.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
-import 'package:dart_code_metrics/src/rules/double_literal_format_rule.dart';
+import 'package:dart_code_metrics/src/rules/base_rule.dart';
 import 'package:dart_code_metrics/src/scope_ast_visitor.dart';
 import 'package:path/path.dart' as p;
+
+import 'rules_factory.dart';
 
 /// Performs code quality analysis on specified files
 /// See [MetricsAnalysisRunner] to get analysis info
 class MetricsAnalyzer {
+  final Iterable<BaseRule> _checkingCodeRules;
   final MetricsAnalysisRecorder _recorder;
 
-  MetricsAnalyzer(this._recorder);
+  MetricsAnalyzer(this._recorder) : _checkingCodeRules = allRules;
 
   void runAnalysis(String filePath, String rootFolder) {
     final visitor = ScopeAstVisitor();
@@ -62,11 +65,12 @@ class MetricsAnalyzer {
       final ignores = IgnoreInfo.calculateIgnores(
           parseResult.content, parseResult.lineInfo);
 
-      final rule = DoubleLiteralFormatRule();
-      _recorder.recordIssues(rule
-          .check(parseResult.unit, Uri.parse(filePath))
-          .where((issue) =>
-              !ignores.ignoredAt(issue.ruleId, issue.sourceSpan.start.line)));
+      _recorder.recordIssues(_checkingCodeRules
+          .where((rule) => !ignores.ignoreRule(rule.id))
+          .expand((rule) => rule
+              .check(parseResult.unit, Uri.parse(filePath))
+              .where((issue) => !ignores.ignoredAt(
+                  issue.ruleId, issue.sourceSpan.start.line))));
 
       _recorder.endRecordFile();
     }
