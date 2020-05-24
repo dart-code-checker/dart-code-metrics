@@ -12,13 +12,14 @@ import 'package:dart_code_metrics/src/analyzer_plugin/analyzer_plugin_utils.dart
 import 'package:dart_code_metrics/src/ignore_info.dart';
 import 'package:dart_code_metrics/src/rules/base_rule.dart';
 
+import '../analysis_options.dart';
 import '../rules_factory.dart';
 
 class MetricsAnalyzerPlugin extends ServerPlugin {
-  final Iterable<BaseRule> _checkingCodeRules;
+  Iterable<BaseRule> _checkingCodeRules;
 
   MetricsAnalyzerPlugin(ResourceProvider provider)
-      : _checkingCodeRules = allRules,
+      : _checkingCodeRules = [],
         super(provider);
 
   @override
@@ -43,6 +44,9 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     final root = ContextRoot(contextRoot.root, contextRoot.exclude,
         pathContext: resourceProvider.pathContext)
       ..optionsFilePath = contextRoot.optionsFile;
+
+    _checkingCodeRules =
+        getRulesById(_readOptions(root.optionsFilePath)?.rulesNames ?? []);
 
     final contextBuilder = ContextBuilder(resourceProvider, sdkManager, null)
       ..analysisDriverScheduler = analysisDriverScheduler
@@ -123,5 +127,16 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     }
 
     return result;
+  }
+
+  AnalysisOptions _readOptions(String optionsFilePath) {
+    if (optionsFilePath != null && optionsFilePath.isNotEmpty) {
+      final file = resourceProvider.getFile(optionsFilePath);
+      if (file.exists) {
+        return AnalysisOptions.from(file.readAsStringSync());
+      }
+    }
+
+    return null;
   }
 }
