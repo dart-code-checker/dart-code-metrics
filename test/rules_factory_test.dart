@@ -5,6 +5,7 @@ import 'package:test/test.dart';
 void main() {
   test('getRulesById returns only required rules', () {
     expect(getRulesById([]), isEmpty);
-    expect(getRulesById(['double-literal-format']).length, 1);
+    expect(getRulesById(['double-literal-format']).single.id,
+        equals('double-literal-format'));
   });
 }

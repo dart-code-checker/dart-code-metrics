@@ -8,12 +8,11 @@ import 'package:analyzer/src/dart/analysis/driver.dart';
 import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart' as plugin;
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
+import 'package:dart_code_metrics/src/analysis_options.dart';
 import 'package:dart_code_metrics/src/analyzer_plugin/analyzer_plugin_utils.dart';
 import 'package:dart_code_metrics/src/ignore_info.dart';
 import 'package:dart_code_metrics/src/rules/base_rule.dart';
-
-import '../analysis_options.dart';
-import '../rules_factory.dart';
+import 'package:dart_code_metrics/src/rules_factory.dart';
 
 class MetricsAnalyzerPlugin extends ServerPlugin {
   Iterable<BaseRule> _checkingCodeRules;
