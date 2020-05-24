@@ -12,6 +12,7 @@ import 'package:dart_code_metrics/src/rules/base_rule.dart';
 import 'package:dart_code_metrics/src/scope_ast_visitor.dart';
 import 'package:path/path.dart' as p;
 
+import 'analysis_options.dart';
 import 'rules_factory.dart';
 
 /// Performs code quality analysis on specified files
@@ -20,7 +21,8 @@ class MetricsAnalyzer {
   final Iterable<BaseRule> _checkingCodeRules;
   final MetricsAnalysisRecorder _recorder;
 
-  MetricsAnalyzer(this._recorder) : _checkingCodeRules = allRules;
+  MetricsAnalyzer(this._recorder, {AnalysisOptions options})
+      : _checkingCodeRules = getRulesById(options?.rulesNames ?? []);
 
   void runAnalysis(String filePath, String rootFolder) {
     final visitor = ScopeAstVisitor();
