@@ -8,8 +8,6 @@ import 'package:source_span/source_span.dart';
 import 'base_rule.dart';
 
 class DoubleLiteralFormatRule extends BaseRule {
-  static const _severity = CodeIssueSeverity.style;
-
   static const _failureLeadingZero =
       "Double literal shouldn't have redundant leading '0'.";
   static const _correctionCommentLeadingZero = "Remove redundant leading '0'";
@@ -22,7 +20,11 @@ class DoubleLiteralFormatRule extends BaseRule {
       "Double literal shouldn't have a trailing '0'.";
   static const _correctionCommentTrailingZero = "Remove redundant trailing '0'";
 
-  const DoubleLiteralFormatRule() : super(id: 'double-literal-format');
+  const DoubleLiteralFormatRule()
+      : super(
+          id: 'double-literal-format',
+          severity: CodeIssueSeverity.style,
+        );
 
   @override
   Iterable<CodeIssue> check(CompilationUnit unit, Uri sourceUrl) {
@@ -81,7 +83,7 @@ class DoubleLiteralFormatRule extends BaseRule {
 
     return CodeIssue(
       ruleId: id,
-      severity: _severity,
+      severity: severity,
       sourceSpan: SourceSpanBase(
           SourceLocation(node.offset,
               sourceUrl: sourceUrl,
