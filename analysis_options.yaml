@@ -7,6 +7,10 @@ analyzer:
     implicit-casts: false
     implicit-dynamic: false
 
+dart_code_metrics:
+  rules:
+    - double-literal-format
+
 linter:
   rules:
     - always_put_control_body_on_new_line
