@@ -5,7 +5,9 @@ import 'package:dart_code_metrics/src/models/code_issue.dart';
 import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
 import 'package:source_span/source_span.dart';
 
-class DoubleLiteralFormatRule {
+import 'base_rule.dart';
+
+class DoubleLiteralFormatRule extends BaseRule {
   static const _name = 'double-literal-format';
 
   static const _severity = CodeIssueSeverity.style;
