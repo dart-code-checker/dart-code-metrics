@@ -8,14 +8,18 @@ import 'package:analyzer/src/dart/analysis/driver.dart';
 import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart' as plugin;
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
+import 'package:dart_code_metrics/src/analysis_options.dart';
 import 'package:dart_code_metrics/src/analyzer_plugin/analyzer_plugin_utils.dart';
 import 'package:dart_code_metrics/src/ignore_info.dart';
-import 'package:dart_code_metrics/src/rules/double_literal_format_rule.dart';
+import 'package:dart_code_metrics/src/rules/base_rule.dart';
+import 'package:dart_code_metrics/src/rules_factory.dart';
 
 class MetricsAnalyzerPlugin extends ServerPlugin {
-  final _rule = DoubleLiteralFormatRule();
+  Iterable<BaseRule> _checkingCodeRules;
 
-  MetricsAnalyzerPlugin(ResourceProvider provider) : super(provider);
+  MetricsAnalyzerPlugin(ResourceProvider provider)
+      : _checkingCodeRules = [],
+        super(provider);
 
   @override
   String get contactInfo => 'https://github.com/wrike/dart-code-metrics/issues';
@@ -39,6 +43,9 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     final root = ContextRoot(contextRoot.root, contextRoot.exclude,
         pathContext: resourceProvider.pathContext)
       ..optionsFilePath = contextRoot.optionsFile;
+
+    _checkingCodeRules =
+        getRulesById(_readOptions(root.optionsFilePath)?.rulesNames ?? []);
 
     final contextBuilder = ContextBuilder(resourceProvider, sdkManager, null)
       ..analysisDriverScheduler = analysisDriverScheduler
@@ -108,14 +115,27 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
       final ignores = IgnoreInfo.calculateIgnores(
           analysisResult.content, analysisResult.lineInfo);
 
-      result.addAll(_rule
-          .check(analysisResult.unit, analysisResult.uri)
-          .where((issue) =>
-              !ignores.ignoredAt(issue.ruleId, issue.sourceSpan.start.line))
-          .map(
-              (issue) => codeIssueToAnalysisErrorFixes(issue, analysisResult)));
+      result.addAll(_checkingCodeRules
+          .where((rule) => !ignores.ignoreRule(rule.id))
+          .expand((rule) => rule
+              .check(analysisResult.unit, analysisResult.uri)
+              .where((issue) =>
+                  !ignores.ignoredAt(issue.ruleId, issue.sourceSpan.start.line))
+              .map((issue) =>
+                  codeIssueToAnalysisErrorFixes(issue, analysisResult))));
     }
 
     return result;
+  }
+
+  AnalysisOptions _readOptions(String optionsFilePath) {
+    if (optionsFilePath != null && optionsFilePath.isNotEmpty) {
+      final file = resourceProvider.getFile(optionsFilePath);
+      if (file.exists) {
+        return AnalysisOptions.from(file.readAsStringSync());
+      }
+    }
+
+    return null;
   }
 }

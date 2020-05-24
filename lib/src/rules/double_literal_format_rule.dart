@@ -5,9 +5,9 @@ import 'package:dart_code_metrics/src/models/code_issue.dart';
 import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
 import 'package:source_span/source_span.dart';
 
-class DoubleLiteralFormatRule {
-  static const _name = 'double-literal-format';
+import 'base_rule.dart';
 
+class DoubleLiteralFormatRule extends BaseRule {
   static const _severity = CodeIssueSeverity.style;
 
   static const _failureLeadingZero =
@@ -22,6 +22,9 @@ class DoubleLiteralFormatRule {
       "Double literal shouldn't have a trailing '0'.";
   static const _correctionCommentTrailingZero = "Remove redundant trailing '0'";
 
+  const DoubleLiteralFormatRule() : super(id: 'double-literal-format');
+
+  @override
   Iterable<CodeIssue> check(CompilationUnit unit, Uri sourceUrl) {
     final _visitor = _Visitor();
 
@@ -66,7 +69,7 @@ class DoubleLiteralFormatRule {
     return issues;
   }
 
-  static CodeIssue _createIssue(
+  CodeIssue _createIssue(
       String message,
       String issueText,
       String correction,
@@ -77,7 +80,7 @@ class DoubleLiteralFormatRule {
     final offsetLineLocation = lineInfo.getLocation(node.offset);
 
     return CodeIssue(
-      ruleId: _name,
+      ruleId: id,
       severity: _severity,
       sourceSpan: SourceSpanBase(
           SourceLocation(node.offset,

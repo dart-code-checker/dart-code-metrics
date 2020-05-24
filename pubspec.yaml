@@ -21,6 +21,7 @@ dependencies:
   quiver: ^2.1.0
   resource: ^2.1.0
   source_span: ^1.5.0
+  yaml: ^2.2.0
 
 dev_dependencies:
   coverage: ^0.13.5
