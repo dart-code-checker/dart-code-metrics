@@ -41,6 +41,8 @@ class JsonReporter implements Reporter {
                   'ruleDocumentationUrl': issue.ruleDocumentationUri.toString(),
                 'lineNumber': issue.sourceSpan.start.line,
                 'columnNumber': issue.sourceSpan.start.column,
+                if (issue.sourceSpan.text != null)
+                  'problemCode': issue.sourceSpan.text,
                 'message': issue.message,
                 if (issue.correction != null) 'correction': issue.correction,
                 if (issue.correctionComment != null)
