@@ -45,10 +45,17 @@ class DoubleLiteralFormatRule extends BaseRule {
             _correctionCommentLeadingZero,
             sourceUrl,
             unit.lineInfo,
-            node));
+            node.offset));
       } else if (lexeme.startsWith('.')) {
-        issues.add(createIssue(this, _failureLeadingDecimal, lexeme, '0$lexeme',
-            _correctionCommentLeadingDecimal, sourceUrl, unit.lineInfo, node));
+        issues.add(createIssue(
+            this,
+            _failureLeadingDecimal,
+            lexeme,
+            '0$lexeme',
+            _correctionCommentLeadingDecimal,
+            sourceUrl,
+            unit.lineInfo,
+            node.offset));
       } else {
         final mantissa = lexeme.split('e').first;
 
@@ -64,7 +71,7 @@ class DoubleLiteralFormatRule extends BaseRule {
               _correctionCommentTrailingZero,
               sourceUrl,
               unit.lineInfo,
-              node));
+              node.offset));
         }
       }
     }

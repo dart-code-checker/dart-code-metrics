@@ -1,4 +1,3 @@
-import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/source/line_info.dart';
 import 'package:dart_code_metrics/src/models/code_issue.dart';
 import 'package:source_span/source_span.dart';
@@ -13,18 +12,18 @@ CodeIssue createIssue(
     String correctionComment,
     Uri sourceUrl,
     LineInfo lineInfo,
-    AstNode node) {
-  final offsetLineLocation = lineInfo.getLocation(node.offset);
+    int issueOffset) {
+  final offsetLineLocation = lineInfo.getLocation(issueOffset);
 
   return CodeIssue(
     ruleId: rule.id,
     severity: rule.severity,
     sourceSpan: SourceSpanBase(
-        SourceLocation(node.offset,
+        SourceLocation(issueOffset,
             sourceUrl: sourceUrl,
             line: offsetLineLocation.lineNumber,
             column: offsetLineLocation.columnNumber),
-        SourceLocation(node.end, sourceUrl: sourceUrl),
+        SourceLocation(issueOffset + issueText.length, sourceUrl: sourceUrl),
         issueText),
     message: message,
     correction: correction,
