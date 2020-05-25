@@ -1,7 +1,7 @@
 # Changelog
 
 # Unreleased
-- Add static code diagnostic double-literal-format
+- Add experimental static code diagnostics double-literal-format, no-boolean-literal-compare
 
 # 1.4.0
 - Drop dependency on built_collection
