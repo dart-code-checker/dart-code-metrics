@@ -118,7 +118,10 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
       result.addAll(_checkingCodeRules
           .where((rule) => !ignores.ignoreRule(rule.id))
           .expand((rule) => rule
-              .check(analysisResult.unit, analysisResult.uri)
+              .check(
+                  analysisResult.unit,
+                  resourceProvider.getFile(analysisResult.path)?.toUri() ??
+                      analysisResult.uri)
               .where((issue) =>
                   !ignores.ignoredAt(issue.ruleId, issue.sourceSpan.start.line))
               .map((issue) =>

@@ -51,6 +51,7 @@ void main() {
         const _issueRuleDocumentationUrl = 'https://docu.edu/ruleId1.html';
         const _issueLine = 2;
         const _issueColumn = 3;
+        const _issueProblemCode = 'issue';
         const _issueMessage = 'first issue message';
         const _issueCorrection = 'issue correction';
         const _issueCorrectionComment = 'correction comment';
@@ -73,7 +74,7 @@ void main() {
                     SourceLocation(6,
                         sourceUrl: Uri.parse(
                             '/home/developer/work/project/example.dart')),
-                    'issue'),
+                    _issueProblemCode),
                 message: _issueMessage,
                 correction: _issueCorrection,
                 correctionComment: _issueCorrectionComment,
@@ -98,6 +99,7 @@ void main() {
             containsPair('ruleDocumentationUrl', _issueRuleDocumentationUrl));
         expect(issues.single, containsPair('lineNumber', _issueLine));
         expect(issues.single, containsPair('columnNumber', _issueColumn));
+        expect(issues.single, containsPair('problemCode', _issueProblemCode));
         expect(issues.single, containsPair('message', _issueMessage));
         expect(issues.single, containsPair('correction', _issueCorrection));
         expect(issues.single,
