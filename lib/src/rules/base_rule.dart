@@ -9,5 +9,6 @@ abstract class BaseRule {
 
   const BaseRule({@required this.id, @required this.severity});
 
-  Iterable<CodeIssue> check(CompilationUnit unit, Uri sourceUrl);
+  Iterable<CodeIssue> check(
+      CompilationUnit unit, Uri sourceUrl, String sourceContent);
 }

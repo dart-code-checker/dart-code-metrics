@@ -12,34 +12,34 @@ void main() {
 
   var a = true;
 
-  var b = a == true;
+  var b = a== true;
 
-  var c = b != true;
+  var c = b !=true;
 
-  var d = true == c;
+  var d = true==c;
 
   var e = false != c;
 
-  if (e == true) {}
+  if (e== true) {}
 
-  if (e != false) {}
+  if (e !=false) {}
 
-  var f = exampleString?.isEmpty == true;
+  var f = exampleString?.isEmpty==true;
 
   var g = exampleString.isEmpty == true;
 
   [true, false]
-      .where((value) => value == false)
-      .where((value) => value != false);
+      .where((value) => value== false)
+      .where((value) => value !=false);
 
-  var y = a != e;
+  var y = a!=e;
   var z = a == e;
 
-  if (b == d) {}
+  if (b== d) {}
 
-  if (b != d) {}
+  if (b !=d) {}
 
-  [true, false].where((value) => value == true).where((value) => value == c);
+  [true, false].where((value) => value==true).where((value) => value == c);
 }
 
 ''';
@@ -53,8 +53,8 @@ void main() {
         featureSet: FeatureSet.fromEnableFlags([]),
         throwIfDiagnostics: false);
 
-    final issues =
-        const NoBooleanLiteralCompareRule().check(parseResult.unit, sourceUrl);
+    final issues = const NoBooleanLiteralCompareRule()
+        .check(parseResult.unit, sourceUrl, parseResult.content);
 
     expect(issues.length, equals(11));
 
@@ -65,27 +65,27 @@ void main() {
     expect(issues.map((issue) => issue.sourceSpan.sourceUrl).toSet().single,
         equals(sourceUrl));
     expect(issues.map((issue) => issue.sourceSpan.start.offset),
-        equals([75, 97, 119, 141, 160, 181, 207, 250, 322, 362, 486]));
+        equals([75, 96, 117, 137, 156, 176, 201, 242, 314, 353, 472]));
     expect(issues.map((issue) => issue.sourceSpan.start.line),
         equals([7, 9, 11, 13, 15, 17, 19, 21, 24, 25, 34]));
     expect(issues.map((issue) => issue.sourceSpan.start.column),
         equals([11, 11, 11, 11, 7, 7, 11, 11, 25, 25, 34]));
     expect(issues.map((issue) => issue.sourceSpan.end.offset),
-        equals([84, 106, 128, 151, 169, 191, 237, 279, 336, 376, 499]));
+        equals([83, 104, 124, 147, 164, 185, 229, 271, 327, 366, 483]));
     expect(
         issues.map((issue) => issue.sourceSpan.text),
         equals([
-          'a == true',
-          'b != true',
-          'true == c',
+          'a== true',
+          'b !=true',
+          'true==c',
           'false != c',
-          'e == true',
-          'e != false',
-          'exampleString?.isEmpty == true',
+          'e== true',
+          'e !=false',
+          'exampleString?.isEmpty==true',
           'exampleString.isEmpty == true',
-          'value == false',
-          'value != false',
-          'value == true',
+          'value== false',
+          'value !=false',
+          'value==true',
         ]));
     expect(
         issues.map((issue) => issue.message),

@@ -70,7 +70,7 @@ class MetricsAnalyzer {
       _recorder.recordIssues(_checkingCodeRules
           .where((rule) => !ignores.ignoreRule(rule.id))
           .expand((rule) => rule
-              .check(parseResult.unit, Uri.parse(filePath))
+              .check(parseResult.unit, Uri.parse(filePath), parseResult.content)
               .where((issue) => !ignores.ignoredAt(
                   issue.ruleId, issue.sourceSpan.start.line))));
 

@@ -31,7 +31,8 @@ class NoBooleanLiteralCompareRule extends BaseRule {
         );
 
   @override
-  Iterable<CodeIssue> check(CompilationUnit unit, Uri sourceUrl) {
+  Iterable<CodeIssue> check(
+      CompilationUnit unit, Uri sourceUrl, String sourceContent) {
     final _visitor = _Visitor();
 
     unit.visitChildren(_visitor);
@@ -43,12 +44,12 @@ class NoBooleanLiteralCompareRule extends BaseRule {
         issues.add(createIssue(
             this,
             _failureCompareNullAwarePropertyWithTrue,
-            expression.toString(),
             _nullAwarePropertyCompareWithTrueCorrection(expression),
             _correctionComprareNullAwarePropertyWithTrue,
             sourceUrl,
+            sourceContent,
             unit.lineInfo,
-            expression.offset));
+            expression));
 
         continue;
       }
@@ -74,12 +75,12 @@ class NoBooleanLiteralCompareRule extends BaseRule {
       issues.add(createIssue(
           this,
           _failure,
-          expression.toString(),
           useDirect ? correction : '!$correction',
           useDirect ? _useItDirectly : _negate,
           sourceUrl,
+          sourceContent,
           unit.lineInfo,
-          expression.offset));
+          expression));
     }
 
     return issues;

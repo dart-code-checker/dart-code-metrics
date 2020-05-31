@@ -27,7 +27,8 @@ class DoubleLiteralFormatRule extends BaseRule {
         );
 
   @override
-  Iterable<CodeIssue> check(CompilationUnit unit, Uri sourceUrl) {
+  Iterable<CodeIssue> check(
+      CompilationUnit unit, Uri sourceUrl, String sourceContent) {
     final _visitor = _Visitor();
 
     unit.visitChildren(_visitor);
@@ -41,32 +42,32 @@ class DoubleLiteralFormatRule extends BaseRule {
         issues.add(createIssue(
             this,
             _failureLeadingZero,
-            lexeme,
             leadingZeroCorrection(lexeme),
             _correctionCommentLeadingZero,
             sourceUrl,
+            sourceContent,
             unit.lineInfo,
-            node.offset));
+            node));
       } else if (detectLeadingDecimal(lexeme)) {
         issues.add(createIssue(
             this,
             _failureLeadingDecimal,
-            lexeme,
             leadingDecimalCorrection(lexeme),
             _correctionCommentLeadingDecimal,
             sourceUrl,
+            sourceContent,
             unit.lineInfo,
-            node.offset));
+            node));
       } else if (detectTrailingZero(lexeme)) {
         issues.add(createIssue(
             this,
             _failureTrailingZero,
-            lexeme,
             trailingZeroCorrection(lexeme),
             _correctionCommentTrailingZero,
             sourceUrl,
+            sourceContent,
             unit.lineInfo,
-            node.offset));
+            node));
       }
     }
 

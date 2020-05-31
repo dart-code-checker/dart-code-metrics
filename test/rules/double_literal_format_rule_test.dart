@@ -69,8 +69,8 @@ void main() {
           featureSet: FeatureSet.fromEnableFlags([]),
           throwIfDiagnostics: false);
 
-      final issues =
-          const DoubleLiteralFormatRule().check(parseResult.unit, sourceUrl);
+      final issues = const DoubleLiteralFormatRule()
+          .check(parseResult.unit, sourceUrl, parseResult.content);
 
       expect(issues.length, equals(12));
 
