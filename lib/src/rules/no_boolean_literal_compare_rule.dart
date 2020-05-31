@@ -10,6 +10,12 @@ import 'rule_utils.dart';
 // Inspired by TSLint (https://palantir.github.io/tslint/rules/no-boolean-literal-compare/)
 
 class NoBooleanLiteralCompareRule extends BaseRule {
+  static const _failureCompareNullAwarePropertyWithTrue =
+      'Comparison of null-conditional boolean with boolean literal may result in comparing null with boolean.';
+
+  static const _correctionComprareNullAwarePropertyWithTrue =
+      'Prefer using null-coalescing operator with false literal on right hand side.';
+
   static const _failure =
       'Comparing boolean values to boolean literals is unnecessary, as those expressions will result in booleans too. Just use the boolean values directly or negate them.';
 
@@ -33,6 +39,20 @@ class NoBooleanLiteralCompareRule extends BaseRule {
     final issues = <CodeIssue>[];
 
     for (final expression in _visitor.expressions) {
+      if (_detectNullAwarePropertyCompareWithTrue(expression)) {
+        issues.add(createIssue(
+            this,
+            _failureCompareNullAwarePropertyWithTrue,
+            expression.toString(),
+            _nullAwarePropertyCompareWithTrueCorrection(expression),
+            _correctionComprareNullAwarePropertyWithTrue,
+            sourceUrl,
+            unit.lineInfo,
+            expression.offset));
+
+        continue;
+      }
+
       final leftOperandBooleanLiteral =
           expression.leftOperand is BooleanLiteral;
 
@@ -83,4 +103,41 @@ class _Visitor extends RecursiveAstVisitor<Object> {
       _expressions.add(node);
     }
   }
+}
+
+bool _detectNullAwarePropertyCompareWithTrue(BinaryExpression expression) =>
+    _leftNullAwareOperandCompareWithTrue(expression) ||
+    _rightNullAwareOperandCompareWithTrue(expression);
+
+String _nullAwarePropertyCompareWithTrueCorrection(
+    BinaryExpression expression) {
+  if (_leftNullAwareOperandCompareWithTrue(expression)) {
+    return '${expression.leftOperand} ?? false';
+  } else if (_rightNullAwareOperandCompareWithTrue(expression)) {
+    return '${expression.rightOperand} ?? false';
+  }
+
+  return expression.toString();
+}
+
+bool _leftNullAwareOperandCompareWithTrue(BinaryExpression expression) {
+  final leftOperand = expression.leftOperand;
+  final rightOperand = expression.rightOperand;
+
+  return leftOperand is PropertyAccess &&
+      leftOperand.isNullAware &&
+      expression.operator.type == TokenType.EQ_EQ &&
+      rightOperand is BooleanLiteral &&
+      rightOperand.value;
+}
+
+bool _rightNullAwareOperandCompareWithTrue(BinaryExpression expression) {
+  final leftOperand = expression.leftOperand;
+  final rightOperand = expression.rightOperand;
+
+  return rightOperand is PropertyAccess &&
+      rightOperand.isNullAware &&
+      expression.operator.type == TokenType.EQ_EQ &&
+      leftOperand is BooleanLiteral &&
+      leftOperand.value;
 }

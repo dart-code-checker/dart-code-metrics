@@ -1,7 +1,7 @@
 # Changelog
 
 # Unreleased
-- Improve code diagnostic double-literal-format
+- Improve code diagnostics double-literal-format, no-boolean-literal-compare
 
 # 1.5.0
 - Add experimental static code diagnostics double-literal-format, no-boolean-literal-compare

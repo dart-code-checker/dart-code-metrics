@@ -19,6 +19,10 @@ Bad:
   if (x != false) {
     ...
   }
+
+  if (x?.isNotEmpty == true) {
+    ...
+  }
 ```
 
 Good:
@@ -31,6 +35,10 @@ Good:
   }
 
   if (!x) {
+    ...
+  }
+
+  if (x?.isNotEmpty ?? false) {
     ...
   }
 ```

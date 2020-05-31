@@ -8,6 +8,8 @@ import 'package:test/test.dart';
 const _content = '''
 
 void main() {
+  const exampleString = 'text';
+
   var a = true;
 
   var b = a == true;
@@ -21,6 +23,10 @@ void main() {
   if (e == true) {}
 
   if (e != false) {}
+
+  var f = exampleString?.isEmpty == true;
+
+  var g = exampleString.isEmpty == true;
 
   [true, false]
       .where((value) => value == false)
@@ -50,7 +56,7 @@ void main() {
     final issues =
         const NoBooleanLiteralCompareRule().check(parseResult.unit, sourceUrl);
 
-    expect(issues.length, equals(9));
+    expect(issues.length, equals(11));
 
     expect(issues.map((issue) => issue.ruleId).toSet().single,
         equals('no-boolean-literal-compare'));
@@ -59,13 +65,13 @@ void main() {
     expect(issues.map((issue) => issue.sourceSpan.sourceUrl).toSet().single,
         equals(sourceUrl));
     expect(issues.map((issue) => issue.sourceSpan.start.offset),
-        equals([42, 64, 86, 108, 127, 148, 204, 244, 368]));
+        equals([75, 97, 119, 141, 160, 181, 207, 250, 322, 362, 486]));
     expect(issues.map((issue) => issue.sourceSpan.start.line),
-        equals([5, 7, 9, 11, 13, 15, 18, 19, 28]));
+        equals([7, 9, 11, 13, 15, 17, 19, 21, 24, 25, 34]));
     expect(issues.map((issue) => issue.sourceSpan.start.column),
-        equals([11, 11, 11, 11, 7, 7, 25, 25, 34]));
+        equals([11, 11, 11, 11, 7, 7, 11, 11, 25, 25, 34]));
     expect(issues.map((issue) => issue.sourceSpan.end.offset),
-        equals([51, 73, 95, 118, 136, 158, 218, 258, 381]));
+        equals([84, 106, 128, 151, 169, 191, 237, 279, 336, 376, 499]));
     expect(
         issues.map((issue) => issue.sourceSpan.text),
         equals([
@@ -75,6 +81,8 @@ void main() {
           'false != c',
           'e == true',
           'e != false',
+          'exampleString?.isEmpty == true',
+          'exampleString.isEmpty == true',
           'value == false',
           'value != false',
           'value == true',
@@ -88,12 +96,27 @@ void main() {
           'Comparing boolean values to boolean literals is unnecessary, as those expressions will result in booleans too. Just use the boolean values directly or negate them.',
           'Comparing boolean values to boolean literals is unnecessary, as those expressions will result in booleans too. Just use the boolean values directly or negate them.',
           'Comparing boolean values to boolean literals is unnecessary, as those expressions will result in booleans too. Just use the boolean values directly or negate them.',
+          'Comparison of null-conditional boolean with boolean literal may result in comparing null with boolean.',
+          'Comparing boolean values to boolean literals is unnecessary, as those expressions will result in booleans too. Just use the boolean values directly or negate them.',
           'Comparing boolean values to boolean literals is unnecessary, as those expressions will result in booleans too. Just use the boolean values directly or negate them.',
           'Comparing boolean values to boolean literals is unnecessary, as those expressions will result in booleans too. Just use the boolean values directly or negate them.',
           'Comparing boolean values to boolean literals is unnecessary, as those expressions will result in booleans too. Just use the boolean values directly or negate them.',
         ]));
-    expect(issues.map((issue) => issue.correction),
-        equals(['a', '!b', 'c', 'c', 'e', 'e', '!value', 'value', 'value']));
+    expect(
+        issues.map((issue) => issue.correction),
+        equals([
+          'a',
+          '!b',
+          'c',
+          'c',
+          'e',
+          'e',
+          'exampleString?.isEmpty ?? false',
+          'exampleString.isEmpty',
+          '!value',
+          'value',
+          'value',
+        ]));
     expect(
         issues.map((issue) => issue.correctionComment),
         equals([
@@ -102,6 +125,8 @@ void main() {
           'This expression is unnecessarily compared to a boolean. Just use it directly.',
           'This expression is unnecessarily compared to a boolean. Just use it directly.',
           'This expression is unnecessarily compared to a boolean. Just use it directly.',
+          'This expression is unnecessarily compared to a boolean. Just use it directly.',
+          'Prefer using null-coalescing operator with false literal on right hand side.',
           'This expression is unnecessarily compared to a boolean. Just use it directly.',
           'This expression is unnecessarily compared to a boolean. Just negate it.',
           'This expression is unnecessarily compared to a boolean. Just use it directly.',
