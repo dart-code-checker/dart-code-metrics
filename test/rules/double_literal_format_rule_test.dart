@@ -66,10 +66,10 @@ void main() {
     expect(
         issues.map((issue) => issue.message),
         equals([
-          "Double literal shouldn\'t have redundant leading '0'. null",
-          "Double literal shouldn\'t have redundant leading '0'. null",
-          "Double literal shouldn\'t have redundant leading '0'. null",
-          "Double literal shouldn\'t have redundant leading '0'. null",
+          "Double literal shouldn\'t have redundant leading '0'.",
+          "Double literal shouldn\'t have redundant leading '0'.",
+          "Double literal shouldn\'t have redundant leading '0'.",
+          "Double literal shouldn\'t have redundant leading '0'.",
           "Double literal shouldn\'t begin with '.'.",
           "Double literal shouldn\'t begin with '.'.",
           "Double literal shouldn\'t begin with '.'.",

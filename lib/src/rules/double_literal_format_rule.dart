@@ -39,7 +39,7 @@ class DoubleLiteralFormatRule extends BaseRule {
       if (lexeme.startsWith('0') && lexeme[1] != '.') {
         issues.add(createIssue(
             this,
-            '$_failureLeadingZero ${node.literal?.precedingComments?.toString()}',
+            _failureLeadingZero,
             lexeme,
             lexeme.substring(1),
             _correctionCommentLeadingZero,
