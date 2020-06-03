@@ -84,6 +84,7 @@ class HtmlReporter implements Reporter {
       }
       _generateFoldersReports(reportFolder, records);
     }
+
     return [];
   }
 
@@ -256,6 +257,7 @@ class HtmlReporter implements Reporter {
       final report = UtilitySelector.analysisReportForRecords(
           records.where((record) => p.dirname(record.relativePath) == folder),
           reportConfig);
+
       return ReportTableRecord(
           title: folder,
           link: p.join(folder, 'index.html'),
