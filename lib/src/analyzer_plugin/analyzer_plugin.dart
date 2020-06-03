@@ -121,7 +121,8 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
               .check(
                   analysisResult.unit,
                   resourceProvider.getFile(analysisResult.path)?.toUri() ??
-                      analysisResult.uri)
+                      analysisResult.uri,
+                  analysisResult.content)
               .where((issue) =>
                   !ignores.ignoredAt(issue.ruleId, issue.sourceSpan.start.line))
               .map((issue) =>

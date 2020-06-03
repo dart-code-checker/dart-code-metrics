@@ -2,6 +2,7 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:dart_code_metrics/src/models/code_issue.dart';
 import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
+import 'package:meta/meta.dart';
 
 import 'base_rule.dart';
 import 'rule_utils.dart';
@@ -26,7 +27,8 @@ class DoubleLiteralFormatRule extends BaseRule {
         );
 
   @override
-  Iterable<CodeIssue> check(CompilationUnit unit, Uri sourceUrl) {
+  Iterable<CodeIssue> check(
+      CompilationUnit unit, Uri sourceUrl, String sourceContent) {
     final _visitor = _Visitor();
 
     unit.visitChildren(_visitor);
@@ -36,43 +38,36 @@ class DoubleLiteralFormatRule extends BaseRule {
     for (final node in _visitor.literals) {
       final lexeme = node.literal.lexeme;
 
-      if (lexeme.startsWith('0') && lexeme[1] != '.') {
+      if (detectLeadingZero(lexeme)) {
         issues.add(createIssue(
             this,
-            '$_failureLeadingZero ${node.literal?.precedingComments?.toString()}',
-            lexeme,
-            lexeme.substring(1),
+            _failureLeadingZero,
+            leadingZeroCorrection(lexeme),
             _correctionCommentLeadingZero,
             sourceUrl,
+            sourceContent,
             unit.lineInfo,
-            node.offset));
-      } else if (lexeme.startsWith('.')) {
+            node));
+      } else if (detectLeadingDecimal(lexeme)) {
         issues.add(createIssue(
             this,
             _failureLeadingDecimal,
-            lexeme,
-            '0$lexeme',
+            leadingDecimalCorrection(lexeme),
             _correctionCommentLeadingDecimal,
             sourceUrl,
+            sourceContent,
             unit.lineInfo,
-            node.offset));
-      } else {
-        final mantissa = lexeme.split('e').first;
-
-        if (mantissa.contains('.') &&
-            mantissa.endsWith('0') &&
-            mantissa.split('.').last != '0') {
-          issues.add(createIssue(
-              this,
-              _failureTrailingZero,
-              lexeme,
-              lexeme.replaceFirst(
-                  mantissa, mantissa.substring(0, mantissa.length - 1)),
-              _correctionCommentTrailingZero,
-              sourceUrl,
-              unit.lineInfo,
-              node.offset));
-        }
+            node));
+      } else if (detectTrailingZero(lexeme)) {
+        issues.add(createIssue(
+            this,
+            _failureTrailingZero,
+            trailingZeroCorrection(lexeme),
+            _correctionCommentTrailingZero,
+            sourceUrl,
+            sourceContent,
+            unit.lineInfo,
+            node));
       }
     }
 
@@ -89,5 +84,42 @@ class _Visitor extends RecursiveAstVisitor<Object> {
   void visitDoubleLiteral(DoubleLiteral node) {
     _literals.add(node);
     super.visitDoubleLiteral(node);
+  }
+}
+
+@visibleForTesting
+bool detectLeadingZero(String lexeme) =>
+    lexeme.startsWith('0') && lexeme[1] != '.';
+
+@visibleForTesting
+String leadingZeroCorrection(String lexeme) => !detectLeadingZero(lexeme)
+    ? lexeme
+    : leadingZeroCorrection(lexeme.substring(1));
+
+@visibleForTesting
+bool detectLeadingDecimal(String lexeme) => lexeme.startsWith('.');
+
+@visibleForTesting
+String leadingDecimalCorrection(String lexeme) =>
+    !detectLeadingDecimal(lexeme) ? lexeme : '0$lexeme';
+
+@visibleForTesting
+bool detectTrailingZero(String lexeme) {
+  final mantissa = lexeme.split('e').first;
+
+  return mantissa.contains('.') &&
+      mantissa.endsWith('0') &&
+      mantissa.split('.').last != '0';
+}
+
+@visibleForTesting
+String trailingZeroCorrection(String lexeme) {
+  if (!detectTrailingZero(lexeme)) {
+    return lexeme;
+  } else {
+    final mantissa = lexeme.split('e').first;
+
+    return trailingZeroCorrection(lexeme.replaceFirst(
+        mantissa, mantissa.substring(0, mantissa.length - 1)));
   }
 }

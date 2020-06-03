@@ -10,6 +10,7 @@ analyzer:
 dart_code_metrics:
   rules:
     - double-literal-format
+    - newline-before-return
     - no-boolean-literal-compare
 
 linter:
