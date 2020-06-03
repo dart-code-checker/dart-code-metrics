@@ -2,6 +2,7 @@
 
 # Unreleased
 - Improve code diagnostics double-literal-format, no-boolean-literal-compare
+- Add experimental static code diagnostics newline-before-return
 
 # 1.5.0
 - Add experimental static code diagnostics double-literal-format, no-boolean-literal-compare
