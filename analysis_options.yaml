@@ -12,6 +12,7 @@ dart_code_metrics:
     - double-literal-format
     - newline-before-return
     - no-boolean-literal-compare
+    - no-empty-block
 
 linter:
   rules:

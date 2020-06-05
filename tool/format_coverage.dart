@@ -8,6 +8,7 @@ void main() {
   final lcovReportFile = File('coverage/coverage.lcov');
   if (!lcovReportFile.existsSync()) {
     _printCoverageOutputDoesntExistBanner();
+
     return;
   }
 
@@ -17,6 +18,7 @@ void main() {
     report = lcov.Report.fromCoverage(lcovReportFile.readAsStringSync());
   } on lcov.LcovException catch (err) {
     print('An error occurred: ${err.message}');
+
     return;
   }
 

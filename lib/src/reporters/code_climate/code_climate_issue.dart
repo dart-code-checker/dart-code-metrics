@@ -53,6 +53,7 @@ class CodeClimateIssue {
     final fingerprint = md5
         .convert(utf8.encode('$name $desc $startLine $endLine $fileName'))
         .toString();
+
     return CodeClimateIssue._(name, desc, categories, location, fingerprint);
   }
 
@@ -60,6 +61,7 @@ class CodeClimateIssue {
       String fileName, String functionName, int threshold) {
     final desc =
         'Function `$functionName` has $value lines of code (exceeds $threshold allowed). Consider refactoring.';
+
     return CodeClimateIssue._create(
         'linesOfCode', desc, startLine, endLine, fileName);
   }
@@ -68,6 +70,7 @@ class CodeClimateIssue {
       int value, String fileName, String functionName, int threshold) {
     final desc =
         'Function `$functionName` has a Cyclomatic Complexity of $value (exceeds $threshold allowed). Consider refactoring.';
+
     return CodeClimateIssue._create(
         'cyclomaticComplexity', desc, startLine, endLine, fileName);
   }
@@ -76,6 +79,7 @@ class CodeClimateIssue {
       int value, String fileName, String functionName) {
     final desc =
         'Function `$functionName` has a Maintainability Index of $value (min 40 allowed). Consider refactoring.';
+
     return CodeClimateIssue._create(
         'maintainabilityIndex', desc, startLine, endLine, fileName);
   }
@@ -84,6 +88,7 @@ class CodeClimateIssue {
       int value, String fileName, String functionName, int threshold) {
     final desc =
         'Function `$functionName` has $value number of arguments (exceeds $threshold allowed). Consider refactoring.';
+
     return CodeClimateIssue._create(
         'numberOfArguments', desc, startLine, endLine, fileName);
   }

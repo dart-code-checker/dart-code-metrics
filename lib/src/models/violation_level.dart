@@ -25,6 +25,7 @@ class ViolationLevel implements Comparable<ViolationLevel> {
   @override
   int compareTo(ViolationLevel other) {
     final valuesList = values.toList(growable: false);
+
     return valuesList.indexOf(this).compareTo(valuesList.indexOf(other));
   }
 

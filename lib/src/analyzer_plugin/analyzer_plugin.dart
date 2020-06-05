@@ -60,6 +60,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
           .analyzedFiles()
           .forEach(dartDriver.getResult)
       ..results.listen(_processResult);
+
     return dartDriver;
   }
 
@@ -82,6 +83,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
       channel.sendNotification(
           plugin.PluginErrorParams(false, e.toString(), stackTrace.toString())
               .toNotification());
+
       return plugin.EditGetFixesResult([]);
     }
   }
