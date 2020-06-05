@@ -1,6 +1,8 @@
 import 'package:meta/meta.dart';
 import 'package:yaml/yaml.dart';
 
+// Documantation about customizing static analysis located at https://dart.dev/guides/language/analysis-options
+
 const String analysisOptionsFileName = 'analysis_options.yaml';
 
 const _rootKey = 'dart_code_metrics';
@@ -22,6 +24,11 @@ class AnalysisOptions {
 
       if (_isYamlListOfStrings(metricsOptions.nodes[_rulesKey])) {
         rules = List.unmodifiable(metricsOptions[_rulesKey] as Iterable);
+      } else if (_isYamlMapOfStringsAndBooleans(
+          metricsOptions.nodes[_rulesKey])) {
+        final rulesMap = metricsOptions[_rulesKey] as YamlMap;
+        rules = List.unmodifiable(
+            rulesMap.keys.cast<String>().where((key) => rulesMap[key] as bool));
       }
     }
 
@@ -33,3 +40,8 @@ bool _isYamlListOfStrings(YamlNode node) =>
     node != null &&
     node is YamlList &&
     node.nodes.every((node) => node.value is String);
+
+bool _isYamlMapOfStringsAndBooleans(YamlNode node) =>
+    node != null &&
+    node is YamlMap &&
+    node.nodes.values.every((val) => val is YamlScalar && val.value is bool);
