@@ -2,7 +2,7 @@ import 'package:meta/meta.dart';
 
 @immutable
 class CyclomaticConfig {
-  static const Iterable<String> _options = [
+  static const _options = [
     'assertStatement',
     'blockFunctionBody',
     'catchClause',
