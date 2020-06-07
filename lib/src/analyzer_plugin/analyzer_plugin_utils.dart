@@ -40,5 +40,7 @@ plugin.AnalysisErrorFixes codeIssueToAnalysisErrorFixes(
         ]);
 
 const _severityMapping = {
-  CodeIssueSeverity.style: plugin.AnalysisErrorSeverity.INFO
+  CodeIssueSeverity.style: plugin.AnalysisErrorSeverity.INFO,
+  CodeIssueSeverity.warning: plugin.AnalysisErrorSeverity.WARNING,
+  CodeIssueSeverity.error: plugin.AnalysisErrorSeverity.ERROR,
 };

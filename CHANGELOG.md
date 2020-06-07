@@ -3,6 +3,7 @@
 # Unreleased
 - Improve code diagnostics double-literal-format, no-boolean-literal-compare
 - Add experimental static code diagnostics newline-before-return, no-empty-block
+- Add experimental static code diagnostics for angular avoid-preserve-whitespace-false
 
 # 1.5.0
 - Add experimental static code diagnostics double-literal-format, no-boolean-literal-compare
