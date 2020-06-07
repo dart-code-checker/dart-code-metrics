@@ -1,5 +1,6 @@
 import 'package:analyzer/dart/ast/ast.dart';
-import 'package:dart_code_metrics/src/cyclomatic_complexity/models/scoped_declaration.dart';
+
+import 'models/scoped_declaration.dart';
 
 int getArgumentsCount(ScopedDeclaration dec) {
   final declaration = dec.declaration;
