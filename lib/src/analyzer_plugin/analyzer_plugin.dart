@@ -44,8 +44,8 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
         pathContext: resourceProvider.pathContext)
       ..optionsFilePath = contextRoot.optionsFile;
 
-    _checkingCodeRules =
-        getRulesById(_readOptions(root.optionsFilePath)?.rulesNames ?? []);
+    final config = _readOptions(root.optionsFilePath);
+    _checkingCodeRules = getRulesById(config?.rulesNames ?? []);
 
     final contextBuilder = ContextBuilder(resourceProvider, sdkManager, null)
       ..analysisDriverScheduler = analysisDriverScheduler
