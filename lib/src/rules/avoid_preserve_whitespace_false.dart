@@ -8,8 +8,7 @@ import 'base_rule.dart';
 import 'rule_utils.dart';
 
 class AvoidPreserveWhitespaceFalseRule extends BaseRule {
-  static const _failure =
-      'Avoid use preserveWhitespace: false.';
+  static const _failure = 'Avoid use preserveWhitespace: false.';
 
   const AvoidPreserveWhitespaceFalseRule()
       : super(
@@ -18,18 +17,15 @@ class AvoidPreserveWhitespaceFalseRule extends BaseRule {
         );
 
   @override
-  Iterable<CodeIssue> check(
-      CompilationUnit unit, Uri sourceUrl, String sourceContent) {
-
+  Iterable<CodeIssue> check(CompilationUnit unit, Uri sourceUrl, String sourceContent) {
     final visitor = _Visitor();
 
     unit.visitChildren(visitor);
 
     return visitor.expression
-      .map((expression) =>
-        createIssue(this, _failure, null, null, sourceUrl,
-            sourceContent, unit.lineInfo, expression))
-      .toList();
+        .map((expression) =>
+            createIssue(this, _failure, null, null, sourceUrl, sourceContent, unit.lineInfo, expression))
+        .toList();
   }
 }
 
@@ -46,8 +42,7 @@ class _Visitor extends RecursiveAstVisitor<Object> {
           .firstWhere((arg) => arg.name.label.name == 'preserveWhitespace', orElse: () => null);
       if (preserveWhitespaceArg != null) {
         final expression = preserveWhitespaceArg.expression;
-        if (expression is BooleanLiteral &&
-            expression.literal.keyword == Keyword.FALSE) {
+        if (expression is BooleanLiteral && expression.literal.keyword == Keyword.FALSE) {
           _expression.add(preserveWhitespaceArg);
         }
       }
