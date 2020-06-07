@@ -20,5 +20,5 @@ doc/api/
 *.js.deps
 *.js.map
 
-coverage
-metrics
+/coverage/*
+/metrics/*
