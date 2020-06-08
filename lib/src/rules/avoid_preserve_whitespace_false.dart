@@ -17,14 +17,15 @@ class AvoidPreserveWhitespaceFalseRule extends BaseRule {
         );
 
   @override
-  Iterable<CodeIssue> check(CompilationUnit unit, Uri sourceUrl, String sourceContent) {
+  Iterable<CodeIssue> check(
+      CompilationUnit unit, Uri sourceUrl, String sourceContent) {
     final visitor = _Visitor();
 
     unit.visitChildren(visitor);
 
     return visitor.expression
-        .map((expression) =>
-            createIssue(this, _failure, null, null, sourceUrl, sourceContent, unit.lineInfo, expression))
+        .map((expression) => createIssue(this, _failure, null, null, sourceUrl,
+            sourceContent, unit.lineInfo, expression))
         .toList();
   }
 }
@@ -36,13 +37,17 @@ class _Visitor extends RecursiveAstVisitor<Object> {
 
   @override
   void visitAnnotation(Annotation node) {
-    if (node.name.name == 'Component' && node.atSign.type.lexeme == '@' && node.parent is ClassDeclaration) {
+    if (node.name.name == 'Component' &&
+        node.atSign.type.lexeme == '@' &&
+        node.parent is ClassDeclaration) {
       final preserveWhitespaceArg = node.arguments.arguments
           .whereType<NamedExpression>()
-          .firstWhere((arg) => arg.name.label.name == 'preserveWhitespace', orElse: () => null);
+          .firstWhere((arg) => arg.name.label.name == 'preserveWhitespace',
+              orElse: () => null);
       if (preserveWhitespaceArg != null) {
         final expression = preserveWhitespaceArg.expression;
-        if (expression is BooleanLiteral && expression.literal.keyword == Keyword.FALSE) {
+        if (expression is BooleanLiteral &&
+            expression.literal.keyword == Keyword.FALSE) {
           _expression.add(preserveWhitespaceArg);
         }
       }
