@@ -39,7 +39,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
   String get name => 'Dart Code Metrics';
 
   @override
-  String get version => '1.5.0';
+  String get version => '1.5.1';
 
   @override
   void contentChanged(String path) {

@@ -1,6 +1,6 @@
 # Changelog
 
-# Unreleased
+# 1.5.1
 - Improve code diagnostics double-literal-format, no-boolean-literal-compare
 - Add experimental static code diagnostics newline-before-return, no-empty-block, avoid-preserve-whitespace-false
 - Support cyclomatic complexity metric in analyzer plugin
