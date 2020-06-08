@@ -8,7 +8,7 @@ import 'base_rule.dart';
 import 'rule_utils.dart';
 
 class AvoidPreserveWhitespaceFalseRule extends BaseRule {
-  static const _failure = 'Avoid use preserveWhitespace: false.';
+  static const _failure = 'Avoid using preserveWhitespace: false.';
 
   const AvoidPreserveWhitespaceFalseRule()
       : super(

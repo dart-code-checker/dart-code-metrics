@@ -28,6 +28,18 @@ class Component {}
   ],
 )
 class Component2 {}
+
+@Component(
+  selector: 'component3-selector',
+  templateUrl: 'component3.html',
+  styleUrls: ['component3.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  preserveWhitespace: true,
+  directives: <Object>[
+    coreDirectives,
+  ],
+)
+class Component3 {}
 ''';
 
 void main() {
@@ -48,14 +60,14 @@ void main() {
     expect(issue.ruleId, equals('avoid-preserve-whitespace-false'));
     expect(issue.severity, equals(CodeIssueSeverity.warning));
     expect(issue.sourceSpan.sourceUrl, equals(sourceUrl));
-    expect(issue.sourceSpan.start.offset,  equals(164));
+    expect(issue.sourceSpan.start.offset, equals(164));
     expect(issue.sourceSpan.start.line, equals(6));
     expect(issue.sourceSpan.start.column, equals(3));
     expect(issue.sourceSpan.end.offset, equals(189));
     expect(issue.sourceSpan.end.line, equals(6));
     expect(issue.sourceSpan.end.column, equals(28));
     expect(issue.sourceSpan.text, equals('preserveWhitespace: false'));
-    expect(issue.message, equals('Avoid use preserveWhitespace: false.'));
+    expect(issue.message, equals('Avoid using preserveWhitespace: false.'));
     expect(issue.correction, isNull);
     expect(issue.correctionComment, isNull);
   });
