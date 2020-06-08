@@ -96,6 +96,7 @@ class CodeClimateIssue {
   factory CodeClimateIssue.fromCodeIssue(CodeIssue issue, String fileName) {
     const severityHumanReadable = {
       CodeIssueSeverity.style: ['Style'],
+      CodeIssueSeverity.warning: ['Clarity'],
     };
 
     return CodeClimateIssue._create(issue.ruleId, issue.message,

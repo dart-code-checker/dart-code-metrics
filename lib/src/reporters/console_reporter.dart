@@ -31,10 +31,12 @@ class ConsoleReporter implements Reporter {
 
   final _severityColors = {
     CodeIssueSeverity.style: AnsiPen()..blue(),
+    CodeIssueSeverity.warning: AnsiPen()..yellow(),
   };
 
   final _severityHumanReadable = {
     CodeIssueSeverity.style: 'Style',
+    CodeIssueSeverity.warning: 'Warning',
   };
 
   ConsoleReporter({@required this.reportConfig, this.reportAll = false});

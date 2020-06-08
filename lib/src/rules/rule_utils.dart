@@ -28,7 +28,7 @@ CodeIssue createIssue(
         SourceLocation(issueNode.end,
             sourceUrl: sourceUrl,
             line: endLocation.lineNumber,
-            column: endLocation.lineNumber),
+            column: endLocation.columnNumber),
         sourceContent.substring(issueNode.offset, issueNode.end)),
     message: message,
     correction: correction,

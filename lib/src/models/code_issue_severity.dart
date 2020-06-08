@@ -1,1 +1,4 @@
-enum CodeIssueSeverity { style }
+enum CodeIssueSeverity {
+  style,
+  warning,
+}
