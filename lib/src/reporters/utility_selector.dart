@@ -66,7 +66,7 @@ class UtilitySelector {
 
   static FunctionReport functionReport(FunctionRecord function, Config config) {
     final cyclomaticComplexity =
-        sum(function.cyclomaticLinesComplexity.values) + 1;
+        sum(function.cyclomaticComplexityLines.values) + 1;
 
     final linesOfCode = function.linesWithCode.length;
 
@@ -143,6 +143,10 @@ class UtilitySelector {
           .map(UtilitySelector.functionViolationLevel));
 
   static ViolationLevel _violationLevel(int value, int warningLevel) {
+    if (warningLevel == null) {
+      return ViolationLevel.none;
+    }
+
     if (value > warningLevel * 2) {
       return ViolationLevel.alarm;
     } else if (value > warningLevel) {

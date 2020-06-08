@@ -22,7 +22,7 @@ class ConsoleReporter implements Reporter {
     ViolationLevel.none: AnsiPen()..white(),
   };
 
-  final _humanReadableLabel = {
+  static const _humanReadableLabel = {
     ViolationLevel.alarm: 'ALARM',
     ViolationLevel.warning: 'WARNING',
     ViolationLevel.noted: 'NOTED',

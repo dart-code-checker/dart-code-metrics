@@ -1,6 +1,7 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
-import 'package:dart_code_metrics/src/cyclomatic_complexity/models/scoped_declaration.dart';
+
+import 'models/scoped_declaration.dart';
 
 class ScopeAstVisitor extends RecursiveAstVisitor<Object> {
   final _declarations = <ScopedDeclaration>[];

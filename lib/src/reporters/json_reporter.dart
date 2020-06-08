@@ -22,10 +22,12 @@ class JsonReporter implements Reporter {
   Map<String, Object> _analysisRecordToJson(ComponentRecord record) {
     final componentReport =
         UtilitySelector.componentReport(record, reportConfig);
+
     return {
       'source': record.relativePath,
       'records': record.records.map((key, value) {
         final report = UtilitySelector.functionReport(value, reportConfig);
+
         return MapEntry(key, {
           ..._report(report.cyclomaticComplexity, 'cyclomatic-complexity'),
           ..._report(report.linesOfCode, 'lines-of-code'),

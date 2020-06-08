@@ -1,7 +1,7 @@
 @TestOn('vm')
 import 'package:analyzer/dart/ast/ast.dart';
-import 'package:dart_code_metrics/src/cyclomatic_complexity/models/scoped_declaration.dart';
 import 'package:dart_code_metrics/src/metrics_analyzer_utils.dart';
+import 'package:dart_code_metrics/src/models/scoped_declaration.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 

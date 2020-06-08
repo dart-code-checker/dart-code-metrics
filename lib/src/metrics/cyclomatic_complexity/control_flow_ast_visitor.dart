@@ -3,7 +3,8 @@ import 'package:analyzer/dart/ast/syntactic_entity.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/source/line_info.dart';
-import 'package:dart_code_metrics/src/cyclomatic_complexity/cyclomatic_config.dart';
+
+import 'cyclomatic_config.dart';
 
 class ControlFlowAstVisitor extends RecursiveAstVisitor<Object> {
   final CyclomaticConfig _config;
