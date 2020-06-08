@@ -7,7 +7,7 @@ class FunctionRecord {
 
   final int argumentsCount;
 
-  final Map<int, int> cyclomaticLinesComplexity;
+  final Map<int, int> cyclomaticComplexityLines;
 
   final Iterable<int> linesWithCode;
 
@@ -18,7 +18,7 @@ class FunctionRecord {
       {@required this.firstLine,
       @required this.lastLine,
       @required this.argumentsCount,
-      @required this.cyclomaticLinesComplexity,
+      @required this.cyclomaticComplexityLines,
       @required this.linesWithCode,
       @required this.operators,
       @required this.operands});

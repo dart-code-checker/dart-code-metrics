@@ -388,9 +388,9 @@ class HtmlReporter implements Reporter {
         }
 
         final lineWithComplexityIncrement =
-            functionReport.cyclomaticLinesComplexity.containsKey(i);
+            functionReport.cyclomaticComplexityLines.containsKey(i);
         if (lineWithComplexityIncrement) {
-          line = '$line +${functionReport.cyclomaticLinesComplexity[i]}'.trim();
+          line = '$line +${functionReport.cyclomaticComplexityLines[i]}'.trim();
         }
 
 /*      uncomment this block if you need check lines with code

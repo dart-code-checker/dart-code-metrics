@@ -8,6 +8,8 @@ analyzer:
     implicit-dynamic: false
 
 dart_code_metrics:
+  metrics:
+    cyclomatic-complexity: 20
   rules:
     - double-literal-format
     - newline-before-return

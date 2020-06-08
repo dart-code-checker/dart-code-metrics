@@ -47,6 +47,7 @@ class MetricsAnalysisRecorder {
     if (recordName == null) {
       throw ArgumentError.notNull('recordName');
     }
+
     _checkState();
 
     _groupRecords[recordName] = report;

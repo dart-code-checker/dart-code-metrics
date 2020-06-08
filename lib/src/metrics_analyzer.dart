@@ -1,7 +1,5 @@
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
-import 'package:dart_code_metrics/src/cyclomatic_complexity/control_flow_ast_visitor.dart';
-import 'package:dart_code_metrics/src/cyclomatic_complexity/cyclomatic_config.dart';
 import 'package:dart_code_metrics/src/halstead_volume/halstead_volume_ast_visitor.dart';
 import 'package:dart_code_metrics/src/ignore_info.dart';
 import 'package:dart_code_metrics/src/lines_of_code/function_body_ast_visitor.dart';
@@ -13,6 +11,8 @@ import 'package:dart_code_metrics/src/scope_ast_visitor.dart';
 import 'package:path/path.dart' as p;
 
 import 'analysis_options.dart';
+import 'metrics/cyclomatic_complexity/control_flow_ast_visitor.dart';
+import 'metrics/cyclomatic_complexity/cyclomatic_config.dart';
 import 'rules_factory.dart';
 
 /// Performs code quality analysis on specified files
@@ -47,7 +47,7 @@ class MetricsAnalyzer {
         scopedDeclaration.declaration.visitChildren(halsteadVolumeAstVisitor);
 
         _recorder.record(
-            getQualifiedName(scopedDeclaration),
+            getHumanReadableName(scopedDeclaration),
             FunctionRecord(
                 firstLine: parseResult.lineInfo
                     .getLocation(scopedDeclaration
@@ -57,7 +57,7 @@ class MetricsAnalyzer {
                     .getLocation(scopedDeclaration.declaration.endToken.end)
                     .lineNumber,
                 argumentsCount: getArgumentsCount(scopedDeclaration),
-                cyclomaticLinesComplexity:
+                cyclomaticComplexityLines:
                     Map.unmodifiable(controlFlowAstVisitor.complexityLines),
                 linesWithCode: functionBodyAstVisitor.linesWithCode,
                 operators: Map.unmodifiable(halsteadVolumeAstVisitor.operators),

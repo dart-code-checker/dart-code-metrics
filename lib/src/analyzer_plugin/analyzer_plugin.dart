@@ -11,10 +11,18 @@ import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
 import 'package:dart_code_metrics/src/analysis_options.dart';
 import 'package:dart_code_metrics/src/analyzer_plugin/analyzer_plugin_utils.dart';
 import 'package:dart_code_metrics/src/ignore_info.dart';
+import 'package:dart_code_metrics/src/metrics/cyclomatic_complexity/control_flow_ast_visitor.dart';
+import 'package:dart_code_metrics/src/metrics/cyclomatic_complexity/cyclomatic_config.dart';
+import 'package:dart_code_metrics/src/models/config.dart';
+import 'package:dart_code_metrics/src/models/function_record.dart';
+import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
 import 'package:dart_code_metrics/src/rules/base_rule.dart';
 import 'package:dart_code_metrics/src/rules_factory.dart';
 
+import '../scope_ast_visitor.dart';
+
 class MetricsAnalyzerPlugin extends ServerPlugin {
+  Config _metricsConfig;
   Iterable<BaseRule> _checkingCodeRules;
 
   MetricsAnalyzerPlugin(ResourceProvider provider)
@@ -44,8 +52,9 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
         pathContext: resourceProvider.pathContext)
       ..optionsFilePath = contextRoot.optionsFile;
 
-    _checkingCodeRules =
-        getRulesById(_readOptions(root.optionsFilePath)?.rulesNames ?? []);
+    final config = _readOptions(root.optionsFilePath);
+    _metricsConfig = config.metricsConfig;
+    _checkingCodeRules = getRulesById(config?.rulesNames ?? []);
 
     final contextBuilder = ContextBuilder(resourceProvider, sdkManager, null)
       ..analysisDriverScheduler = analysisDriverScheduler
@@ -129,6 +138,61 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
                   !ignores.ignoredAt(issue.ruleId, issue.sourceSpan.start.line))
               .map((issue) =>
                   codeIssueToAnalysisErrorFixes(issue, analysisResult))));
+
+      if (_metricsConfig != null) {
+        final scopeVisitor = ScopeAstVisitor();
+        analysisResult.unit.visitChildren(scopeVisitor);
+        for (final declaration in scopeVisitor.declarations) {
+          final controlFlowAstVisitor = ControlFlowAstVisitor(
+              defaultCyclomaticConfig, analysisResult.unit.lineInfo);
+
+          declaration.declaration.visitChildren(controlFlowAstVisitor);
+
+          final functionRecord = FunctionRecord(
+              firstLine: analysisResult.unit.lineInfo
+                  .getLocation(declaration
+                      .declaration.firstTokenAfterCommentAndMetadata.offset)
+                  .lineNumber,
+              lastLine: analysisResult.unit.lineInfo
+                  .getLocation(declaration.declaration.endToken.end)
+                  .lineNumber,
+              argumentsCount: 0,
+              cyclomaticComplexityLines:
+                  Map.unmodifiable(controlFlowAstVisitor.complexityLines),
+              linesWithCode: List.unmodifiable(<int>[]),
+              operators: Map.unmodifiable(<String, int>{}),
+              operands: Map.unmodifiable(<String, int>{}));
+
+          final functionReport =
+              UtilitySelector.functionReport(functionRecord, _metricsConfig);
+
+          if (UtilitySelector.isIssueLevel(
+              functionReport.cyclomaticComplexity.violationLevel)) {
+            result.add(plugin.AnalysisErrorFixes(plugin.AnalysisError(
+                plugin.AnalysisErrorSeverity.INFO,
+                plugin.AnalysisErrorType.LINT,
+                plugin.Location(
+                    (resourceProvider.getFile(analysisResult.path)?.toUri() ??
+                            analysisResult.uri)
+                        .path,
+                    declaration
+                        .declaration.firstTokenAfterCommentAndMetadata.offset,
+                    declaration.declaration.end -
+                        declaration.declaration
+                            .firstTokenAfterCommentAndMetadata.offset,
+                    analysisResult.unit.lineInfo
+                        .getLocation(declaration.declaration
+                            .firstTokenAfterCommentAndMetadata.offset)
+                        .lineNumber,
+                    analysisResult.unit.lineInfo
+                        .getLocation(
+                            declaration.declaration.firstTokenAfterCommentAndMetadata.offset)
+                        .columnNumber),
+                'Function has a Cyclomatic Complexity of ${functionReport.cyclomaticComplexity.value} (exceeds ${_metricsConfig.cyclomaticComplexityWarningLevel} allowed). Consider refactoring.',
+                'cyclomatic-complexity')));
+          }
+        }
+      }
     }
 
     return result;

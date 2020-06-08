@@ -8,7 +8,7 @@ import 'stubs_builders.dart';
 
 void main() {
   group('UtilitySelector', () {
-    group('maxViolationLevel', () {
+    group('maxViolationLevel returns', () {
       const fullPathStub = '~/lib/src/foo.dart';
       const relativePathStub = 'lib/src/foo.dart';
       final componentRecords = [
@@ -38,23 +38,21 @@ void main() {
         ),
       ];
 
-      test('returns ViolationLevel.none if no violations', () {
+      test('ViolationLevel.none if no violations', () {
         expect(
             UtilitySelector.maxViolationLevel(componentRecords,
                 const Config(linesOfCodeWarningLevel: 100500)),
             ViolationLevel.none);
       });
 
-      test('returns ViolationLevel.warning if maximum violation is warning',
-          () {
+      test('ViolationLevel.warning if maximum violation is warning', () {
         expect(
             UtilitySelector.maxViolationLevel(
                 componentRecords, const Config(linesOfCodeWarningLevel: 20)),
             ViolationLevel.warning);
       });
 
-      test(
-          'returns ViolationLevel.alarm if there are warning and alarm violations',
+      test('ViolationLevel.alarm if there are warning and alarm violations',
           () {
         expect(
             UtilitySelector.maxViolationLevel(
