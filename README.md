@@ -1,5 +1,8 @@
-[![Build Status](https://github.com/wrike/metrics/workflows/build/badge.svg)](https://github.com/wrike/metrics/)
-[![Pub Version](https://img.shields.io/pub/v/dart_code_metrics?style=flat)](https://pub.dev/packages/dart_code_metrics/)
+[![Build Status](https://github.com/wrike/metrics/workflows/build/badge.svg)](https://github.com/wrike/dart-code-metrics/)
+[![License](https://badgen.net/pub/license/dart_code_metrics)](https://github.com/wrike/dart-code-metrics/blob/master/LICENSE)
+[![Pub Version](https://badgen.net/pub/v/dart_code_metrics)](https://pub.dev/packages/dart_code_metrics/)
+![Dart SDK Verison](https://badgen.net/pub/sdk-version/dart_code_metrics)
+![Dart Platform](https://badgen.net/pub/dart-platform/dart_code_metrics)
 
 ### The Dart command line tool which helps to improve code quality
 Reports:

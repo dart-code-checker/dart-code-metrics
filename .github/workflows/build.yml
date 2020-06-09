@@ -30,17 +30,17 @@ jobs:
         pub run tool/format_coverage.dart
         pub run coveralls:coveralls coverage/coverage.lcov
 
-  build-dart-2-4:
+  build-dart-2-3:
 
     runs-on: ubuntu-latest
 
     container:
-      image:  google/dart:2.4
+      image:  google/dart:2.3
 
     steps:
     - uses: actions/checkout@v1
     - name: Install dependencies
-      run: pub get
+      run: pub downgrade
     - name: Run dartanalyzer
       run: dartanalyzer --fatal-warnings --fatal-infos --fatal-lints bin/ lib/ test/
     - name: Run tests
