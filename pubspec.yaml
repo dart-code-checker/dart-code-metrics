@@ -9,28 +9,28 @@ environment:
   sdk: ">=2.3.0 <3.0.0"
 
 dependencies:
-  analyzer: '>=0.38.0 <0.40.0'
+  analyzer: '>=0.38.3 <0.40.0'
   analyzer_plugin: ^0.2.1
   ansicolor: ^1.0.0
-  args: ^1.5.0
-  crypto: ^2.1.0
-  glob: ^1.2.0
-  html: '>=0.13.0 < 1.0.0'
-  meta: ^1.1.0
-  path: ^1.6.0
-  quiver: ^2.1.0
-  resource: ^2.1.0
-  source_span: ^1.5.0
-  yaml: ^2.2.0
+  args: ^1.4.4
+  crypto: ^2.0.6
+  glob: ^1.1.7
+  html: '>=0.13.4 <1.0.0'
+  meta: ^1.1.6
+  path: ^1.6.2
+  quiver: ^2.0.0
+  resource: ^2.1.5
+  source_span: ^1.4.1
+  yaml: ^2.1.5
 
 dev_dependencies:
-  coverage: ^0.13.5
-  coveralls: ^5.4.0
-  dependency_validator: ^1.5.0
-  lcov: ^5.4.0
-  mockito: ^4.1.0
-  pedantic: ^1.9.0
-  test: ^1.13.0
+  coverage: '>=0.12.2 <0.15.0'
+  coveralls: '>=3.1.0 <6.0.0'
+  dependency_validator: ^1.2.1
+  lcov: '>=4.2.0 <7.0.0'
+  mockito: '>=3.0.0 <5.0.0'
+  pedantic: ^1.1.0
+  test: ^1.6.7
 
 executables:
   metrics:
