@@ -1,4 +1,5 @@
 import 'package:analyzer/dart/ast/ast.dart';
+import 'package:analyzer/dart/ast/syntactic_entity.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/source/line_info.dart';
@@ -43,34 +44,33 @@ class _Visitor extends GeneralizingAstVisitor<void> {
 
   @override
   void visitListLiteral(ListLiteral node) {
-    _visitNodeList(node.elements);
+    _visitNodeList(node.elements, node.leftBracket, node.rightBracket);
     super.visitListLiteral(node);
   }
 
   @override
   void visitSetOrMapLiteral(SetOrMapLiteral node) {
-    _visitNodeList(node.elements);
+    _visitNodeList(node.elements, node.leftBracket, node.rightBracket);
     super.visitSetOrMapLiteral(node);
   }
 
-  void _visitNodeList(List<AstNode> list) {
-    if (list.length < 2) {
+  void _visitNodeList(
+    List<AstNode> list,
+    Token leftBracket,
+    Token rightBracket,
+  ) {
+    if (list.isEmpty ||
+        (_getLineNumber(leftBracket) == _getLineNumber(rightBracket))) {
       return;
     }
-
-    if (_getLineNumber(list.first) == _getLineNumber(list.last)) {
-      return;
-    }
-
-    final lastNode = list[list.length - 1];
-    final preLastNode = list[list.length - 2];
 
     if (list.last.endToken?.next?.type != TokenType.COMMA &&
-        _getLineNumber(lastNode) != _getLineNumber(preLastNode)) {
+        (_getLineNumber(leftBracket) != _getLineNumber(list.first) ||
+            _getLineNumber(rightBracket) != _getLineNumber(list.last))) {
       _nodes.add(list.last);
     }
   }
 
-  int _getLineNumber(AstNode node) =>
-      _lineInfo.getLocation(node.offset).lineNumber;
+  int _getLineNumber(SyntacticEntity entity) =>
+      _lineInfo.getLocation(entity.offset).lineNumber;
 }

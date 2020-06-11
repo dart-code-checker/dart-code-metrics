@@ -39,13 +39,13 @@ final c = <Object>[
 
 //Issues
 
-//final a0 = [
-//  1
-//];
+final a0 = [
+  1
+];
 
 final a = [
-  1, 
-  2, 
+  1227, 
+  2178, 
   3
 ];
 
@@ -91,7 +91,7 @@ void main() {
     final issues = const PreferTrailingCommasForCollectionRule()
         .check(parseResult.unit, sourceUrl, parseResult.content);
 
-    expect(issues.length, equals(6));
+    expect(issues.length, equals(7));
 
     expect(
         issues.every(
@@ -111,39 +111,27 @@ void main() {
         isTrue);
 
     expect(issues.map((issue) => issue.sourceSpan.start.offset),
-        [435, 469, 533, 573, 604, 668]);
+        [397, 435, 469, 533, 573, 604, 668]);
     expect(issues.map((issue) => issue.sourceSpan.start.line),
-        [41, 46, 52, 58, 63, 69]);
+        [35, 41, 46, 52, 58, 63, 69]);
     expect(issues.map((issue) => issue.sourceSpan.start.column),
-        [3, 3, 3, 3, 3, 3]);
+        [3, 3, 3, 3, 3, 3, 3]);
 
     expect(issues.map((issue) => issue.sourceSpan.end.offset),
-        [436, 470, 546, 576, 610, 689]);
+        [398, 436, 470, 546, 576, 610, 689]);
     expect(issues.map((issue) => issue.sourceSpan.end.line),
-        [41, 46, 52, 58, 63, 70]);
+        [35, 41, 46, 52, 58, 63, 70]);
     expect(issues.map((issue) => issue.sourceSpan.end.column),
-        [4, 4, 16, 6, 9, 12]);
+        [4, 4, 4, 16, 6, 9, 12]);
 
-    expect(issues.map((issue) => issue.sourceSpan.text),
-        ['3', '3', "const A('a3')", "'b'", "'b': 2", "if (true)\n    \'e\': 10"]);
-//
-//
-//    print('start.offset: ${issues.map((issue) => issue.sourceSpan.start.offset).toList()}');
-//    print('start.line: ${issues.map((issue) => issue.sourceSpan.start.line).toList()}');
-//    print('start.column: ${issues.map((issue) => issue.sourceSpan.start.column).toList()}');
-//
-//    print('end.offset: ${issues.map((issue) => issue.sourceSpan.end.offset).toList()}');
-//    print('end.line: ${issues.map((issue) => issue.sourceSpan.end.line).toList()}');
-//    print('end.column: ${issues.map((issue) => issue.sourceSpan.end.column).toList()}');
-//
-//    print('text: ${issues.map((issue) => '"${issue.sourceSpan.text}"').toList()}');
-//
-////    expect(issue.sourceSpan.start.offset, equals(164));
-////    expect(issue.sourceSpan.start.line, equals(6));
-////    expect(issue.sourceSpan.start.column, equals(3));
-////    expect(issue.sourceSpan.end.offset, equals(189));
-////    expect(issue.sourceSpan.end.line, equals(6));
-////    expect(issue.sourceSpan.end.column, equals(28));
-////    expect(issue.sourceSpan.text, equals('preserveWhitespace: false'));
+    expect(issues.map((issue) => issue.sourceSpan.text), [
+      '1',
+      '3',
+      '3',
+      "const A('a3')",
+      "'b'",
+      "'b': 2",
+      "if (true)\n    \'e\': 10"
+    ]);
   });
 }
