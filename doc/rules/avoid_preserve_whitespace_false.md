@@ -1,7 +1,7 @@
 # Avoid preserveWhitespace: false
 
 ## Rule id
-avoid_preserve_whitespace_false
+avoid-preserve-whitespace-false
 
 ## Description
 Avoid setting `preserveWhitespace` in Angular `@Component` annotations to false explicitly. Its default value is already false.
