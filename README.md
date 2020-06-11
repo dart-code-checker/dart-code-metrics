@@ -48,3 +48,36 @@ Usage: metrics [options...] <directories>
 
 ### Use as library
 See `example/example.dart`
+
+# Dart-code-metrics analyzer plugin
+
+A plugin for the Dart `analyzer` library [package](https://pub.dev/packages/dart_code_metrics) providing rules support from dart_code_metrics.
+
+## Usage
+1. Add dependency to `pubspec.yaml`
+    ```yaml
+    dev_dependencies:
+      dart_code_metrics: ^1.5.1
+    ```
+
+2. Add settings to `analysis_options.yaml`
+    ```yaml
+    analyzer:
+      plugins:
+        - dart_code_metrics
+    
+      rules:
+        - avoid-preserve-whitespace-false
+        - double-literal-format
+        - newline-before-return
+        - no-boolean-literal-compare
+        - no-empty-block
+    ```
+
+## Rules
+
+* [avoid-preserve-whitespace-false](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/avoid_preserve_whitespace_false.md)
+* [double-literal-format](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/double_literal_format.md)
+* [newline-before-return](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/newline_before_return.md)
+* [no-boolean-literal-compare-rule](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/no_boolean_literal_compare_rule.md)
+* [no-empty-block](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/no_empty_block.md)
