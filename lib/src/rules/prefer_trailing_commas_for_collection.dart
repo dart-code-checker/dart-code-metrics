@@ -8,14 +8,14 @@ import 'package:dart_code_metrics/src/rules/rule_utils.dart';
 
 import 'base_rule.dart';
 
-class PreferTrailingCommasRule extends BaseRule {
+class PreferTrailingCommasForCollectionRule extends BaseRule {
   static const _failure = 'A trailing comma should end this line';
 
-  const PreferTrailingCommasRule()
+  const PreferTrailingCommasForCollectionRule()
       : super(
-    id: 'prefer-trailing-commas-for-collection',
-    severity: CodeIssueSeverity.style,
-  );
+          id: 'prefer-trailing-commas-for-collection',
+          severity: CodeIssueSeverity.style,
+        );
 
   @override
   Iterable<CodeIssue> check(
@@ -27,7 +27,8 @@ class PreferTrailingCommasRule extends BaseRule {
     unit.visitChildren(visitor);
 
     return visitor.nodes
-        .map((node) => createIssue(this, _failure, null, null, sourceUrl, sourceContent, unit.lineInfo, node))
+        .map((node) => createIssue(this, _failure, null, null, sourceUrl,
+            sourceContent, unit.lineInfo, node))
         .toList();
   }
 }
