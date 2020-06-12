@@ -28,8 +28,15 @@ class PreferTrailingCommasForCollectionRule extends BaseRule {
     unit.visitChildren(visitor);
 
     return visitor.nodes
-        .map((node) => createIssue(this, _failure, '${node.toSource()},', 'Add trailing comma', sourceUrl,
-            sourceContent, unit.lineInfo, node))
+        .map((node) => createIssue(
+            this,
+            _failure,
+            '${node.toSource()},',
+            'Add trailing comma',
+            sourceUrl,
+            sourceContent,
+            unit.lineInfo,
+            node))
         .toList();
   }
 }
