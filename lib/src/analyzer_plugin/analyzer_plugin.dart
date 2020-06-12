@@ -92,7 +92,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
           plugin.PluginErrorParams(false, e.toString(), stackTrace.toString())
               .toNotification());
 
-      return super.handleEditGetFixes(parameters);
+      return plugin.EditGetFixesResult([]);
     }
   }
 
