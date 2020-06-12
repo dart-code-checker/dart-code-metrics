@@ -103,8 +103,23 @@ void main() {
         issues.every((issue) =>
             issue.message == 'A trailing comma should end this line'),
         isTrue);
-    expect(issues.every((issue) => issue.correction == null), isTrue);
-    expect(issues.every((issue) => issue.correctionComment == null), isTrue);
+
+    print('${issues.map((issue) => '"${issue.correction}"').toList()}');
+
+    expect(issues.map((issue) => issue.correction), [
+      '1,',
+      '3,',
+      '3,',
+      "const A('a3'),",
+      "'b',",
+      "'b': 2,",
+      "if (true)\n    \'e\': 10,"
+    ]);
+
+    expect(
+        issues
+            .every((issue) => issue.correctionComment == 'Add trailing comma'),
+        isTrue);
     expect(issues.every((issue) => issue.sourceSpan.sourceUrl == sourceUrl),
         isTrue);
     expect(issues.every((issue) => issue.sourceSpan.sourceUrl == sourceUrl),

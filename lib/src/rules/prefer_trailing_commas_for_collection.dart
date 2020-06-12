@@ -31,7 +31,7 @@ class PreferTrailingCommasForCollectionRule extends BaseRule {
         .map((node) => createIssue(
             this,
             _failure,
-            '${node.toSource()},',
+            '${sourceContent.substring(node.offset, node.end)},',
             'Add trailing comma',
             sourceUrl,
             sourceContent,
