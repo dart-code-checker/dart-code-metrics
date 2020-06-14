@@ -52,11 +52,11 @@ Usage: metrics [options...] <directories>
 ### Use as library
 See `example/example.dart`
 
-# Dart-code-metrics analyzer plugin
+### Use as analyzer plugin
 
 A plugin for the Dart `analyzer` library [package](https://pub.dev/packages/dart_code_metrics) providing rules support from dart_code_metrics.
 
-## Usage
+#### Usage
 1. Add dependency to `pubspec.yaml`
     ```yaml
     dev_dependencies:
@@ -77,7 +77,7 @@ A plugin for the Dart `analyzer` library [package](https://pub.dev/packages/dart
         - no-empty-block
     ```
 
-## Rules
+#### Rules
 
 * [avoid-preserve-whitespace-false](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/avoid_preserve_whitespace_false.md)
 * [double-literal-format](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/double_literal_format.md)
