@@ -2,7 +2,7 @@
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
-import 'package:dart_code_metrics/src/rules/prefer_trailing_commas_for_collection.dart';
+import 'package:dart_code_metrics/src/rules/prefer_trailing_comma_for_collection.dart';
 import 'package:test/test.dart';
 
 const _content = '''
@@ -88,14 +88,14 @@ void main() {
         featureSet: FeatureSet.fromEnableFlags([]),
         throwIfDiagnostics: false);
 
-    final issues = const PreferTrailingCommasForCollectionRule()
+    final issues = const PreferTrailingCommaForCollectionRule()
         .check(parseResult.unit, sourceUrl, parseResult.content);
 
     expect(issues.length, equals(7));
 
     expect(
         issues.every(
-            (issue) => issue.ruleId == 'prefer-trailing-commas-for-collection'),
+            (issue) => issue.ruleId == 'prefer-trailing-comma-for-collection'),
         isTrue);
     expect(issues.every((issue) => issue.severity == CodeIssueSeverity.style),
         isTrue);

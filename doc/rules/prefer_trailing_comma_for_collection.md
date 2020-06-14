@@ -1,10 +1,10 @@
-# Prefer trailing commas for collection
+# Prefer trailing a comma for collection
 
 ## Rule id
-prefer-trailing-commas-for-collection
+prefer-trailing-comma-for-collection
 
 ## Description
-Prefer trailing commas for collection literals (`List<T>, Map<K, V>, Set<T>`).
+Prefer trailing a comma for collection literals (`List<T>, Map<K, V>, Set<T>`).
 
 ### Example
 Bad:

@@ -9,12 +9,13 @@ import 'package:dart_code_metrics/src/rules/rule_utils.dart';
 
 import 'base_rule.dart';
 
-class PreferTrailingCommasForCollectionRule extends BaseRule {
+class PreferTrailingCommaForCollectionRule extends BaseRule {
   static const _failure = 'A trailing comma should end this line';
+  static const _correctionComment = 'Add trailing comma';
 
-  const PreferTrailingCommasForCollectionRule()
+  const PreferTrailingCommaForCollectionRule()
       : super(
-          id: 'prefer-trailing-commas-for-collection',
+          id: 'prefer-trailing-comma-for-collection',
           severity: CodeIssueSeverity.style,
         );
 
@@ -32,7 +33,7 @@ class PreferTrailingCommasForCollectionRule extends BaseRule {
             this,
             _failure,
             '${sourceContent.substring(node.offset, node.end)},',
-            'Add trailing comma',
+            _correctionComment,
             sourceUrl,
             sourceContent,
             unit.lineInfo,
@@ -62,19 +63,22 @@ class _Visitor extends GeneralizingAstVisitor<void> {
   }
 
   void _visitNodeList(
-    List<AstNode> list,
+    Iterable<AstNode> iterable,
     Token leftBracket,
     Token rightBracket,
   ) {
-    if (list.isEmpty ||
+    if (iterable.isEmpty ||
         (_getLineNumber(leftBracket) == _getLineNumber(rightBracket))) {
       return;
     }
 
-    if (list.last.endToken?.next?.type != TokenType.COMMA &&
-        (_getLineNumber(leftBracket) != _getLineNumber(list.first) ||
-            _getLineNumber(rightBracket) != _getLineNumber(list.last))) {
-      _nodes.add(list.last);
+    final first = iterable.first;
+    final last = iterable.last;
+
+    if (last.endToken?.next?.type != TokenType.COMMA &&
+        (_getLineNumber(leftBracket) != _getLineNumber(first) ||
+            _getLineNumber(rightBracket) != _getLineNumber(last))) {
+      _nodes.add(last);
     }
   }
 
