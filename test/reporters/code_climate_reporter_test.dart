@@ -68,7 +68,7 @@ void main() {
           report,
           containsPair('location', {
             'path': 'example.dart',
-            'lines': {'begin': _issueLine, 'end': _issueLine}
+            'lines': {'begin': _issueLine, 'end': _issueLine},
           }));
       expect(report, containsPair('remediation_points', 50000));
       expect(report,
@@ -82,9 +82,9 @@ void main() {
               fullPath: '/home/developer/work/project/example.dart',
               relativePath: 'example.dart',
               records: Map.unmodifiable(<String, FunctionRecord>{
-                'function': buildFunctionRecordStub(argumentsCount: 0)
+                'function': buildFunctionRecordStub(argumentsCount: 0),
               }),
-              issues: const [])
+              issues: const []),
         ];
 
         final report =
@@ -99,9 +99,9 @@ void main() {
               fullPath: '/home/developer/work/project/example.dart',
               relativePath: 'example.dart',
               records: Map.unmodifiable(<String, FunctionRecord>{
-                'function': buildFunctionRecordStub(argumentsCount: 10)
+                'function': buildFunctionRecordStub(argumentsCount: 10),
               }),
-              issues: const [])
+              issues: const []),
         ];
 
         final report =
@@ -119,7 +119,7 @@ void main() {
             report,
             containsPair('location', {
               'path': 'example.dart',
-              'lines': {'begin': 0, 'end': 0}
+              'lines': {'begin': 0, 'end': 0},
             }));
         expect(report, containsPair('remediation_points', 50000));
         expect(report,

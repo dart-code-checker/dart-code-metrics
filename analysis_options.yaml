@@ -15,6 +15,7 @@ dart_code_metrics:
     - newline-before-return
     - no-boolean-literal-compare
     - no-empty-block
+    - prefer-trailing-comma-for-collection
 
 linter:
   rules:

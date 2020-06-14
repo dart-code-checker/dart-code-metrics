@@ -62,6 +62,6 @@ class JsonReporter implements Reporter {
       {
         metricName: metric.value.toInt(),
         '$metricName-violation-level':
-            metric.violationLevel.toString().toLowerCase()
+            metric.violationLevel.toString().toLowerCase(),
       };
 }

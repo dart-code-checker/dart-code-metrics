@@ -113,7 +113,7 @@ void main() {
       "const A('a3'),",
       "'b',",
       "'b': 2,",
-      "if (true)\n    \'e\': 10,"
+      "if (true)\n    \'e\': 10,",
     ]);
 
     expect(
@@ -146,7 +146,7 @@ void main() {
       "const A('a3')",
       "'b'",
       "'b': 2",
-      "if (true)\n    \'e\': 10"
+      "if (true)\n    \'e\': 10",
     ]);
   });
 }

@@ -34,9 +34,9 @@ plugin.AnalysisErrorFixes codeIssueToAnalysisErrorFixes(
                     unitResult.libraryElement.source.modificationStamp,
                     edits: [
                       plugin.SourceEdit(issue.sourceSpan.start.offset,
-                          issue.sourceSpan.length, issue.correction)
-                    ])
-              ]))
+                          issue.sourceSpan.length, issue.correction),
+                    ]),
+              ])),
         ]);
 
 const _severityMapping = {

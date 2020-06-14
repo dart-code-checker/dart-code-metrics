@@ -8,7 +8,7 @@ class ViolationLevel implements Comparable<ViolationLevel> {
     ViolationLevel.none,
     ViolationLevel.noted,
     ViolationLevel.warning,
-    ViolationLevel.alarm
+    ViolationLevel.alarm,
   ];
 
   final String _name;
