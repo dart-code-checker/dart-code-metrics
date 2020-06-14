@@ -66,7 +66,9 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     Future.forEach(dartDriver.analysisContext.contextRoot.analyzedFiles(),
         dartDriver.getResult);
     dartDriver
-      ..exceptions.listen((_) {}) // Consume the stream, otherwise we leak.
+      ..exceptions.listen((_) {
+        // TODO(dmitry): process exceptions.
+      })
       ..results.listen(_processResult);
 
     return dartDriver;
