@@ -27,16 +27,18 @@ plugin.AnalysisErrorFixes codeIssueToAnalysisErrorFixes(
             url: issue.ruleDocumentationUri?.toString(),
             hasFix: issue.correction != null),
         fixes: [
-          plugin.PrioritizedSourceChange(
-              1,
-              plugin.SourceChange(issue.correctionComment, edits: [
-                plugin.SourceFileEdit(unitResult.libraryElement.source.fullName,
-                    unitResult.libraryElement.source.modificationStamp,
-                    edits: [
-                      plugin.SourceEdit(issue.sourceSpan.start.offset,
-                          issue.sourceSpan.length, issue.correction),
-                    ]),
-              ])),
+          if (issue.correction != null)
+            plugin.PrioritizedSourceChange(
+                1,
+                plugin.SourceChange(issue.correctionComment, edits: [
+                  plugin.SourceFileEdit(
+                      unitResult.libraryElement.source.fullName,
+                      unitResult.libraryElement.source.modificationStamp,
+                      edits: [
+                        plugin.SourceEdit(issue.sourceSpan.start.offset,
+                            issue.sourceSpan.length, issue.correction),
+                      ]),
+                ])),
         ]);
 
 const _severityMapping = {
