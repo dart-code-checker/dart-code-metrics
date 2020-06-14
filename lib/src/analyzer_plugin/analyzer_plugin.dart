@@ -63,11 +63,10 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
       ..fileContentOverlay = fileContentOverlay;
 
     final dartDriver = contextBuilder.buildDriver(root);
+    Future.forEach(dartDriver.analysisContext.contextRoot.analyzedFiles(),
+        dartDriver.getResult);
     dartDriver
-      ..analysisContext
-          .contextRoot
-          .analyzedFiles()
-          .forEach(dartDriver.getResult)
+      ..exceptions.listen((_) {}) // Consume the stream, otherwise we leak.
       ..results.listen(_processResult);
 
     return dartDriver;
