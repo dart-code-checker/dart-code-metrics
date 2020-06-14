@@ -109,12 +109,12 @@ void main() {
 
     expect(issues.length, equals(3));
 
-    expect(issues.map((issue) => issue.ruleId).toSet().single,
-        equals('newline-before-return'));
-    expect(issues.map((issue) => issue.severity).toSet().single,
-        equals(CodeIssueSeverity.style));
-    expect(issues.map((issue) => issue.sourceSpan.sourceUrl).toSet().single,
-        equals(sourceUrl));
+    expect(issues.every((issue) => issue.ruleId == 'newline-before-return'),
+        isTrue);
+    expect(issues.every((issue) => issue.severity == CodeIssueSeverity.style),
+        isTrue);
+    expect(issues.every((issue) => issue.sourceSpan.sourceUrl == sourceUrl),
+        isTrue);
     expect(issues.map((issue) => issue.sourceSpan.start.offset),
         equals([178, 899, 1061]));
     expect(issues.map((issue) => issue.sourceSpan.start.line),

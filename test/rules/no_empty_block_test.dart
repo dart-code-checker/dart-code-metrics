@@ -55,12 +55,11 @@ void main() {
 
     expect(issues.length, equals(4));
 
-    expect(issues.map((issue) => issue.ruleId).toSet().single,
-        equals('no-empty-block'));
-    expect(issues.map((issue) => issue.severity).toSet().single,
-        equals(CodeIssueSeverity.style));
-    expect(issues.map((issue) => issue.sourceSpan.sourceUrl).toSet().single,
-        equals(sourceUrl));
+    expect(issues.every((issue) => issue.ruleId == 'no-empty-block'), isTrue);
+    expect(issues.every((issue) => issue.severity == CodeIssueSeverity.style),
+        isTrue);
+    expect(issues.every((issue) => issue.sourceSpan.sourceUrl == sourceUrl),
+        isTrue);
     expect(issues.map((issue) => issue.sourceSpan.start.offset),
         equals([30, 83, 221, 348]));
     expect(issues.map((issue) => issue.sourceSpan.start.line),
