@@ -104,7 +104,7 @@ void main() {
         expect(options.rulesNames, equals(['newline-before-return']));
       });
 
-      test('tresholds define', () {
+      test('thresholds define', () {
         final options = AnalysisOptions.from(_contentWitMetricsThresholds);
 
         expect(
