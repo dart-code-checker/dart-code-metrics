@@ -3,12 +3,16 @@ import 'package:analyzer_plugin/protocol/protocol_common.dart' as plugin;
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
 import 'package:dart_code_metrics/src/models/code_issue.dart';
 import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
+import 'package:glob/glob.dart';
 import 'package:source_span/source_span.dart';
 
 bool isSupported(AnalysisResult result) =>
     result.path != null &&
     result.path.endsWith('.dart') &&
     !result.path.endsWith('.g.dart');
+
+bool isExcluded(AnalysisResult result, Iterable<Glob> excludes) =>
+    excludes.any((exclude) => exclude.matches(result.path));
 
 plugin.AnalysisErrorFixes codeIssueToAnalysisErrorFixes(
         CodeIssue issue, ResolvedUnitResult unitResult) =>

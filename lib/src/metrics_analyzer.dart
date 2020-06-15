@@ -8,6 +8,7 @@ import 'package:dart_code_metrics/src/metrics_analyzer_utils.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/rules/base_rule.dart';
 import 'package:dart_code_metrics/src/scope_ast_visitor.dart';
+import 'package:glob/glob.dart';
 import 'package:path/path.dart' as p;
 
 import 'analysis_options.dart';
@@ -19,12 +20,24 @@ import 'rules_factory.dart';
 /// See [MetricsAnalysisRunner] to get analysis info
 class MetricsAnalyzer {
   final Iterable<BaseRule> _checkingCodeRules;
+  final Iterable<Glob> _metricsExclude;
   final MetricsAnalysisRecorder _recorder;
 
-  MetricsAnalyzer(this._recorder, {AnalysisOptions options})
-      : _checkingCodeRules = getRulesById(options?.rulesNames ?? []);
+  MetricsAnalyzer(
+    this._recorder, {
+    AnalysisOptions options,
+  })  : _checkingCodeRules = getRulesById(options?.rulesNames ?? []),
+        _metricsExclude = options?.metricsExcludePatterns
+                ?.map((exclude) => Glob(exclude))
+                ?.toList() ??
+            [];
 
   void runAnalysis(String filePath, String rootFolder) {
+    final relativeFilePath = p.relative(filePath, from: rootFolder);
+    if (_metricsExclude.any((excluded) => excluded.matches(relativeFilePath))) {
+      return;
+    }
+
     final visitor = ScopeAstVisitor();
     final parseResult = parseFile(
         path: p.normalize(p.absolute(filePath)),

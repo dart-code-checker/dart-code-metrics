@@ -69,12 +69,17 @@ A plugin for the Dart `analyzer` library [package](https://pub.dev/packages/dart
       plugins:
         - dart_code_metrics
     
+    dart_code_metrics:
+      metrics:
+        cyclomatic-complexity: 20
+        number-of-arguments: 4
+      metrics-exclude:
+        - test/**
       rules:
-        - avoid-preserve-whitespace-false
-        - double-literal-format
         - newline-before-return
         - no-boolean-literal-compare
         - no-empty-block
+        - prefer-trailing-comma-for-collection
     ```
 
 #### Rules
