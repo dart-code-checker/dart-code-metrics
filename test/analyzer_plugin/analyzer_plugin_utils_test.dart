@@ -2,6 +2,7 @@
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart';
 import 'package:dart_code_metrics/src/analyzer_plugin/analyzer_plugin_utils.dart';
+import 'package:glob/glob.dart';
 import 'package:mockito/mockito.dart';
 import 'package:source_span/source_span.dart';
 import 'package:test/test.dart';
@@ -29,6 +30,22 @@ void main() {
 
       expect(isSupported(analysisResultMock), isFalse);
     });
+  });
+
+  test(
+      'isExcluded returns true only for file path those matches with any exclude pattern',
+      () {
+    final analysisResultMock = AnalysisResultMock();
+    when(analysisResultMock.path).thenReturn('lib/src/example.dart');
+
+    expect(
+        isExcluded(analysisResultMock,
+            [Glob('test/**.dart'), Glob('lib/src/**.dart')]),
+        isTrue);
+    expect(
+        isExcluded(
+            analysisResultMock, [Glob('test/**.dart'), Glob('bin/**.dart')]),
+        isFalse);
   });
 
   test(

@@ -3,6 +3,7 @@
 # Unreleased
 - Add experimental static code diagnostics prefer-trailing-comma-for-collection
 - Support number of arguments metric in analyzer plugin
+- Support excluding files from metrics calculation
 
 # 1.5.1
 - Improve code diagnostics double-literal-format, no-boolean-literal-compare

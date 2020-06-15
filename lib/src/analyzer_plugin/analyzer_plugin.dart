@@ -18,6 +18,8 @@ import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
 import 'package:dart_code_metrics/src/rules/base_rule.dart';
 import 'package:dart_code_metrics/src/rules_factory.dart';
+import 'package:glob/glob.dart';
+import 'package:path/path.dart' as p;
 import 'package:source_span/source_span.dart';
 
 import '../metrics_analyzer_utils.dart';
@@ -25,6 +27,7 @@ import '../scope_ast_visitor.dart';
 
 class MetricsAnalyzerPlugin extends ServerPlugin {
   Config _metricsConfig;
+  Iterable<Glob> _metricsExclude;
   Iterable<BaseRule> _checkingCodeRules;
 
   MetricsAnalyzerPlugin(ResourceProvider provider)
@@ -54,8 +57,11 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
         pathContext: resourceProvider.pathContext)
       ..optionsFilePath = contextRoot.optionsFile;
 
-    final config = _readOptions(root.optionsFilePath);
+    final config = _readOptions(root);
     _metricsConfig = config.metricsConfig;
+    _metricsExclude = config.metricsExcludePatterns
+        .map((exclude) => Glob(p.join(contextRoot.root, exclude)))
+        .toList();
     _checkingCodeRules = getRulesById(config?.rulesNames ?? []);
 
     final contextBuilder = ContextBuilder(resourceProvider, sdkManager, null)
@@ -142,7 +148,8 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
               .map((issue) =>
                   codeIssueToAnalysisErrorFixes(issue, analysisResult))));
 
-      if (_metricsConfig != null) {
+      if (_metricsConfig != null &&
+          !isExcluded(analysisResult, _metricsExclude)) {
         final scopeVisitor = ScopeAstVisitor();
         analysisResult.unit.visitChildren(scopeVisitor);
         for (final declaration in scopeVisitor.declarations) {
@@ -209,9 +216,9 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     return result;
   }
 
-  AnalysisOptions _readOptions(String optionsFilePath) {
-    if (optionsFilePath != null && optionsFilePath.isNotEmpty) {
-      final file = resourceProvider.getFile(optionsFilePath);
+  AnalysisOptions _readOptions(ContextRoot contextRoot) {
+    if (contextRoot?.optionsFilePath?.isNotEmpty ?? false) {
+      final file = resourceProvider.getFile(contextRoot.optionsFilePath);
       if (file.exists) {
         return AnalysisOptions.from(file.readAsStringSync());
       }

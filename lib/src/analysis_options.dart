@@ -9,19 +9,24 @@ const String analysisOptionsFileName = 'analysis_options.yaml';
 
 const _rootKey = 'dart_code_metrics';
 const _metricsKey = 'metrics';
+const _metricsExcludeKey = 'metrics-exclude';
 const _rulesKey = 'rules';
 
 /// Class representing options in `analysis_options.yaml`.
 
 class AnalysisOptions {
   final Config metricsConfig;
+  final Iterable<String> metricsExcludePatterns;
   final Iterable<String> rulesNames;
 
   const AnalysisOptions(
-      {@required this.metricsConfig, @required this.rulesNames});
+      {@required this.metricsConfig,
+      @required this.metricsExcludePatterns,
+      @required this.rulesNames});
 
   factory AnalysisOptions.from(String content) {
-    Config config;
+    Config metricsConfig;
+    var metricsExcludePatterns = <String>[];
     var rules = <String>[];
 
     final node = loadYamlNode(content ?? '');
@@ -30,13 +35,18 @@ class AnalysisOptions {
 
       if (_isYamlMapOfStringsAndIntegers(metricsOptions.nodes[_metricsKey])) {
         final configMap = metricsOptions[_metricsKey] as YamlMap;
-        config = Config(
+        metricsConfig = Config(
           cyclomaticComplexityWarningLevel:
               configMap['cyclomatic-complexity'] as int,
           linesOfCodeWarningLevel: configMap['lines-of-code'] as int,
           numberOfArgumentsWarningLevel:
               configMap['number-of-arguments'] as int,
         );
+      }
+
+      if (_isYamlListOfStrings(metricsOptions.nodes[_metricsExcludeKey])) {
+        metricsExcludePatterns =
+            List.unmodifiable(metricsOptions[_metricsExcludeKey] as Iterable);
       }
 
       if (_isYamlListOfStrings(metricsOptions.nodes[_rulesKey])) {
@@ -49,7 +59,10 @@ class AnalysisOptions {
       }
     }
 
-    return AnalysisOptions(metricsConfig: config, rulesNames: rules);
+    return AnalysisOptions(
+        metricsConfig: metricsConfig,
+        metricsExcludePatterns: metricsExcludePatterns,
+        rulesNames: rules);
   }
 }
 
