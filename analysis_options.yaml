@@ -10,11 +10,13 @@ analyzer:
 dart_code_metrics:
   metrics:
     cyclomatic-complexity: 20
+    number-of-arguments: 4
   rules:
     - double-literal-format
     - newline-before-return
     - no-boolean-literal-compare
     - no-empty-block
+    - prefer-trailing-comma-for-collection
 
 linter:
   rules:

@@ -90,7 +90,7 @@ class ControlFlowAstVisitor extends RecursiveAstVisitor<Object> {
       TokenType.BAR_BAR,
       TokenType.QUESTION_PERIOD,
       TokenType.QUESTION_QUESTION,
-      TokenType.QUESTION_QUESTION_EQ
+      TokenType.QUESTION_QUESTION_EQ,
     ];
 
     var token = firstToken;

@@ -33,10 +33,10 @@ void main() {
           fullPath: '/home/developer/work/project/example.dart',
           relativePath: 'example.dart',
           records: Map.unmodifiable(<String, FunctionRecord>{
-            'function': buildFunctionRecordStub(argumentsCount: 0)
+            'function': buildFunctionRecordStub(argumentsCount: 0),
           }),
           issues: const [],
-        )
+        ),
       ];
 
       final report = _reporter.report(records);
@@ -53,10 +53,10 @@ void main() {
           fullPath: '/home/developer/work/project/example.dart',
           relativePath: 'example.dart',
           records: Map.unmodifiable(<String, FunctionRecord>{
-            'function': buildFunctionRecordStub(argumentsCount: 10)
+            'function': buildFunctionRecordStub(argumentsCount: 10),
           }),
           issues: const [],
-        )
+        ),
       ];
 
       final report = _reporter.report(records).toList();
@@ -90,7 +90,7 @@ void main() {
               ruleDocumentationUri: Uri.parse('https://docu.edu/ruleId1.html'),
             ),
           ],
-        )
+        ),
       ];
 
       final report = _reporter.report(records).toList();

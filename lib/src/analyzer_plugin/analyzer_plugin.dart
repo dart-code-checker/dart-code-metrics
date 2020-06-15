@@ -18,7 +18,9 @@ import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
 import 'package:dart_code_metrics/src/rules/base_rule.dart';
 import 'package:dart_code_metrics/src/rules_factory.dart';
+import 'package:source_span/source_span.dart';
 
+import '../metrics_analyzer_utils.dart';
 import '../scope_ast_visitor.dart';
 
 class MetricsAnalyzerPlugin extends ServerPlugin {
@@ -66,7 +68,9 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     Future.forEach(dartDriver.analysisContext.contextRoot.analyzedFiles(),
         dartDriver.getResult);
     dartDriver
-      ..exceptions.listen((_) {}) // Consume the stream, otherwise we leak.
+      ..exceptions.listen((_) {
+        // TODO(dmitry): process exceptions.
+      })
       ..results.listen(_processResult);
 
     return dartDriver;
@@ -155,7 +159,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
               lastLine: analysisResult.unit.lineInfo
                   .getLocation(declaration.declaration.endToken.end)
                   .lineNumber,
-              argumentsCount: 0,
+              argumentsCount: getArgumentsCount(declaration),
               cyclomaticComplexityLines:
                   Map.unmodifiable(controlFlowAstVisitor.complexityLines),
               linesWithCode: List.unmodifiable(<int>[]),
@@ -166,29 +170,37 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
               UtilitySelector.functionReport(functionRecord, _metricsConfig);
 
           if (UtilitySelector.isIssueLevel(
-              functionReport.cyclomaticComplexity.violationLevel)) {
-            result.add(plugin.AnalysisErrorFixes(plugin.AnalysisError(
-                plugin.AnalysisErrorSeverity.INFO,
-                plugin.AnalysisErrorType.LINT,
-                plugin.Location(
-                    (resourceProvider.getFile(analysisResult.path)?.toUri() ??
-                            analysisResult.uri)
-                        .path,
-                    declaration
-                        .declaration.firstTokenAfterCommentAndMetadata.offset,
-                    declaration.declaration.end -
-                        declaration.declaration
-                            .firstTokenAfterCommentAndMetadata.offset,
-                    analysisResult.unit.lineInfo
-                        .getLocation(declaration.declaration
-                            .firstTokenAfterCommentAndMetadata.offset)
-                        .lineNumber,
-                    analysisResult.unit.lineInfo
-                        .getLocation(
-                            declaration.declaration.firstTokenAfterCommentAndMetadata.offset)
-                        .columnNumber),
-                'Function has a Cyclomatic Complexity of ${functionReport.cyclomaticComplexity.value} (exceeds ${_metricsConfig.cyclomaticComplexityWarningLevel} allowed). Consider refactoring.',
-                'cyclomatic-complexity')));
+              UtilitySelector.functionViolationLevel(functionReport))) {
+            final offset = declaration
+                .declaration.firstTokenAfterCommentAndMetadata.offset;
+
+            final startLineInfo =
+                analysisResult.unit.lineInfo.getLocation(offset);
+
+            final startSourceLocation = SourceLocation(offset,
+                sourceUrl:
+                    resourceProvider.getFile(analysisResult.path)?.toUri() ??
+                        analysisResult.uri,
+                line: startLineInfo.lineNumber,
+                column: startLineInfo.columnNumber);
+
+            if (UtilitySelector.isIssueLevel(
+                functionReport.cyclomaticComplexity.violationLevel)) {
+              result.add(metricReportToAnalysisErrorFixes(
+                  startSourceLocation,
+                  declaration.declaration.end - offset,
+                  'Function has a Cyclomatic Complexity of ${functionReport.cyclomaticComplexity.value} (exceeds ${_metricsConfig.cyclomaticComplexityWarningLevel} allowed). Consider refactoring.',
+                  'cyclomatic-complexity'));
+            }
+
+            if (UtilitySelector.isIssueLevel(
+                functionReport.argumentsCount.violationLevel)) {
+              result.add(metricReportToAnalysisErrorFixes(
+                  startSourceLocation,
+                  declaration.declaration.end - offset,
+                  'Function has ${functionReport.argumentsCount.value} number of arguments (exceeds ${_metricsConfig.numberOfArgumentsWarningLevel} allowed). Consider refactoring.',
+                  'number-of-arguments'));
+            }
           }
         }
       }

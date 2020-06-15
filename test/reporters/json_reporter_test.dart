@@ -36,7 +36,7 @@ void main() {
               'function3': buildFunctionRecordStub(argumentsCount: 10),
             }),
             issues: const [],
-          )
+          ),
         ];
 
         final report =
@@ -81,7 +81,7 @@ void main() {
                 ruleDocumentationUri: Uri.parse(_issueRuleDocumentationUrl),
               ),
             ],
-          )
+          ),
         ];
 
         final report =
@@ -114,10 +114,10 @@ void main() {
             fullPath: '/home/developer/work/project/example.dart',
             relativePath: 'example.dart',
             records: Map.unmodifiable(<String, FunctionRecord>{
-              'function': buildFunctionRecordStub(argumentsCount: 0)
+              'function': buildFunctionRecordStub(argumentsCount: 0),
             }),
             issues: const [],
-          )
+          ),
         ];
 
         final report =
@@ -136,10 +136,10 @@ void main() {
             fullPath: '/home/developer/work/project/example.dart',
             relativePath: 'example.dart',
             records: Map.unmodifiable(<String, FunctionRecord>{
-              'function': buildFunctionRecordStub(argumentsCount: 10)
+              'function': buildFunctionRecordStub(argumentsCount: 10),
             }),
             issues: const [],
-          )
+          ),
         ];
 
         final report =

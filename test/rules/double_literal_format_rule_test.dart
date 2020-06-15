@@ -74,12 +74,12 @@ void main() {
 
       expect(issues.length, equals(12));
 
-      expect(issues.map((issue) => issue.ruleId).toSet().single,
-          equals('double-literal-format'));
-      expect(issues.map((issue) => issue.severity).toSet().single,
-          equals(CodeIssueSeverity.style));
-      expect(issues.map((issue) => issue.sourceSpan.sourceUrl).toSet().single,
-          equals(sourceUrl));
+      expect(issues.every((issue) => issue.ruleId == 'double-literal-format'),
+          isTrue);
+      expect(issues.every((issue) => issue.severity == CodeIssueSeverity.style),
+          isTrue);
+      expect(issues.every((issue) => issue.sourceSpan.sourceUrl == sourceUrl),
+          isTrue);
       expect(issues.map((issue) => issue.sourceSpan.start.offset),
           equals([26, 39, 58, 73, 105, 118, 136, 151, 182, 196, 215, 231]));
       expect(issues.map((issue) => issue.sourceSpan.start.line),

@@ -65,6 +65,7 @@ analyzer:
 dart_code_metrics:
   metrics:
     cyclomatic-complexity: 20
+    number-of-arguments: 4
   rules:
     - no-boolean-literal-compare
 
@@ -108,6 +109,7 @@ void main() {
 
         expect(
             options.metricsConfig.cyclomaticComplexityWarningLevel, equals(20));
+        expect(options.metricsConfig.numberOfArgumentsWarningLevel, equals(4));
         expect(options.rulesNames, equals(['no-boolean-literal-compare']));
       });
     });
