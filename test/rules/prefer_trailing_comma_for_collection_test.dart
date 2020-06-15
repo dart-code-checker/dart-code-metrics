@@ -104,17 +104,17 @@ void main() {
             issue.message == 'A trailing comma should end this line'),
         isTrue);
 
-    print('${issues.map((issue) => '"${issue.correction}"').toList()}');
-
-    expect(issues.map((issue) => issue.correction), [
-      '1,',
-      '3,',
-      '3,',
-      "const A('a3'),",
-      "'b',",
-      "'b': 2,",
-      "if (true)\n    \'e\': 10,",
-    ]);
+    expect(
+        issues.map((issue) => issue.correction),
+        equals([
+          '1,',
+          '3,',
+          '3,',
+          "const A('a3'),",
+          "'b',",
+          "'b': 2,",
+          "if (true)\n    'e': 10,",
+        ]));
 
     expect(
         issues
@@ -126,27 +126,29 @@ void main() {
         isTrue);
 
     expect(issues.map((issue) => issue.sourceSpan.start.offset),
-        [397, 435, 469, 533, 573, 604, 668]);
+        equals([397, 435, 469, 533, 573, 604, 668]));
     expect(issues.map((issue) => issue.sourceSpan.start.line),
-        [35, 41, 46, 52, 58, 63, 69]);
+        equals([35, 41, 46, 52, 58, 63, 69]));
     expect(issues.map((issue) => issue.sourceSpan.start.column),
-        [3, 3, 3, 3, 3, 3, 3]);
+        equals([3, 3, 3, 3, 3, 3, 3]));
 
     expect(issues.map((issue) => issue.sourceSpan.end.offset),
-        [398, 436, 470, 546, 576, 610, 689]);
+        equals([398, 436, 470, 546, 576, 610, 689]));
     expect(issues.map((issue) => issue.sourceSpan.end.line),
-        [35, 41, 46, 52, 58, 63, 70]);
+        equals([35, 41, 46, 52, 58, 63, 70]));
     expect(issues.map((issue) => issue.sourceSpan.end.column),
-        [4, 4, 4, 16, 6, 9, 12]);
+        equals([4, 4, 4, 16, 6, 9, 12]));
 
-    expect(issues.map((issue) => issue.sourceSpan.text), [
-      '1',
-      '3',
-      '3',
-      "const A('a3')",
-      "'b'",
-      "'b': 2",
-      "if (true)\n    \'e\': 10",
-    ]);
+    expect(
+        issues.map((issue) => issue.sourceSpan.text),
+        equals([
+          '1',
+          '3',
+          '3',
+          "const A('a3')",
+          "'b'",
+          "'b': 2",
+          "if (true)\n    'e': 10",
+        ]));
   });
 }
