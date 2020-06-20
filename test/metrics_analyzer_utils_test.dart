@@ -19,7 +19,7 @@ class NodeListMock<E extends AstNode> extends Mock implements NodeList<E> {}
 class MethodDeclarationMock extends Mock implements MethodDeclaration {}
 
 void main() {
-  group('getArgumentsCount return arguments count of', () {
+  group('getArgumentsCount returns arguments count of', () {
     FormalParameterListMock formalParameterListMock;
     NodeListMock<FormalParameter> nodeListMock;
 
@@ -42,7 +42,7 @@ void main() {
 
       final declaration = ScopedDeclaration(functionDeclarationMock, null);
 
-      expect(getArgumentsCount(declaration), 1);
+      expect(getArgumentsCount(declaration), equals(1));
     });
 
     test('class method', () {
@@ -56,13 +56,13 @@ void main() {
           .thenReturn(formalParameterListMock);
       when(nodeListMock.length).thenReturn(2);
 
-      expect(getArgumentsCount(declaration), 2);
+      expect(getArgumentsCount(declaration), equals(2));
     });
 
     test('class constructor', () {
       final declaration = ScopedDeclaration(ConstructorDeclarationMock(), null);
 
-      expect(getArgumentsCount(declaration), 0);
+      expect(getArgumentsCount(declaration), isZero);
     });
   });
 }
