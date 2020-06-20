@@ -60,7 +60,7 @@ class MetricsAnalyzer {
         scopedDeclaration.declaration.visitChildren(halsteadVolumeAstVisitor);
 
         _recorder.record(
-            getHumanReadableName(scopedDeclaration),
+            scopedDeclaration,
             FunctionRecord(
                 firstLine: parseResult.lineInfo
                     .getLocation(scopedDeclaration

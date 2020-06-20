@@ -1,10 +1,17 @@
 @TestOn('vm')
+import 'package:analyzer/dart/ast/ast.dart';
 import 'package:dart_code_metrics/src/metrics_analysis_recorder.dart';
 import 'package:dart_code_metrics/src/models/code_issue.dart';
 import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
+import 'package:dart_code_metrics/src/models/scoped_declaration.dart';
+import 'package:mockito/mockito.dart';
 import 'package:source_span/source_span.dart';
 import 'package:test/test.dart';
+
+class FunctionDeclarationMock extends Mock implements FunctionDeclaration {}
+
+class SimpleIdentifierMock extends Mock implements SimpleIdentifier {}
 
 void main() {
   group('MetricsAnalysisRecorder', () {
@@ -29,22 +36,32 @@ void main() {
     });
 
     group('record', () {
-      const recordName = 'record';
+      const functionName = 'simpleFunction';
 
-      test('throws ArgumentError if we call them without recordName', () {
-        expect(() {
-          MetricsAnalysisRecorder().record(null, null);
-        }, throwsArgumentError);
-      });
+      final simpleIdentifierMock = SimpleIdentifierMock();
+      when(simpleIdentifierMock.name).thenReturn(functionName);
+
+      final functionDeclarationMock = FunctionDeclarationMock();
+      when(functionDeclarationMock.name).thenReturn(simpleIdentifierMock);
+
+      final record = ScopedDeclaration(functionDeclarationMock, null);
 
       test('throws StateError if we call them in invalid state', () {
         expect(() {
-          MetricsAnalysisRecorder().record(recordName, null);
+          MetricsAnalysisRecorder().record(record, null);
         }, throwsStateError);
       });
 
+      test('throws ArgumentError if we call them without record', () {
+        expect(() {
+          MetricsAnalysisRecorder()
+            ..startRecordFile(filePath, rootDirectory)
+            ..record(null, null);
+        }, throwsArgumentError);
+      });
+
       test('store record for component', () {
-        const record = FunctionRecord(
+        const functionRecord = FunctionRecord(
           firstLine: 1,
           lastLine: 2,
           argumentsCount: 3,
@@ -56,11 +73,11 @@ void main() {
 
         final recorder = MetricsAnalysisRecorder()
           ..startRecordFile(filePath, rootDirectory)
-          ..record(recordName, record)
+          ..record(record, functionRecord)
           ..endRecordFile();
 
         expect(recorder.records().single.records,
-            containsPair(recordName, record));
+            containsPair(functionName, functionRecord));
       });
     });
 
