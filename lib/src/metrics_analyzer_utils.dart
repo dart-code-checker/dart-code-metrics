@@ -17,14 +17,14 @@ int getArgumentsCount(ScopedDeclaration dec) {
 }
 
 String getHumanReadableName(ScopedDeclaration dec) {
-  final declaration = dec.declaration;
+  final declaration = dec?.declaration;
 
   if (declaration is FunctionDeclaration) {
-    return declaration.name.toString();
+    return declaration.name.name;
   } else if (declaration is ConstructorDeclaration) {
-    return '${dec.declarationIdentifier}.${declaration.name}';
+    return '${dec.declarationIdentifier.name}.${declaration.name.name}';
   } else if (declaration is MethodDeclaration) {
-    return '${dec.declarationIdentifier}.${declaration.name}';
+    return '${dec.declarationIdentifier.name}.${declaration.name.name}';
   }
 
   return null;
