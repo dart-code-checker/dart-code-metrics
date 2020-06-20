@@ -11,50 +11,67 @@ void main() {
     test('abstract class', () {
       final visitor = ScopeAstVisitor();
       parseFile(
-              path: p.normalize(p.absolute(
-                  './test/scope_ast_visitor_test/sample_abstract_class.dart')),
+          path: p.normalize(p.absolute('./test/resources/abstract_class.dart')),
+          featureSet:
+              FeatureSet.fromEnableFlags([])).unit.visitChildren(visitor);
+
+      expect(visitor.declarations, isEmpty);
+    });
+
+    test('function', () {
+      final visitor = ScopeAstVisitor();
+      parseFile(
+              path: p.normalize(p.absolute('./test/resources/function.dart')),
               featureSet: FeatureSet.fromEnableFlags([]))
           .unit
           .visitChildren(visitor);
 
-      expect(visitor.declarations, isEmpty);
-    });
-    test('mixin', () {
-      final visitor = ScopeAstVisitor();
-      parseFile(
-          path: p.normalize(
-              p.absolute('./test/scope_ast_visitor_test/sample_mixin.dart')),
-          featureSet:
-              FeatureSet.fromEnableFlags([])).unit.visitChildren(visitor);
-
-      expect(visitor.declarations.length, equals(1));
-      expect(visitor.declarations.first.declaration, isNotNull);
-      expect(visitor.declarations.first.declarationIdentifier, isNotNull);
+      final declaration = visitor.declarations.single;
+      expect(declaration.declaration, const TypeMatcher<FunctionDeclaration>());
+      expect((declaration.declaration as FunctionDeclaration).name.name,
+          equals('say'));
     });
 
     test('class with factory constructors', () {
       final visitor = ScopeAstVisitor();
       parseFile(
-          path: p.normalize(p.absolute(
-              './test/scope_ast_visitor_test/class_with_factory_constructors.dart')),
-          featureSet:
-              FeatureSet.fromEnableFlags([])).unit.visitChildren(visitor);
+              path: p.normalize(p.absolute(
+                  './test/resources/class_with_factory_constructors.dart')),
+              featureSet: FeatureSet.fromEnableFlags([]))
+          .unit
+          .visitChildren(visitor);
 
-      expect(visitor.declarations.length, equals(2));
-      expect(visitor.declarations.first.declaration,
+      final declarations = visitor.declarations;
+      expect(declarations.length, equals(2));
+      expect(declarations.first.declaration,
           const TypeMatcher<ConstructorDeclaration>());
       expect(
-          (visitor.declarations.first.declaration as ConstructorDeclaration)
-              .name
-              .toString(),
-          '_create');
-      expect(visitor.declarations.last.declaration,
+          (declarations.first.declaration as ConstructorDeclaration).name.name,
+          equals('_create'));
+      expect(
+          declarations.first.declarationIdentifier.name, equals('SampleClass'));
+      expect(declarations.last.declaration,
           const TypeMatcher<ConstructorDeclaration>());
       expect(
-          (visitor.declarations.last.declaration as ConstructorDeclaration)
-              .name
-              .toString(),
-          'createInstance');
+          (declarations.last.declaration as ConstructorDeclaration).name.name,
+          equals('createInstance'));
+      expect(
+          declarations.first.declarationIdentifier.name, equals('SampleClass'));
+    });
+
+    test('mixin', () {
+      final visitor = ScopeAstVisitor();
+      parseFile(
+              path: p.normalize(p.absolute('./test/resources/mixin.dart')),
+              featureSet: FeatureSet.fromEnableFlags([]))
+          .unit
+          .visitChildren(visitor);
+
+      final declaration = visitor.declarations.single;
+      expect(declaration.declaration, const TypeMatcher<MethodDeclaration>());
+      expect((declaration.declaration as MethodDeclaration).name.name,
+          equals('findValueByKey'));
+      expect(declaration.declarationIdentifier.name, equals('ValuesMapping'));
     });
   });
 }

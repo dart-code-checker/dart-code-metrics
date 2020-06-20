@@ -3,12 +3,15 @@ import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:path/path.dart' as p;
 
+import 'metrics_analyzer_utils.dart';
+import 'models/scoped_declaration.dart';
+
 /// Holds analysis records in format-agnostic way
 /// See [MetricsAnalysisRunner] to get analysis info
 class MetricsAnalysisRecorder {
   String _fileGroupPath;
   String _relativeGroupPath;
-  Map<String, FunctionRecord> _groupRecords;
+  Map<ScopedDeclaration, FunctionRecord> _groupRecords;
   List<CodeIssue> _issues;
 
   final _records = <ComponentRecord>[];
@@ -35,7 +38,8 @@ class MetricsAnalysisRecorder {
     _records.add(ComponentRecord(
         fullPath: _fileGroupPath,
         relativePath: _relativeGroupPath,
-        records: Map.unmodifiable(_groupRecords),
+        records: Map.unmodifiable(_groupRecords.map<String, FunctionRecord>(
+            (key, value) => MapEntry(getHumanReadableName(key), value))),
         issues: _issues));
     _relativeGroupPath = null;
     _fileGroupPath = null;
@@ -43,14 +47,14 @@ class MetricsAnalysisRecorder {
     _issues = null;
   }
 
-  void record(String recordName, FunctionRecord report) {
-    if (recordName == null) {
-      throw ArgumentError.notNull('recordName');
-    }
-
+  void record(ScopedDeclaration record, FunctionRecord report) {
     _checkState();
 
-    _groupRecords[recordName] = report;
+    if (record == null) {
+      throw ArgumentError.notNull('record');
+    }
+
+    _groupRecords[record] = report;
   }
 
   void recordIssues(Iterable<CodeIssue> issues) {

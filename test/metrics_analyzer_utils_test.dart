@@ -1,8 +1,12 @@
 @TestOn('vm')
+import 'package:analyzer/dart/analysis/features.dart';
+import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:dart_code_metrics/src/metrics_analyzer_utils.dart';
 import 'package:dart_code_metrics/src/models/scoped_declaration.dart';
+import 'package:dart_code_metrics/src/scope_ast_visitor.dart';
 import 'package:mockito/mockito.dart';
+import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
 class ConstructorDeclarationMock extends Mock
@@ -19,7 +23,7 @@ class NodeListMock<E extends AstNode> extends Mock implements NodeList<E> {}
 class MethodDeclarationMock extends Mock implements MethodDeclaration {}
 
 void main() {
-  group('getArgumentsCount return arguments count of', () {
+  group('getArgumentsCount returns arguments count of', () {
     FormalParameterListMock formalParameterListMock;
     NodeListMock<FormalParameter> nodeListMock;
 
@@ -42,7 +46,7 @@ void main() {
 
       final declaration = ScopedDeclaration(functionDeclarationMock, null);
 
-      expect(getArgumentsCount(declaration), 1);
+      expect(getArgumentsCount(declaration), equals(1));
     });
 
     test('class method', () {
@@ -56,13 +60,45 @@ void main() {
           .thenReturn(formalParameterListMock);
       when(nodeListMock.length).thenReturn(2);
 
-      expect(getArgumentsCount(declaration), 2);
+      expect(getArgumentsCount(declaration), equals(2));
     });
 
     test('class constructor', () {
       final declaration = ScopedDeclaration(ConstructorDeclarationMock(), null);
 
-      expect(getArgumentsCount(declaration), 0);
+      expect(getArgumentsCount(declaration), isZero);
+    });
+  });
+
+  test('getHumanReadableName returns human readable name', () {
+    expect(getHumanReadableName(null), isNull);
+
+    <String, List<String>>{
+      './test/resources/abstract_class.dart': [],
+      './test/resources/class_with_factory_constructors.dart': [
+        'SampleClass._create',
+        'SampleClass.createInstance',
+      ],
+      './test/resources/mixed.dart': [
+        'pi',
+        'Bar.twoPi',
+        'Rectangle.right',
+        'Rectangle.right',
+        'Rectangle.bottom',
+        'Rectangle.bottom',
+      ],
+      './test/resources/mixin.dart': ['ValuesMapping.findValueByKey'],
+    }.forEach((fileName, declatationNames) {
+      final visitor = ScopeAstVisitor();
+
+      parseFile(
+              path: p.normalize(p.absolute(fileName)),
+              featureSet: FeatureSet.fromEnableFlags([]))
+          .unit
+          .visitChildren(visitor);
+
+      expect(visitor.declarations.map(getHumanReadableName),
+          equals(declatationNames));
     });
   });
 }
