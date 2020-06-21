@@ -32,7 +32,7 @@ void main() {
         ComponentRecord(
           fullPath: '/home/developer/work/project/example.dart',
           relativePath: 'example.dart',
-          records: Map.unmodifiable(<String, FunctionRecord>{
+          functions: Map.unmodifiable(<String, FunctionRecord>{
             'function': buildFunctionRecordStub(argumentsCount: 0),
           }),
           issues: const [],
@@ -52,7 +52,7 @@ void main() {
         ComponentRecord(
           fullPath: '/home/developer/work/project/example.dart',
           relativePath: 'example.dart',
-          records: Map.unmodifiable(<String, FunctionRecord>{
+          functions: Map.unmodifiable(<String, FunctionRecord>{
             'function': buildFunctionRecordStub(argumentsCount: 10),
           }),
           issues: const [],
@@ -69,7 +69,7 @@ void main() {
         ComponentRecord(
           fullPath: '/home/developer/work/project/example.dart',
           relativePath: 'example.dart',
-          records: Map.unmodifiable(<String, FunctionRecord>{}),
+          functions: Map.unmodifiable(<String, FunctionRecord>{}),
           issues: [
             CodeIssue(
               ruleId: 'ruleId1',

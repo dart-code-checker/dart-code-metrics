@@ -18,12 +18,12 @@ void main() {
         ComponentRecord(
             fullPath: 'lib/foo.dart',
             relativePath: 'foo.dart',
-            records: {},
+            functions: {},
             issues: []),
         ComponentRecord(
             fullPath: 'lib/bar.dart',
             relativePath: 'bar.dart',
-            records: {},
+            functions: {},
             issues: []),
       ];
 

@@ -76,7 +76,7 @@ void main() {
           ..record(record, functionRecord)
           ..endRecordFile();
 
-        expect(recorder.records().single.records,
+        expect(recorder.records().single.functions,
             containsPair(functionName, functionRecord));
       });
     });

@@ -38,7 +38,7 @@ class MetricsAnalysisRecorder {
     _records.add(ComponentRecord(
         fullPath: _fileGroupPath,
         relativePath: _relativeGroupPath,
-        records: Map.unmodifiable(_groupRecords.map<String, FunctionRecord>(
+        functions: Map.unmodifiable(_groupRecords.map<String, FunctionRecord>(
             (key, value) => MapEntry(getHumanReadableName(key), value))),
         issues: _issues));
     _relativeGroupPath = null;

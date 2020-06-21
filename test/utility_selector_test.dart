@@ -15,7 +15,7 @@ void main() {
         ComponentRecord(
           fullPath: fullPathStub,
           relativePath: relativePathStub,
-          records: Map.unmodifiable(<String, FunctionRecord>{
+          functions: Map.unmodifiable(<String, FunctionRecord>{
             'a': buildFunctionRecordStub(linesWithCode: List.filled(10, 0)),
           }),
           issues: const [],
@@ -23,7 +23,7 @@ void main() {
         ComponentRecord(
           fullPath: fullPathStub,
           relativePath: relativePathStub,
-          records: Map.unmodifiable(<String, FunctionRecord>{
+          functions: Map.unmodifiable(<String, FunctionRecord>{
             'a': buildFunctionRecordStub(linesWithCode: List.filled(20, 0)),
           }),
           issues: const [],
@@ -31,7 +31,7 @@ void main() {
         ComponentRecord(
           fullPath: fullPathStub,
           relativePath: relativePathStub,
-          records: Map.unmodifiable(<String, FunctionRecord>{
+          functions: Map.unmodifiable(<String, FunctionRecord>{
             'a': buildFunctionRecordStub(linesWithCode: List.filled(30, 0)),
           }),
           issues: const [],

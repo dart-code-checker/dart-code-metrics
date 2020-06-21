@@ -22,8 +22,8 @@ class CodeClimateReporter implements Reporter {
   Iterable<CodeClimateIssue> _toIssues(ComponentRecord record) {
     final result = <CodeClimateIssue>[];
 
-    for (final key in record.records.keys) {
-      final func = record.records[key];
+    for (final key in record.functions.keys) {
+      final func = record.functions[key];
       final report = UtilitySelector.functionReport(func, reportConfig);
 
       if (UtilitySelector.isIssueLevel(

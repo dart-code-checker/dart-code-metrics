@@ -52,7 +52,7 @@ class ConsoleReporter implements Reporter {
     for (final analysisRecord in records) {
       final lines = <String>[];
 
-      analysisRecord.records.forEach((source, functionReport) {
+      analysisRecord.functions.forEach((source, functionReport) {
         final report =
             UtilitySelector.functionReport(functionReport, reportConfig);
         final violationLevel = UtilitySelector.functionViolationLevel(report);

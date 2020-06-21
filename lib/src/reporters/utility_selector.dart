@@ -25,7 +25,7 @@ class UtilitySelector {
   static ComponentReport componentReport(
       ComponentRecord record, Config config) {
     final functionReports =
-        record.records.values.map((r) => functionReport(r, config));
+        record.functions.values.map((r) => functionReport(r, config));
 
     final averageArgumentCount =
         avg(functionReports.map((r) => r.argumentsCount.value));
@@ -137,7 +137,7 @@ class UtilitySelector {
   static ViolationLevel maxViolationLevel(
           Iterable<ComponentRecord> records, Config config) =>
       quiver.max(records
-          .expand((componentRecord) => componentRecord.records.values.map(
+          .expand((componentRecord) => componentRecord.functions.values.map(
               (functionRecord) =>
                   UtilitySelector.functionReport(functionRecord, config)))
           .map(UtilitySelector.functionViolationLevel));

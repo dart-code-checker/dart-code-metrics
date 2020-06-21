@@ -25,7 +25,7 @@ class JsonReporter implements Reporter {
 
     return {
       'source': record.relativePath,
-      'records': record.records.map((key, value) {
+      'records': record.functions.map((key, value) {
         final report = UtilitySelector.functionReport(value, reportConfig);
 
         return MapEntry(key, {

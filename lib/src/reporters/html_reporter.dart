@@ -360,7 +360,7 @@ class HtmlReporter implements Reporter {
     final cyclomaticValues = Element.tag('td')
       ..classes.add('metrics-source-code__complexity');
     for (var i = 1; i <= sourceFileLines.length; ++i) {
-      final functionReport = record.records.values.firstWhere(
+      final functionReport = record.functions.values.firstWhere(
           (functionReport) =>
               functionReport.firstLine <= i && functionReport.lastLine >= i,
           orElse: () => null);
