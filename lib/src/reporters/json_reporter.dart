@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/config.dart';
+import 'package:dart_code_metrics/src/models/file_record.dart';
 import 'package:dart_code_metrics/src/models/function_report_metric.dart';
 import 'package:dart_code_metrics/src/reporters/reporter.dart';
 import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
@@ -14,12 +14,12 @@ class JsonReporter implements Reporter {
   JsonReporter({@required this.reportConfig});
 
   @override
-  Iterable<String> report(Iterable<ComponentRecord> records) =>
+  Iterable<String> report(Iterable<FileRecord> records) =>
       (records?.isNotEmpty ?? false)
           ? [json.encode(records.map(_analysisRecordToJson).toList())]
           : [];
 
-  Map<String, Object> _analysisRecordToJson(ComponentRecord record) {
+  Map<String, Object> _analysisRecordToJson(FileRecord record) {
     final componentReport =
         UtilitySelector.componentReport(record, reportConfig);
 

@@ -1,5 +1,5 @@
 import 'package:dart_code_metrics/src/models/code_issue.dart';
-import 'package:dart_code_metrics/src/models/component_record.dart';
+import 'package:dart_code_metrics/src/models/file_record.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:path/path.dart' as p;
 
@@ -14,8 +14,8 @@ class MetricsAnalysisRecorder {
   Map<ScopedDeclaration, FunctionRecord> _groupRecords;
   List<CodeIssue> _issues;
 
-  final _records = <ComponentRecord>[];
-  Iterable<ComponentRecord> records() => _records;
+  final _records = <FileRecord>[];
+  Iterable<FileRecord> records() => _records;
 
   void startRecordFile(String filePath, String rootDirectory) {
     if (filePath == null) {
@@ -35,7 +35,7 @@ class MetricsAnalysisRecorder {
   }
 
   void endRecordFile() {
-    _records.add(ComponentRecord(
+    _records.add(FileRecord(
         fullPath: _fileGroupPath,
         relativePath: _relativeGroupPath,
         functions: Map.unmodifiable(_groupRecords.map<String, FunctionRecord>(

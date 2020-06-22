@@ -3,7 +3,7 @@ import 'package:meta/meta.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 
 @immutable
-class ComponentRecord {
+class FileRecord {
   final String fullPath;
   final String relativePath;
 
@@ -11,7 +11,7 @@ class ComponentRecord {
 
   final Iterable<CodeIssue> issues;
 
-  const ComponentRecord({
+  const FileRecord({
     @required this.fullPath,
     @required this.relativePath,
     @required this.functions,

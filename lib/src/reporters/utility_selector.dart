@@ -1,8 +1,8 @@
 import 'dart:math';
 
-import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/component_report.dart';
 import 'package:dart_code_metrics/src/models/config.dart';
+import 'package:dart_code_metrics/src/models/file_record.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/models/function_report.dart';
 import 'package:dart_code_metrics/src/models/function_report_metric.dart';
@@ -17,13 +17,12 @@ double avg(Iterable<num> it) => it.isNotEmpty ? sum(it) / it.length : 0;
 
 class UtilitySelector {
   static ComponentReport analysisReportForRecords(
-          Iterable<ComponentRecord> records, Config config) =>
+          Iterable<FileRecord> records, Config config) =>
       records
           .map((r) => componentReport(r, config))
           .reduce(mergeComponentReports);
 
-  static ComponentReport componentReport(
-      ComponentRecord record, Config config) {
+  static ComponentReport componentReport(FileRecord record, Config config) {
     final functionReports =
         record.functions.values.map((r) => functionReport(r, config));
 
@@ -135,7 +134,7 @@ class UtilitySelector {
       level == ViolationLevel.warning || level == ViolationLevel.alarm;
 
   static ViolationLevel maxViolationLevel(
-          Iterable<ComponentRecord> records, Config config) =>
+          Iterable<FileRecord> records, Config config) =>
       quiver.max(records
           .expand((componentRecord) => componentRecord.functions.values.map(
               (functionRecord) =>

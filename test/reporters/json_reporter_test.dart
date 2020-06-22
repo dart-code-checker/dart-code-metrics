@@ -3,8 +3,8 @@ import 'dart:convert';
 
 import 'package:dart_code_metrics/src/models/code_issue.dart';
 import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
-import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/config.dart';
+import 'package:dart_code_metrics/src/models/file_record.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/reporters/json_reporter.dart';
 import 'package:source_span/source_span.dart';
@@ -27,7 +27,7 @@ void main() {
     group('component', () {
       test('aggregated arguments metric values', () {
         final records = [
-          ComponentRecord(
+          FileRecord(
             fullPath: '/home/developer/work/project/example.dart',
             relativePath: 'example.dart',
             functions: Map.unmodifiable(<String, FunctionRecord>{
@@ -57,7 +57,7 @@ void main() {
         const _issueCorrectionComment = 'correction comment';
 
         final records = [
-          ComponentRecord(
+          FileRecord(
             fullPath: '/home/developer/work/project/example.dart',
             relativePath: 'example.dart',
             functions: Map.unmodifiable(<String, FunctionRecord>{}),
@@ -110,7 +110,7 @@ void main() {
     group('function', () {
       test('without arguments', () {
         final records = [
-          ComponentRecord(
+          FileRecord(
             fullPath: '/home/developer/work/project/example.dart',
             relativePath: 'example.dart',
             functions: Map.unmodifiable(<String, FunctionRecord>{
@@ -132,7 +132,7 @@ void main() {
       });
       test('with a lot of arguments', () {
         final records = [
-          ComponentRecord(
+          FileRecord(
             fullPath: '/home/developer/work/project/example.dart',
             relativePath: 'example.dart',
             functions: Map.unmodifiable(<String, FunctionRecord>{

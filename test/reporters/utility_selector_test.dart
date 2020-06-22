@@ -1,6 +1,6 @@
 @TestOn('vm')
-import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/config.dart';
+import 'package:dart_code_metrics/src/models/file_record.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/models/violation_level.dart';
 import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
@@ -12,7 +12,7 @@ void main() {
   group('UtilitySelector', () {
     test('componentReport calculates report for file', () {
       final report = UtilitySelector.componentReport(
-          ComponentRecord(
+          FileRecord(
             fullPath: '/home/developer/work/project/example.dart',
             relativePath: 'example.dart',
             functions: Map.unmodifiable(<String, FunctionRecord>{
@@ -95,8 +95,8 @@ void main() {
     group('maxViolationLevel returns', () {
       const fullPathStub = '~/lib/src/foo.dart';
       const relativePathStub = 'lib/src/foo.dart';
-      final componentRecords = [
-        ComponentRecord(
+      final fileRecords = [
+        FileRecord(
           fullPath: fullPathStub,
           relativePath: relativePathStub,
           functions: Map.unmodifiable(<String, FunctionRecord>{
@@ -104,7 +104,7 @@ void main() {
           }),
           issues: const [],
         ),
-        ComponentRecord(
+        FileRecord(
           fullPath: fullPathStub,
           relativePath: relativePathStub,
           functions: Map.unmodifiable(<String, FunctionRecord>{
@@ -112,7 +112,7 @@ void main() {
           }),
           issues: const [],
         ),
-        ComponentRecord(
+        FileRecord(
           fullPath: fullPathStub,
           relativePath: relativePathStub,
           functions: Map.unmodifiable(<String, FunctionRecord>{
@@ -124,15 +124,15 @@ void main() {
 
       test('ViolationLevel.none if no violations', () {
         expect(
-            UtilitySelector.maxViolationLevel(componentRecords,
-                const Config(linesOfCodeWarningLevel: 100500)),
+            UtilitySelector.maxViolationLevel(
+                fileRecords, const Config(linesOfCodeWarningLevel: 100500)),
             ViolationLevel.none);
       });
 
       test('ViolationLevel.warning if maximum violation is warning', () {
         expect(
             UtilitySelector.maxViolationLevel(
-                componentRecords, const Config(linesOfCodeWarningLevel: 20)),
+                fileRecords, const Config(linesOfCodeWarningLevel: 20)),
             ViolationLevel.warning);
       });
 
@@ -140,7 +140,7 @@ void main() {
           () {
         expect(
             UtilitySelector.maxViolationLevel(
-                componentRecords, const Config(linesOfCodeWarningLevel: 15)),
+                fileRecords, const Config(linesOfCodeWarningLevel: 15)),
             ViolationLevel.warning);
       });
     });

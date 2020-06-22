@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/config.dart';
+import 'package:dart_code_metrics/src/models/file_record.dart';
 import 'package:dart_code_metrics/src/reporters/code_climate/code_climate_issue.dart';
 import 'package:dart_code_metrics/src/reporters/reporter.dart';
 import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
@@ -14,12 +14,12 @@ class CodeClimateReporter implements Reporter {
   CodeClimateReporter({@required this.reportConfig});
 
   @override
-  Iterable<String> report(Iterable<ComponentRecord> records) =>
+  Iterable<String> report(Iterable<FileRecord> records) =>
       (records?.isNotEmpty ?? false)
           ? [json.encode(records.map(_toIssues).expand((r) => r).toList())]
           : [];
 
-  Iterable<CodeClimateIssue> _toIssues(ComponentRecord record) {
+  Iterable<CodeClimateIssue> _toIssues(FileRecord record) {
     final result = <CodeClimateIssue>[];
 
     for (final key in record.functions.keys) {

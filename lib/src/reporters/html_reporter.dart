@@ -3,8 +3,8 @@ import 'dart:io';
 
 import 'package:dart_code_metrics/src/models/function_report_metric.dart';
 import 'package:html/dom.dart';
-import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/config.dart';
+import 'package:dart_code_metrics/src/models/file_record.dart';
 import 'package:dart_code_metrics/src/models/violation_level.dart';
 import 'package:dart_code_metrics/src/reporters/reporter.dart';
 import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
@@ -75,7 +75,7 @@ class HtmlReporter implements Reporter {
   HtmlReporter({this.reportConfig, this.reportFolder = 'metrics'});
 
   @override
-  Iterable<String> report(Iterable<ComponentRecord> records) {
+  Iterable<String> report(Iterable<FileRecord> records) {
     if (records?.isNotEmpty ?? false) {
       _createReportDirectory(reportFolder);
       _copyResources(reportFolder);
@@ -244,7 +244,7 @@ class HtmlReporter implements Reporter {
   }
 
   void _generateFoldersReports(
-      String reportDirectory, Iterable<ComponentRecord> records) {
+      String reportDirectory, Iterable<FileRecord> records) {
     final folders =
         records.map((record) => p.dirname(record.relativePath)).toSet();
 
@@ -295,8 +295,8 @@ class HtmlReporter implements Reporter {
           htmlDocument.outerHtml.replaceAll('&amp;nbsp;', '&nbsp;'));
   }
 
-  void _generateFolderReport(String reportDirectory, String folder,
-      Iterable<ComponentRecord> records) {
+  void _generateFolderReport(
+      String reportDirectory, String folder, Iterable<FileRecord> records) {
     final tableRecords = records.map((record) {
       final report = UtilitySelector.componentReport(record, reportConfig);
       final fileName = p.basename(record.relativePath);
@@ -342,7 +342,7 @@ class HtmlReporter implements Reporter {
           htmlDocument.outerHtml.replaceAll('&amp;nbsp;', '&nbsp;'));
   }
 
-  void _generateSourceReport(String reportDirectory, ComponentRecord record) {
+  void _generateSourceReport(String reportDirectory, FileRecord record) {
     final sourceFileContent = File(record.fullPath).readAsStringSync();
     final sourceFileLines = LineSplitter.split(sourceFileContent);
 
