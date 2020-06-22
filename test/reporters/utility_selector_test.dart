@@ -10,7 +10,7 @@ import '../stubs_builders.dart';
 
 void main() {
   group('UtilitySelector', () {
-    test('componentReport calculate report for file', () {
+    test('componentReport calculates report for file', () {
       final report = UtilitySelector.componentReport(
           ComponentRecord(
             fullPath: '/home/developer/work/project/example.dart',
@@ -26,7 +26,8 @@ void main() {
       expect(report.averageArgumentsCount, 5);
       expect(report.totalArgumentsCountViolations, 2);
     });
-    group('functionReport calculate report for function', () {
+
+    group('functionReport calculates report for function', () {
       test('without arguments', () {
         final record = buildFunctionRecordStub(argumentsCount: 0);
         final report = UtilitySelector.functionReport(record, const Config());
@@ -34,6 +35,7 @@ void main() {
         expect(report.argumentsCount.value, 0);
         expect(report.argumentsCount.violationLevel, ViolationLevel.none);
       });
+
       test('with a lot of arguments', () {
         final record = buildFunctionRecordStub(argumentsCount: 10);
         final report = UtilitySelector.functionReport(record, const Config());
@@ -41,8 +43,9 @@ void main() {
         expect(report.argumentsCount.violationLevel, ViolationLevel.alarm);
       });
     });
+
     test(
-        'functionViolationLevel return aggregated violation level for function',
+        'functionViolationLevel returns aggregated violation level for function',
         () {
       expect(
           UtilitySelector.functionViolationLevel(buildFunctionReportStub(
@@ -72,6 +75,7 @@ void main() {
               argumentsCountViolationLevel: ViolationLevel.warning)),
           ViolationLevel.warning);
     });
+
     test('isIssueLevel', () {
       const violationsMapping = {
         ViolationLevel.none: isFalse,
@@ -85,6 +89,59 @@ void main() {
 
       violationsMapping.forEach((key, value) {
         expect(UtilitySelector.isIssueLevel(key), value);
+      });
+    });
+
+    group('maxViolationLevel returns', () {
+      const fullPathStub = '~/lib/src/foo.dart';
+      const relativePathStub = 'lib/src/foo.dart';
+      final componentRecords = [
+        ComponentRecord(
+          fullPath: fullPathStub,
+          relativePath: relativePathStub,
+          functions: Map.unmodifiable(<String, FunctionRecord>{
+            'a': buildFunctionRecordStub(linesWithCode: List.filled(10, 0)),
+          }),
+          issues: const [],
+        ),
+        ComponentRecord(
+          fullPath: fullPathStub,
+          relativePath: relativePathStub,
+          functions: Map.unmodifiable(<String, FunctionRecord>{
+            'a': buildFunctionRecordStub(linesWithCode: List.filled(20, 0)),
+          }),
+          issues: const [],
+        ),
+        ComponentRecord(
+          fullPath: fullPathStub,
+          relativePath: relativePathStub,
+          functions: Map.unmodifiable(<String, FunctionRecord>{
+            'a': buildFunctionRecordStub(linesWithCode: List.filled(30, 0)),
+          }),
+          issues: const [],
+        ),
+      ];
+
+      test('ViolationLevel.none if no violations', () {
+        expect(
+            UtilitySelector.maxViolationLevel(componentRecords,
+                const Config(linesOfCodeWarningLevel: 100500)),
+            ViolationLevel.none);
+      });
+
+      test('ViolationLevel.warning if maximum violation is warning', () {
+        expect(
+            UtilitySelector.maxViolationLevel(
+                componentRecords, const Config(linesOfCodeWarningLevel: 20)),
+            ViolationLevel.warning);
+      });
+
+      test('ViolationLevel.alarm if there are warning and alarm violations',
+          () {
+        expect(
+            UtilitySelector.maxViolationLevel(
+                componentRecords, const Config(linesOfCodeWarningLevel: 15)),
+            ViolationLevel.warning);
       });
     });
   });
