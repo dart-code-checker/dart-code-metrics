@@ -1,8 +1,8 @@
 import 'dart:math';
 
-import 'package:dart_code_metrics/src/models/component_report.dart';
 import 'package:dart_code_metrics/src/models/config.dart';
 import 'package:dart_code_metrics/src/models/file_record.dart';
+import 'package:dart_code_metrics/src/models/file_report.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/models/function_report.dart';
 import 'package:dart_code_metrics/src/models/function_report_metric.dart';
@@ -16,13 +16,13 @@ num sum(Iterable<num> it) => it.fold(0, (a, b) => a + b);
 double avg(Iterable<num> it) => it.isNotEmpty ? sum(it) / it.length : 0;
 
 class UtilitySelector {
-  static ComponentReport analysisReportForRecords(
+  static FileReport analysisReportForRecords(
           Iterable<FileRecord> records, Config config) =>
       records
           .map((r) => componentReport(r, config))
           .reduce(mergeComponentReports);
 
-  static ComponentReport componentReport(FileRecord record, Config config) {
+  static FileReport componentReport(FileRecord record, Config config) {
     final functionReports =
         record.functions.values.map((r) => functionReport(r, config));
 
@@ -50,7 +50,7 @@ class UtilitySelector {
         .where((r) => isIssueLevel(r.linesOfCode.violationLevel))
         .length;
 
-    return ComponentReport(
+    return FileReport(
         averageArgumentsCount: averageArgumentCount.round(),
         totalArgumentsCountViolations: totalArgumentsCountViolations,
         averageMaintainabilityIndex: averageMaintainabilityIndex,
@@ -141,25 +141,31 @@ class UtilitySelector {
                   UtilitySelector.functionReport(functionRecord, config)))
           .map(UtilitySelector.functionViolationLevel));
 
-  static ComponentReport mergeComponentReports(
-          ComponentReport lhs, ComponentReport rhs) =>
-      ComponentReport(
-          averageArgumentsCount:
-              ((lhs.averageArgumentsCount + rhs.averageArgumentsCount) / 2)
-                  .round(),
-          totalArgumentsCountViolations: lhs.totalArgumentsCountViolations +
-              rhs.totalArgumentsCountViolations,
-          averageMaintainabilityIndex: (lhs.averageMaintainabilityIndex +
-                  rhs.averageMaintainabilityIndex) /
-              2,
+  static FileReport mergeComponentReports(FileReport lhs, FileReport rhs) =>
+      FileReport(
+          averageArgumentsCount: ((lhs
+                          .averageArgumentsCount +
+                      rhs.averageArgumentsCount) /
+                  2)
+              .round(),
+          totalArgumentsCountViolations:
+              lhs
+                      .totalArgumentsCountViolations +
+                  rhs.totalArgumentsCountViolations,
+          averageMaintainabilityIndex:
+              (lhs
+                          .averageMaintainabilityIndex +
+                      rhs.averageMaintainabilityIndex) /
+                  2,
           totalMaintainabilityIndexViolations:
-              lhs.totalMaintainabilityIndexViolations +
+              lhs
+                      .totalMaintainabilityIndexViolations +
                   rhs.totalMaintainabilityIndexViolations,
           totalCyclomaticComplexity:
               lhs.totalCyclomaticComplexity + rhs.totalCyclomaticComplexity,
-          totalCyclomaticComplexityViolations:
-              lhs.totalCyclomaticComplexityViolations +
-                  rhs.totalCyclomaticComplexityViolations,
+          totalCyclomaticComplexityViolations: lhs
+                  .totalCyclomaticComplexityViolations +
+              rhs.totalCyclomaticComplexityViolations,
           totalLinesOfCode: lhs.totalLinesOfCode + rhs.totalLinesOfCode,
           totalLinesOfCodeViolations:
               lhs.totalLinesOfCodeViolations + rhs.totalLinesOfCodeViolations);

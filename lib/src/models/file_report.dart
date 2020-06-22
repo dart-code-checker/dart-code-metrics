@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
 
 @immutable
-class ComponentReport {
+class FileReport {
   final int averageArgumentsCount;
   final int totalArgumentsCountViolations;
 
@@ -14,7 +14,7 @@ class ComponentReport {
   final int totalLinesOfCode;
   final int totalLinesOfCodeViolations;
 
-  const ComponentReport(
+  const FileReport(
       {@required this.averageArgumentsCount,
       @required this.totalArgumentsCountViolations,
       @required this.averageMaintainabilityIndex,
