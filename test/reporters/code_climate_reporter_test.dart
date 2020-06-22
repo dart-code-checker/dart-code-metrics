@@ -3,8 +3,8 @@ import 'dart:convert';
 
 import 'package:dart_code_metrics/src/models/code_issue.dart';
 import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
-import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/config.dart';
+import 'package:dart_code_metrics/src/models/file_record.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/reporters/code_climate/code_climate_reporter.dart';
 import 'package:source_span/source_span.dart';
@@ -20,20 +20,20 @@ void main() {
       _reporter = CodeClimateReporter(reportConfig: const Config());
     });
 
-    test('empty component', () {
+    test('empty file', () {
       expect(_reporter.report([]), isEmpty);
     });
 
-    test('component with style severity issues', () {
+    test('file with style severity issues', () {
       const _issueRuleId = 'ruleId1';
       const _issueLine = 2;
       const _issueMessage = 'first issue message';
 
       final records = [
-        ComponentRecord(
+        FileRecord(
           fullPath: '/home/developer/work/project/example.dart',
           relativePath: 'example.dart',
-          records: Map.unmodifiable(<String, FunctionRecord>{}),
+          functions: Map.unmodifiable(<String, FunctionRecord>{}),
           issues: [
             CodeIssue(
               ruleId: _issueRuleId,
@@ -78,10 +78,10 @@ void main() {
     group('function', () {
       test('without arguments', () {
         final records = [
-          ComponentRecord(
+          FileRecord(
               fullPath: '/home/developer/work/project/example.dart',
               relativePath: 'example.dart',
-              records: Map.unmodifiable(<String, FunctionRecord>{
+              functions: Map.unmodifiable(<String, FunctionRecord>{
                 'function': buildFunctionRecordStub(argumentsCount: 0),
               }),
               issues: const []),
@@ -95,10 +95,10 @@ void main() {
 
       test('with a lot of arguments', () {
         final records = [
-          ComponentRecord(
+          FileRecord(
               fullPath: '/home/developer/work/project/example.dart',
               relativePath: 'example.dart',
-              records: Map.unmodifiable(<String, FunctionRecord>{
+              functions: Map.unmodifiable(<String, FunctionRecord>{
                 'function': buildFunctionRecordStub(argumentsCount: 10),
               }),
               issues: const []),

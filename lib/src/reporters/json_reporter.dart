@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/config.dart';
+import 'package:dart_code_metrics/src/models/file_record.dart';
 import 'package:dart_code_metrics/src/models/function_report_metric.dart';
 import 'package:dart_code_metrics/src/reporters/reporter.dart';
 import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
@@ -14,18 +14,17 @@ class JsonReporter implements Reporter {
   JsonReporter({@required this.reportConfig});
 
   @override
-  Iterable<String> report(Iterable<ComponentRecord> records) =>
+  Iterable<String> report(Iterable<FileRecord> records) =>
       (records?.isNotEmpty ?? false)
           ? [json.encode(records.map(_analysisRecordToJson).toList())]
           : [];
 
-  Map<String, Object> _analysisRecordToJson(ComponentRecord record) {
-    final componentReport =
-        UtilitySelector.componentReport(record, reportConfig);
+  Map<String, Object> _analysisRecordToJson(FileRecord record) {
+    final fileReport = UtilitySelector.fileReport(record, reportConfig);
 
     return {
       'source': record.relativePath,
-      'records': record.records.map((key, value) {
+      'records': record.functions.map((key, value) {
         final report = UtilitySelector.functionReport(value, reportConfig);
 
         return MapEntry(key, {
@@ -51,9 +50,9 @@ class JsonReporter implements Reporter {
                   'correctionComment': issue.correctionComment,
               })
           .toList(),
-      'average-number-of-arguments': componentReport.averageArgumentsCount,
+      'average-number-of-arguments': fileReport.averageArgumentsCount,
       'total-number-of-arguments-violations':
-          componentReport.totalArgumentsCountViolations,
+          fileReport.totalArgumentsCountViolations,
     };
   }
 

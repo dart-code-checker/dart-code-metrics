@@ -1,8 +1,8 @@
 import 'dart:math';
 
-import 'package:dart_code_metrics/src/models/component_record.dart';
-import 'package:dart_code_metrics/src/models/component_report.dart';
 import 'package:dart_code_metrics/src/models/config.dart';
+import 'package:dart_code_metrics/src/models/file_record.dart';
+import 'package:dart_code_metrics/src/models/file_report.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/models/function_report.dart';
 import 'package:dart_code_metrics/src/models/function_report_metric.dart';
@@ -16,16 +16,13 @@ num sum(Iterable<num> it) => it.fold(0, (a, b) => a + b);
 double avg(Iterable<num> it) => it.isNotEmpty ? sum(it) / it.length : 0;
 
 class UtilitySelector {
-  static ComponentReport analysisReportForRecords(
-          Iterable<ComponentRecord> records, Config config) =>
-      records
-          .map((r) => componentReport(r, config))
-          .reduce(mergeComponentReports);
+  static FileReport analysisReportForRecords(
+          Iterable<FileRecord> records, Config config) =>
+      records.map((r) => fileReport(r, config)).reduce(mergeFileReports);
 
-  static ComponentReport componentReport(
-      ComponentRecord record, Config config) {
+  static FileReport fileReport(FileRecord record, Config config) {
     final functionReports =
-        record.records.values.map((r) => functionReport(r, config));
+        record.functions.values.map((r) => functionReport(r, config));
 
     final averageArgumentCount =
         avg(functionReports.map((r) => r.argumentsCount.value));
@@ -51,7 +48,7 @@ class UtilitySelector {
         .where((r) => isIssueLevel(r.linesOfCode.violationLevel))
         .length;
 
-    return ComponentReport(
+    return FileReport(
         averageArgumentsCount: averageArgumentCount.round(),
         totalArgumentsCountViolations: totalArgumentsCountViolations,
         averageMaintainabilityIndex: averageMaintainabilityIndex,
@@ -135,12 +132,34 @@ class UtilitySelector {
       level == ViolationLevel.warning || level == ViolationLevel.alarm;
 
   static ViolationLevel maxViolationLevel(
-          Iterable<ComponentRecord> records, Config config) =>
+          Iterable<FileRecord> records, Config config) =>
       quiver.max(records
-          .expand((componentRecord) => componentRecord.records.values.map(
+          .expand((fileRecord) => fileRecord.functions.values.map(
               (functionRecord) =>
                   UtilitySelector.functionReport(functionRecord, config)))
           .map(UtilitySelector.functionViolationLevel));
+
+  static FileReport mergeFileReports(FileReport lhs, FileReport rhs) =>
+      FileReport(
+          averageArgumentsCount:
+              ((lhs.averageArgumentsCount + rhs.averageArgumentsCount) / 2)
+                  .round(),
+          totalArgumentsCountViolations: lhs.totalArgumentsCountViolations +
+              rhs.totalArgumentsCountViolations,
+          averageMaintainabilityIndex: (lhs.averageMaintainabilityIndex +
+                  rhs.averageMaintainabilityIndex) /
+              2,
+          totalMaintainabilityIndexViolations:
+              lhs.totalMaintainabilityIndexViolations +
+                  rhs.totalMaintainabilityIndexViolations,
+          totalCyclomaticComplexity:
+              lhs.totalCyclomaticComplexity + rhs.totalCyclomaticComplexity,
+          totalCyclomaticComplexityViolations:
+              lhs.totalCyclomaticComplexityViolations +
+                  rhs.totalCyclomaticComplexityViolations,
+          totalLinesOfCode: lhs.totalLinesOfCode + rhs.totalLinesOfCode,
+          totalLinesOfCodeViolations:
+              lhs.totalLinesOfCodeViolations + rhs.totalLinesOfCodeViolations);
 
   static ViolationLevel _violationLevel(int value, int warningLevel) {
     if (warningLevel == null) {

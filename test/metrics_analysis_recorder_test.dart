@@ -60,7 +60,7 @@ void main() {
         }, throwsArgumentError);
       });
 
-      test('store record for component', () {
+      test('store record for file', () {
         const functionRecord = FunctionRecord(
           firstLine: 1,
           lastLine: 2,
@@ -76,7 +76,7 @@ void main() {
           ..record(record, functionRecord)
           ..endRecordFile();
 
-        expect(recorder.records().single.records,
+        expect(recorder.records().single.functions,
             containsPair(functionName, functionRecord));
       });
     });
@@ -88,7 +88,7 @@ void main() {
         }, throwsStateError);
       });
 
-      test('aggregate issues for component', () {
+      test('aggregate issues for file', () {
         const _issueRuleId = 'ruleId1';
         const _issueMessage = 'first issue message';
         const _issueCorrection = 'correction';

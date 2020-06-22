@@ -1,7 +1,7 @@
 import 'package:ansicolor/ansicolor.dart';
 import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
-import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/config.dart';
+import 'package:dart_code_metrics/src/models/file_record.dart';
 import 'package:dart_code_metrics/src/models/function_report_metric.dart';
 import 'package:dart_code_metrics/src/models/violation_level.dart';
 import 'package:dart_code_metrics/src/reporters/reporter.dart';
@@ -42,7 +42,7 @@ class ConsoleReporter implements Reporter {
   ConsoleReporter({@required this.reportConfig, this.reportAll = false});
 
   @override
-  Iterable<String> report(Iterable<ComponentRecord> records) {
+  Iterable<String> report(Iterable<FileRecord> records) {
     if (records?.isEmpty ?? true) {
       return [];
     }
@@ -52,7 +52,7 @@ class ConsoleReporter implements Reporter {
     for (final analysisRecord in records) {
       final lines = <String>[];
 
-      analysisRecord.records.forEach((source, functionReport) {
+      analysisRecord.functions.forEach((source, functionReport) {
         final report =
             UtilitySelector.functionReport(functionReport, reportConfig);
         final violationLevel = UtilitySelector.functionViolationLevel(report);

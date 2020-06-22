@@ -2,7 +2,7 @@
 import 'package:dart_code_metrics/src/metrics_analysis_recorder.dart';
 import 'package:dart_code_metrics/src/metrics_analysis_runner.dart';
 import 'package:dart_code_metrics/src/metrics_analyzer.dart';
-import 'package:dart_code_metrics/src/models/component_record.dart';
+import 'package:dart_code_metrics/src/models/file_record.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
@@ -15,15 +15,15 @@ void main() {
   group('MetricsAnalysisRunner', () {
     test('results() returns MetricsAnalysisRecorder.runAnalysis', () {
       const stubRecords = [
-        ComponentRecord(
+        FileRecord(
             fullPath: 'lib/foo.dart',
             relativePath: 'foo.dart',
-            records: {},
+            functions: {},
             issues: []),
-        ComponentRecord(
+        FileRecord(
             fullPath: 'lib/bar.dart',
             relativePath: 'bar.dart',
-            records: {},
+            functions: {},
             issues: []),
       ];
 
