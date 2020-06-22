@@ -35,7 +35,7 @@ void main() {
       });
     });
 
-    group('record', () {
+    group('recordFunction', () {
       const functionName = 'simpleFunction';
 
       final simpleIdentifierMock = SimpleIdentifierMock();
@@ -48,7 +48,7 @@ void main() {
 
       test('throws StateError if we call them in invalid state', () {
         expect(() {
-          MetricsAnalysisRecorder().record(record, null);
+          MetricsAnalysisRecorder().recordFunction(record, null);
         }, throwsStateError);
       });
 
@@ -56,7 +56,7 @@ void main() {
         expect(() {
           MetricsAnalysisRecorder()
             ..startRecordFile(filePath, rootDirectory)
-            ..record(null, null);
+            ..recordFunction(null, null);
         }, throwsArgumentError);
       });
 
@@ -73,7 +73,7 @@ void main() {
 
         final recorder = MetricsAnalysisRecorder()
           ..startRecordFile(filePath, rootDirectory)
-          ..record(record, functionRecord)
+          ..recordFunction(record, functionRecord)
           ..endRecordFile();
 
         expect(recorder.records().single.functions,

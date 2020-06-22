@@ -59,7 +59,7 @@ class MetricsAnalyzer {
         scopedDeclaration.declaration.visitChildren(functionBodyAstVisitor);
         scopedDeclaration.declaration.visitChildren(halsteadVolumeAstVisitor);
 
-        _recorder.record(
+        _recorder.recordFunction(
             scopedDeclaration,
             FunctionRecord(
                 firstLine: parseResult.lineInfo

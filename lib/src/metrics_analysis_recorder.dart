@@ -47,7 +47,7 @@ class MetricsAnalysisRecorder {
     _issues = null;
   }
 
-  void record(ScopedDeclaration record, FunctionRecord report) {
+  void recordFunction(ScopedDeclaration record, FunctionRecord report) {
     _checkState();
 
     if (record == null) {
