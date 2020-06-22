@@ -141,6 +141,29 @@ class UtilitySelector {
                   UtilitySelector.functionReport(functionRecord, config)))
           .map(UtilitySelector.functionViolationLevel));
 
+  static ComponentReport mergeComponentReports(
+          ComponentReport lhs, ComponentReport rhs) =>
+      ComponentReport(
+          averageArgumentsCount:
+              ((lhs.averageArgumentsCount + rhs.averageArgumentsCount) / 2)
+                  .round(),
+          totalArgumentsCountViolations: lhs.totalArgumentsCountViolations +
+              rhs.totalArgumentsCountViolations,
+          averageMaintainabilityIndex: (lhs.averageMaintainabilityIndex +
+                  rhs.averageMaintainabilityIndex) /
+              2,
+          totalMaintainabilityIndexViolations:
+              lhs.totalMaintainabilityIndexViolations +
+                  rhs.totalMaintainabilityIndexViolations,
+          totalCyclomaticComplexity:
+              lhs.totalCyclomaticComplexity + rhs.totalCyclomaticComplexity,
+          totalCyclomaticComplexityViolations:
+              lhs.totalCyclomaticComplexityViolations +
+                  rhs.totalCyclomaticComplexityViolations,
+          totalLinesOfCode: lhs.totalLinesOfCode + rhs.totalLinesOfCode,
+          totalLinesOfCodeViolations:
+              lhs.totalLinesOfCodeViolations + rhs.totalLinesOfCodeViolations);
+
   static ViolationLevel _violationLevel(int value, int warningLevel) {
     if (warningLevel == null) {
       return ViolationLevel.none;
