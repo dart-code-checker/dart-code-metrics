@@ -20,11 +20,11 @@ void main() {
       _reporter = CodeClimateReporter(reportConfig: const Config());
     });
 
-    test('empty component', () {
+    test('empty file', () {
       expect(_reporter.report([]), isEmpty);
     });
 
-    test('component with style severity issues', () {
+    test('file with style severity issues', () {
       const _issueRuleId = 'ruleId1';
       const _issueLine = 2;
       const _issueMessage = 'first issue message';

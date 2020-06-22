@@ -18,11 +18,9 @@ double avg(Iterable<num> it) => it.isNotEmpty ? sum(it) / it.length : 0;
 class UtilitySelector {
   static FileReport analysisReportForRecords(
           Iterable<FileRecord> records, Config config) =>
-      records
-          .map((r) => componentReport(r, config))
-          .reduce(mergeComponentReports);
+      records.map((r) => fileReport(r, config)).reduce(mergeFileReports);
 
-  static FileReport componentReport(FileRecord record, Config config) {
+  static FileReport fileReport(FileRecord record, Config config) {
     final functionReports =
         record.functions.values.map((r) => functionReport(r, config));
 
@@ -136,36 +134,29 @@ class UtilitySelector {
   static ViolationLevel maxViolationLevel(
           Iterable<FileRecord> records, Config config) =>
       quiver.max(records
-          .expand((componentRecord) => componentRecord.functions.values.map(
+          .expand((fileRecord) => fileRecord.functions.values.map(
               (functionRecord) =>
                   UtilitySelector.functionReport(functionRecord, config)))
           .map(UtilitySelector.functionViolationLevel));
 
-  static FileReport mergeComponentReports(FileReport lhs, FileReport rhs) =>
+  static FileReport mergeFileReports(FileReport lhs, FileReport rhs) =>
       FileReport(
-          averageArgumentsCount: ((lhs
-                          .averageArgumentsCount +
-                      rhs.averageArgumentsCount) /
-                  2)
-              .round(),
-          totalArgumentsCountViolations:
-              lhs
-                      .totalArgumentsCountViolations +
-                  rhs.totalArgumentsCountViolations,
-          averageMaintainabilityIndex:
-              (lhs
-                          .averageMaintainabilityIndex +
-                      rhs.averageMaintainabilityIndex) /
-                  2,
+          averageArgumentsCount:
+              ((lhs.averageArgumentsCount + rhs.averageArgumentsCount) / 2)
+                  .round(),
+          totalArgumentsCountViolations: lhs.totalArgumentsCountViolations +
+              rhs.totalArgumentsCountViolations,
+          averageMaintainabilityIndex: (lhs.averageMaintainabilityIndex +
+                  rhs.averageMaintainabilityIndex) /
+              2,
           totalMaintainabilityIndexViolations:
-              lhs
-                      .totalMaintainabilityIndexViolations +
+              lhs.totalMaintainabilityIndexViolations +
                   rhs.totalMaintainabilityIndexViolations,
           totalCyclomaticComplexity:
               lhs.totalCyclomaticComplexity + rhs.totalCyclomaticComplexity,
-          totalCyclomaticComplexityViolations: lhs
-                  .totalCyclomaticComplexityViolations +
-              rhs.totalCyclomaticComplexityViolations,
+          totalCyclomaticComplexityViolations:
+              lhs.totalCyclomaticComplexityViolations +
+                  rhs.totalCyclomaticComplexityViolations,
           totalLinesOfCode: lhs.totalLinesOfCode + rhs.totalLinesOfCode,
           totalLinesOfCodeViolations:
               lhs.totalLinesOfCodeViolations + rhs.totalLinesOfCodeViolations);

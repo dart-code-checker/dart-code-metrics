@@ -20,8 +20,7 @@ class JsonReporter implements Reporter {
           : [];
 
   Map<String, Object> _analysisRecordToJson(FileRecord record) {
-    final componentReport =
-        UtilitySelector.componentReport(record, reportConfig);
+    final fileReport = UtilitySelector.fileReport(record, reportConfig);
 
     return {
       'source': record.relativePath,
@@ -51,9 +50,9 @@ class JsonReporter implements Reporter {
                   'correctionComment': issue.correctionComment,
               })
           .toList(),
-      'average-number-of-arguments': componentReport.averageArgumentsCount,
+      'average-number-of-arguments': fileReport.averageArgumentsCount,
       'total-number-of-arguments-violations':
-          componentReport.totalArgumentsCountViolations,
+          fileReport.totalArgumentsCountViolations,
     };
   }
 

@@ -10,8 +10,8 @@ import '../stubs_builders.dart';
 
 void main() {
   group('UtilitySelector', () {
-    test('componentReport calculates report for file', () {
-      final report = UtilitySelector.componentReport(
+    test('fileReport calculates report for file', () {
+      final report = UtilitySelector.fileReport(
           FileRecord(
             fullPath: '/home/developer/work/project/example.dart',
             relativePath: 'example.dart',

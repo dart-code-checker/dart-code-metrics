@@ -20,11 +20,11 @@ void main() {
       _reporter = JsonReporter(reportConfig: const Config());
     });
 
-    test('empty component', () {
+    test('empty file', () {
       expect(_reporter.report([]), isEmpty);
     });
 
-    group('component', () {
+    group('file', () {
       test('aggregated arguments metric values', () {
         final records = [
           FileRecord(
