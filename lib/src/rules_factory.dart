@@ -1,3 +1,5 @@
+import 'package:dart_code_metrics/src/rules/no_magic_number_rule.dart';
+
 import 'rules/avoid_preserve_whitespace_false.dart';
 import 'rules/base_rule.dart';
 import 'rules/double_literal_format_rule.dart';
@@ -13,6 +15,7 @@ const _implementedRules = {
   NoBooleanLiteralCompareRule(),
   NoEmptyBlockRule(),
   PreferTrailingCommaForCollectionRule(),
+  NoMagicNumberRule(),
 };
 
 Iterable<BaseRule> get allRules => _implementedRules;
