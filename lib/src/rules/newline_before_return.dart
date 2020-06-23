@@ -46,7 +46,7 @@ class NewlineBeforeReturnRule extends BaseRule {
         })
         .map((statement) => createIssue(this, _failure, null, null, sourceUrl,
             sourceContent, unit.lineInfo, statement))
-        .toList();
+        .toList(growable: false);
   }
 
   Token _optimalToken(Token token, LineInfo lineInfo) {

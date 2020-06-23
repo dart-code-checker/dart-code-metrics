@@ -10,13 +10,13 @@ Exception is made for common constants: -1, 0 and 1.
 ## Example
 Bad:
 ```dart
-double circleArea(double radius) => 3.14 * (pow(radius, 2)); // warns against 3.14
+double circleArea(double radius) => 3.14 * pow(radius, 2); // warns against 3.14
 ```
 
 Good:
 ```dart
 const pi = 3.14;
-double circleArea(double radius) => pi * (pow(radius, 2)); // using named constant so no warning
+double circleArea(double radius) => pi * pow(radius, 2); // using named constant so no warning
 ```
 
 Bad:

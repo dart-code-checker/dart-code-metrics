@@ -28,7 +28,7 @@ class NoEmptyBlockRule extends BaseRule {
     return _visitor.emptyBlocks
         .map((block) => createIssue(this, _failure, null, null, sourceUrl,
             sourceContent, unit.lineInfo, block))
-        .toList();
+        .toList(growable: false);
   }
 }
 

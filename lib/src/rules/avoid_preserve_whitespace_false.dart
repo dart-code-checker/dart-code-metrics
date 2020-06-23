@@ -26,7 +26,7 @@ class AvoidPreserveWhitespaceFalseRule extends BaseRule {
     return visitor.expression
         .map((expression) => createIssue(this, _failure, null, null, sourceUrl,
             sourceContent, unit.lineInfo, expression))
-        .toList();
+        .toList(growable: false);
   }
 }
 

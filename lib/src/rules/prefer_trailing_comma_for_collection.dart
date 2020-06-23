@@ -38,7 +38,7 @@ class PreferTrailingCommaForCollectionRule extends BaseRule {
             sourceContent,
             unit.lineInfo,
             node))
-        .toList();
+        .toList(growable: false);
   }
 }
 

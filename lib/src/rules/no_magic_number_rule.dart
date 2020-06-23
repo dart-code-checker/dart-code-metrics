@@ -3,8 +3,8 @@ import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:dart_code_metrics/src/models/code_issue.dart';
 import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
 
-import 'package:dart_code_metrics/src/rules/base_rule.dart';
-import 'package:dart_code_metrics/src/rules/rule_utils.dart';
+import 'base_rule.dart';
+import 'rule_utils.dart';
 
 class NoMagicNumberRule extends BaseRule {
   static const _warningMessage =
