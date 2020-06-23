@@ -91,3 +91,4 @@ A plugin for the Dart `analyzer` library [package](https://pub.dev/packages/dart
 * [no-empty-block](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/no_empty_block.md)
 * [prefer-trailing-comma-for-collection](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/prefer_trailing_comma_for_collection.md)
 * [no-magic-number](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/no_magic_number.md)
+* [binary-expression-operand-order](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/binary_expression_operand_order.md)
