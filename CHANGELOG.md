@@ -1,7 +1,7 @@
 # Changelog
 
 # Unreleased
-- Add experimental static code diagnostics prefer-trailing-comma-for-collection
+- Add experimental static code diagnostics prefer-trailing-comma-for-collection, no-magic-number rule
 - Support number of arguments metric in analyzer plugin
 - Support excluding files from metrics calculation
 
