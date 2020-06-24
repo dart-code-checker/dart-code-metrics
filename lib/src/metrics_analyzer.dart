@@ -45,49 +45,47 @@ class MetricsAnalyzer {
         throwIfDiagnostics: false);
     parseResult.unit.visitChildren(visitor);
 
-    if (visitor.functions.isNotEmpty) {
-      _recorder.startRecordFile(filePath, rootFolder);
+    _recorder.startRecordFile(filePath, rootFolder);
 
-      for (final function in visitor.functions) {
-        final controlFlowAstVisitor = ControlFlowAstVisitor(
-            defaultCyclomaticConfig, parseResult.lineInfo);
-        final functionBodyAstVisitor =
-            FunctionBodyAstVisitor(parseResult.lineInfo);
-        final halsteadVolumeAstVisitor = HalsteadVolumeAstVisitor();
+    for (final function in visitor.functions) {
+      final controlFlowAstVisitor =
+          ControlFlowAstVisitor(defaultCyclomaticConfig, parseResult.lineInfo);
+      final functionBodyAstVisitor =
+          FunctionBodyAstVisitor(parseResult.lineInfo);
+      final halsteadVolumeAstVisitor = HalsteadVolumeAstVisitor();
 
-        function.declaration.visitChildren(controlFlowAstVisitor);
-        function.declaration.visitChildren(functionBodyAstVisitor);
-        function.declaration.visitChildren(halsteadVolumeAstVisitor);
+      function.declaration.visitChildren(controlFlowAstVisitor);
+      function.declaration.visitChildren(functionBodyAstVisitor);
+      function.declaration.visitChildren(halsteadVolumeAstVisitor);
 
-        _recorder.recordFunction(
-            function,
-            FunctionRecord(
-                firstLine: parseResult.lineInfo
-                    .getLocation(function
-                        .declaration.firstTokenAfterCommentAndMetadata.offset)
-                    .lineNumber,
-                lastLine: parseResult.lineInfo
-                    .getLocation(function.declaration.endToken.end)
-                    .lineNumber,
-                argumentsCount: getArgumentsCount(function),
-                cyclomaticComplexityLines:
-                    Map.unmodifiable(controlFlowAstVisitor.complexityLines),
-                linesWithCode: functionBodyAstVisitor.linesWithCode,
-                operators: Map.unmodifiable(halsteadVolumeAstVisitor.operators),
-                operands: Map.unmodifiable(halsteadVolumeAstVisitor.operands)));
-      }
-
-      final ignores = IgnoreInfo.calculateIgnores(
-          parseResult.content, parseResult.lineInfo);
-
-      _recorder.recordIssues(_checkingCodeRules
-          .where((rule) => !ignores.ignoreRule(rule.id))
-          .expand((rule) => rule
-              .check(parseResult.unit, Uri.parse(filePath), parseResult.content)
-              .where((issue) => !ignores.ignoredAt(
-                  issue.ruleId, issue.sourceSpan.start.line))));
-
-      _recorder.endRecordFile();
+      _recorder.recordFunction(
+          function,
+          FunctionRecord(
+              firstLine: parseResult.lineInfo
+                  .getLocation(function
+                      .declaration.firstTokenAfterCommentAndMetadata.offset)
+                  .lineNumber,
+              lastLine: parseResult.lineInfo
+                  .getLocation(function.declaration.endToken.end)
+                  .lineNumber,
+              argumentsCount: getArgumentsCount(function),
+              cyclomaticComplexityLines:
+                  Map.unmodifiable(controlFlowAstVisitor.complexityLines),
+              linesWithCode: functionBodyAstVisitor.linesWithCode,
+              operators: Map.unmodifiable(halsteadVolumeAstVisitor.operators),
+              operands: Map.unmodifiable(halsteadVolumeAstVisitor.operands)));
     }
+
+    final ignores =
+        IgnoreInfo.calculateIgnores(parseResult.content, parseResult.lineInfo);
+
+    _recorder.recordIssues(_checkingCodeRules
+        .where((rule) => !ignores.ignoreRule(rule.id))
+        .expand((rule) => rule
+            .check(parseResult.unit, Uri.parse(filePath), parseResult.content)
+            .where((issue) => !ignores.ignoredAt(
+                issue.ruleId, issue.sourceSpan.start.line))));
+
+    _recorder.endRecordFile();
   }
 }
