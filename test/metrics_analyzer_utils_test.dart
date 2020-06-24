@@ -70,8 +70,8 @@ void main() {
     });
   });
 
-  test('getHumanReadableName returns human readable name', () {
-    expect(getHumanReadableName(null), isNull);
+  test('getFunctionHumanReadableName returns human readable name', () {
+    expect(getFunctionHumanReadableName(null), isNull);
 
     <String, List<String>>{
       './test/resources/abstract_class.dart': [],
@@ -97,7 +97,7 @@ void main() {
           .unit
           .visitChildren(visitor);
 
-      expect(visitor.functions.map(getHumanReadableName),
+      expect(visitor.functions.map(getFunctionHumanReadableName),
           equals(declatationNames));
     });
   });

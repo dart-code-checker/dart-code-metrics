@@ -16,7 +16,7 @@ int getArgumentsCount(ScopedDeclaration dec) {
   return argumentsCount ?? 0;
 }
 
-String getHumanReadableName(ScopedDeclaration dec) {
+String getFunctionHumanReadableName(ScopedDeclaration dec) {
   if (dec == null) {
     return null;
   }
