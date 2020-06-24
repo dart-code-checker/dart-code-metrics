@@ -15,7 +15,7 @@ void main() {
           featureSet:
               FeatureSet.fromEnableFlags([])).unit.visitChildren(visitor);
 
-      expect(visitor.declarations, isEmpty);
+      expect(visitor.functions, isEmpty);
     });
 
     test('function', () {
@@ -26,9 +26,9 @@ void main() {
           .unit
           .visitChildren(visitor);
 
-      final declaration = visitor.declarations.single;
-      expect(declaration.declaration, const TypeMatcher<FunctionDeclaration>());
-      expect((declaration.declaration as FunctionDeclaration).name.name,
+      final function = visitor.functions.single;
+      expect(function.declaration, const TypeMatcher<FunctionDeclaration>());
+      expect((function.declaration as FunctionDeclaration).name.name,
           equals('say'));
     });
 
@@ -41,31 +41,25 @@ void main() {
           .unit
           .visitChildren(visitor);
 
-      final declarations = visitor.declarations;
-      expect(declarations.length, equals(2));
-      expect(declarations.first.declaration,
+      final functions = visitor.functions;
+      expect(functions.length, equals(2));
+      expect(functions.first.declaration,
           const TypeMatcher<ConstructorDeclaration>());
-      expect(
-          (declarations.first.declaration as ConstructorDeclaration).name.name,
+      expect((functions.first.declaration as ConstructorDeclaration).name.name,
           equals('_create'));
-      expect(declarations.first.enclosingDeclaration,
+      expect(functions.first.enclosingDeclaration,
           const TypeMatcher<ClassDeclaration>());
       expect(
-          (declarations.first.enclosingDeclaration as ClassDeclaration)
-              .name
-              .name,
+          (functions.first.enclosingDeclaration as ClassDeclaration).name.name,
           equals('SampleClass'));
-      expect(declarations.last.declaration,
+      expect(functions.last.declaration,
           const TypeMatcher<ConstructorDeclaration>());
-      expect(
-          (declarations.last.declaration as ConstructorDeclaration).name.name,
+      expect((functions.last.declaration as ConstructorDeclaration).name.name,
           equals('createInstance'));
-      expect(declarations.last.enclosingDeclaration,
+      expect(functions.last.enclosingDeclaration,
           const TypeMatcher<ClassDeclaration>());
       expect(
-          (declarations.last.enclosingDeclaration as ClassDeclaration)
-              .name
-              .name,
+          (functions.last.enclosingDeclaration as ClassDeclaration).name.name,
           equals('SampleClass'));
     });
 
@@ -77,13 +71,13 @@ void main() {
           .unit
           .visitChildren(visitor);
 
-      final declaration = visitor.declarations.single;
-      expect(declaration.declaration, const TypeMatcher<MethodDeclaration>());
-      expect((declaration.declaration as MethodDeclaration).name.name,
+      final function = visitor.functions.single;
+      expect(function.declaration, const TypeMatcher<MethodDeclaration>());
+      expect((function.declaration as MethodDeclaration).name.name,
           equals('findValueByKey'));
-      expect(declaration.enclosingDeclaration,
-          const TypeMatcher<MixinDeclaration>());
-      expect((declaration.enclosingDeclaration as MixinDeclaration).name.name,
+      expect(
+          function.enclosingDeclaration, const TypeMatcher<MixinDeclaration>());
+      expect((function.enclosingDeclaration as MixinDeclaration).name.name,
           equals('ValuesMapping'));
     });
   });

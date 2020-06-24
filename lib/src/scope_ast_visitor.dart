@@ -4,11 +4,11 @@ import 'package:analyzer/dart/ast/visitor.dart';
 import 'models/scoped_declaration.dart';
 
 class ScopeAstVisitor extends RecursiveAstVisitor<Object> {
-  final _declarations = <ScopedDeclaration>[];
+  final _functions = <ScopedDeclaration>[];
 
   CompilationUnitMember _enclosingDeclaration;
 
-  Iterable<ScopedDeclaration> get declarations => _declarations;
+  Iterable<ScopedDeclaration> get functions => _functions;
 
   @override
   void visitClassDeclaration(ClassDeclaration node) {
@@ -54,6 +54,6 @@ class ScopeAstVisitor extends RecursiveAstVisitor<Object> {
   }
 
   void _registerDeclaration(Declaration node) {
-    _declarations.add(ScopedDeclaration(node, _enclosingDeclaration));
+    _functions.add(ScopedDeclaration(node, _enclosingDeclaration));
   }
 }

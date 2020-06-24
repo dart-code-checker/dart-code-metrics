@@ -45,31 +45,31 @@ class MetricsAnalyzer {
         throwIfDiagnostics: false);
     parseResult.unit.visitChildren(visitor);
 
-    if (visitor.declarations.isNotEmpty) {
+    if (visitor.functions.isNotEmpty) {
       _recorder.startRecordFile(filePath, rootFolder);
 
-      for (final scopedDeclaration in visitor.declarations) {
+      for (final function in visitor.functions) {
         final controlFlowAstVisitor = ControlFlowAstVisitor(
             defaultCyclomaticConfig, parseResult.lineInfo);
         final functionBodyAstVisitor =
             FunctionBodyAstVisitor(parseResult.lineInfo);
         final halsteadVolumeAstVisitor = HalsteadVolumeAstVisitor();
 
-        scopedDeclaration.declaration.visitChildren(controlFlowAstVisitor);
-        scopedDeclaration.declaration.visitChildren(functionBodyAstVisitor);
-        scopedDeclaration.declaration.visitChildren(halsteadVolumeAstVisitor);
+        function.declaration.visitChildren(controlFlowAstVisitor);
+        function.declaration.visitChildren(functionBodyAstVisitor);
+        function.declaration.visitChildren(halsteadVolumeAstVisitor);
 
         _recorder.recordFunction(
-            scopedDeclaration,
+            function,
             FunctionRecord(
                 firstLine: parseResult.lineInfo
-                    .getLocation(scopedDeclaration
+                    .getLocation(function
                         .declaration.firstTokenAfterCommentAndMetadata.offset)
                     .lineNumber,
                 lastLine: parseResult.lineInfo
-                    .getLocation(scopedDeclaration.declaration.endToken.end)
+                    .getLocation(function.declaration.endToken.end)
                     .lineNumber,
-                argumentsCount: getArgumentsCount(scopedDeclaration),
+                argumentsCount: getArgumentsCount(function),
                 cyclomaticComplexityLines:
                     Map.unmodifiable(controlFlowAstVisitor.complexityLines),
                 linesWithCode: functionBodyAstVisitor.linesWithCode,

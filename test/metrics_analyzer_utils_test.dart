@@ -97,7 +97,7 @@ void main() {
           .unit
           .visitChildren(visitor);
 
-      expect(visitor.declarations.map(getHumanReadableName),
+      expect(visitor.functions.map(getHumanReadableName),
           equals(declatationNames));
     });
   });

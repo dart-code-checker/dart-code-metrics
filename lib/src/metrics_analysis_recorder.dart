@@ -11,7 +11,7 @@ import 'models/scoped_declaration.dart';
 class MetricsAnalysisRecorder {
   String _fileGroupPath;
   String _relativeGroupPath;
-  Map<ScopedDeclaration, FunctionRecord> _groupRecords;
+  Map<ScopedDeclaration, FunctionRecord> _functionRecords;
   List<CodeIssue> _issues;
 
   final _records = <FileRecord>[];
@@ -30,7 +30,7 @@ class MetricsAnalysisRecorder {
     _relativeGroupPath = rootDirectory != null
         ? p.relative(filePath, from: rootDirectory)
         : filePath;
-    _groupRecords = {};
+    _functionRecords = {};
     _issues = [];
   }
 
@@ -38,23 +38,24 @@ class MetricsAnalysisRecorder {
     _records.add(FileRecord(
         fullPath: _fileGroupPath,
         relativePath: _relativeGroupPath,
-        functions: Map.unmodifiable(_groupRecords.map<String, FunctionRecord>(
-            (key, value) => MapEntry(getHumanReadableName(key), value))),
+        functions: Map.unmodifiable(
+            _functionRecords.map<String, FunctionRecord>(
+                (key, value) => MapEntry(getHumanReadableName(key), value))),
         issues: _issues));
     _relativeGroupPath = null;
     _fileGroupPath = null;
-    _groupRecords = null;
+    _functionRecords = null;
     _issues = null;
   }
 
-  void recordFunction(ScopedDeclaration record, FunctionRecord report) {
+  void recordFunction(ScopedDeclaration declaration, FunctionRecord record) {
     _checkState();
 
-    if (record == null) {
-      throw ArgumentError.notNull('record');
+    if (declaration == null) {
+      throw ArgumentError.notNull('declaration');
     }
 
-    _groupRecords[record] = report;
+    _functionRecords[declaration] = record;
   }
 
   void recordIssues(Iterable<CodeIssue> issues) {
@@ -64,7 +65,7 @@ class MetricsAnalysisRecorder {
   }
 
   void _checkState() {
-    if (_groupRecords == null) {
+    if (_functionRecords == null) {
       throw StateError(
           'No record groups have been started. Use `startRecordFile` before record any data');
     }
