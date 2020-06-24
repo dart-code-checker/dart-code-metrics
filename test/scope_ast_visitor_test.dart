@@ -48,15 +48,25 @@ void main() {
       expect(
           (declarations.first.declaration as ConstructorDeclaration).name.name,
           equals('_create'));
+      expect(declarations.first.enclosingDeclaration,
+          const TypeMatcher<ClassDeclaration>());
       expect(
-          declarations.first.declarationIdentifier.name, equals('SampleClass'));
+          (declarations.first.enclosingDeclaration as ClassDeclaration)
+              .name
+              .name,
+          equals('SampleClass'));
       expect(declarations.last.declaration,
           const TypeMatcher<ConstructorDeclaration>());
       expect(
           (declarations.last.declaration as ConstructorDeclaration).name.name,
           equals('createInstance'));
+      expect(declarations.last.enclosingDeclaration,
+          const TypeMatcher<ClassDeclaration>());
       expect(
-          declarations.first.declarationIdentifier.name, equals('SampleClass'));
+          (declarations.last.enclosingDeclaration as ClassDeclaration)
+              .name
+              .name,
+          equals('SampleClass'));
     });
 
     test('mixin', () {
@@ -71,7 +81,10 @@ void main() {
       expect(declaration.declaration, const TypeMatcher<MethodDeclaration>());
       expect((declaration.declaration as MethodDeclaration).name.name,
           equals('findValueByKey'));
-      expect(declaration.declarationIdentifier.name, equals('ValuesMapping'));
+      expect(declaration.enclosingDeclaration,
+          const TypeMatcher<MixinDeclaration>());
+      expect((declaration.enclosingDeclaration as MixinDeclaration).name.name,
+          equals('ValuesMapping'));
     });
   });
 }

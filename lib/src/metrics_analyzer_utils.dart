@@ -17,15 +17,28 @@ int getArgumentsCount(ScopedDeclaration dec) {
 }
 
 String getHumanReadableName(ScopedDeclaration dec) {
-  final declaration = dec?.declaration;
-
-  if (declaration is FunctionDeclaration) {
-    return declaration.name.name;
-  } else if (declaration is ConstructorDeclaration) {
-    return '${dec.declarationIdentifier.name}.${declaration.name.name}';
-  } else if (declaration is MethodDeclaration) {
-    return '${dec.declarationIdentifier.name}.${declaration.name.name}';
+  if (dec == null) {
+    return null;
   }
 
-  return null;
+  final declaration = dec.declaration;
+  final enclosingDeclaration = dec.enclosingDeclaration;
+
+  final name = [
+    if (enclosingDeclaration != null &&
+        enclosingDeclaration is NamedCompilationUnitMember)
+      enclosingDeclaration.name.name,
+    if (enclosingDeclaration != null &&
+        enclosingDeclaration is ExtensionDeclaration)
+      enclosingDeclaration.name.name,
+    if (declaration != null && declaration is FunctionDeclaration)
+      declaration.name.name,
+    if (declaration != null && declaration is ConstructorDeclaration)
+      declaration.name?.name ??
+          (declaration.parent as NamedCompilationUnitMember).name.name,
+    if (declaration != null && declaration is MethodDeclaration)
+      declaration.name.name,
+  ];
+
+  return name.join('.');
 }

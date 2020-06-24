@@ -6,15 +6,15 @@ import 'models/scoped_declaration.dart';
 class ScopeAstVisitor extends RecursiveAstVisitor<Object> {
   final _declarations = <ScopedDeclaration>[];
 
-  SimpleIdentifier _declarationIdentifier;
+  CompilationUnitMember _enclosingDeclaration;
 
   Iterable<ScopedDeclaration> get declarations => _declarations;
 
   @override
   void visitClassDeclaration(ClassDeclaration node) {
-    _declarationIdentifier = node.name;
+    _enclosingDeclaration = node;
     super.visitClassDeclaration(node);
-    _declarationIdentifier = null;
+    _enclosingDeclaration = null;
   }
 
   @override
@@ -27,9 +27,9 @@ class ScopeAstVisitor extends RecursiveAstVisitor<Object> {
 
   @override
   void visitExtensionDeclaration(ExtensionDeclaration node) {
-    _declarationIdentifier = node.name;
+    _enclosingDeclaration = node;
     super.visitExtensionDeclaration(node);
-    _declarationIdentifier = null;
+    _enclosingDeclaration = null;
   }
 
   @override
@@ -48,12 +48,12 @@ class ScopeAstVisitor extends RecursiveAstVisitor<Object> {
 
   @override
   void visitMixinDeclaration(MixinDeclaration node) {
-    _declarationIdentifier = node.name;
+    _enclosingDeclaration = node;
     super.visitMixinDeclaration(node);
-    _declarationIdentifier = null;
+    _enclosingDeclaration = null;
   }
 
   void _registerDeclaration(Declaration node) {
-    _declarations.add(ScopedDeclaration(node, _declarationIdentifier));
+    _declarations.add(ScopedDeclaration(node, _enclosingDeclaration));
   }
 }
