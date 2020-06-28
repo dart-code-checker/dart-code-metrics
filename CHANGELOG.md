@@ -1,5 +1,8 @@
 # Changelog
 
+# Unreleased
+- Drop dependency on resource
+
 # 1.6.0
 - Add experimental static code diagnostics prefer-trailing-comma-for-collection, no-magic-number rule
 - Support number of arguments metric in analyzer plugin

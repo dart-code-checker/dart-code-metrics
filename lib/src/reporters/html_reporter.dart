@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:isolate';
 
 import 'package:dart_code_metrics/src/models/report_metric.dart';
 import 'package:html/dom.dart';
@@ -10,7 +11,6 @@ import 'package:dart_code_metrics/src/reporters/reporter.dart';
 import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
 import 'package:meta/meta.dart';
 import 'package:path/path.dart' as p;
-import 'package:resource/resource.dart';
 
 const _violationLevelFunctionStyle = {
   ViolationLevel.alarm: 'metrics-source-code__text--attention-complexity',
@@ -97,14 +97,13 @@ class HtmlReporter implements Reporter {
   }
 
   void _copyResources(String reportFolder) {
-    const baseStylesheet = 'base';
-
-    const res = Resource(
-        'package:dart_code_metrics/src/reporters/html_resources/base.css');
-    res.readAsString().then((content) {
-      File(p.setExtension(p.join(reportFolder, baseStylesheet), '.css'))
-        ..createSync(recursive: true)
-        ..writeAsStringSync(content);
+    Isolate.resolvePackageUri(Uri.parse(
+            'package:dart_code_metrics/src/reporters/html_resources/base.css'))
+        .then((resolvedUri) {
+      if (resolvedUri != null) {
+        File.fromUri(resolvedUri)
+            .copySync(p.setExtension(p.join(reportFolder, 'base'), '.css'));
+      }
     });
   }
 
