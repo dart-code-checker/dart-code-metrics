@@ -1,5 +1,6 @@
 import 'package:analyzer/dart/ast/ast.dart';
 
+import 'models/scoped_component_declaration.dart';
 import 'models/scoped_function_declaration.dart';
 
 int getArgumentsCount(ScopedFunctionDeclaration dec) {
@@ -14,6 +15,22 @@ int getArgumentsCount(ScopedFunctionDeclaration dec) {
   }
 
   return argumentsCount ?? 0;
+}
+
+String getComponentHumanReadableName(ScopedComponentDeclaration dec) {
+  if (dec == null) {
+    return null;
+  }
+
+  final declaration = dec.declaration;
+
+  if (declaration is ExtensionDeclaration) {
+    return declaration.name.name;
+  } else if (declaration is NamedCompilationUnitMember) {
+    return declaration.name.name;
+  }
+
+  return '';
 }
 
 String getFunctionHumanReadableName(ScopedFunctionDeclaration dec) {

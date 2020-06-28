@@ -73,14 +73,50 @@ void main() {
     });
   });
 
+  test('getComponentHumanReadableName returns human readable name', () {
+    expect(getComponentHumanReadableName(null), isNull);
+
+    <String, Iterable<String>>{
+      './test/resources/abstract_class.dart': [
+        'Foo',
+      ],
+      './test/resources/class_with_factory_constructors.dart': [
+        'SampleClass',
+      ],
+      './test/resources/function.dart': [],
+      './test/resources/mixed.dart': [
+        'Foo',
+        'Bar',
+        'Rectangle',
+      ],
+      './test/resources/mixin.dart': [
+        'ValuesMapping',
+      ],
+    }.forEach((fileName, declatationNames) {
+      final visitor = ScopeAstVisitor();
+
+      parseFile(
+              path: p.normalize(p.absolute(fileName)),
+              featureSet: FeatureSet.fromEnableFlags([]))
+          .unit
+          .visitChildren(visitor);
+
+      expect(visitor.components.map(getComponentHumanReadableName),
+          equals(declatationNames));
+    });
+  });
+
   test('getFunctionHumanReadableName returns human readable name', () {
     expect(getFunctionHumanReadableName(null), isNull);
 
-    <String, List<String>>{
+    <String, Iterable<String>>{
       './test/resources/abstract_class.dart': [],
       './test/resources/class_with_factory_constructors.dart': [
         'SampleClass._create',
         'SampleClass.createInstance',
+      ],
+      './test/resources/function.dart': [
+        'say',
       ],
       './test/resources/mixed.dart': [
         'pi',
@@ -90,7 +126,9 @@ void main() {
         'Rectangle.bottom',
         'Rectangle.bottom',
       ],
-      './test/resources/mixin.dart': ['ValuesMapping.findValueByKey'],
+      './test/resources/mixin.dart': [
+        'ValuesMapping.findValueByKey',
+      ],
     }.forEach((fileName, declatationNames) {
       final visitor = ScopeAstVisitor();
 
