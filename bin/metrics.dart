@@ -30,6 +30,7 @@ void main(List<String> args) {
         int.parse(arguments[cyclomaticComplexityThreshold] as String),
         int.parse(arguments[linesOfCodeThreshold] as String),
         int.parse(arguments[numberOfArgumentsThreshold] as String),
+        int.parse(arguments[numberOfMethodsThreshold] as String),
         arguments[reporterOptionName] as String,
         arguments[verboseName] as bool,
         ViolationLevel.fromString(
@@ -56,6 +57,7 @@ void _runAnalysis(
     int cyclomaticComplexityThreshold,
     int linesOfCodeThreshold,
     int numberOfArgumentsWarningLevel,
+    int numberOfMethodsWarningLevel,
     String reporterType,
     bool verbose,
     ViolationLevel setExitOnViolationLevel) {
@@ -86,7 +88,8 @@ void _runAnalysis(
   final config = Config(
       cyclomaticComplexityWarningLevel: cyclomaticComplexityThreshold,
       linesOfCodeWarningLevel: linesOfCodeThreshold,
-      numberOfArgumentsWarningLevel: numberOfArgumentsWarningLevel);
+      numberOfArgumentsWarningLevel: numberOfArgumentsWarningLevel,
+      numberOfMethodsWarningLevel: numberOfMethodsWarningLevel);
 
   Reporter reporter;
 

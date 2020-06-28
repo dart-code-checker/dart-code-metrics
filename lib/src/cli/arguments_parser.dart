@@ -9,6 +9,7 @@ const reporterOptionName = 'reporter';
 const cyclomaticComplexityThreshold = 'cyclomatic-complexity';
 const linesOfCodeThreshold = 'lines-of-code';
 const numberOfArgumentsThreshold = 'number-of-arguments';
+const numberOfMethodsThreshold = 'number-of-methods';
 const verboseName = 'verbose';
 const ignoredFilesName = 'ignore-files';
 const rootFolderName = 'root-folder';
@@ -49,15 +50,16 @@ ArgParser argumentsParser() => ArgParser()
       print('$numberOfArgumentsThreshold:');
     }
   })
+  ..addOption(numberOfMethodsThreshold,
+      help: 'Number of methods threshold',
+      valueHelp: '$numberOfMethodsDefaultWarningLevel',
+      defaultsTo: '$numberOfMethodsDefaultWarningLevel', callback: (String i) {
+    if (int.tryParse(i) == null) {
+      print('$numberOfMethodsThreshold:');
+    }
+  })
   ..addOption(rootFolderName,
       help: 'Root folder', valueHelp: './', defaultsTo: Directory.current.path)
-  ..addOption(ignoredFilesName,
-      help: 'Filepaths in Glob syntax to be ignored',
-      valueHelp: '{/**.g.dart,/**.template.dart}',
-      defaultsTo: '{/**.g.dart,/**.template.dart}')
+  ..addOption(ignoredFilesName, help: 'Filepaths in Glob syntax to be ignored', valueHelp: '{/**.g.dart,/**.template.dart}', defaultsTo: '{/**.g.dart,/**.template.dart}')
   ..addFlag(verboseName, negatable: false)
-  ..addOption(setExitOnViolationLevel,
-      allowed: ['noted', 'warning', 'alarm'],
-      valueHelp: 'warning',
-      help:
-          'Set exit code 2 if code violations same or higher level than selected are detected');
+  ..addOption(setExitOnViolationLevel, allowed: ['noted', 'warning', 'alarm'], valueHelp: 'warning', help: 'Set exit code 2 if code violations same or higher level than selected are detected');
