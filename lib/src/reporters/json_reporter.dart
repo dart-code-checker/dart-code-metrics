@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:dart_code_metrics/src/models/config.dart';
 import 'package:dart_code_metrics/src/models/file_record.dart';
-import 'package:dart_code_metrics/src/models/function_report_metric.dart';
+import 'package:dart_code_metrics/src/models/report_metric.dart';
 import 'package:dart_code_metrics/src/reporters/reporter.dart';
 import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
 import 'package:meta/meta.dart';
@@ -56,9 +56,7 @@ class JsonReporter implements Reporter {
     };
   }
 
-  Map<String, Object> _report(
-          FunctionReportMetric<num> metric, String metricName) =>
-      {
+  Map<String, Object> _report(ReportMetric<num> metric, String metricName) => {
         metricName: metric.value.toInt(),
         '$metricName-violation-level':
             metric.violationLevel.toString().toLowerCase(),

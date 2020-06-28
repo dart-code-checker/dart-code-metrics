@@ -2,7 +2,7 @@ import 'package:ansicolor/ansicolor.dart';
 import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
 import 'package:dart_code_metrics/src/models/config.dart';
 import 'package:dart_code_metrics/src/models/file_record.dart';
-import 'package:dart_code_metrics/src/models/function_report_metric.dart';
+import 'package:dart_code_metrics/src/models/report_metric.dart';
 import 'package:dart_code_metrics/src/models/violation_level.dart';
 import 'package:dart_code_metrics/src/reporters/reporter.dart';
 import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
@@ -95,9 +95,9 @@ class ConsoleReporter implements Reporter {
     return reportStrings;
   }
 
-  bool _isNeedToReport(FunctionReportMetric metric) =>
+  bool _isNeedToReport(ReportMetric metric) =>
       metric.violationLevel != ViolationLevel.none;
 
-  String _report(FunctionReportMetric<num> metric, String humanReadableName) =>
+  String _report(ReportMetric<num> metric, String humanReadableName) =>
       '$humanReadableName: ${_colorPens[metric.violationLevel]('${metric.value.toInt()}')}';
 }

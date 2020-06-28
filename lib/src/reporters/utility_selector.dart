@@ -5,7 +5,7 @@ import 'package:dart_code_metrics/src/models/file_record.dart';
 import 'package:dart_code_metrics/src/models/file_report.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/models/function_report.dart';
-import 'package:dart_code_metrics/src/models/function_report_metric.dart';
+import 'package:dart_code_metrics/src/models/report_metric.dart';
 import 'package:dart_code_metrics/src/models/violation_level.dart';
 import 'package:quiver/iterables.dart' as quiver;
 
@@ -102,19 +102,19 @@ class UtilitySelector {
         .toDouble();
 
     return FunctionReport(
-        cyclomaticComplexity: FunctionReportMetric<int>(
+        cyclomaticComplexity: ReportMetric<int>(
             value: cyclomaticComplexity.round(),
             violationLevel: _violationLevel(cyclomaticComplexity.round(),
                 config.cyclomaticComplexityWarningLevel)),
-        linesOfCode: FunctionReportMetric<int>(
+        linesOfCode: ReportMetric<int>(
             value: linesOfCode,
             violationLevel:
                 _violationLevel(linesOfCode, config.linesOfCodeWarningLevel)),
-        maintainabilityIndex: FunctionReportMetric<double>(
+        maintainabilityIndex: ReportMetric<double>(
             value: maintainabilityIndex,
             violationLevel:
                 _maintainabilityIndexViolationLevel(maintainabilityIndex)),
-        argumentsCount: FunctionReportMetric<int>(
+        argumentsCount: ReportMetric<int>(
             value: function.argumentsCount,
             violationLevel: _violationLevel(function.argumentsCount,
                 config.numberOfArgumentsWarningLevel)));
