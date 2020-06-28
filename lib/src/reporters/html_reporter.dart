@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:dart_code_metrics/src/models/function_report_metric.dart';
+import 'package:dart_code_metrics/src/models/report_metric.dart';
 import 'package:html/dom.dart';
 import 'package:dart_code_metrics/src/models/config.dart';
 import 'package:dart_code_metrics/src/models/file_record.dart';
@@ -533,7 +533,7 @@ class HtmlReporter implements Reporter {
           ..classes.add('metrics-total__count')
           ..text = value);
 
-  String _report(FunctionReportMetric<num> metric, String humanReadableName) =>
+  String _report(ReportMetric<num> metric, String humanReadableName) =>
       '\n${humanReadableName.toLowerCase()}: ${metric.value}'
       '\n${humanReadableName.toLowerCase()} violation level: ${metric.violationLevel.toString().toLowerCase()}';
 }

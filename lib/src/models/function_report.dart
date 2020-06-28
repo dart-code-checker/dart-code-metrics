@@ -1,12 +1,13 @@
-import 'package:dart_code_metrics/src/models/function_report_metric.dart';
 import 'package:meta/meta.dart';
+
+import 'report_metric.dart';
 
 @immutable
 class FunctionReport {
-  final FunctionReportMetric<int> cyclomaticComplexity;
-  final FunctionReportMetric<int> linesOfCode;
-  final FunctionReportMetric<double> maintainabilityIndex;
-  final FunctionReportMetric<int> argumentsCount;
+  final ReportMetric<int> cyclomaticComplexity;
+  final ReportMetric<int> linesOfCode;
+  final ReportMetric<double> maintainabilityIndex;
+  final ReportMetric<int> argumentsCount;
 
   const FunctionReport(
       {@required this.cyclomaticComplexity,

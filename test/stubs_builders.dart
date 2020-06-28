@@ -1,6 +1,6 @@
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/models/function_report.dart';
-import 'package:dart_code_metrics/src/models/function_report_metric.dart';
+import 'package:dart_code_metrics/src/models/report_metric.dart';
 import 'package:dart_code_metrics/src/models/violation_level.dart';
 
 FunctionRecord buildFunctionRecordStub(
@@ -31,14 +31,14 @@ FunctionReport buildFunctionReportStub(
         int argumentsCount = 0,
         ViolationLevel argumentsCountViolationLevel = ViolationLevel.none}) =>
     FunctionReport(
-        cyclomaticComplexity: FunctionReportMetric<int>(
+        cyclomaticComplexity: ReportMetric<int>(
             value: cyclomaticComplexity,
             violationLevel: cyclomaticComplexityViolationLevel),
-        linesOfCode: FunctionReportMetric<int>(
+        linesOfCode: ReportMetric<int>(
             value: linesOfCode, violationLevel: linesOfCodeViolationLevel),
-        maintainabilityIndex: FunctionReportMetric<double>(
+        maintainabilityIndex: ReportMetric<double>(
             value: maintainabilityIndex,
             violationLevel: maintainabilityIndexViolationLevel),
-        argumentsCount: FunctionReportMetric<int>(
+        argumentsCount: ReportMetric<int>(
             value: argumentsCount,
             violationLevel: argumentsCountViolationLevel));
