@@ -4,14 +4,14 @@ import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:path/path.dart' as p;
 
 import 'metrics_analyzer_utils.dart';
-import 'models/scoped_declaration.dart';
+import 'models/scoped_function_declaration.dart';
 
 /// Holds analysis records in format-agnostic way
 /// See [MetricsAnalysisRunner] to get analysis info
 class MetricsAnalysisRecorder {
   String _fileGroupPath;
   String _relativeGroupPath;
-  Map<ScopedDeclaration, FunctionRecord> _functionRecords;
+  Map<ScopedFunctionDeclaration, FunctionRecord> _functionRecords;
   List<CodeIssue> _issues;
 
   final _records = <FileRecord>[];
@@ -48,7 +48,8 @@ class MetricsAnalysisRecorder {
     _issues = null;
   }
 
-  void recordFunction(ScopedDeclaration declaration, FunctionRecord record) {
+  void recordFunction(
+      ScopedFunctionDeclaration declaration, FunctionRecord record) {
     _checkState();
 
     if (declaration == null) {

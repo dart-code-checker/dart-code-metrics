@@ -4,7 +4,7 @@ import 'package:dart_code_metrics/src/metrics_analysis_recorder.dart';
 import 'package:dart_code_metrics/src/models/code_issue.dart';
 import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
-import 'package:dart_code_metrics/src/models/scoped_declaration.dart';
+import 'package:dart_code_metrics/src/models/scoped_function_declaration.dart';
 import 'package:mockito/mockito.dart';
 import 'package:source_span/source_span.dart';
 import 'package:test/test.dart';
@@ -44,7 +44,7 @@ void main() {
       final functionDeclarationMock = FunctionDeclarationMock();
       when(functionDeclarationMock.name).thenReturn(simpleIdentifierMock);
 
-      final record = ScopedDeclaration(functionDeclarationMock, null);
+      final record = ScopedFunctionDeclaration(functionDeclarationMock, null);
 
       test('throws StateError if we call them in invalid state', () {
         expect(() {

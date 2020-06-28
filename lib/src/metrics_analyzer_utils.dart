@@ -1,8 +1,8 @@
 import 'package:analyzer/dart/ast/ast.dart';
 
-import 'models/scoped_declaration.dart';
+import 'models/scoped_function_declaration.dart';
 
-int getArgumentsCount(ScopedDeclaration dec) {
+int getArgumentsCount(ScopedFunctionDeclaration dec) {
   final declaration = dec.declaration;
 
   int argumentsCount;
@@ -16,7 +16,7 @@ int getArgumentsCount(ScopedDeclaration dec) {
   return argumentsCount ?? 0;
 }
 
-String getFunctionHumanReadableName(ScopedDeclaration dec) {
+String getFunctionHumanReadableName(ScopedFunctionDeclaration dec) {
   if (dec == null) {
     return null;
   }
