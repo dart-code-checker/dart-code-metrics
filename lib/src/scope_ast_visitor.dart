@@ -1,17 +1,21 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 
+import 'models/scoped_component_declaration.dart';
 import 'models/scoped_function_declaration.dart';
 
 class ScopeAstVisitor extends RecursiveAstVisitor<Object> {
+  final _components = <ScopedComponentDeclaration>[];
   final _functions = <ScopedFunctionDeclaration>[];
 
   CompilationUnitMember _enclosingDeclaration;
 
+  Iterable<ScopedComponentDeclaration> get components => _components;
   Iterable<ScopedFunctionDeclaration> get functions => _functions;
 
   @override
   void visitClassDeclaration(ClassDeclaration node) {
+    _components.add(ScopedComponentDeclaration(node));
     _enclosingDeclaration = node;
     super.visitClassDeclaration(node);
     _enclosingDeclaration = null;
@@ -27,6 +31,7 @@ class ScopeAstVisitor extends RecursiveAstVisitor<Object> {
 
   @override
   void visitExtensionDeclaration(ExtensionDeclaration node) {
+    _components.add(ScopedComponentDeclaration(node));
     _enclosingDeclaration = node;
     super.visitExtensionDeclaration(node);
     _enclosingDeclaration = null;
@@ -48,6 +53,7 @@ class ScopeAstVisitor extends RecursiveAstVisitor<Object> {
 
   @override
   void visitMixinDeclaration(MixinDeclaration node) {
+    _components.add(ScopedComponentDeclaration(node));
     _enclosingDeclaration = node;
     super.visitMixinDeclaration(node);
     _enclosingDeclaration = null;

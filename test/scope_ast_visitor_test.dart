@@ -15,6 +15,11 @@ void main() {
           featureSet:
               FeatureSet.fromEnableFlags([])).unit.visitChildren(visitor);
 
+      final component = visitor.components.single;
+      expect(component.declaration, const TypeMatcher<ClassDeclaration>());
+      expect(
+          (component.declaration as ClassDeclaration).name.name, equals('Foo'));
+
       expect(visitor.functions, isEmpty);
     });
 
@@ -25,6 +30,8 @@ void main() {
               featureSet: FeatureSet.fromEnableFlags([]))
           .unit
           .visitChildren(visitor);
+
+      expect(visitor.components, isEmpty);
 
       final function = visitor.functions.single;
       expect(function.declaration, const TypeMatcher<FunctionDeclaration>());
@@ -40,6 +47,11 @@ void main() {
               featureSet: FeatureSet.fromEnableFlags([]))
           .unit
           .visitChildren(visitor);
+
+      final component = visitor.components.single;
+      expect(component.declaration, const TypeMatcher<ClassDeclaration>());
+      expect((component.declaration as ClassDeclaration).name.name,
+          equals('SampleClass'));
 
       final functions = visitor.functions;
       expect(functions.length, equals(2));
@@ -70,6 +82,11 @@ void main() {
               featureSet: FeatureSet.fromEnableFlags([]))
           .unit
           .visitChildren(visitor);
+
+      final component = visitor.components.single;
+      expect(component.declaration, const TypeMatcher<MixinDeclaration>());
+      expect((component.declaration as MixinDeclaration).name.name,
+          equals('ValuesMapping'));
 
       final function = visitor.functions.single;
       expect(function.declaration, const TypeMatcher<MethodDeclaration>());
