@@ -45,13 +45,14 @@ class MetricsAnalyzer {
         throwIfDiagnostics: false);
     parseResult.unit.visitChildren(visitor);
 
+    final lineInfo = parseResult.lineInfo;
+
     _recorder.startRecordFile(filePath, rootFolder);
 
     for (final function in visitor.functions) {
       final controlFlowAstVisitor =
-          ControlFlowAstVisitor(defaultCyclomaticConfig, parseResult.lineInfo);
-      final functionBodyAstVisitor =
-          FunctionBodyAstVisitor(parseResult.lineInfo);
+          ControlFlowAstVisitor(defaultCyclomaticConfig, lineInfo);
+      final functionBodyAstVisitor = FunctionBodyAstVisitor(lineInfo);
       final halsteadVolumeAstVisitor = HalsteadVolumeAstVisitor();
 
       function.declaration.visitChildren(controlFlowAstVisitor);
@@ -61,11 +62,11 @@ class MetricsAnalyzer {
       _recorder.recordFunction(
           function,
           FunctionRecord(
-              firstLine: parseResult.lineInfo
+              firstLine: lineInfo
                   .getLocation(function
                       .declaration.firstTokenAfterCommentAndMetadata.offset)
                   .lineNumber,
-              lastLine: parseResult.lineInfo
+              lastLine: lineInfo
                   .getLocation(function.declaration.endToken.end)
                   .lineNumber,
               argumentsCount: getArgumentsCount(function),
@@ -76,8 +77,7 @@ class MetricsAnalyzer {
               operands: Map.unmodifiable(halsteadVolumeAstVisitor.operands)));
     }
 
-    final ignores =
-        IgnoreInfo.calculateIgnores(parseResult.content, parseResult.lineInfo);
+    final ignores = IgnoreInfo.calculateIgnores(parseResult.content, lineInfo);
 
     _recorder.recordIssues(_checkingCodeRules
         .where((rule) => !ignores.ignoreRule(rule.id))
