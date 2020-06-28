@@ -3,7 +3,7 @@ import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:dart_code_metrics/src/metrics_analyzer_utils.dart';
-import 'package:dart_code_metrics/src/models/scoped_declaration.dart';
+import 'package:dart_code_metrics/src/models/scoped_function_declaration.dart';
 import 'package:dart_code_metrics/src/scope_ast_visitor.dart';
 import 'package:mockito/mockito.dart';
 import 'package:path/path.dart' as p;
@@ -44,7 +44,8 @@ void main() {
           .thenReturn(formalParameterListMock);
       when(nodeListMock.length).thenReturn(1);
 
-      final declaration = ScopedDeclaration(functionDeclarationMock, null);
+      final declaration =
+          ScopedFunctionDeclaration(functionDeclarationMock, null);
 
       expect(getArgumentsCount(declaration), equals(1));
     });
@@ -52,7 +53,8 @@ void main() {
     test('class method', () {
       final methodDeclarationMock = MethodDeclarationMock();
 
-      final declaration = ScopedDeclaration(methodDeclarationMock, null);
+      final declaration =
+          ScopedFunctionDeclaration(methodDeclarationMock, null);
 
       expect(getArgumentsCount(declaration), 0);
 
@@ -64,7 +66,8 @@ void main() {
     });
 
     test('class constructor', () {
-      final declaration = ScopedDeclaration(ConstructorDeclarationMock(), null);
+      final declaration =
+          ScopedFunctionDeclaration(ConstructorDeclarationMock(), null);
 
       expect(getArgumentsCount(declaration), isZero);
     });
