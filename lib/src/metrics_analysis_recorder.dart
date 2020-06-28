@@ -66,7 +66,7 @@ class MetricsAnalysisRecorder {
   }
 
   void _checkState() {
-    if (_functionRecords == null) {
+    if (_fileGroupPath == null) {
       throw StateError(
           'No record groups have been started. Use `startRecordFile` before record any data');
     }
