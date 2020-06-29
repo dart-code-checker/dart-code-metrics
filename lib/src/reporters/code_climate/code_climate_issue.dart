@@ -93,6 +93,15 @@ class CodeClimateIssue {
         'numberOfArguments', desc, startLine, endLine, fileName);
   }
 
+  factory CodeClimateIssue.numberOfMethods(int startLine, int endLine,
+      int value, String fileName, String componentName, int threshold) {
+    final desc =
+        'Component `$componentName` has $value number of methods (exceeds $threshold allowed). Consider refactoring.';
+
+    return CodeClimateIssue._create(
+        'numberOfMethods', desc, startLine, endLine, fileName);
+  }
+
   factory CodeClimateIssue.fromCodeIssue(CodeIssue issue, String fileName) {
     const severityHumanReadable = {
       CodeIssueSeverity.style: ['Style'],
