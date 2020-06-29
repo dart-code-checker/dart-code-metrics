@@ -4,6 +4,8 @@ import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:path/path.dart' as p;
 
 import 'metrics_analyzer_utils.dart';
+import 'models/component_record.dart';
+import 'models/scoped_component_declaration.dart';
 import 'models/scoped_function_declaration.dart';
 
 /// Holds analysis records in format-agnostic way
@@ -11,6 +13,7 @@ import 'models/scoped_function_declaration.dart';
 class MetricsAnalysisRecorder {
   String _fileGroupPath;
   String _relativeGroupPath;
+  Map<ScopedComponentDeclaration, ComponentRecord> _componentRecords;
   Map<ScopedFunctionDeclaration, FunctionRecord> _functionRecords;
   List<CodeIssue> _issues;
 
@@ -30,6 +33,7 @@ class MetricsAnalysisRecorder {
     _relativeGroupPath = rootDirectory != null
         ? p.relative(filePath, from: rootDirectory)
         : filePath;
+    _componentRecords = {};
     _functionRecords = {};
     _issues = [];
   }
@@ -38,6 +42,9 @@ class MetricsAnalysisRecorder {
     _records.add(FileRecord(
         fullPath: _fileGroupPath,
         relativePath: _relativeGroupPath,
+        components: Map.unmodifiable(
+            _componentRecords.map<String, ComponentRecord>((key, value) =>
+                MapEntry(getComponentHumanReadableName(key), value))),
         functions: Map.unmodifiable(
             _functionRecords.map<String, FunctionRecord>((key, value) =>
                 MapEntry(getFunctionHumanReadableName(key), value))),
@@ -46,6 +53,17 @@ class MetricsAnalysisRecorder {
     _fileGroupPath = null;
     _functionRecords = null;
     _issues = null;
+  }
+
+  void recordComponent(
+      ScopedComponentDeclaration declaration, ComponentRecord record) {
+    _checkState();
+
+    if (declaration == null) {
+      throw ArgumentError.notNull('declaration');
+    }
+
+    _componentRecords[declaration] = record;
   }
 
   void recordFunction(

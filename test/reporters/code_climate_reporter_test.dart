@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:dart_code_metrics/src/models/code_issue.dart';
 import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
+import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/config.dart';
 import 'package:dart_code_metrics/src/models/file_record.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
@@ -33,6 +34,7 @@ void main() {
         FileRecord(
           fullPath: '/home/developer/work/project/example.dart',
           relativePath: 'example.dart',
+          components: Map.unmodifiable(<String, ComponentRecord>{}),
           functions: Map.unmodifiable(<String, FunctionRecord>{}),
           issues: [
             CodeIssue(
@@ -75,12 +77,67 @@ void main() {
           containsPair('fingerprint', 'ed45b12bc8354f240bfe37e1c1eb0f58'));
     });
 
+    group('components', () {
+      test('without methods', () {
+        final records = [
+          FileRecord(
+              fullPath: '/home/developer/work/project/example.dart',
+              relativePath: 'example.dart',
+              components: Map.unmodifiable(<String, ComponentRecord>{
+                'class': buildComponentRecordStub(methodsCount: 0),
+              }),
+              functions: Map.unmodifiable(<String, FunctionRecord>{}),
+              issues: const []),
+        ];
+
+        final report =
+            json.decode(_reporter.report(records).first) as List<Object>;
+
+        expect(report, isEmpty);
+      });
+
+      test('with a lot of methods', () {
+        final records = [
+          FileRecord(
+              fullPath: '/home/developer/work/project/example.dart',
+              relativePath: 'example.dart',
+              components: Map.unmodifiable(<String, ComponentRecord>{
+                'class': buildComponentRecordStub(methodsCount: 20),
+              }),
+              functions: Map.unmodifiable(<String, FunctionRecord>{}),
+              issues: const []),
+        ];
+
+        final report =
+            (json.decode(_reporter.report(records).first) as List<Object>).first
+                as Map<String, Object>;
+
+        expect(report, containsPair('type', 'issue'));
+        expect(report, containsPair('check_name', 'numberOfMethods'));
+        expect(
+            report,
+            containsPair('description',
+                'Component `class` has 20 number of methods (exceeds 10 allowed). Consider refactoring.'));
+        expect(report, containsPair('categories', ['Complexity']));
+        expect(
+            report,
+            containsPair('location', {
+              'path': 'example.dart',
+              'lines': {'begin': 0, 'end': 0},
+            }));
+        expect(report, containsPair('remediation_points', 50000));
+        expect(report,
+            containsPair('fingerprint', 'de1258f0c898f266343b3e435e23310c'));
+      });
+    });
+
     group('function', () {
       test('without arguments', () {
         final records = [
           FileRecord(
               fullPath: '/home/developer/work/project/example.dart',
               relativePath: 'example.dart',
+              components: Map.unmodifiable(<String, ComponentRecord>{}),
               functions: Map.unmodifiable(<String, FunctionRecord>{
                 'function': buildFunctionRecordStub(argumentsCount: 0),
               }),
@@ -98,6 +155,7 @@ void main() {
           FileRecord(
               fullPath: '/home/developer/work/project/example.dart',
               relativePath: 'example.dart',
+              components: Map.unmodifiable(<String, ComponentRecord>{}),
               functions: Map.unmodifiable(<String, FunctionRecord>{
                 'function': buildFunctionRecordStub(argumentsCount: 10),
               }),

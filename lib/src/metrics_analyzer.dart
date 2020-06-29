@@ -14,6 +14,7 @@ import 'package:path/path.dart' as p;
 import 'analysis_options.dart';
 import 'metrics/cyclomatic_complexity/control_flow_ast_visitor.dart';
 import 'metrics/cyclomatic_complexity/cyclomatic_config.dart';
+import 'models/component_record.dart';
 import 'rules_factory.dart';
 
 /// Performs code quality analysis on specified files
@@ -48,6 +49,23 @@ class MetricsAnalyzer {
     final lineInfo = parseResult.lineInfo;
 
     _recorder.startRecordFile(filePath, rootFolder);
+
+    for (final component in visitor.components) {
+      _recorder.recordComponent(
+          component,
+          ComponentRecord(
+              firstLine: lineInfo
+                  .getLocation(component
+                      .declaration.firstTokenAfterCommentAndMetadata.offset)
+                  .lineNumber,
+              lastLine: lineInfo
+                  .getLocation(component.declaration.endToken.end)
+                  .lineNumber,
+              methodsCount: visitor.functions
+                  .where((function) =>
+                      function.enclosingDeclaration == component.declaration)
+                  .length));
+    }
 
     for (final function in visitor.functions) {
       final controlFlowAstVisitor =

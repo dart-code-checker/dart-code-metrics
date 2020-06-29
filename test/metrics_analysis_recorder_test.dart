@@ -3,11 +3,15 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:dart_code_metrics/src/metrics_analysis_recorder.dart';
 import 'package:dart_code_metrics/src/models/code_issue.dart';
 import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
+import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
+import 'package:dart_code_metrics/src/models/scoped_component_declaration.dart';
 import 'package:dart_code_metrics/src/models/scoped_function_declaration.dart';
 import 'package:mockito/mockito.dart';
 import 'package:source_span/source_span.dart';
 import 'package:test/test.dart';
+
+class ClassDeclarationMock extends Mock implements ClassDeclaration {}
 
 class FunctionDeclarationMock extends Mock implements FunctionDeclaration {}
 
@@ -32,6 +36,45 @@ void main() {
         expect(() {
           recorder.startRecordFile(filePath, rootDirectory);
         }, throwsStateError);
+      });
+    });
+
+    group('recordComponent', () {
+      const componentName = 'simpleClass';
+
+      final simpleIdentifierMock = SimpleIdentifierMock();
+      when(simpleIdentifierMock.name).thenReturn(componentName);
+
+      final classDeclarationMock = ClassDeclarationMock();
+      when(classDeclarationMock.name).thenReturn(simpleIdentifierMock);
+
+      final record = ScopedComponentDeclaration(classDeclarationMock);
+
+      test('throws StateError if we call them in invalid state', () {
+        expect(() {
+          MetricsAnalysisRecorder().recordComponent(record, null);
+        }, throwsStateError);
+      });
+
+      test('throws ArgumentError if we call them without record', () {
+        expect(() {
+          MetricsAnalysisRecorder()
+            ..startRecordFile(filePath, rootDirectory)
+            ..recordComponent(null, null);
+        }, throwsArgumentError);
+      });
+
+      test('store record for file', () {
+        const componentRecord =
+            ComponentRecord(firstLine: 1, lastLine: 2, methodsCount: 3);
+
+        final recorder = MetricsAnalysisRecorder()
+          ..startRecordFile(filePath, rootDirectory)
+          ..recordComponent(record, componentRecord)
+          ..endRecordFile();
+
+        expect(recorder.records().single.components,
+            containsPair(componentName, componentRecord));
       });
     });
 

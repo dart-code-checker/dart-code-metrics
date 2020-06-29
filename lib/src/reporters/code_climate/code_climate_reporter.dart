@@ -20,7 +20,23 @@ class CodeClimateReporter implements Reporter {
           : [];
 
   Iterable<CodeClimateIssue> _toIssues(FileRecord record) {
-    final result = <CodeClimateIssue>[];
+    final result = <CodeClimateIssue>[
+      ...record.components.keys.expand((key) {
+        final component = record.components[key];
+        final report = UtilitySelector.componentReport(component, reportConfig);
+
+        return [
+          if (UtilitySelector.isIssueLevel(report.methodsCount.violationLevel))
+            CodeClimateIssue.numberOfMethods(
+                component.firstLine,
+                component.lastLine,
+                report.methodsCount.value,
+                record.relativePath,
+                key,
+                reportConfig.numberOfMethodsWarningLevel),
+        ];
+      }),
+    ];
 
     for (final key in record.functions.keys) {
       final func = record.functions[key];

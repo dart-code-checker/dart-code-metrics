@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:dart_code_metrics/src/models/component_record.dart';
+import 'package:dart_code_metrics/src/models/component_report.dart';
 import 'package:dart_code_metrics/src/models/config.dart';
 import 'package:dart_code_metrics/src/models/file_record.dart';
 import 'package:dart_code_metrics/src/models/file_report.dart';
@@ -21,6 +23,8 @@ class UtilitySelector {
       records.map((r) => fileReport(r, config)).reduce(mergeFileReports);
 
   static FileReport fileReport(FileRecord record, Config config) {
+    final componentReports =
+        record.components.values.map((r) => componentReport(r, config));
     final functionReports =
         record.functions.values.map((r) => functionReport(r, config));
 
@@ -34,6 +38,12 @@ class UtilitySelector {
         avg(functionReports.map((r) => r.maintainabilityIndex.value));
     final totalMaintainabilityIndexViolations = functionReports
         .where((r) => isIssueLevel(r.maintainabilityIndex.violationLevel))
+        .length;
+
+    final averageMethodsCount =
+        avg(componentReports.map((r) => r.methodsCount.value));
+    final totalMethodsCountViolations = componentReports
+        .where((r) => isIssueLevel(r.methodsCount.violationLevel))
         .length;
 
     final totalCyclomaticComplexity =
@@ -54,12 +64,22 @@ class UtilitySelector {
         averageMaintainabilityIndex: averageMaintainabilityIndex,
         totalMaintainabilityIndexViolations:
             totalMaintainabilityIndexViolations,
+        averageMethodsCount: averageMethodsCount.round(),
+        totalMethodsCountViolations: totalMethodsCountViolations,
         totalCyclomaticComplexity: totalCyclomaticComplexity.round(),
         totalCyclomaticComplexityViolations:
             totalCyclomaticComplexityViolations,
         totalLinesOfCode: totalLinesOfCode.round(),
         totalLinesOfCodeViolations: totalLinesOfCodeViolations);
   }
+
+  static ComponentReport componentReport(
+          ComponentRecord component, Config config) =>
+      ComponentReport(
+          methodsCount: ReportMetric<int>(
+              value: component.methodsCount,
+              violationLevel: _violationLevel(
+                  component.methodsCount, config.numberOfMethodsWarningLevel)));
 
   static FunctionReport functionReport(FunctionRecord function, Config config) {
     final cyclomaticComplexity =
@@ -120,6 +140,9 @@ class UtilitySelector {
                 config.numberOfArgumentsWarningLevel)));
   }
 
+  static ViolationLevel componentViolationLevel(ComponentReport report) =>
+      report.methodsCount.violationLevel;
+
   static ViolationLevel functionViolationLevel(FunctionReport report) =>
       quiver.max([
         report.cyclomaticComplexity.violationLevel,
@@ -139,27 +162,29 @@ class UtilitySelector {
                   UtilitySelector.functionReport(functionRecord, config)))
           .map(UtilitySelector.functionViolationLevel));
 
-  static FileReport mergeFileReports(FileReport lhs, FileReport rhs) =>
-      FileReport(
-          averageArgumentsCount:
-              ((lhs.averageArgumentsCount + rhs.averageArgumentsCount) / 2)
-                  .round(),
-          totalArgumentsCountViolations: lhs.totalArgumentsCountViolations +
-              rhs.totalArgumentsCountViolations,
-          averageMaintainabilityIndex: (lhs.averageMaintainabilityIndex +
-                  rhs.averageMaintainabilityIndex) /
+  static FileReport mergeFileReports(FileReport lhs, FileReport rhs) => FileReport(
+      averageArgumentsCount:
+          ((lhs.averageArgumentsCount + rhs.averageArgumentsCount) / 2).round(),
+      totalArgumentsCountViolations:
+          lhs.totalArgumentsCountViolations + rhs.totalArgumentsCountViolations,
+      averageMaintainabilityIndex:
+          (lhs.averageMaintainabilityIndex + rhs.averageMaintainabilityIndex) /
               2,
-          totalMaintainabilityIndexViolations:
-              lhs.totalMaintainabilityIndexViolations +
-                  rhs.totalMaintainabilityIndexViolations,
-          totalCyclomaticComplexity:
-              lhs.totalCyclomaticComplexity + rhs.totalCyclomaticComplexity,
-          totalCyclomaticComplexityViolations:
-              lhs.totalCyclomaticComplexityViolations +
-                  rhs.totalCyclomaticComplexityViolations,
-          totalLinesOfCode: lhs.totalLinesOfCode + rhs.totalLinesOfCode,
-          totalLinesOfCodeViolations:
-              lhs.totalLinesOfCodeViolations + rhs.totalLinesOfCodeViolations);
+      totalMaintainabilityIndexViolations:
+          lhs.totalMaintainabilityIndexViolations +
+              rhs.totalMaintainabilityIndexViolations,
+      averageMethodsCount:
+          ((lhs.averageMethodsCount + rhs.averageMethodsCount) / 2).round(),
+      totalMethodsCountViolations:
+          lhs.totalMethodsCountViolations + rhs.totalMethodsCountViolations,
+      totalCyclomaticComplexity:
+          lhs.totalCyclomaticComplexity + rhs.totalCyclomaticComplexity,
+      totalCyclomaticComplexityViolations:
+          lhs.totalCyclomaticComplexityViolations +
+              rhs.totalCyclomaticComplexityViolations,
+      totalLinesOfCode: lhs.totalLinesOfCode + rhs.totalLinesOfCode,
+      totalLinesOfCodeViolations:
+          lhs.totalLinesOfCodeViolations + rhs.totalLinesOfCodeViolations);
 
   static ViolationLevel _violationLevel(int value, int warningLevel) {
     if (warningLevel == null) {

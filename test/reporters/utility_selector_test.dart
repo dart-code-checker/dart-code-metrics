@@ -1,4 +1,5 @@
 @TestOn('vm')
+import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/config.dart';
 import 'package:dart_code_metrics/src/models/file_record.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
@@ -15,6 +16,11 @@ void main() {
           FileRecord(
             fullPath: '/home/developer/work/project/example.dart',
             relativePath: 'example.dart',
+            components: Map.unmodifiable(<String, ComponentRecord>{
+              'class': buildComponentRecordStub(methodsCount: 0),
+              'mixin': buildComponentRecordStub(methodsCount: 15),
+              'extension': buildComponentRecordStub(methodsCount: 25),
+            }),
             functions: Map.unmodifiable(<String, FunctionRecord>{
               'function': buildFunctionRecordStub(argumentsCount: 0),
               'function2': buildFunctionRecordStub(argumentsCount: 6),
@@ -25,6 +31,28 @@ void main() {
           const Config());
       expect(report.averageArgumentsCount, 5);
       expect(report.totalArgumentsCountViolations, 2);
+      expect(report.averageMethodsCount, 13);
+      expect(report.totalMethodsCountViolations, 2);
+    });
+
+    group('componentReport calculates report for function', () {
+      test('without methods', () {
+        final record = buildComponentRecordStub(methodsCount: 0);
+        final report = UtilitySelector.componentReport(record, const Config());
+
+        expect(report.methodsCount.value, 0);
+        expect(report.methodsCount.violationLevel, ViolationLevel.none);
+      });
+
+      test('with a lot of methods', () {
+        const methodsCount = 30;
+
+        final record = buildComponentRecordStub(methodsCount: methodsCount);
+        final report = UtilitySelector.componentReport(record, const Config());
+
+        expect(report.methodsCount.value, methodsCount);
+        expect(report.methodsCount.violationLevel, ViolationLevel.alarm);
+      });
     });
 
     group('functionReport calculates report for function', () {
@@ -42,6 +70,15 @@ void main() {
         expect(report.argumentsCount.value, 10);
         expect(report.argumentsCount.violationLevel, ViolationLevel.alarm);
       });
+    });
+
+    test(
+        'componentViolationLevel returns aggregated violation level for component',
+        () {
+      expect(
+          UtilitySelector.componentViolationLevel(buildComponentReportStub(
+              methodsCountViolationLevel: ViolationLevel.warning)),
+          ViolationLevel.warning);
     });
 
     test(
@@ -99,6 +136,7 @@ void main() {
         FileRecord(
           fullPath: fullPathStub,
           relativePath: relativePathStub,
+          components: Map.unmodifiable(<String, ComponentRecord>{}),
           functions: Map.unmodifiable(<String, FunctionRecord>{
             'a': buildFunctionRecordStub(linesWithCode: List.filled(10, 0)),
           }),
@@ -107,6 +145,7 @@ void main() {
         FileRecord(
           fullPath: fullPathStub,
           relativePath: relativePathStub,
+          components: Map.unmodifiable(<String, ComponentRecord>{}),
           functions: Map.unmodifiable(<String, FunctionRecord>{
             'a': buildFunctionRecordStub(linesWithCode: List.filled(20, 0)),
           }),
@@ -115,6 +154,7 @@ void main() {
         FileRecord(
           fullPath: fullPathStub,
           relativePath: relativePathStub,
+          components: Map.unmodifiable(<String, ComponentRecord>{}),
           functions: Map.unmodifiable(<String, FunctionRecord>{
             'a': buildFunctionRecordStub(linesWithCode: List.filled(30, 0)),
           }),

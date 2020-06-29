@@ -1,7 +1,20 @@
+import 'package:dart_code_metrics/src/models/component_record.dart';
+import 'package:dart_code_metrics/src/models/component_report.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/models/function_report.dart';
 import 'package:dart_code_metrics/src/models/report_metric.dart';
 import 'package:dart_code_metrics/src/models/violation_level.dart';
+
+ComponentRecord buildComponentRecordStub({
+  int firstLine = 0,
+  int lastLine = 0,
+  int methodsCount = 0,
+}) =>
+    ComponentRecord(
+      firstLine: firstLine,
+      lastLine: lastLine,
+      methodsCount: methodsCount,
+    );
 
 FunctionRecord buildFunctionRecordStub(
         {int firstLine = 0,
@@ -20,6 +33,13 @@ FunctionRecord buildFunctionRecordStub(
       operators: Map.unmodifiable(operators),
       operands: Map.unmodifiable(operands),
     );
+
+ComponentReport buildComponentReportStub(
+        {int methodsCount = 0,
+        ViolationLevel methodsCountViolationLevel = ViolationLevel.none}) =>
+    ComponentReport(
+        methodsCount: ReportMetric<int>(
+            value: methodsCount, violationLevel: methodsCountViolationLevel));
 
 FunctionReport buildFunctionReportStub(
         {int cyclomaticComplexity = 0,
