@@ -1,4 +1,5 @@
 import 'package:dart_code_metrics/src/models/component_record.dart';
+import 'package:dart_code_metrics/src/models/component_report.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/models/function_report.dart';
 import 'package:dart_code_metrics/src/models/report_metric.dart';
@@ -32,6 +33,13 @@ FunctionRecord buildFunctionRecordStub(
       operators: Map.unmodifiable(operators),
       operands: Map.unmodifiable(operands),
     );
+
+ComponentReport buildComponentReportStub(
+        {int methodsCount = 0,
+        ViolationLevel methodsCountViolationLevel = ViolationLevel.none}) =>
+    ComponentReport(
+        methodsCount: ReportMetric<int>(
+            value: methodsCount, violationLevel: methodsCountViolationLevel));
 
 FunctionReport buildFunctionReportStub(
         {int cyclomaticComplexity = 0,

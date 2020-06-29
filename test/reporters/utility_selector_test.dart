@@ -66,6 +66,15 @@ void main() {
     });
 
     test(
+        'componentViolationLevel returns aggregated violation level for component',
+        () {
+      expect(
+          UtilitySelector.componentViolationLevel(buildComponentReportStub(
+              methodsCountViolationLevel: ViolationLevel.warning)),
+          ViolationLevel.warning);
+    });
+
+    test(
         'functionViolationLevel returns aggregated violation level for function',
         () {
       expect(

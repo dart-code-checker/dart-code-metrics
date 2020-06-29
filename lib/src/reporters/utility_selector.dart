@@ -130,6 +130,9 @@ class UtilitySelector {
                 config.numberOfArgumentsWarningLevel)));
   }
 
+  static ViolationLevel componentViolationLevel(ComponentReport report) =>
+      report.methodsCount.violationLevel;
+
   static ViolationLevel functionViolationLevel(FunctionReport report) =>
       quiver.max([
         report.cyclomaticComplexity.violationLevel,
