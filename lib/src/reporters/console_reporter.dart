@@ -52,6 +52,21 @@ class ConsoleReporter implements Reporter {
     for (final analysisRecord in records) {
       final lines = <String>[];
 
+      analysisRecord.components.forEach((source, componentReport) {
+        final report =
+            UtilitySelector.componentReport(componentReport, reportConfig);
+        final violationLevel = UtilitySelector.componentViolationLevel(report);
+
+        if (reportAll || UtilitySelector.isIssueLevel(violationLevel)) {
+          final violations = [
+            if (reportAll || _isNeedToReport(report.methodsCount))
+              _report(report.methodsCount, 'number of methods'),
+          ];
+          lines.add(
+              '${_colorPens[violationLevel](_humanReadableLabel[violationLevel]?.padRight(8))}$source - ${violations.join(', ')}');
+        }
+      });
+
       analysisRecord.functions.forEach((source, functionReport) {
         final report =
             UtilitySelector.functionReport(functionReport, reportConfig);

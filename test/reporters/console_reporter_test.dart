@@ -30,12 +30,56 @@ void main() {
       expect(verboseReport, isEmpty);
     });
 
+    group('component', () {
+      test('without methods', () {
+        final records = [
+          FileRecord(
+            fullPath: '/home/developer/work/project/example.dart',
+            relativePath: 'example.dart',
+            components: Map.unmodifiable(<String, ComponentRecord>{
+              'class': buildComponentRecordStub(methodsCount: 0),
+            }),
+            functions: Map.unmodifiable(<String, FunctionRecord>{}),
+            issues: const [],
+          ),
+        ];
+
+        final report = _reporter.report(records);
+        final verboseReport = _verboseReporter.report(records).toList();
+
+        expect(report, isEmpty);
+        expect(verboseReport.length, 3);
+        expect(verboseReport[1],
+            contains('number of methods: \x1B[38;5;7m0\x1B[0m'));
+      });
+
+      test('with a lot of methods', () {
+        final records = [
+          FileRecord(
+            fullPath: '/home/developer/work/project/example.dart',
+            relativePath: 'example.dart',
+            components: Map.unmodifiable(<String, ComponentRecord>{
+              'class': buildComponentRecordStub(methodsCount: 20),
+            }),
+            functions: Map.unmodifiable(<String, FunctionRecord>{}),
+            issues: const [],
+          ),
+        ];
+
+        final report = _reporter.report(records).toList();
+
+        expect(report.length, 3);
+        expect(report[1], contains('number of methods: \x1B[38;5;3m20\x1B[0m'));
+      });
+    });
+
     group('function', () {
       test('without arguments', () {
         final records = [
           FileRecord(
             fullPath: '/home/developer/work/project/example.dart',
             relativePath: 'example.dart',
+            components: Map.unmodifiable(<String, ComponentRecord>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
               'function': buildFunctionRecordStub(argumentsCount: 0),
             }),
@@ -57,6 +101,7 @@ void main() {
           FileRecord(
             fullPath: '/home/developer/work/project/example.dart',
             relativePath: 'example.dart',
+            components: Map.unmodifiable(<String, ComponentRecord>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
               'function': buildFunctionRecordStub(argumentsCount: 10),
             }),
@@ -77,6 +122,7 @@ void main() {
         FileRecord(
           fullPath: '/home/developer/work/project/example.dart',
           relativePath: 'example.dart',
+          components: Map.unmodifiable(<String, ComponentRecord>{}),
           functions: Map.unmodifiable(<String, FunctionRecord>{}),
           issues: [
             CodeIssue(
