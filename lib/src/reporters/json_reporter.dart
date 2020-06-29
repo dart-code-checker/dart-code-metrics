@@ -24,16 +24,25 @@ class JsonReporter implements Reporter {
 
     return {
       'source': record.relativePath,
-      'records': record.functions.map((key, value) {
-        final report = UtilitySelector.functionReport(value, reportConfig);
+      'records': {
+        ...record.components.map((key, value) {
+          final report = UtilitySelector.componentReport(value, reportConfig);
 
-        return MapEntry(key, {
-          ..._report(report.cyclomaticComplexity, 'cyclomatic-complexity'),
-          ..._report(report.linesOfCode, 'lines-of-code'),
-          ..._report(report.maintainabilityIndex, 'maintainability-index'),
-          ..._report(report.argumentsCount, 'number-of-arguments'),
-        });
-      }),
+          return MapEntry(key, {
+            ..._report(report.methodsCount, 'number-of-methods'),
+          });
+        }),
+        ...record.functions.map((key, value) {
+          final report = UtilitySelector.functionReport(value, reportConfig);
+
+          return MapEntry(key, {
+            ..._report(report.cyclomaticComplexity, 'cyclomatic-complexity'),
+            ..._report(report.linesOfCode, 'lines-of-code'),
+            ..._report(report.maintainabilityIndex, 'maintainability-index'),
+            ..._report(report.argumentsCount, 'number-of-arguments'),
+          });
+        }),
+      },
       'issues': record.issues
           .map((issue) => {
                 'severity': issue.severity.toString().split('.').last,
@@ -53,6 +62,9 @@ class JsonReporter implements Reporter {
       'average-number-of-arguments': fileReport.averageArgumentsCount,
       'total-number-of-arguments-violations':
           fileReport.totalArgumentsCountViolations,
+      'average-number-of-methods': fileReport.averageMethodsCount,
+      'total-number-of-methods-violations':
+          fileReport.totalMethodsCountViolations,
     };
   }
 
