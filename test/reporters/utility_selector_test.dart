@@ -16,6 +16,11 @@ void main() {
           FileRecord(
             fullPath: '/home/developer/work/project/example.dart',
             relativePath: 'example.dart',
+            components: Map.unmodifiable(<String, ComponentRecord>{
+              'class': buildComponentRecordStub(methodsCount: 0),
+              'mixin': buildComponentRecordStub(methodsCount: 15),
+              'extension': buildComponentRecordStub(methodsCount: 25),
+            }),
             functions: Map.unmodifiable(<String, FunctionRecord>{
               'function': buildFunctionRecordStub(argumentsCount: 0),
               'function2': buildFunctionRecordStub(argumentsCount: 6),
@@ -26,6 +31,8 @@ void main() {
           const Config());
       expect(report.averageArgumentsCount, 5);
       expect(report.totalArgumentsCountViolations, 2);
+      expect(report.averageMethodsCount, 13);
+      expect(report.totalMethodsCountViolations, 2);
     });
 
     group('componentReport calculates report for function', () {

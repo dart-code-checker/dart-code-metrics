@@ -23,6 +23,8 @@ class UtilitySelector {
       records.map((r) => fileReport(r, config)).reduce(mergeFileReports);
 
   static FileReport fileReport(FileRecord record, Config config) {
+    final componentReports =
+        record.components.values.map((r) => componentReport(r, config));
     final functionReports =
         record.functions.values.map((r) => functionReport(r, config));
 
@@ -36,6 +38,12 @@ class UtilitySelector {
         avg(functionReports.map((r) => r.maintainabilityIndex.value));
     final totalMaintainabilityIndexViolations = functionReports
         .where((r) => isIssueLevel(r.maintainabilityIndex.violationLevel))
+        .length;
+
+    final averageMethodsCount =
+        avg(componentReports.map((r) => r.methodsCount.value));
+    final totalMethodsCountViolations = componentReports
+        .where((r) => isIssueLevel(r.methodsCount.violationLevel))
         .length;
 
     final totalCyclomaticComplexity =
@@ -56,6 +64,8 @@ class UtilitySelector {
         averageMaintainabilityIndex: averageMaintainabilityIndex,
         totalMaintainabilityIndexViolations:
             totalMaintainabilityIndexViolations,
+        averageMethodsCount: averageMethodsCount.round(),
+        totalMethodsCountViolations: totalMethodsCountViolations,
         totalCyclomaticComplexity: totalCyclomaticComplexity.round(),
         totalCyclomaticComplexityViolations:
             totalCyclomaticComplexityViolations,
@@ -152,27 +162,29 @@ class UtilitySelector {
                   UtilitySelector.functionReport(functionRecord, config)))
           .map(UtilitySelector.functionViolationLevel));
 
-  static FileReport mergeFileReports(FileReport lhs, FileReport rhs) =>
-      FileReport(
-          averageArgumentsCount:
-              ((lhs.averageArgumentsCount + rhs.averageArgumentsCount) / 2)
-                  .round(),
-          totalArgumentsCountViolations: lhs.totalArgumentsCountViolations +
-              rhs.totalArgumentsCountViolations,
-          averageMaintainabilityIndex: (lhs.averageMaintainabilityIndex +
-                  rhs.averageMaintainabilityIndex) /
+  static FileReport mergeFileReports(FileReport lhs, FileReport rhs) => FileReport(
+      averageArgumentsCount:
+          ((lhs.averageArgumentsCount + rhs.averageArgumentsCount) / 2).round(),
+      totalArgumentsCountViolations:
+          lhs.totalArgumentsCountViolations + rhs.totalArgumentsCountViolations,
+      averageMaintainabilityIndex:
+          (lhs.averageMaintainabilityIndex + rhs.averageMaintainabilityIndex) /
               2,
-          totalMaintainabilityIndexViolations:
-              lhs.totalMaintainabilityIndexViolations +
-                  rhs.totalMaintainabilityIndexViolations,
-          totalCyclomaticComplexity:
-              lhs.totalCyclomaticComplexity + rhs.totalCyclomaticComplexity,
-          totalCyclomaticComplexityViolations:
-              lhs.totalCyclomaticComplexityViolations +
-                  rhs.totalCyclomaticComplexityViolations,
-          totalLinesOfCode: lhs.totalLinesOfCode + rhs.totalLinesOfCode,
-          totalLinesOfCodeViolations:
-              lhs.totalLinesOfCodeViolations + rhs.totalLinesOfCodeViolations);
+      totalMaintainabilityIndexViolations:
+          lhs.totalMaintainabilityIndexViolations +
+              rhs.totalMaintainabilityIndexViolations,
+      averageMethodsCount:
+          ((lhs.averageMethodsCount + rhs.averageMethodsCount) / 2).round(),
+      totalMethodsCountViolations:
+          lhs.totalMethodsCountViolations + rhs.totalMethodsCountViolations,
+      totalCyclomaticComplexity:
+          lhs.totalCyclomaticComplexity + rhs.totalCyclomaticComplexity,
+      totalCyclomaticComplexityViolations:
+          lhs.totalCyclomaticComplexityViolations +
+              rhs.totalCyclomaticComplexityViolations,
+      totalLinesOfCode: lhs.totalLinesOfCode + rhs.totalLinesOfCode,
+      totalLinesOfCodeViolations:
+          lhs.totalLinesOfCodeViolations + rhs.totalLinesOfCodeViolations);
 
   static ViolationLevel _violationLevel(int value, int warningLevel) {
     if (warningLevel == null) {

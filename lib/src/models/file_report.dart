@@ -8,6 +8,9 @@ class FileReport {
   final double averageMaintainabilityIndex;
   final int totalMaintainabilityIndexViolations;
 
+  final int averageMethodsCount;
+  final int totalMethodsCountViolations;
+
   final int totalCyclomaticComplexity;
   final int totalCyclomaticComplexityViolations;
 
@@ -19,6 +22,8 @@ class FileReport {
       @required this.totalArgumentsCountViolations,
       @required this.averageMaintainabilityIndex,
       @required this.totalMaintainabilityIndexViolations,
+      @required this.averageMethodsCount,
+      @required this.totalMethodsCountViolations,
       @required this.totalCyclomaticComplexity,
       @required this.totalCyclomaticComplexityViolations,
       @required this.totalLinesOfCode,
