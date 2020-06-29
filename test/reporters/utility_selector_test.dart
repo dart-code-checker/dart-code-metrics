@@ -1,4 +1,5 @@
 @TestOn('vm')
+import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/config.dart';
 import 'package:dart_code_metrics/src/models/file_record.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
@@ -25,6 +26,26 @@ void main() {
           const Config());
       expect(report.averageArgumentsCount, 5);
       expect(report.totalArgumentsCountViolations, 2);
+    });
+
+    group('componentReport calculates report for function', () {
+      test('without methods', () {
+        final record = buildComponentRecordStub(methodsCount: 0);
+        final report = UtilitySelector.componentReport(record, const Config());
+
+        expect(report.methodsCount.value, 0);
+        expect(report.methodsCount.violationLevel, ViolationLevel.none);
+      });
+
+      test('with a lot of methods', () {
+        const methodsCount = 30;
+
+        final record = buildComponentRecordStub(methodsCount: methodsCount);
+        final report = UtilitySelector.componentReport(record, const Config());
+
+        expect(report.methodsCount.value, methodsCount);
+        expect(report.methodsCount.violationLevel, ViolationLevel.alarm);
+      });
     });
 
     group('functionReport calculates report for function', () {
@@ -99,6 +120,7 @@ void main() {
         FileRecord(
           fullPath: fullPathStub,
           relativePath: relativePathStub,
+          components: Map.unmodifiable(<String, ComponentRecord>{}),
           functions: Map.unmodifiable(<String, FunctionRecord>{
             'a': buildFunctionRecordStub(linesWithCode: List.filled(10, 0)),
           }),
@@ -107,6 +129,7 @@ void main() {
         FileRecord(
           fullPath: fullPathStub,
           relativePath: relativePathStub,
+          components: Map.unmodifiable(<String, ComponentRecord>{}),
           functions: Map.unmodifiable(<String, FunctionRecord>{
             'a': buildFunctionRecordStub(linesWithCode: List.filled(20, 0)),
           }),
@@ -115,6 +138,7 @@ void main() {
         FileRecord(
           fullPath: fullPathStub,
           relativePath: relativePathStub,
+          components: Map.unmodifiable(<String, ComponentRecord>{}),
           functions: Map.unmodifiable(<String, FunctionRecord>{
             'a': buildFunctionRecordStub(linesWithCode: List.filled(30, 0)),
           }),

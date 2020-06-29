@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:dart_code_metrics/src/models/component_record.dart';
+import 'package:dart_code_metrics/src/models/component_report.dart';
 import 'package:dart_code_metrics/src/models/config.dart';
 import 'package:dart_code_metrics/src/models/file_record.dart';
 import 'package:dart_code_metrics/src/models/file_report.dart';
@@ -60,6 +62,14 @@ class UtilitySelector {
         totalLinesOfCode: totalLinesOfCode.round(),
         totalLinesOfCodeViolations: totalLinesOfCodeViolations);
   }
+
+  static ComponentReport componentReport(
+          ComponentRecord component, Config config) =>
+      ComponentReport(
+          methodsCount: ReportMetric<int>(
+              value: component.methodsCount,
+              violationLevel: _violationLevel(
+                  component.methodsCount, config.numberOfMethodsWarningLevel)));
 
   static FunctionReport functionReport(FunctionRecord function, Config config) {
     final cyclomaticComplexity =
