@@ -18,11 +18,13 @@ void main() {
         FileRecord(
             fullPath: 'lib/foo.dart',
             relativePath: 'foo.dart',
+            components: {},
             functions: {},
             issues: []),
         FileRecord(
             fullPath: 'lib/bar.dart',
             relativePath: 'bar.dart',
+            components: {},
             functions: {},
             issues: []),
       ];
