@@ -2,10 +2,10 @@
 
 # Unreleased
 - Drop dependency on resource
-- Add binary-expression-operand-order rule
+- Add experimental static code diagnostic binary-expression-operand-order
 
 # 1.6.0
-- Add experimental static code diagnostics prefer-trailing-comma-for-collection, no-magic-number rule
+- Add experimental static code diagnostics prefer-trailing-comma-for-collection, no-magic-number
 - Support number of arguments metric in analyzer plugin
 - Support excluding files from metrics calculation
 

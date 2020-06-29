@@ -10,13 +10,13 @@ import 'rules/prefer_trailing_comma_for_collection.dart';
 
 const _implementedRules = {
   AvoidPreserveWhitespaceFalseRule(),
+  BinaryExpressionOperandOrderRule(),
   DoubleLiteralFormatRule(),
   NewlineBeforeReturnRule(),
   NoBooleanLiteralCompareRule(),
   NoEmptyBlockRule(),
   NoMagicNumberRule(),
   PreferTrailingCommaForCollectionRule(),
-  BinaryExpressionOperandOrderRule(),
 };
 
 Iterable<BaseRule> get allRules => _implementedRules;
