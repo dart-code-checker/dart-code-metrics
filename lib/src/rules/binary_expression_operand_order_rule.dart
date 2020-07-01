@@ -1,4 +1,5 @@
 import 'package:analyzer/dart/ast/ast.dart';
+import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:dart_code_metrics/src/models/code_issue.dart';
 import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
@@ -43,10 +44,23 @@ class _Visitor extends RecursiveAstVisitor<Object> {
 
   @override
   void visitBinaryExpression(BinaryExpression e) {
-    if ((e.leftOperand is IntegerLiteral || e.leftOperand is DoubleLiteral) &&
-        e.rightOperand is Identifier) {
+    if (_supportedLeftOperand(e.leftOperand) &&
+        _supportedRightOperand(e.rightOperand) &&
+        _supportedOperator(e.operator)) {
       _binaryExpressions.add(e);
     }
     super.visitBinaryExpression(e);
   }
+
+  bool _supportedLeftOperand(Expression operand) =>
+      operand is IntegerLiteral || operand is DoubleLiteral;
+
+  bool _supportedRightOperand(Expression operand) => operand is Identifier;
+
+  bool _supportedOperator(Token operator) =>
+      operator.type == TokenType.PLUS ||
+      operator.type == TokenType.STAR ||
+      operator.type == TokenType.AMPERSAND ||
+      operator.type == TokenType.BAR ||
+      operator.type == TokenType.CARET;
 }
