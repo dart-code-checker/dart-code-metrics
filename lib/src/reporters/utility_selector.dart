@@ -157,10 +157,9 @@ class UtilitySelector {
   static ViolationLevel maxViolationLevel(
           Iterable<FileRecord> records, Config config) =>
       quiver.max(records
-          .expand((fileRecord) => fileRecord.functions.values.map(
-              (functionRecord) =>
-                  UtilitySelector.functionReport(functionRecord, config)))
-          .map(UtilitySelector.functionViolationLevel));
+          .expand((fileRecord) => fileRecord.functions.values
+              .map((functionRecord) => functionReport(functionRecord, config)))
+          .map(functionViolationLevel));
 
   static FileReport mergeFileReports(FileReport lhs, FileReport rhs) => FileReport(
       averageArgumentsCount:

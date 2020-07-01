@@ -8,7 +8,8 @@
 Reports:
 * Cyclomatic complexity of methods
 * Too long methods
-* Number of Arguments
+* [Number of Arguments](https://github.com/wrike/dart-code-metrics/blob/master/doc/metrics.md#number-of-arguments)
+* [Number of Methods](https://github.com/wrike/dart-code-metrics/blob/master/doc/metrics.md#number-of-methods)
 
 Output formats:
 * Plain terminal
