@@ -2,7 +2,7 @@
 
 # Unreleased
 - Drop dependency on resource
-- Add experimental static code diagnostic binary-expression-operand-order
+- Add experimental static code diagnostic binary-expression-operand-order, prefer-intl-name
 - Add Number of Methods metric
 
 # 1.6.0

@@ -1,3 +1,5 @@
+import 'package:dart_code_metrics/src/rules/prefer_intl_name.dart';
+
 import 'rules/avoid_preserve_whitespace_false.dart';
 import 'rules/base_rule.dart';
 import 'rules/binary_expression_operand_order_rule.dart';
@@ -16,6 +18,7 @@ const _implementedRules = {
   NoBooleanLiteralCompareRule(),
   NoEmptyBlockRule(),
   NoMagicNumberRule(),
+  PreferIntlNameRule(),
   PreferTrailingCommaForCollectionRule(),
 };
 

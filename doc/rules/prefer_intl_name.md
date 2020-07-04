@@ -1,0 +1,86 @@
+# Prefer Intl name
+
+## Rule id
+prefer-intl-name
+
+## Description
+Prefer used pattern `${ClassName}_${ClassMemberName}` for `name` argument in `Intl.message()`, `Intl.plural()`, `Intl.gender()`, `Intl.select()` methods.
+
+### Example
+Bad:
+```dart
+import 'package:intl/intl.dart';
+
+class SomeButtonI18n {
+  static final String title1 = Intl.message(
+    'One Title',
+    name: 'SomeButtonI18n_titleOne'
+  );
+
+  final String title2 = Intl.message(
+    'Two Title',
+    name: 'titleTwo'
+  );  
+
+  String get title3 => Intl.message(
+    'Three Title',
+    name: 'SomeButtonI18n_titleThree'
+  );  
+  
+  static String get title4 => Intl.message(
+    'Four Title',
+    name: 'SomeButtonI18n_titleFour'
+  ); 
+  
+  String title5() => Intl.message(
+    'Five Title',
+    name: 'SomeButtonI18n_titleFive'
+  );  
+  
+  static String title6() {
+    return Intl.message(
+      'Six Title',
+      name: 'SomeButtonI18n_titleSix'
+     );
+  } 
+}
+```
+
+Good:
+```dart
+import 'package:intl/intl.dart';
+
+class SomeButtonCorrectI18n {
+  static final int number = int.parse('1');
+
+  static final String title1 = Intl.message(
+    'One Title',
+    name: 'SomeButtonCorrectI18n_title1'
+  );
+
+  final String title2 = Intl.message(
+    'Two Title',
+    name: 'SomeButtonCorrectI18n_title2'
+  );  
+
+  String get title3 => Intl.message(
+    'Three Title',
+    name: 'SomeButtonCorrectI18n_title3'
+  );  
+  
+  static String get title4 => Intl.message(
+    'Four Title',
+    name: 'SomeButtonCorrectI18n_title4'
+  );   
+
+  String get title5 => Intl.message(
+    'Three Title',
+    name: 'SomeButtonCorrectI18n_title5'
+  );  
+  
+  static String get title6 => Intl.message(
+    'Four Title',
+    name: 'SomeButtonCorrectI18n_title6'
+  ); 
+}
+```
