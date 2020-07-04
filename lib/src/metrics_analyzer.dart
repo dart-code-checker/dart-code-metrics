@@ -48,62 +48,61 @@ class MetricsAnalyzer {
 
     final lineInfo = parseResult.lineInfo;
 
-    _recorder.startRecordFile(filePath, rootFolder);
+    _recorder.recordFile(filePath, rootFolder, (builder) {
+      for (final component in visitor.components) {
+        builder.recordComponent(
+            component,
+            ComponentRecord(
+                firstLine: lineInfo
+                    .getLocation(component
+                        .declaration.firstTokenAfterCommentAndMetadata.offset)
+                    .lineNumber,
+                lastLine: lineInfo
+                    .getLocation(component.declaration.endToken.end)
+                    .lineNumber,
+                methodsCount: visitor.functions
+                    .where((function) =>
+                        function.enclosingDeclaration == component.declaration)
+                    .length));
+      }
 
-    for (final component in visitor.components) {
-      _recorder.recordComponent(
-          component,
-          ComponentRecord(
-              firstLine: lineInfo
-                  .getLocation(component
-                      .declaration.firstTokenAfterCommentAndMetadata.offset)
-                  .lineNumber,
-              lastLine: lineInfo
-                  .getLocation(component.declaration.endToken.end)
-                  .lineNumber,
-              methodsCount: visitor.functions
-                  .where((function) =>
-                      function.enclosingDeclaration == component.declaration)
-                  .length));
-    }
+      for (final function in visitor.functions) {
+        final controlFlowAstVisitor =
+            ControlFlowAstVisitor(defaultCyclomaticConfig, lineInfo);
+        final functionBodyAstVisitor = FunctionBodyAstVisitor(lineInfo);
+        final halsteadVolumeAstVisitor = HalsteadVolumeAstVisitor();
 
-    for (final function in visitor.functions) {
-      final controlFlowAstVisitor =
-          ControlFlowAstVisitor(defaultCyclomaticConfig, lineInfo);
-      final functionBodyAstVisitor = FunctionBodyAstVisitor(lineInfo);
-      final halsteadVolumeAstVisitor = HalsteadVolumeAstVisitor();
+        function.declaration.visitChildren(controlFlowAstVisitor);
+        function.declaration.visitChildren(functionBodyAstVisitor);
+        function.declaration.visitChildren(halsteadVolumeAstVisitor);
 
-      function.declaration.visitChildren(controlFlowAstVisitor);
-      function.declaration.visitChildren(functionBodyAstVisitor);
-      function.declaration.visitChildren(halsteadVolumeAstVisitor);
+        builder.recordFunction(
+            function,
+            FunctionRecord(
+                firstLine: lineInfo
+                    .getLocation(function
+                        .declaration.firstTokenAfterCommentAndMetadata.offset)
+                    .lineNumber,
+                lastLine: lineInfo
+                    .getLocation(function.declaration.endToken.end)
+                    .lineNumber,
+                argumentsCount: getArgumentsCount(function),
+                cyclomaticComplexityLines:
+                    Map.unmodifiable(controlFlowAstVisitor.complexityLines),
+                linesWithCode: functionBodyAstVisitor.linesWithCode,
+                operators: Map.unmodifiable(halsteadVolumeAstVisitor.operators),
+                operands: Map.unmodifiable(halsteadVolumeAstVisitor.operands)));
+      }
 
-      _recorder.recordFunction(
-          function,
-          FunctionRecord(
-              firstLine: lineInfo
-                  .getLocation(function
-                      .declaration.firstTokenAfterCommentAndMetadata.offset)
-                  .lineNumber,
-              lastLine: lineInfo
-                  .getLocation(function.declaration.endToken.end)
-                  .lineNumber,
-              argumentsCount: getArgumentsCount(function),
-              cyclomaticComplexityLines:
-                  Map.unmodifiable(controlFlowAstVisitor.complexityLines),
-              linesWithCode: functionBodyAstVisitor.linesWithCode,
-              operators: Map.unmodifiable(halsteadVolumeAstVisitor.operators),
-              operands: Map.unmodifiable(halsteadVolumeAstVisitor.operands)));
-    }
+      final ignores =
+          IgnoreInfo.calculateIgnores(parseResult.content, lineInfo);
 
-    final ignores = IgnoreInfo.calculateIgnores(parseResult.content, lineInfo);
-
-    _recorder.recordIssues(_checkingCodeRules
-        .where((rule) => !ignores.ignoreRule(rule.id))
-        .expand((rule) => rule
-            .check(parseResult.unit, Uri.parse(filePath), parseResult.content)
-            .where((issue) => !ignores.ignoredAt(
-                issue.ruleId, issue.sourceSpan.start.line))));
-
-    _recorder.endRecordFile();
+      builder.recordIssues(_checkingCodeRules
+          .where((rule) => !ignores.ignoreRule(rule.id))
+          .expand((rule) => rule
+              .check(parseResult.unit, Uri.parse(filePath), parseResult.content)
+              .where((issue) => !ignores.ignoredAt(
+                  issue.ruleId, issue.sourceSpan.start.line))));
+    });
   }
 }

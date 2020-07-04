@@ -4,6 +4,7 @@
 - Drop dependency on resource
 - Add experimental static code diagnostic binary-expression-operand-order
 - Add Number of Methods metric
+- Implement safer API for MetricsAnalyzerRecorder
 
 # 1.6.0
 - Add experimental static code diagnostics prefer-trailing-comma-for-collection, no-magic-number
