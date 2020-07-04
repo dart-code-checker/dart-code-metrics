@@ -1,3 +1,4 @@
+import 'package:dart_code_metrics/src/metrics_records_builder.dart';
 import 'package:dart_code_metrics/src/models/code_issue.dart';
 import 'package:dart_code_metrics/src/models/file_record.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
@@ -10,7 +11,7 @@ import 'models/scoped_function_declaration.dart';
 
 /// Holds analysis records in format-agnostic way
 /// See [MetricsAnalysisRunner] to get analysis info
-class MetricsAnalysisRecorder {
+class MetricsAnalysisRecorder implements MetricsRecordsBuilder {
   String _fileGroupPath;
   String _relativeGroupPath;
   Map<ScopedComponentDeclaration, ComponentRecord> _componentRecords;
@@ -55,6 +56,7 @@ class MetricsAnalysisRecorder {
     _issues = null;
   }
 
+  @override
   void recordComponent(
       ScopedComponentDeclaration declaration, ComponentRecord record) {
     _checkState();
@@ -66,6 +68,7 @@ class MetricsAnalysisRecorder {
     _componentRecords[declaration] = record;
   }
 
+  @override
   void recordFunction(
       ScopedFunctionDeclaration declaration, FunctionRecord record) {
     _checkState();
@@ -77,6 +80,7 @@ class MetricsAnalysisRecorder {
     _functionRecords[declaration] = record;
   }
 
+  @override
   void recordIssues(Iterable<CodeIssue> issues) {
     _checkState();
 
