@@ -44,6 +44,18 @@ class SomeButtonI18n {
      );
   } 
 }
+
+String title7() {
+  return Intl.message(
+    'Seven Title',
+    name: 'SomeButtonI18n_titleSeven'
+  );
+}
+
+String title8() => Intl.message(
+  'Eight Title',
+  name: 'titleEight'
+);
 ```
 
 Good:
@@ -83,4 +95,16 @@ class SomeButtonCorrectI18n {
     name: 'SomeButtonCorrectI18n_title6'
   ); 
 }
+  
+String title77() {
+  return Intl.message(
+    'Seven seven Title',
+    name: 'title77'
+   );
+}
+
+String title8() => Intl.message(
+  'Eight Title',
+  name: 'title8'
+);
 ```

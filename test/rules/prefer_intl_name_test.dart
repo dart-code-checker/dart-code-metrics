@@ -5,9 +5,8 @@ import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
 import 'package:dart_code_metrics/src/rules/prefer_intl_name.dart';
 import 'package:test/test.dart';
 
-const _content = "import 'package:"
-    "intl/intl.dart';" // this is ugly hack for correct work dependency_validator
-    '''
+const _content = '''
+import 'package:intl/intl.dart';    
 //Issues
 
 class SomeButtonI18n {
@@ -44,6 +43,18 @@ class SomeButtonI18n {
   } 
 }
 
+String title7() {
+  return Intl.message(
+    'Seven Title',
+    name: 'SomeButtonI18n_titleSeven'
+  );
+}
+
+String title8() => Intl.message(
+  'Eight Title',
+  name: 'titleEight'
+);
+  
 //Correct
 
 class SomeButtonCorrectI18n {
@@ -79,6 +90,18 @@ class SomeButtonCorrectI18n {
     name: 'SomeButtonCorrectI18n_title6'
   ); 
 }
+  
+String title77() {
+  return Intl.message(
+    'Seven seven Title',
+    name: 'title77'
+   );
+}
+
+String title8() => Intl.message(
+  'Eight Title',
+  name: 'title8'
+);
 ''';
 
 void main() {
@@ -93,7 +116,7 @@ void main() {
     final issues = const PreferIntlNameRule()
         .check(parseResult.unit, sourceUrl, parseResult.content);
 
-    expect(issues.length, equals(6));
+    expect(issues.length, equals(8));
 
     expect(issues.every((issue) => issue.ruleId == 'prefer-intl-name'), isTrue);
 
@@ -108,7 +131,9 @@ void main() {
 
     expect(
       issues.map((issue) => issue.correction),
-      equals(List.generate(6, (index) => "'SomeButtonI18n_title${index + 1}'")),
+      equals(List.generate(6, (index) => "'SomeButtonI18n_title${index + 1}'")
+        ..add("'title7'")
+        ..add("'title8'")),
     );
 
     expect(
@@ -129,20 +154,22 @@ void main() {
           "'SomeButtonI18n_titleFour'",
           "'SomeButtonI18n_titleFive'",
           "'SomeButtonI18n_titleSix'",
+          "'SomeButtonI18n_titleSeven'",
+          "'titleEight'",
         ]));
 
     expect(issues.map((issue) => issue.sourceSpan.start.offset),
-        equals([137, 234, 319, 429, 528, 648]));
+        equals([142, 239, 324, 434, 533, 653, 765, 859]));
     expect(issues.map((issue) => issue.sourceSpan.start.line),
-        equals([6, 11, 16, 21, 26, 32]));
+        equals([7, 12, 17, 22, 27, 33, 41, 47]));
     expect(issues.map((issue) => issue.sourceSpan.start.column),
-        equals([11, 11, 11, 11, 11, 13]));
+        equals([11, 11, 11, 11, 11, 13, 11, 9]));
 
     expect(issues.map((issue) => issue.sourceSpan.end.offset),
-        equals([162, 244, 346, 455, 554, 673]));
+        equals([167, 249, 351, 460, 559, 678, 792, 871]));
     expect(issues.map((issue) => issue.sourceSpan.end.line),
-        equals([6, 11, 16, 21, 26, 32]));
+        equals([7, 12, 17, 22, 27, 33, 41, 47]));
     expect(issues.map((issue) => issue.sourceSpan.end.column),
-        equals([36, 21, 38, 37, 37, 38]));
+        equals([36, 21, 38, 37, 37, 38, 38, 21]));
   });
 }

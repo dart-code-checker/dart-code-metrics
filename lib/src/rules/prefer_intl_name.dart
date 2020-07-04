@@ -34,7 +34,8 @@ class PreferIntlNameRule extends BaseRule {
     unit.visitChildren(visitor);
 
     return visitor.issues.map((issue) {
-      final correction = "'${issue.className}_${issue.variableName}'";
+      final correction =
+          "'${_Issue.getNewValue(issue.className, issue.variableName)}'";
 
       return createIssue(
         this,
@@ -73,7 +74,11 @@ class _Visitor extends GeneralizingAstVisitor<void> {
         final className = node.parent.as<ClassDeclaration>().name.name;
         final variableName = variable.name.name;
 
-        _checkMethodInvocation(className, variableName, initializer);
+        _checkMethodInvocation(
+          initializer,
+          className: className,
+          variableName: variableName,
+        );
       }
     }
 
@@ -85,29 +90,51 @@ class _Visitor extends GeneralizingAstVisitor<void> {
     final className = node.parent.as<ClassDeclaration>().name.name;
     final methodName = node.name.name;
 
-    var methodInvocation = node.body
-        ?.as<ExpressionFunctionBody>()
-        ?.expression
-        ?.as<MethodInvocation>();
-
-    methodInvocation ??= node.body
-        ?.as<BlockFunctionBody>()
-        ?.block
-        ?.statements
-        ?.whereType<ReturnStatement>()
-        ?.lastOrDefault()
-        ?.expression
-        ?.as<MethodInvocation>();
+    final methodInvocation = _getMethodInvocation(node.body);
 
     if (methodInvocation != null) {
-      _checkMethodInvocation(className, methodName, methodInvocation);
+      _checkMethodInvocation(
+        methodInvocation,
+        className: className,
+        variableName: methodName,
+      );
     }
 
     super.visitMethodDeclaration(node);
   }
 
-  void _checkMethodInvocation(String className, String variableName,
-      MethodInvocation methodInvocation) {
+  @override
+  void visitFunctionDeclaration(FunctionDeclaration node) {
+    final methodName = node.name.name;
+    final methodInvocation = _getMethodInvocation(node.functionExpression.body);
+
+    if (methodInvocation != null) {
+      _checkMethodInvocation(
+        methodInvocation,
+        variableName: methodName,
+      );
+    }
+
+    super.visitFunctionDeclaration(node);
+  }
+
+  MethodInvocation _getMethodInvocation(FunctionBody body) {
+    final methodInvocation =
+        body?.as<ExpressionFunctionBody>()?.expression?.as<MethodInvocation>();
+
+    return methodInvocation ??
+        body
+            ?.as<BlockFunctionBody>()
+            ?.block
+            ?.statements
+            ?.whereType<ReturnStatement>()
+            ?.lastOrDefault()
+            ?.expression
+            ?.as<MethodInvocation>();
+  }
+
+  void _checkMethodInvocation(MethodInvocation methodInvocation,
+      {String className, String variableName}) {
     if ((methodInvocation?.target?.as<SimpleIdentifier>()?.name != 'Intl') ||
         !_methodNames.contains(methodInvocation?.methodName?.name)) {
       return;
@@ -120,14 +147,8 @@ class _Visitor extends GeneralizingAstVisitor<void> {
         ?.expression
         ?.as<SimpleStringLiteral>();
 
-    if (nameExpression != null) {
-      final parts = nameExpression.value.split('_');
-
-      if (parts.length != 2 ||
-          parts[0] != className ||
-          parts[1] != variableName) {
-        _issues.add(_Issue(className, variableName, nameExpression));
-      }
+    if (nameExpression?.value != _Issue.getNewValue(className, variableName)) {
+      _issues.add(_Issue(className, variableName, nameExpression));
     }
   }
 }
@@ -142,4 +163,7 @@ class _Issue {
     this.variableName,
     this.node,
   );
+
+  static String getNewValue(String className, String variableName) =>
+      className != null ? '${className}_$variableName' : '$variableName';
 }
