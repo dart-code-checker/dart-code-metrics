@@ -19,18 +19,18 @@ a:hover {
 
 .metrics-total-table {
   width: var(--dart-code-metrics-total-table-width);
-  border-top: 1px solid var(--dart-code-metrics-total-table-border-color);
-  border-left: 1px solid var(--dart-code-metrics-total-table-border-color);
+  border-top: var(--dart-code-metrics-border-width) solid var(--dart-code-metrics-total-table-border-color);
+  border-left: var(--dart-code-metrics-border-width) solid var(--dart-code-metrics-total-table-border-color);
 }
 
 .metrics-total-table th,
 .metrics-total-table td {
   padding: var(--dart-code-metrics-common-padding);
-  border-right: 1px solid var(--dart-code-metrics-total-table-border-color);
+  border-right: var(--dart-code-metrics-border-width) solid var(--dart-code-metrics-total-table-border-color);
 }
 
 .metrics-total-table td {
-  border-bottom: 1px solid var(--dart-code-metrics-total-table-border-color);
+  border-bottom: var(--dart-code-metrics-border-width) solid var(--dart-code-metrics-total-table-border-color);
 }
 
 .metrics-total-table th {
@@ -79,22 +79,22 @@ a:hover {
 
 .metrics-source-code {
   margin-top: var(--dart-code-metrics-margin-top);
-  border: 1px solid var(--dart-code-metrics-source-code-border-color);
+  border: var(--dart-code-metrics-border-width) solid var(--dart-code-metrics-source-code-border-color);
 }
 
 .metrics-source-code__header td {
   padding: var(--dart-code-metrics-common-padding);
-  font-family: "Open sans", "Lucida grande", "Segoe UI", Arial, Verdana, Tahoma, sans-serif;
+  font-family: var(--dart-code-metrics-font-family);
   font-weight: 800;
   font-size: 12px;
   letter-spacing: .083em;
   text-transform: uppercase;
-  border-bottom: 1px solid var(--dart-code-metrics-source-code-border-color);
+  border-bottom: var(--dart-code-metrics-border-width) solid var(--dart-code-metrics-source-code-border-color);
 }
 
 .metrics-source-code__number-lines {
   width: var(--dart-code-metrics-source-code-number-lines-width);
-  border-right: 1px solid var(--dart-code-metrics-source-code-border-color);
+  border-right: var(--dart-code-metrics-border-width) solid var(--dart-code-metrics-source-code-border-color);
   text-align: right
 }
 
@@ -102,6 +102,7 @@ a:hover {
   padding: 0 4px;
   text-decoration: none;
   color: var(--dart-code-metrics-link-default-color);
+  line-height: var(--dart-code-metrics-source-code-text-height);
 }
 
 .metrics-source-code__number-lines a:hover {
@@ -120,7 +121,7 @@ a:hover {
 .metrics-source-code__complexity {
   width: var(--dart-code-metrics-source-code-complexity-width);
   padding: var(--dart-code-metrics-common-padding) 0;
-  border-right: 1px solid var(--dart-code-metrics-source-code-border-color);
+  border-right: var(--dart-code-metrics-border-width) solid var(--dart-code-metrics-source-code-border-color);
 }
 
 pre.prettyprint.prettyprint {
@@ -131,7 +132,9 @@ pre.prettyprint.prettyprint {
 }
 
 .metrics-source-code__text {
+  height: var(--dart-code-metrics-source-code-text-height);
   padding: 0 var(--dart-code-metrics-common-padding);
+  line-height: var(--dart-code-metrics-source-code-text-height);
 }
 
 .metrics-source-code__text::after {
@@ -139,15 +142,21 @@ pre.prettyprint.prettyprint {
   position: absolute;
   left: var(--dart-code-metrics-source-code-text-after-left);
   width: var(--dart-code-metrics-source-code-text-after-width);
-  height: var(--dart-code-metrics-source-code-height);
+  height: var(--dart-code-metrics-source-code-text-height);
   background-color: inherit;
   z-index: -1;
+}
+
+.metrics-source-code__text--with-icon {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
 }
 
 .metrics-source-code__code {
   position: relative;
   padding: var(--dart-code-metrics-common-padding);
-  line-height: var(--dart-code-metrics-source-code-height);
+  line-height: var(--dart-code-metrics-source-code-text-height);
 }
 
 .metrics-source-code__line--normal-complexity {
@@ -204,11 +213,4 @@ pre.prettyprint.prettyprint {
     var(--dart-code-metrics-source-code-bg-color-attention-complexity),
     var(--dart-code-metrics-source-code-text-bg-color-alpha)
   );
-}
-
-.metrics-source-code__text--with-icon {
-  display: flex;
-  align-items: center;
-  height: var(--dart-code-metrics-source-code-height);
-  font-size: 12px;
 }
