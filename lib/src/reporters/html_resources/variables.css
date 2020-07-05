@@ -2,6 +2,8 @@
   /* Common */
   --dart-code-metrics-common-padding: 8px;
   --dart-code-metrics-margin-top: 24px;
+  --dart-code-metrics-font-family: "Open sans", "Lucida grande", "Segoe UI", Arial, Verdana, Tahoma, sans-serif;
+  --dart-code-metrics-border-width: 1px;
 
   /* Body */
   --dart-code-metrics-body-padding: 24px;
@@ -33,15 +35,15 @@
   --dart-code-metrics-source-code-text-after-left: calc(
     var(--dart-code-metrics-source-code-complexity-width) +
     var(--dart-code-metrics-source-code-number-lines-width) +
-    calc(var(--dart-code-metrics-common-padding) * 2) +
-    var(--dart-code-metrics-common-padding)
+    var(--dart-code-metrics-body-padding)
   );
   --dart-code-metrics-source-code-text-after-width: calc(
     100% -
     var(--dart-code-metrics-source-code-complexity-width) -
-    calc(var(--dart-code-metrics-source-code-number-lines-width) * 2)
+    var(--dart-code-metrics-source-code-number-lines-width) -
+    calc(var(--dart-code-metrics-body-padding) * 2)
   );
-  --dart-code-metrics-source-code-height: 16px;
+  --dart-code-metrics-source-code-text-height: 18px;
   --dart-code-metrics-source-code-line-bg-color-alpha: .35;
   --dart-code-metrics-source-code-text-bg-color-alpha: .15;
   --dart-code-metrics-source-code-bg-color-normal-complexity: 51, 187, 17;

@@ -6,7 +6,7 @@
 
 body {
   padding: var(--dart-code-metrics-body-padding);
-  font-family: "Open sans", "Lucida grande", "Segoe UI", Arial, Verdana, Tahoma, sans-serif;
+  font-family: var(--dart-code-metrics-font-family);
   font-size: var(--dart-code-metrics-body-font-size);
 }
 
@@ -15,6 +15,7 @@ table {
   margin: 0;
   border-spacing: 0;
   font-size: inherit;
+  table-layout: fixed;
 }
 
 table td {
@@ -24,6 +25,4 @@ table td {
 pre,
 code {
   margin: 0;
-  font-family: "Courier New", monospace;
-  font-size: 1em;
 }
