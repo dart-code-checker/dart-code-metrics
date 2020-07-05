@@ -97,14 +97,22 @@ class HtmlReporter implements Reporter {
   }
 
   void _copyResources(String reportFolder) {
-    Isolate.resolvePackageUri(Uri.parse(
-            'package:dart_code_metrics/src/reporters/html_resources/base.css'))
-        .then((resolvedUri) {
-      if (resolvedUri != null) {
-        File.fromUri(resolvedUri)
-            .copySync(p.setExtension(p.join(reportFolder, 'base'), '.css'));
-      }
-    });
+    const resources = [
+      'package:dart_code_metrics/src/reporters/html_resources/variables.css',
+      'package:dart_code_metrics/src/reporters/html_resources/normalize.css',
+      'package:dart_code_metrics/src/reporters/html_resources/base.css',
+      'package:dart_code_metrics/src/reporters/html_resources/main.css',
+    ];
+
+    for (final resource in resources) {
+      Isolate.resolvePackageUri(Uri.parse(resource)).then((resolvedUri) {
+        if (resolvedUri != null) {
+          final fileWithExtension = p.split(resolvedUri.toString()).last;
+          File.fromUri(resolvedUri)
+              .copySync(p.join(reportFolder, fileWithExtension));
+        }
+      });
+    }
   }
 
   Element _generateTable(String title, Iterable<ReportTableRecord> records) {
@@ -279,7 +287,16 @@ class HtmlReporter implements Reporter {
         ..append(Element.tag('meta')..attributes['charset'] = 'utf-8')
         ..append(Element.tag('link')
           ..attributes['rel'] = 'stylesheet'
-          ..attributes['href'] = 'base.css'))
+          ..attributes['href'] = 'variables.css')
+        ..append(Element.tag('link')
+          ..attributes['rel'] = 'stylesheet'
+          ..attributes['href'] = 'normalize.css')
+        ..append(Element.tag('link')
+          ..attributes['rel'] = 'stylesheet'
+          ..attributes['href'] = 'base.css')
+        ..append(Element.tag('link')
+          ..attributes['rel'] = 'stylesheet'
+          ..attributes['href'] = 'main.css'))
       ..append(Element.tag('body')
         ..append(Element.tag('h1')
           ..classes.add('metric-header')
@@ -322,7 +339,16 @@ class HtmlReporter implements Reporter {
         ..append(Element.tag('meta')..attributes['charset'] = 'utf-8')
         ..append(Element.tag('link')
           ..attributes['rel'] = 'stylesheet'
-          ..attributes['href'] = p.relative('base.css', from: folder)))
+          ..attributes['href'] = p.relative('variables.css', from: folder))
+        ..append(Element.tag('link')
+          ..attributes['rel'] = 'stylesheet'
+          ..attributes['href'] = p.relative('normalize.css', from: folder))
+        ..append(Element.tag('link')
+          ..attributes['rel'] = 'stylesheet'
+          ..attributes['href'] = p.relative('base.css', from: folder))
+        ..append(Element.tag('link')
+          ..attributes['rel'] = 'stylesheet'
+          ..attributes['href'] = p.relative('main.css', from: folder)))
       ..append(Element.tag('body')
         ..append(Element.tag('h1')
           ..classes.add('metric-header')
@@ -505,7 +531,19 @@ class HtmlReporter implements Reporter {
       ..append(Element.tag('link')
         ..attributes['rel'] = 'stylesheet'
         ..attributes['href'] =
-            p.relative('base.css', from: p.dirname(record.relativePath)));
+            p.relative('variables.css', from: p.dirname(record.relativePath)))
+      ..append(Element.tag('link')
+        ..attributes['rel'] = 'stylesheet'
+        ..attributes['href'] =
+            p.relative('normalize.css', from: p.dirname(record.relativePath)))
+      ..append(Element.tag('link')
+        ..attributes['rel'] = 'stylesheet'
+        ..attributes['href'] =
+            p.relative('base.css', from: p.dirname(record.relativePath)))
+      ..append(Element.tag('link')
+        ..attributes['rel'] = 'stylesheet'
+        ..attributes['href'] =
+            p.relative('main.css', from: p.dirname(record.relativePath)));
 
     final html = Element.tag('html')
       ..attributes['lang'] = 'en'
