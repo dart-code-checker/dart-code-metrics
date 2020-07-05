@@ -108,7 +108,8 @@ class HtmlReporter implements Reporter {
       Isolate.resolvePackageUri(Uri.parse(resource)).then((resolvedUri) {
         if (resolvedUri != null) {
           final fileWithExtension = p.split(resolvedUri.toString()).last;
-          File.fromUri(resolvedUri).copySync(p.join(reportFolder, fileWithExtension));
+          File.fromUri(resolvedUri)
+              .copySync(p.join(reportFolder, fileWithExtension));
         }
       });
     }
