@@ -377,6 +377,7 @@ class HtmlReporter implements Reporter {
       linesIndices
         ..append(Element.tag('a')..attributes['name'] = 'L$i')
         ..append(Element.tag('a')
+          ..classes.add('metrics-source-code__number')
           ..attributes['href'] = '#L$i'
           ..text = '$i')
         ..append(Element.tag('br'));
@@ -399,23 +400,37 @@ class HtmlReporter implements Reporter {
             UtilitySelector.functionReport(functionReport, reportConfig);
 
         if (functionReport.firstLine == i) {
-          line = 'ⓘ';
+          final complexityTooltip = Element.tag('div')
+            ..classes.add('metrics-source-code__tooltip')
+            ..text = 'Function stats:'
+                '${_report(report.cyclomaticComplexity, _cyclomaticComplexity)}'
+                '${_report(report.linesOfCode, _linesOfCode)}'
+                '${_report(report.maintainabilityIndex, _maintainabilityIndex)}'
+                '${_report(report.argumentsCount, _nuberOfArguments)}';
 
-          complexityValueElement.attributes['class'] =
-              '${complexityValueElement.attributes['class']} metrics-source-code__text--with-icon'
-                  .trim();
+          final complexityIcon = Element.tag('div')
+            ..classes.add('metrics-source-code__icon')
+            ..append(Element.tag('svg')
+              ..attributes['xmlns'] = 'http://www.w3.org/2000/svg'
+              ..attributes['viewBox'] = '0 0 32 32'
+              ..append(Element.tag('path')
+                ..attributes['d'] =
+                    'M16 3C8.832 3 3 8.832 3 16s5.832 13 13 13 13-5.832 13-13S23.168 3 16 3zm0 2c6.086 0 11 4.914 11 11s-4.914 11-11 11S5 22.086 5 16 9.914 5 16 5zm-1 5v2h2v-2zm0 4v8h2v-8z'))
+            ..append(complexityTooltip);
 
-          complexityValueElement.attributes['title'] = 'Function stats:'
-              '${_report(report.cyclomaticComplexity, _cyclomaticComplexity)}'
-              '${_report(report.linesOfCode, _linesOfCode)}'
-              '${_report(report.maintainabilityIndex, _maintainabilityIndex)}'
-              '${_report(report.argumentsCount, _nuberOfArguments)}';
+          complexityValueElement
+            ..attributes['class'] =
+                '${complexityValueElement.attributes['class']} metrics-source-code__text--with-icon'
+                    .trim()
+            ..append(complexityIcon);
         }
 
         final lineWithComplexityIncrement =
             functionReport.cyclomaticComplexityLines.containsKey(i);
+
         if (lineWithComplexityIncrement) {
           line = '$line +${functionReport.cyclomaticComplexityLines[i]}'.trim();
+          complexityValueElement.text = line.replaceAll(' ', '&nbsp;');
         }
 
 /*      uncomment this block if you need check lines with code
@@ -433,7 +448,6 @@ class HtmlReporter implements Reporter {
 
         complexityValueElement.classes.add(lineViolationStyle ?? '');
       }
-      complexityValueElement.text = line.replaceAll(' ', '&nbsp;');
 
       cyclomaticValues.append(complexityValueElement);
     }

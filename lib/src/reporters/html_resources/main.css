@@ -98,18 +98,18 @@ a:hover {
   text-align: right
 }
 
-.metrics-source-code__number-lines a {
+.metrics-source-code__number {
   padding: 0 4px;
   text-decoration: none;
   color: var(--dart-code-metrics-link-default-color);
   line-height: var(--dart-code-metrics-source-code-text-height);
 }
 
-.metrics-source-code__number-lines a:hover {
+.metrics-source-code__number:hover {
   color: var(--dart-code-metrics-link-default-color-hover);
 }
 
-.metrics-source-code__number-lines a:focus-within {
+.metrics-source-code__number:focus-within {
   background-color: var(--dart-code-metrics-link-default-color);
   color: var(--dart-code-metrics-link-default-color-focus-within);
 }
@@ -151,6 +151,57 @@ pre.prettyprint.prettyprint {
   display: flex;
   align-items: center;
   font-size: 12px;
+}
+
+.metrics-source-code__icon {
+  position: relative; /* for .metrics-source-code__tooltip */
+  width: var(--dart-code-metrics-source-code-icon-size);
+  height: var(--dart-code-metrics-source-code-icon-size);
+  cursor: help;
+}
+
+.metrics-source-code__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.metrics-source-code__tooltip {
+  position: absolute; /* containing block: .metrics-source-code__icon */
+  left: 0;
+  bottom: var(--dart-code-metrics-source-code-tooltip-bottom);
+  max-width: var(--dart-code-metrics-source-code-tooltip-min-width);
+  padding: var(--dart-code-metrics-source-code-tooltip-padding);
+  border-radius: 2px;
+  font-family: var(--dart-code-metrics-font-family);
+  background-color: #fff;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .16), 0 0 1px 0 rgba(0, 0, 0, .16);
+  transition: transform 0.3s, opacity 0.3s, visibility 0.3s;
+  transform: translate(0, var(--dart-code-metrics-source-code-tooltip-arrow-size));
+  visibility: hidden;
+  opacity: 0;
+  z-index: -1;
+  cursor: text;
+}
+
+.metrics-source-code__tooltip::after {
+  content: "";
+  position: absolute;
+  display: block;
+  width: var(--dart-code-metrics-source-code-tooltip-arrow-size);
+  height: var(--dart-code-metrics-source-code-tooltip-arrow-size);
+  transform-origin: 50% 50%;
+  transform: rotate(45deg);
+  background-color: #fff;
+  left: var(--dart-code-metrics-source-code-tooltip-arrow-left);
+  bottom: var(--dart-code-metrics-source-code-tooltip-arrow-bottom);
+  z-index: 8;
+}
+
+.metrics-source-code__icon:hover .metrics-source-code__tooltip {
+  transform: translate(0, 0);
+  visibility: visible;
+  opacity: 1;
+  z-index: 9;
 }
 
 .metrics-source-code__code {
