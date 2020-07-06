@@ -1,0 +1,94 @@
+/*! based on normalize.css v5.0.0 | MIT License | github.com/necolas */
+
+/* Document ========================================================================== */
+
+/*
+  * 1. Correct the line height in all browsers.
+  * 2. Prevent adjustments of font size after orientation changes in iOS.
+*/
+
+html {
+  font-family: sans-serif; /* 1 */
+  -webkit-text-size-adjust: 100%; /* 2 */
+}
+
+/* Sections ========================================================================== */
+
+/*
+  * Remove the margin in all browsers (opinionated).
+*/
+body {
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+/* Grouping content ========================================================================== */
+
+/*
+  * 1. Add the correct box sizing in Firefox.
+  * 2. Show the overflow in Edge and IE.
+*/
+hr {
+  box-sizing: content-box; /* 1 */
+  height: 0; /* 1 */
+  overflow: visible; /* 2 */
+}
+
+/**
+  * 1. Correct the inheritance and scaling of font size in all browsers.
+  * 2. Correct the odd `em` font sizing in all browsers.
+*/
+pre {
+  font-family: monospace, monospace; /* 1 */
+  font-size: 1em; /* 2 */
+}
+
+/* Text-level semantics ========================================================================== */
+
+/*
+  * Remove gaps in links underline in iOS 8+ and Safari 8+.
+*/
+a {
+  -webkit-text-decoration-skip: objects;
+  outline: none;
+}
+
+/*
+  * Remove the outline on focused links when they are also active or hovered in all browsers (opinionated).
+*/
+a:active,
+a:hover {
+  outline-width: 0;
+}
+
+/**
+  * 1. Correct the inheritance and scaling of font size in all browsers.
+  * 2. Correct the odd `em` font sizing in all browsers.
+*/
+code {
+  font-family: monospace, monospace; /* 1 */
+  font-size: 1em; /* 2 */
+}
+
+/*
+  * Prevent text blurriness in Firefox on macOS
+  * link: https://stackoverflow.com/a/44898465
+*/
+@supports (-moz-appearance: meterbar) and (background-blend-mode: difference, normal) {
+
+  body {
+    -moz-osx-font-smoothing: grayscale;
+  }
+}

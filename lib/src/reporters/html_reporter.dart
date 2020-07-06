@@ -97,14 +97,22 @@ class HtmlReporter implements Reporter {
   }
 
   void _copyResources(String reportFolder) {
-    Isolate.resolvePackageUri(Uri.parse(
-            'package:dart_code_metrics/src/reporters/html_resources/base.css'))
-        .then((resolvedUri) {
-      if (resolvedUri != null) {
-        File.fromUri(resolvedUri)
-            .copySync(p.setExtension(p.join(reportFolder, 'base'), '.css'));
-      }
-    });
+    const resources = [
+      'package:dart_code_metrics/src/reporters/html_resources/variables.css',
+      'package:dart_code_metrics/src/reporters/html_resources/normalize.css',
+      'package:dart_code_metrics/src/reporters/html_resources/base.css',
+      'package:dart_code_metrics/src/reporters/html_resources/main.css',
+    ];
+
+    for (final resource in resources) {
+      Isolate.resolvePackageUri(Uri.parse(resource)).then((resolvedUri) {
+        if (resolvedUri != null) {
+          final fileWithExtension = p.split(resolvedUri.toString()).last;
+          File.fromUri(resolvedUri)
+              .copySync(p.join(reportFolder, fileWithExtension));
+        }
+      });
+    }
   }
 
   Element _generateTable(String title, Iterable<ReportTableRecord> records) {
@@ -279,7 +287,16 @@ class HtmlReporter implements Reporter {
         ..append(Element.tag('meta')..attributes['charset'] = 'utf-8')
         ..append(Element.tag('link')
           ..attributes['rel'] = 'stylesheet'
-          ..attributes['href'] = 'base.css'))
+          ..attributes['href'] = 'variables.css')
+        ..append(Element.tag('link')
+          ..attributes['rel'] = 'stylesheet'
+          ..attributes['href'] = 'normalize.css')
+        ..append(Element.tag('link')
+          ..attributes['rel'] = 'stylesheet'
+          ..attributes['href'] = 'base.css')
+        ..append(Element.tag('link')
+          ..attributes['rel'] = 'stylesheet'
+          ..attributes['href'] = 'main.css'))
       ..append(Element.tag('body')
         ..append(Element.tag('h1')
           ..classes.add('metric-header')
@@ -322,7 +339,16 @@ class HtmlReporter implements Reporter {
         ..append(Element.tag('meta')..attributes['charset'] = 'utf-8')
         ..append(Element.tag('link')
           ..attributes['rel'] = 'stylesheet'
-          ..attributes['href'] = p.relative('base.css', from: folder)))
+          ..attributes['href'] = p.relative('variables.css', from: folder))
+        ..append(Element.tag('link')
+          ..attributes['rel'] = 'stylesheet'
+          ..attributes['href'] = p.relative('normalize.css', from: folder))
+        ..append(Element.tag('link')
+          ..attributes['rel'] = 'stylesheet'
+          ..attributes['href'] = p.relative('base.css', from: folder))
+        ..append(Element.tag('link')
+          ..attributes['rel'] = 'stylesheet'
+          ..attributes['href'] = p.relative('main.css', from: folder)))
       ..append(Element.tag('body')
         ..append(Element.tag('h1')
           ..classes.add('metric-header')
@@ -351,6 +377,7 @@ class HtmlReporter implements Reporter {
       linesIndices
         ..append(Element.tag('a')..attributes['name'] = 'L$i')
         ..append(Element.tag('a')
+          ..classes.add('metrics-source-code__number')
           ..attributes['href'] = '#L$i'
           ..text = '$i')
         ..append(Element.tag('br'));
@@ -373,23 +400,49 @@ class HtmlReporter implements Reporter {
             UtilitySelector.functionReport(functionReport, reportConfig);
 
         if (functionReport.firstLine == i) {
-          line = 'ⓘ';
+          final complexityTooltip = Element.tag('div')
+            ..classes.add('metrics-source-code__tooltip')
+            ..append(Element.tag('div')
+              ..classes.add('metrics-source-code__tooltip-title')
+              ..text = 'Function stats:')
+            ..append(Element.tag('p')
+              ..classes.add('metrics-source-code__tooltip-text')
+              ..append(
+                  _report(report.cyclomaticComplexity, _cyclomaticComplexity)))
+            ..append(Element.tag('p')
+              ..classes.add('metrics-source-code__tooltip-text')
+              ..append(_report(report.linesOfCode, _linesOfCode)))
+            ..append(Element.tag('p')
+              ..classes.add('metrics-source-code__tooltip-text')
+              ..append(
+                  _report(report.maintainabilityIndex, _maintainabilityIndex)))
+            ..append(Element.tag('p')
+              ..classes.add('metrics-source-code__tooltip-text')
+              ..append(_report(report.argumentsCount, _nuberOfArguments)));
 
-          complexityValueElement.attributes['class'] =
-              '${complexityValueElement.attributes['class']} metrics-source-code__text--with-icon'
-                  .trim();
+          final complexityIcon = Element.tag('div')
+            ..classes.add('metrics-source-code__icon')
+            ..append(Element.tag('svg')
+              ..attributes['xmlns'] = 'http://www.w3.org/2000/svg'
+              ..attributes['viewBox'] = '0 0 32 32'
+              ..append(Element.tag('path')
+                ..attributes['d'] =
+                    'M16 3C8.832 3 3 8.832 3 16s5.832 13 13 13 13-5.832 13-13S23.168 3 16 3zm0 2c6.086 0 11 4.914 11 11s-4.914 11-11 11S5 22.086 5 16 9.914 5 16 5zm-1 5v2h2v-2zm0 4v8h2v-8z'))
+            ..append(complexityTooltip);
 
-          complexityValueElement.attributes['title'] = 'Function stats:'
-              '${_report(report.cyclomaticComplexity, _cyclomaticComplexity)}'
-              '${_report(report.linesOfCode, _linesOfCode)}'
-              '${_report(report.maintainabilityIndex, _maintainabilityIndex)}'
-              '${_report(report.argumentsCount, _nuberOfArguments)}';
+          complexityValueElement
+            ..attributes['class'] =
+                '${complexityValueElement.attributes['class']} metrics-source-code__text--with-icon'
+                    .trim()
+            ..append(complexityIcon);
         }
 
         final lineWithComplexityIncrement =
             functionReport.cyclomaticComplexityLines.containsKey(i);
+
         if (lineWithComplexityIncrement) {
           line = '$line +${functionReport.cyclomaticComplexityLines[i]}'.trim();
+          complexityValueElement.text = line.replaceAll(' ', '&nbsp;');
         }
 
 /*      uncomment this block if you need check lines with code
@@ -407,7 +460,6 @@ class HtmlReporter implements Reporter {
 
         complexityValueElement.classes.add(lineViolationStyle ?? '');
       }
-      complexityValueElement.text = line.replaceAll(' ', '&nbsp;');
 
       cyclomaticValues.append(complexityValueElement);
     }
@@ -505,7 +557,19 @@ class HtmlReporter implements Reporter {
       ..append(Element.tag('link')
         ..attributes['rel'] = 'stylesheet'
         ..attributes['href'] =
-            p.relative('base.css', from: p.dirname(record.relativePath)));
+            p.relative('variables.css', from: p.dirname(record.relativePath)))
+      ..append(Element.tag('link')
+        ..attributes['rel'] = 'stylesheet'
+        ..attributes['href'] =
+            p.relative('normalize.css', from: p.dirname(record.relativePath)))
+      ..append(Element.tag('link')
+        ..attributes['rel'] = 'stylesheet'
+        ..attributes['href'] =
+            p.relative('base.css', from: p.dirname(record.relativePath)))
+      ..append(Element.tag('link')
+        ..attributes['rel'] = 'stylesheet'
+        ..attributes['href'] =
+            p.relative('main.css', from: p.dirname(record.relativePath)));
 
     final html = Element.tag('html')
       ..attributes['lang'] = 'en'
@@ -532,7 +596,19 @@ class HtmlReporter implements Reporter {
           ..classes.add('metrics-total__count')
           ..text = value);
 
-  String _report(ReportMetric<num> metric, String humanReadableName) =>
-      '\n${humanReadableName.toLowerCase()}: ${metric.value}'
-      '\n${humanReadableName.toLowerCase()} violation level: ${metric.violationLevel.toString().toLowerCase()}';
+  Element _report(ReportMetric<num> metric, String humanReadableName) =>
+      Element.tag('div')
+        ..classes.add('metrics-source-code__tooltip-section')
+        ..append(Element.tag('p')
+          ..classes.add('metrics-source-code__tooltip-text')
+          ..append(Element.tag('strong')
+            ..text = '${humanReadableName.toLowerCase()}:&nbsp;')
+          ..append(Element.tag('span')..text = metric.value.toString()))
+        ..append(Element.tag('p')
+          ..classes.add('metrics-source-code__tooltip-text')
+          ..append(Element.tag('strong')
+            ..text =
+                '${humanReadableName.toLowerCase()} violation level:&nbsp;')
+          ..append(Element.tag('span')
+            ..text = metric.violationLevel.toString().toLowerCase()));
 }

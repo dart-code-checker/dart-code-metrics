@@ -1,0 +1,73 @@
+:root {
+  /* Common */
+  --dart-code-metrics-common-padding: 8px;
+  --dart-code-metrics-margin-top: 24px;
+  --dart-code-metrics-font-family: "Open sans", "Lucida grande", "Segoe UI", Arial, Verdana, Tahoma, sans-serif;
+  --dart-code-metrics-border-width: 1px;
+
+  /* Body */
+  --dart-code-metrics-body-padding: 24px;
+  --dart-code-metrics-body-font-size: 14px;
+
+  /* Link */
+  --dart-code-metrics-link-default-color: #48f;
+  --dart-code-metrics-link-default-color-hover: #2fd5d9;
+  --dart-code-metrics-link-default-color-focus-within: #fff;
+
+  /* Total table */
+  --dart-code-metrics-total-table-width: calc(100% - (var(--dart-code-metrics-totals-width) + var(--dart-code-metrics-common-padding)));
+  --dart-code-metrics-total-table-border-color: rgba(0, 0, 0, .32);
+  --dart-code-metrics-total-table-cell-width: 128px;
+
+  /* Totals */
+  --dart-code-metrics-totals-width: 352px;
+
+  /* Total */
+  --dart-code-metrics-total-bg-color: rgba(106, 200, 236, .35);
+
+  /* Violations */
+  --dart-code-metrics-violations-bg-color: rgba(252, 142, 0, .35);
+
+  /* Source code */
+  --dart-code-metrics-source-code-border-color: #ccc;
+  --dart-code-metrics-source-code-number-lines-width: 48px;
+  --dart-code-metrics-source-code-complexity-width: 112px;
+  --dart-code-metrics-source-code-text-after-left: calc(
+    var(--dart-code-metrics-source-code-complexity-width) +
+    var(--dart-code-metrics-source-code-number-lines-width) +
+    var(--dart-code-metrics-body-padding)
+  );
+  --dart-code-metrics-source-code-text-after-width: calc(
+    100% -
+    var(--dart-code-metrics-source-code-complexity-width) -
+    var(--dart-code-metrics-source-code-number-lines-width) -
+    calc(var(--dart-code-metrics-body-padding) * 2)
+  );
+  --dart-code-metrics-source-code-text-height: 18px;
+  --dart-code-metrics-source-code-line-bg-color-alpha: .35;
+  --dart-code-metrics-source-code-text-bg-color-alpha: .15;
+  --dart-code-metrics-source-code-bg-color-normal-complexity: 51, 187, 17;
+  --dart-code-metrics-source-code-bg-color-noted-complexity: 89, 197, 255;
+  --dart-code-metrics-source-code-bg-color-warning-complexity: 252, 142, 0;
+  --dart-code-metrics-source-code-bg-color-attention-complexity: 241, 88, 102;
+  --dart-code-metrics-source-code-icon-size: var(--dart-code-metrics-source-code-text-height);
+
+  /* Tooltip */
+  --dart-code-metrics-source-code-tooltip-arrow-size: 8px;
+  --dart-code-metrics-source-code-tooltip-arrow-left: calc(
+    (var(--dart-code-metrics-source-code-icon-size) - var(--dart-code-metrics-source-code-tooltip-arrow-size)) / 2
+  );
+  --dart-code-metrics-source-code-tooltip-arrow-bottom: calc(
+    (var(--dart-code-metrics-source-code-tooltip-arrow-size) / 2) * -1
+  );
+  --dart-code-metrics-source-code-tooltip-width: 320px;
+  --dart-code-metrics-source-code-tooltip-padding: 16px;
+  --dart-code-metrics-source-code-tooltip-bottom: calc(
+    var(--dart-code-metrics-source-code-icon-size) +
+    calc(var(--dart-code-metrics-source-code-tooltip-arrow-size) / 2)
+  );
+  --dart-code-metrics-source-code-tooltip-bg-color: #fff;
+  --dart-code-metrics-source-code-tooltip-z-index: 9;
+  --dart-code-metrics-source-code-tooltip-shadow-color: rgba(0, 0, 0, .16);
+  --dart-code-metrics-source-code-tooltip-transition-duration: .3s;
+}
