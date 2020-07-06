@@ -402,11 +402,23 @@ class HtmlReporter implements Reporter {
         if (functionReport.firstLine == i) {
           final complexityTooltip = Element.tag('div')
             ..classes.add('metrics-source-code__tooltip')
-            ..text = 'Function stats:'
-                '${_report(report.cyclomaticComplexity, _cyclomaticComplexity)}'
-                '${_report(report.linesOfCode, _linesOfCode)}'
-                '${_report(report.maintainabilityIndex, _maintainabilityIndex)}'
-                '${_report(report.argumentsCount, _nuberOfArguments)}';
+            ..append(Element.tag('div')
+              ..classes.add('metrics-source-code__tooltip-title')
+              ..text = 'Function stats:')
+            ..append(Element.tag('p')
+              ..classes.add('metrics-source-code__tooltip-text')
+              ..append(
+                  _report(report.cyclomaticComplexity, _cyclomaticComplexity)))
+            ..append(Element.tag('p')
+              ..classes.add('metrics-source-code__tooltip-text')
+              ..append(_report(report.linesOfCode, _linesOfCode)))
+            ..append(Element.tag('p')
+              ..classes.add('metrics-source-code__tooltip-text')
+              ..append(
+                  _report(report.maintainabilityIndex, _maintainabilityIndex)))
+            ..append(Element.tag('p')
+              ..classes.add('metrics-source-code__tooltip-text')
+              ..append(_report(report.argumentsCount, _nuberOfArguments)));
 
           final complexityIcon = Element.tag('div')
             ..classes.add('metrics-source-code__icon')
@@ -584,7 +596,19 @@ class HtmlReporter implements Reporter {
           ..classes.add('metrics-total__count')
           ..text = value);
 
-  String _report(ReportMetric<num> metric, String humanReadableName) =>
-      '\n${humanReadableName.toLowerCase()}: ${metric.value}'
-      '\n${humanReadableName.toLowerCase()} violation level: ${metric.violationLevel.toString().toLowerCase()}';
+  Element _report(ReportMetric<num> metric, String humanReadableName) =>
+      Element.tag('div')
+        ..classes.add('metrics-source-code__tooltip-section')
+        ..append(Element.tag('p')
+          ..classes.add('metrics-source-code__tooltip-text')
+          ..append(Element.tag('strong')
+            ..text = '${humanReadableName.toLowerCase()}:&nbsp;')
+          ..append(Element.tag('span')..text = metric.value.toString()))
+        ..append(Element.tag('p')
+          ..classes.add('metrics-source-code__tooltip-text')
+          ..append(Element.tag('strong')
+            ..text =
+                '${humanReadableName.toLowerCase()} violation level:&nbsp;')
+          ..append(Element.tag('span')
+            ..text = metric.violationLevel.toString().toLowerCase()));
 }
