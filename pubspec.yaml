@@ -6,7 +6,7 @@ version: 1.6.0
 homepage: https://github.com/wrike/dart-code-metrics
 
 environment:
-  sdk: ">=2.3.0 <3.0.0"
+  sdk: ">=2.6.0 <3.0.0"
 
 dependencies:
   analyzer: '>=0.38.3 <0.40.0'
