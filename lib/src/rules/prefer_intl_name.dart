@@ -87,7 +87,12 @@ class _Visitor extends GeneralizingAstVisitor<void> {
 
   @override
   void visitMethodDeclaration(MethodDeclaration node) {
-    final className = node.parent.as<ClassDeclaration>().name.name;
+    final className = _getClassName(node);
+
+    if (className == null) {
+      return;
+    }
+
     final methodName = node.name.name;
 
     final methodInvocation = _getMethodInvocation(node.body);
@@ -116,6 +121,18 @@ class _Visitor extends GeneralizingAstVisitor<void> {
     }
 
     super.visitFunctionDeclaration(node);
+  }
+
+  String _getClassName(MethodDeclaration node) {
+    final name = node.parent
+        ?.as<NamedCompilationUnitMember>()
+        ?.name
+        ?.name;
+
+    return name ?? node.parent
+        ?.as<ExtensionDeclaration>()
+        ?.name
+        ?.name;
   }
 
   MethodInvocation _getMethodInvocation(FunctionBody body) {
@@ -147,7 +164,7 @@ class _Visitor extends GeneralizingAstVisitor<void> {
         ?.expression
         ?.as<SimpleStringLiteral>();
 
-    if (nameExpression?.value != _Issue.getNewValue(className, variableName)) {
+    if (nameExpression != null && nameExpression.value != _Issue.getNewValue(className, variableName)) {
       _issues.add(_Issue(className, variableName, nameExpression));
     }
   }

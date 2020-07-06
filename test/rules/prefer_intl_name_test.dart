@@ -54,7 +54,11 @@ String title8() => Intl.message(
   'Eight Title',
   name: 'titleEight'
 );
-  
+    
+String title8() => Intl.message(
+  'Eight Title',
+);
+
 //Correct
 
 class SomeButtonCorrectI18n {
@@ -102,6 +106,13 @@ String title8() => Intl.message(
   'Eight Title',
   name: 'title8'
 );
+
+extension ObjectExtensions on Object {
+  String title8() => Intl.message(
+    'Eight Title',
+    name: 'ObjectExtensions_title8'
+  );
+}
 ''';
 
 void main() {
