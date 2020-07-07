@@ -248,10 +248,6 @@ void main() {
 
     expect(issues.every((issue) => issue.sourceSpan.text == 'message'), isTrue);
 
-    print(issues.map((issue) => issue.sourceSpan.end.offset).join(', '));
-    print(issues.map((issue) => issue.sourceSpan.end.line).join(', '));
-    print(issues.map((issue) => issue.sourceSpan.end.column).join(', '));
-
     expect(
         issues.map((issue) => issue.sourceSpan.start.offset),
         equals([
