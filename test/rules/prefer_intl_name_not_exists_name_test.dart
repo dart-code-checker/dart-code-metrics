@@ -139,12 +139,6 @@ mixin SomeButtonMixinI18n {
 
 extension ObjectExtensions on Object {
   // Static
-  static String get staticPropertyWithBodyInExtensionsTitle {
-    return Intl.message(
-      'static property with body in extension',
-    );
-  }  
-
   static String get staticPropertyWithExpressionInExtensionsTitle => Intl.message(
     'static property with expression in extension',
   );
@@ -160,12 +154,6 @@ extension ObjectExtensions on Object {
   );
 
 // Instance
-  String get propertyWithBodyInExtensionsTitle {
-    return Intl.message(
-      'property with body in extension',
-    );
-  }  
-
   String get propertyWithExpressionInExtensionsTitle => Intl.message(
     'property with expression in extension',
   );
@@ -224,7 +212,7 @@ void main() {
     final issues = const PreferIntlNameRule()
         .check(parseResult.unit, sourceUrl, parseResult.content);
 
-    expect(issues.length, equals(38));
+    expect(issues.length, equals(36));
 
     expect(issues.every((issue) => issue.ruleId == 'prefer-intl-name'), isTrue);
 
@@ -275,20 +263,18 @@ void main() {
           2733,
           2841,
           2947,
-          3132,
-          3277,
-          3414,
-          3549,
-          3691,
-          3816,
-          3933,
-          4048,
-          4144,
-          4219,
-          4312,
-          4402,
-          4486,
-          4566,
+          3128,
+          3265,
+          3400,
+          3538,
+          3655,
+          3770,
+          3866,
+          3941,
+          4034,
+          4124,
+          4208,
+          4288,
         ]));
     expect(
         issues.map((issue) => issue.sourceSpan.start.line),
@@ -317,20 +303,18 @@ void main() {
           117,
           122,
           127,
-          135,
-          140,
-          145,
-          150,
-          156,
-          161,
-          166,
-          171,
-          176,
-          181,
-          187,
-          192,
-          197,
-          202,
+          134,
+          139,
+          144,
+          149,
+          154,
+          159,
+          164,
+          169,
+          175,
+          180,
+          185,
+          190,
         ]));
     expect(
         issues.map((issue) => issue.sourceSpan.start.column),
@@ -359,11 +343,9 @@ void main() {
           57,
           17,
           49,
-          17,
           75,
           17,
           67,
-          17,
           62,
           17,
           54,
@@ -402,20 +384,18 @@ void main() {
           2740,
           2848,
           2954,
-          3139,
-          3284,
-          3421,
-          3556,
-          3698,
-          3823,
-          3940,
-          4055,
-          4151,
-          4226,
-          4319,
-          4409,
-          4493,
-          4573,
+          3135,
+          3272,
+          3407,
+          3545,
+          3662,
+          3777,
+          3873,
+          3948,
+          4041,
+          4131,
+          4215,
+          4295,
         ]));
     expect(
         issues.map((issue) => issue.sourceSpan.end.line),
@@ -444,20 +424,18 @@ void main() {
           117,
           122,
           127,
-          135,
-          140,
-          145,
-          150,
-          156,
-          161,
-          166,
-          171,
-          176,
-          181,
-          187,
-          192,
-          197,
-          202,
+          134,
+          139,
+          144,
+          149,
+          154,
+          159,
+          164,
+          169,
+          175,
+          180,
+          185,
+          190,
         ]));
     expect(
         issues.map((issue) => issue.sourceSpan.end.column),
@@ -486,11 +464,9 @@ void main() {
           64,
           24,
           56,
-          24,
           82,
           24,
           74,
-          24,
           69,
           24,
           61,
