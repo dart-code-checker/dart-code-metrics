@@ -10,8 +10,9 @@ import 'base_rule.dart';
 
 class PreferIntlNameRule extends BaseRule {
   static const _intlPackageUrl = 'package:intl/intl.dart';
-  static const _failure = 'Incorrect Intl name, should be';
-  static const _correctionComment = 'Rename';
+  static const _notCorrectNameFailure = 'Incorrect Intl name, should be';
+  static const _notCorrectNameCorrectionComment = 'Rename';
+  static const _notExistsNameFailure = 'Argument `name` does not exists';
 
   const PreferIntlNameRule()
       : super(
@@ -33,21 +34,38 @@ class PreferIntlNameRule extends BaseRule {
     final visitor = _Visitor();
     unit.visitChildren(visitor);
 
-    return visitor.issues.map((issue) {
-      final correction =
-          "'${_Issue.getNewValue(issue.className, issue.variableName)}'";
+    final issues = <CodeIssue>[];
 
-      return createIssue(
-        this,
-        '$_failure $correction',
-        correction,
-        _correctionComment,
-        sourceUrl,
-        sourceContent,
-        unit.lineInfo,
-        issue.node,
-      );
-    }).toList(growable: false);
+    for (final issue in visitor.issues) {
+      if (issue is _NotCorrectNameIssue) {
+        final correction =
+            "'${_NotCorrectNameIssue.getNewValue(issue.className, issue.variableName)}'";
+
+        issues.add(createIssue(
+          this,
+          '$_notCorrectNameFailure $correction',
+          correction,
+          _notCorrectNameCorrectionComment,
+          sourceUrl,
+          sourceContent,
+          unit.lineInfo,
+          issue.node,
+        ));
+      } else if (issue is _NotExistNameIssue) {
+        issues.add(createIssue(
+          this,
+          _notExistsNameFailure,
+          null,
+          null,
+          sourceUrl,
+          sourceContent,
+          unit.lineInfo,
+          issue.node,
+        ));
+      }
+    }
+
+    return issues.toList(growable: true);
   }
 }
 
@@ -58,6 +76,7 @@ class _Visitor extends GeneralizingAstVisitor<void> {
     'gender',
     'select',
   ];
+
   final _issues = <_Issue>[];
 
   Iterable<_Issue> get issues => _issues;
@@ -68,21 +87,18 @@ class _Visitor extends GeneralizingAstVisitor<void> {
       return;
     }
 
-    for (final variable in node.fields.variables) {
-      final initializer = variable.initializer.as<MethodInvocation>();
-      if (initializer != null) {
-        final className = node.parent.as<ClassDeclaration>().name.name;
-        final variableName = variable.name.name;
+    final className = node.parent.as<NamedCompilationUnitMember>().name.name;
 
-        _checkMethodInvocation(
-          initializer,
-          className: className,
-          variableName: variableName,
-        );
-      }
-    }
+    _checkVariables(className, node.fields);
 
     super.visitFieldDeclaration(node);
+  }
+
+  @override
+  void visitTopLevelVariableDeclaration(TopLevelVariableDeclaration node) {
+    _checkVariables(null, node.variables);
+
+    super.visitTopLevelVariableDeclaration(node);
   }
 
   @override
@@ -123,16 +139,25 @@ class _Visitor extends GeneralizingAstVisitor<void> {
     super.visitFunctionDeclaration(node);
   }
 
-  String _getClassName(MethodDeclaration node) {
-    final name = node.parent
-        ?.as<NamedCompilationUnitMember>()
-        ?.name
-        ?.name;
+  void _checkVariables(String className, VariableDeclarationList variables) {
+    for (final variable in variables.variables) {
+      final initializer = variable.initializer.as<MethodInvocation>();
+      if (initializer != null) {
+        final variableName = variable.name.name;
 
-    return name ?? node.parent
-        ?.as<ExtensionDeclaration>()
-        ?.name
-        ?.name;
+        _checkMethodInvocation(
+          initializer,
+          className: className,
+          variableName: variableName,
+        );
+      }
+    }
+  }
+
+  String _getClassName(MethodDeclaration node) {
+    final name = node.parent?.as<NamedCompilationUnitMember>()?.name?.name;
+
+    return name ?? node.parent?.as<ExtensionDeclaration>()?.name?.name;
   }
 
   MethodInvocation _getMethodInvocation(FunctionBody body) {
@@ -157,30 +182,47 @@ class _Visitor extends GeneralizingAstVisitor<void> {
       return;
     }
 
-    final nameExpression = methodInvocation?.argumentList?.arguments
+    final nameExpression = methodInvocation.argumentList?.arguments
         ?.whereType<NamedExpression>()
         ?.where((argument) => argument.name.label.name == 'name')
         ?.firstOrDefault()
         ?.expression
         ?.as<SimpleStringLiteral>();
 
-    if (nameExpression != null && nameExpression.value != _Issue.getNewValue(className, variableName)) {
-      _issues.add(_Issue(className, variableName, nameExpression));
+    if (nameExpression == null) {
+      _issues.add(_NotExistNameIssue(methodInvocation.methodName));
+    } else if (nameExpression.value !=
+        _NotCorrectNameIssue.getNewValue(className, variableName)) {
+      _issues
+          .add(_NotCorrectNameIssue(className, variableName, nameExpression));
     }
   }
 }
 
-class _Issue {
-  final String className;
-  final String variableName;
+abstract class _Issue {
   final AstNode node;
 
   _Issue(
-    this.className,
-    this.variableName,
     this.node,
   );
+}
+
+class _NotCorrectNameIssue extends _Issue {
+  final String className;
+  final String variableName;
+
+  _NotCorrectNameIssue(
+    this.className,
+    this.variableName,
+    AstNode node,
+  ) : super(node);
 
   static String getNewValue(String className, String variableName) =>
       className != null ? '${className}_$variableName' : '$variableName';
+}
+
+class _NotExistNameIssue extends _Issue {
+  _NotExistNameIssue(
+    AstNode node,
+  ) : super(node);
 }
