@@ -46,10 +46,10 @@
   --dart-code-metrics-source-code-text-height: 18px;
   --dart-code-metrics-source-code-line-bg-color-alpha: .35;
   --dart-code-metrics-source-code-text-bg-color-alpha: .15;
-  --dart-code-metrics-source-code-bg-color-normal-complexity: 51, 187, 17;
-  --dart-code-metrics-source-code-bg-color-noted-complexity: 89, 197, 255;
-  --dart-code-metrics-source-code-bg-color-warning-complexity: 252, 142, 0;
-  --dart-code-metrics-source-code-bg-color-attention-complexity: 241, 88, 102;
+  --dart-code-metrics-source-code-color-normal-complexity: 51, 187, 17;
+  --dart-code-metrics-source-code-color-noted-complexity: 89, 197, 255;
+  --dart-code-metrics-source-code-color-warning-complexity: 252, 142, 0;
+  --dart-code-metrics-source-code-color-attention-complexity: 241, 88, 102;
   --dart-code-metrics-source-code-icon-size: var(--dart-code-metrics-source-code-text-height);
 
   /* Tooltip */
