@@ -30,12 +30,12 @@ jobs:
         pub run tool/format_coverage.dart
         pub run coveralls:coveralls coverage/coverage.lcov
 
-  build-dart-2-6-1:
+  build-dart-2-7:
 
     runs-on: ubuntu-latest
 
     container:
-      image:  google/dart:2.6.1
+      image:  google/dart:2.7
 
     steps:
     - uses: actions/checkout@v1
