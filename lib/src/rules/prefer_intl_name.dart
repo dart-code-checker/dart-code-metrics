@@ -34,14 +34,12 @@ class PreferIntlNameRule extends BaseRule {
     final visitor = _Visitor();
     unit.visitChildren(visitor);
 
-    final issues = <CodeIssue>[];
-
-    for (final issue in visitor.issues) {
-      if (issue is _NotCorrectNameIssue) {
+    return [
+      ...visitor.issues.whereType<_NotCorrectNameIssue>().map((issue) {
         final correction =
             "'${_NotCorrectNameIssue.getNewValue(issue.className, issue.variableName)}'";
 
-        issues.add(createIssue(
+        return createIssue(
           this,
           '$_notCorrectNameFailure $correction',
           correction,
@@ -50,22 +48,21 @@ class PreferIntlNameRule extends BaseRule {
           sourceContent,
           unit.lineInfo,
           issue.node,
-        ));
-      } else if (issue is _NotExistNameIssue) {
-        issues.add(createIssue(
-          this,
-          _notExistsNameFailure,
-          null,
-          null,
-          sourceUrl,
-          sourceContent,
-          unit.lineInfo,
-          issue.node,
-        ));
-      }
-    }
-
-    return issues.toList(growable: true);
+        );
+      }),
+      ...visitor.issues
+          .whereType<_NotExistNameIssue>()
+          .map((issue) => createIssue(
+                this,
+                _notExistsNameFailure,
+                null,
+                null,
+                sourceUrl,
+                sourceContent,
+                unit.lineInfo,
+                issue.node,
+              )),
+    ];
   }
 }
 
