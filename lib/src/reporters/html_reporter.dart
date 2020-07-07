@@ -596,19 +596,26 @@ class HtmlReporter implements Reporter {
           ..classes.add('metrics-total__count')
           ..text = value);
 
-  Element _report(ReportMetric<num> metric, String humanReadableName) =>
-      Element.tag('div')
-        ..classes.add('metrics-source-code__tooltip-section')
-        ..append(Element.tag('p')
-          ..classes.add('metrics-source-code__tooltip-text')
-          ..append(Element.tag('strong')
-            ..text = '${humanReadableName.toLowerCase()}:&nbsp;')
-          ..append(Element.tag('span')..text = metric.value.toString()))
-        ..append(Element.tag('p')
-          ..classes.add('metrics-source-code__tooltip-text')
-          ..append(Element.tag('strong')
-            ..text =
-                '${humanReadableName.toLowerCase()} violation level:&nbsp;')
-          ..append(Element.tag('span')
-            ..text = metric.violationLevel.toString().toLowerCase()));
+  Element _report(ReportMetric<num> metric, String humanReadableName) {
+    final violationLevelText = metric.violationLevel.toString().toLowerCase();
+
+    return Element.tag('div')
+      ..classes.add('metrics-source-code__tooltip-section')
+      ..append(Element.tag('p')
+        ..classes.add('metrics-source-code__tooltip-text')
+        ..append(Element.tag('span')
+          ..classes.add('metrics-source-code__tooltip-label')
+          ..text = '${humanReadableName.toLowerCase()}:&nbsp;')
+        ..append(Element.tag('span')..text = metric.value.toString()))
+      ..append(Element.tag('p')
+        ..classes.add('metrics-source-code__tooltip-text')
+        ..append(Element.tag('span')
+          ..classes.add('metrics-source-code__tooltip-label')
+          ..text = '${humanReadableName.toLowerCase()} violation level:&nbsp;')
+        ..append(Element.tag('span')
+          ..classes.add('metrics-source-code__tooltip-level')
+          ..classes
+              .add('metrics-source-code__tooltip-level--$violationLevelText')
+          ..text = violationLevelText));
+  }
 }

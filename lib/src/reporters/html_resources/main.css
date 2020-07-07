@@ -217,8 +217,20 @@ pre.prettyprint.prettyprint {
   margin-top: 8px;
 }
 
-.metrics-source-code__tooltip-section strong {
-  font-weight: 600;
+.metrics-source-code__tooltip-level--alarm {
+  color: rgba(var(--dart-code-metrics-source-code-color-attention-complexity), 1);
+}
+
+.metrics-source-code__tooltip-level--warning {
+  color: rgba(var(--dart-code-metrics-source-code-color-warning-complexity), 1);
+}
+
+.metrics-source-code__tooltip-level--noted {
+  color: rgba(var(--dart-code-metrics-source-code-color-noted-complexity), 1);
+}
+
+.metrics-source-code__tooltip-level--none {
+  color: rgba(var(--dart-code-metrics-source-code-color-normal-complexity), 1);
 }
 
 .metrics-source-code__code {
@@ -229,56 +241,56 @@ pre.prettyprint.prettyprint {
 
 .metrics-source-code__line--normal-complexity {
   background-color: rgba(
-    var(--dart-code-metrics-source-code-bg-color-normal-complexity),
+    var(--dart-code-metrics-source-code-color-normal-complexity),
     var(--dart-code-metrics-source-code-line-bg-color-alpha)
   );
 }
 
 .metrics-source-code__line--noted-complexity {
   background-color: rgba(
-    var(--dart-code-metrics-source-code-bg-color-noted-complexity),
+    var(--dart-code-metrics-source-code-color-noted-complexity),
     var(--dart-code-metrics-source-code-line-bg-color-alpha)
   );
 }
 
 .metrics-source-code__line--warning-complexity {
   background-color: rgba(
-    var(--dart-code-metrics-source-code-bg-color-warning-complexity),
+    var(--dart-code-metrics-source-code-color-warning-complexity),
     var(--dart-code-metrics-source-code-line-bg-color-alpha)
   );
 }
 
 .metrics-source-code__line--attention-complexity {
   background-color: rgba(
-    var(--dart-code-metrics-source-code-bg-color-attention-complexity),
+    var(--dart-code-metrics-source-code-color-attention-complexity),
     var(--dart-code-metrics-source-code-line-bg-color-alpha)
   );
 }
 
 .metrics-source-code__text--normal-complexity {
   background-color: rgba(
-    var(--dart-code-metrics-source-code-bg-color-normal-complexity),
+    var(--dart-code-metrics-source-code-color-normal-complexity),
     var(--dart-code-metrics-source-code-text-bg-color-alpha)
   );
 }
 
 .metrics-source-code__text--noted-complexity {
   background-color: rgba(
-    var(--dart-code-metrics-source-code-bg-color-noted-complexity),
+    var(--dart-code-metrics-source-code-color-noted-complexity),
     var(--dart-code-metrics-source-code-text-bg-color-alpha)
   );
 }
 
 .metrics-source-code__text--warning-complexity {
   background-color: rgba(
-    var(--dart-code-metrics-source-code-bg-color-warning-complexity),
+    var(--dart-code-metrics-source-code-color-warning-complexity),
     var(--dart-code-metrics-source-code-text-bg-color-alpha)
   );
 }
 
 .metrics-source-code__text--attention-complexity {
   background-color: rgba(
-    var(--dart-code-metrics-source-code-bg-color-attention-complexity),
+    var(--dart-code-metrics-source-code-color-attention-complexity),
     var(--dart-code-metrics-source-code-text-bg-color-alpha)
   );
 }
