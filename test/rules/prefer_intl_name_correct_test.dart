@@ -261,25 +261,6 @@ void main() {
     final issues = const PreferIntlNameRule()
         .check(parseResult.unit, sourceUrl, parseResult.content);
 
-    issues.every((issue) {
-      print(
-          'location: ${issue.ruleDocumentationUri}:${issue.sourceSpan.start.line}\n');
-      print('severity: ${issue.severity}\n');
-      print('ruleId: ${issue.ruleId}\n');
-      print('problem code: ${issue.sourceSpan.text}\n');
-      print('message: ${issue.message}\n');
-      if (issue.correction != null) {
-        print('correction: ${issue.correction}\n');
-      }
-      if (issue.correctionComment != null) {
-        print('correctionComment: ${issue.correctionComment}\n');
-      }
-      print('\n');
-      print('\n');
-
-      return true;
-    });
-
     expect(issues, isEmpty);
   });
 }
