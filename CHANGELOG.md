@@ -1,10 +1,11 @@
 # Changelog
 
-# Unreleased
-- Drop dependency on resource
+# 1.7.0
 - Add experimental static code diagnostics binary-expression-operand-order, prefer-intl-name
 - Add Number of Methods metric
-- Implement safer API for MetricsAnalyzerRecorder
+- Drop dependency on resource
+- Improve html report
+- Set min SDK version to >=2.6.0.
 
 # 1.6.0
 - Add experimental static code diagnostics prefer-trailing-comma-for-collection, no-magic-number
