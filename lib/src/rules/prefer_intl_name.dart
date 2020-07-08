@@ -5,6 +5,7 @@ import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
 import 'package:dart_code_metrics/src/rules/rule_utils.dart';
 import 'package:dart_code_metrics/src/utils/object_extensions.dart';
 import 'package:dart_code_metrics/src/utils/iterable_extensions.dart';
+import 'package:meta/meta.dart';
 
 import 'base_rule.dart';
 
@@ -196,19 +197,21 @@ class _Visitor extends GeneralizingAstVisitor<void> {
   }
 }
 
+@immutable
 abstract class _Issue {
   final AstNode node;
 
-  _Issue(
+  const _Issue(
     this.node,
   );
 }
 
+@immutable
 class _NotCorrectNameIssue extends _Issue {
   final String className;
   final String variableName;
 
-  _NotCorrectNameIssue(
+  const _NotCorrectNameIssue(
     this.className,
     this.variableName,
     AstNode node,
@@ -218,8 +221,9 @@ class _NotCorrectNameIssue extends _Issue {
       className != null ? '${className}_$variableName' : '$variableName';
 }
 
+@immutable
 class _NotExistNameIssue extends _Issue {
-  _NotExistNameIssue(
+  const _NotExistNameIssue(
     AstNode node,
   ) : super(node);
 }
