@@ -1,5 +1,8 @@
 # Changelog
 
+# 1.7.1
+- Support analyzer_plugin 0.3.0
+
 # 1.7.0
 - Add experimental static code diagnostics binary-expression-operand-order, prefer-intl-name
 - Add Number of Methods metric

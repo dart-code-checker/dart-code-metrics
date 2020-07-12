@@ -2,7 +2,7 @@ name: dart_code_metrics
 description: |
   Command line tool which helps to improve code quality.
   Reports cyclomatic complexity and method length in plain console, JSON, HTML and Codeclimate formats
-version: 1.7.0
+version: 1.7.1
 homepage: https://github.com/wrike/dart-code-metrics
 
 environment:
@@ -10,7 +10,7 @@ environment:
 
 dependencies:
   analyzer: '>=0.38.3 <0.40.0'
-  analyzer_plugin: ^0.2.1
+  analyzer_plugin: '>=0.2.1 <0.4.0'
   ansicolor: ^1.0.0
   args: ^1.4.4
   crypto: ^2.0.6
