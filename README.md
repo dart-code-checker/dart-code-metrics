@@ -88,6 +88,7 @@ A plugin for the Dart `analyzer` library [package](https://pub.dev/packages/dart
 * [avoid-preserve-whitespace-false](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/avoid_preserve_whitespace_false.md)
 * [binary-expression-operand-order](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/binary_expression_operand_order.md)
 * [double-literal-format](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/double_literal_format.md)
+* [member-ordering](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/member_ordering.md)
 * [newline-before-return](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/newline_before_return.md)
 * [no-boolean-literal-compare](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/no_boolean_literal_compare.md)
 * [no-empty-block](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/no_empty_block.md)
