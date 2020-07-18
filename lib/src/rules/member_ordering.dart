@@ -194,9 +194,6 @@ class _MembersGroup {
     angularHostBindings,
     angularHostListeners,
   ];
-
-  static _MembersGroup parse(String name) =>
-      groupsOrder.firstWhere((group) => group.name == name, orElse: () => null);
 }
 
 @immutable
