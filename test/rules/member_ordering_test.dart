@@ -66,7 +66,7 @@ void main() {
       issues.map((issue) => issue.message),
       equals([
         'public_fields should be before public_methods',
-        'constructor should be before angular_outputs',
+        'constructors should be before angular_outputs',
       ]),
     );
   });

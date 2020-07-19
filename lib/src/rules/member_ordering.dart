@@ -45,7 +45,7 @@ class MemberOrderingRule extends BaseRule {
   }
 }
 
-class _Visitor extends RecursiveAstVisitor<Object> {
+class _Visitor extends RecursiveAstVisitor<void> {
   final _membersInfo = <_MemberInfo>[];
 
   Iterable<_MemberInfo> get membersInfo => _membersInfo;
@@ -54,13 +54,13 @@ class _Visitor extends RecursiveAstVisitor<Object> {
   void visitClassDeclaration(ClassDeclaration node) {
     super.visitClassDeclaration(node);
 
-    for (final entry in node.childEntities) {
-      if (entry is FieldDeclaration) {
-        _visitFieldDeclaration(entry);
-      } else if (entry is ConstructorDeclaration) {
-        _visitConstructorDeclaration(entry);
-      } else if (entry is MethodDeclaration) {
-        _visitMethodDeclaration(entry);
+    for (final member in node.members) {
+      if (member is FieldDeclaration) {
+        _visitFieldDeclaration(member);
+      } else if (member is ConstructorDeclaration) {
+        _visitConstructorDeclaration(member);
+      } else if (member is MethodDeclaration) {
+        _visitMethodDeclaration(member);
       }
     }
   }
@@ -71,7 +71,7 @@ class _Visitor extends RecursiveAstVisitor<Object> {
     }
 
     for (final variable in fieldDeclaration.fields.variables) {
-      final membersGroup = _isPrivate(variable.name.name)
+      final membersGroup = Identifier.isPrivateName(variable.name.name)
           ? _MembersGroup.privateFields
           : _MembersGroup.publicFields;
 
@@ -82,6 +82,14 @@ class _Visitor extends RecursiveAstVisitor<Object> {
     }
   }
 
+  void _visitConstructorDeclaration(
+      ConstructorDeclaration constructorDeclaration) {
+    _membersInfo.add(_MemberInfo(
+      classMember: constructorDeclaration,
+      memberOrder: _getOrder(_MembersGroup.constructors),
+    ));
+  }
+
   void _visitMethodDeclaration(MethodDeclaration methodDeclaration) {
     if (_hasMetadata(methodDeclaration)) {
       return;
@@ -90,15 +98,15 @@ class _Visitor extends RecursiveAstVisitor<Object> {
     _MembersGroup membersGroup;
 
     if (methodDeclaration.isGetter) {
-      membersGroup = _isPrivate(methodDeclaration.name.name)
+      membersGroup = Identifier.isPrivateName(methodDeclaration.name.name)
           ? _MembersGroup.privateGetters
           : _MembersGroup.publicGetters;
     } else if (methodDeclaration.isSetter) {
-      membersGroup = _isPrivate(methodDeclaration.name.name)
+      membersGroup = Identifier.isPrivateName(methodDeclaration.name.name)
           ? _MembersGroup.privateSetters
           : _MembersGroup.publicSetters;
     } else {
-      membersGroup = _isPrivate(methodDeclaration.name.name)
+      membersGroup = Identifier.isPrivateName(methodDeclaration.name.name)
           ? _MembersGroup.privateMethods
           : _MembersGroup.publicMethods;
     }
@@ -106,14 +114,6 @@ class _Visitor extends RecursiveAstVisitor<Object> {
     _membersInfo.add(_MemberInfo(
       classMember: methodDeclaration,
       memberOrder: _getOrder(membersGroup),
-    ));
-  }
-
-  void _visitConstructorDeclaration(
-      ConstructorDeclaration constructorDeclaration) {
-    _membersInfo.add(_MemberInfo(
-      classMember: constructorDeclaration,
-      memberOrder: _getOrder(_MembersGroup.constructor),
     ));
   }
 
@@ -133,8 +133,6 @@ class _Visitor extends RecursiveAstVisitor<Object> {
 
     return false;
   }
-
-  bool _isPrivate(String name) => name.startsWith('_');
 
   _MemberOrder _getOrder(_MembersGroup membersGroup) {
     if (_membersInfo.isNotEmpty) {
@@ -164,14 +162,14 @@ class _MembersGroup {
 
   // Generic
   static const publicFields = _MembersGroup._('public_fields');
-  static const privateFields = _MembersGroup._('private_field');
+  static const privateFields = _MembersGroup._('private_fields');
   static const publicGetters = _MembersGroup._('public_getters');
   static const privateGetters = _MembersGroup._('private_getters');
   static const publicSetters = _MembersGroup._('public_setters');
   static const privateSetters = _MembersGroup._('private_setters');
   static const publicMethods = _MembersGroup._('public_methods');
   static const privateMethods = _MembersGroup._('private_methods');
-  static const constructor = _MembersGroup._('constructor');
+  static const constructors = _MembersGroup._('constructors');
 
   // Angular
   static const angularInputs = _MembersGroup._('angular_inputs');
@@ -188,7 +186,7 @@ class _MembersGroup {
     privateSetters,
     publicMethods,
     privateMethods,
-    constructor,
+    constructors,
     angularInputs,
     angularOutputs,
     angularHostBindings,
