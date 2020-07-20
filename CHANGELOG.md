@@ -1,5 +1,9 @@
 # Changelog
 
+# Unreleased
+
+- Add static code diagnostic  no-object-declaration
+
 # 1.7.1
 - Support analyzer_plugin 0.3.0
 
