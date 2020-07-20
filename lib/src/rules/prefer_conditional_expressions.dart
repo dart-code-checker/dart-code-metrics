@@ -44,19 +44,19 @@ class _Visitor extends RecursiveAstVisitor<void> {
     super.visitIfStatement(node);
 
     if (node.elseStatement != null && node.elseStatement is! IfStatement) {
-      if (_hasAssignment(node) || _hasReturn(node)) {
+      if (_hasBothAssignment(node) || _hasBothReturn(node)) {
         _statements.add(node);
       }
     }
   }
 
-  bool _hasAssignment(IfStatement statement) {
+  bool _hasBothAssignment(IfStatement statement) {
     final thenAssignment = _getAssignmentExpression(statement.thenStatement);
     final elseAssignment = _getAssignmentExpression(statement.elseStatement);
 
     return thenAssignment != null &&
         elseAssignment != null &&
-        _checkAssignmentExpression(thenAssignment, elseAssignment);
+        _haveEqualNames(thenAssignment, elseAssignment);
   }
 
   AssignmentExpression _getAssignmentExpression(Statement statement) {
@@ -66,18 +66,13 @@ class _Visitor extends RecursiveAstVisitor<void> {
     }
 
     if (statement is Block && statement.statements.length == 1) {
-      final innerStatement = statement.statements.single;
-
-      if (innerStatement is ExpressionStatement &&
-          innerStatement.expression is AssignmentExpression) {
-        return innerStatement.expression as AssignmentExpression;
-      }
+      return _getAssignmentExpression(statement.statements.first);
     }
 
     return null;
   }
 
-  bool _checkAssignmentExpression(
+  bool _haveEqualNames(
     AssignmentExpression thenAssignment,
     AssignmentExpression elseAssignment,
   ) =>
@@ -86,26 +81,13 @@ class _Visitor extends RecursiveAstVisitor<void> {
       (thenAssignment.leftHandSide as Identifier).name ==
           (elseAssignment.leftHandSide as Identifier).name;
 
-  bool _hasReturn(IfStatement statement) {
-    final thenReturn = _getReturnStatement(statement.thenStatement);
-    final elseReturn = _getReturnStatement(statement.elseStatement);
+  bool _hasBothReturn(IfStatement statement) =>
+      _isReturnStatement(statement.thenStatement) &&
+      _isReturnStatement(statement.elseStatement);
 
-    return thenReturn != null && elseReturn != null;
-  }
-
-  ReturnStatement _getReturnStatement(Statement statement) {
-    if (statement is ReturnStatement) {
-      return statement;
-    }
-
-    if (statement is Block && statement.statements.length == 1) {
-      final innerStatement = statement.statements.single;
-
-      if (innerStatement is ReturnStatement) {
-        return innerStatement;
-      }
-    }
-
-    return null;
-  }
+  bool _isReturnStatement(Statement statement) =>
+      statement is ReturnStatement ||
+      statement is Block &&
+          statement.statements.length == 1 &&
+          statement.statements.first is ReturnStatement;
 }
