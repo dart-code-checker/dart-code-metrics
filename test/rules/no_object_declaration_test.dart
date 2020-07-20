@@ -77,7 +77,7 @@ void main() {
     );
     expect(
       issues.map((issue) => issue.sourceSpan.end.offset),
-      equals([34, 63, 106]),
+      equals([34, 63, 111]),
     );
     expect(
       issues.map((issue) => issue.sourceSpan.text),
@@ -85,7 +85,7 @@ void main() {
         'Object data = 1;',
         'Object get getter => 1;',
         'Object doWork() {\n'
-            '      return;\n'
+            '      return null;\n'
             '    }',
       ]),
     );
