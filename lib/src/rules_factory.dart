@@ -7,6 +7,7 @@ import 'rules/no_boolean_literal_compare_rule.dart';
 import 'rules/no_empty_block.dart';
 import 'rules/no_magic_number_rule.dart';
 import 'rules/no_object_declaration.dart';
+import 'rules/prefer_conditional_expressions.dart';
 import 'rules/prefer_intl_name.dart';
 import 'rules/prefer_trailing_comma_for_collection.dart';
 
@@ -19,6 +20,7 @@ const _implementedRules = {
   NoEmptyBlockRule(),
   NoMagicNumberRule(),
   NoObjectDeclarationRule(),
+  PreferConditionalExpressions(),
   PreferIntlNameRule(),
   PreferTrailingCommaForCollectionRule(),
 };
