@@ -16,11 +16,11 @@ class Test {
     Object get getter => 1;
 
     Object doWork() {
-      return;
+      return null;
     }
 }
 
-class Test {
+class AnotherTest {
     int data = 1;
 
     int get getter => 1;
