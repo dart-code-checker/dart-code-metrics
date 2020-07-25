@@ -62,7 +62,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     _metricsExclude = config.metricsExcludePatterns
         .map((exclude) => Glob(p.join(contextRoot.root, exclude)))
         .toList();
-    _checkingCodeRules = getRulesById(config?.rulesNames ?? []);
+    _checkingCodeRules = getRulesById(config?.rules?.keys ?? []);
 
     final contextBuilder = ContextBuilder(resourceProvider, sdkManager, null)
       ..analysisDriverScheduler = analysisDriverScheduler

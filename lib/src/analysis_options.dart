@@ -17,17 +17,17 @@ const _rulesKey = 'rules';
 class AnalysisOptions {
   final Config metricsConfig;
   final Iterable<String> metricsExcludePatterns;
-  final Iterable<String> rulesNames;
+  final Map<String, Map<String, Object>> rules;
 
   const AnalysisOptions(
       {@required this.metricsConfig,
       @required this.metricsExcludePatterns,
-      @required this.rulesNames});
+      @required this.rules});
 
   factory AnalysisOptions.from(String content) {
     Config metricsConfig;
     var metricsExcludePatterns = <String>[];
-    var rules = <String>[];
+    var rules = <String, Map<String, Object>>{};
 
     final node = loadYamlNode(content ?? '');
     if (node is YamlMap && node.nodes[_rootKey] is YamlMap) {
@@ -49,20 +49,40 @@ class AnalysisOptions {
             List.unmodifiable(metricsOptions[_metricsExcludeKey] as Iterable);
       }
 
-      if (_isYamlListOfStrings(metricsOptions.nodes[_rulesKey])) {
-        rules = List.unmodifiable(metricsOptions[_rulesKey] as Iterable);
-      } else if (_isYamlMapOfStringsAndBooleans(
-          metricsOptions.nodes[_rulesKey])) {
-        final rulesMap = metricsOptions[_rulesKey] as YamlMap;
-        rules = List.unmodifiable(
-            rulesMap.keys.cast<String>().where((key) => rulesMap[key] as bool));
+      final rulesNode = metricsOptions.nodes[_rulesKey];
+      if (rulesNode != null && rulesNode is YamlList) {
+        rules = Map.unmodifiable(Map<String, Map<String, Object>>.fromEntries([
+          ...rulesNode.nodes
+              .whereType<YamlScalar>()
+              .map((node) => MapEntry(node.value as String, {})),
+          ...rulesNode.nodes
+              .whereType<YamlMap>()
+              .where((node) =>
+                  node.keys.length == 1 && node.values.first is YamlMap)
+              .map((node) => MapEntry(node.keys.cast<String>().first,
+                  (node.values.first as Map).cast<String, Object>())),
+        ]));
+      } else if (rulesNode != null && rulesNode is YamlMap) {
+        rules = Map.unmodifiable(Map<String, Map<String, Object>>.fromEntries([
+          ...rulesNode.keys.cast<String>().where((key) {
+            final node = rulesNode.nodes[key];
+
+            return (node is YamlScalar && node.value is bool) &&
+                (node.value as bool);
+          }).map((key) => MapEntry(key, {})),
+          ...rulesNode.keys
+              .cast<String>()
+              .where((key) => rulesNode.nodes[key] is YamlMap)
+              .map((key) => MapEntry(key,
+                  (rulesNode.nodes[key].value as Map).cast<String, Object>())),
+        ]));
       }
     }
 
     return AnalysisOptions(
         metricsConfig: metricsConfig,
         metricsExcludePatterns: metricsExcludePatterns,
-        rulesNames: rules);
+        rules: rules);
   }
 }
 
@@ -70,11 +90,6 @@ bool _isYamlListOfStrings(YamlNode node) =>
     node != null &&
     node is YamlList &&
     node.nodes.every((node) => node.value is String);
-
-bool _isYamlMapOfStringsAndBooleans(YamlNode node) =>
-    node != null &&
-    node is YamlMap &&
-    node.nodes.values.every((val) => val is YamlScalar && val.value is bool);
 
 bool _isYamlMapOfStringsAndIntegers(YamlNode node) =>
     node != null &&

@@ -27,7 +27,7 @@ class MetricsAnalyzer {
   MetricsAnalyzer(
     this._recorder, {
     AnalysisOptions options,
-  })  : _checkingCodeRules = getRulesById(options?.rulesNames ?? []),
+  })  : _checkingCodeRules = getRulesById(options?.rules?.keys ?? []),
         _metricsExclude = options?.metricsExcludePatterns
                 ?.map((exclude) => Glob(exclude))
                 ?.toList() ??
