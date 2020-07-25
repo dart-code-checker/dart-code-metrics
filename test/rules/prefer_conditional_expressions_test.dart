@@ -151,5 +151,24 @@ void main() {
         'Prefer conditional expression',
       ]),
     );
+
+    expect(
+      issues.map((issue) => issue.correction),
+      equals([
+        'a = a == 3 ? 2 : 3;',
+        'return a == 6 ? a : 3;',
+        'a = a == 9 ? 2 : 3;',
+        'return a == 12 ? 2 : a;',
+      ]),
+    );
+    expect(
+      issues.map((issue) => issue.correctionComment),
+      equals([
+        'Convert to conditional expression',
+        'Convert to conditional expression',
+        'Convert to conditional expression',
+        'Convert to conditional expression',
+      ]),
+    );
   });
 }
