@@ -51,21 +51,57 @@ int testFunction() {
     a = 3;
   }
 
-  if (a == 9) a = 2;
-  else a = 3;
+  if (a == 9) {
+    return a;
+  } else return 3;
 
   if (a == 10) return a;
+  else {
+    return 3;
+  }
+
+  if (a == 11) {
+    a = 2;
+  } else a = 3;
+
+  if (a == 12) a = 2;
+  else {
+    a = 3;
+  }
+
+  if (a == 13) a = 2;
+  else {
+    return 3;
+  }
+
+  if (a == 14) return a;
+  else {
+    a = 3;
+  }
+
+  if (a == 15) {
+    a = 2;
+  } else return a;
+
+  if (a == 16) {
+    return 2;
+  } else a = 3;
+
+  if (a == 17) a = 2;
   else a = 3;
 
-  if (a == 11) a = 2;
+  if (a == 18) return a;
+  else a = 3;
+
+  if (a == 19) a = 2;
   else return a;
 
-  if (a == 12) return 2;
+  if (a == 20) return 2;
   else return a;
 
-  if (a == 13) return a;
+  if (a == 21) return a;
 
-  if (a == 14) a = 3;
+  if (a == 22) a = 3;
 }
 
 int anotherTestFunction() {
@@ -109,19 +145,19 @@ void main() {
 
     expect(
       issues.map((issue) => issue.sourceSpan.start.offset),
-      equals([102, 270, 397, 513]),
+      equals([102, 270, 397, 447, 500, 545, 788, 905]),
     );
     expect(
       issues.map((issue) => issue.sourceSpan.start.line),
-      equals([11, 29, 43, 52]),
+      equals([11, 29, 43, 47, 52, 56, 79, 88]),
     );
     expect(
       issues.map((issue) => issue.sourceSpan.start.column),
-      equals([3, 3, 3, 3]),
+      equals([3, 3, 3, 3, 3, 3, 3, 3]),
     );
     expect(
       issues.map((issue) => issue.sourceSpan.end.offset),
-      equals([152, 326, 429, 552]),
+      equals([152, 326, 443, 496, 541, 588, 821, 944]),
     );
     expect(
       issues.map((issue) => issue.sourceSpan.text),
@@ -136,9 +172,23 @@ void main() {
             '  } else {\n'
             '    return 3;\n'
             '  }',
-        'if (a == 9) a = 2;\n'
+        'if (a == 9) {\n'
+            '    return a;\n'
+            '  } else return 3;',
+        'if (a == 10) return a;\n'
+            '  else {\n'
+            '    return 3;\n'
+            '  }',
+        'if (a == 11) {\n'
+            '    a = 2;\n'
+            '  } else a = 3;',
+        'if (a == 12) a = 2;\n'
+            '  else {\n'
+            '    a = 3;\n'
+            '  }',
+        'if (a == 17) a = 2;\n'
             '  else a = 3;',
-        'if (a == 12) return 2;\n'
+        'if (a == 20) return 2;\n'
             '  else return a;',
       ]),
     );
@@ -149,6 +199,37 @@ void main() {
         'Prefer conditional expression',
         'Prefer conditional expression',
         'Prefer conditional expression',
+        'Prefer conditional expression',
+        'Prefer conditional expression',
+        'Prefer conditional expression',
+        'Prefer conditional expression',
+      ]),
+    );
+
+    expect(
+      issues.map((issue) => issue.correction),
+      equals([
+        'a = a == 3 ? 2 : 3;',
+        'return a == 6 ? a : 3;',
+        'return a == 9 ? a : 3;',
+        'return a == 10 ? a : 3;',
+        'a = a == 11 ? 2 : 3;',
+        'a = a == 12 ? 2 : 3;',
+        'a = a == 17 ? 2 : 3;',
+        'return a == 20 ? 2 : a;',
+      ]),
+    );
+    expect(
+      issues.map((issue) => issue.correctionComment),
+      equals([
+        'Convert to conditional expression',
+        'Convert to conditional expression',
+        'Convert to conditional expression',
+        'Convert to conditional expression',
+        'Convert to conditional expression',
+        'Convert to conditional expression',
+        'Convert to conditional expression',
+        'Convert to conditional expression',
       ]),
     );
   });
