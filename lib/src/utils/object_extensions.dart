@@ -1,9 +1,3 @@
 extension ObjectExtensions on Object {
-  T as<T>([T defaultValue]) {
-    if (this is T) {
-      return this as T;
-    } else {
-      return defaultValue;
-    }
-  }
+  T as<T>([T defaultValue]) => (this is T) ? this as T : defaultValue;
 }
