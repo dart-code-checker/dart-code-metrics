@@ -1,6 +1,7 @@
 @TestOn('vm')
 
-import 'package:analyzer/dart/analysis/features.dart';
+import 'dart:io' as io;
+
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
 import 'package:dart_code_metrics/src/rules/no_object_declaration.dart';
@@ -8,48 +9,13 @@ import 'package:test/test.dart';
 
 // ignore_for_file: no_adjacent_strings_in_list
 
-const _content = '''
-
-class Test {
-    Object data = 1;
-
-    Object get getter => 1;
-
-    Object doWork() {
-      return null;
-    }
-}
-
-class AnotherTest {
-    int data = 1;
-
-    int get getter => 1;
-
-    void doWork() {
-      return;
-    }
-
-    void doAnotherWork(Object param) {
-      return;
-    }
-}
-
-Object a = 1;
-
-Object function(Object param) {
-  return null;
-}
-
-''';
-
 void main() {
-  test('NoObjectDeclarationRule reports about found issues', () {
-    final sourceUrl = Uri.parse('/example.dart');
+  test('NoObjectDeclarationRule reports about found issues', () async {
+    final path =
+        io.File('test/rules/no_object_declaration/example.dart').absolute.path;
+    final sourceUrl = Uri.parse(path);
 
-    final parseResult = parseString(
-        content: _content,
-        featureSet: FeatureSet.fromEnableFlags([]),
-        throwIfDiagnostics: false);
+    final parseResult = await resolveFile(path: path);
 
     final issues = const NoObjectDeclarationRule()
         .check(parseResult.unit, sourceUrl, parseResult.content);
@@ -65,19 +31,19 @@ void main() {
 
     expect(
       issues.map((issue) => issue.sourceSpan.start.offset),
-      equals([18, 40, 69]),
+      equals([15, 35, 62]),
     );
     expect(
       issues.map((issue) => issue.sourceSpan.start.line),
-      equals([3, 5, 7]),
+      equals([2, 4, 6]),
     );
     expect(
       issues.map((issue) => issue.sourceSpan.start.column),
-      equals([5, 5, 5]),
+      equals([3, 3, 3]),
     );
     expect(
       issues.map((issue) => issue.sourceSpan.end.offset),
-      equals([34, 63, 111]),
+      equals([31, 58, 100]),
     );
     expect(
       issues.map((issue) => issue.sourceSpan.text),
@@ -85,8 +51,8 @@ void main() {
         'Object data = 1;',
         'Object get getter => 1;',
         'Object doWork() {\n'
-            '      return null;\n'
-            '    }',
+            '    return null;\n'
+            '  }',
       ]),
     );
     expect(
