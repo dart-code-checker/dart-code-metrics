@@ -131,7 +131,7 @@ void main() {
         featureSet: FeatureSet.fromEnableFlags([]),
         throwIfDiagnostics: false);
 
-    final issues = const PreferConditionalExpressions()
+    final issues = PreferConditionalExpressions()
         .check(parseResult.unit, sourceUrl, parseResult.content);
 
     expect(

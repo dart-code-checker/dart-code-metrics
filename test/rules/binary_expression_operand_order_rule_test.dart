@@ -36,7 +36,7 @@ void main() {
           featureSet: FeatureSet.fromEnableFlags([]),
           throwIfDiagnostics: false);
 
-      final issues = const BinaryExpressionOperandOrderRule()
+      final issues = BinaryExpressionOperandOrderRule()
           .check(parseResult.unit, sourceUrl, parseResult.content)
           .toList();
 

@@ -51,7 +51,7 @@ void main() {
         featureSet: FeatureSet.fromEnableFlags([]),
         throwIfDiagnostics: false);
 
-    final issues = const NoObjectDeclarationRule()
+    final issues = NoObjectDeclarationRule()
         .check(parseResult.unit, sourceUrl, parseResult.content);
 
     expect(

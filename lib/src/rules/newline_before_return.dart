@@ -11,13 +11,16 @@ import 'rule_utils.dart';
 // Inspired by TSLint (https://palantir.github.io/tslint/rules/newline-before-return/)
 
 class NewlineBeforeReturnRule extends BaseRule {
+  static const String ruleId = 'newline-before-return';
+
   static const _failure = 'Missing blank line before return';
 
-  const NewlineBeforeReturnRule()
+  NewlineBeforeReturnRule({Map<String, Object> config = const {}})
       : super(
-          id: 'newline-before-return',
-          severity: CodeIssueSeverity.style,
-        );
+            id: ruleId,
+            severity:
+                CodeIssueSeverity.fromJson(config['severity'] as String) ??
+                    CodeIssueSeverity.style);
 
   @override
   Iterable<CodeIssue> check(

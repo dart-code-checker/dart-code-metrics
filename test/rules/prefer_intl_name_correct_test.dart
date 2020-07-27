@@ -261,7 +261,7 @@ void main() {
         featureSet: FeatureSet.fromEnableFlags([]),
         throwIfDiagnostics: false);
 
-    final issues = const PreferIntlNameRule()
+    final issues = PreferIntlNameRule()
         .check(parseResult.unit, sourceUrl, parseResult.content);
 
     // TODO(dmitry): remove ignore after migrate on analyzer 0.38.5

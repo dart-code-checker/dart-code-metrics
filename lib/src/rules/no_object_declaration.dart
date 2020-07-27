@@ -7,14 +7,17 @@ import 'base_rule.dart';
 import 'rule_utils.dart';
 
 class NoObjectDeclarationRule extends BaseRule {
+  static const String ruleId = 'no-object-declaration';
+
   static const _warningMessage =
       'Avoid Object type declaration in class member';
 
-  const NoObjectDeclarationRule()
+  NoObjectDeclarationRule({Map<String, Object> config = const {}})
       : super(
-          id: 'no-object-declaration',
-          severity: CodeIssueSeverity.style,
-        );
+            id: ruleId,
+            severity:
+                CodeIssueSeverity.fromJson(config['severity'] as String) ??
+                    CodeIssueSeverity.style);
 
   @override
   Iterable<CodeIssue> check(

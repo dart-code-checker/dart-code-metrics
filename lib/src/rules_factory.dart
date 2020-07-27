@@ -11,21 +11,33 @@ import 'rules/prefer_conditional_expressions.dart';
 import 'rules/prefer_intl_name.dart';
 import 'rules/prefer_trailing_comma_for_collection.dart';
 
-const _implementedRules = {
-  AvoidPreserveWhitespaceFalseRule(),
-  BinaryExpressionOperandOrderRule(),
-  DoubleLiteralFormatRule(),
-  NewlineBeforeReturnRule(),
-  NoBooleanLiteralCompareRule(),
-  NoEmptyBlockRule(),
-  NoMagicNumberRule(),
-  NoObjectDeclarationRule(),
-  PreferConditionalExpressions(),
-  PreferIntlNameRule(),
-  PreferTrailingCommaForCollectionRule(),
+final _implementedRules = <String, BaseRule Function(Map<String, Object>)>{
+  AvoidPreserveWhitespaceFalseRule.ruleId: (config) =>
+      AvoidPreserveWhitespaceFalseRule(config: config),
+  BinaryExpressionOperandOrderRule.ruleId: (config) =>
+      BinaryExpressionOperandOrderRule(config: config),
+  DoubleLiteralFormatRule.ruleId: (config) =>
+      DoubleLiteralFormatRule(config: config),
+  NewlineBeforeReturnRule.ruleId: (config) =>
+      NewlineBeforeReturnRule(config: config),
+  NoBooleanLiteralCompareRule.ruleId: (config) =>
+      NoBooleanLiteralCompareRule(config: config),
+  NoEmptyBlockRule.ruleId: (config) => NoEmptyBlockRule(config: config),
+  NoMagicNumberRule.ruleId: (config) => NoMagicNumberRule(config: config),
+  NoObjectDeclarationRule.ruleId: (config) =>
+      NoObjectDeclarationRule(config: config),
+  PreferConditionalExpressions.ruleId: (config) =>
+      PreferConditionalExpressions(config: config),
+  PreferIntlNameRule.ruleId: (config) => PreferIntlNameRule(config: config),
+  PreferTrailingCommaForCollectionRule.ruleId: (config) =>
+      PreferTrailingCommaForCollectionRule(config: config),
 };
 
-Iterable<BaseRule> get allRules => _implementedRules;
+Iterable<BaseRule> get allRules =>
+    _implementedRules.keys.map((id) => _implementedRules[id]({}));
 
-Iterable<BaseRule> getRulesById(Iterable<String> rulesIdList) =>
-    List.unmodifiable(allRules.where((rule) => rulesIdList.contains(rule.id)));
+Iterable<BaseRule> getRulesById(Map<String, Object> rulesConfig) =>
+    List.unmodifiable(_implementedRules.keys
+        .where((id) => rulesConfig.keys.contains(id))
+        .map<BaseRule>((id) =>
+            _implementedRules[id](rulesConfig[id] as Map<String, Object>)));
