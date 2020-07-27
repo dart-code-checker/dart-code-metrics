@@ -7,14 +7,20 @@ import 'base_rule.dart';
 import 'rule_utils.dart';
 
 class NoMagicNumberRule extends BaseRule {
+  static const String ruleId = 'no-magic-number';
+
   static const _warningMessage =
       'Avoid using magic numbers. Extract them to named constants';
 
   // TODO(shtepin): allow configuration of allowed values
   static const allowedMagicNumbers = [-1, 0, 1];
 
-  const NoMagicNumberRule()
-      : super(id: 'no-magic-number', severity: CodeIssueSeverity.warning);
+  NoMagicNumberRule({Map<String, Object> config = const {}})
+      : super(
+            id: ruleId,
+            severity:
+                CodeIssueSeverity.fromJson(config['severity'] as String) ??
+                    CodeIssueSeverity.warning);
 
   @override
   Iterable<CodeIssue> check(

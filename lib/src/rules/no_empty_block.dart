@@ -9,14 +9,17 @@ import 'rule_utils.dart';
 // Inspired by TSLint (https://palantir.github.io/tslint/rules/no-empty/)
 
 class NoEmptyBlockRule extends BaseRule {
+  static const String ruleId = 'no-empty-block';
+
   static const _failure =
       'Block is empty. Empty blocks are often indicators of missing code.';
 
-  const NoEmptyBlockRule()
+  NoEmptyBlockRule({Map<String, Object> config = const {}})
       : super(
-          id: 'no-empty-block',
-          severity: CodeIssueSeverity.style,
-        );
+            id: ruleId,
+            severity:
+                CodeIssueSeverity.fromJson(config['severity'] as String) ??
+                    CodeIssueSeverity.style);
 
   @override
   Iterable<CodeIssue> check(

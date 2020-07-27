@@ -10,14 +10,17 @@ import 'rule_utils.dart';
 // Inspired by TSLint (https://palantir.github.io/tslint/rules/prefer-conditional-expression/)
 
 class PreferConditionalExpressions extends BaseRule {
+  static const String ruleId = 'prefer-conditional-expressions';
+
   static const _warningMessage = 'Prefer conditional expression';
   static const _correctionMessage = 'Convert to conditional expression';
 
-  const PreferConditionalExpressions()
+  PreferConditionalExpressions({Map<String, Object> config = const {}})
       : super(
-          id: 'prefer-conditional-expressions',
-          severity: CodeIssueSeverity.style,
-        );
+            id: ruleId,
+            severity:
+                CodeIssueSeverity.fromJson(config['severity'] as String) ??
+                    CodeIssueSeverity.style);
 
   @override
   Iterable<CodeIssue> check(

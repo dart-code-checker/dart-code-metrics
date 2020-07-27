@@ -31,7 +31,7 @@ void main() {
           featureSet: FeatureSet.fromEnableFlags([]),
           throwIfDiagnostics: false);
 
-      final issues = const NoMagicNumberRule()
+      final issues = NoMagicNumberRule()
           .check(parseResult.unit, sourceUrl, parseResult.content)
           .toList();
 
