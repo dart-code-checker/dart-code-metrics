@@ -27,6 +27,7 @@ analyzer:
 dart_code_metrics:
   rules:
     - double-literal-format
+    - no-magic-number : {allowed-numbers: [1, 2, 3]}
 
 linter:
   rules:
@@ -47,6 +48,7 @@ dart_code_metrics:
     double-literal-format: false
     newline-before-return: true
     no-boolean-literal-compare: false
+    no-magic-number : {allowed-numbers: [1, 2, 3]}
 
 linter:
   rules:
@@ -105,11 +107,11 @@ void main() {
 
       expect(configFromNull.metricsConfig, isNull);
       expect(configFromNull.metricsExcludePatterns, isEmpty);
-      expect(configFromNull.rulesNames, isEmpty);
+      expect(configFromNull.rules, isEmpty);
 
       expect(configFromEmptyString.metricsConfig, isNull);
       expect(configFromEmptyString.metricsExcludePatterns, isEmpty);
-      expect(configFromEmptyString.rulesNames, isEmpty);
+      expect(configFromEmptyString.rules, isEmpty);
     });
 
     test('content without metrics', () {
@@ -117,7 +119,7 @@ void main() {
 
       expect(options.metricsConfig, isNull);
       expect(options.metricsExcludePatterns, isEmpty);
-      expect(options.rulesNames, isEmpty);
+      expect(options.rules, isEmpty);
     });
 
     group('content with metrics', () {
@@ -126,7 +128,14 @@ void main() {
 
         expect(options.metricsConfig, isNull);
         expect(options.metricsExcludePatterns, isEmpty);
-        expect(options.rulesNames, equals(['double-literal-format']));
+        expect(
+            options.rules,
+            equals({
+              'double-literal-format': <String, Object>{},
+              'no-magic-number': {
+                'allowed-numbers': [1, 2, 3],
+              },
+            }));
       });
 
       test('rules defined as map', () {
@@ -134,7 +143,14 @@ void main() {
 
         expect(options.metricsConfig, isNull);
         expect(options.metricsExcludePatterns, isEmpty);
-        expect(options.rulesNames, equals(['newline-before-return']));
+        expect(
+            options.rules,
+            equals({
+              'newline-before-return': <String, Object>{},
+              'no-magic-number': {
+                'allowed-numbers': [1, 2, 3],
+              },
+            }));
       });
 
       test('thresholds define', () {
@@ -144,7 +160,8 @@ void main() {
             options.metricsConfig.cyclomaticComplexityWarningLevel, equals(20));
         expect(options.metricsConfig.numberOfArgumentsWarningLevel, equals(4));
         expect(options.metricsExcludePatterns, isEmpty);
-        expect(options.rulesNames, equals(['no-boolean-literal-compare']));
+        expect(options.rules,
+            equals({'no-boolean-literal-compare': <String, Object>{}}));
       });
 
       test('exclude define', () {
@@ -154,7 +171,8 @@ void main() {
         expect(
             options.metricsConfig.cyclomaticComplexityWarningLevel, equals(20));
         expect(options.metricsExcludePatterns.single, equals('test/**'));
-        expect(options.rulesNames, equals(['no-boolean-literal-compare']));
+        expect(options.rules,
+            equals({'no-boolean-literal-compare': <String, Object>{}}));
       });
     });
   });

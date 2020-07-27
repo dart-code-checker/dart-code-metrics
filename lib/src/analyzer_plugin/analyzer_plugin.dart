@@ -57,12 +57,14 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
         pathContext: resourceProvider.pathContext)
       ..optionsFilePath = contextRoot.optionsFile;
 
-    final config = _readOptions(root);
-    _metricsConfig = config.metricsConfig;
-    _metricsExclude = config.metricsExcludePatterns
-        .map((exclude) => Glob(p.join(contextRoot.root, exclude)))
-        .toList();
-    _checkingCodeRules = getRulesById(config?.rulesNames ?? []);
+    final options = _readOptions(root);
+    _metricsConfig = options?.metricsConfig;
+    _metricsExclude = options?.metricsExcludePatterns
+            ?.map((exclude) => Glob(p.join(contextRoot.root, exclude)))
+            ?.toList() ??
+        [];
+    _checkingCodeRules =
+        options?.rules != null ? getRulesById(options.rules) : [];
 
     final contextBuilder = ContextBuilder(resourceProvider, sdkManager, null)
       ..analysisDriverScheduler = analysisDriverScheduler

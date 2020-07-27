@@ -35,7 +35,7 @@ void main() {
         featureSet: FeatureSet.fromEnableFlags([]),
         throwIfDiagnostics: false);
 
-    final issues = const MemberOrderingRule()
+    final issues = MemberOrderingRule()
         .check(parseResult.unit, sourceUrl, parseResult.content);
 
     expect(issues.every((issue) => issue.ruleId == 'member-ordering'), isTrue);

@@ -10,13 +10,16 @@ import 'rule_utils.dart';
 // Inspired by TSLint (https://palantir.github.io/tslint/rules/member-ordering/)
 
 class MemberOrderingRule extends BaseRule {
+  static const ruleId = 'member-ordering';
+
   static const _warningMessage = 'should be before';
 
-  const MemberOrderingRule()
+  MemberOrderingRule({Map<String, Object> config = const {}})
       : super(
-          id: 'member-ordering',
-          severity: CodeIssueSeverity.style,
-        );
+            id: ruleId,
+            severity:
+                CodeIssueSeverity.fromJson(config['severity'] as String) ??
+                    CodeIssueSeverity.style);
 
   @override
   Iterable<CodeIssue> check(
