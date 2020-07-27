@@ -58,10 +58,11 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
       ..optionsFilePath = contextRoot.optionsFile;
 
     final options = _readOptions(root);
-    _metricsConfig = options.metricsConfig;
-    _metricsExclude = options.metricsExcludePatterns
-        .map((exclude) => Glob(p.join(contextRoot.root, exclude)))
-        .toList();
+    _metricsConfig = options?.metricsConfig;
+    _metricsExclude = options?.metricsExcludePatterns
+            ?.map((exclude) => Glob(p.join(contextRoot.root, exclude)))
+            ?.toList() ??
+        [];
     _checkingCodeRules =
         options?.rules != null ? getRulesById(options.rules) : [];
 
