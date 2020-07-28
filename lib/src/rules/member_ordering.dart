@@ -14,8 +14,11 @@ class MemberOrderingRule extends BaseRule {
 
   static const _warningMessage = 'should be before';
 
+  final List<_MembersGroup> _groupsOrder;
+
   MemberOrderingRule({Map<String, Object> config = const {}})
-      : super(
+      : _groupsOrder = _parseConfig(config),
+        super(
             id: ruleId,
             severity:
                 CodeIssueSeverity.fromJson(config['severity'] as String) ??
@@ -27,7 +30,7 @@ class MemberOrderingRule extends BaseRule {
     Uri sourceUrl,
     String sourceContent,
   ) {
-    final _visitor = _Visitor();
+    final _visitor = _Visitor(_groupsOrder);
 
     unit.visitChildren(_visitor);
 
@@ -46,12 +49,26 @@ class MemberOrderingRule extends BaseRule {
         )
         .toList(growable: false);
   }
+
+  static List<_MembersGroup> _parseConfig(Map<String, Object> config) {
+    final order = config['order'] as List<String> ?? [];
+
+    return order.isEmpty
+        ? _MembersGroup.groupsOrder
+        : order
+            .map(_MembersGroup.parse)
+            .where((group) => group != null)
+            .toList();
+  }
 }
 
 class _Visitor extends RecursiveAstVisitor<void> {
+  final List<_MembersGroup> _groupsOrder;
   final _membersInfo = <_MemberInfo>[];
 
   Iterable<_MemberInfo> get membersInfo => _membersInfo;
+
+  _Visitor(this._groupsOrder);
 
   @override
   void visitClassDeclaration(ClassDeclaration node) {
@@ -78,19 +95,23 @@ class _Visitor extends RecursiveAstVisitor<void> {
           ? _MembersGroup.privateFields
           : _MembersGroup.publicFields;
 
-      _membersInfo.add(_MemberInfo(
-        classMember: fieldDeclaration,
-        memberOrder: _getOrder(membersGroup),
-      ));
+      if (_groupsOrder.contains(membersGroup)) {
+        _membersInfo.add(_MemberInfo(
+          classMember: fieldDeclaration,
+          memberOrder: _getOrder(membersGroup),
+        ));
+      }
     }
   }
 
   void _visitConstructorDeclaration(
       ConstructorDeclaration constructorDeclaration) {
-    _membersInfo.add(_MemberInfo(
-      classMember: constructorDeclaration,
-      memberOrder: _getOrder(_MembersGroup.constructors),
-    ));
+    if (_groupsOrder.contains(_MembersGroup.constructors)) {
+      _membersInfo.add(_MemberInfo(
+        classMember: constructorDeclaration,
+        memberOrder: _getOrder(_MembersGroup.constructors),
+      ));
+    }
   }
 
   void _visitMethodDeclaration(MethodDeclaration methodDeclaration) {
@@ -114,17 +135,19 @@ class _Visitor extends RecursiveAstVisitor<void> {
           : _MembersGroup.publicMethods;
     }
 
-    _membersInfo.add(_MemberInfo(
-      classMember: methodDeclaration,
-      memberOrder: _getOrder(membersGroup),
-    ));
+    if (_groupsOrder.contains(membersGroup)) {
+      _membersInfo.add(_MemberInfo(
+        classMember: methodDeclaration,
+        memberOrder: _getOrder(membersGroup),
+      ));
+    }
   }
 
   bool _hasMetadata(ClassMember classMember) {
     for (final data in classMember.metadata) {
       final annotation = _Annotation.parse(data.name.name);
 
-      if (annotation != null) {
+      if (annotation != null && _groupsOrder.contains(annotation.group)) {
         _membersInfo.add(_MemberInfo(
           classMember: classMember,
           memberOrder: _getOrder(annotation.group),
@@ -140,9 +163,9 @@ class _Visitor extends RecursiveAstVisitor<void> {
   _MemberOrder _getOrder(_MembersGroup membersGroup) {
     if (_membersInfo.isNotEmpty) {
       final lastMemberInfo = _membersInfo.last;
-      final lastGroupIndex = _MembersGroup.groupsOrder
-          .indexOf(lastMemberInfo.memberOrder.membersGroup);
-      final currentGroupIndex = _MembersGroup.groupsOrder.indexOf(membersGroup);
+      final lastGroupIndex =
+          _groupsOrder.indexOf(lastMemberInfo.memberOrder.membersGroup);
+      final currentGroupIndex = _groupsOrder.indexOf(membersGroup);
 
       return _MemberOrder(
         membersGroup: membersGroup,
@@ -187,14 +210,17 @@ class _MembersGroup {
     privateGetters,
     publicSetters,
     privateSetters,
+    constructors,
     publicMethods,
     privateMethods,
-    constructors,
     angularInputs,
     angularOutputs,
     angularHostBindings,
     angularHostListeners,
   ];
+
+  static _MembersGroup parse(String name) =>
+      groupsOrder.firstWhere((group) => group.name == name, orElse: () => null);
 }
 
 @immutable
