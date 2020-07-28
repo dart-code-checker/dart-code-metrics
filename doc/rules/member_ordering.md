@@ -23,3 +23,13 @@ The value for order may be an array consisting of the following strings:
 - angular_outputs
 - angular_host_bindings
 - angular_host_listeners
+
+## Config example
+
+```yaml
+member-ordering:
+  order:
+    - public_fields
+    - private_fields
+    - constructors
+```
