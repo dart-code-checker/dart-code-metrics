@@ -13,11 +13,14 @@ class MemberOrderingRule extends BaseRule {
   static const ruleId = 'member-ordering';
 
   static const _warningMessage = 'should be before';
+  static const _warningAlphabeticalMessage = 'should be alphabetically before';
 
   final List<_MembersGroup> _groupsOrder;
+  final bool _alphabetize;
 
   MemberOrderingRule({Map<String, Object> config = const {}})
-      : _groupsOrder = _parseConfig(config),
+      : _groupsOrder = _parseOrder(config),
+        _alphabetize = (config['alphabetize'] as bool) ?? false,
         super(
             id: ruleId,
             severity:
@@ -34,23 +37,36 @@ class MemberOrderingRule extends BaseRule {
 
     unit.visitChildren(_visitor);
 
-    return _visitor.membersInfo
-        .where((info) => info.memberOrder.isWrong)
-        .map(
-          (info) => createIssue(
-              this,
-              '${info.memberOrder.membersGroup.name} $_warningMessage ${info.memberOrder.previousMemberGroup.name}',
-              null,
-              null,
-              sourceUrl,
-              sourceContent,
-              unit.lineInfo,
-              info.classMember),
-        )
-        .toList(growable: false);
+    return [
+      ..._visitor.membersInfo.where((info) => info.memberOrder.isWrong).map(
+            (info) => createIssue(
+                this,
+                '${info.memberOrder.memberGroup.name} $_warningMessage ${info.memberOrder.previousMemberGroup.name}',
+                null,
+                null,
+                sourceUrl,
+                sourceContent,
+                unit.lineInfo,
+                info.classMember),
+          ),
+      if (_alphabetize)
+        ..._visitor.membersInfo
+            .where((info) => info.memberOrder.isAlphabeticallyWrong)
+            .map(
+              (info) => createIssue(
+                  this,
+                  '${info.memberOrder.memberNames.currentName} $_warningAlphabeticalMessage ${info.memberOrder.memberNames.previousName}',
+                  null,
+                  null,
+                  sourceUrl,
+                  sourceContent,
+                  unit.lineInfo,
+                  info.classMember),
+            ),
+    ];
   }
 
-  static List<_MembersGroup> _parseConfig(Map<String, Object> config) {
+  static List<_MembersGroup> _parseOrder(Map<String, Object> config) {
     final order = config['order'] as List<String> ?? [];
 
     return order.isEmpty
@@ -98,7 +114,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
       if (_groupsOrder.contains(membersGroup)) {
         _membersInfo.add(_MemberInfo(
           classMember: fieldDeclaration,
-          memberOrder: _getOrder(membersGroup),
+          memberOrder: _getOrder(membersGroup, variable.name.name),
         ));
       }
     }
@@ -109,7 +125,10 @@ class _Visitor extends RecursiveAstVisitor<void> {
     if (_groupsOrder.contains(_MembersGroup.constructors)) {
       _membersInfo.add(_MemberInfo(
         classMember: constructorDeclaration,
-        memberOrder: _getOrder(_MembersGroup.constructors),
+        memberOrder: _getOrder(
+          _MembersGroup.constructors,
+          constructorDeclaration.name?.name ?? '',
+        ),
       ));
     }
   }
@@ -138,7 +157,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
     if (_groupsOrder.contains(membersGroup)) {
       _membersInfo.add(_MemberInfo(
         classMember: methodDeclaration,
-        memberOrder: _getOrder(membersGroup),
+        memberOrder: _getOrder(membersGroup, methodDeclaration.name.name),
       ));
     }
   }
@@ -146,11 +165,14 @@ class _Visitor extends RecursiveAstVisitor<void> {
   bool _hasMetadata(ClassMember classMember) {
     for (final data in classMember.metadata) {
       final annotation = _Annotation.parse(data.name.name);
+      final memberName = classMember is FieldDeclaration
+          ? classMember.fields.variables.first.name.name
+          : classMember is MethodDeclaration ? classMember.name.name : '';
 
       if (annotation != null && _groupsOrder.contains(annotation.group)) {
         _membersInfo.add(_MemberInfo(
           classMember: classMember,
-          memberOrder: _getOrder(annotation.group),
+          memberOrder: _getOrder(annotation.group, memberName),
         ));
 
         return true;
@@ -160,24 +182,44 @@ class _Visitor extends RecursiveAstVisitor<void> {
     return false;
   }
 
-  _MemberOrder _getOrder(_MembersGroup membersGroup) {
+  _MemberOrder _getOrder(_MembersGroup memberGroup, String memberName) {
     if (_membersInfo.isNotEmpty) {
-      final lastMemberInfo = _membersInfo.last;
-      final lastGroupIndex =
-          _groupsOrder.indexOf(lastMemberInfo.memberOrder.membersGroup);
-      final currentGroupIndex = _groupsOrder.indexOf(membersGroup);
+      final lastMemberOrder = _membersInfo.last.memberOrder;
+      final hasSameGroup = lastMemberOrder.memberGroup == memberGroup;
+
+      final previousMemberGroup = hasSameGroup
+          ? lastMemberOrder.previousMemberGroup
+          : lastMemberOrder.memberGroup;
+
+      final memberNames = _MemberNames(
+        currentName: memberName,
+        previousName: lastMemberOrder.memberNames.currentName,
+      );
 
       return _MemberOrder(
-        membersGroup: membersGroup,
-        previousMemberGroup: lastMemberInfo.memberOrder.membersGroup,
-        isWrong: (lastMemberInfo.memberOrder.membersGroup == membersGroup &&
-                lastMemberInfo.memberOrder.isWrong) ||
-            lastGroupIndex > currentGroupIndex,
+        memberNames: memberNames,
+        isAlphabeticallyWrong: hasSameGroup &&
+            memberNames.currentName.compareTo(memberNames.previousName) != 1,
+        memberGroup: memberGroup,
+        previousMemberGroup: previousMemberGroup,
+        isWrong: (hasSameGroup && lastMemberOrder.isWrong) ||
+            _isCurrentGroupBefore(lastMemberOrder.memberGroup, memberGroup),
       );
     }
 
-    return _MemberOrder(isWrong: false, membersGroup: membersGroup);
+    return _MemberOrder(
+      memberNames: _MemberNames(currentName: memberName),
+      isAlphabeticallyWrong: false,
+      memberGroup: memberGroup,
+      isWrong: false,
+    );
   }
+
+  bool _isCurrentGroupBefore(
+    _MembersGroup lastMemberGroup,
+    _MembersGroup memberGroup,
+  ) =>
+      _groupsOrder.indexOf(lastMemberGroup) > _groupsOrder.indexOf(memberGroup);
 }
 
 @immutable
@@ -202,6 +244,9 @@ class _MembersGroup {
   static const angularOutputs = _MembersGroup._('angular_outputs');
   static const angularHostBindings = _MembersGroup._('angular_host_bindings');
   static const angularHostListeners = _MembersGroup._('angular_host_listeners');
+  static const angularViewChild = _MembersGroup._('angular_view_children');
+  static const angularContentChild =
+      _MembersGroup._('angular_content_children');
 
   static List<_MembersGroup> groupsOrder = [
     publicFields,
@@ -217,6 +262,8 @@ class _MembersGroup {
     angularOutputs,
     angularHostBindings,
     angularHostListeners,
+    angularViewChild,
+    angularContentChild,
   ];
 
   static _MembersGroup parse(String name) =>
@@ -236,12 +283,24 @@ class _Annotation {
       _Annotation._('HostBinding', _MembersGroup.angularHostBindings);
   static const hostListener =
       _Annotation._('HostListener', _MembersGroup.angularHostListeners);
+  static const viewChild =
+      _Annotation._('ViewChild', _MembersGroup.angularViewChild);
+  static const viewChildren =
+      _Annotation._('ViewChildren', _MembersGroup.angularViewChild);
+  static const contentChild =
+      _Annotation._('ContentChild', _MembersGroup.angularContentChild);
+  static const contentChildren =
+      _Annotation._('ContentChildren', _MembersGroup.angularContentChild);
 
   static List<_Annotation> annotations = [
     input,
     output,
     hostBinding,
     hostListener,
+    viewChild,
+    viewChildren,
+    contentChild,
+    contentChildren,
   ];
 
   static _Annotation parse(String name) => annotations
@@ -262,12 +321,27 @@ class _MemberInfo {
 @immutable
 class _MemberOrder {
   final bool isWrong;
-  final _MembersGroup membersGroup;
+  final bool isAlphabeticallyWrong;
+  final _MemberNames memberNames;
+  final _MembersGroup memberGroup;
   final _MembersGroup previousMemberGroup;
 
   const _MemberOrder({
-    this.membersGroup,
-    this.previousMemberGroup,
     this.isWrong,
+    this.isAlphabeticallyWrong,
+    this.memberNames,
+    this.memberGroup,
+    this.previousMemberGroup,
+  });
+}
+
+@immutable
+class _MemberNames {
+  final String currentName;
+  final String previousName;
+
+  const _MemberNames({
+    this.currentName,
+    this.previousName,
   });
 }

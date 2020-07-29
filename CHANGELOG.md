@@ -2,7 +2,7 @@
 
 # Unreleased
 
-- Add static code diagnostics prefer-conditional-expressions, no-object-declaration
+- Add static code diagnostics prefer-conditional-expressions, no-object-declaration, member-ordering
 
 # 1.7.1
 

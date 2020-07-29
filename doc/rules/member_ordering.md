@@ -8,7 +8,7 @@ member-ordering
 
 Enforces member ordering.
 
-The value for order may be an array consisting of the following strings:
+The value for `order` may be an array consisting of the following strings:
 
 - public_fields
 - private_fields
@@ -23,11 +23,16 @@ The value for order may be an array consisting of the following strings:
 - angular_outputs
 - angular_host_bindings
 - angular_host_listeners
+- angular_view_children
+- angular_content_children
+
+The `alphabetize` option will enforce that members within the same category should be alphabetically sorted by name.
 
 ## Config example
 
 ```yaml
 member-ordering:
+  alphabetize: true
   order:
     - public_fields
     - private_fields
