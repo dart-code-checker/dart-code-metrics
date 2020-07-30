@@ -25,6 +25,8 @@ number good_f1(number x) => x + 1;
 bool good_f2(number x) => x != 0;
 bool good_f3(String x) => x.indexOf(str) != -1
 final someDay = DateTime(2006, 12, 1);
+Intl.message(example: const <String, int>{ 'Assigneed': 3 });
+foo(const [32, 12]);
 ''';
 
 void main() {
