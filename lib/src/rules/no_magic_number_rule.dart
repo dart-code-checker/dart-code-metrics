@@ -31,10 +31,7 @@ class NoMagicNumberRule extends BaseRule {
 
     return visitor.literals
         .where(_isMagicNumber)
-        .where((lit) =>
-            lit.thisOrAncestorMatching((ancestor) =>
-                ancestor is VariableDeclaration && ancestor.isConst) ==
-            null)
+        .where(_isNotInsideNamedConstant)
         .map((lit) => createIssue(this, _warningMessage, null, null, sourceUrl,
             sourceContent, unit.lineInfo, lit))
         .toList(growable: false);
@@ -43,6 +40,11 @@ class NoMagicNumberRule extends BaseRule {
   bool _isMagicNumber(Literal l) =>
       l is DoubleLiteral ||
       l is IntegerLiteral && !allowedMagicNumbers.contains(l.value);
+
+  bool _isNotInsideNamedConstant(Literal l) =>
+      l.thisOrAncestorMatching(
+          (ancestor) => ancestor is VariableDeclaration && ancestor.isConst) ==
+      null;
 }
 
 class _Visitor extends RecursiveAstVisitor<Object> {
