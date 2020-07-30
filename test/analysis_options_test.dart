@@ -68,6 +68,7 @@ dart_code_metrics:
   metrics:
     cyclomatic-complexity: 20
     number-of-arguments: 4
+    number-of-methods: 8
   rules:
     - no-boolean-literal-compare
 
@@ -88,6 +89,7 @@ analyzer:
 dart_code_metrics:
   metrics:
     cyclomatic-complexity: 20
+    lines-of-code: 42
   metrics-exclude:
     - test/**
   rules:
@@ -159,6 +161,7 @@ void main() {
         expect(
             options.metricsConfig.cyclomaticComplexityWarningLevel, equals(20));
         expect(options.metricsConfig.numberOfArgumentsWarningLevel, equals(4));
+        expect(options.metricsConfig.numberOfMethodsWarningLevel, equals(8));
         expect(options.metricsExcludePatterns, isEmpty);
         expect(options.rules,
             equals({'no-boolean-literal-compare': <String, Object>{}}));
@@ -170,6 +173,7 @@ void main() {
 
         expect(
             options.metricsConfig.cyclomaticComplexityWarningLevel, equals(20));
+        expect(options.metricsConfig.linesOfCodeWarningLevel, equals(42));
         expect(options.metricsExcludePatterns.single, equals('test/**'));
         expect(options.rules,
             equals({'no-boolean-literal-compare': <String, Object>{}}));
