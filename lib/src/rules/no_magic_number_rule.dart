@@ -32,6 +32,7 @@ class NoMagicNumberRule extends BaseRule {
     return visitor.literals
         .where(_isMagicNumber)
         .where(_isNotInsideNamedConstant)
+        .where(_isNotInDateTime)
         .map((lit) => createIssue(this, _warningMessage, null, null, sourceUrl,
             sourceContent, unit.lineInfo, lit))
         .toList(growable: false);
@@ -44,6 +45,11 @@ class NoMagicNumberRule extends BaseRule {
   bool _isNotInsideNamedConstant(Literal l) =>
       l.thisOrAncestorMatching(
           (ancestor) => ancestor is VariableDeclaration && ancestor.isConst) ==
+      null;
+
+  bool _isNotInDateTime(Literal l) =>
+      l.thisOrAncestorMatching(
+          (a) => a is MethodInvocation && a.methodName.name == 'DateTime') ==
       null;
 }
 
