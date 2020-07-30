@@ -41,6 +41,7 @@ class AnalysisOptions {
           linesOfCodeWarningLevel: configMap['lines-of-code'] as int,
           numberOfArgumentsWarningLevel:
               configMap['number-of-arguments'] as int,
+          numberOfMethodsWarningLevel: configMap['number-of-methods'] as int,
         );
       }
 
