@@ -13,10 +13,10 @@ class PreferOnPushCdStrategyRule extends BaseRule {
 
   PreferOnPushCdStrategyRule({Map<String, Object> config = const {}})
       : super(
-            id: ruleId,
-            severity:
-                CodeIssueSeverity.fromJson(config['severity'] as String) ??
-                    CodeIssueSeverity.warning);
+          id: ruleId,
+          severity: CodeIssueSeverity.fromJson(config['severity'] as String) ??
+              CodeIssueSeverity.warning,
+        );
 
   @override
   Iterable<CodeIssue> check(
@@ -43,7 +43,6 @@ class _Visitor extends RecursiveAstVisitor<Object> {
       return;
     }
 
-//    changeDetection: ChangeDetectionStrategy.OnPush,
     final changeDetectionArg = node.arguments.arguments
         .whereType<NamedExpression>()
         .firstWhere((arg) => arg.name.label.name == 'changeDetection',
@@ -53,19 +52,21 @@ class _Visitor extends RecursiveAstVisitor<Object> {
       return _expression.add(node);
     }
 
-    final value = changeDetectionArg.expression;
-    if (value is! PrefixedIdentifier) {
+    final strategyValue = changeDetectionArg.expression;
+    if (strategyValue is! PrefixedIdentifier) {
       return _expression.add(changeDetectionArg);
     }
 
-    final propertyAccess = value as PrefixedIdentifier;
-    if (propertyAccess.prefix.name == 'ChangeDetectionStrategy' &&
-        propertyAccess.identifier.name == 'OnPush') {
+    if (_isStrategyValueCorrect(strategyValue as PrefixedIdentifier)) {
       return;
     }
 
     return _expression.add(changeDetectionArg);
   }
+
+  bool _isStrategyValueCorrect(PrefixedIdentifier identifier) =>
+      identifier.prefix.name == 'ChangeDetectionStrategy' &&
+      identifier.identifier.name == 'OnPush';
 
   bool _isComponentAnnotation(Annotation node) =>
       node.name.name == 'Component' &&
