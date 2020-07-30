@@ -5,7 +5,7 @@ no-magic-number
 
 ## Description
 Warns against using number literals outside of named constants.
-Exception is made for common constants: -1, 0 and 1.
+Exception is made for common constants by default: -1, 0 and 1.
 Exception is made for literals inside `DateTime` constructor as there is no way to create `const` `DateTime` and extracting each `int` argument to separate named constant is far too inconvenient
 
 ## Example
@@ -43,4 +43,10 @@ final finalPrice = cart.productCount > productCountThresholdForDiscount
 Exception:
 ```dart
 final someDay = DateTime(2006, 12, 1); // DateTime has no const constructor
+```
+
+## Config example
+```yaml
+no-magic-number:
+  allowed: [3.14, 100, 12]
 ```

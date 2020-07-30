@@ -12,11 +12,11 @@ class NoMagicNumberRule extends BaseRule {
   static const _warningMessage =
       'Avoid using magic numbers. Extract them to named constants';
 
-  // TODO(shtepin): allow configuration of allowed values
-  static const allowedMagicNumbers = [-1, 0, 1];
+  final Iterable<num> _allowedMagicNumbers;
 
   NoMagicNumberRule({Map<String, Object> config = const {}})
-      : super(
+      : _allowedMagicNumbers = _parseConfig(config),
+        super(
             id: ruleId,
             severity:
                 CodeIssueSeverity.fromJson(config['severity'] as String) ??
@@ -39,8 +39,8 @@ class NoMagicNumberRule extends BaseRule {
   }
 
   bool _isMagicNumber(Literal l) =>
-      l is DoubleLiteral ||
-      l is IntegerLiteral && !allowedMagicNumbers.contains(l.value);
+      (l is DoubleLiteral && !_allowedMagicNumbers.contains(l.value)) ||
+      (l is IntegerLiteral && !_allowedMagicNumbers.contains(l.value));
 
   bool _isNotInsideNamedConstant(Literal l) =>
       l.thisOrAncestorMatching(
@@ -51,6 +51,9 @@ class NoMagicNumberRule extends BaseRule {
       l.thisOrAncestorMatching(
           (a) => a is MethodInvocation && a.methodName.name == 'DateTime') ==
       null;
+
+  static List<num> _parseConfig(Map<String, Object> config) =>
+      config['allowed'] as List<num> ?? [-1, 0, 1];
 }
 
 class _Visitor extends RecursiveAstVisitor<Object> {

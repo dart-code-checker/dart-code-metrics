@@ -86,5 +86,18 @@ void main() {
 
       expect(issues, isEmpty);
     });
+
+    test("doesn't report magic numbers allowed in config", () {
+      final parseResult = parseString(
+          content: _sampleBad,
+          featureSet: FeatureSet.fromEnableFlags([]),
+          throwIfDiagnostics: false);
+
+      final issues = NoMagicNumberRule(config: {
+        'allowed': [42, 12, 3.14]
+      }).check(parseResult.unit, sourceUrl, parseResult.content).toList();
+
+      expect(issues, isEmpty);
+    });
   });
 }
