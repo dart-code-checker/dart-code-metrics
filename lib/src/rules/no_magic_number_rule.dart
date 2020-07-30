@@ -30,9 +30,7 @@ class NoMagicNumberRule extends BaseRule {
     unit.visitChildren(visitor);
 
     return visitor.literals
-        .where((lit) =>
-            lit is DoubleLiteral ||
-            lit is IntegerLiteral && !allowedMagicNumbers.contains(lit.value))
+        .where(_isMagicNumber)
         .where((lit) =>
             lit.thisOrAncestorMatching((ancestor) =>
                 ancestor is VariableDeclaration && ancestor.isConst) ==
@@ -41,6 +39,10 @@ class NoMagicNumberRule extends BaseRule {
             sourceContent, unit.lineInfo, lit))
         .toList(growable: false);
   }
+
+  bool _isMagicNumber(Literal l) =>
+      l is DoubleLiteral ||
+      l is IntegerLiteral && !allowedMagicNumbers.contains(l.value);
 }
 
 class _Visitor extends RecursiveAstVisitor<Object> {
