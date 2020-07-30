@@ -33,6 +33,7 @@ class NoMagicNumberRule extends BaseRule {
         .where(_isMagicNumber)
         .where(_isNotInsideNamedConstant)
         .where(_isNotInsideConstantCollectionLiteral)
+        .where(_isNotInsideConstConstructor)
         .where(_isNotInDateTime)
         .map((lit) => createIssue(this, _warningMessage, null, null, sourceUrl,
             sourceContent, unit.lineInfo, lit))
@@ -56,6 +57,11 @@ class NoMagicNumberRule extends BaseRule {
   bool _isNotInsideConstantCollectionLiteral(Literal l) =>
       l.thisOrAncestorMatching(
           (ancestor) => ancestor is TypedLiteral && ancestor.isConst) ==
+      null;
+
+  bool _isNotInsideConstConstructor(Literal l) =>
+      l.thisOrAncestorMatching((ancestor) =>
+          ancestor is InstanceCreationExpression && ancestor.isConst) ==
       null;
 
   static List<num> _parseConfig(Map<String, Object> config) =>

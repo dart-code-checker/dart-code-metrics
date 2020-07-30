@@ -27,6 +27,8 @@ bool good_f3(String x) => x.indexOf(str) != -1
 final someDay = DateTime(2006, 12, 1);
 Intl.message(example: const <String, int>{ 'Assigneed': 3 });
 foo(const [32, 12]);
+final f = Future.delayed(const Duration(seconds: 5));
+final f = foo(const Bar(5));
 ''';
 
 void main() {
