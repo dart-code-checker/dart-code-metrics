@@ -1,5 +1,3 @@
-import 'package:dart_code_metrics/src/rules/prefer_on_push_cd_strategy.dart';
-
 import 'rules/avoid_preserve_whitespace_false.dart';
 import 'rules/base_rule.dart';
 import 'rules/binary_expression_operand_order_rule.dart';
@@ -12,6 +10,7 @@ import 'rules/no_magic_number_rule.dart';
 import 'rules/no_object_declaration.dart';
 import 'rules/prefer_conditional_expressions.dart';
 import 'rules/prefer_intl_name.dart';
+import 'rules/prefer_on_push_cd_strategy.dart';
 import 'rules/prefer_trailing_comma_for_collection.dart';
 
 final _implementedRules = <String, BaseRule Function(Map<String, Object>)>{
