@@ -1,3 +1,5 @@
+import 'package:dart_code_metrics/src/rules/prefer_on_push_cd_strategy.dart';
+
 import 'rules/avoid_preserve_whitespace_false.dart';
 import 'rules/base_rule.dart';
 import 'rules/binary_expression_operand_order_rule.dart';
@@ -33,6 +35,8 @@ final _implementedRules = <String, BaseRule Function(Map<String, Object>)>{
   PreferIntlNameRule.ruleId: (config) => PreferIntlNameRule(config: config),
   PreferTrailingCommaForCollectionRule.ruleId: (config) =>
       PreferTrailingCommaForCollectionRule(config: config),
+  PreferOnPushCdStrategyRule.ruleId: (config) =>
+      PreferOnPushCdStrategyRule(config: config),
 };
 
 Iterable<BaseRule> get allRules =>
