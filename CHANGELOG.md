@@ -3,6 +3,7 @@
 # Unreleased
 
 - Add static code diagnostics prefer-conditional-expressions, no-object-declaration
+- Set min analyzer 0.39.3
 
 # 1.7.1
 
