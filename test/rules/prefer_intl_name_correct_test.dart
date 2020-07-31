@@ -2,10 +2,7 @@
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:dart_code_metrics/src/rules/prefer_intl_name.dart';
-import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
-
-import '../utils.dart';
 
 const _content = '''
 import 'package:intl/intl.dart';    
@@ -264,9 +261,6 @@ void main() {
     final issues = PreferIntlNameRule()
         .check(parseResult.unit, sourceUrl, parseResult.content);
 
-    // TODO(dmitry): remove ignore after migrate on analyzer 0.38.5
-    if (getAnalyzerVersion() >= Version(0, 38, 5)) {
-      expect(issues, isEmpty);
-    }
+    expect(issues, isEmpty);
   });
 }

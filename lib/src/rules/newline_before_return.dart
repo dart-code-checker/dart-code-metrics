@@ -67,8 +67,6 @@ class NewlineBeforeReturnRule extends BaseRule {
   }
 
   Token _latestCommentToken(Token token) {
-    // TODO(dmitry): remove ignore after migrate on analyzer 0.39.3
-    // ignore: omit_local_variable_types
     Token latestCommentToken = token?.precedingComments;
     while (latestCommentToken?.next != null) {
       latestCommentToken = latestCommentToken.next;
