@@ -14,10 +14,13 @@ dart_code_metrics:
     cyclomatic-complexity: 20
     number-of-arguments: 4
   rules:
+    - binary-expression-operand-order
     - double-literal-format
     - newline-before-return
     - no-boolean-literal-compare
     - no-empty-block
+    - no-object-declaration
+    - prefer-conditional-expressions
     - prefer-trailing-comma-for-collection
 
 linter:

@@ -10,16 +10,19 @@ import 'package:meta/meta.dart';
 import 'base_rule.dart';
 
 class PreferIntlNameRule extends BaseRule {
+  static const String ruleId = 'prefer-intl-name';
+
   static const _intlPackageUrl = 'package:intl/intl.dart';
   static const _notCorrectNameFailure = 'Incorrect Intl name, should be';
   static const _notCorrectNameCorrectionComment = 'Rename';
   static const _notExistsNameFailure = 'Argument `name` does not exists';
 
-  const PreferIntlNameRule()
+  PreferIntlNameRule({Map<String, Object> config = const {}})
       : super(
-          id: 'prefer-intl-name',
-          severity: CodeIssueSeverity.warning,
-        );
+            id: ruleId,
+            severity:
+                CodeIssueSeverity.fromJson(config['severity'] as String) ??
+                    CodeIssueSeverity.warning);
 
   @override
   Iterable<CodeIssue> check(

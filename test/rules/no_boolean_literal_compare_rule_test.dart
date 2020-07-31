@@ -57,7 +57,7 @@ void main() {
         featureSet: FeatureSet.fromEnableFlags([]),
         throwIfDiagnostics: false);
 
-    final issues = const NoBooleanLiteralCompareRule()
+    final issues = NoBooleanLiteralCompareRule()
         .check(parseResult.unit, sourceUrl, parseResult.content);
 
     expect(issues.length, equals(13));

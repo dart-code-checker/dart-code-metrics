@@ -45,7 +45,7 @@ class JsonReporter implements Reporter {
       },
       'issues': record.issues
           .map((issue) => {
-                'severity': issue.severity.toString().split('.').last,
+                'severity': issue.severity.value,
                 'ruleId': issue.ruleId,
                 if (issue.ruleDocumentationUri != null)
                   'ruleDocumentationUrl': issue.ruleDocumentationUri.toString(),

@@ -7,14 +7,20 @@ import 'base_rule.dart';
 import 'rule_utils.dart';
 
 class NoMagicNumberRule extends BaseRule {
+  static const String ruleId = 'no-magic-number';
+
   static const _warningMessage =
       'Avoid using magic numbers. Extract them to named constants';
 
-  // TODO(shtepin): allow configuration of allowed values
-  static const allowedMagicNumbers = [-1, 0, 1];
+  final Iterable<num> _allowedMagicNumbers;
 
-  const NoMagicNumberRule()
-      : super(id: 'no-magic-number', severity: CodeIssueSeverity.warning);
+  NoMagicNumberRule({Map<String, Object> config = const {}})
+      : _allowedMagicNumbers = _parseConfig(config),
+        super(
+            id: ruleId,
+            severity:
+                CodeIssueSeverity.fromJson(config['severity'] as String) ??
+                    CodeIssueSeverity.warning);
 
   @override
   Iterable<CodeIssue> check(
@@ -24,17 +30,42 @@ class NoMagicNumberRule extends BaseRule {
     unit.visitChildren(visitor);
 
     return visitor.literals
-        .where((lit) =>
-            lit is DoubleLiteral ||
-            lit is IntegerLiteral && !allowedMagicNumbers.contains(lit.value))
-        .where((lit) =>
-            lit.thisOrAncestorMatching((ancestor) =>
-                ancestor is VariableDeclaration && ancestor.isConst) ==
-            null)
+        .where(_isMagicNumber)
+        .where(_isNotInsideNamedConstant)
+        .where(_isNotInsideConstantCollectionLiteral)
+        .where(_isNotInsideConstConstructor)
+        .where(_isNotInDateTime)
         .map((lit) => createIssue(this, _warningMessage, null, null, sourceUrl,
             sourceContent, unit.lineInfo, lit))
         .toList(growable: false);
   }
+
+  bool _isMagicNumber(Literal l) =>
+      (l is DoubleLiteral && !_allowedMagicNumbers.contains(l.value)) ||
+      (l is IntegerLiteral && !_allowedMagicNumbers.contains(l.value));
+
+  bool _isNotInsideNamedConstant(Literal l) =>
+      l.thisOrAncestorMatching(
+          (ancestor) => ancestor is VariableDeclaration && ancestor.isConst) ==
+      null;
+
+  bool _isNotInDateTime(Literal l) =>
+      l.thisOrAncestorMatching(
+          (a) => a is MethodInvocation && a.methodName.name == 'DateTime') ==
+      null;
+
+  bool _isNotInsideConstantCollectionLiteral(Literal l) =>
+      l.thisOrAncestorMatching(
+          (ancestor) => ancestor is TypedLiteral && ancestor.isConst) ==
+      null;
+
+  bool _isNotInsideConstConstructor(Literal l) =>
+      l.thisOrAncestorMatching((ancestor) =>
+          ancestor is InstanceCreationExpression && ancestor.isConst) ==
+      null;
+
+  static List<num> _parseConfig(Map<String, Object> config) =>
+      config['allowed'] as List<num> ?? [-1, 0, 1];
 }
 
 class _Visitor extends RecursiveAstVisitor<Object> {

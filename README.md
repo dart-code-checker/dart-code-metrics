@@ -88,6 +88,7 @@ A plugin for the Dart `analyzer` library [package](https://pub.dev/packages/dart
 * [avoid-preserve-whitespace-false](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/avoid_preserve_whitespace_false.md)
 * [binary-expression-operand-order](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/binary_expression_operand_order.md)
 * [double-literal-format](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/double_literal_format.md)
+* [member-ordering](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/member_ordering.md)
 * [newline-before-return](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/newline_before_return.md)
 * [no-boolean-literal-compare](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/no_boolean_literal_compare.md)
 * [no-empty-block](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/no_empty_block.md)
@@ -96,3 +97,4 @@ A plugin for the Dart `analyzer` library [package](https://pub.dev/packages/dart
 * [prefer-conditional-expressions](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/prefer_conditional_expressions.md)
 * [prefer-intl-name](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/prefer_intl_name.md)
 * [prefer-trailing-comma-for-collection](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/prefer_trailing_comma_for_collection.md)
+* [prefer-on-push-cd-strategy](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/prefer_on_push_cd_strategy.md)

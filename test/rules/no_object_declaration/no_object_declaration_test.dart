@@ -17,7 +17,7 @@ void main() {
 
     final parseResult = await resolveFile(path: path);
 
-    final issues = const NoObjectDeclarationRule()
+    final issues = NoObjectDeclarationRule()
         .check(parseResult.unit, sourceUrl, parseResult.content);
 
     expect(

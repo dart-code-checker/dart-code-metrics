@@ -2,6 +2,7 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:dart_code_metrics/src/models/code_issue.dart';
 import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
+import 'package:meta/meta.dart';
 
 import 'base_rule.dart';
 import 'rule_utils.dart';
@@ -9,13 +10,17 @@ import 'rule_utils.dart';
 // Inspired by TSLint (https://palantir.github.io/tslint/rules/prefer-conditional-expression/)
 
 class PreferConditionalExpressions extends BaseRule {
-  static const _warningMessage = 'Prefer conditional expression';
+  static const String ruleId = 'prefer-conditional-expressions';
 
-  const PreferConditionalExpressions()
+  static const _warningMessage = 'Prefer conditional expression';
+  static const _correctionMessage = 'Convert to conditional expression';
+
+  PreferConditionalExpressions({Map<String, Object> config = const {}})
       : super(
-          id: 'prefer-conditional-expressions',
-          severity: CodeIssueSeverity.style,
-        );
+            id: ruleId,
+            severity:
+                CodeIssueSeverity.fromJson(config['severity'] as String) ??
+                    CodeIssueSeverity.style);
 
   @override
   Iterable<CodeIssue> check(
@@ -27,36 +32,76 @@ class PreferConditionalExpressions extends BaseRule {
 
     unit.visitChildren(_visitor);
 
-    return _visitor.statements
-        .map((statement) => createIssue(this, _warningMessage, null, null,
-            sourceUrl, sourceContent, unit.lineInfo, statement))
+    return _visitor.statementsInfo
+        .map(
+          (info) => createIssue(
+            this,
+            _warningMessage,
+            _createCorrection(info),
+            _correctionMessage,
+            sourceUrl,
+            sourceContent,
+            unit.lineInfo,
+            info.statement,
+          ),
+        )
         .toList(growable: false);
+  }
+
+  String _createCorrection(_StatementInfo info) {
+    final thenStatement = info.unwrappedThenStatement;
+    final elseStatement = info.unwrappedElseStatement;
+
+    final condition = info.statement.condition;
+
+    if (thenStatement is AssignmentExpression &&
+        elseStatement is AssignmentExpression) {
+      final target = thenStatement.leftHandSide;
+      final firstExpression = thenStatement.rightHandSide;
+      final secondExpression = elseStatement.rightHandSide;
+
+      return '$target = $condition ? $firstExpression : $secondExpression;';
+    }
+
+    if (thenStatement is ReturnStatement && elseStatement is ReturnStatement) {
+      final firstExpression = thenStatement.expression;
+      final secondExpression = elseStatement.expression;
+
+      return 'return $condition ? $firstExpression : $secondExpression;';
+    }
+
+    return null;
   }
 }
 
 class _Visitor extends RecursiveAstVisitor<void> {
-  final _statements = <IfStatement>[];
+  final _statementsInfo = <_StatementInfo>[];
 
-  Iterable<IfStatement> get statements => _statements;
+  Iterable<_StatementInfo> get statementsInfo => _statementsInfo;
 
   @override
   void visitIfStatement(IfStatement node) {
     super.visitIfStatement(node);
 
     if (node.elseStatement != null && node.elseStatement is! IfStatement) {
-      if (_hasBothAssignment(node) || _hasBothReturn(node)) {
-        _statements.add(node);
-      }
+      _checkBothAssignment(node);
+      _checkBothReturn(node);
     }
   }
 
-  bool _hasBothAssignment(IfStatement statement) {
+  void _checkBothAssignment(IfStatement statement) {
     final thenAssignment = _getAssignmentExpression(statement.thenStatement);
     final elseAssignment = _getAssignmentExpression(statement.elseStatement);
 
-    return thenAssignment != null &&
+    if (thenAssignment != null &&
         elseAssignment != null &&
-        _haveEqualNames(thenAssignment, elseAssignment);
+        _haveEqualNames(thenAssignment, elseAssignment)) {
+      _statementsInfo.add(_StatementInfo(
+        statement: statement,
+        unwrappedThenStatement: thenAssignment,
+        unwrappedElseStatement: elseAssignment,
+      ));
+    }
   }
 
   AssignmentExpression _getAssignmentExpression(Statement statement) {
@@ -81,13 +126,41 @@ class _Visitor extends RecursiveAstVisitor<void> {
       (thenAssignment.leftHandSide as Identifier).name ==
           (elseAssignment.leftHandSide as Identifier).name;
 
-  bool _hasBothReturn(IfStatement statement) =>
-      _isReturnStatement(statement.thenStatement) &&
-      _isReturnStatement(statement.elseStatement);
+  void _checkBothReturn(IfStatement statement) {
+    final thenReturn = _getReturnStatement(statement.thenStatement);
+    final elseReturn = _getReturnStatement(statement.elseStatement);
 
-  bool _isReturnStatement(Statement statement) =>
-      statement is ReturnStatement ||
-      statement is Block &&
-          statement.statements.length == 1 &&
-          statement.statements.first is ReturnStatement;
+    if (thenReturn != null && elseReturn != null) {
+      _statementsInfo.add(_StatementInfo(
+        statement: statement,
+        unwrappedThenStatement: thenReturn,
+        unwrappedElseStatement: elseReturn,
+      ));
+    }
+  }
+
+  ReturnStatement _getReturnStatement(Statement statement) {
+    if (statement is ReturnStatement) {
+      return statement;
+    }
+
+    if (statement is Block && statement.statements.length == 1) {
+      return _getReturnStatement(statement.statements.first);
+    }
+
+    return null;
+  }
+}
+
+@immutable
+class _StatementInfo {
+  final IfStatement statement;
+  final AstNode unwrappedThenStatement;
+  final AstNode unwrappedElseStatement;
+
+  const _StatementInfo({
+    this.statement,
+    this.unwrappedThenStatement,
+    this.unwrappedElseStatement,
+  });
 }

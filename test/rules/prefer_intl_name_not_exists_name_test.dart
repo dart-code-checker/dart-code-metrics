@@ -209,7 +209,7 @@ void main() {
         featureSet: FeatureSet.fromEnableFlags([]),
         throwIfDiagnostics: false);
 
-    final issues = const PreferIntlNameRule()
+    final issues = PreferIntlNameRule()
         .check(parseResult.unit, sourceUrl, parseResult.content);
 
     expect(issues.length, equals(36));
