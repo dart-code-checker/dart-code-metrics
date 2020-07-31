@@ -52,19 +52,15 @@ class _Visitor extends RecursiveAstVisitor<Object> {
       return _expression.add(node);
     }
 
-    final strategyValue = changeDetectionArg.expression;
-    if (strategyValue is! PrefixedIdentifier) {
+    final value = changeDetectionArg.expression;
+    if (value is PrefixedIdentifier && _isCorrectStrategy(value)) {
       return _expression.add(changeDetectionArg);
-    }
-
-    if (_isStrategyValueCorrect(strategyValue as PrefixedIdentifier)) {
-      return;
     }
 
     return _expression.add(changeDetectionArg);
   }
 
-  bool _isStrategyValueCorrect(PrefixedIdentifier identifier) =>
+  bool _isCorrectStrategy(PrefixedIdentifier identifier) =>
       identifier.prefix.name == 'ChangeDetectionStrategy' &&
       identifier.identifier.name == 'OnPush';
 
