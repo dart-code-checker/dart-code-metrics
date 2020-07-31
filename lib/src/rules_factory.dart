@@ -10,6 +10,7 @@ import 'rules/no_magic_number_rule.dart';
 import 'rules/no_object_declaration.dart';
 import 'rules/prefer_conditional_expressions.dart';
 import 'rules/prefer_intl_name.dart';
+import 'rules/prefer_on_push_cd_strategy.dart';
 import 'rules/prefer_trailing_comma_for_collection.dart';
 
 final _implementedRules = <String, BaseRule Function(Map<String, Object>)>{
@@ -33,6 +34,8 @@ final _implementedRules = <String, BaseRule Function(Map<String, Object>)>{
   PreferIntlNameRule.ruleId: (config) => PreferIntlNameRule(config: config),
   PreferTrailingCommaForCollectionRule.ruleId: (config) =>
       PreferTrailingCommaForCollectionRule(config: config),
+  PreferOnPushCdStrategyRule.ruleId: (config) =>
+      PreferOnPushCdStrategyRule(config: config),
 };
 
 Iterable<BaseRule> get allRules =>

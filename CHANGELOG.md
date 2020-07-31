@@ -2,7 +2,7 @@
 
 # Unreleased
 
-- Add static code diagnostics prefer-conditional-expressions, no-object-declaration, member-ordering
+- Add static code diagnostics prefer-conditional-expressions, prefer-on-push-cd-strategy, member-ordering, no-object-declaration
 - Set min analyzer 0.39.3
 
 # 1.7.1
