@@ -2,6 +2,7 @@
 
 # Unreleased
 
+- Add prefer-on-push-cd-strategy rule
 - Add static code diagnostics prefer-conditional-expressions, no-object-declaration
 - Set min analyzer 0.39.3
 
