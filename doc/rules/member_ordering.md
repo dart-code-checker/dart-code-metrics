@@ -8,7 +8,7 @@ member-ordering
 
 Enforces member ordering.
 
-The value for `order` may be an array consisting of the following strings:
+The value for `order` may be an array consisting of the following strings (default order listed):
 
 - public_fields
 - private_fields
@@ -16,9 +16,9 @@ The value for `order` may be an array consisting of the following strings:
 - private_getters
 - public_setters
 - private_setters
+- constructors
 - public_methods
 - private_methods
-- constructors
 - angular_inputs
 - angular_outputs
 - angular_host_bindings

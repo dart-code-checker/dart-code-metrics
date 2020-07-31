@@ -70,7 +70,7 @@ class MemberOrderingRule extends BaseRule {
     final order = config['order'] as List<String> ?? [];
 
     return order.isEmpty
-        ? _MembersGroup.groupsOrder
+        ? _MembersGroup._groupsOrder
         : order
             .map(_MembersGroup.parse)
             .where((group) => group != null)
@@ -244,11 +244,11 @@ class _MembersGroup {
   static const angularOutputs = _MembersGroup._('angular_outputs');
   static const angularHostBindings = _MembersGroup._('angular_host_bindings');
   static const angularHostListeners = _MembersGroup._('angular_host_listeners');
-  static const angularViewChild = _MembersGroup._('angular_view_children');
-  static const angularContentChild =
+  static const angularViewChildren = _MembersGroup._('angular_view_children');
+  static const angularContentChildren =
       _MembersGroup._('angular_content_children');
 
-  static List<_MembersGroup> groupsOrder = [
+  static const List<_MembersGroup> _groupsOrder = [
     publicFields,
     privateFields,
     publicGetters,
@@ -262,12 +262,12 @@ class _MembersGroup {
     angularOutputs,
     angularHostBindings,
     angularHostListeners,
-    angularViewChild,
-    angularContentChild,
+    angularViewChildren,
+    angularContentChildren,
   ];
 
-  static _MembersGroup parse(String name) =>
-      groupsOrder.firstWhere((group) => group.name == name, orElse: () => null);
+  static _MembersGroup parse(String name) => _groupsOrder
+      .firstWhere((group) => group.name == name, orElse: () => null);
 }
 
 @immutable
@@ -284,15 +284,15 @@ class _Annotation {
   static const hostListener =
       _Annotation._('HostListener', _MembersGroup.angularHostListeners);
   static const viewChild =
-      _Annotation._('ViewChild', _MembersGroup.angularViewChild);
+      _Annotation._('ViewChild', _MembersGroup.angularViewChildren);
   static const viewChildren =
-      _Annotation._('ViewChildren', _MembersGroup.angularViewChild);
+      _Annotation._('ViewChildren', _MembersGroup.angularViewChildren);
   static const contentChild =
-      _Annotation._('ContentChild', _MembersGroup.angularContentChild);
+      _Annotation._('ContentChild', _MembersGroup.angularContentChildren);
   static const contentChildren =
-      _Annotation._('ContentChildren', _MembersGroup.angularContentChild);
+      _Annotation._('ContentChildren', _MembersGroup.angularContentChildren);
 
-  static List<_Annotation> annotations = [
+  static const List<_Annotation> _annotations = [
     input,
     output,
     hostBinding,
@@ -303,7 +303,7 @@ class _Annotation {
     contentChildren,
   ];
 
-  static _Annotation parse(String name) => annotations
+  static _Annotation parse(String name) => _annotations
       .firstWhere((annotation) => annotation.name == name, orElse: () => null);
 }
 
