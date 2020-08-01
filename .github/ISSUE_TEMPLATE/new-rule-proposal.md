@@ -8,7 +8,7 @@ assignees: dkrutskikh
 ---
 
 <!--
-    This template is for new rule proposals. If you want to improve existing rule or report a bug please choose another template.
+    This template is for new rule proposals. If you want to to ask a question, improve existing rule or report a bug please choose another template.
 -->
 
 **Please describe what the rule should do:**

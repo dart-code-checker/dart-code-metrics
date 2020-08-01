@@ -8,7 +8,7 @@ assignees: dkrutskikh
 ---
 
 <!--
-    This template is for requesting a rule change. If tou want to suggest a new rule or report a bug please use another template.
+    This template is for requesting a rule change. If you want to ask a question, suggest a new rule or report a bug please use another template.
 -->
 
 **What rule do you want to change?**
