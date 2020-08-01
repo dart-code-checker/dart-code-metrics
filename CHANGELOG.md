@@ -1,8 +1,9 @@
 # Changelog
 
-# Unreleased
+# 1.8.0
 
 - Add static code diagnostics prefer-conditional-expressions, prefer-on-push-cd-strategy, member-ordering, no-object-declaration
+- Improve static code diagnostic no-magic-number
 - Set min analyzer 0.39.3
 
 # 1.7.1
