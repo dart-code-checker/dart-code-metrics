@@ -19,9 +19,9 @@ Reports:
 Output formats:
 
 - Plain terminal
-- JSON
-- HTML
 - Codeclimate
+- HTML
+- JSON
 
 ## Usage
 
@@ -77,6 +77,9 @@ Usage: metrics [options...] <directories>
     --number-of-arguments=<4>                          Number of arguments threshold
                                                        (defaults to "4")
 
+    --number-of-methods=<10>                           Number of methods threshold
+                                                       (defaults to "10")
+
     --root-folder=<./>                                 Root folder
                                                        (defaults to current directory)
 
@@ -95,7 +98,7 @@ If you want command line tool to check rules, you should add configuration to yo
 
 ## Rules
 
-* [avoid-preserve-whitespace-false](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/avoid_preserve_whitespace_false.md)
+### Common
 * [binary-expression-operand-order](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/binary_expression_operand_order.md)
 * [double-literal-format](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/double_literal_format.md)
 * [member-ordering](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/member_ordering.md)
@@ -105,7 +108,11 @@ If you want command line tool to check rules, you should add configuration to yo
 * [no-magic-number](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/no_magic_number.md)
 * [no-object-declaration](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/no_object_declaration.md)
 * [prefer-conditional-expressions](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/prefer_conditional_expressions.md)
-* [prefer-intl-name](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/prefer_intl_name.md)
 * [prefer-trailing-comma-for-collection](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/prefer_trailing_comma_for_collection.md)
-* [prefer-on-push-cd-strategy](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/prefer_on_push_cd_strategy.md)
 
+### Intl specific
+* [prefer-intl-name](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/prefer_intl_name.md)
+
+### Angular specific
+* [avoid-preserve-whitespace-false](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/avoid_preserve_whitespace_false.md)
+* [prefer-on-push-cd-strategy](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/prefer_on_push_cd_strategy.md)
