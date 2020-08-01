@@ -8,7 +8,7 @@ assignees: dkrutskikh
 ---
 
 <!--
-    This template is for bug reports. If you want to improve existing rule or suggest a new one please use another template.
+    This template is for bug reports. If you want to to ask a question, improve existing rule or suggest a new one please use another template.
 -->
 
 * **Dart code metrics version:**
