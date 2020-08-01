@@ -6,7 +6,7 @@
 
 # Dart code metrics
 
-Dart code metrics is a static analysis tool that helps improve code quality. It analyzes code metrics and provides additional rules for dart analyzer.
+Dart code metrics is a static analysis tool that helps improve code quality. It analyzes code metrics and provides [additional rules](https://github.com/wrike/dart-code-metrics#rules) for dart analyzer.
 Can be used as a command line tool, analyzer plugin or library.
 
 Reports:
@@ -24,6 +24,34 @@ Output formats:
 - Codeclimate
 
 ## Usage
+
+### Analyzer plugin
+
+A plugin for the Dart `analyzer` library [package](https://pub.dev/packages/dart_code_metrics) providing additional rules from Dart code metrics.
+
+1. Add dependency to `pubspec.yaml`
+    ```yaml
+    dev_dependencies:
+      dart_code_metrics: ^1.8.0
+    ```
+
+2. Add configuration to `analysis_options.yaml`
+    ```yaml
+    analyzer:
+      plugins:
+        - dart_code_metrics
+    
+    dart_code_metrics:
+      metrics:
+        cyclomatic-complexity: 20
+        number-of-arguments: 4
+      metrics-exclude:
+        - test/**
+      rules:
+        - newline-before-return
+        - no-boolean-literal-compare
+        - no-empty-block
+        - prefer-trailing-comma-for-collection
 
 ### Command line tool
 
@@ -60,38 +88,10 @@ Usage: metrics [options...] <directories>
                                                        [noted, warning, alarm]
 ```
 
-If you want command line tool to check rules, you should add configuration to your `analysis_options.yaml` as listed below in Analyzer plugin usage example.
+If you want command line tool to check rules, you should add configuration to your `analysis_options.yaml` as listed in Analyzer plugin usage example.
 
 ### Library
 [See `example/example.dart`](https://github.com/wrike/dart-code-metrics/blob/master/example/example.dart)
-
-### Analyzer plugin
-
-A plugin for the Dart `analyzer` library [package](https://pub.dev/packages/dart_code_metrics) providing additional rules from Dart code metrics.
-
-1. Add dependency to `pubspec.yaml`
-    ```yaml
-    dev_dependencies:
-      dart_code_metrics: ^1.8.0
-    ```
-
-2. Add configuration to `analysis_options.yaml`
-    ```yaml
-    analyzer:
-      plugins:
-        - dart_code_metrics
-    
-    dart_code_metrics:
-      metrics:
-        cyclomatic-complexity: 20
-        number-of-arguments: 4
-      metrics-exclude:
-        - test/**
-      rules:
-        - newline-before-return
-        - no-boolean-literal-compare
-        - no-empty-block
-        - prefer-trailing-comma-for-collection
 
 ## Rules
 
