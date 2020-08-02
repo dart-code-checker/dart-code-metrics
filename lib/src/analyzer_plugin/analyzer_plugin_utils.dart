@@ -29,7 +29,7 @@ plugin.AnalysisErrorFixes codeIssueToAnalysisErrorFixes(
             issue.message,
             issue.ruleId,
             correction: issue.correction,
-            url: issue.ruleDocumentationUri?.toString(),
+            url: issue.ruleDocumentation?.toString(),
             hasFix: issue.correction != null),
         fixes: [
           if (issue.correction != null)

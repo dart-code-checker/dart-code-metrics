@@ -11,6 +11,7 @@ import 'rule_utils.dart';
 
 class MemberOrderingRule extends BaseRule {
   static const ruleId = 'member-ordering';
+  static const _documentationUrl = 'https://git.io/JJwqN';
 
   static const _warningMessage = 'should be before';
   static const _warningAlphabeticalMessage = 'should be alphabetically before';
@@ -23,6 +24,7 @@ class MemberOrderingRule extends BaseRule {
         _alphabetize = (config['alphabetize'] as bool) ?? false,
         super(
             id: ruleId,
+            documentation: Uri.parse(_documentationUrl),
             severity:
                 CodeIssueSeverity.fromJson(config['severity'] as String) ??
                     CodeIssueSeverity.style);

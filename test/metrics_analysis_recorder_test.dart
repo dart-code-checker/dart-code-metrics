@@ -115,6 +115,7 @@ void main() {
       group('Stores issues for file', () {
         test('Aggregates issues for file', () {
           const _issueRuleId = 'ruleId1';
+          const _issueRuleDocumentation = 'https://docu.edu/ruleId1.html';
           const _issueMessage = 'first issue message';
           const _issueCorrection = 'correction';
           const _issueCorrectionComment = 'correction comment';
@@ -124,6 +125,7 @@ void main() {
                 b.recordIssues([
                   CodeIssue(
                     ruleId: _issueRuleId,
+                    ruleDocumentation: Uri.parse(_issueRuleDocumentation),
                     severity: CodeIssueSeverity.style,
                     sourceSpan: SourceSpanBase(
                         SourceLocation(1,
@@ -142,6 +144,8 @@ void main() {
               .single;
 
           expect(issueRecord.ruleId, _issueRuleId);
+          expect(issueRecord.ruleDocumentation.toString(),
+              _issueRuleDocumentation);
           expect(issueRecord.message, _issueMessage);
           expect(issueRecord.correction, _issueCorrection);
           expect(issueRecord.correctionComment, _issueCorrectionComment);
@@ -260,6 +264,7 @@ void main() {
 
       test('aggregate issues for file', () {
         const _issueRuleId = 'ruleId1';
+        const _issueRuleDocumentation = 'https://docu.edu/ruleId1.html';
         const _issueMessage = 'first issue message';
         const _issueCorrection = 'correction';
         const _issueCorrectionComment = 'correction comment';
@@ -269,6 +274,7 @@ void main() {
           ..recordIssues([
             CodeIssue(
               ruleId: _issueRuleId,
+              ruleDocumentation: Uri.parse(_issueRuleDocumentation),
               severity: CodeIssueSeverity.style,
               sourceSpan: SourceSpanBase(
                   SourceLocation(1,
@@ -282,12 +288,12 @@ void main() {
           ])
           ..endRecordFile();
 
-        expect(recorder.records().single.issues.single.ruleId, _issueRuleId);
-        expect(recorder.records().single.issues.single.message, _issueMessage);
-        expect(recorder.records().single.issues.single.correction,
-            _issueCorrection);
-        expect(recorder.records().single.issues.single.correctionComment,
-            _issueCorrectionComment);
+        final issue = recorder.records().single.issues.single;
+        expect(issue.ruleId, _issueRuleId);
+        expect(issue.ruleDocumentation.toString(), _issueRuleDocumentation);
+        expect(issue.message, _issueMessage);
+        expect(issue.correction, _issueCorrection);
+        expect(issue.correctionComment, _issueCorrectionComment);
       });
     });
   });

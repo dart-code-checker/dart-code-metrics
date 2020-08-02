@@ -57,7 +57,7 @@ void main() {
 
       test('with style severity issues', () {
         const _issueRuleId = 'ruleId1';
-        const _issueRuleDocumentationUrl = 'https://docu.edu/ruleId1.html';
+        const _issueRuleDocumentation = 'https://docu.edu/ruleId1.html';
         const _issueLine = 2;
         const _issueColumn = 3;
         const _issueProblemCode = 'issue';
@@ -74,6 +74,7 @@ void main() {
             issues: [
               CodeIssue(
                 ruleId: _issueRuleId,
+                ruleDocumentation: Uri.parse(_issueRuleDocumentation),
                 severity: CodeIssueSeverity.style,
                 sourceSpan: SourceSpanBase(
                     SourceLocation(1,
@@ -88,7 +89,6 @@ void main() {
                 message: _issueMessage,
                 correction: _issueCorrection,
                 correctionComment: _issueCorrectionComment,
-                ruleDocumentationUri: Uri.parse(_issueRuleDocumentationUrl),
               ),
             ],
           ),
@@ -106,7 +106,7 @@ void main() {
         expect(issues.single, containsPair('severity', 'style'));
         expect(issues.single, containsPair('ruleId', _issueRuleId));
         expect(issues.single,
-            containsPair('ruleDocumentationUrl', _issueRuleDocumentationUrl));
+            containsPair('ruleDocumentation', _issueRuleDocumentation));
         expect(issues.single, containsPair('lineNumber', _issueLine));
         expect(issues.single, containsPair('columnNumber', _issueColumn));
         expect(issues.single, containsPair('problemCode', _issueProblemCode));

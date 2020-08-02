@@ -9,6 +9,7 @@ import 'rule_utils.dart';
 
 class DoubleLiteralFormatRule extends BaseRule {
   static const String ruleId = 'double-literal-format';
+  static const _documentationUrl = 'https://git.io/Jf3MH';
 
   static const _failureLeadingZero =
       "Double literal shouldn't have redundant leading '0'.";
@@ -25,6 +26,7 @@ class DoubleLiteralFormatRule extends BaseRule {
   DoubleLiteralFormatRule({Map<String, Object> config = const {}})
       : super(
             id: ruleId,
+            documentation: Uri.parse(_documentationUrl),
             severity:
                 CodeIssueSeverity.fromJson(config['severity'] as String) ??
                     CodeIssueSeverity.style);

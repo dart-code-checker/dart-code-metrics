@@ -11,6 +11,7 @@ import 'rule_utils.dart';
 
 class PreferConditionalExpressions extends BaseRule {
   static const String ruleId = 'prefer-conditional-expressions';
+  static const _documentationUrl = 'https://git.io/JJwms';
 
   static const _warningMessage = 'Prefer conditional expression';
   static const _correctionMessage = 'Convert to conditional expression';
@@ -18,6 +19,7 @@ class PreferConditionalExpressions extends BaseRule {
   PreferConditionalExpressions({Map<String, Object> config = const {}})
       : super(
             id: ruleId,
+            documentation: Uri.parse(_documentationUrl),
             severity:
                 CodeIssueSeverity.fromJson(config['severity'] as String) ??
                     CodeIssueSeverity.style);

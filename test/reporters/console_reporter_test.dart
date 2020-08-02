@@ -127,6 +127,7 @@ void main() {
           issues: [
             CodeIssue(
               ruleId: 'ruleId1',
+              ruleDocumentation: Uri.parse('https://docu.edu/ruleId1.html'),
               severity: CodeIssueSeverity.style,
               sourceSpan: SourceSpanBase(
                   SourceLocation(1,
@@ -141,7 +142,6 @@ void main() {
               message: 'first issue message',
               correction: 'correction',
               correctionComment: 'correction comment',
-              ruleDocumentationUri: Uri.parse('https://docu.edu/ruleId1.html'),
             ),
           ],
         ),

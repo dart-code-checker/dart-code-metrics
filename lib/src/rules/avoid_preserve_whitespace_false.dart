@@ -9,12 +9,14 @@ import 'rule_utils.dart';
 
 class AvoidPreserveWhitespaceFalseRule extends BaseRule {
   static const String ruleId = 'avoid-preserve-whitespace-false';
+  static const _documentationUrl = 'https://git.io/JfDik';
 
   static const _failure = 'Avoid using preserveWhitespace: false.';
 
   AvoidPreserveWhitespaceFalseRule({Map<String, Object> config = const {}})
       : super(
             id: ruleId,
+            documentation: Uri.parse(_documentationUrl),
             severity:
                 CodeIssueSeverity.fromJson(config['severity'] as String) ??
                     CodeIssueSeverity.warning);

@@ -11,6 +11,7 @@ import 'base_rule.dart';
 
 class PreferIntlNameRule extends BaseRule {
   static const String ruleId = 'prefer-intl-name';
+  static const _documentationUrl = 'https://git.io/JJwmc';
 
   static const _intlPackageUrl = 'package:intl/intl.dart';
   static const _notCorrectNameFailure = 'Incorrect Intl name, should be';
@@ -20,6 +21,7 @@ class PreferIntlNameRule extends BaseRule {
   PreferIntlNameRule({Map<String, Object> config = const {}})
       : super(
             id: ruleId,
+            documentation: Uri.parse(_documentationUrl),
             severity:
                 CodeIssueSeverity.fromJson(config['severity'] as String) ??
                     CodeIssueSeverity.warning);

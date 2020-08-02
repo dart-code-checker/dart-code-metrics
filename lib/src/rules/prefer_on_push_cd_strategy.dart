@@ -8,12 +8,14 @@ import 'rule_utils.dart';
 
 class PreferOnPushCdStrategyRule extends BaseRule {
   static const String ruleId = 'prefer-on-push-cd-strategy';
+  static const _documentationUrl = 'https://git.io/JJwmB';
 
   static const _failure = 'Prefer using onPush change detection strategy.';
 
   PreferOnPushCdStrategyRule({Map<String, Object> config = const {}})
       : super(
           id: ruleId,
+          documentation: Uri.parse(_documentationUrl),
           severity: CodeIssueSeverity.fromJson(config['severity'] as String) ??
               CodeIssueSeverity.warning,
         );
