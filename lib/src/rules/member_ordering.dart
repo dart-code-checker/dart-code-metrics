@@ -231,8 +231,6 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
 class _MembersGroup {
   final String name;
 
-  const _MembersGroup._(this.name);
-
   // Generic
   static const publicFields = _MembersGroup._('public_fields');
   static const privateFields = _MembersGroup._('private_fields');
@@ -253,7 +251,7 @@ class _MembersGroup {
   static const angularContentChildren =
       _MembersGroup._('angular_content_children');
 
-  static const List<_MembersGroup> _groupsOrder = [
+  static const _groupsOrder = [
     publicFields,
     privateFields,
     publicGetters,
@@ -271,6 +269,8 @@ class _MembersGroup {
     angularContentChildren,
   ];
 
+  const _MembersGroup._(this.name);
+
   static _MembersGroup parse(String name) => _groupsOrder
       .firstWhere((group) => group.name == name, orElse: () => null);
 }
@@ -279,8 +279,6 @@ class _MembersGroup {
 class _Annotation {
   final String name;
   final _MembersGroup group;
-
-  const _Annotation._(this.name, this.group);
 
   static const input = _Annotation._('Input', _MembersGroup.angularInputs);
   static const output = _Annotation._('Output', _MembersGroup.angularOutputs);
@@ -297,7 +295,7 @@ class _Annotation {
   static const contentChildren =
       _Annotation._('ContentChildren', _MembersGroup.angularContentChildren);
 
-  static const List<_Annotation> _annotations = [
+  static const _annotations = [
     input,
     output,
     hostBinding,
@@ -307,6 +305,8 @@ class _Annotation {
     contentChild,
     contentChildren,
   ];
+
+  const _Annotation._(this.name, this.group);
 
   static _Annotation parse(String name) => _annotations
       .firstWhere((annotation) => annotation.name == name, orElse: () => null);

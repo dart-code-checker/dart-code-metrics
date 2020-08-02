@@ -49,9 +49,9 @@ class _Visitor extends GeneralizingAstVisitor<void> {
   final _nodes = <AstNode>[];
   final LineInfo _lineInfo;
 
-  _Visitor(this._lineInfo);
-
   Iterable<AstNode> get nodes => _nodes;
+
+  _Visitor(this._lineInfo);
 
   @override
   void visitListLiteral(ListLiteral node) {
