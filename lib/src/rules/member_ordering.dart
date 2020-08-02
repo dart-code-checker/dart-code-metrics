@@ -36,7 +36,7 @@ class MemberOrderingRule extends BaseRule {
     final _visitor = _Visitor(_groupsOrder);
 
     final membersInfo = [
-      for (final entry in  unit.childEntities)
+      for (final entry in unit.childEntities)
         if (entry is ClassMember) ...entry.accept(_visitor),
     ];
 
