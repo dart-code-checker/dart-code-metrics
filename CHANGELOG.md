@@ -1,5 +1,9 @@
 # Changelog
 
+# 1.8.1
+
+- Fix static code diagnostics member-ordering and prefer-condifional-expression
+
 # 1.8.0
 
 - Add static code diagnostics prefer-conditional-expressions, prefer-on-push-cd-strategy, member-ordering, no-object-declaration
