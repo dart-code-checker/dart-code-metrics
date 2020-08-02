@@ -118,6 +118,14 @@ int anotherTestFunction() {
 
     return 2;
   } else return 6;
+
+  if (a == 4) {
+    a = 4;
+  } else if (a == 5) {
+    a = 5;
+  } else {
+    a = 6;
+  }
 }
 
 ''';

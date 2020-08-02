@@ -83,7 +83,9 @@ class _Visitor extends RecursiveAstVisitor<void> {
   void visitIfStatement(IfStatement node) {
     super.visitIfStatement(node);
 
-    if (node.elseStatement != null && node.elseStatement is! IfStatement) {
+    if (node.parent is! IfStatement &&
+        node.elseStatement != null &&
+        node.elseStatement is! IfStatement) {
       _checkBothAssignment(node);
       _checkBothReturn(node);
     }
