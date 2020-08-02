@@ -30,10 +30,6 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
   Iterable<Glob> _metricsExclude;
   Iterable<BaseRule> _checkingCodeRules;
 
-  MetricsAnalyzerPlugin(ResourceProvider provider)
-      : _checkingCodeRules = [],
-        super(provider);
-
   @override
   String get contactInfo => 'https://github.com/wrike/dart-code-metrics/issues';
 
@@ -45,6 +41,10 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
 
   @override
   String get version => '1.8.1';
+
+  MetricsAnalyzerPlugin(ResourceProvider provider)
+      : _checkingCodeRules = [],
+        super(provider);
 
   @override
   void contentChanged(String path) {

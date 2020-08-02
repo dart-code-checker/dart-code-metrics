@@ -8,6 +8,7 @@ import 'rule_utils.dart';
 
 class NoMagicNumberRule extends BaseRule {
   static const String ruleId = 'no-magic-number';
+  static const _documentationUrl = 'https://git.io/JJwmL';
 
   static const _warningMessage =
       'Avoid using magic numbers. Extract them to named constants';
@@ -18,6 +19,7 @@ class NoMagicNumberRule extends BaseRule {
       : _allowedMagicNumbers = _parseConfig(config),
         super(
             id: ruleId,
+            documentation: Uri.parse(_documentationUrl),
             severity:
                 CodeIssueSeverity.fromJson(config['severity'] as String) ??
                     CodeIssueSeverity.warning);

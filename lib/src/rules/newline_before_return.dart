@@ -12,12 +12,14 @@ import 'rule_utils.dart';
 
 class NewlineBeforeReturnRule extends BaseRule {
   static const String ruleId = 'newline-before-return';
+  static const _documentationUrl = 'https://git.io/JfDiO';
 
   static const _failure = 'Missing blank line before return';
 
   NewlineBeforeReturnRule({Map<String, Object> config = const {}})
       : super(
             id: ruleId,
+            documentation: Uri.parse(_documentationUrl),
             severity:
                 CodeIssueSeverity.fromJson(config['severity'] as String) ??
                     CodeIssueSeverity.style);

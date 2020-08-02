@@ -95,7 +95,7 @@ class ConsoleReporter implements Reporter {
             '${issue.sourceSpan.start.line}:${issue.sourceSpan.start.column}';
         final rule = [
           issue.ruleId,
-          if (issue.ruleDocumentationUri != null) issue.ruleDocumentationUri,
+          if (issue.ruleDocumentation != null) issue.ruleDocumentation,
         ].join(' ');
         lines.add('$severity${[issue.message, position, rule].join(' : ')}');
       }

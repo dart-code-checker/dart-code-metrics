@@ -9,6 +9,7 @@ import 'rule_utils.dart';
 
 class BinaryExpressionOperandOrderRule extends BaseRule {
   static const String ruleId = 'binary-expression-operand-order';
+  static const _documentationUrl = 'https://git.io/JJVAC';
 
   static const _warningMessage = 'Prefer literals at RHS in binary expressions';
   static const _correctionComment = 'Fix operator order';
@@ -16,6 +17,7 @@ class BinaryExpressionOperandOrderRule extends BaseRule {
   BinaryExpressionOperandOrderRule({Map<String, Object> config = const {}})
       : super(
             id: ruleId,
+            documentation: Uri.parse(_documentationUrl),
             severity:
                 CodeIssueSeverity.fromJson(config['severity'] as String) ??
                     CodeIssueSeverity.style);

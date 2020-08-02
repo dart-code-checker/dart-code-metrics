@@ -11,6 +11,7 @@ import 'base_rule.dart';
 
 class PreferTrailingCommaForCollectionRule extends BaseRule {
   static const String ruleId = 'prefer-trailing-comma-for-collection';
+  static const _documentationUrl = 'https://git.io/JJwmu';
 
   static const _failure = 'A trailing comma should end this line';
   static const _correctionComment = 'Add trailing comma';
@@ -18,6 +19,7 @@ class PreferTrailingCommaForCollectionRule extends BaseRule {
   PreferTrailingCommaForCollectionRule({Map<String, Object> config = const {}})
       : super(
             id: ruleId,
+            documentation: Uri.parse(_documentationUrl),
             severity:
                 CodeIssueSeverity.fromJson(config['severity'] as String) ??
                     CodeIssueSeverity.style);

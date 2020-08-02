@@ -14,6 +14,7 @@ dart_code_metrics:
   rules:
     - binary-expression-operand-order
     - double-literal-format
+    - member-ordering
     - newline-before-return
     - no-boolean-literal-compare
     - no-empty-block

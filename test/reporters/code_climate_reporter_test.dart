@@ -27,6 +27,8 @@ void main() {
 
     test('file with style severity issues', () {
       const _issueRuleId = 'ruleId1';
+      const _issueRuleDocumentation = 'https://docu.edu/ruleId1.html';
+
       const _issueLine = 2;
       const _issueMessage = 'first issue message';
 
@@ -39,6 +41,7 @@ void main() {
           issues: [
             CodeIssue(
               ruleId: _issueRuleId,
+              ruleDocumentation: Uri.parse(_issueRuleDocumentation),
               severity: CodeIssueSeverity.style,
               sourceSpan: SourceSpanBase(
                   SourceLocation(1,

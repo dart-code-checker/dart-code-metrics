@@ -47,8 +47,8 @@ class JsonReporter implements Reporter {
           .map((issue) => {
                 'severity': issue.severity.value,
                 'ruleId': issue.ruleId,
-                if (issue.ruleDocumentationUri != null)
-                  'ruleDocumentationUrl': issue.ruleDocumentationUri.toString(),
+                if (issue.ruleDocumentation != null)
+                  'ruleDocumentation': issue.ruleDocumentation.toString(),
                 'lineNumber': issue.sourceSpan.start.line,
                 'columnNumber': issue.sourceSpan.start.column,
                 if (issue.sourceSpan.text != null)

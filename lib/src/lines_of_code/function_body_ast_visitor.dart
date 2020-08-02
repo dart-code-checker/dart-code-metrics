@@ -7,10 +7,9 @@ class FunctionBodyAstVisitor extends RecursiveAstVisitor<Object> {
   final LineInfo _lineInfo;
 
   final _linesWithCode = <int>{};
+  Iterable<int> get linesWithCode => _linesWithCode;
 
   FunctionBodyAstVisitor(this._lineInfo);
-
-  Iterable<int> get linesWithCode => _linesWithCode;
 
   @override
   void visitBlockFunctionBody(BlockFunctionBody node) {
