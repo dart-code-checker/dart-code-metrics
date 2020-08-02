@@ -176,7 +176,7 @@ void main() {
     );
   });
 
-  test('MemberOrdering with default config and multiple classes in file reports no issues', () {
+  test('MemberOrdering with multiple classes in file reports no issues', () {
     final sourceUrl = Uri.parse('/example.dart');
     final parseResult = parseString(
         content: _multipleClassesContent,

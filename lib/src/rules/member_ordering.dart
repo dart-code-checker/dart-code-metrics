@@ -37,7 +37,7 @@ class MemberOrderingRule extends BaseRule {
 
     final membersInfo = [
       for (final entry in unit.childEntities)
-        if (entry is ClassMember) ...entry.accept(_visitor),
+        if (entry is ClassDeclaration) ...entry.accept(_visitor),
     ];
 
     return [
