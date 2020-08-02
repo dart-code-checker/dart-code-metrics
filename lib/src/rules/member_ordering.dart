@@ -35,10 +35,13 @@ class MemberOrderingRule extends BaseRule {
   ) {
     final _visitor = _Visitor(_groupsOrder);
 
-    unit.visitChildren(_visitor);
+    final membersInfo = [
+      for (final entry in unit.childEntities)
+        if (entry is ClassDeclaration) ...entry.accept(_visitor),
+    ];
 
     return [
-      ..._visitor.membersInfo.where((info) => info.memberOrder.isWrong).map(
+      ...membersInfo.where((info) => info.memberOrder.isWrong).map(
             (info) => createIssue(
                 this,
                 '${info.memberOrder.memberGroup.name} $_warningMessage ${info.memberOrder.previousMemberGroup.name}',
@@ -50,7 +53,7 @@ class MemberOrderingRule extends BaseRule {
                 info.classMember),
           ),
       if (_alphabetize)
-        ..._visitor.membersInfo
+        ...membersInfo
             .where((info) => info.memberOrder.isAlphabeticallyWrong)
             .map(
               (info) => createIssue(
@@ -78,17 +81,17 @@ class MemberOrderingRule extends BaseRule {
   }
 }
 
-class _Visitor extends RecursiveAstVisitor<void> {
+class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
   final List<_MembersGroup> _groupsOrder;
   final _membersInfo = <_MemberInfo>[];
-
-  Iterable<_MemberInfo> get membersInfo => _membersInfo;
 
   _Visitor(this._groupsOrder);
 
   @override
-  void visitClassDeclaration(ClassDeclaration node) {
+  List<_MemberInfo> visitClassDeclaration(ClassDeclaration node) {
     super.visitClassDeclaration(node);
+
+    _membersInfo.clear();
 
     for (final member in node.members) {
       if (member is FieldDeclaration) {
@@ -99,6 +102,8 @@ class _Visitor extends RecursiveAstVisitor<void> {
         _visitMethodDeclaration(member);
       }
     }
+
+    return _membersInfo;
   }
 
   void _visitFieldDeclaration(FieldDeclaration fieldDeclaration) {

@@ -38,6 +38,30 @@ class Test {
 
 ''';
 
+const _multipleClassesContent = '''
+
+class Test {
+  final _data = 1;
+
+  int get data => _data;
+
+  void doWork() {
+
+  }
+}
+
+class AnotherTest {
+  final _anotherData = 1;
+
+  int get anotherData => _anotherData;
+
+  void anotherDoWork() {
+
+  }
+}
+
+''';
+
 const _angularContent = '''
 
 class Test {
@@ -150,6 +174,28 @@ void main() {
         'public_getters should be before private_methods',
       ]),
     );
+  });
+
+  test('MemberOrdering with multiple classes in file reports no issues', () {
+    final sourceUrl = Uri.parse('/example.dart');
+    final parseResult = parseString(
+        content: _multipleClassesContent,
+        featureSet: FeatureSet.fromEnableFlags([]),
+        throwIfDiagnostics: false);
+
+    final issues = MemberOrderingRule()
+        .check(parseResult.unit, sourceUrl, parseResult.content);
+
+    expect(
+      issues.every((issue) => issue.ruleId == 'member-ordering'),
+      isTrue,
+    );
+    expect(
+      issues.every((issue) => issue.severity == CodeIssueSeverity.style),
+      isTrue,
+    );
+
+    expect(issues.isEmpty, isTrue);
   });
 
   test('MemberOrdering with custom config reports about found issues', () {
