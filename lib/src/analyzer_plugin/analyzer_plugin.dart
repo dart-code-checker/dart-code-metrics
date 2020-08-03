@@ -137,14 +137,14 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
       final ignores = IgnoreInfo.calculateIgnores(
           analysisResult.content, analysisResult.lineInfo);
 
+      final sourceUri =
+          resourceProvider.getFile(analysisResult.path)?.toUri() ??
+              analysisResult.uri;
+
       result.addAll(_checkingCodeRules
           .where((rule) => !ignores.ignoreRule(rule.id))
           .expand((rule) => rule
-              .check(
-                  analysisResult.unit,
-                  resourceProvider.getFile(analysisResult.path)?.toUri() ??
-                      analysisResult.uri,
-                  analysisResult.content)
+              .check(analysisResult.unit, sourceUri, analysisResult.content)
               .where((issue) =>
                   !ignores.ignoredAt(issue.ruleId, issue.sourceSpan.start.line))
               .map((issue) =>
@@ -187,9 +187,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
                 analysisResult.unit.lineInfo.getLocation(offset);
 
             final startSourceLocation = SourceLocation(offset,
-                sourceUrl:
-                    resourceProvider.getFile(analysisResult.path)?.toUri() ??
-                        analysisResult.uri,
+                sourceUrl: sourceUri,
                 line: startLineInfo.lineNumber,
                 column: startLineInfo.columnNumber);
 
