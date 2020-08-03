@@ -190,23 +190,22 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
                 line: startLineInfo.lineNumber,
                 column: startLineInfo.columnNumber);
 
-            if (UtilitySelector.isIssueLevel(
-                functionReport.cyclomaticComplexity.violationLevel)) {
-              result.add(metricReportToAnalysisErrorFixes(
-                  startSourceLocation,
-                  function.declaration.end - offset,
-                  'Function has a Cyclomatic Complexity of ${functionReport.cyclomaticComplexity.value} (exceeds ${_metricsConfig.cyclomaticComplexityWarningLevel} allowed). Consider refactoring.',
-                  'cyclomatic-complexity'));
-            }
-
-            if (UtilitySelector.isIssueLevel(
-                functionReport.argumentsCount.violationLevel)) {
-              result.add(metricReportToAnalysisErrorFixes(
-                  startSourceLocation,
-                  function.declaration.end - offset,
-                  'Function has ${functionReport.argumentsCount.value} number of arguments (exceeds ${_metricsConfig.numberOfArgumentsWarningLevel} allowed). Consider refactoring.',
-                  'number-of-arguments'));
-            }
+            result.addAll([
+              if (UtilitySelector.isIssueLevel(
+                  functionReport.cyclomaticComplexity.violationLevel))
+                metricReportToAnalysisErrorFixes(
+                    startSourceLocation,
+                    function.declaration.end - offset,
+                    'Function has a Cyclomatic Complexity of ${functionReport.cyclomaticComplexity.value} (exceeds ${_metricsConfig.cyclomaticComplexityWarningLevel} allowed). Consider refactoring.',
+                    'cyclomatic-complexity'),
+              if (UtilitySelector.isIssueLevel(
+                  functionReport.argumentsCount.violationLevel))
+                metricReportToAnalysisErrorFixes(
+                    startSourceLocation,
+                    function.declaration.end - offset,
+                    'Function has ${functionReport.argumentsCount.value} number of arguments (exceeds ${_metricsConfig.numberOfArgumentsWarningLevel} allowed). Consider refactoring.',
+                    'number-of-arguments'),
+            ]);
           }
         }
       }
