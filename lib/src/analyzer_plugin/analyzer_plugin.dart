@@ -156,16 +156,16 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
         analysisResult.unit.visitChildren(scopeVisitor);
         for (final function in scopeVisitor.functions) {
           final controlFlowAstVisitor = ControlFlowAstVisitor(
-              defaultCyclomaticConfig, analysisResult.unit.lineInfo);
+              defaultCyclomaticConfig, analysisResult.lineInfo);
 
           function.declaration.visitChildren(controlFlowAstVisitor);
 
           final functionRecord = FunctionRecord(
-              firstLine: analysisResult.unit.lineInfo
+              firstLine: analysisResult.lineInfo
                   .getLocation(function
                       .declaration.firstTokenAfterCommentAndMetadata.offset)
                   .lineNumber,
-              lastLine: analysisResult.unit.lineInfo
+              lastLine: analysisResult.lineInfo
                   .getLocation(function.declaration.endToken.end)
                   .lineNumber,
               argumentsCount: getArgumentsCount(function),
@@ -183,8 +183,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
             final offset =
                 function.declaration.firstTokenAfterCommentAndMetadata.offset;
 
-            final startLineInfo =
-                analysisResult.unit.lineInfo.getLocation(offset);
+            final startLineInfo = analysisResult.lineInfo.getLocation(offset);
 
             final startSourceLocation = SourceLocation(offset,
                 sourceUrl: sourceUri,
