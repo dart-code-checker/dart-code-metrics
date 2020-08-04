@@ -163,13 +163,14 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
           final functionOffset =
               function.declaration.firstTokenAfterCommentAndMetadata.offset;
 
+          final functionFirstLineInfo =
+              analysisResult.lineInfo.getLocation(functionOffset);
+          final functionLastLineInfo = analysisResult.lineInfo
+              .getLocation(function.declaration.endToken.end);
+
           final functionRecord = FunctionRecord(
-              firstLine: analysisResult.lineInfo
-                  .getLocation(functionOffset)
-                  .lineNumber,
-              lastLine: analysisResult.lineInfo
-                  .getLocation(function.declaration.endToken.end)
-                  .lineNumber,
+              firstLine: functionFirstLineInfo.lineNumber,
+              lastLine: functionLastLineInfo.lineNumber,
               argumentsCount: getArgumentsCount(function),
               cyclomaticComplexityLines:
                   Map.unmodifiable(controlFlowAstVisitor.complexityLines),
@@ -182,13 +183,11 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
 
           if (UtilitySelector.isIssueLevel(
               UtilitySelector.functionViolationLevel(functionReport))) {
-            final startLineInfo =
-                analysisResult.lineInfo.getLocation(functionOffset);
 
             final startSourceLocation = SourceLocation(functionOffset,
                 sourceUrl: sourceUri,
-                line: startLineInfo.lineNumber,
-                column: startLineInfo.columnNumber);
+                line: functionFirstLineInfo.lineNumber,
+                column: functionFirstLineInfo.columnNumber);
 
             result.addAll([
               if (UtilitySelector.isIssueLevel(
