@@ -160,10 +160,12 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
 
           function.declaration.visitChildren(controlFlowAstVisitor);
 
+          final functionOffset =
+              function.declaration.firstTokenAfterCommentAndMetadata.offset;
+
           final functionRecord = FunctionRecord(
               firstLine: analysisResult.lineInfo
-                  .getLocation(function
-                      .declaration.firstTokenAfterCommentAndMetadata.offset)
+                  .getLocation(functionOffset)
                   .lineNumber,
               lastLine: analysisResult.lineInfo
                   .getLocation(function.declaration.endToken.end)
@@ -180,12 +182,10 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
 
           if (UtilitySelector.isIssueLevel(
               UtilitySelector.functionViolationLevel(functionReport))) {
-            final offset =
-                function.declaration.firstTokenAfterCommentAndMetadata.offset;
+            final startLineInfo =
+                analysisResult.lineInfo.getLocation(functionOffset);
 
-            final startLineInfo = analysisResult.lineInfo.getLocation(offset);
-
-            final startSourceLocation = SourceLocation(offset,
+            final startSourceLocation = SourceLocation(functionOffset,
                 sourceUrl: sourceUri,
                 line: startLineInfo.lineNumber,
                 column: startLineInfo.columnNumber);
@@ -195,14 +195,14 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
                   functionReport.cyclomaticComplexity.violationLevel))
                 metricReportToAnalysisErrorFixes(
                     startSourceLocation,
-                    function.declaration.end - offset,
+                    function.declaration.end - functionOffset,
                     'Function has a Cyclomatic Complexity of ${functionReport.cyclomaticComplexity.value} (exceeds ${_metricsConfig.cyclomaticComplexityWarningLevel} allowed). Consider refactoring.',
                     'cyclomatic-complexity'),
               if (UtilitySelector.isIssueLevel(
                   functionReport.argumentsCount.violationLevel))
                 metricReportToAnalysisErrorFixes(
                     startSourceLocation,
-                    function.declaration.end - offset,
+                    function.declaration.end - functionOffset,
                     'Function has ${functionReport.argumentsCount.value} number of arguments (exceeds ${_metricsConfig.numberOfArgumentsWarningLevel} allowed). Consider refactoring.',
                     'number-of-arguments'),
             ]);
