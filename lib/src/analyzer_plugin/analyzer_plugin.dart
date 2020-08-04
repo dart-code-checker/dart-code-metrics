@@ -137,14 +137,14 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
       final ignores = IgnoreInfo.calculateIgnores(
           analysisResult.content, analysisResult.lineInfo);
 
+      final sourceUri =
+          resourceProvider.getFile(analysisResult.path)?.toUri() ??
+              analysisResult.uri;
+
       result.addAll(_checkingCodeRules
           .where((rule) => !ignores.ignoreRule(rule.id))
           .expand((rule) => rule
-              .check(
-                  analysisResult.unit,
-                  resourceProvider.getFile(analysisResult.path)?.toUri() ??
-                      analysisResult.uri,
-                  analysisResult.content)
+              .check(analysisResult.unit, sourceUri, analysisResult.content)
               .where((issue) =>
                   !ignores.ignoredAt(issue.ruleId, issue.sourceSpan.start.line))
               .map((issue) =>
@@ -154,20 +154,24 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
           !isExcluded(analysisResult, _metricsExclude)) {
         final scopeVisitor = ScopeAstVisitor();
         analysisResult.unit.visitChildren(scopeVisitor);
+
         for (final function in scopeVisitor.functions) {
           final controlFlowAstVisitor = ControlFlowAstVisitor(
-              defaultCyclomaticConfig, analysisResult.unit.lineInfo);
+              defaultCyclomaticConfig, analysisResult.lineInfo);
 
           function.declaration.visitChildren(controlFlowAstVisitor);
 
+          final functionOffset =
+              function.declaration.firstTokenAfterCommentAndMetadata.offset;
+
+          final functionFirstLineInfo =
+              analysisResult.lineInfo.getLocation(functionOffset);
+          final functionLastLineInfo = analysisResult.lineInfo
+              .getLocation(function.declaration.endToken.end);
+
           final functionRecord = FunctionRecord(
-              firstLine: analysisResult.unit.lineInfo
-                  .getLocation(function
-                      .declaration.firstTokenAfterCommentAndMetadata.offset)
-                  .lineNumber,
-              lastLine: analysisResult.unit.lineInfo
-                  .getLocation(function.declaration.endToken.end)
-                  .lineNumber,
+              firstLine: functionFirstLineInfo.lineNumber,
+              lastLine: functionLastLineInfo.lineNumber,
               argumentsCount: getArgumentsCount(function),
               cyclomaticComplexityLines:
                   Map.unmodifiable(controlFlowAstVisitor.complexityLines),
@@ -180,36 +184,27 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
 
           if (UtilitySelector.isIssueLevel(
               UtilitySelector.functionViolationLevel(functionReport))) {
-            final offset =
-                function.declaration.firstTokenAfterCommentAndMetadata.offset;
+            final startSourceLocation = SourceLocation(functionOffset,
+                sourceUrl: sourceUri,
+                line: functionFirstLineInfo.lineNumber,
+                column: functionFirstLineInfo.columnNumber);
 
-            final startLineInfo =
-                analysisResult.unit.lineInfo.getLocation(offset);
-
-            final startSourceLocation = SourceLocation(offset,
-                sourceUrl:
-                    resourceProvider.getFile(analysisResult.path)?.toUri() ??
-                        analysisResult.uri,
-                line: startLineInfo.lineNumber,
-                column: startLineInfo.columnNumber);
-
-            if (UtilitySelector.isIssueLevel(
-                functionReport.cyclomaticComplexity.violationLevel)) {
-              result.add(metricReportToAnalysisErrorFixes(
-                  startSourceLocation,
-                  function.declaration.end - offset,
-                  'Function has a Cyclomatic Complexity of ${functionReport.cyclomaticComplexity.value} (exceeds ${_metricsConfig.cyclomaticComplexityWarningLevel} allowed). Consider refactoring.',
-                  'cyclomatic-complexity'));
-            }
-
-            if (UtilitySelector.isIssueLevel(
-                functionReport.argumentsCount.violationLevel)) {
-              result.add(metricReportToAnalysisErrorFixes(
-                  startSourceLocation,
-                  function.declaration.end - offset,
-                  'Function has ${functionReport.argumentsCount.value} number of arguments (exceeds ${_metricsConfig.numberOfArgumentsWarningLevel} allowed). Consider refactoring.',
-                  'number-of-arguments'));
-            }
+            result.addAll([
+              if (UtilitySelector.isIssueLevel(
+                  functionReport.cyclomaticComplexity.violationLevel))
+                metricReportToAnalysisErrorFixes(
+                    startSourceLocation,
+                    function.declaration.end - functionOffset,
+                    'Function has a Cyclomatic Complexity of ${functionReport.cyclomaticComplexity.value} (exceeds ${_metricsConfig.cyclomaticComplexityWarningLevel} allowed). Consider refactoring.',
+                    'cyclomatic-complexity'),
+              if (UtilitySelector.isIssueLevel(
+                  functionReport.argumentsCount.violationLevel))
+                metricReportToAnalysisErrorFixes(
+                    startSourceLocation,
+                    function.declaration.end - functionOffset,
+                    'Function has ${functionReport.argumentsCount.value} number of arguments (exceeds ${_metricsConfig.numberOfArgumentsWarningLevel} allowed). Consider refactoring.',
+                    'number-of-arguments'),
+            ]);
           }
         }
       }
