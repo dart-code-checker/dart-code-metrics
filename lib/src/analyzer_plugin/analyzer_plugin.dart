@@ -154,6 +154,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
           !isExcluded(analysisResult, _metricsExclude)) {
         final scopeVisitor = ScopeAstVisitor();
         analysisResult.unit.visitChildren(scopeVisitor);
+
         for (final function in scopeVisitor.functions) {
           final controlFlowAstVisitor = ControlFlowAstVisitor(
               defaultCyclomaticConfig, analysisResult.lineInfo);
@@ -183,7 +184,6 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
 
           if (UtilitySelector.isIssueLevel(
               UtilitySelector.functionViolationLevel(functionReport))) {
-
             final startSourceLocation = SourceLocation(functionOffset,
                 sourceUrl: sourceUri,
                 line: functionFirstLineInfo.lineNumber,
