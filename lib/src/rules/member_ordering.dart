@@ -72,7 +72,9 @@ class MemberOrderingRule extends BaseRule {
   }
 
   static List<_MembersGroup> _parseOrder(Map<String, Object> config) {
-    final order = config['order'] as List<String> ?? [];
+    final order = config.containsKey('order') && config['order'] is Iterable
+        ? List<String>.from(config['order'] as Iterable)
+        : <String>[];
 
     return order.isEmpty
         ? _MembersGroup._groupsOrder
