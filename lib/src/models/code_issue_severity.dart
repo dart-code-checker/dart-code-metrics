@@ -1,8 +1,9 @@
 class CodeIssueSeverity {
   static const style = CodeIssueSeverity('style');
   static const warning = CodeIssueSeverity('warning');
+  static const error = CodeIssueSeverity('error');
 
-  static const _all = [style, warning];
+  static const _all = [style, warning, error];
 
   final String value;
 
