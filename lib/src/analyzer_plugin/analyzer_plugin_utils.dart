@@ -63,4 +63,5 @@ plugin.AnalysisErrorFixes metricReportToAnalysisErrorFixes(
 const _severityMapping = {
   CodeIssueSeverity.style: plugin.AnalysisErrorSeverity.INFO,
   CodeIssueSeverity.warning: plugin.AnalysisErrorSeverity.WARNING,
+  CodeIssueSeverity.error: plugin.AnalysisErrorSeverity.ERROR,
 };

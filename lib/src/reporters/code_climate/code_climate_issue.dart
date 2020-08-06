@@ -106,6 +106,7 @@ class CodeClimateIssue {
     const severityHumanReadable = {
       CodeIssueSeverity.style: ['Style'],
       CodeIssueSeverity.warning: ['Clarity'],
+      CodeIssueSeverity.error: ['Bug Risk'],
     };
 
     return CodeClimateIssue._create(issue.ruleId, issue.message,
