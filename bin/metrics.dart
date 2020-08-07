@@ -11,11 +11,11 @@ import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
 import 'package:glob/glob.dart';
 import 'package:path/path.dart' as p;
 
-final parser = argumentsParser();
+final _parser = argumentsParser();
 
 void main(List<String> args) {
   try {
-    final arguments = parser.parse(args);
+    final arguments = _parser.parse(args);
 
     if (arguments[helpFlagName] as bool) {
       _showUsageAndExit(0);
@@ -46,7 +46,7 @@ void main(List<String> args) {
 
 void _showUsageAndExit(int exitCode) {
   print(usageHeader);
-  print(parser.usage);
+  print(_parser.usage);
   exit(exitCode);
 }
 
