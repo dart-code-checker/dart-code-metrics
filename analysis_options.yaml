@@ -112,6 +112,7 @@ linter:
     - unnecessary_overrides
     - unnecessary_parenthesis
     - unnecessary_statements
+    - unnecessary_string_interpolations
     - unsafe_html
     - use_full_hex_values_for_flutter_colors
     - use_setters_to_change_properties

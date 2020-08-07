@@ -223,7 +223,7 @@ class _NotCorrectNameIssue extends _Issue {
   ) : super(node);
 
   static String getNewValue(String className, String variableName) =>
-      className != null ? '${className}_$variableName' : '$variableName';
+      className != null ? '${className}_$variableName' : variableName;
 }
 
 @immutable
