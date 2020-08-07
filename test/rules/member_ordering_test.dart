@@ -290,19 +290,19 @@ void main() {
     expect(
       issues.map((issue) => issue.sourceSpan.text),
       equals([
-        '@ViewChild(\'\')\n'
+        "@ViewChild('')\n"
             '  Element view;',
-        '@ViewChild(\'\')\n'
+        "@ViewChild('')\n"
             '  Iterable<Element> views;',
-        '@ContentChild(\'\')\n'
+        "@ContentChild('')\n"
             '  Element content;',
-        '@ContentChildren(\'\')\n'
+        "@ContentChildren('')\n"
             '  Iterable<Element> contents;',
         '@Input()\n'
             '  String input;',
         '@Output()\n'
             '  Stream<void> get click => null;',
-        '@HostListener(\'\')\n'
+        "@HostListener('')\n"
             '  void handle() => null;',
       ]),
     );

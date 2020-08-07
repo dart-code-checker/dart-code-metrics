@@ -98,7 +98,7 @@ void main() {
           throwIfDiagnostics: false);
 
       final issues = NoMagicNumberRule(config: {
-        'allowed': [42, 12, 3.14]
+        'allowed': [42, 12, 3.14],
       }).check(parseResult.unit, sourceUrl, parseResult.content).toList();
 
       expect(issues, isEmpty);
