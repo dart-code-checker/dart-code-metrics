@@ -111,6 +111,7 @@ linter:
     - unnecessary_null_aware_assignments
     - unnecessary_overrides
     - unnecessary_parenthesis
+    - unnecessary_raw_strings
     - unnecessary_statements
     - unnecessary_string_interpolations
     - unsafe_html
