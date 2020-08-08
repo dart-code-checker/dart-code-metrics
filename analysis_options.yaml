@@ -26,7 +26,9 @@ linter:
   rules:
     - always_put_control_body_on_new_line
     - always_put_required_named_parameters_first
+#    - always_specify_types
     - avoid_annotating_with_dynamic
+#    - avoid_as
     - avoid_bool_literals_in_conditional_expressions
     - avoid_catching_errors
     - avoid_classes_with_only_static_members
@@ -38,6 +40,7 @@ linter:
     - avoid_implementing_value_types
     - avoid_js_rounded_ints
     - avoid_positional_boolean_parameters
+#    - avoid_print
     - avoid_private_typedef_functions
     - avoid_renaming_method_parameters
     - avoid_returning_null
@@ -70,6 +73,7 @@ linter:
     - iterable_contains_unrelated_type
     - join_return_with_assignment
     - leading_newlines_in_multiline_strings
+#    - lines_longer_than_80_chars
     - list_remove_unrelated_type
     - literal_only_boolean_expressions
     - missing_whitespace_between_adjacent_strings
@@ -78,6 +82,7 @@ linter:
     - no_logic_in_create_state
     - no_runtimeType_toString
     - non_constant_identifier_names
+#    - one_member_abstracts
     - only_throw_errors
     - overridden_fields
     - package_api_docs
@@ -91,6 +96,7 @@ linter:
     - prefer_const_declarations
     - prefer_const_literals_to_create_immutables
     - prefer_constructors_over_static_methods
+#    - prefer_double_quotes
     - prefer_expression_function_bodies
     - prefer_final_in_for_each
     - prefer_final_locals
@@ -104,11 +110,14 @@ linter:
     - prefer_is_not_operator
     - prefer_mixin
     - prefer_null_aware_operators
+#    - prefer_relative_imports
     - prefer_typing_uninitialized_variables
     - prefer_void_to_null
     - provide_deprecation_message
+#    - public_member_api_docs
 #    - sized_box_for_whitespace             Flutter specific rule
     - sort_child_properties_last
+#    - sort_constructors_first
     - sort_pub_dependencies
     - sort_unnamed_constructors_first
     - test_types_in_equals
@@ -116,6 +125,7 @@ linter:
     - type_annotate_public_apis
     - unnecessary_await_in_return
     - unnecessary_brace_in_string_interps
+#    - unnecessary_final
     - unnecessary_getters_setters
     - unnecessary_lambdas
     - unnecessary_null_aware_assignments
