@@ -1,5 +1,4 @@
 import 'package:analyzer/source/line_info.dart';
-import 'package:analyzer/src/generated/source.dart';
 
 class IgnoreInfo {
   static final _ignoreMatchers = RegExp('//[ ]*ignore:(.*)', multiLine: true);

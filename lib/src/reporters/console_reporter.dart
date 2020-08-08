@@ -103,9 +103,10 @@ class ConsoleReporter implements Reporter {
       }
 
       if (lines.isNotEmpty) {
-        reportStrings.add('${analysisRecord.relativePath}:');
-        reportStrings.addAll(lines);
-        reportStrings.add('');
+        reportStrings
+          ..add('${analysisRecord.relativePath}:')
+          ..addAll(lines)
+          ..add('');
       }
     }
 

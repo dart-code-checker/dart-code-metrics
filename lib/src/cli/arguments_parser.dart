@@ -15,6 +15,8 @@ const ignoredFilesName = 'ignore-files';
 const rootFolderName = 'root-folder';
 const setExitOnViolationLevel = 'set-exit-on-violation-level';
 
+// ignore_for_file: avoid_types_on_closure_parameters
+
 ArgParser argumentsParser() => ArgParser()
   ..addFlag(helpFlagName,
       abbr: 'h', help: 'Print this usage information.', negatable: false)

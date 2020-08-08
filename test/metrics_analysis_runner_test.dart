@@ -43,11 +43,9 @@ void main() {
 
       final analyzer = MetricsAnalyzerMock();
 
-      final runner = MetricsAnalysisRunner(
-          MetricsAnalysisRecorderMock(), analyzer, files,
-          rootFolder: root);
-
-      runner.run();
+      MetricsAnalysisRunner(MetricsAnalysisRecorderMock(), analyzer, files,
+              rootFolder: root)
+          .run();
 
       verifyInOrder(
           [for (final path in files) analyzer.runAnalysis(path, root)]);
