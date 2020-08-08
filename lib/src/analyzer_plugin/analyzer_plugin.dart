@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/file_system/file_system.dart';
+import 'package:analyzer/source/line_info.dart';
 // ignore: implementation_imports
 import 'package:analyzer/src/context/builder.dart';
 // ignore: implementation_imports
@@ -120,6 +121,9 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
       final fixes = _check(analysisResult)
           .where((fix) =>
               fix.error.location.file == parameters.file &&
+              fix.error.location.offset <= parameters.offset &&
+              parameters.offset <=
+                  fix.error.location.offset + fix.error.location.length &&
               fix.fixes.isNotEmpty)
           .toList();
 
