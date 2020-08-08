@@ -2,8 +2,11 @@ import 'dart:async';
 
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/file_system/file_system.dart';
+// ignore: implementation_imports
 import 'package:analyzer/src/context/builder.dart';
+// ignore: implementation_imports
 import 'package:analyzer/src/context/context_root.dart';
+// ignore: implementation_imports
 import 'package:analyzer/src/dart/analysis/driver.dart';
 import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart' as plugin;
@@ -73,6 +76,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
       ..fileContentOverlay = fileContentOverlay;
 
     final dartDriver = contextBuilder.buildDriver(root);
+    
     Future.forEach(dartDriver.analysisContext.contextRoot.analyzedFiles(),
         dartDriver.getResult);
     dartDriver
