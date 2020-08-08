@@ -17,6 +17,8 @@ class PreferIntlNameRule extends BaseRule {
   static const _notCorrectNameFailure = 'Incorrect Intl name, should be';
   static const _notCorrectNameCorrectionComment = 'Rename';
   static const _notExistsNameFailure = 'Argument `name` does not exists';
+  static const _emptyArgsFailure = 'No arguments provided for interpolation';
+  static const _notProvidedArgumentFailure = 'is not provided to args';
 
   PreferIntlNameRule({Map<String, Object> config = const {}})
       : super(
@@ -40,35 +42,41 @@ class PreferIntlNameRule extends BaseRule {
     final visitor = _Visitor();
     unit.visitChildren(visitor);
 
-    return [
-      ...visitor.issues.whereType<_NotCorrectNameIssue>().map((issue) {
-        final correction =
-            "'${_NotCorrectNameIssue.getNewValue(issue.className, issue.variableName)}'";
+    return visitor.issues.map((issue) {
+      String message;
+      String correction;
+      String correctionComment;
 
-        return createIssue(
-          this,
-          '$_notCorrectNameFailure $correction',
-          correction,
-          _notCorrectNameCorrectionComment,
-          sourceUrl,
-          sourceContent,
-          unit.lineInfo,
-          issue.node,
-        );
-      }),
-      ...visitor.issues
-          .whereType<_NotExistNameIssue>()
-          .map((issue) => createIssue(
-                this,
-                _notExistsNameFailure,
-                null,
-                null,
-                sourceUrl,
-                sourceContent,
-                unit.lineInfo,
-                issue.node,
-              )),
-    ];
+      if (issue is _NotCorrectNameIssue) {
+        correction =
+            "'${_NotCorrectNameIssue.getNewValue(issue.className, issue.variableName)}'";
+        correctionComment = _notCorrectNameCorrectionComment;
+        message = '$_notCorrectNameFailure $correction';
+      }
+
+      if (issue is _NotExistNameIssue) {
+        message = _notExistsNameFailure;
+      }
+
+      if (issue is _EmptyArguments) {
+        message = _emptyArgsFailure;
+      }
+
+      if (issue is _NotProvidedArgument) {
+        message = '${issue.argumentName} $_notProvidedArgumentFailure';
+      }
+
+      return createIssue(
+        this,
+        message,
+        correction,
+        correctionComment,
+        sourceUrl,
+        sourceContent,
+        unit.lineInfo,
+        issue.node,
+      );
+    });
   }
 }
 
@@ -178,8 +186,11 @@ class _Visitor extends GeneralizingAstVisitor<void> {
             ?.as<MethodInvocation>();
   }
 
-  void _checkMethodInvocation(MethodInvocation methodInvocation,
-      {String className, String variableName}) {
+  void _checkMethodInvocation(
+    MethodInvocation methodInvocation, {
+    String className,
+    String variableName,
+  }) {
     if ((methodInvocation?.target?.as<SimpleIdentifier>()?.name != 'Intl') ||
         !_methodNames.contains(methodInvocation?.methodName?.name)) {
       return;
@@ -199,6 +210,40 @@ class _Visitor extends GeneralizingAstVisitor<void> {
       _issues
           .add(_NotCorrectNameIssue(className, variableName, nameExpression));
     }
+
+    final interpolationExpressions = methodInvocation.argumentList?.arguments
+        ?.whereType<StringInterpolation>()
+        ?.firstOrDefault()
+        ?.elements
+        ?.whereType<InterpolationExpression>();
+
+    if (interpolationExpressions != null) {
+      final argsExpression = methodInvocation.argumentList?.arguments
+          ?.whereType<NamedExpression>()
+          ?.where((argument) => argument.name.label.name == 'args')
+          ?.firstOrDefault()
+          ?.expression
+          ?.as<ListLiteral>();
+
+      if (argsExpression == null) {
+        _issues.add(_EmptyArguments(methodInvocation.methodName));
+      } else {
+        final argumentsNames = argsExpression.elements
+            .whereType<Identifier>()
+            .map((identifier) => identifier.name);
+
+        for (final interpolation in interpolationExpressions) {
+          final expression = interpolation.expression;
+          final name = expression is MethodInvocation
+              ? expression.target.as<Identifier>().name
+              : expression is Identifier ? expression.name : null;
+
+          if (name != null && !argumentsNames.contains(name)) {
+            _issues.add(_NotProvidedArgument(name, argsExpression));
+          }
+        }
+      }
+    }
   }
 }
 
@@ -206,9 +251,7 @@ class _Visitor extends GeneralizingAstVisitor<void> {
 abstract class _Issue {
   final AstNode node;
 
-  const _Issue(
-    this.node,
-  );
+  const _Issue(this.node);
 }
 
 @immutable
@@ -228,7 +271,20 @@ class _NotCorrectNameIssue extends _Issue {
 
 @immutable
 class _NotExistNameIssue extends _Issue {
-  const _NotExistNameIssue(
+  const _NotExistNameIssue(AstNode node) : super(node);
+}
+
+@immutable
+class _EmptyArguments extends _Issue {
+  const _EmptyArguments(AstNode node) : super(node);
+}
+
+@immutable
+class _NotProvidedArgument extends _Issue {
+  final String argumentName;
+
+  const _NotProvidedArgument(
+    this.argumentName,
     AstNode node,
   ) : super(node);
 }

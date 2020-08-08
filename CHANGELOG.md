@@ -1,5 +1,9 @@
 # Changelog
 
+# Unreleased
+
+- Improve static code diagnostic for prefer-intl-name
+
 # 1.8.1
 
 - Fix static code diagnostics member-ordering and prefer-condifional-expression
