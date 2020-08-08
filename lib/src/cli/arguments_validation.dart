@@ -6,7 +6,7 @@ import 'package:dart_code_metrics/src/cli/arguments_validation_exceptions.dart';
 import 'package:path/path.dart' as path;
 
 /// Umbrella method to run all checks
-/// throws [InvalidArgumentsException]
+/// throws [InvalidArgumentException]
 void validateArguments(ArgResults arguments) {
   checkRootFolderExistAndDirectory(arguments);
   checkPathsToAnalyzeNotEmpty(arguments);

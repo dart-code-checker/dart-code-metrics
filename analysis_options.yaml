@@ -63,6 +63,7 @@ linter:
     - cancel_subscriptions
     - cascade_invocations
     - close_sinks
+#    - comment_references
     - constant_identifier_names
     - control_flow_in_finally
     - diagnostic_describe_all_properties
