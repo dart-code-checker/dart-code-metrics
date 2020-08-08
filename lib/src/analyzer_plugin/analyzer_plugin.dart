@@ -103,7 +103,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
           .toList();
 
       return plugin.EditGetFixesResult(fixes);
-    } catch (e, stackTrace) {
+    } on Exception catch (e, stackTrace) {
       channel.sendNotification(
           plugin.PluginErrorParams(false, e.toString(), stackTrace.toString())
               .toNotification());
@@ -126,7 +126,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
             plugin.AnalysisErrorsParams(analysisResult.path, [])
                 .toNotification());
       }
-    } catch (e, stackTrace) {
+    } on Exception catch (e, stackTrace) {
       channel.sendNotification(
           plugin.PluginErrorParams(false, e.toString(), stackTrace.toString())
               .toNotification());
