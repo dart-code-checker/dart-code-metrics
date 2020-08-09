@@ -1,9 +1,12 @@
 @TestOn('vm')
+
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
 import 'package:dart_code_metrics/src/rules/prefer_intl_name.dart';
 import 'package:test/test.dart';
+
+// ignore_for_file: use_raw_strings
 
 const _incorrectContent = '''
 import 'package:intl/intl.dart';
@@ -42,7 +45,7 @@ class ClassI18n {
 }
 ''';
 
-final _correctContent = '''
+const _correctContent = '''
 import 'package:intl/intl.dart';
 
 final Iterable<String> titles = ['first', 'second'];
