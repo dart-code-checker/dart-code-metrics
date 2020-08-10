@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/file_system/file_system.dart';
 // ignore: implementation_imports
+import 'package:analyzer/src/analysis_options/analysis_options_provider.dart';
+// ignore: implementation_imports
 import 'package:analyzer/src/context/builder.dart';
 // ignore: implementation_imports
 import 'package:analyzer/src/context/context_root.dart';
@@ -61,7 +63,15 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
         pathContext: resourceProvider.pathContext)
       ..optionsFilePath = contextRoot.optionsFile;
 
-    final options = _readOptions(root);
+    final contextBuilder = ContextBuilder(resourceProvider, sdkManager, null)
+      ..analysisDriverScheduler = analysisDriverScheduler
+      ..byteStore = byteStore
+      ..performanceLog = performanceLog
+      ..fileContentOverlay = fileContentOverlay;
+
+    final dartDriver = contextBuilder.buildDriver(root);
+
+    final options = _readOptions(dartDriver);
     _metricsConfig = options?.metricsConfig;
     _metricsExclude = options?.metricsExcludePatterns
             ?.map((exclude) => Glob(p.join(contextRoot.root, exclude)))
@@ -70,13 +80,6 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     _checkingCodeRules =
         options?.rules != null ? getRulesById(options.rules) : [];
 
-    final contextBuilder = ContextBuilder(resourceProvider, sdkManager, null)
-      ..analysisDriverScheduler = analysisDriverScheduler
-      ..byteStore = byteStore
-      ..performanceLog = performanceLog
-      ..fileContentOverlay = fileContentOverlay;
-
-    final dartDriver = contextBuilder.buildDriver(root);
     // TODO(dmitrykrutskih): Once we are ready to bump the SDK lower bound to 2.8.x, we should swap this out for `runZoneGuarded`.
     runZoned(() {
       dartDriver.results.listen(_processResult);
@@ -238,11 +241,13 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     return result;
   }
 
-  AnalysisOptions _readOptions(ContextRoot contextRoot) {
-    if (contextRoot?.optionsFilePath?.isNotEmpty ?? false) {
-      final file = resourceProvider.getFile(contextRoot.optionsFilePath);
+  AnalysisOptions _readOptions(AnalysisDriver driver) {
+    if (driver?.contextRoot?.optionsFilePath?.isNotEmpty ?? false) {
+      final file = resourceProvider.getFile(driver.contextRoot.optionsFilePath);
       if (file.exists) {
-        return AnalysisOptions.from(file.readAsStringSync());
+        return AnalysisOptions.fromYamlMap(
+            AnalysisOptionsProvider(driver.sourceFactory)
+                .getOptionsFromFile(file));
       }
     }
 
