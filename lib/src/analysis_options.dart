@@ -25,12 +25,21 @@ class AnalysisOptions {
       @required this.rules});
 
   factory AnalysisOptions.from(String content) {
+    try {
+      final node = loadYamlNode(content ?? '');
+
+      return AnalysisOptions.fromYamlMap(node is YamlMap ? node : YamlMap());
+    } on YamlException catch (e) {
+      throw FormatException(e.message, e.span);
+    }
+  }
+
+  factory AnalysisOptions.fromYamlMap(YamlMap node) {
     Config metricsConfig;
     var metricsExcludePatterns = <String>[];
     var rules = <String, Map<String, Object>>{};
 
-    final node = loadYamlNode(content ?? '');
-    if (node is YamlMap && node.nodes[_rootKey] is YamlMap) {
+    if (node.nodes[_rootKey] is YamlMap) {
       final metricsOptions = node.nodes[_rootKey] as YamlMap;
 
       if (_isYamlMapOfStringsAndIntegers(metricsOptions.nodes[_metricsKey])) {
