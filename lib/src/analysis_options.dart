@@ -2,6 +2,7 @@ import 'package:meta/meta.dart';
 import 'package:yaml/yaml.dart';
 
 import 'models/config.dart';
+import 'utils/yaml_utls.dart';
 
 // Documantation about customizing static analysis located at https://dart.dev/guides/language/analysis-options
 
@@ -54,7 +55,7 @@ class AnalysisOptions {
         );
       }
 
-      if (_isYamlListOfStrings(metricsOptions.nodes[_metricsExcludeKey])) {
+      if (isYamlListOfStrings(metricsOptions.nodes[_metricsExcludeKey])) {
         metricsExcludePatterns =
             List.unmodifiable(metricsOptions[_metricsExcludeKey] as Iterable);
       }
@@ -95,11 +96,6 @@ class AnalysisOptions {
         rules: rules);
   }
 }
-
-bool _isYamlListOfStrings(YamlNode node) =>
-    node != null &&
-    node is YamlList &&
-    node.nodes.every((node) => node.value is String);
 
 bool _isYamlMapOfStringsAndIntegers(YamlNode node) =>
     node != null &&
