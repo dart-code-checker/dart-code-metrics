@@ -29,6 +29,7 @@ import 'package:source_span/source_span.dart';
 
 import '../metrics_analyzer_utils.dart';
 import '../scope_ast_visitor.dart';
+import '../utils/yaml_utls.dart';
 
 class MetricsAnalyzerPlugin extends ServerPlugin {
   Config _metricsConfig;
@@ -245,9 +246,9 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     if (driver?.contextRoot?.optionsFilePath?.isNotEmpty ?? false) {
       final file = resourceProvider.getFile(driver.contextRoot.optionsFilePath);
       if (file.exists) {
-        return AnalysisOptions.fromYamlMap(
+        return AnalysisOptions.fromMap(yamlMapToDartMap(
             AnalysisOptionsProvider(driver.sourceFactory)
-                .getOptionsFromFile(file));
+                .getOptionsFromFile(file)));
       }
     }
 

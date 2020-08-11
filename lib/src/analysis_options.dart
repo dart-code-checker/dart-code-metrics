@@ -2,6 +2,7 @@ import 'package:meta/meta.dart';
 import 'package:yaml/yaml.dart';
 
 import 'models/config.dart';
+import 'utils/object_extensions.dart';
 import 'utils/yaml_utls.dart';
 
 // Documantation about customizing static analysis located at https://dart.dev/guides/language/analysis-options
@@ -29,63 +30,63 @@ class AnalysisOptions {
     try {
       final node = loadYamlNode(content ?? '');
 
-      return AnalysisOptions.fromYamlMap(node is YamlMap ? node : YamlMap());
+      return AnalysisOptions.fromMap(
+          node is YamlMap ? yamlMapToDartMap(node) : {});
     } on YamlException catch (e) {
       throw FormatException(e.message, e.span);
     }
   }
 
-  factory AnalysisOptions.fromYamlMap(YamlMap node) {
+  factory AnalysisOptions.fromMap(Map<String, Object> configMap) {
     Config metricsConfig;
-    var metricsExcludePatterns = <String>[];
+    Iterable<String> metricsExcludePatterns = <String>[];
     var rules = <String, Map<String, Object>>{};
 
-    if (node.nodes[_rootKey] is YamlMap) {
-      final metricsOptions = node.nodes[_rootKey] as YamlMap;
-
-      if (_isYamlMapOfStringsAndIntegers(metricsOptions.nodes[_metricsKey])) {
-        final configMap = metricsOptions[_metricsKey] as YamlMap;
+    final metricsOptions = configMap[_rootKey];
+    if (metricsOptions != null && metricsOptions is Map<String, Object>) {
+      final configMap = metricsOptions[_metricsKey];
+      if (configMap != null && configMap is Map<String, Object>) {
         metricsConfig = Config(
           cyclomaticComplexityWarningLevel:
-              configMap['cyclomatic-complexity'] as int,
-          linesOfCodeWarningLevel: configMap['lines-of-code'] as int,
+              configMap['cyclomatic-complexity'].as<int>(),
+          linesOfCodeWarningLevel: configMap['lines-of-code'].as<int>(),
           numberOfArgumentsWarningLevel:
-              configMap['number-of-arguments'] as int,
-          numberOfMethodsWarningLevel: configMap['number-of-methods'] as int,
+              configMap['number-of-arguments'].as<int>(),
+          numberOfMethodsWarningLevel: configMap['number-of-methods'].as<int>(),
         );
       }
 
-      if (isYamlListOfStrings(metricsOptions.nodes[_metricsExcludeKey])) {
-        metricsExcludePatterns =
-            List.unmodifiable(metricsOptions[_metricsExcludeKey] as Iterable);
+      final excludeList = metricsOptions[_metricsExcludeKey];
+      if (excludeList != null &&
+          excludeList is Iterable<Object> &&
+          excludeList.every((element) => element is String)) {
+        metricsExcludePatterns = List<String>.unmodifiable(excludeList);
       }
 
-      final rulesNode = metricsOptions.nodes[_rulesKey];
-      if (rulesNode != null && rulesNode is YamlList) {
+      final rulesNode = metricsOptions[_rulesKey];
+      if (rulesNode != null && rulesNode is Iterable<Object>) {
         rules = Map.unmodifiable(Map<String, Map<String, Object>>.fromEntries([
-          ...rulesNode.nodes
-              .whereType<YamlScalar>()
-              .map((node) => MapEntry(node.value as String, {})),
-          ...rulesNode.nodes
-              .whereType<YamlMap>()
+          ...rulesNode.whereType<String>().map((node) => MapEntry(node, {})),
+          ...rulesNode
+              .whereType<Map<String, Object>>()
               .where((node) =>
-                  node.keys.length == 1 && node.values.first is YamlMap)
-              .map((node) => MapEntry(node.keys.cast<String>().first,
-                  (node.values.first as Map).cast<String, Object>())),
+                  node.keys.length == 1 &&
+                  node.values.first is Map<String, Object>)
+              .map((node) => MapEntry(
+                  node.keys.first, node.values.first as Map<String, Object>)),
         ]));
-      } else if (rulesNode != null && rulesNode is YamlMap) {
+      } else if (rulesNode != null && rulesNode is Map<String, Object>) {
         rules = Map.unmodifiable(Map<String, Map<String, Object>>.fromEntries([
-          ...rulesNode.keys.cast<String>().where((key) {
-            final node = rulesNode.nodes[key];
+          ...rulesNode.keys.where((key) {
+            final scalar = rulesNode[key];
 
-            return (node is YamlScalar && node.value is bool) &&
-                (node.value as bool);
+            return scalar != null && scalar is bool && scalar;
           }).map((key) => MapEntry(key, {})),
-          ...rulesNode.keys
-              .cast<String>()
-              .where((key) => rulesNode.nodes[key] is YamlMap)
-              .map((key) => MapEntry(key,
-                  (rulesNode.nodes[key].value as Map).cast<String, Object>())),
+          ...rulesNode.keys.where((key) {
+            final node = rulesNode[key];
+
+            return node != null && node is Map<String, Object>;
+          }).map((key) => MapEntry(key, rulesNode[key] as Map<String, Object>)),
         ]));
       }
     }
@@ -96,8 +97,3 @@ class AnalysisOptions {
         rules: rules);
   }
 }
-
-bool _isYamlMapOfStringsAndIntegers(YamlNode node) =>
-    node != null &&
-    node is YamlMap &&
-    node.nodes.values.every((val) => val is YamlScalar && val.value is int);
