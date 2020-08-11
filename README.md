@@ -112,6 +112,7 @@ If you want command line tool to check rules, you should add configuration to yo
 
 ### Intl specific
 * [prefer-intl-name](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/prefer_intl_name.md)
+* [provide-correct-intl-args](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/provide_correct_intl_args.md)
 
 ### Angular specific
 * [avoid-preserve-whitespace-false](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/avoid_preserve_whitespace_false.md)

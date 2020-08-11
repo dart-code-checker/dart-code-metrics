@@ -1,5 +1,4 @@
 import 'package:analyzer/dart/ast/ast.dart';
-import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:dart_code_metrics/src/models/code_issue.dart';
 import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
 import 'package:dart_code_metrics/src/rules/rule_utils.dart';
@@ -8,6 +7,7 @@ import 'package:dart_code_metrics/src/utils/iterable_extensions.dart';
 import 'package:meta/meta.dart';
 
 import 'base_rule.dart';
+import 'prefer_ints/intl_base_visitor.dart';
 
 class PreferIntlNameRule extends BaseRule {
   static const String ruleId = 'prefer-intl-name';
@@ -72,119 +72,12 @@ class PreferIntlNameRule extends BaseRule {
   }
 }
 
-class _Visitor extends GeneralizingAstVisitor<void> {
-  static final _methodNames = [
-    'message',
-    'plural',
-    'gender',
-    'select',
-  ];
-
-  final _issues = <_Issue>[];
-
-  Iterable<_Issue> get issues => _issues;
-
+class _Visitor extends IntlBaseVisitor {
   @override
-  void visitFieldDeclaration(FieldDeclaration node) {
-    if (node.fields.type.as<TypeName>()?.name?.name != 'String') {
-      return;
-    }
-
-    final className = node.parent.as<NamedCompilationUnitMember>().name.name;
-
-    _checkVariables(className, node.fields);
-
-    super.visitFieldDeclaration(node);
-  }
-
-  @override
-  void visitTopLevelVariableDeclaration(TopLevelVariableDeclaration node) {
-    _checkVariables(null, node.variables);
-
-    super.visitTopLevelVariableDeclaration(node);
-  }
-
-  @override
-  void visitMethodDeclaration(MethodDeclaration node) {
-    final className = _getClassName(node);
-
-    if (className == null) {
-      return;
-    }
-
-    final methodName = node.name.name;
-
-    final methodInvocation = _getMethodInvocation(node.body);
-
-    if (methodInvocation != null) {
-      _checkMethodInvocation(
-        methodInvocation,
-        className: className,
-        variableName: methodName,
-      );
-    }
-
-    super.visitMethodDeclaration(node);
-  }
-
-  @override
-  void visitFunctionDeclaration(FunctionDeclaration node) {
-    final methodName = node.name.name;
-    final methodInvocation = _getMethodInvocation(node.functionExpression.body);
-
-    if (methodInvocation != null) {
-      _checkMethodInvocation(
-        methodInvocation,
-        variableName: methodName,
-      );
-    }
-
-    super.visitFunctionDeclaration(node);
-  }
-
-  void _checkVariables(String className, VariableDeclarationList variables) {
-    for (final variable in variables.variables) {
-      final initializer = variable.initializer.as<MethodInvocation>();
-      if (initializer != null) {
-        final variableName = variable.name.name;
-
-        _checkMethodInvocation(
-          initializer,
-          className: className,
-          variableName: variableName,
-        );
-      }
-    }
-  }
-
-  String _getClassName(MethodDeclaration node) {
-    final name = node.parent?.as<NamedCompilationUnitMember>()?.name?.name;
-
-    return name ?? node.parent?.as<ExtensionDeclaration>()?.name?.name;
-  }
-
-  MethodInvocation _getMethodInvocation(FunctionBody body) {
-    final methodInvocation =
-        body?.as<ExpressionFunctionBody>()?.expression?.as<MethodInvocation>();
-
-    return methodInvocation ??
-        body
-            ?.as<BlockFunctionBody>()
-            ?.block
-            ?.statements
-            ?.whereType<ReturnStatement>()
-            ?.lastOrDefault()
-            ?.expression
-            ?.as<MethodInvocation>();
-  }
-
-  void _checkMethodInvocation(MethodInvocation methodInvocation,
-      {String className, String variableName}) {
-    if ((methodInvocation?.target?.as<SimpleIdentifier>()?.name != 'Intl') ||
-        !_methodNames.contains(methodInvocation?.methodName?.name)) {
-      return;
-    }
-
+  void checkMethodInvocation(MethodInvocation methodInvocation,
+      {String className,
+      String variableName,
+      FormalParameterList parameterList}) {
     final nameExpression = methodInvocation.argumentList?.arguments
         ?.whereType<NamedExpression>()
         ?.where((argument) => argument.name.label.name == 'name')
@@ -193,26 +86,16 @@ class _Visitor extends GeneralizingAstVisitor<void> {
         ?.as<SimpleStringLiteral>();
 
     if (nameExpression == null) {
-      _issues.add(_NotExistNameIssue(methodInvocation.methodName));
+      addIssue(_NotExistNameIssue(methodInvocation.methodName));
     } else if (nameExpression.value !=
         _NotCorrectNameIssue.getNewValue(className, variableName)) {
-      _issues
-          .add(_NotCorrectNameIssue(className, variableName, nameExpression));
+      addIssue(_NotCorrectNameIssue(className, variableName, nameExpression));
     }
   }
 }
 
 @immutable
-abstract class _Issue {
-  final AstNode node;
-
-  const _Issue(
-    this.node,
-  );
-}
-
-@immutable
-class _NotCorrectNameIssue extends _Issue {
+class _NotCorrectNameIssue extends IntlBaseIssue {
   final String className;
   final String variableName;
 
@@ -227,7 +110,7 @@ class _NotCorrectNameIssue extends _Issue {
 }
 
 @immutable
-class _NotExistNameIssue extends _Issue {
+class _NotExistNameIssue extends IntlBaseIssue {
   const _NotExistNameIssue(
     AstNode node,
   ) : super(node);

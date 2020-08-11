@@ -1,5 +1,9 @@
 # Changelog
 
+# Unreleased
+
+- Add static code diagnostics provide-correct-intl-args
+
 # 1.8.1
 
 - Fix static code diagnostics member-ordering and prefer-condifional-expression
