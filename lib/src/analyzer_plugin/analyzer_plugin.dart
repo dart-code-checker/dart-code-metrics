@@ -24,7 +24,6 @@ import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
 import 'package:dart_code_metrics/src/rules/base_rule.dart';
 import 'package:dart_code_metrics/src/rules_factory.dart';
 import 'package:glob/glob.dart';
-import 'package:path/path.dart' as p;
 import 'package:source_span/source_span.dart';
 
 import '../metrics_analyzer_utils.dart';
@@ -33,6 +32,7 @@ import '../utils/yaml_utls.dart';
 
 class MetricsAnalyzerPlugin extends ServerPlugin {
   Config _metricsConfig;
+  Iterable<Glob> _globalExclude;
   Iterable<Glob> _metricsExclude;
   Iterable<BaseRule> _checkingCodeRules;
   var _filesFromSetPriorityFilesRequest = <String>[];
@@ -74,10 +74,10 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
 
     final options = _readOptions(dartDriver);
     _metricsConfig = options?.metricsConfig;
-    _metricsExclude = options?.metricsExcludePatterns
-            ?.map((exclude) => Glob(p.join(contextRoot.root, exclude)))
-            ?.toList() ??
-        [];
+    _globalExclude =
+        prepareExcludes(options?.excludePatterns, contextRoot.root);
+    _metricsExclude =
+        prepareExcludes(options?.metricsExcludePatterns, contextRoot.root);
     _checkingCodeRules =
         options?.rules != null ? getRulesById(options.rules) : [];
 
@@ -162,7 +162,8 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
       ResolvedUnitResult analysisResult) {
     final result = <plugin.AnalysisErrorFixes>[];
 
-    if (isSupported(analysisResult)) {
+    if (isSupported(analysisResult) &&
+        !isExcluded(analysisResult, _globalExclude)) {
       final ignores = IgnoreInfo.calculateIgnores(
           analysisResult.content, analysisResult.lineInfo);
 
