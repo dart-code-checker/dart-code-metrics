@@ -14,17 +14,23 @@ const _metricsKey = 'metrics';
 const _metricsExcludeKey = 'metrics-exclude';
 const _rulesKey = 'rules';
 
+const _analyzerKey = 'analyzer';
+const _excludeKey = 'exclude';
+
 /// Class representing options in `analysis_options.yaml`.
 
 class AnalysisOptions {
+  final Iterable<String> excludePatterns;
   final Config metricsConfig;
   final Iterable<String> metricsExcludePatterns;
   final Map<String, Map<String, Object>> rules;
 
-  const AnalysisOptions(
-      {@required this.metricsConfig,
-      @required this.metricsExcludePatterns,
-      @required this.rules});
+  const AnalysisOptions({
+    @required this.excludePatterns,
+    @required this.metricsConfig,
+    @required this.metricsExcludePatterns,
+    @required this.rules,
+  });
 
   factory AnalysisOptions.from(String content) {
     try {
@@ -38,6 +44,7 @@ class AnalysisOptions {
   }
 
   factory AnalysisOptions.fromMap(Map<String, Object> configMap) {
+    Iterable<String> excludePatterns = <String>[];
     Config metricsConfig;
     Iterable<String> metricsExcludePatterns = <String>[];
     var rules = <String, Map<String, Object>>{};
@@ -91,7 +98,17 @@ class AnalysisOptions {
       }
     }
 
+    final analyzerOptions = configMap[_analyzerKey];
+    if (analyzerOptions != null && analyzerOptions is Map<String, Object>) {
+      final excludeList = analyzerOptions[_excludeKey];
+      if (excludeList is Iterable<Object> &&
+          excludeList.every((element) => element is String)) {
+        excludePatterns = List<String>.unmodifiable(excludeList);
+      }
+    }
+
     return AnalysisOptions(
+        excludePatterns: excludePatterns,
         metricsConfig: metricsConfig,
         metricsExcludePatterns: metricsExcludePatterns,
         rules: rules);

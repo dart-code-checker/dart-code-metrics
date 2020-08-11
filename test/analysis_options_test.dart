@@ -80,6 +80,13 @@ linter:
 
 const _contentWitMetricsThresholdsAndExcludes = '''
 analyzer:
+  exclude:
+    - test/aggregated_vm_test.dart
+    - lib/**/**.g.dart
+    - lib/intl/**
+    - test/**/**.g.dart
+    - .git/**
+    - .idea/**
   plugins:
     - dart_code_metrics
   strong-mode:
@@ -174,7 +181,17 @@ void main() {
         expect(
             options.metricsConfig.cyclomaticComplexityWarningLevel, equals(20));
         expect(options.metricsConfig.linesOfCodeWarningLevel, equals(42));
-        expect(options.metricsExcludePatterns.single, equals('test/**'));
+        expect(
+            options.excludePatterns,
+            equals([
+              'test/aggregated_vm_test.dart',
+              'lib/**/**.g.dart',
+              'lib/intl/**',
+              'test/**/**.g.dart',
+              '.git/**',
+              '.idea/**',
+            ]));
+        expect(options.metricsExcludePatterns, equals(['test/**']));
         expect(options.rules,
             equals({'no-boolean-literal-compare': <String, Object>{}}));
       });
