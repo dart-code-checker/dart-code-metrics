@@ -28,7 +28,7 @@ import 'package:source_span/source_span.dart';
 
 import '../metrics_analyzer_utils.dart';
 import '../scope_ast_visitor.dart';
-import '../utils/yaml_utls.dart';
+import '../utils/yaml_utils.dart';
 
 class MetricsAnalyzerPlugin extends ServerPlugin {
   Config _metricsConfig;

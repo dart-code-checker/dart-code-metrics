@@ -37,7 +37,7 @@ Future<Map<String, Object>> loadConfigFromYamlFile(File options) async {
         node is YamlMap ? yamlMapToDartMap(node) : <String, Object>{};
 
     final includeNode = optionsNode['include'];
-    if (includeNode != null && includeNode is String) {
+    if (includeNode is String) {
       final resolvedUri =
           await Isolate.resolvePackageUri(Uri.parse(includeNode));
       final resolvedYamlMap =
@@ -101,11 +101,8 @@ List<Object> _mergeLists(List<Object> defaults, List<Object> overrides) =>
     List.unmodifiable(<Object>{...defaults, ...overrides});
 
 bool _isListOfStrings(Object object) =>
-    object != null &&
-    object is List<Object> &&
-    object.every((node) => node is String);
+    object is List<Object> && object.every((node) => node is String);
 
-Map<String, bool> _listToMap(List<Object> list) => list != null
-    ? Map.unmodifiable(Map<String, bool>.fromEntries(
-        list.map((key) => MapEntry(key.toString(), true))))
-    : {};
+Map<String, bool> _listToMap(List<Object> list) =>
+    Map.unmodifiable(Map<String, bool>.fromEntries(
+        list.map((key) => MapEntry(key.toString(), true))));

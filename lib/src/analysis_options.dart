@@ -5,7 +5,7 @@ import 'package:yaml/yaml.dart';
 
 import 'models/config.dart';
 import 'utils/object_extensions.dart';
-import 'utils/yaml_utls.dart';
+import 'utils/yaml_utils.dart';
 
 // Documantation about customizing static analysis located at https://dart.dev/guides/language/analysis-options
 
@@ -52,9 +52,9 @@ class AnalysisOptions {
     var rules = <String, Map<String, Object>>{};
 
     final metricsOptions = configMap[_rootKey];
-    if (metricsOptions != null && metricsOptions is Map<String, Object>) {
+    if (metricsOptions is Map<String, Object>) {
       final configMap = metricsOptions[_metricsKey];
-      if (configMap != null && configMap is Map<String, Object>) {
+      if (configMap is Map<String, Object>) {
         metricsConfig = Config(
           cyclomaticComplexityWarningLevel:
               configMap['cyclomatic-complexity'].as<int>(),
@@ -66,14 +66,13 @@ class AnalysisOptions {
       }
 
       final excludeList = metricsOptions[_metricsExcludeKey];
-      if (excludeList != null &&
-          excludeList is Iterable<Object> &&
+      if (excludeList is Iterable<Object> &&
           excludeList.every((element) => element is String)) {
         metricsExcludePatterns = List<String>.unmodifiable(excludeList);
       }
 
       final rulesNode = metricsOptions[_rulesKey];
-      if (rulesNode != null && rulesNode is Iterable<Object>) {
+      if (rulesNode is Iterable<Object>) {
         rules = Map.unmodifiable(Map<String, Map<String, Object>>.fromEntries([
           ...rulesNode.whereType<String>().map((node) => MapEntry(node, {})),
           ...rulesNode
@@ -84,24 +83,24 @@ class AnalysisOptions {
               .map((node) => MapEntry(
                   node.keys.first, node.values.first as Map<String, Object>)),
         ]));
-      } else if (rulesNode != null && rulesNode is Map<String, Object>) {
+      } else if (rulesNode is Map<String, Object>) {
         rules = Map.unmodifiable(Map<String, Map<String, Object>>.fromEntries([
           ...rulesNode.keys.where((key) {
             final scalar = rulesNode[key];
 
-            return scalar != null && scalar is bool && scalar;
+            return scalar is bool && scalar;
           }).map((key) => MapEntry(key, {})),
           ...rulesNode.keys.where((key) {
             final node = rulesNode[key];
 
-            return node != null && node is Map<String, Object>;
+            return node is Map<String, Object>;
           }).map((key) => MapEntry(key, rulesNode[key] as Map<String, Object>)),
         ]));
       }
     }
 
     final analyzerOptions = configMap[_analyzerKey];
-    if (analyzerOptions != null && analyzerOptions is Map<String, Object>) {
+    if (analyzerOptions is Map<String, Object>) {
       final excludeList = analyzerOptions[_excludeKey];
       if (excludeList is Iterable<Object> &&
           excludeList.every((element) => element is String)) {
