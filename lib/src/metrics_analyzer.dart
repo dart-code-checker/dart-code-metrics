@@ -21,6 +21,7 @@ import 'rules_factory.dart';
 /// See [MetricsAnalysisRunner] to get analysis info
 class MetricsAnalyzer {
   final Iterable<BaseRule> _checkingCodeRules;
+  final Iterable<Glob> _globalExclude;
   final Iterable<Glob> _metricsExclude;
   final MetricsAnalysisRecorder _recorder;
 
@@ -29,14 +30,12 @@ class MetricsAnalyzer {
     AnalysisOptions options,
   })  : _checkingCodeRules =
             options?.rules != null ? getRulesById(options.rules) : [],
-        _metricsExclude = options?.metricsExcludePatterns
-                ?.map((exclude) => Glob(exclude))
-                ?.toList() ??
-            [];
+        _globalExclude = _prepareExcludes(options?.excludePatterns),
+        _metricsExclude = _prepareExcludes(options?.metricsExcludePatterns);
 
   void runAnalysis(String filePath, String rootFolder) {
     final relativeFilePath = p.relative(filePath, from: rootFolder);
-    if (_metricsExclude.any((excluded) => excluded.matches(relativeFilePath))) {
+    if (_isExcluded(relativeFilePath, _globalExclude)) {
       return;
     }
 
@@ -50,49 +49,54 @@ class MetricsAnalyzer {
     final lineInfo = parseResult.lineInfo;
 
     _recorder.recordFile(filePath, rootFolder, (builder) {
-      for (final component in visitor.components) {
-        builder.recordComponent(
-            component,
-            ComponentRecord(
-                firstLine: lineInfo
-                    .getLocation(component
-                        .declaration.firstTokenAfterCommentAndMetadata.offset)
-                    .lineNumber,
-                lastLine: lineInfo
-                    .getLocation(component.declaration.endToken.end)
-                    .lineNumber,
-                methodsCount: visitor.functions
-                    .where((function) =>
-                        function.enclosingDeclaration == component.declaration)
-                    .length));
-      }
+      if (!_isExcluded(relativeFilePath, _metricsExclude)) {
+        for (final component in visitor.components) {
+          builder.recordComponent(
+              component,
+              ComponentRecord(
+                  firstLine: lineInfo
+                      .getLocation(component
+                          .declaration.firstTokenAfterCommentAndMetadata.offset)
+                      .lineNumber,
+                  lastLine: lineInfo
+                      .getLocation(component.declaration.endToken.end)
+                      .lineNumber,
+                  methodsCount: visitor.functions
+                      .where((function) =>
+                          function.enclosingDeclaration ==
+                          component.declaration)
+                      .length));
+        }
 
-      for (final function in visitor.functions) {
-        final controlFlowAstVisitor =
-            ControlFlowAstVisitor(defaultCyclomaticConfig, lineInfo);
-        final functionBodyAstVisitor = FunctionBodyAstVisitor(lineInfo);
-        final halsteadVolumeAstVisitor = HalsteadVolumeAstVisitor();
+        for (final function in visitor.functions) {
+          final controlFlowAstVisitor =
+              ControlFlowAstVisitor(defaultCyclomaticConfig, lineInfo);
+          final functionBodyAstVisitor = FunctionBodyAstVisitor(lineInfo);
+          final halsteadVolumeAstVisitor = HalsteadVolumeAstVisitor();
 
-        function.declaration.visitChildren(controlFlowAstVisitor);
-        function.declaration.visitChildren(functionBodyAstVisitor);
-        function.declaration.visitChildren(halsteadVolumeAstVisitor);
+          function.declaration.visitChildren(controlFlowAstVisitor);
+          function.declaration.visitChildren(functionBodyAstVisitor);
+          function.declaration.visitChildren(halsteadVolumeAstVisitor);
 
-        builder.recordFunction(
-            function,
-            FunctionRecord(
-                firstLine: lineInfo
-                    .getLocation(function
-                        .declaration.firstTokenAfterCommentAndMetadata.offset)
-                    .lineNumber,
-                lastLine: lineInfo
-                    .getLocation(function.declaration.endToken.end)
-                    .lineNumber,
-                argumentsCount: getArgumentsCount(function),
-                cyclomaticComplexityLines:
-                    Map.unmodifiable(controlFlowAstVisitor.complexityLines),
-                linesWithCode: functionBodyAstVisitor.linesWithCode,
-                operators: Map.unmodifiable(halsteadVolumeAstVisitor.operators),
-                operands: Map.unmodifiable(halsteadVolumeAstVisitor.operands)));
+          builder.recordFunction(
+              function,
+              FunctionRecord(
+                  firstLine: lineInfo
+                      .getLocation(function
+                          .declaration.firstTokenAfterCommentAndMetadata.offset)
+                      .lineNumber,
+                  lastLine: lineInfo
+                      .getLocation(function.declaration.endToken.end)
+                      .lineNumber,
+                  argumentsCount: getArgumentsCount(function),
+                  cyclomaticComplexityLines:
+                      Map.unmodifiable(controlFlowAstVisitor.complexityLines),
+                  linesWithCode: functionBodyAstVisitor.linesWithCode,
+                  operators:
+                      Map.unmodifiable(halsteadVolumeAstVisitor.operators),
+                  operands:
+                      Map.unmodifiable(halsteadVolumeAstVisitor.operands)));
+        }
       }
 
       final ignores =
@@ -107,3 +111,9 @@ class MetricsAnalyzer {
     });
   }
 }
+
+Iterable<Glob> _prepareExcludes(Iterable<String> patterns) =>
+    patterns?.map((exclude) => Glob(exclude))?.toList() ?? [];
+
+bool _isExcluded(String filePath, Iterable<Glob> excludes) =>
+    excludes.any((exclude) => exclude.matches(filePath));
