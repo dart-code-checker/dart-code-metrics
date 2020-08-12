@@ -13,7 +13,7 @@ import 'package:path/path.dart' as p;
 
 final _parser = argumentsParser();
 
-void main(List<String> args) {
+Future<void> main(List<String> args) async {
   try {
     final arguments = _parser.parse(args);
 
@@ -23,7 +23,7 @@ void main(List<String> args) {
 
     validateArguments(arguments);
 
-    _runAnalysis(
+    await _runAnalysis(
         arguments[rootFolderName] as String,
         arguments.rest,
         arguments[ignoredFilesName] as String,
@@ -50,7 +50,7 @@ void _showUsageAndExit(int exitCode) {
   exit(exitCode);
 }
 
-void _runAnalysis(
+Future<void> _runAnalysis(
     String rootFolder,
     Iterable<String> analysisDirectories,
     String ignoreFilesPattern,
@@ -60,7 +60,7 @@ void _runAnalysis(
     int numberOfMethodsWarningLevel,
     String reporterType,
     bool verbose,
-    ViolationLevel setExitOnViolationLevel) {
+    ViolationLevel setExitOnViolationLevel) async {
   var dartFilePaths = analysisDirectories.expand((directory) =>
       Glob('$directory**.dart')
           .listSync(root: rootFolder, followLinks: false)
@@ -79,7 +79,7 @@ void _runAnalysis(
   final recorder = MetricsAnalysisRecorder();
   final analyzer = MetricsAnalyzer(recorder,
       options: analysisOptionsFile.existsSync()
-          ? AnalysisOptions.from(analysisOptionsFile.readAsStringSync())
+          ? await analysisOptionsFromFile(analysisOptionsFile)
           : null);
   final runner = MetricsAnalysisRunner(recorder, analyzer, dartFilePaths,
       rootFolder: rootFolder)
