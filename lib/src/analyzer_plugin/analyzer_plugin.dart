@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/file_system/file_system.dart';
 // ignore: implementation_imports
+import 'package:analyzer/src/analysis_options/analysis_options_provider.dart';
+// ignore: implementation_imports
 import 'package:analyzer/src/context/builder.dart';
 // ignore: implementation_imports
 import 'package:analyzer/src/context/context_root.dart';
@@ -22,14 +24,15 @@ import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
 import 'package:dart_code_metrics/src/rules/base_rule.dart';
 import 'package:dart_code_metrics/src/rules_factory.dart';
 import 'package:glob/glob.dart';
-import 'package:path/path.dart' as p;
 import 'package:source_span/source_span.dart';
 
 import '../metrics_analyzer_utils.dart';
 import '../scope_ast_visitor.dart';
+import '../utils/yaml_utils.dart';
 
 class MetricsAnalyzerPlugin extends ServerPlugin {
   Config _metricsConfig;
+  Iterable<Glob> _globalExclude;
   Iterable<Glob> _metricsExclude;
   Iterable<BaseRule> _checkingCodeRules;
   var _filesFromSetPriorityFilesRequest = <String>[];
@@ -61,15 +64,6 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
         pathContext: resourceProvider.pathContext)
       ..optionsFilePath = contextRoot.optionsFile;
 
-    final options = _readOptions(root);
-    _metricsConfig = options?.metricsConfig;
-    _metricsExclude = options?.metricsExcludePatterns
-            ?.map((exclude) => Glob(p.join(contextRoot.root, exclude)))
-            ?.toList() ??
-        [];
-    _checkingCodeRules =
-        options?.rules != null ? getRulesById(options.rules) : [];
-
     final contextBuilder = ContextBuilder(resourceProvider, sdkManager, null)
       ..analysisDriverScheduler = analysisDriverScheduler
       ..byteStore = byteStore
@@ -77,6 +71,16 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
       ..fileContentOverlay = fileContentOverlay;
 
     final dartDriver = contextBuilder.buildDriver(root);
+
+    final options = _readOptions(dartDriver);
+    _metricsConfig = options?.metricsConfig;
+    _globalExclude =
+        prepareExcludes(options?.excludePatterns, contextRoot.root);
+    _metricsExclude =
+        prepareExcludes(options?.metricsExcludePatterns, contextRoot.root);
+    _checkingCodeRules =
+        options?.rules != null ? getRulesById(options.rules) : [];
+
     // TODO(dmitrykrutskih): Once we are ready to bump the SDK lower bound to 2.8.x, we should swap this out for `runZoneGuarded`.
     runZoned(() {
       dartDriver.results.listen(_processResult);
@@ -158,7 +162,8 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
       ResolvedUnitResult analysisResult) {
     final result = <plugin.AnalysisErrorFixes>[];
 
-    if (isSupported(analysisResult)) {
+    if (isSupported(analysisResult) &&
+        !isExcluded(analysisResult, _globalExclude)) {
       final ignores = IgnoreInfo.calculateIgnores(
           analysisResult.content, analysisResult.lineInfo);
 
@@ -238,11 +243,13 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     return result;
   }
 
-  AnalysisOptions _readOptions(ContextRoot contextRoot) {
-    if (contextRoot?.optionsFilePath?.isNotEmpty ?? false) {
-      final file = resourceProvider.getFile(contextRoot.optionsFilePath);
+  AnalysisOptions _readOptions(AnalysisDriver driver) {
+    if (driver?.contextRoot?.optionsFilePath?.isNotEmpty ?? false) {
+      final file = resourceProvider.getFile(driver.contextRoot.optionsFilePath);
       if (file.exists) {
-        return AnalysisOptions.from(file.readAsStringSync());
+        return AnalysisOptions.fromMap(yamlMapToDartMap(
+            AnalysisOptionsProvider(driver.sourceFactory)
+                .getOptionsFromFile(file)));
       }
     }
 
