@@ -124,6 +124,9 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
       final fixes = _check(analysisResult)
           .where((fix) =>
               fix.error.location.file == parameters.file &&
+              fix.error.location.offset <= parameters.offset &&
+              parameters.offset <=
+                  fix.error.location.offset + fix.error.location.length &&
               fix.fixes.isNotEmpty)
           .toList();
 
