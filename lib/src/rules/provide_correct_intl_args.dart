@@ -191,21 +191,21 @@ class _Visitor extends IntlBaseVisitor {
 class _NotExistArgsIssue extends IntlBaseIssue {
   const _NotExistArgsIssue(
     AstNode node,
-  ) : super(node, nameFailure: 'Parameter args should be exist');
+  ) : super(node, nameFailure: 'Parameter "args" should be added');
 }
 
 @immutable
 class _ArgsMustBeOmittedIssue extends IntlBaseIssue {
   const _ArgsMustBeOmittedIssue(
     AstNode node,
-  ) : super(node, nameFailure: 'Parameter args should not be exist');
+  ) : super(node, nameFailure: 'Parameter "args" should be removed');
 }
 
 @immutable
 class _ArgsItemMustBeOmittedIssue extends IntlBaseIssue {
   const _ArgsItemMustBeOmittedIssue(
     AstNode node,
-  ) : super(node, nameFailure: 'Item should not be exist, because is not used');
+  ) : super(node, nameFailure: 'Item is unused and should be removed');
 }
 
 @immutable
@@ -213,7 +213,7 @@ class _ParameterMustBeOmittedIssue extends IntlBaseIssue {
   const _ParameterMustBeOmittedIssue(
     AstNode node,
   ) : super(node,
-            nameFailure: 'Parameter should not be exist, because is not used');
+            nameFailure: 'Parameter is unused and should be removed');
 }
 
 @immutable
@@ -227,26 +227,26 @@ class _MustBeSimpleIdentifierIssue extends IntlBaseIssue {
 class _ParameterMustBeInArgsIssue extends IntlBaseIssue {
   const _ParameterMustBeInArgsIssue(
     AstNode node,
-  ) : super(node, nameFailure: 'Parameter item should be contains in args');
+  ) : super(node, nameFailure: 'Parameter should be added to args');
 }
 
 @immutable
 class _ArgsMustBeInParameterIssue extends IntlBaseIssue {
   const _ArgsMustBeInParameterIssue(
     AstNode node,
-  ) : super(node, nameFailure: 'Args item should be contains in parameters');
+  ) : super(node, nameFailure: 'Args item should be added to parameters');
 }
 
 @immutable
 class _InterpolationMustBeInArgsIssue extends IntlBaseIssue {
   const _InterpolationMustBeInArgsIssue(
     AstNode node,
-  ) : super(node, nameFailure: 'Interpolation must be contains in args');
+  ) : super(node, nameFailure: 'Interpolation expression should be added to args');
 }
 
 @immutable
 class _InterpolationMustBeInParameterIssue extends IntlBaseIssue {
   const _InterpolationMustBeInParameterIssue(
     AstNode node,
-  ) : super(node, nameFailure: 'Interpolation must be contains in parameters');
+  ) : super(node, nameFailure: 'Interpolation expression should be added to parameters');
 }
