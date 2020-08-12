@@ -1,3 +1,5 @@
+import 'dart:io';
+
 @TestOn('vm')
 import 'package:dart_code_metrics/src/analysis_options.dart';
 import 'package:test/test.dart';
@@ -195,6 +197,28 @@ void main() {
         expect(options.rules,
             equals({'no-boolean-literal-compare': <String, Object>{}}));
       });
+    });
+
+    test('file', () async {
+      final options = await analysisOptionsFromFile(
+          File('./test/resources/analysis_options_main.yaml'));
+
+      expect(
+          options.metricsConfig.cyclomaticComplexityWarningLevel, equals(20));
+      expect(options.metricsConfig.linesOfCodeWarningLevel, isNull);
+      expect(options.metricsConfig.numberOfArgumentsWarningLevel, equals(4));
+      expect(options.metricsConfig.numberOfMethodsWarningLevel, isNull);
+
+      expect(options.excludePatterns, equals(['example/**']));
+
+      expect(options.rules.keys.length, equals(3));
+      expect(
+          options.rules.keys,
+          containsAll(<String>[
+            'member-ordering',
+            'newline-before-return',
+            'prefer-trailing-comma-for-collection',
+          ]));
     });
   });
 }

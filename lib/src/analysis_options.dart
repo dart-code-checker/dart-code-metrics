@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:meta/meta.dart';
 import 'package:yaml/yaml.dart';
 
@@ -114,3 +116,6 @@ class AnalysisOptions {
         rules: rules);
   }
 }
+
+Future<AnalysisOptions> analysisOptionsFromFile(File options) async =>
+    AnalysisOptions.fromMap(await loadConfigFromYamlFile(options));
