@@ -1,5 +1,7 @@
 # Prefer trailing a comma for collection
 
+![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
+
 ## Rule id
 prefer-trailing-comma-for-collection
 

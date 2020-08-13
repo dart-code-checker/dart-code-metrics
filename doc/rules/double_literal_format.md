@@ -1,5 +1,7 @@
 # Double literal format
 
+![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
+
 ## Rule id
 double-literal-format
 
