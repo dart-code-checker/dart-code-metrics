@@ -30,6 +30,8 @@ import '../metrics_analyzer_utils.dart';
 import '../scope_ast_visitor.dart';
 import '../utils/yaml_utils.dart';
 
+const _codeMetricsId = 'code-metrics';
+
 class MetricsAnalyzerPlugin extends ServerPlugin {
   Config _metricsConfig;
   Iterable<Glob> _globalExclude;
@@ -184,6 +186,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
                   codeIssueToAnalysisErrorFixes(issue, analysisResult))));
 
       if (_metricsConfig != null &&
+          !ignores.ignoreRule(_codeMetricsId) &&
           !isExcluded(analysisResult, _metricsExclude)) {
         final scopeVisitor = ScopeAstVisitor();
         analysisResult.unit.visitChildren(scopeVisitor);
@@ -215,8 +218,10 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
           final functionReport =
               UtilitySelector.functionReport(functionRecord, _metricsConfig);
 
-          if (UtilitySelector.isIssueLevel(
-              UtilitySelector.functionViolationLevel(functionReport))) {
+          if (!ignores.ignoredAt(
+                  _codeMetricsId, functionFirstLineInfo.lineNumber) &&
+              UtilitySelector.isIssueLevel(
+                  UtilitySelector.functionViolationLevel(functionReport))) {
             final startSourceLocation = SourceLocation(functionOffset,
                 sourceUrl: sourceUri,
                 line: functionFirstLineInfo.lineNumber,
@@ -229,14 +234,14 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
                     startSourceLocation,
                     function.declaration.end - functionOffset,
                     'Function has a Cyclomatic Complexity of ${functionReport.cyclomaticComplexity.value} (exceeds ${_metricsConfig.cyclomaticComplexityWarningLevel} allowed). Consider refactoring.',
-                    'cyclomatic-complexity'),
+                    _codeMetricsId),
               if (UtilitySelector.isIssueLevel(
                   functionReport.argumentsCount.violationLevel))
                 metricReportToAnalysisErrorFixes(
                     startSourceLocation,
                     function.declaration.end - functionOffset,
                     'Function has ${functionReport.argumentsCount.value} number of arguments (exceeds ${_metricsConfig.numberOfArgumentsWarningLevel} allowed). Consider refactoring.',
-                    'number-of-arguments'),
+                    _codeMetricsId),
             ]);
           }
         }
