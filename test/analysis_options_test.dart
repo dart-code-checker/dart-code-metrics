@@ -1,3 +1,5 @@
+import 'dart:io';
+
 @TestOn('vm')
 import 'package:dart_code_metrics/src/analysis_options.dart';
 import 'package:test/test.dart';
@@ -80,6 +82,13 @@ linter:
 
 const _contentWitMetricsThresholdsAndExcludes = '''
 analyzer:
+  exclude:
+    - test/aggregated_vm_test.dart
+    - lib/**/**.g.dart
+    - lib/intl/**
+    - test/**/**.g.dart
+    - .git/**
+    - .idea/**
   plugins:
     - dart_code_metrics
   strong-mode:
@@ -174,10 +183,42 @@ void main() {
         expect(
             options.metricsConfig.cyclomaticComplexityWarningLevel, equals(20));
         expect(options.metricsConfig.linesOfCodeWarningLevel, equals(42));
-        expect(options.metricsExcludePatterns.single, equals('test/**'));
+        expect(
+            options.excludePatterns,
+            equals([
+              'test/aggregated_vm_test.dart',
+              'lib/**/**.g.dart',
+              'lib/intl/**',
+              'test/**/**.g.dart',
+              '.git/**',
+              '.idea/**',
+            ]));
+        expect(options.metricsExcludePatterns, equals(['test/**']));
         expect(options.rules,
             equals({'no-boolean-literal-compare': <String, Object>{}}));
       });
+    });
+
+    test('file', () async {
+      final options = await analysisOptionsFromFile(
+          File('./test/resources/analysis_options_main.yaml'));
+
+      expect(
+          options.metricsConfig.cyclomaticComplexityWarningLevel, equals(20));
+      expect(options.metricsConfig.linesOfCodeWarningLevel, isNull);
+      expect(options.metricsConfig.numberOfArgumentsWarningLevel, equals(4));
+      expect(options.metricsConfig.numberOfMethodsWarningLevel, isNull);
+
+      expect(options.excludePatterns, equals(['example/**']));
+
+      expect(options.rules.keys.length, equals(3));
+      expect(
+          options.rules.keys,
+          containsAll(<String>[
+            'member-ordering',
+            'newline-before-return',
+            'prefer-trailing-comma-for-collection',
+          ]));
     });
   });
 }

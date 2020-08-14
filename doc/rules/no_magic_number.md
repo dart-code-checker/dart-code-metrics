@@ -1,5 +1,7 @@
 # No magic number
 
+![Configurable](https://img.shields.io/badge/-configurable-informational)
+
 ## Rule id
 no-magic-number
 

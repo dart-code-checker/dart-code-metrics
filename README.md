@@ -99,19 +99,19 @@ If you want command line tool to check rules, you should add configuration to yo
 ## Rules
 
 ### Common
-* [binary-expression-operand-order](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/binary_expression_operand_order.md)
-* [double-literal-format](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/double_literal_format.md)
-* [member-ordering](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/member_ordering.md)
+* [binary-expression-operand-order](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/binary_expression_operand_order.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
+* [double-literal-format](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/double_literal_format.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
+* [member-ordering](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/member_ordering.md) &nbsp; ![Configurable](https://img.shields.io/badge/-configurable-informational)
 * [newline-before-return](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/newline_before_return.md)
-* [no-boolean-literal-compare](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/no_boolean_literal_compare.md)
+* [no-boolean-literal-compare](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/no_boolean_literal_compare.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 * [no-empty-block](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/no_empty_block.md)
-* [no-magic-number](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/no_magic_number.md)
+* [no-magic-number](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/no_magic_number.md) &nbsp; ![Configurable](https://img.shields.io/badge/-configurable-informational)
 * [no-object-declaration](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/no_object_declaration.md)
-* [prefer-conditional-expressions](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/prefer_conditional_expressions.md)
-* [prefer-trailing-comma-for-collection](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/prefer_trailing_comma_for_collection.md)
+* [prefer-conditional-expressions](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/prefer_conditional_expressions.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
+* [prefer-trailing-comma-for-collection](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/prefer_trailing_comma_for_collection.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 
 ### Intl specific
-* [prefer-intl-name](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/prefer_intl_name.md)
+* [prefer-intl-name](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/prefer_intl_name.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 * [provide-correct-intl-args](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/provide_correct_intl_args.md)
 
 ### Angular specific
