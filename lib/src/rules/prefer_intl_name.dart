@@ -7,7 +7,7 @@ import 'package:dart_code_metrics/src/utils/iterable_extensions.dart';
 import 'package:meta/meta.dart';
 
 import 'base_rule.dart';
-import 'prefer_ints/intl_base_visitor.dart';
+import 'intl_base/intl_base_visitor.dart';
 
 class PreferIntlNameRule extends BaseRule {
   static const String ruleId = 'prefer-intl-name';

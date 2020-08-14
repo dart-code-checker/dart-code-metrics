@@ -7,7 +7,7 @@ import 'package:dart_code_metrics/src/utils/iterable_extensions.dart';
 import 'package:meta/meta.dart';
 
 import 'base_rule.dart';
-import 'prefer_ints/intl_base_visitor.dart';
+import 'intl_base/intl_base_visitor.dart';
 
 class ProvideCorrectIntlArgsRule extends BaseRule {
   static const String ruleId = 'provide-correct-intl-args';
@@ -111,9 +111,7 @@ class _Visitor extends IntlBaseVisitor {
           .map((expression) => expression.expression)
           .toList();
 
-      addIssues(interpolationExpressions
-          .where((item) => item is! SimpleIdentifier)
-          .map((item) => _MustBeSimpleIdentifierIssue(item)));
+      _checkItemsOnSimple(interpolationExpressions);
 
       final interpolationExpressionSimpleIdentifiers =
           interpolationExpressions.whereType<SimpleIdentifier>().toList();
@@ -143,47 +141,51 @@ class _Visitor extends IntlBaseVisitor {
       ListLiteral argsListLiteral) {
     final argsElements = argsListLiteral?.elements ?? <CollectionElement>[];
 
-    addIssues(argsElements
+    _checkItemsOnSimple(argsElements);
+  }
+
+  void _checkItemsOnSimple<T extends AstNode>(Iterable<T> items) {
+    addIssues(items
         ?.where((item) => item is! SimpleIdentifier)
         ?.map((item) => _MustBeSimpleIdentifierIssue(item)));
   }
 
   void _checkAllParametersMustBeContainsInArgs(
       List<SimpleIdentifier> parameters, List<SimpleIdentifier> argsArgument) {
-    final argsNames = argsArgument.map((item) => item.token.value()).toSet();
-    addIssues(parameters
-        ?.where((param) => !argsNames.contains(param.token.value()))
-        ?.map((param) => _ParameterMustBeInArgsIssue(param)));
+    _addIssuesIfNotContains(
+        parameters, argsArgument, (arg) => _ParameterMustBeInArgsIssue(arg));
   }
 
   void _checkAllArgsMustBeContainsInParameters(
       List<SimpleIdentifier> argsArgument, List<SimpleIdentifier> parameters) {
-    final parametersNames =
-        parameters.map((item) => item.token.value()).toSet();
-    addIssues(argsArgument
-        ?.where((arg) => !parametersNames.contains(arg.token.value()))
-        ?.map((arg) => _ArgsMustBeInParameterIssue(arg)));
+    _addIssuesIfNotContains(
+        argsArgument, parameters, (arg) => _ArgsMustBeInParameterIssue(arg));
   }
 
   void _checkAllInterpolationMustBeContainsInParameters(
       List<SimpleIdentifier> simpleIdentifierExpressions,
       List<SimpleIdentifier> parameters) {
-    final parametersNames =
-        parameters.map((item) => item.token.value()).toSet();
-    addIssues(simpleIdentifierExpressions
-        ?.where((param) => !parametersNames.contains(param.token.value()))
-        ?.map((param) => _InterpolationMustBeInParameterIssue(param)));
+    _addIssuesIfNotContains(simpleIdentifierExpressions, parameters,
+        (arg) => _InterpolationMustBeInParameterIssue(arg));
   }
 
   void _checkAllInterpolationMustBeContainsInArgs(
       List<SimpleIdentifier> simpleIdentifierExpressions,
       List<SimpleIdentifier> args) {
-    final argsNames = args.map((item) => item.token.value()).toSet();
+    _addIssuesIfNotContains(simpleIdentifierExpressions, args,
+        (arg) => _InterpolationMustBeInArgsIssue(arg));
+  }
 
-    addIssues(simpleIdentifierExpressions
+  void _addIssuesIfNotContains(
+    List<SimpleIdentifier> checkedItems,
+    List<SimpleIdentifier> existsItems,
+    IntlBaseIssue Function(SimpleIdentifier args) issueFactory,
+  ) {
+    final argsNames = existsItems.map((item) => item.token.value()).toSet();
+
+    addIssues(checkedItems
         ?.where((arg) => !argsNames.contains(arg.token.value()))
-        ?.map<_InterpolationMustBeInArgsIssue>(
-            (arg) => _InterpolationMustBeInArgsIssue(arg)));
+        ?.map(issueFactory));
   }
 }
 
@@ -212,8 +214,7 @@ class _ArgsItemMustBeOmittedIssue extends IntlBaseIssue {
 class _ParameterMustBeOmittedIssue extends IntlBaseIssue {
   const _ParameterMustBeOmittedIssue(
     AstNode node,
-  ) : super(node,
-            nameFailure: 'Parameter is unused and should be removed');
+  ) : super(node, nameFailure: 'Parameter is unused and should be removed');
 }
 
 @immutable
@@ -241,12 +242,15 @@ class _ArgsMustBeInParameterIssue extends IntlBaseIssue {
 class _InterpolationMustBeInArgsIssue extends IntlBaseIssue {
   const _InterpolationMustBeInArgsIssue(
     AstNode node,
-  ) : super(node, nameFailure: 'Interpolation expression should be added to args');
+  ) : super(node,
+            nameFailure: 'Interpolation expression should be added to args');
 }
 
 @immutable
 class _InterpolationMustBeInParameterIssue extends IntlBaseIssue {
   const _InterpolationMustBeInParameterIssue(
     AstNode node,
-  ) : super(node, nameFailure: 'Interpolation expression should be added to parameters');
+  ) : super(node,
+            nameFailure:
+                'Interpolation expression should be added to parameters');
 }
