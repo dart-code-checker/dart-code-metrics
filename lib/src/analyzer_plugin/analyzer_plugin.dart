@@ -26,8 +26,8 @@ import 'package:dart_code_metrics/src/rules_factory.dart';
 import 'package:glob/glob.dart';
 import 'package:source_span/source_span.dart';
 
-import '../metrics_analyzer_utils.dart';
 import '../scope_ast_visitor.dart';
+import '../utils/metrics_analyzer_utils.dart';
 import '../utils/yaml_utils.dart';
 
 const _codeMetricsId = 'code-metrics';

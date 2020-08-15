@@ -4,7 +4,6 @@ import 'package:dart_code_metrics/src/halstead_volume/halstead_volume_ast_visito
 import 'package:dart_code_metrics/src/ignore_info.dart';
 import 'package:dart_code_metrics/src/lines_of_code/function_body_ast_visitor.dart';
 import 'package:dart_code_metrics/src/metrics_analysis_recorder.dart';
-import 'package:dart_code_metrics/src/metrics_analyzer_utils.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/rules/base_rule.dart';
 import 'package:dart_code_metrics/src/scope_ast_visitor.dart';
@@ -16,6 +15,7 @@ import 'metrics/cyclomatic_complexity/control_flow_ast_visitor.dart';
 import 'metrics/cyclomatic_complexity/cyclomatic_config.dart';
 import 'models/component_record.dart';
 import 'rules_factory.dart';
+import 'utils/metrics_analyzer_utils.dart';
 
 /// Performs code quality analysis on specified files
 /// See [MetricsAnalysisRunner] to get analysis info

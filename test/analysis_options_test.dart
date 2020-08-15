@@ -1,6 +1,6 @@
+@TestOn('vm')
 import 'dart:io';
 
-@TestOn('vm')
 import 'package:dart_code_metrics/src/analysis_options.dart';
 import 'package:test/test.dart';
 

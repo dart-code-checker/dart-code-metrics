@@ -12,7 +12,9 @@ class Bar implements Foo {
 class Rectangle {
   double left, top, width, height;
 
-  Rectangle(this.left, this.top, this.width, this.height);
+  Rectangle(this.left, this.top, this.width, this.height) {
+    print('area = ${width * height}');
+  }
 
   // Define two calculated properties: right and bottom.
   double get right => left + width;

@@ -3,6 +3,7 @@ include: package:pedantic/analysis_options.yaml
 analyzer:
   exclude:
     - example/**
+    - test/resources/**
   plugins:
     - dart_code_metrics
   strong-mode:
