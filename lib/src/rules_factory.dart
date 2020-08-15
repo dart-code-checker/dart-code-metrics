@@ -1,6 +1,7 @@
 import 'rules/avoid_preserve_whitespace_false.dart';
 import 'rules/base_rule.dart';
 import 'rules/binary_expression_operand_order_rule.dart';
+import 'rules/component_annotation_arguments_ordering.dart';
 import 'rules/double_literal_format_rule.dart';
 import 'rules/member_ordering.dart';
 import 'rules/newline_before_return.dart';
@@ -19,6 +20,8 @@ final _implementedRules = <String, BaseRule Function(Map<String, Object>)>{
       AvoidPreserveWhitespaceFalseRule(config: config),
   BinaryExpressionOperandOrderRule.ruleId: (config) =>
       BinaryExpressionOperandOrderRule(config: config),
+  ComponentAnnotationArgumentsOrderingRule.ruleId: (config) =>
+      ComponentAnnotationArgumentsOrderingRule(config: config),
   DoubleLiteralFormatRule.ruleId: (config) =>
       DoubleLiteralFormatRule(config: config),
   MemberOrderingRule.ruleId: (config) => MemberOrderingRule(config: config),

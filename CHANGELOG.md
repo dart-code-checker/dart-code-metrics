@@ -2,11 +2,11 @@
 
 # Unreleased
 
-- Add static code diagnostics provide-correct-intl-args
+- Add static code diagnostics provide-correct-intl-args, component-annotation-arguments-ordering
 
 # 1.8.1
 
-- Fix static code diagnostics member-ordering and prefer-condifional-expression
+- Fix static code diagnostics member-ordering and prefer-conditional-expression
 
 # 1.8.0
 

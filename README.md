@@ -116,4 +116,5 @@ If you want command line tool to check rules, you should add configuration to yo
 
 ### Angular specific
 * [avoid-preserve-whitespace-false](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/avoid_preserve_whitespace_false.md)
+* [component-annotation-arguments-ordering](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/component_annotation_arguments_ordering.md) &nbsp; ![Configurable](https://img.shields.io/badge/-configurable-informational)
 * [prefer-on-push-cd-strategy](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/prefer_on_push_cd_strategy.md)
