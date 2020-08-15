@@ -4,7 +4,7 @@
 provide-correct-intl-args
 
 ## Description
-Provide correct intl for `args` argument in `Intl.message()` method.
+Warns when the `Intl.message()` invocation has incorrect `args` list.
 
 ### Example
 Bad:
