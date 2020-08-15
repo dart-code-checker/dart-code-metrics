@@ -40,9 +40,11 @@ Future<Map<String, Object>> loadConfigFromYamlFile(File options) async {
     if (includeNode is String) {
       final resolvedUri =
           await Isolate.resolvePackageUri(Uri.parse(includeNode));
-      final resolvedYamlMap =
-          await loadConfigFromYamlFile(File.fromUri(resolvedUri));
-      optionsNode = _mergeMaps(resolvedYamlMap, optionsNode);
+      if (resolvedUri != null) {
+        final resolvedYamlMap =
+            await loadConfigFromYamlFile(File.fromUri(resolvedUri));
+        optionsNode = _mergeMaps(resolvedYamlMap, optionsNode);
+      }
     }
 
     return optionsNode;

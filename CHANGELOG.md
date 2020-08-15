@@ -2,7 +2,7 @@
 
 # Unreleased
 
-- Add static code diagnostics component-annotation-arguments-ordering
+- Add static code diagnostics provide-correct-intl-args, component-annotation-arguments-ordering
 
 # 1.8.1
 
