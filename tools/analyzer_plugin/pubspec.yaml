@@ -1,9 +1,9 @@
 name: dart_code_metrics_plugin_loader
 description: This pubspec determines the version of the analyzer plugin to load.
-version: 1.8.1
+version: 1.9.0
 
 environment:
-  sdk: ">=2.4.0 <3.0.0"
+  sdk: ">=2.6.0 <3.0.0"
 
 dependencies:
-  dart_code_metrics: ^1.8.1
+  dart_code_metrics: ^1.9.0

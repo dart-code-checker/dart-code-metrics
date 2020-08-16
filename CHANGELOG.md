@@ -1,6 +1,6 @@
 # Changelog
 
-# Unreleased
+# 1.9.0
 
 - Add static code diagnostics provide-correct-intl-args, component-annotation-arguments-ordering
 
