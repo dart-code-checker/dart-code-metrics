@@ -24,7 +24,6 @@ import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
 import 'package:dart_code_metrics/src/rules/base_rule.dart';
 import 'package:dart_code_metrics/src/rules_factory.dart';
 import 'package:glob/glob.dart';
-import 'package:path/path.dart' as p;
 import 'package:source_span/source_span.dart';
 
 import '../scope_ast_visitor.dart';
@@ -32,6 +31,8 @@ import '../utils/metrics_analyzer_utils.dart';
 import '../utils/yaml_utils.dart';
 
 const _codeMetricsId = 'code-metrics';
+
+const _defaultSkippedFolders = ['.dart_tool/**', 'packages/**'];
 
 class MetricsAnalyzerPlugin extends ServerPlugin {
   Config _metricsConfig;
@@ -77,8 +78,10 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
 
     final options = _readOptions(dartDriver);
     _metricsConfig = options?.metricsConfig;
-    _globalExclude =
-        prepareExcludes(options?.excludePatterns, contextRoot.root);
+    _globalExclude = prepareExcludes([
+      ..._defaultSkippedFolders,
+      if (options?.excludePatterns != null) ...options.excludePatterns,
+    ], contextRoot.root);
     _metricsExclude =
         prepareExcludes(options?.metricsExcludePatterns, contextRoot.root);
     _checkingCodeRules =
@@ -276,19 +279,13 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
   /// As a result, [_processResult] will get called with resolved units, and thus all of our diagnostics
   /// will get run on all files in the repo instead of only the currently open/edited ones!
   void _updatePriorityFiles() {
-    const _skippedFolders = ['.dart_tool', 'packages'];
-
     final filesToFullyResolve = {
       // Ensure these go first, since they're actually considered priority; ...
       ..._filesFromSetPriorityFilesRequest,
 
       // ... all other files need to be analyzed, but don't trump priority
       for (final driver2 in driverMap.values)
-        ...(driver2 as AnalysisDriver)
-            .addedFiles
-            .map((element) => p.relative(element,
-                from: (driver2 as AnalysisDriver).contextRoot.root))
-            .where((element) => !_skippedFolders.any(element.startsWith)),
+        ...(driver2 as AnalysisDriver).addedFiles,
     };
 
     // From ServerPlugin.handleAnalysisSetPriorityFiles

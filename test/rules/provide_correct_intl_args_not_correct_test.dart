@@ -130,7 +130,6 @@ void main() {
     expect(issues.every((issue) => issue.severity == CodeIssueSeverity.warning),
         isTrue);
 
-    print(issues.map((issue) => "'${issue.message}'").join(',\n'));
     expect(
       issues.map((issue) => issue.message),
       equals([
@@ -270,14 +269,6 @@ void main() {
           22,
           29,
         ]));
-
-    //    print(issues.map((issue) => "'${issue.sourceSpan.start.offset}'" ).join(',\n'));
-//    print('offset');
-//    print(issues.map((issue) => '${issue.sourceSpan.end.offset}' ).join(',\n'));
-//    print('line');
-//    print(issues.map((issue) => '${issue.sourceSpan.end.line}' ).join(',\n'));
-//    print('column');
-//    print(issues.map((issue) => '${issue.sourceSpan.end.column}' ).join(',\n'));
 
     expect(
         issues.map((issue) => issue.sourceSpan.end.offset),

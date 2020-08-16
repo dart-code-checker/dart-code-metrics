@@ -15,5 +15,5 @@ dart_code_metrics:
           - public_fields
           - private_fields
           - constructors
-    newline-before-return : true
-    no-boolean-literal-compare: false
+    no-empty-block : true
+    no-object-declaration : false

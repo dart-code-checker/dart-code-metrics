@@ -201,7 +201,7 @@ void main() {
 
     test('file', () async {
       final options = await analysisOptionsFromFile(
-          File('./test/resources/analysis_options_main.yaml'));
+          File('./test/resources/analysis_options_pkg.yaml'));
 
       expect(
           options.metricsConfig.cyclomaticComplexityWarningLevel, equals(20));
@@ -210,14 +210,17 @@ void main() {
       expect(options.metricsConfig.numberOfMethodsWarningLevel, isNull);
 
       expect(options.excludePatterns, equals(['example/**']));
+      expect(options.metricsExcludePatterns,
+          equals(['test/**', 'documentation/**']));
 
-      expect(options.rules.keys.length, equals(3));
+      expect(options.rules.keys.length, equals(4));
       expect(
           options.rules.keys,
           containsAll(<String>[
-            'member-ordering',
-            'newline-before-return',
+            'no-empty-block',
+            'no-boolean-literal-compare',
             'prefer-trailing-comma-for-collection',
+            'member-ordering',
           ]));
     });
   });
