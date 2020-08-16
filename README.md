@@ -1,4 +1,5 @@
 [![Build Status](https://github.com/wrike/metrics/workflows/build/badge.svg)](https://github.com/wrike/dart-code-metrics/)
+[![Coverage Status](https://coveralls.io/repos/github/wrike/dart-code-metrics/badge.svg?branch=master)](https://coveralls.io/github/wrike/dart-code-metrics?branch=master)
 [![License](https://badgen.net/pub/license/dart_code_metrics)](https://github.com/wrike/dart-code-metrics/blob/master/LICENSE)
 [![Pub Version](https://badgen.net/pub/v/dart_code_metrics)](https://pub.dev/packages/dart_code_metrics/)
 ![Dart SDK Verison](https://badgen.net/pub/sdk-version/dart_code_metrics)
