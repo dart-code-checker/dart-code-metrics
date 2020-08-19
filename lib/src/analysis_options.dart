@@ -46,24 +46,11 @@ class AnalysisOptions {
   }
 
   factory AnalysisOptions.fromMap(Map<String, Object> configMap) {
-    Config metricsConfig;
     Iterable<String> metricsExcludePatterns = <String>[];
     var rules = <String, Map<String, Object>>{};
 
     final metricsOptions = configMap[_rootKey];
     if (metricsOptions is Map<String, Object>) {
-      final configMap = metricsOptions[_metricsKey];
-      if (configMap is Map<String, Object>) {
-        metricsConfig = Config(
-          cyclomaticComplexityWarningLevel:
-              configMap['cyclomatic-complexity'].as<int>(),
-          linesOfCodeWarningLevel: configMap['lines-of-code'].as<int>(),
-          numberOfArgumentsWarningLevel:
-              configMap['number-of-arguments'].as<int>(),
-          numberOfMethodsWarningLevel: configMap['number-of-methods'].as<int>(),
-        );
-      }
-
       final excludeList = metricsOptions[_metricsExcludeKey];
       if (excludeList is Iterable<Object> &&
           excludeList.every((element) => element is String)) {
@@ -100,7 +87,7 @@ class AnalysisOptions {
 
     return AnalysisOptions(
         excludePatterns: _readGlobalExludePatterns(configMap ?? {}),
-        metricsConfig: metricsConfig,
+        metricsConfig: _readMetricsConfig(configMap ?? {}),
         metricsExcludePatterns: metricsExcludePatterns,
         rules: rules);
   }
@@ -117,6 +104,25 @@ Iterable<String> _readGlobalExludePatterns(Map<String, Object> configMap) {
   }
 
   return [];
+}
+
+Config _readMetricsConfig(Map<String, Object> configMap) {
+  final metricsOptions = configMap[_rootKey];
+  if (metricsOptions is Map<String, Object>) {
+    final configMap = metricsOptions[_metricsKey];
+    if (configMap is Map<String, Object>) {
+      return Config(
+        cyclomaticComplexityWarningLevel:
+            configMap['cyclomatic-complexity'].as<int>(),
+        linesOfCodeWarningLevel: configMap['lines-of-code'].as<int>(),
+        numberOfArgumentsWarningLevel:
+            configMap['number-of-arguments'].as<int>(),
+        numberOfMethodsWarningLevel: configMap['number-of-methods'].as<int>(),
+      );
+    }
+  }
+
+  return null;
 }
 
 Future<AnalysisOptions> analysisOptionsFromFile(File options) async =>
