@@ -34,6 +34,7 @@ class AnalysisOptions {
     @required this.rules,
   });
 
+  @Deprecated('Use fromMap')
   factory AnalysisOptions.from(String content) {
     try {
       final node = loadYamlNode(content ?? '');
