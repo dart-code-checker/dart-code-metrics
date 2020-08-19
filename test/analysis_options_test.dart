@@ -2,7 +2,9 @@
 import 'dart:io';
 
 import 'package:dart_code_metrics/src/analysis_options.dart';
+import 'package:dart_code_metrics/src/utils/yaml_utils.dart';
 import 'package:test/test.dart';
+import 'package:yaml/yaml.dart';
 
 const _contentWithoutMetrics = '''
 analyzer:
@@ -113,20 +115,21 @@ linter:
 void main() {
   group('AnalysisOptions from', () {
     test('empty content', () {
-      final configFromNull = AnalysisOptions.from(null);
-      final configFromEmptyString = AnalysisOptions.from('');
+      final configFromNull = AnalysisOptions.fromMap(null);
+      final configFromEmptyMap = AnalysisOptions.fromMap({});
 
       expect(configFromNull.metricsConfig, isNull);
       expect(configFromNull.metricsExcludePatterns, isEmpty);
       expect(configFromNull.rules, isEmpty);
 
-      expect(configFromEmptyString.metricsConfig, isNull);
-      expect(configFromEmptyString.metricsExcludePatterns, isEmpty);
-      expect(configFromEmptyString.rules, isEmpty);
+      expect(configFromEmptyMap.metricsConfig, isNull);
+      expect(configFromEmptyMap.metricsExcludePatterns, isEmpty);
+      expect(configFromEmptyMap.rules, isEmpty);
     });
 
     test('content without metrics', () {
-      final options = AnalysisOptions.from(_contentWithoutMetrics);
+      final options =
+          AnalysisOptions.fromMap(_yamlToDartMap(_contentWithoutMetrics));
 
       expect(options.metricsConfig, isNull);
       expect(options.metricsExcludePatterns, isEmpty);
@@ -135,7 +138,8 @@ void main() {
 
     group('content with metrics', () {
       test('rules defined as list', () {
-        final options = AnalysisOptions.from(_contentWitMetricsRules);
+        final options =
+            AnalysisOptions.fromMap(_yamlToDartMap(_contentWitMetricsRules));
 
         expect(options.metricsConfig, isNull);
         expect(options.metricsExcludePatterns, isEmpty);
@@ -150,7 +154,8 @@ void main() {
       });
 
       test('rules defined as map', () {
-        final options = AnalysisOptions.from(_contentWitMetricsRulesAsMap);
+        final options = AnalysisOptions.fromMap(
+            _yamlToDartMap(_contentWitMetricsRulesAsMap));
 
         expect(options.metricsConfig, isNull);
         expect(options.metricsExcludePatterns, isEmpty);
@@ -165,7 +170,8 @@ void main() {
       });
 
       test('thresholds define', () {
-        final options = AnalysisOptions.from(_contentWitMetricsThresholds);
+        final options = AnalysisOptions.fromMap(
+            _yamlToDartMap(_contentWitMetricsThresholds));
 
         expect(
             options.metricsConfig.cyclomaticComplexityWarningLevel, equals(20));
@@ -177,8 +183,8 @@ void main() {
       });
 
       test('exclude define', () {
-        final options =
-            AnalysisOptions.from(_contentWitMetricsThresholdsAndExcludes);
+        final options = AnalysisOptions.fromMap(
+            _yamlToDartMap(_contentWitMetricsThresholdsAndExcludes));
 
         expect(
             options.metricsConfig.cyclomaticComplexityWarningLevel, equals(20));
@@ -225,3 +231,6 @@ void main() {
     });
   });
 }
+
+Map<String, Object> _yamlToDartMap(String yaml) =>
+    yamlMapToDartMap(loadYamlNode(yaml) as YamlMap);

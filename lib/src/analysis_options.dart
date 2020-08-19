@@ -34,6 +34,7 @@ class AnalysisOptions {
     @required this.rules,
   });
 
+  @Deprecated('Use fromMap')
   factory AnalysisOptions.from(String content) {
     try {
       final node = loadYamlNode(content ?? '');
@@ -45,75 +46,92 @@ class AnalysisOptions {
     }
   }
 
-  factory AnalysisOptions.fromMap(Map<String, Object> configMap) {
-    Iterable<String> excludePatterns = <String>[];
-    Config metricsConfig;
-    Iterable<String> metricsExcludePatterns = <String>[];
-    var rules = <String, Map<String, Object>>{};
-
-    final metricsOptions = configMap[_rootKey];
-    if (metricsOptions is Map<String, Object>) {
-      final configMap = metricsOptions[_metricsKey];
-      if (configMap is Map<String, Object>) {
-        metricsConfig = Config(
-          cyclomaticComplexityWarningLevel:
-              configMap['cyclomatic-complexity'].as<int>(),
-          linesOfCodeWarningLevel: configMap['lines-of-code'].as<int>(),
-          numberOfArgumentsWarningLevel:
-              configMap['number-of-arguments'].as<int>(),
-          numberOfMethodsWarningLevel: configMap['number-of-methods'].as<int>(),
-        );
-      }
-
-      final excludeList = metricsOptions[_metricsExcludeKey];
-      if (excludeList is Iterable<Object> &&
-          excludeList.every((element) => element is String)) {
-        metricsExcludePatterns = List<String>.unmodifiable(excludeList);
-      }
-
-      final rulesNode = metricsOptions[_rulesKey];
-      if (rulesNode is Iterable<Object>) {
-        rules = Map.unmodifiable(Map<String, Map<String, Object>>.fromEntries([
-          ...rulesNode.whereType<String>().map((node) => MapEntry(node, {})),
-          ...rulesNode
-              .whereType<Map<String, Object>>()
-              .where((node) =>
-                  node.keys.length == 1 &&
-                  node.values.first is Map<String, Object>)
-              .map((node) => MapEntry(
-                  node.keys.first, node.values.first as Map<String, Object>)),
-        ]));
-      } else if (rulesNode is Map<String, Object>) {
-        rules = Map.unmodifiable(Map<String, Map<String, Object>>.fromEntries([
-          ...rulesNode.keys.where((key) {
-            final scalar = rulesNode[key];
-
-            return scalar is bool && scalar;
-          }).map((key) => MapEntry(key, {})),
-          ...rulesNode.keys.where((key) {
-            final node = rulesNode[key];
-
-            return node is Map<String, Object>;
-          }).map((key) => MapEntry(key, rulesNode[key] as Map<String, Object>)),
-        ]));
-      }
-    }
-
-    final analyzerOptions = configMap[_analyzerKey];
-    if (analyzerOptions is Map<String, Object>) {
-      final excludeList = analyzerOptions[_excludeKey];
-      if (excludeList is Iterable<Object> &&
-          excludeList.every((element) => element is String)) {
-        excludePatterns = List<String>.unmodifiable(excludeList);
-      }
-    }
+  factory AnalysisOptions.fromMap(Map<String, Object> map) {
+    final configMap = map ?? {};
 
     return AnalysisOptions(
-        excludePatterns: excludePatterns,
-        metricsConfig: metricsConfig,
-        metricsExcludePatterns: metricsExcludePatterns,
-        rules: rules);
+        excludePatterns: _readGlobalExludePatterns(configMap),
+        metricsConfig: _readMetricsConfig(configMap),
+        metricsExcludePatterns: _readMetricsExcludePatterns(configMap),
+        rules: _readRules(configMap));
   }
+}
+
+Iterable<String> _readGlobalExludePatterns(Map<String, Object> configMap) {
+  final analyzerOptions = configMap[_analyzerKey];
+  if (analyzerOptions is Map<String, Object>) {
+    final excludeList = analyzerOptions[_excludeKey];
+    if (excludeList is Iterable<Object> &&
+        excludeList.every((element) => element is String)) {
+      return List<String>.unmodifiable(excludeList);
+    }
+  }
+
+  return [];
+}
+
+Config _readMetricsConfig(Map<String, Object> configMap) {
+  final metricsOptions = configMap[_rootKey];
+  if (metricsOptions is Map<String, Object>) {
+    final configMap = metricsOptions[_metricsKey];
+    if (configMap is Map<String, Object>) {
+      return Config(
+        cyclomaticComplexityWarningLevel:
+            configMap['cyclomatic-complexity'].as<int>(),
+        linesOfCodeWarningLevel: configMap['lines-of-code'].as<int>(),
+        numberOfArgumentsWarningLevel:
+            configMap['number-of-arguments'].as<int>(),
+        numberOfMethodsWarningLevel: configMap['number-of-methods'].as<int>(),
+      );
+    }
+  }
+
+  return null;
+}
+
+Iterable<String> _readMetricsExcludePatterns(Map<String, Object> configMap) {
+  final metricsOptions = configMap[_rootKey];
+  if (metricsOptions is Map<String, Object>) {
+    final excludeList = metricsOptions[_metricsExcludeKey];
+    if (excludeList is Iterable<Object> &&
+        excludeList.every((element) => element is String)) {
+      return List<String>.unmodifiable(excludeList);
+    }
+  }
+
+  return [];
+}
+
+Map<String, Map<String, Object>> _readRules(Map<String, Object> configMap) {
+  final metricsOptions = configMap[_rootKey];
+  if (metricsOptions is Map<String, Object>) {
+    final rulesNode = metricsOptions[_rulesKey];
+    if (rulesNode is Iterable<Object>) {
+      return Map.unmodifiable(Map<String, Map<String, Object>>.fromEntries([
+        ...rulesNode.whereType<String>().map((node) => MapEntry(node, {})),
+        ...rulesNode
+            .whereType<Map<String, Object>>()
+            .where((node) =>
+                node.keys.length == 1 &&
+                node.values.first is Map<String, Object>)
+            .map((node) => MapEntry(
+                node.keys.first, node.values.first as Map<String, Object>)),
+      ]));
+    } else if (rulesNode is Map<String, Object>) {
+      return Map.unmodifiable(Map<String, Map<String, Object>>.fromEntries([
+        ...rulesNode.entries
+            .where((entry) => entry.value is bool && entry.value as bool)
+            .map((entry) => MapEntry(entry.key, {})),
+        ...rulesNode.keys.where((key) {
+          final node = rulesNode[key];
+
+          return node is Map<String, Object>;
+        }).map((key) => MapEntry(key, rulesNode[key] as Map<String, Object>)),
+      ]));
+    }
+  }
+
+  return {};
 }
 
 Future<AnalysisOptions> analysisOptionsFromFile(File options) async =>
