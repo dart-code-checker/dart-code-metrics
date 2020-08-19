@@ -3,10 +3,7 @@ import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
 import 'package:dart_code_metrics/src/rules/provide_correct_intl_args.dart';
-import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
-
-import '../utils.dart';
 
 const _content = r"""
 import 'package:intl/intl.dart';    
@@ -116,11 +113,6 @@ void main() {
 
     final issues = ProvideCorrectIntlArgsRule()
         .check(parseResult.unit, sourceUrl, parseResult.content);
-
-    // TODO(dmitry): remove ignore after migrate on analyzer 0.38.5
-    if (getAnalyzerVersion() < Version(0, 38, 5)) {
-      return;
-    }
 
     expect(issues.length, equals(22));
 
