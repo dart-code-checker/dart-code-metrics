@@ -45,12 +45,14 @@ class AnalysisOptions {
     }
   }
 
-  factory AnalysisOptions.fromMap(Map<String, Object> configMap) {
+  factory AnalysisOptions.fromMap(Map<String, Object> map) {
+    final configMap = map ?? {};
+
     return AnalysisOptions(
-        excludePatterns: _readGlobalExludePatterns(configMap ?? {}),
-        metricsConfig: _readMetricsConfig(configMap ?? {}),
-        metricsExcludePatterns: _readMetricsExcludePatterns(configMap ?? {}),
-        rules: _readRules(configMap ?? {}));
+        excludePatterns: _readGlobalExludePatterns(configMap),
+        metricsConfig: _readMetricsConfig(configMap),
+        metricsExcludePatterns: _readMetricsExcludePatterns(configMap),
+        rules: _readRules(configMap));
   }
 }
 
