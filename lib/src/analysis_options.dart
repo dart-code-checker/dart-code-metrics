@@ -46,17 +46,10 @@ class AnalysisOptions {
   }
 
   factory AnalysisOptions.fromMap(Map<String, Object> configMap) {
-    Iterable<String> metricsExcludePatterns = <String>[];
     var rules = <String, Map<String, Object>>{};
 
     final metricsOptions = configMap[_rootKey];
     if (metricsOptions is Map<String, Object>) {
-      final excludeList = metricsOptions[_metricsExcludeKey];
-      if (excludeList is Iterable<Object> &&
-          excludeList.every((element) => element is String)) {
-        metricsExcludePatterns = List<String>.unmodifiable(excludeList);
-      }
-
       final rulesNode = metricsOptions[_rulesKey];
       if (rulesNode is Iterable<Object>) {
         rules = Map.unmodifiable(Map<String, Map<String, Object>>.fromEntries([
@@ -88,7 +81,7 @@ class AnalysisOptions {
     return AnalysisOptions(
         excludePatterns: _readGlobalExludePatterns(configMap ?? {}),
         metricsConfig: _readMetricsConfig(configMap ?? {}),
-        metricsExcludePatterns: metricsExcludePatterns,
+        metricsExcludePatterns: _readMetricsExcludePatterns(configMap ?? {}),
         rules: rules);
   }
 }
@@ -123,6 +116,19 @@ Config _readMetricsConfig(Map<String, Object> configMap) {
   }
 
   return null;
+}
+
+Iterable<String> _readMetricsExcludePatterns(Map<String, Object> configMap) {
+  final metricsOptions = configMap[_rootKey];
+  if (metricsOptions is Map<String, Object>) {
+    final excludeList = metricsOptions[_metricsExcludeKey];
+    if (excludeList is Iterable<Object> &&
+        excludeList.every((element) => element is String)) {
+      return List<String>.unmodifiable(excludeList);
+    }
+  }
+
+  return [];
 }
 
 Future<AnalysisOptions> analysisOptionsFromFile(File options) async =>
