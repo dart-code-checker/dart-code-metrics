@@ -46,43 +46,11 @@ class AnalysisOptions {
   }
 
   factory AnalysisOptions.fromMap(Map<String, Object> configMap) {
-    var rules = <String, Map<String, Object>>{};
-
-    final metricsOptions = configMap[_rootKey];
-    if (metricsOptions is Map<String, Object>) {
-      final rulesNode = metricsOptions[_rulesKey];
-      if (rulesNode is Iterable<Object>) {
-        rules = Map.unmodifiable(Map<String, Map<String, Object>>.fromEntries([
-          ...rulesNode.whereType<String>().map((node) => MapEntry(node, {})),
-          ...rulesNode
-              .whereType<Map<String, Object>>()
-              .where((node) =>
-                  node.keys.length == 1 &&
-                  node.values.first is Map<String, Object>)
-              .map((node) => MapEntry(
-                  node.keys.first, node.values.first as Map<String, Object>)),
-        ]));
-      } else if (rulesNode is Map<String, Object>) {
-        rules = Map.unmodifiable(Map<String, Map<String, Object>>.fromEntries([
-          ...rulesNode.keys.where((key) {
-            final scalar = rulesNode[key];
-
-            return scalar is bool && scalar;
-          }).map((key) => MapEntry(key, {})),
-          ...rulesNode.keys.where((key) {
-            final node = rulesNode[key];
-
-            return node is Map<String, Object>;
-          }).map((key) => MapEntry(key, rulesNode[key] as Map<String, Object>)),
-        ]));
-      }
-    }
-
     return AnalysisOptions(
         excludePatterns: _readGlobalExludePatterns(configMap ?? {}),
         metricsConfig: _readMetricsConfig(configMap ?? {}),
         metricsExcludePatterns: _readMetricsExcludePatterns(configMap ?? {}),
-        rules: rules);
+        rules: _readRules(configMap ?? {}));
   }
 }
 
@@ -129,6 +97,38 @@ Iterable<String> _readMetricsExcludePatterns(Map<String, Object> configMap) {
   }
 
   return [];
+}
+
+Map<String, Map<String, Object>> _readRules(Map<String, Object> configMap) {
+  final metricsOptions = configMap[_rootKey];
+  if (metricsOptions is Map<String, Object>) {
+    final rulesNode = metricsOptions[_rulesKey];
+    if (rulesNode is Iterable<Object>) {
+      return Map.unmodifiable(Map<String, Map<String, Object>>.fromEntries([
+        ...rulesNode.whereType<String>().map((node) => MapEntry(node, {})),
+        ...rulesNode
+            .whereType<Map<String, Object>>()
+            .where((node) =>
+                node.keys.length == 1 &&
+                node.values.first is Map<String, Object>)
+            .map((node) => MapEntry(
+                node.keys.first, node.values.first as Map<String, Object>)),
+      ]));
+    } else if (rulesNode is Map<String, Object>) {
+      return Map.unmodifiable(Map<String, Map<String, Object>>.fromEntries([
+        ...rulesNode.entries
+            .where((entry) => entry.value is bool && entry.value as bool)
+            .map((entry) => MapEntry(entry.key, {})),
+        ...rulesNode.keys.where((key) {
+          final node = rulesNode[key];
+
+          return node is Map<String, Object>;
+        }).map((key) => MapEntry(key, rulesNode[key] as Map<String, Object>)),
+      ]));
+    }
+  }
+
+  return {};
 }
 
 Future<AnalysisOptions> analysisOptionsFromFile(File options) async =>
