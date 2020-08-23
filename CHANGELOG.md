@@ -1,5 +1,9 @@
 # Changelog
 
+# Unreleased
+
+- Add static code diagnostics no-equal-then-else
+
 # 1.9.0
 
 - Add static code diagnostics provide-correct-intl-args, component-annotation-arguments-ordering
