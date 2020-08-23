@@ -69,7 +69,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
   void visitConditionalExpression(ConditionalExpression node) {
     super.visitConditionalExpression(node);
 
-    if (node.thenExpression.toString() == node.elseExpression?.toString()) {
+    if (node.thenExpression?.toString() == node.elseExpression?.toString()) {
       _nodes.add(node);
     }
   }
