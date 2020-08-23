@@ -1,3 +1,5 @@
+import 'package:dart_code_metrics/src/rules/no_equal_then_else.dart';
+
 import 'rules/avoid_preserve_whitespace_false.dart';
 import 'rules/base_rule.dart';
 import 'rules/binary_expression_operand_order_rule.dart';
@@ -30,6 +32,7 @@ final _implementedRules = <String, BaseRule Function(Map<String, Object>)>{
   NoBooleanLiteralCompareRule.ruleId: (config) =>
       NoBooleanLiteralCompareRule(config: config),
   NoEmptyBlockRule.ruleId: (config) => NoEmptyBlockRule(config: config),
+  NoEqualThenElse.ruleId: (config) => NoEqualThenElse(config: config),
   NoMagicNumberRule.ruleId: (config) => NoMagicNumberRule(config: config),
   NoObjectDeclarationRule.ruleId: (config) =>
       NoObjectDeclarationRule(config: config),
