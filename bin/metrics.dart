@@ -31,7 +31,7 @@ Future<void> main(List<String> args) async {
         int.parse(arguments[linesOfCodeThreshold] as String),
         int.parse(arguments[numberOfArgumentsThreshold] as String),
         int.parse(arguments[numberOfMethodsThreshold] as String),
-        arguments[reporterOptionName] as String,
+        arguments[reporterName] as String,
         arguments[verboseName] as bool,
         ViolationLevel.fromString(
             arguments[setExitOnViolationLevel] as String));
