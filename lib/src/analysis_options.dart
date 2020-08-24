@@ -76,12 +76,14 @@ Config _readMetricsConfig(Map<String, Object> configMap) {
     final configMap = metricsOptions[_metricsKey];
     if (configMap is Map<String, Object>) {
       return Config(
-        cyclomaticComplexityWarningLevel:
-            configMap['cyclomatic-complexity'].as<int>(),
-        linesOfCodeWarningLevel: configMap['lines-of-code'].as<int>(),
-        numberOfArgumentsWarningLevel:
-            configMap['number-of-arguments'].as<int>(),
-        numberOfMethodsWarningLevel: configMap['number-of-methods'].as<int>(),
+        cyclomaticComplexityWarningLevel: configMap['cyclomatic-complexity']
+            .as<int>(cyclomaticComplexityDefaultWarningLevel),
+        linesOfCodeWarningLevel:
+            configMap['lines-of-code'].as<int>(linesOfCodeDefaultWarningLevel),
+        numberOfArgumentsWarningLevel: configMap['number-of-arguments']
+            .as<int>(numberOfArgumentsDefaultWarningLevel),
+        numberOfMethodsWarningLevel: configMap['number-of-methods']
+            .as<int>(numberOfMethodsDefaultWarningLevel),
       );
     }
   }
