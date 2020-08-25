@@ -22,7 +22,7 @@ class LinesWithCodeAstVisitor extends RecursiveAstVisitor<Object> {
   void visitExpressionFunctionBody(ExpressionFunctionBody node) {
     _collectFunctionBodyData(
         node.expression.beginToken.previous, node.expression.endToken.next);
-    node.visitChildren(this);
+    super.visitExpressionFunctionBody(node);
   }
 
   void _collectFunctionBodyData(Token firstToken, Token lastToken) {
