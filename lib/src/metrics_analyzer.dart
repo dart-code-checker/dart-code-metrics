@@ -2,7 +2,6 @@ import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:dart_code_metrics/src/halstead_volume/halstead_volume_ast_visitor.dart';
 import 'package:dart_code_metrics/src/ignore_info.dart';
-import 'package:dart_code_metrics/src/lines_of_code/function_body_ast_visitor.dart';
 import 'package:dart_code_metrics/src/metrics_analysis_recorder.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/rules/base_rule.dart';
@@ -11,6 +10,7 @@ import 'package:glob/glob.dart';
 import 'package:path/path.dart' as p;
 
 import 'analysis_options.dart';
+import 'lines_of_code/lines_with_code_ast_visitor.dart';
 import 'metrics/cyclomatic_complexity/control_flow_ast_visitor.dart';
 import 'metrics/cyclomatic_complexity/cyclomatic_config.dart';
 import 'models/component_record.dart';
@@ -71,11 +71,11 @@ class MetricsAnalyzer {
         for (final function in visitor.functions) {
           final controlFlowAstVisitor =
               ControlFlowAstVisitor(defaultCyclomaticConfig, lineInfo);
-          final functionBodyAstVisitor = FunctionBodyAstVisitor(lineInfo);
+          final linesWithCodeAstVisitor = LinesWithCodeAstVisitor(lineInfo);
           final halsteadVolumeAstVisitor = HalsteadVolumeAstVisitor();
 
           function.declaration.visitChildren(controlFlowAstVisitor);
-          function.declaration.visitChildren(functionBodyAstVisitor);
+          function.declaration.visitChildren(linesWithCodeAstVisitor);
           function.declaration.visitChildren(halsteadVolumeAstVisitor);
 
           builder.recordFunction(
@@ -91,7 +91,7 @@ class MetricsAnalyzer {
                   argumentsCount: getArgumentsCount(function),
                   cyclomaticComplexityLines:
                       Map.unmodifiable(controlFlowAstVisitor.complexityLines),
-                  linesWithCode: functionBodyAstVisitor.linesWithCode,
+                  linesWithCode: linesWithCodeAstVisitor.linesWithCode,
                   operators:
                       Map.unmodifiable(halsteadVolumeAstVisitor.operators),
                   operands:
