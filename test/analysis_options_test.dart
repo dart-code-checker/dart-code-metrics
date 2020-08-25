@@ -2,6 +2,7 @@
 import 'dart:io';
 
 import 'package:dart_code_metrics/src/analysis_options.dart';
+import 'package:dart_code_metrics/src/models/config.dart';
 import 'package:dart_code_metrics/src/utils/yaml_utils.dart';
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
@@ -211,9 +212,11 @@ void main() {
 
       expect(
           options.metricsConfig.cyclomaticComplexityWarningLevel, equals(20));
-      expect(options.metricsConfig.linesOfCodeWarningLevel, isNull);
+      expect(options.metricsConfig.linesOfCodeWarningLevel,
+          equals(linesOfCodeDefaultWarningLevel));
       expect(options.metricsConfig.numberOfArgumentsWarningLevel, equals(4));
-      expect(options.metricsConfig.numberOfMethodsWarningLevel, isNull);
+      expect(options.metricsConfig.numberOfMethodsWarningLevel,
+          equals(numberOfMethodsDefaultWarningLevel));
 
       expect(options.excludePatterns, equals(['example/**']));
       expect(options.metricsExcludePatterns,
