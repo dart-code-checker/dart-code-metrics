@@ -37,7 +37,8 @@ class JsonReporter implements Reporter {
 
           return MapEntry(key, {
             ..._report(report.cyclomaticComplexity, 'cyclomatic-complexity'),
-            ..._report(report.linesOfExecutableCode, 'lines-of-code'),
+            ..._report(
+                report.linesOfExecutableCode, 'lines-of-executable-code'),
             ..._report(report.maintainabilityIndex, 'maintainability-index'),
             ..._report(report.argumentsCount, 'number-of-arguments'),
           });
@@ -65,6 +66,9 @@ class JsonReporter implements Reporter {
       'average-number-of-methods': fileReport.averageMethodsCount,
       'total-number-of-methods-violations':
           fileReport.totalMethodsCountViolations,
+      'total-lines-of-executable-code': fileReport.totalLinesOfExecutableCode,
+      'total-lines-of-executable-code-violations':
+          fileReport.totalLinesOfExecutableCodeViolations,
     };
   }
 

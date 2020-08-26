@@ -15,6 +15,8 @@ import '../stubs_builders.dart';
 
 void main() {
   group('JsonReporter.report report about', () {
+    const fullPath = '/home/developer/work/project/example.darts';
+
     JsonReporter _reporter;
 
     setUp(() {
@@ -29,7 +31,7 @@ void main() {
       test('aggregated arguments metric values', () {
         final records = [
           FileRecord(
-            fullPath: '/home/developer/work/project/example.dart',
+            fullPath: fullPath,
             relativePath: 'example.dart',
             components: Map.unmodifiable(<String, ComponentRecord>{
               'class': buildComponentRecordStub(methodsCount: 25),
@@ -67,7 +69,7 @@ void main() {
 
         final records = [
           FileRecord(
-            fullPath: '/home/developer/work/project/example.dart',
+            fullPath: fullPath,
             relativePath: 'example.dart',
             components: Map.unmodifiable(<String, ComponentRecord>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{}),
@@ -78,13 +80,10 @@ void main() {
                 severity: CodeIssueSeverity.style,
                 sourceSpan: SourceSpanBase(
                     SourceLocation(1,
-                        sourceUrl: Uri.parse(
-                            '/home/developer/work/project/example.dart'),
+                        sourceUrl: Uri.parse(fullPath),
                         line: _issueLine,
                         column: _issueColumn),
-                    SourceLocation(6,
-                        sourceUrl: Uri.parse(
-                            '/home/developer/work/project/example.dart')),
+                    SourceLocation(6, sourceUrl: Uri.parse(fullPath)),
                     _issueProblemCode),
                 message: _issueMessage,
                 correction: _issueCorrection,
@@ -121,7 +120,7 @@ void main() {
       test('without methods', () {
         final records = [
           FileRecord(
-            fullPath: '/home/developer/work/project/example.dart',
+            fullPath: fullPath,
             relativePath: 'example.dart',
             components: Map.unmodifiable(<String, ComponentRecord>{
               'class': buildComponentRecordStub(methodsCount: 0),
@@ -145,7 +144,7 @@ void main() {
       test('with a lot of methods', () {
         final records = [
           FileRecord(
-            fullPath: '/home/developer/work/project/example.dart',
+            fullPath: fullPath,
             relativePath: 'example.dart',
             components: Map.unmodifiable(<String, ComponentRecord>{
               'class': buildComponentRecordStub(methodsCount: 20),
@@ -168,10 +167,58 @@ void main() {
     });
 
     group('function', () {
+      test('with long body', () {
+        final records = [
+          FileRecord(
+              fullPath: fullPath,
+              relativePath: 'example.dart',
+              components: Map.unmodifiable(<String, ComponentRecord>{}),
+              functions: Map.unmodifiable(<String, FunctionRecord>{
+                'function': buildFunctionRecordStub(
+                    linesWithCode: List.generate(150, (index) => index)),
+              }),
+              issues: const []),
+        ];
+
+        final report =
+            (json.decode(_reporter.report(records).first) as List<Object>).first
+                as Map<String, Object>;
+        final functionReport = (report['records']
+            as Map<String, Object>)['function'] as Map<String, Object>;
+
+        expect(functionReport, containsPair('lines-of-executable-code', 150));
+        expect(functionReport,
+            containsPair('lines-of-executable-code-violation-level', 'alarm'));
+      });
+
+      test('with short body', () {
+        final records = [
+          FileRecord(
+              fullPath: fullPath,
+              relativePath: 'example.dart',
+              components: Map.unmodifiable(<String, ComponentRecord>{}),
+              functions: Map.unmodifiable(<String, FunctionRecord>{
+                'function': buildFunctionRecordStub(
+                    linesWithCode: List.generate(5, (index) => index)),
+              }),
+              issues: const []),
+        ];
+
+        final report =
+            (json.decode(_reporter.report(records).first) as List<Object>).first
+                as Map<String, Object>;
+        final functionReport = (report['records']
+            as Map<String, Object>)['function'] as Map<String, Object>;
+
+        expect(functionReport, containsPair('lines-of-executable-code', 5));
+        expect(functionReport,
+            containsPair('lines-of-executable-code-violation-level', 'none'));
+      });
+
       test('without arguments', () {
         final records = [
           FileRecord(
-            fullPath: '/home/developer/work/project/example.dart',
+            fullPath: fullPath,
             relativePath: 'example.dart',
             components: Map.unmodifiable(<String, ComponentRecord>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
@@ -195,7 +242,7 @@ void main() {
       test('with a lot of arguments', () {
         final records = [
           FileRecord(
-            fullPath: '/home/developer/work/project/example.dart',
+            fullPath: fullPath,
             relativePath: 'example.dart',
             components: Map.unmodifiable(<String, ComponentRecord>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
