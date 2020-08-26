@@ -52,10 +52,10 @@ class UtilitySelector {
         .where((r) => isIssueLevel(r.cyclomaticComplexity.violationLevel))
         .length;
 
-    final totalLinesOfCode =
-        sum(functionReports.map((r) => r.linesOfCode.value));
-    final totalLinesOfCodeViolations = functionReports
-        .where((r) => isIssueLevel(r.linesOfCode.violationLevel))
+    final totalLinesOfExecutableCode =
+        sum(functionReports.map((r) => r.linesOfExecutableCode.value));
+    final totalLinesOfExecutableCodeViolations = functionReports
+        .where((r) => isIssueLevel(r.linesOfExecutableCode.violationLevel))
         .length;
 
     return FileReport(
@@ -69,8 +69,9 @@ class UtilitySelector {
         totalCyclomaticComplexity: totalCyclomaticComplexity.round(),
         totalCyclomaticComplexityViolations:
             totalCyclomaticComplexityViolations,
-        totalLinesOfCode: totalLinesOfCode.round(),
-        totalLinesOfCodeViolations: totalLinesOfCodeViolations);
+        totalLinesOfExecutableCode: totalLinesOfExecutableCode.round(),
+        totalLinesOfExecutableCodeViolations:
+            totalLinesOfExecutableCodeViolations);
   }
 
   static ComponentReport componentReport(
@@ -85,7 +86,7 @@ class UtilitySelector {
     final cyclomaticComplexity =
         sum(function.cyclomaticComplexityLines.values) + 1;
 
-    final linesOfCode = function.linesWithCode.length;
+    final linesOfExecutableCode = function.linesWithCode.length;
 
     // Total number of occurrences of operators.
     final totalNumberOfOccurrencesOfOperators = sum(function.operators.values);
@@ -116,7 +117,7 @@ class UtilitySelector {
             (171 -
                     5.2 * log(max(1, halsteadVolume)) -
                     0.23 * cyclomaticComplexity -
-                    16.2 * log(max(1, linesOfCode))) *
+                    16.2 * log(max(1, linesOfExecutableCode))) *
                 100 /
                 171)
         .toDouble();
@@ -126,10 +127,10 @@ class UtilitySelector {
             value: cyclomaticComplexity.round(),
             violationLevel: _violationLevel(cyclomaticComplexity.round(),
                 config.cyclomaticComplexityWarningLevel)),
-        linesOfCode: ReportMetric<int>(
-            value: linesOfCode,
-            violationLevel:
-                _violationLevel(linesOfCode, config.linesOfCodeWarningLevel)),
+        linesOfExecutableCode: ReportMetric<int>(
+            value: linesOfExecutableCode,
+            violationLevel: _violationLevel(linesOfExecutableCode,
+                config.linesOfExecutableCodeWarningLevel)),
         maintainabilityIndex: ReportMetric<double>(
             value: maintainabilityIndex,
             violationLevel:
@@ -146,7 +147,7 @@ class UtilitySelector {
   static ViolationLevel functionViolationLevel(FunctionReport report) =>
       quiver.max([
         report.cyclomaticComplexity.violationLevel,
-        report.linesOfCode.violationLevel,
+        report.linesOfExecutableCode.violationLevel,
         report.maintainabilityIndex.violationLevel,
         report.argumentsCount.violationLevel,
       ]);
@@ -181,9 +182,11 @@ class UtilitySelector {
       totalCyclomaticComplexityViolations:
           lhs.totalCyclomaticComplexityViolations +
               rhs.totalCyclomaticComplexityViolations,
-      totalLinesOfCode: lhs.totalLinesOfCode + rhs.totalLinesOfCode,
-      totalLinesOfCodeViolations:
-          lhs.totalLinesOfCodeViolations + rhs.totalLinesOfCodeViolations);
+      totalLinesOfExecutableCode:
+          lhs.totalLinesOfExecutableCode + rhs.totalLinesOfExecutableCode,
+      totalLinesOfExecutableCodeViolations:
+          lhs.totalLinesOfExecutableCodeViolations +
+              rhs.totalLinesOfExecutableCodeViolations);
 
   static ViolationLevel _violationLevel(int value, int warningLevel) {
     if (warningLevel == null) {

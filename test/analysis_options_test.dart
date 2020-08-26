@@ -189,7 +189,8 @@ void main() {
 
         expect(
             options.metricsConfig.cyclomaticComplexityWarningLevel, equals(20));
-        expect(options.metricsConfig.linesOfCodeWarningLevel, equals(42));
+        expect(options.metricsConfig.linesOfExecutableCodeWarningLevel,
+            equals(42));
         expect(
             options.excludePatterns,
             equals([
@@ -212,8 +213,8 @@ void main() {
 
       expect(
           options.metricsConfig.cyclomaticComplexityWarningLevel, equals(20));
-      expect(options.metricsConfig.linesOfCodeWarningLevel,
-          equals(linesOfCodeDefaultWarningLevel));
+      expect(options.metricsConfig.linesOfExecutableCodeWarningLevel,
+          equals(linesOfExecutableCodeDefaultWarningLevel));
       expect(options.metricsConfig.numberOfArgumentsWarningLevel, equals(4));
       expect(options.metricsConfig.numberOfMethodsWarningLevel,
           equals(numberOfMethodsDefaultWarningLevel));

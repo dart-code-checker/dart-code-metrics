@@ -271,8 +271,8 @@ class HtmlReporter implements Reporter {
           cyclomaticComplexity: report.totalCyclomaticComplexity,
           cyclomaticComplexityViolations:
               report.totalCyclomaticComplexityViolations,
-          linesOfCode: report.totalLinesOfCode,
-          linesOfCodeViolations: report.totalLinesOfCodeViolations,
+          linesOfCode: report.totalLinesOfExecutableCode,
+          linesOfCodeViolations: report.totalLinesOfExecutableCodeViolations,
           maintainabilityIndex: report.averageMaintainabilityIndex,
           maintainabilityIndexViolations:
               report.totalMaintainabilityIndexViolations,
@@ -323,8 +323,8 @@ class HtmlReporter implements Reporter {
           cyclomaticComplexity: report.totalCyclomaticComplexity,
           cyclomaticComplexityViolations:
               report.totalCyclomaticComplexityViolations,
-          linesOfCode: report.totalLinesOfCode,
-          linesOfCodeViolations: report.totalLinesOfCodeViolations,
+          linesOfCode: report.totalLinesOfExecutableCode,
+          linesOfCodeViolations: report.totalLinesOfExecutableCodeViolations,
           maintainabilityIndex: report.averageMaintainabilityIndex,
           maintainabilityIndexViolations:
               report.totalMaintainabilityIndexViolations,
@@ -411,7 +411,7 @@ class HtmlReporter implements Reporter {
                   _report(report.cyclomaticComplexity, _cyclomaticComplexity)))
             ..append(Element.tag('p')
               ..classes.add('metrics-source-code__tooltip-text')
-              ..append(_report(report.linesOfCode, _linesOfCode)))
+              ..append(_report(report.linesOfExecutableCode, _linesOfCode)))
             ..append(Element.tag('p')
               ..classes.add('metrics-source-code__tooltip-text')
               ..append(
@@ -478,7 +478,8 @@ class HtmlReporter implements Reporter {
         report.totalArgumentsCountViolations > 0;
     final withCyclomaticComplexityViolations =
         report.totalCyclomaticComplexityViolations > 0;
-    final withLinesOfCodeViolations = report.totalLinesOfCodeViolations > 0;
+    final withLinesOfCodeViolations =
+        report.totalLinesOfExecutableCodeViolations > 0;
 
     final body = Element.tag('body')
       ..append(Element.tag('h1')
@@ -504,8 +505,8 @@ class HtmlReporter implements Reporter {
       ..append(_generateTotalMetrics(
           withLinesOfCodeViolations ? _linesOfCodeWithViolations : _linesOfCode,
           withLinesOfCodeViolations
-              ? '${report.totalLinesOfCode} / ${report.totalLinesOfCodeViolations}'
-              : '${report.totalLinesOfCode}',
+              ? '${report.totalLinesOfExecutableCode} / ${report.totalLinesOfExecutableCodeViolations}'
+              : '${report.totalLinesOfExecutableCode}',
           withLinesOfCodeViolations))
       ..append(_generateTotalMetrics(
           totalMaintainabilityIndexViolations

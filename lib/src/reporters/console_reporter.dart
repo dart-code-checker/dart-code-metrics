@@ -78,8 +78,8 @@ class ConsoleReporter implements Reporter {
           final violations = [
             if (reportAll || _isNeedToReport(report.cyclomaticComplexity))
               _report(report.cyclomaticComplexity, 'cyclomatic complexity'),
-            if (reportAll || _isNeedToReport(report.linesOfCode))
-              _report(report.linesOfCode, 'lines of code'),
+            if (reportAll || _isNeedToReport(report.linesOfExecutableCode))
+              _report(report.linesOfExecutableCode, 'lines of code'),
             if (reportAll || _isNeedToReport(report.maintainabilityIndex))
               _report(report.maintainabilityIndex, 'maintainability index'),
             if (reportAll || _isNeedToReport(report.argumentsCount))

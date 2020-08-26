@@ -44,8 +44,9 @@ ComponentReport buildComponentReportStub(
 FunctionReport buildFunctionReportStub(
         {int cyclomaticComplexity = 0,
         ViolationLevel cyclomaticComplexityViolationLevel = ViolationLevel.none,
-        int linesOfCode = 0,
-        ViolationLevel linesOfCodeViolationLevel = ViolationLevel.none,
+        int linesOfExecutableCode = 0,
+        ViolationLevel linesOfExecutableCodeViolationLevel =
+            ViolationLevel.none,
         double maintainabilityIndex = 0,
         ViolationLevel maintainabilityIndexViolationLevel = ViolationLevel.none,
         int argumentsCount = 0,
@@ -54,8 +55,9 @@ FunctionReport buildFunctionReportStub(
         cyclomaticComplexity: ReportMetric<int>(
             value: cyclomaticComplexity,
             violationLevel: cyclomaticComplexityViolationLevel),
-        linesOfCode: ReportMetric<int>(
-            value: linesOfCode, violationLevel: linesOfCodeViolationLevel),
+        linesOfExecutableCode: ReportMetric<int>(
+            value: linesOfExecutableCode,
+            violationLevel: linesOfExecutableCodeViolationLevel),
         maintainabilityIndex: ReportMetric<double>(
             value: maintainabilityIndex,
             violationLevel: maintainabilityIndexViolationLevel),

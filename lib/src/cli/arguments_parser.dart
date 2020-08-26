@@ -7,7 +7,7 @@ const usageHeader = 'Usage: metrics [options...] <directories>';
 const helpFlagName = 'help';
 const reporterName = 'reporter';
 const cyclomaticComplexityThreshold = 'cyclomatic-complexity';
-const linesOfCodeThreshold = 'lines-of-code';
+const linesOfExecutableCodeThreshold = 'lines-of-code';
 const numberOfArgumentsThreshold = 'number-of-arguments';
 const numberOfMethodsThreshold = 'number-of-methods';
 const verboseName = 'verbose';
@@ -32,10 +32,10 @@ ArgParser argumentsParser() => ArgParser()
       _printInvalidArgumentValue(cyclomaticComplexityThreshold, i);
     }
   })
-  ..addOption(linesOfCodeThreshold, help: 'Lines of code threshold', valueHelp: '$linesOfCodeDefaultWarningLevel',
+  ..addOption(linesOfExecutableCodeThreshold, help: 'Lines of code threshold', valueHelp: '$linesOfExecutableCodeDefaultWarningLevel',
       callback: (String i) {
     if (i != null && int.tryParse(i) == null) {
-      _printInvalidArgumentValue(linesOfCodeThreshold, i);
+      _printInvalidArgumentValue(linesOfExecutableCodeThreshold, i);
     }
   })
   ..addOption(numberOfArgumentsThreshold,
