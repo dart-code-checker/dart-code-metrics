@@ -13,7 +13,7 @@ Can be used as a command line tool, analyzer plugin or library.
 Reports:
 
 - Cyclomatic complexity of methods
-- Too long methods
+- [Lines of Executable Code](https://github.com/wrike/dart-code-metrics/blob/master/doc/metrics/lines-of-executable-code.md)
 - [Number of Arguments](https://github.com/wrike/dart-code-metrics/blob/master/doc/metrics.md#number-of-arguments)
 - [Number of Methods](https://github.com/wrike/dart-code-metrics/blob/master/doc/metrics.md#number-of-methods)
 
