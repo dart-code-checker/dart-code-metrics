@@ -29,8 +29,9 @@ const _violationLevelLineStyle = {
 const _cyclomaticComplexity = 'Cyclomatic complexity';
 const _cyclomaticComplexityWithViolations =
     'Cyclomatic complexity / violations';
-const _linesOfCode = 'Lines of code';
-const _linesOfCodeWithViolations = 'Lines of code / violations';
+const _linesOfExecutableCode = 'Lines of executable code';
+const _linesOfExecutableCodeWithViolations =
+    'Lines of executable code / violations';
 const _maintainabilityIndex = 'Maintainability index';
 const _maintainabilityIndexWithViolations =
     'Maintainability index / violations';
@@ -45,8 +46,8 @@ class ReportTableRecord {
   final int cyclomaticComplexity;
   final int cyclomaticComplexityViolations;
 
-  final int linesOfCode;
-  final int linesOfCodeViolations;
+  final int linesOfExecutableCode;
+  final int linesOfExecutableCodeViolations;
 
   final double maintainabilityIndex;
   final int maintainabilityIndexViolations;
@@ -59,8 +60,8 @@ class ReportTableRecord {
       @required this.link,
       @required this.cyclomaticComplexity,
       @required this.cyclomaticComplexityViolations,
-      @required this.linesOfCode,
-      @required this.linesOfCodeViolations,
+      @required this.linesOfExecutableCode,
+      @required this.linesOfExecutableCodeViolations,
       @required this.maintainabilityIndex,
       @required this.maintainabilityIndexViolations,
       @required this.averageArgumentsCount,
@@ -125,10 +126,12 @@ class HtmlReporter implements Reporter {
         0,
         (prevValue, record) =>
             prevValue + record.cyclomaticComplexityViolations);
-    final totalLinesOfCode = sortedRecords.fold<int>(
-        0, (prevValue, record) => prevValue + record.linesOfCode);
-    final totalLinesOfCodeViolations = sortedRecords.fold<int>(
-        0, (prevValue, record) => prevValue + record.linesOfCodeViolations);
+    final totalLinesOfExecutableCode = sortedRecords.fold<int>(
+        0, (prevValue, record) => prevValue + record.linesOfExecutableCode);
+    final totalLinesOfExecutableCodeViolations = sortedRecords.fold<int>(
+        0,
+        (prevValue, record) =>
+            prevValue + record.linesOfExecutableCodeViolations);
     final averageMaintainabilityIndex = sortedRecords.fold<double>(
             0, (prevValue, record) => prevValue + record.maintainabilityIndex) /
         sortedRecords.length;
@@ -147,7 +150,8 @@ class HtmlReporter implements Reporter {
         0, (prevValue, record) => prevValue + record.argumentsCountViolations);
 
     final withCyclomaticComplexityViolations = totalComplexityViolations > 0;
-    final withLinesOfCodeViolations = totalLinesOfCodeViolations > 0;
+    final withLinesOfExecutableCodeViolations =
+        totalLinesOfExecutableCodeViolations > 0;
     final withMaintainabilityIndexViolations =
         totalMaintainabilityIndexViolations > 0;
     final withArgumentsCountViolations = totalArgumentsCountViolations > 0;
@@ -156,7 +160,8 @@ class HtmlReporter implements Reporter {
     for (final record in sortedRecords) {
       final recordHaveCyclomaticComplexityViolations =
           record.cyclomaticComplexityViolations > 0;
-      final recordHaveLinesOfCodeViolations = record.linesOfCodeViolations > 0;
+      final recordHaveLinesOfExecutableCodeViolations =
+          record.linesOfExecutableCodeViolations > 0;
       final recordHaveMaintainabilityIndexViolations =
           record.maintainabilityIndexViolations > 0;
       final recordArgumentsCountViolations =
@@ -175,11 +180,12 @@ class HtmlReporter implements Reporter {
               ? 'with-violations'
               : ''))
         ..append(Element.tag('td')
-          ..text = recordHaveLinesOfCodeViolations
-              ? '${record.linesOfCode} / ${record.linesOfCodeViolations}'
-              : '${record.linesOfCode}'
-          ..classes
-              .add(recordHaveLinesOfCodeViolations ? 'with-violations' : ''))
+          ..text = recordHaveLinesOfExecutableCodeViolations
+              ? '${record.linesOfExecutableCode} / ${record.linesOfExecutableCodeViolations}'
+              : '${record.linesOfExecutableCode}'
+          ..classes.add(recordHaveLinesOfExecutableCodeViolations
+              ? 'with-violations'
+              : ''))
         ..append(Element.tag('td')
           ..text = recordHaveMaintainabilityIndexViolations
               ? '${record.maintainabilityIndex.toInt()} / ${record.maintainabilityIndexViolations}'
@@ -199,8 +205,9 @@ class HtmlReporter implements Reporter {
     final cyclomaticComplexityTitle = withCyclomaticComplexityViolations
         ? _cyclomaticComplexityWithViolations
         : _cyclomaticComplexity;
-    final linesOfCodeTitle =
-        withLinesOfCodeViolations ? _linesOfCodeWithViolations : _linesOfCode;
+    final linesOfExecutableCodeTitle = withLinesOfExecutableCodeViolations
+        ? _linesOfExecutableCodeWithViolations
+        : _linesOfExecutableCode;
     final maintainabilityIndexTitle = withMaintainabilityIndexViolations
         ? _maintainabilityIndexWithViolations
         : _maintainabilityIndex;
@@ -214,7 +221,7 @@ class HtmlReporter implements Reporter {
         ..append(Element.tag('tr')
           ..append(Element.tag('th')..text = title)
           ..append(Element.tag('th')..text = cyclomaticComplexityTitle)
-          ..append(Element.tag('th')..text = linesOfCodeTitle)
+          ..append(Element.tag('th')..text = linesOfExecutableCodeTitle)
           ..append(Element.tag('th')..text = maintainabilityIndexTitle)
           ..append(Element.tag('th')..text = argumentsCountTitle)))
       ..append(tableContent);
@@ -231,11 +238,11 @@ class HtmlReporter implements Reporter {
                 : '$totalComplexity',
             withCyclomaticComplexityViolations))
         ..append(_generateTotalMetrics(
-            linesOfCodeTitle,
-            withLinesOfCodeViolations
-                ? '$totalLinesOfCode / $totalLinesOfCodeViolations'
-                : '$totalLinesOfCode',
-            withLinesOfCodeViolations))
+            linesOfExecutableCodeTitle,
+            withLinesOfExecutableCodeViolations
+                ? '$totalLinesOfExecutableCode / $totalLinesOfExecutableCodeViolations'
+                : '$totalLinesOfExecutableCode',
+            withLinesOfExecutableCodeViolations))
         ..append(_generateTotalMetrics(
             maintainabilityIndexTitle,
             withMaintainabilityIndexViolations
@@ -271,8 +278,9 @@ class HtmlReporter implements Reporter {
           cyclomaticComplexity: report.totalCyclomaticComplexity,
           cyclomaticComplexityViolations:
               report.totalCyclomaticComplexityViolations,
-          linesOfCode: report.totalLinesOfExecutableCode,
-          linesOfCodeViolations: report.totalLinesOfExecutableCodeViolations,
+          linesOfExecutableCode: report.totalLinesOfExecutableCode,
+          linesOfExecutableCodeViolations:
+              report.totalLinesOfExecutableCodeViolations,
           maintainabilityIndex: report.averageMaintainabilityIndex,
           maintainabilityIndexViolations:
               report.totalMaintainabilityIndexViolations,
@@ -323,8 +331,9 @@ class HtmlReporter implements Reporter {
           cyclomaticComplexity: report.totalCyclomaticComplexity,
           cyclomaticComplexityViolations:
               report.totalCyclomaticComplexityViolations,
-          linesOfCode: report.totalLinesOfExecutableCode,
-          linesOfCodeViolations: report.totalLinesOfExecutableCodeViolations,
+          linesOfExecutableCode: report.totalLinesOfExecutableCode,
+          linesOfExecutableCodeViolations:
+              report.totalLinesOfExecutableCodeViolations,
           maintainabilityIndex: report.averageMaintainabilityIndex,
           maintainabilityIndexViolations:
               report.totalMaintainabilityIndexViolations,
@@ -411,7 +420,8 @@ class HtmlReporter implements Reporter {
                   _report(report.cyclomaticComplexity, _cyclomaticComplexity)))
             ..append(Element.tag('p')
               ..classes.add('metrics-source-code__tooltip-text')
-              ..append(_report(report.linesOfExecutableCode, _linesOfCode)))
+              ..append(_report(
+                  report.linesOfExecutableCode, _linesOfExecutableCode)))
             ..append(Element.tag('p')
               ..classes.add('metrics-source-code__tooltip-text')
               ..append(
@@ -478,7 +488,7 @@ class HtmlReporter implements Reporter {
         report.totalArgumentsCountViolations > 0;
     final withCyclomaticComplexityViolations =
         report.totalCyclomaticComplexityViolations > 0;
-    final withLinesOfCodeViolations =
+    final withLinesOfExecutableCodeViolations =
         report.totalLinesOfExecutableCodeViolations > 0;
 
     final body = Element.tag('body')
@@ -503,11 +513,13 @@ class HtmlReporter implements Reporter {
               : '${report.totalCyclomaticComplexity}',
           withCyclomaticComplexityViolations))
       ..append(_generateTotalMetrics(
-          withLinesOfCodeViolations ? _linesOfCodeWithViolations : _linesOfCode,
-          withLinesOfCodeViolations
+          withLinesOfExecutableCodeViolations
+              ? _linesOfExecutableCodeWithViolations
+              : _linesOfExecutableCode,
+          withLinesOfExecutableCodeViolations
               ? '${report.totalLinesOfExecutableCode} / ${report.totalLinesOfExecutableCodeViolations}'
               : '${report.totalLinesOfExecutableCode}',
-          withLinesOfCodeViolations))
+          withLinesOfExecutableCodeViolations))
       ..append(_generateTotalMetrics(
           totalMaintainabilityIndexViolations
               ? _maintainabilityIndexWithViolations
