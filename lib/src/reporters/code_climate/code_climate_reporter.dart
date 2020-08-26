@@ -55,7 +55,7 @@ class CodeClimateReporter implements Reporter {
 
       if (UtilitySelector.isIssueLevel(
           report.linesOfExecutableCode.violationLevel)) {
-        result.add(CodeClimateIssue.linesOfCode(
+        result.add(CodeClimateIssue.linesOfExecutableCode(
             func.firstLine,
             func.lastLine,
             report.linesOfExecutableCode.value,
