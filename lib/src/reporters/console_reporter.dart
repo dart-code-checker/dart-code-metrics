@@ -79,7 +79,7 @@ class ConsoleReporter implements Reporter {
             if (reportAll || _isNeedToReport(report.cyclomaticComplexity))
               _report(report.cyclomaticComplexity, 'cyclomatic complexity'),
             if (reportAll || _isNeedToReport(report.linesOfExecutableCode))
-              _report(report.linesOfExecutableCode, 'lines of code'),
+              _report(report.linesOfExecutableCode, 'lines of executable code'),
             if (reportAll || _isNeedToReport(report.maintainabilityIndex))
               _report(report.maintainabilityIndex, 'maintainability index'),
             if (reportAll || _isNeedToReport(report.argumentsCount))
