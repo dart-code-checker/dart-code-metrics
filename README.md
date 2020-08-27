@@ -73,7 +73,7 @@ Usage: metrics [options...] <directories>
     --cyclomatic-complexity=<20>                       Cyclomatic complexity threshold
                                                        (defaults to "20")
 
-    --lines-of-code=<50>                               Lines of code threshold
+    --lines-of-executable-code=<50>                    Lines of executable code threshold
                                                        (defaults to "50")
 
     --number-of-arguments=<4>                          Number of arguments threshold
