@@ -101,7 +101,7 @@ analyzer:
 dart_code_metrics:
   metrics:
     cyclomatic-complexity: 20
-    lines-of-code: 42
+    lines-of-executable-code: 42
   metrics-exclude:
     - test/**
   rules:
@@ -213,8 +213,8 @@ void main() {
 
       expect(
           options.metricsConfig.cyclomaticComplexityWarningLevel, equals(20));
-      expect(options.metricsConfig.linesOfExecutableCodeWarningLevel,
-          equals(linesOfExecutableCodeDefaultWarningLevel));
+      expect(
+          options.metricsConfig.linesOfExecutableCodeWarningLevel, equals(30));
       expect(options.metricsConfig.numberOfArgumentsWarningLevel, equals(4));
       expect(options.metricsConfig.numberOfMethodsWarningLevel,
           equals(numberOfMethodsDefaultWarningLevel));

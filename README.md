@@ -45,6 +45,7 @@ A plugin for the Dart `analyzer` library [package](https://pub.dev/packages/dart
     dart_code_metrics:
       metrics:
         cyclomatic-complexity: 20
+        lines-of-executable-code: 50
         number-of-arguments: 4
       metrics-exclude:
         - test/**

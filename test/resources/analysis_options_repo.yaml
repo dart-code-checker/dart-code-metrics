@@ -7,6 +7,7 @@ analyzer:
 dart_code_metrics:
   metrics:
     cyclomatic-complexity: 20
+    lines-of-code: 30
     number-of-arguments: 4
   rules:
     member-ordering:

@@ -78,8 +78,10 @@ Config _readMetricsConfig(Map<String, Object> configMap) {
       return Config(
         cyclomaticComplexityWarningLevel: configMap['cyclomatic-complexity']
             .as<int>(cyclomaticComplexityDefaultWarningLevel),
-        linesOfExecutableCodeWarningLevel: configMap['lines-of-code']
-            .as<int>(linesOfExecutableCodeDefaultWarningLevel),
+        linesOfExecutableCodeWarningLevel:
+            (configMap['lines-of-executable-code'] ??
+                    configMap['lines-of-code'])
+                .as<int>(linesOfExecutableCodeDefaultWarningLevel),
         numberOfArgumentsWarningLevel: configMap['number-of-arguments']
             .as<int>(numberOfArgumentsDefaultWarningLevel),
         numberOfMethodsWarningLevel: configMap['number-of-methods']
