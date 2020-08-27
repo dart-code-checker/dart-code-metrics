@@ -28,7 +28,10 @@ Future<void> main(List<String> args) async {
         arguments.rest,
         arguments[ignoredFilesName] as String,
         int.tryParse(arguments[cyclomaticComplexityThreshold] as String ?? ''),
-        int.tryParse(arguments[linesOfCodeThreshold] as String ?? ''),
+        int.tryParse(
+                arguments[linesOfExecutableCodeThreshold] as String ?? '') ??
+            // ignore: deprecated_member_use_from_same_package
+            int.tryParse(arguments[linesOfCodeThreshold] as String ?? ''),
         int.tryParse(arguments[numberOfArgumentsThreshold] as String ?? ''),
         int.tryParse(arguments[numberOfMethodsThreshold] as String ?? ''),
         arguments[reporterName] as String,
@@ -55,7 +58,7 @@ Future<void> _runAnalysis(
     Iterable<String> analysisDirectories,
     String ignoreFilesPattern,
     int cyclomaticComplexityThreshold,
-    int linesOfCodeThreshold,
+    int linesOfExecutableCodeThreshold,
     int numberOfArgumentsWarningLevel,
     int numberOfMethodsWarningLevel,
     String reporterType,
@@ -89,8 +92,8 @@ Future<void> _runAnalysis(
   final config = Config(
       cyclomaticComplexityWarningLevel: cyclomaticComplexityThreshold ??
           options.metricsConfig.cyclomaticComplexityWarningLevel,
-      linesOfCodeWarningLevel:
-          linesOfCodeThreshold ?? options.metricsConfig.linesOfCodeWarningLevel,
+      linesOfExecutableCodeWarningLevel: linesOfExecutableCodeThreshold ??
+          options.metricsConfig.linesOfExecutableCodeWarningLevel,
       numberOfArgumentsWarningLevel: numberOfArgumentsWarningLevel ??
           options.metricsConfig.numberOfArgumentsWarningLevel,
       numberOfMethodsWarningLevel: numberOfMethodsWarningLevel ??

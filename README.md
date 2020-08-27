@@ -13,7 +13,7 @@ Can be used as a command line tool, analyzer plugin or library.
 Reports:
 
 - Cyclomatic complexity of methods
-- Too long methods
+- [Lines of Executable Code](https://github.com/wrike/dart-code-metrics/blob/master/doc/metrics/lines-of-executable-code.md)
 - [Number of Arguments](https://github.com/wrike/dart-code-metrics/blob/master/doc/metrics.md#number-of-arguments)
 - [Number of Methods](https://github.com/wrike/dart-code-metrics/blob/master/doc/metrics.md#number-of-methods)
 
@@ -45,6 +45,7 @@ A plugin for the Dart `analyzer` library [package](https://pub.dev/packages/dart
     dart_code_metrics:
       metrics:
         cyclomatic-complexity: 20
+        lines-of-executable-code: 50
         number-of-arguments: 4
       metrics-exclude:
         - test/**
@@ -72,7 +73,7 @@ Usage: metrics [options...] <directories>
     --cyclomatic-complexity=<20>                       Cyclomatic complexity threshold
                                                        (defaults to "20")
 
-    --lines-of-code=<50>                               Lines of code threshold
+    --lines-of-executable-code=<50>                    Lines of executable code threshold
                                                        (defaults to "50")
 
     --number-of-arguments=<4>                          Number of arguments threshold

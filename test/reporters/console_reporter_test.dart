@@ -13,6 +13,8 @@ import '../stubs_builders.dart';
 
 void main() {
   group('ConsoleReporter.report report about', () {
+    const fullPath = '/home/developer/work/project/example.dart';
+
     ConsoleReporter _reporter;
     ConsoleReporter _verboseReporter;
 
@@ -34,7 +36,7 @@ void main() {
       test('without methods', () {
         final records = [
           FileRecord(
-            fullPath: '/home/developer/work/project/example.dart',
+            fullPath: fullPath,
             relativePath: 'example.dart',
             components: Map.unmodifiable(<String, ComponentRecord>{
               'class': buildComponentRecordStub(methodsCount: 0),
@@ -56,7 +58,7 @@ void main() {
       test('with a lot of methods', () {
         final records = [
           FileRecord(
-            fullPath: '/home/developer/work/project/example.dart',
+            fullPath: fullPath,
             relativePath: 'example.dart',
             components: Map.unmodifiable(<String, ComponentRecord>{
               'class': buildComponentRecordStub(methodsCount: 20),
@@ -74,10 +76,52 @@ void main() {
     });
 
     group('function', () {
+      test('with long body', () {
+        final records = [
+          FileRecord(
+              fullPath: fullPath,
+              relativePath: 'example.dart',
+              components: Map.unmodifiable(<String, ComponentRecord>{}),
+              functions: Map.unmodifiable(<String, FunctionRecord>{
+                'function': buildFunctionRecordStub(
+                    linesWithCode: List.generate(150, (index) => index)),
+              }),
+              issues: const []),
+        ];
+
+        final report = _reporter.report(records).toList();
+
+        expect(report.length, 3);
+        expect(report[1],
+            contains('lines of executable code: \x1B[38;5;1m150\x1B[0m'));
+      });
+
+      test('with short body', () {
+        final records = [
+          FileRecord(
+              fullPath: fullPath,
+              relativePath: 'example.dart',
+              components: Map.unmodifiable(<String, ComponentRecord>{}),
+              functions: Map.unmodifiable(<String, FunctionRecord>{
+                'function': buildFunctionRecordStub(
+                    linesWithCode: List.generate(5, (index) => index)),
+              }),
+              issues: const []),
+        ];
+
+        final report = _reporter.report(records);
+        final verboseReport = _verboseReporter.report(records).toList();
+
+        expect(report, isEmpty);
+        expect(verboseReport.length, 3);
+        expect(verboseReport[1],
+            contains('lines of executable code: \x1B[38;5;7m5\x1B[0m'));
+      });
+
       test('without arguments', () {
         final records = [
           FileRecord(
-            fullPath: '/home/developer/work/project/example.dart',
+            fullPath: fullPath,
             relativePath: 'example.dart',
             components: Map.unmodifiable(<String, ComponentRecord>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
@@ -99,7 +143,7 @@ void main() {
       test('with a lot of arguments', () {
         final records = [
           FileRecord(
-            fullPath: '/home/developer/work/project/example.dart',
+            fullPath: fullPath,
             relativePath: 'example.dart',
             components: Map.unmodifiable(<String, ComponentRecord>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
@@ -120,7 +164,7 @@ void main() {
     test('style severity issues', () {
       final records = [
         FileRecord(
-          fullPath: '/home/developer/work/project/example.dart',
+          fullPath: fullPath,
           relativePath: 'example.dart',
           components: Map.unmodifiable(<String, ComponentRecord>{}),
           functions: Map.unmodifiable(<String, FunctionRecord>{}),
@@ -131,13 +175,8 @@ void main() {
               severity: CodeIssueSeverity.style,
               sourceSpan: SourceSpanBase(
                   SourceLocation(1,
-                      sourceUrl: Uri.parse(
-                          '/home/developer/work/project/example.dart'),
-                      line: 2,
-                      column: 3),
-                  SourceLocation(6,
-                      sourceUrl: Uri.parse(
-                          '/home/developer/work/project/example.dart')),
+                      sourceUrl: Uri.parse(fullPath), line: 2, column: 3),
+                  SourceLocation(6, sourceUrl: Uri.parse(fullPath)),
                   'issue'),
               message: 'first issue message',
               correction: 'correction',

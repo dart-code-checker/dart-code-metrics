@@ -7,7 +7,9 @@ const usageHeader = 'Usage: metrics [options...] <directories>';
 const helpFlagName = 'help';
 const reporterName = 'reporter';
 const cyclomaticComplexityThreshold = 'cyclomatic-complexity';
+@Deprecated('linesOfCodeThreshold')
 const linesOfCodeThreshold = 'lines-of-code';
+const linesOfExecutableCodeThreshold = 'lines-of-executable-code';
 const numberOfArgumentsThreshold = 'number-of-arguments';
 const numberOfMethodsThreshold = 'number-of-methods';
 const verboseName = 'verbose';
@@ -26,16 +28,29 @@ ArgParser argumentsParser() => ArgParser()
       valueHelp: 'console',
       allowed: ['console', 'json', 'html', 'codeclimate'],
       defaultsTo: 'console')
-  ..addOption(cyclomaticComplexityThreshold, help: 'Cyclomatic complexity threshold', valueHelp: '$cyclomaticComplexityDefaultWarningLevel',
+  ..addOption(cyclomaticComplexityThreshold,
+      help: 'Cyclomatic complexity threshold',
+      valueHelp: '$cyclomaticComplexityDefaultWarningLevel',
       callback: (String i) {
     if (i != null && int.tryParse(i) == null) {
       _printInvalidArgumentValue(cyclomaticComplexityThreshold, i);
     }
   })
-  ..addOption(linesOfCodeThreshold, help: 'Lines of code threshold', valueHelp: '$linesOfCodeDefaultWarningLevel',
+  // ignore: deprecated_member_use_from_same_package
+  ..addOption(linesOfCodeThreshold,
+      help: 'Lines of code threshold (deprecated argument, use $linesOfExecutableCodeThreshold)', valueHelp: '$linesOfExecutableCodeDefaultWarningLevel',
       callback: (String i) {
     if (i != null && int.tryParse(i) == null) {
+      // ignore: deprecated_member_use_from_same_package
       _printInvalidArgumentValue(linesOfCodeThreshold, i);
+    }
+  })
+  ..addOption(linesOfExecutableCodeThreshold,
+      help: 'Lines of executable code threshold',
+      valueHelp: '$linesOfExecutableCodeDefaultWarningLevel',
+      callback: (String i) {
+    if (i != null && int.tryParse(i) == null) {
+      _printInvalidArgumentValue(linesOfExecutableCodeThreshold, i);
     }
   })
   ..addOption(numberOfArgumentsThreshold,
@@ -52,17 +67,10 @@ ArgParser argumentsParser() => ArgParser()
       _printInvalidArgumentValue(numberOfMethodsThreshold, i);
     }
   })
-  ..addOption(rootFolderName,
-      help: 'Root folder', valueHelp: './', defaultsTo: Directory.current.path)
-  ..addOption(ignoredFilesName,
-      help: 'Filepaths in Glob syntax to be ignored',
-      valueHelp: '{/**.g.dart,/**.template.dart}',
-      defaultsTo: '{/**.g.dart,/**.template.dart}')
+  ..addOption(rootFolderName, help: 'Root folder', valueHelp: './', defaultsTo: Directory.current.path)
+  ..addOption(ignoredFilesName, help: 'Filepaths in Glob syntax to be ignored', valueHelp: '{/**.g.dart,/**.template.dart}', defaultsTo: '{/**.g.dart,/**.template.dart}')
   ..addFlag(verboseName, negatable: false)
-  ..addOption(setExitOnViolationLevel,
-      allowed: ['noted', 'warning', 'alarm'],
-      valueHelp: 'warning',
-      help: 'Set exit code 2 if code violations same or higher level than selected are detected');
+  ..addOption(setExitOnViolationLevel, allowed: ['noted', 'warning', 'alarm'], valueHelp: 'warning', help: 'Set exit code 2 if code violations same or higher level than selected are detected');
 
 void _printInvalidArgumentValue(String argument, String value) {
   print("'$value' invalid value for argument $argument");
