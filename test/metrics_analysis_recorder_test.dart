@@ -5,6 +5,7 @@ import 'package:dart_code_metrics/src/metrics_analysis_recorder.dart';
 import 'package:dart_code_metrics/src/models/code_issue.dart';
 import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
 import 'package:dart_code_metrics/src/models/component_record.dart';
+import 'package:dart_code_metrics/src/models/design_issue.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/models/scoped_component_declaration.dart';
 import 'package:dart_code_metrics/src/models/scoped_function_declaration.dart';
@@ -252,6 +253,45 @@ void main() {
 
         expect(recorder.records().single.functions,
             containsPair(functionName, functionRecord));
+      });
+    });
+
+    group('recordDesignIssues', () {
+      test('throws StateError if we call them in invalid state', () {
+        expect(() {
+          MetricsAnalysisRecorder().recordDesignIssues([]);
+        }, throwsStateError);
+      });
+
+      test('aggregate issues for file', () {
+        const _issuePatternId = 'patternId1';
+        const _issuePatternDocumentation = 'https://docu.edu/patternId1.html';
+        const _issueMessage = 'first pattern message';
+        const _issueRecommendation = 'recommendation';
+
+        final recorder = MetricsAnalysisRecorder()
+          ..startRecordFile(filePath, rootDirectory)
+          ..recordDesignIssues([
+            DesignIssue(
+              patternId: _issuePatternId,
+              patternDocumentation: Uri.parse(_issuePatternDocumentation),
+              sourceSpan: SourceSpanBase(
+                  SourceLocation(1,
+                      sourceUrl: Uri.parse(filePath), line: 2, column: 3),
+                  SourceLocation(6, sourceUrl: Uri.parse(filePath)),
+                  'issue'),
+              message: _issueMessage,
+              recommendation: _issueRecommendation,
+            ),
+          ])
+          ..endRecordFile();
+
+        final issue = recorder.records().single.designIssue.single;
+        expect(issue.patternId, _issuePatternId);
+        expect(
+            issue.patternDocumentation.toString(), _issuePatternDocumentation);
+        expect(issue.message, _issueMessage);
+        expect(issue.recommendation, _issueRecommendation);
       });
     });
 
