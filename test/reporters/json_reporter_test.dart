@@ -44,6 +44,7 @@ void main() {
               'function3': buildFunctionRecordStub(argumentsCount: 10),
             }),
             issues: const [],
+            designIssue: const [],
           ),
         ];
 
@@ -90,6 +91,7 @@ void main() {
                 correctionComment: _issueCorrectionComment,
               ),
             ],
+            designIssue: const [],
           ),
         ];
 
@@ -127,6 +129,7 @@ void main() {
             }),
             functions: Map.unmodifiable(<String, FunctionRecord>{}),
             issues: const [],
+            designIssue: const [],
           ),
         ];
 
@@ -151,6 +154,7 @@ void main() {
             }),
             functions: Map.unmodifiable(<String, FunctionRecord>{}),
             issues: const [],
+            designIssue: const [],
           ),
         ];
 
@@ -170,14 +174,16 @@ void main() {
       test('with long body', () {
         final records = [
           FileRecord(
-              fullPath: fullPath,
-              relativePath: 'example.dart',
-              components: Map.unmodifiable(<String, ComponentRecord>{}),
-              functions: Map.unmodifiable(<String, FunctionRecord>{
-                'function': buildFunctionRecordStub(
-                    linesWithCode: List.generate(150, (index) => index)),
-              }),
-              issues: const []),
+            fullPath: fullPath,
+            relativePath: 'example.dart',
+            components: Map.unmodifiable(<String, ComponentRecord>{}),
+            functions: Map.unmodifiable(<String, FunctionRecord>{
+              'function': buildFunctionRecordStub(
+                  linesWithCode: List.generate(150, (index) => index)),
+            }),
+            issues: const [],
+            designIssue: const [],
+          ),
         ];
 
         final report =
@@ -194,14 +200,16 @@ void main() {
       test('with short body', () {
         final records = [
           FileRecord(
-              fullPath: fullPath,
-              relativePath: 'example.dart',
-              components: Map.unmodifiable(<String, ComponentRecord>{}),
-              functions: Map.unmodifiable(<String, FunctionRecord>{
-                'function': buildFunctionRecordStub(
-                    linesWithCode: List.generate(5, (index) => index)),
-              }),
-              issues: const []),
+            fullPath: fullPath,
+            relativePath: 'example.dart',
+            components: Map.unmodifiable(<String, ComponentRecord>{}),
+            functions: Map.unmodifiable(<String, FunctionRecord>{
+              'function': buildFunctionRecordStub(
+                  linesWithCode: List.generate(5, (index) => index)),
+            }),
+            issues: const [],
+            designIssue: const [],
+          ),
         ];
 
         final report =
@@ -225,6 +233,7 @@ void main() {
               'function': buildFunctionRecordStub(argumentsCount: 0),
             }),
             issues: const [],
+            designIssue: const [],
           ),
         ];
 
@@ -249,6 +258,7 @@ void main() {
               'function': buildFunctionRecordStub(argumentsCount: 10),
             }),
             issues: const [],
+            designIssue: const [],
           ),
         ];
 

@@ -57,6 +57,7 @@ void main() {
               correctionComment: 'correction comment',
             ),
           ],
+          designIssue: const [],
         ),
       ];
 
@@ -83,13 +84,15 @@ void main() {
       test('without methods', () {
         final records = [
           FileRecord(
-              fullPath: fullPath,
-              relativePath: 'example.dart',
-              components: Map.unmodifiable(<String, ComponentRecord>{
-                'class': buildComponentRecordStub(methodsCount: 0),
-              }),
-              functions: Map.unmodifiable(<String, FunctionRecord>{}),
-              issues: const []),
+            fullPath: fullPath,
+            relativePath: 'example.dart',
+            components: Map.unmodifiable(<String, ComponentRecord>{
+              'class': buildComponentRecordStub(methodsCount: 0),
+            }),
+            functions: Map.unmodifiable(<String, FunctionRecord>{}),
+            issues: const [],
+            designIssue: const [],
+          ),
         ];
 
         final report =
@@ -101,13 +104,15 @@ void main() {
       test('with a lot of methods', () {
         final records = [
           FileRecord(
-              fullPath: fullPath,
-              relativePath: 'example.dart',
-              components: Map.unmodifiable(<String, ComponentRecord>{
-                'class': buildComponentRecordStub(methodsCount: 20),
-              }),
-              functions: Map.unmodifiable(<String, FunctionRecord>{}),
-              issues: const []),
+            fullPath: fullPath,
+            relativePath: 'example.dart',
+            components: Map.unmodifiable(<String, ComponentRecord>{
+              'class': buildComponentRecordStub(methodsCount: 20),
+            }),
+            functions: Map.unmodifiable(<String, FunctionRecord>{}),
+            issues: const [],
+            designIssue: const [],
+          ),
         ];
 
         final report =
@@ -137,14 +142,16 @@ void main() {
       test('with long body', () {
         final records = [
           FileRecord(
-              fullPath: fullPath,
-              relativePath: 'example.dart',
-              components: Map.unmodifiable(<String, ComponentRecord>{}),
-              functions: Map.unmodifiable(<String, FunctionRecord>{
-                'function': buildFunctionRecordStub(
-                    linesWithCode: List.generate(150, (index) => index)),
-              }),
-              issues: const []),
+            fullPath: fullPath,
+            relativePath: 'example.dart',
+            components: Map.unmodifiable(<String, ComponentRecord>{}),
+            functions: Map.unmodifiable(<String, FunctionRecord>{
+              'function': buildFunctionRecordStub(
+                  linesWithCode: List.generate(150, (index) => index)),
+            }),
+            issues: const [],
+            designIssue: const [],
+          ),
         ];
 
         final report =
@@ -172,14 +179,16 @@ void main() {
       test('with short body', () {
         final records = [
           FileRecord(
-              fullPath: fullPath,
-              relativePath: 'example.dart',
-              components: Map.unmodifiable(<String, ComponentRecord>{}),
-              functions: Map.unmodifiable(<String, FunctionRecord>{
-                'function': buildFunctionRecordStub(
-                    linesWithCode: List.generate(5, (index) => index)),
-              }),
-              issues: const []),
+            fullPath: fullPath,
+            relativePath: 'example.dart',
+            components: Map.unmodifiable(<String, ComponentRecord>{}),
+            functions: Map.unmodifiable(<String, FunctionRecord>{
+              'function': buildFunctionRecordStub(
+                  linesWithCode: List.generate(5, (index) => index)),
+            }),
+            issues: const [],
+            designIssue: const [],
+          ),
         ];
 
         final report =
@@ -191,13 +200,15 @@ void main() {
       test('without arguments', () {
         final records = [
           FileRecord(
-              fullPath: fullPath,
-              relativePath: 'example.dart',
-              components: Map.unmodifiable(<String, ComponentRecord>{}),
-              functions: Map.unmodifiable(<String, FunctionRecord>{
-                'function': buildFunctionRecordStub(argumentsCount: 0),
-              }),
-              issues: const []),
+            fullPath: fullPath,
+            relativePath: 'example.dart',
+            components: Map.unmodifiable(<String, ComponentRecord>{}),
+            functions: Map.unmodifiable(<String, FunctionRecord>{
+              'function': buildFunctionRecordStub(argumentsCount: 0),
+            }),
+            issues: const [],
+            designIssue: const [],
+          ),
         ];
 
         final report =
@@ -209,13 +220,15 @@ void main() {
       test('with a lot of arguments', () {
         final records = [
           FileRecord(
-              fullPath: fullPath,
-              relativePath: 'example.dart',
-              components: Map.unmodifiable(<String, ComponentRecord>{}),
-              functions: Map.unmodifiable(<String, FunctionRecord>{
-                'function': buildFunctionRecordStub(argumentsCount: 10),
-              }),
-              issues: const []),
+            fullPath: fullPath,
+            relativePath: 'example.dart',
+            components: Map.unmodifiable(<String, ComponentRecord>{}),
+            functions: Map.unmodifiable(<String, FunctionRecord>{
+              'function': buildFunctionRecordStub(argumentsCount: 10),
+            }),
+            issues: const [],
+            designIssue: const [],
+          ),
         ];
 
         final report =

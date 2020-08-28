@@ -113,15 +113,16 @@ class MetricsAnalysisRecorder
 
   void _endRecordFile() {
     _records.add(FileRecord(
-        fullPath: _fileGroupPath,
-        relativePath: _relativeGroupPath,
-        components: Map.unmodifiable(
-            _componentRecords.map<String, ComponentRecord>((key, value) =>
-                MapEntry(getComponentHumanReadableName(key), value))),
-        functions: Map.unmodifiable(
-            _functionRecords.map<String, FunctionRecord>((key, value) =>
-                MapEntry(getFunctionHumanReadableName(key), value))),
-        issues: _issues));
+      fullPath: _fileGroupPath,
+      relativePath: _relativeGroupPath,
+      components: Map.unmodifiable(
+          _componentRecords.map<String, ComponentRecord>((key, value) =>
+              MapEntry(getComponentHumanReadableName(key), value))),
+      functions: Map.unmodifiable(_functionRecords.map<String, FunctionRecord>(
+          (key, value) => MapEntry(getFunctionHumanReadableName(key), value))),
+      issues: _issues,
+      designIssue: const [],
+    ));
     _relativeGroupPath = null;
     _fileGroupPath = null;
     _functionRecords = null;
