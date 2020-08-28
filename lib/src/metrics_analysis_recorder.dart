@@ -6,6 +6,7 @@ import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:path/path.dart' as p;
 
 import 'models/component_record.dart';
+import 'models/design_issue.dart';
 import 'models/scoped_component_declaration.dart';
 import 'models/scoped_function_declaration.dart';
 import 'utils/metrics_analyzer_utils.dart';
@@ -19,6 +20,7 @@ class MetricsAnalysisRecorder
   Map<ScopedComponentDeclaration, ComponentRecord> _componentRecords;
   Map<ScopedFunctionDeclaration, FunctionRecord> _functionRecords;
   List<CodeIssue> _issues;
+  List<DesignIssue> _designIssues;
 
   final _records = <FileRecord>[];
   @override
@@ -79,6 +81,13 @@ class MetricsAnalysisRecorder
   }
 
   @override
+  void recordDesignIssues(Iterable<DesignIssue> issues) {
+    _checkState();
+
+    _designIssues.addAll(issues);
+  }
+
+  @override
   @Deprecated('Use MetricsRecordsBuilder.recordIssues')
   void recordIssues(Iterable<CodeIssue> issues) {
     _checkState();
@@ -109,6 +118,7 @@ class MetricsAnalysisRecorder
     _componentRecords = {};
     _functionRecords = {};
     _issues = [];
+    _designIssues = [];
   }
 
   void _endRecordFile() {
@@ -121,11 +131,12 @@ class MetricsAnalysisRecorder
       functions: Map.unmodifiable(_functionRecords.map<String, FunctionRecord>(
           (key, value) => MapEntry(getFunctionHumanReadableName(key), value))),
       issues: _issues,
-      designIssue: const [],
+      designIssue: _designIssues,
     ));
     _relativeGroupPath = null;
     _fileGroupPath = null;
     _functionRecords = null;
     _issues = null;
+    _designIssues = null;
   }
 }
