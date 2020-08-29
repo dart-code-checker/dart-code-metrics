@@ -35,11 +35,14 @@ class ConsoleReporter implements Reporter {
     CodeIssueSeverity.error: AnsiPen()..red(),
   };
 
-  final _severityHumanReadable = {
+  static const _severityHumanReadable = {
     CodeIssueSeverity.style: 'Style',
     CodeIssueSeverity.warning: 'Warning',
     CodeIssueSeverity.error: 'Error',
   };
+
+  final _designIssuesColor = AnsiPen()..yellow();
+  static const _designIssues = 'Design';
 
   ConsoleReporter({@required this.reportConfig, this.reportAll = false});
 
@@ -89,6 +92,17 @@ class ConsoleReporter implements Reporter {
               '${_colorPens[violationLevel](_humanReadableLabel[violationLevel]?.padRight(8))}$source - ${violations.join(', ')}');
         }
       });
+
+      for (final issue in analysisRecord.designIssue) {
+        final severity = '${_designIssuesColor(_designIssues.padRight(8))}';
+        final position =
+            '${issue.sourceSpan.start.line}:${issue.sourceSpan.start.column}';
+        final rule = [
+          issue.patternId,
+          if (issue.patternDocumentation != null) issue.patternDocumentation,
+        ].join(' ');
+        lines.add('$severity${[issue.message, position, rule].join(' : ')}');
+      }
 
       for (final issue in analysisRecord.issues) {
         final severity =
