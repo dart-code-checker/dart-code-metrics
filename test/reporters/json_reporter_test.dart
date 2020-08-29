@@ -5,6 +5,7 @@ import 'package:dart_code_metrics/src/models/code_issue.dart';
 import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
 import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/config.dart';
+import 'package:dart_code_metrics/src/models/design_issue.dart';
 import 'package:dart_code_metrics/src/models/file_record.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/reporters/json_reporter.dart';
@@ -58,6 +59,60 @@ void main() {
         expect(report, containsPair('total-number-of-methods-violations', 2));
       });
 
+      test('with design issues', () {
+        const _issuePatternId = 'patternId1';
+        const _issuePatternDocumentation = 'https://docu.edu/patternId1.html';
+        const _issueLine = 2;
+        const _issueColumn = 3;
+        const _issueProblemCode = 'issue';
+        const _issueMessage = 'first issue message';
+        const _issueRecomendation = 'issue recomendation';
+
+        final records = [
+          FileRecord(
+            fullPath: fullPath,
+            relativePath: 'example.dart',
+            components: Map.unmodifiable(<String, ComponentRecord>{}),
+            functions: Map.unmodifiable(<String, FunctionRecord>{}),
+            issues: const [],
+            designIssue: [
+              DesignIssue(
+                patternId: _issuePatternId,
+                patternDocumentation: Uri.parse(_issuePatternDocumentation),
+                sourceSpan: SourceSpanBase(
+                    SourceLocation(1,
+                        sourceUrl: Uri.parse(fullPath),
+                        line: _issueLine,
+                        column: _issueColumn),
+                    SourceLocation(6, sourceUrl: Uri.parse(fullPath)),
+                    _issueProblemCode),
+                message: _issueMessage,
+                recommendation: _issueRecomendation,
+              ),
+            ],
+          ),
+        ];
+
+        final report =
+            (json.decode(_reporter.report(records).first) as List<Object>).first
+                as Map<String, Object>;
+
+        expect(report.containsKey('designIssues'), isTrue);
+
+        final issue = (report['designIssues'] as List<Object>)
+            .cast<Map<String, Object>>()
+            .single;
+
+        expect(issue, containsPair('patternId', _issuePatternId));
+        expect(issue,
+            containsPair('patternDocumentation', _issuePatternDocumentation));
+        expect(issue, containsPair('lineNumber', _issueLine));
+        expect(issue, containsPair('columnNumber', _issueColumn));
+        expect(issue, containsPair('problemCode', _issueProblemCode));
+        expect(issue, containsPair('message', _issueMessage));
+        expect(issue, containsPair('recommendation', _issueRecomendation));
+      });
+
       test('with style severity issues', () {
         const _issueRuleId = 'ruleId1';
         const _issueRuleDocumentation = 'https://docu.edu/ruleId1.html';
@@ -101,20 +156,21 @@ void main() {
 
         expect(report.containsKey('issues'), isTrue);
 
-        final issues =
-            (report['issues'] as List<Object>).cast<Map<String, Object>>();
+        final issue = (report['issues'] as List<Object>)
+            .cast<Map<String, Object>>()
+            .single;
 
-        expect(issues.single, containsPair('severity', 'style'));
-        expect(issues.single, containsPair('ruleId', _issueRuleId));
-        expect(issues.single,
-            containsPair('ruleDocumentation', _issueRuleDocumentation));
-        expect(issues.single, containsPair('lineNumber', _issueLine));
-        expect(issues.single, containsPair('columnNumber', _issueColumn));
-        expect(issues.single, containsPair('problemCode', _issueProblemCode));
-        expect(issues.single, containsPair('message', _issueMessage));
-        expect(issues.single, containsPair('correction', _issueCorrection));
-        expect(issues.single,
-            containsPair('correctionComment', _issueCorrectionComment));
+        expect(issue, containsPair('severity', 'style'));
+        expect(issue, containsPair('ruleId', _issueRuleId));
+        expect(
+            issue, containsPair('ruleDocumentation', _issueRuleDocumentation));
+        expect(issue, containsPair('lineNumber', _issueLine));
+        expect(issue, containsPair('columnNumber', _issueColumn));
+        expect(issue, containsPair('problemCode', _issueProblemCode));
+        expect(issue, containsPair('message', _issueMessage));
+        expect(issue, containsPair('correction', _issueCorrection));
+        expect(
+            issue, containsPair('correctionComment', _issueCorrectionComment));
       });
     });
 

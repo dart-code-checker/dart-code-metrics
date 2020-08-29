@@ -60,6 +60,20 @@ class JsonReporter implements Reporter {
                   'correctionComment': issue.correctionComment,
               })
           .toList(),
+      'designIssues': record.designIssue
+          .map((issue) => {
+                'patternId': issue.patternId,
+                if (issue.patternDocumentation != null)
+                  'patternDocumentation': issue.patternDocumentation.toString(),
+                'lineNumber': issue.sourceSpan.start.line,
+                'columnNumber': issue.sourceSpan.start.column,
+                if (issue.sourceSpan.text != null)
+                  'problemCode': issue.sourceSpan.text,
+                'message': issue.message,
+                if (issue.recommendation != null)
+                  'recommendation': issue.recommendation,
+              })
+          .toList(),
       'average-number-of-arguments': fileReport.averageArgumentsCount,
       'total-number-of-arguments-violations':
           fileReport.totalArgumentsCountViolations,
