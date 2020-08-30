@@ -2,6 +2,7 @@
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart';
 import 'package:dart_code_metrics/src/analyzer_plugin/analyzer_plugin_utils.dart';
+import 'package:dart_code_metrics/src/models/design_issue.dart';
 import 'package:glob/glob.dart';
 import 'package:mockito/mockito.dart';
 import 'package:source_span/source_span.dart';
@@ -46,6 +47,45 @@ void main() {
         isExcluded(
             analysisResultMock, [Glob('test/**.dart'), Glob('bin/**.dart')]),
         isFalse);
+  });
+
+  test('designIssueToAnalysisErrorFixes constructs AnalysisErrorFixes', () {
+    const sourcePath = 'source_file.dart';
+    const offset = 5;
+    const length = 4;
+    const end = offset + length;
+    const line = 2;
+    const column = 1;
+    const patternId = 'pattern id';
+    const patternDocumentationUrl = 'https://www.example.com';
+    const issueMessage = 'diagnostic message';
+    const issueRecomendationMessage = 'diagnostic recomendation message';
+
+    final fixes = designIssueToAnalysisErrorFixes(DesignIssue(
+        patternId: patternId,
+        patternDocumentation: Uri.parse(patternDocumentationUrl),
+        sourceSpan: SourceSpanBase(
+            SourceLocation(offset,
+                sourceUrl: Uri.parse(sourcePath), line: line, column: column),
+            SourceLocation(end, sourceUrl: Uri.parse(sourcePath)),
+            'abcd'),
+        message: issueMessage,
+        recommendation: issueRecomendationMessage));
+
+    expect(fixes.error.severity, equals(AnalysisErrorSeverity.INFO));
+    expect(fixes.error.type, equals(AnalysisErrorType.HINT));
+    expect(fixes.error.location.file, equals(sourcePath));
+    expect(fixes.error.location.offset, equals(offset));
+    expect(fixes.error.location.length, equals(length));
+    expect(fixes.error.location.startLine, equals(line));
+    expect(fixes.error.location.startColumn, equals(column));
+    expect(fixes.error.message, equals(issueMessage));
+    expect(fixes.error.code, equals(patternId));
+    expect(fixes.error.correction, equals(issueRecomendationMessage));
+    expect(fixes.error.url, equals(patternDocumentationUrl));
+    expect(fixes.error.contextMessages, isNull);
+    expect(fixes.error.hasFix, isFalse);
+    expect(fixes.fixes, isEmpty);
   });
 
   test(

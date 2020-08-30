@@ -98,6 +98,10 @@ If you want command line tool to check rules, you should add configuration to yo
 ### Library
 [See `example/example.dart`](https://github.com/wrike/dart-code-metrics/blob/master/example/example.dart)
 
+## Anti-Patterns
+
+* [long-method](https://github.com/wrike/dart-code-metrics/blob/master/doc/anti-patterns/long-method.md)
+
 ## Rules
 
 ### Common

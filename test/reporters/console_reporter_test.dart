@@ -3,6 +3,7 @@ import 'package:dart_code_metrics/src/models/code_issue.dart';
 import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
 import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/config.dart';
+import 'package:dart_code_metrics/src/models/design_issue.dart';
 import 'package:dart_code_metrics/src/models/file_record.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/reporters/console_reporter.dart';
@@ -43,6 +44,7 @@ void main() {
             }),
             functions: Map.unmodifiable(<String, FunctionRecord>{}),
             issues: const [],
+            designIssue: const [],
           ),
         ];
 
@@ -65,6 +67,7 @@ void main() {
             }),
             functions: Map.unmodifiable(<String, FunctionRecord>{}),
             issues: const [],
+            designIssue: const [],
           ),
         ];
 
@@ -79,14 +82,16 @@ void main() {
       test('with long body', () {
         final records = [
           FileRecord(
-              fullPath: fullPath,
-              relativePath: 'example.dart',
-              components: Map.unmodifiable(<String, ComponentRecord>{}),
-              functions: Map.unmodifiable(<String, FunctionRecord>{
-                'function': buildFunctionRecordStub(
-                    linesWithCode: List.generate(150, (index) => index)),
-              }),
-              issues: const []),
+            fullPath: fullPath,
+            relativePath: 'example.dart',
+            components: Map.unmodifiable(<String, ComponentRecord>{}),
+            functions: Map.unmodifiable(<String, FunctionRecord>{
+              'function': buildFunctionRecordStub(
+                  linesWithCode: List.generate(150, (index) => index)),
+            }),
+            issues: const [],
+            designIssue: const [],
+          ),
         ];
 
         final report = _reporter.report(records).toList();
@@ -99,14 +104,16 @@ void main() {
       test('with short body', () {
         final records = [
           FileRecord(
-              fullPath: fullPath,
-              relativePath: 'example.dart',
-              components: Map.unmodifiable(<String, ComponentRecord>{}),
-              functions: Map.unmodifiable(<String, FunctionRecord>{
-                'function': buildFunctionRecordStub(
-                    linesWithCode: List.generate(5, (index) => index)),
-              }),
-              issues: const []),
+            fullPath: fullPath,
+            relativePath: 'example.dart',
+            components: Map.unmodifiable(<String, ComponentRecord>{}),
+            functions: Map.unmodifiable(<String, FunctionRecord>{
+              'function': buildFunctionRecordStub(
+                  linesWithCode: List.generate(5, (index) => index)),
+            }),
+            issues: const [],
+            designIssue: const [],
+          ),
         ];
 
         final report = _reporter.report(records);
@@ -128,6 +135,7 @@ void main() {
               'function': buildFunctionRecordStub(argumentsCount: 0),
             }),
             issues: const [],
+            designIssue: const [],
           ),
         ];
 
@@ -150,6 +158,7 @@ void main() {
               'function': buildFunctionRecordStub(argumentsCount: 10),
             }),
             issues: const [],
+            designIssue: const [],
           ),
         ];
 
@@ -161,7 +170,41 @@ void main() {
       });
     });
 
-    test('style severity issues', () {
+    test('with design issues', () {
+      final records = [
+        FileRecord(
+          fullPath: fullPath,
+          relativePath: 'example.dart',
+          components: Map.unmodifiable(<String, ComponentRecord>{}),
+          functions: Map.unmodifiable(<String, FunctionRecord>{}),
+          issues: const [],
+          designIssue: [
+            DesignIssue(
+              patternId: 'patternId1',
+              patternDocumentation:
+                  Uri.parse('https://docu.edu/patternId1.html'),
+              sourceSpan: SourceSpanBase(
+                  SourceLocation(1,
+                      sourceUrl: Uri.parse(fullPath), line: 2, column: 3),
+                  SourceLocation(6, sourceUrl: Uri.parse(fullPath)),
+                  'issue'),
+              message: 'first issue message',
+              recommendation: 'recomendation',
+            ),
+          ],
+        ),
+      ];
+
+      final report = _reporter.report(records).toList();
+
+      expect(report.length, 3);
+      expect(
+          report[1],
+          equals(
+              '\x1B[38;5;3mDesign  \x1B[0mfirst issue message : 2:3 : patternId1 https://docu.edu/patternId1.html'));
+    });
+
+    test('with style severity issues', () {
       final records = [
         FileRecord(
           fullPath: fullPath,
@@ -183,6 +226,7 @@ void main() {
               correctionComment: 'correction comment',
             ),
           ],
+          designIssue: const [],
         ),
       ];
 

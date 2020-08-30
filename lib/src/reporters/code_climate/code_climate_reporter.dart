@@ -54,17 +54,6 @@ class CodeClimateReporter implements Reporter {
       }
 
       if (UtilitySelector.isIssueLevel(
-          report.linesOfExecutableCode.violationLevel)) {
-        result.add(CodeClimateIssue.linesOfExecutableCode(
-            func.firstLine,
-            func.lastLine,
-            report.linesOfExecutableCode.value,
-            record.relativePath,
-            key,
-            reportConfig.linesOfExecutableCodeWarningLevel));
-      }
-
-      if (UtilitySelector.isIssueLevel(
           report.maintainabilityIndex.violationLevel)) {
         result.add(CodeClimateIssue.maintainabilityIndex(
             func.firstLine,
@@ -85,8 +74,11 @@ class CodeClimateReporter implements Reporter {
       }
     }
 
-    result.addAll(record.issues.map(
-        (issue) => CodeClimateIssue.fromCodeIssue(issue, record.relativePath)));
+    result
+      ..addAll(record.issues.map((issue) =>
+          CodeClimateIssue.fromCodeIssue(issue, record.relativePath)))
+      ..addAll(record.designIssue.map((issue) =>
+          CodeClimateIssue.fromDesignIssue(issue, record.relativePath)));
 
     return result;
   }

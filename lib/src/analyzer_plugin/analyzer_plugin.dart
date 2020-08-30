@@ -26,6 +26,8 @@ import 'package:dart_code_metrics/src/rules_factory.dart';
 import 'package:glob/glob.dart';
 import 'package:source_span/source_span.dart';
 
+import '../anti_patterns/base_pattern.dart';
+import '../anti_patterns_factory.dart';
 import '../scope_ast_visitor.dart';
 import '../utils/metrics_analyzer_utils.dart';
 import '../utils/yaml_utils.dart';
@@ -35,6 +37,8 @@ const _codeMetricsId = 'code-metrics';
 const _defaultSkippedFolders = ['.dart_tool/**', 'packages/**'];
 
 class MetricsAnalyzerPlugin extends ServerPlugin {
+  final Iterable<BasePattern> _checkingAntiPatterns;
+
   Config _metricsConfig;
   Iterable<Glob> _globalExclude;
   Iterable<Glob> _metricsExclude;
@@ -54,7 +58,8 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
   String get version => '1.9.0';
 
   MetricsAnalyzerPlugin(ResourceProvider provider)
-      : _checkingCodeRules = [],
+      : _checkingAntiPatterns = allPatterns,
+        _checkingCodeRules = [],
         super(provider);
 
   @override
@@ -190,6 +195,11 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
                   codeIssueToAnalysisErrorFixes(issue, analysisResult))));
 
       if (_metricsConfig != null &&
+          !isExcluded(analysisResult, _metricsExclude)) {
+        result.addAll(_checkOnAntiPatterns(ignores, analysisResult, sourceUri));
+      }
+
+      if (_metricsConfig != null &&
           !ignores.ignoreRule(_codeMetricsId) &&
           !isExcluded(analysisResult, _metricsExclude)) {
         final scopeVisitor = ScopeAstVisitor();
@@ -254,6 +264,16 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
 
     return result;
   }
+
+  Iterable<plugin.AnalysisErrorFixes> _checkOnAntiPatterns(IgnoreInfo ignores,
+          ResolvedUnitResult analysisResult, Uri sourceUri) =>
+      _checkingAntiPatterns
+          .where((pattern) => !ignores.ignoreRule(pattern.id))
+          .expand((pattern) => pattern.check(analysisResult.unit, sourceUri,
+              analysisResult.content, _metricsConfig))
+          .where((issue) =>
+              !ignores.ignoredAt(issue.patternId, issue.sourceSpan.start.line))
+          .map(designIssueToAnalysisErrorFixes);
 
   AnalysisOptions _readOptions(AnalysisDriver driver) {
     if (driver?.contextRoot?.optionsFilePath?.isNotEmpty ?? false) {

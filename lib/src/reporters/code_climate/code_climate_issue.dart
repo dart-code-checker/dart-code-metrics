@@ -5,6 +5,8 @@ import 'package:dart_code_metrics/src/models/code_issue.dart';
 import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
 import 'package:meta/meta.dart';
 
+import '../../models/design_issue.dart';
+
 @immutable
 class CodeClimateLocationLines {
   final int begin;
@@ -57,15 +59,6 @@ class CodeClimateIssue {
     return CodeClimateIssue._(name, desc, categories, location, fingerprint);
   }
 
-  factory CodeClimateIssue.linesOfExecutableCode(int startLine, int endLine,
-      int value, String fileName, String functionName, int threshold) {
-    final desc =
-        'Function `$functionName` has $value executable code lines (exceeds $threshold allowed). Consider refactoring.';
-
-    return CodeClimateIssue._create(
-        'linesOfExecutableCode', desc, startLine, endLine, fileName);
-  }
-
   factory CodeClimateIssue.cyclomaticComplexity(int startLine, int endLine,
       int value, String fileName, String functionName, int threshold) {
     final desc =
@@ -113,6 +106,12 @@ class CodeClimateIssue {
         issue.sourceSpan.start.line, issue.sourceSpan.start.line, fileName,
         categories: severityHumanReadable[issue.severity]);
   }
+
+  factory CodeClimateIssue.fromDesignIssue(
+          DesignIssue issue, String fileName) =>
+      CodeClimateIssue._create(issue.patternId, issue.message,
+          issue.sourceSpan.start.line, issue.sourceSpan.start.line, fileName,
+          categories: const ['Complexity']);
 
   Map<String, Object> toJson() => {
         'type': type,

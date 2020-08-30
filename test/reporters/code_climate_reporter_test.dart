@@ -5,6 +5,7 @@ import 'package:dart_code_metrics/src/models/code_issue.dart';
 import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
 import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/config.dart';
+import 'package:dart_code_metrics/src/models/design_issue.dart';
 import 'package:dart_code_metrics/src/models/file_record.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/reporters/code_climate/code_climate_reporter.dart';
@@ -25,6 +26,57 @@ void main() {
 
     test('empty file', () {
       expect(_reporter.report([]), isEmpty);
+    });
+
+    test('file with design issues', () {
+      const _issuePatternId = 'patternId1';
+      const _issuePatternDocumentation = 'https://docu.edu/patternId1.html';
+      const _issueLine = 2;
+      const _issueMessage = 'first issue message';
+      const _issueRecomendation = 'issue recomendation';
+
+      final records = [
+        FileRecord(
+          fullPath: fullPath,
+          relativePath: 'example.dart',
+          components: Map.unmodifiable(<String, ComponentRecord>{}),
+          functions: Map.unmodifiable(<String, FunctionRecord>{}),
+          issues: const [],
+          designIssue: [
+            DesignIssue(
+              patternId: _issuePatternId,
+              patternDocumentation: Uri.parse(_issuePatternDocumentation),
+              sourceSpan: SourceSpanBase(
+                  SourceLocation(1,
+                      sourceUrl: Uri.parse(fullPath),
+                      line: _issueLine,
+                      column: 3),
+                  SourceLocation(6, sourceUrl: Uri.parse(fullPath)),
+                  'issue'),
+              message: 'first issue message',
+              recommendation: _issueRecomendation,
+            ),
+          ],
+        ),
+      ];
+
+      final report =
+          (json.decode(_reporter.report(records).first) as List<Object>).first
+              as Map<String, Object>;
+
+      expect(report, containsPair('type', 'issue'));
+      expect(report, containsPair('check_name', _issuePatternId));
+      expect(report, containsPair('description', _issueMessage));
+      expect(report, containsPair('categories', ['Complexity']));
+      expect(
+          report,
+          containsPair('location', {
+            'path': 'example.dart',
+            'lines': {'begin': _issueLine, 'end': _issueLine},
+          }));
+      expect(report, containsPair('remediation_points', 50000));
+      expect(report,
+          containsPair('fingerprint', '8842a666b8aee4f2eae51205e0114dae'));
     });
 
     test('file with style severity issues', () {
@@ -57,6 +109,7 @@ void main() {
               correctionComment: 'correction comment',
             ),
           ],
+          designIssue: const [],
         ),
       ];
 
@@ -83,13 +136,15 @@ void main() {
       test('without methods', () {
         final records = [
           FileRecord(
-              fullPath: fullPath,
-              relativePath: 'example.dart',
-              components: Map.unmodifiable(<String, ComponentRecord>{
-                'class': buildComponentRecordStub(methodsCount: 0),
-              }),
-              functions: Map.unmodifiable(<String, FunctionRecord>{}),
-              issues: const []),
+            fullPath: fullPath,
+            relativePath: 'example.dart',
+            components: Map.unmodifiable(<String, ComponentRecord>{
+              'class': buildComponentRecordStub(methodsCount: 0),
+            }),
+            functions: Map.unmodifiable(<String, FunctionRecord>{}),
+            issues: const [],
+            designIssue: const [],
+          ),
         ];
 
         final report =
@@ -101,13 +156,15 @@ void main() {
       test('with a lot of methods', () {
         final records = [
           FileRecord(
-              fullPath: fullPath,
-              relativePath: 'example.dart',
-              components: Map.unmodifiable(<String, ComponentRecord>{
-                'class': buildComponentRecordStub(methodsCount: 20),
-              }),
-              functions: Map.unmodifiable(<String, FunctionRecord>{}),
-              issues: const []),
+            fullPath: fullPath,
+            relativePath: 'example.dart',
+            components: Map.unmodifiable(<String, ComponentRecord>{
+              'class': buildComponentRecordStub(methodsCount: 20),
+            }),
+            functions: Map.unmodifiable(<String, FunctionRecord>{}),
+            issues: const [],
+            designIssue: const [],
+          ),
         ];
 
         final report =
@@ -134,52 +191,19 @@ void main() {
     });
 
     group('function', () {
-      test('with long body', () {
-        final records = [
-          FileRecord(
-              fullPath: fullPath,
-              relativePath: 'example.dart',
-              components: Map.unmodifiable(<String, ComponentRecord>{}),
-              functions: Map.unmodifiable(<String, FunctionRecord>{
-                'function': buildFunctionRecordStub(
-                    linesWithCode: List.generate(150, (index) => index)),
-              }),
-              issues: const []),
-        ];
-
-        final report =
-            (json.decode(_reporter.report(records).first) as List<Object>).first
-                as Map<String, Object>;
-
-        expect(report, containsPair('type', 'issue'));
-        expect(report, containsPair('check_name', 'linesOfExecutableCode'));
-        expect(
-            report,
-            containsPair('description',
-                'Function `function` has 150 executable code lines (exceeds 50 allowed). Consider refactoring.'));
-        expect(report, containsPair('categories', ['Complexity']));
-        expect(
-            report,
-            containsPair('location', {
-              'path': 'example.dart',
-              'lines': {'begin': 0, 'end': 0},
-            }));
-        expect(report, containsPair('remediation_points', 50000));
-        expect(report,
-            containsPair('fingerprint', '01bdb88a1141bd18f91bd2c933953436'));
-      });
-
       test('with short body', () {
         final records = [
           FileRecord(
-              fullPath: fullPath,
-              relativePath: 'example.dart',
-              components: Map.unmodifiable(<String, ComponentRecord>{}),
-              functions: Map.unmodifiable(<String, FunctionRecord>{
-                'function': buildFunctionRecordStub(
-                    linesWithCode: List.generate(5, (index) => index)),
-              }),
-              issues: const []),
+            fullPath: fullPath,
+            relativePath: 'example.dart',
+            components: Map.unmodifiable(<String, ComponentRecord>{}),
+            functions: Map.unmodifiable(<String, FunctionRecord>{
+              'function': buildFunctionRecordStub(
+                  linesWithCode: List.generate(5, (index) => index)),
+            }),
+            issues: const [],
+            designIssue: const [],
+          ),
         ];
 
         final report =
@@ -191,13 +215,15 @@ void main() {
       test('without arguments', () {
         final records = [
           FileRecord(
-              fullPath: fullPath,
-              relativePath: 'example.dart',
-              components: Map.unmodifiable(<String, ComponentRecord>{}),
-              functions: Map.unmodifiable(<String, FunctionRecord>{
-                'function': buildFunctionRecordStub(argumentsCount: 0),
-              }),
-              issues: const []),
+            fullPath: fullPath,
+            relativePath: 'example.dart',
+            components: Map.unmodifiable(<String, ComponentRecord>{}),
+            functions: Map.unmodifiable(<String, FunctionRecord>{
+              'function': buildFunctionRecordStub(argumentsCount: 0),
+            }),
+            issues: const [],
+            designIssue: const [],
+          ),
         ];
 
         final report =
@@ -209,13 +235,15 @@ void main() {
       test('with a lot of arguments', () {
         final records = [
           FileRecord(
-              fullPath: fullPath,
-              relativePath: 'example.dart',
-              components: Map.unmodifiable(<String, ComponentRecord>{}),
-              functions: Map.unmodifiable(<String, FunctionRecord>{
-                'function': buildFunctionRecordStub(argumentsCount: 10),
-              }),
-              issues: const []),
+            fullPath: fullPath,
+            relativePath: 'example.dart',
+            components: Map.unmodifiable(<String, ComponentRecord>{}),
+            functions: Map.unmodifiable(<String, FunctionRecord>{
+              'function': buildFunctionRecordStub(argumentsCount: 10),
+            }),
+            issues: const [],
+            designIssue: const [],
+          ),
         ];
 
         final report =

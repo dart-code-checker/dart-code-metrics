@@ -27,6 +27,7 @@ void main() {
               'function3': buildFunctionRecordStub(argumentsCount: 10),
             }),
             issues: const [],
+            designIssue: const [],
           ),
           const Config());
       expect(report.averageArgumentsCount, 5);
@@ -141,6 +142,7 @@ void main() {
             'a': buildFunctionRecordStub(linesWithCode: List.filled(10, 0)),
           }),
           issues: const [],
+          designIssue: const [],
         ),
         FileRecord(
           fullPath: fullPathStub,
@@ -150,6 +152,7 @@ void main() {
             'a': buildFunctionRecordStub(linesWithCode: List.filled(20, 0)),
           }),
           issues: const [],
+          designIssue: const [],
         ),
         FileRecord(
           fullPath: fullPathStub,
@@ -159,6 +162,7 @@ void main() {
             'a': buildFunctionRecordStub(linesWithCode: List.filled(30, 0)),
           }),
           issues: const [],
+          designIssue: const [],
         ),
       ];
 

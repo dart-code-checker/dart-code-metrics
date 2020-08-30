@@ -16,17 +16,21 @@ void main() {
     test('results() returns MetricsAnalysisRecorder.runAnalysis', () {
       const stubRecords = [
         FileRecord(
-            fullPath: 'lib/foo.dart',
-            relativePath: 'foo.dart',
-            components: {},
-            functions: {},
-            issues: []),
+          fullPath: 'lib/foo.dart',
+          relativePath: 'foo.dart',
+          components: {},
+          functions: {},
+          issues: [],
+          designIssue: [],
+        ),
         FileRecord(
-            fullPath: 'lib/bar.dart',
-            relativePath: 'bar.dart',
-            components: {},
-            functions: {},
-            issues: []),
+          fullPath: 'lib/bar.dart',
+          relativePath: 'bar.dart',
+          components: {},
+          functions: {},
+          issues: [],
+          designIssue: [],
+        ),
       ];
 
       final recorder = MetricsAnalysisRecorderMock();
