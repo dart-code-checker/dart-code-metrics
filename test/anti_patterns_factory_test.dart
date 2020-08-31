@@ -5,7 +5,11 @@ import 'package:test/test.dart';
 void main() {
   test('getPatternsById returns only required patterns', () {
     expect(getPatternsById({}), isEmpty);
-    expect(getPatternsById(['long-method', 'sample-pattern']).single.id,
+    expect(
+        getPatternsById({
+          'long-method': <String, Object>{},
+          'sample-pattern': <String, Object>{},
+        }).single.id,
         equals('long-method'));
   });
 }

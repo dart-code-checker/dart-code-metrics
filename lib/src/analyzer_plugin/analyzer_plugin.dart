@@ -84,6 +84,9 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
           if (options?.excludePatterns != null) ...options.excludePatterns,
         ], contextRoot.root),
         prepareExcludes(options?.metricsExcludePatterns, contextRoot.root),
+        (options?.antiPatterns?.isNotEmpty ?? false)
+            ? getPatternsById(options.antiPatterns)
+            : allPatterns,
         options?.rules != null ? getRulesById(options.rules) : []);
 
     // TODO(dmitrykrutskih): Once we are ready to bump the SDK lower bound to 2.8.x, we should swap this out for `runZoneGuarded`.

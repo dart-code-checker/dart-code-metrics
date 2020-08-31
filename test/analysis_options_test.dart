@@ -99,6 +99,8 @@ analyzer:
     implicit-dynamic: false
 
 dart_code_metrics:
+  anti-patterns:
+    - long-method
   metrics:
     cyclomatic-complexity: 20
     lines-of-executable-code: 42
@@ -122,10 +124,12 @@ void main() {
       expect(configFromNull.metricsConfig, isNull);
       expect(configFromNull.metricsExcludePatterns, isEmpty);
       expect(configFromNull.rules, isEmpty);
+      expect(configFromNull.antiPatterns, isEmpty);
 
       expect(configFromEmptyMap.metricsConfig, isNull);
       expect(configFromEmptyMap.metricsExcludePatterns, isEmpty);
       expect(configFromEmptyMap.rules, isEmpty);
+      expect(configFromEmptyMap.antiPatterns, isEmpty);
     });
 
     test('content without metrics', () {
@@ -135,6 +139,7 @@ void main() {
       expect(options.metricsConfig, isNull);
       expect(options.metricsExcludePatterns, isEmpty);
       expect(options.rules, isEmpty);
+      expect(options.antiPatterns, isEmpty);
     });
 
     group('content with metrics', () {
@@ -152,6 +157,7 @@ void main() {
                 'allowed-numbers': [1, 2, 3],
               },
             }));
+        expect(options.antiPatterns, isEmpty);
       });
 
       test('rules defined as map', () {
@@ -168,6 +174,7 @@ void main() {
                 'allowed-numbers': [1, 2, 3],
               },
             }));
+        expect(options.antiPatterns, isEmpty);
       });
 
       test('thresholds define', () {
@@ -181,6 +188,7 @@ void main() {
         expect(options.metricsExcludePatterns, isEmpty);
         expect(options.rules,
             equals({'no-boolean-literal-compare': <String, Object>{}}));
+        expect(options.antiPatterns, isEmpty);
       });
 
       test('exclude define', () {
@@ -204,6 +212,8 @@ void main() {
         expect(options.metricsExcludePatterns, equals(['test/**']));
         expect(options.rules,
             equals({'no-boolean-literal-compare': <String, Object>{}}));
+        expect(
+            options.antiPatterns, equals({'long-method': <String, Object>{}}));
       });
     });
 
@@ -232,6 +242,7 @@ void main() {
             'prefer-trailing-comma-for-collection',
             'member-ordering',
           ]));
+      expect(options.antiPatterns, isEmpty);
     });
   });
 }

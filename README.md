@@ -43,6 +43,8 @@ A plugin for the Dart `analyzer` library [package](https://pub.dev/packages/dart
         - dart_code_metrics
     
     dart_code_metrics:
+      anti-patterns:
+        - long-method
       metrics:
         cyclomatic-complexity: 20
         lines-of-executable-code: 50

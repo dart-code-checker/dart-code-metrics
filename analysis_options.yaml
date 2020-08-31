@@ -11,6 +11,8 @@ analyzer:
     implicit-dynamic: false
 
 dart_code_metrics:
+  anti-patterns:
+    - long-method
   metrics:
     cyclomatic-complexity: 20
     number-of-arguments: 4
