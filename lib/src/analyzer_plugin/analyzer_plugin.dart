@@ -18,12 +18,9 @@ import 'package:dart_code_metrics/src/analyzer_plugin/analyzer_plugin_utils.dart
 import 'package:dart_code_metrics/src/ignore_info.dart';
 import 'package:dart_code_metrics/src/metrics/cyclomatic_complexity/control_flow_ast_visitor.dart';
 import 'package:dart_code_metrics/src/metrics/cyclomatic_complexity/cyclomatic_config.dart';
-import 'package:dart_code_metrics/src/models/config.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
-import 'package:dart_code_metrics/src/rules/base_rule.dart';
 import 'package:dart_code_metrics/src/rules_factory.dart';
-import 'package:glob/glob.dart';
 import 'package:source_span/source_span.dart';
 
 import '../anti_patterns/base_pattern.dart';
@@ -31,6 +28,7 @@ import '../anti_patterns_factory.dart';
 import '../scope_ast_visitor.dart';
 import '../utils/metrics_analyzer_utils.dart';
 import '../utils/yaml_utils.dart';
+import 'analyzer_plugin_config.dart';
 
 const _codeMetricsId = 'code-metrics';
 
@@ -39,10 +37,8 @@ const _defaultSkippedFolders = ['.dart_tool/**', 'packages/**'];
 class MetricsAnalyzerPlugin extends ServerPlugin {
   final Iterable<BasePattern> _checkingAntiPatterns;
 
-  Config _metricsConfig;
-  Iterable<Glob> _globalExclude;
-  Iterable<Glob> _metricsExclude;
-  Iterable<BaseRule> _checkingCodeRules;
+  final _configs = <AnalysisDriverGeneric, AnalyzerPluginConfig>{};
+
   var _filesFromSetPriorityFilesRequest = <String>[];
 
   @override
@@ -59,7 +55,6 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
 
   MetricsAnalyzerPlugin(ResourceProvider provider)
       : _checkingAntiPatterns = allPatterns,
-        _checkingCodeRules = [],
         super(provider);
 
   @override
@@ -82,19 +77,20 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     final dartDriver = contextBuilder.buildDriver(root);
 
     final options = _readOptions(dartDriver);
-    _metricsConfig = options?.metricsConfig;
-    _globalExclude = prepareExcludes([
-      ..._defaultSkippedFolders,
-      if (options?.excludePatterns != null) ...options.excludePatterns,
-    ], contextRoot.root);
-    _metricsExclude =
-        prepareExcludes(options?.metricsExcludePatterns, contextRoot.root);
-    _checkingCodeRules =
-        options?.rules != null ? getRulesById(options.rules) : [];
+    _configs[dartDriver] = AnalyzerPluginConfig(
+        options?.metricsConfig,
+        prepareExcludes([
+          ..._defaultSkippedFolders,
+          if (options?.excludePatterns != null) ...options.excludePatterns,
+        ], contextRoot.root),
+        prepareExcludes(options?.metricsExcludePatterns, contextRoot.root),
+        options?.rules != null ? getRulesById(options.rules) : []);
 
     // TODO(dmitrykrutskih): Once we are ready to bump the SDK lower bound to 2.8.x, we should swap this out for `runZoneGuarded`.
     runZoned(() {
-      dartDriver.results.listen(_processResult);
+      dartDriver.results.listen((analysisResult) {
+        _processResult(dartDriver, analysisResult);
+      });
       // ignore: avoid_types_on_closure_parameters
     }, onError: (Object e, StackTrace stackTrace) {
       channel.sendNotification(
@@ -128,11 +124,10 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
   Future<plugin.EditGetFixesResult> handleEditGetFixes(
       plugin.EditGetFixesParams parameters) async {
     try {
-      final analysisResult =
-          await (driverForPath(parameters.file) as AnalysisDriver)
-              .getResult(parameters.file);
+      final driver = driverForPath(parameters.file) as AnalysisDriver;
+      final analysisResult = await driver.getResult(parameters.file);
 
-      final fixes = _check(analysisResult)
+      final fixes = _check(driver, analysisResult)
           .where((fix) =>
               fix.error.location.file == parameters.file &&
               fix.error.location.offset <= parameters.offset &&
@@ -151,11 +146,12 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     }
   }
 
-  void _processResult(ResolvedUnitResult analysisResult) {
+  void _processResult(
+      AnalysisDriver driver, ResolvedUnitResult analysisResult) {
     try {
       if (analysisResult.unit != null &&
           analysisResult.libraryElement != null) {
-        final fixes = _check(analysisResult);
+        final fixes = _check(driver, analysisResult);
 
         channel.sendNotification(plugin.AnalysisErrorsParams(
                 analysisResult.path, fixes.map((fix) => fix.error).toList())
@@ -173,11 +169,13 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
   }
 
   Iterable<plugin.AnalysisErrorFixes> _check(
-      ResolvedUnitResult analysisResult) {
+      AnalysisDriver driver, ResolvedUnitResult analysisResult) {
     final result = <plugin.AnalysisErrorFixes>[];
+    final config = _configs[driver];
 
     if (isSupported(analysisResult) &&
-        !isExcluded(analysisResult, _globalExclude)) {
+        config != null &&
+        !isExcluded(analysisResult, config.globalExcludes)) {
       final ignores = IgnoreInfo.calculateIgnores(
           analysisResult.content, analysisResult.lineInfo);
 
@@ -185,7 +183,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
           resourceProvider.getFile(analysisResult.path)?.toUri() ??
               analysisResult.uri;
 
-      result.addAll(_checkingCodeRules
+      result.addAll(config.checkingCodeRules
           .where((rule) => !ignores.ignoreRule(rule.id))
           .expand((rule) => rule
               .check(analysisResult.unit, sourceUri, analysisResult.content)
@@ -194,14 +192,13 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
               .map((issue) =>
                   codeIssueToAnalysisErrorFixes(issue, analysisResult))));
 
-      if (_metricsConfig != null &&
-          !isExcluded(analysisResult, _metricsExclude)) {
-        result.addAll(_checkOnAntiPatterns(ignores, analysisResult, sourceUri));
+      if (!isExcluded(analysisResult, config.metricsExcludes)) {
+        result.addAll(_checkOnAntiPatterns(
+            ignores, analysisResult, sourceUri, _configs[driver]));
       }
 
-      if (_metricsConfig != null &&
-          !ignores.ignoreRule(_codeMetricsId) &&
-          !isExcluded(analysisResult, _metricsExclude)) {
+      if (!ignores.ignoreRule(_codeMetricsId) &&
+          !isExcluded(analysisResult, config.metricsExcludes)) {
         final scopeVisitor = ScopeAstVisitor();
         analysisResult.unit.visitChildren(scopeVisitor);
 
@@ -229,8 +226,8 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
               operators: Map.unmodifiable(<String, int>{}),
               operands: Map.unmodifiable(<String, int>{}));
 
-          final functionReport =
-              UtilitySelector.functionReport(functionRecord, _metricsConfig);
+          final functionReport = UtilitySelector.functionReport(
+              functionRecord, _configs[driver].metricsConfigs);
 
           if (!ignores.ignoredAt(
                   _codeMetricsId, functionFirstLineInfo.lineNumber) &&
@@ -247,14 +244,14 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
                 metricReportToAnalysisErrorFixes(
                     startSourceLocation,
                     function.declaration.end - functionOffset,
-                    'Function has a Cyclomatic Complexity of ${functionReport.cyclomaticComplexity.value} (exceeds ${_metricsConfig.cyclomaticComplexityWarningLevel} allowed). Consider refactoring.',
+                    'Function has a Cyclomatic Complexity of ${functionReport.cyclomaticComplexity.value} (exceeds ${_configs[driver].metricsConfigs.cyclomaticComplexityWarningLevel} allowed). Consider refactoring.',
                     _codeMetricsId),
               if (UtilitySelector.isIssueLevel(
                   functionReport.argumentsCount.violationLevel))
                 metricReportToAnalysisErrorFixes(
                     startSourceLocation,
                     function.declaration.end - functionOffset,
-                    'Function has ${functionReport.argumentsCount.value} number of arguments (exceeds ${_metricsConfig.numberOfArgumentsWarningLevel} allowed). Consider refactoring.',
+                    'Function has ${functionReport.argumentsCount.value} number of arguments (exceeds ${_configs[driver].metricsConfigs.numberOfArgumentsWarningLevel} allowed). Consider refactoring.',
                     _codeMetricsId),
             ]);
           }
@@ -265,12 +262,15 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     return result;
   }
 
-  Iterable<plugin.AnalysisErrorFixes> _checkOnAntiPatterns(IgnoreInfo ignores,
-          ResolvedUnitResult analysisResult, Uri sourceUri) =>
+  Iterable<plugin.AnalysisErrorFixes> _checkOnAntiPatterns(
+          IgnoreInfo ignores,
+          ResolvedUnitResult analysisResult,
+          Uri sourceUri,
+          AnalyzerPluginConfig config) =>
       _checkingAntiPatterns
           .where((pattern) => !ignores.ignoreRule(pattern.id))
           .expand((pattern) => pattern.check(analysisResult.unit, sourceUri,
-              analysisResult.content, _metricsConfig))
+              analysisResult.content, config.metricsConfigs))
           .where((issue) =>
               !ignores.ignoredAt(issue.patternId, issue.sourceSpan.start.line))
           .map(designIssueToAnalysisErrorFixes);
