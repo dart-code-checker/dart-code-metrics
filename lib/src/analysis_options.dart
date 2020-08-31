@@ -15,6 +15,7 @@ const _rootKey = 'dart_code_metrics';
 const _metricsKey = 'metrics';
 const _metricsExcludeKey = 'metrics-exclude';
 const _rulesKey = 'rules';
+const _antiPatternsKey = 'anti-patterns';
 
 const _analyzerKey = 'analyzer';
 const _excludeKey = 'exclude';
@@ -26,12 +27,14 @@ class AnalysisOptions {
   final Config metricsConfig;
   final Iterable<String> metricsExcludePatterns;
   final Map<String, Map<String, Object>> rules;
+  final Map<String, Map<String, Object>> antiPatterns;
 
   const AnalysisOptions({
     @required this.excludePatterns,
     @required this.metricsConfig,
     @required this.metricsExcludePatterns,
     @required this.rules,
+    @required this.antiPatterns,
   });
 
   @Deprecated('Use fromMap')
@@ -53,7 +56,8 @@ class AnalysisOptions {
         excludePatterns: _readGlobalExludePatterns(configMap),
         metricsConfig: _readMetricsConfig(configMap),
         metricsExcludePatterns: _readMetricsExcludePatterns(configMap),
-        rules: _readRules(configMap));
+        rules: _readRules(configMap, _rulesKey),
+        antiPatterns: _readRules(configMap, _antiPatternsKey));
   }
 }
 
@@ -106,10 +110,11 @@ Iterable<String> _readMetricsExcludePatterns(Map<String, Object> configMap) {
   return [];
 }
 
-Map<String, Map<String, Object>> _readRules(Map<String, Object> configMap) {
+Map<String, Map<String, Object>> _readRules(
+    Map<String, Object> configMap, String rulesKey) {
   final metricsOptions = configMap[_rootKey];
   if (metricsOptions is Map<String, Object>) {
-    final rulesNode = metricsOptions[_rulesKey];
+    final rulesNode = metricsOptions[rulesKey];
     if (rulesNode is Iterable<Object>) {
       return Map.unmodifiable(Map<String, Map<String, Object>>.fromEntries([
         ...rulesNode.whereType<String>().map((node) => MapEntry(node, {})),
