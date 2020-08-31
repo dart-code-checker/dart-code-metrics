@@ -37,7 +37,9 @@ class MetricsAnalyzer {
     AnalysisOptions options,
   })  : _checkingCodeRules =
             options?.rules != null ? getRulesById(options.rules) : [],
-        _checkingAntiPatterns = allPatterns,
+        _checkingAntiPatterns = (options?.antiPatterns?.isNotEmpty ?? false)
+            ? getPatternsById(options.antiPatterns)
+            : allPatterns,
         _globalExclude = _prepareExcludes(options?.excludePatterns),
         _metricsConfig = options.metricsConfig,
         _metricsExclude = _prepareExcludes(options?.metricsExcludePatterns);
