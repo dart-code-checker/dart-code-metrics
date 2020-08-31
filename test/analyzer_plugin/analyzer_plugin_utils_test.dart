@@ -33,6 +33,18 @@ void main() {
     });
   });
 
+  test('prepareExcludes returns exclude pattern ', () {
+    expect(prepareExcludes(null, null), isEmpty);
+    expect(
+        prepareExcludes(['example/**', 'test/resources/**'],
+                '/home/developer/devs/my-project')
+            .map((glob) => glob.pattern),
+        equals([
+          '/home/developer/devs/my-project/example/**',
+          '/home/developer/devs/my-project/test/resources/**',
+        ]));
+  });
+
   test(
       'isExcluded returns true only for file path those matches with any exclude pattern',
       () {
