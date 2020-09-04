@@ -23,7 +23,6 @@ import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
 import 'package:dart_code_metrics/src/rules_factory.dart';
 import 'package:source_span/source_span.dart';
 
-import '../anti_patterns/base_pattern.dart';
 import '../anti_patterns_factory.dart';
 import '../scope_ast_visitor.dart';
 import '../utils/metrics_analyzer_utils.dart';
@@ -35,8 +34,6 @@ const _codeMetricsId = 'code-metrics';
 const _defaultSkippedFolders = ['.dart_tool/**', 'packages/**'];
 
 class MetricsAnalyzerPlugin extends ServerPlugin {
-  final Iterable<BasePattern> _checkingAntiPatterns;
-
   final _configs = <AnalysisDriverGeneric, AnalyzerPluginConfig>{};
 
   var _filesFromSetPriorityFilesRequest = <String>[];
@@ -54,8 +51,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
   String get version => '1.9.0';
 
   MetricsAnalyzerPlugin(ResourceProvider provider)
-      : _checkingAntiPatterns = allPatterns,
-        super(provider);
+      : super(provider);
 
   @override
   void contentChanged(String path) {
@@ -84,9 +80,9 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
           if (options?.excludePatterns != null) ...options.excludePatterns,
         ], contextRoot.root),
         prepareExcludes(options?.metricsExcludePatterns, contextRoot.root),
-        (options?.antiPatterns?.isNotEmpty ?? false)
+        options?.antiPatterns != null
             ? getPatternsById(options.antiPatterns)
-            : allPatterns,
+            : [],
         options?.rules != null ? getRulesById(options.rules) : []);
 
     // TODO(dmitrykrutskih): Once we are ready to bump the SDK lower bound to 2.8.x, we should swap this out for `runZoneGuarded`.
@@ -270,7 +266,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
           ResolvedUnitResult analysisResult,
           Uri sourceUri,
           AnalyzerPluginConfig config) =>
-      _checkingAntiPatterns
+      config.checkingAntiPatterns
           .where((pattern) => !ignores.ignoreRule(pattern.id))
           .expand((pattern) => pattern.check(analysisResult.unit, sourceUri,
               analysisResult.content, config.metricsConfigs))
