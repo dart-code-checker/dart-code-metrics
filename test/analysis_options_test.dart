@@ -121,12 +121,12 @@ void main() {
       final configFromNull = AnalysisOptions.fromMap(null);
       final configFromEmptyMap = AnalysisOptions.fromMap({});
 
-      expect(configFromNull.metricsConfig, isNull);
+      expect(configFromNull.metricsConfig, equals(const Config()));
       expect(configFromNull.metricsExcludePatterns, isEmpty);
       expect(configFromNull.rules, isEmpty);
       expect(configFromNull.antiPatterns, isEmpty);
 
-      expect(configFromEmptyMap.metricsConfig, isNull);
+      expect(configFromEmptyMap.metricsConfig, equals(const Config()));
       expect(configFromEmptyMap.metricsExcludePatterns, isEmpty);
       expect(configFromEmptyMap.rules, isEmpty);
       expect(configFromEmptyMap.antiPatterns, isEmpty);
@@ -136,7 +136,7 @@ void main() {
       final options =
           AnalysisOptions.fromMap(_yamlToDartMap(_contentWithoutMetrics));
 
-      expect(options.metricsConfig, isNull);
+      expect(options.metricsConfig, equals(const Config()));
       expect(options.metricsExcludePatterns, isEmpty);
       expect(options.rules, isEmpty);
       expect(options.antiPatterns, isEmpty);
@@ -147,7 +147,7 @@ void main() {
         final options =
             AnalysisOptions.fromMap(_yamlToDartMap(_contentWitMetricsRules));
 
-        expect(options.metricsConfig, isNull);
+        expect(options.metricsConfig, equals(const Config()));
         expect(options.metricsExcludePatterns, isEmpty);
         expect(
             options.rules,
@@ -164,7 +164,7 @@ void main() {
         final options = AnalysisOptions.fromMap(
             _yamlToDartMap(_contentWitMetricsRulesAsMap));
 
-        expect(options.metricsConfig, isNull);
+        expect(options.metricsConfig, equals(const Config()));
         expect(options.metricsExcludePatterns, isEmpty);
         expect(
             options.rules,
