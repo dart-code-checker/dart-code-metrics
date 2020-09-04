@@ -29,8 +29,8 @@ class LongMethod extends BasePattern {
 
       if (linesWithCodeAstVisitor.linesWithCode.length >
           config.linesOfExecutableCodeWarningLevel) {
-        final offsetLocation =
-            unit.lineInfo.getLocation(function.declaration.offset);
+        final offsetLocation = unit.lineInfo.getLocation(
+            function.declaration.firstTokenAfterCommentAndMetadata.offset);
         final endLocation = unit.lineInfo.getLocation(function.declaration.end);
 
         issues.add(DesignIssue(
