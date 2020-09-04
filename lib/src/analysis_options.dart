@@ -94,7 +94,7 @@ Config _readMetricsConfig(Map<String, Object> configMap) {
     }
   }
 
-  return null;
+  return const Config();
 }
 
 Iterable<String> _readMetricsExcludePatterns(Map<String, Object> configMap) {
