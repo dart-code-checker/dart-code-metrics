@@ -50,8 +50,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
   @override
   String get version => '1.9.0';
 
-  MetricsAnalyzerPlugin(ResourceProvider provider)
-      : super(provider);
+  MetricsAnalyzerPlugin(ResourceProvider provider) : super(provider);
 
   @override
   void contentChanged(String path) {
