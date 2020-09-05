@@ -3,6 +3,7 @@
 # Unreleased
 
 - Add static code diagnostics no-equal-then-else
+- Add static code anti-patterns long-method
 
 # 1.9.0
 
