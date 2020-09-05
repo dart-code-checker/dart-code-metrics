@@ -41,7 +41,7 @@ class MetricsAnalyzer {
             ? getPatternsById(options.antiPatterns)
             : [],
         _globalExclude = _prepareExcludes(options?.excludePatterns),
-        _metricsConfig = options.metricsConfig,
+        _metricsConfig = options?.metricsConfig ?? const Config(),
         _metricsExclude = _prepareExcludes(options?.metricsExcludePatterns);
 
   void runAnalysis(String filePath, String rootFolder) {
