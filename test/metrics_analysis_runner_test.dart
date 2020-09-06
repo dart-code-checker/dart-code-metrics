@@ -12,7 +12,7 @@ class MetricsAnalyzerMock extends Mock implements MetricsAnalyzer {}
 
 void main() {
   group('MetricsAnalysisRunner', () {
-    test('results() returns MetricsAnalysisRecorder.runAnalysis', () {
+    test('results() returns array of FileRecords', () {
       const stubRecords = [
         FileRecord(
           fullPath: 'lib/foo.dart',
