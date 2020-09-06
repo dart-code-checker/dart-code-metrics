@@ -1,3 +1,5 @@
+import 'package:dart_code_metrics/src/rules/potential_null_dereference.dart';
+
 import 'rules/avoid_preserve_whitespace_false.dart';
 import 'rules/base_rule.dart';
 import 'rules/binary_expression_operand_order_rule.dart';
@@ -29,6 +31,8 @@ final _implementedRules = <String, BaseRule Function(Map<String, Object>)>{
   NoMagicNumberRule.ruleId: (config) => NoMagicNumberRule(config: config),
   NoObjectDeclarationRule.ruleId: (config) =>
       NoObjectDeclarationRule(config: config),
+  PotentialNullDereference.ruleId: (config) =>
+      PotentialNullDereference(config: config),
   PreferConditionalExpressions.ruleId: (config) =>
       PreferConditionalExpressions(config: config),
   PreferIntlNameRule.ruleId: (config) => PreferIntlNameRule(config: config),
