@@ -231,42 +231,6 @@ void main() {
 
         expect(report, isEmpty);
       });
-
-      test('with a lot of arguments', () {
-        final records = [
-          FileRecord(
-            fullPath: fullPath,
-            relativePath: 'example.dart',
-            components: Map.unmodifiable(<String, ComponentRecord>{}),
-            functions: Map.unmodifiable(<String, FunctionRecord>{
-              'function': buildFunctionRecordStub(argumentsCount: 10),
-            }),
-            issues: const [],
-            designIssue: const [],
-          ),
-        ];
-
-        final report =
-            (json.decode(_reporter.report(records).first) as List<Object>).first
-                as Map<String, Object>;
-
-        expect(report, containsPair('type', 'issue'));
-        expect(report, containsPair('check_name', 'numberOfArguments'));
-        expect(
-            report,
-            containsPair('description',
-                'Function `function` has 10 number of arguments (exceeds 4 allowed). Consider refactoring.'));
-        expect(report, containsPair('categories', ['Complexity']));
-        expect(
-            report,
-            containsPair('location', {
-              'path': 'example.dart',
-              'lines': {'begin': 0, 'end': 0},
-            }));
-        expect(report, containsPair('remediation_points', 50000));
-        expect(report,
-            containsPair('fingerprint', '9306995977c1febd3b6199617fbe68af'));
-      });
     });
   });
 }

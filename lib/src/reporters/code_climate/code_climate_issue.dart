@@ -77,15 +77,6 @@ class CodeClimateIssue {
         'maintainabilityIndex', desc, startLine, endLine, fileName);
   }
 
-  factory CodeClimateIssue.numberOfArguments(int startLine, int endLine,
-      int value, String fileName, String functionName, int threshold) {
-    final desc =
-        'Function `$functionName` has $value number of arguments (exceeds $threshold allowed). Consider refactoring.';
-
-    return CodeClimateIssue._create(
-        'numberOfArguments', desc, startLine, endLine, fileName);
-  }
-
   factory CodeClimateIssue.numberOfMethods(int startLine, int endLine,
       int value, String fileName, String componentName, int threshold) {
     final desc =
