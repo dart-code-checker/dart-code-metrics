@@ -1,5 +1,4 @@
 import 'package:meta/meta.dart';
-import 'package:source_span/source_span.dart';
 
 import '../lines_of_code/lines_with_code_ast_visitor.dart';
 import '../models/config.dart';
@@ -7,6 +6,7 @@ import '../models/design_issue.dart';
 import '../models/source.dart';
 import '../scope_ast_visitor.dart';
 import 'base_pattern.dart';
+import 'pattern_utils.dart';
 
 class LongMethod extends BasePattern {
   static const String patternId = 'long-method';
@@ -29,30 +29,14 @@ class LongMethod extends BasePattern {
 
       if (linesWithCodeAstVisitor.linesWithCode.length >
           config.linesOfExecutableCodeWarningLevel) {
-        final offsetLocation = source.compilationUnit.lineInfo.getLocation(
-            function.declaration.firstTokenAfterCommentAndMetadata.offset);
-        final endLocation = source.compilationUnit.lineInfo
-            .getLocation(function.declaration.end);
-
-        issues.add(DesignIssue(
-          patternId: id,
-          patternDocumentation: documentation,
-          sourceSpan: SourceSpanBase(
-              SourceLocation(function.declaration.offset,
-                  sourceUrl: source.url,
-                  line: offsetLocation.lineNumber,
-                  column: offsetLocation.columnNumber),
-              SourceLocation(function.declaration.end,
-                  sourceUrl: source.url,
-                  line: endLocation.lineNumber,
-                  column: endLocation.columnNumber),
-              source.content.substring(
-                  function.declaration.offset, function.declaration.end)),
-          message: _compileMessage(
-              lines: linesWithCodeAstVisitor.linesWithCode.length),
-          recommendation: _compileRecomendationMessage(
-              maximumLines: config.linesOfExecutableCodeWarningLevel),
-        ));
+        issues.add(createIssue(
+            this,
+            _compileMessage(
+                lines: linesWithCodeAstVisitor.linesWithCode.length),
+            _compileRecomendationMessage(
+                maximumLines: config.linesOfExecutableCodeWarningLevel),
+            source,
+            function.declaration));
       }
     }
 

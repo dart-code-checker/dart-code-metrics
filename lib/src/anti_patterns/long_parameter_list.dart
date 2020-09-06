@@ -1,5 +1,4 @@
 import 'package:meta/meta.dart';
-import 'package:source_span/source_span.dart';
 
 import '../models/config.dart';
 import '../models/design_issue.dart';
@@ -7,6 +6,7 @@ import '../models/source.dart';
 import '../scope_ast_visitor.dart';
 import '../utils/metrics_analyzer_utils.dart';
 import 'base_pattern.dart';
+import 'pattern_utils.dart';
 
 class LongParameterList extends BasePattern {
   static const String patternId = 'long-parameter-list';
@@ -26,29 +26,13 @@ class LongParameterList extends BasePattern {
       final argumentsCount = getArgumentsCount(function);
 
       if (argumentsCount > config.numberOfArgumentsWarningLevel) {
-        final offsetLocation = source.compilationUnit.lineInfo.getLocation(
-            function.declaration.firstTokenAfterCommentAndMetadata.offset);
-        final endLocation = source.compilationUnit.lineInfo
-            .getLocation(function.declaration.end);
-
-        issues.add(DesignIssue(
-          patternId: id,
-          patternDocumentation: documentation,
-          sourceSpan: SourceSpanBase(
-              SourceLocation(function.declaration.offset,
-                  sourceUrl: source.url,
-                  line: offsetLocation.lineNumber,
-                  column: offsetLocation.columnNumber),
-              SourceLocation(function.declaration.end,
-                  sourceUrl: source.url,
-                  line: endLocation.lineNumber,
-                  column: endLocation.columnNumber),
-              source.content.substring(
-                  function.declaration.offset, function.declaration.end)),
-          message: _compileMessage(args: argumentsCount),
-          recommendation: _compileRecomendationMessage(
-              maximumArguments: config.numberOfArgumentsWarningLevel),
-        ));
+        issues.add(createIssue(
+            this,
+            _compileMessage(args: argumentsCount),
+            _compileRecomendationMessage(
+                maximumArguments: config.numberOfArgumentsWarningLevel),
+            source,
+            function.declaration));
       }
     }
 
