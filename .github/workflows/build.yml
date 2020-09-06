@@ -15,7 +15,7 @@ jobs:
     - name: Install dependencies
       run: pub get
     - name: Run dependency validator
-      run: pub run dependency_validator --ignore coveralls,intl
+      run: pub run dependency_validator --ignore coveralls,intl,http_multi_server
     - name: Run dartanalyzer
       run: dartanalyzer --fatal-warnings --fatal-infos --fatal-lints bin/ lib/ test/
     - name: Run dartfmt
@@ -30,12 +30,12 @@ jobs:
         pub run tool/format_coverage.dart
         pub run coveralls:coveralls coverage/coverage.lcov
 
-  build-dart-2-6:
+  build-dart-2-8:
 
     runs-on: ubuntu-latest
 
     container:
-      image:  google/dart:2.6
+      image:  google/dart:2.8.4
 
     steps:
     - uses: actions/checkout@v1

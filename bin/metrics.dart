@@ -27,11 +27,11 @@ Future<void> main(List<String> args) async {
         arguments[rootFolderName] as String,
         arguments.rest,
         arguments[ignoredFilesName] as String,
-        int.parse(arguments[cyclomaticComplexityThreshold] as String),
-        int.parse(arguments[linesOfCodeThreshold] as String),
-        int.parse(arguments[numberOfArgumentsThreshold] as String),
-        int.parse(arguments[numberOfMethodsThreshold] as String),
-        arguments[reporterOptionName] as String,
+        int.tryParse(arguments[cyclomaticComplexityThreshold] as String ?? ''),
+        int.tryParse(arguments[linesOfExecutableCodeThreshold] as String ?? ''),
+        int.tryParse(arguments[numberOfArgumentsThreshold] as String ?? ''),
+        int.tryParse(arguments[numberOfMethodsThreshold] as String ?? ''),
+        arguments[reporterName] as String,
         arguments[verboseName] as bool,
         ViolationLevel.fromString(
             arguments[setExitOnViolationLevel] as String));
@@ -55,7 +55,7 @@ Future<void> _runAnalysis(
     Iterable<String> analysisDirectories,
     String ignoreFilesPattern,
     int cyclomaticComplexityThreshold,
-    int linesOfCodeThreshold,
+    int linesOfExecutableCodeThreshold,
     int numberOfArgumentsWarningLevel,
     int numberOfMethodsWarningLevel,
     String reporterType,
@@ -76,20 +76,25 @@ Future<void> _runAnalysis(
   final analysisOptionsFile =
       File(p.absolute(rootFolder, analysisOptionsFileName));
 
+  final options = analysisOptionsFile.existsSync()
+      ? await analysisOptionsFromFile(analysisOptionsFile)
+      : null;
+
   final recorder = MetricsAnalysisRecorder();
-  final analyzer = MetricsAnalyzer(recorder,
-      options: analysisOptionsFile.existsSync()
-          ? await analysisOptionsFromFile(analysisOptionsFile)
-          : null);
+  final analyzer = MetricsAnalyzer(recorder, options: options);
   final runner = MetricsAnalysisRunner(recorder, analyzer, dartFilePaths,
       rootFolder: rootFolder)
     ..run();
 
   final config = Config(
-      cyclomaticComplexityWarningLevel: cyclomaticComplexityThreshold,
-      linesOfCodeWarningLevel: linesOfCodeThreshold,
-      numberOfArgumentsWarningLevel: numberOfArgumentsWarningLevel,
-      numberOfMethodsWarningLevel: numberOfMethodsWarningLevel);
+      cyclomaticComplexityWarningLevel: cyclomaticComplexityThreshold ??
+          options.metricsConfig.cyclomaticComplexityWarningLevel,
+      linesOfExecutableCodeWarningLevel: linesOfExecutableCodeThreshold ??
+          options.metricsConfig.linesOfExecutableCodeWarningLevel,
+      numberOfArgumentsWarningLevel: numberOfArgumentsWarningLevel ??
+          options.metricsConfig.numberOfArgumentsWarningLevel,
+      numberOfMethodsWarningLevel: numberOfMethodsWarningLevel ??
+          options.metricsConfig.numberOfMethodsWarningLevel);
 
   Reporter reporter;
 

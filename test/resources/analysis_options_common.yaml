@@ -8,6 +8,8 @@ analyzer:
     implicit-dynamic: false
 
 dart_code_metrics:
+  metrics-exclude:
+    - test/**
   rules:
-    - no-boolean-literal-compare
-    - prefer-trailing-comma-for-collection
+    - no-empty-block
+    - no-object-declaration

@@ -1,12 +1,25 @@
 # Changelog
 
-# Unreleased
+# Unreleased (2.0.0)
 
+- Removed deprecated `AnalysisOptions.from` use `AnalysisOptions.fromMap` instead
+- Removed deprecated `Config.linesOfCodeWarningLevel` use `Config.linesOfExecutableCodeWarningLevel` instead
+- Add static code anti-patterns long-parameter-list
 - Add static code diagnostic potential-null-dereference
+- Set min SDK version to >=2.8.0.
+
+# 1.10.0
+
+- Add static code diagnostics no-equal-then-else
+- Add static code anti-patterns long-method
+
+# 1.9.0
+
+- Add static code diagnostics provide-correct-intl-args, component-annotation-arguments-ordering
 
 # 1.8.1
 
-- Fix static code diagnostics member-ordering and prefer-condifional-expression
+- Fix static code diagnostics member-ordering and prefer-conditional-expression
 
 # 1.8.0
 

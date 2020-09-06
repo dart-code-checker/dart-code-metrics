@@ -26,7 +26,7 @@ void main() {
   // First of all config has to be created for a reporter
   const reporterConfig = Config(
       cyclomaticComplexityWarningLevel: 10,
-      linesOfCodeWarningLevel: 50,
+      linesOfExecutableCodeWarningLevel: 50,
       numberOfArgumentsWarningLevel: 4);
 
   // Now the reporter itself

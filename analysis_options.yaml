@@ -11,9 +11,14 @@ analyzer:
     implicit-dynamic: false
 
 dart_code_metrics:
+  anti-patterns:
+    - long-method
+    - long-parameter-list
   metrics:
     cyclomatic-complexity: 20
     number-of-arguments: 4
+  metrics-exclude:
+    - test/**
   rules:
     - binary-expression-operand-order
     - double-literal-format

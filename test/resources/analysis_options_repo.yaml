@@ -7,6 +7,7 @@ analyzer:
 dart_code_metrics:
   metrics:
     cyclomatic-complexity: 20
+    lines-of-code: 30
     number-of-arguments: 4
   rules:
     member-ordering:
@@ -15,5 +16,5 @@ dart_code_metrics:
           - public_fields
           - private_fields
           - constructors
-    newline-before-return : true
-    no-boolean-literal-compare: false
+    no-empty-block : true
+    no-object-declaration : false

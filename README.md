@@ -1,4 +1,5 @@
 [![Build Status](https://github.com/wrike/metrics/workflows/build/badge.svg)](https://github.com/wrike/dart-code-metrics/)
+[![Coverage Status](https://coveralls.io/repos/github/wrike/dart-code-metrics/badge.svg?branch=master)](https://coveralls.io/github/wrike/dart-code-metrics?branch=master)
 [![License](https://badgen.net/pub/license/dart_code_metrics)](https://github.com/wrike/dart-code-metrics/blob/master/LICENSE)
 [![Pub Version](https://badgen.net/pub/v/dart_code_metrics)](https://pub.dev/packages/dart_code_metrics/)
 ![Dart SDK Verison](https://badgen.net/pub/sdk-version/dart_code_metrics)
@@ -12,7 +13,7 @@ Can be used as a command line tool, analyzer plugin or library.
 Reports:
 
 - Cyclomatic complexity of methods
-- Too long methods
+- [Lines of Executable Code](https://github.com/wrike/dart-code-metrics/blob/master/doc/metrics/lines-of-executable-code.md)
 - [Number of Arguments](https://github.com/wrike/dart-code-metrics/blob/master/doc/metrics.md#number-of-arguments)
 - [Number of Methods](https://github.com/wrike/dart-code-metrics/blob/master/doc/metrics.md#number-of-methods)
 
@@ -42,8 +43,11 @@ A plugin for the Dart `analyzer` library [package](https://pub.dev/packages/dart
         - dart_code_metrics
     
     dart_code_metrics:
+      anti-patterns:
+        - long-method
       metrics:
         cyclomatic-complexity: 20
+        lines-of-executable-code: 50
         number-of-arguments: 4
       metrics-exclude:
         - test/**
@@ -71,7 +75,7 @@ Usage: metrics [options...] <directories>
     --cyclomatic-complexity=<20>                       Cyclomatic complexity threshold
                                                        (defaults to "20")
 
-    --lines-of-code=<50>                               Lines of code threshold
+    --lines-of-executable-code=<50>                    Lines of executable code threshold
                                                        (defaults to "50")
 
     --number-of-arguments=<4>                          Number of arguments threshold
@@ -96,6 +100,11 @@ If you want command line tool to check rules, you should add configuration to yo
 ### Library
 [See `example/example.dart`](https://github.com/wrike/dart-code-metrics/blob/master/example/example.dart)
 
+## Anti-Patterns
+
+* [long-method](https://github.com/wrike/dart-code-metrics/blob/master/doc/anti-patterns/long-method.md)
+* [long-parameter-list](https://github.com/wrike/dart-code-metrics/blob/master/doc/anti-patterns/long-parameter-list.md)
+
 ## Rules
 
 ### Common
@@ -105,6 +114,7 @@ If you want command line tool to check rules, you should add configuration to yo
 * [newline-before-return](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/newline_before_return.md)
 * [no-boolean-literal-compare](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/no_boolean_literal_compare.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 * [no-empty-block](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/no_empty_block.md)
+* [no-equal-then-else](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/no_equal_then_else.md)
 * [no-magic-number](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/no_magic_number.md) &nbsp; ![Configurable](https://img.shields.io/badge/-configurable-informational)
 * [no-object-declaration](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/no_object_declaration.md)
 * [potential-null-dereference](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/potential_null_dereference.md)
@@ -113,7 +123,9 @@ If you want command line tool to check rules, you should add configuration to yo
 
 ### Intl specific
 * [prefer-intl-name](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/prefer_intl_name.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
+* [provide-correct-intl-args](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/provide_correct_intl_args.md)
 
 ### Angular specific
 * [avoid-preserve-whitespace-false](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/avoid_preserve_whitespace_false.md)
+* [component-annotation-arguments-ordering](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/component_annotation_arguments_ordering.md) &nbsp; ![Configurable](https://img.shields.io/badge/-configurable-informational)
 * [prefer-on-push-cd-strategy](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/prefer_on_push_cd_strategy.md)
