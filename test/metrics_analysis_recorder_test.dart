@@ -1,5 +1,4 @@
 @TestOn('vm')
-// ignore_for_file: deprecated_member_use_from_same_package
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:dart_code_metrics/src/metrics_analysis_recorder.dart';
 import 'package:dart_code_metrics/src/models/code_issue.dart';
@@ -154,23 +153,6 @@ void main() {
       });
     });
 
-    group('startRecordFile', () {
-      test('throws ArgumentError if we call them without filePath', () {
-        expect(() {
-          MetricsAnalysisRecorder().startRecordFile(null, null);
-        }, throwsArgumentError);
-      });
-
-      test('throws StateError if we call them twice witout endRecordFile', () {
-        final recorder = MetricsAnalysisRecorder()
-          ..startRecordFile(filePath, rootDirectory);
-
-        expect(() {
-          recorder.startRecordFile(filePath, rootDirectory);
-        }, throwsStateError);
-      });
-    });
-
     group('recordComponent', () {
       const componentName = 'simpleClass';
 
@@ -190,9 +172,10 @@ void main() {
 
       test('throws ArgumentError if we call them without record', () {
         expect(() {
-          MetricsAnalysisRecorder()
-            ..startRecordFile(filePath, rootDirectory)
-            ..recordComponent(null, null);
+          MetricsAnalysisRecorder().recordFile(filePath, rootDirectory,
+              (recorder) {
+            recorder.recordComponent(null, null);
+          });
         }, throwsArgumentError);
       });
 
@@ -201,9 +184,9 @@ void main() {
             ComponentRecord(firstLine: 1, lastLine: 2, methodsCount: 3);
 
         final recorder = MetricsAnalysisRecorder()
-          ..startRecordFile(filePath, rootDirectory)
-          ..recordComponent(record, componentRecord)
-          ..endRecordFile();
+            .recordFile(filePath, rootDirectory, (recorder) {
+          recorder.recordComponent(record, componentRecord);
+        });
 
         expect(recorder.records().single.components,
             containsPair(componentName, componentRecord));
@@ -229,9 +212,10 @@ void main() {
 
       test('throws ArgumentError if we call them without record', () {
         expect(() {
-          MetricsAnalysisRecorder()
-            ..startRecordFile(filePath, rootDirectory)
-            ..recordFunction(null, null);
+          MetricsAnalysisRecorder().recordFile(filePath, rootDirectory,
+              (recorder) {
+            recorder.recordFunction(null, null);
+          });
         }, throwsArgumentError);
       });
 
@@ -247,9 +231,9 @@ void main() {
         );
 
         final recorder = MetricsAnalysisRecorder()
-          ..startRecordFile(filePath, rootDirectory)
-          ..recordFunction(record, functionRecord)
-          ..endRecordFile();
+            .recordFile(filePath, rootDirectory, (recorder) {
+          recorder.recordFunction(record, functionRecord);
+        });
 
         expect(recorder.records().single.functions,
             containsPair(functionName, functionRecord));
@@ -270,8 +254,8 @@ void main() {
         const _issueRecommendation = 'recommendation';
 
         final recorder = MetricsAnalysisRecorder()
-          ..startRecordFile(filePath, rootDirectory)
-          ..recordDesignIssues([
+            .recordFile(filePath, rootDirectory, (recorder) {
+          recorder.recordDesignIssues([
             DesignIssue(
               patternId: _issuePatternId,
               patternDocumentation: Uri.parse(_issuePatternDocumentation),
@@ -283,8 +267,8 @@ void main() {
               message: _issueMessage,
               recommendation: _issueRecommendation,
             ),
-          ])
-          ..endRecordFile();
+          ]);
+        });
 
         final issue = recorder.records().single.designIssue.single;
         expect(issue.patternId, _issuePatternId);
@@ -310,8 +294,8 @@ void main() {
         const _issueCorrectionComment = 'correction comment';
 
         final recorder = MetricsAnalysisRecorder()
-          ..startRecordFile(filePath, rootDirectory)
-          ..recordIssues([
+            .recordFile(filePath, rootDirectory, (recorder) {
+          recorder.recordIssues([
             CodeIssue(
               ruleId: _issueRuleId,
               ruleDocumentation: Uri.parse(_issueRuleDocumentation),
@@ -325,8 +309,8 @@ void main() {
               correction: _issueCorrection,
               correctionComment: _issueCorrectionComment,
             ),
-          ])
-          ..endRecordFile();
+          ]);
+        });
 
         final issue = recorder.records().single.issues.single;
         expect(issue.ruleId, _issueRuleId);

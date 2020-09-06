@@ -44,18 +44,7 @@ class MetricsAnalysisRecorder
     return this;
   }
 
-  @Deprecated('Use recordFile')
-  void startRecordFile(String filePath, String rootDirectory) {
-    _startRecordFile(filePath, rootDirectory);
-  }
-
-  @Deprecated('Use recordFile')
-  void endRecordFile() {
-    _endRecordFile();
-  }
-
   @override
-  @Deprecated('Use MetricsRecordsBuilder.recordComponent')
   void recordComponent(
       ScopedComponentDeclaration declaration, ComponentRecord record) {
     _checkState();
@@ -68,7 +57,6 @@ class MetricsAnalysisRecorder
   }
 
   @override
-  @Deprecated('Use MetricsRecordsBuilder.recordFunction')
   void recordFunction(
       ScopedFunctionDeclaration declaration, FunctionRecord record) {
     _checkState();
@@ -88,7 +76,6 @@ class MetricsAnalysisRecorder
   }
 
   @override
-  @Deprecated('Use MetricsRecordsBuilder.recordIssues')
   void recordIssues(Iterable<CodeIssue> issues) {
     _checkState();
 
