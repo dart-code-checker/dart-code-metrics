@@ -1,12 +1,12 @@
-import 'package:dart_code_metrics/src/metrics_records_builder.dart';
-import 'package:dart_code_metrics/src/metrics_records_store.dart';
-import 'package:dart_code_metrics/src/models/code_issue.dart';
-import 'package:dart_code_metrics/src/models/file_record.dart';
-import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:path/path.dart' as p;
 
+import 'metrics_records_builder.dart';
+import 'metrics_records_store.dart';
+import 'models/code_issue.dart';
 import 'models/component_record.dart';
 import 'models/design_issue.dart';
+import 'models/file_record.dart';
+import 'models/function_record.dart';
 import 'models/scoped_component_declaration.dart';
 import 'models/scoped_function_declaration.dart';
 import 'utils/metrics_analyzer_utils.dart';

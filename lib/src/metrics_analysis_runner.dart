@@ -1,7 +1,6 @@
-import 'package:dart_code_metrics/src/metrics_analyzer.dart';
-import 'package:dart_code_metrics/src/models/file_record.dart';
-
+import 'metrics_analyzer.dart';
 import 'metrics_records_store.dart';
+import 'models/file_record.dart';
 
 /// Coordinates [MetricsAnalyzer] and [MetricsRecordsStore] to collect code quality info
 /// Use [ConsoleReporter], [HtmlReporter], [JsonReporter] or [CodeClimateReporter] to produce reports from collected info

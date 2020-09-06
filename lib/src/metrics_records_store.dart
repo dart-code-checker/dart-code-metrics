@@ -1,7 +1,6 @@
-import 'package:dart_code_metrics/src/models/file_record.dart';
-import 'package:dart_code_metrics/src/metrics_records_builder.dart';
-
 import 'metrics_analysis_recorder.dart';
+import 'metrics_records_builder.dart';
+import 'models/file_record.dart';
 
 abstract class MetricsRecordsStore {
   Iterable<FileRecord> records();
