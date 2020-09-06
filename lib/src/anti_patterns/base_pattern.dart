@@ -1,8 +1,8 @@
-import 'package:analyzer/dart/ast/ast.dart';
 import 'package:meta/meta.dart';
 
 import '../models/config.dart';
 import '../models/design_issue.dart';
+import '../models/source.dart';
 
 abstract class BasePattern {
   final String id;
@@ -13,6 +13,5 @@ abstract class BasePattern {
     @required this.documentation,
   });
 
-  Iterable<DesignIssue> check(
-      CompilationUnit unit, Uri sourceUrl, String sourceContent, Config config);
+  Iterable<DesignIssue> check(Source source, Config config);
 }

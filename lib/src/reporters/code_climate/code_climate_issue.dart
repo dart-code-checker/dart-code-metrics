@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
-import 'package:dart_code_metrics/src/models/code_issue.dart';
-import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
 import 'package:meta/meta.dart';
 
+import '../../models/code_issue.dart';
+import '../../models/code_issue_severity.dart';
 import '../../models/design_issue.dart';
 
 @immutable
@@ -75,15 +75,6 @@ class CodeClimateIssue {
 
     return CodeClimateIssue._create(
         'maintainabilityIndex', desc, startLine, endLine, fileName);
-  }
-
-  factory CodeClimateIssue.numberOfArguments(int startLine, int endLine,
-      int value, String fileName, String functionName, int threshold) {
-    final desc =
-        'Function `$functionName` has $value number of arguments (exceeds $threshold allowed). Consider refactoring.';
-
-    return CodeClimateIssue._create(
-        'numberOfArguments', desc, startLine, endLine, fileName);
   }
 
   factory CodeClimateIssue.numberOfMethods(int startLine, int endLine,

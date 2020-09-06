@@ -1,25 +1,26 @@
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
-import 'package:dart_code_metrics/src/halstead_volume/halstead_volume_ast_visitor.dart';
-import 'package:dart_code_metrics/src/ignore_info.dart';
-import 'package:dart_code_metrics/src/metrics_analysis_recorder.dart';
-import 'package:dart_code_metrics/src/models/design_issue.dart';
-import 'package:dart_code_metrics/src/models/function_record.dart';
-import 'package:dart_code_metrics/src/rules/base_rule.dart';
-import 'package:dart_code_metrics/src/scope_ast_visitor.dart';
 import 'package:glob/glob.dart';
 import 'package:path/path.dart' as p;
 
 import 'analysis_options.dart';
 import 'anti_patterns/base_pattern.dart';
 import 'anti_patterns_factory.dart';
+import 'halstead_volume/halstead_volume_ast_visitor.dart';
+import 'ignore_info.dart';
 import 'lines_of_code/lines_with_code_ast_visitor.dart';
 import 'metrics/cyclomatic_complexity/control_flow_ast_visitor.dart';
 import 'metrics/cyclomatic_complexity/cyclomatic_config.dart';
+import 'metrics_analysis_recorder.dart';
 import 'models/component_record.dart';
 import 'models/config.dart';
+import 'models/design_issue.dart';
+import 'models/function_record.dart';
+import 'models/source.dart';
+import 'rules/base_rule.dart';
 import 'rules_factory.dart';
+import 'scope_ast_visitor.dart';
 import 'utils/metrics_analyzer_utils.dart';
 
 /// Performs code quality analysis on specified files
@@ -132,7 +133,9 @@ class MetricsAnalyzer {
       _checkingAntiPatterns
           .where((pattern) => !ignores.ignoreRule(pattern.id))
           .expand((pattern) => pattern
-              .check(analysisResult.unit, sourceUri, analysisResult.content,
+              .check(
+                  Source(
+                      sourceUri, analysisResult.content, analysisResult.unit),
                   _metricsConfig)
               .where((issue) => !ignores.ignoredAt(
                   issue.patternId, issue.sourceSpan.start.line)));
