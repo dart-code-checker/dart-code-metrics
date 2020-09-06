@@ -85,13 +85,11 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
             : [],
         options?.rules != null ? getRulesById(options.rules) : []);
 
-    // TODO(dmitrykrutskih): Once we are ready to bump the SDK lower bound to 2.8.x, we should swap this out for `runZoneGuarded`.
-    runZoned(() {
+    runZonedGuarded(() {
       dartDriver.results.listen((analysisResult) {
         _processResult(dartDriver, analysisResult);
       });
-      // ignore: avoid_types_on_closure_parameters
-    }, onError: (Object e, StackTrace stackTrace) {
+    }, (e, stackTrace) {
       channel.sendNotification(
           plugin.PluginErrorParams(false, e.toString(), stackTrace.toString())
               .toNotification());

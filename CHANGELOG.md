@@ -5,6 +5,7 @@
 - Removed deprecated `AnalysisOptions.from` use `AnalysisOptions.fromMap` instead
 - Removed deprecated `Config.linesOfCodeWarningLevel` use `Config.linesOfExecutableCodeWarningLevel` instead
 - Add static code anti-patterns long-parameter-list
+- Set min SDK version to >=2.8.0.
 
 # 1.10.0
 
