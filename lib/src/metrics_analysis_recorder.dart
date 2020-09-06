@@ -90,14 +90,6 @@ class MetricsAnalysisRecorder
   }
 
   void _startRecordFile(String filePath, String rootDirectory) {
-    if (filePath == null) {
-      throw ArgumentError.notNull('filePath');
-    }
-    if (_fileGroupPath != null) {
-      throw StateError(
-          "Can't start a file group while another one is started. Use `endRecordFile` to close the opened one.");
-    }
-
     _fileGroupPath = filePath;
     _relativeGroupPath = rootDirectory != null
         ? p.relative(filePath, from: rootDirectory)
