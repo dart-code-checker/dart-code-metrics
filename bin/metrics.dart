@@ -82,7 +82,7 @@ Future<void> _runAnalysis(
 
   final recorder = MetricsAnalysisRecorder();
   final analyzer = MetricsAnalyzer(recorder, options: options);
-  final runner = MetricsAnalysisRunner(recorder, analyzer, dartFilePaths,
+  final runner = MetricsAnalysisRunner(analyzer, recorder, dartFilePaths,
       rootFolder: rootFolder)
     ..run();
 

@@ -14,7 +14,7 @@ void main() {
   final analyzer = MetricsAnalyzer(recorder);
 
   // Runner coordinates recorder and analyzer
-  final runner = MetricsAnalysisRunner(recorder, analyzer, filesToAnalyze,
+  final runner = MetricsAnalysisRunner(analyzer, recorder, filesToAnalyze,
       rootFolder: rootFolder);
 
   // Execute run() to analyze files and collect results

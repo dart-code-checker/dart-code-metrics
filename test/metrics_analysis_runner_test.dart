@@ -1,13 +1,12 @@
 @TestOn('vm')
-import 'package:dart_code_metrics/src/metrics_analysis_recorder.dart';
 import 'package:dart_code_metrics/src/metrics_analysis_runner.dart';
 import 'package:dart_code_metrics/src/metrics_analyzer.dart';
+import 'package:dart_code_metrics/src/metrics_records_store.dart';
 import 'package:dart_code_metrics/src/models/file_record.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
-class MetricsAnalysisRecorderMock extends Mock
-    implements MetricsAnalysisRecorder {}
+class MetricsRecordsStoreMock extends Mock implements MetricsRecordsStore {}
 
 class MetricsAnalyzerMock extends Mock implements MetricsAnalyzer {}
 
@@ -33,10 +32,10 @@ void main() {
         ),
       ];
 
-      final recorder = MetricsAnalysisRecorderMock();
-      when(recorder.records()).thenReturn(stubRecords);
+      final store = MetricsRecordsStoreMock();
+      when(store.records()).thenReturn(stubRecords);
 
-      final runner = MetricsAnalysisRunner(recorder, MetricsAnalyzerMock(), []);
+      final runner = MetricsAnalysisRunner(MetricsAnalyzerMock(), store, []);
 
       expect(runner.results(), equals(stubRecords));
     });
@@ -47,7 +46,7 @@ void main() {
 
       final analyzer = MetricsAnalyzerMock();
 
-      MetricsAnalysisRunner(MetricsAnalysisRecorderMock(), analyzer, files,
+      MetricsAnalysisRunner(analyzer, MetricsRecordsStoreMock(), files,
               rootFolder: root)
           .run();
 
