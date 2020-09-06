@@ -13,22 +13,22 @@ import 'package:analyzer/src/dart/analysis/driver.dart';
 import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart' as plugin;
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
-import 'package:dart_code_metrics/src/analysis_options.dart';
-import 'package:dart_code_metrics/src/analyzer_plugin/analyzer_plugin_utils.dart';
-import 'package:dart_code_metrics/src/ignore_info.dart';
-import 'package:dart_code_metrics/src/metrics/cyclomatic_complexity/control_flow_ast_visitor.dart';
-import 'package:dart_code_metrics/src/metrics/cyclomatic_complexity/cyclomatic_config.dart';
-import 'package:dart_code_metrics/src/models/function_record.dart';
-import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
-import 'package:dart_code_metrics/src/rules_factory.dart';
 import 'package:source_span/source_span.dart';
 
+import '../analysis_options.dart';
 import '../anti_patterns_factory.dart';
+import '../ignore_info.dart';
+import '../metrics/cyclomatic_complexity/control_flow_ast_visitor.dart';
+import '../metrics/cyclomatic_complexity/cyclomatic_config.dart';
+import '../models/function_record.dart';
 import '../models/source.dart';
+import '../reporters/utility_selector.dart';
+import '../rules_factory.dart';
 import '../scope_ast_visitor.dart';
 import '../utils/metrics_analyzer_utils.dart';
 import '../utils/yaml_utils.dart';
 import 'analyzer_plugin_config.dart';
+import 'analyzer_plugin_utils.dart';
 
 const _codeMetricsId = 'code-metrics';
 

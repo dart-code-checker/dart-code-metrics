@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
-import 'package:dart_code_metrics/src/models/code_issue.dart';
-import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
 import 'package:meta/meta.dart';
 
+import '../../models/code_issue.dart';
+import '../../models/code_issue_severity.dart';
 import '../../models/design_issue.dart';
 
 @immutable
