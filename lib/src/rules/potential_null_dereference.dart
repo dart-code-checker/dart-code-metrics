@@ -9,9 +9,11 @@ import 'package:meta/meta.dart';
 import 'base_rule.dart';
 import 'rule_utils.dart';
 
+// Inspired by PVS-Studio (https://www.viva64.com/en/w/v6008/)
+
 class PotentialNullDereference extends BaseRule {
   static const String ruleId = 'potential-null-dereference';
-  static const _documentationUrl = ''; //TODO: generate link
+  static const _documentationUrl = 'https://git.io/JUG51';
 
   static const _warningMessage = 'can potentially be null';
 
