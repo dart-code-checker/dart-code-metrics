@@ -236,22 +236,14 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
                 line: functionFirstLineInfo.lineNumber,
                 column: functionFirstLineInfo.columnNumber);
 
-            result.addAll([
-              if (UtilitySelector.isIssueLevel(
-                  functionReport.cyclomaticComplexity.violationLevel))
-                metricReportToAnalysisErrorFixes(
-                    startSourceLocation,
-                    function.declaration.end - functionOffset,
-                    'Function has a Cyclomatic Complexity of ${functionReport.cyclomaticComplexity.value} (exceeds ${_configs[driver].metricsConfigs.cyclomaticComplexityWarningLevel} allowed). Consider refactoring.',
-                    _codeMetricsId),
-              if (UtilitySelector.isIssueLevel(
-                  functionReport.argumentsCount.violationLevel))
-                metricReportToAnalysisErrorFixes(
-                    startSourceLocation,
-                    function.declaration.end - functionOffset,
-                    'Function has ${functionReport.argumentsCount.value} number of arguments (exceeds ${_configs[driver].metricsConfigs.numberOfArgumentsWarningLevel} allowed). Consider refactoring.',
-                    _codeMetricsId),
-            ]);
+            if (UtilitySelector.isIssueLevel(
+                functionReport.cyclomaticComplexity.violationLevel)) {
+              result.add(metricReportToAnalysisErrorFixes(
+                  startSourceLocation,
+                  function.declaration.end - functionOffset,
+                  'Function has a Cyclomatic Complexity of ${functionReport.cyclomaticComplexity.value} (exceeds ${_configs[driver].metricsConfigs.cyclomaticComplexityWarningLevel} allowed). Consider refactoring.',
+                  _codeMetricsId));
+            }
           }
         }
       }
