@@ -103,6 +103,7 @@ If you want command line tool to check rules, you should add configuration to yo
 ## Anti-Patterns
 
 * [long-method](https://github.com/wrike/dart-code-metrics/blob/master/doc/anti-patterns/long-method.md)
+* [long-parameter-list](https://github.com/wrike/dart-code-metrics/blob/master/doc/anti-patterns/long-parameter-list.md)
 
 ## Rules
 
