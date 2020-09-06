@@ -7,14 +7,14 @@ void main() {
   // Root folder path is used to resolve relative file paths
   const rootFolder = 'lib/src';
 
-  // Recorder keeps reported issues in format-agnostic way
-  final recorder = MetricsAnalysisRecorder();
+  // Store keeps reported issues in format-agnostic way
+  final store = MetricsRecordsStore.store();
 
-  // Analyzer traverses files and report its findings to passed recorder
-  final analyzer = MetricsAnalyzer(recorder);
+  // Analyzer traverses files and report its findings to passed store
+  final analyzer = MetricsAnalyzer(store);
 
-  // Runner coordinates recorder and analyzer
-  final runner = MetricsAnalysisRunner(analyzer, recorder, filesToAnalyze,
+  // Runner coordinates analyzer and store
+  final runner = MetricsAnalysisRunner(analyzer, store, filesToAnalyze,
       rootFolder: rootFolder);
 
   // Execute run() to analyze files and collect results

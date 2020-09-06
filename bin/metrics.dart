@@ -80,9 +80,9 @@ Future<void> _runAnalysis(
       ? await analysisOptionsFromFile(analysisOptionsFile)
       : null;
 
-  final recorder = MetricsAnalysisRecorder();
-  final analyzer = MetricsAnalyzer(recorder, options: options);
-  final runner = MetricsAnalysisRunner(analyzer, recorder, dartFilePaths,
+  final store = MetricsRecordsStore.store();
+  final analyzer = MetricsAnalyzer(store, options: options);
+  final runner = MetricsAnalysisRunner(analyzer, store, dartFilePaths,
       rootFolder: rootFolder)
     ..run();
 
