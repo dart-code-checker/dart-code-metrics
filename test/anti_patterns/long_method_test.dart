@@ -3,6 +3,7 @@ import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:dart_code_metrics/src/anti_patterns/long_method.dart';
 import 'package:dart_code_metrics/src/models/config.dart';
+import 'package:dart_code_metrics/src/models/source.dart';
 import 'package:test/test.dart';
 
 const _content = '''
@@ -55,9 +56,7 @@ void main() {
         throwIfDiagnostics: false);
 
     final issues = LongMethod().check(
-        parseResult.unit,
-        sourceUrl,
-        parseResult.content,
+        Source(sourceUrl, parseResult.content, parseResult.unit),
         const Config(linesOfExecutableCodeWarningLevel: 25));
 
     expect(issues.length, equals(1));

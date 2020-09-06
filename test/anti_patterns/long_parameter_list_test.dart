@@ -3,6 +3,7 @@ import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:dart_code_metrics/src/anti_patterns/long_parameter_list.dart';
 import 'package:dart_code_metrics/src/models/config.dart';
+import 'package:dart_code_metrics/src/models/source.dart';
 import 'package:test/test.dart';
 
 const _content = '''
@@ -25,7 +26,8 @@ void main() {
         throwIfDiagnostics: false);
 
     final issues = LongParameterList().check(
-        parseResult.unit, sourceUrl, parseResult.content, const Config());
+        Source(sourceUrl, parseResult.content, parseResult.unit),
+        const Config());
 
     expect(issues.length, equals(1));
 

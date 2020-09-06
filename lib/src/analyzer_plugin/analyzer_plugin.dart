@@ -24,6 +24,7 @@ import 'package:dart_code_metrics/src/rules_factory.dart';
 import 'package:source_span/source_span.dart';
 
 import '../anti_patterns_factory.dart';
+import '../models/source.dart';
 import '../scope_ast_visitor.dart';
 import '../utils/metrics_analyzer_utils.dart';
 import '../utils/yaml_utils.dart';
@@ -259,8 +260,9 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
           AnalyzerPluginConfig config) =>
       config.checkingAntiPatterns
           .where((pattern) => !ignores.ignoreRule(pattern.id))
-          .expand((pattern) => pattern.check(analysisResult.unit, sourceUri,
-              analysisResult.content, config.metricsConfigs))
+          .expand((pattern) => pattern.check(
+              Source(sourceUri, analysisResult.content, analysisResult.unit),
+              config.metricsConfigs))
           .where((issue) =>
               !ignores.ignoredAt(issue.patternId, issue.sourceSpan.start.line))
           .map(designIssueToAnalysisErrorFixes);

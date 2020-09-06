@@ -19,6 +19,7 @@ import 'metrics/cyclomatic_complexity/control_flow_ast_visitor.dart';
 import 'metrics/cyclomatic_complexity/cyclomatic_config.dart';
 import 'models/component_record.dart';
 import 'models/config.dart';
+import 'models/source.dart';
 import 'rules_factory.dart';
 import 'utils/metrics_analyzer_utils.dart';
 
@@ -132,7 +133,9 @@ class MetricsAnalyzer {
       _checkingAntiPatterns
           .where((pattern) => !ignores.ignoreRule(pattern.id))
           .expand((pattern) => pattern
-              .check(analysisResult.unit, sourceUri, analysisResult.content,
+              .check(
+                  Source(
+                      sourceUri, analysisResult.content, analysisResult.unit),
                   _metricsConfig)
               .where((issue) => !ignores.ignoredAt(
                   issue.patternId, issue.sourceSpan.start.line)));
