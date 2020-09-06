@@ -1,5 +1,10 @@
 # Changelog
 
+# Unreleased (2.0.0)
+
+- Removed deprecated `AnalysisOptions.from` use `AnalysisOptions.fromMap` instead
+- Removed deprecated `Config.linesOfCodeWarningLevel` use `Config.linesOfExecutableCodeWarningLevel` instead
+
 # 1.10.0
 
 - Add static code diagnostics no-equal-then-else

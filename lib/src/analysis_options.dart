@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:meta/meta.dart';
-import 'package:yaml/yaml.dart';
 
 import 'models/config.dart';
 import 'utils/object_extensions.dart';
@@ -36,18 +35,6 @@ class AnalysisOptions {
     @required this.rules,
     @required this.antiPatterns,
   });
-
-  @Deprecated('Use fromMap')
-  factory AnalysisOptions.from(String content) {
-    try {
-      final node = loadYamlNode(content ?? '');
-
-      return AnalysisOptions.fromMap(
-          node is YamlMap ? yamlMapToDartMap(node) : {});
-    } on YamlException catch (e) {
-      throw FormatException(e.message, e.span);
-    }
-  }
 
   factory AnalysisOptions.fromMap(Map<String, Object> map) {
     final configMap = map ?? {};

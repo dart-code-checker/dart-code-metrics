@@ -28,10 +28,7 @@ Future<void> main(List<String> args) async {
         arguments.rest,
         arguments[ignoredFilesName] as String,
         int.tryParse(arguments[cyclomaticComplexityThreshold] as String ?? ''),
-        int.tryParse(
-                arguments[linesOfExecutableCodeThreshold] as String ?? '') ??
-            // ignore: deprecated_member_use_from_same_package
-            int.tryParse(arguments[linesOfCodeThreshold] as String ?? ''),
+        int.tryParse(arguments[linesOfExecutableCodeThreshold] as String ?? ''),
         int.tryParse(arguments[numberOfArgumentsThreshold] as String ?? ''),
         int.tryParse(arguments[numberOfMethodsThreshold] as String ?? ''),
         arguments[reporterName] as String,
