@@ -1,12 +1,12 @@
-import 'package:dart_code_metrics/src/metrics_records_builder.dart';
-import 'package:dart_code_metrics/src/metrics_records_store.dart';
-import 'package:dart_code_metrics/src/models/code_issue.dart';
-import 'package:dart_code_metrics/src/models/file_record.dart';
-import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:path/path.dart' as p;
 
+import 'metrics_records_builder.dart';
+import 'metrics_records_store.dart';
+import 'models/code_issue.dart';
 import 'models/component_record.dart';
 import 'models/design_issue.dart';
+import 'models/file_record.dart';
+import 'models/function_record.dart';
 import 'models/scoped_component_declaration.dart';
 import 'models/scoped_function_declaration.dart';
 import 'utils/metrics_analyzer_utils.dart';
@@ -44,18 +44,7 @@ class MetricsAnalysisRecorder
     return this;
   }
 
-  @Deprecated('Use recordFile')
-  void startRecordFile(String filePath, String rootDirectory) {
-    _startRecordFile(filePath, rootDirectory);
-  }
-
-  @Deprecated('Use recordFile')
-  void endRecordFile() {
-    _endRecordFile();
-  }
-
   @override
-  @Deprecated('Use MetricsRecordsBuilder.recordComponent')
   void recordComponent(
       ScopedComponentDeclaration declaration, ComponentRecord record) {
     _checkState();
@@ -68,7 +57,6 @@ class MetricsAnalysisRecorder
   }
 
   @override
-  @Deprecated('Use MetricsRecordsBuilder.recordFunction')
   void recordFunction(
       ScopedFunctionDeclaration declaration, FunctionRecord record) {
     _checkState();
@@ -88,7 +76,6 @@ class MetricsAnalysisRecorder
   }
 
   @override
-  @Deprecated('Use MetricsRecordsBuilder.recordIssues')
   void recordIssues(Iterable<CodeIssue> issues) {
     _checkState();
 
@@ -103,14 +90,6 @@ class MetricsAnalysisRecorder
   }
 
   void _startRecordFile(String filePath, String rootDirectory) {
-    if (filePath == null) {
-      throw ArgumentError.notNull('filePath');
-    }
-    if (_fileGroupPath != null) {
-      throw StateError(
-          "Can't start a file group while another one is started. Use `endRecordFile` to close the opened one.");
-    }
-
     _fileGroupPath = filePath;
     _relativeGroupPath = rootDirectory != null
         ? p.relative(filePath, from: rootDirectory)

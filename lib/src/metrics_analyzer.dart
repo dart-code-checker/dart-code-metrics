@@ -12,7 +12,7 @@ import 'ignore_info.dart';
 import 'lines_of_code/lines_with_code_ast_visitor.dart';
 import 'metrics/cyclomatic_complexity/control_flow_ast_visitor.dart';
 import 'metrics/cyclomatic_complexity/cyclomatic_config.dart';
-import 'metrics_analysis_recorder.dart';
+import 'metrics_records_store.dart';
 import 'models/component_record.dart';
 import 'models/config.dart';
 import 'models/design_issue.dart';
@@ -31,10 +31,10 @@ class MetricsAnalyzer {
   final Iterable<Glob> _globalExclude;
   final Config _metricsConfig;
   final Iterable<Glob> _metricsExclude;
-  final MetricsAnalysisRecorder _recorder;
+  final MetricsRecordsStore _store;
 
   MetricsAnalyzer(
-    this._recorder, {
+    this._store, {
     AnalysisOptions options,
   })  : _checkingCodeRules =
             options?.rules != null ? getRulesById(options.rules) : [],
@@ -60,7 +60,7 @@ class MetricsAnalyzer {
 
     final lineInfo = parseResult.lineInfo;
 
-    _recorder.recordFile(filePath, rootFolder, (builder) {
+    _store.recordFile(filePath, rootFolder, (builder) {
       if (!_isExcluded(relativeFilePath, _metricsExclude)) {
         for (final component in visitor.components) {
           builder.recordComponent(
