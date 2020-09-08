@@ -20,6 +20,7 @@ Reports:
 Output formats:
 
 - Plain terminal
+- [GitHub](https://github.com/wrike/dart-code-metrics/blob/master/doc/reporters/github-reporter.md)
 - Codeclimate
 - HTML
 - JSON
@@ -66,11 +67,12 @@ metrics lib
 ```
 
 Full usage:
-```
+
+```text
 Usage: metrics [options...] <directories>
 -h, --help                                             Print this usage information.
 -r, --reporter=<console>                               The format of the output of the analysis
-                                                       [console (default), json, html, codeclimate]
+                                                       [console (default), github, json, html, codeclimate]
 
     --cyclomatic-complexity=<20>                       Cyclomatic complexity threshold
                                                        (defaults to "20")
