@@ -116,7 +116,7 @@ class UtilitySelector {
             0,
             (171 -
                     5.2 * log(max(1, halsteadVolume)) -
-                    0.23 * cyclomaticComplexity -
+                    cyclomaticComplexity * 0.23 -
                     16.2 * log(max(1, linesOfExecutableCode))) *
                 100 /
                 171)
