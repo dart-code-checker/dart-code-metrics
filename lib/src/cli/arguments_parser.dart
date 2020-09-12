@@ -25,7 +25,7 @@ ArgParser argumentsParser() => ArgParser()
       abbr: 'r',
       help: 'The format of the output of the analysis',
       valueHelp: 'console',
-      allowed: ['console', 'json', 'html', 'codeclimate'],
+      allowed: ['console', 'github', 'json', 'html', 'codeclimate'],
       defaultsTo: 'console')
   ..addOption(cyclomaticComplexityThreshold, help: 'Cyclomatic complexity threshold', valueHelp: '$cyclomaticComplexityDefaultWarningLevel',
       callback: (String i) {

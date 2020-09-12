@@ -2,11 +2,11 @@ import 'dart:io';
 
 import 'package:dart_code_metrics/metrics_analyzer.dart';
 import 'package:dart_code_metrics/reporters.dart';
-import 'package:dart_code_metrics/src/analysis_options.dart';
 import 'package:dart_code_metrics/src/cli/arguments_parser.dart';
 import 'package:dart_code_metrics/src/cli/arguments_validation.dart';
 import 'package:dart_code_metrics/src/cli/arguments_validation_exceptions.dart';
 import 'package:dart_code_metrics/src/models/violation_level.dart';
+import 'package:dart_code_metrics/src/reporters/github/github_reporter.dart';
 import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
 import 'package:glob/glob.dart';
 import 'package:path/path.dart' as p;
@@ -80,9 +80,9 @@ Future<void> _runAnalysis(
       ? await analysisOptionsFromFile(analysisOptionsFile)
       : null;
 
-  final recorder = MetricsAnalysisRecorder();
-  final analyzer = MetricsAnalyzer(recorder, options: options);
-  final runner = MetricsAnalysisRunner(recorder, analyzer, dartFilePaths,
+  final store = MetricsRecordsStore.store();
+  final analyzer = MetricsAnalyzer(store, options: options);
+  final runner = MetricsAnalysisRunner(analyzer, store, dartFilePaths,
       rootFolder: rootFolder)
     ..run();
 
@@ -101,6 +101,9 @@ Future<void> _runAnalysis(
   switch (reporterType) {
     case 'console':
       reporter = ConsoleReporter(reportConfig: config, reportAll: verbose);
+      break;
+    case 'github':
+      reporter = GitHubReporter();
       break;
     case 'json':
       reporter = JsonReporter(reportConfig: config);
