@@ -94,7 +94,7 @@ class ConsoleReporter implements Reporter {
       });
 
       for (final issue in analysisRecord.designIssue) {
-        final severity = '${_designIssuesColor(_designIssues.padRight(8))}';
+        final severity = _designIssuesColor(_designIssues.padRight(8));
         final position =
             '${issue.sourceSpan.start.line}:${issue.sourceSpan.start.column}';
         final rule = [
@@ -105,8 +105,8 @@ class ConsoleReporter implements Reporter {
       }
 
       for (final issue in analysisRecord.issues) {
-        final severity =
-            '${_severityColors[issue.severity](_severityHumanReadable[issue.severity]?.padRight(8))}';
+        final severity = _severityColors[issue.severity](
+            _severityHumanReadable[issue.severity]?.padRight(8));
         final position =
             '${issue.sourceSpan.start.line}:${issue.sourceSpan.start.column}';
         final rule = [
