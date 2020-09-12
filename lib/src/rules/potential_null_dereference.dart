@@ -87,24 +87,28 @@ class _Visitor extends RecursiveAstVisitor<void> {
   }
 
   bool _checkExpressions(Iterable<SyntacticEntity> children, String name) {
-    var wasReassigned = false;
+    var wasReassignedOrShadowed = false;
 
     for (final child in children) {
       if (child is AssignmentExpression &&
           child.leftHandSide is Identifier &&
           (child.leftHandSide as Identifier).name == name) {
-        wasReassigned = true;
+        wasReassignedOrShadowed = true;
+      } else if (child is VariableDeclaration && child.name.name == name) {
+        wasReassignedOrShadowed = true;
+      } else if (child is FormalParameter && child.identifier.name == name) {
+        wasReassignedOrShadowed = true;
       } else if (child is Identifier && child.toString() == name) {
         _issues.add(_Issue(
           expression: child,
           identifierName: name,
         ));
-      } else if (child is AstNode && !wasReassigned) {
-        wasReassigned = _checkExpressions(child.childEntities, name);
+      } else if (child is AstNode && !wasReassignedOrShadowed) {
+        wasReassignedOrShadowed = _checkExpressions(child.childEntities, name);
       }
     }
 
-    return wasReassigned;
+    return wasReassignedOrShadowed;
   }
 
   void _visitNestedBinaryExpression(BinaryExpression node) {

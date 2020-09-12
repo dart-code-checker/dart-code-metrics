@@ -142,6 +142,16 @@ function doWork(Test object) {
   if (object.child == null || object.child.getValue()) {
 
   }
+
+  if (object == null) {
+    final object = Test();
+    final value = object.value;
+  }
+
+  if (object == null) {
+    final list = [1, 2, 3];
+    list.map((object) => object);
+  }
 }
 
 ''';
