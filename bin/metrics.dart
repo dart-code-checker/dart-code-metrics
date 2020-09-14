@@ -8,7 +8,6 @@ import 'package:dart_code_metrics/src/cli/arguments_validation_exceptions.dart';
 import 'package:dart_code_metrics/src/models/violation_level.dart';
 import 'package:dart_code_metrics/src/reporters/github/github_reporter.dart';
 import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
-import 'package:glob/glob.dart';
 import 'package:path/path.dart' as p;
 
 final _parser = argumentsParser();
@@ -61,18 +60,6 @@ Future<void> _runAnalysis(
     String reporterType,
     bool verbose,
     ViolationLevel setExitOnViolationLevel) async {
-  var dartFilePaths = analysisDirectories.expand((directory) =>
-      Glob('$directory**.dart')
-          .listSync(root: rootFolder, followLinks: false)
-          .whereType<File>()
-          .map((entity) => entity.path));
-
-  if (ignoreFilesPattern.isNotEmpty) {
-    final ignoreFilesGlob = Glob(ignoreFilesPattern);
-    dartFilePaths =
-        dartFilePaths.where((path) => !ignoreFilesGlob.matches(path));
-  }
-
   final analysisOptionsFile =
       File(p.absolute(rootFolder, analysisOptionsFileName));
 
@@ -82,7 +69,7 @@ Future<void> _runAnalysis(
 
   final store = MetricsRecordsStore.store();
   final analyzer = MetricsAnalyzer(store, options: options);
-  final runner = MetricsAnalysisRunner(analyzer, store, dartFilePaths,
+  final runner = MetricsAnalysisRunner(analyzer, store, analysisDirectories,
       rootFolder: rootFolder)
     ..run();
 
