@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
@@ -45,87 +47,95 @@ class MetricsAnalyzer {
         _metricsConfig = options?.metricsConfig ?? const Config(),
         _metricsExclude = _prepareExcludes(options?.metricsExcludePatterns);
 
-  void runAnalysis(String filePath, String rootFolder) {
-    final relativeFilePath = p.relative(filePath, from: rootFolder);
-    if (_isExcluded(relativeFilePath, _globalExclude)) {
-      return;
-    }
+  void runAnalysis(String folder, String rootFolder) {
+    final dartFilePaths = Glob('$folder**.dart')
+        .listSync(root: rootFolder, followLinks: false)
+        .whereType<File>()
+        .map((entity) => entity.path)
+        .toList();
 
-    final visitor = ScopeAstVisitor();
-    final parseResult = parseFile(
-        path: p.normalize(p.absolute(filePath)),
-        featureSet: FeatureSet.fromEnableFlags([]),
-        throwIfDiagnostics: false);
-    parseResult.unit.visitChildren(visitor);
-
-    final lineInfo = parseResult.lineInfo;
-
-    _store.recordFile(filePath, rootFolder, (builder) {
-      if (!_isExcluded(relativeFilePath, _metricsExclude)) {
-        for (final component in visitor.components) {
-          builder.recordComponent(
-              component,
-              ComponentRecord(
-                  firstLine: lineInfo
-                      .getLocation(component
-                          .declaration.firstTokenAfterCommentAndMetadata.offset)
-                      .lineNumber,
-                  lastLine: lineInfo
-                      .getLocation(component.declaration.endToken.end)
-                      .lineNumber,
-                  methodsCount: visitor.functions
-                      .where((function) =>
-                          function.enclosingDeclaration ==
-                          component.declaration)
-                      .length));
-        }
-
-        for (final function in visitor.functions) {
-          final controlFlowAstVisitor =
-              ControlFlowAstVisitor(defaultCyclomaticConfig, lineInfo);
-          final linesWithCodeAstVisitor = LinesWithCodeAstVisitor(lineInfo);
-          final halsteadVolumeAstVisitor = HalsteadVolumeAstVisitor();
-
-          function.declaration.visitChildren(controlFlowAstVisitor);
-          function.declaration.visitChildren(linesWithCodeAstVisitor);
-          function.declaration.visitChildren(halsteadVolumeAstVisitor);
-
-          builder.recordFunction(
-              function,
-              FunctionRecord(
-                  firstLine: lineInfo
-                      .getLocation(function
-                          .declaration.firstTokenAfterCommentAndMetadata.offset)
-                      .lineNumber,
-                  lastLine: lineInfo
-                      .getLocation(function.declaration.endToken.end)
-                      .lineNumber,
-                  argumentsCount: getArgumentsCount(function),
-                  cyclomaticComplexityLines:
-                      Map.unmodifiable(controlFlowAstVisitor.complexityLines),
-                  linesWithCode: linesWithCodeAstVisitor.linesWithCode,
-                  operators:
-                      Map.unmodifiable(halsteadVolumeAstVisitor.operators),
-                  operands:
-                      Map.unmodifiable(halsteadVolumeAstVisitor.operands)));
-        }
+    for (final filePath in dartFilePaths) {
+      final relativeFilePath = p.relative(filePath, from: rootFolder);
+      if (_isExcluded(relativeFilePath, _globalExclude)) {
+        continue;
       }
 
-      final ignores =
-          IgnoreInfo.calculateIgnores(parseResult.content, lineInfo);
+      final visitor = ScopeAstVisitor();
+      final parseResult = parseFile(
+          path: p.normalize(p.absolute(filePath)),
+          featureSet: FeatureSet.fromEnableFlags([]),
+          throwIfDiagnostics: false);
+      parseResult.unit.visitChildren(visitor);
 
-      final filePathUri = Uri.parse(filePath);
+      final lineInfo = parseResult.lineInfo;
 
-      builder
-        ..recordIssues(_checkingCodeRules
-            .where((rule) => !ignores.ignoreRule(rule.id))
-            .expand((rule) => rule
-                .check(parseResult.unit, filePathUri, parseResult.content)
-                .where((issue) => !ignores.ignoredAt(
-                    issue.ruleId, issue.sourceSpan.start.line))))
-        ..recordDesignIssues(
-            _checkOnAntiPatterns(ignores, parseResult, filePathUri));
-    });
+      _store.recordFile(filePath, rootFolder, (builder) {
+        if (!_isExcluded(relativeFilePath, _metricsExclude)) {
+          for (final component in visitor.components) {
+            builder.recordComponent(
+                component,
+                ComponentRecord(
+                    firstLine: lineInfo
+                        .getLocation(component.declaration
+                            .firstTokenAfterCommentAndMetadata.offset)
+                        .lineNumber,
+                    lastLine: lineInfo
+                        .getLocation(component.declaration.endToken.end)
+                        .lineNumber,
+                    methodsCount: visitor.functions
+                        .where((function) =>
+                            function.enclosingDeclaration ==
+                            component.declaration)
+                        .length));
+          }
+
+          for (final function in visitor.functions) {
+            final controlFlowAstVisitor =
+                ControlFlowAstVisitor(defaultCyclomaticConfig, lineInfo);
+            final linesWithCodeAstVisitor = LinesWithCodeAstVisitor(lineInfo);
+            final halsteadVolumeAstVisitor = HalsteadVolumeAstVisitor();
+
+            function.declaration.visitChildren(controlFlowAstVisitor);
+            function.declaration.visitChildren(linesWithCodeAstVisitor);
+            function.declaration.visitChildren(halsteadVolumeAstVisitor);
+
+            builder.recordFunction(
+                function,
+                FunctionRecord(
+                    firstLine: lineInfo
+                        .getLocation(function.declaration
+                            .firstTokenAfterCommentAndMetadata.offset)
+                        .lineNumber,
+                    lastLine: lineInfo
+                        .getLocation(function.declaration.endToken.end)
+                        .lineNumber,
+                    argumentsCount: getArgumentsCount(function),
+                    cyclomaticComplexityLines:
+                        Map.unmodifiable(controlFlowAstVisitor.complexityLines),
+                    linesWithCode: linesWithCodeAstVisitor.linesWithCode,
+                    operators:
+                        Map.unmodifiable(halsteadVolumeAstVisitor.operators),
+                    operands:
+                        Map.unmodifiable(halsteadVolumeAstVisitor.operands)));
+          }
+        }
+
+        final ignores =
+            IgnoreInfo.calculateIgnores(parseResult.content, lineInfo);
+
+        final filePathUri = Uri.parse(filePath);
+
+        builder
+          ..recordIssues(_checkingCodeRules
+              .where((rule) => !ignores.ignoreRule(rule.id))
+              .expand((rule) => rule
+                  .check(parseResult.unit, filePathUri, parseResult.content)
+                  .where((issue) => !ignores.ignoredAt(
+                      issue.ruleId, issue.sourceSpan.start.line))))
+          ..recordDesignIssues(
+              _checkOnAntiPatterns(ignores, parseResult, filePathUri));
+      });
+    }
   }
 
   Iterable<DesignIssue> _checkOnAntiPatterns(IgnoreInfo ignores,

@@ -1,7 +1,3 @@
-import 'dart:io';
-
-import 'package:glob/glob.dart';
-
 import 'metrics_analyzer.dart';
 import 'metrics_records_store.dart';
 import 'models/file_record.dart';
@@ -23,14 +19,8 @@ class MetricsAnalysisRunner {
 
   /// Perform analysis of file paths passed in constructor
   void run() {
-    final dartFilePaths = _folders.expand((directory) =>
-        Glob('$directory**.dart')
-            .listSync(root: _rootFolder, followLinks: false)
-            .whereType<File>()
-            .map((entity) => entity.path));
-
-    for (final file in dartFilePaths) {
-      _analyzer.runAnalysis(file, _rootFolder);
+    for (final folder in _folders) {
+      _analyzer.runAnalysis(folder, _rootFolder);
     }
   }
 }
