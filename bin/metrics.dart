@@ -70,8 +70,8 @@ Future<void> _runAnalysis(
   final store = MetricsRecordsStore.store();
   final analyzer = MetricsAnalyzer(store, options: options);
   final runner = MetricsAnalysisRunner(analyzer, store, analysisDirectories,
-      rootFolder: rootFolder)
-    ..run();
+      rootFolder: rootFolder);
+  await runner.run();
 
   final config = Config(
       cyclomaticComplexityWarningLevel: cyclomaticComplexityThreshold ??

@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:analyzer/dart/analysis/features.dart';
+import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
 import 'package:analyzer/dart/analysis/results.dart';
-import 'package:analyzer/dart/analysis/utilities.dart';
+import 'package:analyzer/file_system/physical_file_system.dart';
 import 'package:glob/glob.dart';
 import 'package:path/path.dart' as p;
 
@@ -47,31 +47,36 @@ class MetricsAnalyzer {
         _metricsConfig = options?.metricsConfig ?? const Config(),
         _metricsExclude = _prepareExcludes(options?.metricsExcludePatterns);
 
-  void runAnalysis(Iterable<String> folders, String rootFolder) {
-    final dartFilePaths = folders
-        .expand((folder) => Glob('$folder**.dart')
+  Future<void> runAnalysis(Iterable<String> folders, String rootFolder) async {
+    final collection = AnalysisContextCollection(
+      includedPaths:
+          folders.map((path) => p.normalize(p.absolute(path))).toList(),
+      resourceProvider: PhysicalResourceProvider.INSTANCE,
+    );
+
+    final filePaths = folders
+        .expand((directory) => Glob('$directory**.dart')
             .listSync(root: rootFolder, followLinks: false)
-            .whereType<File>())
-        .map((entity) => entity.path)
+            .whereType<File>()
+            .where((entity) => !_isExcluded(
+                p.relative(entity.path, from: rootFolder), _globalExclude))
+            .map((entity) => entity.path))
         .toList();
 
-    for (final filePath in dartFilePaths) {
-      final relativeFilePath = p.relative(filePath, from: rootFolder);
-      if (_isExcluded(relativeFilePath, _globalExclude)) {
-        continue;
-      }
+    for (final filePath in filePaths) {
+      final normalized = p.normalize(p.absolute(filePath));
+      final analysisContext = collection.contextFor(normalized);
+      final parseResult =
+          await analysisContext.currentSession.getResolvedUnit(normalized);
 
       final visitor = ScopeAstVisitor();
-      final parseResult = parseFile(
-          path: p.normalize(p.absolute(filePath)),
-          featureSet: FeatureSet.fromEnableFlags([]),
-          throwIfDiagnostics: false);
       parseResult.unit.visitChildren(visitor);
 
       final lineInfo = parseResult.lineInfo;
 
       _store.recordFile(filePath, rootFolder, (builder) {
-        if (!_isExcluded(relativeFilePath, _metricsExclude)) {
+        if (!_isExcluded(
+            p.relative(filePath, from: rootFolder), _metricsExclude)) {
           for (final component in visitor.components) {
             builder.recordComponent(
                 component,
@@ -140,7 +145,7 @@ class MetricsAnalyzer {
   }
 
   Iterable<DesignIssue> _checkOnAntiPatterns(IgnoreInfo ignores,
-          ParseStringResult analysisResult, Uri sourceUri) =>
+          ResolvedUnitResult analysisResult, Uri sourceUri) =>
       _checkingAntiPatterns
           .where((pattern) => !ignores.ignoreRule(pattern.id))
           .expand((pattern) => pattern
