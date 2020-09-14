@@ -11,7 +11,7 @@ jobs:
       image:  google/dart:latest
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Install dependencies
       run: pub get
     - name: Run dependency validator
@@ -40,7 +40,7 @@ jobs:
       image:  google/dart:2.8.4
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Install dependencies
       run: pub downgrade
     - name: Run dartanalyzer
