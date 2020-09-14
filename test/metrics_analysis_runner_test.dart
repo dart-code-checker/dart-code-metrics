@@ -41,17 +41,16 @@ void main() {
     });
 
     test('run() calls MetricsAnalyzer.runAnalysis for every file paths', () {
-      const files = ['lib/foo.dart', 'lib/bar.dart'];
+      const folders = ['lib', 'test'];
       const root = '/home/developer/project/';
 
       final analyzer = MetricsAnalyzerMock();
 
-      MetricsAnalysisRunner(analyzer, MetricsRecordsStoreMock(), files,
+      MetricsAnalysisRunner(analyzer, MetricsRecordsStoreMock(), folders,
               rootFolder: root)
           .run();
 
-      verifyInOrder(
-          [for (final path in files) analyzer.runAnalysis(path, root)]);
+      verify(analyzer.runAnalysis(folders, root));
       verifyNoMoreInteractions(analyzer);
     });
   });

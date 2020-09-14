@@ -19,8 +19,6 @@ class MetricsAnalysisRunner {
 
   /// Perform analysis of file paths passed in constructor
   void run() {
-    for (final folder in _folders) {
-      _analyzer.runAnalysis(folder, _rootFolder);
-    }
+    _analyzer.runAnalysis(_folders, _rootFolder);
   }
 }

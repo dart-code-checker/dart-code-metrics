@@ -47,10 +47,11 @@ class MetricsAnalyzer {
         _metricsConfig = options?.metricsConfig ?? const Config(),
         _metricsExclude = _prepareExcludes(options?.metricsExcludePatterns);
 
-  void runAnalysis(String folder, String rootFolder) {
-    final dartFilePaths = Glob('$folder**.dart')
-        .listSync(root: rootFolder, followLinks: false)
-        .whereType<File>()
+  void runAnalysis(Iterable<String> folders, String rootFolder) {
+    final dartFilePaths = folders
+        .expand((folder) => Glob('$folder**.dart')
+            .listSync(root: rootFolder, followLinks: false)
+            .whereType<File>())
         .map((entity) => entity.path)
         .toList();
 
