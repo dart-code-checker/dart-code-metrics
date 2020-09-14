@@ -7,10 +7,10 @@ import 'models/file_record.dart';
 class MetricsAnalysisRunner {
   final MetricsAnalyzer _analyzer;
   final MetricsRecordsStore _store;
-  final Iterable<String> _filePaths;
+  final Iterable<String> _folders;
   final String _rootFolder;
 
-  MetricsAnalysisRunner(this._analyzer, this._store, this._filePaths,
+  MetricsAnalysisRunner(this._analyzer, this._store, this._folders,
       {String rootFolder})
       : _rootFolder = rootFolder;
 
@@ -18,9 +18,5 @@ class MetricsAnalysisRunner {
   Iterable<FileRecord> results() => _store.records();
 
   /// Perform analysis of file paths passed in constructor
-  void run() {
-    for (final file in _filePaths) {
-      _analyzer.runAnalysis(file, _rootFolder);
-    }
-  }
+  Future<void> run() => _analyzer.runAnalysis(_folders, _rootFolder);
 }

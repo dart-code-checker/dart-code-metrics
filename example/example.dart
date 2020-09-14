@@ -2,10 +2,10 @@ import 'package:dart_code_metrics/metrics_analyzer.dart';
 import 'package:dart_code_metrics/reporters.dart';
 
 void main() {
-  // Get some files you would like to analyze
-  const filesToAnalyze = ['some_file.dart', 'another_file.dart'];
+  // Get some folder you would like to analyze
+  const foldersToAnalyze = ['lib', 'test'];
   // Root folder path is used to resolve relative file paths
-  const rootFolder = 'lib/src';
+  const rootFolder = 'projectRoot';
 
   // Store keeps reported issues in format-agnostic way
   final store = MetricsRecordsStore.store();
@@ -14,7 +14,7 @@ void main() {
   final analyzer = MetricsAnalyzer(store);
 
   // Runner coordinates analyzer and store
-  final runner = MetricsAnalysisRunner(analyzer, store, filesToAnalyze,
+  final runner = MetricsAnalysisRunner(analyzer, store, foldersToAnalyze,
       rootFolder: rootFolder);
 
   // Execute run() to analyze files and collect results
