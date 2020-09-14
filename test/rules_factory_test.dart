@@ -7,10 +7,21 @@ void main() {
     expect(getRulesById({}), isEmpty);
     expect(
         getRulesById({
+          'binary-expression-operand-order': <String, Object>{},
           'double-literal-format': <String, Object>{},
           'avoid-preserve-whitespace-false': <String, Object>{},
+          'member-ordering': <String, Object>{},
           'unknown-rule': <String, Object>{},
+          'component-annotation-arguments-ordering': <String, Object>{},
+          'newline-before-return': <String, Object>{},
         }).map((rule) => rule.id),
-        equals(['avoid-preserve-whitespace-false', 'double-literal-format']));
+        equals([
+          'avoid-preserve-whitespace-false',
+          'binary-expression-operand-order',
+          'component-annotation-arguments-ordering',
+          'double-literal-format',
+          'member-ordering',
+          'newline-before-return',
+        ]));
   });
 }
