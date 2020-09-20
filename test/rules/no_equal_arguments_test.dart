@@ -123,6 +123,16 @@ void getUserData(User user) {
   );
 
   final fullName = getFullName(
+    'firstName',
+    'lastName',
+  );
+
+  final fullName = getFullName(
+    'firstName',
+    'firstName',
+  );
+
+  final fullName = getFullName(
     user.getFirstName(),
     user.getLastName(),
   );
@@ -143,6 +153,11 @@ void getUserData(User user) {
   final image = getUserImage(
     firstName: user.firstName,
     lastName: user.lastName,
+  );
+
+  final image = getUserImage(
+    firstName: 'name',
+    lastName: 'name',
   );
 }
 

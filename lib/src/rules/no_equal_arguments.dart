@@ -69,8 +69,15 @@ class _Visitor extends RecursiveAstVisitor<void> {
   void _visitArguments(NodeList<Expression> arguments) {
     for (final argument in arguments) {
       final lastAppearance = arguments.lastWhere((arg) {
-        if (argument is NamedExpression && arg is NamedExpression) {
+        if (argument is NamedExpression &&
+            arg is NamedExpression &&
+            argument.expression is! Literal &&
+            arg.expression is! Literal) {
           return argument.expression.toString() == arg.expression.toString();
+        }
+
+        if (argument is Literal && arg is Literal) {
+          return argument == arg;
         }
 
         return argument.toString() == arg.toString();
