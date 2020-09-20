@@ -14,6 +14,7 @@ void main() {
           'unknown-rule': <String, Object>{},
           'component-annotation-arguments-ordering': <String, Object>{},
           'newline-before-return': <String, Object>{},
+          'no-boolean-literal-compare': <String, Object>{},
         }).map((rule) => rule.id),
         equals([
           'avoid-preserve-whitespace-false',
@@ -22,6 +23,7 @@ void main() {
           'double-literal-format',
           'member-ordering',
           'newline-before-return',
+          'no-boolean-literal-compare',
         ]));
   });
 }

@@ -38,24 +38,28 @@ class MetricsAnalyzer {
   MetricsAnalyzer(
     this._store, {
     AnalysisOptions options,
+    Iterable<String> addintionalExcludes = const [],
   })  : _checkingCodeRules =
             options?.rules != null ? getRulesById(options.rules) : [],
         _checkingAntiPatterns = options?.antiPatterns != null
             ? getPatternsById(options.antiPatterns)
             : [],
-        _globalExclude = _prepareExcludes(options?.excludePatterns),
+        _globalExclude = [
+          ..._prepareExcludes(options?.excludePatterns),
+          ..._prepareExcludes(addintionalExcludes),
+        ],
         _metricsConfig = options?.metricsConfig ?? const Config(),
         _metricsExclude = _prepareExcludes(options?.metricsExcludePatterns);
 
   Future<void> runAnalysis(Iterable<String> folders, String rootFolder) async {
     final collection = AnalysisContextCollection(
       includedPaths:
-          folders.map((path) => p.normalize(p.absolute(path))).toList(),
+          folders.map((path) => p.normalize(p.join(rootFolder, path))).toList(),
       resourceProvider: PhysicalResourceProvider.INSTANCE,
     );
 
     final filePaths = folders
-        .expand((directory) => Glob('$directory**.dart')
+        .expand((directory) => Glob('$directory/**.dart')
             .listSync(root: rootFolder, followLinks: false)
             .whereType<File>()
             .where((entity) => !_isExcluded(

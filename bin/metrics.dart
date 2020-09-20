@@ -65,10 +65,16 @@ Future<void> _runAnalysis(
 
   final options = analysisOptionsFile.existsSync()
       ? await analysisOptionsFromFile(analysisOptionsFile)
-      : null;
+      : const AnalysisOptions(
+          excludePatterns: [],
+          metricsConfig: Config(),
+          metricsExcludePatterns: [],
+          rules: {},
+          antiPatterns: {});
 
   final store = MetricsRecordsStore.store();
-  final analyzer = MetricsAnalyzer(store, options: options);
+  final analyzer = MetricsAnalyzer(store,
+      options: options, addintionalExcludes: [ignoreFilesPattern]);
   final runner = MetricsAnalysisRunner(analyzer, store, analysisDirectories,
       rootFolder: rootFolder);
   await runner.run();
