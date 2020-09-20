@@ -34,7 +34,7 @@ A plugin for the Dart `analyzer` library [package](https://pub.dev/packages/dart
 1. Add dependency to `pubspec.yaml`
     ```yaml
     dev_dependencies:
-      dart_code_metrics: ^1.8.0
+      dart_code_metrics: ^2.0.0
     ```
 
 2. Add configuration to `analysis_options.yaml`
