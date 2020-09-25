@@ -1,6 +1,11 @@
 @TestOn('vm')
+import 'dart:io';
+
 import 'package:dart_code_metrics/src/analysis_options.dart';
+import 'package:dart_code_metrics/src/models/config.dart';
+import 'package:dart_code_metrics/src/utils/yaml_utils.dart';
 import 'package:test/test.dart';
+import 'package:yaml/yaml.dart';
 
 const _contentWithoutMetrics = '''
 analyzer:
@@ -80,6 +85,13 @@ linter:
 
 const _contentWitMetricsThresholdsAndExcludes = '''
 analyzer:
+  exclude:
+    - test/aggregated_vm_test.dart
+    - lib/**/**.g.dart
+    - lib/intl/**
+    - test/**/**.g.dart
+    - .git/**
+    - .idea/**
   plugins:
     - dart_code_metrics
   strong-mode:
@@ -87,9 +99,11 @@ analyzer:
     implicit-dynamic: false
 
 dart_code_metrics:
+  anti-patterns:
+    - long-method
   metrics:
     cyclomatic-complexity: 20
-    lines-of-code: 42
+    lines-of-executable-code: 42
   metrics-exclude:
     - test/**
   rules:
@@ -104,31 +118,36 @@ linter:
 void main() {
   group('AnalysisOptions from', () {
     test('empty content', () {
-      final configFromNull = AnalysisOptions.from(null);
-      final configFromEmptyString = AnalysisOptions.from('');
+      final configFromNull = AnalysisOptions.fromMap(null);
+      final configFromEmptyMap = AnalysisOptions.fromMap({});
 
-      expect(configFromNull.metricsConfig, isNull);
+      expect(configFromNull.metricsConfig, equals(const Config()));
       expect(configFromNull.metricsExcludePatterns, isEmpty);
       expect(configFromNull.rules, isEmpty);
+      expect(configFromNull.antiPatterns, isEmpty);
 
-      expect(configFromEmptyString.metricsConfig, isNull);
-      expect(configFromEmptyString.metricsExcludePatterns, isEmpty);
-      expect(configFromEmptyString.rules, isEmpty);
+      expect(configFromEmptyMap.metricsConfig, equals(const Config()));
+      expect(configFromEmptyMap.metricsExcludePatterns, isEmpty);
+      expect(configFromEmptyMap.rules, isEmpty);
+      expect(configFromEmptyMap.antiPatterns, isEmpty);
     });
 
     test('content without metrics', () {
-      final options = AnalysisOptions.from(_contentWithoutMetrics);
+      final options =
+          AnalysisOptions.fromMap(_yamlToDartMap(_contentWithoutMetrics));
 
-      expect(options.metricsConfig, isNull);
+      expect(options.metricsConfig, equals(const Config()));
       expect(options.metricsExcludePatterns, isEmpty);
       expect(options.rules, isEmpty);
+      expect(options.antiPatterns, isEmpty);
     });
 
     group('content with metrics', () {
       test('rules defined as list', () {
-        final options = AnalysisOptions.from(_contentWitMetricsRules);
+        final options =
+            AnalysisOptions.fromMap(_yamlToDartMap(_contentWitMetricsRules));
 
-        expect(options.metricsConfig, isNull);
+        expect(options.metricsConfig, equals(const Config()));
         expect(options.metricsExcludePatterns, isEmpty);
         expect(
             options.rules,
@@ -138,12 +157,14 @@ void main() {
                 'allowed-numbers': [1, 2, 3],
               },
             }));
+        expect(options.antiPatterns, isEmpty);
       });
 
       test('rules defined as map', () {
-        final options = AnalysisOptions.from(_contentWitMetricsRulesAsMap);
+        final options = AnalysisOptions.fromMap(
+            _yamlToDartMap(_contentWitMetricsRulesAsMap));
 
-        expect(options.metricsConfig, isNull);
+        expect(options.metricsConfig, equals(const Config()));
         expect(options.metricsExcludePatterns, isEmpty);
         expect(
             options.rules,
@@ -153,10 +174,12 @@ void main() {
                 'allowed-numbers': [1, 2, 3],
               },
             }));
+        expect(options.antiPatterns, isEmpty);
       });
 
       test('thresholds define', () {
-        final options = AnalysisOptions.from(_contentWitMetricsThresholds);
+        final options = AnalysisOptions.fromMap(
+            _yamlToDartMap(_contentWitMetricsThresholds));
 
         expect(
             options.metricsConfig.cyclomaticComplexityWarningLevel, equals(20));
@@ -165,19 +188,64 @@ void main() {
         expect(options.metricsExcludePatterns, isEmpty);
         expect(options.rules,
             equals({'no-boolean-literal-compare': <String, Object>{}}));
+        expect(options.antiPatterns, isEmpty);
       });
 
       test('exclude define', () {
-        final options =
-            AnalysisOptions.from(_contentWitMetricsThresholdsAndExcludes);
+        final options = AnalysisOptions.fromMap(
+            _yamlToDartMap(_contentWitMetricsThresholdsAndExcludes));
 
         expect(
             options.metricsConfig.cyclomaticComplexityWarningLevel, equals(20));
-        expect(options.metricsConfig.linesOfCodeWarningLevel, equals(42));
-        expect(options.metricsExcludePatterns.single, equals('test/**'));
+        expect(options.metricsConfig.linesOfExecutableCodeWarningLevel,
+            equals(42));
+        expect(
+            options.excludePatterns,
+            equals([
+              'test/aggregated_vm_test.dart',
+              'lib/**/**.g.dart',
+              'lib/intl/**',
+              'test/**/**.g.dart',
+              '.git/**',
+              '.idea/**',
+            ]));
+        expect(options.metricsExcludePatterns, equals(['test/**']));
         expect(options.rules,
             equals({'no-boolean-literal-compare': <String, Object>{}}));
+        expect(
+            options.antiPatterns, equals({'long-method': <String, Object>{}}));
       });
+    });
+
+    test('file', () async {
+      final options = await analysisOptionsFromFile(
+          File('./test/resources/analysis_options_pkg.yaml'));
+
+      expect(
+          options.metricsConfig.cyclomaticComplexityWarningLevel, equals(20));
+      expect(
+          options.metricsConfig.linesOfExecutableCodeWarningLevel, equals(30));
+      expect(options.metricsConfig.numberOfArgumentsWarningLevel, equals(4));
+      expect(options.metricsConfig.numberOfMethodsWarningLevel,
+          equals(numberOfMethodsDefaultWarningLevel));
+
+      expect(options.excludePatterns, equals(['example/**']));
+      expect(options.metricsExcludePatterns,
+          equals(['test/**', 'documentation/**']));
+
+      expect(options.rules.keys.length, equals(4));
+      expect(
+          options.rules.keys,
+          containsAll(<String>[
+            'no-empty-block',
+            'no-boolean-literal-compare',
+            'prefer-trailing-comma-for-collection',
+            'member-ordering',
+          ]));
+      expect(options.antiPatterns, isEmpty);
     });
   });
 }
+
+Map<String, Object> _yamlToDartMap(String yaml) =>
+    yamlMapToDartMap(loadYamlNode(yaml) as YamlMap);

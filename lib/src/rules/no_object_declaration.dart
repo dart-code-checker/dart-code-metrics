@@ -8,6 +8,7 @@ import 'rule_utils.dart';
 
 class NoObjectDeclarationRule extends BaseRule {
   static const String ruleId = 'no-object-declaration';
+  static const _documentationUrl = 'https://git.io/JJwmY';
 
   static const _warningMessage =
       'Avoid Object type declaration in class member';
@@ -15,6 +16,7 @@ class NoObjectDeclarationRule extends BaseRule {
   NoObjectDeclarationRule({Map<String, Object> config = const {}})
       : super(
             id: ruleId,
+            documentation: Uri.parse(_documentationUrl),
             severity:
                 CodeIssueSeverity.fromJson(config['severity'] as String) ??
                     CodeIssueSeverity.style);

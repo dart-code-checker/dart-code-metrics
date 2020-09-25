@@ -37,7 +37,8 @@ class JsonReporter implements Reporter {
 
           return MapEntry(key, {
             ..._report(report.cyclomaticComplexity, 'cyclomatic-complexity'),
-            ..._report(report.linesOfCode, 'lines-of-code'),
+            ..._report(
+                report.linesOfExecutableCode, 'lines-of-executable-code'),
             ..._report(report.maintainabilityIndex, 'maintainability-index'),
             ..._report(report.argumentsCount, 'number-of-arguments'),
           });
@@ -47,8 +48,8 @@ class JsonReporter implements Reporter {
           .map((issue) => {
                 'severity': issue.severity.value,
                 'ruleId': issue.ruleId,
-                if (issue.ruleDocumentationUri != null)
-                  'ruleDocumentationUrl': issue.ruleDocumentationUri.toString(),
+                if (issue.ruleDocumentation != null)
+                  'ruleDocumentation': issue.ruleDocumentation.toString(),
                 'lineNumber': issue.sourceSpan.start.line,
                 'columnNumber': issue.sourceSpan.start.column,
                 if (issue.sourceSpan.text != null)
@@ -59,12 +60,29 @@ class JsonReporter implements Reporter {
                   'correctionComment': issue.correctionComment,
               })
           .toList(),
+      'designIssues': record.designIssue
+          .map((issue) => {
+                'patternId': issue.patternId,
+                if (issue.patternDocumentation != null)
+                  'patternDocumentation': issue.patternDocumentation.toString(),
+                'lineNumber': issue.sourceSpan.start.line,
+                'columnNumber': issue.sourceSpan.start.column,
+                if (issue.sourceSpan.text != null)
+                  'problemCode': issue.sourceSpan.text,
+                'message': issue.message,
+                if (issue.recommendation != null)
+                  'recommendation': issue.recommendation,
+              })
+          .toList(),
       'average-number-of-arguments': fileReport.averageArgumentsCount,
       'total-number-of-arguments-violations':
           fileReport.totalArgumentsCountViolations,
       'average-number-of-methods': fileReport.averageMethodsCount,
       'total-number-of-methods-violations':
           fileReport.totalMethodsCountViolations,
+      'total-lines-of-executable-code': fileReport.totalLinesOfExecutableCode,
+      'total-lines-of-executable-code-violations':
+          fileReport.totalLinesOfExecutableCodeViolations,
     };
   }
 

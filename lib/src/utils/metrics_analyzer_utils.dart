@@ -1,7 +1,7 @@
 import 'package:analyzer/dart/ast/ast.dart';
 
-import 'models/scoped_component_declaration.dart';
-import 'models/scoped_function_declaration.dart';
+import '../models/scoped_component_declaration.dart';
+import '../models/scoped_function_declaration.dart';
 
 int getArgumentsCount(ScopedFunctionDeclaration dec) {
   final declaration = dec.declaration;

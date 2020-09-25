@@ -1,11 +1,10 @@
 import 'package:analyzer/source/line_info.dart';
-import 'package:analyzer/src/generated/source.dart';
 
 class IgnoreInfo {
-  static final _ignoreMatchers = RegExp(r'//[ ]*ignore:(.*)', multiLine: true);
+  static final _ignoreMatchers = RegExp('//[ ]*ignore:(.*)', multiLine: true);
 
   static final _ignoreForFileMatcher =
-      RegExp(r'//[ ]*ignore_for_file:(.*)', multiLine: true);
+      RegExp('//[ ]*ignore_for_file:(.*)', multiLine: true);
 
   final _ignoreMap = <int, List<String>>{};
   final _ignoreForFileSet = <String>{};

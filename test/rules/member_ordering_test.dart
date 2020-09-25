@@ -38,6 +38,30 @@ class Test {
 
 ''';
 
+const _multipleClassesContent = '''
+
+class Test {
+  final _data = 1;
+
+  int get data => _data;
+
+  void doWork() {
+
+  }
+}
+
+class AnotherTest {
+  final _anotherData = 1;
+
+  int get anotherData => _anotherData;
+
+  void anotherDoWork() {
+
+  }
+}
+
+''';
+
 const _angularContent = '''
 
 class Test {
@@ -152,6 +176,28 @@ void main() {
     );
   });
 
+  test('MemberOrdering with multiple classes in file reports no issues', () {
+    final sourceUrl = Uri.parse('/example.dart');
+    final parseResult = parseString(
+        content: _multipleClassesContent,
+        featureSet: FeatureSet.fromEnableFlags([]),
+        throwIfDiagnostics: false);
+
+    final issues = MemberOrderingRule()
+        .check(parseResult.unit, sourceUrl, parseResult.content);
+
+    expect(
+      issues.every((issue) => issue.ruleId == 'member-ordering'),
+      isTrue,
+    );
+    expect(
+      issues.every((issue) => issue.severity == CodeIssueSeverity.style),
+      isTrue,
+    );
+
+    expect(issues.isEmpty, isTrue);
+  });
+
   test('MemberOrdering with custom config reports about found issues', () {
     final sourceUrl = Uri.parse('/example.dart');
     final parseResult = parseString(
@@ -244,19 +290,19 @@ void main() {
     expect(
       issues.map((issue) => issue.sourceSpan.text),
       equals([
-        '@ViewChild(\'\')\n'
+        "@ViewChild('')\n"
             '  Element view;',
-        '@ViewChild(\'\')\n'
+        "@ViewChild('')\n"
             '  Iterable<Element> views;',
-        '@ContentChild(\'\')\n'
+        "@ContentChild('')\n"
             '  Element content;',
-        '@ContentChildren(\'\')\n'
+        "@ContentChildren('')\n"
             '  Iterable<Element> contents;',
         '@Input()\n'
             '  String input;',
         '@Output()\n'
             '  Stream<void> get click => null;',
-        '@HostListener(\'\')\n'
+        "@HostListener('')\n"
             '  void handle() => null;',
       ]),
     );

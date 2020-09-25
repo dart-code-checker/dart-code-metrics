@@ -19,6 +19,7 @@ CodeIssue createIssue(
 
   return CodeIssue(
     ruleId: rule.id,
+    ruleDocumentation: rule.documentation,
     severity: rule.severity,
     sourceSpan: SourceSpanBase(
         SourceLocation(issueNode.offset,

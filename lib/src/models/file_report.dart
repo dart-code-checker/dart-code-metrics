@@ -14,8 +14,8 @@ class FileReport {
   final int totalCyclomaticComplexity;
   final int totalCyclomaticComplexityViolations;
 
-  final int totalLinesOfCode;
-  final int totalLinesOfCodeViolations;
+  final int totalLinesOfExecutableCode;
+  final int totalLinesOfExecutableCodeViolations;
 
   const FileReport(
       {@required this.averageArgumentsCount,
@@ -26,6 +26,6 @@ class FileReport {
       @required this.totalMethodsCountViolations,
       @required this.totalCyclomaticComplexity,
       @required this.totalCyclomaticComplexityViolations,
-      @required this.totalLinesOfCode,
-      @required this.totalLinesOfCodeViolations});
+      @required this.totalLinesOfExecutableCode,
+      @required this.totalLinesOfExecutableCodeViolations});
 }

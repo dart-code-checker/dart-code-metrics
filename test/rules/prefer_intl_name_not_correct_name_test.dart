@@ -325,9 +325,6 @@ void main() {
     expect(issues.every((issue) => issue.sourceSpan.sourceUrl == sourceUrl),
         isTrue);
 
-    expect(issues.every((issue) => issue.sourceSpan.sourceUrl == sourceUrl),
-        isTrue);
-
     expect(
         issues.map((issue) => issue.sourceSpan.text),
         equals([

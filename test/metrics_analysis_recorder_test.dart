@@ -1,10 +1,10 @@
 @TestOn('vm')
-// ignore_for_file: deprecated_member_use_from_same_package
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:dart_code_metrics/src/metrics_analysis_recorder.dart';
 import 'package:dart_code_metrics/src/models/code_issue.dart';
 import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
 import 'package:dart_code_metrics/src/models/component_record.dart';
+import 'package:dart_code_metrics/src/models/design_issue.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/models/scoped_component_declaration.dart';
 import 'package:dart_code_metrics/src/models/scoped_function_declaration.dart';
@@ -115,6 +115,7 @@ void main() {
       group('Stores issues for file', () {
         test('Aggregates issues for file', () {
           const _issueRuleId = 'ruleId1';
+          const _issueRuleDocumentation = 'https://docu.edu/ruleId1.html';
           const _issueMessage = 'first issue message';
           const _issueCorrection = 'correction';
           const _issueCorrectionComment = 'correction comment';
@@ -124,6 +125,7 @@ void main() {
                 b.recordIssues([
                   CodeIssue(
                     ruleId: _issueRuleId,
+                    ruleDocumentation: Uri.parse(_issueRuleDocumentation),
                     severity: CodeIssueSeverity.style,
                     sourceSpan: SourceSpanBase(
                         SourceLocation(1,
@@ -142,27 +144,12 @@ void main() {
               .single;
 
           expect(issueRecord.ruleId, _issueRuleId);
+          expect(issueRecord.ruleDocumentation.toString(),
+              _issueRuleDocumentation);
           expect(issueRecord.message, _issueMessage);
           expect(issueRecord.correction, _issueCorrection);
           expect(issueRecord.correctionComment, _issueCorrectionComment);
         });
-      });
-    });
-
-    group('startRecordFile', () {
-      test('throws ArgumentError if we call them without filePath', () {
-        expect(() {
-          MetricsAnalysisRecorder().startRecordFile(null, null);
-        }, throwsArgumentError);
-      });
-
-      test('throws StateError if we call them twice witout endRecordFile', () {
-        final recorder = MetricsAnalysisRecorder()
-          ..startRecordFile(filePath, rootDirectory);
-
-        expect(() {
-          recorder.startRecordFile(filePath, rootDirectory);
-        }, throwsStateError);
       });
     });
 
@@ -185,9 +172,10 @@ void main() {
 
       test('throws ArgumentError if we call them without record', () {
         expect(() {
-          MetricsAnalysisRecorder()
-            ..startRecordFile(filePath, rootDirectory)
-            ..recordComponent(null, null);
+          MetricsAnalysisRecorder().recordFile(filePath, rootDirectory,
+              (recorder) {
+            recorder.recordComponent(null, null);
+          });
         }, throwsArgumentError);
       });
 
@@ -196,9 +184,9 @@ void main() {
             ComponentRecord(firstLine: 1, lastLine: 2, methodsCount: 3);
 
         final recorder = MetricsAnalysisRecorder()
-          ..startRecordFile(filePath, rootDirectory)
-          ..recordComponent(record, componentRecord)
-          ..endRecordFile();
+            .recordFile(filePath, rootDirectory, (recorder) {
+          recorder.recordComponent(record, componentRecord);
+        });
 
         expect(recorder.records().single.components,
             containsPair(componentName, componentRecord));
@@ -224,9 +212,10 @@ void main() {
 
       test('throws ArgumentError if we call them without record', () {
         expect(() {
-          MetricsAnalysisRecorder()
-            ..startRecordFile(filePath, rootDirectory)
-            ..recordFunction(null, null);
+          MetricsAnalysisRecorder().recordFile(filePath, rootDirectory,
+              (recorder) {
+            recorder.recordFunction(null, null);
+          });
         }, throwsArgumentError);
       });
 
@@ -242,12 +231,51 @@ void main() {
         );
 
         final recorder = MetricsAnalysisRecorder()
-          ..startRecordFile(filePath, rootDirectory)
-          ..recordFunction(record, functionRecord)
-          ..endRecordFile();
+            .recordFile(filePath, rootDirectory, (recorder) {
+          recorder.recordFunction(record, functionRecord);
+        });
 
         expect(recorder.records().single.functions,
             containsPair(functionName, functionRecord));
+      });
+    });
+
+    group('recordDesignIssues', () {
+      test('throws StateError if we call them in invalid state', () {
+        expect(() {
+          MetricsAnalysisRecorder().recordDesignIssues([]);
+        }, throwsStateError);
+      });
+
+      test('aggregate issues for file', () {
+        const _issuePatternId = 'patternId1';
+        const _issuePatternDocumentation = 'https://docu.edu/patternId1.html';
+        const _issueMessage = 'first pattern message';
+        const _issueRecommendation = 'recommendation';
+
+        final recorder = MetricsAnalysisRecorder()
+            .recordFile(filePath, rootDirectory, (recorder) {
+          recorder.recordDesignIssues([
+            DesignIssue(
+              patternId: _issuePatternId,
+              patternDocumentation: Uri.parse(_issuePatternDocumentation),
+              sourceSpan: SourceSpanBase(
+                  SourceLocation(1,
+                      sourceUrl: Uri.parse(filePath), line: 2, column: 3),
+                  SourceLocation(6, sourceUrl: Uri.parse(filePath)),
+                  'issue'),
+              message: _issueMessage,
+              recommendation: _issueRecommendation,
+            ),
+          ]);
+        });
+
+        final issue = recorder.records().single.designIssue.single;
+        expect(issue.patternId, _issuePatternId);
+        expect(
+            issue.patternDocumentation.toString(), _issuePatternDocumentation);
+        expect(issue.message, _issueMessage);
+        expect(issue.recommendation, _issueRecommendation);
       });
     });
 
@@ -260,15 +288,17 @@ void main() {
 
       test('aggregate issues for file', () {
         const _issueRuleId = 'ruleId1';
+        const _issueRuleDocumentation = 'https://docu.edu/ruleId1.html';
         const _issueMessage = 'first issue message';
         const _issueCorrection = 'correction';
         const _issueCorrectionComment = 'correction comment';
 
         final recorder = MetricsAnalysisRecorder()
-          ..startRecordFile(filePath, rootDirectory)
-          ..recordIssues([
+            .recordFile(filePath, rootDirectory, (recorder) {
+          recorder.recordIssues([
             CodeIssue(
               ruleId: _issueRuleId,
+              ruleDocumentation: Uri.parse(_issueRuleDocumentation),
               severity: CodeIssueSeverity.style,
               sourceSpan: SourceSpanBase(
                   SourceLocation(1,
@@ -279,15 +309,15 @@ void main() {
               correction: _issueCorrection,
               correctionComment: _issueCorrectionComment,
             ),
-          ])
-          ..endRecordFile();
+          ]);
+        });
 
-        expect(recorder.records().single.issues.single.ruleId, _issueRuleId);
-        expect(recorder.records().single.issues.single.message, _issueMessage);
-        expect(recorder.records().single.issues.single.correction,
-            _issueCorrection);
-        expect(recorder.records().single.issues.single.correctionComment,
-            _issueCorrectionComment);
+        final issue = recorder.records().single.issues.single;
+        expect(issue.ruleId, _issueRuleId);
+        expect(issue.ruleDocumentation.toString(), _issueRuleDocumentation);
+        expect(issue.message, _issueMessage);
+        expect(issue.correction, _issueCorrection);
+        expect(issue.correctionComment, _issueCorrectionComment);
       });
     });
   });

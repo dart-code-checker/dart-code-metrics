@@ -11,6 +11,7 @@ import 'rule_utils.dart';
 
 class MemberOrderingRule extends BaseRule {
   static const ruleId = 'member-ordering';
+  static const _documentationUrl = 'https://git.io/JJwqN';
 
   static const _warningMessage = 'should be before';
   static const _warningAlphabeticalMessage = 'should be alphabetically before';
@@ -23,6 +24,7 @@ class MemberOrderingRule extends BaseRule {
         _alphabetize = (config['alphabetize'] as bool) ?? false,
         super(
             id: ruleId,
+            documentation: Uri.parse(_documentationUrl),
             severity:
                 CodeIssueSeverity.fromJson(config['severity'] as String) ??
                     CodeIssueSeverity.style);
@@ -35,10 +37,13 @@ class MemberOrderingRule extends BaseRule {
   ) {
     final _visitor = _Visitor(_groupsOrder);
 
-    unit.visitChildren(_visitor);
+    final membersInfo = [
+      for (final entry in unit.childEntities)
+        if (entry is ClassDeclaration) ...entry.accept(_visitor),
+    ];
 
     return [
-      ..._visitor.membersInfo.where((info) => info.memberOrder.isWrong).map(
+      ...membersInfo.where((info) => info.memberOrder.isWrong).map(
             (info) => createIssue(
                 this,
                 '${info.memberOrder.memberGroup.name} $_warningMessage ${info.memberOrder.previousMemberGroup.name}',
@@ -50,7 +55,7 @@ class MemberOrderingRule extends BaseRule {
                 info.classMember),
           ),
       if (_alphabetize)
-        ..._visitor.membersInfo
+        ...membersInfo
             .where((info) => info.memberOrder.isAlphabeticallyWrong)
             .map(
               (info) => createIssue(
@@ -67,7 +72,9 @@ class MemberOrderingRule extends BaseRule {
   }
 
   static List<_MembersGroup> _parseOrder(Map<String, Object> config) {
-    final order = config['order'] as List<String> ?? [];
+    final order = config.containsKey('order') && config['order'] is Iterable
+        ? List<String>.from(config['order'] as Iterable)
+        : <String>[];
 
     return order.isEmpty
         ? _MembersGroup._groupsOrder
@@ -78,17 +85,17 @@ class MemberOrderingRule extends BaseRule {
   }
 }
 
-class _Visitor extends RecursiveAstVisitor<void> {
+class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
   final List<_MembersGroup> _groupsOrder;
   final _membersInfo = <_MemberInfo>[];
-
-  Iterable<_MemberInfo> get membersInfo => _membersInfo;
 
   _Visitor(this._groupsOrder);
 
   @override
-  void visitClassDeclaration(ClassDeclaration node) {
+  List<_MemberInfo> visitClassDeclaration(ClassDeclaration node) {
     super.visitClassDeclaration(node);
+
+    _membersInfo.clear();
 
     for (final member in node.members) {
       if (member is FieldDeclaration) {
@@ -99,6 +106,8 @@ class _Visitor extends RecursiveAstVisitor<void> {
         _visitMethodDeclaration(member);
       }
     }
+
+    return _membersInfo;
   }
 
   void _visitFieldDeclaration(FieldDeclaration fieldDeclaration) {
@@ -226,8 +235,6 @@ class _Visitor extends RecursiveAstVisitor<void> {
 class _MembersGroup {
   final String name;
 
-  const _MembersGroup._(this.name);
-
   // Generic
   static const publicFields = _MembersGroup._('public_fields');
   static const privateFields = _MembersGroup._('private_fields');
@@ -248,7 +255,7 @@ class _MembersGroup {
   static const angularContentChildren =
       _MembersGroup._('angular_content_children');
 
-  static const List<_MembersGroup> _groupsOrder = [
+  static const _groupsOrder = [
     publicFields,
     privateFields,
     publicGetters,
@@ -266,6 +273,8 @@ class _MembersGroup {
     angularContentChildren,
   ];
 
+  const _MembersGroup._(this.name);
+
   static _MembersGroup parse(String name) => _groupsOrder
       .firstWhere((group) => group.name == name, orElse: () => null);
 }
@@ -274,8 +283,6 @@ class _MembersGroup {
 class _Annotation {
   final String name;
   final _MembersGroup group;
-
-  const _Annotation._(this.name, this.group);
 
   static const input = _Annotation._('Input', _MembersGroup.angularInputs);
   static const output = _Annotation._('Output', _MembersGroup.angularOutputs);
@@ -292,7 +299,7 @@ class _Annotation {
   static const contentChildren =
       _Annotation._('ContentChildren', _MembersGroup.angularContentChildren);
 
-  static const List<_Annotation> _annotations = [
+  static const _annotations = [
     input,
     output,
     hostBinding,
@@ -302,6 +309,8 @@ class _Annotation {
     contentChild,
     contentChildren,
   ];
+
+  const _Annotation._(this.name, this.group);
 
   static _Annotation parse(String name) => _annotations
       .firstWhere((annotation) => annotation.name == name, orElse: () => null);

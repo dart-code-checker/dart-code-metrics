@@ -3,6 +3,8 @@ import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:meta/meta.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 
+import 'design_issue.dart';
+
 @immutable
 class FileRecord {
   final String fullPath;
@@ -12,6 +14,7 @@ class FileRecord {
   final Map<String, FunctionRecord> functions;
 
   final Iterable<CodeIssue> issues;
+  final Iterable<DesignIssue> designIssue;
 
   const FileRecord({
     @required this.fullPath,
@@ -19,5 +22,6 @@ class FileRecord {
     @required this.components,
     @required this.functions,
     @required this.issues,
+    @required this.designIssue,
   });
 }

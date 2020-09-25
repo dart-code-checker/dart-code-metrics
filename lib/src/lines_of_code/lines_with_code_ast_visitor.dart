@@ -3,14 +3,13 @@ import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/source/line_info.dart';
 
-class FunctionBodyAstVisitor extends RecursiveAstVisitor<Object> {
+class LinesWithCodeAstVisitor extends RecursiveAstVisitor<Object> {
   final LineInfo _lineInfo;
 
   final _linesWithCode = <int>{};
-
-  FunctionBodyAstVisitor(this._lineInfo);
-
   Iterable<int> get linesWithCode => _linesWithCode;
+
+  LinesWithCodeAstVisitor(this._lineInfo);
 
   @override
   void visitBlockFunctionBody(BlockFunctionBody node) {
@@ -23,7 +22,7 @@ class FunctionBodyAstVisitor extends RecursiveAstVisitor<Object> {
   void visitExpressionFunctionBody(ExpressionFunctionBody node) {
     _collectFunctionBodyData(
         node.expression.beginToken.previous, node.expression.endToken.next);
-    node.visitChildren(this);
+    super.visitExpressionFunctionBody(node);
   }
 
   void _collectFunctionBodyData(Token firstToken, Token lastToken) {

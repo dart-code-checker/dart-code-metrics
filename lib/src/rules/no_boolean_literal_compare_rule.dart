@@ -11,6 +11,7 @@ import 'rule_utils.dart';
 
 class NoBooleanLiteralCompareRule extends BaseRule {
   static const String ruleId = 'no-boolean-literal-compare';
+  static const _documentationUrl = 'https://git.io/JJwmf';
 
   static const _failureCompareNullAwarePropertyWithTrue =
       'Comparison of null-conditional boolean with boolean literal may result in comparing null with boolean.';
@@ -29,6 +30,7 @@ class NoBooleanLiteralCompareRule extends BaseRule {
   NoBooleanLiteralCompareRule({Map<String, Object> config = const {}})
       : super(
             id: ruleId,
+            documentation: Uri.parse(_documentationUrl),
             severity:
                 CodeIssueSeverity.fromJson(config['severity'] as String) ??
                     CodeIssueSeverity.style);

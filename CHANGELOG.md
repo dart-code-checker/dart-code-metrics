@@ -1,8 +1,31 @@
 # Changelog
 
-# Unreleased
+# 2.0.0
+
+- Removed deprecated `AnalysisOptions.from` use `AnalysisOptions.fromMap` instead
+- Removed deprecated `Config.linesOfCodeWarningLevel` use `Config.linesOfExecutableCodeWarningLevel` instead
+- Removed deprecated `MetricsAnalysisRecorder.startRecordFile` and `MetricsAnalysisRecorder.endRecordFile` use `MetricsRecordsStore.recordFile` instead
+- **Breaking Change:** `MetricsAnalyzer.runAnalysis` now accept array with folder paths
+- Add static code anti-patterns long-parameter-list
+- Set min SDK version to >=2.8.0.
+
+# 1.10.0
+
+- Add static code diagnostics no-equal-then-else
+- Add static code anti-patterns long-method
+
+# 1.9.0
+
+- Add static code diagnostics provide-correct-intl-args, component-annotation-arguments-ordering
+
+# 1.8.1
+
+- Fix static code diagnostics member-ordering and prefer-conditional-expression
+
+# 1.8.0
 
 - Add static code diagnostics prefer-conditional-expressions, prefer-on-push-cd-strategy, member-ordering, no-object-declaration
+- Improve static code diagnostic no-magic-number
 - Set min analyzer 0.39.3
 
 # 1.7.1
@@ -57,32 +80,32 @@
 
 - Allow to analyze multiple directories
 
-## 1.1.5
+# 1.1.5
 
 - Tweak console reporter
 
-## 1.1.4
+# 1.1.4
 
 - Add some dartdocs
 - Update readme
 - Add library usage example
 
-## 1.1.3
+# 1.1.3
 
 - Fix validate input arguments
 
-## 1.1.2
+# 1.1.2
 
 - Improve CodeClimate report
 
-## 1.1.1
+# 1.1.1
 
 - Added support extension methods
 
-## 1.1.0
+# 1.1.0
 
 - Added support for CodeClimate
 
-## 1.0.0
+# 1.0.0
 
 - Initial release

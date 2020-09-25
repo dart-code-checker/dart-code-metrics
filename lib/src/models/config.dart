@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
 
 const cyclomaticComplexityDefaultWarningLevel = 20;
-const linesOfCodeDefaultWarningLevel = 50;
+const linesOfExecutableCodeDefaultWarningLevel = 50;
 const numberOfArgumentsDefaultWarningLevel = 4;
 const numberOfMethodsDefaultWarningLevel = 10;
 
@@ -9,14 +9,15 @@ const numberOfMethodsDefaultWarningLevel = 10;
 @immutable
 class Config {
   final int cyclomaticComplexityWarningLevel;
-  final int linesOfCodeWarningLevel;
+  final int linesOfExecutableCodeWarningLevel;
   final int numberOfArgumentsWarningLevel;
   final int numberOfMethodsWarningLevel;
 
   const Config({
     this.cyclomaticComplexityWarningLevel =
         cyclomaticComplexityDefaultWarningLevel,
-    this.linesOfCodeWarningLevel = linesOfCodeDefaultWarningLevel,
+    this.linesOfExecutableCodeWarningLevel =
+        linesOfExecutableCodeDefaultWarningLevel,
     this.numberOfArgumentsWarningLevel = numberOfArgumentsDefaultWarningLevel,
     this.numberOfMethodsWarningLevel = numberOfMethodsDefaultWarningLevel,
   });

@@ -1,5 +1,7 @@
 # Prefer conditional expressions
 
+![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
+
 ## Rule id
 
 prefer-conditional-expressions
