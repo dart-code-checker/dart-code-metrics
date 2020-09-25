@@ -92,11 +92,13 @@ class _Visitor extends RecursiveAstVisitor<void> {
     for (final child in children) {
       if (child is AssignmentExpression &&
           child.leftHandSide is Identifier &&
-          (child.leftHandSide as Identifier).name == name) {
+          (child.leftHandSide as Identifier).name.endsWith(name)) {
         wasReassignedOrShadowed = true;
       } else if (child is VariableDeclaration && child.name.name == name) {
         wasReassignedOrShadowed = true;
       } else if (child is FormalParameter && child.identifier.name == name) {
+        wasReassignedOrShadowed = true;
+      } else if (child is ReturnStatement) {
         wasReassignedOrShadowed = true;
       } else if (child is Identifier && child.toString() == name) {
         _issues.add(_Issue(

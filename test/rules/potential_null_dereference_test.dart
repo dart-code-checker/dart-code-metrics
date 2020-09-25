@@ -21,7 +21,7 @@ class Test {
   }
 }
 
-function doWork(Test object) {
+Test doWork(Test object) {
   if (object == null) {
     final text = object.value;
     object.getValue();
@@ -79,15 +79,20 @@ const _correctContent = '''
 class Test {
   final String value;
   final Test child;
+  String mutableValue;
 
-  const Test(this.value, this.child);
+  Test(this.value, this.child);
 
   String getValue() {
     return value;
   }
 }
 
-function doWork(Test object) {
+Test doWork(Test object) {
+  if (object == null) {
+    return object;
+  }
+
   if (object != null) {
     final text = object.value;
     object.getValue();
@@ -96,6 +101,11 @@ function doWork(Test object) {
   if (object.child != null) {
     final text = object.child.value;
     object.child.getValue();
+  }
+
+  String mutableValue;
+  if (mutableValue == null) {
+    object.mutableValue = mutableValue;
   }
 
   Test mutable;
@@ -193,7 +203,7 @@ void main() {
       expect(
         issues.map((issue) => issue.sourceSpan.start.offset),
         equals(
-            [215, 233, 304, 328, 416, 499, 555, 611, 663, 747, 803, 871, 939]),
+            [211, 229, 300, 324, 412, 495, 551, 607, 659, 743, 799, 867, 935]),
       );
       expect(
         issues.map((issue) => issue.sourceSpan.start.line),
@@ -206,7 +216,7 @@ void main() {
       expect(
         issues.map((issue) => issue.sourceSpan.end.offset),
         equals(
-            [221, 239, 316, 340, 423, 539, 595, 646, 731, 787, 855, 923, 986]),
+            [217, 235, 312, 336, 419, 535, 591, 642, 727, 783, 851, 919, 982]),
       );
       expect(
         issues.map((issue) => issue.sourceSpan.text),
