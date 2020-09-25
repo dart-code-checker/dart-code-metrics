@@ -8,8 +8,9 @@ void main() {
     expect(
         getPatternsById({
           'long-method': <String, Object>{},
+          'long-parameter-list': <String, Object>{},
           'sample-pattern': <String, Object>{},
-        }).single.id,
-        equals('long-method'));
+        }).map((pattern) => pattern.id),
+        equals(['long-method', 'long-parameter-list']));
   });
 }
