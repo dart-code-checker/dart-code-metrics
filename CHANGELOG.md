@@ -1,5 +1,9 @@
 # Changelog
 
+# Unreleased (2.1.0)
+
+- Add static code diagnostic potential-null-dereference
+
 # 2.0.0
 
 - Removed deprecated `AnalysisOptions.from` use `AnalysisOptions.fromMap` instead
@@ -7,7 +11,6 @@
 - Removed deprecated `MetricsAnalysisRecorder.startRecordFile` and `MetricsAnalysisRecorder.endRecordFile` use `MetricsRecordsStore.recordFile` instead
 - **Breaking Change:** `MetricsAnalyzer.runAnalysis` now accept array with folder paths
 - Add static code anti-patterns long-parameter-list
-- Add static code diagnostic potential-null-dereference
 - Set min SDK version to >=2.8.0.
 
 # 1.10.0
