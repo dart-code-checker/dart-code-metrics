@@ -76,7 +76,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
           return argument.expression.toString() == arg.expression.toString();
         }
 
-        if (argument is Literal && arg is Literal) {
+        if (_bothLiterals(argument, arg)) {
           return argument == arg;
         }
 
@@ -88,4 +88,11 @@ class _Visitor extends RecursiveAstVisitor<void> {
       }
     }
   }
+
+  bool _bothLiterals(Expression left, Expression right) =>
+      left is Literal && right is Literal ||
+      (left is PrefixExpression &&
+          left.operand is Literal &&
+          right is PrefixExpression &&
+          right.operand is Literal);
 }

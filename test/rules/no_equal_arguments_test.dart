@@ -161,6 +161,15 @@ void getUserData(User user) {
   );
 }
 
+int getWidthAndHeight() {
+  int calculate(int width, int height) => width + height;
+
+  return calculate(
+    -1,
+    -1,
+  );
+}
+
 ''';
 
 void main() {
