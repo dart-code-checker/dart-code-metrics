@@ -35,7 +35,8 @@ void main() {
       final store = MetricsRecordsStoreMock();
       when(store.records()).thenReturn(stubRecords);
 
-      final runner = MetricsAnalysisRunner(MetricsAnalyzerMock(), store, []);
+      final runner =
+          MetricsAnalysisRunner(MetricsAnalyzerMock(), store, const [], '');
 
       expect(runner.results(), equals(stubRecords));
     });
@@ -46,8 +47,7 @@ void main() {
 
       final analyzer = MetricsAnalyzerMock();
 
-      MetricsAnalysisRunner(analyzer, MetricsRecordsStoreMock(), folders,
-              rootFolder: root)
+      MetricsAnalysisRunner(analyzer, MetricsRecordsStoreMock(), folders, root)
           .run();
 
       verify(analyzer.runAnalysis(folders, root));

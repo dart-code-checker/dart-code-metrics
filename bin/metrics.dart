@@ -75,8 +75,8 @@ Future<void> _runAnalysis(
   final store = MetricsRecordsStore.store();
   final analyzer = MetricsAnalyzer(store,
       options: options, addintionalExcludes: [ignoreFilesPattern]);
-  final runner = MetricsAnalysisRunner(analyzer, store, analysisDirectories,
-      rootFolder: rootFolder);
+  final runner =
+      MetricsAnalysisRunner(analyzer, store, analysisDirectories, rootFolder);
   await runner.run();
 
   final config = Config(
