@@ -504,38 +504,40 @@ class HtmlReporter implements Reporter {
           ..text = p.dirname(record.relativePath))
         ..append(
             Element.tag('span')..text = '/${p.basename(record.relativePath)}'))
-      ..append(_generateTotalMetrics(
-          withCyclomaticComplexityViolations
-              ? _cyclomaticComplexityWithViolations
-              : _cyclomaticComplexity,
-          withCyclomaticComplexityViolations
-              ? '${report.totalCyclomaticComplexity} / ${report.totalCyclomaticComplexityViolations}'
-              : '${report.totalCyclomaticComplexity}',
-          withCyclomaticComplexityViolations))
-      ..append(_generateTotalMetrics(
-          withLinesOfExecutableCodeViolations
-              ? _linesOfExecutableCodeWithViolations
-              : _linesOfExecutableCode,
-          withLinesOfExecutableCodeViolations
-              ? '${report.totalLinesOfExecutableCode} / ${report.totalLinesOfExecutableCodeViolations}'
-              : '${report.totalLinesOfExecutableCode}',
-          withLinesOfExecutableCodeViolations))
-      ..append(_generateTotalMetrics(
-          totalMaintainabilityIndexViolations
-              ? _maintainabilityIndexWithViolations
-              : _maintainabilityIndex,
-          totalMaintainabilityIndexViolations
-              ? '${report.averageMaintainabilityIndex.toInt()} / ${report.totalMaintainabilityIndexViolations}'
-              : '${report.averageMaintainabilityIndex.toInt()}',
-          totalMaintainabilityIndexViolations))
-      ..append(_generateTotalMetrics(
-          withArgumentsCountViolations
-              ? _nuberOfArgumentsWithViolations
-              : _nuberOfArguments,
-          withArgumentsCountViolations
-              ? '${report.averageArgumentsCount} / ${report.totalArgumentsCountViolations}'
-              : '${report.averageArgumentsCount}',
-          withArgumentsCountViolations))
+      ..append(Element.tag('div')
+        ..classes.add('metric-subheader')
+        ..append(_generateTotalMetrics(
+            withCyclomaticComplexityViolations
+                ? _cyclomaticComplexityWithViolations
+                : _cyclomaticComplexity,
+            withCyclomaticComplexityViolations
+                ? '${report.totalCyclomaticComplexity} / ${report.totalCyclomaticComplexityViolations}'
+                : '${report.totalCyclomaticComplexity}',
+            withCyclomaticComplexityViolations))
+        ..append(_generateTotalMetrics(
+            withLinesOfExecutableCodeViolations
+                ? _linesOfExecutableCodeWithViolations
+                : _linesOfExecutableCode,
+            withLinesOfExecutableCodeViolations
+                ? '${report.totalLinesOfExecutableCode} / ${report.totalLinesOfExecutableCodeViolations}'
+                : '${report.totalLinesOfExecutableCode}',
+            withLinesOfExecutableCodeViolations))
+        ..append(_generateTotalMetrics(
+            totalMaintainabilityIndexViolations
+                ? _maintainabilityIndexWithViolations
+                : _maintainabilityIndex,
+            totalMaintainabilityIndexViolations
+                ? '${report.averageMaintainabilityIndex.toInt()} / ${report.totalMaintainabilityIndexViolations}'
+                : '${report.averageMaintainabilityIndex.toInt()}',
+            totalMaintainabilityIndexViolations))
+        ..append(_generateTotalMetrics(
+            withArgumentsCountViolations
+                ? _nuberOfArgumentsWithViolations
+                : _nuberOfArguments,
+            withArgumentsCountViolations
+                ? '${report.averageArgumentsCount} / ${report.totalArgumentsCountViolations}'
+                : '${report.averageArgumentsCount}',
+            withArgumentsCountViolations)))
       ..append(Element.tag('pre')
         ..append(Element.tag('table')
           ..classes.add('metrics-source-code')

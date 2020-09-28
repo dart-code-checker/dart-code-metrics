@@ -12,6 +12,12 @@ a:hover {
   font-size: 18px;
 }
 
+.metric-subheader {
+  display: grid;
+  grid-gap: 8px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
 .metric-wrapper {
   display: flex;
   justify-content: space-between;
@@ -59,6 +65,10 @@ a:hover {
   width: var(--dart-code-metrics-totals-width);
 }
 
+.metrics-totals .metrics-total + .metrics-total {
+  margin-top: 8px;
+}
+
 .metrics-total {
   padding: var(--dart-code-metrics-common-padding) 12px;
   background-color: var(--dart-code-metrics-total-bg-color);
@@ -67,10 +77,6 @@ a:hover {
 .metrics-total--violations,
 .with-violations {
   background-color: var(--dart-code-metrics-violations-bg-color);
-}
-
-.metrics-total + .metrics-total {
-  margin-top: 8px;
 }
 
 .metrics-total__count {
