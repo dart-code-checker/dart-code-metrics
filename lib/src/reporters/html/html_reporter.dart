@@ -615,7 +615,7 @@ class HtmlReporter implements Reporter {
         ..append(Element.tag('span')
           ..classes.add('metrics-source-code__tooltip-label')
           ..text = '${humanReadableName.toLowerCase()}:&nbsp;')
-        ..append(Element.tag('span')..text = metric.value.toString()))
+        ..append(Element.tag('span')..text = metric.value.round().toString()))
       ..append(Element.tag('p')
         ..classes.add('metrics-source-code__tooltip-text')
         ..append(Element.tag('span')
