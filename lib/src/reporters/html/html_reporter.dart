@@ -12,6 +12,8 @@ import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
 import 'package:meta/meta.dart';
 import 'package:path/path.dart' as p;
 
+import 'utility_functions.dart';
+
 const _violationLevelFunctionStyle = {
   ViolationLevel.alarm: 'metrics-source-code__text--attention-complexity',
   ViolationLevel.warning: 'metrics-source-code__text--warning-complexity',
@@ -231,30 +233,30 @@ class HtmlReporter implements Reporter {
       ..append(table)
       ..append(Element.tag('div')
         ..classes.add('metrics-totals')
-        ..append(_generateTotalMetrics(
+        ..append(renderMetric(
             cyclomaticComplexityTitle,
             withCyclomaticComplexityViolations
                 ? '$totalComplexity / $totalComplexityViolations'
                 : '$totalComplexity',
-            withCyclomaticComplexityViolations))
-        ..append(_generateTotalMetrics(
+            withViolation: withCyclomaticComplexityViolations))
+        ..append(renderMetric(
             linesOfExecutableCodeTitle,
             withLinesOfExecutableCodeViolations
                 ? '$totalLinesOfExecutableCode / $totalLinesOfExecutableCodeViolations'
                 : '$totalLinesOfExecutableCode',
-            withLinesOfExecutableCodeViolations))
-        ..append(_generateTotalMetrics(
+            withViolation: withLinesOfExecutableCodeViolations))
+        ..append(renderMetric(
             maintainabilityIndexTitle,
             withMaintainabilityIndexViolations
                 ? '${averageMaintainabilityIndex.toInt()} / $totalMaintainabilityIndexViolations'
                 : '${averageMaintainabilityIndex.toInt()}',
-            withMaintainabilityIndexViolations))
-        ..append(_generateTotalMetrics(
+            withViolation: withMaintainabilityIndexViolations))
+        ..append(renderMetric(
             argumentsCountTitle,
             withArgumentsCountViolations
                 ? '$averageArgumentsCount / $totalArgumentsCountViolations'
                 : '$averageArgumentsCount',
-            withMaintainabilityIndexViolations)));
+            withViolation: withMaintainabilityIndexViolations)));
   }
 
   void _generateFoldersReports(
@@ -504,38 +506,25 @@ class HtmlReporter implements Reporter {
           ..text = p.dirname(record.relativePath))
         ..append(
             Element.tag('span')..text = '/${p.basename(record.relativePath)}'))
-      ..append(_generateTotalMetrics(
+      ..append(renderMetric(
           withCyclomaticComplexityViolations
               ? _cyclomaticComplexityWithViolations
               : _cyclomaticComplexity,
           withCyclomaticComplexityViolations
               ? '${report.totalCyclomaticComplexity} / ${report.totalCyclomaticComplexityViolations}'
               : '${report.totalCyclomaticComplexity}',
-          withCyclomaticComplexityViolations))
-      ..append(_generateTotalMetrics(
+          withViolation: withCyclomaticComplexityViolations))
+      ..append(renderMetric(
           withLinesOfExecutableCodeViolations
               ? _linesOfExecutableCodeWithViolations
               : _linesOfExecutableCode,
           withLinesOfExecutableCodeViolations
               ? '${report.totalLinesOfExecutableCode} / ${report.totalLinesOfExecutableCodeViolations}'
               : '${report.totalLinesOfExecutableCode}',
-          withLinesOfExecutableCodeViolations))
-      ..append(_generateTotalMetrics(
-          totalMaintainabilityIndexViolations
-              ? _maintainabilityIndexWithViolations
-              : _maintainabilityIndex,
-          totalMaintainabilityIndexViolations
-              ? '${report.averageMaintainabilityIndex.toInt()} / ${report.totalMaintainabilityIndexViolations}'
-              : '${report.averageMaintainabilityIndex.toInt()}',
-          totalMaintainabilityIndexViolations))
-      ..append(_generateTotalMetrics(
-          withArgumentsCountViolations
-              ? _nuberOfArgumentsWithViolations
-              : _nuberOfArguments,
-          withArgumentsCountViolations
-              ? '${report.averageArgumentsCount} / ${report.totalArgumentsCountViolations}'
-              : '${report.averageArgumentsCount}',
-          withArgumentsCountViolations))
+          withViolation: withLinesOfExecutableCodeViolations))
+      ..append(
+          renderMetric(totalMaintainabilityIndexViolations ? _maintainabilityIndexWithViolations : _maintainabilityIndex, totalMaintainabilityIndexViolations ? '${report.averageMaintainabilityIndex.toInt()} / ${report.totalMaintainabilityIndexViolations}' : '${report.averageMaintainabilityIndex.toInt()}', withViolation: totalMaintainabilityIndexViolations))
+      ..append(renderMetric(withArgumentsCountViolations ? _nuberOfArgumentsWithViolations : _nuberOfArguments, withArgumentsCountViolations ? '${report.averageArgumentsCount} / ${report.totalArgumentsCountViolations}' : '${report.averageArgumentsCount}', withViolation: withArgumentsCountViolations))
       ..append(Element.tag('pre')
         ..append(Element.tag('table')
           ..classes.add('metrics-source-code')
@@ -596,18 +585,6 @@ class HtmlReporter implements Reporter {
       ..writeAsStringSync(
           htmlDocument.outerHtml.replaceAll('&amp;nbsp;', '&nbsp;'));
   }
-
-  Element _generateTotalMetrics(String name, String value, bool violations) =>
-      Element.tag('div')
-        ..classes.add(!violations
-            ? 'metrics-total'
-            : 'metrics-total metrics-total--violations')
-        ..append(Element.tag('span')
-          ..classes.add('metrics-total__label')
-          ..text = '$name : ')
-        ..append(Element.tag('span')
-          ..classes.add('metrics-total__count')
-          ..text = value);
 
   Element _report(ReportMetric<num> metric, String humanReadableName) {
     final violationLevelText = metric.violationLevel.toString().toLowerCase();
