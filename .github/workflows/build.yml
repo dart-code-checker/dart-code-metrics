@@ -51,3 +51,21 @@ jobs:
       run: dartanalyzer --fatal-warnings --fatal-infos --fatal-lints bin/ lib/ test/
     - name: Run tests
       run: pub run test
+
+  build-dart-dev:
+
+    runs-on: ubuntu-latest
+
+    container:
+      image:  google/dart:dev
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: dart pub get
+    - name: Run analyzer
+      run:  |
+        dart analyze --fatal-warnings --fatal-infos bin
+        dart analyze --fatal-warnings --fatal-infos lib
+    - name: Run tests
+      run: dart test
