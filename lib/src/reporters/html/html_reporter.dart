@@ -482,17 +482,6 @@ class HtmlReporter implements Reporter {
         ..classes.add('prettyprint lang-dart')
         ..text = sourceFileContent);
 
-    final report = UtilitySelector.fileReport(record, reportConfig);
-
-    final totalMaintainabilityIndexViolations =
-        report.totalMaintainabilityIndexViolations > 0;
-    final withArgumentsCountViolations =
-        report.totalArgumentsCountViolations > 0;
-    final withCyclomaticComplexityViolations =
-        report.totalCyclomaticComplexityViolations > 0;
-    final withLinesOfExecutableCodeViolations =
-        report.totalLinesOfExecutableCodeViolations > 0;
-
     final body = Element.tag('body')
       ..append(Element.tag('h1')
         ..classes.add('metric-header')
@@ -506,25 +495,7 @@ class HtmlReporter implements Reporter {
           ..text = p.dirname(record.relativePath))
         ..append(
             Element.tag('span')..text = '/${p.basename(record.relativePath)}'))
-      ..append(renderMetric(
-          withCyclomaticComplexityViolations
-              ? _cyclomaticComplexityWithViolations
-              : _cyclomaticComplexity,
-          withCyclomaticComplexityViolations
-              ? '${report.totalCyclomaticComplexity} / ${report.totalCyclomaticComplexityViolations}'
-              : '${report.totalCyclomaticComplexity}',
-          withViolation: withCyclomaticComplexityViolations))
-      ..append(renderMetric(
-          withLinesOfExecutableCodeViolations
-              ? _linesOfExecutableCodeWithViolations
-              : _linesOfExecutableCode,
-          withLinesOfExecutableCodeViolations
-              ? '${report.totalLinesOfExecutableCode} / ${report.totalLinesOfExecutableCodeViolations}'
-              : '${report.totalLinesOfExecutableCode}',
-          withViolation: withLinesOfExecutableCodeViolations))
-      ..append(
-          renderMetric(totalMaintainabilityIndexViolations ? _maintainabilityIndexWithViolations : _maintainabilityIndex, totalMaintainabilityIndexViolations ? '${report.averageMaintainabilityIndex.toInt()} / ${report.totalMaintainabilityIndexViolations}' : '${report.averageMaintainabilityIndex.toInt()}', withViolation: totalMaintainabilityIndexViolations))
-      ..append(renderMetric(withArgumentsCountViolations ? _nuberOfArgumentsWithViolations : _nuberOfArguments, withArgumentsCountViolations ? '${report.averageArgumentsCount} / ${report.totalArgumentsCountViolations}' : '${report.averageArgumentsCount}', withViolation: withArgumentsCountViolations))
+      ..append(_generateSourceReportMetricsHeader(record))
       ..append(Element.tag('pre')
         ..append(Element.tag('table')
           ..classes.add('metrics-source-code')
@@ -584,6 +555,54 @@ class HtmlReporter implements Reporter {
       ..createSync(recursive: true)
       ..writeAsStringSync(
           htmlDocument.outerHtml.replaceAll('&amp;nbsp;', '&nbsp;'));
+  }
+
+  Element _generateSourceReportMetricsHeader(FileRecord record) {
+    final report = UtilitySelector.fileReport(record, reportConfig);
+
+    final totalMaintainabilityIndexViolations =
+        report.totalMaintainabilityIndexViolations > 0;
+    final withArgumentsCountViolations =
+        report.totalArgumentsCountViolations > 0;
+    final withCyclomaticComplexityViolations =
+        report.totalCyclomaticComplexityViolations > 0;
+    final withLinesOfExecutableCodeViolations =
+        report.totalLinesOfExecutableCodeViolations > 0;
+
+    return Element.tag('div')
+      ..classes.add('metric-subheader')
+      ..append(renderMetric(
+          withCyclomaticComplexityViolations
+              ? _cyclomaticComplexityWithViolations
+              : _cyclomaticComplexity,
+          withCyclomaticComplexityViolations
+              ? '${report.totalCyclomaticComplexity} / ${report.totalCyclomaticComplexityViolations}'
+              : '${report.totalCyclomaticComplexity}',
+          withViolation: withCyclomaticComplexityViolations))
+      ..append(renderMetric(
+          withLinesOfExecutableCodeViolations
+              ? _linesOfExecutableCodeWithViolations
+              : _linesOfExecutableCode,
+          withLinesOfExecutableCodeViolations
+              ? '${report.totalLinesOfExecutableCode} / ${report.totalLinesOfExecutableCodeViolations}'
+              : '${report.totalLinesOfExecutableCode}',
+          withViolation: withLinesOfExecutableCodeViolations))
+      ..append(renderMetric(
+          totalMaintainabilityIndexViolations
+              ? _maintainabilityIndexWithViolations
+              : _maintainabilityIndex,
+          totalMaintainabilityIndexViolations
+              ? '${report.averageMaintainabilityIndex.toInt()} / ${report.totalMaintainabilityIndexViolations}'
+              : '${report.averageMaintainabilityIndex.toInt()}',
+          withViolation: totalMaintainabilityIndexViolations))
+      ..append(renderMetric(
+          withArgumentsCountViolations
+              ? _nuberOfArgumentsWithViolations
+              : _nuberOfArguments,
+          withArgumentsCountViolations
+              ? '${report.averageArgumentsCount} / ${report.totalArgumentsCountViolations}'
+              : '${report.averageArgumentsCount}',
+          withViolation: withArgumentsCountViolations));
   }
 
   Element _report(ReportMetric<num> metric, String humanReadableName) {
