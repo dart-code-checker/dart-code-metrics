@@ -27,6 +27,7 @@ void main() {
               'function3': buildFunctionRecordStub(argumentsCount: 10),
             }),
             issues: const [],
+            designIssue: const [],
           ),
           const Config());
       expect(report.averageArgumentsCount, 5);
@@ -87,28 +88,28 @@ void main() {
       expect(
           UtilitySelector.functionViolationLevel(buildFunctionReportStub(
               cyclomaticComplexityViolationLevel: ViolationLevel.warning,
-              linesOfCodeViolationLevel: ViolationLevel.noted,
+              linesOfExecutableCodeViolationLevel: ViolationLevel.noted,
               maintainabilityIndexViolationLevel: ViolationLevel.none)),
           ViolationLevel.warning);
 
       expect(
           UtilitySelector.functionViolationLevel(buildFunctionReportStub(
               cyclomaticComplexityViolationLevel: ViolationLevel.warning,
-              linesOfCodeViolationLevel: ViolationLevel.alarm,
+              linesOfExecutableCodeViolationLevel: ViolationLevel.alarm,
               maintainabilityIndexViolationLevel: ViolationLevel.none)),
           ViolationLevel.alarm);
 
       expect(
           UtilitySelector.functionViolationLevel(buildFunctionReportStub(
               cyclomaticComplexityViolationLevel: ViolationLevel.none,
-              linesOfCodeViolationLevel: ViolationLevel.none,
+              linesOfExecutableCodeViolationLevel: ViolationLevel.none,
               maintainabilityIndexViolationLevel: ViolationLevel.noted)),
           ViolationLevel.noted);
 
       expect(
           UtilitySelector.functionViolationLevel(buildFunctionReportStub(
               cyclomaticComplexityViolationLevel: ViolationLevel.none,
-              linesOfCodeViolationLevel: ViolationLevel.none,
+              linesOfExecutableCodeViolationLevel: ViolationLevel.none,
               argumentsCountViolationLevel: ViolationLevel.warning)),
           ViolationLevel.warning);
     });
@@ -141,6 +142,7 @@ void main() {
             'a': buildFunctionRecordStub(linesWithCode: List.filled(10, 0)),
           }),
           issues: const [],
+          designIssue: const [],
         ),
         FileRecord(
           fullPath: fullPathStub,
@@ -150,6 +152,7 @@ void main() {
             'a': buildFunctionRecordStub(linesWithCode: List.filled(20, 0)),
           }),
           issues: const [],
+          designIssue: const [],
         ),
         FileRecord(
           fullPath: fullPathStub,
@@ -159,28 +162,29 @@ void main() {
             'a': buildFunctionRecordStub(linesWithCode: List.filled(30, 0)),
           }),
           issues: const [],
+          designIssue: const [],
         ),
       ];
 
       test('ViolationLevel.none if no violations', () {
         expect(
-            UtilitySelector.maxViolationLevel(
-                fileRecords, const Config(linesOfCodeWarningLevel: 100500)),
+            UtilitySelector.maxViolationLevel(fileRecords,
+                const Config(linesOfExecutableCodeWarningLevel: 100500)),
             ViolationLevel.none);
       });
 
       test('ViolationLevel.warning if maximum violation is warning', () {
         expect(
-            UtilitySelector.maxViolationLevel(
-                fileRecords, const Config(linesOfCodeWarningLevel: 20)),
+            UtilitySelector.maxViolationLevel(fileRecords,
+                const Config(linesOfExecutableCodeWarningLevel: 20)),
             ViolationLevel.warning);
       });
 
       test('ViolationLevel.alarm if there are warning and alarm violations',
           () {
         expect(
-            UtilitySelector.maxViolationLevel(
-                fileRecords, const Config(linesOfCodeWarningLevel: 15)),
+            UtilitySelector.maxViolationLevel(fileRecords,
+                const Config(linesOfExecutableCodeWarningLevel: 15)),
             ViolationLevel.warning);
       });
     });

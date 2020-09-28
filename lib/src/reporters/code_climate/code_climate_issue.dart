@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
-import 'package:dart_code_metrics/src/models/code_issue.dart';
-import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
 import 'package:meta/meta.dart';
+
+import '../../models/code_issue.dart';
+import '../../models/code_issue_severity.dart';
+import '../../models/design_issue.dart';
 
 @immutable
 class CodeClimateLocationLines {
@@ -57,15 +59,6 @@ class CodeClimateIssue {
     return CodeClimateIssue._(name, desc, categories, location, fingerprint);
   }
 
-  factory CodeClimateIssue.linesOfCode(int startLine, int endLine, int value,
-      String fileName, String functionName, int threshold) {
-    final desc =
-        'Function `$functionName` has $value lines of code (exceeds $threshold allowed). Consider refactoring.';
-
-    return CodeClimateIssue._create(
-        'linesOfCode', desc, startLine, endLine, fileName);
-  }
-
   factory CodeClimateIssue.cyclomaticComplexity(int startLine, int endLine,
       int value, String fileName, String functionName, int threshold) {
     final desc =
@@ -84,15 +77,6 @@ class CodeClimateIssue {
         'maintainabilityIndex', desc, startLine, endLine, fileName);
   }
 
-  factory CodeClimateIssue.numberOfArguments(int startLine, int endLine,
-      int value, String fileName, String functionName, int threshold) {
-    final desc =
-        'Function `$functionName` has $value number of arguments (exceeds $threshold allowed). Consider refactoring.';
-
-    return CodeClimateIssue._create(
-        'numberOfArguments', desc, startLine, endLine, fileName);
-  }
-
   factory CodeClimateIssue.numberOfMethods(int startLine, int endLine,
       int value, String fileName, String componentName, int threshold) {
     final desc =
@@ -106,12 +90,19 @@ class CodeClimateIssue {
     const severityHumanReadable = {
       CodeIssueSeverity.style: ['Style'],
       CodeIssueSeverity.warning: ['Clarity'],
+      CodeIssueSeverity.error: ['Bug Risk'],
     };
 
     return CodeClimateIssue._create(issue.ruleId, issue.message,
         issue.sourceSpan.start.line, issue.sourceSpan.start.line, fileName,
         categories: severityHumanReadable[issue.severity]);
   }
+
+  factory CodeClimateIssue.fromDesignIssue(
+          DesignIssue issue, String fileName) =>
+      CodeClimateIssue._create(issue.patternId, issue.message,
+          issue.sourceSpan.start.line, issue.sourceSpan.start.line, fileName,
+          categories: const ['Complexity']);
 
   Map<String, Object> toJson() => {
         'type': type,

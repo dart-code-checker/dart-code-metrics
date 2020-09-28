@@ -5,13 +5,13 @@ import 'report_metric.dart';
 @immutable
 class FunctionReport {
   final ReportMetric<int> cyclomaticComplexity;
-  final ReportMetric<int> linesOfCode;
+  final ReportMetric<int> linesOfExecutableCode;
   final ReportMetric<double> maintainabilityIndex;
   final ReportMetric<int> argumentsCount;
 
   const FunctionReport(
       {@required this.cyclomaticComplexity,
-      @required this.linesOfCode,
+      @required this.linesOfExecutableCode,
       @required this.maintainabilityIndex,
       @required this.argumentsCount});
 }

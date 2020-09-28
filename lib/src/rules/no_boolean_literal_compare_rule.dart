@@ -10,6 +10,9 @@ import 'rule_utils.dart';
 // Inspired by TSLint (https://palantir.github.io/tslint/rules/no-boolean-literal-compare/)
 
 class NoBooleanLiteralCompareRule extends BaseRule {
+  static const String ruleId = 'no-boolean-literal-compare';
+  static const _documentationUrl = 'https://git.io/JJwmf';
+
   static const _failureCompareNullAwarePropertyWithTrue =
       'Comparison of null-conditional boolean with boolean literal may result in comparing null with boolean.';
 
@@ -24,11 +27,13 @@ class NoBooleanLiteralCompareRule extends BaseRule {
   static const _negate =
       'This expression is unnecessarily compared to a boolean. Just negate it.';
 
-  const NoBooleanLiteralCompareRule()
+  NoBooleanLiteralCompareRule({Map<String, Object> config = const {}})
       : super(
-          id: 'no-boolean-literal-compare',
-          severity: CodeIssueSeverity.style,
-        );
+            id: ruleId,
+            documentation: Uri.parse(_documentationUrl),
+            severity:
+                CodeIssueSeverity.fromJson(config['severity'] as String) ??
+                    CodeIssueSeverity.style);
 
   @override
   Iterable<CodeIssue> check(

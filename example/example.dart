@@ -2,19 +2,19 @@ import 'package:dart_code_metrics/metrics_analyzer.dart';
 import 'package:dart_code_metrics/reporters.dart';
 
 void main() {
-  // Get some files you would like to analyze
-  const filesToAnalyze = ['some_file.dart', 'another_file.dart'];
+  // Get some folder you would like to analyze
+  const foldersToAnalyze = ['lib', 'test'];
   // Root folder path is used to resolve relative file paths
-  const rootFolder = 'lib/src';
+  const rootFolder = 'projectRoot';
 
-  // Recorder keeps reported issues in format-agnostic way
-  final recorder = MetricsAnalysisRecorder();
+  // Store keeps reported issues in format-agnostic way
+  final store = MetricsRecordsStore.store();
 
-  // Analyzer traverses files and report its findings to passed recorder
-  final analyzer = MetricsAnalyzer(recorder);
+  // Analyzer traverses files and report its findings to passed store
+  final analyzer = MetricsAnalyzer(store);
 
-  // Runner coordinates recorder and analyzer
-  final runner = MetricsAnalysisRunner(recorder, analyzer, filesToAnalyze,
+  // Runner coordinates analyzer and store
+  final runner = MetricsAnalysisRunner(analyzer, store, foldersToAnalyze,
       rootFolder: rootFolder);
 
   // Execute run() to analyze files and collect results
@@ -26,7 +26,7 @@ void main() {
   // First of all config has to be created for a reporter
   const reporterConfig = Config(
       cyclomaticComplexityWarningLevel: 10,
-      linesOfCodeWarningLevel: 50,
+      linesOfExecutableCodeWarningLevel: 50,
       numberOfArgumentsWarningLevel: 4);
 
   // Now the reporter itself

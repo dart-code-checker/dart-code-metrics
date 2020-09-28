@@ -51,7 +51,7 @@ lcov.Record _fileToUncoveredRecord(String filePath) {
       .toList()
       .asMap()
       .entries
-      .where((MapEntry<int, String> e) =>
+      .where((e) =>
           e.value.isNotEmpty &&
           !e.value.startsWith('import') &&
           !e.value.startsWith('library') &&

@@ -51,7 +51,7 @@ void main() {
         featureSet: FeatureSet.fromEnableFlags([]),
         throwIfDiagnostics: false);
 
-    final issues = const AvoidPreserveWhitespaceFalseRule()
+    final issues = AvoidPreserveWhitespaceFalseRule()
         .check(parseResult.unit, sourceUrl, parseResult.content);
 
     expect(issues.length, equals(1));

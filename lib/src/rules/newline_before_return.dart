@@ -11,13 +11,18 @@ import 'rule_utils.dart';
 // Inspired by TSLint (https://palantir.github.io/tslint/rules/newline-before-return/)
 
 class NewlineBeforeReturnRule extends BaseRule {
+  static const String ruleId = 'newline-before-return';
+  static const _documentationUrl = 'https://git.io/JfDiO';
+
   static const _failure = 'Missing blank line before return';
 
-  const NewlineBeforeReturnRule()
+  NewlineBeforeReturnRule({Map<String, Object> config = const {}})
       : super(
-          id: 'newline-before-return',
-          severity: CodeIssueSeverity.style,
-        );
+            id: ruleId,
+            documentation: Uri.parse(_documentationUrl),
+            severity:
+                CodeIssueSeverity.fromJson(config['severity'] as String) ??
+                    CodeIssueSeverity.style);
 
   @override
   Iterable<CodeIssue> check(
@@ -64,8 +69,6 @@ class NewlineBeforeReturnRule extends BaseRule {
   }
 
   Token _latestCommentToken(Token token) {
-    // todo: remove ignore after migrate on analyzer 0.39.3
-    // ignore: omit_local_variable_types
     Token latestCommentToken = token?.precedingComments;
     while (latestCommentToken?.next != null) {
       latestCommentToken = latestCommentToken.next;

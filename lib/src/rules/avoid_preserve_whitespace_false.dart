@@ -8,13 +8,18 @@ import 'base_rule.dart';
 import 'rule_utils.dart';
 
 class AvoidPreserveWhitespaceFalseRule extends BaseRule {
+  static const String ruleId = 'avoid-preserve-whitespace-false';
+  static const _documentationUrl = 'https://git.io/JfDik';
+
   static const _failure = 'Avoid using preserveWhitespace: false.';
 
-  const AvoidPreserveWhitespaceFalseRule()
+  AvoidPreserveWhitespaceFalseRule({Map<String, Object> config = const {}})
       : super(
-          id: 'avoid-preserve-whitespace-false',
-          severity: CodeIssueSeverity.warning,
-        );
+            id: ruleId,
+            documentation: Uri.parse(_documentationUrl),
+            severity:
+                CodeIssueSeverity.fromJson(config['severity'] as String) ??
+                    CodeIssueSeverity.warning);
 
   @override
   Iterable<CodeIssue> check(

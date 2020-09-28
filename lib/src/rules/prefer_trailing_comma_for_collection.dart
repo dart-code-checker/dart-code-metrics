@@ -10,14 +10,19 @@ import 'package:dart_code_metrics/src/rules/rule_utils.dart';
 import 'base_rule.dart';
 
 class PreferTrailingCommaForCollectionRule extends BaseRule {
+  static const String ruleId = 'prefer-trailing-comma-for-collection';
+  static const _documentationUrl = 'https://git.io/JJwmu';
+
   static const _failure = 'A trailing comma should end this line';
   static const _correctionComment = 'Add trailing comma';
 
-  const PreferTrailingCommaForCollectionRule()
+  PreferTrailingCommaForCollectionRule({Map<String, Object> config = const {}})
       : super(
-          id: 'prefer-trailing-comma-for-collection',
-          severity: CodeIssueSeverity.style,
-        );
+            id: ruleId,
+            documentation: Uri.parse(_documentationUrl),
+            severity:
+                CodeIssueSeverity.fromJson(config['severity'] as String) ??
+                    CodeIssueSeverity.style);
 
   @override
   Iterable<CodeIssue> check(
@@ -46,9 +51,9 @@ class _Visitor extends GeneralizingAstVisitor<void> {
   final _nodes = <AstNode>[];
   final LineInfo _lineInfo;
 
-  _Visitor(this._lineInfo);
-
   Iterable<AstNode> get nodes => _nodes;
+
+  _Visitor(this._lineInfo);
 
   @override
   void visitListLiteral(ListLiteral node) {

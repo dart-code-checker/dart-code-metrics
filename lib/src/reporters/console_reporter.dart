@@ -32,12 +32,17 @@ class ConsoleReporter implements Reporter {
   final _severityColors = {
     CodeIssueSeverity.style: AnsiPen()..blue(),
     CodeIssueSeverity.warning: AnsiPen()..yellow(),
+    CodeIssueSeverity.error: AnsiPen()..red(),
   };
 
-  final _severityHumanReadable = {
+  static const _severityHumanReadable = {
     CodeIssueSeverity.style: 'Style',
     CodeIssueSeverity.warning: 'Warning',
+    CodeIssueSeverity.error: 'Error',
   };
+
+  final _designIssuesColor = AnsiPen()..yellow();
+  static const _designIssues = 'Design';
 
   ConsoleReporter({@required this.reportConfig, this.reportAll = false});
 
@@ -76,8 +81,8 @@ class ConsoleReporter implements Reporter {
           final violations = [
             if (reportAll || _isNeedToReport(report.cyclomaticComplexity))
               _report(report.cyclomaticComplexity, 'cyclomatic complexity'),
-            if (reportAll || _isNeedToReport(report.linesOfCode))
-              _report(report.linesOfCode, 'lines of code'),
+            if (reportAll || _isNeedToReport(report.linesOfExecutableCode))
+              _report(report.linesOfExecutableCode, 'lines of executable code'),
             if (reportAll || _isNeedToReport(report.maintainabilityIndex))
               _report(report.maintainabilityIndex, 'maintainability index'),
             if (reportAll || _isNeedToReport(report.argumentsCount))
@@ -88,22 +93,34 @@ class ConsoleReporter implements Reporter {
         }
       });
 
+      for (final issue in analysisRecord.designIssue) {
+        final severity = _designIssuesColor(_designIssues.padRight(8));
+        final position =
+            '${issue.sourceSpan.start.line}:${issue.sourceSpan.start.column}';
+        final rule = [
+          issue.patternId,
+          if (issue.patternDocumentation != null) issue.patternDocumentation,
+        ].join(' ');
+        lines.add('$severity${[issue.message, position, rule].join(' : ')}');
+      }
+
       for (final issue in analysisRecord.issues) {
-        final severity =
-            '${_severityColors[issue.severity](_severityHumanReadable[issue.severity]?.padRight(8))}';
+        final severity = _severityColors[issue.severity](
+            _severityHumanReadable[issue.severity]?.padRight(8));
         final position =
             '${issue.sourceSpan.start.line}:${issue.sourceSpan.start.column}';
         final rule = [
           issue.ruleId,
-          if (issue.ruleDocumentationUri != null) issue.ruleDocumentationUri,
+          if (issue.ruleDocumentation != null) issue.ruleDocumentation,
         ].join(' ');
         lines.add('$severity${[issue.message, position, rule].join(' : ')}');
       }
 
       if (lines.isNotEmpty) {
-        reportStrings.add('${analysisRecord.relativePath}:');
-        reportStrings.addAll(lines);
-        reportStrings.add('');
+        reportStrings
+          ..add('${analysisRecord.relativePath}:')
+          ..addAll(lines)
+          ..add('');
       }
     }
 

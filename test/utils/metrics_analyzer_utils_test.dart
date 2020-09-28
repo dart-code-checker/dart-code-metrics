@@ -2,7 +2,7 @@
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/ast/ast.dart';
-import 'package:dart_code_metrics/src/metrics_analyzer_utils.dart';
+import 'package:dart_code_metrics/src/utils/metrics_analyzer_utils.dart';
 import 'package:dart_code_metrics/src/models/scoped_function_declaration.dart';
 import 'package:dart_code_metrics/src/scope_ast_visitor.dart';
 import 'package:mockito/mockito.dart';
@@ -83,6 +83,9 @@ void main() {
       './test/resources/class_with_factory_constructors.dart': [
         'SampleClass',
       ],
+      './test/resources/extension.dart': [
+        'SimpleObjectExtensions',
+      ],
       './test/resources/function.dart': [],
       './test/resources/mixed.dart': [
         'Foo',
@@ -115,12 +118,16 @@ void main() {
         'SampleClass._create',
         'SampleClass.createInstance',
       ],
+      './test/resources/extension.dart': [
+        'SimpleObjectExtensions.as',
+      ],
       './test/resources/function.dart': [
         'say',
       ],
       './test/resources/mixed.dart': [
         'pi',
         'Bar.twoPi',
+        'Rectangle.Rectangle',
         'Rectangle.right',
         'Rectangle.right',
         'Rectangle.bottom',

@@ -1,6 +1,9 @@
 include: package:pedantic/analysis_options.yaml
 
 analyzer:
+  exclude:
+    - example/**
+    - test/resources/**
   plugins:
     - dart_code_metrics
   strong-mode:
@@ -8,32 +11,47 @@ analyzer:
     implicit-dynamic: false
 
 dart_code_metrics:
+  anti-patterns:
+    - long-method
+    - long-parameter-list
   metrics:
     cyclomatic-complexity: 20
     number-of-arguments: 4
+  metrics-exclude:
+    - test/**
   rules:
+    - binary-expression-operand-order
     - double-literal-format
     - newline-before-return
     - no-boolean-literal-compare
     - no-empty-block
+    - no-equal-then-else
+    - no-object-declaration
+    - prefer-conditional-expressions
     - prefer-trailing-comma-for-collection
 
 linter:
   rules:
     - always_put_control_body_on_new_line
     - always_put_required_named_parameters_first
+#    - always_specify_types
     - avoid_annotating_with_dynamic
+#    - avoid_as
     - avoid_bool_literals_in_conditional_expressions
+    - avoid_catches_without_on_clauses
     - avoid_catching_errors
     - avoid_classes_with_only_static_members
     - avoid_double_and_int_checks
     - avoid_equals_and_hash_code_on_mutable_classes
+    - avoid_escaping_inner_quotes
     - avoid_field_initializers_in_const_classes
     - avoid_function_literals_in_foreach_calls
     - avoid_implementing_value_types
     - avoid_js_rounded_ints
     - avoid_positional_boolean_parameters
+#    - avoid_print
     - avoid_private_typedef_functions
+#    - avoid_redundant_argument_values
     - avoid_renaming_method_parameters
     - avoid_returning_null
     - avoid_returning_null_for_future
@@ -42,6 +60,7 @@ linter:
     - avoid_setters_without_getters
     - avoid_single_cascade_in_expression_statements
     - avoid_slow_async_io
+    - avoid_types_on_closure_parameters
     - avoid_unnecessary_containers
     - avoid_unused_constructor_parameters
     - avoid_void_async
@@ -49,22 +68,34 @@ linter:
     - await_only_futures
     - camel_case_types
     - cancel_subscriptions
+    - cascade_invocations
     - close_sinks
+#    - comment_references
     - constant_identifier_names
     - control_flow_in_finally
     - diagnostic_describe_all_properties
     - directives_ordering
+    - do_not_use_environment
     - empty_statements
+    - exhaustive_cases
     - file_names
     - flutter_style_todos
     - hash_and_equals
+    - implementation_imports
     - invariant_booleans
     - iterable_contains_unrelated_type
     - join_return_with_assignment
+    - leading_newlines_in_multiline_strings
+#    - lines_longer_than_80_chars
     - list_remove_unrelated_type
     - literal_only_boolean_expressions
+    - missing_whitespace_between_adjacent_strings
     - no_adjacent_strings_in_list
+    - no_default_cases
+    - no_logic_in_create_state
+    - no_runtimeType_toString
     - non_constant_identifier_names
+#    - one_member_abstracts
     - only_throw_errors
     - overridden_fields
     - package_api_docs
@@ -78,6 +109,7 @@ linter:
     - prefer_const_declarations
     - prefer_const_literals_to_create_immutables
     - prefer_constructors_over_static_methods
+#    - prefer_double_quotes
     - prefer_expression_function_bodies
     - prefer_final_in_for_each
     - prefer_final_locals
@@ -91,24 +123,36 @@ linter:
     - prefer_is_not_operator
     - prefer_mixin
     - prefer_null_aware_operators
+#    - prefer_relative_imports
     - prefer_typing_uninitialized_variables
     - prefer_void_to_null
     - provide_deprecation_message
+#    - public_member_api_docs
+#    - sized_box_for_whitespace             Flutter specific rule
     - sort_child_properties_last
+#    - sort_constructors_first
     - sort_pub_dependencies
     - sort_unnamed_constructors_first
     - test_types_in_equals
     - throw_in_finally
+    - type_annotate_public_apis
     - unnecessary_await_in_return
     - unnecessary_brace_in_string_interps
+#    - unnecessary_final
     - unnecessary_getters_setters
     - unnecessary_lambdas
     - unnecessary_null_aware_assignments
     - unnecessary_overrides
     - unnecessary_parenthesis
+    - unnecessary_raw_strings
     - unnecessary_statements
+    - unnecessary_string_escapes
+    - unnecessary_string_interpolations
     - unsafe_html
     - use_full_hex_values_for_flutter_colors
+    - use_is_even_rather_than_modulo
+#    - use_key_in_widget_constructors       Flutter specific rule
+    - use_raw_strings
     - use_setters_to_change_properties
     - use_string_buffers
     - use_to_and_as_if_applicable

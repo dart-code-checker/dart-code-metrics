@@ -1,23 +1,30 @@
 import 'package:analyzer/dart/ast/ast.dart';
-import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:dart_code_metrics/src/models/code_issue.dart';
 import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
 import 'package:dart_code_metrics/src/rules/rule_utils.dart';
 import 'package:dart_code_metrics/src/utils/object_extensions.dart';
 import 'package:dart_code_metrics/src/utils/iterable_extensions.dart';
+import 'package:meta/meta.dart';
 
 import 'base_rule.dart';
+import 'intl_base/intl_base_visitor.dart';
 
 class PreferIntlNameRule extends BaseRule {
-  static const _intlPackageUrl = 'package:intl/intl.dart';
-  static const _failure = 'Incorrect Intl name, should be';
-  static const _correctionComment = 'Rename';
+  static const String ruleId = 'prefer-intl-name';
+  static const _documentationUrl = 'https://git.io/JJwmc';
 
-  const PreferIntlNameRule()
+  static const _intlPackageUrl = 'package:intl/intl.dart';
+  static const _notCorrectNameFailure = 'Incorrect Intl name, should be';
+  static const _notCorrectNameCorrectionComment = 'Rename';
+  static const _notExistsNameFailure = 'Argument `name` does not exists';
+
+  PreferIntlNameRule({Map<String, Object> config = const {}})
       : super(
-          id: 'prefer-intl-name',
-          severity: CodeIssueSeverity.warning,
-        );
+            id: ruleId,
+            documentation: Uri.parse(_documentationUrl),
+            severity:
+                CodeIssueSeverity.fromJson(config['severity'] as String) ??
+                    CodeIssueSeverity.warning);
 
   @override
   Iterable<CodeIssue> check(
@@ -33,137 +40,78 @@ class PreferIntlNameRule extends BaseRule {
     final visitor = _Visitor();
     unit.visitChildren(visitor);
 
-    return visitor.issues.map((issue) {
-      final correction =
-          "'${_Issue.getNewValue(issue.className, issue.variableName)}'";
+    return [
+      ...visitor.issues.whereType<_NotCorrectNameIssue>().map((issue) {
+        final correction =
+            "'${_NotCorrectNameIssue.getNewValue(issue.className, issue.variableName)}'";
 
-      return createIssue(
-        this,
-        '$_failure $correction',
-        correction,
-        _correctionComment,
-        sourceUrl,
-        sourceContent,
-        unit.lineInfo,
-        issue.node,
-      );
-    }).toList(growable: false);
+        return createIssue(
+          this,
+          '$_notCorrectNameFailure $correction',
+          correction,
+          _notCorrectNameCorrectionComment,
+          sourceUrl,
+          sourceContent,
+          unit.lineInfo,
+          issue.node,
+        );
+      }),
+      ...visitor.issues
+          .whereType<_NotExistNameIssue>()
+          .map((issue) => createIssue(
+                this,
+                _notExistsNameFailure,
+                null,
+                null,
+                sourceUrl,
+                sourceContent,
+                unit.lineInfo,
+                issue.node,
+              )),
+    ];
   }
 }
 
-class _Visitor extends GeneralizingAstVisitor<void> {
-  static final _methodNames = [
-    'message',
-    'plural',
-    'gender',
-    'select',
-  ];
-  final _issues = <_Issue>[];
-
-  Iterable<_Issue> get issues => _issues;
-
+class _Visitor extends IntlBaseVisitor {
   @override
-  void visitFieldDeclaration(FieldDeclaration node) {
-    if (node.fields.type.as<TypeName>()?.name?.name != 'String') {
-      return;
-    }
-
-    for (final variable in node.fields.variables) {
-      final initializer = variable.initializer.as<MethodInvocation>();
-      if (initializer != null) {
-        final className = node.parent.as<ClassDeclaration>().name.name;
-        final variableName = variable.name.name;
-
-        _checkMethodInvocation(
-          initializer,
-          className: className,
-          variableName: variableName,
-        );
-      }
-    }
-
-    super.visitFieldDeclaration(node);
-  }
-
-  @override
-  void visitMethodDeclaration(MethodDeclaration node) {
-    final className = node.parent.as<ClassDeclaration>().name.name;
-    final methodName = node.name.name;
-
-    final methodInvocation = _getMethodInvocation(node.body);
-
-    if (methodInvocation != null) {
-      _checkMethodInvocation(
-        methodInvocation,
-        className: className,
-        variableName: methodName,
-      );
-    }
-
-    super.visitMethodDeclaration(node);
-  }
-
-  @override
-  void visitFunctionDeclaration(FunctionDeclaration node) {
-    final methodName = node.name.name;
-    final methodInvocation = _getMethodInvocation(node.functionExpression.body);
-
-    if (methodInvocation != null) {
-      _checkMethodInvocation(
-        methodInvocation,
-        variableName: methodName,
-      );
-    }
-
-    super.visitFunctionDeclaration(node);
-  }
-
-  MethodInvocation _getMethodInvocation(FunctionBody body) {
-    final methodInvocation =
-        body?.as<ExpressionFunctionBody>()?.expression?.as<MethodInvocation>();
-
-    return methodInvocation ??
-        body
-            ?.as<BlockFunctionBody>()
-            ?.block
-            ?.statements
-            ?.whereType<ReturnStatement>()
-            ?.lastOrDefault()
-            ?.expression
-            ?.as<MethodInvocation>();
-  }
-
-  void _checkMethodInvocation(MethodInvocation methodInvocation,
-      {String className, String variableName}) {
-    if ((methodInvocation?.target?.as<SimpleIdentifier>()?.name != 'Intl') ||
-        !_methodNames.contains(methodInvocation?.methodName?.name)) {
-      return;
-    }
-
-    final nameExpression = methodInvocation?.argumentList?.arguments
+  void checkMethodInvocation(MethodInvocation methodInvocation,
+      {String className,
+      String variableName,
+      FormalParameterList parameterList}) {
+    final nameExpression = methodInvocation.argumentList?.arguments
         ?.whereType<NamedExpression>()
         ?.where((argument) => argument.name.label.name == 'name')
         ?.firstOrDefault()
         ?.expression
         ?.as<SimpleStringLiteral>();
 
-    if (nameExpression?.value != _Issue.getNewValue(className, variableName)) {
-      _issues.add(_Issue(className, variableName, nameExpression));
+    if (nameExpression == null) {
+      addIssue(_NotExistNameIssue(methodInvocation.methodName));
+    } else if (nameExpression.value !=
+        _NotCorrectNameIssue.getNewValue(className, variableName)) {
+      addIssue(_NotCorrectNameIssue(className, variableName, nameExpression));
     }
   }
 }
 
-class _Issue {
+@immutable
+class _NotCorrectNameIssue extends IntlBaseIssue {
   final String className;
   final String variableName;
-  final AstNode node;
 
-  _Issue(
+  const _NotCorrectNameIssue(
     this.className,
     this.variableName,
-    this.node,
-  );
+    AstNode node,
+  ) : super(node);
 
   static String getNewValue(String className, String variableName) =>
-      className != null ? '${className}_$variableName' : '$variableName';
+      className != null ? '${className}_$variableName' : variableName;
+}
+
+@immutable
+class _NotExistNameIssue extends IntlBaseIssue {
+  const _NotExistNameIssue(
+    AstNode node,
+  ) : super(node);
 }

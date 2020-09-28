@@ -1,11 +1,12 @@
 import 'dart:convert';
 
-import 'package:dart_code_metrics/src/models/config.dart';
-import 'package:dart_code_metrics/src/models/file_record.dart';
-import 'package:dart_code_metrics/src/reporters/code_climate/code_climate_issue.dart';
-import 'package:dart_code_metrics/src/reporters/reporter.dart';
-import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
 import 'package:meta/meta.dart';
+
+import '../../models/config.dart';
+import '../../models/file_record.dart';
+import '../reporter.dart';
+import '../utility_selector.dart';
+import 'code_climate_issue.dart';
 
 /// Creates reports in Codeclimate format widely understood by various CI and analysis tools
 // Code Climate Engine Specification https://github.com/codeclimate/platform/blob/master/spec/analyzers/SPEC.md
@@ -53,16 +54,6 @@ class CodeClimateReporter implements Reporter {
             reportConfig.cyclomaticComplexityWarningLevel));
       }
 
-      if (UtilitySelector.isIssueLevel(report.linesOfCode.violationLevel)) {
-        result.add(CodeClimateIssue.linesOfCode(
-            func.firstLine,
-            func.lastLine,
-            report.linesOfCode.value,
-            record.relativePath,
-            key,
-            reportConfig.linesOfCodeWarningLevel));
-      }
-
       if (UtilitySelector.isIssueLevel(
           report.maintainabilityIndex.violationLevel)) {
         result.add(CodeClimateIssue.maintainabilityIndex(
@@ -72,20 +63,13 @@ class CodeClimateReporter implements Reporter {
             record.relativePath,
             key));
       }
-
-      if (UtilitySelector.isIssueLevel(report.argumentsCount.violationLevel)) {
-        result.add(CodeClimateIssue.numberOfArguments(
-            func.firstLine,
-            func.lastLine,
-            report.argumentsCount.value,
-            record.relativePath,
-            key,
-            reportConfig.numberOfArgumentsWarningLevel));
-      }
     }
 
-    result.addAll(record.issues.map(
-        (issue) => CodeClimateIssue.fromCodeIssue(issue, record.relativePath)));
+    result
+      ..addAll(record.issues.map((issue) =>
+          CodeClimateIssue.fromCodeIssue(issue, record.relativePath)))
+      ..addAll(record.designIssue.map((issue) =>
+          CodeClimateIssue.fromDesignIssue(issue, record.relativePath)));
 
     return result;
   }
