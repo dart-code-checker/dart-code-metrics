@@ -571,37 +571,39 @@ class HtmlReporter implements Reporter {
 
     return Element.tag('div')
       ..classes.add('metric-subheader')
-      ..append(renderSummaryMetric(
-          withCyclomaticComplexityViolations
-              ? _cyclomaticComplexityWithViolations
-              : _cyclomaticComplexity,
-          withCyclomaticComplexityViolations
-              ? '${report.totalCyclomaticComplexity} / ${report.totalCyclomaticComplexityViolations}'
-              : '${report.totalCyclomaticComplexity}',
-          withViolation: withCyclomaticComplexityViolations))
-      ..append(renderSummaryMetric(
-          withLinesOfExecutableCodeViolations
-              ? _linesOfExecutableCodeWithViolations
-              : _linesOfExecutableCode,
-          withLinesOfExecutableCodeViolations
-              ? '${report.totalLinesOfExecutableCode} / ${report.totalLinesOfExecutableCodeViolations}'
-              : '${report.totalLinesOfExecutableCode}',
-          withViolation: withLinesOfExecutableCodeViolations))
-      ..append(renderSummaryMetric(
-          totalMaintainabilityIndexViolations
-              ? _maintainabilityIndexWithViolations
-              : _maintainabilityIndex,
-          totalMaintainabilityIndexViolations
-              ? '${report.averageMaintainabilityIndex.toInt()} / ${report.totalMaintainabilityIndexViolations}'
-              : '${report.averageMaintainabilityIndex.toInt()}',
-          withViolation: totalMaintainabilityIndexViolations))
-      ..append(renderSummaryMetric(
-          withArgumentsCountViolations
-              ? _nuberOfArgumentsWithViolations
-              : _nuberOfArguments,
-          withArgumentsCountViolations
-              ? '${report.averageArgumentsCount} / ${report.totalArgumentsCountViolations}'
-              : '${report.averageArgumentsCount}',
-          withViolation: withArgumentsCountViolations));
+      ..nodes.addAll([
+        renderSummaryMetric(
+            withCyclomaticComplexityViolations
+                ? _cyclomaticComplexityWithViolations
+                : _cyclomaticComplexity,
+            withCyclomaticComplexityViolations
+                ? '${report.totalCyclomaticComplexity} / ${report.totalCyclomaticComplexityViolations}'
+                : '${report.totalCyclomaticComplexity}',
+            withViolation: withCyclomaticComplexityViolations),
+        renderSummaryMetric(
+            withLinesOfExecutableCodeViolations
+                ? _linesOfExecutableCodeWithViolations
+                : _linesOfExecutableCode,
+            withLinesOfExecutableCodeViolations
+                ? '${report.totalLinesOfExecutableCode} / ${report.totalLinesOfExecutableCodeViolations}'
+                : '${report.totalLinesOfExecutableCode}',
+            withViolation: withLinesOfExecutableCodeViolations),
+        renderSummaryMetric(
+            totalMaintainabilityIndexViolations
+                ? _maintainabilityIndexWithViolations
+                : _maintainabilityIndex,
+            totalMaintainabilityIndexViolations
+                ? '${report.averageMaintainabilityIndex.toInt()} / ${report.totalMaintainabilityIndexViolations}'
+                : '${report.averageMaintainabilityIndex.toInt()}',
+            withViolation: totalMaintainabilityIndexViolations),
+        renderSummaryMetric(
+            withArgumentsCountViolations
+                ? _nuberOfArgumentsWithViolations
+                : _nuberOfArguments,
+            withArgumentsCountViolations
+                ? '${report.averageArgumentsCount} / ${report.totalArgumentsCountViolations}'
+                : '${report.averageArgumentsCount}',
+            withViolation: withArgumentsCountViolations),
+      ]);
   }
 }
