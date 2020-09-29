@@ -11,6 +11,7 @@ import 'rules/no_equal_arguments.dart';
 import 'rules/no_equal_then_else.dart';
 import 'rules/no_magic_number_rule.dart';
 import 'rules/no_object_declaration.dart';
+import 'rules/potential_null_dereference.dart';
 import 'rules/prefer_conditional_expressions.dart';
 import 'rules/prefer_intl_name.dart';
 import 'rules/prefer_on_push_cd_strategy.dart';
@@ -37,6 +38,8 @@ final _implementedRules = <String, BaseRule Function(Map<String, Object>)>{
   NoMagicNumberRule.ruleId: (config) => NoMagicNumberRule(config: config),
   NoObjectDeclarationRule.ruleId: (config) =>
       NoObjectDeclarationRule(config: config),
+  PotentialNullDereference.ruleId: (config) =>
+      PotentialNullDereference(config: config),
   PreferConditionalExpressions.ruleId: (config) =>
       PreferConditionalExpressions(config: config),
   ProvideCorrectIntlArgsRule.ruleId: (config) =>
