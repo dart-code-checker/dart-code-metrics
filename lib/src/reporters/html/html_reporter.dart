@@ -39,6 +39,9 @@ const _maintainabilityIndexWithViolations =
 const _nuberOfArguments = 'Number of Arguments';
 const _nuberOfArgumentsWithViolations = 'Number of Arguments / violations';
 
+const _codeIssues = 'Issues';
+const _designIssues = 'Design issues';
+
 @immutable
 class ReportTableRecord {
   final String title;
@@ -604,6 +607,12 @@ class HtmlReporter implements Reporter {
                 ? '${report.averageArgumentsCount} / ${report.totalArgumentsCountViolations}'
                 : '${report.averageArgumentsCount}',
             withViolation: withArgumentsCountViolations),
+        if (record.issues.isNotEmpty)
+          renderSummaryMetric(_codeIssues, '${record.issues.length}',
+              withViolation: true),
+        if (record.designIssue.isNotEmpty)
+          renderSummaryMetric(_designIssues, '${record.designIssue.length}',
+              withViolation: true),
       ]);
   }
 }
