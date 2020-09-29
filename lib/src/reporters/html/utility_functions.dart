@@ -32,7 +32,9 @@ Element renderFunctionMetric(String name, ReportMetric<num> metric) {
         ..classes.add('metrics-source-code__tooltip-label')
         ..text = '$metricName violation level:&nbsp;')
       ..append(Element.tag('span')
-        ..classes.add('metrics-source-code__tooltip-level')
-        ..classes.add('metrics-source-code__tooltip-level--$violationLevel')
+        ..classes.addAll([
+          'metrics-source-code__tooltip-level',
+          'metrics-source-code__tooltip-level--$violationLevel',
+        ])
         ..text = violationLevel));
 }
