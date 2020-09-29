@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:isolate';
 
-import 'package:dart_code_metrics/src/models/report_metric.dart';
 import 'package:html/dom.dart';
 import 'package:dart_code_metrics/src/models/config.dart';
 import 'package:dart_code_metrics/src/models/file_record.dart';
@@ -418,19 +417,20 @@ class HtmlReporter implements Reporter {
               ..text = 'Function stats:')
             ..append(Element.tag('p')
               ..classes.add('metrics-source-code__tooltip-text')
-              ..append(
-                  _report(report.cyclomaticComplexity, _cyclomaticComplexity)))
+              ..append(renderFunctionMetric(
+                  _cyclomaticComplexity, report.cyclomaticComplexity)))
             ..append(Element.tag('p')
               ..classes.add('metrics-source-code__tooltip-text')
-              ..append(_report(
-                  report.linesOfExecutableCode, _linesOfExecutableCode)))
+              ..append(renderFunctionMetric(
+                  _linesOfExecutableCode, report.linesOfExecutableCode)))
             ..append(Element.tag('p')
               ..classes.add('metrics-source-code__tooltip-text')
-              ..append(
-                  _report(report.maintainabilityIndex, _maintainabilityIndex)))
+              ..append(renderFunctionMetric(
+                  _maintainabilityIndex, report.maintainabilityIndex)))
             ..append(Element.tag('p')
               ..classes.add('metrics-source-code__tooltip-text')
-              ..append(_report(report.argumentsCount, _nuberOfArguments)));
+              ..append(renderFunctionMetric(
+                  _nuberOfArguments, report.argumentsCount)));
 
           final complexityIcon = Element.tag('div')
             ..classes.add('metrics-source-code__icon')
@@ -603,28 +603,5 @@ class HtmlReporter implements Reporter {
               ? '${report.averageArgumentsCount} / ${report.totalArgumentsCountViolations}'
               : '${report.averageArgumentsCount}',
           withViolation: withArgumentsCountViolations));
-  }
-
-  Element _report(ReportMetric<num> metric, String humanReadableName) {
-    final violationLevelText = metric.violationLevel.toString().toLowerCase();
-
-    return Element.tag('div')
-      ..classes.add('metrics-source-code__tooltip-section')
-      ..append(Element.tag('p')
-        ..classes.add('metrics-source-code__tooltip-text')
-        ..append(Element.tag('span')
-          ..classes.add('metrics-source-code__tooltip-label')
-          ..text = '${humanReadableName.toLowerCase()}:&nbsp;')
-        ..append(Element.tag('span')..text = metric.value.round().toString()))
-      ..append(Element.tag('p')
-        ..classes.add('metrics-source-code__tooltip-text')
-        ..append(Element.tag('span')
-          ..classes.add('metrics-source-code__tooltip-label')
-          ..text = '${humanReadableName.toLowerCase()} violation level:&nbsp;')
-        ..append(Element.tag('span')
-          ..classes.add('metrics-source-code__tooltip-level')
-          ..classes
-              .add('metrics-source-code__tooltip-level--$violationLevelText')
-          ..text = violationLevelText));
   }
 }
