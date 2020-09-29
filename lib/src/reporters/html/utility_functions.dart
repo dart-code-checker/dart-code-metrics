@@ -1,6 +1,7 @@
 import 'package:html/dom.dart';
 
-Element renderMetric(String name, String value, {bool withViolation = false}) =>
+Element renderSummaryMetric(String name, String value,
+        {bool withViolation = false}) =>
     Element.tag('div')
       ..classes.addAll(
           ['metrics-total', if (withViolation) 'metrics-total--violations'])

@@ -233,25 +233,25 @@ class HtmlReporter implements Reporter {
       ..append(table)
       ..append(Element.tag('div')
         ..classes.add('metrics-totals')
-        ..append(renderMetric(
+        ..append(renderSummaryMetric(
             cyclomaticComplexityTitle,
             withCyclomaticComplexityViolations
                 ? '$totalComplexity / $totalComplexityViolations'
                 : '$totalComplexity',
             withViolation: withCyclomaticComplexityViolations))
-        ..append(renderMetric(
+        ..append(renderSummaryMetric(
             linesOfExecutableCodeTitle,
             withLinesOfExecutableCodeViolations
                 ? '$totalLinesOfExecutableCode / $totalLinesOfExecutableCodeViolations'
                 : '$totalLinesOfExecutableCode',
             withViolation: withLinesOfExecutableCodeViolations))
-        ..append(renderMetric(
+        ..append(renderSummaryMetric(
             maintainabilityIndexTitle,
             withMaintainabilityIndexViolations
                 ? '${averageMaintainabilityIndex.toInt()} / $totalMaintainabilityIndexViolations'
                 : '${averageMaintainabilityIndex.toInt()}',
             withViolation: withMaintainabilityIndexViolations))
-        ..append(renderMetric(
+        ..append(renderSummaryMetric(
             argumentsCountTitle,
             withArgumentsCountViolations
                 ? '$averageArgumentsCount / $totalArgumentsCountViolations'
@@ -571,7 +571,7 @@ class HtmlReporter implements Reporter {
 
     return Element.tag('div')
       ..classes.add('metric-subheader')
-      ..append(renderMetric(
+      ..append(renderSummaryMetric(
           withCyclomaticComplexityViolations
               ? _cyclomaticComplexityWithViolations
               : _cyclomaticComplexity,
@@ -579,7 +579,7 @@ class HtmlReporter implements Reporter {
               ? '${report.totalCyclomaticComplexity} / ${report.totalCyclomaticComplexityViolations}'
               : '${report.totalCyclomaticComplexity}',
           withViolation: withCyclomaticComplexityViolations))
-      ..append(renderMetric(
+      ..append(renderSummaryMetric(
           withLinesOfExecutableCodeViolations
               ? _linesOfExecutableCodeWithViolations
               : _linesOfExecutableCode,
@@ -587,7 +587,7 @@ class HtmlReporter implements Reporter {
               ? '${report.totalLinesOfExecutableCode} / ${report.totalLinesOfExecutableCodeViolations}'
               : '${report.totalLinesOfExecutableCode}',
           withViolation: withLinesOfExecutableCodeViolations))
-      ..append(renderMetric(
+      ..append(renderSummaryMetric(
           totalMaintainabilityIndexViolations
               ? _maintainabilityIndexWithViolations
               : _maintainabilityIndex,
@@ -595,7 +595,7 @@ class HtmlReporter implements Reporter {
               ? '${report.averageMaintainabilityIndex.toInt()} / ${report.totalMaintainabilityIndexViolations}'
               : '${report.averageMaintainabilityIndex.toInt()}',
           withViolation: totalMaintainabilityIndexViolations))
-      ..append(renderMetric(
+      ..append(renderSummaryMetric(
           withArgumentsCountViolations
               ? _nuberOfArgumentsWithViolations
               : _nuberOfArguments,
