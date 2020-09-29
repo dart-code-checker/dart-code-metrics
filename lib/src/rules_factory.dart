@@ -7,6 +7,7 @@ import 'rules/member_ordering.dart';
 import 'rules/newline_before_return.dart';
 import 'rules/no_boolean_literal_compare_rule.dart';
 import 'rules/no_empty_block.dart';
+import 'rules/no_equal_arguments.dart';
 import 'rules/no_equal_then_else.dart';
 import 'rules/no_magic_number_rule.dart';
 import 'rules/no_object_declaration.dart';
@@ -32,6 +33,7 @@ final _implementedRules = <String, BaseRule Function(Map<String, Object>)>{
   NoBooleanLiteralCompareRule.ruleId: (config) =>
       NoBooleanLiteralCompareRule(config: config),
   NoEmptyBlockRule.ruleId: (config) => NoEmptyBlockRule(config: config),
+  NoEqualArguments.ruleId: (config) => NoEqualArguments(config: config),
   NoEqualThenElse.ruleId: (config) => NoEqualThenElse(config: config),
   NoMagicNumberRule.ruleId: (config) => NoMagicNumberRule(config: config),
   NoObjectDeclarationRule.ruleId: (config) =>

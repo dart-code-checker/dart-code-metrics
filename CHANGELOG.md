@@ -2,7 +2,7 @@
 
 # Unreleased (2.1.0)
 
-- Add static code diagnostic potential-null-dereference
+- Add static code diagnostic no-equal-arguments, potential-null-dereference
 
 # 2.0.0
 
