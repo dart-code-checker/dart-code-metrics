@@ -435,7 +435,7 @@ class HtmlReporter implements Reporter {
           final complexityIcon = Element.tag('div')
             ..classes.addAll([
               'metrics-source-code__icon',
-              'metrics-source-code__icon--complexity'
+              'metrics-source-code__icon--complexity',
             ])
             ..append(Element.tag('svg')
               ..attributes['xmlns'] = 'http://www.w3.org/2000/svg'
