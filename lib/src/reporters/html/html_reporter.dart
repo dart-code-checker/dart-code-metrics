@@ -433,8 +433,10 @@ class HtmlReporter implements Reporter {
               ..append(_report(report.argumentsCount, _nuberOfArguments)));
 
           final complexityIcon = Element.tag('div')
-            ..classes.add(
-                'metrics-source-code__icon metrics-source-code__icon--complexity')
+            ..classes.addAll([
+              'metrics-source-code__icon',
+              'metrics-source-code__icon--complexity'
+            ])
             ..append(Element.tag('svg')
               ..attributes['xmlns'] = 'http://www.w3.org/2000/svg'
               ..attributes['viewBox'] = '0 0 32 32'
@@ -500,8 +502,8 @@ class HtmlReporter implements Reporter {
             ..text = 'Open documentation');
 
         final issueIcon = Element.tag('div')
-          ..classes
-              .add('metrics-source-code__icon metrics-source-code__icon--issue')
+          ..classes.addAll(
+              ['metrics-source-code__icon', 'metrics-source-code__icon--issue'])
           ..append(Element.tag('svg')
             ..attributes['xmlns'] = 'http://www.w3.org/2000/svg'
             ..attributes['viewBox'] = '0 0 24 24'
