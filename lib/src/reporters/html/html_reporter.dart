@@ -436,7 +436,10 @@ class HtmlReporter implements Reporter {
                   _nuberOfArguments, report.argumentsCount)));
 
           final complexityIcon = Element.tag('div')
-            ..classes.add('metrics-source-code__icon')
+            ..classes.addAll([
+              'metrics-source-code__icon',
+              'metrics-source-code__icon--complexity',
+            ])
             ..append(Element.tag('svg')
               ..attributes['xmlns'] = 'http://www.w3.org/2000/svg'
               ..attributes['viewBox'] = '0 0 32 32'
@@ -474,6 +477,45 @@ class HtmlReporter implements Reporter {
             : _violationLevelFunctionStyle[functionViolationLevel];
 
         complexityValueElement.classes.add(lineViolationStyle ?? '');
+      }
+
+      final architecturalIssues = record.designIssue.firstWhere(
+          (element) => element.sourceSpan.start.line == i,
+          orElse: () => null);
+
+      if (architecturalIssues != null) {
+        final issueTooltip = Element.tag('div')
+          ..classes.add('metrics-source-code__tooltip')
+          ..append(Element.tag('div')
+            ..classes.add('metrics-source-code__tooltip-title')
+            ..text = architecturalIssues.patternId)
+          ..append(Element.tag('p')
+            ..classes.add('metrics-source-code__tooltip-section')
+            ..text = architecturalIssues.message)
+          ..append(Element.tag('p')
+            ..classes.add('metrics-source-code__tooltip-section')
+            ..text = architecturalIssues.recommendation)
+          ..append(Element.tag('a')
+            ..classes.add('metrics-source-code__tooltip-link')
+            ..attributes['href'] =
+                architecturalIssues.patternDocumentation.toString()
+            ..attributes['target'] = '_blank'
+            ..attributes['rel'] = 'noopener noreferrer'
+            ..attributes['title'] = 'Open documentation'
+            ..text = 'Open documentation');
+
+        final issueIcon = Element.tag('div')
+          ..classes.addAll(
+              ['metrics-source-code__icon', 'metrics-source-code__icon--issue'])
+          ..append(Element.tag('svg')
+            ..attributes['xmlns'] = 'http://www.w3.org/2000/svg'
+            ..attributes['viewBox'] = '0 0 24 24'
+            ..append(Element.tag('path')
+              ..attributes['d'] =
+                  'M12 1.016c-.393 0-.786.143-1.072.43l-9.483 9.482a1.517 1.517 0 000 2.144l9.483 9.485c.286.286.667.443 1.072.443s.785-.157 1.072-.443l9.485-9.485a1.517 1.517 0 000-2.144l-9.485-9.483A1.513 1.513 0 0012 1.015zm0 2.183L20.8 12 12 20.8 3.2 12 12 3.2zM11 7v6h2V7h-2zm0 8v2h2v-2h-2z'))
+          ..append(issueTooltip);
+
+        complexityValueElement.append(issueIcon);
       }
 
       cyclomaticValues.append(complexityValueElement);
