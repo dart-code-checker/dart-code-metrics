@@ -71,5 +71,6 @@ class _Visitor extends RecursiveAstVisitor<void> {
     }
   }
 
-  bool _hasObjectType(TypeAnnotation type) => type.type.isDartCoreObject;
+  bool _hasObjectType(TypeAnnotation type) =>
+      type?.type?.isDartCoreObject ?? false;
 }
