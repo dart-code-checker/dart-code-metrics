@@ -1,4 +1,4 @@
-# Equal then else
+# No equal then else
 
 ## Rule id
 

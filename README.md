@@ -116,9 +116,11 @@ If you want command line tool to check rules, you should add configuration to yo
 * [newline-before-return](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/newline_before_return.md)
 * [no-boolean-literal-compare](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/no_boolean_literal_compare.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 * [no-empty-block](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/no_empty_block.md)
+* [no-equal-arguments](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/no_equal_arguments.md)
 * [no-equal-then-else](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/no_equal_then_else.md)
 * [no-magic-number](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/no_magic_number.md) &nbsp; ![Configurable](https://img.shields.io/badge/-configurable-informational)
 * [no-object-declaration](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/no_object_declaration.md)
+* [potential-null-dereference](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/potential_null_dereference.md)
 * [prefer-conditional-expressions](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/prefer_conditional_expressions.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 * [prefer-trailing-comma-for-collection](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/prefer_trailing_comma_for_collection.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 

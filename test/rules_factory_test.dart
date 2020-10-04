@@ -7,6 +7,7 @@ void main() {
     expect(getRulesById({}), isEmpty);
     expect(
         getRulesById({
+          'no-empty-block': <String, Object>{},
           'binary-expression-operand-order': <String, Object>{},
           'double-literal-format': <String, Object>{},
           'avoid-preserve-whitespace-false': <String, Object>{},
@@ -24,6 +25,7 @@ void main() {
           'member-ordering',
           'newline-before-return',
           'no-boolean-literal-compare',
+          'no-empty-block',
         ]));
   });
 }

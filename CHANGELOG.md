@@ -1,5 +1,9 @@
 # Changelog
 
+# Unreleased (2.1.0)
+
+- Add static code diagnostics no-equal-arguments, potential-null-dereference
+
 # 2.0.0
 
 - Removed deprecated `AnalysisOptions.from` use `AnalysisOptions.fromMap` instead

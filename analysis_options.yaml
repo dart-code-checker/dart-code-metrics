@@ -36,6 +36,7 @@ linter:
     - always_put_control_body_on_new_line
     - always_put_required_named_parameters_first
     #    - always_specify_types
+    #    - always_use_package_imports
     - avoid_annotating_with_dynamic
     #    - avoid_as
     - avoid_bool_literals_in_conditional_expressions
@@ -129,7 +130,7 @@ linter:
     - prefer_void_to_null
     - provide_deprecation_message
     #    - public_member_api_docs
-    #    - sized_box_for_whitespace             Flutter specific rule
+    - sized_box_for_whitespace
     - sort_child_properties_last
     #    - sort_constructors_first
     - sort_pub_dependencies
@@ -143,6 +144,7 @@ linter:
     - unnecessary_getters_setters
     - unnecessary_lambdas
     - unnecessary_null_aware_assignments
+    - unnecessary_nullable_for_final_variable_declarations
     - unnecessary_overrides
     - unnecessary_parenthesis
     - unnecessary_raw_strings
@@ -152,7 +154,8 @@ linter:
     - unsafe_html
     - use_full_hex_values_for_flutter_colors
     - use_is_even_rather_than_modulo
-    #    - use_key_in_widget_constructors       Flutter specific rule
+    - use_key_in_widget_constructors
+    - use_late_for_private_fields_and_variables
     - use_raw_strings
     - use_setters_to_change_properties
     - use_string_buffers

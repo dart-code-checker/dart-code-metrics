@@ -176,7 +176,9 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
       final annotation = _Annotation.parse(data.name.name);
       final memberName = classMember is FieldDeclaration
           ? classMember.fields.variables.first.name.name
-          : classMember is MethodDeclaration ? classMember.name.name : '';
+          : classMember is MethodDeclaration
+              ? classMember.name.name
+              : '';
 
       if (annotation != null && _groupsOrder.contains(annotation.group)) {
         _membersInfo.add(_MemberInfo(

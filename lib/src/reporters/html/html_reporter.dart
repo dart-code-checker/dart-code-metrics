@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:isolate';
 
-import 'package:dart_code_metrics/src/models/report_metric.dart';
 import 'package:html/dom.dart';
 import 'package:dart_code_metrics/src/models/config.dart';
 import 'package:dart_code_metrics/src/models/file_record.dart';
@@ -11,6 +10,8 @@ import 'package:dart_code_metrics/src/reporters/reporter.dart';
 import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
 import 'package:meta/meta.dart';
 import 'package:path/path.dart' as p;
+
+import 'utility_functions.dart';
 
 const _violationLevelFunctionStyle = {
   ViolationLevel.alarm: 'metrics-source-code__text--attention-complexity',
@@ -37,6 +38,9 @@ const _maintainabilityIndexWithViolations =
     'Maintainability index / violations';
 const _nuberOfArguments = 'Number of Arguments';
 const _nuberOfArgumentsWithViolations = 'Number of Arguments / violations';
+
+const _codeIssues = 'Issues';
+const _designIssues = 'Design issues';
 
 @immutable
 class ReportTableRecord {
@@ -99,10 +103,10 @@ class HtmlReporter implements Reporter {
 
   void _copyResources(String reportFolder) {
     const resources = [
-      'package:dart_code_metrics/src/reporters/html_resources/variables.css',
-      'package:dart_code_metrics/src/reporters/html_resources/normalize.css',
-      'package:dart_code_metrics/src/reporters/html_resources/base.css',
-      'package:dart_code_metrics/src/reporters/html_resources/main.css',
+      'package:dart_code_metrics/src/reporters/html/resources/variables.css',
+      'package:dart_code_metrics/src/reporters/html/resources/normalize.css',
+      'package:dart_code_metrics/src/reporters/html/resources/base.css',
+      'package:dart_code_metrics/src/reporters/html/resources/main.css',
     ];
 
     for (final resource in resources) {
@@ -231,30 +235,30 @@ class HtmlReporter implements Reporter {
       ..append(table)
       ..append(Element.tag('div')
         ..classes.add('metrics-totals')
-        ..append(_generateTotalMetrics(
+        ..append(renderSummaryMetric(
             cyclomaticComplexityTitle,
             withCyclomaticComplexityViolations
                 ? '$totalComplexity / $totalComplexityViolations'
                 : '$totalComplexity',
-            withCyclomaticComplexityViolations))
-        ..append(_generateTotalMetrics(
+            withViolation: withCyclomaticComplexityViolations))
+        ..append(renderSummaryMetric(
             linesOfExecutableCodeTitle,
             withLinesOfExecutableCodeViolations
                 ? '$totalLinesOfExecutableCode / $totalLinesOfExecutableCodeViolations'
                 : '$totalLinesOfExecutableCode',
-            withLinesOfExecutableCodeViolations))
-        ..append(_generateTotalMetrics(
+            withViolation: withLinesOfExecutableCodeViolations))
+        ..append(renderSummaryMetric(
             maintainabilityIndexTitle,
             withMaintainabilityIndexViolations
                 ? '${averageMaintainabilityIndex.toInt()} / $totalMaintainabilityIndexViolations'
                 : '${averageMaintainabilityIndex.toInt()}',
-            withMaintainabilityIndexViolations))
-        ..append(_generateTotalMetrics(
+            withViolation: withMaintainabilityIndexViolations))
+        ..append(renderSummaryMetric(
             argumentsCountTitle,
             withArgumentsCountViolations
                 ? '$averageArgumentsCount / $totalArgumentsCountViolations'
                 : '$averageArgumentsCount',
-            withMaintainabilityIndexViolations)));
+            withViolation: withMaintainabilityIndexViolations)));
   }
 
   void _generateFoldersReports(
@@ -416,22 +420,26 @@ class HtmlReporter implements Reporter {
               ..text = 'Function stats:')
             ..append(Element.tag('p')
               ..classes.add('metrics-source-code__tooltip-text')
-              ..append(
-                  _report(report.cyclomaticComplexity, _cyclomaticComplexity)))
+              ..append(renderFunctionMetric(
+                  _cyclomaticComplexity, report.cyclomaticComplexity)))
             ..append(Element.tag('p')
               ..classes.add('metrics-source-code__tooltip-text')
-              ..append(_report(
-                  report.linesOfExecutableCode, _linesOfExecutableCode)))
+              ..append(renderFunctionMetric(
+                  _linesOfExecutableCode, report.linesOfExecutableCode)))
             ..append(Element.tag('p')
               ..classes.add('metrics-source-code__tooltip-text')
-              ..append(
-                  _report(report.maintainabilityIndex, _maintainabilityIndex)))
+              ..append(renderFunctionMetric(
+                  _maintainabilityIndex, report.maintainabilityIndex)))
             ..append(Element.tag('p')
               ..classes.add('metrics-source-code__tooltip-text')
-              ..append(_report(report.argumentsCount, _nuberOfArguments)));
+              ..append(renderFunctionMetric(
+                  _nuberOfArguments, report.argumentsCount)));
 
           final complexityIcon = Element.tag('div')
-            ..classes.add('metrics-source-code__icon')
+            ..classes.addAll([
+              'metrics-source-code__icon',
+              'metrics-source-code__icon--complexity',
+            ])
             ..append(Element.tag('svg')
               ..attributes['xmlns'] = 'http://www.w3.org/2000/svg'
               ..attributes['viewBox'] = '0 0 32 32'
@@ -471,6 +479,45 @@ class HtmlReporter implements Reporter {
         complexityValueElement.classes.add(lineViolationStyle ?? '');
       }
 
+      final architecturalIssues = record.designIssue.firstWhere(
+          (element) => element.sourceSpan.start.line == i,
+          orElse: () => null);
+
+      if (architecturalIssues != null) {
+        final issueTooltip = Element.tag('div')
+          ..classes.add('metrics-source-code__tooltip')
+          ..append(Element.tag('div')
+            ..classes.add('metrics-source-code__tooltip-title')
+            ..text = architecturalIssues.patternId)
+          ..append(Element.tag('p')
+            ..classes.add('metrics-source-code__tooltip-section')
+            ..text = architecturalIssues.message)
+          ..append(Element.tag('p')
+            ..classes.add('metrics-source-code__tooltip-section')
+            ..text = architecturalIssues.recommendation)
+          ..append(Element.tag('a')
+            ..classes.add('metrics-source-code__tooltip-link')
+            ..attributes['href'] =
+                architecturalIssues.patternDocumentation.toString()
+            ..attributes['target'] = '_blank'
+            ..attributes['rel'] = 'noopener noreferrer'
+            ..attributes['title'] = 'Open documentation'
+            ..text = 'Open documentation');
+
+        final issueIcon = Element.tag('div')
+          ..classes.addAll(
+              ['metrics-source-code__icon', 'metrics-source-code__icon--issue'])
+          ..append(Element.tag('svg')
+            ..attributes['xmlns'] = 'http://www.w3.org/2000/svg'
+            ..attributes['viewBox'] = '0 0 24 24'
+            ..append(Element.tag('path')
+              ..attributes['d'] =
+                  'M12 1.016c-.393 0-.786.143-1.072.43l-9.483 9.482a1.517 1.517 0 000 2.144l9.483 9.485c.286.286.667.443 1.072.443s.785-.157 1.072-.443l9.485-9.485a1.517 1.517 0 000-2.144l-9.485-9.483A1.513 1.513 0 0012 1.015zm0 2.183L20.8 12 12 20.8 3.2 12 12 3.2zM11 7v6h2V7h-2zm0 8v2h2v-2h-2z'))
+          ..append(issueTooltip);
+
+        complexityValueElement.append(issueIcon);
+      }
+
       cyclomaticValues.append(complexityValueElement);
     }
 
@@ -479,17 +526,6 @@ class HtmlReporter implements Reporter {
       ..append(Element.tag('pre')
         ..classes.add('prettyprint lang-dart')
         ..text = sourceFileContent);
-
-    final report = UtilitySelector.fileReport(record, reportConfig);
-
-    final totalMaintainabilityIndexViolations =
-        report.totalMaintainabilityIndexViolations > 0;
-    final withArgumentsCountViolations =
-        report.totalArgumentsCountViolations > 0;
-    final withCyclomaticComplexityViolations =
-        report.totalCyclomaticComplexityViolations > 0;
-    final withLinesOfExecutableCodeViolations =
-        report.totalLinesOfExecutableCodeViolations > 0;
 
     final body = Element.tag('body')
       ..append(Element.tag('h1')
@@ -504,38 +540,7 @@ class HtmlReporter implements Reporter {
           ..text = p.dirname(record.relativePath))
         ..append(
             Element.tag('span')..text = '/${p.basename(record.relativePath)}'))
-      ..append(_generateTotalMetrics(
-          withCyclomaticComplexityViolations
-              ? _cyclomaticComplexityWithViolations
-              : _cyclomaticComplexity,
-          withCyclomaticComplexityViolations
-              ? '${report.totalCyclomaticComplexity} / ${report.totalCyclomaticComplexityViolations}'
-              : '${report.totalCyclomaticComplexity}',
-          withCyclomaticComplexityViolations))
-      ..append(_generateTotalMetrics(
-          withLinesOfExecutableCodeViolations
-              ? _linesOfExecutableCodeWithViolations
-              : _linesOfExecutableCode,
-          withLinesOfExecutableCodeViolations
-              ? '${report.totalLinesOfExecutableCode} / ${report.totalLinesOfExecutableCodeViolations}'
-              : '${report.totalLinesOfExecutableCode}',
-          withLinesOfExecutableCodeViolations))
-      ..append(_generateTotalMetrics(
-          totalMaintainabilityIndexViolations
-              ? _maintainabilityIndexWithViolations
-              : _maintainabilityIndex,
-          totalMaintainabilityIndexViolations
-              ? '${report.averageMaintainabilityIndex.toInt()} / ${report.totalMaintainabilityIndexViolations}'
-              : '${report.averageMaintainabilityIndex.toInt()}',
-          totalMaintainabilityIndexViolations))
-      ..append(_generateTotalMetrics(
-          withArgumentsCountViolations
-              ? _nuberOfArgumentsWithViolations
-              : _nuberOfArguments,
-          withArgumentsCountViolations
-              ? '${report.averageArgumentsCount} / ${report.totalArgumentsCountViolations}'
-              : '${report.averageArgumentsCount}',
-          withArgumentsCountViolations))
+      ..append(_generateSourceReportMetricsHeader(record))
       ..append(Element.tag('pre')
         ..append(Element.tag('table')
           ..classes.add('metrics-source-code')
@@ -597,38 +602,59 @@ class HtmlReporter implements Reporter {
           htmlDocument.outerHtml.replaceAll('&amp;nbsp;', '&nbsp;'));
   }
 
-  Element _generateTotalMetrics(String name, String value, bool violations) =>
-      Element.tag('div')
-        ..classes.add(!violations
-            ? 'metrics-total'
-            : 'metrics-total metrics-total--violations')
-        ..append(Element.tag('span')
-          ..classes.add('metrics-total__label')
-          ..text = '$name : ')
-        ..append(Element.tag('span')
-          ..classes.add('metrics-total__count')
-          ..text = value);
+  Element _generateSourceReportMetricsHeader(FileRecord record) {
+    final report = UtilitySelector.fileReport(record, reportConfig);
 
-  Element _report(ReportMetric<num> metric, String humanReadableName) {
-    final violationLevelText = metric.violationLevel.toString().toLowerCase();
+    final totalMaintainabilityIndexViolations =
+        report.totalMaintainabilityIndexViolations > 0;
+    final withArgumentsCountViolations =
+        report.totalArgumentsCountViolations > 0;
+    final withCyclomaticComplexityViolations =
+        report.totalCyclomaticComplexityViolations > 0;
+    final withLinesOfExecutableCodeViolations =
+        report.totalLinesOfExecutableCodeViolations > 0;
 
     return Element.tag('div')
-      ..classes.add('metrics-source-code__tooltip-section')
-      ..append(Element.tag('p')
-        ..classes.add('metrics-source-code__tooltip-text')
-        ..append(Element.tag('span')
-          ..classes.add('metrics-source-code__tooltip-label')
-          ..text = '${humanReadableName.toLowerCase()}:&nbsp;')
-        ..append(Element.tag('span')..text = metric.value.toString()))
-      ..append(Element.tag('p')
-        ..classes.add('metrics-source-code__tooltip-text')
-        ..append(Element.tag('span')
-          ..classes.add('metrics-source-code__tooltip-label')
-          ..text = '${humanReadableName.toLowerCase()} violation level:&nbsp;')
-        ..append(Element.tag('span')
-          ..classes.add('metrics-source-code__tooltip-level')
-          ..classes
-              .add('metrics-source-code__tooltip-level--$violationLevelText')
-          ..text = violationLevelText));
+      ..classes.add('metric-subheader')
+      ..nodes.addAll([
+        renderSummaryMetric(
+            withCyclomaticComplexityViolations
+                ? _cyclomaticComplexityWithViolations
+                : _cyclomaticComplexity,
+            withCyclomaticComplexityViolations
+                ? '${report.totalCyclomaticComplexity} / ${report.totalCyclomaticComplexityViolations}'
+                : '${report.totalCyclomaticComplexity}',
+            withViolation: withCyclomaticComplexityViolations),
+        renderSummaryMetric(
+            withLinesOfExecutableCodeViolations
+                ? _linesOfExecutableCodeWithViolations
+                : _linesOfExecutableCode,
+            withLinesOfExecutableCodeViolations
+                ? '${report.totalLinesOfExecutableCode} / ${report.totalLinesOfExecutableCodeViolations}'
+                : '${report.totalLinesOfExecutableCode}',
+            withViolation: withLinesOfExecutableCodeViolations),
+        renderSummaryMetric(
+            totalMaintainabilityIndexViolations
+                ? _maintainabilityIndexWithViolations
+                : _maintainabilityIndex,
+            totalMaintainabilityIndexViolations
+                ? '${report.averageMaintainabilityIndex.toInt()} / ${report.totalMaintainabilityIndexViolations}'
+                : '${report.averageMaintainabilityIndex.toInt()}',
+            withViolation: totalMaintainabilityIndexViolations),
+        renderSummaryMetric(
+            withArgumentsCountViolations
+                ? _nuberOfArgumentsWithViolations
+                : _nuberOfArguments,
+            withArgumentsCountViolations
+                ? '${report.averageArgumentsCount} / ${report.totalArgumentsCountViolations}'
+                : '${report.averageArgumentsCount}',
+            withViolation: withArgumentsCountViolations),
+        if (record.issues.isNotEmpty)
+          renderSummaryMetric(_codeIssues, '${record.issues.length}',
+              withViolation: true),
+        if (record.designIssue.isNotEmpty)
+          renderSummaryMetric(_designIssues, '${record.designIssue.length}',
+              withViolation: true),
+      ]);
   }
 }
