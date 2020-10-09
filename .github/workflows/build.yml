@@ -16,13 +16,13 @@ jobs:
       run: dart pub get
     - name: Run dependency validator
       run: dart pub run dependency_validator --ignore coveralls,intl,http_multi_server
-    - name: Run dartanalyzer
+    - name: Run analyzer
       run:  |
         dart analyze --fatal-warnings --fatal-infos bin
         dart analyze --fatal-warnings --fatal-infos lib
         dart analyze --fatal-warnings --fatal-infos test
         dart analyze --fatal-warnings --fatal-infos tool
-    - name: Run dartfmt
+    - name: Run formatter
       run: dart format --set-exit-if-changed .
     - name: Run tests
       env:
