@@ -23,7 +23,7 @@ jobs:
         dart analyze --fatal-warnings --fatal-infos test
         dart analyze --fatal-warnings --fatal-infos tool
     - name: Run dartfmt
-      run: dartfmt --set-exit-if-changed -n .
+      run: dart format --set-exit-if-changed .
     - name: Run tests
       env:
           COVERALLS_REPO_TOKEN: ${{secrets.GITHUB_TOKEN}}
