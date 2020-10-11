@@ -29,10 +29,10 @@ jobs:
           COVERALLS_REPO_TOKEN: ${{secrets.GITHUB_TOKEN}}
       if: success()
       run:  |
-        pub run test --coverage=coverage
-        pub run coverage:format_coverage --packages=.packages -i coverage -o coverage/coverage.lcov --lcov --report-on=lib
-        pub run tool/format_coverage.dart
-        pub run coveralls:coveralls coverage/coverage.lcov
+        dart test --coverage=coverage
+        dart pub run coverage:format_coverage --packages=.packages -i coverage -o coverage/coverage.lcov --lcov --report-on=lib
+        dart pub run tool/format_coverage.dart
+        dart pub run coveralls:coveralls coverage/coverage.lcov
     - name: Self scan
       run: dart bin/metrics.dart --reporter=github lib
 
