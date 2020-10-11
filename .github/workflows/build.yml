@@ -34,7 +34,7 @@ jobs:
         dart pub run tool/format_coverage.dart
         dart pub run coveralls:coveralls coverage/coverage.lcov
     - name: Self scan
-      run: dart bin/metrics.dart --reporter=github lib
+      run: dart run bin/metrics.dart --reporter=github lib
 
   build-dart-2-8:
 
