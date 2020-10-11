@@ -15,7 +15,7 @@ jobs:
     - name: Install dependencies
       run: dart pub get
     - name: Run dependency validator
-      run: pub run dependency_validator --ignore coveralls,intl,http_multi_server
+      run: dart pub run dependency_validator --ignore coveralls,intl,http_multi_server
     - name: Run dartanalyzer
       run: dartanalyzer --fatal-warnings --fatal-infos --fatal-lints bin/ lib/ test/
     - name: Run dartfmt
