@@ -13,24 +13,28 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install dependencies
-      run: pub get
+      run: dart pub get
     - name: Run dependency validator
-      run: pub run dependency_validator --ignore coveralls,intl,http_multi_server
+      run: dart pub run dependency_validator --ignore coveralls,intl,http_multi_server
     - name: Run dartanalyzer
-      run: dartanalyzer --fatal-warnings --fatal-infos --fatal-lints bin/ lib/ test/
+      run:  |
+        dart analyze --fatal-warnings --fatal-infos bin
+        dart analyze --fatal-warnings --fatal-infos lib
+        dart analyze --fatal-warnings --fatal-infos test
+        dart analyze --fatal-warnings --fatal-infos tool
     - name: Run dartfmt
-      run: dartfmt --set-exit-if-changed -n .
+      run: dart format --set-exit-if-changed .
     - name: Run tests
       env:
           COVERALLS_REPO_TOKEN: ${{secrets.GITHUB_TOKEN}}
       if: success()
       run:  |
-        pub run test --coverage=coverage
-        pub run coverage:format_coverage --packages=.packages -i coverage -o coverage/coverage.lcov --lcov --report-on=lib
-        pub run tool/format_coverage.dart
-        pub run coveralls:coveralls coverage/coverage.lcov
+        dart test --coverage=coverage
+        dart pub run coverage:format_coverage --packages=.packages -i coverage -o coverage/coverage.lcov --lcov --report-on=lib
+        dart pub run tool/format_coverage.dart
+        dart pub run coveralls:coveralls coverage/coverage.lcov
     - name: Self scan
-      run: dart bin/metrics.dart --reporter=github lib
+      run: dart run bin/metrics.dart --reporter=github lib
 
   build-dart-2-8:
 
