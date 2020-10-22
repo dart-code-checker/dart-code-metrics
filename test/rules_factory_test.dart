@@ -9,13 +9,21 @@ void main() {
         getRulesById({
           'no-empty-block': <String, Object>{},
           'binary-expression-operand-order': <String, Object>{},
+          'no-magic-number': <String, Object>{},
           'double-literal-format': <String, Object>{},
           'avoid-preserve-whitespace-false': <String, Object>{},
+          'no-equal-arguments': <String, Object>{},
           'member-ordering': <String, Object>{},
+          'prefer-conditional-expressions': <String, Object>{},
           'unknown-rule': <String, Object>{},
+          'no-object-declaration': <String, Object>{},
           'component-annotation-arguments-ordering': <String, Object>{},
+          'no-equal-then-else': <String, Object>{},
+          'prefer-intl-name': <String, Object>{},
           'newline-before-return': <String, Object>{},
           'no-boolean-literal-compare': <String, Object>{},
+          'potential-null-dereference': <String, Object>{},
+          'prefer-on-push-cd-strategy': <String, Object>{},
         }).map((rule) => rule.id),
         equals([
           'avoid-preserve-whitespace-false',
@@ -26,6 +34,14 @@ void main() {
           'newline-before-return',
           'no-boolean-literal-compare',
           'no-empty-block',
+          'no-equal-arguments',
+          'no-equal-then-else',
+          'no-magic-number',
+          'no-object-declaration',
+          'potential-null-dereference',
+          'prefer-conditional-expressions',
+          'prefer-intl-name',
+          'prefer-on-push-cd-strategy',
         ]));
   });
 }
