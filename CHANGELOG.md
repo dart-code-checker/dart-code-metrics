@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased (2.1.0)
+## 2.1.0
 
 - Add static code diagnostics no-equal-arguments, potential-null-dereference
 
