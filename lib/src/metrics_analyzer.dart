@@ -73,10 +73,13 @@ class MetricsAnalyzer {
       final parseResult =
           await analysisContext.currentSession.getResolvedUnit(normalized);
 
-      final visitor = ScopeAstVisitor();
-      parseResult.unit.visitChildren(visitor);
+      final source =
+          Source(Uri.parse(filePath), parseResult.content, parseResult.unit);
 
-      final lineInfo = parseResult.lineInfo;
+      final visitor = ScopeAstVisitor();
+      source.compilationUnit.visitChildren(visitor);
+
+      final lineInfo = source.compilationUnit.lineInfo;
 
       _store.recordFile(filePath, rootFolder, (builder) {
         if (!_isExcluded(
@@ -130,13 +133,7 @@ class MetricsAnalyzer {
           }
         }
 
-        final ignores =
-            IgnoreInfo.calculateIgnores(parseResult.content, lineInfo);
-
-        final filePathUri = Uri.parse(filePath);
-
-        final source =
-            Source(filePathUri, parseResult.content, parseResult.unit);
+        final ignores = IgnoreInfo.calculateIgnores(source.content, lineInfo);
 
         builder
           ..recordIssues(_checkOnCodeIssues(ignores, source))
