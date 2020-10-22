@@ -3,9 +3,10 @@ import 'package:analyzer/dart/ast/syntactic_entity.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/source/line_info.dart';
-import 'package:dart_code_metrics/src/models/code_issue.dart';
-import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
-import 'package:dart_code_metrics/src/rules/rule_utils.dart';
+import '../models/code_issue.dart';
+import '../models/code_issue_severity.dart';
+import '../models/source.dart';
+import '../rules/rule_utils.dart';
 
 import 'base_rule.dart';
 
@@ -25,23 +26,22 @@ class PreferTrailingCommaForCollectionRule extends BaseRule {
                     CodeIssueSeverity.style);
 
   @override
-  Iterable<CodeIssue> check(
-      CompilationUnit unit, Uri sourceUrl, String sourceContent) {
+  Iterable<CodeIssue> check(Source source) {
     final visitor = _Visitor(
-      unit.lineInfo,
+      source.compilationUnit.lineInfo,
     );
 
-    unit.visitChildren(visitor);
+    source.compilationUnit.visitChildren(visitor);
 
     return visitor.nodes
         .map((node) => createIssue(
             this,
             _failure,
-            '${sourceContent.substring(node.offset, node.end)},',
+            '${source.content.substring(node.offset, node.end)},',
             _correctionComment,
-            sourceUrl,
-            sourceContent,
-            unit.lineInfo,
+            source.url,
+            source.content,
+            source.compilationUnit.lineInfo,
             node))
         .toList(growable: false);
   }
