@@ -180,15 +180,8 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
           resourceProvider.getFile(analysisResult.path)?.toUri() ??
               analysisResult.uri;
 
-      result.addAll(config.checkingCodeRules
-          .where((rule) => !ignores.ignoreRule(rule.id))
-          .expand((rule) => rule
-              .check(Source(
-                  sourceUri, analysisResult.content, analysisResult.unit))
-              .where((issue) =>
-                  !ignores.ignoredAt(issue.ruleId, issue.sourceSpan.start.line))
-              .map((issue) =>
-                  codeIssueToAnalysisErrorFixes(issue, analysisResult))));
+      result.addAll(_checkOnCodeIssues(
+          ignores, analysisResult, sourceUri, _configs[driver]));
 
       if (!isExcluded(analysisResult, config.metricsExcludes)) {
         result.addAll(_checkOnAntiPatterns(
@@ -251,6 +244,21 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
 
     return result;
   }
+
+  Iterable<plugin.AnalysisErrorFixes> _checkOnCodeIssues(
+          IgnoreInfo ignores,
+          ResolvedUnitResult analysisResult,
+          Uri sourceUri,
+          AnalyzerPluginConfig config) =>
+      config.checkingCodeRules
+          .where((rule) => !ignores.ignoreRule(rule.id))
+          .expand((rule) => rule
+              .check(Source(
+                  sourceUri, analysisResult.content, analysisResult.unit))
+              .where((issue) =>
+                  !ignores.ignoredAt(issue.ruleId, issue.sourceSpan.start.line))
+              .map((issue) =>
+                  codeIssueToAnalysisErrorFixes(issue, analysisResult)));
 
   Iterable<plugin.AnalysisErrorFixes> _checkOnAntiPatterns(
           IgnoreInfo ignores,
