@@ -40,11 +40,10 @@ class MetricsAnalyzer {
   final MetricsRecordsStore _store;
   final bool _useFastParser;
 
-  MetricsAnalyzer(
-    this._store, {
-    AnalysisOptions options,
-    Iterable<String> addintionalExcludes = const [],
-  })  : _checkingCodeRules =
+  MetricsAnalyzer(this._store,
+      {AnalysisOptions options,
+      Iterable<String> addintionalExcludes = const []})
+      : _checkingCodeRules =
             options?.rules != null ? getRulesById(options.rules) : [],
         _checkingAntiPatterns = options?.antiPatterns != null
             ? getPatternsById(options.antiPatterns)
@@ -56,6 +55,8 @@ class MetricsAnalyzer {
         _metricsConfig = options?.metricsConfig ?? const Config(),
         _metricsExclude = _prepareExcludes(options?.metricsExcludePatterns),
         _useFastParser = true;
+
+  /// Return a future that will complete after static analysis done for files from [folders].
 
   Future<void> runAnalysis(Iterable<String> folders, String rootFolder) async {
     AnalysisContextCollection collection;
