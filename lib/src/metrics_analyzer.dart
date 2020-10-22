@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
-import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/file_system/physical_file_system.dart';
 import 'package:glob/glob.dart';
 import 'package:path/path.dart' as p;
@@ -135,29 +134,25 @@ class MetricsAnalyzer {
 
         final filePathUri = Uri.parse(filePath);
 
+        final source =
+            Source(filePathUri, parseResult.content, parseResult.unit);
+
         builder
           ..recordIssues(_checkingCodeRules
               .where((rule) => !ignores.ignoreRule(rule.id))
-              .expand((rule) => rule
-                  .check(parseResult.unit, filePathUri, parseResult.content)
-                  .where((issue) => !ignores.ignoredAt(
-                      issue.ruleId, issue.sourceSpan.start.line))))
-          ..recordDesignIssues(
-              _checkOnAntiPatterns(ignores, parseResult, filePathUri));
+              .expand((rule) => rule.check(source).where((issue) => !ignores
+                  .ignoredAt(issue.ruleId, issue.sourceSpan.start.line))))
+          ..recordDesignIssues(_checkOnAntiPatterns(ignores, source));
       });
     }
   }
 
-  Iterable<DesignIssue> _checkOnAntiPatterns(IgnoreInfo ignores,
-          ResolvedUnitResult analysisResult, Uri sourceUri) =>
+  Iterable<DesignIssue> _checkOnAntiPatterns(
+          IgnoreInfo ignores, Source source) =>
       _checkingAntiPatterns
           .where((pattern) => !ignores.ignoreRule(pattern.id))
-          .expand((pattern) => pattern
-              .check(
-                  Source(
-                      sourceUri, analysisResult.content, analysisResult.unit),
-                  _metricsConfig)
-              .where((issue) => !ignores.ignoredAt(
+          .expand((pattern) => pattern.check(source, _metricsConfig).where(
+              (issue) => !ignores.ignoredAt(
                   issue.patternId, issue.sourceSpan.start.line)));
 }
 

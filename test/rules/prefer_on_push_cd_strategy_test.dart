@@ -2,6 +2,7 @@
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
+import 'package:dart_code_metrics/src/models/source.dart';
 import 'package:dart_code_metrics/src/rules/prefer_on_push_cd_strategy.dart';
 import 'package:test/test.dart';
 
@@ -41,7 +42,7 @@ void main() {
           throwIfDiagnostics: false);
 
       final issues = PreferOnPushCdStrategyRule()
-          .check(parseResult.unit, sourceUrl, parseResult.content);
+          .check(Source(sourceUrl, parseResult.content, parseResult.unit));
 
       expect(issues, isEmpty);
     });
@@ -55,7 +56,7 @@ void main() {
           throwIfDiagnostics: false);
 
       final issues = PreferOnPushCdStrategyRule()
-          .check(parseResult.unit, sourceUrl, parseResult.content);
+          .check(Source(sourceUrl, parseResult.content, parseResult.unit));
 
       expect(issues.length, equals(1));
 
@@ -77,7 +78,7 @@ void main() {
           throwIfDiagnostics: false);
 
       final issues = PreferOnPushCdStrategyRule()
-          .check(parseResult.unit, sourceUrl, parseResult.content);
+          .check(Source(sourceUrl, parseResult.content, parseResult.unit));
 
       expect(issues.length, equals(1));
 

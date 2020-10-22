@@ -1,8 +1,9 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
-import 'package:dart_code_metrics/src/models/code_issue.dart';
-import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
 
+import '../models/code_issue.dart';
+import '../models/code_issue_severity.dart';
+import '../models/source.dart';
 import 'base_rule.dart';
 import 'rule_utils.dart';
 
@@ -23,14 +24,10 @@ class NoEqualThenElse extends BaseRule {
                     CodeIssueSeverity.warning);
 
   @override
-  Iterable<CodeIssue> check(
-    CompilationUnit unit,
-    Uri sourceUrl,
-    String sourceContent,
-  ) {
+  Iterable<CodeIssue> check(Source source) {
     final _visitor = _Visitor();
 
-    unit.visitChildren(_visitor);
+    source.compilationUnit.visitChildren(_visitor);
 
     return _visitor.nodes
         .map(
@@ -39,9 +36,9 @@ class NoEqualThenElse extends BaseRule {
             _warningMessage,
             null,
             null,
-            sourceUrl,
-            sourceContent,
-            unit.lineInfo,
+            source.url,
+            source.content,
+            source.compilationUnit.lineInfo,
             node,
           ),
         )

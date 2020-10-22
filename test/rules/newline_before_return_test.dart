@@ -2,6 +2,7 @@
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
+import 'package:dart_code_metrics/src/models/source.dart';
 import 'package:dart_code_metrics/src/rules/newline_before_return.dart';
 import 'package:test/test.dart';
 
@@ -105,7 +106,7 @@ void main() {
         throwIfDiagnostics: false);
 
     final issues = NewlineBeforeReturnRule()
-        .check(parseResult.unit, sourceUrl, parseResult.content);
+        .check(Source(sourceUrl, parseResult.content, parseResult.unit));
 
     expect(issues.length, equals(3));
 

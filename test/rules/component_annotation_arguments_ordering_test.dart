@@ -3,6 +3,7 @@
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
+import 'package:dart_code_metrics/src/models/source.dart';
 import 'package:dart_code_metrics/src/rules/component_annotation_arguments_ordering.dart';
 import 'package:test/test.dart';
 
@@ -28,7 +29,7 @@ void main() {
 
     test('initialization', () {
       final issues = ComponentAnnotationArgumentsOrderingRule()
-          .check(parseResult.unit, sourceUrl, parseResult.content);
+          .check(Source(sourceUrl, parseResult.content, parseResult.unit));
 
       expect(
         issues.every((issue) =>
@@ -43,7 +44,7 @@ void main() {
 
     test('with default config reports about found issues', () {
       final issues = ComponentAnnotationArgumentsOrderingRule()
-          .check(parseResult.unit, sourceUrl, parseResult.content);
+          .check(Source(sourceUrl, parseResult.content, parseResult.unit));
 
       expect(
         issues.map((issue) => issue.sourceSpan.start.offset),
@@ -84,7 +85,7 @@ void main() {
       };
 
       final issues = ComponentAnnotationArgumentsOrderingRule(config: config)
-          .check(parseResult.unit, sourceUrl, parseResult.content);
+          .check(Source(sourceUrl, parseResult.content, parseResult.unit));
 
       expect(issues.isEmpty, isTrue);
     });
@@ -100,7 +101,7 @@ void main() {
       };
 
       final issues = ComponentAnnotationArgumentsOrderingRule(config: config)
-          .check(parseResult.unit, sourceUrl, parseResult.content);
+          .check(Source(sourceUrl, parseResult.content, parseResult.unit));
 
       expect(
         issues.map((issue) => issue.sourceSpan.start.offset),
