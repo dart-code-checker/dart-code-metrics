@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
+import 'package:analyzer/dart/analysis/features.dart';
+import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/file_system/physical_file_system.dart';
 import 'package:glob/glob.dart';
 import 'package:path/path.dart' as p;
@@ -25,6 +27,8 @@ import 'rules_factory.dart';
 import 'scope_ast_visitor.dart';
 import 'utils/metrics_analyzer_utils.dart';
 
+final _featureSet = FeatureSet.fromEnableFlags([]);
+
 /// Performs code quality analysis on specified files
 /// See [MetricsAnalysisRunner] to get analysis info
 class MetricsAnalyzer {
@@ -34,6 +38,7 @@ class MetricsAnalyzer {
   final Config _metricsConfig;
   final Iterable<Glob> _metricsExclude;
   final MetricsRecordsStore _store;
+  final bool _useFastParser;
 
   MetricsAnalyzer(
     this._store, {
@@ -49,14 +54,19 @@ class MetricsAnalyzer {
           ..._prepareExcludes(addintionalExcludes),
         ],
         _metricsConfig = options?.metricsConfig ?? const Config(),
-        _metricsExclude = _prepareExcludes(options?.metricsExcludePatterns);
+        _metricsExclude = _prepareExcludes(options?.metricsExcludePatterns),
+        _useFastParser = true;
 
   Future<void> runAnalysis(Iterable<String> folders, String rootFolder) async {
-    final collection = AnalysisContextCollection(
-      includedPaths:
-          folders.map((path) => p.normalize(p.join(rootFolder, path))).toList(),
-      resourceProvider: PhysicalResourceProvider.INSTANCE,
-    );
+    AnalysisContextCollection collection;
+    if (!_useFastParser) {
+      collection = AnalysisContextCollection(
+        includedPaths: folders
+            .map((path) => p.normalize(p.join(rootFolder, path)))
+            .toList(),
+        resourceProvider: PhysicalResourceProvider.INSTANCE,
+      );
+    }
 
     final filePaths = folders
         .expand((directory) => Glob('$directory/**.dart')
@@ -69,12 +79,22 @@ class MetricsAnalyzer {
 
     for (final filePath in filePaths) {
       final normalized = p.normalize(p.absolute(filePath));
-      final analysisContext = collection.contextFor(normalized);
-      final parseResult =
-          await analysisContext.currentSession.getResolvedUnit(normalized);
 
-      final source =
-          Source(Uri.parse(filePath), parseResult.content, parseResult.unit);
+      Source source;
+      if (_useFastParser) {
+        final result = parseFile(
+            path: normalized,
+            featureSet: _featureSet,
+            throwIfDiagnostics: false);
+
+        source = Source(Uri.parse(filePath), result.content, result.unit);
+      } else {
+        final analysisContext = collection.contextFor(normalized);
+        final result =
+            await analysisContext.currentSession.getResolvedUnit(normalized);
+
+        source = Source(Uri.parse(filePath), result.content, result.unit);
+      }
 
       final visitor = ScopeAstVisitor();
       source.compilationUnit.visitChildren(visitor);
