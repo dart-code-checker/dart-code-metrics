@@ -3,6 +3,7 @@
 ## 2.1.0
 
 - Add static code diagnostics no-equal-arguments, potential-null-dereference
+- Improve HTML report
 
 ## 2.0.0
 
