@@ -69,6 +69,12 @@ pub global activate dart_code_metrics
 metrics lib
 ```
 
+If you want to run the tool directly (e.g. because you are using Flutter), you can use:
+
+```bash
+flutter pub global run dart_code_metrics:metrics lib
+```
+
 Full usage:
 
 ```text
