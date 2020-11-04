@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.1
+
+- Explained usage with Flutter in README.
+
 ## 2.1.0
 
 - Add static code diagnostics no-equal-arguments, potential-null-dereference
