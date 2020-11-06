@@ -62,14 +62,14 @@ A plugin for the Dart `analyzer` library [package](https://pub.dev/packages/dart
 
 ### Command line tool
 
-Simple usage:
+#### Simple usage:
 
 ```bash
 pub global activate dart_code_metrics
 metrics lib
 ```
 
-#### Flutter usage
+#### Flutter usage:
 
 ```bash
 flutter pub global run dart_code_metrics:metrics lib
