@@ -69,7 +69,13 @@ pub global activate dart_code_metrics
 metrics lib
 ```
 
-Full usage:
+#### Flutter usage
+
+```bash
+flutter pub global run dart_code_metrics:metrics lib
+```
+
+#### Full usage:
 
 ```text
 Usage: metrics [options...] <directories>
