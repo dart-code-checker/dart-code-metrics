@@ -1,7 +1,8 @@
-import 'package:analyzer/dart/ast/ast.dart';
-import 'package:dart_code_metrics/src/models/code_issue.dart';
-import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
 import 'package:meta/meta.dart';
+
+import '../models/code_issue.dart';
+import '../models/code_issue_severity.dart';
+import '../models/source.dart';
 
 abstract class BaseRule {
   final String id;
@@ -14,6 +15,5 @@ abstract class BaseRule {
     @required this.severity,
   });
 
-  Iterable<CodeIssue> check(
-      CompilationUnit unit, Uri sourceUrl, String sourceContent);
+  Iterable<CodeIssue> check(Source source);
 }

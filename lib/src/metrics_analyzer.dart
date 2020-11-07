@@ -1,7 +1,8 @@
 import 'dart:io';
 
 import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
-import 'package:analyzer/dart/analysis/results.dart';
+import 'package:analyzer/dart/analysis/features.dart';
+import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/file_system/physical_file_system.dart';
 import 'package:glob/glob.dart';
 import 'package:path/path.dart' as p;
@@ -15,6 +16,7 @@ import 'lines_of_code/lines_with_code_ast_visitor.dart';
 import 'metrics/cyclomatic_complexity/control_flow_ast_visitor.dart';
 import 'metrics/cyclomatic_complexity/cyclomatic_config.dart';
 import 'metrics_records_store.dart';
+import 'models/code_issue.dart';
 import 'models/component_record.dart';
 import 'models/config.dart';
 import 'models/design_issue.dart';
@@ -25,6 +27,8 @@ import 'rules_factory.dart';
 import 'scope_ast_visitor.dart';
 import 'utils/metrics_analyzer_utils.dart';
 
+final _featureSet = FeatureSet.fromEnableFlags([]);
+
 /// Performs code quality analysis on specified files
 /// See [MetricsAnalysisRunner] to get analysis info
 class MetricsAnalyzer {
@@ -34,12 +38,12 @@ class MetricsAnalyzer {
   final Config _metricsConfig;
   final Iterable<Glob> _metricsExclude;
   final MetricsRecordsStore _store;
+  final bool _useFastParser;
 
-  MetricsAnalyzer(
-    this._store, {
-    AnalysisOptions options,
-    Iterable<String> addintionalExcludes = const [],
-  })  : _checkingCodeRules =
+  MetricsAnalyzer(this._store,
+      {AnalysisOptions options,
+      Iterable<String> addintionalExcludes = const []})
+      : _checkingCodeRules =
             options?.rules != null ? getRulesById(options.rules) : [],
         _checkingAntiPatterns = options?.antiPatterns != null
             ? getPatternsById(options.antiPatterns)
@@ -49,14 +53,21 @@ class MetricsAnalyzer {
           ..._prepareExcludes(addintionalExcludes),
         ],
         _metricsConfig = options?.metricsConfig ?? const Config(),
-        _metricsExclude = _prepareExcludes(options?.metricsExcludePatterns);
+        _metricsExclude = _prepareExcludes(options?.metricsExcludePatterns),
+        _useFastParser = true;
+
+  /// Return a future that will complete after static analysis done for files from [folders].
 
   Future<void> runAnalysis(Iterable<String> folders, String rootFolder) async {
-    final collection = AnalysisContextCollection(
-      includedPaths:
-          folders.map((path) => p.normalize(p.join(rootFolder, path))).toList(),
-      resourceProvider: PhysicalResourceProvider.INSTANCE,
-    );
+    AnalysisContextCollection collection;
+    if (!_useFastParser) {
+      collection = AnalysisContextCollection(
+        includedPaths: folders
+            .map((path) => p.normalize(p.join(rootFolder, path)))
+            .toList(),
+        resourceProvider: PhysicalResourceProvider.INSTANCE,
+      );
+    }
 
     final filePaths = folders
         .expand((directory) => Glob('$directory/**.dart')
@@ -69,14 +80,27 @@ class MetricsAnalyzer {
 
     for (final filePath in filePaths) {
       final normalized = p.normalize(p.absolute(filePath));
-      final analysisContext = collection.contextFor(normalized);
-      final parseResult =
-          await analysisContext.currentSession.getResolvedUnit(normalized);
+
+      Source source;
+      if (_useFastParser) {
+        final result = parseFile(
+            path: normalized,
+            featureSet: _featureSet,
+            throwIfDiagnostics: false);
+
+        source = Source(Uri.parse(filePath), result.content, result.unit);
+      } else {
+        final analysisContext = collection.contextFor(normalized);
+        final result =
+            await analysisContext.currentSession.getResolvedUnit(normalized);
+
+        source = Source(Uri.parse(filePath), result.content, result.unit);
+      }
 
       final visitor = ScopeAstVisitor();
-      parseResult.unit.visitChildren(visitor);
+      source.compilationUnit.visitChildren(visitor);
 
-      final lineInfo = parseResult.lineInfo;
+      final lineInfo = source.compilationUnit.lineInfo;
 
       _store.recordFile(filePath, rootFolder, (builder) {
         if (!_isExcluded(
@@ -130,34 +154,26 @@ class MetricsAnalyzer {
           }
         }
 
-        final ignores =
-            IgnoreInfo.calculateIgnores(parseResult.content, lineInfo);
-
-        final filePathUri = Uri.parse(filePath);
+        final ignores = IgnoreInfo.calculateIgnores(source.content, lineInfo);
 
         builder
-          ..recordIssues(_checkingCodeRules
-              .where((rule) => !ignores.ignoreRule(rule.id))
-              .expand((rule) => rule
-                  .check(parseResult.unit, filePathUri, parseResult.content)
-                  .where((issue) => !ignores.ignoredAt(
-                      issue.ruleId, issue.sourceSpan.start.line))))
-          ..recordDesignIssues(
-              _checkOnAntiPatterns(ignores, parseResult, filePathUri));
+          ..recordIssues(_checkOnCodeIssues(ignores, source))
+          ..recordDesignIssues(_checkOnAntiPatterns(ignores, source));
       });
     }
   }
 
-  Iterable<DesignIssue> _checkOnAntiPatterns(IgnoreInfo ignores,
-          ResolvedUnitResult analysisResult, Uri sourceUri) =>
+  Iterable<CodeIssue> _checkOnCodeIssues(IgnoreInfo ignores, Source source) =>
+      _checkingCodeRules.where((rule) => !ignores.ignoreRule(rule.id)).expand(
+          (rule) => rule.check(source).where((issue) =>
+              !ignores.ignoredAt(issue.ruleId, issue.sourceSpan.start.line)));
+
+  Iterable<DesignIssue> _checkOnAntiPatterns(
+          IgnoreInfo ignores, Source source) =>
       _checkingAntiPatterns
           .where((pattern) => !ignores.ignoreRule(pattern.id))
-          .expand((pattern) => pattern
-              .check(
-                  Source(
-                      sourceUri, analysisResult.content, analysisResult.unit),
-                  _metricsConfig)
-              .where((issue) => !ignores.ignoredAt(
+          .expand((pattern) => pattern.check(source, _metricsConfig).where(
+              (issue) => !ignores.ignoredAt(
                   issue.patternId, issue.sourceSpan.start.line)));
 }
 

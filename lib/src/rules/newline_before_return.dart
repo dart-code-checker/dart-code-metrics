@@ -2,9 +2,10 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/source/line_info.dart';
-import 'package:dart_code_metrics/src/models/code_issue.dart';
-import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
 
+import '../models/code_issue.dart';
+import '../models/code_issue_severity.dart';
+import '../models/source.dart';
 import 'base_rule.dart';
 import 'rule_utils.dart';
 
@@ -25,11 +26,10 @@ class NewlineBeforeReturnRule extends BaseRule {
                     CodeIssueSeverity.style);
 
   @override
-  Iterable<CodeIssue> check(
-      CompilationUnit unit, Uri sourceUrl, String sourceContent) {
+  Iterable<CodeIssue> check(Source source) {
     final _visitor = _Visitor();
 
-    unit.visitChildren(_visitor);
+    source.compilationUnit.visitChildren(_visitor);
 
     return _visitor.statements
         // return statement is in a block
@@ -39,18 +39,19 @@ class NewlineBeforeReturnRule extends BaseRule {
         .where((statement) =>
             statement.returnKeyword.previous != statement.parent.beginToken)
         .where((statement) {
-          final previousTokenLine = unit.lineInfo
+          final previousTokenLine = source.compilationUnit.lineInfo
               .getLocation(statement.returnKeyword.previous.end)
               .lineNumber;
-          final tokenLine = unit.lineInfo
-              .getLocation(
-                  _optimalToken(statement.returnKeyword, unit.lineInfo).offset)
+          final tokenLine = source.compilationUnit.lineInfo
+              .getLocation(_optimalToken(
+                      statement.returnKeyword, source.compilationUnit.lineInfo)
+                  .offset)
               .lineNumber;
 
           return !(tokenLine > previousTokenLine + 1);
         })
-        .map((statement) => createIssue(this, _failure, null, null, sourceUrl,
-            sourceContent, unit.lineInfo, statement))
+        .map((statement) => createIssue(this, _failure, null, null, source.url,
+            source.content, source.compilationUnit.lineInfo, statement))
         .toList(growable: false);
   }
 

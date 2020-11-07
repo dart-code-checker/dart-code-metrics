@@ -3,6 +3,8 @@ import '../../models/file_record.dart';
 import '../reporter.dart';
 import 'github_workflow_commands.dart';
 
+/// Creates report about issues in pull request based on GitHub Actions Workflow commands.
+
 class GitHubReporter implements Reporter {
   @override
   Iterable<String> report(Iterable<FileRecord> records) {

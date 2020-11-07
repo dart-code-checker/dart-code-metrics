@@ -130,5 +130,7 @@ Map<String, Map<String, Object>> _readRules(
   return {};
 }
 
+/// Parse and construct options from YAML file.
+
 Future<AnalysisOptions> analysisOptionsFromFile(File options) async =>
     AnalysisOptions.fromMap(await loadConfigFromYamlFile(options));

@@ -1,4 +1,5 @@
 import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
+import 'package:dart_code_metrics/src/models/source.dart';
 import 'package:dart_code_metrics/src/rules/no_magic_number_rule.dart';
 import 'package:test/test.dart';
 import 'package:analyzer/dart/analysis/features.dart';
@@ -41,7 +42,7 @@ void main() {
           throwIfDiagnostics: false);
 
       final issues = NoMagicNumberRule()
-          .check(parseResult.unit, sourceUrl, parseResult.content)
+          .check(Source(sourceUrl, parseResult.content, parseResult.unit))
           .toList();
 
       expect(issues.length, equals(4));
@@ -72,7 +73,7 @@ void main() {
           throwIfDiagnostics: false);
 
       final issues = NoMagicNumberRule()
-          .check(parseResult.unit, sourceUrl, parseResult.content)
+          .check(Source(sourceUrl, parseResult.content, parseResult.unit))
           .toList();
 
       expect(issues, isEmpty);
@@ -85,7 +86,7 @@ void main() {
           throwIfDiagnostics: false);
 
       final issues = NoMagicNumberRule()
-          .check(parseResult.unit, sourceUrl, parseResult.content)
+          .check(Source(sourceUrl, parseResult.content, parseResult.unit))
           .toList();
 
       expect(issues, isEmpty);
@@ -99,7 +100,9 @@ void main() {
 
       final issues = NoMagicNumberRule(config: {
         'allowed': [42, 12, 3.14],
-      }).check(parseResult.unit, sourceUrl, parseResult.content).toList();
+      })
+          .check(Source(sourceUrl, parseResult.content, parseResult.unit))
+          .toList();
 
       expect(issues, isEmpty);
     });

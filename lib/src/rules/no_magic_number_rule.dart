@@ -1,8 +1,9 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
-import 'package:dart_code_metrics/src/models/code_issue.dart';
-import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
 
+import '../models/code_issue.dart';
+import '../models/code_issue_severity.dart';
+import '../models/source.dart';
 import 'base_rule.dart';
 import 'rule_utils.dart';
 
@@ -25,11 +26,10 @@ class NoMagicNumberRule extends BaseRule {
                     CodeIssueSeverity.warning);
 
   @override
-  Iterable<CodeIssue> check(
-      CompilationUnit unit, Uri sourceUrl, String sourceContent) {
+  Iterable<CodeIssue> check(Source source) {
     final visitor = _Visitor();
 
-    unit.visitChildren(visitor);
+    source.compilationUnit.visitChildren(visitor);
 
     return visitor.literals
         .where(_isMagicNumber)
@@ -37,8 +37,8 @@ class NoMagicNumberRule extends BaseRule {
         .where(_isNotInsideConstantCollectionLiteral)
         .where(_isNotInsideConstConstructor)
         .where(_isNotInDateTime)
-        .map((lit) => createIssue(this, _warningMessage, null, null, sourceUrl,
-            sourceContent, unit.lineInfo, lit))
+        .map((lit) => createIssue(this, _warningMessage, null, null, source.url,
+            source.content, source.compilationUnit.lineInfo, lit))
         .toList(growable: false);
   }
 

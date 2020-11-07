@@ -1,11 +1,12 @@
 import 'package:analyzer/dart/ast/ast.dart';
-import 'package:dart_code_metrics/src/models/code_issue.dart';
-import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
-import 'package:dart_code_metrics/src/rules/rule_utils.dart';
-import 'package:dart_code_metrics/src/utils/object_extensions.dart';
-import 'package:dart_code_metrics/src/utils/iterable_extensions.dart';
 import 'package:meta/meta.dart';
 
+import '../models/code_issue.dart';
+import '../models/code_issue_severity.dart';
+import '../models/source.dart';
+import '../rules/rule_utils.dart';
+import '../utils/iterable_extensions.dart';
+import '../utils/object_extensions.dart';
 import 'base_rule.dart';
 import 'intl_base/intl_base_visitor.dart';
 
@@ -24,9 +25,8 @@ class ProvideCorrectIntlArgsRule extends BaseRule {
                     CodeIssueSeverity.warning);
 
   @override
-  Iterable<CodeIssue> check(
-      CompilationUnit unit, Uri sourceUrl, String sourceContent) {
-    final hasIntlDirective = unit.directives
+  Iterable<CodeIssue> check(Source source) {
+    final hasIntlDirective = source.compilationUnit.directives
         .whereType<ImportDirective>()
         .any((directive) => directive.uri.stringValue == _intlPackageUrl);
 
@@ -35,7 +35,7 @@ class ProvideCorrectIntlArgsRule extends BaseRule {
     }
 
     final visitor = _Visitor();
-    unit.visitChildren(visitor);
+    source.compilationUnit.visitChildren(visitor);
 
     return visitor.issues
         .map((issue) => createIssue(
@@ -43,9 +43,9 @@ class ProvideCorrectIntlArgsRule extends BaseRule {
               issue.nameFailure,
               null,
               null,
-              sourceUrl,
-              sourceContent,
-              unit.lineInfo,
+              source.url,
+              source.content,
+              source.compilationUnit.lineInfo,
               issue.node,
             ))
         .toList();

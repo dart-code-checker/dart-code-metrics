@@ -1,9 +1,10 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
-import 'package:dart_code_metrics/src/models/code_issue.dart';
-import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
 
+import '../models/code_issue.dart';
+import '../models/code_issue_severity.dart';
+import '../models/source.dart';
 import 'base_rule.dart';
 import 'rule_utils.dart';
 
@@ -36,11 +37,10 @@ class NoBooleanLiteralCompareRule extends BaseRule {
                     CodeIssueSeverity.style);
 
   @override
-  Iterable<CodeIssue> check(
-      CompilationUnit unit, Uri sourceUrl, String sourceContent) {
+  Iterable<CodeIssue> check(Source source) {
     final _visitor = _Visitor();
 
-    unit.visitChildren(_visitor);
+    source.compilationUnit.visitChildren(_visitor);
 
     final issues = <CodeIssue>[];
 
@@ -51,9 +51,9 @@ class NoBooleanLiteralCompareRule extends BaseRule {
             _failureCompareNullAwarePropertyWithTrue,
             _nullAwarePropertyCompareWithTrueCorrection(expression),
             _correctionComprareNullAwarePropertyWithTrue,
-            sourceUrl,
-            sourceContent,
-            unit.lineInfo,
+            source.url,
+            source.content,
+            source.compilationUnit.lineInfo,
             expression));
 
         continue;
@@ -82,9 +82,9 @@ class NoBooleanLiteralCompareRule extends BaseRule {
           _failure,
           useDirect ? correction : '!$correction',
           useDirect ? _useItDirectly : _negate,
-          sourceUrl,
-          sourceContent,
-          unit.lineInfo,
+          source.url,
+          source.content,
+          source.compilationUnit.lineInfo,
           expression));
     }
 
