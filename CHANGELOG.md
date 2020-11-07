@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased (2.2.0)
+
+- Add static code diagnostic prefer-trailing-comma
+
 ## 2.1.1
 
 - Explained usage with Flutter in README.
