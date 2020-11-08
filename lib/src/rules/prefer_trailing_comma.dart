@@ -118,14 +118,14 @@ class _Visitor extends RecursiveAstVisitor<void> {
     final last = nodes.last;
 
     if (last.endToken?.next?.type != TokenType.COMMA &&
-        (!_isSingleItemMultiLine(last, leftBracket, rightBracket) &&
+        (!_isLastItemMultiLine(last, leftBracket, rightBracket) &&
                 _getLineNumber(leftBracket) != _getLineNumber(rightBracket) ||
             _breakpoint != null && nodes.length >= _breakpoint)) {
       _nodes.add(last);
     }
   }
 
-  bool _isSingleItemMultiLine(
+  bool _isLastItemMultiLine(
     AstNode node,
     Token leftBracket,
     Token rightBracket,

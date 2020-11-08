@@ -23,7 +23,7 @@ The value for `order` may be an array consisting of the following strings (defau
 - exports
 - change_detection
 
-## Config example
+### Config example
 
 ```yaml
 component-annotation-arguments-ordering:

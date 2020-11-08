@@ -3,18 +3,13 @@ void firstFunction(
   return;
 }
 
-void secondFunction(
-  String firstArgument,
-  String secondArgument,
-  String thirdArgument,
-) {
+void secondFunction() {
   firstFunction('some string', 'some other string',
       'and another string for length exceed');
 }
 
-void thirdFunction(String arg1) {
-  firstFunction('', '', '');
-}
+void thirdFunction(String someLongVarName, void Function() someLongCallbackName,
+    String arg3) {}
 
 class TestClass {
   void firstMethod(
@@ -23,29 +18,12 @@ class TestClass {
   }
 
   void secondMethod() {
-    firstMethod(
-      'some string',
-      'some other string',
-      'and another string for length exceed',
-    );
-
     firstMethod('some string', 'some other string',
         'and another string for length exceed');
-  }
 
-  void thirdMethod(
-    String arg1,
-  ) {
-    firstMethod(
-      arg1,
-      '',
-      '',
-    );
-    firstFunction(
-      arg1,
-      '',
-      '',
-    );
+    thirdFunction('some string', () {
+      return;
+    }, 'some other string');
   }
 }
 
@@ -58,49 +36,32 @@ enum FirstEnum {
   sixthItem
 }
 
-enum SecondEnum {
-  firstItem,
-}
-
-enum ThirdEnum { firstItem }
-
 class FirstClass {
-  final int firstField;
-  final int secondField;
-  final int thirdField;
-  final int forthField;
+  final num firstField;
+  final num secondField;
+  final num thirdField;
+  final num forthField;
 
   const FirstClass(
       this.firstField, this.secondField, this.thirdField, this.forthField);
 }
 
-const instance = FirstClass(0, 0, 0, 0);
+const instance =
+    FirstClass(3.14159265359, 3.14159265359, 3.14159265359, 3.14159265359);
 
-final firstArray = ['some string'];
 final secondArray = [
   'some string',
   'some other string',
   'and another string for length exceed'
 ];
-final thirdArray = [
-  'some string',
-];
 
-final firstSet = {'some string'};
 final secondSet = {
   'some string',
   'some other string',
   'and another string for length exceed'
 };
-final thirdSet = {
-  'some string',
-};
 
-final firstMap = {'some string': 'some string'};
 final secondMap = {
   'some string': 'and another string for length exceed',
   'and another string for length exceed': 'and another string for length exceed'
-};
-final thirdMap = {
-  'some string': 'some string',
 };
