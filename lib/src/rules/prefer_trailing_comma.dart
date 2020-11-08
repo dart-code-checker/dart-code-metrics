@@ -118,11 +118,22 @@ class _Visitor extends RecursiveAstVisitor<void> {
     final last = nodes.last;
 
     if (last.endToken?.next?.type != TokenType.COMMA &&
-        (_getLineNumber(leftBracket) != _getLineNumber(rightBracket) ||
+        (!_isSingleItemMultiLine(last, leftBracket, rightBracket) &&
+                _getLineNumber(leftBracket) != _getLineNumber(rightBracket) ||
             _breakpoint != null && nodes.length >= _breakpoint)) {
       _nodes.add(last);
     }
   }
+
+  bool _isSingleItemMultiLine(
+    AstNode node,
+    Token leftBracket,
+    Token rightBracket,
+  ) =>
+      _getLineNumber(leftBracket) ==
+          _lineInfo.getLocation(node.offset).lineNumber &&
+      _getLineNumber(rightBracket) ==
+          _lineInfo.getLocation(node.end).lineNumber;
 
   int _getLineNumber(SyntacticEntity entity) =>
       _lineInfo.getLocation(entity.offset).lineNumber;
