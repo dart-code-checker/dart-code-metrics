@@ -1,6 +1,6 @@
 @TestOn('vm')
 
-import 'dart:io' as io;
+import 'dart:io';
 
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
@@ -10,10 +10,11 @@ import 'package:test/test.dart';
 
 // ignore_for_file: no_adjacent_strings_in_list
 
+const examplePath = 'test/rules/no_object_declaration/examples/example.dart';
+
 void main() {
   test('NoObjectDeclarationRule reports about found issues', () async {
-    final path =
-        io.File('test/rules/no_object_declaration/example.dart').absolute.path;
+    final path = File(examplePath).absolute.path;
     final sourceUrl = Uri.parse(path);
 
     final parseResult = await resolveFile(path: path);
