@@ -43,14 +43,14 @@ final _implementedRules = <String, BaseRule Function(Map<String, Object>)>{
       PotentialNullDereference(config: config),
   PreferConditionalExpressions.ruleId: (config) =>
       PreferConditionalExpressions(config: config),
-  ProvideCorrectIntlArgsRule.ruleId: (config) =>
-      ProvideCorrectIntlArgsRule(config: config),
   PreferIntlNameRule.ruleId: (config) => PreferIntlNameRule(config: config),
+  PreferOnPushCdStrategyRule.ruleId: (config) =>
+      PreferOnPushCdStrategyRule(config: config),
   PreferTrailingCommaForCollectionRule.ruleId: (config) =>
       PreferTrailingCommaForCollectionRule(config: config),
   PreferTrailingComma.ruleId: (config) => PreferTrailingComma(config: config),
-  PreferOnPushCdStrategyRule.ruleId: (config) =>
-      PreferOnPushCdStrategyRule(config: config),
+  ProvideCorrectIntlArgsRule.ruleId: (config) =>
+      ProvideCorrectIntlArgsRule(config: config),
 };
 
 Iterable<BaseRule> get allRules =>
