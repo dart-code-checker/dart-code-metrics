@@ -30,7 +30,7 @@ The value for `order` may be an array consisting of the following strings (defau
 
 The `alphabetize` option will enforce that members within the same category should be alphabetically sorted by name.
 
-## Config example
+### Config example
 
 ```yaml
 member-ordering:

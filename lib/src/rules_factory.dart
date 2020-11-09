@@ -15,6 +15,7 @@ import 'rules/potential_null_dereference.dart';
 import 'rules/prefer_conditional_expressions.dart';
 import 'rules/prefer_intl_name.dart';
 import 'rules/prefer_on_push_cd_strategy.dart';
+import 'rules/prefer_trailing_comma.dart';
 import 'rules/prefer_trailing_comma_for_collection.dart';
 import 'rules/provide_correct_intl_args.dart';
 
@@ -47,6 +48,7 @@ final _implementedRules = <String, BaseRule Function(Map<String, Object>)>{
   PreferIntlNameRule.ruleId: (config) => PreferIntlNameRule(config: config),
   PreferTrailingCommaForCollectionRule.ruleId: (config) =>
       PreferTrailingCommaForCollectionRule(config: config),
+  PreferTrailingComma.ruleId: (config) => PreferTrailingComma(config: config),
   PreferOnPushCdStrategyRule.ruleId: (config) =>
       PreferOnPushCdStrategyRule(config: config),
 };
