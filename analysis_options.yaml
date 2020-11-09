@@ -2,9 +2,9 @@ include: package:pedantic/analysis_options.yaml
 
 analyzer:
   exclude:
-    - test/**/examples/**
     - example/**
     - test/resources/**
+    - test/**/examples/**
   plugins:
     - dart_code_metrics
   strong-mode:
