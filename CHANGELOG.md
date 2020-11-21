@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased (2.3.0)
+
+- Add static code diagnostic prefer-entry-point-imports
+
 ## Unreleased (2.2.0)
 
 - Add static code diagnostic prefer-trailing-comma

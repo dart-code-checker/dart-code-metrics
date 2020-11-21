@@ -13,6 +13,7 @@ import 'rules/no_magic_number_rule.dart';
 import 'rules/no_object_declaration.dart';
 import 'rules/potential_null_dereference.dart';
 import 'rules/prefer_conditional_expressions.dart';
+import 'rules/prefer_entry_point_imports.dart';
 import 'rules/prefer_intl_name.dart';
 import 'rules/prefer_on_push_cd_strategy.dart';
 import 'rules/prefer_trailing_comma.dart';
@@ -43,6 +44,8 @@ final _implementedRules = <String, BaseRule Function(Map<String, Object>)>{
       PotentialNullDereference(config: config),
   PreferConditionalExpressions.ruleId: (config) =>
       PreferConditionalExpressions(config: config),
+  PreferEntryPointImports.ruleId: (config) =>
+      PreferEntryPointImports(config: config),
   PreferIntlNameRule.ruleId: (config) => PreferIntlNameRule(config: config),
   PreferOnPushCdStrategyRule.ruleId: (config) =>
       PreferOnPushCdStrategyRule(config: config),
