@@ -21,7 +21,7 @@ class PreferEntryPointImports extends BaseRule {
             documentation: Uri.parse(_documentationUrl),
             severity:
                 CodeIssueSeverity.fromJson(config['severity'] as String) ??
-                    CodeIssueSeverity.style);
+                    CodeIssueSeverity.warning);
 
   @override
   Iterable<CodeIssue> check(Source source) {

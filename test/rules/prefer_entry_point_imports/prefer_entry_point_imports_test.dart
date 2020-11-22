@@ -1,6 +1,7 @@
+@TestOn('vm')
+
 import 'dart:io';
 
-@TestOn('vm')
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
 import 'package:dart_code_metrics/src/models/source.dart';
