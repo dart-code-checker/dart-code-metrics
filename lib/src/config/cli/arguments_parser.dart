@@ -78,6 +78,11 @@ void _appendMetricsThresholdOptions(ArgParser parser) {
       'Number of methods threshold',
       numberOfMethodsDefaultWarningLevel,
     ),
+    _MetricOption(
+      maximumNestingKey,
+      'Maximum nesting threshold',
+      maximumNestingDefaultWarningLevel,
+    ),
   ];
 
   for (final metric in metrics) {

@@ -18,6 +18,7 @@ dart_code_metrics:
   metrics:
     cyclomatic-complexity: 20
     number-of-arguments: 4
+    maximum-nesting: 5
   metrics-exclude:
     - test/**
   rules:

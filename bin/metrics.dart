@@ -29,6 +29,7 @@ Future<void> main(List<String> args) async {
       int.tryParse(arguments[linesOfExecutableCodeKey] as String ?? ''),
       int.tryParse(arguments[numberOfArgumentsKey] as String ?? ''),
       int.tryParse(arguments[numberOfMethodsKey] as String ?? ''),
+      int.tryParse(arguments[maximumNestingKey] as String ?? ''),
       arguments[reporterName] as String,
       arguments[verboseName] as bool,
       ViolationLevel.fromString(arguments[setExitOnViolationLevel] as String),
@@ -56,6 +57,7 @@ Future<void> _runAnalysis(
   int linesOfExecutableCodeThreshold,
   int numberOfArgumentsWarningLevel,
   int numberOfMethodsWarningLevel,
+  int maximumNestingWarningLevel,
   String reporterType,
   bool verbose,
   ViolationLevel setExitOnViolationLevel,
@@ -92,6 +94,8 @@ Future<void> _runAnalysis(
         options.metricsConfig.numberOfArgumentsWarningLevel,
     numberOfMethodsWarningLevel: numberOfMethodsWarningLevel ??
         options.metricsConfig.numberOfMethodsWarningLevel,
+    maximumNestingWarningLevel: maximumNestingWarningLevel ??
+        options.metricsConfig.maximumNestingWarningLevel,
   );
 
   Reporter reporter;

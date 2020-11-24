@@ -4,11 +4,13 @@ const cyclomaticComplexityKey = 'cyclomatic-complexity';
 const linesOfExecutableCodeKey = 'lines-of-executable-code';
 const numberOfArgumentsKey = 'number-of-arguments';
 const numberOfMethodsKey = 'number-of-methods';
+const maximumNestingKey = 'maximum-nesting';
 
 const cyclomaticComplexityDefaultWarningLevel = 20;
 const linesOfExecutableCodeDefaultWarningLevel = 50;
 const numberOfArgumentsDefaultWarningLevel = 4;
 const numberOfMethodsDefaultWarningLevel = 10;
+const maximumNestingDefaultWarningLevel = 5;
 
 /// Reporter config to use with various [Reporter]s
 @immutable
@@ -17,6 +19,7 @@ class Config {
   final int linesOfExecutableCodeWarningLevel;
   final int numberOfArgumentsWarningLevel;
   final int numberOfMethodsWarningLevel;
+  final int maximumNestingWarningLevel;
 
   const Config({
     this.cyclomaticComplexityWarningLevel =
@@ -25,5 +28,6 @@ class Config {
         linesOfExecutableCodeDefaultWarningLevel,
     this.numberOfArgumentsWarningLevel = numberOfArgumentsDefaultWarningLevel,
     this.numberOfMethodsWarningLevel = numberOfMethodsDefaultWarningLevel,
+    this.maximumNestingWarningLevel = maximumNestingDefaultWarningLevel,
   });
 }
