@@ -1,4 +1,5 @@
 @TestOn('vm')
+import 'package:ansicolor/ansicolor.dart';
 import 'package:dart_code_metrics/src/models/code_issue.dart';
 import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
 import 'package:dart_code_metrics/src/models/component_record.dart';
@@ -20,6 +21,7 @@ void main() {
     ConsoleReporter _verboseReporter;
 
     setUp(() {
+      ansiColorDisabled = false;
       _reporter = ConsoleReporter(reportConfig: const Config());
       _verboseReporter =
           ConsoleReporter(reportConfig: const Config(), reportAll: true);
