@@ -47,9 +47,10 @@ void main() {
     final sourceUrl = Uri.parse('/example.dart');
 
     final parseResult = parseString(
-        content: _content,
-        featureSet: FeatureSet.fromEnableFlags([]),
-        throwIfDiagnostics: false);
+      content: _content,
+      featureSet: FeatureSet.fromEnableFlags([]),
+      throwIfDiagnostics: false,
+    );
 
     final issues = NoEmptyBlockRule()
         .check(Source(sourceUrl, parseResult.content, parseResult.unit));
@@ -57,31 +58,50 @@ void main() {
     expect(issues.length, equals(4));
 
     expect(issues.every((issue) => issue.ruleId == 'no-empty-block'), isTrue);
-    expect(issues.every((issue) => issue.severity == CodeIssueSeverity.style),
-        isTrue);
-    expect(issues.every((issue) => issue.sourceSpan.sourceUrl == sourceUrl),
-        isTrue);
-    expect(issues.map((issue) => issue.sourceSpan.start.offset),
-        equals([30, 83, 221, 348]));
-    expect(issues.map((issue) => issue.sourceSpan.start.line),
-        equals([3, 9, 19, 28]));
-    expect(issues.map((issue) => issue.sourceSpan.start.column),
-        equals([7, 15, 30, 22]));
-    expect(issues.map((issue) => issue.sourceSpan.end.offset),
-        equals([40, 89, 223, 350]));
-    expect(issues.map((issue) => issue.sourceSpan.text),
-        equals(['{\n    \n  }', '{\n\n  }', '{}', '{}']));
     expect(
-        issues.map((issue) => issue.message),
-        equals([
-          'Block is empty. Empty blocks are often indicators of missing code.',
-          'Block is empty. Empty blocks are often indicators of missing code.',
-          'Block is empty. Empty blocks are often indicators of missing code.',
-          'Block is empty. Empty blocks are often indicators of missing code.',
-        ]));
-    expect(issues.map((issue) => issue.correction),
-        equals([null, null, null, null]));
-    expect(issues.map((issue) => issue.correctionComment),
-        equals([null, null, null, null]));
+      issues.every((issue) => issue.severity == CodeIssueSeverity.style),
+      isTrue,
+    );
+    expect(
+      issues.every((issue) => issue.sourceSpan.sourceUrl == sourceUrl),
+      isTrue,
+    );
+    expect(
+      issues.map((issue) => issue.sourceSpan.start.offset),
+      equals([30, 83, 221, 348]),
+    );
+    expect(
+      issues.map((issue) => issue.sourceSpan.start.line),
+      equals([3, 9, 19, 28]),
+    );
+    expect(
+      issues.map((issue) => issue.sourceSpan.start.column),
+      equals([7, 15, 30, 22]),
+    );
+    expect(
+      issues.map((issue) => issue.sourceSpan.end.offset),
+      equals([40, 89, 223, 350]),
+    );
+    expect(
+      issues.map((issue) => issue.sourceSpan.text),
+      equals(['{\n    \n  }', '{\n\n  }', '{}', '{}']),
+    );
+    expect(
+      issues.map((issue) => issue.message),
+      equals([
+        'Block is empty. Empty blocks are often indicators of missing code.',
+        'Block is empty. Empty blocks are often indicators of missing code.',
+        'Block is empty. Empty blocks are often indicators of missing code.',
+        'Block is empty. Empty blocks are often indicators of missing code.',
+      ]),
+    );
+    expect(
+      issues.map((issue) => issue.correction),
+      equals([null, null, null, null]),
+    );
+    expect(
+      issues.map((issue) => issue.correctionComment),
+      equals([null, null, null, null]),
+    );
   });
 }

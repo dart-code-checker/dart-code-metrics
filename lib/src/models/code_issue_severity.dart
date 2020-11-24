@@ -10,7 +10,9 @@ class CodeIssueSeverity {
   const CodeIssueSeverity(this.value);
 
   static CodeIssueSeverity fromJson(String severity) => severity != null
-      ? _all.firstWhere((val) => val.value == severity.toLowerCase(),
-          orElse: () => null)
+      ? _all.firstWhere(
+          (val) => val.value == severity.toLowerCase(),
+          orElse: () => null,
+        )
       : null;
 }

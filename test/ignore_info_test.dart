@@ -32,9 +32,10 @@ void main() {
   group('IgnoreInfo from', () {
     test('content without ignores', () {
       final parseResult = parseString(
-          content: _content,
-          featureSet: FeatureSet.fromEnableFlags([]),
-          throwIfDiagnostics: false);
+        content: _content,
+        featureSet: FeatureSet.fromEnableFlags([]),
+        throwIfDiagnostics: false,
+      );
 
       final ignoreInfo = IgnoreInfo.calculateIgnores(
           parseResult.content, parseResult.lineInfo);
@@ -44,9 +45,10 @@ void main() {
 
     test('content with ignores', () {
       final parseResult = parseString(
-          content: _contentWithIgnores,
-          featureSet: FeatureSet.fromEnableFlags([]),
-          throwIfDiagnostics: false);
+        content: _contentWithIgnores,
+        featureSet: FeatureSet.fromEnableFlags([]),
+        throwIfDiagnostics: false,
+      );
 
       final ignoreInfo = IgnoreInfo.calculateIgnores(
           parseResult.content, parseResult.lineInfo);

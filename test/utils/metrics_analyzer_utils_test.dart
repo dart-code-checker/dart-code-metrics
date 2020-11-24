@@ -99,13 +99,14 @@ void main() {
       final visitor = ScopeAstVisitor();
 
       parseFile(
-              path: p.normalize(p.absolute(fileName)),
-              featureSet: FeatureSet.fromEnableFlags([]))
-          .unit
-          .visitChildren(visitor);
+        path: p.normalize(p.absolute(fileName)),
+        featureSet: FeatureSet.fromEnableFlags([]),
+      ).unit.visitChildren(visitor);
 
-      expect(visitor.components.map(getComponentHumanReadableName),
-          equals(declatationNames));
+      expect(
+        visitor.components.map(getComponentHumanReadableName),
+        equals(declatationNames),
+      );
     });
   });
 
@@ -140,13 +141,14 @@ void main() {
       final visitor = ScopeAstVisitor();
 
       parseFile(
-              path: p.normalize(p.absolute(fileName)),
-              featureSet: FeatureSet.fromEnableFlags([]))
-          .unit
-          .visitChildren(visitor);
+        path: p.normalize(p.absolute(fileName)),
+        featureSet: FeatureSet.fromEnableFlags([]),
+      ).unit.visitChildren(visitor);
 
-      expect(visitor.functions.map(getFunctionHumanReadableName),
-          equals(declatationNames));
+      expect(
+        visitor.functions.map(getFunctionHumanReadableName),
+        equals(declatationNames),
+      );
     });
   });
 }

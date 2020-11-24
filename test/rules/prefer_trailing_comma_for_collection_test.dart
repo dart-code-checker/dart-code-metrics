@@ -85,9 +85,10 @@ void main() {
     final sourceUrl = Uri.parse('/example.dart');
 
     final parseResult = parseString(
-        content: _content,
-        featureSet: FeatureSet.fromEnableFlags([]),
-        throwIfDiagnostics: false);
+      content: _content,
+      featureSet: FeatureSet.fromEnableFlags([]),
+      throwIfDiagnostics: false,
+    );
 
     final issues = PreferTrailingCommaForCollectionRule()
         .check(Source(sourceUrl, parseResult.content, parseResult.unit));
@@ -95,61 +96,82 @@ void main() {
     expect(issues.length, equals(7));
 
     expect(
-        issues.every(
-            (issue) => issue.ruleId == 'prefer-trailing-comma-for-collection'),
-        isTrue);
-    expect(issues.every((issue) => issue.severity == CodeIssueSeverity.style),
-        isTrue);
+      issues.every(
+          (issue) => issue.ruleId == 'prefer-trailing-comma-for-collection'),
+      isTrue,
+    );
     expect(
-        issues.every((issue) =>
-            issue.message == 'A trailing comma should end this line'),
-        isTrue);
-
+      issues.every((issue) => issue.severity == CodeIssueSeverity.style),
+      isTrue,
+    );
     expect(
-        issues.map((issue) => issue.correction),
-        equals([
-          '1,',
-          '3,',
-          '3,',
-          "const A('a3'),",
-          "'b',",
-          "'b': 2,",
-          "if (true)\n    'e': 10,",
-        ]));
+      issues.every((i) => i.message == 'A trailing comma should end this line'),
+      isTrue,
+    );
 
     expect(
-        issues
-            .every((issue) => issue.correctionComment == 'Add trailing comma'),
-        isTrue);
-    expect(issues.every((issue) => issue.sourceSpan.sourceUrl == sourceUrl),
-        isTrue);
-    expect(issues.every((issue) => issue.sourceSpan.sourceUrl == sourceUrl),
-        isTrue);
-
-    expect(issues.map((issue) => issue.sourceSpan.start.offset),
-        equals([397, 435, 469, 533, 573, 604, 668]));
-    expect(issues.map((issue) => issue.sourceSpan.start.line),
-        equals([35, 41, 46, 52, 58, 63, 69]));
-    expect(issues.map((issue) => issue.sourceSpan.start.column),
-        equals([3, 3, 3, 3, 3, 3, 3]));
-
-    expect(issues.map((issue) => issue.sourceSpan.end.offset),
-        equals([398, 436, 470, 546, 576, 610, 689]));
-    expect(issues.map((issue) => issue.sourceSpan.end.line),
-        equals([35, 41, 46, 52, 58, 63, 70]));
-    expect(issues.map((issue) => issue.sourceSpan.end.column),
-        equals([4, 4, 4, 16, 6, 9, 12]));
+      issues.map((issue) => issue.correction),
+      equals([
+        '1,',
+        '3,',
+        '3,',
+        "const A('a3'),",
+        "'b',",
+        "'b': 2,",
+        "if (true)\n    'e': 10,",
+      ]),
+    );
 
     expect(
-        issues.map((issue) => issue.sourceSpan.text),
-        equals([
-          '1',
-          '3',
-          '3',
-          "const A('a3')",
-          "'b'",
-          "'b': 2",
-          "if (true)\n    'e': 10",
-        ]));
+      issues.every((issue) => issue.correctionComment == 'Add trailing comma'),
+      isTrue,
+    );
+    expect(
+      issues.every((issue) => issue.sourceSpan.sourceUrl == sourceUrl),
+      isTrue,
+    );
+    expect(
+      issues.every((issue) => issue.sourceSpan.sourceUrl == sourceUrl),
+      isTrue,
+    );
+
+    expect(
+      issues.map((issue) => issue.sourceSpan.start.offset),
+      equals([397, 435, 469, 533, 573, 604, 668]),
+    );
+    expect(
+      issues.map((issue) => issue.sourceSpan.start.line),
+      equals([35, 41, 46, 52, 58, 63, 69]),
+    );
+    expect(
+      issues.map((issue) => issue.sourceSpan.start.column),
+      equals([3, 3, 3, 3, 3, 3, 3]),
+    );
+
+    expect(
+      issues.map((issue) => issue.sourceSpan.end.offset),
+      equals([398, 436, 470, 546, 576, 610, 689]),
+    );
+    expect(
+      issues.map((issue) => issue.sourceSpan.end.line),
+      equals([35, 41, 46, 52, 58, 63, 70]),
+    );
+    expect(
+      issues.map((issue) => issue.sourceSpan.end.column),
+      equals([4, 4, 4, 16, 6, 9, 12]),
+    );
+
+    expect(
+      issues.map((issue) => issue.sourceSpan.text),
+      equals([
+        '1',
+        '3',
+        '3',
+        "const A('a3')",
+        "'b'",
+        "'b': 2",
+        "if (true)\n    'e': 10",
+      ]),
+    );
   });
 }

@@ -173,9 +173,10 @@ void main() {
       final sourceUrl = Uri.parse('/example.dart');
 
       final parseResult = parseString(
-          content: _content,
-          featureSet: FeatureSet.fromEnableFlags([]),
-          throwIfDiagnostics: false);
+        content: _content,
+        featureSet: FeatureSet.fromEnableFlags([]),
+        throwIfDiagnostics: false,
+      );
 
       final issues = PotentialNullDereference()
           .check(Source(sourceUrl, parseResult.content, parseResult.unit));
@@ -194,9 +195,10 @@ void main() {
       final sourceUrl = Uri.parse('/example.dart');
 
       final parseResult = parseString(
-          content: _content,
-          featureSet: FeatureSet.fromEnableFlags([]),
-          throwIfDiagnostics: false);
+        content: _content,
+        featureSet: FeatureSet.fromEnableFlags([]),
+        throwIfDiagnostics: false,
+      );
 
       final issues = PotentialNullDereference()
           .check(Source(sourceUrl, parseResult.content, parseResult.unit));
@@ -204,7 +206,8 @@ void main() {
       expect(
         issues.map((issue) => issue.sourceSpan.start.offset),
         equals(
-            [211, 229, 300, 324, 412, 495, 551, 607, 659, 743, 799, 867, 935]),
+          [211, 229, 300, 324, 412, 495, 551, 607, 659, 743, 799, 867, 935],
+        ),
       );
       expect(
         issues.map((issue) => issue.sourceSpan.start.line),
@@ -217,7 +220,8 @@ void main() {
       expect(
         issues.map((issue) => issue.sourceSpan.end.offset),
         equals(
-            [217, 235, 312, 336, 419, 535, 591, 642, 727, 783, 851, 919, 982]),
+          [217, 235, 312, 336, 419, 535, 591, 642, 727, 783, 851, 919, 982],
+        ),
       );
       expect(
         issues.map((issue) => issue.sourceSpan.text),
@@ -261,9 +265,10 @@ void main() {
       final sourceUrl = Uri.parse('/example.dart');
 
       final parseResult = parseString(
-          content: _correctContent,
-          featureSet: FeatureSet.fromEnableFlags([]),
-          throwIfDiagnostics: false);
+        content: _correctContent,
+        featureSet: FeatureSet.fromEnableFlags([]),
+        throwIfDiagnostics: false,
+      );
 
       final issues = PotentialNullDereference()
           .check(Source(sourceUrl, parseResult.content, parseResult.unit));

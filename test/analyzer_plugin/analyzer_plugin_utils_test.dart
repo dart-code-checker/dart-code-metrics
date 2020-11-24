@@ -112,11 +112,16 @@ void main() {
     const metricId = 'metric id';
 
     final fixes = metricReportToAnalysisErrorFixes(
-        SourceLocation(offset,
-            sourceUrl: Uri.parse(sourcePath), line: line, column: column),
-        length,
-        metricMessage,
-        metricId);
+      SourceLocation(
+        offset,
+        sourceUrl: Uri.parse(sourcePath),
+        line: line,
+        column: column,
+      ),
+      length,
+      metricMessage,
+      metricId,
+    );
 
     expect(fixes.error.severity, equals(AnalysisErrorSeverity.INFO));
     expect(fixes.error.type, equals(AnalysisErrorType.LINT));

@@ -40,11 +40,12 @@ class AnalysisOptions {
     final configMap = map ?? {};
 
     return AnalysisOptions(
-        excludePatterns: _readGlobalExludePatterns(configMap),
-        metricsConfig: _readMetricsConfig(configMap),
-        metricsExcludePatterns: _readMetricsExcludePatterns(configMap),
-        rules: _readRules(configMap, _rulesKey),
-        antiPatterns: _readRules(configMap, _antiPatternsKey));
+      excludePatterns: _readGlobalExludePatterns(configMap),
+      metricsConfig: _readMetricsConfig(configMap),
+      metricsExcludePatterns: _readMetricsExcludePatterns(configMap),
+      rules: _readRules(configMap, _rulesKey),
+      antiPatterns: _readRules(configMap, _antiPatternsKey),
+    );
   }
 }
 

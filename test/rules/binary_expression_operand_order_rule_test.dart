@@ -33,9 +33,10 @@ void main() {
       final sourceUrl = Uri.parse('/example.dart');
 
       final parseResult = parseString(
-          content: _sample,
-          featureSet: FeatureSet.fromEnableFlags([]),
-          throwIfDiagnostics: false);
+        content: _sample,
+        featureSet: FeatureSet.fromEnableFlags([]),
+        throwIfDiagnostics: false,
+      );
 
       final issues = BinaryExpressionOperandOrderRule()
           .check(Source(sourceUrl, parseResult.content, parseResult.unit))
@@ -44,25 +45,41 @@ void main() {
       expect(issues.length, equals(6));
 
       expect(
-          issues.every(
-              (issue) => issue.ruleId == 'binary-expression-operand-order'),
-          isTrue);
-      expect(issues.every((issue) => issue.severity == CodeIssueSeverity.style),
-          isTrue);
-      expect(issues.every((issue) => issue.sourceSpan.sourceUrl == sourceUrl),
-          isTrue);
-      expect(issues.map((issue) => issue.sourceSpan.start.offset),
-          equals([28, 53, 79, 104, 124, 144]));
-      expect(issues.map((issue) => issue.sourceSpan.start.line),
-          equals([3, 4, 5, 6, 7, 8]));
-      expect(issues.map((issue) => issue.sourceSpan.start.column),
-          equals([14, 19, 19, 14, 14, 14]));
-      expect(issues.map((issue) => issue.sourceSpan.end.offset),
-          equals([33, 58, 88, 109, 129, 149]));
-      expect(issues.map((issue) => issue.sourceSpan.text),
-          equals(['1 + c', '1 + c', '12.44 * c', '1 & c', '2 | c', '4 ^ c']));
-      expect(issues.map((issue) => issue.correction),
-          equals(['c + 1', 'c + 1', 'c * 12.44', 'c & 1', 'c | 2', 'c ^ 4']));
+        issues.every((i) => i.ruleId == 'binary-expression-operand-order'),
+        isTrue,
+      );
+      expect(
+        issues.every((issue) => issue.severity == CodeIssueSeverity.style),
+        isTrue,
+      );
+      expect(
+        issues.every((issue) => issue.sourceSpan.sourceUrl == sourceUrl),
+        isTrue,
+      );
+      expect(
+        issues.map((issue) => issue.sourceSpan.start.offset),
+        equals([28, 53, 79, 104, 124, 144]),
+      );
+      expect(
+        issues.map((issue) => issue.sourceSpan.start.line),
+        equals([3, 4, 5, 6, 7, 8]),
+      );
+      expect(
+        issues.map((issue) => issue.sourceSpan.start.column),
+        equals([14, 19, 19, 14, 14, 14]),
+      );
+      expect(
+        issues.map((issue) => issue.sourceSpan.end.offset),
+        equals([33, 58, 88, 109, 129, 149]),
+      );
+      expect(
+        issues.map((issue) => issue.sourceSpan.text),
+        equals(['1 + c', '1 + c', '12.44 * c', '1 & c', '2 | c', '4 ^ c']),
+      );
+      expect(
+        issues.map((issue) => issue.correction),
+        equals(['c + 1', 'c + 1', 'c * 12.44', 'c & 1', 'c | 2', 'c ^ 4']),
+      );
     });
   });
 }

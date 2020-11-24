@@ -5,8 +5,13 @@ import '../models/design_issue.dart';
 import '../models/source.dart';
 import 'base_pattern.dart';
 
-DesignIssue createIssue(BasePattern pattern, String message,
-    String recommendation, Source source, Declaration issueNode) {
+DesignIssue createIssue(
+  BasePattern pattern,
+  String message,
+  String recommendation,
+  Source source,
+  Declaration issueNode,
+) {
   final offsetLocation = source.compilationUnit.lineInfo
       .getLocation(issueNode.firstTokenAfterCommentAndMetadata.offset);
   final endLocation =
@@ -16,15 +21,20 @@ DesignIssue createIssue(BasePattern pattern, String message,
     patternId: pattern.id,
     patternDocumentation: pattern.documentation,
     sourceSpan: SourceSpanBase(
-        SourceLocation(issueNode.offset,
-            sourceUrl: source.url,
-            line: offsetLocation.lineNumber,
-            column: offsetLocation.columnNumber),
-        SourceLocation(issueNode.end,
-            sourceUrl: source.url,
-            line: endLocation.lineNumber,
-            column: endLocation.columnNumber),
-        source.content.substring(issueNode.offset, issueNode.end)),
+      SourceLocation(
+        issueNode.offset,
+        sourceUrl: source.url,
+        line: offsetLocation.lineNumber,
+        column: offsetLocation.columnNumber,
+      ),
+      SourceLocation(
+        issueNode.end,
+        sourceUrl: source.url,
+        line: endLocation.lineNumber,
+        column: endLocation.columnNumber,
+      ),
+      source.content.substring(issueNode.offset, issueNode.end),
+    ),
     message: message,
     recommendation: recommendation,
   );

@@ -129,9 +129,10 @@ void main() {
   test('MemberOrdering with default config reports about found issues', () {
     final sourceUrl = Uri.parse('/example.dart');
     final parseResult = parseString(
-        content: _content,
-        featureSet: FeatureSet.fromEnableFlags([]),
-        throwIfDiagnostics: false);
+      content: _content,
+      featureSet: FeatureSet.fromEnableFlags([]),
+      throwIfDiagnostics: false,
+    );
 
     final issues = MemberOrderingRule()
         .check(Source(sourceUrl, parseResult.content, parseResult.unit));
@@ -180,9 +181,10 @@ void main() {
   test('MemberOrdering with multiple classes in file reports no issues', () {
     final sourceUrl = Uri.parse('/example.dart');
     final parseResult = parseString(
-        content: _multipleClassesContent,
-        featureSet: FeatureSet.fromEnableFlags([]),
-        throwIfDiagnostics: false);
+      content: _multipleClassesContent,
+      featureSet: FeatureSet.fromEnableFlags([]),
+      throwIfDiagnostics: false,
+    );
 
     final issues = MemberOrderingRule()
         .check(Source(sourceUrl, parseResult.content, parseResult.unit));
@@ -202,9 +204,10 @@ void main() {
   test('MemberOrdering with custom config reports about found issues', () {
     final sourceUrl = Uri.parse('/example.dart');
     final parseResult = parseString(
-        content: _content,
-        featureSet: FeatureSet.fromEnableFlags([]),
-        throwIfDiagnostics: false);
+      content: _content,
+      featureSet: FeatureSet.fromEnableFlags([]),
+      throwIfDiagnostics: false,
+    );
 
     final config = {
       'order': [
@@ -253,9 +256,10 @@ void main() {
   test('MemberOrdering for angular decorators reports about found issues', () {
     final sourceUrl = Uri.parse('/example.dart');
     final parseResult = parseString(
-        content: _angularContent,
-        featureSet: FeatureSet.fromEnableFlags([]),
-        throwIfDiagnostics: false);
+      content: _angularContent,
+      featureSet: FeatureSet.fromEnableFlags([]),
+      throwIfDiagnostics: false,
+    );
 
     final config = {
       'order': [
@@ -324,9 +328,10 @@ void main() {
   test('MemberOrdering with alphabetical order reports about found issues', () {
     final sourceUrl = Uri.parse('/example.dart');
     final parseResult = parseString(
-        content: _alphabeticalContent,
-        featureSet: FeatureSet.fromEnableFlags([]),
-        throwIfDiagnostics: false);
+      content: _alphabeticalContent,
+      featureSet: FeatureSet.fromEnableFlags([]),
+      throwIfDiagnostics: false,
+    );
 
     final config = {
       'alphabetize': true,

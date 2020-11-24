@@ -20,11 +20,12 @@ void main() {
 
     test('returns complexity for flow type', () {
       expect(
-          flowTypes
-              .map(defaultCyclomaticConfig.complexityByControlFlowType)
-              .toSet()
-              .first,
-          equals(1));
+        flowTypes
+            .map(defaultCyclomaticConfig.complexityByControlFlowType)
+            .toSet()
+            .first,
+        equals(1),
+      );
     });
 
     test('throws exception for unknown flow type', () {
@@ -36,8 +37,10 @@ void main() {
     test('with custom config', () {
       const customComplexity = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
       final config = CyclomaticConfig(complexity: customComplexity);
-      expect(flowTypes.map(config.complexityByControlFlowType),
-          equals(customComplexity));
+      expect(
+        flowTypes.map(config.complexityByControlFlowType),
+        equals(customComplexity),
+      );
     });
   });
 }

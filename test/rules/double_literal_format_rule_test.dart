@@ -44,21 +44,23 @@ void main() {
 
       test('leadingDecimalCorrection', () {
         expect(
-            ['.257', '0.257', '.16e+5', '0.16e+5']
-                .map(leadingDecimalCorrection),
-            equals(['0.257', '0.257', '0.16e+5', '0.16e+5']));
+          ['.257', '0.257', '.16e+5', '0.16e+5'].map(leadingDecimalCorrection),
+          equals(['0.257', '0.257', '0.16e+5', '0.16e+5']),
+        );
       });
 
       test('detectTrailingZero', () {
-        expect(['0.2100', '0.21', '0.100e+5', '0.1e+5'].map(detectTrailingZero),
-            equals([true, false, true, false]));
+        expect(
+          ['0.2100', '0.21', '0.100e+5', '0.1e+5'].map(detectTrailingZero),
+          equals([true, false, true, false]),
+        );
       });
 
       test('trailingZeroCorrection', () {
         expect(
-            ['0.2100', '0.21', '0.100e+5', '0.1e+5']
-                .map(trailingZeroCorrection),
-            equals(['0.21', '0.21', '0.1e+5', '0.1e+5']));
+          ['0.2100', '0.21', '0.100e+5', '0.1e+5'].map(trailingZeroCorrection),
+          equals(['0.21', '0.21', '0.1e+5', '0.1e+5']),
+        );
       });
     });
 
@@ -66,93 +68,112 @@ void main() {
       final sourceUrl = Uri.parse('/example.dart');
 
       final parseResult = parseString(
-          content: _content,
-          featureSet: FeatureSet.fromEnableFlags([]),
-          throwIfDiagnostics: false);
+        content: _content,
+        featureSet: FeatureSet.fromEnableFlags([]),
+        throwIfDiagnostics: false,
+      );
 
       final issues = DoubleLiteralFormatRule()
           .check(Source(sourceUrl, parseResult.content, parseResult.unit));
 
       expect(issues.length, equals(12));
 
-      expect(issues.every((issue) => issue.ruleId == 'double-literal-format'),
-          isTrue);
-      expect(issues.every((issue) => issue.severity == CodeIssueSeverity.style),
-          isTrue);
-      expect(issues.every((issue) => issue.sourceSpan.sourceUrl == sourceUrl),
-          isTrue);
-      expect(issues.map((issue) => issue.sourceSpan.start.offset),
-          equals([26, 39, 58, 73, 105, 118, 136, 151, 182, 196, 215, 231]));
-      expect(issues.map((issue) => issue.sourceSpan.start.line),
-          equals([3, 3, 3, 3, 5, 5, 5, 5, 7, 7, 7, 7]));
-      expect(issues.map((issue) => issue.sourceSpan.start.column),
-          equals([12, 25, 44, 59, 12, 25, 43, 58, 12, 26, 45, 61]));
-      expect(issues.map((issue) => issue.sourceSpan.end.offset),
-          equals([31, 47, 63, 81, 109, 124, 140, 157, 188, 204, 221, 239]));
       expect(
-          issues.map((issue) => issue.sourceSpan.text),
-          equals([
-            '05.23',
-            '003.6e+5',
-            '012.2',
-            '001.1e-1',
-            '.257',
-            '.16e+5',
-            '.259',
-            '.14e-5',
-            '0.2100',
-            '0.100e+5',
-            '0.2500',
-            '0.400e-5',
-          ]));
+        issues.every((issue) => issue.ruleId == 'double-literal-format'),
+        isTrue,
+      );
       expect(
-          issues.map((issue) => issue.message),
-          equals([
-            "Double literal shouldn't have redundant leading '0'.",
-            "Double literal shouldn't have redundant leading '0'.",
-            "Double literal shouldn't have redundant leading '0'.",
-            "Double literal shouldn't have redundant leading '0'.",
-            "Double literal shouldn't begin with '.'.",
-            "Double literal shouldn't begin with '.'.",
-            "Double literal shouldn't begin with '.'.",
-            "Double literal shouldn't begin with '.'.",
-            "Double literal shouldn't have a trailing '0'.",
-            "Double literal shouldn't have a trailing '0'.",
-            "Double literal shouldn't have a trailing '0'.",
-            "Double literal shouldn't have a trailing '0'.",
-          ]));
+        issues.every((issue) => issue.severity == CodeIssueSeverity.style),
+        isTrue,
+      );
       expect(
-          issues.map((issue) => issue.correction),
-          equals([
-            '5.23',
-            '3.6e+5',
-            '12.2',
-            '1.1e-1',
-            '0.257',
-            '0.16e+5',
-            '0.259',
-            '0.14e-5',
-            '0.21',
-            '0.1e+5',
-            '0.25',
-            '0.4e-5',
-          ]));
+        issues.every((issue) => issue.sourceSpan.sourceUrl == sourceUrl),
+        isTrue,
+      );
       expect(
-          issues.map((issue) => issue.correctionComment),
-          equals([
-            "Remove redundant leading '0'",
-            "Remove redundant leading '0'",
-            "Remove redundant leading '0'",
-            "Remove redundant leading '0'",
-            "Add missing leading '0'",
-            "Add missing leading '0'",
-            "Add missing leading '0'",
-            "Add missing leading '0'",
-            "Remove redundant trailing '0'",
-            "Remove redundant trailing '0'",
-            "Remove redundant trailing '0'",
-            "Remove redundant trailing '0'",
-          ]));
+        issues.map((issue) => issue.sourceSpan.start.offset),
+        equals([26, 39, 58, 73, 105, 118, 136, 151, 182, 196, 215, 231]),
+      );
+      expect(
+        issues.map((issue) => issue.sourceSpan.start.line),
+        equals([3, 3, 3, 3, 5, 5, 5, 5, 7, 7, 7, 7]),
+      );
+      expect(
+        issues.map((issue) => issue.sourceSpan.start.column),
+        equals([12, 25, 44, 59, 12, 25, 43, 58, 12, 26, 45, 61]),
+      );
+      expect(
+        issues.map((issue) => issue.sourceSpan.end.offset),
+        equals([31, 47, 63, 81, 109, 124, 140, 157, 188, 204, 221, 239]),
+      );
+      expect(
+        issues.map((issue) => issue.sourceSpan.text),
+        equals([
+          '05.23',
+          '003.6e+5',
+          '012.2',
+          '001.1e-1',
+          '.257',
+          '.16e+5',
+          '.259',
+          '.14e-5',
+          '0.2100',
+          '0.100e+5',
+          '0.2500',
+          '0.400e-5',
+        ]),
+      );
+      expect(
+        issues.map((issue) => issue.message),
+        equals([
+          "Double literal shouldn't have redundant leading '0'.",
+          "Double literal shouldn't have redundant leading '0'.",
+          "Double literal shouldn't have redundant leading '0'.",
+          "Double literal shouldn't have redundant leading '0'.",
+          "Double literal shouldn't begin with '.'.",
+          "Double literal shouldn't begin with '.'.",
+          "Double literal shouldn't begin with '.'.",
+          "Double literal shouldn't begin with '.'.",
+          "Double literal shouldn't have a trailing '0'.",
+          "Double literal shouldn't have a trailing '0'.",
+          "Double literal shouldn't have a trailing '0'.",
+          "Double literal shouldn't have a trailing '0'.",
+        ]),
+      );
+      expect(
+        issues.map((issue) => issue.correction),
+        equals([
+          '5.23',
+          '3.6e+5',
+          '12.2',
+          '1.1e-1',
+          '0.257',
+          '0.16e+5',
+          '0.259',
+          '0.14e-5',
+          '0.21',
+          '0.1e+5',
+          '0.25',
+          '0.4e-5',
+        ]),
+      );
+      expect(
+        issues.map((issue) => issue.correctionComment),
+        equals([
+          "Remove redundant leading '0'",
+          "Remove redundant leading '0'",
+          "Remove redundant leading '0'",
+          "Remove redundant leading '0'",
+          "Add missing leading '0'",
+          "Add missing leading '0'",
+          "Add missing leading '0'",
+          "Add missing leading '0'",
+          "Remove redundant trailing '0'",
+          "Remove redundant trailing '0'",
+          "Remove redundant trailing '0'",
+          "Remove redundant trailing '0'",
+        ]),
+      );
     });
   });
 }

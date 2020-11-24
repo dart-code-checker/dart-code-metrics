@@ -17,15 +17,16 @@ class FileReport {
   final int totalLinesOfExecutableCode;
   final int totalLinesOfExecutableCodeViolations;
 
-  const FileReport(
-      {@required this.averageArgumentsCount,
-      @required this.totalArgumentsCountViolations,
-      @required this.averageMaintainabilityIndex,
-      @required this.totalMaintainabilityIndexViolations,
-      @required this.averageMethodsCount,
-      @required this.totalMethodsCountViolations,
-      @required this.totalCyclomaticComplexity,
-      @required this.totalCyclomaticComplexityViolations,
-      @required this.totalLinesOfExecutableCode,
-      @required this.totalLinesOfExecutableCodeViolations});
+  const FileReport({
+    @required this.averageArgumentsCount,
+    @required this.totalArgumentsCountViolations,
+    @required this.averageMaintainabilityIndex,
+    @required this.totalMaintainabilityIndexViolations,
+    @required this.averageMethodsCount,
+    @required this.totalMethodsCountViolations,
+    @required this.totalCyclomaticComplexity,
+    @required this.totalCyclomaticComplexityViolations,
+    @required this.totalLinesOfExecutableCode,
+    @required this.totalLinesOfExecutableCodeViolations,
+  });
 }

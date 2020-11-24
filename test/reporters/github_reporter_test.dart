@@ -31,10 +31,15 @@ void main() {
               patternDocumentation:
                   Uri.parse('https://docu.edu/patternId1.html'),
               sourceSpan: SourceSpanBase(
-                  SourceLocation(1,
-                      sourceUrl: Uri.parse(fullPath), line: 2, column: 3),
-                  SourceLocation(6, sourceUrl: Uri.parse(fullPath)),
-                  'issue'),
+                SourceLocation(
+                  1,
+                  sourceUrl: Uri.parse(fullPath),
+                  line: 2,
+                  column: 3,
+                ),
+                SourceLocation(6, sourceUrl: Uri.parse(fullPath)),
+                'issue',
+              ),
               message: 'first issue message',
               recommendation: 'recomendation',
             ),
@@ -43,10 +48,11 @@ void main() {
       ];
 
       expect(
-          GitHubReporter().report(records),
-          equals([
-            '::warning file=/home/developer/work/project/example.dart,line=2,col=3::first issue message',
-          ]));
+        GitHubReporter().report(records),
+        equals([
+          '::warning file=/home/developer/work/project/example.dart,line=2,col=3::first issue message',
+        ]),
+      );
     });
 
     test('with style severity issues', () {
@@ -62,10 +68,15 @@ void main() {
               ruleDocumentation: Uri.parse('https://docu.edu/ruleId1.html'),
               severity: CodeIssueSeverity.style,
               sourceSpan: SourceSpanBase(
-                  SourceLocation(1,
-                      sourceUrl: Uri.parse(fullPath), line: 2, column: 3),
-                  SourceLocation(6, sourceUrl: Uri.parse(fullPath)),
-                  'issue'),
+                SourceLocation(
+                  1,
+                  sourceUrl: Uri.parse(fullPath),
+                  line: 2,
+                  column: 3,
+                ),
+                SourceLocation(6, sourceUrl: Uri.parse(fullPath)),
+                'issue',
+              ),
               message: 'first issue message',
               correction: 'correction',
               correctionComment: 'correction comment',
@@ -75,11 +86,16 @@ void main() {
               ruleDocumentation: Uri.parse('https://docu.edu/ruleId2.html'),
               severity: CodeIssueSeverity.error,
               sourceSpan: SourceSpanBase(
-                  SourceLocation(11,
-                      sourceUrl: Uri.parse(fullPath), line: 4, column: 3),
-                  SourceLocation(17, sourceUrl: Uri.parse(fullPath)),
-                  'issue2'),
-              message: 'seccond issue message',
+                SourceLocation(
+                  11,
+                  sourceUrl: Uri.parse(fullPath),
+                  line: 4,
+                  column: 3,
+                ),
+                SourceLocation(17, sourceUrl: Uri.parse(fullPath)),
+                'issue2',
+              ),
+              message: 'second issue message',
               correction: 'correction',
               correctionComment: 'correction comment',
             ),
@@ -89,11 +105,12 @@ void main() {
       ];
 
       expect(
-          GitHubReporter().report(records),
-          equals([
-            '::warning file=/home/developer/work/project/example.dart,line=2,col=3::first issue message',
-            '::error file=/home/developer/work/project/example.dart,line=4,col=3::seccond issue message',
-          ]));
+        GitHubReporter().report(records),
+        equals([
+          '::warning file=/home/developer/work/project/example.dart,line=2,col=3::first issue message',
+          '::error file=/home/developer/work/project/example.dart,line=4,col=3::second issue message',
+        ]),
+      );
     });
   });
 }

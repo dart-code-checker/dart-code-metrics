@@ -122,14 +122,17 @@ void main() {
       expect(report, containsPair('description', _issueMessage));
       expect(report, containsPair('categories', ['Style']));
       expect(
-          report,
-          containsPair('location', {
-            'path': 'example.dart',
-            'lines': {'begin': _issueLine, 'end': _issueLine},
-          }));
+        report,
+        containsPair('location', {
+          'path': 'example.dart',
+          'lines': {'begin': _issueLine, 'end': _issueLine},
+        }),
+      );
       expect(report, containsPair('remediation_points', 50000));
-      expect(report,
-          containsPair('fingerprint', 'ed45b12bc8354f240bfe37e1c1eb0f58'));
+      expect(
+        report,
+        containsPair('fingerprint', 'ed45b12bc8354f240bfe37e1c1eb0f58'),
+      );
     });
 
     group('components', () {
@@ -174,19 +177,28 @@ void main() {
         expect(report, containsPair('type', 'issue'));
         expect(report, containsPair('check_name', 'numberOfMethods'));
         expect(
-            report,
-            containsPair('description',
-                'Component `class` has 20 number of methods (exceeds 10 allowed). Consider refactoring.'));
+          report,
+          containsPair(
+            'description',
+            'Component `class` has 20 number of methods (exceeds 10 allowed). Consider refactoring.',
+          ),
+        );
         expect(report, containsPair('categories', ['Complexity']));
         expect(
-            report,
-            containsPair('location', {
+          report,
+          containsPair(
+            'location',
+            {
               'path': 'example.dart',
               'lines': {'begin': 0, 'end': 0},
-            }));
+            },
+          ),
+        );
         expect(report, containsPair('remediation_points', 50000));
-        expect(report,
-            containsPair('fingerprint', 'de1258f0c898f266343b3e435e23310c'));
+        expect(
+          report,
+          containsPair('fingerprint', 'de1258f0c898f266343b3e435e23310c'),
+        );
       });
     });
 

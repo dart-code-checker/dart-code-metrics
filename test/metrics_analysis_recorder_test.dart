@@ -188,8 +188,10 @@ void main() {
           recorder.recordComponent(record, componentRecord);
         });
 
-        expect(recorder.records().single.components,
-            containsPair(componentName, componentRecord));
+        expect(
+          recorder.records().single.components,
+          containsPair(componentName, componentRecord),
+        );
       });
     });
 
@@ -235,8 +237,10 @@ void main() {
           recorder.recordFunction(record, functionRecord);
         });
 
-        expect(recorder.records().single.functions,
-            containsPair(functionName, functionRecord));
+        expect(
+          recorder.records().single.functions,
+          containsPair(functionName, functionRecord),
+        );
       });
     });
 
@@ -260,10 +264,15 @@ void main() {
               patternId: _issuePatternId,
               patternDocumentation: Uri.parse(_issuePatternDocumentation),
               sourceSpan: SourceSpanBase(
-                  SourceLocation(1,
-                      sourceUrl: Uri.parse(filePath), line: 2, column: 3),
-                  SourceLocation(6, sourceUrl: Uri.parse(filePath)),
-                  'issue'),
+                SourceLocation(
+                  1,
+                  sourceUrl: Uri.parse(filePath),
+                  line: 2,
+                  column: 3,
+                ),
+                SourceLocation(6, sourceUrl: Uri.parse(filePath)),
+                'issue',
+              ),
               message: _issueMessage,
               recommendation: _issueRecommendation,
             ),
@@ -273,7 +282,9 @@ void main() {
         final issue = recorder.records().single.designIssue.single;
         expect(issue.patternId, _issuePatternId);
         expect(
-            issue.patternDocumentation.toString(), _issuePatternDocumentation);
+          issue.patternDocumentation.toString(),
+          _issuePatternDocumentation,
+        );
         expect(issue.message, _issueMessage);
         expect(issue.recommendation, _issueRecommendation);
       });
@@ -301,10 +312,15 @@ void main() {
               ruleDocumentation: Uri.parse(_issueRuleDocumentation),
               severity: CodeIssueSeverity.style,
               sourceSpan: SourceSpanBase(
-                  SourceLocation(1,
-                      sourceUrl: Uri.parse(filePath), line: 2, column: 3),
-                  SourceLocation(6, sourceUrl: Uri.parse(filePath)),
-                  'issue'),
+                SourceLocation(
+                  1,
+                  sourceUrl: Uri.parse(filePath),
+                  line: 2,
+                  column: 3,
+                ),
+                SourceLocation(6, sourceUrl: Uri.parse(filePath)),
+                'issue',
+              ),
               message: _issueMessage,
               correction: _issueCorrection,
               correctionComment: _issueCorrectionComment,
