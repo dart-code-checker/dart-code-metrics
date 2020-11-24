@@ -1,4 +1,5 @@
 @TestOn('vm')
+import 'package:ansicolor/ansicolor.dart';
 import 'package:dart_code_metrics/src/models/code_issue.dart';
 import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
 import 'package:dart_code_metrics/src/models/component_record.dart';
@@ -20,6 +21,7 @@ void main() {
     ConsoleReporter _verboseReporter;
 
     setUp(() {
+      ansiColorDisabled = false;
       _reporter = ConsoleReporter(reportConfig: const Config());
       _verboseReporter =
           ConsoleReporter(reportConfig: const Config(), reportAll: true);
@@ -166,7 +168,9 @@ void main() {
 
         expect(report.length, 3);
         expect(
-            report[1], contains('number of arguments: \x1B[38;5;1m10\x1B[0m'));
+          report[1],
+          contains('number of arguments: \x1B[38;5;1m10\x1B[0m'),
+        );
       });
     });
 
@@ -184,10 +188,15 @@ void main() {
               patternDocumentation:
                   Uri.parse('https://docu.edu/patternId1.html'),
               sourceSpan: SourceSpanBase(
-                  SourceLocation(1,
-                      sourceUrl: Uri.parse(fullPath), line: 2, column: 3),
-                  SourceLocation(6, sourceUrl: Uri.parse(fullPath)),
-                  'issue'),
+                SourceLocation(
+                  1,
+                  sourceUrl: Uri.parse(fullPath),
+                  line: 2,
+                  column: 3,
+                ),
+                SourceLocation(6, sourceUrl: Uri.parse(fullPath)),
+                'issue',
+              ),
               message: 'first issue message',
               recommendation: 'recomendation',
             ),
@@ -199,9 +208,10 @@ void main() {
 
       expect(report.length, 3);
       expect(
-          report[1],
-          equals(
-              '\x1B[38;5;3mDesign  \x1B[0mfirst issue message : 2:3 : patternId1 https://docu.edu/patternId1.html'));
+        report[1],
+        equals(
+            '\x1B[38;5;3mDesign  \x1B[0mfirst issue message : 2:3 : patternId1 https://docu.edu/patternId1.html'),
+      );
     });
 
     test('with style severity issues', () {
@@ -217,10 +227,15 @@ void main() {
               ruleDocumentation: Uri.parse('https://docu.edu/ruleId1.html'),
               severity: CodeIssueSeverity.style,
               sourceSpan: SourceSpanBase(
-                  SourceLocation(1,
-                      sourceUrl: Uri.parse(fullPath), line: 2, column: 3),
-                  SourceLocation(6, sourceUrl: Uri.parse(fullPath)),
-                  'issue'),
+                SourceLocation(
+                  1,
+                  sourceUrl: Uri.parse(fullPath),
+                  line: 2,
+                  column: 3,
+                ),
+                SourceLocation(6, sourceUrl: Uri.parse(fullPath)),
+                'issue',
+              ),
               message: 'first issue message',
               correction: 'correction',
               correctionComment: 'correction comment',
@@ -234,9 +249,10 @@ void main() {
 
       expect(report.length, 3);
       expect(
-          report[1],
-          equals(
-              '\x1B[38;5;4mStyle   \x1B[0mfirst issue message : 2:3 : ruleId1 https://docu.edu/ruleId1.html'));
+        report[1],
+        equals(
+            '\x1B[38;5;4mStyle   \x1B[0mfirst issue message : 2:3 : ruleId1 https://docu.edu/ruleId1.html'),
+      );
     });
   });
 }

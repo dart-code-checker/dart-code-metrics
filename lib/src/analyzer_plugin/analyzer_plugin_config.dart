@@ -13,6 +13,11 @@ class AnalyzerPluginConfig {
   final Iterable<BasePattern> checkingAntiPatterns;
   final Iterable<BaseRule> checkingCodeRules;
 
-  const AnalyzerPluginConfig(this.metricsConfigs, this.globalExcludes,
-      this.metricsExcludes, this.checkingAntiPatterns, this.checkingCodeRules);
+  const AnalyzerPluginConfig(
+    this.metricsConfigs,
+    this.globalExcludes,
+    this.metricsExcludes,
+    this.checkingAntiPatterns,
+    this.checkingCodeRules,
+  );
 }

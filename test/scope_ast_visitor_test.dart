@@ -11,14 +11,16 @@ void main() {
     test('abstract class', () {
       final visitor = ScopeAstVisitor();
       parseFile(
-          path: p.normalize(p.absolute('./test/resources/abstract_class.dart')),
-          featureSet:
-              FeatureSet.fromEnableFlags([])).unit.visitChildren(visitor);
+        path: p.normalize(p.absolute('./test/resources/abstract_class.dart')),
+        featureSet: FeatureSet.fromEnableFlags([]),
+      ).unit.visitChildren(visitor);
 
       final component = visitor.components.single;
       expect(component.declaration, const TypeMatcher<ClassDeclaration>());
       expect(
-          (component.declaration as ClassDeclaration).name.name, equals('Foo'));
+        (component.declaration as ClassDeclaration).name.name,
+        equals('Foo'),
+      );
 
       expect(visitor.functions, isEmpty);
     });
@@ -26,76 +28,99 @@ void main() {
     test('function', () {
       final visitor = ScopeAstVisitor();
       parseFile(
-              path: p.normalize(p.absolute('./test/resources/function.dart')),
-              featureSet: FeatureSet.fromEnableFlags([]))
-          .unit
-          .visitChildren(visitor);
+        path: p.normalize(p.absolute('./test/resources/function.dart')),
+        featureSet: FeatureSet.fromEnableFlags([]),
+      ).unit.visitChildren(visitor);
 
       expect(visitor.components, isEmpty);
 
       final function = visitor.functions.single;
       expect(function.declaration, const TypeMatcher<FunctionDeclaration>());
-      expect((function.declaration as FunctionDeclaration).name.name,
-          equals('say'));
+      expect(
+        (function.declaration as FunctionDeclaration).name.name,
+        equals('say'),
+      );
     });
 
     test('class with factory constructors', () {
       final visitor = ScopeAstVisitor();
       parseFile(
-              path: p.normalize(p.absolute(
-                  './test/resources/class_with_factory_constructors.dart')),
-              featureSet: FeatureSet.fromEnableFlags([]))
-          .unit
-          .visitChildren(visitor);
+        path: p.normalize(p
+            .absolute('./test/resources/class_with_factory_constructors.dart')),
+        featureSet: FeatureSet.fromEnableFlags([]),
+      ).unit.visitChildren(visitor);
 
       final component = visitor.components.single;
       expect(component.declaration, const TypeMatcher<ClassDeclaration>());
-      expect((component.declaration as ClassDeclaration).name.name,
-          equals('SampleClass'));
+      expect(
+        (component.declaration as ClassDeclaration).name.name,
+        equals('SampleClass'),
+      );
 
       final functions = visitor.functions;
       expect(functions.length, equals(2));
-      expect(functions.first.declaration,
-          const TypeMatcher<ConstructorDeclaration>());
-      expect((functions.first.declaration as ConstructorDeclaration).name.name,
-          equals('_create'));
-      expect(functions.first.enclosingDeclaration,
-          const TypeMatcher<ClassDeclaration>());
       expect(
-          (functions.first.enclosingDeclaration as ClassDeclaration).name.name,
-          equals('SampleClass'));
-      expect(functions.last.declaration,
-          const TypeMatcher<ConstructorDeclaration>());
-      expect((functions.last.declaration as ConstructorDeclaration).name.name,
-          equals('createInstance'));
-      expect(functions.last.enclosingDeclaration,
-          const TypeMatcher<ClassDeclaration>());
+        functions.first.declaration,
+        const TypeMatcher<ConstructorDeclaration>(),
+      );
       expect(
-          (functions.last.enclosingDeclaration as ClassDeclaration).name.name,
-          equals('SampleClass'));
+        (functions.first.declaration as ConstructorDeclaration).name.name,
+        equals('_create'),
+      );
+      expect(
+        functions.first.enclosingDeclaration,
+        const TypeMatcher<ClassDeclaration>(),
+      );
+      expect(
+        (functions.first.enclosingDeclaration as ClassDeclaration).name.name,
+        equals('SampleClass'),
+      );
+      expect(
+        functions.last.declaration,
+        const TypeMatcher<ConstructorDeclaration>(),
+      );
+      expect(
+        (functions.last.declaration as ConstructorDeclaration).name.name,
+        equals('createInstance'),
+      );
+      expect(
+        functions.last.enclosingDeclaration,
+        const TypeMatcher<ClassDeclaration>(),
+      );
+      expect(
+        (functions.last.enclosingDeclaration as ClassDeclaration).name.name,
+        equals('SampleClass'),
+      );
     });
 
     test('mixin', () {
       final visitor = ScopeAstVisitor();
       parseFile(
-              path: p.normalize(p.absolute('./test/resources/mixin.dart')),
-              featureSet: FeatureSet.fromEnableFlags([]))
-          .unit
-          .visitChildren(visitor);
+        path: p.normalize(p.absolute('./test/resources/mixin.dart')),
+        featureSet: FeatureSet.fromEnableFlags([]),
+      ).unit.visitChildren(visitor);
 
       final component = visitor.components.single;
       expect(component.declaration, const TypeMatcher<MixinDeclaration>());
-      expect((component.declaration as MixinDeclaration).name.name,
-          equals('ValuesMapping'));
+      expect(
+        (component.declaration as MixinDeclaration).name.name,
+        equals('ValuesMapping'),
+      );
 
       final function = visitor.functions.single;
       expect(function.declaration, const TypeMatcher<MethodDeclaration>());
-      expect((function.declaration as MethodDeclaration).name.name,
-          equals('findValueByKey'));
       expect(
-          function.enclosingDeclaration, const TypeMatcher<MixinDeclaration>());
-      expect((function.enclosingDeclaration as MixinDeclaration).name.name,
-          equals('ValuesMapping'));
+        (function.declaration as MethodDeclaration).name.name,
+        equals('findValueByKey'),
+      );
+      expect(
+        function.enclosingDeclaration,
+        const TypeMatcher<MixinDeclaration>(),
+      );
+      expect(
+        (function.enclosingDeclaration as MixinDeclaration).name.name,
+        equals('ValuesMapping'),
+      );
     });
   });
 }

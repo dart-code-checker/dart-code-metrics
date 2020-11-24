@@ -22,17 +22,17 @@ Future<void> main(List<String> args) async {
     validateArguments(arguments);
 
     await _runAnalysis(
-        arguments[rootFolderName] as String,
-        arguments.rest,
-        arguments[ignoredFilesName] as String,
-        int.tryParse(arguments[cyclomaticComplexityThreshold] as String ?? ''),
-        int.tryParse(arguments[linesOfExecutableCodeThreshold] as String ?? ''),
-        int.tryParse(arguments[numberOfArgumentsThreshold] as String ?? ''),
-        int.tryParse(arguments[numberOfMethodsThreshold] as String ?? ''),
-        arguments[reporterName] as String,
-        arguments[verboseName] as bool,
-        ViolationLevel.fromString(
-            arguments[setExitOnViolationLevel] as String));
+      arguments[rootFolderName] as String,
+      arguments.rest,
+      arguments[ignoredFilesName] as String,
+      int.tryParse(arguments[cyclomaticComplexityThreshold] as String ?? ''),
+      int.tryParse(arguments[linesOfExecutableCodeThreshold] as String ?? ''),
+      int.tryParse(arguments[numberOfArgumentsThreshold] as String ?? ''),
+      int.tryParse(arguments[numberOfMethodsThreshold] as String ?? ''),
+      arguments[reporterName] as String,
+      arguments[verboseName] as bool,
+      ViolationLevel.fromString(arguments[setExitOnViolationLevel] as String),
+    );
   } on FormatException catch (e) {
     print('${e.message}\n');
     _showUsageAndExit(1);
@@ -49,16 +49,17 @@ void _showUsageAndExit(int exitCode) {
 }
 
 Future<void> _runAnalysis(
-    String rootFolder,
-    Iterable<String> analysisDirectories,
-    String ignoreFilesPattern,
-    int cyclomaticComplexityThreshold,
-    int linesOfExecutableCodeThreshold,
-    int numberOfArgumentsWarningLevel,
-    int numberOfMethodsWarningLevel,
-    String reporterType,
-    bool verbose,
-    ViolationLevel setExitOnViolationLevel) async {
+  String rootFolder,
+  Iterable<String> analysisDirectories,
+  String ignoreFilesPattern,
+  int cyclomaticComplexityThreshold,
+  int linesOfExecutableCodeThreshold,
+  int numberOfArgumentsWarningLevel,
+  int numberOfMethodsWarningLevel,
+  String reporterType,
+  bool verbose,
+  ViolationLevel setExitOnViolationLevel,
+) async {
   final analysisOptionsFile =
       File(p.absolute(rootFolder, analysisOptionsFileName));
 
@@ -69,24 +70,29 @@ Future<void> _runAnalysis(
           metricsConfig: Config(),
           metricsExcludePatterns: [],
           rules: {},
-          antiPatterns: {});
+          antiPatterns: {},
+        );
 
   final store = MetricsRecordsStore.store();
-  final analyzer = MetricsAnalyzer(store,
-      options: options, addintionalExcludes: [ignoreFilesPattern]);
+  final analyzer = MetricsAnalyzer(
+    store,
+    options: options,
+    addintionalExcludes: [ignoreFilesPattern],
+  );
   final runner =
       MetricsAnalysisRunner(analyzer, store, analysisDirectories, rootFolder);
   await runner.run();
 
   final config = Config(
-      cyclomaticComplexityWarningLevel: cyclomaticComplexityThreshold ??
-          options.metricsConfig.cyclomaticComplexityWarningLevel,
-      linesOfExecutableCodeWarningLevel: linesOfExecutableCodeThreshold ??
-          options.metricsConfig.linesOfExecutableCodeWarningLevel,
-      numberOfArgumentsWarningLevel: numberOfArgumentsWarningLevel ??
-          options.metricsConfig.numberOfArgumentsWarningLevel,
-      numberOfMethodsWarningLevel: numberOfMethodsWarningLevel ??
-          options.metricsConfig.numberOfMethodsWarningLevel);
+    cyclomaticComplexityWarningLevel: cyclomaticComplexityThreshold ??
+        options.metricsConfig.cyclomaticComplexityWarningLevel,
+    linesOfExecutableCodeWarningLevel: linesOfExecutableCodeThreshold ??
+        options.metricsConfig.linesOfExecutableCodeWarningLevel,
+    numberOfArgumentsWarningLevel: numberOfArgumentsWarningLevel ??
+        options.metricsConfig.numberOfArgumentsWarningLevel,
+    numberOfMethodsWarningLevel: numberOfMethodsWarningLevel ??
+        options.metricsConfig.numberOfMethodsWarningLevel,
+  );
 
   Reporter reporter;
 

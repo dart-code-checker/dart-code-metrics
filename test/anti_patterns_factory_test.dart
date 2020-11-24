@@ -6,11 +6,12 @@ void main() {
   test('getPatternsById returns only required patterns', () {
     expect(getPatternsById({}), isEmpty);
     expect(
-        getPatternsById({
-          'long-method': <String, Object>{},
-          'long-parameter-list': <String, Object>{},
-          'sample-pattern': <String, Object>{},
-        }).map((pattern) => pattern.id),
-        equals(['long-method', 'long-parameter-list']));
+      getPatternsById({
+        'long-method': <String, Object>{},
+        'long-parameter-list': <String, Object>{},
+        'sample-pattern': <String, Object>{},
+      }).map((pattern) => pattern.id),
+      equals(['long-method', 'long-parameter-list']),
+    );
   });
 }

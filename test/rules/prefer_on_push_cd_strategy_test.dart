@@ -37,9 +37,10 @@ void main() {
       final sourceUrl = Uri.parse('/example.dart');
 
       final parseResult = parseString(
-          content: _contentCorrect,
-          featureSet: FeatureSet.fromEnableFlags([]),
-          throwIfDiagnostics: false);
+        content: _contentCorrect,
+        featureSet: FeatureSet.fromEnableFlags([]),
+        throwIfDiagnostics: false,
+      );
 
       final issues = PreferOnPushCdStrategyRule()
           .check(Source(sourceUrl, parseResult.content, parseResult.unit));
@@ -51,9 +52,10 @@ void main() {
       final sourceUrl = Uri.parse('/example.dart');
 
       final parseResult = parseString(
-          content: _contentMissingChangeDetection,
-          featureSet: FeatureSet.fromEnableFlags([]),
-          throwIfDiagnostics: false);
+        content: _contentMissingChangeDetection,
+        featureSet: FeatureSet.fromEnableFlags([]),
+        throwIfDiagnostics: false,
+      );
 
       final issues = PreferOnPushCdStrategyRule()
           .check(Source(sourceUrl, parseResult.content, parseResult.unit));
@@ -73,9 +75,10 @@ void main() {
       final sourceUrl = Uri.parse('/example.dart');
 
       final parseResult = parseString(
-          content: _contentIncorrectChangeDetection,
-          featureSet: FeatureSet.fromEnableFlags([]),
-          throwIfDiagnostics: false);
+        content: _contentIncorrectChangeDetection,
+        featureSet: FeatureSet.fromEnableFlags([]),
+        throwIfDiagnostics: false,
+      );
 
       final issues = PreferOnPushCdStrategyRule()
           .check(Source(sourceUrl, parseResult.content, parseResult.unit));

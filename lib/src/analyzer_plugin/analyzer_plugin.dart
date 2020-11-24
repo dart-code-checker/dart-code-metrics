@@ -60,9 +60,11 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
 
   @override
   AnalysisDriverGeneric createAnalysisDriver(plugin.ContextRoot contextRoot) {
-    final root = ContextRoot(contextRoot.root, contextRoot.exclude,
-        pathContext: resourceProvider.pathContext)
-      ..optionsFilePath = contextRoot.optionsFile;
+    final root = ContextRoot(
+      contextRoot.root,
+      contextRoot.exclude,
+      pathContext: resourceProvider.pathContext,
+    )..optionsFilePath = contextRoot.optionsFile;
 
     final contextBuilder = ContextBuilder(resourceProvider, sdkManager, null)
       ..analysisDriverScheduler = analysisDriverScheduler
@@ -75,10 +77,13 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     final options = _readOptions(dartDriver);
     _configs[dartDriver] = AnalyzerPluginConfig(
         options?.metricsConfig,
-        prepareExcludes([
-          ..._defaultSkippedFolders,
-          if (options?.excludePatterns != null) ...options.excludePatterns,
-        ], contextRoot.root),
+        prepareExcludes(
+          [
+            ..._defaultSkippedFolders,
+            if (options?.excludePatterns != null) ...options.excludePatterns,
+          ],
+          contextRoot.root,
+        ),
         prepareExcludes(options?.metricsExcludePatterns, contextRoot.root),
         options?.antiPatterns != null
             ? getPatternsById(options.antiPatterns)
@@ -224,18 +229,21 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
                   _codeMetricsId, functionFirstLineInfo.lineNumber) &&
               UtilitySelector.isIssueLevel(
                   UtilitySelector.functionViolationLevel(functionReport))) {
-            final startSourceLocation = SourceLocation(functionOffset,
-                sourceUrl: sourceUri,
-                line: functionFirstLineInfo.lineNumber,
-                column: functionFirstLineInfo.columnNumber);
+            final startSourceLocation = SourceLocation(
+              functionOffset,
+              sourceUrl: sourceUri,
+              line: functionFirstLineInfo.lineNumber,
+              column: functionFirstLineInfo.columnNumber,
+            );
 
             if (UtilitySelector.isIssueLevel(
                 functionReport.cyclomaticComplexity.violationLevel)) {
               result.add(metricReportToAnalysisErrorFixes(
-                  startSourceLocation,
-                  function.declaration.end - functionOffset,
-                  'Function has a Cyclomatic Complexity of ${functionReport.cyclomaticComplexity.value} (exceeds ${_configs[driver].metricsConfigs.cyclomaticComplexityWarningLevel} allowed). Consider refactoring.',
-                  _codeMetricsId));
+                startSourceLocation,
+                function.declaration.end - functionOffset,
+                'Function has a Cyclomatic Complexity of ${functionReport.cyclomaticComplexity.value} (exceeds ${_configs[driver].metricsConfigs.cyclomaticComplexityWarningLevel} allowed). Consider refactoring.',
+                _codeMetricsId,
+              ));
             }
           }
         }
@@ -246,10 +254,11 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
   }
 
   Iterable<plugin.AnalysisErrorFixes> _checkOnCodeIssues(
-          IgnoreInfo ignores,
-          ResolvedUnitResult analysisResult,
-          Uri sourceUri,
-          AnalyzerPluginConfig config) =>
+    IgnoreInfo ignores,
+    ResolvedUnitResult analysisResult,
+    Uri sourceUri,
+    AnalyzerPluginConfig config,
+  ) =>
       config.checkingCodeRules
           .where((rule) => !ignores.ignoreRule(rule.id))
           .expand((rule) => rule
@@ -261,10 +270,11 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
                   codeIssueToAnalysisErrorFixes(issue, analysisResult)));
 
   Iterable<plugin.AnalysisErrorFixes> _checkOnAntiPatterns(
-          IgnoreInfo ignores,
-          ResolvedUnitResult analysisResult,
-          Uri sourceUri,
-          AnalyzerPluginConfig config) =>
+    IgnoreInfo ignores,
+    ResolvedUnitResult analysisResult,
+    Uri sourceUri,
+    AnalyzerPluginConfig config,
+  ) =>
       config.checkingAntiPatterns
           .where((pattern) => !ignores.ignoreRule(pattern.id))
           .expand((pattern) => pattern.check(

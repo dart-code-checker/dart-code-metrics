@@ -37,9 +37,10 @@ void main() {
   group('NoMagicNumberRule', () {
     test('reports magic numbers', () {
       final parseResult = parseString(
-          content: _sampleBad,
-          featureSet: FeatureSet.fromEnableFlags([]),
-          throwIfDiagnostics: false);
+        content: _sampleBad,
+        featureSet: FeatureSet.fromEnableFlags([]),
+        throwIfDiagnostics: false,
+      );
 
       final issues = NoMagicNumberRule()
           .check(Source(sourceUrl, parseResult.content, parseResult.unit))
@@ -48,29 +49,45 @@ void main() {
       expect(issues.length, equals(4));
 
       expect(
-          issues.every((issue) => issue.ruleId == 'no-magic-number'), isTrue);
+        issues.every((issue) => issue.ruleId == 'no-magic-number'),
+        isTrue,
+      );
       expect(
-          issues.every((issue) => issue.severity == CodeIssueSeverity.warning),
-          isTrue);
-      expect(issues.every((issue) => issue.sourceSpan.sourceUrl == sourceUrl),
-          isTrue);
-      expect(issues.map((issue) => issue.sourceSpan.start.offset),
-          equals([31, 65, 98, 128]));
-      expect(issues.map((issue) => issue.sourceSpan.start.line),
-          equals([1, 2, 3, 4]));
-      expect(issues.map((issue) => issue.sourceSpan.start.column),
-          equals([32, 31, 30, 25]));
-      expect(issues.map((issue) => issue.sourceSpan.end.offset),
-          equals([33, 67, 102, 130]));
-      expect(issues.map((issue) => issue.sourceSpan.text),
-          equals(['42', '12', '3.14', '12']));
+        issues.every((issue) => issue.severity == CodeIssueSeverity.warning),
+        isTrue,
+      );
+      expect(
+        issues.every((issue) => issue.sourceSpan.sourceUrl == sourceUrl),
+        isTrue,
+      );
+      expect(
+        issues.map((issue) => issue.sourceSpan.start.offset),
+        equals([31, 65, 98, 128]),
+      );
+      expect(
+        issues.map((issue) => issue.sourceSpan.start.line),
+        equals([1, 2, 3, 4]),
+      );
+      expect(
+        issues.map((issue) => issue.sourceSpan.start.column),
+        equals([32, 31, 30, 25]),
+      );
+      expect(
+        issues.map((issue) => issue.sourceSpan.end.offset),
+        equals([33, 67, 102, 130]),
+      );
+      expect(
+        issues.map((issue) => issue.sourceSpan.text),
+        equals(['42', '12', '3.14', '12']),
+      );
     });
 
     test("doesn't report constants", () {
       final parseResult = parseString(
-          content: _sampleGood,
-          featureSet: FeatureSet.fromEnableFlags([]),
-          throwIfDiagnostics: false);
+        content: _sampleGood,
+        featureSet: FeatureSet.fromEnableFlags([]),
+        throwIfDiagnostics: false,
+      );
 
       final issues = NoMagicNumberRule()
           .check(Source(sourceUrl, parseResult.content, parseResult.unit))
@@ -81,9 +98,10 @@ void main() {
 
     test("doesn't report exceptional code", () {
       final parseResult = parseString(
-          content: _sampleExceptions,
-          featureSet: FeatureSet.fromEnableFlags([]),
-          throwIfDiagnostics: false);
+        content: _sampleExceptions,
+        featureSet: FeatureSet.fromEnableFlags([]),
+        throwIfDiagnostics: false,
+      );
 
       final issues = NoMagicNumberRule()
           .check(Source(sourceUrl, parseResult.content, parseResult.unit))
@@ -94,9 +112,10 @@ void main() {
 
     test("doesn't report magic numbers allowed in config", () {
       final parseResult = parseString(
-          content: _sampleBad,
-          featureSet: FeatureSet.fromEnableFlags([]),
-          throwIfDiagnostics: false);
+        content: _sampleBad,
+        featureSet: FeatureSet.fromEnableFlags([]),
+        throwIfDiagnostics: false,
+      );
 
       final issues = NoMagicNumberRule(config: {
         'allowed': [42, 12, 3.14],

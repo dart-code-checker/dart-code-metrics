@@ -6,14 +6,15 @@ import 'package:test/test.dart';
 void main() {
   test('ViolationLevel fromString constructs object from string', () {
     expect(
-        ['noNE', 'NoTed', 'warning', 'ALARM', '']
-            .map((level) => ViolationLevel.fromString(level)),
-        equals([
-          ViolationLevel.none,
-          ViolationLevel.noted,
-          ViolationLevel.warning,
-          ViolationLevel.alarm,
-          null,
-        ]));
+      ['noNE', 'NoTed', 'warning', 'ALARM', '']
+          .map((level) => ViolationLevel.fromString(level)),
+      equals([
+        ViolationLevel.none,
+        ViolationLevel.noted,
+        ViolationLevel.warning,
+        ViolationLevel.alarm,
+        null,
+      ]),
+    );
   });
 }

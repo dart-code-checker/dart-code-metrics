@@ -101,40 +101,60 @@ void main() {
     final sourceUrl = Uri.parse('/example.dart');
 
     final parseResult = parseString(
-        content: _content,
-        featureSet: FeatureSet.fromEnableFlags([]),
-        throwIfDiagnostics: false);
+      content: _content,
+      featureSet: FeatureSet.fromEnableFlags([]),
+      throwIfDiagnostics: false,
+    );
 
     final issues = NewlineBeforeReturnRule()
         .check(Source(sourceUrl, parseResult.content, parseResult.unit));
 
     expect(issues.length, equals(3));
 
-    expect(issues.every((issue) => issue.ruleId == 'newline-before-return'),
-        isTrue);
-    expect(issues.every((issue) => issue.severity == CodeIssueSeverity.style),
-        isTrue);
-    expect(issues.every((issue) => issue.sourceSpan.sourceUrl == sourceUrl),
-        isTrue);
-    expect(issues.map((issue) => issue.sourceSpan.start.offset),
-        equals([178, 899, 1061]));
-    expect(issues.map((issue) => issue.sourceSpan.start.line),
-        equals([13, 58, 70]));
-    expect(issues.map((issue) => issue.sourceSpan.start.column),
-        equals([5, 5, 5]));
-    expect(issues.map((issue) => issue.sourceSpan.end.offset),
-        equals([191, 912, 1074]));
-    expect(issues.map((issue) => issue.sourceSpan.text),
-        equals(['return a + 1;', 'return a + 2;', 'return a + 2;']));
     expect(
-        issues.map((issue) => issue.message),
-        equals([
-          'Missing blank line before return',
-          'Missing blank line before return',
-          'Missing blank line before return',
-        ]));
+      issues.every((issue) => issue.ruleId == 'newline-before-return'),
+      isTrue,
+    );
+    expect(
+      issues.every((issue) => issue.severity == CodeIssueSeverity.style),
+      isTrue,
+    );
+    expect(
+      issues.every((issue) => issue.sourceSpan.sourceUrl == sourceUrl),
+      isTrue,
+    );
+    expect(
+      issues.map((issue) => issue.sourceSpan.start.offset),
+      equals([178, 899, 1061]),
+    );
+    expect(
+      issues.map((issue) => issue.sourceSpan.start.line),
+      equals([13, 58, 70]),
+    );
+    expect(
+      issues.map((issue) => issue.sourceSpan.start.column),
+      equals([5, 5, 5]),
+    );
+    expect(
+      issues.map((issue) => issue.sourceSpan.end.offset),
+      equals([191, 912, 1074]),
+    );
+    expect(
+      issues.map((issue) => issue.sourceSpan.text),
+      equals(['return a + 1;', 'return a + 2;', 'return a + 2;']),
+    );
+    expect(
+      issues.map((issue) => issue.message),
+      equals([
+        'Missing blank line before return',
+        'Missing blank line before return',
+        'Missing blank line before return',
+      ]),
+    );
     expect(issues.map((issue) => issue.correction), equals([null, null, null]));
-    expect(issues.map((issue) => issue.correctionComment),
-        equals([null, null, null]));
+    expect(
+      issues.map((issue) => issue.correctionComment),
+      equals([null, null, null]),
+    );
   });
 }

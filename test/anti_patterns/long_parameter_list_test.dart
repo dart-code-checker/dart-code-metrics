@@ -21,9 +21,10 @@ void main() {
     final sourceUrl = Uri.parse('/example.dart');
 
     final parseResult = parseString(
-        content: _content,
-        featureSet: FeatureSet.fromEnableFlags([]),
-        throwIfDiagnostics: false);
+      content: _content,
+      featureSet: FeatureSet.fromEnableFlags([]),
+      throwIfDiagnostics: false,
+    );
 
     final issues = LongParameterList().check(
         Source(sourceUrl, parseResult.content, parseResult.unit),
@@ -35,17 +36,22 @@ void main() {
     final issueSrcSpan = issue.sourceSpan;
     expect(issue.patternId, equals('long-parameter-list'));
     expect(
-        issue.patternDocumentation.toString(), equals('https://git.io/JUGrU'));
+      issue.patternDocumentation.toString(),
+      equals('https://git.io/JUGrU'),
+    );
     expect(issueSrcSpan.sourceUrl, equals(sourceUrl));
     expect(issueSrcSpan.start.offset, equals(59));
     expect(issueSrcSpan.start.line, equals(6));
     expect(issueSrcSpan.start.column, equals(1));
     expect(issueSrcSpan.end.offset, equals(110));
-    expect(issue.message,
-        equals('Long Parameter List. This method require 5 arguments.'));
     expect(
-        issue.recommendation,
-        equals(
-            "Based on configuration of this package, we don't recommend writing a method with argument count more than 4."));
+      issue.message,
+      equals('Long Parameter List. This method require 5 arguments.'),
+    );
+    expect(
+      issue.recommendation,
+      equals(
+          "Based on configuration of this package, we don't recommend writing a method with argument count more than 4."),
+    );
   });
 }

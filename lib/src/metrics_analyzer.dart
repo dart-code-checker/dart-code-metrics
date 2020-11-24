@@ -40,10 +40,11 @@ class MetricsAnalyzer {
   final MetricsRecordsStore _store;
   final bool _useFastParser;
 
-  MetricsAnalyzer(this._store,
-      {AnalysisOptions options,
-      Iterable<String> addintionalExcludes = const []})
-      : _checkingCodeRules =
+  MetricsAnalyzer(
+    this._store, {
+    AnalysisOptions options,
+    Iterable<String> addintionalExcludes = const [],
+  })  : _checkingCodeRules =
             options?.rules != null ? getRulesById(options.rules) : [],
         _checkingAntiPatterns = options?.antiPatterns != null
             ? getPatternsById(options.antiPatterns)

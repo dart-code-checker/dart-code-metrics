@@ -27,12 +27,13 @@ class LongParameterList extends BasePattern {
 
       if (argumentsCount > config.numberOfArgumentsWarningLevel) {
         issues.add(createIssue(
-            this,
-            _compileMessage(args: argumentsCount),
-            _compileRecomendationMessage(
-                maximumArguments: config.numberOfArgumentsWarningLevel),
-            source,
-            function.declaration));
+          this,
+          _compileMessage(args: argumentsCount),
+          _compileRecomendationMessage(
+              maximumArguments: config.numberOfArgumentsWarningLevel),
+          source,
+          function.declaration,
+        ));
       }
     }
 

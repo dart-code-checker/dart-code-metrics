@@ -30,13 +30,13 @@ class LongMethod extends BasePattern {
       if (linesWithCodeAstVisitor.linesWithCode.length >
           config.linesOfExecutableCodeWarningLevel) {
         issues.add(createIssue(
-            this,
-            _compileMessage(
-                lines: linesWithCodeAstVisitor.linesWithCode.length),
-            _compileRecomendationMessage(
-                maximumLines: config.linesOfExecutableCodeWarningLevel),
-            source,
-            function.declaration));
+          this,
+          _compileMessage(lines: linesWithCodeAstVisitor.linesWithCode.length),
+          _compileRecomendationMessage(
+              maximumLines: config.linesOfExecutableCodeWarningLevel),
+          source,
+          function.declaration,
+        ));
       }
     }
 

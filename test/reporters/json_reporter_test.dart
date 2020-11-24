@@ -170,7 +170,9 @@ void main() {
         expect(issue, containsPair('message', _issueMessage));
         expect(issue, containsPair('correction', _issueCorrection));
         expect(
-            issue, containsPair('correctionComment', _issueCorrectionComment));
+          issue,
+          containsPair('correctionComment', _issueCorrectionComment),
+        );
       });
     });
 
@@ -196,8 +198,10 @@ void main() {
             as Map<String, Object>)['class'] as Map<String, Object>;
 
         expect(functionReport, containsPair('number-of-methods', 0));
-        expect(functionReport,
-            containsPair('number-of-methods-violation-level', 'none'));
+        expect(
+          functionReport,
+          containsPair('number-of-methods-violation-level', 'none'),
+        );
       });
 
       test('with a lot of methods', () {
@@ -221,8 +225,10 @@ void main() {
             as Map<String, Object>)['class'] as Map<String, Object>;
 
         expect(functionReport, containsPair('number-of-methods', 20));
-        expect(functionReport,
-            containsPair('number-of-methods-violation-level', 'warning'));
+        expect(
+          functionReport,
+          containsPair('number-of-methods-violation-level', 'warning'),
+        );
       });
     });
 
@@ -249,8 +255,10 @@ void main() {
             as Map<String, Object>)['function'] as Map<String, Object>;
 
         expect(functionReport, containsPair('lines-of-executable-code', 150));
-        expect(functionReport,
-            containsPair('lines-of-executable-code-violation-level', 'alarm'));
+        expect(
+          functionReport,
+          containsPair('lines-of-executable-code-violation-level', 'alarm'),
+        );
       });
 
       test('with short body', () {
@@ -275,8 +283,10 @@ void main() {
             as Map<String, Object>)['function'] as Map<String, Object>;
 
         expect(functionReport, containsPair('lines-of-executable-code', 5));
-        expect(functionReport,
-            containsPair('lines-of-executable-code-violation-level', 'none'));
+        expect(
+          functionReport,
+          containsPair('lines-of-executable-code-violation-level', 'none'),
+        );
       });
 
       test('without arguments', () {
@@ -300,8 +310,10 @@ void main() {
             as Map<String, Object>)['function'] as Map<String, Object>;
 
         expect(functionReport, containsPair('number-of-arguments', 0));
-        expect(functionReport,
-            containsPair('number-of-arguments-violation-level', 'none'));
+        expect(
+          functionReport,
+          containsPair('number-of-arguments-violation-level', 'none'),
+        );
       });
 
       test('with a lot of arguments', () {
@@ -325,8 +337,10 @@ void main() {
             as Map<String, Object>)['function'] as Map<String, Object>;
 
         expect(functionReport, containsPair('number-of-arguments', 10));
-        expect(functionReport,
-            containsPair('number-of-arguments-violation-level', 'alarm'));
+        expect(
+          functionReport,
+          containsPair('number-of-arguments-violation-level', 'alarm'),
+        );
       });
     });
   });

@@ -76,9 +76,10 @@ void main() {
     final sourceUrl = Uri.parse('/example.dart');
 
     final parseResult = parseString(
-        content: _content,
-        featureSet: FeatureSet.fromEnableFlags([]),
-        throwIfDiagnostics: false);
+      content: _content,
+      featureSet: FeatureSet.fromEnableFlags([]),
+      throwIfDiagnostics: false,
+    );
 
     test('initialization', () {
       final issues = NoEqualThenElse()

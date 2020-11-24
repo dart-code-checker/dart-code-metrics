@@ -230,18 +230,21 @@ void main() {
           equals(numberOfMethodsDefaultWarningLevel));
 
       expect(options.excludePatterns, equals(['example/**']));
-      expect(options.metricsExcludePatterns,
-          equals(['test/**', 'documentation/**']));
+      expect(
+        options.metricsExcludePatterns,
+        equals(['test/**', 'documentation/**']),
+      );
 
       expect(options.rules.keys.length, equals(4));
       expect(
-          options.rules.keys,
-          containsAll(<String>[
-            'no-empty-block',
-            'no-boolean-literal-compare',
-            'prefer-trailing-comma-for-collection',
-            'member-ordering',
-          ]));
+        options.rules.keys,
+        containsAll(<String>[
+          'no-empty-block',
+          'no-boolean-literal-compare',
+          'prefer-trailing-comma-for-collection',
+          'member-ordering',
+        ]),
+      );
       expect(options.antiPatterns, isEmpty);
     });
   });

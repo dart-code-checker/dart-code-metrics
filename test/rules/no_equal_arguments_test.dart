@@ -178,9 +178,10 @@ void main() {
     final sourceUrl = Uri.parse('/example.dart');
 
     final parseResult = parseString(
-        content: _content,
-        featureSet: FeatureSet.fromEnableFlags([]),
-        throwIfDiagnostics: false);
+      content: _content,
+      featureSet: FeatureSet.fromEnableFlags([]),
+      throwIfDiagnostics: false,
+    );
 
     test('initialization', () {
       final issues = NoEqualArguments()
@@ -244,9 +245,10 @@ void main() {
 
     test('reports about no found issues', () {
       final parseResult = parseString(
-          content: _correctContent,
-          featureSet: FeatureSet.fromEnableFlags([]),
-          throwIfDiagnostics: false);
+        content: _correctContent,
+        featureSet: FeatureSet.fromEnableFlags([]),
+        throwIfDiagnostics: false,
+      );
 
       final issues = NoEqualArguments()
           .check(Source(sourceUrl, parseResult.content, parseResult.unit));

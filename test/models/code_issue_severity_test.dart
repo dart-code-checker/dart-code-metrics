@@ -6,14 +6,15 @@ import 'package:test/test.dart';
 void main() {
   test('CodeIssueSeverity fromJson constructs object from string', () {
     expect(
-        ['StyLe', 'wArnInG', 'erROr', '']
-            .map(CodeIssueSeverity.fromJson)
-            .map((severity) => severity?.value),
-        equals([
-          CodeIssueSeverity.style.value,
-          CodeIssueSeverity.warning.value,
-          CodeIssueSeverity.error.value,
-          null,
-        ]));
+      ['StyLe', 'wArnInG', 'erROr', '']
+          .map(CodeIssueSeverity.fromJson)
+          .map((severity) => severity?.value),
+      equals([
+        CodeIssueSeverity.style.value,
+        CodeIssueSeverity.warning.value,
+        CodeIssueSeverity.error.value,
+        null,
+      ]),
+    );
   });
 }
