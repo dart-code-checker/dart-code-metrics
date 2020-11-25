@@ -74,15 +74,21 @@ void main() {
     const issueRecomendationMessage = 'diagnostic recomendation message';
 
     final fixes = designIssueToAnalysisErrorFixes(DesignIssue(
-        patternId: patternId,
-        patternDocumentation: Uri.parse(patternDocumentationUrl),
-        sourceSpan: SourceSpanBase(
-            SourceLocation(offset,
-                sourceUrl: Uri.parse(sourcePath), line: line, column: column),
-            SourceLocation(end, sourceUrl: Uri.parse(sourcePath)),
-            'abcd'),
-        message: issueMessage,
-        recommendation: issueRecomendationMessage));
+      patternId: patternId,
+      patternDocumentation: Uri.parse(patternDocumentationUrl),
+      sourceSpan: SourceSpanBase(
+        SourceLocation(
+          offset,
+          sourceUrl: Uri.parse(sourcePath),
+          line: line,
+          column: column,
+        ),
+        SourceLocation(end, sourceUrl: Uri.parse(sourcePath)),
+        'abcd',
+      ),
+      message: issueMessage,
+      recommendation: issueRecomendationMessage,
+    ));
 
     expect(fixes.error.severity, equals(AnalysisErrorSeverity.INFO));
     expect(fixes.error.type, equals(AnalysisErrorType.HINT));

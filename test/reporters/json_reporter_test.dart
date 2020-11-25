@@ -66,7 +66,7 @@ void main() {
         const _issueColumn = 3;
         const _issueProblemCode = 'issue';
         const _issueMessage = 'first issue message';
-        const _issueRecomendation = 'issue recomendation';
+        const _issueRecommendation = 'issue recommendation';
 
         final records = [
           FileRecord(
@@ -80,14 +80,17 @@ void main() {
                 patternId: _issuePatternId,
                 patternDocumentation: Uri.parse(_issuePatternDocumentation),
                 sourceSpan: SourceSpanBase(
-                    SourceLocation(1,
-                        sourceUrl: Uri.parse(fullPath),
-                        line: _issueLine,
-                        column: _issueColumn),
-                    SourceLocation(6, sourceUrl: Uri.parse(fullPath)),
-                    _issueProblemCode),
+                  SourceLocation(
+                    1,
+                    sourceUrl: Uri.parse(fullPath),
+                    line: _issueLine,
+                    column: _issueColumn,
+                  ),
+                  SourceLocation(6, sourceUrl: Uri.parse(fullPath)),
+                  _issueProblemCode,
+                ),
                 message: _issueMessage,
-                recommendation: _issueRecomendation,
+                recommendation: _issueRecommendation,
               ),
             ],
           ),
@@ -110,7 +113,7 @@ void main() {
         expect(issue, containsPair('columnNumber', _issueColumn));
         expect(issue, containsPair('problemCode', _issueProblemCode));
         expect(issue, containsPair('message', _issueMessage));
-        expect(issue, containsPair('recommendation', _issueRecomendation));
+        expect(issue, containsPair('recommendation', _issueRecommendation));
       });
 
       test('with style severity issues', () {
@@ -135,12 +138,15 @@ void main() {
                 ruleDocumentation: Uri.parse(_issueRuleDocumentation),
                 severity: CodeIssueSeverity.style,
                 sourceSpan: SourceSpanBase(
-                    SourceLocation(1,
-                        sourceUrl: Uri.parse(fullPath),
-                        line: _issueLine,
-                        column: _issueColumn),
-                    SourceLocation(6, sourceUrl: Uri.parse(fullPath)),
-                    _issueProblemCode),
+                  SourceLocation(
+                    1,
+                    sourceUrl: Uri.parse(fullPath),
+                    line: _issueLine,
+                    column: _issueColumn,
+                  ),
+                  SourceLocation(6, sourceUrl: Uri.parse(fullPath)),
+                  _issueProblemCode,
+                ),
                 message: _issueMessage,
                 correction: _issueCorrection,
                 correctionComment: _issueCorrectionComment,

@@ -95,6 +95,4 @@ bool _isSourceFileHaveValidExtension(File file) =>
     p.extension(file.path)?.endsWith('.dart') ?? false;
 
 bool _isSourceFileNotPartOfLibrary(File file) =>
-    file.readAsLinesSync().firstWhere((line) => line.startsWith('part of '),
-        orElse: () => null) ==
-    null;
+    file.readAsLinesSync().any((line) => line.startsWith('part of '));

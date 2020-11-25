@@ -25,21 +25,24 @@ void main() {
     group('util function', () {
       test('detectLeadingZero', () {
         expect(
-            ['05.23', '5.23', '003.6e+5', '3.6e+5', '0.1']
-                .map(detectLeadingZero),
-            equals([true, false, true, false, false]));
+          ['05.23', '5.23', '003.6e+5', '3.6e+5', '0.1'].map(detectLeadingZero),
+          equals([true, false, true, false, false]),
+        );
       });
 
       test('leadingZeroCorrection', () {
         expect(
-            ['05.23', '5.23', '003.6e+5', '3.6e+5', '0.1']
-                .map(leadingZeroCorrection),
-            equals(['5.23', '5.23', '3.6e+5', '3.6e+5', '0.1']));
+          ['05.23', '5.23', '003.6e+5', '3.6e+5', '0.1']
+              .map(leadingZeroCorrection),
+          equals(['5.23', '5.23', '3.6e+5', '3.6e+5', '0.1']),
+        );
       });
 
       test('detectLeadingDecimal', () {
-        expect(['.257', '0.257', '.16e+5', '0.16e+5'].map(detectLeadingDecimal),
-            equals([true, false, true, false]));
+        expect(
+          ['.257', '0.257', '.16e+5', '0.16e+5'].map(detectLeadingDecimal),
+          equals([true, false, true, false]),
+        );
       });
 
       test('leadingDecimalCorrection', () {

@@ -33,7 +33,7 @@ void main() {
       const _issuePatternDocumentation = 'https://docu.edu/patternId1.html';
       const _issueLine = 2;
       const _issueMessage = 'first issue message';
-      const _issueRecomendation = 'issue recomendation';
+      const _issueRecommendation = 'issue recommendation';
 
       final records = [
         FileRecord(
@@ -47,14 +47,17 @@ void main() {
               patternId: _issuePatternId,
               patternDocumentation: Uri.parse(_issuePatternDocumentation),
               sourceSpan: SourceSpanBase(
-                  SourceLocation(1,
-                      sourceUrl: Uri.parse(fullPath),
-                      line: _issueLine,
-                      column: 3),
-                  SourceLocation(6, sourceUrl: Uri.parse(fullPath)),
-                  'issue'),
+                SourceLocation(
+                  1,
+                  sourceUrl: Uri.parse(fullPath),
+                  line: _issueLine,
+                  column: 3,
+                ),
+                SourceLocation(6, sourceUrl: Uri.parse(fullPath)),
+                'issue',
+              ),
               message: 'first issue message',
-              recommendation: _issueRecomendation,
+              recommendation: _issueRecommendation,
             ),
           ],
         ),
@@ -98,12 +101,15 @@ void main() {
               ruleDocumentation: Uri.parse(_issueRuleDocumentation),
               severity: CodeIssueSeverity.style,
               sourceSpan: SourceSpanBase(
-                  SourceLocation(1,
-                      sourceUrl: Uri.parse(fullPath),
-                      line: _issueLine,
-                      column: 3),
-                  SourceLocation(6, sourceUrl: Uri.parse(fullPath)),
-                  'issue'),
+                SourceLocation(
+                  1,
+                  sourceUrl: Uri.parse(fullPath),
+                  line: _issueLine,
+                  column: 3,
+                ),
+                SourceLocation(6, sourceUrl: Uri.parse(fullPath)),
+                'issue',
+              ),
               message: _issueMessage,
               correction: 'correction',
               correctionComment: 'correction comment',
