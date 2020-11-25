@@ -198,7 +198,7 @@ void main() {
                 'issue',
               ),
               message: 'first issue message',
-              recommendation: 'recomendation',
+              recommendation: 'recommendation',
             ),
           ],
         ),
