@@ -123,22 +123,23 @@ class UtilitySelector {
         .toDouble();
 
     return FunctionReport(
-        cyclomaticComplexity: ReportMetric<int>(
-            value: cyclomaticComplexity.round(),
-            violationLevel: _violationLevel(cyclomaticComplexity.round(),
-                config.cyclomaticComplexityWarningLevel)),
-        linesOfExecutableCode: ReportMetric<int>(
-            value: linesOfExecutableCode,
-            violationLevel: _violationLevel(linesOfExecutableCode,
-                config.linesOfExecutableCodeWarningLevel)),
-        maintainabilityIndex: ReportMetric<double>(
-            value: maintainabilityIndex,
-            violationLevel:
-                _maintainabilityIndexViolationLevel(maintainabilityIndex)),
-        argumentsCount: ReportMetric<int>(
-            value: function.argumentsCount,
-            violationLevel: _violationLevel(function.argumentsCount,
-                config.numberOfArgumentsWarningLevel)));
+      cyclomaticComplexity: ReportMetric<int>(
+          value: cyclomaticComplexity.round(),
+          violationLevel: _violationLevel(cyclomaticComplexity.round(),
+              config.cyclomaticComplexityWarningLevel)),
+      linesOfExecutableCode: ReportMetric<int>(
+          value: linesOfExecutableCode,
+          violationLevel: _violationLevel(
+              linesOfExecutableCode, config.linesOfExecutableCodeWarningLevel)),
+      maintainabilityIndex: ReportMetric<double>(
+          value: maintainabilityIndex,
+          violationLevel:
+              _maintainabilityIndexViolationLevel(maintainabilityIndex)),
+      argumentsCount: ReportMetric<int>(
+          value: function.argumentsCount,
+          violationLevel: _violationLevel(
+              function.argumentsCount, config.numberOfArgumentsWarningLevel)),
+    );
   }
 
   static ViolationLevel componentViolationLevel(ComponentReport report) =>

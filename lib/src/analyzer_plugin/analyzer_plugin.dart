@@ -213,14 +213,15 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
               .getLocation(function.declaration.endToken.end);
 
           final functionRecord = FunctionRecord(
-              firstLine: functionFirstLineInfo.lineNumber,
-              lastLine: functionLastLineInfo.lineNumber,
-              argumentsCount: getArgumentsCount(function),
-              cyclomaticComplexityLines:
-                  Map.unmodifiable(controlFlowAstVisitor.complexityLines),
-              linesWithCode: List.unmodifiable(<int>[]),
-              operators: Map.unmodifiable(<String, int>{}),
-              operands: Map.unmodifiable(<String, int>{}));
+            firstLine: functionFirstLineInfo.lineNumber,
+            lastLine: functionLastLineInfo.lineNumber,
+            argumentsCount: getArgumentsCount(function),
+            cyclomaticComplexityLines:
+                Map.unmodifiable(controlFlowAstVisitor.complexityLines),
+            linesWithCode: List.unmodifiable(<int>[]),
+            operators: Map.unmodifiable(<String, int>{}),
+            operands: Map.unmodifiable(<String, int>{}),
+          );
 
           final functionReport = UtilitySelector.functionReport(
               functionRecord, _configs[driver].metricsConfigs);

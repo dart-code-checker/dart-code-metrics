@@ -9,9 +9,10 @@ class FunctionReport {
   final ReportMetric<double> maintainabilityIndex;
   final ReportMetric<int> argumentsCount;
 
-  const FunctionReport(
-      {@required this.cyclomaticComplexity,
-      @required this.linesOfExecutableCode,
-      @required this.maintainabilityIndex,
-      @required this.argumentsCount});
+  const FunctionReport({
+    @required this.cyclomaticComplexity,
+    @required this.linesOfExecutableCode,
+    @required this.maintainabilityIndex,
+    @required this.argumentsCount,
+  });
 }
