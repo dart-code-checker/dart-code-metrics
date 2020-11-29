@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../models/config.dart';
+import '../config/config.dart';
 import '../models/design_issue.dart';
 import '../models/source.dart';
 import '../scope_ast_visitor.dart';

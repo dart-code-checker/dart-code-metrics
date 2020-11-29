@@ -1,10 +1,10 @@
 @TestOn('vm')
 import 'dart:convert';
 
+import 'package:dart_code_metrics/src/config/config.dart';
 import 'package:dart_code_metrics/src/models/code_issue.dart';
 import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
 import 'package:dart_code_metrics/src/models/component_record.dart';
-import 'package:dart_code_metrics/src/models/config.dart';
 import 'package:dart_code_metrics/src/models/design_issue.dart';
 import 'package:dart_code_metrics/src/models/file_record.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';

@@ -1,6 +1,6 @@
 @TestOn('vm')
+import 'package:dart_code_metrics/src/config/config.dart';
 import 'package:dart_code_metrics/src/models/component_record.dart';
-import 'package:dart_code_metrics/src/models/config.dart';
 import 'package:dart_code_metrics/src/models/file_record.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/models/violation_level.dart';

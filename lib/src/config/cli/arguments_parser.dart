@@ -3,15 +3,11 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:meta/meta.dart';
 
-import '../../metrics_analyzer.dart';
+import '../config.dart';
 
 const usageHeader = 'Usage: metrics [options...] <directories>';
 const helpFlagName = 'help';
 const reporterName = 'reporter';
-const cyclomaticComplexityThreshold = 'cyclomatic-complexity';
-const linesOfExecutableCodeThreshold = 'lines-of-executable-code';
-const numberOfArgumentsThreshold = 'number-of-arguments';
-const numberOfMethodsThreshold = 'number-of-methods';
 const verboseName = 'verbose';
 const ignoredFilesName = 'ignore-files';
 const rootFolderName = 'root-folder';
@@ -63,22 +59,22 @@ class _MetricOption {
 void _appendMetricsThresholdOptions(ArgParser parser) {
   const metrics = [
     _MetricOption(
-      cyclomaticComplexityThreshold,
+      cyclomaticComplexityKey,
       'Cyclomatic complexity threshold',
       cyclomaticComplexityDefaultWarningLevel,
     ),
     _MetricOption(
-      linesOfExecutableCodeThreshold,
+      linesOfExecutableCodeKey,
       'Lines of executable code threshold',
       linesOfExecutableCodeDefaultWarningLevel,
     ),
     _MetricOption(
-      numberOfArgumentsThreshold,
+      numberOfArgumentsKey,
       'Number of arguments threshold',
       numberOfArgumentsDefaultWarningLevel,
     ),
     _MetricOption(
-      numberOfMethodsThreshold,
+      numberOfMethodsKey,
       'Number of methods threshold',
       numberOfMethodsDefaultWarningLevel,
     ),

@@ -3,14 +3,14 @@ import 'dart:io';
 import 'dart:isolate';
 
 import 'package:html/dom.dart';
-import 'package:dart_code_metrics/src/models/config.dart';
-import 'package:dart_code_metrics/src/models/file_record.dart';
-import 'package:dart_code_metrics/src/models/violation_level.dart';
-import 'package:dart_code_metrics/src/reporters/reporter.dart';
-import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
 import 'package:meta/meta.dart';
 import 'package:path/path.dart' as p;
 
+import '../../config/config.dart';
+import '../../models/file_record.dart';
+import '../../models/violation_level.dart';
+import '../reporter.dart';
+import '../utility_selector.dart';
 import 'utility_functions.dart';
 
 const _violationLevelFunctionStyle = {
@@ -103,10 +103,10 @@ class HtmlReporter implements Reporter {
 
   void _copyResources(String reportFolder) {
     const resources = [
-      'package:dart_code_metrics/src/reporters/html/resources/variables.css',
-      'package:dart_code_metrics/src/reporters/html/resources/normalize.css',
-      'package:dart_code_metrics/src/reporters/html/resources/base.css',
-      'package:dart_code_metrics/src/reporters/html/resources/main.css',
+      '../reporters/html/resources/variables.css',
+      '../reporters/html/resources/normalize.css',
+      '../reporters/html/resources/base.css',
+      '../reporters/html/resources/main.css',
     ];
 
     for (final resource in resources) {

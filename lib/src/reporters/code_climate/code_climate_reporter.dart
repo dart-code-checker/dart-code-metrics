@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:meta/meta.dart';
 
-import '../../models/config.dart';
+import '../../config/config.dart';
 import '../../models/file_record.dart';
 import '../reporter.dart';
 import '../utility_selector.dart';

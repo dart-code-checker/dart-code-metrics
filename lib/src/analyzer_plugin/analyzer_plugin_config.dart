@@ -1,9 +1,9 @@
-import 'package:dart_code_metrics/src/anti_patterns/base_pattern.dart';
-import 'package:dart_code_metrics/src/rules/base_rule.dart';
 import 'package:glob/glob.dart';
 import 'package:meta/meta.dart';
 
-import '../models/config.dart';
+import '../anti_patterns/base_pattern.dart';
+import '../config/config.dart';
+import '../rules/base_rule.dart';
 
 @immutable
 class AnalyzerPluginConfig {

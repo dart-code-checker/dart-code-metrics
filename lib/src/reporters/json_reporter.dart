@@ -1,11 +1,12 @@
 import 'dart:convert';
 
-import 'package:dart_code_metrics/src/models/config.dart';
-import 'package:dart_code_metrics/src/models/file_record.dart';
-import 'package:dart_code_metrics/src/models/report_metric.dart';
-import 'package:dart_code_metrics/src/reporters/reporter.dart';
-import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
 import 'package:meta/meta.dart';
+
+import '../config/config.dart';
+import '../models/file_record.dart';
+import '../models/report_metric.dart';
+import 'reporter.dart';
+import 'utility_selector.dart';
 
 /// Machine-readable report in JSON format
 class JsonReporter implements Reporter {
@@ -29,18 +30,17 @@ class JsonReporter implements Reporter {
           final report = UtilitySelector.componentReport(value, reportConfig);
 
           return MapEntry(key, {
-            ..._report(report.methodsCount, 'number-of-methods'),
+            ..._report(report.methodsCount, numberOfMethodsKey),
           });
         }),
         ...record.functions.map((key, value) {
           final report = UtilitySelector.functionReport(value, reportConfig);
 
           return MapEntry(key, {
-            ..._report(report.cyclomaticComplexity, 'cyclomatic-complexity'),
-            ..._report(
-                report.linesOfExecutableCode, 'lines-of-executable-code'),
+            ..._report(report.cyclomaticComplexity, cyclomaticComplexityKey),
+            ..._report(report.linesOfExecutableCode, linesOfExecutableCodeKey),
             ..._report(report.maintainabilityIndex, 'maintainability-index'),
-            ..._report(report.argumentsCount, 'number-of-arguments'),
+            ..._report(report.argumentsCount, numberOfArgumentsKey),
           });
         }),
       },
@@ -74,14 +74,14 @@ class JsonReporter implements Reporter {
                   'recommendation': issue.recommendation,
               })
           .toList(),
-      'average-number-of-arguments': fileReport.averageArgumentsCount,
-      'total-number-of-arguments-violations':
+      'average-$numberOfArgumentsKey': fileReport.averageArgumentsCount,
+      'total-$numberOfArgumentsKey-violations':
           fileReport.totalArgumentsCountViolations,
-      'average-number-of-methods': fileReport.averageMethodsCount,
-      'total-number-of-methods-violations':
+      'average-$numberOfMethodsKey': fileReport.averageMethodsCount,
+      'total-$numberOfMethodsKey-violations':
           fileReport.totalMethodsCountViolations,
-      'total-lines-of-executable-code': fileReport.totalLinesOfExecutableCode,
-      'total-lines-of-executable-code-violations':
+      'total-$linesOfExecutableCodeKey': fileReport.totalLinesOfExecutableCode,
+      'total-$linesOfExecutableCodeKey-violations':
           fileReport.totalLinesOfExecutableCodeViolations,
     };
   }

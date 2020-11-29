@@ -15,8 +15,8 @@ import 'package:analyzer_plugin/protocol/protocol_common.dart' as plugin;
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
 import 'package:source_span/source_span.dart';
 
-import '../analysis_options.dart';
 import '../anti_patterns_factory.dart';
+import '../config/analysis_options.dart';
 import '../ignore_info.dart';
 import '../metrics/cyclomatic_complexity/control_flow_ast_visitor.dart';
 import '../metrics/cyclomatic_complexity/cyclomatic_config.dart';

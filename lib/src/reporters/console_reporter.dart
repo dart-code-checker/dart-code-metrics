@@ -1,12 +1,13 @@
 import 'package:ansicolor/ansicolor.dart';
-import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
-import 'package:dart_code_metrics/src/models/config.dart';
-import 'package:dart_code_metrics/src/models/file_record.dart';
-import 'package:dart_code_metrics/src/models/report_metric.dart';
-import 'package:dart_code_metrics/src/models/violation_level.dart';
-import 'package:dart_code_metrics/src/reporters/reporter.dart';
-import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
 import 'package:meta/meta.dart';
+
+import '../config/config.dart';
+import '../models/code_issue_severity.dart';
+import '../models/file_record.dart';
+import '../models/report_metric.dart';
+import '../models/violation_level.dart';
+import '../reporters/reporter.dart';
+import '../reporters/utility_selector.dart';
 
 /// Plain terminal reporter
 class ConsoleReporter implements Reporter {
