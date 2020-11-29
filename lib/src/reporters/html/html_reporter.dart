@@ -479,7 +479,7 @@ class HtmlReporter implements Reporter {
         complexityValueElement.classes.add(lineViolationStyle ?? '');
       }
 
-      final architecturalIssues = record.designIssue.firstWhere(
+      final architecturalIssues = record.designIssues.firstWhere(
           (element) => element.sourceSpan.start.line == i,
           orElse: () => null);
 
@@ -652,8 +652,8 @@ class HtmlReporter implements Reporter {
         if (record.issues.isNotEmpty)
           renderSummaryMetric(_codeIssues, '${record.issues.length}',
               withViolation: true),
-        if (record.designIssue.isNotEmpty)
-          renderSummaryMetric(_designIssues, '${record.designIssue.length}',
+        if (record.designIssues.isNotEmpty)
+          renderSummaryMetric(_designIssues, '${record.designIssues.length}',
               withViolation: true),
       ]);
   }

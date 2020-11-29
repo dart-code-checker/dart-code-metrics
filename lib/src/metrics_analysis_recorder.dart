@@ -110,7 +110,7 @@ class MetricsAnalysisRecorder
       functions: Map.unmodifiable(_functionRecords.map<String, FunctionRecord>(
           (key, value) => MapEntry(getFunctionHumanReadableName(key), value))),
       issues: _issues,
-      designIssue: _designIssues,
+      designIssues: _designIssues,
     ));
     _relativeGroupPath = null;
     _fileGroupPath = null;

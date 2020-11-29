@@ -25,7 +25,7 @@ void main() {
           components: Map.unmodifiable(<String, ComponentRecord>{}),
           functions: Map.unmodifiable(<String, FunctionRecord>{}),
           issues: const [],
-          designIssue: [
+          designIssues: [
             DesignIssue(
               patternId: 'patternId1',
               patternDocumentation:
@@ -100,7 +100,7 @@ void main() {
               correctionComment: 'correction comment',
             ),
           ],
-          designIssue: const [],
+          designIssues: const [],
         ),
       ];
 

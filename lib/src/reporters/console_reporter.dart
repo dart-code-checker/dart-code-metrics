@@ -94,7 +94,7 @@ class ConsoleReporter implements Reporter {
         }
       });
 
-      for (final issue in analysisRecord.designIssue) {
+      for (final issue in analysisRecord.designIssues) {
         final severity = _designIssuesColor(_designIssues.padRight(8));
         final position =
             '${issue.sourceSpan.start.line}:${issue.sourceSpan.start.column}';

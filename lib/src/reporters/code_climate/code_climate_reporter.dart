@@ -68,7 +68,7 @@ class CodeClimateReporter implements Reporter {
     result
       ..addAll(record.issues.map((issue) =>
           CodeClimateIssue.fromCodeIssue(issue, record.relativePath)))
-      ..addAll(record.designIssue.map((issue) =>
+      ..addAll(record.designIssues.map((issue) =>
           CodeClimateIssue.fromDesignIssue(issue, record.relativePath)));
 
     return result;

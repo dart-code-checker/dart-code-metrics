@@ -42,7 +42,7 @@ void main() {
           components: Map.unmodifiable(<String, ComponentRecord>{}),
           functions: Map.unmodifiable(<String, FunctionRecord>{}),
           issues: const [],
-          designIssue: [
+          designIssues: [
             DesignIssue(
               patternId: _issuePatternId,
               patternDocumentation: Uri.parse(_issuePatternDocumentation),
@@ -115,7 +115,7 @@ void main() {
               correctionComment: 'correction comment',
             ),
           ],
-          designIssue: const [],
+          designIssues: const [],
         ),
       ];
 
@@ -152,7 +152,7 @@ void main() {
             }),
             functions: Map.unmodifiable(<String, FunctionRecord>{}),
             issues: const [],
-            designIssue: const [],
+            designIssues: const [],
           ),
         ];
 
@@ -172,7 +172,7 @@ void main() {
             }),
             functions: Map.unmodifiable(<String, FunctionRecord>{}),
             issues: const [],
-            designIssue: const [],
+            designIssues: const [],
           ),
         ];
 
@@ -220,7 +220,7 @@ void main() {
                   linesWithCode: List.generate(5, (index) => index)),
             }),
             issues: const [],
-            designIssue: const [],
+            designIssues: const [],
           ),
         ];
 
@@ -240,7 +240,7 @@ void main() {
               'function': buildFunctionRecordStub(argumentsCount: 0),
             }),
             issues: const [],
-            designIssue: const [],
+            designIssues: const [],
           ),
         ];
 

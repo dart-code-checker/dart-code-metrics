@@ -60,7 +60,7 @@ class JsonReporter implements Reporter {
                   'correctionComment': issue.correctionComment,
               })
           .toList(),
-      'designIssues': record.designIssue
+      'designIssues': record.designIssues
           .map((issue) => {
                 'patternId': issue.patternId,
                 if (issue.patternDocumentation != null)
