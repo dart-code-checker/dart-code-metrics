@@ -103,10 +103,10 @@ class HtmlReporter implements Reporter {
 
   void _copyResources(String reportFolder) {
     const resources = [
-      '../reporters/html/resources/variables.css',
-      '../reporters/html/resources/normalize.css',
-      '../reporters/html/resources/base.css',
-      '../reporters/html/resources/main.css',
+      'package:dart_code_metrics/src/reporters/html/resources/variables.css',
+      'package:dart_code_metrics/src/reporters/html/resources/normalize.css',
+      'package:dart_code_metrics/src/reporters/html/resources/base.css',
+      'package:dart_code_metrics/src/reporters/html/resources/main.css',
     ];
 
     for (final resource in resources) {
