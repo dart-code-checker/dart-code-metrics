@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:meta/meta.dart';
 
 import '../config/config.dart';
+import '../models/code_issue.dart';
+import '../models/design_issue.dart';
 import '../models/file_record.dart';
 import '../models/report_metric.dart';
 import 'reporter.dart';
@@ -44,7 +46,24 @@ class JsonReporter implements Reporter {
           });
         }),
       },
-      'issues': record.issues
+      'issues': _reportCodeIssue(record.issues),
+      'designIssues': _reportDesignIssues(record.designIssues),
+      'average-$numberOfArgumentsKey': fileReport.averageArgumentsCount,
+      'total-$numberOfArgumentsKey-violations':
+          fileReport.totalArgumentsCountViolations,
+      'average-$numberOfMethodsKey': fileReport.averageMethodsCount,
+      'total-$numberOfMethodsKey-violations':
+          fileReport.totalMethodsCountViolations,
+      'total-$linesOfExecutableCodeKey': fileReport.totalLinesOfExecutableCode,
+      'total-$linesOfExecutableCodeKey-violations':
+          fileReport.totalLinesOfExecutableCodeViolations,
+    };
+  }
+
+  Iterable<Map<String, Object>> _reportCodeIssue(
+    Iterable<CodeIssue> issues,
+  ) =>
+      issues
           .map((issue) => {
                 'severity': issue.severity.value,
                 'ruleId': issue.ruleId,
@@ -59,8 +78,12 @@ class JsonReporter implements Reporter {
                 if (issue.correctionComment != null)
                   'correctionComment': issue.correctionComment,
               })
-          .toList(),
-      'designIssues': record.designIssues
+          .toList();
+
+  Iterable<Map<String, Object>> _reportDesignIssues(
+    Iterable<DesignIssue> issues,
+  ) =>
+      issues
           .map((issue) => {
                 'patternId': issue.patternId,
                 if (issue.patternDocumentation != null)
@@ -73,18 +96,7 @@ class JsonReporter implements Reporter {
                 if (issue.recommendation != null)
                   'recommendation': issue.recommendation,
               })
-          .toList(),
-      'average-$numberOfArgumentsKey': fileReport.averageArgumentsCount,
-      'total-$numberOfArgumentsKey-violations':
-          fileReport.totalArgumentsCountViolations,
-      'average-$numberOfMethodsKey': fileReport.averageMethodsCount,
-      'total-$numberOfMethodsKey-violations':
-          fileReport.totalMethodsCountViolations,
-      'total-$linesOfExecutableCodeKey': fileReport.totalLinesOfExecutableCode,
-      'total-$linesOfExecutableCodeKey-violations':
-          fileReport.totalLinesOfExecutableCodeViolations,
-    };
-  }
+          .toList();
 
   Map<String, Object> _report(ReportMetric<num> metric, String metricName) => {
         metricName: metric.value.toInt(),
