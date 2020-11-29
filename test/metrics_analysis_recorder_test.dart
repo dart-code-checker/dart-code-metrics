@@ -5,12 +5,13 @@ import 'package:dart_code_metrics/src/models/code_issue.dart';
 import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
 import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/design_issue.dart';
-import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/models/scoped_component_declaration.dart';
 import 'package:dart_code_metrics/src/models/scoped_function_declaration.dart';
 import 'package:mockito/mockito.dart';
 import 'package:source_span/source_span.dart';
 import 'package:test/test.dart';
+
+import 'stubs_builders.dart';
 
 class ClassDeclarationMock extends Mock implements ClassDeclaration {}
 
@@ -91,14 +92,10 @@ void main() {
         });
 
         test('Stores record for file', () {
-          const functionRecord = FunctionRecord(
+          final functionRecord = buildFunctionRecordStub(
             firstLine: 1,
             lastLine: 2,
             argumentsCount: 3,
-            cyclomaticComplexityLines: {},
-            linesWithCode: [],
-            operators: {},
-            operands: {},
           );
 
           expect(
@@ -227,14 +224,10 @@ void main() {
       });
 
       test('store record for file', () {
-        const functionRecord = FunctionRecord(
+        final functionRecord = buildFunctionRecordStub(
           firstLine: 1,
           lastLine: 2,
           argumentsCount: 3,
-          cyclomaticComplexityLines: {},
-          linesWithCode: [],
-          operators: {},
-          operands: {},
         );
 
         final recorder = MetricsAnalysisRecorder()
