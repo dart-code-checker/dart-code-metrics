@@ -19,6 +19,7 @@ import '../config/analysis_options.dart';
 import '../ignore_info.dart';
 import '../metrics/cyclomatic_complexity/control_flow_ast_visitor.dart';
 import '../metrics/cyclomatic_complexity/cyclomatic_config.dart';
+import '../metrics/nesting_level/nesting_level_visitor.dart';
 import '../models/function_record.dart';
 import '../models/function_report.dart';
 import '../models/scoped_function_declaration.dart';
@@ -280,6 +281,16 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
         if (cyclomatic != null) {
           result.add(cyclomatic);
         }
+
+        final nesting = _nestingLevelMetric(
+          functionReport,
+          startSourceLocation,
+          function.declaration.end,
+          config,
+        );
+        if (nesting != null) {
+          result.add(nesting);
+        }
       }
     }
 
@@ -293,8 +304,11 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
   ) {
     final controlFlowAstVisitor = ControlFlowAstVisitor(
         defaultCyclomaticConfig, source.compilationUnit.lineInfo);
+    final nestingLevelVisitor = NestingLevelVisitor(
+        function.declaration, source.compilationUnit.lineInfo);
 
     function.declaration.visitChildren(controlFlowAstVisitor);
+    function.declaration.visitChildren(nestingLevelVisitor);
 
     final functionOffset =
         function.declaration.firstTokenAfterCommentAndMetadata.offset;
@@ -311,6 +325,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
         argumentsCount: getArgumentsCount(function),
         cyclomaticComplexityLines: controlFlowAstVisitor.complexityLines,
         linesWithCode: List.unmodifiable(<int>[]),
+        nestingLines: nestingLevelVisitor.nestingLines,
         operators: Map.unmodifiable(<String, int>{}),
         operands: Map.unmodifiable(<String, int>{}),
       ),
@@ -330,6 +345,22 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
               startSourceLocation,
               declarationEndOffset - startSourceLocation.offset,
               'Function has a Cyclomatic Complexity of ${functionReport.cyclomaticComplexity.value} (exceeds ${config.metricsConfigs.cyclomaticComplexityWarningLevel} allowed). Consider refactoring.',
+              _codeMetricsId,
+            )
+          : null;
+
+  plugin.AnalysisErrorFixes _nestingLevelMetric(
+    FunctionReport functionReport,
+    SourceLocation startSourceLocation,
+    int declarationEndOffset,
+    AnalyzerPluginConfig config,
+  ) =>
+      UtilitySelector.isIssueLevel(
+              functionReport.maximumNestingLevel.violationLevel)
+          ? metricReportToAnalysisErrorFixes(
+              startSourceLocation,
+              declarationEndOffset - startSourceLocation.offset,
+              'Function has a Nesting Level of ${functionReport.maximumNestingLevel.value} (exceeds ${config.metricsConfigs.maximumNestingWarningLevel} allowed). Consider refactoring.',
               _codeMetricsId,
             )
           : null;

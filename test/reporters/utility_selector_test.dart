@@ -69,8 +69,29 @@ void main() {
       test('with a lot of arguments', () {
         final record = buildFunctionRecordStub(argumentsCount: 10);
         final report = UtilitySelector.functionReport(record, const Config());
+
         expect(report.argumentsCount.value, 10);
         expect(report.argumentsCount.violationLevel, ViolationLevel.alarm);
+      });
+
+      test('without nesting information', () {
+        final record = buildFunctionRecordStub(nestingLines: [[]]);
+        final report = UtilitySelector.functionReport(record, const Config());
+
+        expect(report.maximumNestingLevel.value, 0);
+        expect(report.maximumNestingLevel.violationLevel, ViolationLevel.none);
+      });
+
+      test('with hight nesting level', () {
+        final record = buildFunctionRecordStub(nestingLines: [
+          [10],
+          [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+          [1, 5, 10, 20],
+        ]);
+        final report = UtilitySelector.functionReport(record, const Config());
+
+        expect(report.maximumNestingLevel.value, 12);
+        expect(report.maximumNestingLevel.violationLevel, ViolationLevel.alarm);
       });
     });
 
@@ -121,6 +142,15 @@ void main() {
           linesOfExecutableCodeViolationLevel: ViolationLevel.none,
           argumentsCountViolationLevel: ViolationLevel.warning,
         )),
+        ViolationLevel.warning,
+      );
+
+      expect(
+        UtilitySelector.functionViolationLevel(buildFunctionReportStub(
+            cyclomaticComplexityViolationLevel: ViolationLevel.none,
+            linesOfExecutableCodeViolationLevel: ViolationLevel.none,
+            argumentsCountViolationLevel: ViolationLevel.none,
+            maximumNestingLevelViolationLevel: ViolationLevel.warning)),
         ViolationLevel.warning,
       );
     });

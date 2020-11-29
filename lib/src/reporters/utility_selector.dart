@@ -86,6 +86,8 @@ class UtilitySelector {
         sum(function.cyclomaticComplexityLines.values) + 1;
 
     final linesOfExecutableCode = function.linesWithCode.length;
+    final maximumNestingLevel = function.nestingLines.fold<int>(
+        0, (previousValue, element) => max(previousValue, element.length));
 
     // Total number of occurrences of operators.
     final totalNumberOfOccurrencesOfOperators = sum(function.operators.values);
@@ -138,6 +140,13 @@ class UtilitySelector {
           value: function.argumentsCount,
           violationLevel: _violationLevel(
               function.argumentsCount, config.numberOfArgumentsWarningLevel)),
+      maximumNestingLevel: ReportMetric<int>(
+        value: maximumNestingLevel,
+        violationLevel: _violationLevel(
+          maximumNestingLevel,
+          config.maximumNestingWarningLevel,
+        ),
+      ),
     );
   }
 
@@ -150,6 +159,7 @@ class UtilitySelector {
         report.linesOfExecutableCode.violationLevel,
         report.maintainabilityIndex.violationLevel,
         report.argumentsCount.violationLevel,
+        report.maximumNestingLevel.violationLevel,
       ]);
 
   static bool isIssueLevel(ViolationLevel level) =>

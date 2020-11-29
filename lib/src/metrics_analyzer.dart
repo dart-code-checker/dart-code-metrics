@@ -4,6 +4,7 @@ import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/file_system/physical_file_system.dart';
+import 'package:dart_code_metrics/src/metrics/nesting_level/nesting_level_visitor.dart';
 import 'package:glob/glob.dart';
 import 'package:path/path.dart' as p;
 
@@ -130,10 +131,13 @@ class MetricsAnalyzer {
                 ControlFlowAstVisitor(defaultCyclomaticConfig, lineInfo);
             final halsteadVolumeAstVisitor = HalsteadVolumeAstVisitor();
             final linesWithCodeAstVisitor = LinesWithCodeAstVisitor(lineInfo);
+            final nestingLevelVisitor =
+                NestingLevelVisitor(function.declaration, lineInfo);
 
             function.declaration.visitChildren(controlFlowAstVisitor);
             function.declaration.visitChildren(halsteadVolumeAstVisitor);
             function.declaration.visitChildren(linesWithCodeAstVisitor);
+            function.declaration.visitChildren(nestingLevelVisitor);
 
             builder.recordFunction(
               function,
@@ -149,6 +153,7 @@ class MetricsAnalyzer {
                 cyclomaticComplexityLines:
                     Map.unmodifiable(controlFlowAstVisitor.complexityLines),
                 linesWithCode: linesWithCodeAstVisitor.linesWithCode,
+                nestingLines: nestingLevelVisitor.nestingLines,
                 operators: Map.unmodifiable(halsteadVolumeAstVisitor.operators),
                 operands: Map.unmodifiable(halsteadVolumeAstVisitor.operands),
               ),
