@@ -1,15 +1,16 @@
 import 'dart:math';
 
-import 'package:dart_code_metrics/src/models/component_record.dart';
-import 'package:dart_code_metrics/src/models/component_report.dart';
-import 'package:dart_code_metrics/src/models/config.dart';
-import 'package:dart_code_metrics/src/models/file_record.dart';
-import 'package:dart_code_metrics/src/models/file_report.dart';
-import 'package:dart_code_metrics/src/models/function_record.dart';
-import 'package:dart_code_metrics/src/models/function_report.dart';
-import 'package:dart_code_metrics/src/models/report_metric.dart';
-import 'package:dart_code_metrics/src/models/violation_level.dart';
 import 'package:quiver/iterables.dart' as quiver;
+
+import '../config/config.dart';
+import '../models/component_record.dart';
+import '../models/component_report.dart';
+import '../models/file_record.dart';
+import '../models/file_report.dart';
+import '../models/function_record.dart';
+import '../models/function_report.dart';
+import '../models/report_metric.dart';
+import '../models/violation_level.dart';
 
 double log2(num a) => log(a) / ln2;
 

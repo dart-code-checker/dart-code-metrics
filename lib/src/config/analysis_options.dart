@@ -2,11 +2,11 @@ import 'dart:io';
 
 import 'package:meta/meta.dart';
 
-import 'models/config.dart';
-import 'utils/object_extensions.dart';
-import 'utils/yaml_utils.dart';
+import '../utils/object_extensions.dart';
+import '../utils/yaml_utils.dart';
+import 'config.dart';
 
-// Documantation about customizing static analysis located at https://dart.dev/guides/language/analysis-options
+// Documentation about customizing static analysis located at https://dart.dev/guides/language/analysis-options
 
 const String analysisOptionsFileName = 'analysis_options.yaml';
 
@@ -68,15 +68,13 @@ Config _readMetricsConfig(Map<String, Object> configMap) {
     final configMap = metricsOptions[_metricsKey];
     if (configMap is Map<String, Object>) {
       return Config(
-        cyclomaticComplexityWarningLevel: configMap['cyclomatic-complexity']
+        cyclomaticComplexityWarningLevel: configMap[cyclomaticComplexityKey]
             .as<int>(cyclomaticComplexityDefaultWarningLevel),
-        linesOfExecutableCodeWarningLevel:
-            (configMap['lines-of-executable-code'] ??
-                    configMap['lines-of-code'])
-                .as<int>(linesOfExecutableCodeDefaultWarningLevel),
-        numberOfArgumentsWarningLevel: configMap['number-of-arguments']
+        linesOfExecutableCodeWarningLevel: configMap[linesOfExecutableCodeKey]
+            .as<int>(linesOfExecutableCodeDefaultWarningLevel),
+        numberOfArgumentsWarningLevel: configMap[numberOfArgumentsKey]
             .as<int>(numberOfArgumentsDefaultWarningLevel),
-        numberOfMethodsWarningLevel: configMap['number-of-methods']
+        numberOfMethodsWarningLevel: configMap[numberOfMethodsKey]
             .as<int>(numberOfMethodsDefaultWarningLevel),
       );
     }

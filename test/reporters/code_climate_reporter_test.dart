@@ -1,10 +1,10 @@
 @TestOn('vm')
 import 'dart:convert';
 
+import 'package:dart_code_metrics/src/config/config.dart';
 import 'package:dart_code_metrics/src/models/code_issue.dart';
 import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
 import 'package:dart_code_metrics/src/models/component_record.dart';
-import 'package:dart_code_metrics/src/models/config.dart';
 import 'package:dart_code_metrics/src/models/design_issue.dart';
 import 'package:dart_code_metrics/src/models/file_record.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
@@ -42,7 +42,7 @@ void main() {
           components: Map.unmodifiable(<String, ComponentRecord>{}),
           functions: Map.unmodifiable(<String, FunctionRecord>{}),
           issues: const [],
-          designIssue: [
+          designIssues: [
             DesignIssue(
               patternId: _issuePatternId,
               patternDocumentation: Uri.parse(_issuePatternDocumentation),
@@ -115,7 +115,7 @@ void main() {
               correctionComment: 'correction comment',
             ),
           ],
-          designIssue: const [],
+          designIssues: const [],
         ),
       ];
 
@@ -152,7 +152,7 @@ void main() {
             }),
             functions: Map.unmodifiable(<String, FunctionRecord>{}),
             issues: const [],
-            designIssue: const [],
+            designIssues: const [],
           ),
         ];
 
@@ -172,7 +172,7 @@ void main() {
             }),
             functions: Map.unmodifiable(<String, FunctionRecord>{}),
             issues: const [],
-            designIssue: const [],
+            designIssues: const [],
           ),
         ];
 
@@ -220,7 +220,7 @@ void main() {
                   linesWithCode: List.generate(5, (index) => index)),
             }),
             issues: const [],
-            designIssue: const [],
+            designIssues: const [],
           ),
         ];
 
@@ -240,7 +240,7 @@ void main() {
               'function': buildFunctionRecordStub(argumentsCount: 0),
             }),
             issues: const [],
-            designIssue: const [],
+            designIssues: const [],
           ),
         ];
 

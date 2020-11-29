@@ -1,6 +1,6 @@
 @TestOn('vm')
+import 'package:dart_code_metrics/src/config/config.dart';
 import 'package:dart_code_metrics/src/models/component_record.dart';
-import 'package:dart_code_metrics/src/models/config.dart';
 import 'package:dart_code_metrics/src/models/file_record.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/models/violation_level.dart';
@@ -27,7 +27,7 @@ void main() {
             'function3': buildFunctionRecordStub(argumentsCount: 10),
           }),
           issues: const [],
-          designIssue: const [],
+          designIssues: const [],
         ),
         const Config(),
       );
@@ -148,7 +148,7 @@ void main() {
             'a': buildFunctionRecordStub(linesWithCode: List.filled(10, 0)),
           }),
           issues: const [],
-          designIssue: const [],
+          designIssues: const [],
         ),
         FileRecord(
           fullPath: fullPathStub,
@@ -158,7 +158,7 @@ void main() {
             'a': buildFunctionRecordStub(linesWithCode: List.filled(20, 0)),
           }),
           issues: const [],
-          designIssue: const [],
+          designIssues: const [],
         ),
         FileRecord(
           fullPath: fullPathStub,
@@ -168,7 +168,7 @@ void main() {
             'a': buildFunctionRecordStub(linesWithCode: List.filled(30, 0)),
           }),
           issues: const [],
-          designIssue: const [],
+          designIssues: const [],
         ),
       ];
 

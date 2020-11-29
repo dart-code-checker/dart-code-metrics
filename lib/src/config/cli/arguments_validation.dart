@@ -1,9 +1,10 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
-import 'package:dart_code_metrics/src/cli/arguments_parser.dart';
-import 'package:dart_code_metrics/src/cli/arguments_validation_exceptions.dart';
 import 'package:path/path.dart' as path;
+
+import 'arguments_parser.dart';
+import 'arguments_validation_exceptions.dart';
 
 /// Umbrella method to run all checks
 /// throws [InvalidArgumentException]

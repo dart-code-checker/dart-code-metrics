@@ -14,7 +14,7 @@ class FileRecord {
   final Map<String, FunctionRecord> functions;
 
   final Iterable<CodeIssue> issues;
-  final Iterable<DesignIssue> designIssue;
+  final Iterable<DesignIssue> designIssues;
 
   const FileRecord({
     @required this.fullPath,
@@ -22,6 +22,6 @@ class FileRecord {
     @required this.components,
     @required this.functions,
     @required this.issues,
-    @required this.designIssue,
+    @required this.designIssues,
   });
 }

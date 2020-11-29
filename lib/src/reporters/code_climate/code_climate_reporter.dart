@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:meta/meta.dart';
 
-import '../../models/config.dart';
+import '../../config/config.dart';
 import '../../models/file_record.dart';
 import '../reporter.dart';
 import '../utility_selector.dart';
@@ -68,7 +68,7 @@ class CodeClimateReporter implements Reporter {
     result
       ..addAll(record.issues.map((issue) =>
           CodeClimateIssue.fromCodeIssue(issue, record.relativePath)))
-      ..addAll(record.designIssue.map((issue) =>
+      ..addAll(record.designIssues.map((issue) =>
           CodeClimateIssue.fromDesignIssue(issue, record.relativePath)));
 
     return result;

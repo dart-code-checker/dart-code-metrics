@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
 
+import '../config/config.dart';
 import '../lines_of_code/lines_with_code_ast_visitor.dart';
-import '../models/config.dart';
 import '../models/design_issue.dart';
 import '../models/source.dart';
 import '../scope_ast_visitor.dart';

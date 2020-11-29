@@ -3,14 +3,14 @@ import 'dart:io';
 import 'dart:isolate';
 
 import 'package:html/dom.dart';
-import 'package:dart_code_metrics/src/models/config.dart';
-import 'package:dart_code_metrics/src/models/file_record.dart';
-import 'package:dart_code_metrics/src/models/violation_level.dart';
-import 'package:dart_code_metrics/src/reporters/reporter.dart';
-import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
 import 'package:meta/meta.dart';
 import 'package:path/path.dart' as p;
 
+import '../../config/config.dart';
+import '../../models/file_record.dart';
+import '../../models/violation_level.dart';
+import '../reporter.dart';
+import '../utility_selector.dart';
 import 'utility_functions.dart';
 
 const _violationLevelFunctionStyle = {
@@ -479,7 +479,7 @@ class HtmlReporter implements Reporter {
         complexityValueElement.classes.add(lineViolationStyle ?? '');
       }
 
-      final architecturalIssues = record.designIssue.firstWhere(
+      final architecturalIssues = record.designIssues.firstWhere(
           (element) => element.sourceSpan.start.line == i,
           orElse: () => null);
 
@@ -652,8 +652,8 @@ class HtmlReporter implements Reporter {
         if (record.issues.isNotEmpty)
           renderSummaryMetric(_codeIssues, '${record.issues.length}',
               withViolation: true),
-        if (record.designIssue.isNotEmpty)
-          renderSummaryMetric(_designIssues, '${record.designIssue.length}',
+        if (record.designIssues.isNotEmpty)
+          renderSummaryMetric(_designIssues, '${record.designIssues.length}',
               withViolation: true),
       ]);
   }

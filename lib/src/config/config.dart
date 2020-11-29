@@ -1,5 +1,10 @@
 import 'package:meta/meta.dart';
 
+const cyclomaticComplexityKey = 'cyclomatic-complexity';
+const linesOfExecutableCodeKey = 'lines-of-executable-code';
+const numberOfArgumentsKey = 'number-of-arguments';
+const numberOfMethodsKey = 'number-of-methods';
+
 const cyclomaticComplexityDefaultWarningLevel = 20;
 const linesOfExecutableCodeDefaultWarningLevel = 50;
 const numberOfArgumentsDefaultWarningLevel = 4;

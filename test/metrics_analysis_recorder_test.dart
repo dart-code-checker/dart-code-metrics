@@ -284,7 +284,7 @@ void main() {
           ]);
         });
 
-        final issue = recorder.records().single.designIssue.single;
+        final issue = recorder.records().single.designIssues.single;
         expect(issue.patternId, _issuePatternId);
         expect(
           issue.patternDocumentation.toString(),
