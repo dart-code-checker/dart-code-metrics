@@ -4,6 +4,7 @@ import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:dart_code_metrics/src/config/config.dart';
 import 'package:dart_code_metrics/src/anti_patterns/long_method.dart';
 import 'package:dart_code_metrics/src/models/source.dart';
+import 'package:dart_code_metrics/src/scope_ast_visitor.dart';
 import 'package:test/test.dart';
 
 const _content = '''
@@ -56,8 +57,12 @@ void main() {
       throwIfDiagnostics: false,
     );
 
+    final scopeVisitor = ScopeAstVisitor();
+    parseResult.unit.visitChildren(scopeVisitor);
+
     final issues = LongMethod().check(
         Source(sourceUrl, parseResult.content, parseResult.unit),
+        scopeVisitor.functions,
         const Config(linesOfExecutableCodeWarningLevel: 25));
 
     expect(issues.length, equals(1));

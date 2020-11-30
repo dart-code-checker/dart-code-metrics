@@ -21,6 +21,7 @@ import 'models/code_issue.dart';
 import 'models/component_record.dart';
 import 'models/design_issue.dart';
 import 'models/function_record.dart';
+import 'models/scoped_function_declaration.dart';
 import 'models/source.dart';
 import 'rules/base_rule.dart';
 import 'rules_factory.dart';
@@ -159,7 +160,8 @@ class MetricsAnalyzer {
 
         builder
           ..recordIssues(_checkOnCodeIssues(ignores, source))
-          ..recordDesignIssues(_checkOnAntiPatterns(ignores, source));
+          ..recordDesignIssues(
+              _checkOnAntiPatterns(ignores, source, visitor.functions));
       });
     }
   }
@@ -170,11 +172,15 @@ class MetricsAnalyzer {
               !ignores.ignoredAt(issue.ruleId, issue.sourceSpan.start.line)));
 
   Iterable<DesignIssue> _checkOnAntiPatterns(
-          IgnoreInfo ignores, Source source) =>
+    IgnoreInfo ignores,
+    Source source,
+    Iterable<ScopedFunctionDeclaration> functions,
+  ) =>
       _checkingAntiPatterns
           .where((pattern) => !ignores.ignoreRule(pattern.id))
-          .expand((pattern) => pattern.check(source, _metricsConfig).where(
-              (issue) => !ignores.ignoredAt(
+          .expand((pattern) => pattern
+              .check(source, functions, _metricsConfig)
+              .where((issue) => !ignores.ignoredAt(
                   issue.patternId, issue.sourceSpan.start.line)));
 }
 

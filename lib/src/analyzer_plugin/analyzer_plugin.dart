@@ -21,6 +21,7 @@ import '../ignore_info.dart';
 import '../metrics/cyclomatic_complexity/control_flow_ast_visitor.dart';
 import '../metrics/cyclomatic_complexity/cyclomatic_config.dart';
 import '../models/function_record.dart';
+import '../models/scoped_function_declaration.dart';
 import '../models/source.dart';
 import '../reporters/utility_selector.dart';
 import '../rules_factory.dart';
@@ -189,8 +190,14 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
           ignores, analysisResult, sourceUri, _configs[driver]));
 
       if (!isExcluded(analysisResult, config.metricsExcludes)) {
+        final scopeVisitor = ScopeAstVisitor();
+        analysisResult.unit.visitChildren(scopeVisitor);
+
         result.addAll(_checkOnAntiPatterns(
-            ignores, analysisResult, sourceUri, _configs[driver]));
+            ignores,
+            Source(sourceUri, analysisResult.content, analysisResult.unit),
+            scopeVisitor.functions,
+            _configs[driver]));
       }
 
       if (!ignores.ignoreRule(_codeMetricsId) &&
@@ -272,15 +279,14 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
 
   Iterable<plugin.AnalysisErrorFixes> _checkOnAntiPatterns(
     IgnoreInfo ignores,
-    ResolvedUnitResult analysisResult,
-    Uri sourceUri,
+    Source source,
+    Iterable<ScopedFunctionDeclaration> functions,
     AnalyzerPluginConfig config,
   ) =>
       config.checkingAntiPatterns
           .where((pattern) => !ignores.ignoreRule(pattern.id))
-          .expand((pattern) => pattern.check(
-              Source(sourceUri, analysisResult.content, analysisResult.unit),
-              config.metricsConfigs))
+          .expand((pattern) =>
+              pattern.check(source, functions, config.metricsConfigs))
           .where((issue) =>
               !ignores.ignoredAt(issue.patternId, issue.sourceSpan.start.line))
           .map(designIssueToAnalysisErrorFixes);
