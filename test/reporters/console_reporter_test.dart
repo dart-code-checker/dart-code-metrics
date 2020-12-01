@@ -55,8 +55,10 @@ void main() {
 
         expect(report, isEmpty);
         expect(verboseReport.length, 3);
-        expect(verboseReport[1],
-            contains('number of methods: \x1B[38;5;7m0\x1B[0m'));
+        expect(
+          verboseReport[1],
+          contains('number of methods: \x1B[38;5;7m0\x1B[0m'),
+        );
       });
 
       test('with a lot of methods', () {
@@ -89,7 +91,8 @@ void main() {
             components: Map.unmodifiable(<String, ComponentRecord>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
               'function': buildFunctionRecordStub(
-                  linesWithCode: List.generate(150, (index) => index)),
+                linesWithCode: List.generate(150, (index) => index),
+              ),
             }),
             issues: const [],
             designIssues: const [],
@@ -99,8 +102,10 @@ void main() {
         final report = _reporter.report(records).toList();
 
         expect(report.length, 3);
-        expect(report[1],
-            contains('lines of executable code: \x1B[38;5;1m150\x1B[0m'));
+        expect(
+          report[1],
+          contains('lines of executable code: \x1B[38;5;1m150\x1B[0m'),
+        );
       });
 
       test('with short body', () {
@@ -111,7 +116,8 @@ void main() {
             components: Map.unmodifiable(<String, ComponentRecord>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
               'function': buildFunctionRecordStub(
-                  linesWithCode: List.generate(5, (index) => index)),
+                linesWithCode: List.generate(5, (index) => index),
+              ),
             }),
             issues: const [],
             designIssues: const [],
@@ -123,8 +129,10 @@ void main() {
 
         expect(report, isEmpty);
         expect(verboseReport.length, 3);
-        expect(verboseReport[1],
-            contains('lines of executable code: \x1B[38;5;7m5\x1B[0m'));
+        expect(
+          verboseReport[1],
+          contains('lines of executable code: \x1B[38;5;7m5\x1B[0m'),
+        );
       });
 
       test('without arguments', () {
@@ -146,8 +154,10 @@ void main() {
 
         expect(report, isEmpty);
         expect(verboseReport.length, 3);
-        expect(verboseReport[1],
-            contains('number of arguments: \x1B[38;5;7m0\x1B[0m'));
+        expect(
+          verboseReport[1],
+          contains('number of arguments: \x1B[38;5;7m0\x1B[0m'),
+        );
       });
 
       test('with a lot of arguments', () {
