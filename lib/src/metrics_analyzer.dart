@@ -128,12 +128,12 @@ class MetricsAnalyzer {
           for (final function in visitor.functions) {
             final controlFlowAstVisitor =
                 ControlFlowAstVisitor(defaultCyclomaticConfig, lineInfo);
-            final linesWithCodeAstVisitor = LinesWithCodeAstVisitor(lineInfo);
             final halsteadVolumeAstVisitor = HalsteadVolumeAstVisitor();
+            final linesWithCodeAstVisitor = LinesWithCodeAstVisitor(lineInfo);
 
             function.declaration.visitChildren(controlFlowAstVisitor);
-            function.declaration.visitChildren(linesWithCodeAstVisitor);
             function.declaration.visitChildren(halsteadVolumeAstVisitor);
+            function.declaration.visitChildren(linesWithCodeAstVisitor);
 
             builder.recordFunction(
                 function,
