@@ -127,6 +127,8 @@ class ConsoleReporter implements Reporter {
             _report(report.maintainabilityIndex, 'maintainability index'),
           if (reportAll || _isNeedToReport(report.argumentsCount))
             _report(report.argumentsCount, 'number of arguments'),
+          if (reportAll || _isNeedToReport(report.maximumNestingLevel))
+            _report(report.maximumNestingLevel, 'nesting level'),
         ];
         lines.add(
             '${_colorPens[violationLevel](_humanReadableLabel[violationLevel]?.padRight(8))}$source - ${violations.join(', ')}');
