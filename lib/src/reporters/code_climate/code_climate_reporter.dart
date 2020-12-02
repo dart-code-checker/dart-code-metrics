@@ -29,12 +29,13 @@ class CodeClimateReporter implements Reporter {
         return [
           if (UtilitySelector.isIssueLevel(report.methodsCount.violationLevel))
             CodeClimateIssue.numberOfMethods(
-                component.firstLine,
-                component.lastLine,
-                report.methodsCount.value,
-                record.relativePath,
-                key,
-                reportConfig.numberOfMethodsWarningLevel),
+              component.firstLine,
+              component.lastLine,
+              report.methodsCount.value,
+              record.relativePath,
+              key,
+              reportConfig.numberOfMethodsWarningLevel,
+            ),
         ];
       }),
     ];
@@ -46,22 +47,24 @@ class CodeClimateReporter implements Reporter {
       if (UtilitySelector.isIssueLevel(
           report.cyclomaticComplexity.violationLevel)) {
         result.add(CodeClimateIssue.cyclomaticComplexity(
-            func.firstLine,
-            func.lastLine,
-            report.cyclomaticComplexity.value,
-            record.relativePath,
-            key,
-            reportConfig.cyclomaticComplexityWarningLevel));
+          func.firstLine,
+          func.lastLine,
+          report.cyclomaticComplexity.value,
+          record.relativePath,
+          key,
+          reportConfig.cyclomaticComplexityWarningLevel,
+        ));
       }
 
       if (UtilitySelector.isIssueLevel(
           report.maintainabilityIndex.violationLevel)) {
         result.add(CodeClimateIssue.maintainabilityIndex(
-            func.firstLine,
-            func.lastLine,
-            report.maintainabilityIndex.value.toInt(),
-            record.relativePath,
-            key));
+          func.firstLine,
+          func.lastLine,
+          report.maintainabilityIndex.value.toInt(),
+          record.relativePath,
+          key,
+        ));
       }
     }
 
