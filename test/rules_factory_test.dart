@@ -7,6 +7,8 @@ void main() {
     expect(getRulesById({}), isEmpty);
     expect(
       getRulesById({
+        'provide-correct-intl-args': <String, Object>{},
+        'prefer-trailing-comma-for-collection': <String, Object>{},
         'no-empty-block': <String, Object>{},
         'binary-expression-operand-order': <String, Object>{},
         'no-magic-number': <String, Object>{},
@@ -24,6 +26,7 @@ void main() {
         'no-boolean-literal-compare': <String, Object>{},
         'potential-null-dereference': <String, Object>{},
         'prefer-on-push-cd-strategy': <String, Object>{},
+        'prefer-trailing-comma': <String, Object>{},
       }).map((rule) => rule.id),
       equals([
         'avoid-preserve-whitespace-false',
@@ -42,6 +45,9 @@ void main() {
         'prefer-conditional-expressions',
         'prefer-intl-name',
         'prefer-on-push-cd-strategy',
+        'prefer-trailing-comma',
+        'prefer-trailing-comma-for-collection',
+        'provide-correct-intl-args',
       ]),
     );
   });
