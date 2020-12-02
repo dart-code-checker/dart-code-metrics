@@ -47,8 +47,7 @@ class CodeClimateReporter implements Reporter {
       if (UtilitySelector.isIssueLevel(
           report.cyclomaticComplexity.violationLevel)) {
         result.add(CodeClimateIssue.cyclomaticComplexity(
-          func.firstLine,
-          func.lastLine,
+          func,
           report.cyclomaticComplexity.value,
           record.relativePath,
           key,
@@ -59,8 +58,7 @@ class CodeClimateReporter implements Reporter {
       if (UtilitySelector.isIssueLevel(
           report.maintainabilityIndex.violationLevel)) {
         result.add(CodeClimateIssue.maintainabilityIndex(
-          func.firstLine,
-          func.lastLine,
+          func,
           report.maintainabilityIndex.value.toInt(),
           record.relativePath,
           key,
