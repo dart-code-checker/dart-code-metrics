@@ -6,6 +6,7 @@ import 'package:meta/meta.dart';
 import '../../models/code_issue.dart';
 import '../../models/code_issue_severity.dart';
 import '../../models/design_issue.dart';
+import '../../models/function_record.dart';
 
 @immutable
 class CodeClimateLocationLines {
@@ -42,67 +43,110 @@ class CodeClimateIssue {
   final String description;
   final Iterable<String> categories;
   final CodeClimateLocation location;
+  final String severity;
   final String fingerprint;
 
-  const CodeClimateIssue._(this.checkName, this.description, this.categories,
-      this.location, this.fingerprint);
+  const CodeClimateIssue._(
+    this.checkName,
+    this.description,
+    this.categories,
+    this.location,
+    this.severity,
+    this.fingerprint,
+  );
 
   factory CodeClimateIssue._create(
-      String name, String desc, int startLine, int endLine, String fileName,
-      {Iterable<String> categories = const ['Complexity']}) {
+    String name,
+    String desc,
+    int startLine,
+    int endLine,
+    String fileName, {
+    Iterable<String> categories = const ['Complexity'],
+    String severity = 'info',
+  }) {
     final locationLines = CodeClimateLocationLines(startLine, endLine);
     final location = CodeClimateLocation(fileName, locationLines);
     final fingerprint = md5
         .convert(utf8.encode('$name $desc $startLine $endLine $fileName'))
         .toString();
 
-    return CodeClimateIssue._(name, desc, categories, location, fingerprint);
+    return CodeClimateIssue._(
+        name, desc, categories, location, severity, fingerprint);
   }
 
-  factory CodeClimateIssue.cyclomaticComplexity(int startLine, int endLine,
-      int value, String fileName, String functionName, int threshold) {
-    final desc =
-        'Function `$functionName` has a Cyclomatic Complexity of $value (exceeds $threshold allowed). Consider refactoring.';
+  factory CodeClimateIssue.cyclomaticComplexity(
+    FunctionRecord function,
+    int value,
+    String fileName,
+    String functionName,
+    int threshold,
+  ) =>
+      CodeClimateIssue._create(
+        'cyclomaticComplexity',
+        'Function `$functionName` has a Cyclomatic Complexity of $value (exceeds $threshold allowed). Consider refactoring.',
+        function.firstLine,
+        function.lastLine,
+        fileName,
+      );
 
-    return CodeClimateIssue._create(
-        'cyclomaticComplexity', desc, startLine, endLine, fileName);
-  }
+  factory CodeClimateIssue.maintainabilityIndex(
+    FunctionRecord function,
+    int value,
+    String fileName,
+    String functionName,
+  ) =>
+      CodeClimateIssue._create(
+        'maintainabilityIndex',
+        'Function `$functionName` has a Maintainability Index of $value (min 40 allowed). Consider refactoring.',
+        function.firstLine,
+        function.lastLine,
+        fileName,
+      );
 
-  factory CodeClimateIssue.maintainabilityIndex(int startLine, int endLine,
-      int value, String fileName, String functionName) {
-    final desc =
-        'Function `$functionName` has a Maintainability Index of $value (min 40 allowed). Consider refactoring.';
-
-    return CodeClimateIssue._create(
-        'maintainabilityIndex', desc, startLine, endLine, fileName);
-  }
-
-  factory CodeClimateIssue.numberOfMethods(int startLine, int endLine,
-      int value, String fileName, String componentName, int threshold) {
-    final desc =
-        'Component `$componentName` has $value number of methods (exceeds $threshold allowed). Consider refactoring.';
-
-    return CodeClimateIssue._create(
-        'numberOfMethods', desc, startLine, endLine, fileName);
-  }
+  factory CodeClimateIssue.numberOfMethods(
+    int startLine,
+    int endLine,
+    int value,
+    String fileName,
+    String componentName,
+    int threshold,
+  ) =>
+      CodeClimateIssue._create(
+        'numberOfMethods',
+        'Component `$componentName` has $value number of methods (exceeds $threshold allowed). Consider refactoring.',
+        startLine,
+        endLine,
+        fileName,
+      );
 
   factory CodeClimateIssue.fromCodeIssue(CodeIssue issue, String fileName) {
     const severityHumanReadable = {
-      CodeIssueSeverity.style: ['Style'],
-      CodeIssueSeverity.warning: ['Clarity'],
-      CodeIssueSeverity.error: ['Bug Risk'],
+      CodeIssueSeverity.style: 'minor',
+      CodeIssueSeverity.warning: 'major',
+      CodeIssueSeverity.error: 'critical',
     };
 
-    return CodeClimateIssue._create(issue.ruleId, issue.message,
-        issue.sourceSpan.start.line, issue.sourceSpan.start.line, fileName,
-        categories: severityHumanReadable[issue.severity]);
+    return CodeClimateIssue._create(
+      issue.ruleId,
+      issue.message,
+      issue.sourceSpan.start.line,
+      issue.sourceSpan.start.line,
+      fileName,
+      categories: const ['Style'],
+      severity: severityHumanReadable[issue.severity],
+    );
   }
 
   factory CodeClimateIssue.fromDesignIssue(
           DesignIssue issue, String fileName) =>
-      CodeClimateIssue._create(issue.patternId, issue.message,
-          issue.sourceSpan.start.line, issue.sourceSpan.start.line, fileName,
-          categories: const ['Complexity']);
+      CodeClimateIssue._create(
+        issue.patternId,
+        issue.message,
+        issue.sourceSpan.start.line,
+        issue.sourceSpan.start.line,
+        fileName,
+        categories: const ['Complexity'],
+      );
 
   Map<String, Object> toJson() => {
         'type': type,
@@ -111,6 +155,7 @@ class CodeClimateIssue {
         'categories': categories,
         'location': location.toJson(),
         'remediation_points': remediationPoints,
+        'severity': severity,
         'fingerprint': fingerprint,
       };
 }

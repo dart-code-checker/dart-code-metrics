@@ -46,9 +46,9 @@ final _implementedRules = <String, BaseRule Function(Map<String, Object>)>{
   PreferIntlNameRule.ruleId: (config) => PreferIntlNameRule(config: config),
   PreferOnPushCdStrategyRule.ruleId: (config) =>
       PreferOnPushCdStrategyRule(config: config),
+  PreferTrailingComma.ruleId: (config) => PreferTrailingComma(config: config),
   PreferTrailingCommaForCollectionRule.ruleId: (config) =>
       PreferTrailingCommaForCollectionRule(config: config),
-  PreferTrailingComma.ruleId: (config) => PreferTrailingComma(config: config),
   ProvideCorrectIntlArgsRule.ruleId: (config) =>
       ProvideCorrectIntlArgsRule(config: config),
 };

@@ -21,6 +21,7 @@ import '../ignore_info.dart';
 import '../metrics/cyclomatic_complexity/control_flow_ast_visitor.dart';
 import '../metrics/cyclomatic_complexity/cyclomatic_config.dart';
 import '../models/function_record.dart';
+import '../models/function_report.dart';
 import '../models/scoped_function_declaration.dart';
 import '../models/source.dart';
 import '../reporters/utility_selector.dart';
@@ -251,36 +252,19 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     final result = <plugin.AnalysisErrorFixes>[];
 
     for (final function in functions) {
-      final controlFlowAstVisitor = ControlFlowAstVisitor(
-          defaultCyclomaticConfig, source.compilationUnit.lineInfo);
-
-      function.declaration.visitChildren(controlFlowAstVisitor);
-
       final functionOffset =
           function.declaration.firstTokenAfterCommentAndMetadata.offset;
 
       final functionFirstLineInfo =
           source.compilationUnit.lineInfo.getLocation(functionOffset);
-      final functionLastLineInfo = source.compilationUnit.lineInfo
-          .getLocation(function.declaration.endToken.end);
 
-      final functionRecord = FunctionRecord(
-        firstLine: functionFirstLineInfo.lineNumber,
-        lastLine: functionLastLineInfo.lineNumber,
-        argumentsCount: getArgumentsCount(function),
-        cyclomaticComplexityLines: controlFlowAstVisitor.complexityLines,
-        linesWithCode: List.unmodifiable(<int>[]),
-        operators: Map.unmodifiable(<String, int>{}),
-        operands: Map.unmodifiable(<String, int>{}),
-      );
+      if (ignores.ignoredAt(_codeMetricsId, functionFirstLineInfo.lineNumber)) {
+        continue;
+      }
 
-      final functionReport =
-          UtilitySelector.functionReport(functionRecord, config.metricsConfigs);
-
-      if (!ignores.ignoredAt(
-              _codeMetricsId, functionFirstLineInfo.lineNumber) &&
-          UtilitySelector.isIssueLevel(
-              UtilitySelector.functionViolationLevel(functionReport))) {
+      final functionReport = _buildReport(function, source, config);
+      if (UtilitySelector.isIssueLevel(
+          UtilitySelector.functionViolationLevel(functionReport))) {
         final startSourceLocation = SourceLocation(
           functionOffset,
           sourceUrl: source.url,
@@ -288,20 +272,68 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
           column: functionFirstLineInfo.columnNumber,
         );
 
-        if (UtilitySelector.isIssueLevel(
-            functionReport.cyclomaticComplexity.violationLevel)) {
-          result.add(metricReportToAnalysisErrorFixes(
-            startSourceLocation,
-            function.declaration.end - functionOffset,
-            'Function has a Cyclomatic Complexity of ${functionReport.cyclomaticComplexity.value} (exceeds ${config.metricsConfigs.cyclomaticComplexityWarningLevel} allowed). Consider refactoring.',
-            _codeMetricsId,
-          ));
+        final cyclomatic = _cyclomaticComplexityMetric(
+          functionReport,
+          startSourceLocation,
+          function.declaration.end,
+          config,
+        );
+        if (cyclomatic != null) {
+          result.add(cyclomatic);
         }
       }
     }
 
     return result;
   }
+
+  FunctionReport _buildReport(
+    ScopedFunctionDeclaration function,
+    Source source,
+    AnalyzerPluginConfig config,
+  ) {
+    final controlFlowAstVisitor = ControlFlowAstVisitor(
+        defaultCyclomaticConfig, source.compilationUnit.lineInfo);
+
+    function.declaration.visitChildren(controlFlowAstVisitor);
+
+    final functionOffset =
+        function.declaration.firstTokenAfterCommentAndMetadata.offset;
+
+    final functionFirstLineInfo =
+        source.compilationUnit.lineInfo.getLocation(functionOffset);
+    final functionLastLineInfo = source.compilationUnit.lineInfo
+        .getLocation(function.declaration.endToken.end);
+
+    return UtilitySelector.functionReport(
+      FunctionRecord(
+        firstLine: functionFirstLineInfo.lineNumber,
+        lastLine: functionLastLineInfo.lineNumber,
+        argumentsCount: getArgumentsCount(function),
+        cyclomaticComplexityLines: controlFlowAstVisitor.complexityLines,
+        linesWithCode: List.unmodifiable(<int>[]),
+        operators: Map.unmodifiable(<String, int>{}),
+        operands: Map.unmodifiable(<String, int>{}),
+      ),
+      config.metricsConfigs,
+    );
+  }
+
+  plugin.AnalysisErrorFixes _cyclomaticComplexityMetric(
+    FunctionReport functionReport,
+    SourceLocation startSourceLocation,
+    int declarationEndOffset,
+    AnalyzerPluginConfig config,
+  ) =>
+      UtilitySelector.isIssueLevel(
+              functionReport.cyclomaticComplexity.violationLevel)
+          ? metricReportToAnalysisErrorFixes(
+              startSourceLocation,
+              declarationEndOffset - startSourceLocation.offset,
+              'Function has a Cyclomatic Complexity of ${functionReport.cyclomaticComplexity.value} (exceeds ${config.metricsConfigs.cyclomaticComplexityWarningLevel} allowed). Consider refactoring.',
+              _codeMetricsId,
+            )
+          : null;
 
   AnalysisOptions _readOptions(AnalysisDriver driver) {
     if (driver?.contextRoot?.optionsFilePath?.isNotEmpty ?? false) {

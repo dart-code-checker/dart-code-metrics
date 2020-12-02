@@ -73,26 +73,7 @@ class ConsoleReporter implements Reporter {
         }
       });
 
-      analysisRecord.functions.forEach((source, functionReport) {
-        final report =
-            UtilitySelector.functionReport(functionReport, reportConfig);
-        final violationLevel = UtilitySelector.functionViolationLevel(report);
-
-        if (reportAll || UtilitySelector.isIssueLevel(violationLevel)) {
-          final violations = [
-            if (reportAll || _isNeedToReport(report.cyclomaticComplexity))
-              _report(report.cyclomaticComplexity, 'cyclomatic complexity'),
-            if (reportAll || _isNeedToReport(report.linesOfExecutableCode))
-              _report(report.linesOfExecutableCode, 'lines of executable code'),
-            if (reportAll || _isNeedToReport(report.maintainabilityIndex))
-              _report(report.maintainabilityIndex, 'maintainability index'),
-            if (reportAll || _isNeedToReport(report.argumentsCount))
-              _report(report.argumentsCount, 'number of arguments'),
-          ];
-          lines.add(
-              '${_colorPens[violationLevel](_humanReadableLabel[violationLevel]?.padRight(8))}$source - ${violations.join(', ')}');
-        }
-      });
+      lines.addAll(_reportAboutFunctions(analysisRecord));
 
       for (final issue in analysisRecord.designIssues) {
         final severity = _designIssuesColor(_designIssues.padRight(8));
@@ -126,6 +107,33 @@ class ConsoleReporter implements Reporter {
     }
 
     return reportStrings;
+  }
+
+  Iterable<String> _reportAboutFunctions(FileRecord record) {
+    final lines = <String>[];
+
+    record.functions.forEach((source, functionReport) {
+      final report =
+          UtilitySelector.functionReport(functionReport, reportConfig);
+      final violationLevel = UtilitySelector.functionViolationLevel(report);
+
+      if (reportAll || UtilitySelector.isIssueLevel(violationLevel)) {
+        final violations = [
+          if (reportAll || _isNeedToReport(report.cyclomaticComplexity))
+            _report(report.cyclomaticComplexity, 'cyclomatic complexity'),
+          if (reportAll || _isNeedToReport(report.linesOfExecutableCode))
+            _report(report.linesOfExecutableCode, 'lines of executable code'),
+          if (reportAll || _isNeedToReport(report.maintainabilityIndex))
+            _report(report.maintainabilityIndex, 'maintainability index'),
+          if (reportAll || _isNeedToReport(report.argumentsCount))
+            _report(report.argumentsCount, 'number of arguments'),
+        ];
+        lines.add(
+            '${_colorPens[violationLevel](_humanReadableLabel[violationLevel]?.padRight(8))}$source - ${violations.join(', ')}');
+      }
+    });
+
+    return lines;
   }
 
   bool _isNeedToReport(ReportMetric metric) =>

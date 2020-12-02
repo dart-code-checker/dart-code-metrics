@@ -78,6 +78,7 @@ void main() {
             'lines': {'begin': _issueLine, 'end': _issueLine},
           }));
       expect(report, containsPair('remediation_points', 50000));
+      expect(report, containsPair('severity', 'info'));
       expect(report,
           containsPair('fingerprint', '8842a666b8aee4f2eae51205e0114dae'));
     });
@@ -135,6 +136,8 @@ void main() {
         }),
       );
       expect(report, containsPair('remediation_points', 50000));
+      expect(report, containsPair('severity', 'minor'));
+
       expect(
         report,
         containsPair('fingerprint', 'ed45b12bc8354f240bfe37e1c1eb0f58'),
@@ -201,6 +204,8 @@ void main() {
           ),
         );
         expect(report, containsPair('remediation_points', 50000));
+        expect(report, containsPair('severity', 'info'));
+
         expect(
           report,
           containsPair('fingerprint', 'de1258f0c898f266343b3e435e23310c'),
