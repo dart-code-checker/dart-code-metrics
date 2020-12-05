@@ -39,6 +39,8 @@ const _maintainabilityIndexWithViolations =
     '$_maintainabilityIndex / violations';
 const _nuberOfArguments = 'Number of Arguments';
 const _nuberOfArgumentsWithViolations = '$_nuberOfArguments / violations';
+const _maximumNesting = 'Maximum Nesting';
+const _maximumNestingWithViolations = '$_maximumNesting / violations';
 
 const _codeIssues = 'Issues';
 const _designIssues = 'Design issues';
@@ -109,6 +111,11 @@ class HtmlReporter implements Reporter {
     final sortedRecords = records.toList()
       ..sort((a, b) => a.title.compareTo(b.title));
 
+    final tableContent = Element.tag('tbody');
+    for (final record in sortedRecords) {
+      tableContent.append(renderTableRecord(record));
+    }
+
     final totalComplexity = sortedRecords.fold<int>(
         0,
         (prevValue, record) =>
@@ -144,6 +151,16 @@ class HtmlReporter implements Reporter {
         0,
         (prevValue, record) =>
             prevValue + record.report.argumentsCountViolations);
+    final averageMaximumNesting = (sortedRecords.fold<int>(
+                0,
+                (prevValue, record) =>
+                    prevValue + record.report.averageMaximumNestingLevel) /
+            sortedRecords.length)
+        .round();
+    final maximumNestingViolations = sortedRecords.fold<int>(
+        0,
+        (prevValue, record) =>
+            prevValue + record.report.maximumNestingLevelViolations);
 
     final withCyclomaticComplexityViolations = complexityViolations > 0;
     final withLinesOfExecutableCodeViolations =
@@ -151,51 +168,7 @@ class HtmlReporter implements Reporter {
     final withMaintainabilityIndexViolations =
         maintainabilityIndexViolations > 0;
     final withArgumentsCountViolations = argumentsCountViolations > 0;
-
-    final tableContent = Element.tag('tbody');
-    for (final record in sortedRecords) {
-      final recordHaveCyclomaticComplexityViolations =
-          record.report.cyclomaticComplexityViolations > 0;
-      final recordHaveLinesOfExecutableCodeViolations =
-          record.report.linesOfExecutableCodeViolations > 0;
-      final recordHaveMaintainabilityIndexViolations =
-          record.report.maintainabilityIndexViolations > 0;
-      final recordHaveArgumentsCountViolations =
-          record.report.argumentsCountViolations > 0;
-
-      tableContent.append(Element.tag('tr')
-        ..append(Element.tag('td')
-          ..append(Element.tag('a')
-            ..attributes['href'] = record.link
-            ..text = record.title))
-        ..append(Element.tag('td')
-          ..text = recordHaveCyclomaticComplexityViolations
-              ? '${record.report.totalCyclomaticComplexity} / ${record.report.cyclomaticComplexityViolations}'
-              : '${record.report.totalCyclomaticComplexity}'
-          ..classes.add(recordHaveCyclomaticComplexityViolations
-              ? 'with-violations'
-              : ''))
-        ..append(Element.tag('td')
-          ..text = recordHaveLinesOfExecutableCodeViolations
-              ? '${record.report.totalLinesOfExecutableCode} / ${record.report.linesOfExecutableCodeViolations}'
-              : '${record.report.totalLinesOfExecutableCode}'
-          ..classes.add(recordHaveLinesOfExecutableCodeViolations
-              ? 'with-violations'
-              : ''))
-        ..append(Element.tag('td')
-          ..text = recordHaveMaintainabilityIndexViolations
-              ? '${record.report.averageMaintainabilityIndex.toInt()} / ${record.report.maintainabilityIndexViolations}'
-              : '${record.report.averageMaintainabilityIndex.toInt()}'
-          ..classes.add(recordHaveMaintainabilityIndexViolations
-              ? 'with-violations'
-              : ''))
-        ..append(Element.tag('td')
-          ..text = recordHaveArgumentsCountViolations
-              ? '${record.report.averageArgumentsCount} / ${record.report.argumentsCountViolations}'
-              : '${record.report.averageArgumentsCount}'
-          ..classes.add(
-              recordHaveArgumentsCountViolations ? 'with-violations' : '')));
-    }
+    final withMaximumNestingViolations = maximumNestingViolations > 0;
 
     final cyclomaticComplexityTitle = withCyclomaticComplexityViolations
         ? _cyclomaticComplexityWithViolations
@@ -209,6 +182,9 @@ class HtmlReporter implements Reporter {
     final argumentsCountTitle = withArgumentsCountViolations
         ? _nuberOfArgumentsWithViolations
         : _nuberOfArguments;
+    final maximumNestingTitle = withMaximumNestingViolations
+        ? _maximumNestingWithViolations
+        : _maximumNesting;
 
     final table = Element.tag('table')
       ..classes.add('metrics-total-table')
@@ -218,7 +194,8 @@ class HtmlReporter implements Reporter {
           ..append(Element.tag('th')..text = cyclomaticComplexityTitle)
           ..append(Element.tag('th')..text = linesOfExecutableCodeTitle)
           ..append(Element.tag('th')..text = maintainabilityIndexTitle)
-          ..append(Element.tag('th')..text = argumentsCountTitle)))
+          ..append(Element.tag('th')..text = argumentsCountTitle)
+          ..append(Element.tag('th')..text = maximumNestingTitle)))
       ..append(tableContent);
 
     return Element.tag('div')
@@ -226,30 +203,18 @@ class HtmlReporter implements Reporter {
       ..append(table)
       ..append(Element.tag('div')
         ..classes.add('metrics-totals')
+        ..append(renderSummaryMetric(_cyclomaticComplexity, totalComplexity,
+            violations: complexityViolations))
         ..append(renderSummaryMetric(
-            cyclomaticComplexityTitle,
-            withCyclomaticComplexityViolations
-                ? '$totalComplexity / $complexityViolations'
-                : '$totalComplexity',
-            withViolation: withCyclomaticComplexityViolations))
+            _linesOfExecutableCode, totalLinesOfExecutableCode,
+            violations: linesOfExecutableCodeViolations))
         ..append(renderSummaryMetric(
-            linesOfExecutableCodeTitle,
-            withLinesOfExecutableCodeViolations
-                ? '$totalLinesOfExecutableCode / $linesOfExecutableCodeViolations'
-                : '$totalLinesOfExecutableCode',
-            withViolation: withLinesOfExecutableCodeViolations))
-        ..append(renderSummaryMetric(
-            maintainabilityIndexTitle,
-            withMaintainabilityIndexViolations
-                ? '${averageMaintainabilityIndex.toInt()} / $maintainabilityIndexViolations'
-                : '${averageMaintainabilityIndex.toInt()}',
-            withViolation: withMaintainabilityIndexViolations))
-        ..append(renderSummaryMetric(
-            argumentsCountTitle,
-            withArgumentsCountViolations
-                ? '$averageArgumentsCount / $argumentsCountViolations'
-                : '$averageArgumentsCount',
-            withViolation: withArgumentsCountViolations)));
+            _maintainabilityIndex, averageMaintainabilityIndex.toInt(),
+            violations: maintainabilityIndexViolations))
+        ..append(renderSummaryMetric(_nuberOfArguments, averageArgumentsCount,
+            violations: argumentsCountViolations))
+        ..append(renderSummaryMetric(_maximumNesting, averageMaximumNesting,
+            violations: maximumNestingViolations)));
   }
 
   void _generateFoldersReports(
@@ -406,7 +371,11 @@ class HtmlReporter implements Reporter {
             ..append(Element.tag('p')
               ..classes.add('metrics-source-code__tooltip-text')
               ..append(renderFunctionMetric(
-                  _nuberOfArguments, report.argumentsCount)));
+                  _nuberOfArguments, report.argumentsCount)))
+            ..append(Element.tag('p')
+              ..classes.add('metrics-source-code__tooltip-text')
+              ..append(renderFunctionMetric(
+                  _maximumNesting, report.maximumNestingLevel)));
 
           final complexityIcon = Element.tag('div')
             ..classes.addAll([
@@ -578,55 +547,28 @@ class HtmlReporter implements Reporter {
   Element _generateSourceReportMetricsHeader(FileRecord record) {
     final report = UtilitySelector.fileReport(record, reportConfig);
 
-    final totalMaintainabilityIndexViolations =
-        report.maintainabilityIndexViolations > 0;
-    final withArgumentsCountViolations = report.argumentsCountViolations > 0;
-    final withCyclomaticComplexityViolations =
-        report.cyclomaticComplexityViolations > 0;
-    final withLinesOfExecutableCodeViolations =
-        report.linesOfExecutableCodeViolations > 0;
-
     return Element.tag('div')
       ..classes.add('metric-sub-header')
       ..nodes.addAll([
         renderSummaryMetric(
-            withCyclomaticComplexityViolations
-                ? _cyclomaticComplexityWithViolations
-                : _cyclomaticComplexity,
-            withCyclomaticComplexityViolations
-                ? '${report.totalCyclomaticComplexity} / ${report.cyclomaticComplexityViolations}'
-                : '${report.totalCyclomaticComplexity}',
-            withViolation: withCyclomaticComplexityViolations),
+            _cyclomaticComplexity, report.totalCyclomaticComplexity,
+            violations: report.cyclomaticComplexityViolations),
         renderSummaryMetric(
-            withLinesOfExecutableCodeViolations
-                ? _linesOfExecutableCodeWithViolations
-                : _linesOfExecutableCode,
-            withLinesOfExecutableCodeViolations
-                ? '${report.totalLinesOfExecutableCode} / ${report.linesOfExecutableCodeViolations}'
-                : '${report.totalLinesOfExecutableCode}',
-            withViolation: withLinesOfExecutableCodeViolations),
+            _linesOfExecutableCode, report.totalLinesOfExecutableCode,
+            violations: report.linesOfExecutableCodeViolations),
         renderSummaryMetric(
-            totalMaintainabilityIndexViolations
-                ? _maintainabilityIndexWithViolations
-                : _maintainabilityIndex,
-            totalMaintainabilityIndexViolations
-                ? '${report.averageMaintainabilityIndex.toInt()} / ${report.maintainabilityIndexViolations}'
-                : '${report.averageMaintainabilityIndex.toInt()}',
-            withViolation: totalMaintainabilityIndexViolations),
-        renderSummaryMetric(
-            withArgumentsCountViolations
-                ? _nuberOfArgumentsWithViolations
-                : _nuberOfArguments,
-            withArgumentsCountViolations
-                ? '${report.averageArgumentsCount} / ${report.argumentsCountViolations}'
-                : '${report.averageArgumentsCount}',
-            withViolation: withArgumentsCountViolations),
+            _maintainabilityIndex, report.averageMaintainabilityIndex.toInt(),
+            violations: report.maintainabilityIndexViolations),
+        renderSummaryMetric(_nuberOfArguments, report.averageArgumentsCount,
+            violations: report.argumentsCountViolations),
+        renderSummaryMetric(_maximumNesting, report.averageMaximumNestingLevel,
+            violations: report.maximumNestingLevelViolations),
         if (record.issues.isNotEmpty)
-          renderSummaryMetric(_codeIssues, '${record.issues.length}',
-              withViolation: true),
+          renderSummaryMetric(_codeIssues, record.issues.length,
+              forceViolations: true),
         if (record.designIssues.isNotEmpty)
-          renderSummaryMetric(_designIssues, '${record.designIssues.length}',
-              withViolation: true),
+          renderSummaryMetric(_designIssues, record.designIssues.length,
+              forceViolations: true),
       ]);
   }
 }
