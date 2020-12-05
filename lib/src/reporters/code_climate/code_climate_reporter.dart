@@ -8,7 +8,7 @@ import '../reporter.dart';
 import '../utility_selector.dart';
 import 'code_climate_issue.dart';
 
-/// Creates reports in Codeclimate format widely understood by various CI and analysis tools
+/// Creates reports in Code Climate format widely understood by various CI and analysis tools
 // Code Climate Engine Specification https://github.com/codeclimate/platform/blob/master/spec/analyzers/SPEC.md
 class CodeClimateReporter implements Reporter {
   final Config reportConfig;
@@ -40,13 +40,24 @@ class CodeClimateReporter implements Reporter {
       }),
     ];
 
+    return result
+      ..addAll(_functionMetrics(record))
+      ..addAll(record.issues.map((issue) =>
+          CodeClimateIssue.fromCodeIssue(issue, record.relativePath)))
+      ..addAll(record.designIssues.map((issue) =>
+          CodeClimateIssue.fromDesignIssue(issue, record.relativePath)));
+  }
+
+  Iterable<CodeClimateIssue> _functionMetrics(FileRecord record) {
+    final issues = <CodeClimateIssue>[];
+
     for (final key in record.functions.keys) {
       final func = record.functions[key];
       final report = UtilitySelector.functionReport(func, reportConfig);
 
       if (UtilitySelector.isIssueLevel(
           report.cyclomaticComplexity.violationLevel)) {
-        result.add(CodeClimateIssue.cyclomaticComplexity(
+        issues.add(CodeClimateIssue.cyclomaticComplexity(
           func,
           report.cyclomaticComplexity.value,
           record.relativePath,
@@ -57,7 +68,7 @@ class CodeClimateReporter implements Reporter {
 
       if (UtilitySelector.isIssueLevel(
           report.maintainabilityIndex.violationLevel)) {
-        result.add(CodeClimateIssue.maintainabilityIndex(
+        issues.add(CodeClimateIssue.maintainabilityIndex(
           func,
           report.maintainabilityIndex.value.toInt(),
           record.relativePath,
@@ -66,12 +77,6 @@ class CodeClimateReporter implements Reporter {
       }
     }
 
-    result
-      ..addAll(record.issues.map((issue) =>
-          CodeClimateIssue.fromCodeIssue(issue, record.relativePath)))
-      ..addAll(record.designIssues.map((issue) =>
-          CodeClimateIssue.fromDesignIssue(issue, record.relativePath)));
-
-    return result;
+    return issues;
   }
 }

@@ -8,6 +8,7 @@ import 'package:path/path.dart' as p;
 
 import '../../config/config.dart';
 import '../../models/file_record.dart';
+import '../../models/file_report.dart';
 import '../../models/violation_level.dart';
 import '../reporter.dart';
 import '../utility_selector.dart';
@@ -29,15 +30,15 @@ const _violationLevelLineStyle = {
 
 const _cyclomaticComplexity = 'Cyclomatic complexity';
 const _cyclomaticComplexityWithViolations =
-    'Cyclomatic complexity / violations';
+    '$_cyclomaticComplexity / violations';
 const _linesOfExecutableCode = 'Lines of executable code';
 const _linesOfExecutableCodeWithViolations =
-    'Lines of executable code / violations';
+    '$_linesOfExecutableCode / violations';
 const _maintainabilityIndex = 'Maintainability index';
 const _maintainabilityIndexWithViolations =
-    'Maintainability index / violations';
+    '$_maintainabilityIndex / violations';
 const _nuberOfArguments = 'Number of Arguments';
-const _nuberOfArgumentsWithViolations = 'Number of Arguments / violations';
+const _nuberOfArgumentsWithViolations = '$_nuberOfArguments / violations';
 
 const _codeIssues = 'Issues';
 const _designIssues = 'Design issues';
@@ -47,29 +48,13 @@ class ReportTableRecord {
   final String title;
   final String link;
 
-  final int cyclomaticComplexity;
-  final int cyclomaticComplexityViolations;
+  final FileReport report;
 
-  final int linesOfExecutableCode;
-  final int linesOfExecutableCodeViolations;
-
-  final double maintainabilityIndex;
-  final int maintainabilityIndexViolations;
-
-  final int averageArgumentsCount;
-  final int argumentsCountViolations;
-
-  const ReportTableRecord(
-      {@required this.title,
-      @required this.link,
-      @required this.cyclomaticComplexity,
-      @required this.cyclomaticComplexityViolations,
-      @required this.linesOfExecutableCode,
-      @required this.linesOfExecutableCodeViolations,
-      @required this.maintainabilityIndex,
-      @required this.maintainabilityIndexViolations,
-      @required this.averageArgumentsCount,
-      @required this.argumentsCountViolations});
+  const ReportTableRecord({
+    @required this.title,
+    @required this.link,
+    @required this.report,
+  });
 }
 
 /// HTML-doc reporter
@@ -125,51 +110,58 @@ class HtmlReporter implements Reporter {
       ..sort((a, b) => a.title.compareTo(b.title));
 
     final totalComplexity = sortedRecords.fold<int>(
-        0, (prevValue, record) => prevValue + record.cyclomaticComplexity);
-    final totalComplexityViolations = sortedRecords.fold<int>(
         0,
         (prevValue, record) =>
-            prevValue + record.cyclomaticComplexityViolations);
+            prevValue + record.report.totalCyclomaticComplexity);
+    final complexityViolations = sortedRecords.fold<int>(
+        0,
+        (prevValue, record) =>
+            prevValue + record.report.cyclomaticComplexityViolations);
     final totalLinesOfExecutableCode = sortedRecords.fold<int>(
-        0, (prevValue, record) => prevValue + record.linesOfExecutableCode);
-    final totalLinesOfExecutableCodeViolations = sortedRecords.fold<int>(
         0,
         (prevValue, record) =>
-            prevValue + record.linesOfExecutableCodeViolations);
+            prevValue + record.report.totalLinesOfExecutableCode);
+    final linesOfExecutableCodeViolations = sortedRecords.fold<int>(
+        0,
+        (prevValue, record) =>
+            prevValue + record.report.linesOfExecutableCodeViolations);
     final averageMaintainabilityIndex = sortedRecords.fold<double>(
-            0, (prevValue, record) => prevValue + record.maintainabilityIndex) /
+            0,
+            (prevValue, record) =>
+                prevValue + record.report.averageMaintainabilityIndex) /
         sortedRecords.length;
-    final totalMaintainabilityIndexViolations = sortedRecords.fold<int>(
+    final maintainabilityIndexViolations = sortedRecords.fold<int>(
         0,
         (prevValue, record) =>
-            prevValue + record.maintainabilityIndexViolations);
+            prevValue + record.report.maintainabilityIndexViolations);
     final averageArgumentsCount = (sortedRecords.fold<int>(
-                    0,
-                    (prevValue, record) =>
-                        prevValue + record.averageArgumentsCount) /
-                sortedRecords.length +
-            0.5)
-        .toInt();
-    final totalArgumentsCountViolations = sortedRecords.fold<int>(
-        0, (prevValue, record) => prevValue + record.argumentsCountViolations);
+                0,
+                (prevValue, record) =>
+                    prevValue + record.report.averageArgumentsCount) /
+            sortedRecords.length)
+        .round();
+    final argumentsCountViolations = sortedRecords.fold<int>(
+        0,
+        (prevValue, record) =>
+            prevValue + record.report.argumentsCountViolations);
 
-    final withCyclomaticComplexityViolations = totalComplexityViolations > 0;
+    final withCyclomaticComplexityViolations = complexityViolations > 0;
     final withLinesOfExecutableCodeViolations =
-        totalLinesOfExecutableCodeViolations > 0;
+        linesOfExecutableCodeViolations > 0;
     final withMaintainabilityIndexViolations =
-        totalMaintainabilityIndexViolations > 0;
-    final withArgumentsCountViolations = totalArgumentsCountViolations > 0;
+        maintainabilityIndexViolations > 0;
+    final withArgumentsCountViolations = argumentsCountViolations > 0;
 
     final tableContent = Element.tag('tbody');
     for (final record in sortedRecords) {
       final recordHaveCyclomaticComplexityViolations =
-          record.cyclomaticComplexityViolations > 0;
+          record.report.cyclomaticComplexityViolations > 0;
       final recordHaveLinesOfExecutableCodeViolations =
-          record.linesOfExecutableCodeViolations > 0;
+          record.report.linesOfExecutableCodeViolations > 0;
       final recordHaveMaintainabilityIndexViolations =
-          record.maintainabilityIndexViolations > 0;
-      final recordArgumentsCountViolations =
-          record.argumentsCountViolations > 0;
+          record.report.maintainabilityIndexViolations > 0;
+      final recordHaveArgumentsCountViolations =
+          record.report.argumentsCountViolations > 0;
 
       tableContent.append(Element.tag('tr')
         ..append(Element.tag('td')
@@ -178,32 +170,31 @@ class HtmlReporter implements Reporter {
             ..text = record.title))
         ..append(Element.tag('td')
           ..text = recordHaveCyclomaticComplexityViolations
-              ? '${record.cyclomaticComplexity} / ${record.cyclomaticComplexityViolations}'
-              : '${record.cyclomaticComplexity}'
+              ? '${record.report.totalCyclomaticComplexity} / ${record.report.cyclomaticComplexityViolations}'
+              : '${record.report.totalCyclomaticComplexity}'
           ..classes.add(recordHaveCyclomaticComplexityViolations
               ? 'with-violations'
               : ''))
         ..append(Element.tag('td')
           ..text = recordHaveLinesOfExecutableCodeViolations
-              ? '${record.linesOfExecutableCode} / ${record.linesOfExecutableCodeViolations}'
-              : '${record.linesOfExecutableCode}'
+              ? '${record.report.totalLinesOfExecutableCode} / ${record.report.linesOfExecutableCodeViolations}'
+              : '${record.report.totalLinesOfExecutableCode}'
           ..classes.add(recordHaveLinesOfExecutableCodeViolations
               ? 'with-violations'
               : ''))
         ..append(Element.tag('td')
           ..text = recordHaveMaintainabilityIndexViolations
-              ? '${record.maintainabilityIndex.toInt()} / ${record.maintainabilityIndexViolations}'
-              : '${record.maintainabilityIndex.toInt()}'
+              ? '${record.report.averageMaintainabilityIndex.toInt()} / ${record.report.maintainabilityIndexViolations}'
+              : '${record.report.averageMaintainabilityIndex.toInt()}'
           ..classes.add(recordHaveMaintainabilityIndexViolations
               ? 'with-violations'
               : ''))
         ..append(Element.tag('td')
-          ..text = recordArgumentsCountViolations
-              ? '${record.averageArgumentsCount} / ${record.argumentsCountViolations}'
-              : '${record.averageArgumentsCount}'
-          ..classes.add(recordHaveMaintainabilityIndexViolations
-              ? 'with-violations'
-              : '')));
+          ..text = recordHaveArgumentsCountViolations
+              ? '${record.report.averageArgumentsCount} / ${record.report.argumentsCountViolations}'
+              : '${record.report.averageArgumentsCount}'
+          ..classes.add(
+              recordHaveArgumentsCountViolations ? 'with-violations' : '')));
     }
 
     final cyclomaticComplexityTitle = withCyclomaticComplexityViolations
@@ -238,25 +229,25 @@ class HtmlReporter implements Reporter {
         ..append(renderSummaryMetric(
             cyclomaticComplexityTitle,
             withCyclomaticComplexityViolations
-                ? '$totalComplexity / $totalComplexityViolations'
+                ? '$totalComplexity / $complexityViolations'
                 : '$totalComplexity',
             withViolation: withCyclomaticComplexityViolations))
         ..append(renderSummaryMetric(
             linesOfExecutableCodeTitle,
             withLinesOfExecutableCodeViolations
-                ? '$totalLinesOfExecutableCode / $totalLinesOfExecutableCodeViolations'
+                ? '$totalLinesOfExecutableCode / $linesOfExecutableCodeViolations'
                 : '$totalLinesOfExecutableCode',
             withViolation: withLinesOfExecutableCodeViolations))
         ..append(renderSummaryMetric(
             maintainabilityIndexTitle,
             withMaintainabilityIndexViolations
-                ? '${averageMaintainabilityIndex.toInt()} / $totalMaintainabilityIndexViolations'
+                ? '${averageMaintainabilityIndex.toInt()} / $maintainabilityIndexViolations'
                 : '${averageMaintainabilityIndex.toInt()}',
             withViolation: withMaintainabilityIndexViolations))
         ..append(renderSummaryMetric(
             argumentsCountTitle,
             withArgumentsCountViolations
-                ? '$averageArgumentsCount / $totalArgumentsCountViolations'
+                ? '$averageArgumentsCount / $argumentsCountViolations'
                 : '$averageArgumentsCount',
             withViolation: withMaintainabilityIndexViolations)));
   }
@@ -277,19 +268,10 @@ class HtmlReporter implements Reporter {
           reportConfig);
 
       return ReportTableRecord(
-          title: folder,
-          link: p.join(folder, 'index.html'),
-          cyclomaticComplexity: report.totalCyclomaticComplexity,
-          cyclomaticComplexityViolations:
-              report.totalCyclomaticComplexityViolations,
-          linesOfExecutableCode: report.totalLinesOfExecutableCode,
-          linesOfExecutableCodeViolations:
-              report.totalLinesOfExecutableCodeViolations,
-          maintainabilityIndex: report.averageMaintainabilityIndex,
-          maintainabilityIndexViolations:
-              report.totalMaintainabilityIndexViolations,
-          averageArgumentsCount: report.averageArgumentsCount,
-          argumentsCountViolations: report.totalArgumentsCountViolations);
+        title: folder,
+        link: p.join(folder, 'index.html'),
+        report: report,
+      );
     });
 
     final html = Element.tag('html')
@@ -330,19 +312,10 @@ class HtmlReporter implements Reporter {
       final fileName = p.basename(record.relativePath);
 
       return ReportTableRecord(
-          title: fileName,
-          link: p.setExtension(fileName, '.html'),
-          cyclomaticComplexity: report.totalCyclomaticComplexity,
-          cyclomaticComplexityViolations:
-              report.totalCyclomaticComplexityViolations,
-          linesOfExecutableCode: report.totalLinesOfExecutableCode,
-          linesOfExecutableCodeViolations:
-              report.totalLinesOfExecutableCodeViolations,
-          maintainabilityIndex: report.averageMaintainabilityIndex,
-          maintainabilityIndexViolations:
-              report.totalMaintainabilityIndexViolations,
-          averageArgumentsCount: report.averageArgumentsCount,
-          argumentsCountViolations: report.totalArgumentsCountViolations);
+        title: fileName,
+        link: p.setExtension(fileName, '.html'),
+        report: report,
+      );
     });
 
     final html = Element.tag('html')
@@ -606,13 +579,12 @@ class HtmlReporter implements Reporter {
     final report = UtilitySelector.fileReport(record, reportConfig);
 
     final totalMaintainabilityIndexViolations =
-        report.totalMaintainabilityIndexViolations > 0;
-    final withArgumentsCountViolations =
-        report.totalArgumentsCountViolations > 0;
+        report.maintainabilityIndexViolations > 0;
+    final withArgumentsCountViolations = report.argumentsCountViolations > 0;
     final withCyclomaticComplexityViolations =
-        report.totalCyclomaticComplexityViolations > 0;
+        report.cyclomaticComplexityViolations > 0;
     final withLinesOfExecutableCodeViolations =
-        report.totalLinesOfExecutableCodeViolations > 0;
+        report.linesOfExecutableCodeViolations > 0;
 
     return Element.tag('div')
       ..classes.add('metric-subheader')
@@ -622,7 +594,7 @@ class HtmlReporter implements Reporter {
                 ? _cyclomaticComplexityWithViolations
                 : _cyclomaticComplexity,
             withCyclomaticComplexityViolations
-                ? '${report.totalCyclomaticComplexity} / ${report.totalCyclomaticComplexityViolations}'
+                ? '${report.totalCyclomaticComplexity} / ${report.cyclomaticComplexityViolations}'
                 : '${report.totalCyclomaticComplexity}',
             withViolation: withCyclomaticComplexityViolations),
         renderSummaryMetric(
@@ -630,7 +602,7 @@ class HtmlReporter implements Reporter {
                 ? _linesOfExecutableCodeWithViolations
                 : _linesOfExecutableCode,
             withLinesOfExecutableCodeViolations
-                ? '${report.totalLinesOfExecutableCode} / ${report.totalLinesOfExecutableCodeViolations}'
+                ? '${report.totalLinesOfExecutableCode} / ${report.linesOfExecutableCodeViolations}'
                 : '${report.totalLinesOfExecutableCode}',
             withViolation: withLinesOfExecutableCodeViolations),
         renderSummaryMetric(
@@ -638,7 +610,7 @@ class HtmlReporter implements Reporter {
                 ? _maintainabilityIndexWithViolations
                 : _maintainabilityIndex,
             totalMaintainabilityIndexViolations
-                ? '${report.averageMaintainabilityIndex.toInt()} / ${report.totalMaintainabilityIndexViolations}'
+                ? '${report.averageMaintainabilityIndex.toInt()} / ${report.maintainabilityIndexViolations}'
                 : '${report.averageMaintainabilityIndex.toInt()}',
             withViolation: totalMaintainabilityIndexViolations),
         renderSummaryMetric(
@@ -646,7 +618,7 @@ class HtmlReporter implements Reporter {
                 ? _nuberOfArgumentsWithViolations
                 : _nuberOfArguments,
             withArgumentsCountViolations
-                ? '${report.averageArgumentsCount} / ${report.totalArgumentsCountViolations}'
+                ? '${report.averageArgumentsCount} / ${report.argumentsCountViolations}'
                 : '${report.averageArgumentsCount}',
             withViolation: withArgumentsCountViolations),
         if (record.issues.isNotEmpty)

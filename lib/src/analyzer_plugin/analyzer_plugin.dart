@@ -11,7 +11,6 @@ import 'package:analyzer/src/context/context_root.dart';
 // ignore: implementation_imports
 import 'package:analyzer/src/dart/analysis/driver.dart';
 import 'package:analyzer_plugin/plugin/plugin.dart';
-import 'package:analyzer_plugin/protocol/protocol_common.dart' as plugin;
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
 import 'package:source_span/source_span.dart';
 
@@ -373,7 +372,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     for (final file in filesToFullyResolve) {
       final contextRoot = contextRootContaining(file);
       if (contextRoot != null) {
-        // TODO(dmitrykrutskih): Which driver should we use if there is no context root?
+        // TODO(dkrutskikh): Which driver should we use if there is no context root?
         final driver = driverMap[contextRoot];
         filesByDriver.putIfAbsent(driver, () => <String>[]).add(file);
       }

@@ -50,13 +50,12 @@ class JsonReporter implements Reporter {
       'designIssues': _reportDesignIssues(record.designIssues),
       'average-$numberOfArgumentsKey': fileReport.averageArgumentsCount,
       'total-$numberOfArgumentsKey-violations':
-          fileReport.totalArgumentsCountViolations,
+          fileReport.argumentsCountViolations,
       'average-$numberOfMethodsKey': fileReport.averageMethodsCount,
-      'total-$numberOfMethodsKey-violations':
-          fileReport.totalMethodsCountViolations,
+      'total-$numberOfMethodsKey-violations': fileReport.methodsCountViolations,
       'total-$linesOfExecutableCodeKey': fileReport.totalLinesOfExecutableCode,
       'total-$linesOfExecutableCodeKey-violations':
-          fileReport.totalLinesOfExecutableCodeViolations,
+          fileReport.linesOfExecutableCodeViolations,
     };
   }
 

@@ -60,19 +60,17 @@ class UtilitySelector {
         .length;
 
     return FileReport(
-        averageArgumentsCount: averageArgumentCount.round(),
-        totalArgumentsCountViolations: totalArgumentsCountViolations,
-        averageMaintainabilityIndex: averageMaintainabilityIndex,
-        totalMaintainabilityIndexViolations:
-            totalMaintainabilityIndexViolations,
-        averageMethodsCount: averageMethodsCount.round(),
-        totalMethodsCountViolations: totalMethodsCountViolations,
-        totalCyclomaticComplexity: totalCyclomaticComplexity.round(),
-        totalCyclomaticComplexityViolations:
-            totalCyclomaticComplexityViolations,
-        totalLinesOfExecutableCode: totalLinesOfExecutableCode.round(),
-        totalLinesOfExecutableCodeViolations:
-            totalLinesOfExecutableCodeViolations);
+      averageArgumentsCount: averageArgumentCount.round(),
+      argumentsCountViolations: totalArgumentsCountViolations,
+      averageMaintainabilityIndex: averageMaintainabilityIndex,
+      maintainabilityIndexViolations: totalMaintainabilityIndexViolations,
+      averageMethodsCount: averageMethodsCount.round(),
+      methodsCountViolations: totalMethodsCountViolations,
+      totalCyclomaticComplexity: totalCyclomaticComplexity.round(),
+      cyclomaticComplexityViolations: totalCyclomaticComplexityViolations,
+      totalLinesOfExecutableCode: totalLinesOfExecutableCode.round(),
+      linesOfExecutableCodeViolations: totalLinesOfExecutableCodeViolations,
+    );
   }
 
   static ComponentReport componentReport(
@@ -164,31 +162,31 @@ class UtilitySelector {
               .map((functionRecord) => functionReport(functionRecord, config)))
           .map(functionViolationLevel));
 
-  static FileReport mergeFileReports(FileReport lhs, FileReport rhs) => FileReport(
-      averageArgumentsCount:
-          ((lhs.averageArgumentsCount + rhs.averageArgumentsCount) / 2).round(),
-      totalArgumentsCountViolations:
-          lhs.totalArgumentsCountViolations + rhs.totalArgumentsCountViolations,
-      averageMaintainabilityIndex:
-          (lhs.averageMaintainabilityIndex + rhs.averageMaintainabilityIndex) /
-              2,
-      totalMaintainabilityIndexViolations:
-          lhs.totalMaintainabilityIndexViolations +
-              rhs.totalMaintainabilityIndexViolations,
-      averageMethodsCount:
-          ((lhs.averageMethodsCount + rhs.averageMethodsCount) / 2).round(),
-      totalMethodsCountViolations:
-          lhs.totalMethodsCountViolations + rhs.totalMethodsCountViolations,
-      totalCyclomaticComplexity:
-          lhs.totalCyclomaticComplexity + rhs.totalCyclomaticComplexity,
-      totalCyclomaticComplexityViolations:
-          lhs.totalCyclomaticComplexityViolations +
-              rhs.totalCyclomaticComplexityViolations,
-      totalLinesOfExecutableCode:
-          lhs.totalLinesOfExecutableCode + rhs.totalLinesOfExecutableCode,
-      totalLinesOfExecutableCodeViolations:
-          lhs.totalLinesOfExecutableCodeViolations +
-              rhs.totalLinesOfExecutableCodeViolations);
+  static FileReport mergeFileReports(FileReport lhs, FileReport rhs) =>
+      FileReport(
+        averageArgumentsCount:
+            ((lhs.averageArgumentsCount + rhs.averageArgumentsCount) / 2)
+                .round(),
+        argumentsCountViolations:
+            lhs.argumentsCountViolations + rhs.argumentsCountViolations,
+        averageMaintainabilityIndex: (lhs.averageMaintainabilityIndex +
+                rhs.averageMaintainabilityIndex) /
+            2,
+        maintainabilityIndexViolations: lhs.maintainabilityIndexViolations +
+            rhs.maintainabilityIndexViolations,
+        averageMethodsCount:
+            ((lhs.averageMethodsCount + rhs.averageMethodsCount) / 2).round(),
+        methodsCountViolations:
+            lhs.methodsCountViolations + rhs.methodsCountViolations,
+        totalCyclomaticComplexity:
+            lhs.totalCyclomaticComplexity + rhs.totalCyclomaticComplexity,
+        cyclomaticComplexityViolations: lhs.cyclomaticComplexityViolations +
+            rhs.cyclomaticComplexityViolations,
+        totalLinesOfExecutableCode:
+            lhs.totalLinesOfExecutableCode + rhs.totalLinesOfExecutableCode,
+        linesOfExecutableCodeViolations: lhs.linesOfExecutableCodeViolations +
+            rhs.linesOfExecutableCodeViolations,
+      );
 
   static ViolationLevel _violationLevel(int value, int warningLevel) {
     if (warningLevel == null) {

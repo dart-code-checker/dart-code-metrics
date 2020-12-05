@@ -136,23 +136,23 @@ class MetricsAnalyzer {
             function.declaration.visitChildren(linesWithCodeAstVisitor);
 
             builder.recordFunction(
-                function,
-                FunctionRecord(
-                    firstLine: lineInfo
-                        .getLocation(function.declaration
-                            .firstTokenAfterCommentAndMetadata.offset)
-                        .lineNumber,
-                    lastLine: lineInfo
-                        .getLocation(function.declaration.endToken.end)
-                        .lineNumber,
-                    argumentsCount: getArgumentsCount(function),
-                    cyclomaticComplexityLines:
-                        Map.unmodifiable(controlFlowAstVisitor.complexityLines),
-                    linesWithCode: linesWithCodeAstVisitor.linesWithCode,
-                    operators:
-                        Map.unmodifiable(halsteadVolumeAstVisitor.operators),
-                    operands:
-                        Map.unmodifiable(halsteadVolumeAstVisitor.operands)));
+              function,
+              FunctionRecord(
+                firstLine: lineInfo
+                    .getLocation(function
+                        .declaration.firstTokenAfterCommentAndMetadata.offset)
+                    .lineNumber,
+                lastLine: lineInfo
+                    .getLocation(function.declaration.endToken.end)
+                    .lineNumber,
+                argumentsCount: getArgumentsCount(function),
+                cyclomaticComplexityLines:
+                    Map.unmodifiable(controlFlowAstVisitor.complexityLines),
+                linesWithCode: linesWithCodeAstVisitor.linesWithCode,
+                operators: Map.unmodifiable(halsteadVolumeAstVisitor.operators),
+                operands: Map.unmodifiable(halsteadVolumeAstVisitor.operands),
+              ),
+            );
           }
         }
 

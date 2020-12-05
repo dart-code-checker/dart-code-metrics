@@ -3,30 +3,30 @@ import 'package:meta/meta.dart';
 @immutable
 class FileReport {
   final int averageArgumentsCount;
-  final int totalArgumentsCountViolations;
+  final int argumentsCountViolations;
 
   final double averageMaintainabilityIndex;
-  final int totalMaintainabilityIndexViolations;
+  final int maintainabilityIndexViolations;
 
   final int averageMethodsCount;
-  final int totalMethodsCountViolations;
+  final int methodsCountViolations;
 
   final int totalCyclomaticComplexity;
-  final int totalCyclomaticComplexityViolations;
+  final int cyclomaticComplexityViolations;
 
   final int totalLinesOfExecutableCode;
-  final int totalLinesOfExecutableCodeViolations;
+  final int linesOfExecutableCodeViolations;
 
   const FileReport({
     @required this.averageArgumentsCount,
-    @required this.totalArgumentsCountViolations,
+    @required this.argumentsCountViolations,
     @required this.averageMaintainabilityIndex,
-    @required this.totalMaintainabilityIndexViolations,
+    @required this.maintainabilityIndexViolations,
     @required this.averageMethodsCount,
-    @required this.totalMethodsCountViolations,
+    @required this.methodsCountViolations,
     @required this.totalCyclomaticComplexity,
-    @required this.totalCyclomaticComplexityViolations,
+    @required this.cyclomaticComplexityViolations,
     @required this.totalLinesOfExecutableCode,
-    @required this.totalLinesOfExecutableCodeViolations,
+    @required this.linesOfExecutableCodeViolations,
   });
 }

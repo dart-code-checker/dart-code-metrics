@@ -32,9 +32,9 @@ void main() {
         const Config(),
       );
       expect(report.averageArgumentsCount, 5);
-      expect(report.totalArgumentsCountViolations, 2);
+      expect(report.argumentsCountViolations, 2);
       expect(report.averageMethodsCount, 13);
-      expect(report.totalMethodsCountViolations, 2);
+      expect(report.methodsCountViolations, 2);
     });
 
     group('componentReport calculates report for function', () {
