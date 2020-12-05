@@ -59,6 +59,12 @@ class UtilitySelector {
         .where((r) => isIssueLevel(r.linesOfExecutableCode.violationLevel))
         .length;
 
+    final averageMaximumNestingLevel =
+        avg(functionReports.map((r) => r.maximumNestingLevel.value)).round();
+    final totalMaximumNestingLevelViolations = functionReports
+        .where((r) => isIssueLevel(r.maximumNestingLevel.violationLevel))
+        .length;
+
     return FileReport(
       averageArgumentsCount: averageArgumentCount.round(),
       argumentsCountViolations: totalArgumentsCountViolations,
@@ -70,6 +76,8 @@ class UtilitySelector {
       cyclomaticComplexityViolations: totalCyclomaticComplexityViolations,
       totalLinesOfExecutableCode: totalLinesOfExecutableCode.round(),
       linesOfExecutableCodeViolations: totalLinesOfExecutableCodeViolations,
+      averageMaximumNestingLevel: averageMaximumNestingLevel,
+      maximumNestingLevelViolations: totalMaximumNestingLevelViolations,
     );
   }
 
@@ -196,6 +204,12 @@ class UtilitySelector {
             lhs.totalLinesOfExecutableCode + rhs.totalLinesOfExecutableCode,
         linesOfExecutableCodeViolations: lhs.linesOfExecutableCodeViolations +
             rhs.linesOfExecutableCodeViolations,
+        averageMaximumNestingLevel:
+            ((lhs.averageMaximumNestingLevel + rhs.averageMaximumNestingLevel) /
+                    2)
+                .round(),
+        maximumNestingLevelViolations: lhs.maximumNestingLevelViolations +
+            rhs.maximumNestingLevelViolations,
       );
 
   static ViolationLevel _violationLevel(int value, int warningLevel) {
