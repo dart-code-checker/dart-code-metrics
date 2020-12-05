@@ -43,6 +43,7 @@ class JsonReporter implements Reporter {
             ..._report(report.linesOfExecutableCode, linesOfExecutableCodeKey),
             ..._report(report.maintainabilityIndex, 'maintainability-index'),
             ..._report(report.argumentsCount, numberOfArgumentsKey),
+            ..._report(report.maximumNestingLevel, maximumNestingKey),
           });
         }),
       },
@@ -56,6 +57,9 @@ class JsonReporter implements Reporter {
       'total-$linesOfExecutableCodeKey': fileReport.totalLinesOfExecutableCode,
       'total-$linesOfExecutableCodeKey-violations':
           fileReport.linesOfExecutableCodeViolations,
+      'average-$maximumNestingKey': fileReport.averageMaximumNestingLevel,
+      'total-$maximumNestingKey-violations':
+          fileReport.maximumNestingLevelViolations,
     };
   }
 
