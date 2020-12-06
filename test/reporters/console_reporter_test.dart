@@ -182,6 +182,60 @@ void main() {
           contains('number of arguments: \x1B[38;5;1m10\x1B[0m'),
         );
       });
+
+      test('with low nested level', () {
+        final records = [
+          FileRecord(
+            fullPath: fullPath,
+            relativePath: 'example.dart',
+            components: Map.unmodifiable(<String, ComponentRecord>{}),
+            functions: Map.unmodifiable(<String, FunctionRecord>{
+              'function': buildFunctionRecordStub(nestingLines: [
+                [1, 2],
+              ]),
+            }),
+            issues: const [],
+            designIssues: const [],
+          ),
+        ];
+
+        final report = _reporter.report(records);
+        final verboseReport = _verboseReporter.report(records).toList();
+
+        expect(report, isEmpty);
+        expect(verboseReport.length, 3);
+        expect(
+          verboseReport[1],
+          contains('nesting level: \x1B[38;5;7m2\x1B[0m'),
+        );
+      });
+
+      test('with high nested level', () {
+        final records = [
+          FileRecord(
+            fullPath: fullPath,
+            relativePath: 'example.dart',
+            components: Map.unmodifiable(<String, ComponentRecord>{}),
+            functions: Map.unmodifiable(<String, FunctionRecord>{
+              'function': buildFunctionRecordStub(nestingLines: [
+                [1, 2],
+                [3],
+                [4, 5, 6, 7, 8, 9, 10],
+              ]),
+            }),
+            issues: const [],
+            designIssues: const [],
+          ),
+        ];
+
+        final report = _reporter.report(records).toList();
+
+        expect(report.length, 3);
+        expect(
+          report[1],
+          contains('nesting level: \x1B[38;5;3m7\x1B[0m'),
+        );
+      });
     });
 
     test('with design issues', () {

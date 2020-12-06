@@ -75,6 +75,17 @@ class CodeClimateReporter implements Reporter {
           key,
         ));
       }
+
+      if (UtilitySelector.isIssueLevel(
+          report.maximumNestingLevel.violationLevel)) {
+        issues.add(CodeClimateIssue.maximumNestingLevel(
+          func,
+          report.maximumNestingLevel.value,
+          record.relativePath,
+          key,
+          reportConfig.maximumNestingWarningLevel,
+        ));
+      }
     }
 
     return issues;

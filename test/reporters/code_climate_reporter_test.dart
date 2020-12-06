@@ -214,15 +214,17 @@ void main() {
     });
 
     group('function', () {
-      test('with short body', () {
+      test('with low nesting level', () {
         final records = [
           FileRecord(
             fullPath: fullPath,
             relativePath: 'example.dart',
             components: Map.unmodifiable(<String, ComponentRecord>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
-              'function': buildFunctionRecordStub(
-                  linesWithCode: List.generate(5, (index) => index)),
+              'function': buildFunctionRecordStub(nestingLines: [
+                [1],
+                [2, 3, 4],
+              ]),
             }),
             issues: const [],
             designIssues: const [],
@@ -235,24 +237,54 @@ void main() {
         expect(report, isEmpty);
       });
 
-      test('without arguments', () {
+      test('with high nesting level', () {
         final records = [
           FileRecord(
             fullPath: fullPath,
             relativePath: 'example.dart',
             components: Map.unmodifiable(<String, ComponentRecord>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
-              'function': buildFunctionRecordStub(argumentsCount: 0),
+              'function': buildFunctionRecordStub(nestingLines: [
+                [1],
+                [2, 3, 4, 5, 6, 7, 8],
+                [10, 15],
+              ]),
             }),
             issues: const [],
             designIssues: const [],
           ),
         ];
 
-        final report =
-            json.decode(_reporter.report(records).first) as List<Object>;
+        final report = json.decode(_reporter.report(records).first).first
+            as Map<String, Object>;
 
-        expect(report, isEmpty);
+        expect(report, containsPair('type', 'issue'));
+        expect(report, containsPair('check_name', 'nestingLevel'));
+        expect(
+          report,
+          containsPair(
+            'description',
+            'Function `function` has a Nesting Level of 7 (exceeds 5 allowed). Consider refactoring.',
+          ),
+        );
+        expect(report, containsPair('categories', ['Complexity']));
+        expect(
+          report,
+          containsPair(
+            'location',
+            {
+              'path': 'example.dart',
+              'lines': {'begin': 0, 'end': 0},
+            },
+          ),
+        );
+        expect(report, containsPair('remediation_points', 50000));
+        expect(report, containsPair('severity', 'info'));
+
+        expect(
+          report,
+          containsPair('fingerprint', 'ae340b5c0614d47b75150fdfac58a5e1'),
+        );
       });
     });
   });

@@ -74,6 +74,7 @@ dart_code_metrics:
     cyclomatic-complexity: 20
     number-of-arguments: 4
     number-of-methods: 8
+    maximum-nesting: 10
   rules:
     - no-boolean-literal-compare
 
@@ -185,6 +186,7 @@ void main() {
             options.metricsConfig.cyclomaticComplexityWarningLevel, equals(20));
         expect(options.metricsConfig.numberOfArgumentsWarningLevel, equals(4));
         expect(options.metricsConfig.numberOfMethodsWarningLevel, equals(8));
+        expect(options.metricsConfig.maximumNestingWarningLevel, equals(10));
         expect(options.metricsExcludePatterns, isEmpty);
         expect(options.rules,
             equals({'no-boolean-literal-compare': <String, Object>{}}));
@@ -228,6 +230,8 @@ void main() {
       expect(options.metricsConfig.numberOfArgumentsWarningLevel, equals(4));
       expect(options.metricsConfig.numberOfMethodsWarningLevel,
           equals(numberOfMethodsDefaultWarningLevel));
+      expect(options.metricsConfig.maximumNestingWarningLevel,
+          equals(maximumNestingDefaultWarningLevel));
 
       expect(options.excludePatterns, equals(['example/**']));
       expect(

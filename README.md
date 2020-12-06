@@ -14,6 +14,7 @@ Reports:
 
 - Cyclomatic complexity of methods
 - [Lines of Executable Code](https://github.com/wrike/dart-code-metrics/blob/master/doc/metrics/lines-of-executable-code.md)
+- [Maximum Nesting](https://github.com/wrike/dart-code-metrics/blob/master/doc/metrics/maximum-nesting.md)
 - [Number of Arguments](https://github.com/wrike/dart-code-metrics/blob/master/doc/metrics.md#number-of-arguments)
 - [Number of Methods](https://github.com/wrike/dart-code-metrics/blob/master/doc/metrics.md#number-of-methods)
 

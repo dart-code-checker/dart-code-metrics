@@ -11,6 +11,8 @@ class FunctionRecord {
 
   final Iterable<int> linesWithCode;
 
+  final Iterable<Iterable<int>> nestingLines;
+
   final Map<String, int> operators;
   final Map<String, int> operands;
 
@@ -20,6 +22,7 @@ class FunctionRecord {
       @required this.argumentsCount,
       @required this.cyclomaticComplexityLines,
       @required this.linesWithCode,
+      @required this.nestingLines,
       @required this.operators,
       @required this.operands});
 }

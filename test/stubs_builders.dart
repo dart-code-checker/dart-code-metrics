@@ -22,6 +22,7 @@ FunctionRecord buildFunctionRecordStub({
   int argumentsCount = 0,
   Map<int, int> cyclomaticLinesComplexity = const <int, int>{},
   Iterable<int> linesWithCode = const <int>[],
+  Iterable<Iterable<int>> nestingLines = const [<int>[]],
   Map<int, int> operators = const <int, int>{},
   Map<int, int> operands = const <int, int>{},
 }) =>
@@ -31,6 +32,7 @@ FunctionRecord buildFunctionRecordStub({
       argumentsCount: argumentsCount,
       cyclomaticComplexityLines: Map.unmodifiable(cyclomaticLinesComplexity),
       linesWithCode: linesWithCode,
+      nestingLines: nestingLines,
       operators: Map.unmodifiable(operators),
       operands: Map.unmodifiable(operands),
     );
@@ -55,6 +57,8 @@ FunctionReport buildFunctionReportStub({
   ViolationLevel maintainabilityIndexViolationLevel = ViolationLevel.none,
   int argumentsCount = 0,
   ViolationLevel argumentsCountViolationLevel = ViolationLevel.none,
+  int maximumNestingLevel = 0,
+  ViolationLevel maximumNestingLevelViolationLevel = ViolationLevel.none,
 }) =>
     FunctionReport(
       cyclomaticComplexity: ReportMetric<int>(
@@ -72,5 +76,9 @@ FunctionReport buildFunctionReportStub({
       argumentsCount: ReportMetric<int>(
         value: argumentsCount,
         violationLevel: argumentsCountViolationLevel,
+      ),
+      maximumNestingLevel: ReportMetric<int>(
+        value: maximumNestingLevel,
+        violationLevel: maximumNestingLevelViolationLevel,
       ),
     );

@@ -103,6 +103,21 @@ class CodeClimateIssue {
         fileName,
       );
 
+  factory CodeClimateIssue.maximumNestingLevel(
+    FunctionRecord function,
+    int value,
+    String fileName,
+    String functionName,
+    int threshold,
+  ) =>
+      CodeClimateIssue._create(
+        'nestingLevel',
+        'Function `$functionName` has a Nesting Level of $value (exceeds $threshold allowed). Consider refactoring.',
+        function.firstLine,
+        function.lastLine,
+        fileName,
+      );
+
   factory CodeClimateIssue.numberOfMethods(
     int startLine,
     int endLine,

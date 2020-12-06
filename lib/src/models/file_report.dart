@@ -17,6 +17,9 @@ class FileReport {
   final int totalLinesOfExecutableCode;
   final int linesOfExecutableCodeViolations;
 
+  final int averageMaximumNestingLevel;
+  final int maximumNestingLevelViolations;
+
   const FileReport({
     @required this.averageArgumentsCount,
     @required this.argumentsCountViolations,
@@ -28,5 +31,7 @@ class FileReport {
     @required this.cyclomaticComplexityViolations,
     @required this.totalLinesOfExecutableCode,
     @required this.linesOfExecutableCodeViolations,
+    @required this.averageMaximumNestingLevel,
+    @required this.maximumNestingLevelViolations,
   });
 }

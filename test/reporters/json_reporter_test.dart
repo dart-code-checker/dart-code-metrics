@@ -40,9 +40,18 @@ void main() {
               'extension': buildComponentRecordStub(methodsCount: 0),
             }),
             functions: Map.unmodifiable(<String, FunctionRecord>{
-              'function': buildFunctionRecordStub(argumentsCount: 0),
-              'function2': buildFunctionRecordStub(argumentsCount: 6),
-              'function3': buildFunctionRecordStub(argumentsCount: 10),
+              'function':
+                  buildFunctionRecordStub(argumentsCount: 0, nestingLines: []),
+              'function2':
+                  buildFunctionRecordStub(argumentsCount: 6, nestingLines: [
+                [1, 2],
+              ]),
+              'function3':
+                  buildFunctionRecordStub(argumentsCount: 10, nestingLines: [
+                [1, 2],
+                [3],
+                [4, 5, 6, 7, 8, 9, 10],
+              ]),
             }),
             issues: const [],
             designIssues: const [],
@@ -57,6 +66,8 @@ void main() {
         expect(report, containsPair('total-number-of-arguments-violations', 2));
         expect(report, containsPair('average-number-of-methods', 13));
         expect(report, containsPair('total-number-of-methods-violations', 2));
+        expect(report, containsPair('average-maximum-nesting', 3));
+        expect(report, containsPair('total-maximum-nesting-violations', 1));
       });
 
       test('with design issues', () {
@@ -346,6 +357,66 @@ void main() {
         expect(
           functionReport,
           containsPair('number-of-arguments-violation-level', 'alarm'),
+        );
+      });
+
+      test('with low nested level', () {
+        final records = [
+          FileRecord(
+            fullPath: fullPath,
+            relativePath: 'example.dart',
+            components: Map.unmodifiable(<String, ComponentRecord>{}),
+            functions: Map.unmodifiable(<String, FunctionRecord>{
+              'function': buildFunctionRecordStub(nestingLines: [
+                [1, 2],
+              ]),
+            }),
+            issues: const [],
+            designIssues: const [],
+          ),
+        ];
+
+        final report =
+            (json.decode(_reporter.report(records).first) as List<Object>).first
+                as Map<String, Object>;
+        final functionReport = (report['records']
+            as Map<String, Object>)['function'] as Map<String, Object>;
+
+        expect(functionReport, containsPair('maximum-nesting', 2));
+        expect(
+          functionReport,
+          containsPair('maximum-nesting-violation-level', 'none'),
+        );
+      });
+
+      test('with high nested level', () {
+        final records = [
+          FileRecord(
+            fullPath: fullPath,
+            relativePath: 'example.dart',
+            components: Map.unmodifiable(<String, ComponentRecord>{}),
+            functions: Map.unmodifiable(<String, FunctionRecord>{
+              'function': buildFunctionRecordStub(nestingLines: [
+                [1, 2],
+                [3],
+                [4, 5, 6, 7, 8, 9, 10],
+              ]),
+            }),
+            issues: const [],
+            designIssues: const [],
+          ),
+        ];
+
+        final report =
+            (json.decode(_reporter.report(records).first) as List<Object>).first
+                as Map<String, Object>;
+        final functionReport = (report['records']
+            as Map<String, Object>)['function'] as Map<String, Object>;
+
+        expect(functionReport, containsPair('maximum-nesting', 7));
+        expect(
+          functionReport,
+          containsPair('maximum-nesting-violation-level', 'warning'),
         );
       });
     });
