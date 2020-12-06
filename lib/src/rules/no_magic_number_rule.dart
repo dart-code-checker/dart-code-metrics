@@ -70,7 +70,7 @@ class NoMagicNumberRule extends BaseRule {
       config['allowed'] as List<num> ?? [-1, 0, 1];
 }
 
-class _Visitor extends RecursiveAstVisitor<Object> {
+class _Visitor extends RecursiveAstVisitor<void> {
   final _literals = <Literal>[];
 
   Iterable<Literal> get literals => _literals;

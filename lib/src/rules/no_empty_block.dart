@@ -37,7 +37,7 @@ class NoEmptyBlockRule extends BaseRule {
   }
 }
 
-class _Visitor extends RecursiveAstVisitor<Object> {
+class _Visitor extends RecursiveAstVisitor<void> {
   final _emptyBlocks = <Block>[];
 
   Iterable<Block> get emptyBlocks => _emptyBlocks;

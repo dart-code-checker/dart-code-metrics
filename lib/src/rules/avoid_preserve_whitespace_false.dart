@@ -35,7 +35,7 @@ class AvoidPreserveWhitespaceFalseRule extends BaseRule {
   }
 }
 
-class _Visitor extends RecursiveAstVisitor<Object> {
+class _Visitor extends RecursiveAstVisitor<void> {
   final _expression = <NamedExpression>[];
 
   Iterable<NamedExpression> get expression => _expression;

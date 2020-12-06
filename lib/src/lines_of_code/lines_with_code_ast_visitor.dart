@@ -3,7 +3,7 @@ import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/source/line_info.dart';
 
-class LinesWithCodeAstVisitor extends RecursiveAstVisitor<Object> {
+class LinesWithCodeAstVisitor extends RecursiveAstVisitor<void> {
   final LineInfo _lineInfo;
 
   final _linesWithCode = <int>{};

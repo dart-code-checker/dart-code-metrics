@@ -92,7 +92,7 @@ class NoBooleanLiteralCompareRule extends BaseRule {
   }
 }
 
-class _Visitor extends RecursiveAstVisitor<Object> {
+class _Visitor extends RecursiveAstVisitor<void> {
   static const _scannedTokenTypes = [TokenType.EQ_EQ, TokenType.BANG_EQ];
 
   final _expressions = <BinaryExpression>[];

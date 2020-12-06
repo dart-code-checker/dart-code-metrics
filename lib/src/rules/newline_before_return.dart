@@ -79,7 +79,7 @@ class NewlineBeforeReturnRule extends BaseRule {
   }
 }
 
-class _Visitor extends RecursiveAstVisitor<Object> {
+class _Visitor extends RecursiveAstVisitor<void> {
   final _statements = <ReturnStatement>[];
 
   Iterable<ReturnStatement> get statements => _statements;

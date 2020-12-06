@@ -6,7 +6,7 @@ import 'package:analyzer/source/line_info.dart';
 
 import 'cyclomatic_config.dart';
 
-class ControlFlowAstVisitor extends RecursiveAstVisitor<Object> {
+class ControlFlowAstVisitor extends RecursiveAstVisitor<void> {
   final CyclomaticConfig _config;
   final LineInfo _lineInfo;
 

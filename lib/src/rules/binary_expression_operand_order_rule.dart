@@ -43,7 +43,7 @@ class BinaryExpressionOperandOrderRule extends BaseRule {
   }
 }
 
-class _Visitor extends RecursiveAstVisitor<Object> {
+class _Visitor extends RecursiveAstVisitor<void> {
   final _binaryExpressions = <BinaryExpression>[];
 
   Iterable<BinaryExpression> get binaryExpressions => _binaryExpressions;

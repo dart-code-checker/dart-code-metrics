@@ -34,7 +34,7 @@ class PreferOnPushCdStrategyRule extends BaseRule {
   }
 }
 
-class _Visitor extends RecursiveAstVisitor<Object> {
+class _Visitor extends RecursiveAstVisitor<void> {
   final _expression = <AstNode>[];
 
   Iterable<AstNode> get expression => _expression;

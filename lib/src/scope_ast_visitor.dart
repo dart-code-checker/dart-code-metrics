@@ -4,7 +4,7 @@ import 'package:analyzer/dart/ast/visitor.dart';
 import 'models/scoped_component_declaration.dart';
 import 'models/scoped_function_declaration.dart';
 
-class ScopeAstVisitor extends RecursiveAstVisitor<Object> {
+class ScopeAstVisitor extends RecursiveAstVisitor<void> {
   final _components = <ScopedComponentDeclaration>[];
   final _functions = <ScopedFunctionDeclaration>[];
 

@@ -2,7 +2,7 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 
-class HalsteadVolumeAstVisitor extends RecursiveAstVisitor<Object> {
+class HalsteadVolumeAstVisitor extends RecursiveAstVisitor<void> {
   final _operators = <String, int>{};
   final _operands = <String, int>{};
 

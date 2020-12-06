@@ -249,7 +249,7 @@ class HtmlReporter implements Reporter {
             withArgumentsCountViolations
                 ? '$averageArgumentsCount / $argumentsCountViolations'
                 : '$averageArgumentsCount',
-            withViolation: withMaintainabilityIndexViolations)));
+            withViolation: withArgumentsCountViolations)));
   }
 
   void _generateFoldersReports(

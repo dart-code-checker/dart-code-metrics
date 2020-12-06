@@ -80,7 +80,7 @@ class DoubleLiteralFormatRule extends BaseRule {
   }
 }
 
-class _Visitor extends RecursiveAstVisitor<Object> {
+class _Visitor extends RecursiveAstVisitor<void> {
   final _literals = <DoubleLiteral>[];
 
   Iterable<DoubleLiteral> get literals => _literals;
