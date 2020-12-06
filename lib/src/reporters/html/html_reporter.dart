@@ -587,7 +587,7 @@ class HtmlReporter implements Reporter {
         report.linesOfExecutableCodeViolations > 0;
 
     return Element.tag('div')
-      ..classes.add('metric-subheader')
+      ..classes.add('metric-sub-header')
       ..nodes.addAll([
         renderSummaryMetric(
             withCyclomaticComplexityViolations
