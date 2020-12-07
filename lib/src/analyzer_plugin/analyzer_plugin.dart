@@ -273,9 +273,9 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
         );
 
         final cyclomatic = _cyclomaticComplexityMetric(
+          function,
           functionReport,
           startSourceLocation,
-          function.declaration.end,
           config,
         );
         if (cyclomatic != null) {
@@ -283,9 +283,9 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
         }
 
         final nesting = _nestingLevelMetric(
+          function,
           functionReport,
           startSourceLocation,
-          function.declaration.end,
           config,
         );
         if (nesting != null) {
@@ -334,33 +334,33 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
   }
 
   plugin.AnalysisErrorFixes _cyclomaticComplexityMetric(
+    ScopedFunctionDeclaration function,
     FunctionReport functionReport,
     SourceLocation startSourceLocation,
-    int declarationEndOffset,
     AnalyzerPluginConfig config,
   ) =>
       UtilitySelector.isIssueLevel(
               functionReport.cyclomaticComplexity.violationLevel)
           ? metricReportToAnalysisErrorFixes(
               startSourceLocation,
-              declarationEndOffset - startSourceLocation.offset,
-              'Function has a Cyclomatic Complexity of ${functionReport.cyclomaticComplexity.value} (exceeds ${config.metricsConfigs.cyclomaticComplexityWarningLevel} allowed). Consider refactoring.',
+              function.declaration.end - startSourceLocation.offset,
+              '${function.type} has a Cyclomatic Complexity of ${functionReport.cyclomaticComplexity.value} (exceeds ${config.metricsConfigs.cyclomaticComplexityWarningLevel} allowed). Consider refactoring.',
               _codeMetricsId,
             )
           : null;
 
   plugin.AnalysisErrorFixes _nestingLevelMetric(
+    ScopedFunctionDeclaration function,
     FunctionReport functionReport,
     SourceLocation startSourceLocation,
-    int declarationEndOffset,
     AnalyzerPluginConfig config,
   ) =>
       UtilitySelector.isIssueLevel(
               functionReport.maximumNestingLevel.violationLevel)
           ? metricReportToAnalysisErrorFixes(
               startSourceLocation,
-              declarationEndOffset - startSourceLocation.offset,
-              'Function has a Nesting Level of ${functionReport.maximumNestingLevel.value} (exceeds ${config.metricsConfigs.maximumNestingWarningLevel} allowed). Consider refactoring.',
+              function.declaration.end - startSourceLocation.offset,
+              '${function.type} has a Nesting Level of ${functionReport.maximumNestingLevel.value} (exceeds ${config.metricsConfigs.maximumNestingWarningLevel} allowed). Consider refactoring.',
               _codeMetricsId,
             )
           : null;

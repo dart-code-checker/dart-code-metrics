@@ -16,13 +16,14 @@ class FunctionRecord {
   final Map<String, int> operators;
   final Map<String, int> operands;
 
-  const FunctionRecord(
-      {@required this.firstLine,
-      @required this.lastLine,
-      @required this.argumentsCount,
-      @required this.cyclomaticComplexityLines,
-      @required this.linesWithCode,
-      @required this.nestingLines,
-      @required this.operators,
-      @required this.operands});
+  const FunctionRecord({
+    @required this.firstLine,
+    @required this.lastLine,
+    @required this.argumentsCount,
+    @required this.cyclomaticComplexityLines,
+    @required this.linesWithCode,
+    @required this.nestingLines,
+    @required this.operators,
+    @required this.operands,
+  });
 }

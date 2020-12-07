@@ -3,6 +3,7 @@ import 'package:meta/meta.dart';
 import '../config/config.dart';
 import '../lines_of_code/lines_with_code_ast_visitor.dart';
 import '../models/design_issue.dart';
+import '../models/function_type.dart';
 import '../models/scoped_function_declaration.dart';
 import '../models/source.dart';
 import 'base_pattern.dart';
@@ -32,9 +33,14 @@ class LongMethod extends BasePattern {
           config.linesOfExecutableCodeWarningLevel) {
         issues.add(createIssue(
           this,
-          _compileMessage(lines: linesWithCodeAstVisitor.linesWithCode.length),
+          _compileMessage(
+            lines: linesWithCodeAstVisitor.linesWithCode.length,
+            functionType: function.type,
+          ),
           _compileRecommendationMessage(
-              maximumLines: config.linesOfExecutableCodeWarningLevel),
+            maximumLines: config.linesOfExecutableCodeWarningLevel,
+            functionType: function.type,
+          ),
           source,
           function.declaration,
         ));
@@ -44,9 +50,12 @@ class LongMethod extends BasePattern {
     return issues;
   }
 
-  String _compileMessage({@required int lines}) =>
-      'Long Method. This method contains $lines lines with executable code.';
+  String _compileMessage({@required int lines, FunctionType functionType}) =>
+      'Long $functionType. This ${functionType.toString().toLowerCase()} contains $lines lines with executable code.';
 
-  String _compileRecommendationMessage({@required int maximumLines}) =>
-      "Based on configuration of this package, we don't recommend write a method longer than $maximumLines lines with executable code.";
+  String _compileRecommendationMessage({
+    @required int maximumLines,
+    FunctionType functionType,
+  }) =>
+      "Based on configuration of this package, we don't recommend write a ${functionType.toString().toLowerCase()} longer than $maximumLines lines with executable code.";
 }

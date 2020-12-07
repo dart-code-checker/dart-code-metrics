@@ -2,6 +2,7 @@
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/ast/ast.dart';
+import 'package:dart_code_metrics/src/models/function_type.dart';
 import 'package:dart_code_metrics/src/scope_ast_visitor.dart';
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
@@ -35,6 +36,7 @@ void main() {
       expect(visitor.components, isEmpty);
 
       final function = visitor.functions.single;
+      expect(function.type, equals(FunctionType.staticFunction));
       expect(function.declaration, const TypeMatcher<FunctionDeclaration>());
       expect(
         (function.declaration as FunctionDeclaration).name.name,
@@ -59,6 +61,7 @@ void main() {
 
       final functions = visitor.functions;
       expect(functions.length, equals(2));
+      expect(functions.first.type, equals(FunctionType.classConstructor));
       expect(
         functions.first.declaration,
         const TypeMatcher<ConstructorDeclaration>(),
@@ -75,6 +78,8 @@ void main() {
         (functions.first.enclosingDeclaration as ClassDeclaration).name.name,
         equals('SampleClass'),
       );
+
+      expect(functions.last.type, equals(FunctionType.classConstructor));
       expect(
         functions.last.declaration,
         const TypeMatcher<ConstructorDeclaration>(),
@@ -108,6 +113,7 @@ void main() {
       );
 
       final function = visitor.functions.single;
+      expect(function.type, equals(FunctionType.classMethod));
       expect(function.declaration, const TypeMatcher<MethodDeclaration>());
       expect(
         (function.declaration as MethodDeclaration).name.name,

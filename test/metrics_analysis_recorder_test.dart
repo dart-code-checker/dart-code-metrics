@@ -5,6 +5,7 @@ import 'package:dart_code_metrics/src/models/code_issue.dart';
 import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
 import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/design_issue.dart';
+import 'package:dart_code_metrics/src/models/function_type.dart';
 import 'package:dart_code_metrics/src/models/scoped_component_declaration.dart';
 import 'package:dart_code_metrics/src/models/scoped_function_declaration.dart';
 import 'package:mockito/mockito.dart';
@@ -81,7 +82,8 @@ void main() {
         final functionDeclarationMock = FunctionDeclarationMock();
         when(functionDeclarationMock.name).thenReturn(simpleIdentifierMock);
 
-        final record = ScopedFunctionDeclaration(functionDeclarationMock, null);
+        final record = ScopedFunctionDeclaration(
+            FunctionType.staticFunction, functionDeclarationMock, null);
 
         test('throws ArgumentError if called without record', () {
           expect(() {
@@ -206,7 +208,8 @@ void main() {
       final functionDeclarationMock = FunctionDeclarationMock();
       when(functionDeclarationMock.name).thenReturn(simpleIdentifierMock);
 
-      final record = ScopedFunctionDeclaration(functionDeclarationMock, null);
+      final record = ScopedFunctionDeclaration(
+          FunctionType.staticFunction, functionDeclarationMock, null);
 
       test('throws StateError if we call them in invalid state', () {
         expect(() {

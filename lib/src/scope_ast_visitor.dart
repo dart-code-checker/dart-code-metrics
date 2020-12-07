@@ -1,6 +1,7 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 
+import 'models/function_type.dart';
 import 'models/scoped_component_declaration.dart';
 import 'models/scoped_function_declaration.dart';
 
@@ -24,7 +25,7 @@ class ScopeAstVisitor extends RecursiveAstVisitor<void> {
   @override
   void visitConstructorDeclaration(ConstructorDeclaration node) {
     if (node.body is! EmptyFunctionBody) {
-      _registerDeclaration(node);
+      _registerDeclaration(FunctionType.classConstructor, node);
     }
     super.visitConstructorDeclaration(node);
   }
@@ -39,14 +40,14 @@ class ScopeAstVisitor extends RecursiveAstVisitor<void> {
 
   @override
   void visitFunctionDeclaration(FunctionDeclaration node) {
-    _registerDeclaration(node);
+    _registerDeclaration(FunctionType.staticFunction, node);
     super.visitFunctionDeclaration(node);
   }
 
   @override
   void visitMethodDeclaration(MethodDeclaration node) {
     if (node.body is! EmptyFunctionBody) {
-      _registerDeclaration(node);
+      _registerDeclaration(FunctionType.classMethod, node);
     }
     super.visitMethodDeclaration(node);
   }
@@ -59,7 +60,8 @@ class ScopeAstVisitor extends RecursiveAstVisitor<void> {
     _enclosingDeclaration = null;
   }
 
-  void _registerDeclaration(Declaration node) {
-    _functions.add(ScopedFunctionDeclaration(node, _enclosingDeclaration));
+  void _registerDeclaration(FunctionType type, Declaration node) {
+    _functions
+        .add(ScopedFunctionDeclaration(type, node, _enclosingDeclaration));
   }
 }
