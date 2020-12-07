@@ -78,12 +78,12 @@ void main() {
     expect(
       issues.single.message,
       equals(
-          'Long Method. This method contains 29 lines with executable code.'),
+          'Long Function. This function contains 29 lines with executable code.'),
     );
     expect(
       issues.single.recommendation,
       equals(
-          "Based on configuration of this package, we don't recommend write a method longer than 25 lines with executable code."),
+          "Based on configuration of this package, we don't recommend write a function longer than 25 lines with executable code."),
     );
   });
 }
