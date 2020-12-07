@@ -51,12 +51,12 @@ void main() {
     expect(issueSrcSpan.end.offset, equals(110));
     expect(
       issue.message,
-      equals('Long Parameter List. This method require 5 arguments.'),
+      equals('Long Parameter List. This function require 5 arguments.'),
     );
     expect(
       issue.recommendation,
       equals(
-          "Based on configuration of this package, we don't recommend writing a method with argument count more than 4."),
+          "Based on configuration of this package, we don't recommend writing a function with argument count more than 4."),
     );
   });
 }
