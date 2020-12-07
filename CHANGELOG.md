@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.3.0
+
+- Add Maximum Nesting metric
+
 ## 2.2.0
 
 - Add static code diagnostic prefer-trailing-comma
