@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.3.1
+
+- Changed the support version range of the analyzer to `>=0.39.3 <0.42.0`
+
 ## 2.3.0
 
 - Add Maximum Nesting metric
