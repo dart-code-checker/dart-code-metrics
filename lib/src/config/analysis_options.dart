@@ -40,7 +40,7 @@ class AnalysisOptions {
     final configMap = map ?? {};
 
     return AnalysisOptions(
-      excludePatterns: _readGlobalExludePatterns(configMap),
+      excludePatterns: _readGlobalExcludePatterns(configMap),
       metricsConfig: _readMetricsConfig(configMap),
       metricsExcludePatterns: _readMetricsExcludePatterns(configMap),
       rules: _readRules(configMap, _rulesKey),
@@ -49,7 +49,7 @@ class AnalysisOptions {
   }
 }
 
-Iterable<String> _readGlobalExludePatterns(Map<String, Object> configMap) {
+Iterable<String> _readGlobalExcludePatterns(Map<String, Object> configMap) {
   final analyzerOptions = configMap[_analyzerKey];
   if (analyzerOptions is Map<String, Object>) {
     final excludeList = analyzerOptions[_excludeKey];
