@@ -6,6 +6,7 @@ import 'package:dart_code_metrics/src/models/scoped_function_declaration.dart';
 
 import 'models/design_issue.dart';
 
+/// [FileRecord] builder
 abstract class MetricsRecordsBuilder {
   void recordComponent(
       ScopedComponentDeclaration declaration, ComponentRecord record);
