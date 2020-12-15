@@ -17,7 +17,11 @@ class CodeClimateReporter implements Reporter {
   @override
   Iterable<String> report(Iterable<FileRecord> records) =>
       (records?.isNotEmpty ?? false)
-          ? [json.encode(records.map(_toIssues).expand((r) => r).toList())]
+          ? records
+              .map(_toIssues)
+              .expand((r) => r)
+              .map((issue) => '${json.encode(issue)}\x00')
+              .toList()
           : [];
 
   Iterable<CodeClimateIssue> _toIssues(FileRecord record) {
