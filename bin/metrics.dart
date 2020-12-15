@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dart_code_metrics/metrics_analyzer.dart';
@@ -120,7 +121,15 @@ Future<void> _runAnalysis(
       throw ArgumentError.value(reporterType, 'reporter');
   }
 
-  reporter.report(runner.results()).forEach(print);
+  if (reporterType == 'codeclimate') {
+    final dynamic testresult =
+        jsonDecode(reporter.report(runner.results()).first);
+    for (final test in testresult) {
+      print('${jsonEncode(test)}\x00');
+    }
+  } else {
+    reporter.report(runner.results()).forEach(print);
+  }
 
   if (setExitOnViolationLevel != null &&
       UtilitySelector.maxViolationLevel(runner.results(), config) >=
