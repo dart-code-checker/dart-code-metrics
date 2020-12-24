@@ -32,6 +32,7 @@ Future<void> main(List<String> args) async {
       int.tryParse(arguments[maximumNestingKey] as String ?? ''),
       arguments[reporterName] as String,
       arguments[verboseName] as bool,
+      arguments[gitlabCompatibilityName] as bool,
       ViolationLevel.fromString(arguments[setExitOnViolationLevel] as String),
     );
   } on FormatException catch (e) {
@@ -60,6 +61,7 @@ Future<void> _runAnalysis(
   int maximumNestingWarningLevel,
   String reporterType,
   bool verbose,
+  bool gitlab,
   ViolationLevel setExitOnViolationLevel,
 ) async {
   final analysisOptionsFile =
@@ -114,7 +116,8 @@ Future<void> _runAnalysis(
       reporter = HtmlReporter(reportConfig: config);
       break;
     case 'codeclimate':
-      reporter = CodeClimateReporter(reportConfig: config);
+      reporter =
+          CodeClimateReporter(reportConfig: config, gitlabCompatible: gitlab);
       break;
     default:
       throw ArgumentError.value(reporterType, 'reporter');

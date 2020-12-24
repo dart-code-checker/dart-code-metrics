@@ -9,6 +9,7 @@ const usageHeader = 'Usage: metrics [options...] <directories>';
 const helpFlagName = 'help';
 const reporterName = 'reporter';
 const verboseName = 'verbose';
+const gitlabCompatibilityName = 'gitlab';
 const ignoredFilesName = 'ignore-files';
 const rootFolderName = 'root-folder';
 const setExitOnViolationLevel = 'set-exit-on-violation-level';
@@ -17,11 +18,14 @@ ArgParser argumentsParser() {
   final parser = ArgParser();
 
   _appendHelpOption(parser);
+  parser.addSeparator('');
   _appendReporterOption(parser);
+  parser.addSeparator('');
   _appendMetricsThresholdOptions(parser);
+  parser.addSeparator('');
   _appendRootOption(parser);
   _appendExcludesOption(parser);
-  _appendVerboseOption(parser);
+  parser.addSeparator('');
   _appendExitOption(parser);
 
   return parser;
@@ -37,14 +41,26 @@ void _appendHelpOption(ArgParser parser) {
 }
 
 void _appendReporterOption(ArgParser parser) {
-  parser.addOption(
-    reporterName,
-    abbr: 'r',
-    help: 'The format of the output of the analysis',
-    valueHelp: 'console',
-    allowed: ['console', 'github', 'json', 'html', 'codeclimate'],
-    defaultsTo: 'console',
-  );
+  parser
+    ..addOption(
+      reporterName,
+      abbr: 'r',
+      help: 'The format of the output of the analysis',
+      valueHelp: 'console',
+      allowed: ['console', 'github', 'json', 'html', 'codeclimate'],
+      defaultsTo: 'console',
+    )
+    ..addFlag(
+      verboseName,
+      help: 'Additional flag for Console reporter',
+      negatable: false,
+    )
+    ..addFlag(
+      gitlabCompatibilityName,
+      help:
+          'Additional flag for Code Climate reporter to report in GitLab Code Quality format',
+      negatable: false,
+    );
 }
 
 @immutable
@@ -115,13 +131,6 @@ void _appendExcludesOption(ArgParser parser) {
     help: 'Filepaths in Glob syntax to be ignored',
     valueHelp: '{/**.g.dart,/**.template.dart}',
     defaultsTo: '{/**.g.dart,/**.template.dart}',
-  );
-}
-
-void _appendVerboseOption(ArgParser parser) {
-  parser.addFlag(
-    verboseName,
-    negatable: false,
   );
 }
 

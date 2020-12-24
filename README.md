@@ -82,28 +82,27 @@ flutter pub global run dart_code_metrics:metrics lib
 ```text
 Usage: metrics [options...] <directories>
 -h, --help                                             Print this usage information.
+
+
 -r, --reporter=<console>                               The format of the output of the analysis
                                                        [console (default), github, json, html, codeclimate]
+    --verbose                                          Additional flag for Console reporter
+    --gitlab                                           Additional flag for Code Climate reporter to report in GitLab Code Quality format
+
 
     --cyclomatic-complexity=<20>                       Cyclomatic complexity threshold
-                                                       (defaults to "20")
-
     --lines-of-executable-code=<50>                    Lines of executable code threshold
-                                                       (defaults to "50")
-
     --number-of-arguments=<4>                          Number of arguments threshold
-                                                       (defaults to "4")
-
     --number-of-methods=<10>                           Number of methods threshold
-                                                       (defaults to "10")
+    --maximum-nesting=<5>                              Maximum nesting threshold
+
 
     --root-folder=<./>                                 Root folder
                                                        (defaults to current directory)
-
     --ignore-files=<{/**.g.dart,/**.template.dart}>    Filepaths in Glob syntax to be ignored
                                                        (defaults to "{/**.g.dart,/**.template.dart}")
 
-    --verbose
+
     --set-exit-on-violation-level=<warning>            Set exit code 2 if code violations same or higher level than selected are detected
                                                        [noted, warning, alarm]
 ```
