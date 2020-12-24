@@ -81,7 +81,7 @@ Future<void> _runAnalysis(
   final analyzer = MetricsAnalyzer(
     store,
     options: options,
-    addintionalExcludes: [ignoreFilesPattern],
+    additionalExcludes: [ignoreFilesPattern],
   );
   final runner =
       MetricsAnalysisRunner(analyzer, store, analysisDirectories, rootFolder);

@@ -45,7 +45,7 @@ class MetricsAnalyzer {
   MetricsAnalyzer(
     this._store, {
     AnalysisOptions options,
-    Iterable<String> addintionalExcludes = const [],
+    Iterable<String> additionalExcludes = const [],
   })  : _checkingCodeRules =
             options?.rules != null ? getRulesById(options.rules) : [],
         _checkingAntiPatterns = options?.antiPatterns != null
@@ -53,7 +53,7 @@ class MetricsAnalyzer {
             : [],
         _globalExclude = [
           ..._prepareExcludes(options?.excludePatterns),
-          ..._prepareExcludes(addintionalExcludes),
+          ..._prepareExcludes(additionalExcludes),
         ],
         _metricsConfig = options?.metricsConfig ?? const Config(),
         _metricsExclude = _prepareExcludes(options?.metricsExcludePatterns),
