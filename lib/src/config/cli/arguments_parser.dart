@@ -21,7 +21,6 @@ ArgParser argumentsParser() {
   _appendMetricsThresholdOptions(parser);
   _appendRootOption(parser);
   _appendExcludesOption(parser);
-  _appendVerboseOption(parser);
   _appendExitOption(parser);
 
   return parser;
@@ -37,14 +36,20 @@ void _appendHelpOption(ArgParser parser) {
 }
 
 void _appendReporterOption(ArgParser parser) {
-  parser.addOption(
-    reporterName,
-    abbr: 'r',
-    help: 'The format of the output of the analysis',
-    valueHelp: 'console',
-    allowed: ['console', 'github', 'json', 'html', 'codeclimate'],
-    defaultsTo: 'console',
-  );
+  parser
+    ..addOption(
+      reporterName,
+      abbr: 'r',
+      help: 'The format of the output of the analysis',
+      valueHelp: 'console',
+      allowed: ['console', 'github', 'json', 'html', 'codeclimate'],
+      defaultsTo: 'console',
+    )
+    ..addFlag(
+      verboseName,
+      help: 'Additional flag for Console reporter',
+      negatable: false,
+    );
 }
 
 @immutable
@@ -115,13 +120,6 @@ void _appendExcludesOption(ArgParser parser) {
     help: 'Filepaths in Glob syntax to be ignored',
     valueHelp: '{/**.g.dart,/**.template.dart}',
     defaultsTo: '{/**.g.dart,/**.template.dart}',
-  );
-}
-
-void _appendVerboseOption(ArgParser parser) {
-  parser.addFlag(
-    verboseName,
-    negatable: false,
   );
 }
 
