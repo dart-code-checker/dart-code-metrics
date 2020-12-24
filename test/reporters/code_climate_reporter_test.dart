@@ -278,4 +278,74 @@ void main() {
       });
     });
   });
+
+  group('CodeClimateReporter.report gitlab compatible report about', () {
+    const fullPath = '/home/developer/work/project/example.dart';
+
+    CodeClimateReporter _reporter;
+
+    setUp(() {
+      _reporter = CodeClimateReporter(
+          reportConfig: const Config(), gitlabCompatible: true);
+    });
+
+    test('empty file', () {
+      expect(_reporter.report([]), isEmpty);
+    });
+
+    test('file with design issues', () {
+      const _issuePatternId = 'patternId1';
+      const _issuePatternDocumentation = 'https://docu.edu/patternId1.html';
+      const _issueLine = 2;
+      const _issueMessage = 'first issue message';
+      const _issueRecommendation = 'issue recommendation';
+
+      final records = [
+        FileRecord(
+          fullPath: fullPath,
+          relativePath: 'example.dart',
+          components: Map.unmodifiable(<String, ComponentRecord>{}),
+          functions: Map.unmodifiable(<String, FunctionRecord>{}),
+          issues: const [],
+          designIssues: [
+            DesignIssue(
+              patternId: _issuePatternId,
+              patternDocumentation: Uri.parse(_issuePatternDocumentation),
+              sourceSpan: SourceSpanBase(
+                SourceLocation(
+                  1,
+                  sourceUrl: Uri.parse(fullPath),
+                  line: _issueLine,
+                  column: 3,
+                ),
+                SourceLocation(6, sourceUrl: Uri.parse(fullPath)),
+                'issue',
+              ),
+              message: 'first issue message',
+              recommendation: _issueRecommendation,
+            ),
+          ],
+        ),
+      ];
+
+      final report =
+          (json.decode(_reporter.report(records).first) as List<Object>).first
+              as Map<String, Object>;
+
+      expect(report, containsPair('type', 'issue'));
+      expect(report, containsPair('check_name', _issuePatternId));
+      expect(report, containsPair('description', _issueMessage));
+      expect(report, containsPair('categories', ['Complexity']));
+      expect(
+          report,
+          containsPair('location', {
+            'path': 'example.dart',
+            'lines': {'begin': _issueLine, 'end': _issueLine},
+          }));
+      expect(report, containsPair('remediation_points', 50000));
+      expect(report, containsPair('severity', 'info'));
+      expect(report,
+          containsPair('fingerprint', '8842a666b8aee4f2eae51205e0114dae'));
+    });
+  });
 }

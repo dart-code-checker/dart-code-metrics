@@ -9,6 +9,7 @@ const usageHeader = 'Usage: metrics [options...] <directories>';
 const helpFlagName = 'help';
 const reporterName = 'reporter';
 const verboseName = 'verbose';
+const gitlabCompatibilityName = 'gitlab';
 const ignoredFilesName = 'ignore-files';
 const rootFolderName = 'root-folder';
 const setExitOnViolationLevel = 'set-exit-on-violation-level';
@@ -52,6 +53,12 @@ void _appendReporterOption(ArgParser parser) {
     ..addFlag(
       verboseName,
       help: 'Additional flag for Console reporter',
+      negatable: false,
+    )
+    ..addFlag(
+      gitlabCompatibilityName,
+      help:
+          'Additional flag for Code Climate reporter to report in GitLab Code Quality format',
       negatable: false,
     );
 }

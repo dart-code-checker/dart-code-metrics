@@ -12,17 +12,29 @@ import 'code_climate_issue.dart';
 // Code Climate Engine Specification https://github.com/codeclimate/platform/blob/master/spec/analyzers/SPEC.md
 class CodeClimateReporter implements Reporter {
   final Config reportConfig;
-  CodeClimateReporter({@required this.reportConfig});
+
+  /// If true will report in GitLab Code Quality format
+  final bool gitlabCompatible;
+
+  CodeClimateReporter({
+    @required this.reportConfig,
+    this.gitlabCompatible = false,
+  });
 
   @override
-  Iterable<String> report(Iterable<FileRecord> records) =>
-      (records?.isNotEmpty ?? false)
-          ? records
-              .map(_toIssues)
-              .expand((r) => r)
-              .map((issue) => '${json.encode(issue)}\x00')
-              .toList()
-          : [];
+  Iterable<String> report(Iterable<FileRecord> records) {
+    if (records?.isEmpty ?? true) {
+      return [];
+    }
+
+    return gitlabCompatible
+        ? [json.encode(records.map(_toIssues).expand((r) => r).toList())]
+        : records
+            .map(_toIssues)
+            .expand((r) => r)
+            .map((issue) => '${json.encode(issue)}\x00')
+            .toList();
+  }
 
   Iterable<CodeClimateIssue> _toIssues(FileRecord record) {
     final result = <CodeClimateIssue>[
