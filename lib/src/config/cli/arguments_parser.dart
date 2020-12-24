@@ -17,10 +17,14 @@ ArgParser argumentsParser() {
   final parser = ArgParser();
 
   _appendHelpOption(parser);
+  parser.addSeparator('');
   _appendReporterOption(parser);
+  parser.addSeparator('');
   _appendMetricsThresholdOptions(parser);
+  parser.addSeparator('');
   _appendRootOption(parser);
   _appendExcludesOption(parser);
+  parser.addSeparator('');
   _appendExitOption(parser);
 
   return parser;
