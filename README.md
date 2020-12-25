@@ -122,6 +122,7 @@ If you want command line tool to check rules, you should add configuration to yo
 
 ### Common
 
+- [avoid-unused-parameters](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/avoid_unused_parameters.md)
 - [binary-expression-operand-order](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/binary_expression_operand_order.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 - [double-literal-format](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/double_literal_format.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 - [member-ordering](https://github.com/wrike/dart-code-metrics/blob/master/doc/rules/member_ordering.md) &nbsp; ![Configurable](https://img.shields.io/badge/-configurable-informational)

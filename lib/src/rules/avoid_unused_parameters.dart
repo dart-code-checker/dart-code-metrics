@@ -1,0 +1,164 @@
+import 'package:analyzer/dart/ast/ast.dart';
+import 'package:analyzer/dart/ast/syntactic_entity.dart';
+import 'package:analyzer/dart/ast/visitor.dart';
+
+import '../models/code_issue.dart';
+import '../models/code_issue_severity.dart';
+import '../models/source.dart';
+import 'base_rule.dart';
+import 'rule_utils.dart';
+
+// Inspired by PVS-Studio (https://www.viva64.com/en/w/v6022/)
+
+class AvoidUnusedParameters extends BaseRule {
+  static const String ruleId = 'avoid-unused-parameters';
+  static const _documentationUrl = 'https://git.io/JL153';
+
+  static const _warningMessage = 'Parameter is unused';
+  static const _renameMessage =
+      'Parameter is unused, consider renaming it to _, __, etc.';
+
+  AvoidUnusedParameters({
+    Map<String, Object> config = const {},
+  }) : super(
+          id: ruleId,
+          documentation: Uri.parse(_documentationUrl),
+          severity: CodeIssueSeverity.fromJson(config['severity'] as String) ??
+              CodeIssueSeverity.warning,
+        );
+
+  @override
+  Iterable<CodeIssue> check(Source source) {
+    final _visitor = _Visitor();
+
+    source.compilationUnit.visitChildren(_visitor);
+
+    return [
+      ..._visitor.unusedParameters
+          .map((parameter) => createIssue(
+                this,
+                _warningMessage,
+                null,
+                null,
+                source.url,
+                source.content,
+                source.compilationUnit.lineInfo,
+                parameter,
+              ))
+          .toList(growable: false),
+      ..._visitor.renameSuggestions
+          .map((parameter) => createIssue(
+                this,
+                _renameMessage,
+                null,
+                null,
+                source.url,
+                source.content,
+                source.compilationUnit.lineInfo,
+                parameter,
+              ))
+          .toList(),
+    ];
+  }
+}
+
+class _Visitor extends RecursiveAstVisitor<void> {
+  final _unusedParameters = <FormalParameter>[];
+  final _renameSuggestions = <FormalParameter>[];
+
+  Iterable<FormalParameter> get unusedParameters => _unusedParameters;
+
+  Iterable<FormalParameter> get renameSuggestions => _renameSuggestions;
+
+  @override
+  void visitMethodDeclaration(MethodDeclaration node) {
+    super.visitMethodDeclaration(node);
+
+    final parent = node.parent;
+
+    if (parent is ClassDeclaration && parent.isAbstract) {
+      return;
+    }
+
+    final isOverride = node.metadata.firstWhere(
+      (node) => node.name.name == 'override' && node.atSign.type.lexeme == '@',
+      orElse: () => null,
+    );
+
+    if (isOverride != null) {
+      _renameSuggestions.addAll(
+        _checkParameters(
+          node.body.childEntities,
+          node.parameters.parameters,
+        ).where(
+          (parameter) =>
+              parameter.identifier.name.replaceAll('_', '').isNotEmpty,
+        ),
+      );
+    } else {
+      _unusedParameters.addAll(
+        _checkParameters(
+          node.body.childEntities,
+          node.parameters.parameters,
+        ),
+      );
+    }
+  }
+
+  @override
+  void visitFunctionDeclaration(FunctionDeclaration node) {
+    super.visitFunctionDeclaration(node);
+
+    _unusedParameters.addAll(
+      _checkParameters(
+        node.functionExpression.body.childEntities,
+        node.functionExpression.parameters.parameters,
+      ),
+    );
+  }
+
+  Iterable<FormalParameter> _checkParameters(
+    Iterable<SyntacticEntity> children,
+    NodeList<FormalParameter> parameters,
+  ) {
+    final result = <FormalParameter>[];
+
+    final usages = _getAllUsages(children, [])
+        .map((identifier) => identifier.name)
+        .toList();
+
+    for (final parameter in parameters) {
+      if (!usages.contains(parameter.identifier.name)) {
+        result.add(parameter);
+      }
+    }
+
+    return result;
+  }
+
+  Iterable<Identifier> _getAllUsages(
+    Iterable<SyntacticEntity> children,
+    Iterable<String> ignoredNames,
+  ) {
+    final usages = <Identifier>[];
+    final ignored = [...ignoredNames];
+
+    for (final child in children) {
+      if (child is FunctionExpression) {
+        for (final parameter in child.parameters.parameters) {
+          ignored.add(parameter.identifier.name);
+        }
+      } else if (child is Identifier &&
+          !ignored.contains(child.name) &&
+          child.parent is! PropertyAccess) {
+        usages.add(child);
+      }
+
+      if (child is AstNode) {
+        usages.addAll(_getAllUsages(child.childEntities, ignored));
+      }
+    }
+
+    return usages;
+  }
+}
