@@ -97,7 +97,8 @@ void main() {
 
     expect(
       issues.every(
-          (issue) => issue.ruleId == 'prefer-trailing-comma-for-collection'),
+        (issue) => issue.ruleId == 'prefer-trailing-comma-for-collection',
+      ),
       isTrue,
     );
     expect(

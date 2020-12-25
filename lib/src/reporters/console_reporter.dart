@@ -69,7 +69,8 @@ class ConsoleReporter implements Reporter {
               _report(report.methodsCount, 'number of methods'),
           ];
           lines.add(
-              '${_colorPens[violationLevel](_humanReadableLabel[violationLevel]?.padRight(8))}$source - ${violations.join(', ')}');
+            '${_colorPens[violationLevel](_humanReadableLabel[violationLevel]?.padRight(8))}$source - ${violations.join(', ')}',
+          );
         }
       });
 
@@ -88,7 +89,8 @@ class ConsoleReporter implements Reporter {
 
       for (final issue in analysisRecord.issues) {
         final severity = _severityColors[issue.severity](
-            _severityHumanReadable[issue.severity]?.padRight(8));
+          _severityHumanReadable[issue.severity]?.padRight(8),
+        );
         final position =
             '${issue.sourceSpan.start.line}:${issue.sourceSpan.start.column}';
         final rule = [
@@ -131,7 +133,8 @@ class ConsoleReporter implements Reporter {
             _report(report.maximumNestingLevel, 'nesting level'),
         ];
         lines.add(
-            '${_colorPens[violationLevel](_humanReadableLabel[violationLevel]?.padRight(8))}$source - ${violations.join(', ')}');
+          '${_colorPens[violationLevel](_humanReadableLabel[violationLevel]?.padRight(8))}$source - ${violations.join(', ')}',
+        );
       }
     });
 

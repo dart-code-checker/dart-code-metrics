@@ -16,15 +16,15 @@ class ComponentAnnotationArgumentsOrderingRule extends BaseRule {
 
   final List<_ArgumentGroup> _groupsOrder;
 
-  ComponentAnnotationArgumentsOrderingRule(
-      {Map<String, Object> config = const {}})
-      : _groupsOrder = _parseOrder(config),
+  ComponentAnnotationArgumentsOrderingRule({
+    Map<String, Object> config = const {},
+  })  : _groupsOrder = _parseOrder(config),
         super(
-            id: ruleId,
-            documentation: Uri.parse(_documentationUrl),
-            severity:
-                CodeIssueSeverity.fromJson(config['severity'] as String) ??
-                    CodeIssueSeverity.style);
+          id: ruleId,
+          documentation: Uri.parse(_documentationUrl),
+          severity: CodeIssueSeverity.fromJson(config['severity'] as String) ??
+              CodeIssueSeverity.style,
+        );
 
   @override
   Iterable<CodeIssue> check(Source source) {
@@ -37,14 +37,15 @@ class ComponentAnnotationArgumentsOrderingRule extends BaseRule {
 
     return argumentsInfo.where((info) => info.argumentOrder.isWrong).map(
           (info) => createIssue(
-              this,
-              'Arguments group ${info.argumentOrder.argumentGroup.name} $_warningMessage ${info.argumentOrder.previousArgumentGroup.name}',
-              null,
-              null,
-              source.url,
-              source.content,
-              source.compilationUnit.lineInfo,
-              info.argument),
+            this,
+            'Arguments group ${info.argumentOrder.argumentGroup.name} $_warningMessage ${info.argumentOrder.previousArgumentGroup.name}',
+            null,
+            null,
+            source.url,
+            source.content,
+            source.compilationUnit.lineInfo,
+            info.argument,
+          ),
         );
   }
 

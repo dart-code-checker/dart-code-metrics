@@ -19,11 +19,11 @@ class PreferTrailingCommaForCollectionRule extends BaseRule {
 
   PreferTrailingCommaForCollectionRule({Map<String, Object> config = const {}})
       : super(
-            id: ruleId,
-            documentation: Uri.parse(_documentationUrl),
-            severity:
-                CodeIssueSeverity.fromJson(config['severity'] as String) ??
-                    CodeIssueSeverity.style);
+          id: ruleId,
+          documentation: Uri.parse(_documentationUrl),
+          severity: CodeIssueSeverity.fromJson(config['severity'] as String) ??
+              CodeIssueSeverity.style,
+        );
 
   @override
   Iterable<CodeIssue> check(Source source) {
@@ -35,14 +35,15 @@ class PreferTrailingCommaForCollectionRule extends BaseRule {
 
     return visitor.nodes
         .map((node) => createIssue(
-            this,
-            _failure,
-            '${source.content.substring(node.offset, node.end)},',
-            _correctionComment,
-            source.url,
-            source.content,
-            source.compilationUnit.lineInfo,
-            node))
+              this,
+              _failure,
+              '${source.content.substring(node.offset, node.end)},',
+              _correctionComment,
+              source.url,
+              source.content,
+              source.compilationUnit.lineInfo,
+              node,
+            ))
         .toList(growable: false);
   }
 }

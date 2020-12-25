@@ -31,9 +31,10 @@ void main() {
     parseResult.unit.visitChildren(scopeVisitor);
 
     final issues = LongParameterList().check(
-        Source(sourceUrl, parseResult.content, parseResult.unit),
-        scopeVisitor.functions,
-        const Config());
+      Source(sourceUrl, parseResult.content, parseResult.unit),
+      scopeVisitor.functions,
+      const Config(),
+    );
 
     expect(issues.length, equals(1));
 
@@ -56,7 +57,8 @@ void main() {
     expect(
       issue.recommendation,
       equals(
-          "Based on configuration of this package, we don't recommend writing a function with argument count more than 4."),
+        "Based on configuration of this package, we don't recommend writing a function with argument count more than 4.",
+      ),
     );
   });
 }

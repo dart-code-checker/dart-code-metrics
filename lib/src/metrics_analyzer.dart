@@ -77,7 +77,9 @@ class MetricsAnalyzer {
             .listSync(root: rootFolder, followLinks: false)
             .whereType<File>()
             .where((entity) => !_isExcluded(
-                p.relative(entity.path, from: rootFolder), _globalExclude))
+                  p.relative(entity.path, from: rootFolder),
+                  _globalExclude,
+                ))
             .map((entity) => entity.path))
         .toList();
 
@@ -87,9 +89,10 @@ class MetricsAnalyzer {
       Source source;
       if (_useFastParser) {
         final result = parseFile(
-            path: normalized,
-            featureSet: _featureSet,
-            throwIfDiagnostics: false);
+          path: normalized,
+          featureSet: _featureSet,
+          throwIfDiagnostics: false,
+        );
 
         source = Source(Uri.parse(filePath), result.content, result.unit);
       } else {
@@ -107,23 +110,26 @@ class MetricsAnalyzer {
 
       _store.recordFile(filePath, rootFolder, (builder) {
         if (!_isExcluded(
-            p.relative(filePath, from: rootFolder), _metricsExclude)) {
+          p.relative(filePath, from: rootFolder),
+          _metricsExclude,
+        )) {
           for (final component in visitor.components) {
             builder.recordComponent(
-                component,
-                ComponentRecord(
-                    firstLine: lineInfo
-                        .getLocation(component.declaration
-                            .firstTokenAfterCommentAndMetadata.offset)
-                        .lineNumber,
-                    lastLine: lineInfo
-                        .getLocation(component.declaration.endToken.end)
-                        .lineNumber,
-                    methodsCount: visitor.functions
-                        .where((function) =>
-                            function.enclosingDeclaration ==
-                            component.declaration)
-                        .length));
+              component,
+              ComponentRecord(
+                firstLine: lineInfo
+                    .getLocation(component
+                        .declaration.firstTokenAfterCommentAndMetadata.offset)
+                    .lineNumber,
+                lastLine: lineInfo
+                    .getLocation(component.declaration.endToken.end)
+                    .lineNumber,
+                methodsCount: visitor.functions
+                    .where((function) =>
+                        function.enclosingDeclaration == component.declaration)
+                    .length,
+              ),
+            );
           }
 
           for (final function in visitor.functions) {
@@ -166,15 +172,17 @@ class MetricsAnalyzer {
         builder
           ..recordIssues(_checkOnCodeIssues(ignores, source))
           ..recordDesignIssues(
-              _checkOnAntiPatterns(ignores, source, visitor.functions));
+            _checkOnAntiPatterns(ignores, source, visitor.functions),
+          );
       });
     }
   }
 
   Iterable<CodeIssue> _checkOnCodeIssues(IgnoreInfo ignores, Source source) =>
       _checkingCodeRules.where((rule) => !ignores.ignoreRule(rule.id)).expand(
-          (rule) => rule.check(source).where((issue) =>
-              !ignores.ignoredAt(issue.ruleId, issue.sourceSpan.start.line)));
+            (rule) => rule.check(source).where((issue) =>
+                !ignores.ignoredAt(issue.ruleId, issue.sourceSpan.start.line)),
+          );
 
   Iterable<DesignIssue> _checkOnAntiPatterns(
     IgnoreInfo ignores,
@@ -186,7 +194,9 @@ class MetricsAnalyzer {
           .expand((pattern) => pattern
               .check(source, functions, _metricsConfig)
               .where((issue) => !ignores.ignoredAt(
-                  issue.patternId, issue.sourceSpan.start.line)));
+                    issue.patternId,
+                    issue.sourceSpan.start.line,
+                  )));
 }
 
 Iterable<Glob> _prepareExcludes(Iterable<String> patterns) =>

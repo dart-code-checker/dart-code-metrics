@@ -75,19 +75,22 @@ Element renderTableRecord(ReportTableRecord record) {
           ? '${record.report.totalCyclomaticComplexity} / ${record.report.cyclomaticComplexityViolations}'
           : '${record.report.totalCyclomaticComplexity}'
       ..classes.add(
-          recordHaveCyclomaticComplexityViolations ? 'with-violations' : ''))
+        recordHaveCyclomaticComplexityViolations ? 'with-violations' : '',
+      ))
     ..append(Element.tag('td')
       ..text = recordHaveLinesOfExecutableCodeViolations
           ? '${record.report.totalLinesOfExecutableCode} / ${record.report.linesOfExecutableCodeViolations}'
           : '${record.report.totalLinesOfExecutableCode}'
       ..classes.add(
-          recordHaveLinesOfExecutableCodeViolations ? 'with-violations' : ''))
+        recordHaveLinesOfExecutableCodeViolations ? 'with-violations' : '',
+      ))
     ..append(Element.tag('td')
       ..text = recordHaveMaintainabilityIndexViolations
           ? '${record.report.averageMaintainabilityIndex.toInt()} / ${record.report.maintainabilityIndexViolations}'
           : '${record.report.averageMaintainabilityIndex.toInt()}'
       ..classes.add(
-          recordHaveMaintainabilityIndexViolations ? 'with-violations' : ''))
+        recordHaveMaintainabilityIndexViolations ? 'with-violations' : '',
+      ))
     ..append(Element.tag('td')
       ..text = recordHaveArgumentsCountViolations
           ? '${record.report.averageArgumentsCount} / ${record.report.argumentsCountViolations}'
@@ -99,5 +102,6 @@ Element renderTableRecord(ReportTableRecord record) {
           ? '${record.report.averageMaximumNestingLevel} / ${record.report.maximumNestingLevelViolations}'
           : '${record.report.averageMaximumNestingLevel}'
       ..classes.add(
-          recordHaveMaximumNestingLevelViolations ? 'with-violations' : ''));
+        recordHaveMaximumNestingLevelViolations ? 'with-violations' : '',
+      ));
 }

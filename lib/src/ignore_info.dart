@@ -32,13 +32,16 @@ class IgnoreInfo {
       final ignoredNextLine = beforeMatch.trim().isEmpty;
       _ignoreMap
           .putIfAbsent(
-              ignoredNextLine ? lineNumber + 1 : lineNumber, () => <String>[])
+            ignoredNextLine ? lineNumber + 1 : lineNumber,
+            () => <String>[],
+          )
           .addAll(codes);
     }
 
     for (final match in _ignoreForFileMatcher.allMatches(content)) {
       _ignoreForFileSet.addAll(
-          match.group(1).split(',').map((code) => code.trim().toLowerCase()));
+        match.group(1).split(',').map((code) => code.trim().toLowerCase()),
+      );
     }
   }
 }

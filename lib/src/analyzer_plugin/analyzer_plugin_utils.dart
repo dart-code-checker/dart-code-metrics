@@ -21,39 +21,46 @@ bool isExcluded(AnalysisResult result, Iterable<Glob> excludes) =>
     excludes.any((exclude) => exclude.matches(result.path));
 
 plugin.AnalysisErrorFixes codeIssueToAnalysisErrorFixes(
-        CodeIssue issue, ResolvedUnitResult unitResult) =>
+  CodeIssue issue,
+  ResolvedUnitResult unitResult,
+) =>
     plugin.AnalysisErrorFixes(
-        plugin.AnalysisError(
-          _severityMapping[issue.severity],
-          plugin.AnalysisErrorType.LINT,
-          plugin.Location(
-            issue.sourceSpan.sourceUrl.path,
-            issue.sourceSpan.start.offset,
-            issue.sourceSpan.length,
-            issue.sourceSpan.start.line,
-            issue.sourceSpan.start.column,
-          ),
-          issue.message,
-          issue.ruleId,
-          correction: issue.correction,
-          url: issue.ruleDocumentation?.toString(),
-          hasFix: issue.correction != null,
+      plugin.AnalysisError(
+        _severityMapping[issue.severity],
+        plugin.AnalysisErrorType.LINT,
+        plugin.Location(
+          issue.sourceSpan.sourceUrl.path,
+          issue.sourceSpan.start.offset,
+          issue.sourceSpan.length,
+          issue.sourceSpan.start.line,
+          issue.sourceSpan.start.column,
         ),
-        fixes: [
-          if (issue.correction != null)
-            plugin.PrioritizedSourceChange(
-                1,
-                plugin.SourceChange(issue.correctionComment, edits: [
-                  plugin.SourceFileEdit(
-                    unitResult.libraryElement.source.fullName,
-                    unitResult.libraryElement.source.modificationStamp,
-                    edits: [
-                      plugin.SourceEdit(issue.sourceSpan.start.offset,
-                          issue.sourceSpan.length, issue.correction),
-                    ],
+        issue.message,
+        issue.ruleId,
+        correction: issue.correction,
+        url: issue.ruleDocumentation?.toString(),
+        hasFix: issue.correction != null,
+      ),
+      fixes: [
+        if (issue.correction != null)
+          plugin.PrioritizedSourceChange(
+            1,
+            plugin.SourceChange(issue.correctionComment, edits: [
+              plugin.SourceFileEdit(
+                unitResult.libraryElement.source.fullName,
+                unitResult.libraryElement.source.modificationStamp,
+                edits: [
+                  plugin.SourceEdit(
+                    issue.sourceSpan.start.offset,
+                    issue.sourceSpan.length,
+                    issue.correction,
                   ),
-                ])),
-        ]);
+                ],
+              ),
+            ]),
+          ),
+      ],
+    );
 
 plugin.AnalysisErrorFixes designIssueToAnalysisErrorFixes(DesignIssue issue) =>
     plugin.AnalysisErrorFixes(plugin.AnalysisError(

@@ -15,16 +15,19 @@ class GitHubReporter implements Reporter {
     for (final analysisRecord in records) {
       for (final issue in analysisRecord.designIssues) {
         reportStrings.add(
-            _commands.warning(issue.message, sourceSpan: issue.sourceSpan));
+          _commands.warning(issue.message, sourceSpan: issue.sourceSpan),
+        );
       }
 
       for (final issue in analysisRecord.issues) {
         if (issue.severity == CodeIssueSeverity.error) {
           reportStrings.add(
-              _commands.error(issue.message, sourceSpan: issue.sourceSpan));
+            _commands.error(issue.message, sourceSpan: issue.sourceSpan),
+          );
         } else {
           reportStrings.add(
-              _commands.warning(issue.message, sourceSpan: issue.sourceSpan));
+            _commands.warning(issue.message, sourceSpan: issue.sourceSpan),
+          );
         }
       }
     }

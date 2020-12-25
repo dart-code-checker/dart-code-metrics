@@ -16,11 +16,11 @@ class NoObjectDeclarationRule extends BaseRule {
 
   NoObjectDeclarationRule({Map<String, Object> config = const {}})
       : super(
-            id: ruleId,
-            documentation: Uri.parse(_documentationUrl),
-            severity:
-                CodeIssueSeverity.fromJson(config['severity'] as String) ??
-                    CodeIssueSeverity.style);
+          id: ruleId,
+          documentation: Uri.parse(_documentationUrl),
+          severity: CodeIssueSeverity.fromJson(config['severity'] as String) ??
+              CodeIssueSeverity.style,
+        );
 
   @override
   Iterable<CodeIssue> check(Source source) {

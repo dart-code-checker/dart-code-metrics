@@ -276,7 +276,8 @@ void main() {
     expect(
       issues.map((issue) => issue.message),
       equals(issues.map(
-          (issue) => 'Incorrect Intl name, should be ${issue.correction}')),
+        (issue) => 'Incorrect Intl name, should be ${issue.correction}',
+      )),
     );
 
     expect(

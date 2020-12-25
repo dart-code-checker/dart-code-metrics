@@ -151,87 +151,114 @@ void main() {
         expect(options.metricsConfig, equals(const Config()));
         expect(options.metricsExcludePatterns, isEmpty);
         expect(
-            options.rules,
-            equals({
-              'double-literal-format': <String, Object>{},
-              'no-magic-number': {
-                'allowed-numbers': [1, 2, 3],
-              },
-            }));
+          options.rules,
+          equals({
+            'double-literal-format': <String, Object>{},
+            'no-magic-number': {
+              'allowed-numbers': [1, 2, 3],
+            },
+          }),
+        );
         expect(options.antiPatterns, isEmpty);
       });
 
       test('rules defined as map', () {
         final options = AnalysisOptions.fromMap(
-            _yamlToDartMap(_contentWitMetricsRulesAsMap));
+          _yamlToDartMap(_contentWitMetricsRulesAsMap),
+        );
 
         expect(options.metricsConfig, equals(const Config()));
         expect(options.metricsExcludePatterns, isEmpty);
         expect(
-            options.rules,
-            equals({
-              'newline-before-return': <String, Object>{},
-              'no-magic-number': {
-                'allowed-numbers': [1, 2, 3],
-              },
-            }));
+          options.rules,
+          equals({
+            'newline-before-return': <String, Object>{},
+            'no-magic-number': {
+              'allowed-numbers': [1, 2, 3],
+            },
+          }),
+        );
         expect(options.antiPatterns, isEmpty);
       });
 
       test('thresholds define', () {
         final options = AnalysisOptions.fromMap(
-            _yamlToDartMap(_contentWitMetricsThresholds));
+          _yamlToDartMap(_contentWitMetricsThresholds),
+        );
 
         expect(
-            options.metricsConfig.cyclomaticComplexityWarningLevel, equals(20));
+          options.metricsConfig.cyclomaticComplexityWarningLevel,
+          equals(20),
+        );
         expect(options.metricsConfig.numberOfArgumentsWarningLevel, equals(4));
         expect(options.metricsConfig.numberOfMethodsWarningLevel, equals(8));
         expect(options.metricsConfig.maximumNestingWarningLevel, equals(10));
         expect(options.metricsExcludePatterns, isEmpty);
-        expect(options.rules,
-            equals({'no-boolean-literal-compare': <String, Object>{}}));
+        expect(
+          options.rules,
+          equals({'no-boolean-literal-compare': <String, Object>{}}),
+        );
         expect(options.antiPatterns, isEmpty);
       });
 
       test('exclude define', () {
         final options = AnalysisOptions.fromMap(
-            _yamlToDartMap(_contentWitMetricsThresholdsAndExcludes));
+          _yamlToDartMap(_contentWitMetricsThresholdsAndExcludes),
+        );
 
         expect(
-            options.metricsConfig.cyclomaticComplexityWarningLevel, equals(20));
-        expect(options.metricsConfig.linesOfExecutableCodeWarningLevel,
-            equals(42));
+          options.metricsConfig.cyclomaticComplexityWarningLevel,
+          equals(20),
+        );
         expect(
-            options.excludePatterns,
-            equals([
-              'test/aggregated_vm_test.dart',
-              'lib/**/**.g.dart',
-              'lib/intl/**',
-              'test/**/**.g.dart',
-              '.git/**',
-              '.idea/**',
-            ]));
+          options.metricsConfig.linesOfExecutableCodeWarningLevel,
+          equals(42),
+        );
+        expect(
+          options.excludePatterns,
+          equals([
+            'test/aggregated_vm_test.dart',
+            'lib/**/**.g.dart',
+            'lib/intl/**',
+            'test/**/**.g.dart',
+            '.git/**',
+            '.idea/**',
+          ]),
+        );
         expect(options.metricsExcludePatterns, equals(['test/**']));
-        expect(options.rules,
-            equals({'no-boolean-literal-compare': <String, Object>{}}));
         expect(
-            options.antiPatterns, equals({'long-method': <String, Object>{}}));
+          options.rules,
+          equals({'no-boolean-literal-compare': <String, Object>{}}),
+        );
+        expect(
+          options.antiPatterns,
+          equals({'long-method': <String, Object>{}}),
+        );
       });
     });
 
     test('file', () async {
       final options = await analysisOptionsFromFile(
-          File('./test/resources/analysis_options_pkg.yaml'));
+        File('./test/resources/analysis_options_pkg.yaml'),
+      );
 
       expect(
-          options.metricsConfig.cyclomaticComplexityWarningLevel, equals(20));
+        options.metricsConfig.cyclomaticComplexityWarningLevel,
+        equals(20),
+      );
       expect(
-          options.metricsConfig.linesOfExecutableCodeWarningLevel, equals(30));
+        options.metricsConfig.linesOfExecutableCodeWarningLevel,
+        equals(30),
+      );
       expect(options.metricsConfig.numberOfArgumentsWarningLevel, equals(4));
-      expect(options.metricsConfig.numberOfMethodsWarningLevel,
-          equals(numberOfMethodsDefaultWarningLevel));
-      expect(options.metricsConfig.maximumNestingWarningLevel,
-          equals(maximumNestingDefaultWarningLevel));
+      expect(
+        options.metricsConfig.numberOfMethodsWarningLevel,
+        equals(numberOfMethodsDefaultWarningLevel),
+      );
+      expect(
+        options.metricsConfig.maximumNestingWarningLevel,
+        equals(maximumNestingDefaultWarningLevel),
+      );
 
       expect(options.excludePatterns, equals(['example/**']));
       expect(

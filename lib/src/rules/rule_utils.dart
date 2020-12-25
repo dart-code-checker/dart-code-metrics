@@ -6,14 +6,15 @@ import 'package:source_span/source_span.dart';
 import 'base_rule.dart';
 
 CodeIssue createIssue(
-    BaseRule rule,
-    String message,
-    String correction,
-    String correctionComment,
-    Uri sourceUrl,
-    String sourceContent,
-    LineInfo sourceLineInfo,
-    AstNode issueNode) {
+  BaseRule rule,
+  String message,
+  String correction,
+  String correctionComment,
+  Uri sourceUrl,
+  String sourceContent,
+  LineInfo sourceLineInfo,
+  AstNode issueNode,
+) {
   final offsetLocation = sourceLineInfo.getLocation(issueNode.offset);
   final endLocation = sourceLineInfo.getLocation(issueNode.end);
 
@@ -22,15 +23,20 @@ CodeIssue createIssue(
     ruleDocumentation: rule.documentation,
     severity: rule.severity,
     sourceSpan: SourceSpanBase(
-        SourceLocation(issueNode.offset,
-            sourceUrl: sourceUrl,
-            line: offsetLocation.lineNumber,
-            column: offsetLocation.columnNumber),
-        SourceLocation(issueNode.end,
-            sourceUrl: sourceUrl,
-            line: endLocation.lineNumber,
-            column: endLocation.columnNumber),
-        sourceContent.substring(issueNode.offset, issueNode.end)),
+      SourceLocation(
+        issueNode.offset,
+        sourceUrl: sourceUrl,
+        line: offsetLocation.lineNumber,
+        column: offsetLocation.columnNumber,
+      ),
+      SourceLocation(
+        issueNode.end,
+        sourceUrl: sourceUrl,
+        line: endLocation.lineNumber,
+        column: endLocation.columnNumber,
+      ),
+      sourceContent.substring(issueNode.offset, issueNode.end),
+    ),
     message: message,
     correction: correction,
     correctionComment: correctionComment,

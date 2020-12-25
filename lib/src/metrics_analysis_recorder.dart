@@ -27,8 +27,11 @@ class MetricsAnalysisRecorder
   Iterable<FileRecord> records() => _records;
 
   @override
-  MetricsRecordsStore recordFile(String filePath, String rootDirectory,
-      void Function(MetricsRecordsBuilder) f) {
+  MetricsRecordsStore recordFile(
+    String filePath,
+    String rootDirectory,
+    void Function(MetricsRecordsBuilder) f,
+  ) {
     if (filePath == null) {
       throw ArgumentError.notNull('filePath');
     }
@@ -46,7 +49,9 @@ class MetricsAnalysisRecorder
 
   @override
   void recordComponent(
-      ScopedComponentDeclaration declaration, ComponentRecord record) {
+    ScopedComponentDeclaration declaration,
+    ComponentRecord record,
+  ) {
     _checkState();
 
     if (declaration == null) {
@@ -58,7 +63,9 @@ class MetricsAnalysisRecorder
 
   @override
   void recordFunction(
-      ScopedFunctionDeclaration declaration, FunctionRecord record) {
+    ScopedFunctionDeclaration declaration,
+    FunctionRecord record,
+  ) {
     _checkState();
 
     if (declaration == null) {
@@ -85,7 +92,8 @@ class MetricsAnalysisRecorder
   void _checkState() {
     if (_fileGroupPath == null) {
       throw StateError(
-          'No record groups have been started. Use `startRecordFile` before record any data');
+        'No record groups have been started. Use `startRecordFile` before record any data',
+      );
     }
   }
 
@@ -105,10 +113,12 @@ class MetricsAnalysisRecorder
       fullPath: _fileGroupPath,
       relativePath: _relativeGroupPath,
       components: Map.unmodifiable(
-          _componentRecords.map<String, ComponentRecord>((key, value) =>
-              MapEntry(getComponentHumanReadableName(key), value))),
+        _componentRecords.map<String, ComponentRecord>((key, value) =>
+            MapEntry(getComponentHumanReadableName(key), value)),
+      ),
       functions: Map.unmodifiable(_functionRecords.map<String, FunctionRecord>(
-          (key, value) => MapEntry(getFunctionHumanReadableName(key), value))),
+        (key, value) => MapEntry(getFunctionHumanReadableName(key), value),
+      )),
       issues: _issues,
       designIssues: _designIssues,
     ));

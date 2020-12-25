@@ -96,64 +96,67 @@ void main() {
     });
 
     test(
-        'componentViolationLevel returns aggregated violation level for component',
-        () {
-      expect(
-        UtilitySelector.componentViolationLevel(buildComponentReportStub(
-          methodsCountViolationLevel: ViolationLevel.warning,
-        )),
-        ViolationLevel.warning,
-      );
-    });
+      'componentViolationLevel returns aggregated violation level for component',
+      () {
+        expect(
+          UtilitySelector.componentViolationLevel(buildComponentReportStub(
+            methodsCountViolationLevel: ViolationLevel.warning,
+          )),
+          ViolationLevel.warning,
+        );
+      },
+    );
 
     test(
-        'functionViolationLevel returns aggregated violation level for function',
-        () {
-      expect(
-        UtilitySelector.functionViolationLevel(buildFunctionReportStub(
-          cyclomaticComplexityViolationLevel: ViolationLevel.warning,
-          linesOfExecutableCodeViolationLevel: ViolationLevel.noted,
-          maintainabilityIndexViolationLevel: ViolationLevel.none,
-        )),
-        ViolationLevel.warning,
-      );
+      'functionViolationLevel returns aggregated violation level for function',
+      () {
+        expect(
+          UtilitySelector.functionViolationLevel(buildFunctionReportStub(
+            cyclomaticComplexityViolationLevel: ViolationLevel.warning,
+            linesOfExecutableCodeViolationLevel: ViolationLevel.noted,
+            maintainabilityIndexViolationLevel: ViolationLevel.none,
+          )),
+          ViolationLevel.warning,
+        );
 
-      expect(
-        UtilitySelector.functionViolationLevel(buildFunctionReportStub(
-          cyclomaticComplexityViolationLevel: ViolationLevel.warning,
-          linesOfExecutableCodeViolationLevel: ViolationLevel.alarm,
-          maintainabilityIndexViolationLevel: ViolationLevel.none,
-        )),
-        ViolationLevel.alarm,
-      );
+        expect(
+          UtilitySelector.functionViolationLevel(buildFunctionReportStub(
+            cyclomaticComplexityViolationLevel: ViolationLevel.warning,
+            linesOfExecutableCodeViolationLevel: ViolationLevel.alarm,
+            maintainabilityIndexViolationLevel: ViolationLevel.none,
+          )),
+          ViolationLevel.alarm,
+        );
 
-      expect(
-        UtilitySelector.functionViolationLevel(buildFunctionReportStub(
-          cyclomaticComplexityViolationLevel: ViolationLevel.none,
-          linesOfExecutableCodeViolationLevel: ViolationLevel.none,
-          maintainabilityIndexViolationLevel: ViolationLevel.noted,
-        )),
-        ViolationLevel.noted,
-      );
+        expect(
+          UtilitySelector.functionViolationLevel(buildFunctionReportStub(
+            cyclomaticComplexityViolationLevel: ViolationLevel.none,
+            linesOfExecutableCodeViolationLevel: ViolationLevel.none,
+            maintainabilityIndexViolationLevel: ViolationLevel.noted,
+          )),
+          ViolationLevel.noted,
+        );
 
-      expect(
-        UtilitySelector.functionViolationLevel(buildFunctionReportStub(
-          cyclomaticComplexityViolationLevel: ViolationLevel.none,
-          linesOfExecutableCodeViolationLevel: ViolationLevel.none,
-          argumentsCountViolationLevel: ViolationLevel.warning,
-        )),
-        ViolationLevel.warning,
-      );
+        expect(
+          UtilitySelector.functionViolationLevel(buildFunctionReportStub(
+            cyclomaticComplexityViolationLevel: ViolationLevel.none,
+            linesOfExecutableCodeViolationLevel: ViolationLevel.none,
+            argumentsCountViolationLevel: ViolationLevel.warning,
+          )),
+          ViolationLevel.warning,
+        );
 
-      expect(
-        UtilitySelector.functionViolationLevel(buildFunctionReportStub(
+        expect(
+          UtilitySelector.functionViolationLevel(buildFunctionReportStub(
             cyclomaticComplexityViolationLevel: ViolationLevel.none,
             linesOfExecutableCodeViolationLevel: ViolationLevel.none,
             argumentsCountViolationLevel: ViolationLevel.none,
-            maximumNestingLevelViolationLevel: ViolationLevel.warning)),
-        ViolationLevel.warning,
-      );
-    });
+            maximumNestingLevelViolationLevel: ViolationLevel.warning,
+          )),
+          ViolationLevel.warning,
+        );
+      },
+    );
 
     test('isIssueLevel', () {
       const violationsMapping = {
@@ -227,16 +230,18 @@ void main() {
         );
       });
 
-      test('ViolationLevel.alarm if there are warning and alarm violations',
-          () {
-        expect(
-          UtilitySelector.maxViolationLevel(
-            fileRecords,
-            const Config(linesOfExecutableCodeWarningLevel: 15),
-          ),
-          ViolationLevel.warning,
-        );
-      });
+      test(
+        'ViolationLevel.alarm if there are warning and alarm violations',
+        () {
+          expect(
+            UtilitySelector.maxViolationLevel(
+              fileRecords,
+              const Config(linesOfExecutableCodeWarningLevel: 15),
+            ),
+            ViolationLevel.warning,
+          );
+        },
+      );
     });
   });
 }

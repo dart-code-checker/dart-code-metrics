@@ -20,7 +20,9 @@ double avg(Iterable<num> it) => it.isNotEmpty ? sum(it) / it.length : 0;
 
 class UtilitySelector {
   static FileReport analysisReportForRecords(
-          Iterable<FileRecord> records, Config config) =>
+    Iterable<FileRecord> records,
+    Config config,
+  ) =>
       records.map((r) => fileReport(r, config)).reduce(mergeFileReports);
 
   static FileReport fileReport(FileRecord record, Config config) {
@@ -82,12 +84,18 @@ class UtilitySelector {
   }
 
   static ComponentReport componentReport(
-          ComponentRecord component, Config config) =>
+    ComponentRecord component,
+    Config config,
+  ) =>
       ComponentReport(
-          methodsCount: ReportMetric<int>(
-              value: component.methodsCount,
-              violationLevel: _violationLevel(
-                  component.methodsCount, config.numberOfMethodsWarningLevel)));
+        methodsCount: ReportMetric<int>(
+          value: component.methodsCount,
+          violationLevel: _violationLevel(
+            component.methodsCount,
+            config.numberOfMethodsWarningLevel,
+          ),
+        ),
+      );
 
   static FunctionReport functionReport(FunctionRecord function, Config config) {
     final cyclomaticComplexity =
@@ -95,7 +103,9 @@ class UtilitySelector {
 
     final linesOfExecutableCode = function.linesWithCode.length;
     final maximumNestingLevel = function.nestingLines.fold<int>(
-        0, (previousValue, element) => max(previousValue, element.length));
+      0,
+      (previousValue, element) => max(previousValue, element.length),
+    );
 
     // Total number of occurrences of operators.
     final totalNumberOfOccurrencesOfOperators = sum(function.operators.values);
@@ -122,32 +132,42 @@ class UtilitySelector {
         halsteadProgramLength * log2(max(1, halsteadVocabulary));
 
     final maintainabilityIndex = max(
-            0,
-            (171 -
-                    5.2 * log(max(1, halsteadVolume)) -
-                    cyclomaticComplexity * 0.23 -
-                    16.2 * log(max(1, linesOfExecutableCode))) *
-                100 /
-                171)
-        .toDouble();
+      0,
+      (171 -
+              5.2 * log(max(1, halsteadVolume)) -
+              cyclomaticComplexity * 0.23 -
+              16.2 * log(max(1, linesOfExecutableCode))) *
+          100 /
+          171,
+    ).toDouble();
 
     return FunctionReport(
       cyclomaticComplexity: ReportMetric<int>(
-          value: cyclomaticComplexity.round(),
-          violationLevel: _violationLevel(cyclomaticComplexity.round(),
-              config.cyclomaticComplexityWarningLevel)),
+        value: cyclomaticComplexity.round(),
+        violationLevel: _violationLevel(
+          cyclomaticComplexity.round(),
+          config.cyclomaticComplexityWarningLevel,
+        ),
+      ),
       linesOfExecutableCode: ReportMetric<int>(
-          value: linesOfExecutableCode,
-          violationLevel: _violationLevel(
-              linesOfExecutableCode, config.linesOfExecutableCodeWarningLevel)),
+        value: linesOfExecutableCode,
+        violationLevel: _violationLevel(
+          linesOfExecutableCode,
+          config.linesOfExecutableCodeWarningLevel,
+        ),
+      ),
       maintainabilityIndex: ReportMetric<double>(
-          value: maintainabilityIndex,
-          violationLevel:
-              _maintainabilityIndexViolationLevel(maintainabilityIndex)),
+        value: maintainabilityIndex,
+        violationLevel:
+            _maintainabilityIndexViolationLevel(maintainabilityIndex),
+      ),
       argumentsCount: ReportMetric<int>(
-          value: function.argumentsCount,
-          violationLevel: _violationLevel(
-              function.argumentsCount, config.numberOfArgumentsWarningLevel)),
+        value: function.argumentsCount,
+        violationLevel: _violationLevel(
+          function.argumentsCount,
+          config.numberOfArgumentsWarningLevel,
+        ),
+      ),
       maximumNestingLevel: ReportMetric<int>(
         value: maximumNestingLevel,
         violationLevel: _violationLevel(
@@ -174,7 +194,9 @@ class UtilitySelector {
       level == ViolationLevel.warning || level == ViolationLevel.alarm;
 
   static ViolationLevel maxViolationLevel(
-          Iterable<FileRecord> records, Config config) =>
+    Iterable<FileRecord> records,
+    Config config,
+  ) =>
       quiver.max(records
           .expand((fileRecord) => fileRecord.functions.values
               .map((functionRecord) => functionReport(functionRecord, config)))

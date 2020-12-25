@@ -18,11 +18,11 @@ class NoEmptyBlockRule extends BaseRule {
 
   NoEmptyBlockRule({Map<String, Object> config = const {}})
       : super(
-            id: ruleId,
-            documentation: Uri.parse(_documentationUrl),
-            severity:
-                CodeIssueSeverity.fromJson(config['severity'] as String) ??
-                    CodeIssueSeverity.style);
+          id: ruleId,
+          documentation: Uri.parse(_documentationUrl),
+          severity: CodeIssueSeverity.fromJson(config['severity'] as String) ??
+              CodeIssueSeverity.style,
+        );
 
   @override
   Iterable<CodeIssue> check(Source source) {
@@ -31,8 +31,16 @@ class NoEmptyBlockRule extends BaseRule {
     source.compilationUnit.visitChildren(_visitor);
 
     return _visitor.emptyBlocks
-        .map((block) => createIssue(this, _failure, null, null, source.url,
-            source.content, source.compilationUnit.lineInfo, block))
+        .map((block) => createIssue(
+              this,
+              _failure,
+              null,
+              null,
+              source.url,
+              source.content,
+              source.compilationUnit.lineInfo,
+              block,
+            ))
         .toList(growable: false);
   }
 }

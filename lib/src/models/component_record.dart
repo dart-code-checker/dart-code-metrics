@@ -7,8 +7,9 @@ class ComponentRecord {
 
   final int methodsCount;
 
-  const ComponentRecord(
-      {@required this.firstLine,
-      @required this.lastLine,
-      @required this.methodsCount});
+  const ComponentRecord({
+    @required this.firstLine,
+    @required this.lastLine,
+    @required this.methodsCount,
+  });
 }

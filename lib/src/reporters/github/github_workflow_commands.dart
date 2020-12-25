@@ -4,19 +4,30 @@ import 'package:source_span/source_span.dart';
 
 class GitHubWorkflowCommands {
   String warning(String message, {SourceSpanBase sourceSpan}) => _construct(
-      'warning',
-      message,
-      _params(sourceSpan?.sourceUrl?.toFilePath(), sourceSpan?.start?.line,
-          sourceSpan?.start?.column));
+        'warning',
+        message,
+        _params(
+          sourceSpan?.sourceUrl?.toFilePath(),
+          sourceSpan?.start?.line,
+          sourceSpan?.start?.column,
+        ),
+      );
 
   String error(String message, {SourceSpanBase sourceSpan}) => _construct(
-      'error',
-      message,
-      _params(sourceSpan?.sourceUrl?.toFilePath(), sourceSpan?.start?.line,
-          sourceSpan?.start?.column));
+        'error',
+        message,
+        _params(
+          sourceSpan?.sourceUrl?.toFilePath(),
+          sourceSpan?.start?.line,
+          sourceSpan?.start?.column,
+        ),
+      );
 
-  String _construct(String command,
-      [String message, Map<String, Object> parameters]) {
+  String _construct(
+    String command, [
+    String message,
+    Map<String, Object> parameters,
+  ]) {
     final sb = StringBuffer('::$command');
     final params = parameters?.entries
         ?.map((e) => '${e.key}=${e.value}')

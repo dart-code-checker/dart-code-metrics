@@ -17,11 +17,11 @@ class BinaryExpressionOperandOrderRule extends BaseRule {
 
   BinaryExpressionOperandOrderRule({Map<String, Object> config = const {}})
       : super(
-            id: ruleId,
-            documentation: Uri.parse(_documentationUrl),
-            severity:
-                CodeIssueSeverity.fromJson(config['severity'] as String) ??
-                    CodeIssueSeverity.style);
+          id: ruleId,
+          documentation: Uri.parse(_documentationUrl),
+          severity: CodeIssueSeverity.fromJson(config['severity'] as String) ??
+              CodeIssueSeverity.style,
+        );
 
   @override
   Iterable<CodeIssue> check(Source source) {
@@ -31,14 +31,15 @@ class BinaryExpressionOperandOrderRule extends BaseRule {
 
     return visitor.binaryExpressions
         .map((lit) => createIssue(
-            this,
-            _warningMessage,
-            '${lit.rightOperand} ${lit.operator} ${lit.leftOperand}',
-            _correctionComment,
-            source.url,
-            source.content,
-            source.compilationUnit.lineInfo,
-            lit))
+              this,
+              _warningMessage,
+              '${lit.rightOperand} ${lit.operator} ${lit.leftOperand}',
+              _correctionComment,
+              source.url,
+              source.content,
+              source.compilationUnit.lineInfo,
+              lit,
+            ))
         .toList(growable: false);
   }
 }

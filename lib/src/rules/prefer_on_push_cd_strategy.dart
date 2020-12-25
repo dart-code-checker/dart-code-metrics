@@ -28,8 +28,16 @@ class PreferOnPushCdStrategyRule extends BaseRule {
     source.compilationUnit.visitChildren(visitor);
 
     return visitor.expression
-        .map((expression) => createIssue(this, _failure, null, null, source.url,
-            source.content, source.compilationUnit.lineInfo, expression))
+        .map((expression) => createIssue(
+              this,
+              _failure,
+              null,
+              null,
+              source.url,
+              source.content,
+              source.compilationUnit.lineInfo,
+              expression,
+            ))
         .toList(growable: false);
   }
 }
@@ -45,10 +53,11 @@ class _Visitor extends RecursiveAstVisitor<void> {
       return;
     }
 
-    final changeDetectionArg = node.arguments.arguments
-        .whereType<NamedExpression>()
-        .firstWhere((arg) => arg.name.label.name == 'changeDetection',
-            orElse: () => null);
+    final changeDetectionArg =
+        node.arguments.arguments.whereType<NamedExpression>().firstWhere(
+              (arg) => arg.name.label.name == 'changeDetection',
+              orElse: () => null,
+            );
 
     if (changeDetectionArg == null) {
       return _expression.add(node);

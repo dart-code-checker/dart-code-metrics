@@ -99,7 +99,9 @@ Iterable<String> _readMetricsExcludePatterns(Map<String, Object> configMap) {
 }
 
 Map<String, Map<String, Object>> _readRules(
-    Map<String, Object> configMap, String rulesKey) {
+  Map<String, Object> configMap,
+  String rulesKey,
+) {
   final metricsOptions = configMap[_rootKey];
   if (metricsOptions is Map<String, Object>) {
     final rulesNode = metricsOptions[rulesKey];
@@ -112,7 +114,9 @@ Map<String, Map<String, Object>> _readRules(
                 node.keys.length == 1 &&
                 node.values.first is Map<String, Object>)
             .map((node) => MapEntry(
-                node.keys.first, node.values.first as Map<String, Object>)),
+                  node.keys.first,
+                  node.values.first as Map<String, Object>,
+                )),
       ]));
     } else if (rulesNode is Map<String, Object>) {
       return Map.unmodifiable(Map<String, Map<String, Object>>.fromEntries([

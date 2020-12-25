@@ -4,14 +4,17 @@ import 'dart:isolate';
 import 'package:yaml/yaml.dart';
 
 List<Object> yamlListToDartList(YamlList map) => List.unmodifiable(
-    List<Object>.from(map.nodes.map<Object>(yamlNodeToDartObject)));
+      List<Object>.from(map.nodes.map<Object>(yamlNodeToDartObject)),
+    );
 
 Map<String, Object> yamlMapToDartMap(YamlMap map) =>
     Map.unmodifiable(Map<String, Object>.fromEntries(map.nodes.keys
         .whereType<YamlScalar>()
         .where((key) => key.value is String)
         .map((key) => MapEntry(
-            key.value as String, yamlNodeToDartObject(map.nodes[key])))));
+              key.value as String,
+              yamlNodeToDartObject(map.nodes[key]),
+            ))));
 
 Object yamlScalarToDartObject(YamlScalar scalar) => scalar.value as Object;
 
@@ -54,13 +57,16 @@ Future<Map<String, Object>> loadConfigFromYamlFile(File options) async {
 }
 
 Map<String, Object> _mergeMaps(
-    Map<String, Object> defaults, Map<String, Object> overrides) {
+  Map<String, Object> defaults,
+  Map<String, Object> overrides,
+) {
   final merged = Map.of(defaults);
 
   for (final overrideKey in overrides.keys) {
     final mergedKey = merged.keys.firstWhere(
-        (mergedKey) => mergedKey == overrideKey,
-        orElse: () => overrideKey);
+      (mergedKey) => mergedKey == overrideKey,
+      orElse: () => overrideKey,
+    );
     merged[mergedKey] = _merge(merged[mergedKey], overrides[overrideKey]);
   }
 
@@ -107,4 +113,5 @@ bool _isListOfStrings(Object object) =>
 
 Map<String, bool> _listToMap(List<Object> list) =>
     Map.unmodifiable(Map<String, bool>.fromEntries(
-        list.map((key) => MapEntry(key.toString(), true))));
+      list.map((key) => MapEntry(key.toString(), true)),
+    ));

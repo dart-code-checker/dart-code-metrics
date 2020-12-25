@@ -274,7 +274,8 @@ void main() {
       expect(
         report[1],
         equals(
-            '\x1B[38;5;3mDesign  \x1B[0mfirst issue message : 2:3 : patternId1 https://docu.edu/patternId1.html'),
+          '\x1B[38;5;3mDesign  \x1B[0mfirst issue message : 2:3 : patternId1 https://docu.edu/patternId1.html',
+        ),
       );
     });
 
@@ -315,7 +316,8 @@ void main() {
       expect(
         report[1],
         equals(
-            '\x1B[38;5;4mStyle   \x1B[0mfirst issue message : 2:3 : ruleId1 https://docu.edu/ruleId1.html'),
+          '\x1B[38;5;4mStyle   \x1B[0mfirst issue message : 2:3 : ruleId1 https://docu.edu/ruleId1.html',
+        ),
       );
     });
   });

@@ -73,15 +73,18 @@ void main() {
       expect(report, containsPair('description', _issueMessage));
       expect(report, containsPair('categories', ['Complexity']));
       expect(
-          report,
-          containsPair('location', {
-            'path': 'example.dart',
-            'lines': {'begin': _issueLine, 'end': _issueLine},
-          }));
+        report,
+        containsPair('location', {
+          'path': 'example.dart',
+          'lines': {'begin': _issueLine, 'end': _issueLine},
+        }),
+      );
       expect(report, containsPair('remediation_points', 50000));
       expect(report, containsPair('severity', 'info'));
-      expect(report,
-          containsPair('fingerprint', '8842a666b8aee4f2eae51205e0114dae'));
+      expect(
+        report,
+        containsPair('fingerprint', '8842a666b8aee4f2eae51205e0114dae'),
+      );
     });
 
     test('file with style severity issues', () {
@@ -286,7 +289,9 @@ void main() {
 
     setUp(() {
       _reporter = CodeClimateReporter(
-          reportConfig: const Config(), gitlabCompatible: true);
+        reportConfig: const Config(),
+        gitlabCompatible: true,
+      );
     });
 
     test('empty file', () {
@@ -337,15 +342,18 @@ void main() {
       expect(report, containsPair('description', _issueMessage));
       expect(report, containsPair('categories', ['Complexity']));
       expect(
-          report,
-          containsPair('location', {
-            'path': 'example.dart',
-            'lines': {'begin': _issueLine, 'end': _issueLine},
-          }));
+        report,
+        containsPair('location', {
+          'path': 'example.dart',
+          'lines': {'begin': _issueLine, 'end': _issueLine},
+        }),
+      );
       expect(report, containsPair('remediation_points', 50000));
       expect(report, containsPair('severity', 'info'));
-      expect(report,
-          containsPair('fingerprint', '8842a666b8aee4f2eae51205e0114dae'));
+      expect(
+        report,
+        containsPair('fingerprint', '8842a666b8aee4f2eae51205e0114dae'),
+      );
     });
   });
 }

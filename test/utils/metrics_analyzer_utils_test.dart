@@ -46,7 +46,10 @@ void main() {
       when(nodeListMock.length).thenReturn(1);
 
       final declaration = ScopedFunctionDeclaration(
-          FunctionType.staticFunction, functionDeclarationMock, null);
+        FunctionType.staticFunction,
+        functionDeclarationMock,
+        null,
+      );
 
       expect(getArgumentsCount(declaration), equals(1));
     });
@@ -55,7 +58,10 @@ void main() {
       final methodDeclarationMock = MethodDeclarationMock();
 
       final declaration = ScopedFunctionDeclaration(
-          FunctionType.staticFunction, methodDeclarationMock, null);
+        FunctionType.staticFunction,
+        methodDeclarationMock,
+        null,
+      );
 
       expect(getArgumentsCount(declaration), 0);
 
@@ -68,7 +74,10 @@ void main() {
 
     test('class constructor', () {
       final declaration = ScopedFunctionDeclaration(
-          FunctionType.staticFunction, ConstructorDeclarationMock(), null);
+        FunctionType.staticFunction,
+        ConstructorDeclarationMock(),
+        null,
+      );
 
       expect(getArgumentsCount(declaration), isZero);
     });

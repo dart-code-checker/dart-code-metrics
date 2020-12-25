@@ -27,15 +27,21 @@ void main() {
 
     group('recordFile', () {
       test('throws ArgumentError if called without filePath', () {
-        expect(() {
-          MetricsAnalysisRecorder().recordFile(null, null, null);
-        }, throwsArgumentError);
+        expect(
+          () {
+            MetricsAnalysisRecorder().recordFile(null, null, null);
+          },
+          throwsArgumentError,
+        );
       });
 
       test('throws ArgumentError if called without function', () {
-        expect(() {
-          MetricsAnalysisRecorder().recordFile(filePath, rootDirectory, null);
-        }, throwsArgumentError);
+        expect(
+          () {
+            MetricsAnalysisRecorder().recordFile(filePath, rootDirectory, null);
+          },
+          throwsArgumentError,
+        );
       });
 
       group('Stores component records for file', () {
@@ -50,11 +56,18 @@ void main() {
         final record = ScopedComponentDeclaration(classDeclarationMock);
 
         test('throws ArgumentError if called without record', () {
-          expect(() {
-            MetricsAnalysisRecorder().recordFile(filePath, rootDirectory, (b) {
-              b.recordComponent(null, null);
-            });
-          }, throwsArgumentError);
+          expect(
+            () {
+              MetricsAnalysisRecorder().recordFile(
+                filePath,
+                rootDirectory,
+                (b) {
+                  b.recordComponent(null, null);
+                },
+              );
+            },
+            throwsArgumentError,
+          );
         });
 
         test('Stores record for file', () {
@@ -62,14 +75,15 @@ void main() {
               ComponentRecord(firstLine: 1, lastLine: 2, methodsCount: 3);
 
           expect(
-              MetricsAnalysisRecorder()
-                  .recordFile(filePath, rootDirectory, (b) {
-                    b.recordComponent(record, componentRecord);
-                  })
-                  .records()
-                  .single
-                  .components,
-              containsPair(componentName, componentRecord));
+            MetricsAnalysisRecorder()
+                .recordFile(filePath, rootDirectory, (b) {
+                  b.recordComponent(record, componentRecord);
+                })
+                .records()
+                .single
+                .components,
+            containsPair(componentName, componentRecord),
+          );
         });
       });
 
@@ -83,14 +97,24 @@ void main() {
         when(functionDeclarationMock.name).thenReturn(simpleIdentifierMock);
 
         final record = ScopedFunctionDeclaration(
-            FunctionType.staticFunction, functionDeclarationMock, null);
+          FunctionType.staticFunction,
+          functionDeclarationMock,
+          null,
+        );
 
         test('throws ArgumentError if called without record', () {
-          expect(() {
-            MetricsAnalysisRecorder().recordFile(filePath, rootDirectory, (b) {
-              b.recordFunction(null, null);
-            });
-          }, throwsArgumentError);
+          expect(
+            () {
+              MetricsAnalysisRecorder().recordFile(
+                filePath,
+                rootDirectory,
+                (b) {
+                  b.recordFunction(null, null);
+                },
+              );
+            },
+            throwsArgumentError,
+          );
         });
 
         test('Stores record for file', () {
@@ -101,14 +125,15 @@ void main() {
           );
 
           expect(
-              MetricsAnalysisRecorder()
-                  .recordFile(filePath, rootDirectory, (b) {
-                    b.recordFunction(record, functionRecord);
-                  })
-                  .records()
-                  .single
-                  .functions,
-              containsPair(functionName, functionRecord));
+            MetricsAnalysisRecorder()
+                .recordFile(filePath, rootDirectory, (b) {
+                  b.recordFunction(record, functionRecord);
+                })
+                .records()
+                .single
+                .functions,
+            containsPair(functionName, functionRecord),
+          );
         });
       });
       group('Stores issues for file', () {
@@ -148,8 +173,10 @@ void main() {
               .single;
 
           expect(issueRecord.ruleId, _issueRuleId);
-          expect(issueRecord.ruleDocumentation.toString(),
-              _issueRuleDocumentation);
+          expect(
+            issueRecord.ruleDocumentation.toString(),
+            _issueRuleDocumentation,
+          );
           expect(issueRecord.message, _issueMessage);
           expect(issueRecord.correction, _issueCorrection);
           expect(issueRecord.correctionComment, _issueCorrectionComment);
@@ -169,18 +196,27 @@ void main() {
       final record = ScopedComponentDeclaration(classDeclarationMock);
 
       test('throws StateError if we call them in invalid state', () {
-        expect(() {
-          MetricsAnalysisRecorder().recordComponent(record, null);
-        }, throwsStateError);
+        expect(
+          () {
+            MetricsAnalysisRecorder().recordComponent(record, null);
+          },
+          throwsStateError,
+        );
       });
 
       test('throws ArgumentError if we call them without record', () {
-        expect(() {
-          MetricsAnalysisRecorder().recordFile(filePath, rootDirectory,
+        expect(
+          () {
+            MetricsAnalysisRecorder().recordFile(
+              filePath,
+              rootDirectory,
               (recorder) {
-            recorder.recordComponent(null, null);
-          });
-        }, throwsArgumentError);
+                recorder.recordComponent(null, null);
+              },
+            );
+          },
+          throwsArgumentError,
+        );
       });
 
       test('store record for file', () {
@@ -209,21 +245,33 @@ void main() {
       when(functionDeclarationMock.name).thenReturn(simpleIdentifierMock);
 
       final record = ScopedFunctionDeclaration(
-          FunctionType.staticFunction, functionDeclarationMock, null);
+        FunctionType.staticFunction,
+        functionDeclarationMock,
+        null,
+      );
 
       test('throws StateError if we call them in invalid state', () {
-        expect(() {
-          MetricsAnalysisRecorder().recordFunction(record, null);
-        }, throwsStateError);
+        expect(
+          () {
+            MetricsAnalysisRecorder().recordFunction(record, null);
+          },
+          throwsStateError,
+        );
       });
 
       test('throws ArgumentError if we call them without record', () {
-        expect(() {
-          MetricsAnalysisRecorder().recordFile(filePath, rootDirectory,
+        expect(
+          () {
+            MetricsAnalysisRecorder().recordFile(
+              filePath,
+              rootDirectory,
               (recorder) {
-            recorder.recordFunction(null, null);
-          });
-        }, throwsArgumentError);
+                recorder.recordFunction(null, null);
+              },
+            );
+          },
+          throwsArgumentError,
+        );
       });
 
       test('store record for file', () {
@@ -247,9 +295,12 @@ void main() {
 
     group('recordDesignIssues', () {
       test('throws StateError if we call them in invalid state', () {
-        expect(() {
-          MetricsAnalysisRecorder().recordDesignIssues([]);
-        }, throwsStateError);
+        expect(
+          () {
+            MetricsAnalysisRecorder().recordDesignIssues([]);
+          },
+          throwsStateError,
+        );
       });
 
       test('aggregate issues for file', () {
@@ -293,9 +344,12 @@ void main() {
 
     group('recordIssues', () {
       test('throws StateError if we call them in invalid state', () {
-        expect(() {
-          MetricsAnalysisRecorder().recordIssues([]);
-        }, throwsStateError);
+        expect(
+          () {
+            MetricsAnalysisRecorder().recordIssues([]);
+          },
+          throwsStateError,
+        );
       });
 
       test('aggregate issues for file', () {

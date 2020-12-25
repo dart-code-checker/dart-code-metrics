@@ -72,7 +72,8 @@ class CodeClimateReporter implements Reporter {
       final report = UtilitySelector.functionReport(func, reportConfig);
 
       if (UtilitySelector.isIssueLevel(
-          report.cyclomaticComplexity.violationLevel)) {
+        report.cyclomaticComplexity.violationLevel,
+      )) {
         issues.add(CodeClimateIssue.cyclomaticComplexity(
           func,
           report.cyclomaticComplexity.value,
@@ -83,7 +84,8 @@ class CodeClimateReporter implements Reporter {
       }
 
       if (UtilitySelector.isIssueLevel(
-          report.maintainabilityIndex.violationLevel)) {
+        report.maintainabilityIndex.violationLevel,
+      )) {
         issues.add(CodeClimateIssue.maintainabilityIndex(
           func,
           report.maintainabilityIndex.value.toInt(),
@@ -93,7 +95,8 @@ class CodeClimateReporter implements Reporter {
       }
 
       if (UtilitySelector.isIssueLevel(
-          report.maximumNestingLevel.violationLevel)) {
+        report.maximumNestingLevel.violationLevel,
+      )) {
         issues.add(CodeClimateIssue.maximumNestingLevel(
           func,
           report.maximumNestingLevel.value,

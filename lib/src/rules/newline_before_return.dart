@@ -19,11 +19,11 @@ class NewlineBeforeReturnRule extends BaseRule {
 
   NewlineBeforeReturnRule({Map<String, Object> config = const {}})
       : super(
-            id: ruleId,
-            documentation: Uri.parse(_documentationUrl),
-            severity:
-                CodeIssueSeverity.fromJson(config['severity'] as String) ??
-                    CodeIssueSeverity.style);
+          id: ruleId,
+          documentation: Uri.parse(_documentationUrl),
+          severity: CodeIssueSeverity.fromJson(config['severity'] as String) ??
+              CodeIssueSeverity.style,
+        );
 
   @override
   Iterable<CodeIssue> check(Source source) {
@@ -44,14 +44,23 @@ class NewlineBeforeReturnRule extends BaseRule {
               .lineNumber;
           final tokenLine = source.compilationUnit.lineInfo
               .getLocation(_optimalToken(
-                      statement.returnKeyword, source.compilationUnit.lineInfo)
-                  .offset)
+                statement.returnKeyword,
+                source.compilationUnit.lineInfo,
+              ).offset)
               .lineNumber;
 
           return !(tokenLine > previousTokenLine + 1);
         })
-        .map((statement) => createIssue(this, _failure, null, null, source.url,
-            source.content, source.compilationUnit.lineInfo, statement))
+        .map((statement) => createIssue(
+              this,
+              _failure,
+              null,
+              null,
+              source.url,
+              source.content,
+              source.compilationUnit.lineInfo,
+              statement,
+            ))
         .toList(growable: false);
   }
 

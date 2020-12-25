@@ -36,30 +36,39 @@ void main() {
   test('prepareExcludes returns exclude pattern ', () {
     expect(prepareExcludes(null, null), isEmpty);
     expect(
-        prepareExcludes(['example/**', 'test/resources/**'],
-                '/home/developer/devs/my-project')
-            .map((glob) => glob.pattern),
-        equals([
-          '/home/developer/devs/my-project/example/**',
-          '/home/developer/devs/my-project/test/resources/**',
-        ]));
+      prepareExcludes(
+        ['example/**', 'test/resources/**'],
+        '/home/developer/devs/my-project',
+      ).map((glob) => glob.pattern),
+      equals([
+        '/home/developer/devs/my-project/example/**',
+        '/home/developer/devs/my-project/test/resources/**',
+      ]),
+    );
   });
 
   test(
-      'isExcluded returns true only for file path those matches with any exclude pattern',
-      () {
-    final analysisResultMock = AnalysisResultMock();
-    when(analysisResultMock.path).thenReturn('lib/src/example.dart');
+    'isExcluded returns true only for file path those matches with any exclude pattern',
+    () {
+      final analysisResultMock = AnalysisResultMock();
+      when(analysisResultMock.path).thenReturn('lib/src/example.dart');
 
-    expect(
-        isExcluded(analysisResultMock,
-            [Glob('test/**.dart'), Glob('lib/src/**.dart')]),
-        isTrue);
-    expect(
+      expect(
         isExcluded(
-            analysisResultMock, [Glob('test/**.dart'), Glob('bin/**.dart')]),
-        isFalse);
-  });
+          analysisResultMock,
+          [Glob('test/**.dart'), Glob('lib/src/**.dart')],
+        ),
+        isTrue,
+      );
+      expect(
+        isExcluded(
+          analysisResultMock,
+          [Glob('test/**.dart'), Glob('bin/**.dart')],
+        ),
+        isFalse,
+      );
+    },
+  );
 
   test('designIssueToAnalysisErrorFixes constructs AnalysisErrorFixes', () {
     const sourcePath = 'source_file.dart';
@@ -71,7 +80,7 @@ void main() {
     const patternId = 'pattern id';
     const patternDocumentationUrl = 'https://www.example.com';
     const issueMessage = 'diagnostic message';
-    const issueRecomendationMessage = 'diagnostic recomendation message';
+    const issueRecommendationMessage = 'diagnostic recommendation message';
 
     final fixes = designIssueToAnalysisErrorFixes(DesignIssue(
       patternId: patternId,
@@ -87,7 +96,7 @@ void main() {
         'abcd',
       ),
       message: issueMessage,
-      recommendation: issueRecomendationMessage,
+      recommendation: issueRecommendationMessage,
     ));
 
     expect(fixes.error.severity, equals(AnalysisErrorSeverity.INFO));
@@ -99,7 +108,7 @@ void main() {
     expect(fixes.error.location.startColumn, equals(column));
     expect(fixes.error.message, equals(issueMessage));
     expect(fixes.error.code, equals(patternId));
-    expect(fixes.error.correction, equals(issueRecomendationMessage));
+    expect(fixes.error.correction, equals(issueRecommendationMessage));
     expect(fixes.error.url, equals(patternDocumentationUrl));
     expect(fixes.error.contextMessages, isNull);
     expect(fixes.error.hasFix, isFalse);
@@ -107,41 +116,42 @@ void main() {
   });
 
   test(
-      'metricReportToAnalysisErrorFixes constructs AnalysisErrorFixes from metric report',
-      () {
-    const sourcePath = 'source_file.dart';
-    const offset = 5;
-    const length = 4;
-    const line = 2;
-    const column = 1;
-    const metricMessage = 'diagnostic message';
-    const metricId = 'metric id';
+    'metricReportToAnalysisErrorFixes constructs AnalysisErrorFixes from metric report',
+    () {
+      const sourcePath = 'source_file.dart';
+      const offset = 5;
+      const length = 4;
+      const line = 2;
+      const column = 1;
+      const metricMessage = 'diagnostic message';
+      const metricId = 'metric id';
 
-    final fixes = metricReportToAnalysisErrorFixes(
-      SourceLocation(
-        offset,
-        sourceUrl: Uri.parse(sourcePath),
-        line: line,
-        column: column,
-      ),
-      length,
-      metricMessage,
-      metricId,
-    );
+      final fixes = metricReportToAnalysisErrorFixes(
+        SourceLocation(
+          offset,
+          sourceUrl: Uri.parse(sourcePath),
+          line: line,
+          column: column,
+        ),
+        length,
+        metricMessage,
+        metricId,
+      );
 
-    expect(fixes.error.severity, equals(AnalysisErrorSeverity.INFO));
-    expect(fixes.error.type, equals(AnalysisErrorType.LINT));
-    expect(fixes.error.location.file, equals(sourcePath));
-    expect(fixes.error.location.offset, equals(5));
-    expect(fixes.error.location.length, equals(length));
-    expect(fixes.error.location.startLine, equals(line));
-    expect(fixes.error.location.startColumn, equals(column));
-    expect(fixes.error.message, equals(metricMessage));
-    expect(fixes.error.code, equals(metricId));
-    expect(fixes.error.correction, isNull);
-    expect(fixes.error.url, isNull);
-    expect(fixes.error.contextMessages, isNull);
-    expect(fixes.error.hasFix, isFalse);
-    expect(fixes.fixes, isEmpty);
-  });
+      expect(fixes.error.severity, equals(AnalysisErrorSeverity.INFO));
+      expect(fixes.error.type, equals(AnalysisErrorType.LINT));
+      expect(fixes.error.location.file, equals(sourcePath));
+      expect(fixes.error.location.offset, equals(5));
+      expect(fixes.error.location.length, equals(length));
+      expect(fixes.error.location.startLine, equals(line));
+      expect(fixes.error.location.startColumn, equals(column));
+      expect(fixes.error.message, equals(metricMessage));
+      expect(fixes.error.code, equals(metricId));
+      expect(fixes.error.correction, isNull);
+      expect(fixes.error.url, isNull);
+      expect(fixes.error.contextMessages, isNull);
+      expect(fixes.error.hasFix, isFalse);
+      expect(fixes.fixes, isEmpty);
+    },
+  );
 }

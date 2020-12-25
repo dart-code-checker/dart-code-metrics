@@ -38,7 +38,9 @@ void main() {
       );
 
       final ignoreInfo = IgnoreInfo.calculateIgnores(
-          parseResult.content, parseResult.lineInfo);
+        parseResult.content,
+        parseResult.lineInfo,
+      );
 
       expect(ignoreInfo.hasIgnoreInfo, isFalse);
     });
@@ -51,7 +53,9 @@ void main() {
       );
 
       final ignoreInfo = IgnoreInfo.calculateIgnores(
-          parseResult.content, parseResult.lineInfo);
+        parseResult.content,
+        parseResult.lineInfo,
+      );
 
       expect(ignoreInfo.hasIgnoreInfo, isTrue);
 

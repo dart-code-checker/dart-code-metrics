@@ -22,11 +22,11 @@ class PreferTrailingComma extends BaseRule {
   PreferTrailingComma({Map<String, Object> config = const {}})
       : _itemsBreakpoint = _parseItemsBreakpoint(config),
         super(
-            id: ruleId,
-            documentation: Uri.parse(_documentationUrl),
-            severity:
-                CodeIssueSeverity.fromJson(config['severity'] as String) ??
-                    CodeIssueSeverity.warning);
+          id: ruleId,
+          documentation: Uri.parse(_documentationUrl),
+          severity: CodeIssueSeverity.fromJson(config['severity'] as String) ??
+              CodeIssueSeverity.warning,
+        );
 
   @override
   Iterable<CodeIssue> check(Source source) {
@@ -82,7 +82,10 @@ class _Visitor extends RecursiveAstVisitor<void> {
     super.visitFormalParameterList(node);
 
     _visitNodeList(
-        node.parameters, node.leftParenthesis, node.rightParenthesis);
+      node.parameters,
+      node.leftParenthesis,
+      node.rightParenthesis,
+    );
   }
 
   @override

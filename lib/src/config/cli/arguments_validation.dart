@@ -17,7 +17,8 @@ void validateArguments(ArgResults arguments) {
 void checkPathsToAnalyzeNotEmpty(ArgResults arguments) {
   if (arguments.rest.isEmpty) {
     throw InvalidArgumentException(
-        'Invalid number of directories. At least one must be specified');
+      'Invalid number of directories. At least one must be specified',
+    );
   }
 }
 
@@ -28,7 +29,8 @@ void checkPathsExistAndDirectories(ArgResults arguments) {
     final absolutePath = path.join(rootFolderPath, relativePath);
     if (!Directory(absolutePath).existsSync()) {
       throw InvalidArgumentException(
-          "$absolutePath doesn't exist or isn't a directory");
+        "$absolutePath doesn't exist or isn't a directory",
+      );
     }
   }
 }
@@ -37,6 +39,7 @@ void checkRootFolderExistAndDirectory(ArgResults arguments) {
   final rootFolderPath = arguments[rootFolderName] as String;
   if (!Directory(rootFolderPath).existsSync()) {
     throw InvalidArgumentException(
-        'Root folder $rootFolderPath does not exist or not a directory');
+      'Root folder $rootFolderPath does not exist or not a directory',
+    );
   }
 }

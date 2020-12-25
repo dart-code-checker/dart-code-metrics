@@ -9,9 +9,13 @@ import 'models/design_issue.dart';
 /// [FileRecord] builder
 abstract class MetricsRecordsBuilder {
   void recordComponent(
-      ScopedComponentDeclaration declaration, ComponentRecord record);
+    ScopedComponentDeclaration declaration,
+    ComponentRecord record,
+  );
   void recordFunction(
-      ScopedFunctionDeclaration declaration, FunctionRecord record);
+    ScopedFunctionDeclaration declaration,
+    FunctionRecord record,
+  );
   void recordDesignIssues(Iterable<DesignIssue> issues);
   void recordIssues(Iterable<CodeIssue> issues);
 }

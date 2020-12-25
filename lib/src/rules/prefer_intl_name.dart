@@ -21,11 +21,11 @@ class PreferIntlNameRule extends BaseRule {
 
   PreferIntlNameRule({Map<String, Object> config = const {}})
       : super(
-            id: ruleId,
-            documentation: Uri.parse(_documentationUrl),
-            severity:
-                CodeIssueSeverity.fromJson(config['severity'] as String) ??
-                    CodeIssueSeverity.warning);
+          id: ruleId,
+          documentation: Uri.parse(_documentationUrl),
+          severity: CodeIssueSeverity.fromJson(config['severity'] as String) ??
+              CodeIssueSeverity.warning,
+        );
 
   @override
   Iterable<CodeIssue> check(Source source) {
@@ -74,10 +74,12 @@ class PreferIntlNameRule extends BaseRule {
 
 class _Visitor extends IntlBaseVisitor {
   @override
-  void checkMethodInvocation(MethodInvocation methodInvocation,
-      {String className,
-      String variableName,
-      FormalParameterList parameterList}) {
+  void checkMethodInvocation(
+    MethodInvocation methodInvocation, {
+    String className,
+    String variableName,
+    FormalParameterList parameterList,
+  }) {
     final nameExpression = methodInvocation.argumentList?.arguments
         ?.whereType<NamedExpression>()
         ?.where((argument) => argument.name.label.name == 'name')

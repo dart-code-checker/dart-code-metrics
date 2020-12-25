@@ -14,7 +14,11 @@ class MetricsAnalysisRunner {
   final String _rootFolder;
 
   const MetricsAnalysisRunner(
-      this._analyzer, this._store, this._folders, this._rootFolder);
+    this._analyzer,
+    this._store,
+    this._folders,
+    this._rootFolder,
+  );
 
   /// Get results of analysis run. Will return empty iterable if [run()] wasn't executed yet
   Iterable<FileRecord> results() => _store.records();

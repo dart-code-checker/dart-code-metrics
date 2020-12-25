@@ -28,7 +28,9 @@ class CyclomaticConfig {
 
   CyclomaticConfig({Iterable<int> complexity})
       : _addedComplexityByControlFlowType = Map<String, int>.fromIterables(
-            _options, complexity ?? _options.map((_) => 1));
+          _options,
+          complexity ?? _options.map((_) => 1),
+        );
 }
 
 final CyclomaticConfig defaultCyclomaticConfig = CyclomaticConfig();

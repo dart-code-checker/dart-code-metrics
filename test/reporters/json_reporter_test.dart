@@ -118,8 +118,10 @@ void main() {
             .single;
 
         expect(issue, containsPair('patternId', _issuePatternId));
-        expect(issue,
-            containsPair('patternDocumentation', _issuePatternDocumentation));
+        expect(
+          issue,
+          containsPair('patternDocumentation', _issuePatternDocumentation),
+        );
         expect(issue, containsPair('lineNumber', _issueLine));
         expect(issue, containsPair('columnNumber', _issueColumn));
         expect(issue, containsPair('problemCode', _issueProblemCode));
@@ -180,7 +182,9 @@ void main() {
         expect(issue, containsPair('severity', 'style'));
         expect(issue, containsPair('ruleId', _issueRuleId));
         expect(
-            issue, containsPair('ruleDocumentation', _issueRuleDocumentation));
+          issue,
+          containsPair('ruleDocumentation', _issueRuleDocumentation),
+        );
         expect(issue, containsPair('lineNumber', _issueLine));
         expect(issue, containsPair('columnNumber', _issueColumn));
         expect(issue, containsPair('problemCode', _issueProblemCode));
@@ -258,7 +262,8 @@ void main() {
             components: Map.unmodifiable(<String, ComponentRecord>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
               'function': buildFunctionRecordStub(
-                  linesWithCode: List.generate(150, (index) => index)),
+                linesWithCode: List.generate(150, (index) => index),
+              ),
             }),
             issues: const [],
             designIssues: const [],
@@ -286,7 +291,8 @@ void main() {
             components: Map.unmodifiable(<String, ComponentRecord>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
               'function': buildFunctionRecordStub(
-                  linesWithCode: List.generate(5, (index) => index)),
+                linesWithCode: List.generate(5, (index) => index),
+              ),
             }),
             issues: const [],
             designIssues: const [],

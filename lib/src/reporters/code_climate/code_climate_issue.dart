@@ -71,7 +71,13 @@ class CodeClimateIssue {
         .toString();
 
     return CodeClimateIssue._(
-        name, desc, categories, location, severity, fingerprint);
+      name,
+      desc,
+      categories,
+      location,
+      severity,
+      fingerprint,
+    );
   }
 
   factory CodeClimateIssue.cyclomaticComplexity(
@@ -153,7 +159,9 @@ class CodeClimateIssue {
   }
 
   factory CodeClimateIssue.fromDesignIssue(
-          DesignIssue issue, String fileName) =>
+    DesignIssue issue,
+    String fileName,
+  ) =>
       CodeClimateIssue._create(
         issue.patternId,
         issue.message,

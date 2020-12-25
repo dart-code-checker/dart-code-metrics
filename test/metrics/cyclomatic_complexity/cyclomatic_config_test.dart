@@ -29,9 +29,12 @@ void main() {
     });
 
     test('throws exception for unknown flow type', () {
-      expect(() {
-        defaultCyclomaticConfig.complexityByControlFlowType('unknown type');
-      }, throwsArgumentError);
+      expect(
+        () {
+          defaultCyclomaticConfig.complexityByControlFlowType('unknown type');
+        },
+        throwsArgumentError,
+      );
     });
 
     test('with custom config', () {

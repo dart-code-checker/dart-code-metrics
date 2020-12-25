@@ -14,14 +14,18 @@ class LinesWithCodeAstVisitor extends RecursiveAstVisitor<void> {
   @override
   void visitBlockFunctionBody(BlockFunctionBody node) {
     _collectFunctionBodyData(
-        node.block.leftBracket.next, node.block.rightBracket);
+      node.block.leftBracket.next,
+      node.block.rightBracket,
+    );
     super.visitBlockFunctionBody(node);
   }
 
   @override
   void visitExpressionFunctionBody(ExpressionFunctionBody node) {
     _collectFunctionBodyData(
-        node.expression.beginToken.previous, node.expression.endToken.next);
+      node.expression.beginToken.previous,
+      node.expression.endToken.next,
+    );
     super.visitExpressionFunctionBody(node);
   }
 

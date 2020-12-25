@@ -61,15 +61,18 @@ void main() {
     parseResult.unit.visitChildren(scopeVisitor);
 
     final issues = LongMethod().check(
-        Source(sourceUrl, parseResult.content, parseResult.unit),
-        scopeVisitor.functions,
-        const Config(linesOfExecutableCodeWarningLevel: 25));
+      Source(sourceUrl, parseResult.content, parseResult.unit),
+      scopeVisitor.functions,
+      const Config(linesOfExecutableCodeWarningLevel: 25),
+    );
 
     expect(issues.length, equals(1));
 
     expect(issues.single.patternId, equals('long-method'));
-    expect(issues.single.patternDocumentation.toString(),
-        equals('https://git.io/JUIP7'));
+    expect(
+      issues.single.patternDocumentation.toString(),
+      equals('https://git.io/JUIP7'),
+    );
     expect(issues.single.sourceSpan.sourceUrl, equals(sourceUrl));
     expect(issues.single.sourceSpan.start.offset, equals(1));
     expect(issues.single.sourceSpan.start.line, equals(2));
@@ -78,12 +81,14 @@ void main() {
     expect(
       issues.single.message,
       equals(
-          'Long Function. This function contains 29 lines with executable code.'),
+        'Long Function. This function contains 29 lines with executable code.',
+      ),
     );
     expect(
       issues.single.recommendation,
       equals(
-          "Based on configuration of this package, we don't recommend write a function longer than 25 lines with executable code."),
+        "Based on configuration of this package, we don't recommend write a function longer than 25 lines with executable code.",
+      ),
     );
   });
 }

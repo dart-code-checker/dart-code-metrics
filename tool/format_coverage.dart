@@ -36,7 +36,8 @@ void _printCoverageDetails(lcov.Report report) {
       .fold<int>(0, (count, record) => count + record.lines.found);
 
   print(
-      '$coveredLines of $totalLines relevant lines covered (${(coveredLines * 100 / totalLines).toStringAsPrecision(4)}%)');
+    '$coveredLines of $totalLines relevant lines covered (${(coveredLines * 100 / totalLines).toStringAsPrecision(4)}%)',
+  );
 }
 
 void _printCoverageOutputDoesntExistBanner() {
@@ -71,8 +72,10 @@ lcov.Record _fileToUncoveredRecord(String filePath) {
           e.value != '}')
       .map((e) => lcov.LineData(e.key + 1));
 
-  return lcov.Record(filePath,
-      lines: lcov.LineCoverage(uncoveredLines.length, 0, uncoveredLines));
+  return lcov.Record(
+    filePath,
+    lines: lcov.LineCoverage(uncoveredLines.length, 0, uncoveredLines),
+  );
 }
 
 Iterable<File> _findSourceFiles(Directory directory, bool skipGenerated) {
