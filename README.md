@@ -36,7 +36,7 @@ A plugin for the Dart `analyzer` library [package](https://pub.dev/packages/dart
 
     ```yaml
     dev_dependencies:
-      dart_code_metrics: ^2.0.0
+      dart_code_metrics: ^2.3.2
     ```
 
 2. Add configuration to `analysis_options.yaml`
@@ -49,17 +49,21 @@ A plugin for the Dart `analyzer` library [package](https://pub.dev/packages/dart
     dart_code_metrics:
       anti-patterns:
         - long-method
+        - long-parameter-list
       metrics:
         cyclomatic-complexity: 20
         lines-of-executable-code: 50
         number-of-arguments: 4
+        maximum-nesting: 5
       metrics-exclude:
         - test/**
       rules:
         - newline-before-return
         - no-boolean-literal-compare
         - no-empty-block
-        - prefer-trailing-comma-for-collection
+        - prefer-trailing-comma
+        - prefer-conditional-expressions
+        - no-equal-then-else
 
 ### Command line tool
 
