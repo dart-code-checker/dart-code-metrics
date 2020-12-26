@@ -78,6 +78,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
     final parameters = node.parameters;
 
     if (parent is ClassDeclaration && parent.isAbstract ||
+        node.externalKeyword != null ||
         (parameters?.parameters?.isEmpty ?? true)) {
       return;
     }
@@ -115,7 +116,8 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
     final parameters = node.functionExpression.parameters;
 
-    if (parameters?.parameters?.isEmpty ?? true) {
+    if (node.externalKeyword != null ||
+        (parameters?.parameters?.isEmpty ?? true)) {
       return;
     }
 

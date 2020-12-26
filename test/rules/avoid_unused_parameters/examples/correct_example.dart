@@ -10,7 +10,7 @@ class TestClass implements AbstractClass {
     secondMethod(string);
   }
 
-  String secondMethod(String string) {
+  external String secondMethod(String string) {
     return string;
   }
 
@@ -44,7 +44,7 @@ String secondFunction(String string) {
   assert(string != null);
 }
 
-void thirdFunction() {}
+external void thirdFunction() {}
 
 void forthFunction(String firstString, String secondString) {
   firstFunction(firstString);
