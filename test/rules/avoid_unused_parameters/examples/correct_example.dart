@@ -6,8 +6,14 @@ class TestClass implements AbstractClass {
   @override
   void abstractMethod(String _) {}
 
+  void speciallySkippedMethod(String _) {}
+
+  bool chainReturnMethod(TestClass object) {
+    return object?.value?.isEmpty;
+  }
+
   void firstMethod(String string) {
-    secondMethod(string);
+    thirdMethod(string);
   }
 
   external String secondMethod(String string) {
@@ -20,7 +26,7 @@ class TestClass implements AbstractClass {
 
   void forthMethod(String firstString, String secondString) {
     firstMethod(firstString);
-    secondMethod(secondString);
+    thirdMethod(secondString);
   }
 
   void fifth(TestClass object) {

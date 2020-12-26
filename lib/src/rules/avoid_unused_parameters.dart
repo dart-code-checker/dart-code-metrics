@@ -95,17 +95,14 @@ class _Visitor extends RecursiveAstVisitor<void> {
         _getUnusedParameters(
           node.body.childEntities,
           parameters.parameters,
-        ).where(
-          (parameter) =>
-              parameter.identifier.name.replaceAll('_', '').isNotEmpty,
-        ),
+        ).where(_hasNoUnderscoresInName),
       );
     } else {
       _unusedParameters.addAll(
         _getUnusedParameters(
           node.body.childEntities,
           parameters.parameters,
-        ),
+        ).where(_hasNoUnderscoresInName),
       );
     }
   }
@@ -125,7 +122,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
       _getUnusedParameters(
         node.functionExpression.body.childEntities,
         parameters.parameters,
-      ),
+      ).where(_hasNoUnderscoresInName),
     );
   }
 
@@ -168,7 +165,8 @@ class _Visitor extends RecursiveAstVisitor<void> {
       } else if (child is Identifier &&
           parametersNames.contains(child.name) &&
           !ignoredForSubtree.contains(child.name) &&
-          child.parent is! PropertyAccess) {
+          !(child.parent is PropertyAccess &&
+              (child.parent as PropertyAccess).target != child)) {
         final name = child.name;
 
         parametersNames.remove(name);
@@ -186,4 +184,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
     return usedNames;
   }
+
+  bool _hasNoUnderscoresInName(FormalParameter parameter) =>
+      parameter.identifier.name.replaceAll('_', '').isNotEmpty;
 }
