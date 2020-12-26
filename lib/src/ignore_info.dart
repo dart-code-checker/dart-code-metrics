@@ -12,10 +12,10 @@ class IgnoreInfo {
   bool get hasIgnoreInfo =>
       _ignoreMap.isNotEmpty || _ignoreForFileSet.isNotEmpty;
 
-  bool ignoreRule(String ruleId) => _ignoreForFileSet.contains(ruleId);
+  bool ignoreRule(String ruleId) => _ignoreForFileSet.contains(ruleId.trim().toLowerCase());
 
   bool ignoredAt(String ruleId, int line) =>
-      ignoreRule(ruleId) || (_ignoreMap[line]?.contains(ruleId) ?? false);
+      ignoreRule(ruleId.trim().toLowerCase()) || (_ignoreMap[line]?.contains(ruleId.trim().toLowerCase()) ?? false);
 
   IgnoreInfo.calculateIgnores(String content, LineInfo info) {
     for (final match in _ignoreMatchers.allMatches(content)) {
