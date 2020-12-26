@@ -1,6 +1,8 @@
 class TestClass implements AbstractClass {
   String value;
 
+  String get getter => value;
+
   @override
   void abstractMethod(String _) {}
 
@@ -42,9 +44,7 @@ String secondFunction(String string) {
   assert(string != null);
 }
 
-void thirdFunction(String value) {
-  value = '1';
-}
+void thirdFunction() {}
 
 void forthFunction(String firstString, String secondString) {
   firstFunction(firstString);

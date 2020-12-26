@@ -75,21 +75,25 @@ class _Visitor extends RecursiveAstVisitor<void> {
     super.visitMethodDeclaration(node);
 
     final parent = node.parent;
+    final parameters = node.parameters;
 
-    if (parent is ClassDeclaration && parent.isAbstract) {
+    if (parent is ClassDeclaration && parent.isAbstract ||
+        (parameters?.parameters?.isEmpty ?? true)) {
       return;
     }
 
     final isOverride = node.metadata.firstWhere(
-      (node) => node.name.name == 'override' && node.atSign.type.lexeme == '@',
-      orElse: () => null,
-    );
+          (node) =>
+              node.name.name == 'override' && node.atSign.type.lexeme == '@',
+          orElse: () => null,
+        ) !=
+        null;
 
-    if (isOverride != null) {
+    if (isOverride) {
       _renameSuggestions.addAll(
-        _checkParameters(
+        _getUnusedParameters(
           node.body.childEntities,
-          node.parameters.parameters,
+          parameters.parameters,
         ).where(
           (parameter) =>
               parameter.identifier.name.replaceAll('_', '').isNotEmpty,
@@ -97,9 +101,9 @@ class _Visitor extends RecursiveAstVisitor<void> {
       );
     } else {
       _unusedParameters.addAll(
-        _checkParameters(
+        _getUnusedParameters(
           node.body.childEntities,
-          node.parameters.parameters,
+          parameters.parameters,
         ),
       );
     }
@@ -109,26 +113,32 @@ class _Visitor extends RecursiveAstVisitor<void> {
   void visitFunctionDeclaration(FunctionDeclaration node) {
     super.visitFunctionDeclaration(node);
 
+    final parameters = node.functionExpression.parameters;
+
+    if (parameters?.parameters?.isEmpty ?? true) {
+      return;
+    }
+
     _unusedParameters.addAll(
-      _checkParameters(
+      _getUnusedParameters(
         node.functionExpression.body.childEntities,
-        node.functionExpression.parameters.parameters,
+        parameters.parameters,
       ),
     );
   }
 
-  Iterable<FormalParameter> _checkParameters(
+  Iterable<FormalParameter> _getUnusedParameters(
     Iterable<SyntacticEntity> children,
     NodeList<FormalParameter> parameters,
   ) {
     final result = <FormalParameter>[];
 
-    final usages = _getAllUsages(children, [])
-        .map((identifier) => identifier.name)
-        .toList();
+    final names =
+        parameters.map((parameter) => parameter.identifier.name).toList();
+    final usedNames = _getUsedNames(children, names, []);
 
     for (final parameter in parameters) {
-      if (!usages.contains(parameter.identifier.name)) {
+      if (!usedNames.contains(parameter.identifier.name)) {
         result.add(parameter);
       }
     }
@@ -136,29 +146,42 @@ class _Visitor extends RecursiveAstVisitor<void> {
     return result;
   }
 
-  Iterable<Identifier> _getAllUsages(
+  Iterable<String> _getUsedNames(
     Iterable<SyntacticEntity> children,
+    List<String> parametersNames,
     Iterable<String> ignoredNames,
   ) {
-    final usages = <Identifier>[];
-    final ignored = [...ignoredNames];
+    final usedNames = <String>[];
+    final ignoredForSubtree = [...ignoredNames];
+
+    if (parametersNames.isEmpty) {
+      return usedNames;
+    }
 
     for (final child in children) {
       if (child is FunctionExpression) {
         for (final parameter in child.parameters.parameters) {
-          ignored.add(parameter.identifier.name);
+          ignoredForSubtree.add(parameter.identifier.name);
         }
       } else if (child is Identifier &&
-          !ignored.contains(child.name) &&
+          parametersNames.contains(child.name) &&
+          !ignoredForSubtree.contains(child.name) &&
           child.parent is! PropertyAccess) {
-        usages.add(child);
+        final name = child.name;
+
+        parametersNames.remove(name);
+        usedNames.add(name);
       }
 
       if (child is AstNode) {
-        usages.addAll(_getAllUsages(child.childEntities, ignored));
+        usedNames.addAll(_getUsedNames(
+          child.childEntities,
+          parametersNames,
+          ignoredForSubtree,
+        ));
       }
     }
 
-    return usages;
+    return usedNames;
   }
 }
