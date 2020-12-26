@@ -12,11 +12,13 @@ class TestClass implements AbstractClass {
     return object?.value?.isEmpty;
   }
 
+  external void externalMethod(String string);
+
   void firstMethod(String string) {
     thirdMethod(string);
   }
 
-  external String secondMethod(String string) {
+  String secondMethod(String string) {
     return string;
   }
 
@@ -50,7 +52,7 @@ String secondFunction(String string) {
   assert(string != null);
 }
 
-external void thirdFunction() {}
+external void thirdFunction(String string);
 
 void forthFunction(String firstString, String secondString) {
   firstFunction(firstString);
