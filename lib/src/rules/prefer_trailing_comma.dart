@@ -3,8 +3,8 @@ import 'package:analyzer/dart/ast/syntactic_entity.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/source/line_info.dart';
+import 'package:code_checker/analysis.dart';
 import 'package:dart_code_metrics/src/models/code_issue.dart';
-import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
 import 'package:dart_code_metrics/src/models/source.dart';
 import 'package:dart_code_metrics/src/rules/rule_utils.dart';
 
@@ -24,9 +24,8 @@ class PreferTrailingComma extends BaseRule {
         super(
             id: ruleId,
             documentation: Uri.parse(_documentationUrl),
-            severity:
-                CodeIssueSeverity.fromJson(config['severity'] as String) ??
-                    CodeIssueSeverity.warning);
+            severity: Severity.fromJson(config['severity'] as String) ??
+                Severity.warning);
 
   @override
   Iterable<CodeIssue> check(Source source) {

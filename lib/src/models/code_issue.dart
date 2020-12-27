@@ -1,4 +1,4 @@
-import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
+import 'package:code_checker/analysis.dart';
 import 'package:meta/meta.dart';
 import 'package:source_span/source_span.dart';
 
@@ -6,7 +6,7 @@ import 'package:source_span/source_span.dart';
 class CodeIssue {
   final String ruleId;
   final Uri ruleDocumentation;
-  final CodeIssueSeverity severity;
+  final Severity severity;
   final SourceSpanBase sourceSpan;
   final String message;
   final String correction;

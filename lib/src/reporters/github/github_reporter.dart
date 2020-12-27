@@ -1,4 +1,5 @@
-import '../../models/code_issue_severity.dart';
+import 'package:code_checker/analysis.dart';
+
 import '../../models/file_record.dart';
 import '../reporter.dart';
 import 'github_workflow_commands.dart';
@@ -19,7 +20,7 @@ class GitHubReporter implements Reporter {
       }
 
       for (final issue in analysisRecord.issues) {
-        if (issue.severity == CodeIssueSeverity.error) {
+        if (issue.severity == Severity.error) {
           reportStrings.add(
               _commands.error(issue.message, sourceSpan: issue.sourceSpan));
         } else {

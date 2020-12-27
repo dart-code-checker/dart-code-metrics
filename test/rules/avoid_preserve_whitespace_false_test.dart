@@ -1,7 +1,7 @@
 @TestOn('vm')
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
-import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
+import 'package:code_checker/analysis.dart';
 import 'package:dart_code_metrics/src/models/source.dart';
 import 'package:dart_code_metrics/src/rules/avoid_preserve_whitespace_false.dart';
 import 'package:test/test.dart';
@@ -60,7 +60,7 @@ void main() {
 
     final issue = issues.first;
     expect(issue.ruleId, equals('avoid-preserve-whitespace-false'));
-    expect(issue.severity, equals(CodeIssueSeverity.warning));
+    expect(issue.severity, equals(Severity.warning));
     expect(issue.sourceSpan.sourceUrl, equals(sourceUrl));
     expect(issue.sourceSpan.start.offset, equals(164));
     expect(issue.sourceSpan.start.line, equals(6));

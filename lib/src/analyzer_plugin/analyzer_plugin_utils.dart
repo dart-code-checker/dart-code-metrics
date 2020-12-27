@@ -1,8 +1,8 @@
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart' as plugin;
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
+import 'package:code_checker/analysis.dart';
 import 'package:dart_code_metrics/src/models/code_issue.dart';
-import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
 import 'package:glob/glob.dart';
 import 'package:path/path.dart' as p;
 import 'package:source_span/source_span.dart';
@@ -95,7 +95,9 @@ plugin.AnalysisErrorFixes metricReportToAnalysisErrorFixes(
     ));
 
 const _severityMapping = {
-  CodeIssueSeverity.style: plugin.AnalysisErrorSeverity.INFO,
-  CodeIssueSeverity.warning: plugin.AnalysisErrorSeverity.WARNING,
-  CodeIssueSeverity.error: plugin.AnalysisErrorSeverity.ERROR,
+  Severity.error: plugin.AnalysisErrorSeverity.ERROR,
+  Severity.warning: plugin.AnalysisErrorSeverity.WARNING,
+  Severity.performance: plugin.AnalysisErrorSeverity.INFO,
+  Severity.style: plugin.AnalysisErrorSeverity.INFO,
+  Severity.none: plugin.AnalysisErrorSeverity.INFO,
 };
