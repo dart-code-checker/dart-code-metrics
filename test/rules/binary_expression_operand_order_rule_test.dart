@@ -1,4 +1,5 @@
-import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
+@TestOn('vm')
+import 'package:code_checker/analysis.dart';
 import 'package:dart_code_metrics/src/models/source.dart';
 import 'package:dart_code_metrics/src/rules/binary_expression_operand_order_rule.dart';
 import 'package:test/test.dart';
@@ -49,7 +50,7 @@ void main() {
         isTrue,
       );
       expect(
-        issues.every((issue) => issue.severity == CodeIssueSeverity.style),
+        issues.every((issue) => issue.severity == Severity.style),
         isTrue,
       );
       expect(

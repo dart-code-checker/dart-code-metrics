@@ -1,6 +1,6 @@
 @TestOn('vm')
+import 'package:code_checker/analysis.dart';
 import 'package:dart_code_metrics/src/models/code_issue.dart';
-import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
 import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/design_issue.dart';
 import 'package:dart_code_metrics/src/models/file_record.dart';
@@ -66,7 +66,7 @@ void main() {
             CodeIssue(
               ruleId: 'ruleId1',
               ruleDocumentation: Uri.parse('https://docu.edu/ruleId1.html'),
-              severity: CodeIssueSeverity.style,
+              severity: Severity.style,
               sourceSpan: SourceSpanBase(
                 SourceLocation(
                   1,
@@ -84,7 +84,7 @@ void main() {
             CodeIssue(
               ruleId: 'ruleId2',
               ruleDocumentation: Uri.parse('https://docu.edu/ruleId2.html'),
-              severity: CodeIssueSeverity.error,
+              severity: Severity.error,
               sourceSpan: SourceSpanBase(
                 SourceLocation(
                   11,

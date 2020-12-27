@@ -1,9 +1,9 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
+import 'package:code_checker/analysis.dart';
 import 'package:meta/meta.dart';
 
 import '../models/code_issue.dart';
-import '../models/code_issue_severity.dart';
 import '../models/source.dart';
 import 'base_rule.dart';
 import 'rule_utils.dart';
@@ -21,9 +21,8 @@ class PreferConditionalExpressions extends BaseRule {
       : super(
             id: ruleId,
             documentation: Uri.parse(_documentationUrl),
-            severity:
-                CodeIssueSeverity.fromJson(config['severity'] as String) ??
-                    CodeIssueSeverity.style);
+            severity: Severity.fromJson(config['severity'] as String) ??
+                Severity.style);
 
   @override
   Iterable<CodeIssue> check(Source source) {

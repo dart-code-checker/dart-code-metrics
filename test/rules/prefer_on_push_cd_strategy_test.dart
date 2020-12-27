@@ -1,7 +1,7 @@
 @TestOn('vm')
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
-import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
+import 'package:code_checker/analysis.dart';
 import 'package:dart_code_metrics/src/models/source.dart';
 import 'package:dart_code_metrics/src/rules/prefer_on_push_cd_strategy.dart';
 import 'package:test/test.dart';
@@ -64,7 +64,7 @@ void main() {
 
       final issue = issues.first;
       expect(issue.ruleId, equals('prefer-on-push-cd-strategy'));
-      expect(issue.severity, equals(CodeIssueSeverity.warning));
+      expect(issue.severity, equals(Severity.warning));
       expect(issue.sourceSpan.sourceUrl, equals(sourceUrl));
       expect(issue.sourceSpan.start.line, equals(1));
       expect(issue.sourceSpan.end.line, equals(3));
@@ -87,7 +87,7 @@ void main() {
 
       final issue = issues.first;
       expect(issue.ruleId, equals('prefer-on-push-cd-strategy'));
-      expect(issue.severity, equals(CodeIssueSeverity.warning));
+      expect(issue.severity, equals(Severity.warning));
       expect(issue.sourceSpan.sourceUrl, equals(sourceUrl));
       expect(issue.sourceSpan.start.line, equals(3));
       expect(issue.sourceSpan.end.line, equals(3));
