@@ -25,30 +25,44 @@ class SomeClass {
     return;
   }
 }
+
+class SomeClass extends AnotherClass {
+  @override
+  void method(String s) {}
+}
 ```
 
 Good:
 
 ```dart
-void someFunction() {
+void someOtherFunction() {
   return;
 }
 
-class SomeClass {
+class SomeOtherClass {
   void method() {
     return;
   }
 }
 
-void someFunction(String s) {
+void someOtherFunction(String s) {
   print(s);
   return;
 }
 
-class SomeClass {
+class SomeOtherClass {
   void method(String s) {
     print(s);
     return;
   }
+}
+
+class SomeOtherClass extends AnotherClass {
+  @override
+  void method(String _) {}
+}
+
+abstract class SomeOtherClass {
+  void method(String s);
 }
 ```
