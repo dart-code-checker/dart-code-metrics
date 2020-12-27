@@ -13,17 +13,17 @@ class IgnoreInfo {
       _ignoreMap.isNotEmpty || _ignoreForFileSet.isNotEmpty;
 
   bool ignoreRule(String ruleId) =>
-      _ignoreForFileSet.contains(canonicalize(ruleId));
+      _ignoreForFileSet.contains(_canonicalize(ruleId));
 
   bool ignoredAt(String ruleId, int line) =>
-      ignoreRule(canonicalize(ruleId)) ||
-      (_ignoreMap[line]?.contains(canonicalize(ruleId)) ?? false);
+      ignoreRule(ruleId) ||
+      (_ignoreMap[line]?.contains(_canonicalize(ruleId)) ?? false);
 
-  String canonicalize(String ruleId) => ruleId.trim().toLowerCase();
+  String _canonicalize(String ruleId) => ruleId.trim().toLowerCase();
 
   IgnoreInfo.calculateIgnores(String content, LineInfo info) {
     for (final match in _ignoreMatchers.allMatches(content)) {
-      final codes = match.group(1).split(',').map(canonicalize);
+      final codes = match.group(1).split(',').map(_canonicalize);
       final location = info.getLocation(match.start);
       final lineNumber = location.lineNumber;
       final beforeMatch = content.substring(
@@ -40,7 +40,7 @@ class IgnoreInfo {
     }
 
     for (final match in _ignoreForFileMatcher.allMatches(content)) {
-      _ignoreForFileSet.addAll(match.group(1).split(',').map(canonicalize));
+      _ignoreForFileSet.addAll(match.group(1).split(',').map(_canonicalize));
     }
   }
 }
