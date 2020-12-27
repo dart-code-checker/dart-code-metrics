@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:analyzer/dart/analysis/utilities.dart';
-import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
+import 'package:code_checker/analysis.dart';
 import 'package:dart_code_metrics/src/models/source.dart';
 import 'package:dart_code_metrics/src/rules/avoid_unused_parameters.dart';
 import 'package:test/test.dart';
@@ -30,7 +30,7 @@ void main() {
         isTrue,
       );
       expect(
-        issues.every((issue) => issue.severity == CodeIssueSeverity.warning),
+        issues.every((issue) => issue.severity == Severity.warning),
         isTrue,
       );
     });
