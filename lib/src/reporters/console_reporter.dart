@@ -1,8 +1,8 @@
 import 'package:ansicolor/ansicolor.dart';
+import 'package:code_checker/analysis.dart';
 import 'package:meta/meta.dart';
 
 import '../config/config.dart';
-import '../models/code_issue_severity.dart';
 import '../models/file_record.dart';
 import '../models/report_metric.dart';
 import '../models/violation_level.dart';
@@ -31,15 +31,9 @@ class ConsoleReporter implements Reporter {
   };
 
   final _severityColors = {
-    CodeIssueSeverity.style: AnsiPen()..blue(),
-    CodeIssueSeverity.warning: AnsiPen()..yellow(),
-    CodeIssueSeverity.error: AnsiPen()..red(),
-  };
-
-  static const _severityHumanReadable = {
-    CodeIssueSeverity.style: 'Style',
-    CodeIssueSeverity.warning: 'Warning',
-    CodeIssueSeverity.error: 'Error',
+    Severity.error: AnsiPen()..red(),
+    Severity.warning: AnsiPen()..yellow(),
+    Severity.style: AnsiPen()..blue(),
   };
 
   final _designIssuesColor = AnsiPen()..yellow();
@@ -88,7 +82,8 @@ class ConsoleReporter implements Reporter {
 
       for (final issue in analysisRecord.issues) {
         final severity = _severityColors[issue.severity](
-            _severityHumanReadable[issue.severity]?.padRight(8));
+            '${issue.severity.value.substring(0, 1).toUpperCase()}${issue.severity.value.substring(1)}'
+                .padRight(8));
         final position =
             '${issue.sourceSpan.start.line}:${issue.sourceSpan.start.column}';
         final rule = [

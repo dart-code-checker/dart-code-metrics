@@ -1,8 +1,8 @@
 @TestOn('vm')
 import 'package:analyzer/dart/ast/ast.dart';
+import 'package:code_checker/analysis.dart';
 import 'package:dart_code_metrics/src/metrics_analysis_recorder.dart';
 import 'package:dart_code_metrics/src/models/code_issue.dart';
-import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
 import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/design_issue.dart';
 import 'package:dart_code_metrics/src/models/function_type.dart';
@@ -125,7 +125,7 @@ void main() {
                   CodeIssue(
                     ruleId: _issueRuleId,
                     ruleDocumentation: Uri.parse(_issueRuleDocumentation),
-                    severity: CodeIssueSeverity.style,
+                    severity: Severity.style,
                     sourceSpan: SourceSpanBase(
                       SourceLocation(
                         1,
@@ -311,7 +311,7 @@ void main() {
             CodeIssue(
               ruleId: _issueRuleId,
               ruleDocumentation: Uri.parse(_issueRuleDocumentation),
-              severity: CodeIssueSeverity.style,
+              severity: Severity.style,
               sourceSpan: SourceSpanBase(
                 SourceLocation(
                   1,

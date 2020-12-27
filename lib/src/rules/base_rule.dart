@@ -1,13 +1,13 @@
+import 'package:code_checker/analysis.dart';
 import 'package:meta/meta.dart';
 
 import '../models/code_issue.dart';
-import '../models/code_issue_severity.dart';
 import '../models/source.dart';
 
 abstract class BaseRule {
   final String id;
   final Uri documentation;
-  final CodeIssueSeverity severity;
+  final Severity severity;
 
   const BaseRule({
     @required this.id,

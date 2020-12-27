@@ -1,10 +1,10 @@
 import 'dart:convert';
 
+import 'package:code_checker/analysis.dart';
 import 'package:crypto/crypto.dart';
 import 'package:meta/meta.dart';
 
 import '../../models/code_issue.dart';
-import '../../models/code_issue_severity.dart';
 import '../../models/design_issue.dart';
 import '../../models/function_record.dart';
 
@@ -135,10 +135,20 @@ class CodeClimateIssue {
       );
 
   factory CodeClimateIssue.fromCodeIssue(CodeIssue issue, String fileName) {
+    const categoryHumanReadable = {
+      Severity.error: ['Bug Risk'],
+      Severity.warning: ['Bug Risk'],
+      Severity.style: ['Style'],
+      Severity.performance: ['Performance'],
+      Severity.none: <String>[],
+    };
+
     const severityHumanReadable = {
-      CodeIssueSeverity.style: 'minor',
-      CodeIssueSeverity.warning: 'major',
-      CodeIssueSeverity.error: 'critical',
+      Severity.error: 'critical',
+      Severity.warning: 'major',
+      Severity.style: 'minor',
+      Severity.performance: 'minor',
+      Severity.none: 'info',
     };
 
     return CodeClimateIssue._create(
@@ -147,7 +157,7 @@ class CodeClimateIssue {
       issue.sourceSpan.start.line,
       issue.sourceSpan.start.line,
       fileName,
-      categories: const ['Style'],
+      categories: categoryHumanReadable[issue.severity],
       severity: severityHumanReadable[issue.severity],
     );
   }

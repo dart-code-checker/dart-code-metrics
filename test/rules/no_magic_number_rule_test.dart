@@ -1,4 +1,5 @@
-import 'package:dart_code_metrics/src/models/code_issue_severity.dart';
+@TestOn('vm')
+import 'package:code_checker/analysis.dart';
 import 'package:dart_code_metrics/src/models/source.dart';
 import 'package:dart_code_metrics/src/rules/no_magic_number_rule.dart';
 import 'package:test/test.dart';
@@ -53,7 +54,7 @@ void main() {
         isTrue,
       );
       expect(
-        issues.every((issue) => issue.severity == CodeIssueSeverity.warning),
+        issues.every((issue) => issue.severity == Severity.warning),
         isTrue,
       );
       expect(
