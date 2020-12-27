@@ -84,7 +84,7 @@ void main() {
       expect(ignoreInfo.ignoredAt('rule_id8', 8), isTrue);
       expect(ignoreInfo.ignoredAt('rule_id9', 8), isTrue);
     });
-    
+
     test('content with camelcase ignores', () {
       final parseResult = parseString(
         content: _contentWithCamelCaseIgnores,
