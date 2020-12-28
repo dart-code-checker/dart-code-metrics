@@ -4,7 +4,6 @@ import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:code_checker/analysis.dart';
 
 import '../models/code_issue.dart';
-import '../models/source.dart';
 import 'base_rule.dart';
 import 'rule_utils.dart';
 
@@ -16,20 +15,29 @@ class AvoidPreserveWhitespaceFalseRule extends BaseRule {
 
   AvoidPreserveWhitespaceFalseRule({Map<String, Object> config = const {}})
       : super(
-            id: ruleId,
-            documentation: Uri.parse(_documentationUrl),
-            severity: Severity.fromJson(config['severity'] as String) ??
-                Severity.warning);
+          id: ruleId,
+          documentation: Uri.parse(_documentationUrl),
+          severity: Severity.fromJson(config['severity'] as String) ??
+              Severity.warning,
+        );
 
   @override
-  Iterable<CodeIssue> check(Source source) {
+  Iterable<CodeIssue> check(ProcessedFile source) {
     final visitor = _Visitor();
 
-    source.compilationUnit.visitChildren(visitor);
+    source.parsedContent.visitChildren(visitor);
 
     return visitor.expression
-        .map((expression) => createIssue(this, _failure, null, null, source.url,
-            source.content, source.compilationUnit.lineInfo, expression))
+        .map((expression) => createIssue(
+              this,
+              _failure,
+              null,
+              null,
+              source.url,
+              source.content,
+              source.parsedContent.lineInfo,
+              expression,
+            ))
         .toList(growable: false);
   }
 }
@@ -44,10 +52,11 @@ class _Visitor extends RecursiveAstVisitor<void> {
     if (node.name.name == 'Component' &&
         node.atSign.type.lexeme == '@' &&
         node.parent is ClassDeclaration) {
-      final preserveWhitespaceArg = node.arguments.arguments
-          .whereType<NamedExpression>()
-          .firstWhere((arg) => arg.name.label.name == 'preserveWhitespace',
-              orElse: () => null);
+      final preserveWhitespaceArg =
+          node.arguments.arguments.whereType<NamedExpression>().firstWhere(
+                (arg) => arg.name.label.name == 'preserveWhitespace',
+                orElse: () => null,
+              );
       if (preserveWhitespaceArg != null) {
         final expression = preserveWhitespaceArg.expression;
         if (expression is BooleanLiteral &&

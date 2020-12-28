@@ -4,7 +4,6 @@ import 'package:code_checker/analysis.dart';
 import 'package:meta/meta.dart';
 
 import '../models/code_issue.dart';
-import '../models/source.dart';
 import 'base_rule.dart';
 import 'rule_utils.dart';
 
@@ -24,45 +23,48 @@ class MemberOrderingRule extends BaseRule {
       : _groupsOrder = _parseOrder(config),
         _alphabetize = (config['alphabetize'] as bool) ?? false,
         super(
-            id: ruleId,
-            documentation: Uri.parse(_documentationUrl),
-            severity: Severity.fromJson(config['severity'] as String) ??
-                Severity.style);
+          id: ruleId,
+          documentation: Uri.parse(_documentationUrl),
+          severity:
+              Severity.fromJson(config['severity'] as String) ?? Severity.style,
+        );
 
   @override
-  Iterable<CodeIssue> check(Source source) {
+  Iterable<CodeIssue> check(ProcessedFile source) {
     final _visitor = _Visitor(_groupsOrder);
 
     final membersInfo = [
-      for (final entry in source.compilationUnit.childEntities)
+      for (final entry in source.parsedContent.childEntities)
         if (entry is ClassDeclaration) ...entry.accept(_visitor),
     ];
 
     return [
       ...membersInfo.where((info) => info.memberOrder.isWrong).map(
             (info) => createIssue(
-                this,
-                '${info.memberOrder.memberGroup.name} $_warningMessage ${info.memberOrder.previousMemberGroup.name}',
-                null,
-                null,
-                source.url,
-                source.content,
-                source.compilationUnit.lineInfo,
-                info.classMember),
+              this,
+              '${info.memberOrder.memberGroup.name} $_warningMessage ${info.memberOrder.previousMemberGroup.name}',
+              null,
+              null,
+              source.url,
+              source.content,
+              source.parsedContent.lineInfo,
+              info.classMember,
+            ),
           ),
       if (_alphabetize)
         ...membersInfo
             .where((info) => info.memberOrder.isAlphabeticallyWrong)
             .map(
               (info) => createIssue(
-                  this,
-                  '${info.memberOrder.memberNames.currentName} $_warningAlphabeticalMessage ${info.memberOrder.memberNames.previousName}',
-                  null,
-                  null,
-                  source.url,
-                  source.content,
-                  source.compilationUnit.lineInfo,
-                  info.classMember),
+                this,
+                '${info.memberOrder.memberNames.currentName} $_warningAlphabeticalMessage ${info.memberOrder.memberNames.previousName}',
+                null,
+                null,
+                source.url,
+                source.content,
+                source.parsedContent.lineInfo,
+                info.classMember,
+              ),
             ),
     ];
   }
@@ -126,7 +128,8 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
   }
 
   void _visitConstructorDeclaration(
-      ConstructorDeclaration constructorDeclaration) {
+    ConstructorDeclaration constructorDeclaration,
+  ) {
     if (_groupsOrder.contains(_MembersGroup.constructors)) {
       _membersInfo.add(_MemberInfo(
         classMember: constructorDeclaration,

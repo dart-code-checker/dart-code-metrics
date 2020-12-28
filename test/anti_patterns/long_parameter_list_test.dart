@@ -1,9 +1,9 @@
 @TestOn('vm')
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
+import 'package:code_checker/analysis.dart';
 import 'package:dart_code_metrics/src/config/config.dart';
 import 'package:dart_code_metrics/src/anti_patterns/long_parameter_list.dart';
-import 'package:dart_code_metrics/src/models/source.dart';
 import 'package:dart_code_metrics/src/scope_ast_visitor.dart';
 import 'package:test/test.dart';
 
@@ -31,9 +31,10 @@ void main() {
     parseResult.unit.visitChildren(scopeVisitor);
 
     final issues = LongParameterList().check(
-        Source(sourceUrl, parseResult.content, parseResult.unit),
-        scopeVisitor.functions,
-        const Config());
+      ProcessedFile(sourceUrl, parseResult.content, parseResult.unit),
+      scopeVisitor.functions,
+      const Config(),
+    );
 
     expect(issues.length, equals(1));
 

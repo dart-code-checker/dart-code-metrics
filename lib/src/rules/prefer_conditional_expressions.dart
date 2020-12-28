@@ -4,7 +4,6 @@ import 'package:code_checker/analysis.dart';
 import 'package:meta/meta.dart';
 
 import '../models/code_issue.dart';
-import '../models/source.dart';
 import 'base_rule.dart';
 import 'rule_utils.dart';
 
@@ -19,16 +18,17 @@ class PreferConditionalExpressions extends BaseRule {
 
   PreferConditionalExpressions({Map<String, Object> config = const {}})
       : super(
-            id: ruleId,
-            documentation: Uri.parse(_documentationUrl),
-            severity: Severity.fromJson(config['severity'] as String) ??
-                Severity.style);
+          id: ruleId,
+          documentation: Uri.parse(_documentationUrl),
+          severity:
+              Severity.fromJson(config['severity'] as String) ?? Severity.style,
+        );
 
   @override
-  Iterable<CodeIssue> check(Source source) {
+  Iterable<CodeIssue> check(ProcessedFile source) {
     final _visitor = _Visitor();
 
-    source.compilationUnit.visitChildren(_visitor);
+    source.parsedContent.visitChildren(_visitor);
 
     return _visitor.statementsInfo
         .map(
@@ -39,7 +39,7 @@ class PreferConditionalExpressions extends BaseRule {
             _correctionMessage,
             source.url,
             source.content,
-            source.compilationUnit.lineInfo,
+            source.parsedContent.lineInfo,
             info.statement,
           ),
         )

@@ -11,7 +11,7 @@ dependencies:
   analyzer_plugin: '>=0.2.1 <0.5.0'
   ansicolor: ^1.1.0
   args: ^1.4.4
-  code_checker: ^0.0.0
+  code_checker: 0.0.1
   crypto: ^2.0.6
   glob: ^1.1.7
   html: '>=0.13.4 <1.0.0'
@@ -37,6 +37,7 @@ executables:
 
 dependency_validator:
   ignore:
+    - code_checker
     - coveralls
     - intl
     - http_multi_server

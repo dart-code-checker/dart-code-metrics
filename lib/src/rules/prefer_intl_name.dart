@@ -3,7 +3,6 @@ import 'package:code_checker/analysis.dart';
 import 'package:meta/meta.dart';
 
 import '../models/code_issue.dart';
-import '../models/source.dart';
 import '../rules/rule_utils.dart';
 import '../utils/iterable_extensions.dart';
 import '../utils/object_extensions.dart';
@@ -21,14 +20,15 @@ class PreferIntlNameRule extends BaseRule {
 
   PreferIntlNameRule({Map<String, Object> config = const {}})
       : super(
-            id: ruleId,
-            documentation: Uri.parse(_documentationUrl),
-            severity: Severity.fromJson(config['severity'] as String) ??
-                Severity.warning);
+          id: ruleId,
+          documentation: Uri.parse(_documentationUrl),
+          severity: Severity.fromJson(config['severity'] as String) ??
+              Severity.warning,
+        );
 
   @override
-  Iterable<CodeIssue> check(Source source) {
-    final hasIntlDirective = source.compilationUnit.directives
+  Iterable<CodeIssue> check(ProcessedFile source) {
+    final hasIntlDirective = source.parsedContent.directives
         .whereType<ImportDirective>()
         .any((directive) => directive.uri.stringValue == _intlPackageUrl);
 
@@ -37,7 +37,7 @@ class PreferIntlNameRule extends BaseRule {
     }
 
     final visitor = _Visitor();
-    source.compilationUnit.visitChildren(visitor);
+    source.parsedContent.visitChildren(visitor);
 
     return [
       ...visitor.issues.whereType<_NotCorrectNameIssue>().map((issue) {
@@ -51,7 +51,7 @@ class PreferIntlNameRule extends BaseRule {
           _notCorrectNameCorrectionComment,
           source.url,
           source.content,
-          source.compilationUnit.lineInfo,
+          source.parsedContent.lineInfo,
           issue.node,
         );
       }),
@@ -64,7 +64,7 @@ class PreferIntlNameRule extends BaseRule {
                 null,
                 source.url,
                 source.content,
-                source.compilationUnit.lineInfo,
+                source.parsedContent.lineInfo,
                 issue.node,
               )),
     ];
@@ -73,10 +73,12 @@ class PreferIntlNameRule extends BaseRule {
 
 class _Visitor extends IntlBaseVisitor {
   @override
-  void checkMethodInvocation(MethodInvocation methodInvocation,
-      {String className,
-      String variableName,
-      FormalParameterList parameterList}) {
+  void checkMethodInvocation(
+    MethodInvocation methodInvocation, {
+    String className,
+    String variableName,
+    FormalParameterList parameterList,
+  }) {
     final nameExpression = methodInvocation.argumentList?.arguments
         ?.whereType<NamedExpression>()
         ?.where((argument) => argument.name.label.name == 'name')

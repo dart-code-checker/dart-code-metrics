@@ -6,7 +6,6 @@ import 'package:analyzer/source/line_info.dart';
 import 'package:code_checker/analysis.dart';
 
 import '../models/code_issue.dart';
-import '../models/source.dart';
 import '../rules/rule_utils.dart';
 
 import 'base_rule.dart';
@@ -20,29 +19,31 @@ class PreferTrailingCommaForCollectionRule extends BaseRule {
 
   PreferTrailingCommaForCollectionRule({Map<String, Object> config = const {}})
       : super(
-            id: ruleId,
-            documentation: Uri.parse(_documentationUrl),
-            severity: Severity.fromJson(config['severity'] as String) ??
-                Severity.style);
+          id: ruleId,
+          documentation: Uri.parse(_documentationUrl),
+          severity:
+              Severity.fromJson(config['severity'] as String) ?? Severity.style,
+        );
 
   @override
-  Iterable<CodeIssue> check(Source source) {
+  Iterable<CodeIssue> check(ProcessedFile source) {
     final visitor = _Visitor(
-      source.compilationUnit.lineInfo,
+      source.parsedContent.lineInfo,
     );
 
-    source.compilationUnit.visitChildren(visitor);
+    source.parsedContent.visitChildren(visitor);
 
     return visitor.nodes
         .map((node) => createIssue(
-            this,
-            _failure,
-            '${source.content.substring(node.offset, node.end)},',
-            _correctionComment,
-            source.url,
-            source.content,
-            source.compilationUnit.lineInfo,
-            node))
+              this,
+              _failure,
+              '${source.content.substring(node.offset, node.end)},',
+              _correctionComment,
+              source.url,
+              source.content,
+              source.parsedContent.lineInfo,
+              node,
+            ))
         .toList(growable: false);
   }
 }

@@ -2,7 +2,6 @@
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:code_checker/analysis.dart';
-import 'package:dart_code_metrics/src/models/source.dart';
 import 'package:dart_code_metrics/src/rules/prefer_trailing_comma_for_collection.dart';
 import 'package:test/test.dart';
 
@@ -91,7 +90,7 @@ void main() {
     );
 
     final issues = PreferTrailingCommaForCollectionRule()
-        .check(Source(sourceUrl, parseResult.content, parseResult.unit));
+        .check(ProcessedFile(sourceUrl, parseResult.content, parseResult.unit));
 
     expect(issues.length, equals(7));
 

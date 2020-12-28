@@ -4,7 +4,6 @@ import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:code_checker/analysis.dart';
 
 import '../models/code_issue.dart';
-import '../models/source.dart';
 import 'base_rule.dart';
 import 'rule_utils.dart';
 
@@ -17,27 +16,29 @@ class BinaryExpressionOperandOrderRule extends BaseRule {
 
   BinaryExpressionOperandOrderRule({Map<String, Object> config = const {}})
       : super(
-            id: ruleId,
-            documentation: Uri.parse(_documentationUrl),
-            severity: Severity.fromJson(config['severity'] as String) ??
-                Severity.style);
+          id: ruleId,
+          documentation: Uri.parse(_documentationUrl),
+          severity:
+              Severity.fromJson(config['severity'] as String) ?? Severity.style,
+        );
 
   @override
-  Iterable<CodeIssue> check(Source source) {
+  Iterable<CodeIssue> check(ProcessedFile source) {
     final visitor = _Visitor();
 
-    source.compilationUnit.visitChildren(visitor);
+    source.parsedContent.visitChildren(visitor);
 
     return visitor.binaryExpressions
         .map((lit) => createIssue(
-            this,
-            _warningMessage,
-            '${lit.rightOperand} ${lit.operator} ${lit.leftOperand}',
-            _correctionComment,
-            source.url,
-            source.content,
-            source.compilationUnit.lineInfo,
-            lit))
+              this,
+              _warningMessage,
+              '${lit.rightOperand} ${lit.operator} ${lit.leftOperand}',
+              _correctionComment,
+              source.url,
+              source.content,
+              source.parsedContent.lineInfo,
+              lit,
+            ))
         .toList(growable: false);
   }
 }

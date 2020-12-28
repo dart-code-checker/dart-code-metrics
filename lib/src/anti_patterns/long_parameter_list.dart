@@ -1,10 +1,10 @@
+import 'package:code_checker/analysis.dart';
 import 'package:meta/meta.dart';
 
 import '../config/config.dart';
 import '../models/design_issue.dart';
 import '../models/function_type.dart';
 import '../models/scoped_function_declaration.dart';
-import '../models/source.dart';
 import '../utils/metrics_analyzer_utils.dart';
 import 'base_pattern.dart';
 import 'pattern_utils.dart';
@@ -18,7 +18,7 @@ class LongParameterList extends BasePattern {
 
   @override
   Iterable<DesignIssue> check(
-    Source source,
+    ProcessedFile source,
     Iterable<ScopedFunctionDeclaration> functions,
     Config config,
   ) =>

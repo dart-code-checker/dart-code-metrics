@@ -1,10 +1,9 @@
 @TestOn('vm')
 import 'package:code_checker/analysis.dart';
-import 'package:dart_code_metrics/src/models/source.dart';
-import 'package:dart_code_metrics/src/rules/no_magic_number_rule.dart';
-import 'package:test/test.dart';
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
+import 'package:dart_code_metrics/src/rules/no_magic_number_rule.dart';
+import 'package:test/test.dart';
 
 const _sampleGood = '''
 const pi = 3.14;
@@ -44,7 +43,9 @@ void main() {
       );
 
       final issues = NoMagicNumberRule()
-          .check(Source(sourceUrl, parseResult.content, parseResult.unit))
+          .check(
+            ProcessedFile(sourceUrl, parseResult.content, parseResult.unit),
+          )
           .toList();
 
       expect(issues.length, equals(4));
@@ -91,7 +92,9 @@ void main() {
       );
 
       final issues = NoMagicNumberRule()
-          .check(Source(sourceUrl, parseResult.content, parseResult.unit))
+          .check(
+            ProcessedFile(sourceUrl, parseResult.content, parseResult.unit),
+          )
           .toList();
 
       expect(issues, isEmpty);
@@ -105,7 +108,9 @@ void main() {
       );
 
       final issues = NoMagicNumberRule()
-          .check(Source(sourceUrl, parseResult.content, parseResult.unit))
+          .check(
+            ProcessedFile(sourceUrl, parseResult.content, parseResult.unit),
+          )
           .toList();
 
       expect(issues, isEmpty);
@@ -121,7 +126,9 @@ void main() {
       final issues = NoMagicNumberRule(config: {
         'allowed': [42, 12, 3.14],
       })
-          .check(Source(sourceUrl, parseResult.content, parseResult.unit))
+          .check(
+            ProcessedFile(sourceUrl, parseResult.content, parseResult.unit),
+          )
           .toList();
 
       expect(issues, isEmpty);

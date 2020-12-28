@@ -2,7 +2,6 @@
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:code_checker/analysis.dart';
-import 'package:dart_code_metrics/src/models/source.dart';
 import 'package:dart_code_metrics/src/rules/double_literal_format_rule.dart';
 import 'package:test/test.dart';
 
@@ -76,8 +75,9 @@ void main() {
         throwIfDiagnostics: false,
       );
 
-      final issues = DoubleLiteralFormatRule()
-          .check(Source(sourceUrl, parseResult.content, parseResult.unit));
+      final issues = DoubleLiteralFormatRule().check(
+        ProcessedFile(sourceUrl, parseResult.content, parseResult.unit),
+      );
 
       expect(issues.length, equals(12));
 

@@ -1,3 +1,4 @@
+import 'package:code_checker/analysis.dart';
 import 'package:meta/meta.dart';
 
 import '../config/config.dart';
@@ -5,7 +6,6 @@ import '../lines_of_code/lines_with_code_ast_visitor.dart';
 import '../models/design_issue.dart';
 import '../models/function_type.dart';
 import '../models/scoped_function_declaration.dart';
-import '../models/source.dart';
 import 'base_pattern.dart';
 import 'pattern_utils.dart';
 
@@ -18,7 +18,7 @@ class LongMethod extends BasePattern {
 
   @override
   Iterable<DesignIssue> check(
-    Source source,
+    ProcessedFile source,
     Iterable<ScopedFunctionDeclaration> functions,
     Config config,
   ) {
@@ -26,7 +26,7 @@ class LongMethod extends BasePattern {
 
     for (final function in functions) {
       final linesWithCodeAstVisitor =
-          LinesWithCodeAstVisitor(source.compilationUnit.lineInfo);
+          LinesWithCodeAstVisitor(source.parsedContent.lineInfo);
       function.declaration.visitChildren(linesWithCodeAstVisitor);
 
       if (linesWithCodeAstVisitor.linesWithCode.length >

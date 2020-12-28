@@ -1,9 +1,9 @@
 @TestOn('vm')
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
+import 'package:code_checker/analysis.dart';
 import 'package:dart_code_metrics/src/config/config.dart';
 import 'package:dart_code_metrics/src/anti_patterns/long_method.dart';
-import 'package:dart_code_metrics/src/models/source.dart';
 import 'package:dart_code_metrics/src/scope_ast_visitor.dart';
 import 'package:test/test.dart';
 
@@ -61,15 +61,18 @@ void main() {
     parseResult.unit.visitChildren(scopeVisitor);
 
     final issues = LongMethod().check(
-        Source(sourceUrl, parseResult.content, parseResult.unit),
-        scopeVisitor.functions,
-        const Config(linesOfExecutableCodeWarningLevel: 25));
+      ProcessedFile(sourceUrl, parseResult.content, parseResult.unit),
+      scopeVisitor.functions,
+      const Config(linesOfExecutableCodeWarningLevel: 25),
+    );
 
     expect(issues.length, equals(1));
 
     expect(issues.single.patternId, equals('long-method'));
-    expect(issues.single.patternDocumentation.toString(),
-        equals('https://git.io/JUIP7'));
+    expect(
+      issues.single.patternDocumentation.toString(),
+      equals('https://git.io/JUIP7'),
+    );
     expect(issues.single.sourceSpan.sourceUrl, equals(sourceUrl));
     expect(issues.single.sourceSpan.start.offset, equals(1));
     expect(issues.single.sourceSpan.start.line, equals(2));

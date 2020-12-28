@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:code_checker/analysis.dart';
-import 'package:dart_code_metrics/src/models/source.dart';
 import 'package:dart_code_metrics/src/rules/prefer_trailing_comma.dart';
 import 'package:test/test.dart';
 
@@ -21,11 +20,9 @@ void main() {
 
       final parseResult = await resolveFile(path: path);
 
-      final issues = PreferTrailingComma().check(Source(
-        sourceUrl,
-        parseResult.content,
-        parseResult.unit,
-      ));
+      final issues = PreferTrailingComma().check(
+        ProcessedFile(sourceUrl, parseResult.content, parseResult.unit),
+      );
 
       expect(
         issues.every((issue) => issue.ruleId == 'prefer-trailing-comma'),
@@ -43,11 +40,9 @@ void main() {
 
       final parseResult = await resolveFile(path: path);
 
-      final issues = PreferTrailingComma().check(Source(
-        sourceUrl,
-        parseResult.content,
-        parseResult.unit,
-      ));
+      final issues = PreferTrailingComma().check(
+        ProcessedFile(sourceUrl, parseResult.content, parseResult.unit),
+      );
 
       expect(
         issues.map((issue) => issue.sourceSpan.start.offset),
@@ -138,11 +133,9 @@ void main() {
 
       final parseResult = await resolveFile(path: path);
 
-      final issues = PreferTrailingComma().check(Source(
-        sourceUrl,
-        parseResult.content,
-        parseResult.unit,
-      ));
+      final issues = PreferTrailingComma().check(
+        ProcessedFile(sourceUrl, parseResult.content, parseResult.unit),
+      );
 
       expect(issues.isEmpty, isTrue);
     });
@@ -153,11 +146,9 @@ void main() {
 
       final parseResult = await resolveFile(path: path);
 
-      final issues = PreferTrailingComma(config: {'break_on': 1}).check(Source(
-        sourceUrl,
-        parseResult.content,
-        parseResult.unit,
-      ));
+      final issues = PreferTrailingComma(config: {'break_on': 1}).check(
+        ProcessedFile(sourceUrl, parseResult.content, parseResult.unit),
+      );
 
       expect(
         issues.map((issue) => issue.sourceSpan.start.offset),

@@ -2,16 +2,21 @@ import 'dart:async';
 
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/file_system/file_system.dart';
+
 // ignore: implementation_imports
 import 'package:analyzer/src/analysis_options/analysis_options_provider.dart';
+
 // ignore: implementation_imports
 import 'package:analyzer/src/context/builder.dart';
+
 // ignore: implementation_imports
 import 'package:analyzer/src/context/context_root.dart';
+
 // ignore: implementation_imports
 import 'package:analyzer/src/dart/analysis/driver.dart';
 import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
+import 'package:code_checker/analysis.dart';
 import 'package:source_span/source_span.dart';
 
 import '../anti_patterns_factory.dart';
@@ -23,7 +28,6 @@ import '../metrics/nesting_level/nesting_level_visitor.dart';
 import '../models/function_record.dart';
 import '../models/function_report.dart';
 import '../models/scoped_function_declaration.dart';
-import '../models/source.dart';
 import '../reporters/utility_selector.dart';
 import '../rules_factory.dart';
 import '../scope_ast_visitor.dart';
@@ -78,19 +82,20 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
 
     final options = _readOptions(dartDriver);
     _configs[dartDriver] = AnalyzerPluginConfig(
-        options?.metricsConfig,
-        prepareExcludes(
-          [
-            ..._defaultSkippedFolders,
-            if (options?.excludePatterns != null) ...options.excludePatterns,
-          ],
-          contextRoot.root,
-        ),
-        prepareExcludes(options?.metricsExcludePatterns, contextRoot.root),
-        options?.antiPatterns != null
-            ? getPatternsById(options.antiPatterns)
-            : [],
-        options?.rules != null ? getRulesById(options.rules) : []);
+      options?.metricsConfig,
+      prepareExcludes(
+        [
+          ..._defaultSkippedFolders,
+          if (options?.excludePatterns != null) ...options.excludePatterns,
+        ],
+        contextRoot.root,
+      ),
+      prepareExcludes(options?.metricsExcludePatterns, contextRoot.root),
+      options?.antiPatterns != null
+          ? getPatternsById(options.antiPatterns)
+          : [],
+      options?.rules != null ? getRulesById(options.rules) : [],
+    );
 
     runZonedGuarded(() {
       dartDriver.results.listen((analysisResult) {
@@ -195,17 +200,20 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
         analysisResult.unit.visitChildren(scopeVisitor);
 
         result.addAll(_checkOnAntiPatterns(
-            ignores,
-            Source(sourceUri, analysisResult.content, analysisResult.unit),
-            scopeVisitor.functions,
-            _configs[driver]));
+          ignores,
+          ProcessedFile(sourceUri, analysisResult.content, analysisResult.unit),
+          scopeVisitor.functions,
+          _configs[driver],
+        ));
 
         if (!ignores.ignoreRule(_codeMetricsId)) {
           result.addAll(_checkMetrics(
-              ignores,
-              Source(sourceUri, analysisResult.content, analysisResult.unit),
-              scopeVisitor.functions,
-              _configs[driver]));
+            ignores,
+            ProcessedFile(
+                sourceUri, analysisResult.content, analysisResult.unit),
+            scopeVisitor.functions,
+            _configs[driver],
+          ));
         }
       }
     }
@@ -222,7 +230,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
       config.checkingCodeRules
           .where((rule) => !ignores.ignoreRule(rule.id))
           .expand((rule) => rule
-              .check(Source(
+              .check(ProcessedFile(
                   sourceUri, analysisResult.content, analysisResult.unit))
               .where((issue) =>
                   !ignores.ignoredAt(issue.ruleId, issue.sourceSpan.start.line))
@@ -231,7 +239,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
 
   Iterable<plugin.AnalysisErrorFixes> _checkOnAntiPatterns(
     IgnoreInfo ignores,
-    Source source,
+    ProcessedFile source,
     Iterable<ScopedFunctionDeclaration> functions,
     AnalyzerPluginConfig config,
   ) =>
@@ -245,7 +253,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
 
   Iterable<plugin.AnalysisErrorFixes> _checkMetrics(
     IgnoreInfo ignores,
-    Source source,
+    ProcessedFile source,
     Iterable<ScopedFunctionDeclaration> functions,
     AnalyzerPluginConfig config,
   ) {
@@ -256,7 +264,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
           function.declaration.firstTokenAfterCommentAndMetadata.offset;
 
       final functionFirstLineInfo =
-          source.compilationUnit.lineInfo.getLocation(functionOffset);
+          source.parsedContent.lineInfo.getLocation(functionOffset);
 
       if (ignores.ignoredAt(_codeMetricsId, functionFirstLineInfo.lineNumber)) {
         continue;
@@ -299,13 +307,13 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
 
   FunctionReport _buildReport(
     ScopedFunctionDeclaration function,
-    Source source,
+    ProcessedFile source,
     AnalyzerPluginConfig config,
   ) {
     final controlFlowAstVisitor = ControlFlowAstVisitor(
-        defaultCyclomaticConfig, source.compilationUnit.lineInfo);
+        defaultCyclomaticConfig, source.parsedContent.lineInfo);
     final nestingLevelVisitor = NestingLevelVisitor(
-        function.declaration, source.compilationUnit.lineInfo);
+        function.declaration, source.parsedContent.lineInfo);
 
     function.declaration.visitChildren(controlFlowAstVisitor);
     function.declaration.visitChildren(nestingLevelVisitor);
@@ -314,8 +322,8 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
         function.declaration.firstTokenAfterCommentAndMetadata.offset;
 
     final functionFirstLineInfo =
-        source.compilationUnit.lineInfo.getLocation(functionOffset);
-    final functionLastLineInfo = source.compilationUnit.lineInfo
+        source.parsedContent.lineInfo.getLocation(functionOffset);
+    final functionLastLineInfo = source.parsedContent.lineInfo
         .getLocation(function.declaration.endToken.end);
 
     return UtilitySelector.functionReport(
