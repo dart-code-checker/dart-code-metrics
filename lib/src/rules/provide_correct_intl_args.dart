@@ -3,7 +3,6 @@ import 'package:code_checker/analysis.dart';
 import 'package:meta/meta.dart';
 
 import '../models/code_issue.dart';
-import '../models/source.dart';
 import '../rules/rule_utils.dart';
 import '../utils/iterable_extensions.dart';
 import '../utils/object_extensions.dart';
@@ -18,14 +17,15 @@ class ProvideCorrectIntlArgsRule extends BaseRule {
 
   ProvideCorrectIntlArgsRule({Map<String, Object> config = const {}})
       : super(
-            id: ruleId,
-            documentation: Uri.parse(_documentationUrl),
-            severity: Severity.fromJson(config['severity'] as String) ??
-                Severity.warning);
+          id: ruleId,
+          documentation: Uri.parse(_documentationUrl),
+          severity: Severity.fromJson(config['severity'] as String) ??
+              Severity.warning,
+        );
 
   @override
-  Iterable<CodeIssue> check(Source source) {
-    final hasIntlDirective = source.compilationUnit.directives
+  Iterable<CodeIssue> check(ProcessedFile source) {
+    final hasIntlDirective = source.parsedContent.directives
         .whereType<ImportDirective>()
         .any((directive) => directive.uri.stringValue == _intlPackageUrl);
 
@@ -34,7 +34,7 @@ class ProvideCorrectIntlArgsRule extends BaseRule {
     }
 
     final visitor = _Visitor();
-    source.compilationUnit.visitChildren(visitor);
+    source.parsedContent.visitChildren(visitor);
 
     return visitor.issues
         .map((issue) => createIssue(
@@ -44,7 +44,7 @@ class ProvideCorrectIntlArgsRule extends BaseRule {
               null,
               source.url,
               source.content,
-              source.compilationUnit.lineInfo,
+              source.parsedContent.lineInfo,
               issue.node,
             ))
         .toList();
@@ -53,10 +53,12 @@ class ProvideCorrectIntlArgsRule extends BaseRule {
 
 class _Visitor extends IntlBaseVisitor {
   @override
-  void checkMethodInvocation(MethodInvocation methodInvocation,
-      {String className,
-      String variableName,
-      FormalParameterList parameterList}) {
+  void checkMethodInvocation(
+    MethodInvocation methodInvocation, {
+    String className,
+    String variableName,
+    FormalParameterList parameterList,
+  }) {
     switch (methodInvocation.methodName.name) {
       case 'message':
         _checkMessageMethod(
@@ -68,7 +70,9 @@ class _Visitor extends IntlBaseVisitor {
   }
 
   void _checkMessageMethod(
-      MethodInvocation methodInvocation, FormalParameterList parameterList) {
+    MethodInvocation methodInvocation,
+    FormalParameterList parameterList,
+  ) {
     final argsArgument = methodInvocation.argumentList?.arguments
         ?.whereType<NamedExpression>()
         ?.where((argument) => argument.name.label.name == 'args')
@@ -96,9 +100,13 @@ class _Visitor extends IntlBaseVisitor {
             <SimpleIdentifier>[];
 
     _checkAllParametersMustBeContainsInArgs(
-        parameterSimpleIdentifiers, argsSimpleIdentifiers);
+      parameterSimpleIdentifiers,
+      argsSimpleIdentifiers,
+    );
     _checkAllArgsMustBeContainsInParameters(
-        argsSimpleIdentifiers, parameterSimpleIdentifiers);
+      argsSimpleIdentifiers,
+      parameterSimpleIdentifiers,
+    );
 
     final messageArgument = methodInvocation.argumentList?.arguments
         ?.firstOrDefault()
@@ -123,10 +131,13 @@ class _Visitor extends IntlBaseVisitor {
 
       if (interpolationExpressionSimpleIdentifiers.isNotEmpty) {
         _checkAllInterpolationMustBeContainsInParameters(
-            interpolationExpressionSimpleIdentifiers,
-            parameterSimpleIdentifiers);
+          interpolationExpressionSimpleIdentifiers,
+          parameterSimpleIdentifiers,
+        );
         _checkAllInterpolationMustBeContainsInArgs(
-            interpolationExpressionSimpleIdentifiers, argsSimpleIdentifiers);
+          interpolationExpressionSimpleIdentifiers,
+          argsSimpleIdentifiers,
+        );
       }
     } else {
       for (final item in parameterSimpleIdentifiers) {
@@ -137,7 +148,8 @@ class _Visitor extends IntlBaseVisitor {
   }
 
   void _checkAllArgsElementsMustBeSimpleIdentifier(
-      ListLiteral argsListLiteral) {
+    ListLiteral argsListLiteral,
+  ) {
     final argsElements = argsListLiteral?.elements ?? <CollectionElement>[];
 
     _checkItemsOnSimple(argsElements);
@@ -150,34 +162,52 @@ class _Visitor extends IntlBaseVisitor {
   }
 
   void _checkAllParametersMustBeContainsInArgs(
-      List<SimpleIdentifier> parameters, List<SimpleIdentifier> argsArgument) {
+    Iterable<SimpleIdentifier> parameters,
+    Iterable<SimpleIdentifier> argsArgument,
+  ) {
     _addIssuesIfNotContains(
-        parameters, argsArgument, (arg) => _ParameterMustBeInArgsIssue(arg));
+      parameters,
+      argsArgument,
+      (arg) => _ParameterMustBeInArgsIssue(arg),
+    );
   }
 
   void _checkAllArgsMustBeContainsInParameters(
-      List<SimpleIdentifier> argsArgument, List<SimpleIdentifier> parameters) {
+    Iterable<SimpleIdentifier> argsArgument,
+    Iterable<SimpleIdentifier> parameters,
+  ) {
     _addIssuesIfNotContains(
-        argsArgument, parameters, (arg) => _ArgsMustBeInParameterIssue(arg));
+      argsArgument,
+      parameters,
+      (arg) => _ArgsMustBeInParameterIssue(arg),
+    );
   }
 
   void _checkAllInterpolationMustBeContainsInParameters(
-      List<SimpleIdentifier> simpleIdentifierExpressions,
-      List<SimpleIdentifier> parameters) {
-    _addIssuesIfNotContains(simpleIdentifierExpressions, parameters,
-        (arg) => _InterpolationMustBeInParameterIssue(arg));
+    Iterable<SimpleIdentifier> simpleIdentifierExpressions,
+    Iterable<SimpleIdentifier> parameters,
+  ) {
+    _addIssuesIfNotContains(
+      simpleIdentifierExpressions,
+      parameters,
+      (arg) => _InterpolationMustBeInParameterIssue(arg),
+    );
   }
 
   void _checkAllInterpolationMustBeContainsInArgs(
-      List<SimpleIdentifier> simpleIdentifierExpressions,
-      List<SimpleIdentifier> args) {
-    _addIssuesIfNotContains(simpleIdentifierExpressions, args,
-        (arg) => _InterpolationMustBeInArgsIssue(arg));
+    Iterable<SimpleIdentifier> simpleIdentifierExpressions,
+    Iterable<SimpleIdentifier> args,
+  ) {
+    _addIssuesIfNotContains(
+      simpleIdentifierExpressions,
+      args,
+      (arg) => _InterpolationMustBeInArgsIssue(arg),
+    );
   }
 
   void _addIssuesIfNotContains(
-    List<SimpleIdentifier> checkedItems,
-    List<SimpleIdentifier> existsItems,
+    Iterable<SimpleIdentifier> checkedItems,
+    Iterable<SimpleIdentifier> existsItems,
     IntlBaseIssue Function(SimpleIdentifier args) issueFactory,
   ) {
     final argsNames = existsItems.map((item) => item.token.value()).toSet();
@@ -241,15 +271,18 @@ class _ArgsMustBeInParameterIssue extends IntlBaseIssue {
 class _InterpolationMustBeInArgsIssue extends IntlBaseIssue {
   const _InterpolationMustBeInArgsIssue(
     AstNode node,
-  ) : super(node,
-            nameFailure: 'Interpolation expression should be added to args');
+  ) : super(
+          node,
+          nameFailure: 'Interpolation expression should be added to args',
+        );
 }
 
 @immutable
 class _InterpolationMustBeInParameterIssue extends IntlBaseIssue {
   const _InterpolationMustBeInParameterIssue(
     AstNode node,
-  ) : super(node,
-            nameFailure:
-                'Interpolation expression should be added to parameters');
+  ) : super(
+          node,
+          nameFailure: 'Interpolation expression should be added to parameters',
+        );
 }

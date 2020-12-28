@@ -1,9 +1,9 @@
+import 'package:code_checker/analysis.dart';
 import 'package:meta/meta.dart';
 
 import '../config/config.dart';
 import '../models/design_issue.dart';
 import '../models/scoped_function_declaration.dart';
-import '../models/source.dart';
 
 abstract class BasePattern {
   final String id;
@@ -15,7 +15,7 @@ abstract class BasePattern {
   });
 
   Iterable<DesignIssue> check(
-    Source source,
+    ProcessedFile source,
     Iterable<ScopedFunctionDeclaration> functions,
     Config config,
   );

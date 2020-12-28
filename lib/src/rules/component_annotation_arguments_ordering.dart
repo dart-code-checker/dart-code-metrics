@@ -4,7 +4,6 @@ import 'package:code_checker/analysis.dart';
 import 'package:meta/meta.dart';
 
 import '../models/code_issue.dart';
-import '../models/source.dart';
 import 'base_rule.dart';
 import 'rule_utils.dart';
 
@@ -16,34 +15,36 @@ class ComponentAnnotationArgumentsOrderingRule extends BaseRule {
 
   final List<_ArgumentGroup> _groupsOrder;
 
-  ComponentAnnotationArgumentsOrderingRule(
-      {Map<String, Object> config = const {}})
-      : _groupsOrder = _parseOrder(config),
+  ComponentAnnotationArgumentsOrderingRule({
+    Map<String, Object> config = const {},
+  })  : _groupsOrder = _parseOrder(config),
         super(
-            id: ruleId,
-            documentation: Uri.parse(_documentationUrl),
-            severity: Severity.fromJson(config['severity'] as String) ??
-                Severity.style);
+          id: ruleId,
+          documentation: Uri.parse(_documentationUrl),
+          severity:
+              Severity.fromJson(config['severity'] as String) ?? Severity.style,
+        );
 
   @override
-  Iterable<CodeIssue> check(Source source) {
+  Iterable<CodeIssue> check(ProcessedFile source) {
     final _visitor = _Visitor(_groupsOrder);
 
     final argumentsInfo = [
-      for (final entry in source.compilationUnit.childEntities)
+      for (final entry in source.parsedContent.childEntities)
         if (entry is ClassDeclaration) ...entry.accept(_visitor),
     ];
 
     return argumentsInfo.where((info) => info.argumentOrder.isWrong).map(
           (info) => createIssue(
-              this,
-              'Arguments group ${info.argumentOrder.argumentGroup.name} $_warningMessage ${info.argumentOrder.previousArgumentGroup.name}',
-              null,
-              null,
-              source.url,
-              source.content,
-              source.compilationUnit.lineInfo,
-              info.argument),
+            this,
+            'Arguments group ${info.argumentOrder.argumentGroup.name} $_warningMessage ${info.argumentOrder.previousArgumentGroup.name}',
+            null,
+            null,
+            source.url,
+            source.content,
+            source.parsedContent.lineInfo,
+            info.argument,
+          ),
         );
   }
 

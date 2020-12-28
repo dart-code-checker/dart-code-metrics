@@ -2,7 +2,6 @@
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:code_checker/analysis.dart';
-import 'package:dart_code_metrics/src/models/source.dart';
 import 'package:dart_code_metrics/src/rules/newline_before_return.dart';
 import 'package:test/test.dart';
 
@@ -12,23 +11,23 @@ int simpleFunction() {
   var a = 4;
 
   if (a > 70) {
-    /* multy line
+    /* multi line
       comment */
     return a + 1;
   } else if (a > 65) {
     a++;
-    /* multy line
+    /* multi line
       comment */
     return a + 1;
   } else if (a > 60) {
     a++;
 
-    /* multy line
+    /* multi line
       comment */
     return a + 2;
   } else if (a > 55) {
     a--;
-    /* multy line
+    /* multi line
       comment */
 
     return a + 3;
@@ -107,7 +106,7 @@ void main() {
     );
 
     final issues = NewlineBeforeReturnRule()
-        .check(Source(sourceUrl, parseResult.content, parseResult.unit));
+        .check(ProcessedFile(sourceUrl, parseResult.content, parseResult.unit));
 
     expect(issues.length, equals(3));
 

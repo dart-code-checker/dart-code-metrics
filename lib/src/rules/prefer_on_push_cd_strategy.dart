@@ -1,9 +1,8 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:code_checker/analysis.dart';
-import '../models/code_issue.dart';
-import '../models/source.dart';
 
+import '../models/code_issue.dart';
 import 'base_rule.dart';
 import 'rule_utils.dart';
 
@@ -22,14 +21,22 @@ class PreferOnPushCdStrategyRule extends BaseRule {
         );
 
   @override
-  Iterable<CodeIssue> check(Source source) {
+  Iterable<CodeIssue> check(ProcessedFile source) {
     final visitor = _Visitor();
 
-    source.compilationUnit.visitChildren(visitor);
+    source.parsedContent.visitChildren(visitor);
 
     return visitor.expression
-        .map((expression) => createIssue(this, _failure, null, null, source.url,
-            source.content, source.compilationUnit.lineInfo, expression))
+        .map((expression) => createIssue(
+              this,
+              _failure,
+              null,
+              null,
+              source.url,
+              source.content,
+              source.parsedContent.lineInfo,
+              expression,
+            ))
         .toList(growable: false);
   }
 }
@@ -45,10 +52,11 @@ class _Visitor extends RecursiveAstVisitor<void> {
       return;
     }
 
-    final changeDetectionArg = node.arguments.arguments
-        .whereType<NamedExpression>()
-        .firstWhere((arg) => arg.name.label.name == 'changeDetection',
-            orElse: () => null);
+    final changeDetectionArg =
+        node.arguments.arguments.whereType<NamedExpression>().firstWhere(
+              (arg) => arg.name.label.name == 'changeDetection',
+              orElse: () => null,
+            );
 
     if (changeDetectionArg == null) {
       return _expression.add(node);

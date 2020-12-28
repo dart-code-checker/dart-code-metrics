@@ -5,7 +5,6 @@ import 'package:analyzer/source/line_info.dart';
 import 'package:code_checker/analysis.dart';
 
 import '../models/code_issue.dart';
-import '../models/source.dart';
 import 'base_rule.dart';
 import 'rule_utils.dart';
 
@@ -19,16 +18,17 @@ class NewlineBeforeReturnRule extends BaseRule {
 
   NewlineBeforeReturnRule({Map<String, Object> config = const {}})
       : super(
-            id: ruleId,
-            documentation: Uri.parse(_documentationUrl),
-            severity: Severity.fromJson(config['severity'] as String) ??
-                Severity.style);
+          id: ruleId,
+          documentation: Uri.parse(_documentationUrl),
+          severity:
+              Severity.fromJson(config['severity'] as String) ?? Severity.style,
+        );
 
   @override
-  Iterable<CodeIssue> check(Source source) {
+  Iterable<CodeIssue> check(ProcessedFile source) {
     final _visitor = _Visitor();
 
-    source.compilationUnit.visitChildren(_visitor);
+    source.parsedContent.visitChildren(_visitor);
 
     return _visitor.statements
         // return statement is in a block
@@ -38,19 +38,28 @@ class NewlineBeforeReturnRule extends BaseRule {
         .where((statement) =>
             statement.returnKeyword.previous != statement.parent.beginToken)
         .where((statement) {
-          final previousTokenLine = source.compilationUnit.lineInfo
+          final previousTokenLine = source.parsedContent.lineInfo
               .getLocation(statement.returnKeyword.previous.end)
               .lineNumber;
-          final tokenLine = source.compilationUnit.lineInfo
+          final tokenLine = source.parsedContent.lineInfo
               .getLocation(_optimalToken(
-                      statement.returnKeyword, source.compilationUnit.lineInfo)
-                  .offset)
+                statement.returnKeyword,
+                source.parsedContent.lineInfo,
+              ).offset)
               .lineNumber;
 
           return !(tokenLine > previousTokenLine + 1);
         })
-        .map((statement) => createIssue(this, _failure, null, null, source.url,
-            source.content, source.compilationUnit.lineInfo, statement))
+        .map((statement) => createIssue(
+              this,
+              _failure,
+              null,
+              null,
+              source.url,
+              source.content,
+              source.parsedContent.lineInfo,
+              statement,
+            ))
         .toList(growable: false);
   }
 

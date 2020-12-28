@@ -4,7 +4,6 @@ import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:code_checker/analysis.dart';
 
 import '../models/code_issue.dart';
-import '../models/source.dart';
 import 'base_rule.dart';
 import 'rule_utils.dart';
 
@@ -30,30 +29,32 @@ class NoBooleanLiteralCompareRule extends BaseRule {
 
   NoBooleanLiteralCompareRule({Map<String, Object> config = const {}})
       : super(
-            id: ruleId,
-            documentation: Uri.parse(_documentationUrl),
-            severity: Severity.fromJson(config['severity'] as String) ??
-                Severity.style);
+          id: ruleId,
+          documentation: Uri.parse(_documentationUrl),
+          severity:
+              Severity.fromJson(config['severity'] as String) ?? Severity.style,
+        );
 
   @override
-  Iterable<CodeIssue> check(Source source) {
+  Iterable<CodeIssue> check(ProcessedFile source) {
     final _visitor = _Visitor();
 
-    source.compilationUnit.visitChildren(_visitor);
+    source.parsedContent.visitChildren(_visitor);
 
     final issues = <CodeIssue>[];
 
     for (final expression in _visitor.expressions) {
       if (_detectNullAwarePropertyCompareWithTrue(expression)) {
         issues.add(createIssue(
-            this,
-            _failureCompareNullAwarePropertyWithTrue,
-            _nullAwarePropertyCompareWithTrueCorrection(expression),
-            _correctionComprareNullAwarePropertyWithTrue,
-            source.url,
-            source.content,
-            source.compilationUnit.lineInfo,
-            expression));
+          this,
+          _failureCompareNullAwarePropertyWithTrue,
+          _nullAwarePropertyCompareWithTrueCorrection(expression),
+          _correctionComprareNullAwarePropertyWithTrue,
+          source.url,
+          source.content,
+          source.parsedContent.lineInfo,
+          expression,
+        ));
 
         continue;
       }
@@ -77,14 +78,15 @@ class NoBooleanLiteralCompareRule extends BaseRule {
               booleanLiteralOperand == 'false');
 
       issues.add(createIssue(
-          this,
-          _failure,
-          useDirect ? correction : '!$correction',
-          useDirect ? _useItDirectly : _negate,
-          source.url,
-          source.content,
-          source.compilationUnit.lineInfo,
-          expression));
+        this,
+        _failure,
+        useDirect ? correction : '!$correction',
+        useDirect ? _useItDirectly : _negate,
+        source.url,
+        source.content,
+        source.parsedContent.lineInfo,
+        expression,
+      ));
     }
 
     return issues;
@@ -115,7 +117,8 @@ bool _detectNullAwarePropertyCompareWithTrue(BinaryExpression expression) =>
     _rightNullAwareOperandCompareWithTrue(expression);
 
 String _nullAwarePropertyCompareWithTrueCorrection(
-    BinaryExpression expression) {
+  BinaryExpression expression,
+) {
   if (_leftNullAwareOperandCompareWithTrue(expression)) {
     return '${expression.leftOperand} ?? false';
   } else if (_rightNullAwareOperandCompareWithTrue(expression)) {

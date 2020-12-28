@@ -1,7 +1,6 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:code_checker/analysis.dart';
-import 'package:dart_code_metrics/src/models/source.dart';
 
 import '../models/code_issue.dart';
 import 'base_rule.dart';
@@ -15,16 +14,17 @@ class NoEqualArguments extends BaseRule {
 
   NoEqualArguments({Map<String, Object> config = const {}})
       : super(
-            id: ruleId,
-            documentation: Uri.parse(_documentationUrl),
-            severity: Severity.fromJson(config['severity'] as String) ??
-                Severity.warning);
+          id: ruleId,
+          documentation: Uri.parse(_documentationUrl),
+          severity: Severity.fromJson(config['severity'] as String) ??
+              Severity.warning,
+        );
 
   @override
-  Iterable<CodeIssue> check(Source source) {
+  Iterable<CodeIssue> check(ProcessedFile source) {
     final _visitor = _Visitor();
 
-    source.compilationUnit.visitChildren(_visitor);
+    source.parsedContent.visitChildren(_visitor);
 
     return _visitor.arguments
         .map((argument) => createIssue(
@@ -34,7 +34,7 @@ class NoEqualArguments extends BaseRule {
               null,
               source.url,
               source.content,
-              source.compilationUnit.lineInfo,
+              source.parsedContent.lineInfo,
               argument,
             ))
         .toList(growable: false);

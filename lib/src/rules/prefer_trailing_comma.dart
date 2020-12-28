@@ -5,7 +5,6 @@ import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/source/line_info.dart';
 import 'package:code_checker/analysis.dart';
 import 'package:dart_code_metrics/src/models/code_issue.dart';
-import 'package:dart_code_metrics/src/models/source.dart';
 import 'package:dart_code_metrics/src/rules/rule_utils.dart';
 
 import 'base_rule.dart';
@@ -22,19 +21,17 @@ class PreferTrailingComma extends BaseRule {
   PreferTrailingComma({Map<String, Object> config = const {}})
       : _itemsBreakpoint = _parseItemsBreakpoint(config),
         super(
-            id: ruleId,
-            documentation: Uri.parse(_documentationUrl),
-            severity: Severity.fromJson(config['severity'] as String) ??
-                Severity.warning);
+          id: ruleId,
+          documentation: Uri.parse(_documentationUrl),
+          severity: Severity.fromJson(config['severity'] as String) ??
+              Severity.warning,
+        );
 
   @override
-  Iterable<CodeIssue> check(Source source) {
-    final visitor = _Visitor(
-      source.compilationUnit.lineInfo,
-      _itemsBreakpoint,
-    );
+  Iterable<CodeIssue> check(ProcessedFile source) {
+    final visitor = _Visitor(source.parsedContent.lineInfo, _itemsBreakpoint);
 
-    source.compilationUnit.visitChildren(visitor);
+    source.parsedContent.visitChildren(visitor);
 
     return visitor.nodes
         .map(
@@ -45,7 +42,7 @@ class PreferTrailingComma extends BaseRule {
             _correctionMessage,
             source.url,
             source.content,
-            source.compilationUnit.lineInfo,
+            source.parsedContent.lineInfo,
             node,
           ),
         )
@@ -81,7 +78,10 @@ class _Visitor extends RecursiveAstVisitor<void> {
     super.visitFormalParameterList(node);
 
     _visitNodeList(
-        node.parameters, node.leftParenthesis, node.rightParenthesis);
+      node.parameters,
+      node.leftParenthesis,
+      node.rightParenthesis,
+    );
   }
 
   @override

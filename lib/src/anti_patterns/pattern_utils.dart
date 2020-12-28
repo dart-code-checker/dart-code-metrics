@@ -1,21 +1,20 @@
 import 'package:analyzer/dart/ast/ast.dart';
+import 'package:code_checker/analysis.dart';
 import 'package:source_span/source_span.dart';
 
 import '../models/design_issue.dart';
-import '../models/source.dart';
 import 'base_pattern.dart';
 
 DesignIssue createIssue(
   BasePattern pattern,
   String message,
   String recommendation,
-  Source source,
+  ProcessedFile source,
   Declaration issueNode,
 ) {
-  final offsetLocation = source.compilationUnit.lineInfo
+  final offsetLocation = source.parsedContent.lineInfo
       .getLocation(issueNode.firstTokenAfterCommentAndMetadata.offset);
-  final endLocation =
-      source.compilationUnit.lineInfo.getLocation(issueNode.end);
+  final endLocation = source.parsedContent.lineInfo.getLocation(issueNode.end);
 
   return DesignIssue(
     patternId: pattern.id,

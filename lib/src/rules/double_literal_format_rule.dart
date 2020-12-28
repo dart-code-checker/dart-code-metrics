@@ -4,7 +4,6 @@ import 'package:code_checker/analysis.dart';
 import 'package:meta/meta.dart';
 
 import '../models/code_issue.dart';
-import '../models/source.dart';
 import 'base_rule.dart';
 import 'rule_utils.dart';
 
@@ -26,16 +25,17 @@ class DoubleLiteralFormatRule extends BaseRule {
 
   DoubleLiteralFormatRule({Map<String, Object> config = const {}})
       : super(
-            id: ruleId,
-            documentation: Uri.parse(_documentationUrl),
-            severity: Severity.fromJson(config['severity'] as String) ??
-                Severity.style);
+          id: ruleId,
+          documentation: Uri.parse(_documentationUrl),
+          severity:
+              Severity.fromJson(config['severity'] as String) ?? Severity.style,
+        );
 
   @override
-  Iterable<CodeIssue> check(Source source) {
+  Iterable<CodeIssue> check(ProcessedFile source) {
     final _visitor = _Visitor();
 
-    source.compilationUnit.visitChildren(_visitor);
+    source.parsedContent.visitChildren(_visitor);
 
     final issues = <CodeIssue>[];
 
@@ -44,34 +44,37 @@ class DoubleLiteralFormatRule extends BaseRule {
 
       if (detectLeadingZero(lexeme)) {
         issues.add(createIssue(
-            this,
-            _failureLeadingZero,
-            leadingZeroCorrection(lexeme),
-            _correctionCommentLeadingZero,
-            source.url,
-            source.content,
-            source.compilationUnit.lineInfo,
-            node));
+          this,
+          _failureLeadingZero,
+          leadingZeroCorrection(lexeme),
+          _correctionCommentLeadingZero,
+          source.url,
+          source.content,
+          source.parsedContent.lineInfo,
+          node,
+        ));
       } else if (detectLeadingDecimal(lexeme)) {
         issues.add(createIssue(
-            this,
-            _failureLeadingDecimal,
-            leadingDecimalCorrection(lexeme),
-            _correctionCommentLeadingDecimal,
-            source.url,
-            source.content,
-            source.compilationUnit.lineInfo,
-            node));
+          this,
+          _failureLeadingDecimal,
+          leadingDecimalCorrection(lexeme),
+          _correctionCommentLeadingDecimal,
+          source.url,
+          source.content,
+          source.parsedContent.lineInfo,
+          node,
+        ));
       } else if (detectTrailingZero(lexeme)) {
         issues.add(createIssue(
-            this,
-            _failureTrailingZero,
-            trailingZeroCorrection(lexeme),
-            _correctionCommentTrailingZero,
-            source.url,
-            source.content,
-            source.compilationUnit.lineInfo,
-            node));
+          this,
+          _failureTrailingZero,
+          trailingZeroCorrection(lexeme),
+          _correctionCommentTrailingZero,
+          source.url,
+          source.content,
+          source.parsedContent.lineInfo,
+          node,
+        ));
       }
     }
 
@@ -124,6 +127,8 @@ String trailingZeroCorrection(String lexeme) {
     final mantissa = lexeme.split('e').first;
 
     return trailingZeroCorrection(lexeme.replaceFirst(
-        mantissa, mantissa.substring(0, mantissa.length - 1)));
+      mantissa,
+      mantissa.substring(0, mantissa.length - 1),
+    ));
   }
 }

@@ -3,7 +3,6 @@ import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:code_checker/analysis.dart';
 
 import '../models/code_issue.dart';
-import '../models/source.dart';
 import 'base_rule.dart';
 import 'rule_utils.dart';
 
@@ -19,16 +18,17 @@ class NoMagicNumberRule extends BaseRule {
   NoMagicNumberRule({Map<String, Object> config = const {}})
       : _allowedMagicNumbers = _parseConfig(config),
         super(
-            id: ruleId,
-            documentation: Uri.parse(_documentationUrl),
-            severity: Severity.fromJson(config['severity'] as String) ??
-                Severity.warning);
+          id: ruleId,
+          documentation: Uri.parse(_documentationUrl),
+          severity: Severity.fromJson(config['severity'] as String) ??
+              Severity.warning,
+        );
 
   @override
-  Iterable<CodeIssue> check(Source source) {
+  Iterable<CodeIssue> check(ProcessedFile source) {
     final visitor = _Visitor();
 
-    source.compilationUnit.visitChildren(visitor);
+    source.parsedContent.visitChildren(visitor);
 
     return visitor.literals
         .where(_isMagicNumber)
@@ -36,8 +36,16 @@ class NoMagicNumberRule extends BaseRule {
         .where(_isNotInsideConstantCollectionLiteral)
         .where(_isNotInsideConstConstructor)
         .where(_isNotInDateTime)
-        .map((lit) => createIssue(this, _warningMessage, null, null, source.url,
-            source.content, source.compilationUnit.lineInfo, lit))
+        .map((lit) => createIssue(
+              this,
+              _warningMessage,
+              null,
+              null,
+              source.url,
+              source.content,
+              source.parsedContent.lineInfo,
+              lit,
+            ))
         .toList(growable: false);
   }
 
@@ -47,17 +55,20 @@ class NoMagicNumberRule extends BaseRule {
 
   bool _isNotInsideNamedConstant(Literal l) =>
       l.thisOrAncestorMatching(
-          (ancestor) => ancestor is VariableDeclaration && ancestor.isConst) ==
+        (ancestor) => ancestor is VariableDeclaration && ancestor.isConst,
+      ) ==
       null;
 
   bool _isNotInDateTime(Literal l) =>
       l.thisOrAncestorMatching(
-          (a) => a is MethodInvocation && a.methodName.name == 'DateTime') ==
+        (a) => a is MethodInvocation && a.methodName.name == 'DateTime',
+      ) ==
       null;
 
   bool _isNotInsideConstantCollectionLiteral(Literal l) =>
       l.thisOrAncestorMatching(
-          (ancestor) => ancestor is TypedLiteral && ancestor.isConst) ==
+        (ancestor) => ancestor is TypedLiteral && ancestor.isConst,
+      ) ==
       null;
 
   bool _isNotInsideConstConstructor(Literal l) =>
@@ -65,8 +76,8 @@ class NoMagicNumberRule extends BaseRule {
           ancestor is InstanceCreationExpression && ancestor.isConst) ==
       null;
 
-  static List<num> _parseConfig(Map<String, Object> config) =>
-      config['allowed'] as List<num> ?? [-1, 0, 1];
+  static Iterable<num> _parseConfig(Map<String, Object> config) =>
+      config['allowed'] as Iterable<num> ?? [-1, 0, 1];
 }
 
 class _Visitor extends RecursiveAstVisitor<void> {

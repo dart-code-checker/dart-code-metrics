@@ -2,7 +2,6 @@
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:code_checker/analysis.dart';
-import 'package:dart_code_metrics/src/models/source.dart';
 import 'package:dart_code_metrics/src/rules/no_empty_block.dart';
 import 'package:test/test.dart';
 
@@ -19,7 +18,7 @@ int simpleFunction() {
 
   } else if (a > 65) {
 
-  // TODO(developername): message.
+  // TODO(developerName): message.
 
   } else if (a > 60) {
     return a + 2;
@@ -28,7 +27,7 @@ int simpleFunction() {
   [1, 2, 3, 4].forEach((val) {});
 
   [1, 2, 3, 4].forEach((val) {
-    // TODO(developername): need to implement.
+    // TODO(developerName): need to implement.
   });
 
   return a;
@@ -37,7 +36,7 @@ int simpleFunction() {
 void emptyFunction() {}
 
 void emptyFunction2() {
-  // TODO(developername): need to implement.
+  // TODO(developerName): need to implement.
 }
 
 ''';
@@ -53,7 +52,7 @@ void main() {
     );
 
     final issues = NoEmptyBlockRule()
-        .check(Source(sourceUrl, parseResult.content, parseResult.unit));
+        .check(ProcessedFile(sourceUrl, parseResult.content, parseResult.unit));
 
     expect(issues.length, equals(4));
 

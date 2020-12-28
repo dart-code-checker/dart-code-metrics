@@ -2,7 +2,6 @@ import 'package:code_checker/analysis.dart';
 import 'package:meta/meta.dart';
 
 import '../models/code_issue.dart';
-import '../models/source.dart';
 
 abstract class BaseRule {
   final String id;
@@ -15,5 +14,5 @@ abstract class BaseRule {
     @required this.severity,
   });
 
-  Iterable<CodeIssue> check(Source source);
+  Iterable<CodeIssue> check(ProcessedFile source);
 }

@@ -4,6 +4,7 @@ import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/file_system/physical_file_system.dart';
+import 'package:code_checker/analysis.dart';
 import 'package:dart_code_metrics/src/metrics/nesting_level/nesting_level_visitor.dart';
 import 'package:glob/glob.dart';
 import 'package:path/path.dart' as p;
@@ -23,7 +24,6 @@ import 'models/component_record.dart';
 import 'models/design_issue.dart';
 import 'models/function_record.dart';
 import 'models/scoped_function_declaration.dart';
-import 'models/source.dart';
 import 'rules/base_rule.dart';
 import 'rules_factory.dart';
 import 'scope_ast_visitor.dart';
@@ -60,7 +60,6 @@ class MetricsAnalyzer {
         _useFastParser = true;
 
   /// Return a future that will complete after static analysis done for files from [folders].
-
   Future<void> runAnalysis(Iterable<String> folders, String rootFolder) async {
     AnalysisContextCollection collection;
     if (!_useFastParser) {
@@ -77,53 +76,61 @@ class MetricsAnalyzer {
             .listSync(root: rootFolder, followLinks: false)
             .whereType<File>()
             .where((entity) => !_isExcluded(
-                p.relative(entity.path, from: rootFolder), _globalExclude))
+                  p.relative(entity.path, from: rootFolder),
+                  _globalExclude,
+                ))
             .map((entity) => entity.path))
         .toList();
 
     for (final filePath in filePaths) {
       final normalized = p.normalize(p.absolute(filePath));
 
-      Source source;
+      ProcessedFile source;
       if (_useFastParser) {
         final result = parseFile(
-            path: normalized,
-            featureSet: _featureSet,
-            throwIfDiagnostics: false);
+          path: normalized,
+          featureSet: _featureSet,
+          throwIfDiagnostics: false,
+        );
 
-        source = Source(Uri.parse(filePath), result.content, result.unit);
+        source =
+            ProcessedFile(Uri.parse(filePath), result.content, result.unit);
       } else {
         final analysisContext = collection.contextFor(normalized);
         final result =
             await analysisContext.currentSession.getResolvedUnit(normalized);
 
-        source = Source(Uri.parse(filePath), result.content, result.unit);
+        source =
+            ProcessedFile(Uri.parse(filePath), result.content, result.unit);
       }
 
       final visitor = ScopeAstVisitor();
-      source.compilationUnit.visitChildren(visitor);
+      source.parsedContent.visitChildren(visitor);
 
-      final lineInfo = source.compilationUnit.lineInfo;
+      final lineInfo = source.parsedContent.lineInfo;
 
       _store.recordFile(filePath, rootFolder, (builder) {
         if (!_isExcluded(
-            p.relative(filePath, from: rootFolder), _metricsExclude)) {
+          p.relative(filePath, from: rootFolder),
+          _metricsExclude,
+        )) {
           for (final component in visitor.components) {
             builder.recordComponent(
-                component,
-                ComponentRecord(
-                    firstLine: lineInfo
-                        .getLocation(component.declaration
-                            .firstTokenAfterCommentAndMetadata.offset)
-                        .lineNumber,
-                    lastLine: lineInfo
-                        .getLocation(component.declaration.endToken.end)
-                        .lineNumber,
-                    methodsCount: visitor.functions
-                        .where((function) =>
-                            function.enclosingDeclaration ==
-                            component.declaration)
-                        .length));
+              component,
+              ComponentRecord(
+                firstLine: lineInfo
+                    .getLocation(component
+                        .declaration.firstTokenAfterCommentAndMetadata.offset)
+                    .lineNumber,
+                lastLine: lineInfo
+                    .getLocation(component.declaration.endToken.end)
+                    .lineNumber,
+                methodsCount: visitor.functions
+                    .where((function) =>
+                        function.enclosingDeclaration == component.declaration)
+                    .length,
+              ),
+            );
           }
 
           for (final function in visitor.functions) {
@@ -166,19 +173,24 @@ class MetricsAnalyzer {
         builder
           ..recordIssues(_checkOnCodeIssues(ignores, source))
           ..recordDesignIssues(
-              _checkOnAntiPatterns(ignores, source, visitor.functions));
+            _checkOnAntiPatterns(ignores, source, visitor.functions),
+          );
       });
     }
   }
 
-  Iterable<CodeIssue> _checkOnCodeIssues(IgnoreInfo ignores, Source source) =>
+  Iterable<CodeIssue> _checkOnCodeIssues(
+    IgnoreInfo ignores,
+    ProcessedFile source,
+  ) =>
       _checkingCodeRules.where((rule) => !ignores.ignoreRule(rule.id)).expand(
-          (rule) => rule.check(source).where((issue) =>
-              !ignores.ignoredAt(issue.ruleId, issue.sourceSpan.start.line)));
+            (rule) => rule.check(source).where((issue) =>
+                !ignores.ignoredAt(issue.ruleId, issue.sourceSpan.start.line)),
+          );
 
   Iterable<DesignIssue> _checkOnAntiPatterns(
     IgnoreInfo ignores,
-    Source source,
+    ProcessedFile source,
     Iterable<ScopedFunctionDeclaration> functions,
   ) =>
       _checkingAntiPatterns
@@ -186,7 +198,9 @@ class MetricsAnalyzer {
           .expand((pattern) => pattern
               .check(source, functions, _metricsConfig)
               .where((issue) => !ignores.ignoredAt(
-                  issue.patternId, issue.sourceSpan.start.line)));
+                    issue.patternId,
+                    issue.sourceSpan.start.line,
+                  )));
 }
 
 Iterable<Glob> _prepareExcludes(Iterable<String> patterns) =>
