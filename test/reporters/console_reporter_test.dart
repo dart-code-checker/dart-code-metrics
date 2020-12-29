@@ -299,8 +299,8 @@ void main() {
                 'issue',
               ),
               message: 'first issue message',
-              suggestion: 'correction',
-              suggestionComment: 'correction comment',
+              suggestion: const Replacement(
+                  comment: 'correction comment', replacement: 'correction'),
             ),
           ],
           designIssues: const [],

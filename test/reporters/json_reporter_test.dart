@@ -160,8 +160,10 @@ void main() {
                   _issueProblemCode,
                 ),
                 message: _issueMessage,
-                suggestion: _issueCorrection,
-                suggestionComment: _issueCorrectionComment,
+                suggestion: const Replacement(
+                  comment: _issueCorrectionComment,
+                  replacement: _issueCorrection,
+                ),
               ),
             ],
             designIssues: const [],

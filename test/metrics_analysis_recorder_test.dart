@@ -157,8 +157,10 @@ void main() {
                       'issue',
                     ),
                     message: _issueMessage,
-                    suggestion: _issueCorrection,
-                    suggestionComment: _issueCorrectionComment,
+                    suggestion: const Replacement(
+                      comment: _issueCorrectionComment,
+                      replacement: _issueCorrection,
+                    ),
                   ),
                 ]);
               })
@@ -173,8 +175,8 @@ void main() {
             _issueRuleDocumentation,
           );
           expect(issueRecord.message, _issueMessage);
-          expect(issueRecord.suggestion, _issueCorrection);
-          expect(issueRecord.suggestionComment, _issueCorrectionComment);
+          expect(issueRecord.suggestion.comment, _issueCorrectionComment);
+          expect(issueRecord.suggestion.replacement, _issueCorrection);
         });
       });
     });
@@ -370,8 +372,10 @@ void main() {
                 'issue',
               ),
               message: _issueMessage,
-              suggestion: _issueCorrection,
-              suggestionComment: _issueCorrectionComment,
+              suggestion: const Replacement(
+                comment: _issueCorrectionComment,
+                replacement: _issueCorrection,
+              ),
             ),
           ]);
         });
@@ -380,8 +384,8 @@ void main() {
         expect(issue.ruleId, _issueRuleId);
         expect(issue.documentation.toString(), _issueRuleDocumentation);
         expect(issue.message, _issueMessage);
-        expect(issue.suggestion, _issueCorrection);
-        expect(issue.suggestionComment, _issueCorrectionComment);
+        expect(issue.suggestion.comment, _issueCorrectionComment);
+        expect(issue.suggestion.replacement, _issueCorrection);
       });
     });
   });

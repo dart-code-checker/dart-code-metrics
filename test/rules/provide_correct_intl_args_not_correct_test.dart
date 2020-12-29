@@ -156,7 +156,6 @@ void main() {
     );
 
     expect(issues.every((issue) => issue.suggestion == null), isTrue);
-    expect(issues.every((issue) => issue.suggestionComment == null), isTrue);
 
     expect(
       issues.every((issue) => issue.location.sourceUrl == sourceUrl),

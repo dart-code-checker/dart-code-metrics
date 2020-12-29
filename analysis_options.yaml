@@ -30,7 +30,7 @@ dart_code_metrics:
     - no-equal-then-else
     - no-object-declaration
     - prefer-conditional-expressions
-    - prefer-trailing-comma-for-collection
+    - prefer-trailing-comma
 
 linter:
   rules:

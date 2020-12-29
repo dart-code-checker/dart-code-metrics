@@ -76,9 +76,10 @@ class JsonReporter implements Reporter {
                 if (issue.location.text != null)
                   'problemCode': issue.location.text,
                 'message': issue.message,
-                if (issue.suggestion != null) 'correction': issue.suggestion,
-                if (issue.suggestionComment != null)
-                  'correctionComment': issue.suggestionComment,
+                if (issue.suggestion != null)
+                  'correction': issue.suggestion.replacement,
+                if (issue.suggestion != null)
+                  'correctionComment': issue.suggestion.comment,
               })
           .toList();
 

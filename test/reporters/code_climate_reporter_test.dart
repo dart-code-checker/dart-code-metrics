@@ -115,8 +115,8 @@ void main() {
                 'issue',
               ),
               message: _issueMessage,
-              suggestion: 'correction',
-              suggestionComment: 'correction comment',
+              suggestion: const Replacement(
+                  comment: 'correction comment', replacement: 'correction'),
             ),
           ],
           designIssues: const [],

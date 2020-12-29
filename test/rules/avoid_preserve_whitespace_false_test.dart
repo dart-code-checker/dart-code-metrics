@@ -70,6 +70,5 @@ void main() {
     expect(issue.location.text, equals('preserveWhitespace: false'));
     expect(issue.message, equals('Avoid using preserveWhitespace: false.'));
     expect(issue.suggestion, isNull);
-    expect(issue.suggestionComment, isNull);
   });
 }

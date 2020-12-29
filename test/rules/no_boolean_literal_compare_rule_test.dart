@@ -128,7 +128,7 @@ void main() {
       ]),
     );
     expect(
-      issues.map((issue) => issue.suggestion),
+      issues.map((issue) => issue.suggestion.replacement),
       equals([
         'a',
         '!b',
@@ -146,7 +146,7 @@ void main() {
       ]),
     );
     expect(
-      issues.map((issue) => issue.suggestionComment),
+      issues.map((issue) => issue.suggestion.comment),
       equals([
         'This expression is unnecessarily compared to a boolean. Just use it directly.',
         'This expression is unnecessarily compared to a boolean. Just negate it.',

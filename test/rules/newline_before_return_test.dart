@@ -151,9 +151,5 @@ void main() {
       ]),
     );
     expect(issues.map((issue) => issue.suggestion), equals([null, null, null]));
-    expect(
-      issues.map((issue) => issue.suggestionComment),
-      equals([null, null, null]),
-    );
   });
 }

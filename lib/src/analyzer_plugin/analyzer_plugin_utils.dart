@@ -32,7 +32,7 @@ plugin.AnalysisErrorFixes codeIssueToAnalysisErrorFixes(
         ),
         issue.message,
         issue.ruleId,
-        correction: issue.suggestion,
+        correction: issue.suggestion.replacement,
         url: issue.documentation?.toString(),
         hasFix: issue.suggestion != null,
       ),
@@ -40,7 +40,7 @@ plugin.AnalysisErrorFixes codeIssueToAnalysisErrorFixes(
         if (issue.suggestion != null)
           plugin.PrioritizedSourceChange(
             1,
-            plugin.SourceChange(issue.suggestionComment, edits: [
+            plugin.SourceChange(issue.suggestion.comment, edits: [
               plugin.SourceFileEdit(
                 unitResult.libraryElement.source.fullName,
                 unitResult.libraryElement.source.modificationStamp,
@@ -48,7 +48,7 @@ plugin.AnalysisErrorFixes codeIssueToAnalysisErrorFixes(
                   plugin.SourceEdit(
                     issue.location.start.offset,
                     issue.location.length,
-                    issue.suggestion,
+                    issue.suggestion.replacement,
                   ),
                 ],
               ),

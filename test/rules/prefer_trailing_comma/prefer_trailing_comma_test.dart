@@ -94,7 +94,7 @@ void main() {
       );
 
       expect(
-        issues.map((issue) => issue.suggestionComment),
+        issues.map((issue) => issue.suggestion.comment),
         equals([
           'Add trailing comma',
           'Add trailing comma',
@@ -110,7 +110,7 @@ void main() {
         ]),
       );
       expect(
-        issues.map((issue) => issue.suggestion),
+        issues.map((issue) => issue.suggestion.replacement),
         equals([
           'String thirdArgument,',
           "'and another string for length exceed',",
