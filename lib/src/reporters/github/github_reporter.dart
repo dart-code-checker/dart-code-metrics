@@ -15,8 +15,8 @@ class GitHubReporter implements Reporter {
 
     for (final analysisRecord in records) {
       for (final issue in analysisRecord.designIssues) {
-        reportStrings.add(
-            _commands.warning(issue.message, sourceSpan: issue.sourceSpan));
+        reportStrings
+            .add(_commands.warning(issue.message, sourceSpan: issue.location));
       }
 
       for (final issue in analysisRecord.issues) {

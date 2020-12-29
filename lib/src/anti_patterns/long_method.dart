@@ -3,7 +3,6 @@ import 'package:meta/meta.dart';
 
 import '../config/config.dart';
 import '../lines_of_code/lines_with_code_ast_visitor.dart';
-import '../models/design_issue.dart';
 import '../models/function_type.dart';
 import '../models/scoped_function_declaration.dart';
 import 'base_pattern.dart';
@@ -17,12 +16,12 @@ class LongMethod extends BasePattern {
       : super(id: patternId, documentation: Uri.parse(_documentationUrl));
 
   @override
-  Iterable<DesignIssue> check(
+  Iterable<Issue> check(
     ProcessedFile source,
     Iterable<ScopedFunctionDeclaration> functions,
     Config config,
   ) {
-    final issues = <DesignIssue>[];
+    final issues = <Issue>[];
 
     for (final function in functions) {
       final linesWithCodeAstVisitor =

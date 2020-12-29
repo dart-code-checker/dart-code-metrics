@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:code_checker/analysis.dart';
 import 'package:dart_code_metrics/src/config/config.dart';
 import 'package:dart_code_metrics/src/models/component_record.dart';
-import 'package:dart_code_metrics/src/models/design_issue.dart';
 import 'package:dart_code_metrics/src/models/file_record.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/reporters/code_climate/code_climate_reporter.dart';
@@ -45,10 +44,10 @@ void main() {
           functions: Map.unmodifiable(<String, FunctionRecord>{}),
           issues: const [],
           designIssues: [
-            DesignIssue(
-              patternId: _issuePatternId,
-              patternDocumentation: Uri.parse(_issuePatternDocumentation),
-              sourceSpan: SourceSpanBase(
+            Issue(
+              ruleId: _issuePatternId,
+              documentation: Uri.parse(_issuePatternDocumentation),
+              location: SourceSpanBase(
                 SourceLocation(
                   1,
                   sourceUrl: Uri.parse(fullPath),
@@ -58,8 +57,9 @@ void main() {
                 SourceLocation(6, sourceUrl: Uri.parse(fullPath)),
                 'issue',
               ),
+              severity: Severity.style,
               message: 'first issue message',
-              recommendation: _issueRecommendation,
+              verboseMessage: _issueRecommendation,
             ),
           ],
         ),
@@ -80,8 +80,10 @@ void main() {
       );
       expect(report, containsPair('remediation_points', 50000));
       expect(report, containsPair('severity', 'info'));
-      expect(report,
-          containsPair('fingerprint', '8842a666b8aee4f2eae51205e0114dae'));
+      expect(
+        report,
+        containsPair('fingerprint', '8842a666b8aee4f2eae51205e0114dae'),
+      );
     });
 
     test('file with style severity issues', () {
@@ -308,10 +310,10 @@ void main() {
           functions: Map.unmodifiable(<String, FunctionRecord>{}),
           issues: const [],
           designIssues: [
-            DesignIssue(
-              patternId: _issuePatternId,
-              patternDocumentation: Uri.parse(_issuePatternDocumentation),
-              sourceSpan: SourceSpanBase(
+            Issue(
+              ruleId: _issuePatternId,
+              documentation: Uri.parse(_issuePatternDocumentation),
+              location: SourceSpanBase(
                 SourceLocation(
                   1,
                   sourceUrl: Uri.parse(fullPath),
@@ -321,8 +323,9 @@ void main() {
                 SourceLocation(6, sourceUrl: Uri.parse(fullPath)),
                 'issue',
               ),
+              severity: Severity.none,
               message: 'first issue message',
-              recommendation: _issueRecommendation,
+              verboseMessage: _issueRecommendation,
             ),
           ],
         ),

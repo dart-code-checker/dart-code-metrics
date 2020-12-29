@@ -4,7 +4,6 @@ import 'package:path/path.dart' as p;
 import 'metrics_records_builder.dart';
 import 'metrics_records_store.dart';
 import 'models/component_record.dart';
-import 'models/design_issue.dart';
 import 'models/file_record.dart';
 import 'models/function_record.dart';
 import 'models/scoped_component_declaration.dart';
@@ -20,7 +19,7 @@ class MetricsAnalysisRecorder
   Map<ScopedComponentDeclaration, ComponentRecord> _componentRecords;
   Map<ScopedFunctionDeclaration, FunctionRecord> _functionRecords;
   List<Issue> _issues;
-  List<DesignIssue> _designIssues;
+  List<Issue> _designIssues;
 
   final _records = <FileRecord>[];
 
@@ -73,7 +72,7 @@ class MetricsAnalysisRecorder
   }
 
   @override
-  void recordDesignIssues(Iterable<DesignIssue> issues) {
+  void recordDesignIssues(Iterable<Issue> issues) {
     _checkState();
 
     _designIssues.addAll(issues);

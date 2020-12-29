@@ -4,8 +4,6 @@ import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/models/scoped_component_declaration.dart';
 import 'package:dart_code_metrics/src/models/scoped_function_declaration.dart';
 
-import 'models/design_issue.dart';
-
 /// [FileRecord] builder
 abstract class MetricsRecordsBuilder {
   void recordComponent(
@@ -14,7 +12,7 @@ abstract class MetricsRecordsBuilder {
   void recordFunction(
       ScopedFunctionDeclaration declaration, FunctionRecord record);
 
-  void recordDesignIssues(Iterable<DesignIssue> issues);
+  void recordDesignIssues(Iterable<Issue> issues);
 
   void recordIssues(Iterable<Issue> issues);
 }

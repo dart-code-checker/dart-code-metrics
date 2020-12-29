@@ -72,10 +72,10 @@ class ConsoleReporter implements Reporter {
       for (final issue in analysisRecord.designIssues) {
         final severity = _designIssuesColor(_designIssues.padRight(8));
         final position =
-            '${issue.sourceSpan.start.line}:${issue.sourceSpan.start.column}';
+            '${issue.location.start.line}:${issue.location.start.column}';
         final rule = [
-          issue.patternId,
-          if (issue.patternDocumentation != null) issue.patternDocumentation,
+          issue.ruleId,
+          if (issue.documentation != null) issue.documentation,
         ].join(' ');
         lines.add('$severity${[issue.message, position, rule].join(' : ')}');
       }

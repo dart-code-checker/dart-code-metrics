@@ -4,7 +4,6 @@ import 'package:code_checker/analysis.dart';
 import 'package:meta/meta.dart';
 
 import '../config/config.dart';
-import '../models/design_issue.dart';
 import '../models/file_record.dart';
 import '../models/report_metric.dart';
 import 'reporter.dart';
@@ -84,20 +83,20 @@ class JsonReporter implements Reporter {
           .toList();
 
   Iterable<Map<String, Object>> _reportDesignIssues(
-    Iterable<DesignIssue> issues,
+    Iterable<Issue> issues,
   ) =>
       issues
           .map((issue) => {
-                'patternId': issue.patternId,
-                if (issue.patternDocumentation != null)
-                  'patternDocumentation': issue.patternDocumentation.toString(),
-                'lineNumber': issue.sourceSpan.start.line,
-                'columnNumber': issue.sourceSpan.start.column,
-                if (issue.sourceSpan.text != null)
-                  'problemCode': issue.sourceSpan.text,
+                'patternId': issue.ruleId,
+                if (issue.documentation != null)
+                  'patternDocumentation': issue.documentation.toString(),
+                'lineNumber': issue.location.start.line,
+                'columnNumber': issue.location.start.column,
+                if (issue.location.text != null)
+                  'problemCode': issue.location.text,
                 'message': issue.message,
-                if (issue.recommendation != null)
-                  'recommendation': issue.recommendation,
+                if (issue.verboseMessage != null)
+                  'recommendation': issue.verboseMessage,
               })
           .toList();
 

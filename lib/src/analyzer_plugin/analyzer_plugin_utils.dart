@@ -6,8 +6,6 @@ import 'package:glob/glob.dart';
 import 'package:path/path.dart' as p;
 import 'package:source_span/source_span.dart';
 
-import '../models/design_issue.dart';
-
 bool isSupported(AnalysisResult result) =>
     result.path != null &&
     result.path.endsWith('.dart') &&
@@ -59,21 +57,21 @@ plugin.AnalysisErrorFixes codeIssueToAnalysisErrorFixes(
       ],
     );
 
-plugin.AnalysisErrorFixes designIssueToAnalysisErrorFixes(DesignIssue issue) =>
+plugin.AnalysisErrorFixes designIssueToAnalysisErrorFixes(Issue issue) =>
     plugin.AnalysisErrorFixes(plugin.AnalysisError(
       plugin.AnalysisErrorSeverity.INFO,
       plugin.AnalysisErrorType.HINT,
       plugin.Location(
-        issue.sourceSpan.sourceUrl.path,
-        issue.sourceSpan.start.offset,
-        issue.sourceSpan.length,
-        issue.sourceSpan.start.line,
-        issue.sourceSpan.start.column,
+        issue.location.sourceUrl.path,
+        issue.location.start.offset,
+        issue.location.length,
+        issue.location.start.line,
+        issue.location.start.column,
       ),
       issue.message,
-      issue.patternId,
-      correction: issue.recommendation,
-      url: issue.patternDocumentation?.toString(),
+      issue.ruleId,
+      correction: issue.verboseMessage,
+      url: issue.documentation?.toString(),
       hasFix: false,
     ));
 

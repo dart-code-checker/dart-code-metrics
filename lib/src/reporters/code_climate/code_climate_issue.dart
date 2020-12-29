@@ -4,7 +4,6 @@ import 'package:code_checker/analysis.dart';
 import 'package:crypto/crypto.dart';
 import 'package:meta/meta.dart';
 
-import '../../models/design_issue.dart';
 import '../../models/function_record.dart';
 
 @immutable
@@ -161,13 +160,12 @@ class CodeClimateIssue {
     );
   }
 
-  factory CodeClimateIssue.fromDesignIssue(
-          DesignIssue issue, String fileName) =>
+  factory CodeClimateIssue.fromDesignIssue(Issue issue, String fileName) =>
       CodeClimateIssue._create(
-        issue.patternId,
+        issue.ruleId,
         issue.message,
-        issue.sourceSpan.start.line,
-        issue.sourceSpan.start.line,
+        issue.location.start.line,
+        issue.location.start.line,
         fileName,
         categories: const ['Complexity'],
       );
