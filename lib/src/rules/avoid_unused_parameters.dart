@@ -3,8 +3,6 @@ import 'package:analyzer/dart/ast/syntactic_entity.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:code_checker/analysis.dart';
 
-import '../models/code_issue.dart';
-import '../models/source.dart';
 import 'base_rule.dart';
 import 'rule_utils.dart';
 
@@ -28,10 +26,10 @@ class AvoidUnusedParameters extends BaseRule {
         );
 
   @override
-  Iterable<CodeIssue> check(Source source) {
+  Iterable<Issue> check(ProcessedFile source) {
     final _visitor = _Visitor();
 
-    source.compilationUnit.visitChildren(_visitor);
+    source.parsedContent.visitChildren(_visitor);
 
     return [
       ..._visitor.unusedParameters
@@ -42,7 +40,7 @@ class AvoidUnusedParameters extends BaseRule {
                 null,
                 source.url,
                 source.content,
-                source.compilationUnit.lineInfo,
+                source.parsedContent.lineInfo,
                 parameter,
               ))
           .toList(growable: false),
@@ -54,7 +52,7 @@ class AvoidUnusedParameters extends BaseRule {
                 null,
                 source.url,
                 source.content,
-                source.compilationUnit.lineInfo,
+                source.parsedContent.lineInfo,
                 parameter,
               ))
           .toList(),

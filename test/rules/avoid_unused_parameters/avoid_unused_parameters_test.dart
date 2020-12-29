@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:code_checker/analysis.dart';
-import 'package:dart_code_metrics/src/models/source.dart';
 import 'package:dart_code_metrics/src/rules/avoid_unused_parameters.dart';
 import 'package:test/test.dart';
 
@@ -19,7 +18,7 @@ void main() {
 
       final parseResult = await resolveFile(path: path);
 
-      final issues = AvoidUnusedParameters().check(Source(
+      final issues = AvoidUnusedParameters().check(ProcessedFile(
         sourceUrl,
         parseResult.content,
         parseResult.unit,
@@ -41,7 +40,7 @@ void main() {
 
       final parseResult = await resolveFile(path: path);
 
-      final issues = AvoidUnusedParameters().check(Source(
+      final issues = AvoidUnusedParameters().check(ProcessedFile(
         sourceUrl,
         parseResult.content,
         parseResult.unit,
@@ -56,30 +55,30 @@ void main() {
 
       final parseResult = await resolveFile(path: path);
 
-      final issues = AvoidUnusedParameters().check(Source(
+      final issues = AvoidUnusedParameters().check(ProcessedFile(
         sourceUrl,
         parseResult.content,
         parseResult.unit,
       ));
 
       expect(
-        issues.map((issue) => issue.sourceSpan.start.offset),
+        issues.map((issue) => issue.location.start.offset),
         equals([132, 190, 341, 379, 607, 493, 677, 94]),
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.start.line),
+        issues.map((issue) => issue.location.start.line),
         equals([7, 9, 18, 20, 29, 24, 34, 5]),
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.start.column),
+        issues.map((issue) => issue.location.start.column),
         equals([20, 40, 20, 20, 28, 38, 20, 23]),
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.end.offset),
+        issues.map((issue) => issue.location.end.offset),
         equals([145, 209, 354, 397, 623, 506, 693, 107]),
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.text),
+        issues.map((issue) => issue.location.text),
         equals([
           'String string',
           'String secondString',
