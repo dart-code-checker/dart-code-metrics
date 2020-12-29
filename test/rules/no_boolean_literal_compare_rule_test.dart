@@ -1,7 +1,7 @@
 @TestOn('vm')
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
-import 'package:code_checker/analysis.dart';
+import 'package:code_checker/rules.dart';
 import 'package:dart_code_metrics/src/rules/no_boolean_literal_compare_rule.dart';
 import 'package:test/test.dart';
 

@@ -1,14 +1,13 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
-import 'package:code_checker/analysis.dart';
+import 'package:code_checker/rules.dart';
 import 'package:meta/meta.dart';
 
-import 'base_rule.dart';
 import 'rule_utils.dart';
 
 // Inspired by TSLint (https://palantir.github.io/tslint/rules/member-ordering/)
 
-class MemberOrderingRule extends BaseRule {
+class MemberOrderingRule extends Rule {
   static const ruleId = 'member-ordering';
   static const _documentationUrl = 'https://git.io/JJwqN';
 
@@ -29,11 +28,11 @@ class MemberOrderingRule extends BaseRule {
         );
 
   @override
-  Iterable<Issue> check(ProcessedFile source) {
+  Iterable<Issue> check(ProcessedFile file) {
     final _visitor = _Visitor(_groupsOrder);
 
     final membersInfo = [
-      for (final entry in source.parsedContent.childEntities)
+      for (final entry in file.parsedContent.childEntities)
         if (entry is ClassDeclaration) ...entry.accept(_visitor),
     ];
 
@@ -44,9 +43,9 @@ class MemberOrderingRule extends BaseRule {
               '${info.memberOrder.memberGroup.name} $_warningMessage ${info.memberOrder.previousMemberGroup.name}',
               null,
               null,
-              source.url,
-              source.content,
-              source.parsedContent.lineInfo,
+              file.url,
+              file.content,
+              file.parsedContent.lineInfo,
               info.classMember,
             ),
           ),
@@ -59,9 +58,9 @@ class MemberOrderingRule extends BaseRule {
                 '${info.memberOrder.memberNames.currentName} $_warningAlphabeticalMessage ${info.memberOrder.memberNames.previousName}',
                 null,
                 null,
-                source.url,
-                source.content,
-                source.parsedContent.lineInfo,
+                file.url,
+                file.content,
+                file.parsedContent.lineInfo,
                 info.classMember,
               ),
             ),

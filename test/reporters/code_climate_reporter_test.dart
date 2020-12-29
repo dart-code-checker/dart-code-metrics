@@ -1,7 +1,7 @@
 @TestOn('vm')
 import 'dart:convert';
 
-import 'package:code_checker/analysis.dart';
+import 'package:code_checker/rules.dart';
 import 'package:dart_code_metrics/src/config/config.dart';
 import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/file_record.dart';
@@ -348,8 +348,10 @@ void main() {
       );
       expect(report, containsPair('remediation_points', 50000));
       expect(report, containsPair('severity', 'info'));
-      expect(report,
-          containsPair('fingerprint', '8842a666b8aee4f2eae51205e0114dae'));
+      expect(
+        report,
+        containsPair('fingerprint', '8842a666b8aee4f2eae51205e0114dae'),
+      );
     });
   });
 }

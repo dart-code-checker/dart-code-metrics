@@ -3,12 +3,10 @@ import 'package:analyzer/dart/ast/syntactic_entity.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/source/line_info.dart';
-import 'package:code_checker/analysis.dart';
+import 'package:code_checker/rules.dart';
 import 'package:dart_code_metrics/src/rules/rule_utils.dart';
 
-import 'base_rule.dart';
-
-class PreferTrailingComma extends BaseRule {
+class PreferTrailingComma extends Rule {
   static const String ruleId = 'prefer-trailing-comma';
   static const _documentationUrl = 'https://git.io/Jkemi';
 
@@ -27,21 +25,21 @@ class PreferTrailingComma extends BaseRule {
         );
 
   @override
-  Iterable<Issue> check(ProcessedFile source) {
-    final visitor = _Visitor(source.parsedContent.lineInfo, _itemsBreakpoint);
+  Iterable<Issue> check(ProcessedFile file) {
+    final visitor = _Visitor(file.parsedContent.lineInfo, _itemsBreakpoint);
 
-    source.parsedContent.visitChildren(visitor);
+    file.parsedContent.visitChildren(visitor);
 
     return visitor.nodes
         .map(
           (node) => createIssue(
             this,
             _warningMessage,
-            '${source.content.substring(node.offset, node.end)},',
+            '${file.content.substring(node.offset, node.end)},',
             _correctionMessage,
-            source.url,
-            source.content,
-            source.parsedContent.lineInfo,
+            file.url,
+            file.content,
+            file.parsedContent.lineInfo,
             node,
           ),
         )

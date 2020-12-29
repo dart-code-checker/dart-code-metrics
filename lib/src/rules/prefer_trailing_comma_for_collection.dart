@@ -3,13 +3,11 @@ import 'package:analyzer/dart/ast/syntactic_entity.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/source/line_info.dart';
-import 'package:code_checker/analysis.dart';
+import 'package:code_checker/rules.dart';
 
 import '../rules/rule_utils.dart';
 
-import 'base_rule.dart';
-
-class PreferTrailingCommaForCollectionRule extends BaseRule {
+class PreferTrailingCommaForCollectionRule extends Rule {
   static const String ruleId = 'prefer-trailing-comma-for-collection';
   static const _documentationUrl = 'https://git.io/JJwmu';
 
@@ -25,22 +23,22 @@ class PreferTrailingCommaForCollectionRule extends BaseRule {
         );
 
   @override
-  Iterable<Issue> check(ProcessedFile source) {
+  Iterable<Issue> check(ProcessedFile file) {
     final visitor = _Visitor(
-      source.parsedContent.lineInfo,
+      file.parsedContent.lineInfo,
     );
 
-    source.parsedContent.visitChildren(visitor);
+    file.parsedContent.visitChildren(visitor);
 
     return visitor.nodes
         .map((node) => createIssue(
               this,
               _failure,
-              '${source.content.substring(node.offset, node.end)},',
+              '${file.content.substring(node.offset, node.end)},',
               _correctionComment,
-              source.url,
-              source.content,
-              source.parsedContent.lineInfo,
+              file.url,
+              file.content,
+              file.parsedContent.lineInfo,
               node,
             ))
         .toList(growable: false);

@@ -1,5 +1,5 @@
 @TestOn('vm')
-import 'package:code_checker/analysis.dart';
+import 'package:code_checker/rules.dart';
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:dart_code_metrics/src/rules/no_magic_number_rule.dart';
@@ -26,7 +26,7 @@ number good_f1(number x) => x + 1;
 bool good_f2(number x) => x != 0;
 bool good_f3(String x) => x.indexOf(str) != -1
 final someDay = DateTime(2006, 12, 1);
-Intl.message(example: const <String, int>{ 'Assigneed': 3 });
+Intl.message(example: const <String, int>{ 'Assigned': 3 });
 foo(const [32, 12]);
 final f = Future.delayed(const Duration(seconds: 5));
 final f = foo(const Bar(5));

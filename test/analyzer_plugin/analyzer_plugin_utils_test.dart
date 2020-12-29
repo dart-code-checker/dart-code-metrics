@@ -1,7 +1,7 @@
 @TestOn('vm')
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart';
-import 'package:code_checker/analysis.dart';
+import 'package:code_checker/rules.dart';
 import 'package:dart_code_metrics/src/analyzer_plugin/analyzer_plugin_utils.dart';
 import 'package:glob/glob.dart';
 import 'package:mockito/mockito.dart';
@@ -36,14 +36,15 @@ void main() {
   test('prepareExcludes returns exclude pattern ', () {
     expect(prepareExcludes(null, null), isEmpty);
     expect(
-        prepareExcludes(
-          ['example/**', 'test/resources/**'],
-          '/home/developer/devs/my-project',
-        ).map((glob) => glob.pattern),
-        equals([
-          '/home/developer/devs/my-project/example/**',
-          '/home/developer/devs/my-project/test/resources/**',
-        ]));
+      prepareExcludes(
+        ['example/**', 'test/resources/**'],
+        '/home/developer/devs/my-project',
+      ).map((glob) => glob.pattern),
+      equals([
+        '/home/developer/devs/my-project/example/**',
+        '/home/developer/devs/my-project/test/resources/**',
+      ]),
+    );
   });
 
   test(

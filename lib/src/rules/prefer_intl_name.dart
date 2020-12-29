@@ -1,14 +1,13 @@
 import 'package:analyzer/dart/ast/ast.dart';
-import 'package:code_checker/analysis.dart';
+import 'package:code_checker/rules.dart';
 import 'package:meta/meta.dart';
 
 import '../rules/rule_utils.dart';
 import '../utils/iterable_extensions.dart';
 import '../utils/object_extensions.dart';
-import 'base_rule.dart';
 import 'intl_base/intl_base_visitor.dart';
 
-class PreferIntlNameRule extends BaseRule {
+class PreferIntlNameRule extends Rule {
   static const String ruleId = 'prefer-intl-name';
   static const _documentationUrl = 'https://git.io/JJwmc';
 
@@ -26,8 +25,8 @@ class PreferIntlNameRule extends BaseRule {
         );
 
   @override
-  Iterable<Issue> check(ProcessedFile source) {
-    final hasIntlDirective = source.parsedContent.directives
+  Iterable<Issue> check(ProcessedFile file) {
+    final hasIntlDirective = file.parsedContent.directives
         .whereType<ImportDirective>()
         .any((directive) => directive.uri.stringValue == _intlPackageUrl);
 
@@ -36,7 +35,7 @@ class PreferIntlNameRule extends BaseRule {
     }
 
     final visitor = _Visitor();
-    source.parsedContent.visitChildren(visitor);
+    file.parsedContent.visitChildren(visitor);
 
     return [
       ...visitor.issues.whereType<_NotCorrectNameIssue>().map((issue) {
@@ -48,9 +47,9 @@ class PreferIntlNameRule extends BaseRule {
           '$_notCorrectNameFailure $correction',
           correction,
           _notCorrectNameCorrectionComment,
-          source.url,
-          source.content,
-          source.parsedContent.lineInfo,
+          file.url,
+          file.content,
+          file.parsedContent.lineInfo,
           issue.node,
         );
       }),
@@ -61,9 +60,9 @@ class PreferIntlNameRule extends BaseRule {
                 _notExistsNameFailure,
                 null,
                 null,
-                source.url,
-                source.content,
-                source.parsedContent.lineInfo,
+                file.url,
+                file.content,
+                file.parsedContent.lineInfo,
                 issue.node,
               )),
     ];

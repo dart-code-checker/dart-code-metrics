@@ -2,7 +2,7 @@
 import 'dart:io';
 
 import 'package:analyzer/dart/analysis/utilities.dart';
-import 'package:code_checker/analysis.dart';
+import 'package:code_checker/rules.dart';
 import 'package:dart_code_metrics/src/rules/no_object_declaration.dart';
 import 'package:test/test.dart';
 

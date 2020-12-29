@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:code_checker/analysis.dart';
+import 'package:code_checker/rules.dart';
 import 'package:crypto/crypto.dart';
 import 'package:meta/meta.dart';
 

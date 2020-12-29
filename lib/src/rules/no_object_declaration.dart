@@ -1,11 +1,10 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
-import 'package:code_checker/analysis.dart';
+import 'package:code_checker/rules.dart';
 
-import 'base_rule.dart';
 import 'rule_utils.dart';
 
-class NoObjectDeclarationRule extends BaseRule {
+class NoObjectDeclarationRule extends Rule {
   static const String ruleId = 'no-object-declaration';
   static const _documentationUrl = 'https://git.io/JJwmY';
 
@@ -21,10 +20,10 @@ class NoObjectDeclarationRule extends BaseRule {
         );
 
   @override
-  Iterable<Issue> check(ProcessedFile source) {
+  Iterable<Issue> check(ProcessedFile file) {
     final _visitor = _Visitor();
 
-    source.parsedContent.visitChildren(_visitor);
+    file.parsedContent.visitChildren(_visitor);
 
     return _visitor.members
         .map(
@@ -33,9 +32,9 @@ class NoObjectDeclarationRule extends BaseRule {
             _warningMessage,
             null,
             null,
-            source.url,
-            source.content,
-            source.parsedContent.lineInfo,
+            file.url,
+            file.content,
+            file.parsedContent.lineInfo,
             member,
           ),
         )
