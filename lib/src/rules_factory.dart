@@ -1,4 +1,5 @@
 import 'rules/avoid_preserve_whitespace_false.dart';
+import 'rules/avoid_unused_parameters.dart';
 import 'rules/base_rule.dart';
 import 'rules/binary_expression_operand_order_rule.dart';
 import 'rules/component_annotation_arguments_ordering.dart';
@@ -22,6 +23,8 @@ import 'rules/provide_correct_intl_args.dart';
 final _implementedRules = <String, BaseRule Function(Map<String, Object>)>{
   AvoidPreserveWhitespaceFalseRule.ruleId: (config) =>
       AvoidPreserveWhitespaceFalseRule(config: config),
+  AvoidUnusedParameters.ruleId: (config) =>
+      AvoidUnusedParameters(config: config),
   BinaryExpressionOperandOrderRule.ruleId: (config) =>
       BinaryExpressionOperandOrderRule(config: config),
   ComponentAnnotationArgumentsOrderingRule.ruleId: (config) =>

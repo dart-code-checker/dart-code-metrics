@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased (2.4.0)
+
+- Add static code diagnostic avoid-unused-parameters
+
 ## 2.3.2
 
 - Add Gitlab Code Quality support in Code Climate report
