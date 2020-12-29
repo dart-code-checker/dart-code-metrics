@@ -233,7 +233,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
               .check(ProcessedFile(
                   sourceUri, analysisResult.content, analysisResult.unit))
               .where((issue) =>
-                  !ignores.ignoredAt(issue.ruleId, issue.sourceSpan.start.line))
+                  !ignores.ignoredAt(issue.ruleId, issue.location.start.line))
               .map((issue) =>
                   codeIssueToAnalysisErrorFixes(issue, analysisResult)));
 
@@ -248,7 +248,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
           .expand((pattern) =>
               pattern.check(source, functions, config.metricsConfigs))
           .where((issue) =>
-              !ignores.ignoredAt(issue.patternId, issue.sourceSpan.start.line))
+              !ignores.ignoredAt(issue.ruleId, issue.location.start.line))
           .map(designIssueToAnalysisErrorFixes);
 
   Iterable<plugin.AnalysisErrorFixes> _checkMetrics(

@@ -90,27 +90,27 @@ void main() {
         isTrue,
       );
       expect(
-        issues.every((issue) => issue.sourceSpan.sourceUrl == sourceUrl),
+        issues.every((issue) => issue.location.sourceUrl == sourceUrl),
         isTrue,
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.start.offset),
+        issues.map((issue) => issue.location.start.offset),
         equals([26, 39, 58, 73, 105, 118, 136, 151, 182, 196, 215, 231]),
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.start.line),
+        issues.map((issue) => issue.location.start.line),
         equals([3, 3, 3, 3, 5, 5, 5, 5, 7, 7, 7, 7]),
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.start.column),
+        issues.map((issue) => issue.location.start.column),
         equals([12, 25, 44, 59, 12, 25, 43, 58, 12, 26, 45, 61]),
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.end.offset),
+        issues.map((issue) => issue.location.end.offset),
         equals([31, 47, 63, 81, 109, 124, 140, 157, 188, 204, 221, 239]),
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.text),
+        issues.map((issue) => issue.location.text),
         equals([
           '05.23',
           '003.6e+5',
@@ -144,7 +144,7 @@ void main() {
         ]),
       );
       expect(
-        issues.map((issue) => issue.correction),
+        issues.map((issue) => issue.suggestion),
         equals([
           '5.23',
           '3.6e+5',
@@ -161,7 +161,7 @@ void main() {
         ]),
       );
       expect(
-        issues.map((issue) => issue.correctionComment),
+        issues.map((issue) => issue.suggestionComment),
         equals([
           "Remove redundant leading '0'",
           "Remove redundant leading '0'",

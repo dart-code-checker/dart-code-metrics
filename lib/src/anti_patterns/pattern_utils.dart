@@ -2,10 +2,9 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:code_checker/analysis.dart';
 import 'package:source_span/source_span.dart';
 
-import '../models/design_issue.dart';
 import 'base_pattern.dart';
 
-DesignIssue createIssue(
+Issue createIssue(
   BasePattern pattern,
   String message,
   String recommendation,
@@ -16,10 +15,10 @@ DesignIssue createIssue(
       .getLocation(issueNode.firstTokenAfterCommentAndMetadata.offset);
   final endLocation = source.parsedContent.lineInfo.getLocation(issueNode.end);
 
-  return DesignIssue(
-    patternId: pattern.id,
-    patternDocumentation: pattern.documentation,
-    sourceSpan: SourceSpanBase(
+  return Issue(
+    ruleId: pattern.id,
+    documentation: pattern.documentation,
+    location: SourceSpanBase(
       SourceLocation(
         issueNode.offset,
         sourceUrl: source.url,
@@ -34,7 +33,8 @@ DesignIssue createIssue(
       ),
       source.content.substring(issueNode.offset, issueNode.end),
     ),
+    severity: Severity.none,
     message: message,
-    recommendation: recommendation,
+    verboseMessage: recommendation,
   );
 }

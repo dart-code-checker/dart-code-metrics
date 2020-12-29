@@ -39,10 +39,10 @@ void main() {
     expect(issues.length, equals(1));
 
     final issue = issues.single;
-    final issueSrcSpan = issue.sourceSpan;
-    expect(issue.patternId, equals('long-parameter-list'));
+    final issueSrcSpan = issue.location;
+    expect(issue.ruleId, equals('long-parameter-list'));
     expect(
-      issue.patternDocumentation.toString(),
+      issue.documentation.toString(),
       equals('https://git.io/JUGrU'),
     );
     expect(issueSrcSpan.sourceUrl, equals(sourceUrl));
@@ -55,7 +55,7 @@ void main() {
       equals('Long Parameter List. This function require 5 arguments.'),
     );
     expect(
-      issue.recommendation,
+      issue.verboseMessage,
       equals(
           "Based on configuration of this package, we don't recommend writing a function with argument count more than 4."),
     );

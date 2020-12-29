@@ -22,14 +22,14 @@ To create a new rule:
 
 5.  Add a visitor class which extends any of the base visitors. Usually you will need `RecursiveAstVisitor`. All visitors are [listed there](https://github.com/dart-lang/sdk/blob/master/pkg/analyzer/lib/dart/ast/visitor.dart).
 6.  Add methods overrides to the visitor class for nodes that you want to check (ex. `visitBinaryExpression`, `visitBlock`).
-7.  Collect all data needed for the rule (we usually use private field for data storage and public getter to access it from the `check` method).
+7.  Collect all data needed for the rule (we usually use a private field for data storage and public getter to access it from the `check` method).
 8.  In the rule class add override to `check` method. Create a visitor instance and visit all compilation unit children with it.
 
-    Convert data to `CodeIssue`'s and return them from the method. Example:
+    Convert data to `Issue`'s and return them from the method. Example:
 
     ```dart
         @override
-        Iterable<CodeIssue> check(Source source) {
+        Iterable<Issue> check(Source source) {
         final visitor = _Visitor();
 
         source.compilationUnit.visitChildren(visitor);

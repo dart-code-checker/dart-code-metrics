@@ -60,16 +60,16 @@ void main() {
     final issue = issues.first;
     expect(issue.ruleId, equals('avoid-preserve-whitespace-false'));
     expect(issue.severity, equals(Severity.warning));
-    expect(issue.sourceSpan.sourceUrl, equals(sourceUrl));
-    expect(issue.sourceSpan.start.offset, equals(164));
-    expect(issue.sourceSpan.start.line, equals(6));
-    expect(issue.sourceSpan.start.column, equals(3));
-    expect(issue.sourceSpan.end.offset, equals(189));
-    expect(issue.sourceSpan.end.line, equals(6));
-    expect(issue.sourceSpan.end.column, equals(28));
-    expect(issue.sourceSpan.text, equals('preserveWhitespace: false'));
+    expect(issue.location.sourceUrl, equals(sourceUrl));
+    expect(issue.location.start.offset, equals(164));
+    expect(issue.location.start.line, equals(6));
+    expect(issue.location.start.column, equals(3));
+    expect(issue.location.end.offset, equals(189));
+    expect(issue.location.end.line, equals(6));
+    expect(issue.location.end.column, equals(28));
+    expect(issue.location.text, equals('preserveWhitespace: false'));
     expect(issue.message, equals('Avoid using preserveWhitespace: false.'));
-    expect(issue.correction, isNull);
-    expect(issue.correctionComment, isNull);
+    expect(issue.suggestion, isNull);
+    expect(issue.suggestionComment, isNull);
   });
 }

@@ -2,9 +2,7 @@
 import 'package:ansicolor/ansicolor.dart';
 import 'package:code_checker/analysis.dart';
 import 'package:dart_code_metrics/src/config/config.dart';
-import 'package:dart_code_metrics/src/models/code_issue.dart';
 import 'package:dart_code_metrics/src/models/component_record.dart';
-import 'package:dart_code_metrics/src/models/design_issue.dart';
 import 'package:dart_code_metrics/src/models/file_record.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/reporters/console_reporter.dart';
@@ -247,11 +245,10 @@ void main() {
           functions: Map.unmodifiable(<String, FunctionRecord>{}),
           issues: const [],
           designIssues: [
-            DesignIssue(
-              patternId: 'patternId1',
-              patternDocumentation:
-                  Uri.parse('https://docu.edu/patternId1.html'),
-              sourceSpan: SourceSpanBase(
+            Issue(
+              ruleId: 'patternId1',
+              documentation: Uri.parse('https://docu.edu/patternId1.html'),
+              location: SourceSpanBase(
                 SourceLocation(
                   1,
                   sourceUrl: Uri.parse(fullPath),
@@ -261,8 +258,9 @@ void main() {
                 SourceLocation(6, sourceUrl: Uri.parse(fullPath)),
                 'issue',
               ),
+              severity: Severity.none,
               message: 'first issue message',
-              recommendation: 'recommendation',
+              verboseMessage: 'recommendation',
             ),
           ],
         ),
@@ -286,11 +284,11 @@ void main() {
           components: Map.unmodifiable(<String, ComponentRecord>{}),
           functions: Map.unmodifiable(<String, FunctionRecord>{}),
           issues: [
-            CodeIssue(
+            Issue(
               ruleId: 'ruleId1',
-              ruleDocumentation: Uri.parse('https://docu.edu/ruleId1.html'),
+              documentation: Uri.parse('https://docu.edu/ruleId1.html'),
               severity: Severity.style,
-              sourceSpan: SourceSpanBase(
+              location: SourceSpanBase(
                 SourceLocation(
                   1,
                   sourceUrl: Uri.parse(fullPath),
@@ -301,8 +299,8 @@ void main() {
                 'issue',
               ),
               message: 'first issue message',
-              correction: 'correction',
-              correctionComment: 'correction comment',
+              suggestion: 'correction',
+              suggestionComment: 'correction comment',
             ),
           ],
           designIssues: const [],

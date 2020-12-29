@@ -62,27 +62,27 @@ void main() {
       isTrue,
     );
     expect(
-      issues.every((issue) => issue.sourceSpan.sourceUrl == sourceUrl),
+      issues.every((issue) => issue.location.sourceUrl == sourceUrl),
       isTrue,
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.start.offset),
+      issues.map((issue) => issue.location.start.offset),
       equals([30, 83, 221, 348]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.start.line),
+      issues.map((issue) => issue.location.start.line),
       equals([3, 9, 19, 28]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.start.column),
+      issues.map((issue) => issue.location.start.column),
       equals([7, 15, 30, 22]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.end.offset),
+      issues.map((issue) => issue.location.end.offset),
       equals([40, 89, 223, 350]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.text),
+      issues.map((issue) => issue.location.text),
       equals(['{\n    \n  }', '{\n\n  }', '{}', '{}']),
     );
     expect(
@@ -95,11 +95,11 @@ void main() {
       ]),
     );
     expect(
-      issues.map((issue) => issue.correction),
+      issues.map((issue) => issue.suggestion),
       equals([null, null, null, null]),
     );
     expect(
-      issues.map((issue) => issue.correctionComment),
+      issues.map((issue) => issue.suggestionComment),
       equals([null, null, null, null]),
     );
   });

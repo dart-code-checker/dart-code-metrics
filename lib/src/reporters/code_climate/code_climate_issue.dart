@@ -4,8 +4,6 @@ import 'package:code_checker/analysis.dart';
 import 'package:crypto/crypto.dart';
 import 'package:meta/meta.dart';
 
-import '../../models/code_issue.dart';
-import '../../models/design_issue.dart';
 import '../../models/function_record.dart';
 
 @immutable
@@ -134,7 +132,7 @@ class CodeClimateIssue {
         fileName,
       );
 
-  factory CodeClimateIssue.fromCodeIssue(CodeIssue issue, String fileName) {
+  factory CodeClimateIssue.fromCodeIssue(Issue issue, String fileName) {
     const categoryHumanReadable = {
       Severity.error: ['Bug Risk'],
       Severity.warning: ['Bug Risk'],
@@ -154,21 +152,20 @@ class CodeClimateIssue {
     return CodeClimateIssue._create(
       issue.ruleId,
       issue.message,
-      issue.sourceSpan.start.line,
-      issue.sourceSpan.start.line,
+      issue.location.start.line,
+      issue.location.start.line,
       fileName,
       categories: categoryHumanReadable[issue.severity],
       severity: severityHumanReadable[issue.severity],
     );
   }
 
-  factory CodeClimateIssue.fromDesignIssue(
-          DesignIssue issue, String fileName) =>
+  factory CodeClimateIssue.fromDesignIssue(Issue issue, String fileName) =>
       CodeClimateIssue._create(
-        issue.patternId,
+        issue.ruleId,
         issue.message,
-        issue.sourceSpan.start.line,
-        issue.sourceSpan.start.line,
+        issue.location.start.line,
+        issue.location.start.line,
         fileName,
         categories: const ['Complexity'],
       );

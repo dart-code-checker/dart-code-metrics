@@ -2,9 +2,7 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:code_checker/analysis.dart';
 import 'package:dart_code_metrics/src/metrics_analysis_recorder.dart';
-import 'package:dart_code_metrics/src/models/code_issue.dart';
 import 'package:dart_code_metrics/src/models/component_record.dart';
-import 'package:dart_code_metrics/src/models/design_issue.dart';
 import 'package:dart_code_metrics/src/models/function_type.dart';
 import 'package:dart_code_metrics/src/models/scoped_component_declaration.dart';
 import 'package:dart_code_metrics/src/models/scoped_function_declaration.dart';
@@ -27,15 +25,21 @@ void main() {
 
     group('recordFile', () {
       test('throws ArgumentError if called without filePath', () {
-        expect(() {
-          MetricsAnalysisRecorder().recordFile(null, null, null);
-        }, throwsArgumentError);
+        expect(
+          () {
+            MetricsAnalysisRecorder().recordFile(null, null, null);
+          },
+          throwsArgumentError,
+        );
       });
 
       test('throws ArgumentError if called without function', () {
-        expect(() {
-          MetricsAnalysisRecorder().recordFile(filePath, rootDirectory, null);
-        }, throwsArgumentError);
+        expect(
+          () {
+            MetricsAnalysisRecorder().recordFile(filePath, rootDirectory, null);
+          },
+          throwsArgumentError,
+        );
       });
 
       group('Stores component records for file', () {
@@ -50,11 +54,15 @@ void main() {
         final record = ScopedComponentDeclaration(classDeclarationMock);
 
         test('throws ArgumentError if called without record', () {
-          expect(() {
-            MetricsAnalysisRecorder().recordFile(filePath, rootDirectory, (b) {
-              b.recordComponent(null, null);
-            });
-          }, throwsArgumentError);
+          expect(
+            () {
+              MetricsAnalysisRecorder().recordFile(filePath, rootDirectory,
+                  (b) {
+                b.recordComponent(null, null);
+              });
+            },
+            throwsArgumentError,
+          );
         });
 
         test('Stores record for file', () {
@@ -62,14 +70,15 @@ void main() {
               ComponentRecord(firstLine: 1, lastLine: 2, methodsCount: 3);
 
           expect(
-              MetricsAnalysisRecorder()
-                  .recordFile(filePath, rootDirectory, (b) {
-                    b.recordComponent(record, componentRecord);
-                  })
-                  .records()
-                  .single
-                  .components,
-              containsPair(componentName, componentRecord));
+            MetricsAnalysisRecorder()
+                .recordFile(filePath, rootDirectory, (b) {
+                  b.recordComponent(record, componentRecord);
+                })
+                .records()
+                .single
+                .components,
+            containsPair(componentName, componentRecord),
+          );
         });
       });
 
@@ -86,11 +95,18 @@ void main() {
             FunctionType.staticFunction, functionDeclarationMock, null);
 
         test('throws ArgumentError if called without record', () {
-          expect(() {
-            MetricsAnalysisRecorder().recordFile(filePath, rootDirectory, (b) {
-              b.recordFunction(null, null);
-            });
-          }, throwsArgumentError);
+          expect(
+            () {
+              MetricsAnalysisRecorder().recordFile(
+                filePath,
+                rootDirectory,
+                (b) {
+                  b.recordFunction(null, null);
+                },
+              );
+            },
+            throwsArgumentError,
+          );
         });
 
         test('Stores record for file', () {
@@ -101,14 +117,15 @@ void main() {
           );
 
           expect(
-              MetricsAnalysisRecorder()
-                  .recordFile(filePath, rootDirectory, (b) {
-                    b.recordFunction(record, functionRecord);
-                  })
-                  .records()
-                  .single
-                  .functions,
-              containsPair(functionName, functionRecord));
+            MetricsAnalysisRecorder()
+                .recordFile(filePath, rootDirectory, (b) {
+                  b.recordFunction(record, functionRecord);
+                })
+                .records()
+                .single
+                .functions,
+            containsPair(functionName, functionRecord),
+          );
         });
       });
       group('Stores issues for file', () {
@@ -122,11 +139,11 @@ void main() {
           final issueRecord = MetricsAnalysisRecorder()
               .recordFile(filePath, rootDirectory, (b) {
                 b.recordIssues([
-                  CodeIssue(
+                  Issue(
                     ruleId: _issueRuleId,
-                    ruleDocumentation: Uri.parse(_issueRuleDocumentation),
+                    documentation: Uri.parse(_issueRuleDocumentation),
                     severity: Severity.style,
-                    sourceSpan: SourceSpanBase(
+                    location: SourceSpanBase(
                       SourceLocation(
                         1,
                         sourceUrl: Uri.parse(filePath),
@@ -137,8 +154,8 @@ void main() {
                       'issue',
                     ),
                     message: _issueMessage,
-                    correction: _issueCorrection,
-                    correctionComment: _issueCorrectionComment,
+                    suggestion: _issueCorrection,
+                    suggestionComment: _issueCorrectionComment,
                   ),
                 ]);
               })
@@ -148,11 +165,13 @@ void main() {
               .single;
 
           expect(issueRecord.ruleId, _issueRuleId);
-          expect(issueRecord.ruleDocumentation.toString(),
-              _issueRuleDocumentation);
+          expect(
+            issueRecord.documentation.toString(),
+            _issueRuleDocumentation,
+          );
           expect(issueRecord.message, _issueMessage);
-          expect(issueRecord.correction, _issueCorrection);
-          expect(issueRecord.correctionComment, _issueCorrectionComment);
+          expect(issueRecord.suggestion, _issueCorrection);
+          expect(issueRecord.suggestionComment, _issueCorrectionComment);
         });
       });
     });
@@ -169,18 +188,27 @@ void main() {
       final record = ScopedComponentDeclaration(classDeclarationMock);
 
       test('throws StateError if we call them in invalid state', () {
-        expect(() {
-          MetricsAnalysisRecorder().recordComponent(record, null);
-        }, throwsStateError);
+        expect(
+          () {
+            MetricsAnalysisRecorder().recordComponent(record, null);
+          },
+          throwsStateError,
+        );
       });
 
       test('throws ArgumentError if we call them without record', () {
-        expect(() {
-          MetricsAnalysisRecorder().recordFile(filePath, rootDirectory,
+        expect(
+          () {
+            MetricsAnalysisRecorder().recordFile(
+              filePath,
+              rootDirectory,
               (recorder) {
-            recorder.recordComponent(null, null);
-          });
-        }, throwsArgumentError);
+                recorder.recordComponent(null, null);
+              },
+            );
+          },
+          throwsArgumentError,
+        );
       });
 
       test('store record for file', () {
@@ -212,18 +240,27 @@ void main() {
           FunctionType.staticFunction, functionDeclarationMock, null);
 
       test('throws StateError if we call them in invalid state', () {
-        expect(() {
-          MetricsAnalysisRecorder().recordFunction(record, null);
-        }, throwsStateError);
+        expect(
+          () {
+            MetricsAnalysisRecorder().recordFunction(record, null);
+          },
+          throwsStateError,
+        );
       });
 
       test('throws ArgumentError if we call them without record', () {
-        expect(() {
-          MetricsAnalysisRecorder().recordFile(filePath, rootDirectory,
+        expect(
+          () {
+            MetricsAnalysisRecorder().recordFile(
+              filePath,
+              rootDirectory,
               (recorder) {
-            recorder.recordFunction(null, null);
-          });
-        }, throwsArgumentError);
+                recorder.recordFunction(null, null);
+              },
+            );
+          },
+          throwsArgumentError,
+        );
       });
 
       test('store record for file', () {
@@ -247,9 +284,12 @@ void main() {
 
     group('recordDesignIssues', () {
       test('throws StateError if we call them in invalid state', () {
-        expect(() {
-          MetricsAnalysisRecorder().recordDesignIssues([]);
-        }, throwsStateError);
+        expect(
+          () {
+            MetricsAnalysisRecorder().recordDesignIssues([]);
+          },
+          throwsStateError,
+        );
       });
 
       test('aggregate issues for file', () {
@@ -261,10 +301,10 @@ void main() {
         final recorder = MetricsAnalysisRecorder()
             .recordFile(filePath, rootDirectory, (recorder) {
           recorder.recordDesignIssues([
-            DesignIssue(
-              patternId: _issuePatternId,
-              patternDocumentation: Uri.parse(_issuePatternDocumentation),
-              sourceSpan: SourceSpanBase(
+            Issue(
+              ruleId: _issuePatternId,
+              documentation: Uri.parse(_issuePatternDocumentation),
+              location: SourceSpanBase(
                 SourceLocation(
                   1,
                   sourceUrl: Uri.parse(filePath),
@@ -274,28 +314,32 @@ void main() {
                 SourceLocation(6, sourceUrl: Uri.parse(filePath)),
                 'issue',
               ),
+              severity: Severity.none,
               message: _issueMessage,
-              recommendation: _issueRecommendation,
+              verboseMessage: _issueRecommendation,
             ),
           ]);
         });
 
         final issue = recorder.records().single.designIssues.single;
-        expect(issue.patternId, _issuePatternId);
+        expect(issue.ruleId, _issuePatternId);
         expect(
-          issue.patternDocumentation.toString(),
+          issue.documentation.toString(),
           _issuePatternDocumentation,
         );
         expect(issue.message, _issueMessage);
-        expect(issue.recommendation, _issueRecommendation);
+        expect(issue.verboseMessage, _issueRecommendation);
       });
     });
 
     group('recordIssues', () {
       test('throws StateError if we call them in invalid state', () {
-        expect(() {
-          MetricsAnalysisRecorder().recordIssues([]);
-        }, throwsStateError);
+        expect(
+          () {
+            MetricsAnalysisRecorder().recordIssues([]);
+          },
+          throwsStateError,
+        );
       });
 
       test('aggregate issues for file', () {
@@ -308,11 +352,11 @@ void main() {
         final recorder = MetricsAnalysisRecorder()
             .recordFile(filePath, rootDirectory, (recorder) {
           recorder.recordIssues([
-            CodeIssue(
+            Issue(
               ruleId: _issueRuleId,
-              ruleDocumentation: Uri.parse(_issueRuleDocumentation),
+              documentation: Uri.parse(_issueRuleDocumentation),
               severity: Severity.style,
-              sourceSpan: SourceSpanBase(
+              location: SourceSpanBase(
                 SourceLocation(
                   1,
                   sourceUrl: Uri.parse(filePath),
@@ -323,18 +367,18 @@ void main() {
                 'issue',
               ),
               message: _issueMessage,
-              correction: _issueCorrection,
-              correctionComment: _issueCorrectionComment,
+              suggestion: _issueCorrection,
+              suggestionComment: _issueCorrectionComment,
             ),
           ]);
         });
 
         final issue = recorder.records().single.issues.single;
         expect(issue.ruleId, _issueRuleId);
-        expect(issue.ruleDocumentation.toString(), _issueRuleDocumentation);
+        expect(issue.documentation.toString(), _issueRuleDocumentation);
         expect(issue.message, _issueMessage);
-        expect(issue.correction, _issueCorrection);
-        expect(issue.correctionComment, _issueCorrectionComment);
+        expect(issue.suggestion, _issueCorrection);
+        expect(issue.suggestionComment, _issueCorrectionComment);
       });
     });
   });

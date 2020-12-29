@@ -1,8 +1,8 @@
 @TestOn('vm')
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart';
+import 'package:code_checker/analysis.dart';
 import 'package:dart_code_metrics/src/analyzer_plugin/analyzer_plugin_utils.dart';
-import 'package:dart_code_metrics/src/models/design_issue.dart';
 import 'package:glob/glob.dart';
 import 'package:mockito/mockito.dart';
 import 'package:source_span/source_span.dart';
@@ -36,9 +36,10 @@ void main() {
   test('prepareExcludes returns exclude pattern ', () {
     expect(prepareExcludes(null, null), isEmpty);
     expect(
-        prepareExcludes(['example/**', 'test/resources/**'],
-                '/home/developer/devs/my-project')
-            .map((glob) => glob.pattern),
+        prepareExcludes(
+          ['example/**', 'test/resources/**'],
+          '/home/developer/devs/my-project',
+        ).map((glob) => glob.pattern),
         equals([
           '/home/developer/devs/my-project/example/**',
           '/home/developer/devs/my-project/test/resources/**',
@@ -52,13 +53,17 @@ void main() {
     when(analysisResultMock.path).thenReturn('lib/src/example.dart');
 
     expect(
-        isExcluded(analysisResultMock,
-            [Glob('test/**.dart'), Glob('lib/src/**.dart')]),
-        isTrue);
+      isExcluded(
+        analysisResultMock,
+        [Glob('test/**.dart'), Glob('lib/src/**.dart')],
+      ),
+      isTrue,
+    );
     expect(
-        isExcluded(
-            analysisResultMock, [Glob('test/**.dart'), Glob('bin/**.dart')]),
-        isFalse);
+      isExcluded(
+          analysisResultMock, [Glob('test/**.dart'), Glob('bin/**.dart')]),
+      isFalse,
+    );
   });
 
   test('designIssueToAnalysisErrorFixes constructs AnalysisErrorFixes', () {
@@ -71,12 +76,12 @@ void main() {
     const patternId = 'pattern id';
     const patternDocumentationUrl = 'https://www.example.com';
     const issueMessage = 'diagnostic message';
-    const issueRecomendationMessage = 'diagnostic recomendation message';
+    const issueRecommendationMessage = 'diagnostic recommendation message';
 
-    final fixes = designIssueToAnalysisErrorFixes(DesignIssue(
-      patternId: patternId,
-      patternDocumentation: Uri.parse(patternDocumentationUrl),
-      sourceSpan: SourceSpanBase(
+    final fixes = designIssueToAnalysisErrorFixes(Issue(
+      ruleId: patternId,
+      documentation: Uri.parse(patternDocumentationUrl),
+      location: SourceSpanBase(
         SourceLocation(
           offset,
           sourceUrl: Uri.parse(sourcePath),
@@ -86,8 +91,9 @@ void main() {
         SourceLocation(end, sourceUrl: Uri.parse(sourcePath)),
         'abcd',
       ),
+      severity: Severity.none,
       message: issueMessage,
-      recommendation: issueRecomendationMessage,
+      verboseMessage: issueRecommendationMessage,
     ));
 
     expect(fixes.error.severity, equals(AnalysisErrorSeverity.INFO));
@@ -99,7 +105,7 @@ void main() {
     expect(fixes.error.location.startColumn, equals(column));
     expect(fixes.error.message, equals(issueMessage));
     expect(fixes.error.code, equals(patternId));
-    expect(fixes.error.correction, equals(issueRecomendationMessage));
+    expect(fixes.error.correction, equals(issueRecommendationMessage));
     expect(fixes.error.url, equals(patternDocumentationUrl));
     expect(fixes.error.contextMessages, isNull);
     expect(fixes.error.hasFix, isFalse);

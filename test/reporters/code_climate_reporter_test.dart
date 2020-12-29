@@ -3,9 +3,7 @@ import 'dart:convert';
 
 import 'package:code_checker/analysis.dart';
 import 'package:dart_code_metrics/src/config/config.dart';
-import 'package:dart_code_metrics/src/models/code_issue.dart';
 import 'package:dart_code_metrics/src/models/component_record.dart';
-import 'package:dart_code_metrics/src/models/design_issue.dart';
 import 'package:dart_code_metrics/src/models/file_record.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/reporters/code_climate/code_climate_reporter.dart';
@@ -46,10 +44,10 @@ void main() {
           functions: Map.unmodifiable(<String, FunctionRecord>{}),
           issues: const [],
           designIssues: [
-            DesignIssue(
-              patternId: _issuePatternId,
-              patternDocumentation: Uri.parse(_issuePatternDocumentation),
-              sourceSpan: SourceSpanBase(
+            Issue(
+              ruleId: _issuePatternId,
+              documentation: Uri.parse(_issuePatternDocumentation),
+              location: SourceSpanBase(
                 SourceLocation(
                   1,
                   sourceUrl: Uri.parse(fullPath),
@@ -59,8 +57,9 @@ void main() {
                 SourceLocation(6, sourceUrl: Uri.parse(fullPath)),
                 'issue',
               ),
+              severity: Severity.style,
               message: 'first issue message',
-              recommendation: _issueRecommendation,
+              verboseMessage: _issueRecommendation,
             ),
           ],
         ),
@@ -73,15 +72,18 @@ void main() {
       expect(report, containsPair('description', _issueMessage));
       expect(report, containsPair('categories', ['Complexity']));
       expect(
-          report,
-          containsPair('location', {
-            'path': 'example.dart',
-            'lines': {'begin': _issueLine, 'end': _issueLine},
-          }));
+        report,
+        containsPair('location', {
+          'path': 'example.dart',
+          'lines': {'begin': _issueLine, 'end': _issueLine},
+        }),
+      );
       expect(report, containsPair('remediation_points', 50000));
       expect(report, containsPair('severity', 'info'));
-      expect(report,
-          containsPair('fingerprint', '8842a666b8aee4f2eae51205e0114dae'));
+      expect(
+        report,
+        containsPair('fingerprint', '8842a666b8aee4f2eae51205e0114dae'),
+      );
     });
 
     test('file with style severity issues', () {
@@ -98,11 +100,11 @@ void main() {
           components: Map.unmodifiable(<String, ComponentRecord>{}),
           functions: Map.unmodifiable(<String, FunctionRecord>{}),
           issues: [
-            CodeIssue(
+            Issue(
               ruleId: _issueRuleId,
-              ruleDocumentation: Uri.parse(_issueRuleDocumentation),
+              documentation: Uri.parse(_issueRuleDocumentation),
               severity: Severity.style,
-              sourceSpan: SourceSpanBase(
+              location: SourceSpanBase(
                 SourceLocation(
                   1,
                   sourceUrl: Uri.parse(fullPath),
@@ -113,8 +115,8 @@ void main() {
                 'issue',
               ),
               message: _issueMessage,
-              correction: 'correction',
-              correctionComment: 'correction comment',
+              suggestion: 'correction',
+              suggestionComment: 'correction comment',
             ),
           ],
           designIssues: const [],
@@ -308,10 +310,10 @@ void main() {
           functions: Map.unmodifiable(<String, FunctionRecord>{}),
           issues: const [],
           designIssues: [
-            DesignIssue(
-              patternId: _issuePatternId,
-              patternDocumentation: Uri.parse(_issuePatternDocumentation),
-              sourceSpan: SourceSpanBase(
+            Issue(
+              ruleId: _issuePatternId,
+              documentation: Uri.parse(_issuePatternDocumentation),
+              location: SourceSpanBase(
                 SourceLocation(
                   1,
                   sourceUrl: Uri.parse(fullPath),
@@ -321,8 +323,9 @@ void main() {
                 SourceLocation(6, sourceUrl: Uri.parse(fullPath)),
                 'issue',
               ),
+              severity: Severity.none,
               message: 'first issue message',
-              recommendation: _issueRecommendation,
+              verboseMessage: _issueRecommendation,
             ),
           ],
         ),
@@ -337,11 +340,12 @@ void main() {
       expect(report, containsPair('description', _issueMessage));
       expect(report, containsPair('categories', ['Complexity']));
       expect(
-          report,
-          containsPair('location', {
-            'path': 'example.dart',
-            'lines': {'begin': _issueLine, 'end': _issueLine},
-          }));
+        report,
+        containsPair('location', {
+          'path': 'example.dart',
+          'lines': {'begin': _issueLine, 'end': _issueLine},
+        }),
+      );
       expect(report, containsPair('remediation_points', 50000));
       expect(report, containsPair('severity', 'info'));
       expect(report,

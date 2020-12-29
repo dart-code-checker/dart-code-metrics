@@ -4,7 +4,6 @@ import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/source/line_info.dart';
 import 'package:code_checker/analysis.dart';
-import 'package:dart_code_metrics/src/models/code_issue.dart';
 import 'package:dart_code_metrics/src/rules/rule_utils.dart';
 
 import 'base_rule.dart';
@@ -28,7 +27,7 @@ class PreferTrailingComma extends BaseRule {
         );
 
   @override
-  Iterable<CodeIssue> check(ProcessedFile source) {
+  Iterable<Issue> check(ProcessedFile source) {
     final visitor = _Visitor(source.parsedContent.lineInfo, _itemsBreakpoint);
 
     source.parsedContent.visitChildren(visitor);

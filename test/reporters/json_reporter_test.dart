@@ -3,9 +3,7 @@ import 'dart:convert';
 
 import 'package:code_checker/analysis.dart';
 import 'package:dart_code_metrics/src/config/config.dart';
-import 'package:dart_code_metrics/src/models/code_issue.dart';
 import 'package:dart_code_metrics/src/models/component_record.dart';
-import 'package:dart_code_metrics/src/models/design_issue.dart';
 import 'package:dart_code_metrics/src/models/file_record.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/reporters/json_reporter.dart';
@@ -87,10 +85,10 @@ void main() {
             functions: Map.unmodifiable(<String, FunctionRecord>{}),
             issues: const [],
             designIssues: [
-              DesignIssue(
-                patternId: _issuePatternId,
-                patternDocumentation: Uri.parse(_issuePatternDocumentation),
-                sourceSpan: SourceSpanBase(
+              Issue(
+                ruleId: _issuePatternId,
+                documentation: Uri.parse(_issuePatternDocumentation),
+                location: SourceSpanBase(
                   SourceLocation(
                     1,
                     sourceUrl: Uri.parse(fullPath),
@@ -100,8 +98,9 @@ void main() {
                   SourceLocation(6, sourceUrl: Uri.parse(fullPath)),
                   _issueProblemCode,
                 ),
+                severity: Severity.none,
                 message: _issueMessage,
-                recommendation: _issueRecommendation,
+                verboseMessage: _issueRecommendation,
               ),
             ],
           ),
@@ -118,8 +117,10 @@ void main() {
             .single;
 
         expect(issue, containsPair('patternId', _issuePatternId));
-        expect(issue,
-            containsPair('patternDocumentation', _issuePatternDocumentation));
+        expect(
+          issue,
+          containsPair('patternDocumentation', _issuePatternDocumentation),
+        );
         expect(issue, containsPair('lineNumber', _issueLine));
         expect(issue, containsPair('columnNumber', _issueColumn));
         expect(issue, containsPair('problemCode', _issueProblemCode));
@@ -144,11 +145,11 @@ void main() {
             components: Map.unmodifiable(<String, ComponentRecord>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{}),
             issues: [
-              CodeIssue(
+              Issue(
                 ruleId: _issueRuleId,
-                ruleDocumentation: Uri.parse(_issueRuleDocumentation),
+                documentation: Uri.parse(_issueRuleDocumentation),
                 severity: Severity.style,
-                sourceSpan: SourceSpanBase(
+                location: SourceSpanBase(
                   SourceLocation(
                     1,
                     sourceUrl: Uri.parse(fullPath),
@@ -159,8 +160,8 @@ void main() {
                   _issueProblemCode,
                 ),
                 message: _issueMessage,
-                correction: _issueCorrection,
-                correctionComment: _issueCorrectionComment,
+                suggestion: _issueCorrection,
+                suggestionComment: _issueCorrectionComment,
               ),
             ],
             designIssues: const [],
@@ -180,7 +181,9 @@ void main() {
         expect(issue, containsPair('severity', 'style'));
         expect(issue, containsPair('ruleId', _issueRuleId));
         expect(
-            issue, containsPair('ruleDocumentation', _issueRuleDocumentation));
+          issue,
+          containsPair('ruleDocumentation', _issueRuleDocumentation),
+        );
         expect(issue, containsPair('lineNumber', _issueLine));
         expect(issue, containsPair('columnNumber', _issueColumn));
         expect(issue, containsPair('problemCode', _issueProblemCode));

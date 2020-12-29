@@ -2,12 +2,9 @@ import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart' as plugin;
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
 import 'package:code_checker/analysis.dart';
-import 'package:dart_code_metrics/src/models/code_issue.dart';
 import 'package:glob/glob.dart';
 import 'package:path/path.dart' as p;
 import 'package:source_span/source_span.dart';
-
-import '../models/design_issue.dart';
 
 bool isSupported(AnalysisResult result) =>
     result.path != null &&
@@ -21,55 +18,60 @@ bool isExcluded(AnalysisResult result, Iterable<Glob> excludes) =>
     excludes.any((exclude) => exclude.matches(result.path));
 
 plugin.AnalysisErrorFixes codeIssueToAnalysisErrorFixes(
-        CodeIssue issue, ResolvedUnitResult unitResult) =>
+        Issue issue, ResolvedUnitResult unitResult) =>
     plugin.AnalysisErrorFixes(
-        plugin.AnalysisError(
-          _severityMapping[issue.severity],
-          plugin.AnalysisErrorType.LINT,
-          plugin.Location(
-            issue.sourceSpan.sourceUrl.path,
-            issue.sourceSpan.start.offset,
-            issue.sourceSpan.length,
-            issue.sourceSpan.start.line,
-            issue.sourceSpan.start.column,
-          ),
-          issue.message,
-          issue.ruleId,
-          correction: issue.correction,
-          url: issue.ruleDocumentation?.toString(),
-          hasFix: issue.correction != null,
+      plugin.AnalysisError(
+        _severityMapping[issue.severity],
+        plugin.AnalysisErrorType.LINT,
+        plugin.Location(
+          issue.location.sourceUrl.path,
+          issue.location.start.offset,
+          issue.location.length,
+          issue.location.start.line,
+          issue.location.start.column,
         ),
-        fixes: [
-          if (issue.correction != null)
-            plugin.PrioritizedSourceChange(
-                1,
-                plugin.SourceChange(issue.correctionComment, edits: [
-                  plugin.SourceFileEdit(
-                    unitResult.libraryElement.source.fullName,
-                    unitResult.libraryElement.source.modificationStamp,
-                    edits: [
-                      plugin.SourceEdit(issue.sourceSpan.start.offset,
-                          issue.sourceSpan.length, issue.correction),
-                    ],
+        issue.message,
+        issue.ruleId,
+        correction: issue.suggestion,
+        url: issue.documentation?.toString(),
+        hasFix: issue.suggestion != null,
+      ),
+      fixes: [
+        if (issue.suggestion != null)
+          plugin.PrioritizedSourceChange(
+            1,
+            plugin.SourceChange(issue.suggestionComment, edits: [
+              plugin.SourceFileEdit(
+                unitResult.libraryElement.source.fullName,
+                unitResult.libraryElement.source.modificationStamp,
+                edits: [
+                  plugin.SourceEdit(
+                    issue.location.start.offset,
+                    issue.location.length,
+                    issue.suggestion,
                   ),
-                ])),
-        ]);
+                ],
+              ),
+            ]),
+          ),
+      ],
+    );
 
-plugin.AnalysisErrorFixes designIssueToAnalysisErrorFixes(DesignIssue issue) =>
+plugin.AnalysisErrorFixes designIssueToAnalysisErrorFixes(Issue issue) =>
     plugin.AnalysisErrorFixes(plugin.AnalysisError(
       plugin.AnalysisErrorSeverity.INFO,
       plugin.AnalysisErrorType.HINT,
       plugin.Location(
-        issue.sourceSpan.sourceUrl.path,
-        issue.sourceSpan.start.offset,
-        issue.sourceSpan.length,
-        issue.sourceSpan.start.line,
-        issue.sourceSpan.start.column,
+        issue.location.sourceUrl.path,
+        issue.location.start.offset,
+        issue.location.length,
+        issue.location.start.line,
+        issue.location.start.column,
       ),
       issue.message,
-      issue.patternId,
-      correction: issue.recommendation,
-      url: issue.patternDocumentation?.toString(),
+      issue.ruleId,
+      correction: issue.verboseMessage,
+      url: issue.documentation?.toString(),
       hasFix: false,
     ));
 

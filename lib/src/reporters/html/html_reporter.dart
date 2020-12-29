@@ -37,8 +37,8 @@ const _linesOfExecutableCodeWithViolations =
 const _maintainabilityIndex = 'Maintainability index';
 const _maintainabilityIndexWithViolations =
     '$_maintainabilityIndex / violations';
-const _nuberOfArguments = 'Number of Arguments';
-const _nuberOfArgumentsWithViolations = '$_nuberOfArguments / violations';
+const _numberOfArguments = 'Number of Arguments';
+const _numberOfArgumentsWithViolations = '$_numberOfArguments / violations';
 const _maximumNesting = 'Maximum Nesting';
 const _maximumNestingWithViolations = '$_maximumNesting / violations';
 
@@ -117,50 +117,59 @@ class HtmlReporter implements Reporter {
     }
 
     final totalComplexity = sortedRecords.fold<int>(
-        0,
-        (prevValue, record) =>
-            prevValue + record.report.totalCyclomaticComplexity);
+      0,
+      (prevValue, record) =>
+          prevValue + record.report.totalCyclomaticComplexity,
+    );
     final complexityViolations = sortedRecords.fold<int>(
-        0,
-        (prevValue, record) =>
-            prevValue + record.report.cyclomaticComplexityViolations);
+      0,
+      (prevValue, record) =>
+          prevValue + record.report.cyclomaticComplexityViolations,
+    );
     final totalLinesOfExecutableCode = sortedRecords.fold<int>(
-        0,
-        (prevValue, record) =>
-            prevValue + record.report.totalLinesOfExecutableCode);
+      0,
+      (prevValue, record) =>
+          prevValue + record.report.totalLinesOfExecutableCode,
+    );
     final linesOfExecutableCodeViolations = sortedRecords.fold<int>(
-        0,
-        (prevValue, record) =>
-            prevValue + record.report.linesOfExecutableCodeViolations);
+      0,
+      (prevValue, record) =>
+          prevValue + record.report.linesOfExecutableCodeViolations,
+    );
     final averageMaintainabilityIndex = sortedRecords.fold<double>(
-            0,
-            (prevValue, record) =>
-                prevValue + record.report.averageMaintainabilityIndex) /
+          0,
+          (prevValue, record) =>
+              prevValue + record.report.averageMaintainabilityIndex,
+        ) /
         sortedRecords.length;
     final maintainabilityIndexViolations = sortedRecords.fold<int>(
-        0,
-        (prevValue, record) =>
-            prevValue + record.report.maintainabilityIndexViolations);
+      0,
+      (prevValue, record) =>
+          prevValue + record.report.maintainabilityIndexViolations,
+    );
     final averageArgumentsCount = (sortedRecords.fold<int>(
-                0,
-                (prevValue, record) =>
-                    prevValue + record.report.averageArgumentsCount) /
+              0,
+              (prevValue, record) =>
+                  prevValue + record.report.averageArgumentsCount,
+            ) /
             sortedRecords.length)
         .round();
     final argumentsCountViolations = sortedRecords.fold<int>(
-        0,
-        (prevValue, record) =>
-            prevValue + record.report.argumentsCountViolations);
+      0,
+      (prevValue, record) => prevValue + record.report.argumentsCountViolations,
+    );
     final averageMaximumNesting = (sortedRecords.fold<int>(
-                0,
-                (prevValue, record) =>
-                    prevValue + record.report.averageMaximumNestingLevel) /
+              0,
+              (prevValue, record) =>
+                  prevValue + record.report.averageMaximumNestingLevel,
+            ) /
             sortedRecords.length)
         .round();
     final maximumNestingViolations = sortedRecords.fold<int>(
-        0,
-        (prevValue, record) =>
-            prevValue + record.report.maximumNestingLevelViolations);
+      0,
+      (prevValue, record) =>
+          prevValue + record.report.maximumNestingLevelViolations,
+    );
 
     final withCyclomaticComplexityViolations = complexityViolations > 0;
     final withLinesOfExecutableCodeViolations =
@@ -180,8 +189,8 @@ class HtmlReporter implements Reporter {
         ? _maintainabilityIndexWithViolations
         : _maintainabilityIndex;
     final argumentsCountTitle = withArgumentsCountViolations
-        ? _nuberOfArgumentsWithViolations
-        : _nuberOfArguments;
+        ? _numberOfArgumentsWithViolations
+        : _numberOfArguments;
     final maximumNestingTitle = withMaximumNestingViolations
         ? _maximumNestingWithViolations
         : _maximumNesting;
@@ -203,18 +212,31 @@ class HtmlReporter implements Reporter {
       ..append(table)
       ..append(Element.tag('div')
         ..classes.add('metrics-totals')
-        ..append(renderSummaryMetric(_cyclomaticComplexity, totalComplexity,
-            violations: complexityViolations))
         ..append(renderSummaryMetric(
-            _linesOfExecutableCode, totalLinesOfExecutableCode,
-            violations: linesOfExecutableCodeViolations))
+          _cyclomaticComplexity,
+          totalComplexity,
+          violations: complexityViolations,
+        ))
         ..append(renderSummaryMetric(
-            _maintainabilityIndex, averageMaintainabilityIndex.toInt(),
-            violations: maintainabilityIndexViolations))
-        ..append(renderSummaryMetric(_nuberOfArguments, averageArgumentsCount,
-            violations: argumentsCountViolations))
-        ..append(renderSummaryMetric(_maximumNesting, averageMaximumNesting,
-            violations: maximumNestingViolations)));
+          _linesOfExecutableCode,
+          totalLinesOfExecutableCode,
+          violations: linesOfExecutableCodeViolations,
+        ))
+        ..append(renderSummaryMetric(
+          _maintainabilityIndex,
+          averageMaintainabilityIndex.toInt(),
+          violations: maintainabilityIndexViolations,
+        ))
+        ..append(renderSummaryMetric(
+          _numberOfArguments,
+          averageArgumentsCount,
+          violations: argumentsCountViolations,
+        ))
+        ..append(renderSummaryMetric(
+          _maximumNesting,
+          averageMaximumNesting,
+          violations: maximumNestingViolations,
+        )));
   }
 
   void _generateFoldersReports(
@@ -223,14 +245,18 @@ class HtmlReporter implements Reporter {
         records.map((record) => p.dirname(record.relativePath)).toSet();
 
     for (final folder in folders) {
-      _generateFolderReport(reportDirectory, folder,
-          records.where((record) => p.dirname(record.relativePath) == folder));
+      _generateFolderReport(
+        reportDirectory,
+        folder,
+        records.where((record) => p.dirname(record.relativePath) == folder),
+      );
     }
 
     final tableRecords = folders.map((folder) {
       final report = UtilitySelector.analysisReportForRecords(
-          records.where((record) => p.dirname(record.relativePath) == folder),
-          reportConfig);
+        records.where((record) => p.dirname(record.relativePath) == folder),
+        reportConfig,
+      );
 
       return ReportTableRecord(
         title: folder,
@@ -371,7 +397,7 @@ class HtmlReporter implements Reporter {
             ..append(Element.tag('p')
               ..classes.add('metrics-source-code__tooltip-text')
               ..append(renderFunctionMetric(
-                  _nuberOfArguments, report.argumentsCount)))
+                  _numberOfArguments, report.argumentsCount)))
             ..append(Element.tag('p')
               ..classes.add('metrics-source-code__tooltip-text')
               ..append(renderFunctionMetric(
@@ -422,25 +448,25 @@ class HtmlReporter implements Reporter {
       }
 
       final architecturalIssues = record.designIssues.firstWhere(
-          (element) => element.sourceSpan.start.line == i,
-          orElse: () => null);
+        (element) => element.location.start.line == i,
+        orElse: () => null,
+      );
 
       if (architecturalIssues != null) {
         final issueTooltip = Element.tag('div')
           ..classes.add('metrics-source-code__tooltip')
           ..append(Element.tag('div')
             ..classes.add('metrics-source-code__tooltip-title')
-            ..text = architecturalIssues.patternId)
+            ..text = architecturalIssues.ruleId)
           ..append(Element.tag('p')
             ..classes.add('metrics-source-code__tooltip-section')
             ..text = architecturalIssues.message)
           ..append(Element.tag('p')
             ..classes.add('metrics-source-code__tooltip-section')
-            ..text = architecturalIssues.recommendation)
+            ..text = architecturalIssues.verboseMessage)
           ..append(Element.tag('a')
             ..classes.add('metrics-source-code__tooltip-link')
-            ..attributes['href'] =
-                architecturalIssues.patternDocumentation.toString()
+            ..attributes['href'] = architecturalIssues.documentation.toString()
             ..attributes['target'] = '_blank'
             ..attributes['rel'] = 'noopener noreferrer'
             ..attributes['title'] = 'Open documentation'
@@ -551,24 +577,42 @@ class HtmlReporter implements Reporter {
       ..classes.add('metric-sub-header')
       ..nodes.addAll([
         renderSummaryMetric(
-            _cyclomaticComplexity, report.totalCyclomaticComplexity,
-            violations: report.cyclomaticComplexityViolations),
+          _cyclomaticComplexity,
+          report.totalCyclomaticComplexity,
+          violations: report.cyclomaticComplexityViolations,
+        ),
         renderSummaryMetric(
-            _linesOfExecutableCode, report.totalLinesOfExecutableCode,
-            violations: report.linesOfExecutableCodeViolations),
+          _linesOfExecutableCode,
+          report.totalLinesOfExecutableCode,
+          violations: report.linesOfExecutableCodeViolations,
+        ),
         renderSummaryMetric(
-            _maintainabilityIndex, report.averageMaintainabilityIndex.toInt(),
-            violations: report.maintainabilityIndexViolations),
-        renderSummaryMetric(_nuberOfArguments, report.averageArgumentsCount,
-            violations: report.argumentsCountViolations),
-        renderSummaryMetric(_maximumNesting, report.averageMaximumNestingLevel,
-            violations: report.maximumNestingLevelViolations),
+          _maintainabilityIndex,
+          report.averageMaintainabilityIndex.toInt(),
+          violations: report.maintainabilityIndexViolations,
+        ),
+        renderSummaryMetric(
+          _numberOfArguments,
+          report.averageArgumentsCount,
+          violations: report.argumentsCountViolations,
+        ),
+        renderSummaryMetric(
+          _maximumNesting,
+          report.averageMaximumNestingLevel,
+          violations: report.maximumNestingLevelViolations,
+        ),
         if (record.issues.isNotEmpty)
-          renderSummaryMetric(_codeIssues, record.issues.length,
-              forceViolations: true),
+          renderSummaryMetric(
+            _codeIssues,
+            record.issues.length,
+            forceViolations: true,
+          ),
         if (record.designIssues.isNotEmpty)
-          renderSummaryMetric(_designIssues, record.designIssues.length,
-              forceViolations: true),
+          renderSummaryMetric(
+            _designIssues,
+            record.designIssues.length,
+            forceViolations: true,
+          ),
       ]);
   }
 }

@@ -68,23 +68,23 @@ void main() {
 
     expect(issues.length, equals(1));
 
-    expect(issues.single.patternId, equals('long-method'));
+    expect(issues.single.ruleId, equals('long-method'));
     expect(
-      issues.single.patternDocumentation.toString(),
+      issues.single.documentation.toString(),
       equals('https://git.io/JUIP7'),
     );
-    expect(issues.single.sourceSpan.sourceUrl, equals(sourceUrl));
-    expect(issues.single.sourceSpan.start.offset, equals(1));
-    expect(issues.single.sourceSpan.start.line, equals(2));
-    expect(issues.single.sourceSpan.start.column, equals(1));
-    expect(issues.single.sourceSpan.end.offset, equals(1314));
+    expect(issues.single.location.sourceUrl, equals(sourceUrl));
+    expect(issues.single.location.start.offset, equals(1));
+    expect(issues.single.location.start.line, equals(2));
+    expect(issues.single.location.start.column, equals(1));
+    expect(issues.single.location.end.offset, equals(1314));
     expect(
       issues.single.message,
       equals(
           'Long Function. This function contains 29 lines with executable code.'),
     );
     expect(
-      issues.single.recommendation,
+      issues.single.verboseMessage,
       equals(
           "Based on configuration of this package, we don't recommend write a function longer than 25 lines with executable code."),
     );

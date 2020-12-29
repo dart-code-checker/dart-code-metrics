@@ -3,7 +3,6 @@ import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:code_checker/analysis.dart';
 
-import '../models/code_issue.dart';
 import 'base_rule.dart';
 import 'rule_utils.dart';
 
@@ -16,7 +15,7 @@ class NoBooleanLiteralCompareRule extends BaseRule {
   static const _failureCompareNullAwarePropertyWithTrue =
       'Comparison of null-conditional boolean with boolean literal may result in comparing null with boolean.';
 
-  static const _correctionComprareNullAwarePropertyWithTrue =
+  static const _correctionCompareNullAwarePropertyWithTrue =
       'Prefer using null-coalescing operator with false literal on right hand side.';
 
   static const _failure =
@@ -36,12 +35,12 @@ class NoBooleanLiteralCompareRule extends BaseRule {
         );
 
   @override
-  Iterable<CodeIssue> check(ProcessedFile source) {
+  Iterable<Issue> check(ProcessedFile source) {
     final _visitor = _Visitor();
 
     source.parsedContent.visitChildren(_visitor);
 
-    final issues = <CodeIssue>[];
+    final issues = <Issue>[];
 
     for (final expression in _visitor.expressions) {
       if (_detectNullAwarePropertyCompareWithTrue(expression)) {
@@ -49,7 +48,7 @@ class NoBooleanLiteralCompareRule extends BaseRule {
           this,
           _failureCompareNullAwarePropertyWithTrue,
           _nullAwarePropertyCompareWithTrueCorrection(expression),
-          _correctionComprareNullAwarePropertyWithTrue,
+          _correctionCompareNullAwarePropertyWithTrue,
           source.url,
           source.content,
           source.parsedContent.lineInfo,

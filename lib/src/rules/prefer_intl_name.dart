@@ -2,7 +2,6 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:code_checker/analysis.dart';
 import 'package:meta/meta.dart';
 
-import '../models/code_issue.dart';
 import '../rules/rule_utils.dart';
 import '../utils/iterable_extensions.dart';
 import '../utils/object_extensions.dart';
@@ -27,7 +26,7 @@ class PreferIntlNameRule extends BaseRule {
         );
 
   @override
-  Iterable<CodeIssue> check(ProcessedFile source) {
+  Iterable<Issue> check(ProcessedFile source) {
     final hasIntlDirective = source.parsedContent.directives
         .whereType<ImportDirective>()
         .any((directive) => directive.uri.stringValue == _intlPackageUrl);

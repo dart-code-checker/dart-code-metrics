@@ -275,11 +275,11 @@ void main() {
     expect(
       issues.map((issue) => issue.message),
       equals(issues.map(
-          (issue) => 'Incorrect Intl name, should be ${issue.correction}')),
+          (issue) => 'Incorrect Intl name, should be ${issue.suggestion}')),
     );
 
     expect(
-      issues.map((issue) => issue.correction),
+      issues.map((issue) => issue.suggestion),
       equals([
         "'SomeButtonClassI18n_staticFinalFieldInClassTitle'",
         "'SomeButtonClassI18n_staticFieldInClassTitle'",
@@ -323,17 +323,17 @@ void main() {
     );
 
     expect(
-      issues.every((issue) => issue.correctionComment == 'Rename'),
+      issues.every((issue) => issue.suggestionComment == 'Rename'),
       isTrue,
     );
 
     expect(
-      issues.every((issue) => issue.sourceSpan.sourceUrl == sourceUrl),
+      issues.every((issue) => issue.location.sourceUrl == sourceUrl),
       isTrue,
     );
 
     expect(
-      issues.map((issue) => issue.sourceSpan.text),
+      issues.map((issue) => issue.location.text),
       equals([
         "'SomeButtonClassI18n_staticFinalFieldInClass'",
         "'SomeButtonClassI18n_staticFieldInClass'",
@@ -377,7 +377,7 @@ void main() {
     );
 
     expect(
-      issues.map((issue) => issue.sourceSpan.start.offset),
+      issues.map((issue) => issue.location.start.offset),
       equals([
         197,
         367,
@@ -420,7 +420,7 @@ void main() {
       ]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.start.line),
+      issues.map((issue) => issue.location.start.line),
       equals([
         8,
         14,
@@ -463,7 +463,7 @@ void main() {
       ]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.start.column),
+      issues.map((issue) => issue.location.start.column),
       equals([
         11,
         11,
@@ -507,7 +507,7 @@ void main() {
     );
 
     expect(
-      issues.map((issue) => issue.sourceSpan.end.offset),
+      issues.map((issue) => issue.location.end.offset),
       equals([
         242,
         407,
@@ -550,7 +550,7 @@ void main() {
       ]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.end.line),
+      issues.map((issue) => issue.location.end.line),
       equals([
         8,
         14,
@@ -593,7 +593,7 @@ void main() {
       ]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.end.column),
+      issues.map((issue) => issue.location.end.column),
       equals([
         56,
         51,

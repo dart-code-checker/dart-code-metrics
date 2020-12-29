@@ -152,23 +152,23 @@ void main() {
     );
 
     expect(
-      issues.map((issue) => issue.sourceSpan.start.offset),
+      issues.map((issue) => issue.location.start.offset),
       equals([102, 270, 397, 447, 500, 545, 788, 905]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.start.line),
+      issues.map((issue) => issue.location.start.line),
       equals([11, 29, 43, 47, 52, 56, 79, 88]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.start.column),
+      issues.map((issue) => issue.location.start.column),
       equals([3, 3, 3, 3, 3, 3, 3, 3]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.end.offset),
+      issues.map((issue) => issue.location.end.offset),
       equals([152, 326, 443, 496, 541, 588, 821, 944]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.text),
+      issues.map((issue) => issue.location.text),
       equals([
         'if (a == 3) {\n'
             '    a = 2;\n'
@@ -215,7 +215,7 @@ void main() {
     );
 
     expect(
-      issues.map((issue) => issue.correction),
+      issues.map((issue) => issue.suggestion),
       equals([
         'a = a == 3 ? 2 : 3;',
         'return a == 6 ? a : 3;',
@@ -228,7 +228,7 @@ void main() {
       ]),
     );
     expect(
-      issues.map((issue) => issue.correctionComment),
+      issues.map((issue) => issue.suggestionComment),
       equals([
         'Convert to conditional expression',
         'Convert to conditional expression',
