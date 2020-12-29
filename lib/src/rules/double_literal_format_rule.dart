@@ -1,12 +1,11 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
-import 'package:code_checker/analysis.dart';
+import 'package:code_checker/rules.dart';
 import 'package:meta/meta.dart';
 
-import 'base_rule.dart';
 import 'rule_utils.dart';
 
-class DoubleLiteralFormatRule extends BaseRule {
+class DoubleLiteralFormatRule extends Rule {
   static const String ruleId = 'double-literal-format';
   static const _documentationUrl = 'https://git.io/Jf3MH';
 
@@ -31,10 +30,10 @@ class DoubleLiteralFormatRule extends BaseRule {
         );
 
   @override
-  Iterable<Issue> check(ProcessedFile source) {
+  Iterable<Issue> check(ProcessedFile file) {
     final _visitor = _Visitor();
 
-    source.parsedContent.visitChildren(_visitor);
+    file.parsedContent.visitChildren(_visitor);
 
     final issues = <Issue>[];
 
@@ -47,9 +46,9 @@ class DoubleLiteralFormatRule extends BaseRule {
           _failureLeadingZero,
           leadingZeroCorrection(lexeme),
           _correctionCommentLeadingZero,
-          source.url,
-          source.content,
-          source.parsedContent.lineInfo,
+          file.url,
+          file.content,
+          file.parsedContent.lineInfo,
           node,
         ));
       } else if (detectLeadingDecimal(lexeme)) {
@@ -58,9 +57,9 @@ class DoubleLiteralFormatRule extends BaseRule {
           _failureLeadingDecimal,
           leadingDecimalCorrection(lexeme),
           _correctionCommentLeadingDecimal,
-          source.url,
-          source.content,
-          source.parsedContent.lineInfo,
+          file.url,
+          file.content,
+          file.parsedContent.lineInfo,
           node,
         ));
       } else if (detectTrailingZero(lexeme)) {
@@ -69,9 +68,9 @@ class DoubleLiteralFormatRule extends BaseRule {
           _failureTrailingZero,
           trailingZeroCorrection(lexeme),
           _correctionCommentTrailingZero,
-          source.url,
-          source.content,
-          source.parsedContent.lineInfo,
+          file.url,
+          file.content,
+          file.parsedContent.lineInfo,
           node,
         ));
       }

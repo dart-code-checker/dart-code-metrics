@@ -1,6 +1,6 @@
 @TestOn('vm')
 import 'package:analyzer/dart/ast/ast.dart';
-import 'package:code_checker/analysis.dart';
+import 'package:code_checker/rules.dart';
 import 'package:dart_code_metrics/src/metrics_analysis_recorder.dart';
 import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/function_type.dart';
@@ -56,10 +56,13 @@ void main() {
         test('throws ArgumentError if called without record', () {
           expect(
             () {
-              MetricsAnalysisRecorder().recordFile(filePath, rootDirectory,
-                  (b) {
-                b.recordComponent(null, null);
-              });
+              MetricsAnalysisRecorder().recordFile(
+                filePath,
+                rootDirectory,
+                (b) {
+                  b.recordComponent(null, null);
+                },
+              );
             },
             throwsArgumentError,
           );

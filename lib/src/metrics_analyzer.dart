@@ -4,7 +4,7 @@ import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/file_system/physical_file_system.dart';
-import 'package:code_checker/analysis.dart';
+import 'package:code_checker/rules.dart';
 import 'package:dart_code_metrics/src/metrics/nesting_level/nesting_level_visitor.dart';
 import 'package:glob/glob.dart';
 import 'package:path/path.dart' as p;
@@ -22,7 +22,6 @@ import 'metrics_records_store.dart';
 import 'models/component_record.dart';
 import 'models/function_record.dart';
 import 'models/scoped_function_declaration.dart';
-import 'rules/base_rule.dart';
 import 'rules_factory.dart';
 import 'scope_ast_visitor.dart';
 import 'utils/metrics_analyzer_utils.dart';
@@ -32,7 +31,7 @@ final _featureSet = FeatureSet.fromEnableFlags([]);
 /// Performs code quality analysis on specified files
 /// See [MetricsAnalysisRunner] to get analysis info
 class MetricsAnalyzer {
-  final Iterable<BaseRule> _checkingCodeRules;
+  final Iterable<Rule> _checkingCodeRules;
   final Iterable<BasePattern> _checkingAntiPatterns;
   final Iterable<Glob> _globalExclude;
   final Config _metricsConfig;

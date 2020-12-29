@@ -1,4 +1,4 @@
-import 'package:code_checker/analysis.dart';
+import 'package:code_checker/rules.dart';
 import 'package:path/path.dart' as p;
 
 import 'metrics_records_builder.dart';

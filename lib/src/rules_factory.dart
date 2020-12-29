@@ -1,6 +1,7 @@
+import 'package:code_checker/rules.dart';
+
 import 'rules/avoid_preserve_whitespace_false.dart';
 import 'rules/avoid_unused_parameters.dart';
-import 'rules/base_rule.dart';
 import 'rules/binary_expression_operand_order_rule.dart';
 import 'rules/component_annotation_arguments_ordering.dart';
 import 'rules/double_literal_format_rule.dart';
@@ -20,7 +21,7 @@ import 'rules/prefer_trailing_comma.dart';
 import 'rules/prefer_trailing_comma_for_collection.dart';
 import 'rules/provide_correct_intl_args.dart';
 
-final _implementedRules = <String, BaseRule Function(Map<String, Object>)>{
+final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   AvoidPreserveWhitespaceFalseRule.ruleId: (config) =>
       AvoidPreserveWhitespaceFalseRule(config: config),
   AvoidUnusedParameters.ruleId: (config) =>
@@ -56,11 +57,11 @@ final _implementedRules = <String, BaseRule Function(Map<String, Object>)>{
       ProvideCorrectIntlArgsRule(config: config),
 };
 
-Iterable<BaseRule> get allRules =>
+Iterable<Rule> get allRules =>
     _implementedRules.keys.map((id) => _implementedRules[id]({}));
 
-Iterable<BaseRule> getRulesById(Map<String, Object> rulesConfig) =>
+Iterable<Rule> getRulesById(Map<String, Object> rulesConfig) =>
     List.unmodifiable(_implementedRules.keys
         .where((id) => rulesConfig.keys.contains(id))
-        .map<BaseRule>((id) =>
+        .map<Rule>((id) =>
             _implementedRules[id](rulesConfig[id] as Map<String, Object>)));

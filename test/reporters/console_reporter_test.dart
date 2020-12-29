@@ -1,6 +1,6 @@
 @TestOn('vm')
 import 'package:ansicolor/ansicolor.dart';
-import 'package:code_checker/analysis.dart';
+import 'package:code_checker/rules.dart';
 import 'package:dart_code_metrics/src/config/config.dart';
 import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/file_record.dart';

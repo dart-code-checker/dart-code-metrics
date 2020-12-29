@@ -2,14 +2,13 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/source/line_info.dart';
-import 'package:code_checker/analysis.dart';
+import 'package:code_checker/rules.dart';
 
-import 'base_rule.dart';
 import 'rule_utils.dart';
 
 // Inspired by TSLint (https://palantir.github.io/tslint/rules/newline-before-return/)
 
-class NewlineBeforeReturnRule extends BaseRule {
+class NewlineBeforeReturnRule extends Rule {
   static const String ruleId = 'newline-before-return';
   static const _documentationUrl = 'https://git.io/JfDiO';
 
@@ -24,10 +23,10 @@ class NewlineBeforeReturnRule extends BaseRule {
         );
 
   @override
-  Iterable<Issue> check(ProcessedFile source) {
+  Iterable<Issue> check(ProcessedFile file) {
     final _visitor = _Visitor();
 
-    source.parsedContent.visitChildren(_visitor);
+    file.parsedContent.visitChildren(_visitor);
 
     return _visitor.statements
         // return statement is in a block
@@ -37,13 +36,13 @@ class NewlineBeforeReturnRule extends BaseRule {
         .where((statement) =>
             statement.returnKeyword.previous != statement.parent.beginToken)
         .where((statement) {
-          final previousTokenLine = source.parsedContent.lineInfo
+          final previousTokenLine = file.parsedContent.lineInfo
               .getLocation(statement.returnKeyword.previous.end)
               .lineNumber;
-          final tokenLine = source.parsedContent.lineInfo
+          final tokenLine = file.parsedContent.lineInfo
               .getLocation(_optimalToken(
                 statement.returnKeyword,
-                source.parsedContent.lineInfo,
+                file.parsedContent.lineInfo,
               ).offset)
               .lineNumber;
 
@@ -54,9 +53,9 @@ class NewlineBeforeReturnRule extends BaseRule {
               _failure,
               null,
               null,
-              source.url,
-              source.content,
-              source.parsedContent.lineInfo,
+              file.url,
+              file.content,
+              file.parsedContent.lineInfo,
               statement,
             ))
         .toList(growable: false);

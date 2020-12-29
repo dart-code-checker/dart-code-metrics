@@ -1,13 +1,12 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
-import 'package:code_checker/analysis.dart';
+import 'package:code_checker/rules.dart';
 
-import 'base_rule.dart';
 import 'rule_utils.dart';
 
 // Inspired by PVS-Studio (https://www.viva64.com/en/w/v6004/)
 
-class NoEqualThenElse extends BaseRule {
+class NoEqualThenElse extends Rule {
   static const String ruleId = 'no-equal-then-else';
   static const _documentationUrl = 'https://git.io/JUvxA';
 
@@ -22,10 +21,10 @@ class NoEqualThenElse extends BaseRule {
         );
 
   @override
-  Iterable<Issue> check(ProcessedFile source) {
+  Iterable<Issue> check(ProcessedFile file) {
     final _visitor = _Visitor();
 
-    source.parsedContent.visitChildren(_visitor);
+    file.parsedContent.visitChildren(_visitor);
 
     return _visitor.nodes
         .map(
@@ -34,9 +33,9 @@ class NoEqualThenElse extends BaseRule {
             _warningMessage,
             null,
             null,
-            source.url,
-            source.content,
-            source.parsedContent.lineInfo,
+            file.url,
+            file.content,
+            file.parsedContent.lineInfo,
             node,
           ),
         )

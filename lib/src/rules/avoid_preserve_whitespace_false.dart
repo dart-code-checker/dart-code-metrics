@@ -1,12 +1,11 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
-import 'package:code_checker/analysis.dart';
+import 'package:code_checker/rules.dart';
 
-import 'base_rule.dart';
 import 'rule_utils.dart';
 
-class AvoidPreserveWhitespaceFalseRule extends BaseRule {
+class AvoidPreserveWhitespaceFalseRule extends Rule {
   static const String ruleId = 'avoid-preserve-whitespace-false';
   static const _documentationUrl = 'https://git.io/JfDik';
 
@@ -21,10 +20,10 @@ class AvoidPreserveWhitespaceFalseRule extends BaseRule {
         );
 
   @override
-  Iterable<Issue> check(ProcessedFile source) {
+  Iterable<Issue> check(ProcessedFile file) {
     final visitor = _Visitor();
 
-    source.parsedContent.visitChildren(visitor);
+    file.parsedContent.visitChildren(visitor);
 
     return visitor.expression
         .map((expression) => createIssue(
@@ -32,9 +31,9 @@ class AvoidPreserveWhitespaceFalseRule extends BaseRule {
               _failure,
               null,
               null,
-              source.url,
-              source.content,
-              source.parsedContent.lineInfo,
+              file.url,
+              file.content,
+              file.parsedContent.lineInfo,
               expression,
             ))
         .toList(growable: false);

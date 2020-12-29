@@ -1,14 +1,13 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
-import 'package:code_checker/analysis.dart';
+import 'package:code_checker/rules.dart';
 
-import 'base_rule.dart';
 import 'rule_utils.dart';
 
 // Inspired by TSLint (https://palantir.github.io/tslint/rules/no-boolean-literal-compare/)
 
-class NoBooleanLiteralCompareRule extends BaseRule {
+class NoBooleanLiteralCompareRule extends Rule {
   static const String ruleId = 'no-boolean-literal-compare';
   static const _documentationUrl = 'https://git.io/JJwmf';
 
@@ -35,10 +34,10 @@ class NoBooleanLiteralCompareRule extends BaseRule {
         );
 
   @override
-  Iterable<Issue> check(ProcessedFile source) {
+  Iterable<Issue> check(ProcessedFile file) {
     final _visitor = _Visitor();
 
-    source.parsedContent.visitChildren(_visitor);
+    file.parsedContent.visitChildren(_visitor);
 
     final issues = <Issue>[];
 
@@ -49,9 +48,9 @@ class NoBooleanLiteralCompareRule extends BaseRule {
           _failureCompareNullAwarePropertyWithTrue,
           _nullAwarePropertyCompareWithTrueCorrection(expression),
           _correctionCompareNullAwarePropertyWithTrue,
-          source.url,
-          source.content,
-          source.parsedContent.lineInfo,
+          file.url,
+          file.content,
+          file.parsedContent.lineInfo,
           expression,
         ));
 
@@ -81,9 +80,9 @@ class NoBooleanLiteralCompareRule extends BaseRule {
         _failure,
         useDirect ? correction : '!$correction',
         useDirect ? _useItDirectly : _negate,
-        source.url,
-        source.content,
-        source.parsedContent.lineInfo,
+        file.url,
+        file.content,
+        file.parsedContent.lineInfo,
         expression,
       ));
     }

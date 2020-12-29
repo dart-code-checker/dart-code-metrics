@@ -1,4 +1,4 @@
-import 'package:code_checker/analysis.dart';
+import 'package:code_checker/rules.dart';
 
 import '../../models/file_record.dart';
 import '../reporter.dart';

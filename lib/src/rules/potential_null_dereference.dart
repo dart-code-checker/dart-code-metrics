@@ -2,15 +2,14 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/syntactic_entity.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
-import 'package:code_checker/analysis.dart';
+import 'package:code_checker/rules.dart';
 import 'package:meta/meta.dart';
 
-import 'base_rule.dart';
 import 'rule_utils.dart';
 
 // Inspired by PVS-Studio (https://www.viva64.com/en/w/v6008/)
 
-class PotentialNullDereference extends BaseRule {
+class PotentialNullDereference extends Rule {
   static const String ruleId = 'potential-null-dereference';
   static const _documentationUrl = 'https://git.io/JUG51';
 
@@ -25,10 +24,10 @@ class PotentialNullDereference extends BaseRule {
         );
 
   @override
-  Iterable<Issue> check(ProcessedFile source) {
+  Iterable<Issue> check(ProcessedFile file) {
     final _visitor = _Visitor();
 
-    source.parsedContent.visitChildren(_visitor);
+    file.parsedContent.visitChildren(_visitor);
 
     return _visitor.issues
         .map(
@@ -37,9 +36,9 @@ class PotentialNullDereference extends BaseRule {
             '${issue.identifierName} $_warningMessage',
             null,
             null,
-            source.url,
-            source.content,
-            source.parsedContent.lineInfo,
+            file.url,
+            file.content,
+            file.parsedContent.lineInfo,
             issue.expression,
           ),
         )

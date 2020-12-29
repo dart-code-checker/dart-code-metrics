@@ -1,14 +1,13 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
-import 'package:code_checker/analysis.dart';
+import 'package:code_checker/rules.dart';
 import 'package:meta/meta.dart';
 
-import 'base_rule.dart';
 import 'rule_utils.dart';
 
 // Inspired by TSLint (https://palantir.github.io/tslint/rules/prefer-conditional-expression/)
 
-class PreferConditionalExpressions extends BaseRule {
+class PreferConditionalExpressions extends Rule {
   static const String ruleId = 'prefer-conditional-expressions';
   static const _documentationUrl = 'https://git.io/JJwms';
 
@@ -24,10 +23,10 @@ class PreferConditionalExpressions extends BaseRule {
         );
 
   @override
-  Iterable<Issue> check(ProcessedFile source) {
+  Iterable<Issue> check(ProcessedFile file) {
     final _visitor = _Visitor();
 
-    source.parsedContent.visitChildren(_visitor);
+    file.parsedContent.visitChildren(_visitor);
 
     return _visitor.statementsInfo
         .map(
@@ -36,9 +35,9 @@ class PreferConditionalExpressions extends BaseRule {
             _warningMessage,
             _createCorrection(info),
             _correctionMessage,
-            source.url,
-            source.content,
-            source.parsedContent.lineInfo,
+            file.url,
+            file.content,
+            file.parsedContent.lineInfo,
             info.statement,
           ),
         )

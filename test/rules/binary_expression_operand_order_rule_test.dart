@@ -1,5 +1,5 @@
 @TestOn('vm')
-import 'package:code_checker/analysis.dart';
+import 'package:code_checker/rules.dart';
 import 'package:dart_code_metrics/src/rules/binary_expression_operand_order_rule.dart';
 import 'package:test/test.dart';
 import 'package:analyzer/dart/analysis/features.dart';
