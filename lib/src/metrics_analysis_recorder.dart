@@ -1,8 +1,8 @@
+import 'package:code_checker/analysis.dart';
 import 'package:path/path.dart' as p;
 
 import 'metrics_records_builder.dart';
 import 'metrics_records_store.dart';
-import 'models/code_issue.dart';
 import 'models/component_record.dart';
 import 'models/design_issue.dart';
 import 'models/file_record.dart';
@@ -19,16 +19,20 @@ class MetricsAnalysisRecorder
   String _relativeGroupPath;
   Map<ScopedComponentDeclaration, ComponentRecord> _componentRecords;
   Map<ScopedFunctionDeclaration, FunctionRecord> _functionRecords;
-  List<CodeIssue> _issues;
+  List<Issue> _issues;
   List<DesignIssue> _designIssues;
 
   final _records = <FileRecord>[];
+
   @override
   Iterable<FileRecord> records() => _records;
 
   @override
-  MetricsRecordsStore recordFile(String filePath, String rootDirectory,
-      void Function(MetricsRecordsBuilder) f) {
+  MetricsRecordsStore recordFile(
+    String filePath,
+    String rootDirectory,
+    void Function(MetricsRecordsBuilder) f,
+  ) {
     if (filePath == null) {
       throw ArgumentError.notNull('filePath');
     }
@@ -76,7 +80,7 @@ class MetricsAnalysisRecorder
   }
 
   @override
-  void recordIssues(Iterable<CodeIssue> issues) {
+  void recordIssues(Iterable<Issue> issues) {
     _checkState();
 
     _issues.addAll(issues);

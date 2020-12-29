@@ -1,9 +1,9 @@
 import 'dart:convert';
 
+import 'package:code_checker/analysis.dart';
 import 'package:meta/meta.dart';
 
 import '../config/config.dart';
-import '../models/code_issue.dart';
 import '../models/design_issue.dart';
 import '../models/file_record.dart';
 import '../models/report_metric.dart';
@@ -64,22 +64,22 @@ class JsonReporter implements Reporter {
   }
 
   Iterable<Map<String, Object>> _reportCodeIssue(
-    Iterable<CodeIssue> issues,
+    Iterable<Issue> issues,
   ) =>
       issues
           .map((issue) => {
                 'severity': issue.severity.value,
                 'ruleId': issue.ruleId,
-                if (issue.ruleDocumentation != null)
-                  'ruleDocumentation': issue.ruleDocumentation.toString(),
-                'lineNumber': issue.sourceSpan.start.line,
-                'columnNumber': issue.sourceSpan.start.column,
-                if (issue.sourceSpan.text != null)
-                  'problemCode': issue.sourceSpan.text,
+                if (issue.documentation != null)
+                  'ruleDocumentation': issue.documentation.toString(),
+                'lineNumber': issue.location.start.line,
+                'columnNumber': issue.location.start.column,
+                if (issue.location.text != null)
+                  'problemCode': issue.location.text,
                 'message': issue.message,
-                if (issue.correction != null) 'correction': issue.correction,
-                if (issue.correctionComment != null)
-                  'correctionComment': issue.correctionComment,
+                if (issue.suggestion != null) 'correction': issue.suggestion,
+                if (issue.suggestionComment != null)
+                  'correctionComment': issue.suggestionComment,
               })
           .toList();
 

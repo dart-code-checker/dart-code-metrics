@@ -202,23 +202,23 @@ void main() {
       );
 
       expect(
-        issues.map((issue) => issue.sourceSpan.start.offset),
+        issues.map((issue) => issue.location.start.offset),
         equals([328, 661, 737, 818, 910, 1028, 1122]),
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.start.line),
+        issues.map((issue) => issue.location.start.line),
         equals([18, 33, 38, 43, 48, 55, 60]),
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.start.column),
+        issues.map((issue) => issue.location.start.column),
         equals([5, 5, 5, 5, 5, 5, 5]),
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.end.offset),
+        issues.map((issue) => issue.location.end.offset),
         equals([337, 675, 749, 837, 933, 1049, 1146]),
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.text),
+        issues.map((issue) => issue.location.text),
         equals([
           'firstName',
           'user.firstName',

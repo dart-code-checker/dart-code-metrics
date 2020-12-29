@@ -5,7 +5,7 @@
 Example:
 
 ```dart
-Iterable<CodeIssue> check(
+Iterable<Issue> check(
     CompilationUnit unit, Uri sourceUrl, String sourceContent) {
   final _visitor = _Visitor();
 

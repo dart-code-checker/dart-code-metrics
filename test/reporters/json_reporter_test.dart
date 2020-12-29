@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:code_checker/analysis.dart';
 import 'package:dart_code_metrics/src/config/config.dart';
-import 'package:dart_code_metrics/src/models/code_issue.dart';
 import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/design_issue.dart';
 import 'package:dart_code_metrics/src/models/file_record.dart';
@@ -144,11 +143,11 @@ void main() {
             components: Map.unmodifiable(<String, ComponentRecord>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{}),
             issues: [
-              CodeIssue(
+              Issue(
                 ruleId: _issueRuleId,
-                ruleDocumentation: Uri.parse(_issueRuleDocumentation),
+                documentation: Uri.parse(_issueRuleDocumentation),
                 severity: Severity.style,
-                sourceSpan: SourceSpanBase(
+                location: SourceSpanBase(
                   SourceLocation(
                     1,
                     sourceUrl: Uri.parse(fullPath),
@@ -159,8 +158,8 @@ void main() {
                   _issueProblemCode,
                 ),
                 message: _issueMessage,
-                correction: _issueCorrection,
-                correctionComment: _issueCorrectionComment,
+                suggestion: _issueCorrection,
+                suggestionComment: _issueCorrectionComment,
               ),
             ],
             designIssues: const [],
@@ -180,7 +179,9 @@ void main() {
         expect(issue, containsPair('severity', 'style'));
         expect(issue, containsPair('ruleId', _issueRuleId));
         expect(
-            issue, containsPair('ruleDocumentation', _issueRuleDocumentation));
+          issue,
+          containsPair('ruleDocumentation', _issueRuleDocumentation),
+        );
         expect(issue, containsPair('lineNumber', _issueLine));
         expect(issue, containsPair('columnNumber', _issueColumn));
         expect(issue, containsPair('problemCode', _issueProblemCode));

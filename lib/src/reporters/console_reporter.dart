@@ -85,10 +85,10 @@ class ConsoleReporter implements Reporter {
             '${issue.severity.value.substring(0, 1).toUpperCase()}${issue.severity.value.substring(1)}'
                 .padRight(8));
         final position =
-            '${issue.sourceSpan.start.line}:${issue.sourceSpan.start.column}';
+            '${issue.location.start.line}:${issue.location.start.column}';
         final rule = [
           issue.ruleId,
-          if (issue.ruleDocumentation != null) issue.ruleDocumentation,
+          if (issue.documentation != null) issue.documentation,
         ].join(' ');
         lines.add('$severity${[issue.message, position, rule].join(' : ')}');
       }

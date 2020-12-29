@@ -72,27 +72,27 @@ void main() {
       isTrue,
     );
     expect(
-      issues.every((issue) => issue.sourceSpan.sourceUrl == sourceUrl),
+      issues.every((issue) => issue.location.sourceUrl == sourceUrl),
       isTrue,
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.start.offset),
+      issues.map((issue) => issue.location.start.offset),
       equals([75, 96, 117, 137, 156, 176, 201, 242, 285, 327, 399, 438, 557]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.start.line),
+      issues.map((issue) => issue.location.start.line),
       equals([7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 28, 29, 38]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.start.column),
+      issues.map((issue) => issue.location.start.column),
       equals([11, 11, 11, 11, 7, 7, 11, 11, 11, 11, 25, 25, 34]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.end.offset),
+      issues.map((issue) => issue.location.end.offset),
       equals([83, 104, 124, 147, 164, 185, 229, 272, 314, 356, 412, 451, 568]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.text),
+      issues.map((issue) => issue.location.text),
       equals([
         'a== true',
         'b !=true',
@@ -128,7 +128,7 @@ void main() {
       ]),
     );
     expect(
-      issues.map((issue) => issue.correction),
+      issues.map((issue) => issue.suggestion),
       equals([
         'a',
         '!b',
@@ -146,7 +146,7 @@ void main() {
       ]),
     );
     expect(
-      issues.map((issue) => issue.correctionComment),
+      issues.map((issue) => issue.suggestionComment),
       equals([
         'This expression is unnecessarily compared to a boolean. Just use it directly.',
         'This expression is unnecessarily compared to a boolean. Just negate it.',

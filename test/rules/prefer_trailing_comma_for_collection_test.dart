@@ -109,7 +109,7 @@ void main() {
     );
 
     expect(
-      issues.map((issue) => issue.correction),
+      issues.map((issue) => issue.suggestion),
       equals([
         '1,',
         '3,',
@@ -122,46 +122,46 @@ void main() {
     );
 
     expect(
-      issues.every((issue) => issue.correctionComment == 'Add trailing comma'),
+      issues.every((issue) => issue.suggestionComment == 'Add trailing comma'),
       isTrue,
     );
     expect(
-      issues.every((issue) => issue.sourceSpan.sourceUrl == sourceUrl),
+      issues.every((issue) => issue.location.sourceUrl == sourceUrl),
       isTrue,
     );
     expect(
-      issues.every((issue) => issue.sourceSpan.sourceUrl == sourceUrl),
+      issues.every((issue) => issue.location.sourceUrl == sourceUrl),
       isTrue,
     );
 
     expect(
-      issues.map((issue) => issue.sourceSpan.start.offset),
+      issues.map((issue) => issue.location.start.offset),
       equals([397, 435, 469, 533, 573, 604, 668]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.start.line),
+      issues.map((issue) => issue.location.start.line),
       equals([35, 41, 46, 52, 58, 63, 69]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.start.column),
+      issues.map((issue) => issue.location.start.column),
       equals([3, 3, 3, 3, 3, 3, 3]),
     );
 
     expect(
-      issues.map((issue) => issue.sourceSpan.end.offset),
+      issues.map((issue) => issue.location.end.offset),
       equals([398, 436, 470, 546, 576, 610, 689]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.end.line),
+      issues.map((issue) => issue.location.end.line),
       equals([35, 41, 46, 52, 58, 63, 70]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.end.column),
+      issues.map((issue) => issue.location.end.column),
       equals([4, 4, 4, 16, 6, 9, 12]),
     );
 
     expect(
-      issues.map((issue) => issue.sourceSpan.text),
+      issues.map((issue) => issue.location.text),
       equals([
         '1',
         '3',

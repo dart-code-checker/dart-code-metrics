@@ -1,4 +1,4 @@
-import 'package:dart_code_metrics/src/models/code_issue.dart';
+import 'package:code_checker/analysis.dart';
 import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:meta/meta.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
@@ -13,7 +13,7 @@ class FileRecord {
   final Map<String, ComponentRecord> components;
   final Map<String, FunctionRecord> functions;
 
-  final Iterable<CodeIssue> issues;
+  final Iterable<Issue> issues;
   final Iterable<DesignIssue> designIssues;
 
   const FileRecord({

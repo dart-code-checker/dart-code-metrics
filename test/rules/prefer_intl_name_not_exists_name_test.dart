@@ -227,24 +227,24 @@ void main() {
       equals(issues.map((issue) => 'Argument `name` does not exists')),
     );
 
-    expect(issues.every((issue) => issue.correction == null), isTrue);
+    expect(issues.every((issue) => issue.suggestion == null), isTrue);
 
-    expect(issues.every((issue) => issue.correctionComment == null), isTrue);
+    expect(issues.every((issue) => issue.suggestionComment == null), isTrue);
 
     expect(
-      issues.every((issue) => issue.sourceSpan.sourceUrl == sourceUrl),
+      issues.every((issue) => issue.location.sourceUrl == sourceUrl),
       isTrue,
     );
 
     expect(
-      issues.every((issue) => issue.sourceSpan.sourceUrl == sourceUrl),
+      issues.every((issue) => issue.location.sourceUrl == sourceUrl),
       isTrue,
     );
 
-    expect(issues.every((issue) => issue.sourceSpan.text == 'message'), isTrue);
+    expect(issues.every((issue) => issue.location.text == 'message'), isTrue);
 
     expect(
-      issues.map((issue) => issue.sourceSpan.start.offset),
+      issues.map((issue) => issue.location.start.offset),
       equals([
         143,
         266,
@@ -285,7 +285,7 @@ void main() {
       ]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.start.line),
+      issues.map((issue) => issue.location.start.line),
       equals([
         6,
         11,
@@ -326,7 +326,7 @@ void main() {
       ]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.start.column),
+      issues.map((issue) => issue.location.start.column),
       equals([
         59,
         48,
@@ -368,7 +368,7 @@ void main() {
     );
 
     expect(
-      issues.map((issue) => issue.sourceSpan.end.offset),
+      issues.map((issue) => issue.location.end.offset),
       equals([
         150,
         273,
@@ -409,7 +409,7 @@ void main() {
       ]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.end.line),
+      issues.map((issue) => issue.location.end.line),
       equals([
         6,
         11,
@@ -450,7 +450,7 @@ void main() {
       ]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.end.column),
+      issues.map((issue) => issue.location.end.column),
       equals([
         66,
         55,

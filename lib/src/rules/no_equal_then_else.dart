@@ -2,7 +2,6 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:code_checker/analysis.dart';
 
-import '../models/code_issue.dart';
 import 'base_rule.dart';
 import 'rule_utils.dart';
 
@@ -23,7 +22,7 @@ class NoEqualThenElse extends BaseRule {
         );
 
   @override
-  Iterable<CodeIssue> check(ProcessedFile source) {
+  Iterable<Issue> check(ProcessedFile source) {
     final _visitor = _Visitor();
 
     source.parsedContent.visitChildren(_visitor);

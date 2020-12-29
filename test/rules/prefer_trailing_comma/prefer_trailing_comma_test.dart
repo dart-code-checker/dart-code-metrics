@@ -45,23 +45,23 @@ void main() {
       );
 
       expect(
-        issues.map((issue) => issue.sourceSpan.start.offset),
+        issues.map((issue) => issue.location.start.offset),
         equals([69, 188, 317, 423, 548, 649, 763, 971, 1150, 1255, 1377]),
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.start.line),
+        issues.map((issue) => issue.location.start.line),
         equals([2, 8, 12, 16, 22, 26, 36, 46, 55, 61, 66]),
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.start.column),
+        issues.map((issue) => issue.location.start.column),
         equals([50, 7, 5, 52, 9, 8, 3, 59, 3, 3, 3]),
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.end.offset),
+        issues.map((issue) => issue.location.end.offset),
         equals([89, 226, 328, 443, 586, 668, 772, 986, 1188, 1293, 1455]),
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.text),
+        issues.map((issue) => issue.location.text),
         equals([
           'String thirdArgument',
           "'and another string for length exceed'",
@@ -94,7 +94,7 @@ void main() {
       );
 
       expect(
-        issues.map((issue) => issue.correctionComment),
+        issues.map((issue) => issue.suggestionComment),
         equals([
           'Add trailing comma',
           'Add trailing comma',
@@ -110,7 +110,7 @@ void main() {
         ]),
       );
       expect(
-        issues.map((issue) => issue.correction),
+        issues.map((issue) => issue.suggestion),
         equals([
           'String thirdArgument,',
           "'and another string for length exceed',",
@@ -151,23 +151,23 @@ void main() {
       );
 
       expect(
-        issues.map((issue) => issue.sourceSpan.start.offset),
+        issues.map((issue) => issue.location.start.offset),
         equals([130, 226, 275, 610, 656, 1002, 1287, 1370, 1553, 1732]),
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.start.line),
+        issues.map((issue) => issue.location.start.line),
         equals([9, 17, 19, 37, 41, 75, 91, 99, 109, 119]),
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.start.column),
+        issues.map((issue) => issue.location.start.column),
         equals([21, 33, 20, 23, 19, 18, 43, 21, 19, 19]),
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.end.offset),
+        issues.map((issue) => issue.location.end.offset),
         equals([141, 250, 299, 634, 680, 1011, 1288, 1383, 1566, 1760]),
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.text),
+        issues.map((issue) => issue.location.text),
         equals([
           'String arg1',
           'void Function() callback',

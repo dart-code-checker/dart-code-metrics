@@ -48,23 +48,23 @@ void main() {
       );
 
       expect(
-        issues.map((issue) => issue.sourceSpan.start.offset),
+        issues.map((issue) => issue.location.start.offset),
         equals([127]),
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.start.line),
+        issues.map((issue) => issue.location.start.line),
         equals([6]),
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.start.column),
+        issues.map((issue) => issue.location.start.column),
         equals([3]),
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.end.offset),
+        issues.map((issue) => issue.location.end.offset),
         equals([140]),
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.text),
+        issues.map((issue) => issue.location.text),
         equals([
           'styleUrls: []',
         ]),
@@ -109,23 +109,23 @@ void main() {
       );
 
       expect(
-        issues.map((issue) => issue.sourceSpan.start.offset),
+        issues.map((issue) => issue.location.start.offset),
         equals([49, 76]),
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.start.line),
+        issues.map((issue) => issue.location.start.line),
         equals([4, 5]),
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.start.column),
+        issues.map((issue) => issue.location.start.column),
         equals([3, 3]),
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.end.offset),
+        issues.map((issue) => issue.location.end.offset),
         equals([72, 123]),
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.text),
+        issues.map((issue) => issue.location.text),
         equals([
           "template: '<div></div>'",
           'changeDetection: ChangeDetectionStrategy.OnPush',

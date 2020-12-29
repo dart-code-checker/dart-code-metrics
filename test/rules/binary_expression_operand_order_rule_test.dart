@@ -55,31 +55,31 @@ void main() {
         isTrue,
       );
       expect(
-        issues.every((issue) => issue.sourceSpan.sourceUrl == sourceUrl),
+        issues.every((issue) => issue.location.sourceUrl == sourceUrl),
         isTrue,
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.start.offset),
+        issues.map((issue) => issue.location.start.offset),
         equals([28, 53, 79, 104, 124, 144]),
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.start.line),
+        issues.map((issue) => issue.location.start.line),
         equals([3, 4, 5, 6, 7, 8]),
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.start.column),
+        issues.map((issue) => issue.location.start.column),
         equals([14, 19, 19, 14, 14, 14]),
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.end.offset),
+        issues.map((issue) => issue.location.end.offset),
         equals([33, 58, 88, 109, 129, 149]),
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.text),
+        issues.map((issue) => issue.location.text),
         equals(['1 + c', '1 + c', '12.44 * c', '1 & c', '2 | c', '4 ^ c']),
       );
       expect(
-        issues.map((issue) => issue.correction),
+        issues.map((issue) => issue.location),
         equals(['c + 1', 'c + 1', 'c * 12.44', 'c & 1', 'c | 2', 'c ^ 4']),
       );
     });

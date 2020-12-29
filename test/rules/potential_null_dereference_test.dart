@@ -204,27 +204,27 @@ void main() {
       );
 
       expect(
-        issues.map((issue) => issue.sourceSpan.start.offset),
+        issues.map((issue) => issue.location.start.offset),
         equals(
           [211, 229, 300, 324, 412, 495, 551, 607, 659, 743, 799, 867, 935],
         ),
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.start.line),
+        issues.map((issue) => issue.location.start.line),
         equals([15, 16, 20, 21, 26, 31, 35, 39, 43, 47, 51, 55, 59]),
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.start.column),
+        issues.map((issue) => issue.location.start.column),
         equals([18, 5, 18, 5, 18, 7, 7, 7, 7, 7, 7, 7, 7]),
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.end.offset),
+        issues.map((issue) => issue.location.end.offset),
         equals(
           [217, 235, 312, 336, 419, 535, 591, 642, 727, 783, 851, 919, 982],
         ),
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.text),
+        issues.map((issue) => issue.location.text),
         equals([
           'object',
           'object',

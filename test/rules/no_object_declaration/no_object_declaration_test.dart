@@ -30,23 +30,23 @@ void main() {
     );
 
     expect(
-      issues.map((issue) => issue.sourceSpan.start.offset),
+      issues.map((issue) => issue.location.start.offset),
       equals([15, 35, 62]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.start.line),
+      issues.map((issue) => issue.location.start.line),
       equals([2, 4, 6]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.start.column),
+      issues.map((issue) => issue.location.start.column),
       equals([3, 3, 3]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.end.offset),
+      issues.map((issue) => issue.location.end.offset),
       equals([31, 58, 100]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.text),
+      issues.map((issue) => issue.location.text),
       equals([
         'Object data = 1;',
         'Object get getter => 1;',

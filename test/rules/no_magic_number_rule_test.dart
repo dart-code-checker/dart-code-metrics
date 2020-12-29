@@ -59,27 +59,27 @@ void main() {
         isTrue,
       );
       expect(
-        issues.every((issue) => issue.sourceSpan.sourceUrl == sourceUrl),
+        issues.every((issue) => issue.location.sourceUrl == sourceUrl),
         isTrue,
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.start.offset),
+        issues.map((issue) => issue.location.start.offset),
         equals([31, 65, 98, 128]),
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.start.line),
+        issues.map((issue) => issue.location.start.line),
         equals([1, 2, 3, 4]),
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.start.column),
+        issues.map((issue) => issue.location.start.column),
         equals([32, 31, 30, 25]),
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.end.offset),
+        issues.map((issue) => issue.location.end.offset),
         equals([33, 67, 102, 130]),
       );
       expect(
-        issues.map((issue) => issue.sourceSpan.text),
+        issues.map((issue) => issue.location.text),
         equals(['42', '12', '3.14', '12']),
       );
     });

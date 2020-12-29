@@ -19,7 +19,6 @@ import 'lines_of_code/lines_with_code_ast_visitor.dart';
 import 'metrics/cyclomatic_complexity/control_flow_ast_visitor.dart';
 import 'metrics/cyclomatic_complexity/cyclomatic_config.dart';
 import 'metrics_records_store.dart';
-import 'models/code_issue.dart';
 import 'models/component_record.dart';
 import 'models/design_issue.dart';
 import 'models/function_record.dart';
@@ -179,13 +178,13 @@ class MetricsAnalyzer {
     }
   }
 
-  Iterable<CodeIssue> _checkOnCodeIssues(
+  Iterable<Issue> _checkOnCodeIssues(
     IgnoreInfo ignores,
     ProcessedFile source,
   ) =>
       _checkingCodeRules.where((rule) => !ignores.ignoreRule(rule.id)).expand(
             (rule) => rule.check(source).where((issue) =>
-                !ignores.ignoredAt(issue.ruleId, issue.sourceSpan.start.line)),
+                !ignores.ignoredAt(issue.ruleId, issue.location.start.line)),
           );
 
   Iterable<DesignIssue> _checkOnAntiPatterns(

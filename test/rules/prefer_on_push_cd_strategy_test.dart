@@ -66,9 +66,9 @@ void main() {
       final issue = issues.first;
       expect(issue.ruleId, equals('prefer-on-push-cd-strategy'));
       expect(issue.severity, equals(Severity.warning));
-      expect(issue.sourceSpan.sourceUrl, equals(sourceUrl));
-      expect(issue.sourceSpan.start.line, equals(1));
-      expect(issue.sourceSpan.end.line, equals(3));
+      expect(issue.location.sourceUrl, equals(sourceUrl));
+      expect(issue.location.start.line, equals(1));
+      expect(issue.location.end.line, equals(3));
       expect(issue.message, equals(_issueMessage));
     });
 
@@ -90,9 +90,9 @@ void main() {
       final issue = issues.first;
       expect(issue.ruleId, equals('prefer-on-push-cd-strategy'));
       expect(issue.severity, equals(Severity.warning));
-      expect(issue.sourceSpan.sourceUrl, equals(sourceUrl));
-      expect(issue.sourceSpan.start.line, equals(3));
-      expect(issue.sourceSpan.end.line, equals(3));
+      expect(issue.location.sourceUrl, equals(sourceUrl));
+      expect(issue.location.start.line, equals(3));
+      expect(issue.location.end.line, equals(3));
       expect(issue.message, equals(_issueMessage));
     });
   });

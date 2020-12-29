@@ -155,16 +155,16 @@ void main() {
       ]),
     );
 
-    expect(issues.every((issue) => issue.correction == null), isTrue);
-    expect(issues.every((issue) => issue.correctionComment == null), isTrue);
+    expect(issues.every((issue) => issue.suggestion == null), isTrue);
+    expect(issues.every((issue) => issue.suggestionComment == null), isTrue);
 
     expect(
-      issues.every((issue) => issue.sourceSpan.sourceUrl == sourceUrl),
+      issues.every((issue) => issue.location.sourceUrl == sourceUrl),
       isTrue,
     );
 
     expect(
-      issues.map((issue) => issue.sourceSpan.text),
+      issues.map((issue) => issue.location.text),
       equals([
         '(String name)',
         'name',
@@ -192,7 +192,7 @@ void main() {
     );
 
     expect(
-      issues.map((issue) => issue.sourceSpan.start.offset),
+      issues.map((issue) => issue.location.start.offset),
       equals([
         187,
         195,
@@ -219,7 +219,7 @@ void main() {
       ]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.start.line),
+      issues.map((issue) => issue.location.start.line),
       equals([
         8,
         8,
@@ -246,7 +246,7 @@ void main() {
       ]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.start.column),
+      issues.map((issue) => issue.location.start.column),
       equals([
         45,
         53,
@@ -274,7 +274,7 @@ void main() {
     );
 
     expect(
-      issues.map((issue) => issue.sourceSpan.end.offset),
+      issues.map((issue) => issue.location.end.offset),
       equals([
         200,
         199,
@@ -301,7 +301,7 @@ void main() {
       ]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.end.line),
+      issues.map((issue) => issue.location.end.line),
       equals([
         8,
         8,
@@ -328,7 +328,7 @@ void main() {
       ]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.end.column),
+      issues.map((issue) => issue.location.end.column),
       equals([
         58,
         57,

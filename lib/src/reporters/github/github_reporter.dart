@@ -21,11 +21,11 @@ class GitHubReporter implements Reporter {
 
       for (final issue in analysisRecord.issues) {
         if (issue.severity == Severity.error) {
-          reportStrings.add(
-              _commands.error(issue.message, sourceSpan: issue.sourceSpan));
+          reportStrings
+              .add(_commands.error(issue.message, sourceSpan: issue.location));
         } else {
           reportStrings.add(
-              _commands.warning(issue.message, sourceSpan: issue.sourceSpan));
+              _commands.warning(issue.message, sourceSpan: issue.location));
         }
       }
     }

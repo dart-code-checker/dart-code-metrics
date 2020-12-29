@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:code_checker/analysis.dart';
 import 'package:dart_code_metrics/src/config/config.dart';
-import 'package:dart_code_metrics/src/models/code_issue.dart';
 import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/design_issue.dart';
 import 'package:dart_code_metrics/src/models/file_record.dart';
@@ -73,11 +72,12 @@ void main() {
       expect(report, containsPair('description', _issueMessage));
       expect(report, containsPair('categories', ['Complexity']));
       expect(
-          report,
-          containsPair('location', {
-            'path': 'example.dart',
-            'lines': {'begin': _issueLine, 'end': _issueLine},
-          }));
+        report,
+        containsPair('location', {
+          'path': 'example.dart',
+          'lines': {'begin': _issueLine, 'end': _issueLine},
+        }),
+      );
       expect(report, containsPair('remediation_points', 50000));
       expect(report, containsPair('severity', 'info'));
       expect(report,
@@ -98,11 +98,11 @@ void main() {
           components: Map.unmodifiable(<String, ComponentRecord>{}),
           functions: Map.unmodifiable(<String, FunctionRecord>{}),
           issues: [
-            CodeIssue(
+            Issue(
               ruleId: _issueRuleId,
-              ruleDocumentation: Uri.parse(_issueRuleDocumentation),
+              documentation: Uri.parse(_issueRuleDocumentation),
               severity: Severity.style,
-              sourceSpan: SourceSpanBase(
+              location: SourceSpanBase(
                 SourceLocation(
                   1,
                   sourceUrl: Uri.parse(fullPath),
@@ -113,8 +113,8 @@ void main() {
                 'issue',
               ),
               message: _issueMessage,
-              correction: 'correction',
-              correctionComment: 'correction comment',
+              suggestion: 'correction',
+              suggestionComment: 'correction comment',
             ),
           ],
           designIssues: const [],
@@ -337,11 +337,12 @@ void main() {
       expect(report, containsPair('description', _issueMessage));
       expect(report, containsPair('categories', ['Complexity']));
       expect(
-          report,
-          containsPair('location', {
-            'path': 'example.dart',
-            'lines': {'begin': _issueLine, 'end': _issueLine},
-          }));
+        report,
+        containsPair('location', {
+          'path': 'example.dart',
+          'lines': {'begin': _issueLine, 'end': _issueLine},
+        }),
+      );
       expect(report, containsPair('remediation_points', 50000));
       expect(report, containsPair('severity', 'info'));
       expect(report,

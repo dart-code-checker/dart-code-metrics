@@ -145,23 +145,23 @@ void main() {
     );
 
     expect(
-      issues.map((issue) => issue.sourceSpan.start.offset),
+      issues.map((issue) => issue.location.start.offset),
       equals([86, 177]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.start.line),
+      issues.map((issue) => issue.location.start.line),
       equals([13, 23]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.start.column),
+      issues.map((issue) => issue.location.start.column),
       equals([3, 3]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.end.offset),
+      issues.map((issue) => issue.location.end.offset),
       equals([101, 204]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.text),
+      issues.map((issue) => issue.location.text),
       equals([
         'final data = 1;',
         'String get value => _value;',
@@ -220,23 +220,23 @@ void main() {
         .check(ProcessedFile(sourceUrl, parseResult.content, parseResult.unit));
 
     expect(
-      issues.map((issue) => issue.sourceSpan.start.offset),
+      issues.map((issue) => issue.location.start.offset),
       equals([105, 208]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.start.line),
+      issues.map((issue) => issue.location.start.line),
       equals([15, 25]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.start.column),
+      issues.map((issue) => issue.location.start.column),
       equals([3, 3]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.end.offset),
+      issues.map((issue) => issue.location.end.offset),
       equals([112, 246]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.text),
+      issues.map((issue) => issue.location.text),
       equals([
         'Test();',
         'set value(String str) => _value = str;',
@@ -275,23 +275,23 @@ void main() {
         .check(ProcessedFile(sourceUrl, parseResult.content, parseResult.unit));
 
     expect(
-      issues.map((issue) => issue.sourceSpan.start.offset),
+      issues.map((issue) => issue.location.start.offset),
       equals([27, 61, 106, 148, 202, 230, 319]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.start.line),
+      issues.map((issue) => issue.location.start.line),
       equals([5, 8, 11, 14, 17, 20, 26]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.start.column),
+      issues.map((issue) => issue.location.start.column),
       equals([3, 3, 3, 3, 3, 3, 3]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.end.offset),
+      issues.map((issue) => issue.location.end.offset),
       equals([57, 102, 142, 198, 226, 273, 361]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.text),
+      issues.map((issue) => issue.location.text),
       equals([
         "@ViewChild('')\n"
             '  Element view;',
@@ -344,23 +344,23 @@ void main() {
         .check(ProcessedFile(sourceUrl, parseResult.content, parseResult.unit));
 
     expect(
-      issues.map((issue) => issue.sourceSpan.start.offset),
+      issues.map((issue) => issue.location.start.offset),
       equals([79, 101, 125, 36, 55, 101, 174]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.start.line),
+      issues.map((issue) => issue.location.start.line),
       equals([9, 13, 17, 5, 7, 13, 24]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.start.column),
+      issues.map((issue) => issue.location.start.column),
       equals([3, 3, 3, 3, 3, 3, 3]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.end.offset),
+      issues.map((issue) => issue.location.end.offset),
       equals([97, 121, 143, 51, 75, 121, 198]),
     );
     expect(
-      issues.map((issue) => issue.sourceSpan.text),
+      issues.map((issue) => issue.location.text),
       equals([
         'void work() {\n'
             '\n'

@@ -3,7 +3,6 @@ import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:code_checker/analysis.dart';
 import 'package:meta/meta.dart';
 
-import '../models/code_issue.dart';
 import 'base_rule.dart';
 import 'rule_utils.dart';
 
@@ -32,12 +31,12 @@ class DoubleLiteralFormatRule extends BaseRule {
         );
 
   @override
-  Iterable<CodeIssue> check(ProcessedFile source) {
+  Iterable<Issue> check(ProcessedFile source) {
     final _visitor = _Visitor();
 
     source.parsedContent.visitChildren(_visitor);
 
-    final issues = <CodeIssue>[];
+    final issues = <Issue>[];
 
     for (final node in _visitor.literals) {
       final lexeme = node.literal.lexeme;
