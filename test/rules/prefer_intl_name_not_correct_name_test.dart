@@ -274,12 +274,12 @@ void main() {
 
     expect(
       issues.map((issue) => issue.message),
-      equals(issues.map(
-          (issue) => 'Incorrect Intl name, should be ${issue.suggestion}')),
+      equals(issues.map((issue) =>
+          'Incorrect Intl name, should be ${issue.suggestion.replacement}')),
     );
 
     expect(
-      issues.map((issue) => issue.suggestion),
+      issues.map((issue) => issue.suggestion.replacement),
       equals([
         "'SomeButtonClassI18n_staticFinalFieldInClassTitle'",
         "'SomeButtonClassI18n_staticFieldInClassTitle'",
@@ -323,7 +323,7 @@ void main() {
     );
 
     expect(
-      issues.every((issue) => issue.suggestionComment == 'Rename'),
+      issues.every((issue) => issue.suggestion.comment == 'Rename'),
       isTrue,
     );
 

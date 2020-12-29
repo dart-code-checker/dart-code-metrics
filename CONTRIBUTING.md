@@ -5,7 +5,7 @@ To create a new rule:
 1.  Choose a rule name according to our naming guide or take it from existing issue for the rule.
 2.  Add an `.md` file with the rule documentation to `doc/rules`. If the rule supports configuration add ![Configurable](https://img.shields.io/badge/-configurable-informational) badge, if it has auto-fixes add ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success) badge
 3.  Create a rule `.dart` file under `lib/src/rules/`.
-4.  Create a class that extends `BaseRule`. Add a public field with rule id, documentation url (use https://git.io/ to shorten url to the documentation file, created at step 2).
+4.  Create a class that extends `Rule`. Add a public field with rule id, documentation url (use https://git.io/ to shorten url to the documentation file, created at step 2).
 
     The class constructor should take `Map<String, Object> config` parameter which represents config that is passed to the rule from the `analysis_options.yaml`. Example:
 
@@ -50,7 +50,7 @@ To create a new rule:
 
 9.  Add the rule to the `lib/src/rules_factory.dart`. Example:
     ```dart
-    final _implementedRules = <String, BaseRule Function(Map<String, Object>)>{
+    final _implementedRules = <String, Rule Function(Map<String, Object>)>{
         ...
         BinaryExpressionOperandOrderRule.ruleId: (config) =>
       BinaryExpressionOperandOrderRule(config: config),

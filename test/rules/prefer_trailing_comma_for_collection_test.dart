@@ -109,7 +109,7 @@ void main() {
     );
 
     expect(
-      issues.map((issue) => issue.suggestion),
+      issues.map((issue) => issue.suggestion.replacement),
       equals([
         '1,',
         '3,',
@@ -122,7 +122,7 @@ void main() {
     );
 
     expect(
-      issues.every((issue) => issue.suggestionComment == 'Add trailing comma'),
+      issues.every((issue) => issue.suggestion.comment == 'Add trailing comma'),
       isTrue,
     );
     expect(

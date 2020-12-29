@@ -144,7 +144,7 @@ void main() {
         ]),
       );
       expect(
-        issues.map((issue) => issue.suggestion),
+        issues.map((issue) => issue.suggestion.replacement),
         equals([
           '5.23',
           '3.6e+5',
@@ -161,7 +161,7 @@ void main() {
         ]),
       );
       expect(
-        issues.map((issue) => issue.suggestionComment),
+        issues.map((issue) => issue.suggestion.comment),
         equals([
           "Remove redundant leading '0'",
           "Remove redundant leading '0'",

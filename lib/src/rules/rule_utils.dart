@@ -36,7 +36,8 @@ Issue createIssue(
       sourceContent.substring(issueNode.offset, issueNode.end),
     ),
     message: message,
-    suggestion: correction,
-    suggestionComment: correctionComment,
+    suggestion: correction != null && correctionComment != null
+        ? Replacement(comment: correctionComment, replacement: correction)
+        : null,
   );
 }
