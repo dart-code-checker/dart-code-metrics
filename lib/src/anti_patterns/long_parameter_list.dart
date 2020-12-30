@@ -6,7 +6,7 @@ import '../models/function_type.dart';
 import '../models/scoped_function_declaration.dart';
 import '../utils/metrics_analyzer_utils.dart';
 import 'base_pattern.dart';
-import 'pattern_utils.dart';
+import 'pattern_utils.dart' as utils;
 
 class LongParameterList extends BasePattern {
   static const String patternId = 'long-parameter-list';
@@ -25,7 +25,7 @@ class LongParameterList extends BasePattern {
           .where((function) =>
               getArgumentsCount(function) >
               config.numberOfArgumentsWarningLevel)
-          .map((function) => createIssue(
+          .map((function) => utils.createIssue(
                 this,
                 _compileMessage(
                   args: getArgumentsCount(function),

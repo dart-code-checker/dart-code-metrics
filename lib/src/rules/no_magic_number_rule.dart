@@ -2,8 +2,6 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:code_checker/rules.dart';
 
-import 'rule_utils.dart';
-
 class NoMagicNumberRule extends Rule {
   static const String ruleId = 'no-magic-number';
   static const _documentationUrl = 'https://git.io/JJwmL';
@@ -34,16 +32,8 @@ class NoMagicNumberRule extends Rule {
         .where(_isNotInsideConstantCollectionLiteral)
         .where(_isNotInsideConstConstructor)
         .where(_isNotInDateTime)
-        .map((lit) => createIssue(
-              this,
-              _warningMessage,
-              null,
-              null,
-              file.url,
-              file.content,
-              file.parsedContent,
-              lit,
-            ))
+        .map((lit) =>
+            createIssue(this, nodeLocation(lit, file), _warningMessage, null))
         .toList(growable: false);
   }
 

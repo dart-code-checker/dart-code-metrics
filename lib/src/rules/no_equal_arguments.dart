@@ -2,8 +2,6 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:code_checker/rules.dart';
 
-import 'rule_utils.dart';
-
 class NoEqualArguments extends Rule {
   static const String ruleId = 'no-equal-arguments';
   static const _documentationUrl = 'https://git.io/JUlBH';
@@ -27,13 +25,9 @@ class NoEqualArguments extends Rule {
     return _visitor.arguments
         .map((argument) => createIssue(
               this,
+              nodeLocation(argument, file),
               _warningMessage,
               null,
-              null,
-              file.url,
-              file.content,
-              file.parsedContent,
-              argument,
             ))
         .toList(growable: false);
   }

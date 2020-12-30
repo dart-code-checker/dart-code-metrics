@@ -3,8 +3,6 @@ import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:code_checker/rules.dart';
 import 'package:meta/meta.dart';
 
-import 'rule_utils.dart';
-
 // Inspired by TSLint (https://palantir.github.io/tslint/rules/member-ordering/)
 
 class MemberOrderingRule extends Rule {
@@ -40,13 +38,9 @@ class MemberOrderingRule extends Rule {
       ...membersInfo.where((info) => info.memberOrder.isWrong).map(
             (info) => createIssue(
               this,
+              nodeLocation(info.classMember, file),
               '${info.memberOrder.memberGroup.name} $_warningMessage ${info.memberOrder.previousMemberGroup.name}',
               null,
-              null,
-              file.url,
-              file.content,
-              file.parsedContent,
-              info.classMember,
             ),
           ),
       if (_alphabetize)
@@ -55,13 +49,9 @@ class MemberOrderingRule extends Rule {
             .map(
               (info) => createIssue(
                 this,
+                nodeLocation(info.classMember, file),
                 '${info.memberOrder.memberNames.currentName} $_warningAlphabeticalMessage ${info.memberOrder.memberNames.previousName}',
                 null,
-                null,
-                file.url,
-                file.content,
-                file.parsedContent,
-                info.classMember,
               ),
             ),
     ];

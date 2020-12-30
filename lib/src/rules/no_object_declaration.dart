@@ -2,8 +2,6 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:code_checker/rules.dart';
 
-import 'rule_utils.dart';
-
 class NoObjectDeclarationRule extends Rule {
   static const String ruleId = 'no-object-declaration';
   static const _documentationUrl = 'https://git.io/JJwmY';
@@ -29,13 +27,9 @@ class NoObjectDeclarationRule extends Rule {
         .map(
           (member) => createIssue(
             this,
+            nodeLocation(member, file),
             _warningMessage,
             null,
-            null,
-            file.url,
-            file.content,
-            file.parsedContent,
-            member,
           ),
         )
         .toList(growable: false);

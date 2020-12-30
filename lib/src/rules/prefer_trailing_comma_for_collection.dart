@@ -5,8 +5,6 @@ import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/source/line_info.dart';
 import 'package:code_checker/rules.dart';
 
-import '../rules/rule_utils.dart';
-
 class PreferTrailingCommaForCollectionRule extends Rule {
   static const String ruleId = 'prefer-trailing-comma-for-collection';
   static const _documentationUrl = 'https://git.io/JJwmu';
@@ -33,13 +31,13 @@ class PreferTrailingCommaForCollectionRule extends Rule {
     return visitor.nodes
         .map((node) => createIssue(
               this,
+              nodeLocation(node, file),
               _failure,
-              '${file.content.substring(node.offset, node.end)},',
-              _correctionComment,
-              file.url,
-              file.content,
-              file.parsedContent,
-              node,
+              Replacement(
+                comment: _correctionComment,
+                replacement:
+                    '${file.content.substring(node.offset, node.end)},',
+              ),
             ))
         .toList(growable: false);
   }

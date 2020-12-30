@@ -6,7 +6,7 @@ import '../lines_of_code/lines_with_code_ast_visitor.dart';
 import '../models/function_type.dart';
 import '../models/scoped_function_declaration.dart';
 import 'base_pattern.dart';
-import 'pattern_utils.dart';
+import 'pattern_utils.dart' as utils;
 
 class LongMethod extends BasePattern {
   static const String patternId = 'long-method';
@@ -30,7 +30,7 @@ class LongMethod extends BasePattern {
 
       if (linesWithCodeAstVisitor.linesWithCode.length >
           config.linesOfExecutableCodeWarningLevel) {
-        issues.add(createIssue(
+        issues.add(utils.createIssue(
           this,
           _compileMessage(
             lines: linesWithCodeAstVisitor.linesWithCode.length,

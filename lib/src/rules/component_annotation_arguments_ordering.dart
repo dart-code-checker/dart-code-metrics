@@ -3,8 +3,6 @@ import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:code_checker/rules.dart';
 import 'package:meta/meta.dart';
 
-import 'rule_utils.dart';
-
 class ComponentAnnotationArgumentsOrderingRule extends Rule {
   static const ruleId = 'component-annotation-arguments-ordering';
   static const _documentationUrl = 'https://git.io/JJ5HC';
@@ -35,13 +33,9 @@ class ComponentAnnotationArgumentsOrderingRule extends Rule {
     return argumentsInfo.where((info) => info.argumentOrder.isWrong).map(
           (info) => createIssue(
             this,
+            nodeLocation(info.argument, file),
             'Arguments group ${info.argumentOrder.argumentGroup.name} $_warningMessage ${info.argumentOrder.previousArgumentGroup.name}',
             null,
-            null,
-            file.url,
-            file.content,
-            file.parsedContent,
-            info.argument,
           ),
         );
   }

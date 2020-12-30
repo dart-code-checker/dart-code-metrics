@@ -2,8 +2,6 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:code_checker/rules.dart';
 
-import 'rule_utils.dart';
-
 class PreferOnPushCdStrategyRule extends Rule {
   static const String ruleId = 'prefer-on-push-cd-strategy';
   static const _documentationUrl = 'https://git.io/JJwmB';
@@ -25,16 +23,8 @@ class PreferOnPushCdStrategyRule extends Rule {
     file.parsedContent.visitChildren(visitor);
 
     return visitor.expression
-        .map((expression) => createIssue(
-              this,
-              _failure,
-              null,
-              null,
-              file.url,
-              file.content,
-              file.parsedContent,
-              expression,
-            ))
+        .map((expression) =>
+            createIssue(this, nodeLocation(expression, file), _failure, null))
         .toList(growable: false);
   }
 }
