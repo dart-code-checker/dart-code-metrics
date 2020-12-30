@@ -33,7 +33,7 @@ class AvoidPreserveWhitespaceFalseRule extends Rule {
               null,
               file.url,
               file.content,
-              file.parsedContent.lineInfo,
+              file.parsedContent,
               expression,
             ))
         .toList(growable: false);

@@ -49,7 +49,7 @@ class PreferIntlNameRule extends Rule {
           _notCorrectNameCorrectionComment,
           file.url,
           file.content,
-          file.parsedContent.lineInfo,
+          file.parsedContent,
           issue.node,
         );
       }),
@@ -62,7 +62,7 @@ class PreferIntlNameRule extends Rule {
                 null,
                 file.url,
                 file.content,
-                file.parsedContent.lineInfo,
+                file.parsedContent,
                 issue.node,
               )),
     ];

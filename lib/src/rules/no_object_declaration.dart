@@ -34,7 +34,7 @@ class NoObjectDeclarationRule extends Rule {
             null,
             file.url,
             file.content,
-            file.parsedContent.lineInfo,
+            file.parsedContent,
             member,
           ),
         )

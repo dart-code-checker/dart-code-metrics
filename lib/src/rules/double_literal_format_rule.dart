@@ -48,7 +48,7 @@ class DoubleLiteralFormatRule extends Rule {
           _correctionCommentLeadingZero,
           file.url,
           file.content,
-          file.parsedContent.lineInfo,
+          file.parsedContent,
           node,
         ));
       } else if (detectLeadingDecimal(lexeme)) {
@@ -59,7 +59,7 @@ class DoubleLiteralFormatRule extends Rule {
           _correctionCommentLeadingDecimal,
           file.url,
           file.content,
-          file.parsedContent.lineInfo,
+          file.parsedContent,
           node,
         ));
       } else if (detectTrailingZero(lexeme)) {
@@ -70,7 +70,7 @@ class DoubleLiteralFormatRule extends Rule {
           _correctionCommentTrailingZero,
           file.url,
           file.content,
-          file.parsedContent.lineInfo,
+          file.parsedContent,
           node,
         ));
       }

@@ -32,7 +32,7 @@ class NoEqualArguments extends Rule {
               null,
               file.url,
               file.content,
-              file.parsedContent.lineInfo,
+              file.parsedContent,
               argument,
             ))
         .toList(growable: false);

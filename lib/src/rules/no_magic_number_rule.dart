@@ -41,7 +41,7 @@ class NoMagicNumberRule extends Rule {
               null,
               file.url,
               file.content,
-              file.parsedContent.lineInfo,
+              file.parsedContent,
               lit,
             ))
         .toList(growable: false);

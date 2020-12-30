@@ -35,7 +35,7 @@ class NoEmptyBlockRule extends Rule {
               null,
               file.url,
               file.content,
-              file.parsedContent.lineInfo,
+              file.parsedContent,
               block,
             ))
         .toList(growable: false);
