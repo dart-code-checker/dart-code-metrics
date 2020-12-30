@@ -19,8 +19,7 @@ class PreferIntlNameRule extends Rule {
       : super(
           id: ruleId,
           documentation: Uri.parse(_documentationUrl),
-          severity: Severity.fromString(config['severity'] as String) ??
-              Severity.warning,
+          severity: readSeverity(config, Severity.warning),
         );
 
   @override
