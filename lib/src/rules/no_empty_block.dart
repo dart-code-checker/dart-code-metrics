@@ -2,8 +2,6 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:code_checker/rules.dart';
 
-import 'rule_utils.dart';
-
 // Inspired by TSLint (https://palantir.github.io/tslint/rules/no-empty/)
 
 class NoEmptyBlockRule extends Rule {
@@ -28,16 +26,8 @@ class NoEmptyBlockRule extends Rule {
     file.parsedContent.visitChildren(_visitor);
 
     return _visitor.emptyBlocks
-        .map((block) => createIssue(
-              this,
-              _failure,
-              null,
-              null,
-              file.url,
-              file.content,
-              file.parsedContent,
-              block,
-            ))
+        .map((block) =>
+            createIssue(this, nodeLocation(block, file), _failure, null))
         .toList(growable: false);
   }
 }

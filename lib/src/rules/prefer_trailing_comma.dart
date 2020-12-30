@@ -4,7 +4,6 @@ import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/source/line_info.dart';
 import 'package:code_checker/rules.dart';
-import 'package:dart_code_metrics/src/rules/rule_utils.dart';
 
 class PreferTrailingComma extends Rule {
   static const String ruleId = 'prefer-trailing-comma';
@@ -34,13 +33,12 @@ class PreferTrailingComma extends Rule {
         .map(
           (node) => createIssue(
             this,
+            nodeLocation(node, file),
             _warningMessage,
-            '${file.content.substring(node.offset, node.end)},',
-            _correctionMessage,
-            file.url,
-            file.content,
-            file.parsedContent,
-            node,
+            Replacement(
+              comment: _correctionMessage,
+              replacement: '${file.content.substring(node.offset, node.end)},',
+            ),
           ),
         )
         .toList(growable: false);

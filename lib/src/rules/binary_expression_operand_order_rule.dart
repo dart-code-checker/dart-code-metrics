@@ -3,8 +3,6 @@ import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:code_checker/rules.dart';
 
-import 'rule_utils.dart';
-
 class BinaryExpressionOperandOrderRule extends Rule {
   static const String ruleId = 'binary-expression-operand-order';
   static const _documentationUrl = 'https://git.io/JJVAC';
@@ -29,13 +27,13 @@ class BinaryExpressionOperandOrderRule extends Rule {
     return visitor.binaryExpressions
         .map((lit) => createIssue(
               this,
+              nodeLocation(lit, file),
               _warningMessage,
-              '${lit.rightOperand} ${lit.operator} ${lit.leftOperand}',
-              _correctionComment,
-              file.url,
-              file.content,
-              file.parsedContent,
-              lit,
+              Replacement(
+                comment: _correctionComment,
+                replacement:
+                    '${lit.rightOperand} ${lit.operator} ${lit.leftOperand}',
+              ),
             ))
         .toList(growable: false);
   }

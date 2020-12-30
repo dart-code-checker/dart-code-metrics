@@ -3,8 +3,6 @@ import 'package:analyzer/dart/ast/syntactic_entity.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:code_checker/rules.dart';
 
-import 'rule_utils.dart';
-
 // Inspired by PVS-Studio (https://www.viva64.com/en/w/v6022/)
 
 class AvoidUnusedParameters extends Rule {
@@ -34,25 +32,17 @@ class AvoidUnusedParameters extends Rule {
       ..._visitor.unusedParameters
           .map((parameter) => createIssue(
                 this,
+                nodeLocation(parameter, file),
                 _warningMessage,
                 null,
-                null,
-                file.url,
-                file.content,
-                file.parsedContent,
-                parameter,
               ))
           .toList(growable: false),
       ..._visitor.renameSuggestions
           .map((parameter) => createIssue(
                 this,
+                nodeLocation(parameter, file),
                 _renameMessage,
                 null,
-                null,
-                file.url,
-                file.content,
-                file.parsedContent,
-                parameter,
               ))
           .toList(),
     ];

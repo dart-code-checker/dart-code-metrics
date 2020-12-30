@@ -5,8 +5,6 @@ import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:code_checker/rules.dart';
 import 'package:meta/meta.dart';
 
-import 'rule_utils.dart';
-
 // Inspired by PVS-Studio (https://www.viva64.com/en/w/v6008/)
 
 class PotentialNullDereference extends Rule {
@@ -33,13 +31,9 @@ class PotentialNullDereference extends Rule {
         .map(
           (issue) => createIssue(
             this,
+            nodeLocation(issue.expression, file),
             '${issue.identifierName} $_warningMessage',
             null,
-            null,
-            file.url,
-            file.content,
-            file.parsedContent,
-            issue.expression,
           ),
         )
         .toList(growable: false);

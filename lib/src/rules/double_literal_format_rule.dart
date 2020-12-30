@@ -3,8 +3,6 @@ import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:code_checker/rules.dart';
 import 'package:meta/meta.dart';
 
-import 'rule_utils.dart';
-
 class DoubleLiteralFormatRule extends Rule {
   static const String ruleId = 'double-literal-format';
   static const _documentationUrl = 'https://git.io/Jf3MH';
@@ -43,35 +41,32 @@ class DoubleLiteralFormatRule extends Rule {
       if (detectLeadingZero(lexeme)) {
         issues.add(createIssue(
           this,
+          nodeLocation(node, file),
           _failureLeadingZero,
-          leadingZeroCorrection(lexeme),
-          _correctionCommentLeadingZero,
-          file.url,
-          file.content,
-          file.parsedContent,
-          node,
+          Replacement(
+            comment: _correctionCommentLeadingZero,
+            replacement: leadingZeroCorrection(lexeme),
+          ),
         ));
       } else if (detectLeadingDecimal(lexeme)) {
         issues.add(createIssue(
           this,
+          nodeLocation(node, file),
           _failureLeadingDecimal,
-          leadingDecimalCorrection(lexeme),
-          _correctionCommentLeadingDecimal,
-          file.url,
-          file.content,
-          file.parsedContent,
-          node,
+          Replacement(
+            comment: _correctionCommentLeadingDecimal,
+            replacement: leadingDecimalCorrection(lexeme),
+          ),
         ));
       } else if (detectTrailingZero(lexeme)) {
         issues.add(createIssue(
           this,
+          nodeLocation(node, file),
           _failureTrailingZero,
-          trailingZeroCorrection(lexeme),
-          _correctionCommentTrailingZero,
-          file.url,
-          file.content,
-          file.parsedContent,
-          node,
+          Replacement(
+            comment: _correctionCommentTrailingZero,
+            replacement: trailingZeroCorrection(lexeme),
+          ),
         ));
       }
     }

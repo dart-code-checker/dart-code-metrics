@@ -3,8 +3,6 @@ import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:code_checker/rules.dart';
 import 'package:meta/meta.dart';
 
-import 'rule_utils.dart';
-
 // Inspired by TSLint (https://palantir.github.io/tslint/rules/prefer-conditional-expression/)
 
 class PreferConditionalExpressions extends Rule {
@@ -32,13 +30,12 @@ class PreferConditionalExpressions extends Rule {
         .map(
           (info) => createIssue(
             this,
+            nodeLocation(info.statement, file),
             _warningMessage,
-            _createCorrection(info),
-            _correctionMessage,
-            file.url,
-            file.content,
-            file.parsedContent,
-            info.statement,
+            Replacement(
+              comment: _correctionMessage,
+              replacement: _createCorrection(info),
+            ),
           ),
         )
         .toList(growable: false);

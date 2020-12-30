@@ -2,8 +2,6 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:code_checker/rules.dart';
 
-import 'rule_utils.dart';
-
 // Inspired by PVS-Studio (https://www.viva64.com/en/w/v6004/)
 
 class NoEqualThenElse extends Rule {
@@ -30,13 +28,9 @@ class NoEqualThenElse extends Rule {
         .map(
           (node) => createIssue(
             this,
+            nodeLocation(node, file),
             _warningMessage,
             null,
-            null,
-            file.url,
-            file.content,
-            file.parsedContent,
-            node,
           ),
         )
         .toList(growable: false);

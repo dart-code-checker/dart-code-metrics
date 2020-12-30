@@ -2,7 +2,6 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:code_checker/rules.dart';
 import 'package:meta/meta.dart';
 
-import '../rules/rule_utils.dart';
 import '../utils/iterable_extensions.dart';
 import '../utils/object_extensions.dart';
 import 'intl_base/intl_base_visitor.dart';
@@ -44,26 +43,21 @@ class PreferIntlNameRule extends Rule {
 
         return createIssue(
           this,
+          nodeLocation(issue.node, file),
           '$_notCorrectNameFailure $correction',
-          correction,
-          _notCorrectNameCorrectionComment,
-          file.url,
-          file.content,
-          file.parsedContent,
-          issue.node,
+          Replacement(
+            comment: _notCorrectNameCorrectionComment,
+            replacement: correction,
+          ),
         );
       }),
       ...visitor.issues
           .whereType<_NotExistNameIssue>()
           .map((issue) => createIssue(
                 this,
+                nodeLocation(issue.node, file),
                 _notExistsNameFailure,
                 null,
-                null,
-                file.url,
-                file.content,
-                file.parsedContent,
-                issue.node,
               )),
     ];
   }
