@@ -27,8 +27,7 @@ class NoBooleanLiteralCompareRule extends Rule {
       : super(
           id: ruleId,
           documentation: Uri.parse(_documentationUrl),
-          severity:
-              Severity.fromJson(config['severity'] as String) ?? Severity.style,
+          severity: readSeverity(config, Severity.style),
         );
 
   @override

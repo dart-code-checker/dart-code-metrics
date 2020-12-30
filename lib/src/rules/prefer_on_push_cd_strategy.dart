@@ -12,8 +12,7 @@ class PreferOnPushCdStrategyRule extends Rule {
       : super(
           id: ruleId,
           documentation: Uri.parse(_documentationUrl),
-          severity: Severity.fromJson(config['severity'] as String) ??
-              Severity.warning,
+          severity: readSeverity(config, Severity.warning),
         );
 
   @override

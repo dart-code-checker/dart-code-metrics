@@ -1,4 +1,4 @@
-## Creating new lint rule
+# Creating new lint rule
 
 To create a new rule:
 
@@ -15,9 +15,8 @@ To create a new rule:
     }) : super(
             id: ruleId,
             documentation: Uri.parse(_documentationUrl),
-            severity: CodeIssueSeverity.fromJson(config['severity'] as String) ??
-                CodeIssueSeverity.style,
-            );
+            severity: readSeverity(config, Severity.style),
+        );
     ```
 
 5.  Add a visitor class which extends any of the base visitors. Usually you will need `RecursiveAstVisitor`. All visitors are [listed there](https://github.com/dart-lang/sdk/blob/master/pkg/analyzer/lib/dart/ast/visitor.dart).
@@ -37,13 +36,13 @@ To create a new rule:
         return visitor.binaryExpressions
             .map((lit) => createIssue(
                 this,
+                nodeLocation(lit, source),
                 _warningMessage,
-                '${lit.rightOperand} ${lit.operator} ${lit.leftOperand}',
-                _correctionComment,
-                source.url,
-                source.content,
-                source.compilationUnit.lineInfo,
-                lit))
+                Replacement(
+                    comment: _correctionComment,
+                    replacement: '${lit.rightOperand} ${lit.operator} ${lit.leftOperand}',
+                ),
+            ))
             .toList(growable: false);
         }
     ```
