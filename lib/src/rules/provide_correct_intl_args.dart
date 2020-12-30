@@ -16,7 +16,7 @@ class ProvideCorrectIntlArgsRule extends Rule {
       : super(
           id: ruleId,
           documentation: Uri.parse(_documentationUrl),
-          severity: Severity.fromJson(config['severity'] as String) ??
+          severity: Severity.fromString(config['severity'] as String) ??
               Severity.warning,
         );
 
