@@ -35,7 +35,7 @@ class NoEqualThenElse extends Rule {
             null,
             file.url,
             file.content,
-            file.parsedContent.lineInfo,
+            file.parsedContent,
             node,
           ),
         )

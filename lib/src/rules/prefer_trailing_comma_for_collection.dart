@@ -38,7 +38,7 @@ class PreferTrailingCommaForCollectionRule extends Rule {
               _correctionComment,
               file.url,
               file.content,
-              file.parsedContent.lineInfo,
+              file.parsedContent,
               node,
             ))
         .toList(growable: false);

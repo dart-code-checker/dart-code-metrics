@@ -50,7 +50,7 @@ class NoBooleanLiteralCompareRule extends Rule {
           _correctionCompareNullAwarePropertyWithTrue,
           file.url,
           file.content,
-          file.parsedContent.lineInfo,
+          file.parsedContent,
           expression,
         ));
 
@@ -82,7 +82,7 @@ class NoBooleanLiteralCompareRule extends Rule {
         useDirect ? _useItDirectly : _negate,
         file.url,
         file.content,
-        file.parsedContent.lineInfo,
+        file.parsedContent,
         expression,
       ));
     }

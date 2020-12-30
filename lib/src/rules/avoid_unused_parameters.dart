@@ -39,7 +39,7 @@ class AvoidUnusedParameters extends Rule {
                 null,
                 file.url,
                 file.content,
-                file.parsedContent.lineInfo,
+                file.parsedContent,
                 parameter,
               ))
           .toList(growable: false),
@@ -51,7 +51,7 @@ class AvoidUnusedParameters extends Rule {
                 null,
                 file.url,
                 file.content,
-                file.parsedContent.lineInfo,
+                file.parsedContent,
                 parameter,
               ))
           .toList(),

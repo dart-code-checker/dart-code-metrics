@@ -39,7 +39,7 @@ class PreferTrailingComma extends Rule {
             _correctionMessage,
             file.url,
             file.content,
-            file.parsedContent.lineInfo,
+            file.parsedContent,
             node,
           ),
         )

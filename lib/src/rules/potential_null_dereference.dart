@@ -38,7 +38,7 @@ class PotentialNullDereference extends Rule {
             null,
             file.url,
             file.content,
-            file.parsedContent.lineInfo,
+            file.parsedContent,
             issue.expression,
           ),
         )

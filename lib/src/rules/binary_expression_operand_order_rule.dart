@@ -34,7 +34,7 @@ class BinaryExpressionOperandOrderRule extends Rule {
               _correctionComment,
               file.url,
               file.content,
-              file.parsedContent.lineInfo,
+              file.parsedContent,
               lit,
             ))
         .toList(growable: false);

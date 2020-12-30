@@ -32,7 +32,7 @@ class PreferOnPushCdStrategyRule extends Rule {
               null,
               file.url,
               file.content,
-              file.parsedContent.lineInfo,
+              file.parsedContent,
               expression,
             ))
         .toList(growable: false);
