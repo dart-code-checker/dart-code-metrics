@@ -1,7 +1,5 @@
 import 'package:analyzer/dart/ast/ast.dart';
-import 'package:analyzer/source/line_info.dart';
 import 'package:code_checker/rules.dart';
-import 'package:source_span/source_span.dart';
 
 Issue createIssue(
   Rule rule,
