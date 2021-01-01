@@ -75,7 +75,9 @@ void main() {
         const TypeMatcher<ClassDeclaration>(),
       );
       expect(
-        (functions.first.enclosingDeclaration as ClassDeclaration).name.name,
+        (functions.first.enclosingDeclaration.declaration as ClassDeclaration)
+            .name
+            .name,
         equals('SampleClass'),
       );
 
@@ -89,11 +91,13 @@ void main() {
         equals('createInstance'),
       );
       expect(
-        functions.last.enclosingDeclaration,
+        functions.last.enclosingDeclaration.declaration,
         const TypeMatcher<ClassDeclaration>(),
       );
       expect(
-        (functions.last.enclosingDeclaration as ClassDeclaration).name.name,
+        (functions.last.enclosingDeclaration.declaration as ClassDeclaration)
+            .name
+            .name,
         equals('SampleClass'),
       );
     });
@@ -124,7 +128,9 @@ void main() {
         const TypeMatcher<MixinDeclaration>(),
       );
       expect(
-        (function.enclosingDeclaration as MixinDeclaration).name.name,
+        (function.enclosingDeclaration.declaration as MixinDeclaration)
+            .name
+            .name,
         equals('ValuesMapping'),
       );
     });
