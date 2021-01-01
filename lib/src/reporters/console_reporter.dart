@@ -82,7 +82,7 @@ class ConsoleReporter implements Reporter {
 
       for (final issue in analysisRecord.issues) {
         final severity = _severityColors[issue.severity](
-            '${issue.severity.value.substring(0, 1).toUpperCase()}${issue.severity.value.substring(1)}'
+            '${issue.severity.toString().substring(0, 1).toUpperCase()}${issue.severity.toString().substring(1)}'
                 .padRight(8));
         final position =
             '${issue.location.start.line}:${issue.location.start.column}';

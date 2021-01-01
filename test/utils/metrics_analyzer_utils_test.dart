@@ -2,7 +2,7 @@
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/ast/ast.dart';
-import 'package:dart_code_metrics/src/models/function_type.dart';
+import 'package:code_checker/checker.dart';
 import 'package:dart_code_metrics/src/utils/metrics_analyzer_utils.dart';
 import 'package:dart_code_metrics/src/models/scoped_function_declaration.dart';
 import 'package:dart_code_metrics/src/scope_ast_visitor.dart';
@@ -46,7 +46,7 @@ void main() {
       when(nodeListMock.length).thenReturn(1);
 
       final declaration = ScopedFunctionDeclaration(
-          FunctionType.staticFunction, functionDeclarationMock, null);
+          FunctionType.function, functionDeclarationMock, null);
 
       expect(getArgumentsCount(declaration), equals(1));
     });
@@ -55,7 +55,7 @@ void main() {
       final methodDeclarationMock = MethodDeclarationMock();
 
       final declaration = ScopedFunctionDeclaration(
-          FunctionType.staticFunction, methodDeclarationMock, null);
+          FunctionType.function, methodDeclarationMock, null);
 
       expect(getArgumentsCount(declaration), 0);
 
@@ -68,7 +68,7 @@ void main() {
 
     test('class constructor', () {
       final declaration = ScopedFunctionDeclaration(
-          FunctionType.staticFunction, ConstructorDeclarationMock(), null);
+          FunctionType.function, ConstructorDeclarationMock(), null);
 
       expect(getArgumentsCount(declaration), isZero);
     });
@@ -96,7 +96,7 @@ void main() {
       './test/resources/mixin.dart': [
         'ValuesMapping',
       ],
-    }.forEach((fileName, declatationNames) {
+    }.forEach((fileName, declarationNames) {
       final visitor = ScopeAstVisitor();
 
       parseFile(
@@ -106,7 +106,7 @@ void main() {
 
       expect(
         visitor.components.map(getComponentHumanReadableName),
-        equals(declatationNames),
+        equals(declarationNames),
       );
     });
   });
@@ -138,7 +138,7 @@ void main() {
       './test/resources/mixin.dart': [
         'ValuesMapping.findValueByKey',
       ],
-    }.forEach((fileName, declatationNames) {
+    }.forEach((fileName, declarationNames) {
       final visitor = ScopeAstVisitor();
 
       parseFile(
@@ -148,7 +148,7 @@ void main() {
 
       expect(
         visitor.functions.map(getFunctionHumanReadableName),
-        equals(declatationNames),
+        equals(declarationNames),
       );
     });
   });

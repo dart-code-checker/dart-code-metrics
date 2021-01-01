@@ -1,6 +1,6 @@
 import 'package:analyzer/dart/ast/ast.dart';
+import 'package:code_checker/checker.dart';
 
-import '../models/scoped_component_declaration.dart';
 import '../models/scoped_function_declaration.dart';
 
 int getArgumentsCount(ScopedFunctionDeclaration dec) {
@@ -17,7 +17,7 @@ int getArgumentsCount(ScopedFunctionDeclaration dec) {
   return argumentsCount ?? 0;
 }
 
-String getComponentHumanReadableName(ScopedComponentDeclaration dec) {
+String getComponentHumanReadableName(ScopedClassDeclaration dec) {
   if (dec == null) {
     return null;
   }

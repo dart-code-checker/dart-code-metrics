@@ -67,7 +67,7 @@ class JsonReporter implements Reporter {
   ) =>
       issues
           .map((issue) => {
-                'severity': issue.severity.value,
+                'severity': issue.severity.toString(),
                 'ruleId': issue.ruleId,
                 if (issue.documentation != null)
                   'ruleDocumentation': issue.documentation.toString(),
