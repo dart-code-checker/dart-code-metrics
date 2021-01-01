@@ -1,3 +1,4 @@
+import 'package:code_checker/checker.dart';
 import 'package:code_checker/rules.dart';
 import 'package:path/path.dart' as p;
 
@@ -6,7 +7,6 @@ import 'metrics_records_store.dart';
 import 'models/component_record.dart';
 import 'models/file_record.dart';
 import 'models/function_record.dart';
-import 'models/scoped_component_declaration.dart';
 import 'models/scoped_function_declaration.dart';
 import 'utils/metrics_analyzer_utils.dart';
 
@@ -16,7 +16,7 @@ class MetricsAnalysisRecorder
     implements MetricsRecordsBuilder, MetricsRecordsStore {
   String _fileGroupPath;
   String _relativeGroupPath;
-  Map<ScopedComponentDeclaration, ComponentRecord> _componentRecords;
+  Map<ScopedClassDeclaration, ComponentRecord> _componentRecords;
   Map<ScopedFunctionDeclaration, FunctionRecord> _functionRecords;
   List<Issue> _issues;
   List<Issue> _designIssues;
@@ -49,7 +49,7 @@ class MetricsAnalysisRecorder
 
   @override
   void recordComponent(
-      ScopedComponentDeclaration declaration, ComponentRecord record) {
+      ScopedClassDeclaration declaration, ComponentRecord record) {
     _checkState();
 
     if (declaration == null) {

@@ -1,7 +1,6 @@
 import 'package:analyzer/dart/ast/ast.dart';
+import 'package:code_checker/checker.dart';
 import 'package:meta/meta.dart';
-
-import 'function_type.dart';
 
 @immutable
 class ScopedFunctionDeclaration {
