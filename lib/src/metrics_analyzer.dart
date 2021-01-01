@@ -124,7 +124,7 @@ class MetricsAnalyzer {
                     .lineNumber,
                 methodsCount: visitor.functions
                     .where((function) =>
-                        function.enclosingDeclaration == component.declaration)
+                        function.enclosingDeclaration == component)
                     .length,
               ),
             );
