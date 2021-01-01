@@ -4,7 +4,6 @@ import 'package:meta/meta.dart';
 
 import '../config/config.dart';
 import '../lines_of_code/lines_with_code_ast_visitor.dart';
-import '../models/scoped_function_declaration.dart';
 import 'base_pattern.dart';
 import 'pattern_utils.dart' as utils;
 
