@@ -71,7 +71,7 @@ void main() {
         equals('_create'),
       );
       expect(
-        functions.first.enclosingDeclaration,
+        functions.first.enclosingDeclaration.declaration,
         const TypeMatcher<ClassDeclaration>(),
       );
       expect(
@@ -120,7 +120,7 @@ void main() {
         equals('findValueByKey'),
       );
       expect(
-        function.enclosingDeclaration,
+        function.enclosingDeclaration.declaration,
         const TypeMatcher<MixinDeclaration>(),
       );
       expect(
