@@ -1,8 +1,8 @@
+import 'package:code_checker/checker.dart';
 import 'package:code_checker/rules.dart';
 import 'package:meta/meta.dart';
 
 import '../config/config.dart';
-import '../models/scoped_function_declaration.dart';
 
 abstract class BasePattern {
   final String id;

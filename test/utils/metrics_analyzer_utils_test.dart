@@ -4,7 +4,6 @@ import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:code_checker/checker.dart';
 import 'package:dart_code_metrics/src/utils/metrics_analyzer_utils.dart';
-import 'package:dart_code_metrics/src/models/scoped_function_declaration.dart';
 import 'package:dart_code_metrics/src/scope_ast_visitor.dart';
 import 'package:mockito/mockito.dart';
 import 'package:path/path.dart' as p;

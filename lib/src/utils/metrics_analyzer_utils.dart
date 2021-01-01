@@ -1,8 +1,6 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:code_checker/checker.dart';
 
-import '../models/scoped_function_declaration.dart';
-
 int getArgumentsCount(ScopedFunctionDeclaration dec) {
   final declaration = dec.declaration;
 
@@ -39,7 +37,7 @@ String getFunctionHumanReadableName(ScopedFunctionDeclaration dec) {
   }
 
   final declaration = dec.declaration;
-  final enclosingDeclaration = dec.enclosingDeclaration;
+  final enclosingDeclaration = dec.enclosingDeclaration?.declaration;
 
   final name = [
     if (enclosingDeclaration != null &&

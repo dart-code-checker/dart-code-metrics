@@ -7,7 +7,6 @@ import 'metrics_records_store.dart';
 import 'models/component_record.dart';
 import 'models/file_record.dart';
 import 'models/function_record.dart';
-import 'models/scoped_function_declaration.dart';
 import 'utils/metrics_analyzer_utils.dart';
 
 /// Holds analysis records in format-agnostic way

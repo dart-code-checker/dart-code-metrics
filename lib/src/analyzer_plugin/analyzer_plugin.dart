@@ -16,6 +16,7 @@ import 'package:analyzer/src/context/context_root.dart';
 import 'package:analyzer/src/dart/analysis/driver.dart';
 import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
+import 'package:code_checker/checker.dart';
 import 'package:code_checker/rules.dart';
 import 'package:source_span/source_span.dart';
 
@@ -27,7 +28,6 @@ import '../metrics/cyclomatic_complexity/cyclomatic_config.dart';
 import '../metrics/nesting_level/nesting_level_visitor.dart';
 import '../models/function_record.dart';
 import '../models/function_report.dart';
-import '../models/scoped_function_declaration.dart';
 import '../reporters/utility_selector.dart';
 import '../rules_factory.dart';
 import '../scope_ast_visitor.dart';

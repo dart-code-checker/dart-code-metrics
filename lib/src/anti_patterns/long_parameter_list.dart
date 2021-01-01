@@ -3,7 +3,6 @@ import 'package:code_checker/rules.dart';
 import 'package:meta/meta.dart';
 
 import '../config/config.dart';
-import '../models/scoped_function_declaration.dart';
 import '../utils/metrics_analyzer_utils.dart';
 import 'base_pattern.dart';
 import 'pattern_utils.dart' as utils;

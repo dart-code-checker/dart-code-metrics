@@ -4,7 +4,6 @@ import 'package:code_checker/checker.dart';
 import 'package:code_checker/rules.dart';
 import 'package:dart_code_metrics/src/metrics_analysis_recorder.dart';
 import 'package:dart_code_metrics/src/models/component_record.dart';
-import 'package:dart_code_metrics/src/models/scoped_function_declaration.dart';
 import 'package:mockito/mockito.dart';
 import 'package:source_span/source_span.dart';
 import 'package:test/test.dart';
