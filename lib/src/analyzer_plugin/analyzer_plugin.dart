@@ -30,7 +30,6 @@ import '../models/function_record.dart';
 import '../models/function_report.dart';
 import '../reporters/utility_selector.dart';
 import '../rules_factory.dart';
-import '../scope_ast_visitor.dart';
 import '../utils/metrics_analyzer_utils.dart';
 import '../utils/yaml_utils.dart';
 import 'analyzer_plugin_config.dart';
@@ -199,7 +198,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
           ignores, analysisResult, sourceUri, _configs[driver]));
 
       if (!isExcluded(analysisResult, config.metricsExcludes)) {
-        final scopeVisitor = ScopeAstVisitor();
+        final scopeVisitor = ScopeVisitor();
         analysisResult.unit.visitChildren(scopeVisitor);
 
         result.addAll(_checkOnAntiPatterns(
