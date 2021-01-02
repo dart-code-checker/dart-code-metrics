@@ -15,22 +15,6 @@ int getArgumentsCount(ScopedFunctionDeclaration dec) {
   return argumentsCount ?? 0;
 }
 
-String getComponentHumanReadableName(ScopedClassDeclaration dec) {
-  if (dec == null) {
-    return null;
-  }
-
-  final declaration = dec.declaration;
-
-  if (declaration is ExtensionDeclaration) {
-    return declaration.name.name;
-  } else if (declaration is NamedCompilationUnitMember) {
-    return declaration.name.name;
-  }
-
-  return '';
-}
-
 String getFunctionHumanReadableName(ScopedFunctionDeclaration dec) {
   if (dec == null) {
     return null;
