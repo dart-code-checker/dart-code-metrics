@@ -23,7 +23,6 @@ import 'metrics_records_store.dart';
 import 'models/component_record.dart';
 import 'models/function_record.dart';
 import 'rules_factory.dart';
-import 'scope_ast_visitor.dart';
 import 'utils/metrics_analyzer_utils.dart';
 
 final _featureSet = FeatureSet.fromEnableFlags([]);
@@ -101,7 +100,7 @@ class MetricsAnalyzer {
             ProcessedFile(Uri.parse(filePath), result.content, result.unit);
       }
 
-      final visitor = ScopeAstVisitor();
+      final visitor = ScopeVisitor();
       source.parsedContent.visitChildren(visitor);
 
       final lineInfo = source.parsedContent.lineInfo;
