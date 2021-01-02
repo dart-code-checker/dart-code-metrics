@@ -3,7 +3,7 @@ import 'package:code_checker/rules.dart';
 import 'package:meta/meta.dart';
 
 import '../config/config.dart';
-import '../lines_of_code/lines_with_code_ast_visitor.dart';
+import '../metrics/lines_of_executable_code/lines_of_executable_code_visitor.dart';
 import 'base_pattern.dart';
 import 'pattern_utils.dart' as utils;
 
@@ -23,16 +23,16 @@ class LongMethod extends BasePattern {
     final issues = <Issue>[];
 
     for (final function in functions) {
-      final linesWithCodeAstVisitor =
-          LinesWithCodeAstVisitor(source.parsedContent.lineInfo);
-      function.declaration.visitChildren(linesWithCodeAstVisitor);
+      final visitor =
+          LinesOfExecutableCodeVisitor(source.parsedContent.lineInfo);
+      function.declaration.visitChildren(visitor);
 
-      if (linesWithCodeAstVisitor.linesWithCode.length >
+      if (visitor.linesWithCode.length >
           config.linesOfExecutableCodeWarningLevel) {
         issues.add(utils.createIssue(
           this,
           _compileMessage(
-            lines: linesWithCodeAstVisitor.linesWithCode.length,
+            lines: visitor.linesWithCode.length,
             functionType: function.type,
           ),
           _compileRecommendationMessage(
