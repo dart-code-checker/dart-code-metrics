@@ -30,6 +30,7 @@ Future<void> main(List<String> args) async {
       int.tryParse(arguments[metrics.numberOfArgumentsKey] as String ?? ''),
       int.tryParse(arguments[metrics.numberOfMethodsKey] as String ?? ''),
       int.tryParse(arguments[metrics.maximumNestingKey] as String ?? ''),
+      double.tryParse(arguments[metrics.weightOfClassKey] as String ?? ''),
       arguments[reporterName] as String,
       arguments[verboseName] as bool,
       arguments[gitlabCompatibilityName] as bool,
@@ -59,6 +60,7 @@ Future<void> _runAnalysis(
   int numberOfArgumentsWarningLevel,
   int numberOfMethodsWarningLevel,
   int maximumNestingWarningLevel,
+  double weightOfClassWarningLevel,
   String reporterType,
   bool verbose,
   bool gitlab,
@@ -99,6 +101,8 @@ Future<void> _runAnalysis(
         options.metricsConfig.numberOfMethodsWarningLevel,
     maximumNestingWarningLevel: maximumNestingWarningLevel ??
         options.metricsConfig.maximumNestingWarningLevel,
+    weightOfClassWarningLevel: weightOfClassWarningLevel ??
+        options.metricsConfig.weightOfClassWarningLevel,
   );
 
   Reporter reporter;
