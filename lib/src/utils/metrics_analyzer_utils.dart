@@ -1,6 +1,8 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:code_checker/checker.dart';
 
+import 'declaration_utils.dart';
+
 int getArgumentsCount(ScopedFunctionDeclaration dec) {
   final declaration = dec.declaration;
 
@@ -20,7 +22,7 @@ String getFunctionHumanReadableName(ScopedFunctionDeclaration dec) {
     return null;
   }
 
-  final declaration = dec.declaration;
+  final functionName = getDeclarationHumanReadableName(dec.declaration);
   final enclosingDeclaration = dec.enclosingDeclaration?.declaration;
 
   final name = [
@@ -30,13 +32,7 @@ String getFunctionHumanReadableName(ScopedFunctionDeclaration dec) {
     if (enclosingDeclaration != null &&
         enclosingDeclaration is ExtensionDeclaration)
       enclosingDeclaration.name.name,
-    if (declaration != null && declaration is FunctionDeclaration)
-      declaration.name.name,
-    if (declaration != null && declaration is ConstructorDeclaration)
-      declaration.name?.name ??
-          (declaration.parent as NamedCompilationUnitMember).name.name,
-    if (declaration != null && declaration is MethodDeclaration)
-      declaration.name.name,
+    if (functionName != null) functionName,
   ];
 
   return name.join('.');
