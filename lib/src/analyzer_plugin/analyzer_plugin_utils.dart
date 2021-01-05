@@ -32,7 +32,7 @@ plugin.AnalysisErrorFixes codeIssueToAnalysisErrorFixes(
         ),
         issue.message,
         issue.ruleId,
-        correction: issue.suggestion.replacement,
+        correction: issue.suggestion?.replacement,
         url: issue.documentation?.toString(),
         hasFix: issue.suggestion != null,
       ),
