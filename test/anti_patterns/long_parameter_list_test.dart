@@ -1,6 +1,7 @@
 @TestOn('vm')
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
+import 'package:analyzer/dart/ast/ast.dart';
 import 'package:code_checker/checker.dart';
 import 'package:code_checker/rules.dart';
 import 'package:dart_code_metrics/src/config/config.dart';
@@ -32,7 +33,18 @@ void main() {
 
     final issues = LongParameterList().check(
       ProcessedFile(sourceUrl, parseResult.content, parseResult.unit),
-      scopeVisitor.functions,
+      scopeVisitor.functions.where((function) {
+        final declaration = function.declaration;
+        if (declaration is ConstructorDeclaration &&
+            declaration.body is EmptyFunctionBody) {
+          return false;
+        } else if (declaration is MethodDeclaration &&
+            declaration.body is EmptyFunctionBody) {
+          return false;
+        }
+
+        return true;
+      }),
       const Config(),
     );
 
