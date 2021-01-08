@@ -43,7 +43,7 @@ void main() {
         final report = UtilitySelector.componentReport(record, const Config());
 
         expect(report.methodsCount.value, 0);
-        expect(report.methodsCount.violationLevel, MetricValueLevel.none);
+        expect(report.methodsCount.level, MetricValueLevel.none);
       });
 
       test('with a lot of methods', () {
@@ -53,7 +53,7 @@ void main() {
         final report = UtilitySelector.componentReport(record, const Config());
 
         expect(report.methodsCount.value, methodsCount);
-        expect(report.methodsCount.violationLevel, MetricValueLevel.alarm);
+        expect(report.methodsCount.level, MetricValueLevel.alarm);
       });
     });
 
@@ -63,7 +63,7 @@ void main() {
         final report = UtilitySelector.functionReport(record, const Config());
 
         expect(report.argumentsCount.value, 0);
-        expect(report.argumentsCount.violationLevel, MetricValueLevel.none);
+        expect(report.argumentsCount.level, MetricValueLevel.none);
       });
 
       test('with a lot of arguments', () {
@@ -71,7 +71,7 @@ void main() {
         final report = UtilitySelector.functionReport(record, const Config());
 
         expect(report.argumentsCount.value, 10);
-        expect(report.argumentsCount.violationLevel, MetricValueLevel.alarm);
+        expect(report.argumentsCount.level, MetricValueLevel.alarm);
       });
 
       test('without nesting information', () {
@@ -79,8 +79,7 @@ void main() {
         final report = UtilitySelector.functionReport(record, const Config());
 
         expect(report.maximumNestingLevel.value, 0);
-        expect(
-            report.maximumNestingLevel.violationLevel, MetricValueLevel.none);
+        expect(report.maximumNestingLevel.level, MetricValueLevel.none);
       });
 
       test('with high nesting level', () {
@@ -92,8 +91,7 @@ void main() {
         final report = UtilitySelector.functionReport(record, const Config());
 
         expect(report.maximumNestingLevel.value, 12);
-        expect(
-            report.maximumNestingLevel.violationLevel, MetricValueLevel.alarm);
+        expect(report.maximumNestingLevel.level, MetricValueLevel.alarm);
       });
     });
 

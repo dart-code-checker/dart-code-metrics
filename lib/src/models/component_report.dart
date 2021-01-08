@@ -1,10 +1,9 @@
+import 'package:code_checker/metrics.dart';
 import 'package:meta/meta.dart';
-
-import 'report_metric.dart';
 
 @immutable
 class ComponentReport {
-  final ReportMetric<int> methodsCount;
+  final MetricValue<int> methodsCount;
 
   const ComponentReport({@required this.methodsCount});
 }

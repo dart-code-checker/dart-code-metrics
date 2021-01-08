@@ -1,6 +1,6 @@
+import 'package:code_checker/metrics.dart';
 import 'package:html/dom.dart';
 
-import '../../models/report_metric.dart';
 import 'html_reporter.dart';
 
 const _violations = 'violations';
@@ -28,9 +28,9 @@ Element renderSummaryMetric(
       ..text = value);
 }
 
-Element renderFunctionMetric(String name, ReportMetric<num> metric) {
+Element renderFunctionMetric(String name, MetricValue<num> metric) {
   final metricName = name.toLowerCase();
-  final violationLevel = metric.violationLevel.toString().toLowerCase();
+  final violationLevel = metric.level.toString();
 
   return Element.tag('div')
     ..classes.add('metrics-source-code__tooltip-section')

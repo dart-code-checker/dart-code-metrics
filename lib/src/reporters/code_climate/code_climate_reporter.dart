@@ -43,7 +43,7 @@ class CodeClimateReporter implements Reporter {
         final report = UtilitySelector.componentReport(component, reportConfig);
 
         return [
-          if (UtilitySelector.isIssueLevel(report.methodsCount.violationLevel))
+          if (UtilitySelector.isIssueLevel(report.methodsCount.level))
             CodeClimateIssue.numberOfMethods(
               component.firstLine,
               component.lastLine,
@@ -71,8 +71,7 @@ class CodeClimateReporter implements Reporter {
       final func = record.functions[key];
       final report = UtilitySelector.functionReport(func, reportConfig);
 
-      if (UtilitySelector.isIssueLevel(
-          report.cyclomaticComplexity.violationLevel)) {
+      if (UtilitySelector.isIssueLevel(report.cyclomaticComplexity.level)) {
         issues.add(CodeClimateIssue.cyclomaticComplexity(
           func,
           report.cyclomaticComplexity.value,
@@ -82,8 +81,7 @@ class CodeClimateReporter implements Reporter {
         ));
       }
 
-      if (UtilitySelector.isIssueLevel(
-          report.maintainabilityIndex.violationLevel)) {
+      if (UtilitySelector.isIssueLevel(report.maintainabilityIndex.level)) {
         issues.add(CodeClimateIssue.maintainabilityIndex(
           func,
           report.maintainabilityIndex.value.toInt(),
@@ -92,8 +90,7 @@ class CodeClimateReporter implements Reporter {
         ));
       }
 
-      if (UtilitySelector.isIssueLevel(
-          report.maximumNestingLevel.violationLevel)) {
+      if (UtilitySelector.isIssueLevel(report.maximumNestingLevel.level)) {
         issues.add(CodeClimateIssue.maximumNestingLevel(
           func,
           report.maximumNestingLevel.value,

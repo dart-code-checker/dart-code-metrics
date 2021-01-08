@@ -5,7 +5,6 @@ import 'package:meta/meta.dart';
 
 import '../config/config.dart';
 import '../models/file_record.dart';
-import '../models/report_metric.dart';
 import '../reporters/reporter.dart';
 import '../reporters/utility_selector.dart';
 
@@ -133,9 +132,9 @@ class ConsoleReporter implements Reporter {
     return lines;
   }
 
-  bool _isNeedToReport(ReportMetric metric) =>
-      metric.violationLevel != MetricValueLevel.none;
+  bool _isNeedToReport(MetricValue metric) =>
+      metric.level != MetricValueLevel.none;
 
-  String _report(ReportMetric<num> metric, String humanReadableName) =>
-      '$humanReadableName: ${_colorPens[metric.violationLevel]('${metric.value.toInt()}')}';
+  String _report(MetricValue<num> metric, String humanReadableName) =>
+      '$humanReadableName: ${_colorPens[metric.level]('${metric.value.toInt()}')}';
 }

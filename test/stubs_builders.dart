@@ -3,7 +3,6 @@ import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/component_report.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/models/function_report.dart';
-import 'package:dart_code_metrics/src/models/report_metric.dart';
 
 ComponentRecord buildComponentRecordStub({
   int firstLine = 0,
@@ -42,9 +41,10 @@ ComponentReport buildComponentReportStub({
   MetricValueLevel methodsCountViolationLevel = MetricValueLevel.none,
 }) =>
     ComponentReport(
-      methodsCount: ReportMetric<int>(
+      methodsCount: MetricValue<int>(
+        metricsId: '',
         value: methodsCount,
-        violationLevel: methodsCountViolationLevel,
+        level: methodsCountViolationLevel,
       ),
     );
 
@@ -61,24 +61,29 @@ FunctionReport buildFunctionReportStub({
   MetricValueLevel maximumNestingLevelViolationLevel = MetricValueLevel.none,
 }) =>
     FunctionReport(
-      cyclomaticComplexity: ReportMetric<int>(
+      cyclomaticComplexity: MetricValue<int>(
+        metricsId: '',
         value: cyclomaticComplexity,
-        violationLevel: cyclomaticComplexityViolationLevel,
+        level: cyclomaticComplexityViolationLevel,
       ),
-      linesOfExecutableCode: ReportMetric<int>(
+      linesOfExecutableCode: MetricValue<int>(
+        metricsId: '',
         value: linesOfExecutableCode,
-        violationLevel: linesOfExecutableCodeViolationLevel,
+        level: linesOfExecutableCodeViolationLevel,
       ),
-      maintainabilityIndex: ReportMetric<double>(
+      maintainabilityIndex: MetricValue<double>(
+        metricsId: '',
         value: maintainabilityIndex,
-        violationLevel: maintainabilityIndexViolationLevel,
+        level: maintainabilityIndexViolationLevel,
       ),
-      argumentsCount: ReportMetric<int>(
+      argumentsCount: MetricValue<int>(
+        metricsId: '',
         value: argumentsCount,
-        violationLevel: argumentsCountViolationLevel,
+        level: argumentsCountViolationLevel,
       ),
-      maximumNestingLevel: ReportMetric<int>(
+      maximumNestingLevel: MetricValue<int>(
+        metricsId: '',
         value: maximumNestingLevel,
-        violationLevel: maximumNestingLevelViolationLevel,
+        level: maximumNestingLevelViolationLevel,
       ),
     );

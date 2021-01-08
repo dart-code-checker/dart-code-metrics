@@ -1,7 +1,6 @@
-import 'package:code_checker/metrics.dart';
 @TestOn('vm')
+import 'package:code_checker/metrics.dart';
 import 'package:dart_code_metrics/src/models/file_report.dart';
-import 'package:dart_code_metrics/src/models/report_metric.dart';
 import 'package:dart_code_metrics/src/reporters/html/html_reporter.dart';
 import 'package:dart_code_metrics/src/reporters/html/utility_functions.dart';
 import 'package:test/test.dart';
@@ -44,8 +43,8 @@ void main() {
       expect(
         renderFunctionMetric(
           metricName,
-          const ReportMetric(
-              value: 10, violationLevel: MetricValueLevel.warning),
+          const MetricValue(
+              metricsId: '', value: 10, level: MetricValueLevel.warning),
         ).outerHtml,
         equals(
             '<div class="metrics-source-code__tooltip-section"><p class="metrics-source-code__tooltip-text"><span class="metrics-source-code__tooltip-label">metricname:&amp;nbsp;</span><span>10</span></p><p class="metrics-source-code__tooltip-text"><span class="metrics-source-code__tooltip-label">metricname violation level:&amp;nbsp;</span><span class="metrics-source-code__tooltip-level metrics-source-code__tooltip-level--warning">warning</span></p></div>'),

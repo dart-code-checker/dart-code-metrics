@@ -10,7 +10,6 @@ import '../models/file_record.dart';
 import '../models/file_report.dart';
 import '../models/function_record.dart';
 import '../models/function_report.dart';
-import '../models/report_metric.dart';
 
 double log2(num a) => log(a) / ln2;
 
@@ -32,37 +31,37 @@ class UtilitySelector {
     final averageArgumentCount =
         avg(functionReports.map((r) => r.argumentsCount.value));
     final totalArgumentsCountViolations = functionReports
-        .where((r) => isIssueLevel(r.argumentsCount.violationLevel))
+        .where((r) => isIssueLevel(r.argumentsCount.level))
         .length;
 
     final averageMaintainabilityIndex =
         avg(functionReports.map((r) => r.maintainabilityIndex.value));
     final totalMaintainabilityIndexViolations = functionReports
-        .where((r) => isIssueLevel(r.maintainabilityIndex.violationLevel))
+        .where((r) => isIssueLevel(r.maintainabilityIndex.level))
         .length;
 
     final averageMethodsCount =
         avg(componentReports.map((r) => r.methodsCount.value));
     final totalMethodsCountViolations = componentReports
-        .where((r) => isIssueLevel(r.methodsCount.violationLevel))
+        .where((r) => isIssueLevel(r.methodsCount.level))
         .length;
 
     final totalCyclomaticComplexity =
         sum(functionReports.map((r) => r.cyclomaticComplexity.value));
     final totalCyclomaticComplexityViolations = functionReports
-        .where((r) => isIssueLevel(r.cyclomaticComplexity.violationLevel))
+        .where((r) => isIssueLevel(r.cyclomaticComplexity.level))
         .length;
 
     final totalLinesOfExecutableCode =
         sum(functionReports.map((r) => r.linesOfExecutableCode.value));
     final totalLinesOfExecutableCodeViolations = functionReports
-        .where((r) => isIssueLevel(r.linesOfExecutableCode.violationLevel))
+        .where((r) => isIssueLevel(r.linesOfExecutableCode.level))
         .length;
 
     final averageMaximumNestingLevel =
         avg(functionReports.map((r) => r.maximumNestingLevel.value)).round();
     final totalMaximumNestingLevelViolations = functionReports
-        .where((r) => isIssueLevel(r.maximumNestingLevel.violationLevel))
+        .where((r) => isIssueLevel(r.maximumNestingLevel.level))
         .length;
 
     return FileReport(
@@ -84,9 +83,10 @@ class UtilitySelector {
   static ComponentReport componentReport(
           ComponentRecord component, Config config) =>
       ComponentReport(
-          methodsCount: ReportMetric<int>(
+          methodsCount: MetricValue<int>(
+        metricsId: '',
         value: component.methodsCount,
-        violationLevel: _violationLevel(
+        level: _violationLevel(
             component.methodsCount, config.numberOfMethodsWarningLevel),
       ));
 
@@ -133,31 +133,35 @@ class UtilitySelector {
         .toDouble();
 
     return FunctionReport(
-      cyclomaticComplexity: ReportMetric<int>(
+      cyclomaticComplexity: MetricValue<int>(
+        metricsId: '',
         value: cyclomaticComplexity.round(),
-        violationLevel: _violationLevel(
+        level: _violationLevel(
           cyclomaticComplexity.round(),
           config.cyclomaticComplexityWarningLevel,
         ),
       ),
-      linesOfExecutableCode: ReportMetric<int>(
+      linesOfExecutableCode: MetricValue<int>(
+        metricsId: '',
         value: linesOfExecutableCode,
-        violationLevel: _violationLevel(
+        level: _violationLevel(
             linesOfExecutableCode, config.linesOfExecutableCodeWarningLevel),
       ),
-      maintainabilityIndex: ReportMetric<double>(
+      maintainabilityIndex: MetricValue<double>(
+        metricsId: '',
         value: maintainabilityIndex,
-        violationLevel:
-            _maintainabilityIndexViolationLevel(maintainabilityIndex),
+        level: _maintainabilityIndexViolationLevel(maintainabilityIndex),
       ),
-      argumentsCount: ReportMetric<int>(
+      argumentsCount: MetricValue<int>(
+        metricsId: '',
         value: function.argumentsCount,
-        violationLevel: _violationLevel(
+        level: _violationLevel(
             function.argumentsCount, config.numberOfArgumentsWarningLevel),
       ),
-      maximumNestingLevel: ReportMetric<int>(
+      maximumNestingLevel: MetricValue<int>(
+        metricsId: '',
         value: maximumNestingLevel,
-        violationLevel: _violationLevel(
+        level: _violationLevel(
           maximumNestingLevel,
           config.maximumNestingWarningLevel,
         ),
@@ -166,15 +170,15 @@ class UtilitySelector {
   }
 
   static MetricValueLevel componentViolationLevel(ComponentReport report) =>
-      report.methodsCount.violationLevel;
+      report.methodsCount.level;
 
   static MetricValueLevel functionViolationLevel(FunctionReport report) =>
       quiver.max([
-        report.cyclomaticComplexity.violationLevel,
-        report.linesOfExecutableCode.violationLevel,
-        report.maintainabilityIndex.violationLevel,
-        report.argumentsCount.violationLevel,
-        report.maximumNestingLevel.violationLevel,
+        report.cyclomaticComplexity.level,
+        report.linesOfExecutableCode.level,
+        report.maintainabilityIndex.level,
+        report.argumentsCount.level,
+        report.maximumNestingLevel.level,
       ]);
 
   static bool isIssueLevel(MetricValueLevel level) =>
