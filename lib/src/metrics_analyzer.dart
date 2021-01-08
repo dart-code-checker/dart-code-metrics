@@ -6,6 +6,7 @@ import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/file_system/physical_file_system.dart';
 import 'package:code_checker/checker.dart';
+import 'package:code_checker/metrics.dart';
 import 'package:code_checker/rules.dart';
 import 'package:dart_code_metrics/src/metrics/nesting_level/nesting_level_visitor.dart';
 import 'package:glob/glob.dart';
@@ -135,10 +136,8 @@ class MetricsAnalyzer {
                 lastLine: lineInfo
                     .getLocation(component.declaration.endToken.end)
                     .lineNumber,
-                methodsCount: functions
-                    .where((function) =>
-                        function.enclosingDeclaration == component)
-                    .length,
+                methodsCount:
+                    NumberOfMethodsMetric().compute(component, functions),
               ),
             );
           }
