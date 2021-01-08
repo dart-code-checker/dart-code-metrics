@@ -108,7 +108,18 @@ void main() {
       ).unit.visitChildren(visitor);
 
       expect(
-        visitor.functions.map(getFunctionHumanReadableName),
+        visitor.functions.where((function) {
+          final declaration = function.declaration;
+          if (declaration is ConstructorDeclaration &&
+              declaration.body is EmptyFunctionBody) {
+            return false;
+          } else if (declaration is MethodDeclaration &&
+              declaration.body is EmptyFunctionBody) {
+            return false;
+          }
+
+          return true;
+        }).map(getFunctionHumanReadableName),
         equals(declarationNames),
       );
     });

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:analyzer/dart/analysis/results.dart';
+import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/file_system/file_system.dart';
 
 // ignore: implementation_imports
@@ -201,10 +202,23 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
         final scopeVisitor = ScopeVisitor();
         analysisResult.unit.visitChildren(scopeVisitor);
 
+        final functions = scopeVisitor.functions.where((function) {
+          final declaration = function.declaration;
+          if (declaration is ConstructorDeclaration &&
+              declaration.body is EmptyFunctionBody) {
+            return false;
+          } else if (declaration is MethodDeclaration &&
+              declaration.body is EmptyFunctionBody) {
+            return false;
+          }
+
+          return true;
+        }).toList();
+
         result.addAll(_checkOnAntiPatterns(
           ignores,
           ProcessedFile(sourceUri, analysisResult.content, analysisResult.unit),
-          scopeVisitor.functions,
+          functions,
           _configs[driver],
         ));
 
@@ -213,7 +227,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
             ignores,
             ProcessedFile(
                 sourceUri, analysisResult.content, analysisResult.unit),
-            scopeVisitor.functions,
+            functions,
             _configs[driver],
           ));
         }

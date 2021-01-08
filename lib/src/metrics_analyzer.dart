@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
+import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/file_system/physical_file_system.dart';
 import 'package:code_checker/checker.dart';
+import 'package:code_checker/metrics.dart';
 import 'package:code_checker/rules.dart';
 import 'package:dart_code_metrics/src/metrics/nesting_level/nesting_level_visitor.dart';
 import 'package:glob/glob.dart';
@@ -103,6 +105,19 @@ class MetricsAnalyzer {
       final visitor = ScopeVisitor();
       source.parsedContent.visitChildren(visitor);
 
+      final functions = visitor.functions.where((function) {
+        final declaration = function.declaration;
+        if (declaration is ConstructorDeclaration &&
+            declaration.body is EmptyFunctionBody) {
+          return false;
+        } else if (declaration is MethodDeclaration &&
+            declaration.body is EmptyFunctionBody) {
+          return false;
+        }
+
+        return true;
+      }).toList();
+
       final lineInfo = source.parsedContent.lineInfo;
 
       _store.recordFile(filePath, rootFolder, (builder) {
@@ -121,15 +136,13 @@ class MetricsAnalyzer {
                 lastLine: lineInfo
                     .getLocation(component.declaration.endToken.end)
                     .lineNumber,
-                methodsCount: visitor.functions
-                    .where((function) =>
-                        function.enclosingDeclaration == component)
-                    .length,
+                methodsCount:
+                    NumberOfMethodsMetric().compute(component, functions),
               ),
             );
           }
 
-          for (final function in visitor.functions) {
+          for (final function in functions) {
             final controlFlowAstVisitor =
                 ControlFlowAstVisitor(defaultCyclomaticConfig, lineInfo);
             final halsteadVolumeAstVisitor = HalsteadVolumeAstVisitor();
@@ -170,7 +183,7 @@ class MetricsAnalyzer {
         builder
           ..recordIssues(_checkOnCodeIssues(ignores, source))
           ..recordDesignIssues(
-            _checkOnAntiPatterns(ignores, source, visitor.functions),
+            _checkOnAntiPatterns(ignores, source, functions),
           );
       });
     }
