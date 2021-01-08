@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:isolate';
 
+import 'package:code_checker/metrics.dart';
 import 'package:html/dom.dart';
 import 'package:meta/meta.dart';
 import 'package:path/path.dart' as p;
@@ -9,23 +10,22 @@ import 'package:path/path.dart' as p;
 import '../../config/config.dart';
 import '../../models/file_record.dart';
 import '../../models/file_report.dart';
-import '../../models/violation_level.dart';
 import '../reporter.dart';
 import '../utility_selector.dart';
 import 'utility_functions.dart';
 
 const _violationLevelFunctionStyle = {
-  ViolationLevel.alarm: 'metrics-source-code__text--attention-complexity',
-  ViolationLevel.warning: 'metrics-source-code__text--warning-complexity',
-  ViolationLevel.noted: 'metrics-source-code__text--noted-complexity',
-  ViolationLevel.none: 'metrics-source-code__text--normal-complexity',
+  MetricValueLevel.alarm: 'metrics-source-code__text--attention-complexity',
+  MetricValueLevel.warning: 'metrics-source-code__text--warning-complexity',
+  MetricValueLevel.noted: 'metrics-source-code__text--noted-complexity',
+  MetricValueLevel.none: 'metrics-source-code__text--normal-complexity',
 };
 
 const _violationLevelLineStyle = {
-  ViolationLevel.alarm: 'metrics-source-code__line--attention-complexity',
-  ViolationLevel.warning: 'metrics-source-code__line--warning-complexity',
-  ViolationLevel.noted: 'metrics-source-code__line--noted-complexity',
-  ViolationLevel.none: 'metrics-source-code__line--normal-complexity',
+  MetricValueLevel.alarm: 'metrics-source-code__line--attention-complexity',
+  MetricValueLevel.warning: 'metrics-source-code__line--warning-complexity',
+  MetricValueLevel.noted: 'metrics-source-code__line--noted-complexity',
+  MetricValueLevel.none: 'metrics-source-code__line--normal-complexity',
 };
 
 const _cyclomaticComplexity = 'Cyclomatic complexity';
@@ -364,9 +364,10 @@ class HtmlReporter implements Reporter {
       ..classes.add('metrics-source-code__complexity');
     for (var i = 1; i <= sourceFileLines.length; ++i) {
       final functionReport = record.functions.values.firstWhere(
-          (functionReport) =>
-              functionReport.firstLine <= i && functionReport.lastLine >= i,
-          orElse: () => null);
+        (functionReport) =>
+            functionReport.firstLine <= i && functionReport.lastLine >= i,
+        orElse: () => null,
+      );
 
       final complexityValueElement = Element.tag('div')
         ..classes.add('metrics-source-code__text');

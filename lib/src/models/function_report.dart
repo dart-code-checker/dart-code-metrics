@@ -1,14 +1,13 @@
+import 'package:code_checker/metrics.dart';
 import 'package:meta/meta.dart';
-
-import 'report_metric.dart';
 
 @immutable
 class FunctionReport {
-  final ReportMetric<int> cyclomaticComplexity;
-  final ReportMetric<int> linesOfExecutableCode;
-  final ReportMetric<double> maintainabilityIndex;
-  final ReportMetric<int> argumentsCount;
-  final ReportMetric<int> maximumNestingLevel;
+  final MetricValue<int> cyclomaticComplexity;
+  final MetricValue<int> linesOfExecutableCode;
+  final MetricValue<double> maintainabilityIndex;
+  final MetricValue<int> argumentsCount;
+  final MetricValue<int> maximumNestingLevel;
 
   const FunctionReport({
     @required this.cyclomaticComplexity,

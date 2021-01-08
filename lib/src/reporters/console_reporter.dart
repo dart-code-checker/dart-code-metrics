@@ -1,11 +1,10 @@
 import 'package:ansicolor/ansicolor.dart';
+import 'package:code_checker/metrics.dart';
 import 'package:code_checker/rules.dart';
 import 'package:meta/meta.dart';
 
 import '../config/config.dart';
 import '../models/file_record.dart';
-import '../models/report_metric.dart';
-import '../models/violation_level.dart';
 import '../reporters/reporter.dart';
 import '../reporters/utility_selector.dart';
 
@@ -17,17 +16,17 @@ class ConsoleReporter implements Reporter {
   final bool reportAll;
 
   final _colorPens = {
-    ViolationLevel.alarm: AnsiPen()..red(),
-    ViolationLevel.warning: AnsiPen()..yellow(),
-    ViolationLevel.noted: AnsiPen()..blue(),
-    ViolationLevel.none: AnsiPen()..white(),
+    MetricValueLevel.alarm: AnsiPen()..red(),
+    MetricValueLevel.warning: AnsiPen()..yellow(),
+    MetricValueLevel.noted: AnsiPen()..blue(),
+    MetricValueLevel.none: AnsiPen()..white(),
   };
 
   static const _humanReadableLabel = {
-    ViolationLevel.alarm: 'ALARM',
-    ViolationLevel.warning: 'WARNING',
-    ViolationLevel.noted: 'NOTED',
-    ViolationLevel.none: '',
+    MetricValueLevel.alarm: 'ALARM',
+    MetricValueLevel.warning: 'WARNING',
+    MetricValueLevel.noted: 'NOTED',
+    MetricValueLevel.none: '',
   };
 
   final _severityColors = {
@@ -133,9 +132,9 @@ class ConsoleReporter implements Reporter {
     return lines;
   }
 
-  bool _isNeedToReport(ReportMetric metric) =>
-      metric.violationLevel != ViolationLevel.none;
+  bool _isNeedToReport(MetricValue metric) =>
+      metric.level != MetricValueLevel.none;
 
-  String _report(ReportMetric<num> metric, String humanReadableName) =>
-      '$humanReadableName: ${_colorPens[metric.violationLevel]('${metric.value.toInt()}')}';
+  String _report(MetricValue<num> metric, String humanReadableName) =>
+      '$humanReadableName: ${_colorPens[metric.level]('${metric.value.toInt()}')}';
 }

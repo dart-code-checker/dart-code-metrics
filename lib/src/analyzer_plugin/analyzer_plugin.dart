@@ -363,8 +363,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     SourceLocation startSourceLocation,
     AnalyzerPluginConfig config,
   ) =>
-      UtilitySelector.isIssueLevel(
-              functionReport.cyclomaticComplexity.violationLevel)
+      UtilitySelector.isIssueLevel(functionReport.cyclomaticComplexity.level)
           ? metricReportToAnalysisErrorFixes(
               startSourceLocation,
               function.declaration.end - startSourceLocation.offset,
@@ -379,8 +378,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     SourceLocation startSourceLocation,
     AnalyzerPluginConfig config,
   ) =>
-      UtilitySelector.isIssueLevel(
-              functionReport.maximumNestingLevel.violationLevel)
+      UtilitySelector.isIssueLevel(functionReport.maximumNestingLevel.level)
           ? metricReportToAnalysisErrorFixes(
               startSourceLocation,
               function.declaration.end - startSourceLocation.offset,

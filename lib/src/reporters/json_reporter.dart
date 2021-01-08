@@ -1,11 +1,11 @@
 import 'dart:convert';
 
+import 'package:code_checker/metrics.dart';
 import 'package:code_checker/rules.dart';
 import 'package:meta/meta.dart';
 
 import '../config/config.dart';
 import '../models/file_record.dart';
-import '../models/report_metric.dart';
 import 'reporter.dart';
 import 'utility_selector.dart';
 
@@ -101,9 +101,8 @@ class JsonReporter implements Reporter {
               })
           .toList();
 
-  Map<String, Object> _report(ReportMetric<num> metric, String metricName) => {
+  Map<String, Object> _report(MetricValue<num> metric, String metricName) => {
         metricName: metric.value.toInt(),
-        '$metricName-violation-level':
-            metric.violationLevel.toString().toLowerCase(),
+        '$metricName-violation-level': metric.level.toString(),
       };
 }

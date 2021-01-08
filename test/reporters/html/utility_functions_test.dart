@@ -1,7 +1,6 @@
 @TestOn('vm')
+import 'package:code_checker/metrics.dart';
 import 'package:dart_code_metrics/src/models/file_report.dart';
-import 'package:dart_code_metrics/src/models/report_metric.dart';
-import 'package:dart_code_metrics/src/models/violation_level.dart';
 import 'package:dart_code_metrics/src/reporters/html/html_reporter.dart';
 import 'package:dart_code_metrics/src/reporters/html/utility_functions.dart';
 import 'package:test/test.dart';
@@ -44,7 +43,8 @@ void main() {
       expect(
         renderFunctionMetric(
           metricName,
-          const ReportMetric(value: 10, violationLevel: ViolationLevel.warning),
+          const MetricValue(
+              metricsId: '', value: 10, level: MetricValueLevel.warning),
         ).outerHtml,
         equals(
             '<div class="metrics-source-code__tooltip-section"><p class="metrics-source-code__tooltip-text"><span class="metrics-source-code__tooltip-label">metricname:&amp;nbsp;</span><span>10</span></p><p class="metrics-source-code__tooltip-text"><span class="metrics-source-code__tooltip-label">metricname violation level:&amp;nbsp;</span><span class="metrics-source-code__tooltip-level metrics-source-code__tooltip-level--warning">warning</span></p></div>'),
@@ -55,22 +55,23 @@ void main() {
       expect(
         renderTableRecord(
           const ReportTableRecord(
-              title: 'fileName',
-              link: 'fileLink',
-              report: FileReport(
-                averageArgumentsCount: 1,
-                argumentsCountViolations: 0,
-                averageMaintainabilityIndex: 2,
-                maintainabilityIndexViolations: 2,
-                averageMethodsCount: 3,
-                methodsCountViolations: 0,
-                totalCyclomaticComplexity: 4,
-                cyclomaticComplexityViolations: 4,
-                totalLinesOfExecutableCode: 5,
-                linesOfExecutableCodeViolations: 0,
-                averageMaximumNestingLevel: 6,
-                maximumNestingLevelViolations: 6,
-              )),
+            title: 'fileName',
+            link: 'fileLink',
+            report: FileReport(
+              averageArgumentsCount: 1,
+              argumentsCountViolations: 0,
+              averageMaintainabilityIndex: 2,
+              maintainabilityIndexViolations: 2,
+              averageMethodsCount: 3,
+              methodsCountViolations: 0,
+              totalCyclomaticComplexity: 4,
+              cyclomaticComplexityViolations: 4,
+              totalLinesOfExecutableCode: 5,
+              linesOfExecutableCodeViolations: 0,
+              averageMaximumNestingLevel: 6,
+              maximumNestingLevelViolations: 6,
+            ),
+          ),
         ).outerHtml,
         equals(
             '<tr><td><a href="fileLink">fileName</a></td><td class="with-violations">4 / 4</td><td class="">5</td><td class="with-violations">2 / 2</td><td class="">1</td><td class="with-violations">6 / 6</td></tr>'),

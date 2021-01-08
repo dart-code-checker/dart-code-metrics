@@ -1,9 +1,8 @@
+import 'package:code_checker/metrics.dart';
 import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/component_report.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/models/function_report.dart';
-import 'package:dart_code_metrics/src/models/report_metric.dart';
-import 'package:dart_code_metrics/src/models/violation_level.dart';
 
 ComponentRecord buildComponentRecordStub({
   int firstLine = 0,
@@ -39,46 +38,52 @@ FunctionRecord buildFunctionRecordStub({
 
 ComponentReport buildComponentReportStub({
   int methodsCount = 0,
-  ViolationLevel methodsCountViolationLevel = ViolationLevel.none,
+  MetricValueLevel methodsCountViolationLevel = MetricValueLevel.none,
 }) =>
     ComponentReport(
-      methodsCount: ReportMetric<int>(
+      methodsCount: MetricValue<int>(
+        metricsId: '',
         value: methodsCount,
-        violationLevel: methodsCountViolationLevel,
+        level: methodsCountViolationLevel,
       ),
     );
 
 FunctionReport buildFunctionReportStub({
   int cyclomaticComplexity = 0,
-  ViolationLevel cyclomaticComplexityViolationLevel = ViolationLevel.none,
+  MetricValueLevel cyclomaticComplexityViolationLevel = MetricValueLevel.none,
   int linesOfExecutableCode = 0,
-  ViolationLevel linesOfExecutableCodeViolationLevel = ViolationLevel.none,
+  MetricValueLevel linesOfExecutableCodeViolationLevel = MetricValueLevel.none,
   double maintainabilityIndex = 0,
-  ViolationLevel maintainabilityIndexViolationLevel = ViolationLevel.none,
+  MetricValueLevel maintainabilityIndexViolationLevel = MetricValueLevel.none,
   int argumentsCount = 0,
-  ViolationLevel argumentsCountViolationLevel = ViolationLevel.none,
+  MetricValueLevel argumentsCountViolationLevel = MetricValueLevel.none,
   int maximumNestingLevel = 0,
-  ViolationLevel maximumNestingLevelViolationLevel = ViolationLevel.none,
+  MetricValueLevel maximumNestingLevelViolationLevel = MetricValueLevel.none,
 }) =>
     FunctionReport(
-      cyclomaticComplexity: ReportMetric<int>(
+      cyclomaticComplexity: MetricValue<int>(
+        metricsId: '',
         value: cyclomaticComplexity,
-        violationLevel: cyclomaticComplexityViolationLevel,
+        level: cyclomaticComplexityViolationLevel,
       ),
-      linesOfExecutableCode: ReportMetric<int>(
+      linesOfExecutableCode: MetricValue<int>(
+        metricsId: '',
         value: linesOfExecutableCode,
-        violationLevel: linesOfExecutableCodeViolationLevel,
+        level: linesOfExecutableCodeViolationLevel,
       ),
-      maintainabilityIndex: ReportMetric<double>(
+      maintainabilityIndex: MetricValue<double>(
+        metricsId: '',
         value: maintainabilityIndex,
-        violationLevel: maintainabilityIndexViolationLevel,
+        level: maintainabilityIndexViolationLevel,
       ),
-      argumentsCount: ReportMetric<int>(
+      argumentsCount: MetricValue<int>(
+        metricsId: '',
         value: argumentsCount,
-        violationLevel: argumentsCountViolationLevel,
+        level: argumentsCountViolationLevel,
       ),
-      maximumNestingLevel: ReportMetric<int>(
+      maximumNestingLevel: MetricValue<int>(
+        metricsId: '',
         value: maximumNestingLevel,
-        violationLevel: maximumNestingLevelViolationLevel,
+        level: maximumNestingLevelViolationLevel,
       ),
     );

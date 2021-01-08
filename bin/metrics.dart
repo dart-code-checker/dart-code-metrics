@@ -1,11 +1,11 @@
 import 'dart:io';
 
+import 'package:code_checker/metrics.dart';
 import 'package:dart_code_metrics/metrics_analyzer.dart';
 import 'package:dart_code_metrics/reporters.dart';
 import 'package:dart_code_metrics/src/config/cli/arguments_parser.dart';
 import 'package:dart_code_metrics/src/config/cli/arguments_validation.dart';
 import 'package:dart_code_metrics/src/config/cli/arguments_validation_exceptions.dart';
-import 'package:dart_code_metrics/src/models/violation_level.dart';
 import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
 import 'package:path/path.dart' as p;
 
@@ -33,7 +33,7 @@ Future<void> main(List<String> args) async {
       arguments[reporterName] as String,
       arguments[verboseName] as bool,
       arguments[gitlabCompatibilityName] as bool,
-      ViolationLevel.fromString(arguments[setExitOnViolationLevel] as String),
+      MetricValueLevel.fromString(arguments[setExitOnViolationLevel] as String),
     );
   } on FormatException catch (e) {
     print('${e.message}\n');
@@ -62,7 +62,7 @@ Future<void> _runAnalysis(
   String reporterType,
   bool verbose,
   bool gitlab,
-  ViolationLevel setExitOnViolationLevel,
+  MetricValueLevel setExitOnViolationLevel,
 ) async {
   final analysisOptionsFile =
       File(p.absolute(rootFolder, analysisOptionsFileName));

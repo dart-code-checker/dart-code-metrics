@@ -1,9 +1,9 @@
+import 'package:code_checker/metrics.dart';
 @TestOn('vm')
 import 'package:dart_code_metrics/src/config/config.dart';
 import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/file_record.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
-import 'package:dart_code_metrics/src/models/violation_level.dart';
 import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
 import 'package:test/test.dart';
 
@@ -43,7 +43,7 @@ void main() {
         final report = UtilitySelector.componentReport(record, const Config());
 
         expect(report.methodsCount.value, 0);
-        expect(report.methodsCount.violationLevel, ViolationLevel.none);
+        expect(report.methodsCount.level, MetricValueLevel.none);
       });
 
       test('with a lot of methods', () {
@@ -53,7 +53,7 @@ void main() {
         final report = UtilitySelector.componentReport(record, const Config());
 
         expect(report.methodsCount.value, methodsCount);
-        expect(report.methodsCount.violationLevel, ViolationLevel.alarm);
+        expect(report.methodsCount.level, MetricValueLevel.alarm);
       });
     });
 
@@ -63,7 +63,7 @@ void main() {
         final report = UtilitySelector.functionReport(record, const Config());
 
         expect(report.argumentsCount.value, 0);
-        expect(report.argumentsCount.violationLevel, ViolationLevel.none);
+        expect(report.argumentsCount.level, MetricValueLevel.none);
       });
 
       test('with a lot of arguments', () {
@@ -71,7 +71,7 @@ void main() {
         final report = UtilitySelector.functionReport(record, const Config());
 
         expect(report.argumentsCount.value, 10);
-        expect(report.argumentsCount.violationLevel, ViolationLevel.alarm);
+        expect(report.argumentsCount.level, MetricValueLevel.alarm);
       });
 
       test('without nesting information', () {
@@ -79,10 +79,10 @@ void main() {
         final report = UtilitySelector.functionReport(record, const Config());
 
         expect(report.maximumNestingLevel.value, 0);
-        expect(report.maximumNestingLevel.violationLevel, ViolationLevel.none);
+        expect(report.maximumNestingLevel.level, MetricValueLevel.none);
       });
 
-      test('with hight nesting level', () {
+      test('with high nesting level', () {
         final record = buildFunctionRecordStub(nestingLines: [
           [10],
           [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
@@ -91,7 +91,7 @@ void main() {
         final report = UtilitySelector.functionReport(record, const Config());
 
         expect(report.maximumNestingLevel.value, 12);
-        expect(report.maximumNestingLevel.violationLevel, ViolationLevel.alarm);
+        expect(report.maximumNestingLevel.level, MetricValueLevel.alarm);
       });
     });
 
@@ -100,9 +100,9 @@ void main() {
         () {
       expect(
         UtilitySelector.componentViolationLevel(buildComponentReportStub(
-          methodsCountViolationLevel: ViolationLevel.warning,
+          methodsCountViolationLevel: MetricValueLevel.warning,
         )),
-        ViolationLevel.warning,
+        MetricValueLevel.warning,
       );
     });
 
@@ -111,62 +111,58 @@ void main() {
         () {
       expect(
         UtilitySelector.functionViolationLevel(buildFunctionReportStub(
-          cyclomaticComplexityViolationLevel: ViolationLevel.warning,
-          linesOfExecutableCodeViolationLevel: ViolationLevel.noted,
-          maintainabilityIndexViolationLevel: ViolationLevel.none,
+          cyclomaticComplexityViolationLevel: MetricValueLevel.warning,
+          linesOfExecutableCodeViolationLevel: MetricValueLevel.noted,
+          maintainabilityIndexViolationLevel: MetricValueLevel.none,
         )),
-        ViolationLevel.warning,
+        MetricValueLevel.warning,
       );
 
       expect(
         UtilitySelector.functionViolationLevel(buildFunctionReportStub(
-          cyclomaticComplexityViolationLevel: ViolationLevel.warning,
-          linesOfExecutableCodeViolationLevel: ViolationLevel.alarm,
-          maintainabilityIndexViolationLevel: ViolationLevel.none,
+          cyclomaticComplexityViolationLevel: MetricValueLevel.warning,
+          linesOfExecutableCodeViolationLevel: MetricValueLevel.alarm,
+          maintainabilityIndexViolationLevel: MetricValueLevel.none,
         )),
-        ViolationLevel.alarm,
+        MetricValueLevel.alarm,
       );
 
       expect(
         UtilitySelector.functionViolationLevel(buildFunctionReportStub(
-          cyclomaticComplexityViolationLevel: ViolationLevel.none,
-          linesOfExecutableCodeViolationLevel: ViolationLevel.none,
-          maintainabilityIndexViolationLevel: ViolationLevel.noted,
+          cyclomaticComplexityViolationLevel: MetricValueLevel.none,
+          linesOfExecutableCodeViolationLevel: MetricValueLevel.none,
+          maintainabilityIndexViolationLevel: MetricValueLevel.noted,
         )),
-        ViolationLevel.noted,
+        MetricValueLevel.noted,
       );
 
       expect(
         UtilitySelector.functionViolationLevel(buildFunctionReportStub(
-          cyclomaticComplexityViolationLevel: ViolationLevel.none,
-          linesOfExecutableCodeViolationLevel: ViolationLevel.none,
-          argumentsCountViolationLevel: ViolationLevel.warning,
+          cyclomaticComplexityViolationLevel: MetricValueLevel.none,
+          linesOfExecutableCodeViolationLevel: MetricValueLevel.none,
+          argumentsCountViolationLevel: MetricValueLevel.warning,
         )),
-        ViolationLevel.warning,
+        MetricValueLevel.warning,
       );
 
       expect(
         UtilitySelector.functionViolationLevel(buildFunctionReportStub(
-            cyclomaticComplexityViolationLevel: ViolationLevel.none,
-            linesOfExecutableCodeViolationLevel: ViolationLevel.none,
-            argumentsCountViolationLevel: ViolationLevel.none,
-            maximumNestingLevelViolationLevel: ViolationLevel.warning)),
-        ViolationLevel.warning,
+          cyclomaticComplexityViolationLevel: MetricValueLevel.none,
+          linesOfExecutableCodeViolationLevel: MetricValueLevel.none,
+          argumentsCountViolationLevel: MetricValueLevel.none,
+          maximumNestingLevelViolationLevel: MetricValueLevel.warning,
+        )),
+        MetricValueLevel.warning,
       );
     });
 
     test('isIssueLevel', () {
-      const violationsMapping = {
-        ViolationLevel.none: isFalse,
-        ViolationLevel.noted: isFalse,
-        ViolationLevel.warning: isTrue,
-        ViolationLevel.alarm: isTrue,
-      };
-
-      assert(violationsMapping.keys.length == ViolationLevel.values.length,
-          'invalid sizes');
-
-      violationsMapping.forEach((key, value) {
+      <MetricValueLevel, Matcher>{
+        MetricValueLevel.none: isFalse,
+        MetricValueLevel.noted: isFalse,
+        MetricValueLevel.warning: isTrue,
+        MetricValueLevel.alarm: isTrue,
+      }.forEach((key, value) {
         expect(UtilitySelector.isIssueLevel(key), value);
       });
     });
@@ -207,34 +203,34 @@ void main() {
         ),
       ];
 
-      test('ViolationLevel.none if no violations', () {
+      test('MetricValueLevel.none if no violations', () {
         expect(
           UtilitySelector.maxViolationLevel(
             fileRecords,
             const Config(linesOfExecutableCodeWarningLevel: 100500),
           ),
-          ViolationLevel.none,
+          MetricValueLevel.none,
         );
       });
 
-      test('ViolationLevel.warning if maximum violation is warning', () {
+      test('MetricValueLevel.warning if maximum violation is warning', () {
         expect(
           UtilitySelector.maxViolationLevel(
             fileRecords,
             const Config(linesOfExecutableCodeWarningLevel: 20),
           ),
-          ViolationLevel.warning,
+          MetricValueLevel.warning,
         );
       });
 
-      test('ViolationLevel.alarm if there are warning and alarm violations',
+      test('MetricValueLevel.alarm if there are warning and alarm violations',
           () {
         expect(
           UtilitySelector.maxViolationLevel(
             fileRecords,
             const Config(linesOfExecutableCodeWarningLevel: 15),
           ),
-          ViolationLevel.warning,
+          MetricValueLevel.warning,
         );
       });
     });
