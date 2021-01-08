@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:code_checker/metrics.dart';
 import 'package:quiver/iterables.dart' as quiver;
 
 import '../config/config.dart';
@@ -10,7 +11,6 @@ import '../models/file_report.dart';
 import '../models/function_record.dart';
 import '../models/function_report.dart';
 import '../models/report_metric.dart';
-import '../models/violation_level.dart';
 
 double log2(num a) => log(a) / ln2;
 
@@ -85,9 +85,10 @@ class UtilitySelector {
           ComponentRecord component, Config config) =>
       ComponentReport(
           methodsCount: ReportMetric<int>(
-              value: component.methodsCount,
-              violationLevel: _violationLevel(
-                  component.methodsCount, config.numberOfMethodsWarningLevel)));
+        value: component.methodsCount,
+        violationLevel: _violationLevel(
+            component.methodsCount, config.numberOfMethodsWarningLevel),
+      ));
 
   static FunctionReport functionReport(FunctionRecord function, Config config) {
     final cyclomaticComplexity =
@@ -133,21 +134,27 @@ class UtilitySelector {
 
     return FunctionReport(
       cyclomaticComplexity: ReportMetric<int>(
-          value: cyclomaticComplexity.round(),
-          violationLevel: _violationLevel(cyclomaticComplexity.round(),
-              config.cyclomaticComplexityWarningLevel)),
+        value: cyclomaticComplexity.round(),
+        violationLevel: _violationLevel(
+          cyclomaticComplexity.round(),
+          config.cyclomaticComplexityWarningLevel,
+        ),
+      ),
       linesOfExecutableCode: ReportMetric<int>(
-          value: linesOfExecutableCode,
-          violationLevel: _violationLevel(
-              linesOfExecutableCode, config.linesOfExecutableCodeWarningLevel)),
+        value: linesOfExecutableCode,
+        violationLevel: _violationLevel(
+            linesOfExecutableCode, config.linesOfExecutableCodeWarningLevel),
+      ),
       maintainabilityIndex: ReportMetric<double>(
-          value: maintainabilityIndex,
-          violationLevel:
-              _maintainabilityIndexViolationLevel(maintainabilityIndex)),
+        value: maintainabilityIndex,
+        violationLevel:
+            _maintainabilityIndexViolationLevel(maintainabilityIndex),
+      ),
       argumentsCount: ReportMetric<int>(
-          value: function.argumentsCount,
-          violationLevel: _violationLevel(
-              function.argumentsCount, config.numberOfArgumentsWarningLevel)),
+        value: function.argumentsCount,
+        violationLevel: _violationLevel(
+            function.argumentsCount, config.numberOfArgumentsWarningLevel),
+      ),
       maximumNestingLevel: ReportMetric<int>(
         value: maximumNestingLevel,
         violationLevel: _violationLevel(
@@ -158,10 +165,10 @@ class UtilitySelector {
     );
   }
 
-  static ViolationLevel componentViolationLevel(ComponentReport report) =>
+  static MetricValueLevel componentViolationLevel(ComponentReport report) =>
       report.methodsCount.violationLevel;
 
-  static ViolationLevel functionViolationLevel(FunctionReport report) =>
+  static MetricValueLevel functionViolationLevel(FunctionReport report) =>
       quiver.max([
         report.cyclomaticComplexity.violationLevel,
         report.linesOfExecutableCode.violationLevel,
@@ -170,10 +177,10 @@ class UtilitySelector {
         report.maximumNestingLevel.violationLevel,
       ]);
 
-  static bool isIssueLevel(ViolationLevel level) =>
-      level == ViolationLevel.warning || level == ViolationLevel.alarm;
+  static bool isIssueLevel(MetricValueLevel level) =>
+      level == MetricValueLevel.warning || level == MetricValueLevel.alarm;
 
-  static ViolationLevel maxViolationLevel(
+  static MetricValueLevel maxViolationLevel(
           Iterable<FileRecord> records, Config config) =>
       quiver.max(records
           .expand((fileRecord) => fileRecord.functions.values
@@ -212,31 +219,31 @@ class UtilitySelector {
             rhs.maximumNestingLevelViolations,
       );
 
-  static ViolationLevel _violationLevel(int value, int warningLevel) {
+  static MetricValueLevel _violationLevel(int value, int warningLevel) {
     if (warningLevel == null) {
-      return ViolationLevel.none;
+      return MetricValueLevel.none;
     }
 
     if (value > warningLevel * 2) {
-      return ViolationLevel.alarm;
+      return MetricValueLevel.alarm;
     } else if (value > warningLevel) {
-      return ViolationLevel.warning;
+      return MetricValueLevel.warning;
     } else if (value > (warningLevel / 2).floor()) {
-      return ViolationLevel.noted;
+      return MetricValueLevel.noted;
     }
 
-    return ViolationLevel.none;
+    return MetricValueLevel.none;
   }
 
-  static ViolationLevel _maintainabilityIndexViolationLevel(double index) {
+  static MetricValueLevel _maintainabilityIndexViolationLevel(double index) {
     if (index < 10) {
-      return ViolationLevel.alarm;
+      return MetricValueLevel.alarm;
     } else if (index < 20) {
-      return ViolationLevel.warning;
+      return MetricValueLevel.warning;
     } else if (index < 40) {
-      return ViolationLevel.noted;
+      return MetricValueLevel.noted;
     }
 
-    return ViolationLevel.none;
+    return MetricValueLevel.none;
   }
 }
