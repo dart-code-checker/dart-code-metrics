@@ -86,7 +86,7 @@ class UtilitySelector {
           methodsCount: MetricValue<int>(
         metricsId: '',
         value: component.methodsCount,
-        level: _violationLevel(
+        level: valueLevel(
             component.methodsCount, config.numberOfMethodsWarningLevel),
       ));
 
@@ -123,20 +123,20 @@ class UtilitySelector {
         halsteadProgramLength * log2(max(1, halsteadVocabulary));
 
     final maintainabilityIndex = max(
-            0,
-            (171 -
-                    5.2 * log(max(1, halsteadVolume)) -
-                    cyclomaticComplexity * 0.23 -
-                    16.2 * log(max(1, linesOfExecutableCode))) *
-                100 /
-                171)
-        .toDouble();
+      0,
+      (171 -
+              5.2 * log(max(1, halsteadVolume)) -
+              cyclomaticComplexity * 0.23 -
+              16.2 * log(max(1, linesOfExecutableCode))) *
+          100 /
+          171,
+    ).toDouble();
 
     return FunctionReport(
       cyclomaticComplexity: MetricValue<int>(
         metricsId: '',
         value: cyclomaticComplexity.round(),
-        level: _violationLevel(
+        level: valueLevel(
           cyclomaticComplexity.round(),
           config.cyclomaticComplexityWarningLevel,
         ),
@@ -144,7 +144,7 @@ class UtilitySelector {
       linesOfExecutableCode: MetricValue<int>(
         metricsId: '',
         value: linesOfExecutableCode,
-        level: _violationLevel(
+        level: valueLevel(
             linesOfExecutableCode, config.linesOfExecutableCodeWarningLevel),
       ),
       maintainabilityIndex: MetricValue<double>(
@@ -155,13 +155,13 @@ class UtilitySelector {
       argumentsCount: MetricValue<int>(
         metricsId: '',
         value: function.argumentsCount,
-        level: _violationLevel(
+        level: valueLevel(
             function.argumentsCount, config.numberOfArgumentsWarningLevel),
       ),
       maximumNestingLevel: MetricValue<int>(
         metricsId: '',
         value: maximumNestingLevel,
-        level: _violationLevel(
+        level: valueLevel(
           maximumNestingLevel,
           config.maximumNestingWarningLevel,
         ),
@@ -222,22 +222,6 @@ class UtilitySelector {
         maximumNestingLevelViolations: lhs.maximumNestingLevelViolations +
             rhs.maximumNestingLevelViolations,
       );
-
-  static MetricValueLevel _violationLevel(int value, int warningLevel) {
-    if (warningLevel == null) {
-      return MetricValueLevel.none;
-    }
-
-    if (value > warningLevel * 2) {
-      return MetricValueLevel.alarm;
-    } else if (value > warningLevel) {
-      return MetricValueLevel.warning;
-    } else if (value > (warningLevel / 2).floor()) {
-      return MetricValueLevel.noted;
-    }
-
-    return MetricValueLevel.none;
-  }
 
   static MetricValueLevel _maintainabilityIndexViolationLevel(double index) {
     if (index < 10) {
