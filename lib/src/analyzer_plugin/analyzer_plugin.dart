@@ -32,7 +32,6 @@ import '../models/function_report.dart';
 import '../reporters/utility_selector.dart';
 import '../rules_factory.dart';
 import '../utils/metrics_analyzer_utils.dart';
-import '../utils/yaml_utils.dart';
 import 'analyzer_plugin_config.dart';
 import 'analyzer_plugin_utils.dart';
 
