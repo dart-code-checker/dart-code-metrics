@@ -137,7 +137,7 @@ class MetricsAnalyzer {
                     .getLocation(component.declaration.endToken.end)
                     .lineNumber,
                 methodsCount:
-                    NumberOfMethodsMetric().compute(component, functions),
+                    NumberOfMethodsMetric().compute(component, functions).value,
               ),
             );
           }
