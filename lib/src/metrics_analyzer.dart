@@ -19,7 +19,6 @@ import 'config/config.dart';
 import 'halstead_volume/halstead_volume_ast_visitor.dart';
 import 'ignore_info.dart';
 import 'metrics/cyclomatic_complexity/control_flow_ast_visitor.dart';
-import 'metrics/cyclomatic_complexity/cyclomatic_config.dart';
 import 'metrics/lines_of_executable_code/lines_of_executable_code_visitor.dart';
 import 'metrics_records_store.dart';
 import 'models/component_record.dart';
@@ -143,8 +142,7 @@ class MetricsAnalyzer {
           }
 
           for (final function in functions) {
-            final controlFlowAstVisitor =
-                ControlFlowAstVisitor(defaultCyclomaticConfig, lineInfo);
+            final controlFlowAstVisitor = ControlFlowAstVisitor(lineInfo);
             final halsteadVolumeAstVisitor = HalsteadVolumeAstVisitor();
             final linesOfExecutableCodeVisitor =
                 LinesOfExecutableCodeVisitor(lineInfo);
