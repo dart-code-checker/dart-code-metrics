@@ -1,9 +1,9 @@
 @TestOn('vm')
 import 'dart:io';
 
+import 'package:code_checker/checker.dart';
 import 'package:dart_code_metrics/src/config/analysis_options.dart';
 import 'package:dart_code_metrics/src/config/config.dart';
-import 'package:dart_code_metrics/src/utils/yaml_utils.dart';
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
 
