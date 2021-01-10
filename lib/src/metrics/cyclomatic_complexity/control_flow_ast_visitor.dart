@@ -3,16 +3,14 @@ import 'package:analyzer/dart/ast/syntactic_entity.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/source/line_info.dart';
-
-import 'cyclomatic_config.dart';
+import 'package:code_checker/metrics.dart';
 
 class ControlFlowAstVisitor extends RecursiveAstVisitor<void> {
-  final CyclomaticConfig _config;
   final LineInfo _lineInfo;
 
   final _complexityLines = <int, int>{};
 
-  ControlFlowAstVisitor(this._config, this._lineInfo);
+  ControlFlowAstVisitor(this._lineInfo);
 
   Map<int, int> get complexityLines => _complexityLines;
 
@@ -103,7 +101,7 @@ class ControlFlowAstVisitor extends RecursiveAstVisitor<void> {
   }
 
   void _increaseComplexity(String flowType, SyntacticEntity entity) {
-    final entityComplexity = _config.complexityByControlFlowType(flowType);
+    final entityComplexity = complexityByControlFlowType(flowType);
     final entityLineNumber = _lineInfo.getLocation(entity.offset).lineNumber;
     _complexityLines[entityLineNumber] =
         (_complexityLines[entityLineNumber] ?? 0) + entityComplexity;

@@ -25,14 +25,12 @@ import '../anti_patterns_factory.dart';
 import '../config/analysis_options.dart';
 import '../ignore_info.dart';
 import '../metrics/cyclomatic_complexity/control_flow_ast_visitor.dart';
-import '../metrics/cyclomatic_complexity/cyclomatic_config.dart';
 import '../metrics/nesting_level/nesting_level_visitor.dart';
 import '../models/function_record.dart';
 import '../models/function_report.dart';
 import '../reporters/utility_selector.dart';
 import '../rules_factory.dart';
 import '../utils/metrics_analyzer_utils.dart';
-import '../utils/yaml_utils.dart';
 import 'analyzer_plugin_config.dart';
 import 'analyzer_plugin_utils.dart';
 
@@ -326,8 +324,8 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     ProcessedFile source,
     AnalyzerPluginConfig config,
   ) {
-    final controlFlowAstVisitor = ControlFlowAstVisitor(
-        defaultCyclomaticConfig, source.parsedContent.lineInfo);
+    final controlFlowAstVisitor =
+        ControlFlowAstVisitor(source.parsedContent.lineInfo);
     final nestingLevelVisitor = NestingLevelVisitor(
         function.declaration, source.parsedContent.lineInfo);
 
