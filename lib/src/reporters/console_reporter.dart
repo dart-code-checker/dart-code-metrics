@@ -56,7 +56,7 @@ class ConsoleReporter implements Reporter {
             UtilitySelector.componentReport(componentReport, reportConfig);
         final violationLevel = UtilitySelector.componentViolationLevel(report);
 
-        if (reportAll || UtilitySelector.isIssueLevel(violationLevel)) {
+        if (reportAll || isReportLevel(violationLevel)) {
           final violations = [
             if (reportAll || _isNeedToReport(report.methodsCount))
               _report(report.methodsCount, 'number of methods'),
@@ -111,7 +111,7 @@ class ConsoleReporter implements Reporter {
           UtilitySelector.functionReport(functionReport, reportConfig);
       final violationLevel = UtilitySelector.functionViolationLevel(report);
 
-      if (reportAll || UtilitySelector.isIssueLevel(violationLevel)) {
+      if (reportAll || isReportLevel(violationLevel)) {
         final violations = [
           if (reportAll || _isNeedToReport(report.cyclomaticComplexity))
             _report(report.cyclomaticComplexity, 'cyclomatic complexity'),
