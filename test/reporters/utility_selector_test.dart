@@ -156,17 +156,6 @@ void main() {
       );
     });
 
-    test('isIssueLevel', () {
-      <MetricValueLevel, Matcher>{
-        MetricValueLevel.none: isFalse,
-        MetricValueLevel.noted: isFalse,
-        MetricValueLevel.warning: isTrue,
-        MetricValueLevel.alarm: isTrue,
-      }.forEach((key, value) {
-        expect(UtilitySelector.isIssueLevel(key), value);
-      });
-    });
-
     group('maxViolationLevel returns', () {
       const fullPathStub = '~/lib/src/foo.dart';
       const relativePathStub = 'lib/src/foo.dart';

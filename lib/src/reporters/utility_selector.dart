@@ -31,37 +31,37 @@ class UtilitySelector {
     final averageArgumentCount =
         avg(functionReports.map((r) => r.argumentsCount.value));
     final totalArgumentsCountViolations = functionReports
-        .where((r) => isIssueLevel(r.argumentsCount.level))
+        .where((r) => isReportLevel(r.argumentsCount.level))
         .length;
 
     final averageMaintainabilityIndex =
         avg(functionReports.map((r) => r.maintainabilityIndex.value));
     final totalMaintainabilityIndexViolations = functionReports
-        .where((r) => isIssueLevel(r.maintainabilityIndex.level))
+        .where((r) => isReportLevel(r.maintainabilityIndex.level))
         .length;
 
     final averageMethodsCount =
         avg(componentReports.map((r) => r.methodsCount.value));
     final totalMethodsCountViolations = componentReports
-        .where((r) => isIssueLevel(r.methodsCount.level))
+        .where((r) => isReportLevel(r.methodsCount.level))
         .length;
 
     final totalCyclomaticComplexity =
         sum(functionReports.map((r) => r.cyclomaticComplexity.value));
     final totalCyclomaticComplexityViolations = functionReports
-        .where((r) => isIssueLevel(r.cyclomaticComplexity.level))
+        .where((r) => isReportLevel(r.cyclomaticComplexity.level))
         .length;
 
     final totalLinesOfExecutableCode =
         sum(functionReports.map((r) => r.linesOfExecutableCode.value));
     final totalLinesOfExecutableCodeViolations = functionReports
-        .where((r) => isIssueLevel(r.linesOfExecutableCode.level))
+        .where((r) => isReportLevel(r.linesOfExecutableCode.level))
         .length;
 
     final averageMaximumNestingLevel =
         avg(functionReports.map((r) => r.maximumNestingLevel.value)).round();
     final totalMaximumNestingLevelViolations = functionReports
-        .where((r) => isIssueLevel(r.maximumNestingLevel.level))
+        .where((r) => isReportLevel(r.maximumNestingLevel.level))
         .length;
 
     return FileReport(
@@ -180,9 +180,6 @@ class UtilitySelector {
         report.argumentsCount.level,
         report.maximumNestingLevel.level,
       ]);
-
-  static bool isIssueLevel(MetricValueLevel level) =>
-      level == MetricValueLevel.warning || level == MetricValueLevel.alarm;
 
   static MetricValueLevel maxViolationLevel(
           Iterable<FileRecord> records, Config config) =>

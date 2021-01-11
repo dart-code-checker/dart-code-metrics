@@ -19,6 +19,7 @@ import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
 import 'package:code_checker/checker.dart';
 import 'package:code_checker/rules.dart';
+import 'package:code_checker/metrics.dart';
 import 'package:source_span/source_span.dart';
 
 import '../anti_patterns_factory.dart';
@@ -285,7 +286,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
       }
 
       final functionReport = _buildReport(function, source, config);
-      if (UtilitySelector.isIssueLevel(
+      if (isReportLevel(
           UtilitySelector.functionViolationLevel(functionReport))) {
         final startSourceLocation = SourceLocation(
           functionOffset,
@@ -361,7 +362,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     SourceLocation startSourceLocation,
     AnalyzerPluginConfig config,
   ) =>
-      UtilitySelector.isIssueLevel(functionReport.cyclomaticComplexity.level)
+      isReportLevel(functionReport.cyclomaticComplexity.level)
           ? metricReportToAnalysisErrorFixes(
               startSourceLocation,
               function.declaration.end - startSourceLocation.offset,
@@ -376,7 +377,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     SourceLocation startSourceLocation,
     AnalyzerPluginConfig config,
   ) =>
-      UtilitySelector.isIssueLevel(functionReport.maximumNestingLevel.level)
+      isReportLevel(functionReport.maximumNestingLevel.level)
           ? metricReportToAnalysisErrorFixes(
               startSourceLocation,
               function.declaration.end - startSourceLocation.offset,
