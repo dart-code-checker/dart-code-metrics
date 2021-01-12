@@ -124,19 +124,20 @@ class MetricsAnalyzer {
           p.relative(filePath, from: rootFolder),
           _metricsExclude,
         )) {
-          for (final component in visitor.components) {
+          for (final classDeclaration in visitor.classes) {
             builder.recordComponent(
-              component,
+              classDeclaration,
               ComponentRecord(
                 firstLine: lineInfo
-                    .getLocation(component
+                    .getLocation(classDeclaration
                         .declaration.firstTokenAfterCommentAndMetadata.offset)
                     .lineNumber,
                 lastLine: lineInfo
-                    .getLocation(component.declaration.endToken.end)
+                    .getLocation(classDeclaration.declaration.endToken.end)
                     .lineNumber,
-                methodsCount:
-                    NumberOfMethodsMetric().compute(component, functions).value,
+                methodsCount: NumberOfMethodsMetric()
+                    .compute(classDeclaration, functions)
+                    .value,
               ),
             );
           }
