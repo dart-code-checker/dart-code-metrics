@@ -109,7 +109,7 @@ class MetricsAnalysisRecorder
           _componentRecords.map<String, ComponentRecord>(
               (key, value) => MapEntry(key.name, value))),
       functions: Map.unmodifiable(_functionRecords.map<String, FunctionRecord>(
-          (key, value) => MapEntry(key.name, value))),
+          (key, value) => MapEntry(key.fullName, value))),
       issues: _issues,
       designIssues: _designIssues,
     ));

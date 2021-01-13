@@ -14,4 +14,3 @@ int getArgumentsCount(ScopedFunctionDeclaration dec) {
 
   return argumentsCount ?? 0;
 }
-
