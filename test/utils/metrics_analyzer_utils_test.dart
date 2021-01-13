@@ -1,11 +1,8 @@
 @TestOn('vm')
-import 'package:analyzer/dart/analysis/features.dart';
-import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:code_checker/checker.dart';
 import 'package:dart_code_metrics/src/utils/metrics_analyzer_utils.dart';
 import 'package:mockito/mockito.dart';
-import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
 class ConstructorDeclarationMock extends Mock
@@ -69,59 +66,6 @@ void main() {
           FunctionType.function, ConstructorDeclarationMock(), null);
 
       expect(getArgumentsCount(declaration), isZero);
-    });
-  });
-
-  test('getFunctionHumanReadableName returns human readable name', () {
-    expect(getFunctionHumanReadableName(null), isNull);
-
-    <String, Iterable<String>>{
-      './test/resources/abstract_class.dart': [],
-      './test/resources/class_with_factory_constructors.dart': [
-        'SampleClass._create',
-        'SampleClass.createInstance',
-      ],
-      './test/resources/extension.dart': [
-        'SimpleObjectExtensions.as',
-      ],
-      './test/resources/function.dart': [
-        'say',
-      ],
-      './test/resources/mixed.dart': [
-        'pi',
-        'Bar.twoPi',
-        'Rectangle.Rectangle',
-        'Rectangle.right',
-        'Rectangle.right',
-        'Rectangle.bottom',
-        'Rectangle.bottom',
-      ],
-      './test/resources/mixin.dart': [
-        'ValuesMapping.findValueByKey',
-      ],
-    }.forEach((fileName, declarationNames) {
-      final visitor = ScopeVisitor();
-
-      parseFile(
-        path: p.normalize(p.absolute(fileName)),
-        featureSet: FeatureSet.fromEnableFlags([]),
-      ).unit.visitChildren(visitor);
-
-      expect(
-        visitor.functions.where((function) {
-          final declaration = function.declaration;
-          if (declaration is ConstructorDeclaration &&
-              declaration.body is EmptyFunctionBody) {
-            return false;
-          } else if (declaration is MethodDeclaration &&
-              declaration.body is EmptyFunctionBody) {
-            return false;
-          }
-
-          return true;
-        }).map(getFunctionHumanReadableName),
-        equals(declarationNames),
-      );
     });
   });
 }

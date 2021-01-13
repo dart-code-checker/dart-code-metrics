@@ -7,7 +7,6 @@ import 'metrics_records_store.dart';
 import 'models/component_record.dart';
 import 'models/file_record.dart';
 import 'models/function_record.dart';
-import 'utils/metrics_analyzer_utils.dart';
 
 /// Holds analysis records in format-agnostic way
 /// See [MetricsAnalysisRunner] to get analysis info
@@ -108,9 +107,9 @@ class MetricsAnalysisRecorder
       relativePath: _relativeGroupPath,
       components: Map.unmodifiable(
           _componentRecords.map<String, ComponentRecord>(
-              (key, value) => MapEntry(key.humanReadableName, value))),
+              (key, value) => MapEntry(key.name, value))),
       functions: Map.unmodifiable(_functionRecords.map<String, FunctionRecord>(
-          (key, value) => MapEntry(getFunctionHumanReadableName(key), value))),
+          (key, value) => MapEntry(key.name, value))),
       issues: _issues,
       designIssues: _designIssues,
     ));
