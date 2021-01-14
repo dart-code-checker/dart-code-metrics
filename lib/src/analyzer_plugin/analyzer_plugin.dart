@@ -24,7 +24,6 @@ import 'package:source_span/source_span.dart';
 
 import '../anti_patterns_factory.dart';
 import '../config/analysis_options.dart';
-import '../ignore_info.dart';
 import '../metrics/cyclomatic_complexity/control_flow_ast_visitor.dart';
 import '../metrics/nesting_level/nesting_level_visitor.dart';
 import '../models/function_record.dart';
@@ -187,8 +186,8 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     if (isSupported(analysisResult) &&
         config != null &&
         !isExcluded(analysisResult, config.globalExcludes)) {
-      final ignores = IgnoreInfo.calculateIgnores(
-          analysisResult.content, analysisResult.lineInfo);
+      final ignores =
+          Suppressions(analysisResult.content, analysisResult.lineInfo);
 
       final sourceUri =
           resourceProvider.getFile(analysisResult.path)?.toUri() ??
@@ -221,7 +220,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
           _configs[driver],
         ));
 
-        if (!ignores.ignoreRule(_codeMetricsId)) {
+        if (!ignores.isSuppressed(_codeMetricsId)) {
           result.addAll(_checkMetrics(
             ignores,
             ProcessedFile(
@@ -237,37 +236,37 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
   }
 
   Iterable<plugin.AnalysisErrorFixes> _checkOnCodeIssues(
-    IgnoreInfo ignores,
+    Suppressions ignores,
     ResolvedUnitResult analysisResult,
     Uri sourceUri,
     AnalyzerPluginConfig config,
   ) =>
       config.checkingCodeRules
-          .where((rule) => !ignores.ignoreRule(rule.id))
+          .where((rule) => !ignores.isSuppressed(rule.id))
           .expand((rule) => rule
               .check(ProcessedFile(
                   sourceUri, analysisResult.content, analysisResult.unit))
-              .where((issue) =>
-                  !ignores.ignoredAt(issue.ruleId, issue.location.start.line))
+              .where((issue) => !ignores.isSuppressedAt(
+                  issue.ruleId, issue.location.start.line))
               .map((issue) =>
                   codeIssueToAnalysisErrorFixes(issue, analysisResult)));
 
   Iterable<plugin.AnalysisErrorFixes> _checkOnAntiPatterns(
-    IgnoreInfo ignores,
+    Suppressions ignores,
     ProcessedFile source,
     Iterable<ScopedFunctionDeclaration> functions,
     AnalyzerPluginConfig config,
   ) =>
       config.checkingAntiPatterns
-          .where((pattern) => !ignores.ignoreRule(pattern.id))
+          .where((pattern) => !ignores.isSuppressed(pattern.id))
           .expand((pattern) =>
               pattern.check(source, functions, config.metricsConfigs))
           .where((issue) =>
-              !ignores.ignoredAt(issue.ruleId, issue.location.start.line))
+              !ignores.isSuppressedAt(issue.ruleId, issue.location.start.line))
           .map(designIssueToAnalysisErrorFixes);
 
   Iterable<plugin.AnalysisErrorFixes> _checkMetrics(
-    IgnoreInfo ignores,
+    Suppressions ignores,
     ProcessedFile source,
     Iterable<ScopedFunctionDeclaration> functions,
     AnalyzerPluginConfig config,
@@ -281,7 +280,8 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
       final functionFirstLineInfo =
           source.parsedContent.lineInfo.getLocation(functionOffset);
 
-      if (ignores.ignoredAt(_codeMetricsId, functionFirstLineInfo.lineNumber)) {
+      if (ignores.isSuppressedAt(
+          _codeMetricsId, functionFirstLineInfo.lineNumber)) {
         continue;
       }
 

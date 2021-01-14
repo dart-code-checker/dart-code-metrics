@@ -83,12 +83,14 @@ class UtilitySelector {
   static ComponentReport componentReport(
           ComponentRecord component, Config config) =>
       ComponentReport(
-          methodsCount: MetricValue<int>(
-        metricsId: '',
-        value: component.methodsCount,
-        level: valueLevel(
-            component.methodsCount, config.numberOfMethodsWarningLevel),
-      ));
+        methodsCount: MetricValue<int>(
+          metricsId: '',
+          value: component.methodsCount,
+          level: valueLevel(
+              component.methodsCount, config.numberOfMethodsWarningLevel),
+          comment: '',
+        ),
+      );
 
   static FunctionReport functionReport(FunctionRecord function, Config config) {
     final cyclomaticComplexity =
@@ -140,23 +142,27 @@ class UtilitySelector {
           cyclomaticComplexity.round(),
           config.cyclomaticComplexityWarningLevel,
         ),
+        comment: '',
       ),
       linesOfExecutableCode: MetricValue<int>(
         metricsId: '',
         value: linesOfExecutableCode,
         level: valueLevel(
             linesOfExecutableCode, config.linesOfExecutableCodeWarningLevel),
+        comment: '',
       ),
       maintainabilityIndex: MetricValue<double>(
         metricsId: '',
         value: maintainabilityIndex,
         level: _maintainabilityIndexViolationLevel(maintainabilityIndex),
+        comment: '',
       ),
       argumentsCount: MetricValue<int>(
         metricsId: '',
         value: function.argumentsCount,
         level: valueLevel(
             function.argumentsCount, config.numberOfArgumentsWarningLevel),
+        comment: '',
       ),
       maximumNestingLevel: MetricValue<int>(
         metricsId: '',
@@ -165,6 +171,7 @@ class UtilitySelector {
           maximumNestingLevel,
           config.maximumNestingWarningLevel,
         ),
+        comment: '',
       ),
     );
   }

@@ -48,7 +48,8 @@ void main() {
         final classDeclarationMock = ClassDeclarationMock();
         when(classDeclarationMock.name).thenReturn(simpleIdentifierMock);
 
-        final record = ScopedClassDeclaration(classDeclarationMock);
+        final record =
+            ScopedClassDeclaration(ClassType.generic, classDeclarationMock);
 
         test('throws ArgumentError if called without record', () {
           expect(
@@ -186,7 +187,8 @@ void main() {
       final classDeclarationMock = ClassDeclarationMock();
       when(classDeclarationMock.name).thenReturn(simpleIdentifierMock);
 
-      final record = ScopedClassDeclaration(classDeclarationMock);
+      final record =
+          ScopedClassDeclaration(ClassType.generic, classDeclarationMock);
 
       test('throws StateError if we call them in invalid state', () {
         expect(

@@ -1,11 +1,11 @@
 import 'dart:io';
 
+import 'package:code_checker/checker.dart';
 import 'package:code_checker/metrics.dart';
 import 'package:dart_code_metrics/metrics_analyzer.dart';
 import 'package:dart_code_metrics/reporters.dart';
 import 'package:dart_code_metrics/src/config/cli/arguments_parser.dart';
 import 'package:dart_code_metrics/src/config/cli/arguments_validation.dart';
-import 'package:dart_code_metrics/src/config/cli/arguments_validation_exceptions.dart';
 import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
 import 'package:path/path.dart' as p;
 

@@ -45,6 +45,7 @@ ComponentReport buildComponentReportStub({
         metricsId: '',
         value: methodsCount,
         level: methodsCountViolationLevel,
+        comment: '',
       ),
     );
 
@@ -65,25 +66,30 @@ FunctionReport buildFunctionReportStub({
         metricsId: '',
         value: cyclomaticComplexity,
         level: cyclomaticComplexityViolationLevel,
+        comment: '',
       ),
       linesOfExecutableCode: MetricValue<int>(
         metricsId: '',
         value: linesOfExecutableCode,
         level: linesOfExecutableCodeViolationLevel,
+        comment: '',
       ),
       maintainabilityIndex: MetricValue<double>(
         metricsId: '',
         value: maintainabilityIndex,
         level: maintainabilityIndexViolationLevel,
+        comment: '',
       ),
       argumentsCount: MetricValue<int>(
         metricsId: '',
         value: argumentsCount,
         level: argumentsCountViolationLevel,
+        comment: '',
       ),
       maximumNestingLevel: MetricValue<int>(
         metricsId: '',
         value: maximumNestingLevel,
         level: maximumNestingLevelViolationLevel,
+        comment: '',
       ),
     );

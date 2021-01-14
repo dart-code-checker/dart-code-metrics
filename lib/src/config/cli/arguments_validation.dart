@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
+import 'package:code_checker/checker.dart';
 import 'package:path/path.dart' as path;
 
 import 'arguments_parser.dart';
-import 'arguments_validation_exceptions.dart';
 
 /// Umbrella method to run all checks
 /// throws [InvalidArgumentException]
@@ -16,7 +16,7 @@ void validateArguments(ArgResults arguments) {
 
 void checkPathsToAnalyzeNotEmpty(ArgResults arguments) {
   if (arguments.rest.isEmpty) {
-    throw InvalidArgumentException(
+    throw const InvalidArgumentException(
         'Invalid number of directories. At least one must be specified');
   }
 }

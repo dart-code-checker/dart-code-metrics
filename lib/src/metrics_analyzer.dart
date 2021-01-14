@@ -17,7 +17,6 @@ import 'anti_patterns_factory.dart';
 import 'config/analysis_options.dart';
 import 'config/config.dart';
 import 'halstead_volume/halstead_volume_ast_visitor.dart';
-import 'ignore_info.dart';
 import 'metrics/cyclomatic_complexity/control_flow_ast_visitor.dart';
 import 'metrics/lines_of_executable_code/lines_of_executable_code_visitor.dart';
 import 'metrics_records_store.dart';
@@ -177,7 +176,7 @@ class MetricsAnalyzer {
           }
         }
 
-        final ignores = IgnoreInfo.calculateIgnores(source.content, lineInfo);
+        final ignores = Suppressions(source.content, lineInfo);
 
         builder
           ..recordIssues(_checkOnCodeIssues(ignores, source))
@@ -189,24 +188,24 @@ class MetricsAnalyzer {
   }
 
   Iterable<Issue> _checkOnCodeIssues(
-    IgnoreInfo ignores,
+    Suppressions ignores,
     ProcessedFile source,
   ) =>
-      _checkingCodeRules.where((rule) => !ignores.ignoreRule(rule.id)).expand(
-            (rule) => rule.check(source).where((issue) =>
-                !ignores.ignoredAt(issue.ruleId, issue.location.start.line)),
+      _checkingCodeRules.where((rule) => !ignores.isSuppressed(rule.id)).expand(
+            (rule) => rule.check(source).where((issue) => !ignores
+                .isSuppressedAt(issue.ruleId, issue.location.start.line)),
           );
 
   Iterable<Issue> _checkOnAntiPatterns(
-    IgnoreInfo ignores,
+    Suppressions ignores,
     ProcessedFile source,
     Iterable<ScopedFunctionDeclaration> functions,
   ) =>
       _checkingAntiPatterns
-          .where((pattern) => !ignores.ignoreRule(pattern.id))
+          .where((pattern) => !ignores.isSuppressed(pattern.id))
           .expand((pattern) => pattern
               .check(source, functions, _metricsConfig)
-              .where((issue) => !ignores.ignoredAt(
+              .where((issue) => !ignores.isSuppressedAt(
                     issue.ruleId,
                     issue.location.start.line,
                   )));
