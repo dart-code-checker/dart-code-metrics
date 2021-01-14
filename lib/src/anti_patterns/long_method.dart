@@ -2,7 +2,7 @@ import 'package:code_checker/checker.dart';
 import 'package:code_checker/rules.dart';
 import 'package:meta/meta.dart';
 
-import '../config/config.dart';
+import '../config/config.dart' as metrics;
 import '../metrics/lines_of_executable_code/lines_of_executable_code_visitor.dart';
 import 'base_pattern.dart';
 import 'pattern_utils.dart' as utils;
@@ -18,7 +18,7 @@ class LongMethod extends BasePattern {
   Iterable<Issue> check(
     ProcessedFile source,
     Iterable<ScopedFunctionDeclaration> functions,
-    Config config,
+    metrics.Config config,
   ) {
     final issues = <Issue>[];
 

@@ -4,7 +4,7 @@ import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:code_checker/checker.dart';
 import 'package:code_checker/rules.dart';
-import 'package:dart_code_metrics/src/config/config.dart';
+import 'package:dart_code_metrics/src/config/config.dart' as metrics;
 import 'package:dart_code_metrics/src/anti_patterns/long_method.dart';
 import 'package:test/test.dart';
 
@@ -75,7 +75,7 @@ void main() {
 
         return true;
       }),
-      const Config(linesOfExecutableCodeWarningLevel: 25),
+      const metrics.Config(linesOfExecutableCodeWarningLevel: 25),
     );
 
     expect(issues.length, equals(1));

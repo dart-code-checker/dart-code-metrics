@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:code_checker/checker.dart';
 import 'package:dart_code_metrics/src/config/analysis_options.dart';
-import 'package:dart_code_metrics/src/config/config.dart';
+import 'package:dart_code_metrics/src/config/config.dart' as metrics;
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
 
@@ -120,14 +120,14 @@ void main() {
   group('AnalysisOptions from', () {
     test('empty content', () {
       final configFromNull = AnalysisOptions.fromMap(null);
-      final configFromEmptyMap = AnalysisOptions.fromMap({});
+      final configFromEmptyMap = AnalysisOptions.fromMap(const {});
 
-      expect(configFromNull.metricsConfig, equals(const Config()));
+      expect(configFromNull.metricsConfig, equals(const metrics.Config()));
       expect(configFromNull.metricsExcludePatterns, isEmpty);
       expect(configFromNull.rules, isEmpty);
       expect(configFromNull.antiPatterns, isEmpty);
 
-      expect(configFromEmptyMap.metricsConfig, equals(const Config()));
+      expect(configFromEmptyMap.metricsConfig, equals(const metrics.Config()));
       expect(configFromEmptyMap.metricsExcludePatterns, isEmpty);
       expect(configFromEmptyMap.rules, isEmpty);
       expect(configFromEmptyMap.antiPatterns, isEmpty);
@@ -137,7 +137,7 @@ void main() {
       final options =
           AnalysisOptions.fromMap(_yamlToDartMap(_contentWithoutMetrics));
 
-      expect(options.metricsConfig, equals(const Config()));
+      expect(options.metricsConfig, equals(const metrics.Config()));
       expect(options.metricsExcludePatterns, isEmpty);
       expect(options.rules, isEmpty);
       expect(options.antiPatterns, isEmpty);
@@ -148,7 +148,7 @@ void main() {
         final options =
             AnalysisOptions.fromMap(_yamlToDartMap(_contentWitMetricsRules));
 
-        expect(options.metricsConfig, equals(const Config()));
+        expect(options.metricsConfig, equals(const metrics.Config()));
         expect(options.metricsExcludePatterns, isEmpty);
         expect(
             options.rules,
@@ -165,7 +165,7 @@ void main() {
         final options = AnalysisOptions.fromMap(
             _yamlToDartMap(_contentWitMetricsRulesAsMap));
 
-        expect(options.metricsConfig, equals(const Config()));
+        expect(options.metricsConfig, equals(const metrics.Config()));
         expect(options.metricsExcludePatterns, isEmpty);
         expect(
             options.rules,
@@ -229,9 +229,9 @@ void main() {
           options.metricsConfig.linesOfExecutableCodeWarningLevel, equals(30));
       expect(options.metricsConfig.numberOfArgumentsWarningLevel, equals(4));
       expect(options.metricsConfig.numberOfMethodsWarningLevel,
-          equals(numberOfMethodsDefaultWarningLevel));
+          equals(metrics.numberOfMethodsDefaultWarningLevel));
       expect(options.metricsConfig.maximumNestingWarningLevel,
-          equals(maximumNestingDefaultWarningLevel));
+          equals(metrics.maximumNestingDefaultWarningLevel));
 
       expect(options.excludePatterns, equals(['example/**']));
       expect(

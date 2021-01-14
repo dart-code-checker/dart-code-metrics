@@ -2,7 +2,7 @@ import 'package:code_checker/checker.dart';
 import 'package:code_checker/rules.dart';
 import 'package:meta/meta.dart';
 
-import '../config/config.dart';
+import '../config/config.dart' as metrics;
 
 abstract class BasePattern {
   final String id;
@@ -16,6 +16,6 @@ abstract class BasePattern {
   Iterable<Issue> check(
     ProcessedFile source,
     Iterable<ScopedFunctionDeclaration> functions,
-    Config config,
+    metrics.Config config,
   );
 }

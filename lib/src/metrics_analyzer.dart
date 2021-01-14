@@ -14,8 +14,8 @@ import 'package:path/path.dart' as p;
 
 import 'anti_patterns/base_pattern.dart';
 import 'anti_patterns_factory.dart';
-import 'config/analysis_options.dart';
-import 'config/config.dart';
+import 'config/analysis_options.dart' as metrics;
+import 'config/config.dart' as metrics;
 import 'halstead_volume/halstead_volume_ast_visitor.dart';
 import 'metrics/cyclomatic_complexity/control_flow_ast_visitor.dart';
 import 'metrics/lines_of_executable_code/lines_of_executable_code_visitor.dart';
@@ -33,14 +33,14 @@ class MetricsAnalyzer {
   final Iterable<Rule> _checkingCodeRules;
   final Iterable<BasePattern> _checkingAntiPatterns;
   final Iterable<Glob> _globalExclude;
-  final Config _metricsConfig;
+  final metrics.Config _metricsConfig;
   final Iterable<Glob> _metricsExclude;
   final MetricsRecordsStore _store;
   final bool _useFastParser;
 
   MetricsAnalyzer(
     this._store, {
-    AnalysisOptions options,
+    metrics.AnalysisOptions options,
     Iterable<String> additionalExcludes = const [],
   })  : _checkingCodeRules =
             options?.rules != null ? getRulesById(options.rules) : [],
@@ -51,7 +51,7 @@ class MetricsAnalyzer {
           ..._prepareExcludes(options?.excludePatterns),
           ..._prepareExcludes(additionalExcludes),
         ],
-        _metricsConfig = options?.metricsConfig ?? const Config(),
+        _metricsConfig = options?.metricsConfig ?? const metrics.Config(),
         _metricsExclude = _prepareExcludes(options?.metricsExcludePatterns),
         _useFastParser = true;
 

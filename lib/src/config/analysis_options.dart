@@ -1,10 +1,11 @@
 import 'dart:io';
 
+import 'package:code_checker/checker.dart';
 import 'package:meta/meta.dart';
 
 import '../utils/object_extensions.dart';
 import '../utils/yaml_utils.dart';
-import 'config.dart';
+import 'config.dart' as metrics;
 
 // Documentation about customizing static analysis located at https://dart.dev/guides/language/analysis-options
 
@@ -21,28 +22,32 @@ const _excludeKey = 'exclude';
 
 /// Class representing options in `analysis_options.yaml`.
 
-class AnalysisOptions {
-  final Iterable<String> excludePatterns;
-  final Config metricsConfig;
-  final Iterable<String> metricsExcludePatterns;
+class AnalysisOptions extends Config {
+  final metrics.Config metricsConfig;
   final Map<String, Map<String, Object>> rules;
   final Map<String, Map<String, Object>> antiPatterns;
 
   const AnalysisOptions({
-    @required this.excludePatterns,
+    @required Iterable<String> excludePatterns,
+    @required Iterable<String> metricsExcludePatterns,
+    @required Map<String, Object> metrics,
     @required this.metricsConfig,
-    @required this.metricsExcludePatterns,
     @required this.rules,
     @required this.antiPatterns,
-  });
+  }) : super(
+          excludePatterns: excludePatterns,
+          metricsExcludePatterns: metricsExcludePatterns,
+          metrics: metrics,
+        );
 
   factory AnalysisOptions.fromMap(Map<String, Object> map) {
     final configMap = map ?? {};
 
     return AnalysisOptions(
       excludePatterns: _readGlobalExcludePatterns(configMap),
-      metricsConfig: _readMetricsConfig(configMap),
       metricsExcludePatterns: _readMetricsExcludePatterns(configMap),
+      metrics: const <String, Object>{},
+      metricsConfig: _readMetricsConfig(configMap),
       rules: _readRules(configMap, _rulesKey),
       antiPatterns: _readRules(configMap, _antiPatternsKey),
     );
@@ -62,27 +67,29 @@ Iterable<String> _readGlobalExcludePatterns(Map<String, Object> configMap) {
   return [];
 }
 
-Config _readMetricsConfig(Map<String, Object> configMap) {
+metrics.Config _readMetricsConfig(Map<String, Object> configMap) {
   final metricsOptions = configMap[_rootKey];
   if (metricsOptions is Map<String, Object>) {
     final configMap = metricsOptions[_metricsKey];
     if (configMap is Map<String, Object>) {
-      return Config(
-        cyclomaticComplexityWarningLevel: configMap[cyclomaticComplexityKey]
-            .as<int>(cyclomaticComplexityDefaultWarningLevel),
-        linesOfExecutableCodeWarningLevel: configMap[linesOfExecutableCodeKey]
-            .as<int>(linesOfExecutableCodeDefaultWarningLevel),
-        numberOfArgumentsWarningLevel: configMap[numberOfArgumentsKey]
-            .as<int>(numberOfArgumentsDefaultWarningLevel),
-        numberOfMethodsWarningLevel: configMap[numberOfMethodsKey]
-            .as<int>(numberOfMethodsDefaultWarningLevel),
-        maximumNestingWarningLevel: configMap[maximumNestingKey]
-            .as<int>(maximumNestingDefaultWarningLevel),
+      return metrics.Config(
+        cyclomaticComplexityWarningLevel:
+            configMap[metrics.cyclomaticComplexityKey]
+                .as<int>(metrics.cyclomaticComplexityDefaultWarningLevel),
+        linesOfExecutableCodeWarningLevel:
+            configMap[metrics.linesOfExecutableCodeKey]
+                .as<int>(metrics.linesOfExecutableCodeDefaultWarningLevel),
+        numberOfArgumentsWarningLevel: configMap[metrics.numberOfArgumentsKey]
+            .as<int>(metrics.numberOfArgumentsDefaultWarningLevel),
+        numberOfMethodsWarningLevel: configMap[metrics.numberOfMethodsKey]
+            .as<int>(metrics.numberOfMethodsDefaultWarningLevel),
+        maximumNestingWarningLevel: configMap[metrics.maximumNestingKey]
+            .as<int>(metrics.maximumNestingDefaultWarningLevel),
       );
     }
   }
 
-  return const Config();
+  return const metrics.Config();
 }
 
 Iterable<String> _readMetricsExcludePatterns(Map<String, Object> configMap) {

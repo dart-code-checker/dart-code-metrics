@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:code_checker/checker.dart';
 import 'package:code_checker/metrics.dart';
-import 'package:dart_code_metrics/metrics_analyzer.dart';
+import 'package:dart_code_metrics/metrics_analyzer.dart' as metrics;
 import 'package:dart_code_metrics/reporters.dart';
 import 'package:dart_code_metrics/src/config/cli/arguments_parser.dart';
 import 'package:dart_code_metrics/src/config/cli/arguments_validation.dart';
@@ -25,11 +25,11 @@ Future<void> main(List<String> args) async {
       arguments[rootFolderName] as String,
       arguments.rest,
       arguments[ignoredFilesName] as String,
-      int.tryParse(arguments[cyclomaticComplexityKey] as String ?? ''),
-      int.tryParse(arguments[linesOfExecutableCodeKey] as String ?? ''),
-      int.tryParse(arguments[numberOfArgumentsKey] as String ?? ''),
-      int.tryParse(arguments[numberOfMethodsKey] as String ?? ''),
-      int.tryParse(arguments[maximumNestingKey] as String ?? ''),
+      int.tryParse(arguments[metrics.cyclomaticComplexityKey] as String ?? ''),
+      int.tryParse(arguments[metrics.linesOfExecutableCodeKey] as String ?? ''),
+      int.tryParse(arguments[metrics.numberOfArgumentsKey] as String ?? ''),
+      int.tryParse(arguments[metrics.numberOfMethodsKey] as String ?? ''),
+      int.tryParse(arguments[metrics.maximumNestingKey] as String ?? ''),
       arguments[reporterName] as String,
       arguments[verboseName] as bool,
       arguments[gitlabCompatibilityName] as bool,
@@ -65,29 +65,30 @@ Future<void> _runAnalysis(
   MetricValueLevel setExitOnViolationLevel,
 ) async {
   final analysisOptionsFile =
-      File(p.absolute(rootFolder, analysisOptionsFileName));
+      File(p.absolute(rootFolder, metrics.analysisOptionsFileName));
 
   final options = analysisOptionsFile.existsSync()
-      ? await analysisOptionsFromFile(analysisOptionsFile)
-      : const AnalysisOptions(
+      ? await metrics.analysisOptionsFromFile(analysisOptionsFile)
+      : const metrics.AnalysisOptions(
           excludePatterns: [],
-          metricsConfig: Config(),
           metricsExcludePatterns: [],
+          metrics: {},
+          metricsConfig: metrics.Config(),
           rules: {},
           antiPatterns: {},
         );
 
-  final store = MetricsRecordsStore.store();
-  final analyzer = MetricsAnalyzer(
+  final store = metrics.MetricsRecordsStore.store();
+  final analyzer = metrics.MetricsAnalyzer(
     store,
     options: options,
     additionalExcludes: [ignoreFilesPattern],
   );
-  final runner =
-      MetricsAnalysisRunner(analyzer, store, analysisDirectories, rootFolder);
+  final runner = metrics.MetricsAnalysisRunner(
+      analyzer, store, analysisDirectories, rootFolder);
   await runner.run();
 
-  final config = Config(
+  final config = metrics.Config(
     cyclomaticComplexityWarningLevel: cyclomaticComplexityThreshold ??
         options.metricsConfig.cyclomaticComplexityWarningLevel,
     linesOfExecutableCodeWarningLevel: linesOfExecutableCodeThreshold ??
