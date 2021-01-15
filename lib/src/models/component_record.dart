@@ -6,9 +6,12 @@ class ComponentRecord {
   final int lastLine;
 
   final int methodsCount;
+  final double weightOfClass;
 
-  const ComponentRecord(
-      {@required this.firstLine,
-      @required this.lastLine,
-      @required this.methodsCount});
+  const ComponentRecord({
+    @required this.firstLine,
+    @required this.lastLine,
+    @required this.methodsCount,
+    @required this.weightOfClass,
+  });
 }

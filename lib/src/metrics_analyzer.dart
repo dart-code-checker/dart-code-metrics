@@ -78,6 +78,8 @@ class MetricsAnalyzer {
             .map((entity) => entity.path))
         .toList();
 
+    final woc = WeightOfClassMetric();
+
     for (final filePath in filePaths) {
       final normalized = p.normalize(p.absolute(filePath));
 
@@ -137,6 +139,8 @@ class MetricsAnalyzer {
                 methodsCount: NumberOfMethodsMetric()
                     .compute(classDeclaration, functions)
                     .value,
+                weightOfClass:
+                    woc.compute(classDeclaration, visitor.functions).value,
               ),
             );
           }

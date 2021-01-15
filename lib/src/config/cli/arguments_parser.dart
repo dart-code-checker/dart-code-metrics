@@ -64,10 +64,10 @@ void _appendReporterOption(ArgParser parser) {
 }
 
 @immutable
-class _MetricOption {
+class _MetricOption<T> {
   final String name;
   final String help;
-  final int defaultValue;
+  final T defaultValue;
 
   const _MetricOption(this.name, this.help, this.defaultValue);
 }
@@ -99,6 +99,11 @@ void _appendMetricsThresholdOptions(ArgParser parser) {
       'Maximum nesting threshold',
       maximumNestingDefaultWarningLevel,
     ),
+    _MetricOption(
+      weightOfClassKey,
+      'Weight Of Class threshold',
+      weightOfClassDefaultWarningLevel,
+    ),
   ];
 
   for (final metric in metrics) {
@@ -107,9 +112,16 @@ void _appendMetricsThresholdOptions(ArgParser parser) {
       help: metric.help,
       valueHelp: '${metric.defaultValue}',
       // ignore: avoid_types_on_closure_parameters
-      callback: (String i) {
-        if (i != null && int.tryParse(i) == null) {
-          print("'$i' invalid value for argument ${metric.name}");
+      callback: (String value) {
+        var invalid = true;
+        if (metric.defaultValue is int) {
+          invalid = value != null && int.tryParse(value) == null;
+        } else if (metric.defaultValue is double) {
+          invalid = value != null && double.tryParse(value) == null;
+        }
+
+        if (invalid) {
+          print("'$value' invalid value for argument ${metric.name}");
         }
       },
     );

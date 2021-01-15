@@ -85,6 +85,8 @@ metrics.Config _readMetricsConfig(Map<String, Object> configMap) {
             .as<int>(metrics.numberOfMethodsDefaultWarningLevel),
         maximumNestingWarningLevel: configMap[metrics.maximumNestingKey]
             .as<int>(metrics.maximumNestingDefaultWarningLevel),
+        weightOfClassWarningLevel: configMap[metrics.weightOfClassKey]
+            .as<double>(metrics.weightOfClassDefaultWarningLevel),
       );
     }
   }

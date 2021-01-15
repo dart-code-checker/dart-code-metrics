@@ -90,6 +90,13 @@ class UtilitySelector {
               component.methodsCount, config.numberOfMethodsWarningLevel),
           comment: '',
         ),
+        weightOfClass: MetricValue<double>(
+          metricsId: '',
+          value: component.weightOfClass,
+          level: _violationLevelPercentInvert(
+              component.weightOfClass, config.weightOfClassWarningLevel),
+          comment: '',
+        ),
       );
 
   static FunctionReport functionReport(FunctionRecord function, Config config) {
@@ -226,6 +233,25 @@ class UtilitySelector {
         maximumNestingLevelViolations: lhs.maximumNestingLevelViolations +
             rhs.maximumNestingLevelViolations,
       );
+
+  static MetricValueLevel _violationLevelPercentInvert(
+    double value,
+    double warningLevel,
+  ) {
+    if (warningLevel == null) {
+      return MetricValueLevel.none;
+    }
+
+    if (value < warningLevel * 0.5) {
+      return MetricValueLevel.alarm;
+    } else if (value < warningLevel) {
+      return MetricValueLevel.warning;
+    } else if (value < (warningLevel * 2)) {
+      return MetricValueLevel.noted;
+    }
+
+    return MetricValueLevel.none;
+  }
 
   static MetricValueLevel _maintainabilityIndexViolationLevel(double index) {
     if (index < 10) {
