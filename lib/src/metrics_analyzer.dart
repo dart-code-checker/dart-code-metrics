@@ -20,7 +20,6 @@ import 'halstead_volume/halstead_volume_ast_visitor.dart';
 import 'metrics/cyclomatic_complexity/control_flow_ast_visitor.dart';
 import 'metrics/lines_of_executable_code/lines_of_executable_code_visitor.dart';
 import 'metrics_records_store.dart';
-import 'models/component_record.dart';
 import 'models/function_record.dart';
 import 'rules_factory.dart';
 import 'utils/metrics_analyzer_utils.dart';
@@ -78,8 +77,6 @@ class MetricsAnalyzer {
             .map((entity) => entity.path))
         .toList();
 
-    final woc = WeightOfClassMetric();
-
     for (final filePath in filePaths) {
       final normalized = p.normalize(p.absolute(filePath));
 
@@ -128,19 +125,21 @@ class MetricsAnalyzer {
           for (final classDeclaration in visitor.classes) {
             builder.recordComponent(
               classDeclaration,
-              ComponentRecord(
-                firstLine: lineInfo
-                    .getLocation(classDeclaration
-                        .declaration.firstTokenAfterCommentAndMetadata.offset)
-                    .lineNumber,
-                lastLine: lineInfo
-                    .getLocation(classDeclaration.declaration.endToken.end)
-                    .lineNumber,
-                methodsCount: NumberOfMethodsMetric()
-                    .compute(classDeclaration, functions)
-                    .value,
-                weightOfClass:
-                    woc.compute(classDeclaration, visitor.functions).value,
+              ClassReport(
+                location: nodeLocation(
+                  node: classDeclaration.declaration,
+                  source: source,
+                ),
+                metrics: [
+                  NumberOfMethodsMetric(config: {
+                    NumberOfMethodsMetric.metricId:
+                        '${_metricsConfig.numberOfMethodsWarningLevel}',
+                  }).compute(classDeclaration, functions),
+                  WeightOfClassMetric(config: {
+                    WeightOfClassMetric.metricId:
+                        '${_metricsConfig.weightOfClassWarningLevel}',
+                  }).compute(classDeclaration, visitor.functions),
+                ],
               ),
             );
           }

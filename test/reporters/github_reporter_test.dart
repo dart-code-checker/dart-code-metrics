@@ -1,6 +1,6 @@
 @TestOn('vm')
+import 'package:code_checker/checker.dart';
 import 'package:code_checker/rules.dart';
-import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/file_record.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/reporters/github/github_reporter.dart';
@@ -20,7 +20,7 @@ void main() {
         FileRecord(
           fullPath: fullPath,
           relativePath: 'example.dart',
-          components: Map.unmodifiable(<String, ComponentRecord>{}),
+          components: Map.unmodifiable(<String, ClassReport>{}),
           functions: Map.unmodifiable(<String, FunctionRecord>{}),
           issues: const [],
           designIssues: [
@@ -58,7 +58,7 @@ void main() {
         FileRecord(
           fullPath: fullPath,
           relativePath: 'example.dart',
-          components: Map.unmodifiable(<String, ComponentRecord>{}),
+          components: Map.unmodifiable(<String, ClassReport>{}),
           functions: Map.unmodifiable(<String, FunctionRecord>{}),
           issues: [
             Issue(

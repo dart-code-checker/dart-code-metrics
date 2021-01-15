@@ -1,9 +1,10 @@
 @TestOn('vm')
 import 'dart:convert';
 
+import 'package:code_checker/checker.dart';
+import 'package:code_checker/metrics.dart';
 import 'package:code_checker/rules.dart';
-import 'package:dart_code_metrics/src/config/config.dart';
-import 'package:dart_code_metrics/src/models/component_record.dart';
+import 'package:dart_code_metrics/src/config/config.dart' as metric;
 import 'package:dart_code_metrics/src/models/file_record.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/reporters/code_climate/code_climate_reporter.dart';
@@ -22,7 +23,7 @@ void main() {
     CodeClimateReporter _reporter;
 
     setUp(() {
-      _reporter = CodeClimateReporter(reportConfig: const Config());
+      _reporter = CodeClimateReporter(reportConfig: const metric.Config());
     });
 
     test('empty file', () {
@@ -40,7 +41,7 @@ void main() {
         FileRecord(
           fullPath: fullPath,
           relativePath: 'example.dart',
-          components: Map.unmodifiable(<String, ComponentRecord>{}),
+          components: Map.unmodifiable(<String, ClassReport>{}),
           functions: Map.unmodifiable(<String, FunctionRecord>{}),
           issues: const [],
           designIssues: [
@@ -97,7 +98,7 @@ void main() {
         FileRecord(
           fullPath: fullPath,
           relativePath: 'example.dart',
-          components: Map.unmodifiable(<String, ComponentRecord>{}),
+          components: Map.unmodifiable(<String, ClassReport>{}),
           functions: Map.unmodifiable(<String, FunctionRecord>{}),
           issues: [
             Issue(
@@ -151,8 +152,15 @@ void main() {
           FileRecord(
             fullPath: fullPath,
             relativePath: 'example.dart',
-            components: Map.unmodifiable(<String, ComponentRecord>{
-              'class': buildComponentRecordStub(methodsCount: 0),
+            components: Map.unmodifiable(<String, ClassReport>{
+              'class': buildComponentRecordStub(metrics: const [
+                MetricValue<int>(
+                  metricsId: NumberOfMethodsMetric.metricId,
+                  value: 0,
+                  level: MetricValueLevel.none,
+                  comment: '',
+                ),
+              ]),
             }),
             functions: Map.unmodifiable(<String, FunctionRecord>{}),
             issues: const [],
@@ -168,8 +176,15 @@ void main() {
           FileRecord(
             fullPath: fullPath,
             relativePath: 'example.dart',
-            components: Map.unmodifiable(<String, ComponentRecord>{
-              'class': buildComponentRecordStub(methodsCount: 20),
+            components: Map.unmodifiable(<String, ClassReport>{
+              'class': buildComponentRecordStub(metrics: const [
+                MetricValue<int>(
+                  metricsId: NumberOfMethodsMetric.metricId,
+                  value: 20,
+                  level: MetricValueLevel.warning,
+                  comment: '',
+                ),
+              ]),
             }),
             functions: Map.unmodifiable(<String, FunctionRecord>{}),
             issues: const [],
@@ -215,7 +230,7 @@ void main() {
           FileRecord(
             fullPath: fullPath,
             relativePath: 'example.dart',
-            components: Map.unmodifiable(<String, ComponentRecord>{}),
+            components: Map.unmodifiable(<String, ClassReport>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
               'function': buildFunctionRecordStub(nestingLines: [
                 [1],
@@ -235,7 +250,7 @@ void main() {
           FileRecord(
             fullPath: fullPath,
             relativePath: 'example.dart',
-            components: Map.unmodifiable(<String, ComponentRecord>{}),
+            components: Map.unmodifiable(<String, ClassReport>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
               'function': buildFunctionRecordStub(nestingLines: [
                 [1],
@@ -288,7 +303,7 @@ void main() {
 
     setUp(() {
       _reporter = CodeClimateReporter(
-          reportConfig: const Config(), gitlabCompatible: true);
+          reportConfig: const metric.Config(), gitlabCompatible: true);
     });
 
     test('empty file', () {
@@ -306,7 +321,7 @@ void main() {
         FileRecord(
           fullPath: fullPath,
           relativePath: 'example.dart',
-          components: Map.unmodifiable(<String, ComponentRecord>{}),
+          components: Map.unmodifiable(<String, ClassReport>{}),
           functions: Map.unmodifiable(<String, FunctionRecord>{}),
           issues: const [],
           designIssues: [

@@ -1,21 +1,35 @@
+import 'package:code_checker/checker.dart';
 import 'package:code_checker/metrics.dart';
-import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:dart_code_metrics/src/models/component_report.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/models/function_report.dart';
+import 'package:source_span/source_span.dart';
 
-ComponentRecord buildComponentRecordStub({
-  int firstLine = 0,
-  int lastLine = 0,
-  int methodsCount = 0,
-  double weightOfClass = 1,
-}) =>
-    ComponentRecord(
-      firstLine: firstLine,
-      lastLine: lastLine,
-      methodsCount: methodsCount,
-      weightOfClass: weightOfClass,
-    );
+ClassReport buildComponentRecordStub({
+  SourceSpanBase location,
+  Iterable<MetricValue<num>> metrics = const [],
+}) {
+  const defaultMetricValues = [
+    MetricValue<int>(
+      metricsId: NumberOfMethodsMetric.metricId,
+      value: 0,
+      level: MetricValueLevel.none,
+      comment: '',
+    ),
+    MetricValue<double>(
+      metricsId: WeightOfClassMetric.metricId,
+      value: 1,
+      level: MetricValueLevel.none,
+      comment: '',
+    ),
+  ];
+
+  return ClassReport(
+    location:
+        location ?? SourceSpanBase(SourceLocation(0), SourceLocation(0), ''),
+    metrics: [...metrics, ...defaultMetricValues],
+  );
+}
 
 FunctionRecord buildFunctionRecordStub({
   int firstLine = 0,

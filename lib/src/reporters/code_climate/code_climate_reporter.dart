@@ -46,8 +46,8 @@ class CodeClimateReporter implements Reporter {
         return [
           if (isReportLevel(report.methodsCount.level))
             CodeClimateIssue.numberOfMethods(
-              component.firstLine,
-              component.lastLine,
+              component.location.start.line,
+              component.location.end.line,
               report.methodsCount.value,
               record.relativePath,
               key,

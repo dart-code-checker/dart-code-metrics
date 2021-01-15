@@ -1,8 +1,9 @@
 @TestOn('vm')
 import 'package:ansicolor/ansicolor.dart';
+import 'package:code_checker/checker.dart';
+import 'package:code_checker/metrics.dart';
 import 'package:code_checker/rules.dart';
-import 'package:dart_code_metrics/src/config/config.dart';
-import 'package:dart_code_metrics/src/models/component_record.dart';
+import 'package:dart_code_metrics/src/config/config.dart' as metric;
 import 'package:dart_code_metrics/src/models/file_record.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/reporters/console_reporter.dart';
@@ -20,9 +21,9 @@ void main() {
 
     setUp(() {
       ansiColorDisabled = false;
-      _reporter = ConsoleReporter(reportConfig: const Config());
+      _reporter = ConsoleReporter(reportConfig: const metric.Config());
       _verboseReporter =
-          ConsoleReporter(reportConfig: const Config(), reportAll: true);
+          ConsoleReporter(reportConfig: const metric.Config(), reportAll: true);
     });
 
     test('files without any records', () {
@@ -39,8 +40,15 @@ void main() {
           FileRecord(
             fullPath: fullPath,
             relativePath: 'example.dart',
-            components: Map.unmodifiable(<String, ComponentRecord>{
-              'class': buildComponentRecordStub(methodsCount: 0),
+            components: Map.unmodifiable(<String, ClassReport>{
+              'class': buildComponentRecordStub(metrics: const [
+                MetricValue<int>(
+                  metricsId: NumberOfMethodsMetric.metricId,
+                  value: 0,
+                  level: MetricValueLevel.none,
+                  comment: '',
+                ),
+              ]),
             }),
             functions: Map.unmodifiable(<String, FunctionRecord>{}),
             issues: const [],
@@ -64,8 +72,15 @@ void main() {
           FileRecord(
             fullPath: fullPath,
             relativePath: 'example.dart',
-            components: Map.unmodifiable(<String, ComponentRecord>{
-              'class': buildComponentRecordStub(methodsCount: 20),
+            components: Map.unmodifiable(<String, ClassReport>{
+              'class': buildComponentRecordStub(metrics: const [
+                MetricValue<int>(
+                  metricsId: NumberOfMethodsMetric.metricId,
+                  value: 20,
+                  level: MetricValueLevel.warning,
+                  comment: '',
+                ),
+              ]),
             }),
             functions: Map.unmodifiable(<String, FunctionRecord>{}),
             issues: const [],
@@ -86,7 +101,7 @@ void main() {
           FileRecord(
             fullPath: fullPath,
             relativePath: 'example.dart',
-            components: Map.unmodifiable(<String, ComponentRecord>{}),
+            components: Map.unmodifiable(<String, ClassReport>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
               'function': buildFunctionRecordStub(
                 linesWithCode: List.generate(150, (index) => index),
@@ -111,7 +126,7 @@ void main() {
           FileRecord(
             fullPath: fullPath,
             relativePath: 'example.dart',
-            components: Map.unmodifiable(<String, ComponentRecord>{}),
+            components: Map.unmodifiable(<String, ClassReport>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
               'function': buildFunctionRecordStub(
                 linesWithCode: List.generate(5, (index) => index),
@@ -138,7 +153,7 @@ void main() {
           FileRecord(
             fullPath: fullPath,
             relativePath: 'example.dart',
-            components: Map.unmodifiable(<String, ComponentRecord>{}),
+            components: Map.unmodifiable(<String, ClassReport>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
               'function': buildFunctionRecordStub(argumentsCount: 0),
             }),
@@ -163,7 +178,7 @@ void main() {
           FileRecord(
             fullPath: fullPath,
             relativePath: 'example.dart',
-            components: Map.unmodifiable(<String, ComponentRecord>{}),
+            components: Map.unmodifiable(<String, ClassReport>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
               'function': buildFunctionRecordStub(argumentsCount: 10),
             }),
@@ -186,7 +201,7 @@ void main() {
           FileRecord(
             fullPath: fullPath,
             relativePath: 'example.dart',
-            components: Map.unmodifiable(<String, ComponentRecord>{}),
+            components: Map.unmodifiable(<String, ClassReport>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
               'function': buildFunctionRecordStub(nestingLines: [
                 [1, 2],
@@ -213,7 +228,7 @@ void main() {
           FileRecord(
             fullPath: fullPath,
             relativePath: 'example.dart',
-            components: Map.unmodifiable(<String, ComponentRecord>{}),
+            components: Map.unmodifiable(<String, ClassReport>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
               'function': buildFunctionRecordStub(nestingLines: [
                 [1, 2],
@@ -241,7 +256,7 @@ void main() {
         FileRecord(
           fullPath: fullPath,
           relativePath: 'example.dart',
-          components: Map.unmodifiable(<String, ComponentRecord>{}),
+          components: Map.unmodifiable(<String, ClassReport>{}),
           functions: Map.unmodifiable(<String, FunctionRecord>{}),
           issues: const [],
           designIssues: [
@@ -281,7 +296,7 @@ void main() {
         FileRecord(
           fullPath: fullPath,
           relativePath: 'example.dart',
-          components: Map.unmodifiable(<String, ComponentRecord>{}),
+          components: Map.unmodifiable(<String, ClassReport>{}),
           functions: Map.unmodifiable(<String, FunctionRecord>{}),
           issues: [
             Issue(

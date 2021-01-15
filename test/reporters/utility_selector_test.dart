@@ -1,7 +1,7 @@
-import 'package:code_checker/metrics.dart';
 @TestOn('vm')
-import 'package:dart_code_metrics/src/config/config.dart';
-import 'package:dart_code_metrics/src/models/component_record.dart';
+import 'package:code_checker/checker.dart';
+import 'package:code_checker/metrics.dart';
+import 'package:dart_code_metrics/src/config/config.dart' as metrics;
 import 'package:dart_code_metrics/src/models/file_record.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/reporters/utility_selector.dart';
@@ -16,10 +16,31 @@ void main() {
         FileRecord(
           fullPath: '/home/developer/work/project/example.dart',
           relativePath: 'example.dart',
-          components: Map.unmodifiable(<String, ComponentRecord>{
-            'class': buildComponentRecordStub(methodsCount: 0),
-            'mixin': buildComponentRecordStub(methodsCount: 15),
-            'extension': buildComponentRecordStub(methodsCount: 25),
+          components: Map.unmodifiable(<String, ClassReport>{
+            'class': buildComponentRecordStub(metrics: const [
+              MetricValue<int>(
+                metricsId: NumberOfMethodsMetric.metricId,
+                value: 0,
+                level: MetricValueLevel.none,
+                comment: '',
+              ),
+            ]),
+            'mixin': buildComponentRecordStub(metrics: const [
+              MetricValue<int>(
+                metricsId: NumberOfMethodsMetric.metricId,
+                value: 15,
+                level: MetricValueLevel.warning,
+                comment: '',
+              ),
+            ]),
+            'extension': buildComponentRecordStub(metrics: const [
+              MetricValue<int>(
+                metricsId: NumberOfMethodsMetric.metricId,
+                value: 25,
+                level: MetricValueLevel.alarm,
+                comment: '',
+              ),
+            ]),
           }),
           functions: Map.unmodifiable(<String, FunctionRecord>{
             'function': buildFunctionRecordStub(argumentsCount: 0),
@@ -29,7 +50,7 @@ void main() {
           issues: const [],
           designIssues: const [],
         ),
-        const Config(),
+        const metrics.Config(),
       );
       expect(report.averageArgumentsCount, 5);
       expect(report.argumentsCountViolations, 2);
@@ -39,8 +60,16 @@ void main() {
 
     group('componentReport calculates report for function', () {
       test('without methods', () {
-        final record = buildComponentRecordStub(methodsCount: 0);
-        final report = UtilitySelector.componentReport(record, const Config());
+        final record = buildComponentRecordStub(metrics: const [
+          MetricValue<int>(
+            metricsId: NumberOfMethodsMetric.metricId,
+            value: 0,
+            level: MetricValueLevel.none,
+            comment: '',
+          ),
+        ]);
+        final report =
+            UtilitySelector.componentReport(record, const metrics.Config());
 
         expect(report.methodsCount.value, 0);
         expect(report.methodsCount.level, MetricValueLevel.none);
@@ -49,8 +78,16 @@ void main() {
       test('with a lot of methods', () {
         const methodsCount = 30;
 
-        final record = buildComponentRecordStub(methodsCount: methodsCount);
-        final report = UtilitySelector.componentReport(record, const Config());
+        final record = buildComponentRecordStub(metrics: const [
+          MetricValue<int>(
+            metricsId: NumberOfMethodsMetric.metricId,
+            value: methodsCount,
+            level: MetricValueLevel.alarm,
+            comment: '',
+          ),
+        ]);
+        final report =
+            UtilitySelector.componentReport(record, const metrics.Config());
 
         expect(report.methodsCount.value, methodsCount);
         expect(report.methodsCount.level, MetricValueLevel.alarm);
@@ -60,7 +97,8 @@ void main() {
     group('functionReport calculates report for function', () {
       test('without arguments', () {
         final record = buildFunctionRecordStub(argumentsCount: 0);
-        final report = UtilitySelector.functionReport(record, const Config());
+        final report =
+            UtilitySelector.functionReport(record, const metrics.Config());
 
         expect(report.argumentsCount.value, 0);
         expect(report.argumentsCount.level, MetricValueLevel.none);
@@ -68,7 +106,8 @@ void main() {
 
       test('with a lot of arguments', () {
         final record = buildFunctionRecordStub(argumentsCount: 10);
-        final report = UtilitySelector.functionReport(record, const Config());
+        final report =
+            UtilitySelector.functionReport(record, const metrics.Config());
 
         expect(report.argumentsCount.value, 10);
         expect(report.argumentsCount.level, MetricValueLevel.alarm);
@@ -76,7 +115,8 @@ void main() {
 
       test('without nesting information', () {
         final record = buildFunctionRecordStub(nestingLines: [[]]);
-        final report = UtilitySelector.functionReport(record, const Config());
+        final report =
+            UtilitySelector.functionReport(record, const metrics.Config());
 
         expect(report.maximumNestingLevel.value, 0);
         expect(report.maximumNestingLevel.level, MetricValueLevel.none);
@@ -88,7 +128,8 @@ void main() {
           [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
           [1, 5, 10, 20],
         ]);
-        final report = UtilitySelector.functionReport(record, const Config());
+        final report =
+            UtilitySelector.functionReport(record, const metrics.Config());
 
         expect(report.maximumNestingLevel.value, 12);
         expect(report.maximumNestingLevel.level, MetricValueLevel.alarm);
@@ -163,7 +204,7 @@ void main() {
         FileRecord(
           fullPath: fullPathStub,
           relativePath: relativePathStub,
-          components: Map.unmodifiable(<String, ComponentRecord>{}),
+          components: Map.unmodifiable(<String, ClassReport>{}),
           functions: Map.unmodifiable(<String, FunctionRecord>{
             'a': buildFunctionRecordStub(linesWithCode: List.filled(10, 0)),
           }),
@@ -173,7 +214,7 @@ void main() {
         FileRecord(
           fullPath: fullPathStub,
           relativePath: relativePathStub,
-          components: Map.unmodifiable(<String, ComponentRecord>{}),
+          components: Map.unmodifiable(<String, ClassReport>{}),
           functions: Map.unmodifiable(<String, FunctionRecord>{
             'a': buildFunctionRecordStub(linesWithCode: List.filled(20, 0)),
           }),
@@ -183,7 +224,7 @@ void main() {
         FileRecord(
           fullPath: fullPathStub,
           relativePath: relativePathStub,
-          components: Map.unmodifiable(<String, ComponentRecord>{}),
+          components: Map.unmodifiable(<String, ClassReport>{}),
           functions: Map.unmodifiable(<String, FunctionRecord>{
             'a': buildFunctionRecordStub(linesWithCode: List.filled(30, 0)),
           }),
@@ -196,7 +237,7 @@ void main() {
         expect(
           UtilitySelector.maxViolationLevel(
             fileRecords,
-            const Config(linesOfExecutableCodeWarningLevel: 100500),
+            const metrics.Config(linesOfExecutableCodeWarningLevel: 100500),
           ),
           MetricValueLevel.none,
         );
@@ -206,7 +247,7 @@ void main() {
         expect(
           UtilitySelector.maxViolationLevel(
             fileRecords,
-            const Config(linesOfExecutableCodeWarningLevel: 20),
+            const metrics.Config(linesOfExecutableCodeWarningLevel: 20),
           ),
           MetricValueLevel.warning,
         );
@@ -217,7 +258,7 @@ void main() {
         expect(
           UtilitySelector.maxViolationLevel(
             fileRecords,
-            const Config(linesOfExecutableCodeWarningLevel: 15),
+            const metrics.Config(linesOfExecutableCodeWarningLevel: 15),
           ),
           MetricValueLevel.warning,
         );

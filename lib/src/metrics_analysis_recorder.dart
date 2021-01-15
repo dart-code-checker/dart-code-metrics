@@ -4,7 +4,6 @@ import 'package:path/path.dart' as p;
 
 import 'metrics_records_builder.dart';
 import 'metrics_records_store.dart';
-import 'models/component_record.dart';
 import 'models/file_record.dart';
 import 'models/function_record.dart';
 
@@ -14,7 +13,7 @@ class MetricsAnalysisRecorder
     implements MetricsRecordsBuilder, MetricsRecordsStore {
   String _fileGroupPath;
   String _relativeGroupPath;
-  Map<ScopedClassDeclaration, ComponentRecord> _componentRecords;
+  Map<ScopedClassDeclaration, ClassReport> _componentRecords;
   Map<ScopedFunctionDeclaration, FunctionRecord> _functionRecords;
   List<Issue> _issues;
   List<Issue> _designIssues;
@@ -47,7 +46,7 @@ class MetricsAnalysisRecorder
 
   @override
   void recordComponent(
-      ScopedClassDeclaration declaration, ComponentRecord record) {
+      ScopedClassDeclaration declaration, ClassReport record) {
     _checkState();
 
     if (declaration == null) {
@@ -106,7 +105,7 @@ class MetricsAnalysisRecorder
       fullPath: _fileGroupPath,
       relativePath: _relativeGroupPath,
       components: Map.unmodifiable(
-          _componentRecords.map<String, ComponentRecord>(
+          _componentRecords.map<String, ClassReport>(
               (key, value) => MapEntry(key.name, value))),
       functions: Map.unmodifiable(_functionRecords.map<String, FunctionRecord>(
           (key, value) => MapEntry(key.fullName, value))),
