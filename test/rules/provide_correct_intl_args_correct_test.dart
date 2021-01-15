@@ -18,6 +18,16 @@ class SomeButtonClassI18n {
     );
   }
 
+  static String sourceTitle(String source, String openTag, String closeTag) => Intl.message(
+        'Connector: $openTag$source$closeTag',
+        args: [
+          source,
+          openTag,
+          closeTag,
+        ],
+        name: 'SomeButtonClassI18n_sourceTitle',
+      );
+
   static String titleWithParameter(String name) {
     return Intl.message(
       'title $name',
