@@ -8,11 +8,13 @@ ComponentRecord buildComponentRecordStub({
   int firstLine = 0,
   int lastLine = 0,
   int methodsCount = 0,
+  double weightOfClass = 1,
 }) =>
     ComponentRecord(
       firstLine: firstLine,
       lastLine: lastLine,
       methodsCount: methodsCount,
+      weightOfClass: weightOfClass,
     );
 
 FunctionRecord buildFunctionRecordStub({
@@ -39,12 +41,20 @@ FunctionRecord buildFunctionRecordStub({
 ComponentReport buildComponentReportStub({
   int methodsCount = 0,
   MetricValueLevel methodsCountViolationLevel = MetricValueLevel.none,
+  double weightOfClass = 1,
+  MetricValueLevel weightOfClassViolationLevel = MetricValueLevel.none,
 }) =>
     ComponentReport(
       methodsCount: MetricValue<int>(
         metricsId: '',
         value: methodsCount,
         level: methodsCountViolationLevel,
+        comment: '',
+      ),
+      weightOfClass: MetricValue<double>(
+        metricsId: '',
+        value: weightOfClass,
+        level: weightOfClassViolationLevel,
         comment: '',
       ),
     );
