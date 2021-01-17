@@ -4,8 +4,7 @@ import 'package:dart_code_metrics/src/models/function_record.dart';
 
 /// [FileRecord] builder
 abstract class MetricsRecordsBuilder {
-  void recordComponent(
-      ScopedClassDeclaration declaration, ClassReport record);
+  void recordComponent(ScopedClassDeclaration declaration, ClassReport record);
 
   void recordFunction(
       ScopedFunctionDeclaration declaration, FunctionRecord record);

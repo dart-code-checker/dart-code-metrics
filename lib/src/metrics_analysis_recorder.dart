@@ -45,8 +45,7 @@ class MetricsAnalysisRecorder
   }
 
   @override
-  void recordComponent(
-      ScopedClassDeclaration declaration, ClassReport record) {
+  void recordComponent(ScopedClassDeclaration declaration, ClassReport record) {
     _checkState();
 
     if (declaration == null) {
@@ -104,9 +103,8 @@ class MetricsAnalysisRecorder
     _records.add(FileRecord(
       fullPath: _fileGroupPath,
       relativePath: _relativeGroupPath,
-      components: Map.unmodifiable(
-          _componentRecords.map<String, ClassReport>(
-              (key, value) => MapEntry(key.name, value))),
+      components: Map.unmodifiable(_componentRecords
+          .map<String, ClassReport>((key, value) => MapEntry(key.name, value))),
       functions: Map.unmodifiable(_functionRecords.map<String, FunctionRecord>(
           (key, value) => MapEntry(key.fullName, value))),
       issues: _issues,
