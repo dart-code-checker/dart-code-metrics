@@ -1,5 +1,5 @@
+import 'package:code_checker/checker.dart';
 import 'package:code_checker/rules.dart';
-import 'package:dart_code_metrics/src/models/component_record.dart';
 import 'package:meta/meta.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
 
@@ -8,7 +8,7 @@ class FileRecord {
   final String fullPath;
   final String relativePath;
 
-  final Map<String, ComponentRecord> components;
+  final Map<String, ClassReport> components;
   final Map<String, FunctionRecord> functions;
 
   final Iterable<Issue> issues;

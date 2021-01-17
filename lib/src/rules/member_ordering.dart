@@ -1,5 +1,6 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
+import 'package:code_checker/checker.dart';
 import 'package:code_checker/rules.dart';
 import 'package:meta/meta.dart';
 
@@ -37,7 +38,11 @@ class MemberOrderingRule extends Rule {
       ...membersInfo.where((info) => info.memberOrder.isWrong).map(
             (info) => createIssue(
               this,
-              nodeLocation(info.classMember, file),
+              nodeLocation(
+                node: info.classMember,
+                source: file,
+                withCommentOrMetadata: true,
+              ),
               '${info.memberOrder.memberGroup.name} $_warningMessage ${info.memberOrder.previousMemberGroup.name}',
               null,
             ),
@@ -48,7 +53,11 @@ class MemberOrderingRule extends Rule {
             .map(
               (info) => createIssue(
                 this,
-                nodeLocation(info.classMember, file),
+                nodeLocation(
+                  node: info.classMember,
+                  source: file,
+                  withCommentOrMetadata: true,
+                ),
                 '${info.memberOrder.memberNames.currentName} $_warningAlphabeticalMessage ${info.memberOrder.memberNames.previousName}',
                 null,
               ),

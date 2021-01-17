@@ -1,6 +1,7 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
+import 'package:code_checker/checker.dart';
 import 'package:code_checker/rules.dart';
 
 class AvoidPreserveWhitespaceFalseRule extends Rule {
@@ -23,8 +24,16 @@ class AvoidPreserveWhitespaceFalseRule extends Rule {
     file.parsedContent.visitChildren(visitor);
 
     return visitor.expression
-        .map((expression) =>
-            createIssue(this, nodeLocation(expression, file), _failure, null))
+        .map((expression) => createIssue(
+              this,
+              nodeLocation(
+                node: expression,
+                source: file,
+                withCommentOrMetadata: true,
+              ),
+              _failure,
+              null,
+            ))
         .toList(growable: false);
   }
 }

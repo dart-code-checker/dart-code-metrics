@@ -1,4 +1,5 @@
 import 'package:analyzer/dart/ast/ast.dart';
+import 'package:code_checker/checker.dart';
 import 'package:code_checker/rules.dart';
 import 'package:meta/meta.dart';
 
@@ -35,7 +36,11 @@ class ProvideCorrectIntlArgsRule extends Rule {
     return visitor.issues
         .map((issue) => createIssue(
               this,
-              nodeLocation(issue.node, file),
+              nodeLocation(
+                node: issue.node,
+                source: file,
+                withCommentOrMetadata: true,
+              ),
               issue.nameFailure,
               null,
             ))

@@ -1,5 +1,6 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
+import 'package:code_checker/checker.dart';
 import 'package:code_checker/rules.dart';
 import 'package:meta/meta.dart';
 
@@ -29,7 +30,11 @@ class PreferConditionalExpressions extends Rule {
         .map(
           (info) => createIssue(
             this,
-            nodeLocation(info.statement, file),
+            nodeLocation(
+              node: info.statement,
+              source: file,
+              withCommentOrMetadata: true,
+            ),
             _warningMessage,
             Replacement(
               comment: _correctionMessage,

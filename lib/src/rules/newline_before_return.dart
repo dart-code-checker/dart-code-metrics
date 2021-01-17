@@ -2,6 +2,7 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/source/line_info.dart';
+import 'package:code_checker/checker.dart';
 import 'package:code_checker/rules.dart';
 
 // Inspired by TSLint (https://palantir.github.io/tslint/rules/newline-before-return/)
@@ -45,8 +46,16 @@ class NewlineBeforeReturnRule extends Rule {
 
           return !(tokenLine > previousTokenLine + 1);
         })
-        .map((statement) =>
-            createIssue(this, nodeLocation(statement, file), _failure, null))
+        .map((statement) => createIssue(
+              this,
+              nodeLocation(
+                node: statement,
+                source: file,
+                withCommentOrMetadata: true,
+              ),
+              _failure,
+              null,
+            ))
         .toList(growable: false);
   }
 

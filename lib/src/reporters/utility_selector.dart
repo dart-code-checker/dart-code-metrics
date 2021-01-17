@@ -1,10 +1,10 @@
 import 'dart:math';
 
+import 'package:code_checker/checker.dart';
 import 'package:code_checker/metrics.dart';
 import 'package:quiver/iterables.dart' as quiver;
 
-import '../config/config.dart';
-import '../models/component_record.dart';
+import '../config/config.dart' as metrics;
 import '../models/component_report.dart';
 import '../models/file_record.dart';
 import '../models/file_report.dart';
@@ -19,10 +19,10 @@ double avg(Iterable<num> it) => it.isNotEmpty ? sum(it) / it.length : 0;
 
 class UtilitySelector {
   static FileReport analysisReportForRecords(
-          Iterable<FileRecord> records, Config config) =>
+          Iterable<FileRecord> records, metrics.Config config) =>
       records.map((r) => fileReport(r, config)).reduce(mergeFileReports);
 
-  static FileReport fileReport(FileRecord record, Config config) {
+  static FileReport fileReport(FileRecord record, metrics.Config config) {
     final componentReports =
         record.components.values.map((r) => componentReport(r, config));
     final functionReports =
@@ -81,31 +81,24 @@ class UtilitySelector {
   }
 
   static ComponentReport componentReport(
-          ComponentRecord component, Config config) =>
+          ClassReport component, metrics.Config config) =>
       ComponentReport(
-        methodsCount: MetricValue<int>(
-          metricsId: '',
-          value: component.methodsCount,
-          level: valueLevel(
-              component.methodsCount, config.numberOfMethodsWarningLevel),
-          comment: '',
-        ),
-        weightOfClass: MetricValue<double>(
-          metricsId: '',
-          value: component.weightOfClass,
-          level: _violationLevelPercentInvert(
-              component.weightOfClass, config.weightOfClassWarningLevel),
-          comment: '',
-        ),
+        methodsCount: component.metric(NumberOfMethodsMetric.metricId)
+            as MetricValue<int>,
+        weightOfClass: component.metric(WeightOfClassMetric.metricId)
+            as MetricValue<double>,
       );
 
-  static FunctionReport functionReport(FunctionRecord function, Config config) {
+  static FunctionReport functionReport(
+      FunctionRecord function, metrics.Config config) {
     final cyclomaticComplexity =
         sum(function.cyclomaticComplexityLines.values) + 1;
 
     final linesOfExecutableCode = function.linesWithCode.length;
     final maximumNestingLevel = function.nestingLines.fold<int>(
-        0, (previousValue, element) => max(previousValue, element.length));
+      0,
+      (previousValue, element) => max(previousValue, element.length),
+    );
 
     // Total number of occurrences of operators.
     final totalNumberOfOccurrencesOfOperators = sum(function.operators.values);
@@ -196,7 +189,7 @@ class UtilitySelector {
       ]);
 
   static MetricValueLevel maxViolationLevel(
-          Iterable<FileRecord> records, Config config) =>
+          Iterable<FileRecord> records, metrics.Config config) =>
       quiver.max(records
           .expand((fileRecord) => fileRecord.functions.values
               .map((functionRecord) => functionReport(functionRecord, config)))
@@ -233,25 +226,6 @@ class UtilitySelector {
         maximumNestingLevelViolations: lhs.maximumNestingLevelViolations +
             rhs.maximumNestingLevelViolations,
       );
-
-  static MetricValueLevel _violationLevelPercentInvert(
-    double value,
-    double warningLevel,
-  ) {
-    if (warningLevel == null) {
-      return MetricValueLevel.none;
-    }
-
-    if (value < warningLevel * 0.5) {
-      return MetricValueLevel.alarm;
-    } else if (value < warningLevel) {
-      return MetricValueLevel.warning;
-    } else if (value < (warningLevel * 2)) {
-      return MetricValueLevel.noted;
-    }
-
-    return MetricValueLevel.none;
-  }
 
   static MetricValueLevel _maintainabilityIndexViolationLevel(double index) {
     if (index < 10) {

@@ -3,6 +3,7 @@ import 'package:analyzer/dart/ast/syntactic_entity.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/source/line_info.dart';
+import 'package:code_checker/checker.dart';
 import 'package:code_checker/rules.dart';
 
 class PreferTrailingCommaForCollectionRule extends Rule {
@@ -30,7 +31,11 @@ class PreferTrailingCommaForCollectionRule extends Rule {
     return visitor.nodes
         .map((node) => createIssue(
               this,
-              nodeLocation(node, file),
+              nodeLocation(
+                node: node,
+                source: file,
+                withCommentOrMetadata: true,
+              ),
               _failure,
               Replacement(
                 comment: _correctionComment,

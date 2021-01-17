@@ -1,5 +1,6 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
+import 'package:code_checker/checker.dart';
 import 'package:code_checker/rules.dart';
 import 'package:meta/meta.dart';
 
@@ -40,7 +41,7 @@ class DoubleLiteralFormatRule extends Rule {
       if (detectLeadingZero(lexeme)) {
         issues.add(createIssue(
           this,
-          nodeLocation(node, file),
+          nodeLocation(node: node, source: file, withCommentOrMetadata: true),
           _failureLeadingZero,
           Replacement(
             comment: _correctionCommentLeadingZero,
@@ -50,7 +51,7 @@ class DoubleLiteralFormatRule extends Rule {
       } else if (detectLeadingDecimal(lexeme)) {
         issues.add(createIssue(
           this,
-          nodeLocation(node, file),
+          nodeLocation(node: node, source: file, withCommentOrMetadata: true),
           _failureLeadingDecimal,
           Replacement(
             comment: _correctionCommentLeadingDecimal,
@@ -60,7 +61,7 @@ class DoubleLiteralFormatRule extends Rule {
       } else if (detectTrailingZero(lexeme)) {
         issues.add(createIssue(
           this,
-          nodeLocation(node, file),
+          nodeLocation(node: node, source: file, withCommentOrMetadata: true),
           _failureTrailingZero,
           Replacement(
             comment: _correctionCommentTrailingZero,

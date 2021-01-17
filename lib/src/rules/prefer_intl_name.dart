@@ -1,4 +1,5 @@
 import 'package:analyzer/dart/ast/ast.dart';
+import 'package:code_checker/checker.dart';
 import 'package:code_checker/rules.dart';
 import 'package:meta/meta.dart';
 
@@ -42,7 +43,11 @@ class PreferIntlNameRule extends Rule {
 
         return createIssue(
           this,
-          nodeLocation(issue.node, file),
+          nodeLocation(
+            node: issue.node,
+            source: file,
+            withCommentOrMetadata: true,
+          ),
           '$_notCorrectNameFailure $correction',
           Replacement(
             comment: _notCorrectNameCorrectionComment,
@@ -54,7 +59,11 @@ class PreferIntlNameRule extends Rule {
           .whereType<_NotExistNameIssue>()
           .map((issue) => createIssue(
                 this,
-                nodeLocation(issue.node, file),
+                nodeLocation(
+                  node: issue.node,
+                  source: file,
+                  withCommentOrMetadata: true,
+                ),
                 _notExistsNameFailure,
                 null,
               )),

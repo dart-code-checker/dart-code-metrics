@@ -1,5 +1,6 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
+import 'package:code_checker/checker.dart';
 import 'package:code_checker/rules.dart';
 import 'package:meta/meta.dart';
 
@@ -32,7 +33,11 @@ class ComponentAnnotationArgumentsOrderingRule extends Rule {
     return argumentsInfo.where((info) => info.argumentOrder.isWrong).map(
           (info) => createIssue(
             this,
-            nodeLocation(info.argument, file),
+            nodeLocation(
+              node: info.argument,
+              source: file,
+              withCommentOrMetadata: true,
+            ),
             'Arguments group ${info.argumentOrder.argumentGroup.name} $_warningMessage ${info.argumentOrder.previousArgumentGroup.name}',
             null,
           ),
