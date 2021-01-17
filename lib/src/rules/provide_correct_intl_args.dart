@@ -207,10 +207,10 @@ class _Visitor extends IntlBaseVisitor {
     Iterable<SimpleIdentifier> existsItems,
     IntlBaseIssue Function(SimpleIdentifier args) issueFactory,
   ) {
-    final argsNames = existsItems.map((item) => item.token.value()).toSet();
+    final argsNames = existsItems.map((item) => item.token.lexeme).toSet();
 
     addIssues(checkedItems
-        ?.where((arg) => !argsNames.contains(arg.token.value()))
+        ?.where((arg) => !argsNames.contains(arg.token.lexeme))
         ?.map(issueFactory));
   }
 }
