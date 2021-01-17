@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased (2.4.0)
+## 2.4.0
 
 - Add static code diagnostic avoid-unused-parameters
 
