@@ -58,7 +58,7 @@ void main() {
                 filePath,
                 rootDirectory,
                 (b) {
-                  b.recordComponent(null, null);
+                  b.recordClass(null, null);
                 },
               );
             },
@@ -72,7 +72,7 @@ void main() {
           expect(
             MetricsAnalysisRecorder()
                 .recordFile(filePath, rootDirectory, (b) {
-                  b.recordComponent(record, componentRecord);
+                  b.recordClass(record, componentRecord);
                 })
                 .records()
                 .single
@@ -193,7 +193,7 @@ void main() {
       test('throws StateError if we call them in invalid state', () {
         expect(
           () {
-            MetricsAnalysisRecorder().recordComponent(record, null);
+            MetricsAnalysisRecorder().recordClass(record, null);
           },
           throwsStateError,
         );
@@ -206,7 +206,7 @@ void main() {
               filePath,
               rootDirectory,
               (recorder) {
-                recorder.recordComponent(null, null);
+                recorder.recordClass(null, null);
               },
             );
           },
@@ -219,7 +219,7 @@ void main() {
 
         final recorder = MetricsAnalysisRecorder()
             .recordFile(filePath, rootDirectory, (recorder) {
-          recorder.recordComponent(record, componentRecord);
+          recorder.recordClass(record, componentRecord);
         });
 
         expect(

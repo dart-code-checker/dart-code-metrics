@@ -45,7 +45,7 @@ class MetricsAnalysisRecorder
   }
 
   @override
-  void recordComponent(ScopedClassDeclaration declaration, ClassReport record) {
+  void recordClass(ScopedClassDeclaration declaration, ClassReport record) {
     _checkState();
 
     if (declaration == null) {

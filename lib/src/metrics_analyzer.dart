@@ -123,7 +123,7 @@ class MetricsAnalyzer {
           _metricsExclude,
         )) {
           for (final classDeclaration in visitor.classes) {
-            builder.recordComponent(
+            builder.recordClass(
               classDeclaration,
               ClassReport(
                 location: nodeLocation(
