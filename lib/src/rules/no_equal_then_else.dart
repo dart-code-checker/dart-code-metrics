@@ -1,5 +1,6 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
+import 'package:code_checker/checker.dart';
 import 'package:code_checker/rules.dart';
 
 // Inspired by PVS-Studio (https://www.viva64.com/en/w/v6004/)
@@ -27,7 +28,7 @@ class NoEqualThenElse extends Rule {
         .map(
           (node) => createIssue(
             this,
-            nodeLocation(node, file),
+            nodeLocation(node: node, source: file, withCommentOrMetadata: true),
             _warningMessage,
             null,
           ),

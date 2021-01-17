@@ -1,6 +1,7 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
+import 'package:code_checker/checker.dart';
 import 'package:code_checker/rules.dart';
 
 class BinaryExpressionOperandOrderRule extends Rule {
@@ -26,7 +27,11 @@ class BinaryExpressionOperandOrderRule extends Rule {
     return visitor.binaryExpressions
         .map((lit) => createIssue(
               this,
-              nodeLocation(lit, file),
+              nodeLocation(
+                node: lit,
+                source: file,
+                withCommentOrMetadata: true,
+              ),
               _warningMessage,
               Replacement(
                 comment: _correctionComment,

@@ -1,5 +1,6 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
+import 'package:code_checker/checker.dart';
 import 'package:code_checker/rules.dart';
 
 class NoEqualArguments extends Rule {
@@ -24,7 +25,11 @@ class NoEqualArguments extends Rule {
     return _visitor.arguments
         .map((argument) => createIssue(
               this,
-              nodeLocation(argument, file),
+              nodeLocation(
+                node: argument,
+                source: file,
+                withCommentOrMetadata: true,
+              ),
               _warningMessage,
               null,
             ))
