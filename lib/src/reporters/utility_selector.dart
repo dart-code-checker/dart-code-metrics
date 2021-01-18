@@ -7,7 +7,7 @@ import 'package:quiver/iterables.dart' as quiver;
 import '../config/config.dart' as metrics;
 import '../models/component_report.dart';
 import '../models/file_record.dart';
-import '../models/file_report.dart';
+import '../models/file_report.dart' as metrics;
 import '../models/function_record.dart';
 import '../models/function_report.dart';
 
@@ -18,11 +18,12 @@ num sum(Iterable<num> it) => it.fold(0, (a, b) => a + b);
 double avg(Iterable<num> it) => it.isNotEmpty ? sum(it) / it.length : 0;
 
 class UtilitySelector {
-  static FileReport analysisReportForRecords(
+  static metrics.FileReport analysisReportForRecords(
           Iterable<FileRecord> records, metrics.Config config) =>
       records.map((r) => fileReport(r, config)).reduce(mergeFileReports);
 
-  static FileReport fileReport(FileRecord record, metrics.Config config) {
+  static metrics.FileReport fileReport(
+      FileRecord record, metrics.Config config) {
     final componentReports =
         record.components.values.map((r) => componentReport(r, config));
     final functionReports =
@@ -64,7 +65,7 @@ class UtilitySelector {
         .where((r) => isReportLevel(r.maximumNestingLevel.level))
         .length;
 
-    return FileReport(
+    return metrics.FileReport(
       averageArgumentsCount: averageArgumentCount.round(),
       argumentsCountViolations: totalArgumentsCountViolations,
       averageMaintainabilityIndex: averageMaintainabilityIndex,
@@ -195,8 +196,11 @@ class UtilitySelector {
               .map((functionRecord) => functionReport(functionRecord, config)))
           .map(functionViolationLevel));
 
-  static FileReport mergeFileReports(FileReport lhs, FileReport rhs) =>
-      FileReport(
+  static metrics.FileReport mergeFileReports(
+    metrics.FileReport lhs,
+    metrics.FileReport rhs,
+  ) =>
+      metrics.FileReport(
         averageArgumentsCount:
             ((lhs.averageArgumentsCount + rhs.averageArgumentsCount) / 2)
                 .round(),
