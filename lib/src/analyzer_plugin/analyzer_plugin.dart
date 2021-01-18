@@ -24,7 +24,6 @@ import 'package:source_span/source_span.dart';
 
 import '../anti_patterns_factory.dart';
 import '../config/analysis_options.dart';
-import '../metrics/cyclomatic_complexity/control_flow_ast_visitor.dart';
 import '../metrics/nesting_level/nesting_level_visitor.dart';
 import '../models/function_record.dart';
 import '../models/function_report.dart';
@@ -325,8 +324,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     ProcessedFile source,
     AnalyzerPluginConfig config,
   ) {
-    final controlFlowAstVisitor =
-        ControlFlowAstVisitor(source.parsedContent.lineInfo);
+    final controlFlowAstVisitor = CyclomaticComplexityFlowVisitor(source);
     final nestingLevelVisitor = NestingLevelVisitor(
         function.declaration, source.parsedContent.lineInfo);
 
@@ -341,12 +339,23 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     final functionLastLineInfo = source.parsedContent.lineInfo
         .getLocation(function.declaration.endToken.end);
 
+    final cyclomaticLines = controlFlowAstVisitor.complexityElements
+        .map((element) => element.start.line)
+        .toSet();
+
     return UtilitySelector.functionReport(
       FunctionRecord(
         firstLine: functionFirstLineInfo.lineNumber,
         lastLine: functionLastLineInfo.lineNumber,
         argumentsCount: getArgumentsCount(function),
-        cyclomaticComplexityLines: controlFlowAstVisitor.complexityLines,
+        cyclomaticComplexityLines: Map.fromEntries(cyclomaticLines.map(
+          (lineIndex) => MapEntry(
+            lineIndex,
+            controlFlowAstVisitor.complexityElements
+                .where((element) => element.start.line == lineIndex)
+                .length,
+          ),
+        )),
         linesWithCode: List.unmodifiable(<int>[]),
         nestingLines: nestingLevelVisitor.nestingLines,
         operators: Map.unmodifiable(<String, int>{}),
