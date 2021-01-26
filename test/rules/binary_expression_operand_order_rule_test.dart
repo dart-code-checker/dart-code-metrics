@@ -1,5 +1,6 @@
 @TestOn('vm')
 import 'package:code_checker/rules.dart';
+import 'package:dart_code_metrics/src/models/internal_resolved_unit_result.dart';
 import 'package:dart_code_metrics/src/rules/binary_expression_operand_order_rule.dart';
 import 'package:test/test.dart';
 import 'package:analyzer/dart/analysis/features.dart';
@@ -40,7 +41,8 @@ void main() {
 
       final issues = BinaryExpressionOperandOrderRule()
           .check(
-            ProcessedFile(sourceUrl, parseResult.content, parseResult.unit),
+            InternalResolvedUnitResult(
+                sourceUrl, parseResult.content, parseResult.unit),
           )
           .toList();
 

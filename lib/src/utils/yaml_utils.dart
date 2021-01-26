@@ -34,8 +34,9 @@ Map<String, Object> _mergeMaps(
 
   for (final overrideKey in overrides.keys) {
     final mergedKey = merged.keys.firstWhere(
-        (mergedKey) => mergedKey == overrideKey,
-        orElse: () => overrideKey);
+      (mergedKey) => mergedKey == overrideKey,
+      orElse: () => overrideKey,
+    );
     merged[mergedKey] = _merge(merged[mergedKey], overrides[overrideKey]);
   }
 

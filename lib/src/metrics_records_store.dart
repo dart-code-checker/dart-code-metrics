@@ -8,8 +8,11 @@ abstract class MetricsRecordsStore {
 
   /// Add new file record for [filePath] using [MetricsRecordsBuilder] in [f]
   /// See [MetricsRecordsBuilder] interface on how to build new [FileRecord]
-  MetricsRecordsStore recordFile(String filePath, String rootDirectory,
-      void Function(MetricsRecordsBuilder) f);
+  MetricsRecordsStore recordFile(
+    String filePath,
+    String rootDirectory,
+    void Function(MetricsRecordsBuilder) f,
+  );
 
   factory MetricsRecordsStore.store() => MetricsAnalysisRecorder();
 }

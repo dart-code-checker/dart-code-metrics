@@ -1,3 +1,4 @@
+import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:code_checker/checker.dart';
@@ -21,10 +22,10 @@ class NoMagicNumberRule extends Rule {
         );
 
   @override
-  Iterable<Issue> check(ProcessedFile file) {
+  Iterable<Issue> check(ResolvedUnitResult source) {
     final visitor = _Visitor();
 
-    file.parsedContent.visitChildren(visitor);
+    source.unit.visitChildren(visitor);
 
     return visitor.literals
         .where(_isMagicNumber)
@@ -36,7 +37,7 @@ class NoMagicNumberRule extends Rule {
               this,
               nodeLocation(
                 node: lit,
-                source: file,
+                source: source,
                 withCommentOrMetadata: true,
               ),
               _warningMessage,

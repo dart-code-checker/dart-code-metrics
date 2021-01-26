@@ -18,8 +18,8 @@ import 'package:analyzer/src/dart/analysis/driver.dart';
 import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
 import 'package:code_checker/checker.dart';
-import 'package:code_checker/rules.dart';
 import 'package:code_checker/metrics.dart';
+import 'package:dart_code_metrics/src/models/internal_resolved_unit_result.dart';
 import 'package:source_span/source_span.dart';
 
 import '../anti_patterns_factory.dart';
@@ -214,7 +214,8 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
 
         result.addAll(_checkOnAntiPatterns(
           ignores,
-          ProcessedFile(sourceUri, analysisResult.content, analysisResult.unit),
+          InternalResolvedUnitResult(
+              sourceUri, analysisResult.content, analysisResult.unit),
           functions,
           _configs[driver],
         ));
@@ -222,7 +223,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
         if (!ignores.isSuppressed(_codeMetricsId)) {
           result.addAll(_checkMetrics(
             ignores,
-            ProcessedFile(
+            InternalResolvedUnitResult(
                 sourceUri, analysisResult.content, analysisResult.unit),
             functions,
             _configs[driver],
@@ -243,7 +244,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
       config.checkingCodeRules
           .where((rule) => !ignores.isSuppressed(rule.id))
           .expand((rule) => rule
-              .check(ProcessedFile(
+              .check(InternalResolvedUnitResult(
                   sourceUri, analysisResult.content, analysisResult.unit))
               .where((issue) => !ignores.isSuppressedAt(
                   issue.ruleId, issue.location.start.line))
@@ -252,7 +253,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
 
   Iterable<plugin.AnalysisErrorFixes> _checkOnAntiPatterns(
     Suppressions ignores,
-    ProcessedFile source,
+    InternalResolvedUnitResult source,
     Iterable<ScopedFunctionDeclaration> functions,
     AnalyzerPluginConfig config,
   ) =>
@@ -266,7 +267,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
 
   Iterable<plugin.AnalysisErrorFixes> _checkMetrics(
     Suppressions ignores,
-    ProcessedFile source,
+    InternalResolvedUnitResult source,
     Iterable<ScopedFunctionDeclaration> functions,
     AnalyzerPluginConfig config,
   ) {
@@ -277,7 +278,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
           function.declaration.firstTokenAfterCommentAndMetadata.offset;
 
       final functionFirstLineInfo =
-          source.parsedContent.lineInfo.getLocation(functionOffset);
+          source.unit.lineInfo.getLocation(functionOffset);
 
       if (ignores.isSuppressedAt(
           _codeMetricsId, functionFirstLineInfo.lineNumber)) {
@@ -289,7 +290,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
           UtilitySelector.functionViolationLevel(functionReport))) {
         final startSourceLocation = SourceLocation(
           functionOffset,
-          sourceUrl: source.url,
+          sourceUrl: source.uri,
           line: functionFirstLineInfo.lineNumber,
           column: functionFirstLineInfo.columnNumber,
         );
@@ -321,12 +322,12 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
 
   FunctionReport _buildReport(
     ScopedFunctionDeclaration function,
-    ProcessedFile source,
+    InternalResolvedUnitResult source,
     AnalyzerPluginConfig config,
   ) {
     final controlFlowAstVisitor = CyclomaticComplexityFlowVisitor(source);
-    final nestingLevelVisitor = NestingLevelVisitor(
-        function.declaration, source.parsedContent.lineInfo);
+    final nestingLevelVisitor =
+        NestingLevelVisitor(function.declaration, source.unit.lineInfo);
 
     function.declaration.visitChildren(controlFlowAstVisitor);
     function.declaration.visitChildren(nestingLevelVisitor);
@@ -335,9 +336,9 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
         function.declaration.firstTokenAfterCommentAndMetadata.offset;
 
     final functionFirstLineInfo =
-        source.parsedContent.lineInfo.getLocation(functionOffset);
-    final functionLastLineInfo = source.parsedContent.lineInfo
-        .getLocation(function.declaration.endToken.end);
+        source.unit.lineInfo.getLocation(functionOffset);
+    final functionLastLineInfo =
+        source.unit.lineInfo.getLocation(function.declaration.endToken.end);
 
     final cyclomaticLines = controlFlowAstVisitor.complexityElements
         .map((element) => element.start.line)

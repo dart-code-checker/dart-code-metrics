@@ -151,13 +151,14 @@ void main() {
         expect(options.metricsConfig, equals(const metrics.Config()));
         expect(options.metricsExcludePatterns, isEmpty);
         expect(
-            options.rules,
-            equals({
-              'double-literal-format': <String, Object>{},
-              'no-magic-number': {
-                'allowed-numbers': [1, 2, 3],
-              },
-            }));
+          options.rules,
+          equals({
+            'double-literal-format': <String, Object>{},
+            'no-magic-number': {
+              'allowed-numbers': [1, 2, 3],
+            },
+          }),
+        );
         expect(options.antiPatterns, isEmpty);
       });
 
@@ -168,13 +169,14 @@ void main() {
         expect(options.metricsConfig, equals(const metrics.Config()));
         expect(options.metricsExcludePatterns, isEmpty);
         expect(
-            options.rules,
-            equals({
-              'newline-before-return': <String, Object>{},
-              'no-magic-number': {
-                'allowed-numbers': [1, 2, 3],
-              },
-            }));
+          options.rules,
+          equals({
+            'newline-before-return': <String, Object>{},
+            'no-magic-number': {
+              'allowed-numbers': [1, 2, 3],
+            },
+          }),
+        );
         expect(options.antiPatterns, isEmpty);
       });
 
@@ -188,8 +190,10 @@ void main() {
         expect(options.metricsConfig.numberOfMethodsWarningLevel, equals(8));
         expect(options.metricsConfig.maximumNestingWarningLevel, equals(10));
         expect(options.metricsExcludePatterns, isEmpty);
-        expect(options.rules,
-            equals({'no-boolean-literal-compare': <String, Object>{}}));
+        expect(
+          options.rules,
+          equals({'no-boolean-literal-compare': <String, Object>{}}),
+        );
         expect(options.antiPatterns, isEmpty);
       });
 
@@ -199,21 +203,26 @@ void main() {
 
         expect(
             options.metricsConfig.cyclomaticComplexityWarningLevel, equals(20));
-        expect(options.metricsConfig.linesOfExecutableCodeWarningLevel,
-            equals(42));
         expect(
-            options.excludePatterns,
-            equals([
-              'test/aggregated_vm_test.dart',
-              'lib/**/**.g.dart',
-              'lib/intl/**',
-              'test/**/**.g.dart',
-              '.git/**',
-              '.idea/**',
-            ]));
+          options.metricsConfig.linesOfExecutableCodeWarningLevel,
+          equals(42),
+        );
+        expect(
+          options.excludePatterns,
+          equals([
+            'test/aggregated_vm_test.dart',
+            'lib/**/**.g.dart',
+            'lib/intl/**',
+            'test/**/**.g.dart',
+            '.git/**',
+            '.idea/**',
+          ]),
+        );
         expect(options.metricsExcludePatterns, equals(['test/**']));
-        expect(options.rules,
-            equals({'no-boolean-literal-compare': <String, Object>{}}));
+        expect(
+          options.rules,
+          equals({'no-boolean-literal-compare': <String, Object>{}}),
+        );
         expect(
             options.antiPatterns, equals({'long-method': <String, Object>{}}));
       });
@@ -228,10 +237,14 @@ void main() {
       expect(
           options.metricsConfig.linesOfExecutableCodeWarningLevel, equals(30));
       expect(options.metricsConfig.numberOfArgumentsWarningLevel, equals(4));
-      expect(options.metricsConfig.numberOfMethodsWarningLevel,
-          equals(metrics.numberOfMethodsDefaultWarningLevel));
-      expect(options.metricsConfig.maximumNestingWarningLevel,
-          equals(metrics.maximumNestingDefaultWarningLevel));
+      expect(
+        options.metricsConfig.numberOfMethodsWarningLevel,
+        equals(metrics.numberOfMethodsDefaultWarningLevel),
+      );
+      expect(
+        options.metricsConfig.maximumNestingWarningLevel,
+        equals(metrics.maximumNestingDefaultWarningLevel),
+      );
 
       expect(options.excludePatterns, equals(['example/**']));
       expect(

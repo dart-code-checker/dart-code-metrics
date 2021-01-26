@@ -3,9 +3,9 @@ import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:code_checker/checker.dart';
-import 'package:code_checker/rules.dart';
 import 'package:dart_code_metrics/src/config/config.dart' as metrics;
 import 'package:dart_code_metrics/src/anti_patterns/long_method.dart';
+import 'package:dart_code_metrics/src/models/internal_resolved_unit_result.dart';
 import 'package:test/test.dart';
 
 const _content = '''
@@ -62,7 +62,8 @@ void main() {
     parseResult.unit.visitChildren(scopeVisitor);
 
     final issues = LongMethod().check(
-      ProcessedFile(sourceUrl, parseResult.content, parseResult.unit),
+      InternalResolvedUnitResult(
+          sourceUrl, parseResult.content, parseResult.unit),
       scopeVisitor.functions.where((function) {
         final declaration = function.declaration;
         if (declaration is ConstructorDeclaration &&
@@ -93,7 +94,7 @@ void main() {
     expect(
       issues.single.message,
       equals(
-          'Long Function. This function contains 29 lines with executable code.'),
+          'Long function. This function contains 29 lines with executable code.'),
     );
     expect(
       issues.single.verboseMessage,

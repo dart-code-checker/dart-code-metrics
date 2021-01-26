@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:code_checker/rules.dart';
+import 'package:dart_code_metrics/src/models/internal_resolved_unit_result.dart';
 import 'package:dart_code_metrics/src/rules/no_object_declaration.dart';
 import 'package:test/test.dart';
 
@@ -17,8 +18,8 @@ void main() {
 
     final parseResult = await resolveFile(path: path);
 
-    final issues = NoObjectDeclarationRule()
-        .check(ProcessedFile(sourceUrl, parseResult.content, parseResult.unit));
+    final issues = NoObjectDeclarationRule().check(InternalResolvedUnitResult(
+        sourceUrl, parseResult.content, parseResult.unit));
 
     expect(
       issues.every((issue) => issue.ruleId == 'no-object-declaration'),

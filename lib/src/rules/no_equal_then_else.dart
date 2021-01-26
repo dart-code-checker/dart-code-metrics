@@ -1,3 +1,4 @@
+import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:code_checker/checker.dart';
@@ -19,16 +20,20 @@ class NoEqualThenElse extends Rule {
         );
 
   @override
-  Iterable<Issue> check(ProcessedFile file) {
+  Iterable<Issue> check(ResolvedUnitResult source) {
     final _visitor = _Visitor();
 
-    file.parsedContent.visitChildren(_visitor);
+    source.unit.visitChildren(_visitor);
 
     return _visitor.nodes
         .map(
           (node) => createIssue(
             this,
-            nodeLocation(node: node, source: file, withCommentOrMetadata: true),
+            nodeLocation(
+              node: node,
+              source: source,
+              withCommentOrMetadata: true,
+            ),
             _warningMessage,
             null,
           ),

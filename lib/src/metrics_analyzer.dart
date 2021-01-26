@@ -20,6 +20,7 @@ import 'halstead_volume/halstead_volume_ast_visitor.dart';
 import 'metrics/lines_of_executable_code/lines_of_executable_code_visitor.dart';
 import 'metrics_records_store.dart';
 import 'models/function_record.dart';
+import 'models/internal_resolved_unit_result.dart';
 import 'rules_factory.dart';
 import 'utils/metrics_analyzer_utils.dart';
 
@@ -79,7 +80,7 @@ class MetricsAnalyzer {
     for (final filePath in filePaths) {
       final normalized = p.normalize(p.absolute(filePath));
 
-      ProcessedFile source;
+      InternalResolvedUnitResult source;
       if (_useFastParser) {
         final result = parseFile(
           path: normalized,
@@ -87,19 +88,19 @@ class MetricsAnalyzer {
           throwIfDiagnostics: false,
         );
 
-        source =
-            ProcessedFile(Uri.parse(filePath), result.content, result.unit);
+        source = InternalResolvedUnitResult(
+            Uri.parse(filePath), result.content, result.unit);
       } else {
         final analysisContext = collection.contextFor(normalized);
         final result =
             await analysisContext.currentSession.getResolvedUnit(normalized);
 
-        source =
-            ProcessedFile(Uri.parse(filePath), result.content, result.unit);
+        source = InternalResolvedUnitResult(
+            Uri.parse(filePath), result.content, result.unit);
       }
 
       final visitor = ScopeVisitor();
-      source.parsedContent.visitChildren(visitor);
+      source.unit.visitChildren(visitor);
 
       final functions = visitor.functions.where((function) {
         final declaration = function.declaration;
@@ -114,7 +115,7 @@ class MetricsAnalyzer {
         return true;
       }).toList();
 
-      final lineInfo = source.parsedContent.lineInfo;
+      final lineInfo = source.unit.lineInfo;
 
       _store.recordFile(filePath, rootFolder, (builder) {
         if (!_isExcluded(
@@ -133,11 +134,21 @@ class MetricsAnalyzer {
                   NumberOfMethodsMetric(config: {
                     NumberOfMethodsMetric.metricId:
                         '${_metricsConfig.numberOfMethodsWarningLevel}',
-                  }).compute(classDeclaration, functions),
+                  }).compute(
+                    classDeclaration.declaration,
+                    visitor.classes,
+                    functions,
+                    source,
+                  ),
                   WeightOfClassMetric(config: {
                     WeightOfClassMetric.metricId:
                         '${_metricsConfig.weightOfClassWarningLevel}',
-                  }).compute(classDeclaration, visitor.functions),
+                  }).compute(
+                    classDeclaration.declaration,
+                    visitor.classes,
+                    visitor.functions,
+                    source,
+                  ),
                 ],
               ),
             );
@@ -202,7 +213,7 @@ class MetricsAnalyzer {
 
   Iterable<Issue> _checkOnCodeIssues(
     Suppressions ignores,
-    ProcessedFile source,
+    InternalResolvedUnitResult source,
   ) =>
       _checkingCodeRules.where((rule) => !ignores.isSuppressed(rule.id)).expand(
             (rule) => rule.check(source).where((issue) => !ignores
@@ -211,7 +222,7 @@ class MetricsAnalyzer {
 
   Iterable<Issue> _checkOnAntiPatterns(
     Suppressions ignores,
-    ProcessedFile source,
+    InternalResolvedUnitResult source,
     Iterable<ScopedFunctionDeclaration> functions,
   ) =>
       _checkingAntiPatterns

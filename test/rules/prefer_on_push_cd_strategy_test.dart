@@ -2,6 +2,7 @@
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:code_checker/rules.dart';
+import 'package:dart_code_metrics/src/models/internal_resolved_unit_result.dart';
 import 'package:dart_code_metrics/src/rules/prefer_on_push_cd_strategy.dart';
 import 'package:test/test.dart';
 
@@ -42,7 +43,8 @@ void main() {
       );
 
       final issues = PreferOnPushCdStrategyRule().check(
-        ProcessedFile(sourceUrl, parseResult.content, parseResult.unit),
+        InternalResolvedUnitResult(
+            sourceUrl, parseResult.content, parseResult.unit),
       );
 
       expect(issues, isEmpty);
@@ -58,7 +60,8 @@ void main() {
       );
 
       final issues = PreferOnPushCdStrategyRule().check(
-        ProcessedFile(sourceUrl, parseResult.content, parseResult.unit),
+        InternalResolvedUnitResult(
+            sourceUrl, parseResult.content, parseResult.unit),
       );
 
       expect(issues.length, equals(1));
@@ -82,7 +85,8 @@ void main() {
       );
 
       final issues = PreferOnPushCdStrategyRule().check(
-        ProcessedFile(sourceUrl, parseResult.content, parseResult.unit),
+        InternalResolvedUnitResult(
+            sourceUrl, parseResult.content, parseResult.unit),
       );
 
       expect(issues.length, equals(1));

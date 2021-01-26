@@ -1,3 +1,4 @@
+import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:code_checker/checker.dart';
@@ -28,10 +29,10 @@ class DoubleLiteralFormatRule extends Rule {
         );
 
   @override
-  Iterable<Issue> check(ProcessedFile file) {
+  Iterable<Issue> check(ResolvedUnitResult source) {
     final _visitor = _Visitor();
 
-    file.parsedContent.visitChildren(_visitor);
+    source.unit.visitChildren(_visitor);
 
     final issues = <Issue>[];
 
@@ -41,7 +42,7 @@ class DoubleLiteralFormatRule extends Rule {
       if (detectLeadingZero(lexeme)) {
         issues.add(createIssue(
           this,
-          nodeLocation(node: node, source: file, withCommentOrMetadata: true),
+          nodeLocation(node: node, source: source, withCommentOrMetadata: true),
           _failureLeadingZero,
           Replacement(
             comment: _correctionCommentLeadingZero,
@@ -51,7 +52,7 @@ class DoubleLiteralFormatRule extends Rule {
       } else if (detectLeadingDecimal(lexeme)) {
         issues.add(createIssue(
           this,
-          nodeLocation(node: node, source: file, withCommentOrMetadata: true),
+          nodeLocation(node: node, source: source, withCommentOrMetadata: true),
           _failureLeadingDecimal,
           Replacement(
             comment: _correctionCommentLeadingDecimal,
@@ -61,7 +62,7 @@ class DoubleLiteralFormatRule extends Rule {
       } else if (detectTrailingZero(lexeme)) {
         issues.add(createIssue(
           this,
-          nodeLocation(node: node, source: file, withCommentOrMetadata: true),
+          nodeLocation(node: node, source: source, withCommentOrMetadata: true),
           _failureTrailingZero,
           Replacement(
             comment: _correctionCommentTrailingZero,
