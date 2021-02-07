@@ -123,6 +123,9 @@ If you want command line tool to check rules, you should add configuration to yo
 - [long-parameter-list](https://github.com/wrike/dart-code-metrics/blob/master/doc/anti-patterns/long-parameter-list.md)
 
 ## Rules
+Rules are grouped by category to help you understand their purpose.
+
+Right now auto-fixes are available through an IDE context menu (ex. VS Code Quick Fix).
 
 ### Common
 
