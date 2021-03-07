@@ -3,6 +3,7 @@ import 'package:analyzer/dart/analysis/session.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type_provider.dart';
+import 'package:analyzer/dart/element/type_system.dart';
 import 'package:analyzer/error/error.dart';
 import 'package:analyzer/source/line_info.dart';
 
@@ -21,8 +22,7 @@ class InternalResolvedUnitResult extends ResolvedUnitResult {
   TypeProvider get typeProvider => null;
 
   @override
-  // ignore: invalid_override
-  dynamic get typeSystem => null;
+  TypeSystem get typeSystem => null;
 
   @override
   CompilationUnit get unit => _unit;
