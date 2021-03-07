@@ -2,6 +2,7 @@ include: package:pedantic/analysis_options.yaml
 
 analyzer:
   errors:
+    deprecated_member_use: ignore
     invalid_override: ignore
   exclude:
     - example/**
