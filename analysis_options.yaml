@@ -3,6 +3,7 @@ include: package:pedantic/analysis_options.yaml
 analyzer:
   errors:
     deprecated_member_use: ignore
+    non_abstract_class_inherits_abstract_member: ignore
   exclude:
     - example/**
     - test/resources/**

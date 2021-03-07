@@ -3,10 +3,10 @@ import 'package:analyzer/dart/analysis/session.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type_provider.dart';
-import 'package:analyzer/dart/element/type_system.dart';
 import 'package:analyzer/error/error.dart';
 import 'package:analyzer/source/line_info.dart';
 
+// ignonre: non_abstract_class_inherits_abstract_member
 class InternalResolvedUnitResult extends ResolvedUnitResult {
   final Uri _sourceUri;
   final String _content;
@@ -20,9 +20,6 @@ class InternalResolvedUnitResult extends ResolvedUnitResult {
 
   @override
   TypeProvider get typeProvider => null;
-
-  @override
-  TypeSystem get typeSystem => null;
 
   @override
   CompilationUnit get unit => _unit;
