@@ -108,6 +108,7 @@ void main() {
 
     final parseResult = parseString(
       content: _content,
+      // ignore: deprecated_member_use
       featureSet: FeatureSet.fromEnableFlags([]),
       throwIfDiagnostics: false,
     );

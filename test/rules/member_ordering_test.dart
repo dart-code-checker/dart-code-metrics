@@ -128,6 +128,7 @@ void main() {
     final sourceUrl = Uri.parse('/example.dart');
     final parseResult = parseString(
       content: _content,
+      // ignore: deprecated_member_use
       featureSet: FeatureSet.fromEnableFlags([]),
       throwIfDiagnostics: false,
     );
@@ -180,6 +181,7 @@ void main() {
     final sourceUrl = Uri.parse('/example.dart');
     final parseResult = parseString(
       content: _multipleClassesContent,
+      // ignore: deprecated_member_use
       featureSet: FeatureSet.fromEnableFlags([]),
       throwIfDiagnostics: false,
     );
@@ -203,6 +205,7 @@ void main() {
     final sourceUrl = Uri.parse('/example.dart');
     final parseResult = parseString(
       content: _content,
+      // ignore: deprecated_member_use
       featureSet: FeatureSet.fromEnableFlags([]),
       throwIfDiagnostics: false,
     );
@@ -255,6 +258,7 @@ void main() {
     final sourceUrl = Uri.parse('/example.dart');
     final parseResult = parseString(
       content: _angularContent,
+      // ignore: deprecated_member_use
       featureSet: FeatureSet.fromEnableFlags([]),
       throwIfDiagnostics: false,
     );
@@ -327,6 +331,7 @@ void main() {
     final sourceUrl = Uri.parse('/example.dart');
     final parseResult = parseString(
       content: _alphabeticalContent,
+      // ignore: deprecated_member_use
       featureSet: FeatureSet.fromEnableFlags([]),
       throwIfDiagnostics: false,
     );

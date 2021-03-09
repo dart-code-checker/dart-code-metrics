@@ -177,6 +177,7 @@ void main() {
 
     final parseResult = parseString(
       content: _content,
+      // ignore: deprecated_member_use
       featureSet: FeatureSet.fromEnableFlags([]),
       throwIfDiagnostics: false,
     );
@@ -246,6 +247,7 @@ void main() {
     test('reports about no found issues', () {
       final parseResult = parseString(
         content: _correctContent,
+        // ignore: deprecated_member_use
         featureSet: FeatureSet.fromEnableFlags([]),
         throwIfDiagnostics: false,
       );
