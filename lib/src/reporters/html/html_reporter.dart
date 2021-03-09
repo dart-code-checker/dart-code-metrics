@@ -67,7 +67,7 @@ class HtmlReporter implements Reporter {
   HtmlReporter({this.reportConfig, this.reportFolder = 'metrics'});
 
   @override
-  Iterable<String> report(Iterable<FileRecord> records) {
+  Future<Iterable<String>> report(Iterable<FileRecord> records) async {
     if (records?.isNotEmpty ?? false) {
       _createReportDirectory(reportFolder);
       _copyResources(reportFolder);
@@ -77,7 +77,7 @@ class HtmlReporter implements Reporter {
       _generateFoldersReports(reportFolder, records);
     }
 
-    return [];
+    return Future.value([]);
   }
 
   void _createReportDirectory(String directoryName) {

@@ -23,18 +23,20 @@ class CodeClimateReporter implements Reporter {
   });
 
   @override
-  Iterable<String> report(Iterable<FileRecord> records) {
+  Future<Iterable<String>> report(Iterable<FileRecord> records) {
     if (records?.isEmpty ?? true) {
-      return [];
+      return Future.value([]);
     }
 
-    return gitlabCompatible
+    final result = gitlabCompatible
         ? [json.encode(records.map(_toIssues).expand((r) => r).toList())]
         : records
             .map(_toIssues)
             .expand((r) => r)
             .map((issue) => '${json.encode(issue)}\x00')
             .toList();
+
+    return Future.value(result);
   }
 
   Iterable<CodeClimateIssue> _toIssues(FileRecord record) {

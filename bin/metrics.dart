@@ -128,7 +128,7 @@ Future<void> _runAnalysis(
       throw ArgumentError.value(reporterType, 'reporter');
   }
 
-  reporter.report(runner.results()).forEach(print);
+  (await reporter.report(runner.results())).forEach(print);
 
   if (setExitOnViolationLevel != null &&
       UtilitySelector.maxViolationLevel(runner.results(), config) >=

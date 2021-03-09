@@ -23,12 +23,12 @@ void main() {
       _reporter = JsonReporter(reportConfig: const metrics.Config());
     });
 
-    test('empty file', () {
-      expect(_reporter.report([]), isEmpty);
+    test('empty file', () async {
+      expect(await _reporter.report([]), isEmpty);
     });
 
     group('file', () {
-      test('aggregated arguments metric values', () {
+      test('aggregated arguments metric values', () async {
         final records = [
           FileRecord(
             fullPath: fullPath,
@@ -78,9 +78,9 @@ void main() {
           ),
         ];
 
-        final report =
-            (json.decode(_reporter.report(records).first) as List<Object>).first
-                as Map<String, Object>;
+        final report = (json.decode((await _reporter.report(records)).first)
+                as List<Object>)
+            .first as Map<String, Object>;
 
         expect(report, containsPair('average-number-of-arguments', 5));
         expect(report, containsPair('total-number-of-arguments-violations', 2));
@@ -90,7 +90,7 @@ void main() {
         expect(report, containsPair('total-maximum-nesting-violations', 1));
       });
 
-      test('with design issues', () {
+      test('with design issues', () async {
         const _issuePatternId = 'patternId1';
         const _issuePatternDocumentation = 'https://docu.edu/patternId1.html';
         const _issueLine = 2;
@@ -128,9 +128,9 @@ void main() {
           ),
         ];
 
-        final report =
-            (json.decode(_reporter.report(records).first) as List<Object>).first
-                as Map<String, Object>;
+        final report = (json.decode((await _reporter.report(records)).first)
+                as List<Object>)
+            .first as Map<String, Object>;
 
         expect(report.containsKey('designIssues'), isTrue);
 
@@ -150,7 +150,7 @@ void main() {
         expect(issue, containsPair('recommendation', _issueRecommendation));
       });
 
-      test('with style severity issues', () {
+      test('with style severity issues', () async {
         const _issueRuleId = 'ruleId1';
         const _issueRuleDocumentation = 'https://docu.edu/ruleId1.html';
         const _issueLine = 2;
@@ -192,9 +192,9 @@ void main() {
           ),
         ];
 
-        final report =
-            (json.decode(_reporter.report(records).first) as List<Object>).first
-                as Map<String, Object>;
+        final report = (json.decode((await _reporter.report(records)).first)
+                as List<Object>)
+            .first as Map<String, Object>;
 
         expect(report.containsKey('issues'), isTrue);
 
@@ -221,7 +221,7 @@ void main() {
     });
 
     group('component', () {
-      test('without methods', () {
+      test('without methods', () async {
         final records = [
           FileRecord(
             fullPath: fullPath,
@@ -242,9 +242,9 @@ void main() {
           ),
         ];
 
-        final report =
-            (json.decode(_reporter.report(records).first) as List<Object>).first
-                as Map<String, Object>;
+        final report = (json.decode((await _reporter.report(records)).first)
+                as List<Object>)
+            .first as Map<String, Object>;
         final functionReport = (report['records']
             as Map<String, Object>)['class'] as Map<String, Object>;
 
@@ -255,7 +255,7 @@ void main() {
         );
       });
 
-      test('with a lot of methods', () {
+      test('with a lot of methods', () async {
         final records = [
           FileRecord(
             fullPath: fullPath,
@@ -276,9 +276,9 @@ void main() {
           ),
         ];
 
-        final report =
-            (json.decode(_reporter.report(records).first) as List<Object>).first
-                as Map<String, Object>;
+        final report = (json.decode((await _reporter.report(records)).first)
+                as List<Object>)
+            .first as Map<String, Object>;
         final functionReport = (report['records']
             as Map<String, Object>)['class'] as Map<String, Object>;
 
@@ -291,7 +291,7 @@ void main() {
     });
 
     group('function', () {
-      test('with long body', () {
+      test('with long body', () async {
         final records = [
           FileRecord(
             fullPath: fullPath,
@@ -306,9 +306,9 @@ void main() {
           ),
         ];
 
-        final report =
-            (json.decode(_reporter.report(records).first) as List<Object>).first
-                as Map<String, Object>;
+        final report = (json.decode((await _reporter.report(records)).first)
+                as List<Object>)
+            .first as Map<String, Object>;
         final functionReport = (report['records']
             as Map<String, Object>)['function'] as Map<String, Object>;
 
@@ -319,7 +319,7 @@ void main() {
         );
       });
 
-      test('with short body', () {
+      test('with short body', () async {
         final records = [
           FileRecord(
             fullPath: fullPath,
@@ -334,9 +334,9 @@ void main() {
           ),
         ];
 
-        final report =
-            (json.decode(_reporter.report(records).first) as List<Object>).first
-                as Map<String, Object>;
+        final report = (json.decode((await _reporter.report(records)).first)
+                as List<Object>)
+            .first as Map<String, Object>;
         final functionReport = (report['records']
             as Map<String, Object>)['function'] as Map<String, Object>;
 
@@ -347,7 +347,7 @@ void main() {
         );
       });
 
-      test('without arguments', () {
+      test('without arguments', () async {
         final records = [
           FileRecord(
             fullPath: fullPath,
@@ -361,9 +361,9 @@ void main() {
           ),
         ];
 
-        final report =
-            (json.decode(_reporter.report(records).first) as List<Object>).first
-                as Map<String, Object>;
+        final report = (json.decode((await _reporter.report(records)).first)
+                as List<Object>)
+            .first as Map<String, Object>;
         final functionReport = (report['records']
             as Map<String, Object>)['function'] as Map<String, Object>;
 
@@ -374,7 +374,7 @@ void main() {
         );
       });
 
-      test('with a lot of arguments', () {
+      test('with a lot of arguments', () async {
         final records = [
           FileRecord(
             fullPath: fullPath,
@@ -388,9 +388,9 @@ void main() {
           ),
         ];
 
-        final report =
-            (json.decode(_reporter.report(records).first) as List<Object>).first
-                as Map<String, Object>;
+        final report = (json.decode((await _reporter.report(records)).first)
+                as List<Object>)
+            .first as Map<String, Object>;
         final functionReport = (report['records']
             as Map<String, Object>)['function'] as Map<String, Object>;
 
@@ -401,7 +401,7 @@ void main() {
         );
       });
 
-      test('with low nested level', () {
+      test('with low nested level', () async {
         final records = [
           FileRecord(
             fullPath: fullPath,
@@ -417,9 +417,9 @@ void main() {
           ),
         ];
 
-        final report =
-            (json.decode(_reporter.report(records).first) as List<Object>).first
-                as Map<String, Object>;
+        final report = (json.decode((await _reporter.report(records)).first)
+                as List<Object>)
+            .first as Map<String, Object>;
         final functionReport = (report['records']
             as Map<String, Object>)['function'] as Map<String, Object>;
 
@@ -430,7 +430,7 @@ void main() {
         );
       });
 
-      test('with high nested level', () {
+      test('with high nested level', () async {
         final records = [
           FileRecord(
             fullPath: fullPath,
@@ -448,9 +448,9 @@ void main() {
           ),
         ];
 
-        final report =
-            (json.decode(_reporter.report(records).first) as List<Object>).first
-                as Map<String, Object>;
+        final report = (json.decode((await _reporter.report(records)).first)
+                as List<Object>)
+            .first as Map<String, Object>;
         final functionReport = (report['records']
             as Map<String, Object>)['function'] as Map<String, Object>;
 

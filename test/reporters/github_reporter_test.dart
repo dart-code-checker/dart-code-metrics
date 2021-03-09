@@ -11,11 +11,11 @@ void main() {
   group('GitHubReporter.report report about', () {
     const fullPath = '/home/developer/work/project/example.dart';
 
-    test('files without any records', () {
-      expect(GitHubReporter().report([]), isEmpty);
+    test('files without any records', () async {
+      expect(await GitHubReporter().report([]), isEmpty);
     });
 
-    test('with design issues', () {
+    test('with design issues', () async {
       final records = [
         FileRecord(
           fullPath: fullPath,
@@ -46,14 +46,14 @@ void main() {
       ];
 
       expect(
-        GitHubReporter().report(records),
+        await GitHubReporter().report(records),
         equals([
           '::warning file=/home/developer/work/project/example.dart,line=2,col=3::first issue message',
         ]),
       );
     });
 
-    test('with style severity issues', () {
+    test('with style severity issues', () async {
       final records = [
         FileRecord(
           fullPath: fullPath,
@@ -103,7 +103,7 @@ void main() {
       ];
 
       expect(
-        GitHubReporter().report(records),
+        await GitHubReporter().report(records),
         equals([
           '::warning file=/home/developer/work/project/example.dart,line=2,col=3::first issue message',
           '::error file=/home/developer/work/project/example.dart,line=4,col=3::second issue message',

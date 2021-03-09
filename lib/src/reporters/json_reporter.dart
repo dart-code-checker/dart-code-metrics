@@ -16,10 +16,10 @@ class JsonReporter implements Reporter {
   JsonReporter({@required this.reportConfig});
 
   @override
-  Iterable<String> report(Iterable<FileRecord> records) =>
-      (records?.isNotEmpty ?? false)
+  Future<Iterable<String>> report(Iterable<FileRecord> records) =>
+      Future.value((records?.isNotEmpty ?? false)
           ? [json.encode(records.map(_analysisRecordToJson).toList())]
-          : [];
+          : []);
 
   Map<String, Object> _analysisRecordToJson(FileRecord record) {
     final fileReport = UtilitySelector.fileReport(record, reportConfig);
