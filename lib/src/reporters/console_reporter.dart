@@ -41,9 +41,9 @@ class ConsoleReporter implements Reporter {
   ConsoleReporter({@required this.reportConfig, this.reportAll = false});
 
   @override
-  Future<Iterable<String>> report(Iterable<FileRecord> records) {
+  Future<Iterable<String>> report(Iterable<FileRecord> records) async {
     if (records?.isEmpty ?? true) {
-      return Future.value([]);
+      return [];
     }
 
     final reportStrings = <String>[];
@@ -100,7 +100,7 @@ class ConsoleReporter implements Reporter {
       }
     }
 
-    return Future.value(reportStrings);
+    return reportStrings;
   }
 
   Iterable<String> _reportAboutFunctions(FileRecord record) {

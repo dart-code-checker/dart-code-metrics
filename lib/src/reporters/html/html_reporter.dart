@@ -77,7 +77,7 @@ class HtmlReporter implements Reporter {
       _generateFoldersReports(reportFolder, records);
     }
 
-    return Future.value([]);
+    return [];
   }
 
   void _createReportDirectory(String directoryName) {
