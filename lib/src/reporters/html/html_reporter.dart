@@ -67,10 +67,10 @@ class HtmlReporter implements Reporter {
   HtmlReporter({this.reportConfig, this.reportFolder = 'metrics'});
 
   @override
-  Iterable<String> report(Iterable<FileRecord> records) {
+  Future<Iterable<String>> report(Iterable<FileRecord> records) async {
     if (records?.isNotEmpty ?? false) {
       _createReportDirectory(reportFolder);
-      _copyResources(reportFolder);
+      await _copyResources(reportFolder);
       for (final record in records) {
         _generateSourceReport(reportFolder, record);
       }
@@ -88,7 +88,7 @@ class HtmlReporter implements Reporter {
     reportDirectory.createSync(recursive: true);
   }
 
-  void _copyResources(String reportFolder) {
+  Future<void> _copyResources(String reportFolder) async {
     const resources = [
       'package:dart_code_metrics/src/reporters/html/resources/variables.css',
       'package:dart_code_metrics/src/reporters/html/resources/normalize.css',
@@ -97,13 +97,12 @@ class HtmlReporter implements Reporter {
     ];
 
     for (final resource in resources) {
-      Isolate.resolvePackageUri(Uri.parse(resource)).then((resolvedUri) {
-        if (resolvedUri != null) {
-          final fileWithExtension = p.split(resolvedUri.toString()).last;
-          File.fromUri(resolvedUri)
-              .copySync(p.join(reportFolder, fileWithExtension));
-        }
-      });
+      final resolvedUri = await Isolate.resolvePackageUri(Uri.parse(resource));
+      if (resolvedUri != null) {
+        final fileWithExtension = p.split(resolvedUri.toString()).last;
+        File.fromUri(resolvedUri)
+            .copySync(p.join(reportFolder, fileWithExtension));
+      }
     }
   }
 

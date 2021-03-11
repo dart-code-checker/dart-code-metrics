@@ -8,7 +8,7 @@ import 'github_workflow_commands.dart';
 
 class GitHubReporter implements Reporter {
   @override
-  Iterable<String> report(Iterable<FileRecord> records) {
+  Future<Iterable<String>> report(Iterable<FileRecord> records) async {
     final _commands = GitHubWorkflowCommands();
 
     final reportStrings = <String>[];
@@ -25,7 +25,8 @@ class GitHubReporter implements Reporter {
               .add(_commands.error(issue.message, sourceSpan: issue.location));
         } else {
           reportStrings.add(
-              _commands.warning(issue.message, sourceSpan: issue.location));
+            _commands.warning(issue.message, sourceSpan: issue.location),
+          );
         }
       }
     }

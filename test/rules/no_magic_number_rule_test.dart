@@ -38,6 +38,7 @@ void main() {
     test('reports magic numbers', () {
       final parseResult = parseString(
         content: _sampleBad,
+        // ignore: deprecated_member_use
         featureSet: FeatureSet.fromEnableFlags([]),
         throwIfDiagnostics: false,
       );
@@ -87,6 +88,7 @@ void main() {
     test("doesn't report constants", () {
       final parseResult = parseString(
         content: _sampleGood,
+        // ignore: deprecated_member_use
         featureSet: FeatureSet.fromEnableFlags([]),
         throwIfDiagnostics: false,
       );
@@ -103,6 +105,7 @@ void main() {
     test("doesn't report exceptional code", () {
       final parseResult = parseString(
         content: _sampleExceptions,
+        // ignore: deprecated_member_use
         featureSet: FeatureSet.fromEnableFlags([]),
         throwIfDiagnostics: false,
       );
@@ -119,6 +122,7 @@ void main() {
     test("doesn't report magic numbers allowed in config", () {
       final parseResult = parseString(
         content: _sampleBad,
+        // ignore: deprecated_member_use
         featureSet: FeatureSet.fromEnableFlags([]),
         throwIfDiagnostics: false,
       );

@@ -23,7 +23,7 @@ class CodeClimateReporter implements Reporter {
   });
 
   @override
-  Iterable<String> report(Iterable<FileRecord> records) {
+  Future<Iterable<String>> report(Iterable<FileRecord> records) async {
     if (records?.isEmpty ?? true) {
       return [];
     }

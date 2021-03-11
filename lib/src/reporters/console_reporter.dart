@@ -41,7 +41,7 @@ class ConsoleReporter implements Reporter {
   ConsoleReporter({@required this.reportConfig, this.reportAll = false});
 
   @override
-  Iterable<String> report(Iterable<FileRecord> records) {
+  Future<Iterable<String>> report(Iterable<FileRecord> records) async {
     if (records?.isEmpty ?? true) {
       return [];
     }

@@ -23,6 +23,7 @@ import 'models/function_record.dart';
 import 'rules_factory.dart';
 import 'utils/metrics_analyzer_utils.dart';
 
+// ignore: deprecated_member_use
 final _featureSet = FeatureSet.fromEnableFlags([]);
 
 /// Performs code quality analysis on specified files

@@ -37,6 +37,7 @@ void main() {
 
       final parseResult = parseString(
         content: _contentCorrect,
+        // ignore: deprecated_member_use
         featureSet: FeatureSet.fromEnableFlags([]),
         throwIfDiagnostics: false,
       );
@@ -53,6 +54,7 @@ void main() {
 
       final parseResult = parseString(
         content: _contentMissingChangeDetection,
+        // ignore: deprecated_member_use
         featureSet: FeatureSet.fromEnableFlags([]),
         throwIfDiagnostics: false,
       );
@@ -77,6 +79,7 @@ void main() {
 
       final parseResult = parseString(
         content: _contentIncorrectChangeDetection,
+        // ignore: deprecated_member_use
         featureSet: FeatureSet.fromEnableFlags([]),
         throwIfDiagnostics: false,
       );

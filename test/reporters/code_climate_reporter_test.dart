@@ -26,11 +26,11 @@ void main() {
       _reporter = CodeClimateReporter(reportConfig: const metric.Config());
     });
 
-    test('empty file', () {
-      expect(_reporter.report([]), isEmpty);
+    test('empty file', () async {
+      expect(await _reporter.report([]), isEmpty);
     });
 
-    test('file with design issues', () {
+    test('file with design issues', () async {
       const _issuePatternId = 'patternId1';
       const _issuePatternDocumentation = 'https://docu.edu/patternId1.html';
       const _issueLine = 2;
@@ -66,7 +66,7 @@ void main() {
         ),
       ];
 
-      final report = _decodeReport(_reporter.report(records));
+      final report = _decodeReport(await _reporter.report(records));
 
       expect(report, containsPair('type', 'issue'));
       expect(report, containsPair('check_name', _issuePatternId));
@@ -87,7 +87,7 @@ void main() {
       );
     });
 
-    test('file with style severity issues', () {
+    test('file with style severity issues', () async {
       const _issueRuleId = 'ruleId1';
       const _issueRuleDocumentation = 'https://docu.edu/ruleId1.html';
 
@@ -124,7 +124,7 @@ void main() {
         ),
       ];
 
-      final report = _decodeReport(_reporter.report(records));
+      final report = _decodeReport(await _reporter.report(records));
 
       expect(report, containsPair('type', 'issue'));
       expect(report, containsPair('check_name', _issueRuleId));
@@ -147,7 +147,7 @@ void main() {
     });
 
     group('components', () {
-      test('without methods', () {
+      test('without methods', () async {
         final records = [
           FileRecord(
             fullPath: fullPath,
@@ -168,10 +168,10 @@ void main() {
           ),
         ];
 
-        expect(_reporter.report(records), isEmpty);
+        expect(await _reporter.report(records), isEmpty);
       });
 
-      test('with a lot of methods', () {
+      test('with a lot of methods', () async {
         final records = [
           FileRecord(
             fullPath: fullPath,
@@ -192,7 +192,7 @@ void main() {
           ),
         ];
 
-        final report = _decodeReport(_reporter.report(records));
+        final report = _decodeReport(await _reporter.report(records));
 
         expect(report, containsPair('type', 'issue'));
         expect(report, containsPair('check_name', 'numberOfMethods'));
@@ -225,7 +225,7 @@ void main() {
     });
 
     group('function', () {
-      test('with low nesting level', () {
+      test('with low nesting level', () async {
         final records = [
           FileRecord(
             fullPath: fullPath,
@@ -242,10 +242,10 @@ void main() {
           ),
         ];
 
-        expect(_reporter.report(records), isEmpty);
+        expect(await _reporter.report(records), isEmpty);
       });
 
-      test('with high nesting level', () {
+      test('with high nesting level', () async {
         final records = [
           FileRecord(
             fullPath: fullPath,
@@ -263,7 +263,7 @@ void main() {
           ),
         ];
 
-        final report = _decodeReport(_reporter.report(records));
+        final report = _decodeReport(await _reporter.report(records));
 
         expect(report, containsPair('type', 'issue'));
         expect(report, containsPair('check_name', 'nestingLevel'));
@@ -306,11 +306,11 @@ void main() {
           reportConfig: const metric.Config(), gitlabCompatible: true);
     });
 
-    test('empty file', () {
-      expect(_reporter.report([]), isEmpty);
+    test('empty file', () async {
+      expect(await _reporter.report([]), isEmpty);
     });
 
-    test('file with design issues', () {
+    test('file with design issues', () async {
       const _issuePatternId = 'patternId1';
       const _issuePatternDocumentation = 'https://docu.edu/patternId1.html';
       const _issueLine = 2;
@@ -347,8 +347,8 @@ void main() {
       ];
 
       final report =
-          (json.decode(_reporter.report(records).first) as List<Object>).first
-              as Map<String, Object>;
+          (json.decode((await _reporter.report(records)).first) as List<Object>)
+              .first as Map<String, Object>;
 
       expect(report, containsPair('type', 'issue'));
       expect(report, containsPair('check_name', _issuePatternId));

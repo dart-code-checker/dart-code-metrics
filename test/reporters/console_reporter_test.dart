@@ -26,16 +26,16 @@ void main() {
           ConsoleReporter(reportConfig: const metric.Config(), reportAll: true);
     });
 
-    test('files without any records', () {
-      final report = _reporter.report([]);
-      final verboseReport = _verboseReporter.report([]).toList();
+    test('files without any records', () async {
+      final report = await _reporter.report([]);
+      final verboseReport = (await _verboseReporter.report([])).toList();
 
       expect(report, isEmpty);
       expect(verboseReport, isEmpty);
     });
 
     group('component', () {
-      test('without methods', () {
+      test('without methods', () async {
         final records = [
           FileRecord(
             fullPath: fullPath,
@@ -56,8 +56,8 @@ void main() {
           ),
         ];
 
-        final report = _reporter.report(records);
-        final verboseReport = _verboseReporter.report(records).toList();
+        final report = await _reporter.report(records);
+        final verboseReport = (await _verboseReporter.report(records)).toList();
 
         expect(report, isEmpty);
         expect(verboseReport.length, 3);
@@ -67,7 +67,7 @@ void main() {
         );
       });
 
-      test('with a lot of methods', () {
+      test('with a lot of methods', () async {
         final records = [
           FileRecord(
             fullPath: fullPath,
@@ -88,7 +88,7 @@ void main() {
           ),
         ];
 
-        final report = _reporter.report(records).toList();
+        final report = (await _reporter.report(records)).toList();
 
         expect(report.length, 3);
         expect(report[1], contains('number of methods: \x1B[38;5;3m20\x1B[0m'));
@@ -96,7 +96,7 @@ void main() {
     });
 
     group('function', () {
-      test('with long body', () {
+      test('with long body', () async {
         final records = [
           FileRecord(
             fullPath: fullPath,
@@ -112,7 +112,7 @@ void main() {
           ),
         ];
 
-        final report = _reporter.report(records).toList();
+        final report = (await _reporter.report(records)).toList();
 
         expect(report.length, 3);
         expect(
@@ -121,7 +121,7 @@ void main() {
         );
       });
 
-      test('with short body', () {
+      test('with short body', () async {
         final records = [
           FileRecord(
             fullPath: fullPath,
@@ -137,8 +137,8 @@ void main() {
           ),
         ];
 
-        final report = _reporter.report(records);
-        final verboseReport = _verboseReporter.report(records).toList();
+        final report = await _reporter.report(records);
+        final verboseReport = (await _verboseReporter.report(records)).toList();
 
         expect(report, isEmpty);
         expect(verboseReport.length, 3);
@@ -148,7 +148,7 @@ void main() {
         );
       });
 
-      test('without arguments', () {
+      test('without arguments', () async {
         final records = [
           FileRecord(
             fullPath: fullPath,
@@ -162,8 +162,8 @@ void main() {
           ),
         ];
 
-        final report = _reporter.report(records);
-        final verboseReport = _verboseReporter.report(records).toList();
+        final report = await _reporter.report(records);
+        final verboseReport = (await _verboseReporter.report(records)).toList();
 
         expect(report, isEmpty);
         expect(verboseReport.length, 3);
@@ -173,7 +173,7 @@ void main() {
         );
       });
 
-      test('with a lot of arguments', () {
+      test('with a lot of arguments', () async {
         final records = [
           FileRecord(
             fullPath: fullPath,
@@ -187,7 +187,7 @@ void main() {
           ),
         ];
 
-        final report = _reporter.report(records).toList();
+        final report = (await _reporter.report(records)).toList();
 
         expect(report.length, 3);
         expect(
@@ -196,7 +196,7 @@ void main() {
         );
       });
 
-      test('with low nested level', () {
+      test('with low nested level', () async {
         final records = [
           FileRecord(
             fullPath: fullPath,
@@ -212,8 +212,8 @@ void main() {
           ),
         ];
 
-        final report = _reporter.report(records);
-        final verboseReport = _verboseReporter.report(records).toList();
+        final report = await _reporter.report(records);
+        final verboseReport = (await _verboseReporter.report(records)).toList();
 
         expect(report, isEmpty);
         expect(verboseReport.length, 3);
@@ -223,7 +223,7 @@ void main() {
         );
       });
 
-      test('with high nested level', () {
+      test('with high nested level', () async {
         final records = [
           FileRecord(
             fullPath: fullPath,
@@ -241,7 +241,7 @@ void main() {
           ),
         ];
 
-        final report = _reporter.report(records).toList();
+        final report = (await _reporter.report(records)).toList();
 
         expect(report.length, 3);
         expect(
@@ -251,7 +251,7 @@ void main() {
       });
     });
 
-    test('with design issues', () {
+    test('with design issues', () async {
       final records = [
         FileRecord(
           fullPath: fullPath,
@@ -281,7 +281,7 @@ void main() {
         ),
       ];
 
-      final report = _reporter.report(records).toList();
+      final report = (await _reporter.report(records)).toList();
 
       expect(report.length, 3);
       expect(
@@ -291,7 +291,7 @@ void main() {
       );
     });
 
-    test('with style severity issues', () {
+    test('with style severity issues', () async {
       final records = [
         FileRecord(
           fullPath: fullPath,
@@ -322,7 +322,7 @@ void main() {
         ),
       ];
 
-      final report = _reporter.report(records).toList();
+      final report = (await _reporter.report(records)).toList();
 
       expect(report.length, 3);
       expect(

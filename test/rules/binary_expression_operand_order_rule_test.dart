@@ -34,6 +34,7 @@ void main() {
 
       final parseResult = parseString(
         content: _sample,
+        // ignore: deprecated_member_use
         featureSet: FeatureSet.fromEnableFlags([]),
         throwIfDiagnostics: false,
       );

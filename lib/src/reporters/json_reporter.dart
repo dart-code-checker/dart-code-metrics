@@ -16,7 +16,7 @@ class JsonReporter implements Reporter {
   JsonReporter({@required this.reportConfig});
 
   @override
-  Iterable<String> report(Iterable<FileRecord> records) =>
+  Future<Iterable<String>> report(Iterable<FileRecord> records) async =>
       (records?.isNotEmpty ?? false)
           ? [json.encode(records.map(_analysisRecordToJson).toList())]
           : [];
