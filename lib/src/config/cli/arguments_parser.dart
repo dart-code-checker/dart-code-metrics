@@ -10,6 +10,7 @@ const helpFlagName = 'help';
 const reporterName = 'reporter';
 const verboseName = 'verbose';
 const gitlabCompatibilityName = 'gitlab';
+const reportFolder = 'output-directory';
 const ignoredFilesName = 'ignore-files';
 const rootFolderName = 'root-folder';
 const setExitOnViolationLevel = 'set-exit-on-violation-level';
@@ -60,6 +61,13 @@ void _appendReporterOption(ArgParser parser) {
       help:
           'Additional flag for Code Climate reporter to report in GitLab Code Quality format',
       negatable: false,
+    )
+    ..addOption(
+      reportFolder,
+      abbr: 'o',
+      help: 'Write HTML output to OUTPUT',
+      valueHelp: 'OUTPUT',
+      defaultsTo: 'metrics',
     );
 }
 

@@ -92,6 +92,8 @@ Usage: metrics [options...] <directories>
                                                        [console (default), github, json, html, codeclimate]
     --verbose                                          Additional flag for Console reporter
     --gitlab                                           Additional flag for Code Climate reporter to report in GitLab Code Quality format
+-o, --output-directory=<OUTPUT>                        Write HTML output to OUTPUT
+                                                       (defaults to "metrics")
 
 
     --cyclomatic-complexity=<20>                       Cyclomatic complexity threshold
