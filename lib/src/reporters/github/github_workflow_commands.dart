@@ -3,20 +3,31 @@ import 'package:source_span/source_span.dart';
 // https://docs.github.com/en/actions/reference/workflow-commands-for-github-actions#setting-a-warning-message
 
 class GitHubWorkflowCommands {
-  String warning(String message, {SourceSpanBase sourceSpan}) => _construct(
-      'warning',
-      message,
-      _params(sourceSpan?.sourceUrl?.toFilePath(), sourceSpan?.start?.line,
-          sourceSpan?.start?.column));
+  String warning(String message, {SourceSpan sourceSpan}) => _construct(
+        'warning',
+        message,
+        _params(
+          sourceSpan?.sourceUrl?.toFilePath(),
+          sourceSpan?.start?.line,
+          sourceSpan?.start?.column,
+        ),
+      );
 
-  String error(String message, {SourceSpanBase sourceSpan}) => _construct(
-      'error',
-      message,
-      _params(sourceSpan?.sourceUrl?.toFilePath(), sourceSpan?.start?.line,
-          sourceSpan?.start?.column));
+  String error(String message, {SourceSpan sourceSpan}) => _construct(
+        'error',
+        message,
+        _params(
+          sourceSpan?.sourceUrl?.toFilePath(),
+          sourceSpan?.start?.line,
+          sourceSpan?.start?.column,
+        ),
+      );
 
-  String _construct(String command,
-      [String message, Map<String, Object> parameters]) {
+  String _construct(
+    String command, [
+    String message,
+    Map<String, Object> parameters,
+  ]) {
     final sb = StringBuffer('::$command');
     final params = parameters?.entries
         ?.map((e) => '${e.key}=${e.value}')

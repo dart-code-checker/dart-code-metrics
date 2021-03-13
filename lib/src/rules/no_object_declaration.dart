@@ -1,3 +1,4 @@
+import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:code_checker/checker.dart';
@@ -18,10 +19,10 @@ class NoObjectDeclarationRule extends Rule {
         );
 
   @override
-  Iterable<Issue> check(ProcessedFile file) {
+  Iterable<Issue> check(ResolvedUnitResult source) {
     final _visitor = _Visitor();
 
-    file.parsedContent.visitChildren(_visitor);
+    source.unit.visitChildren(_visitor);
 
     return _visitor.members
         .map(
@@ -29,7 +30,7 @@ class NoObjectDeclarationRule extends Rule {
             this,
             nodeLocation(
               node: member,
-              source: file,
+              source: source,
               withCommentOrMetadata: true,
             ),
             _warningMessage,

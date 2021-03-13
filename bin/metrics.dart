@@ -89,7 +89,11 @@ Future<void> _runAnalysis(
     additionalExcludes: [ignoreFilesPattern],
   );
   final runner = metrics.MetricsAnalysisRunner(
-      analyzer, store, analysisDirectories, rootFolder);
+    analyzer,
+    store,
+    analysisDirectories,
+    rootFolder,
+  );
   await runner.run();
 
   final config = metrics.Config(

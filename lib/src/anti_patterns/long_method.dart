@@ -1,5 +1,6 @@
 import 'package:code_checker/checker.dart';
 import 'package:code_checker/rules.dart';
+import 'package:dart_code_metrics/src/models/internal_resolved_unit_result.dart';
 import 'package:meta/meta.dart';
 
 import '../config/config.dart' as metrics;
@@ -16,15 +17,14 @@ class LongMethod extends BasePattern {
 
   @override
   Iterable<Issue> check(
-    ProcessedFile source,
+    InternalResolvedUnitResult source,
     Iterable<ScopedFunctionDeclaration> functions,
     metrics.Config config,
   ) {
     final issues = <Issue>[];
 
     for (final function in functions) {
-      final visitor =
-          LinesOfExecutableCodeVisitor(source.parsedContent.lineInfo);
+      final visitor = LinesOfExecutableCodeVisitor(source.unit.lineInfo);
       function.declaration.visitChildren(visitor);
 
       if (visitor.linesWithCode.length >

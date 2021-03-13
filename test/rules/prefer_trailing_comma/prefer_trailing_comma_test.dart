@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:code_checker/rules.dart';
+import 'package:dart_code_metrics/src/models/internal_resolved_unit_result.dart';
 import 'package:dart_code_metrics/src/rules/prefer_trailing_comma.dart';
 import 'package:test/test.dart';
 
@@ -20,9 +21,11 @@ void main() {
 
       final parseResult = await resolveFile(path: path);
 
-      final issues = PreferTrailingComma().check(
-        ProcessedFile(sourceUrl, parseResult.content, parseResult.unit),
-      );
+      final issues = PreferTrailingComma().check(InternalResolvedUnitResult(
+        sourceUrl,
+        parseResult.content,
+        parseResult.unit,
+      ));
 
       expect(
         issues.every((issue) => issue.ruleId == 'prefer-trailing-comma'),
@@ -40,9 +43,11 @@ void main() {
 
       final parseResult = await resolveFile(path: path);
 
-      final issues = PreferTrailingComma().check(
-        ProcessedFile(sourceUrl, parseResult.content, parseResult.unit),
-      );
+      final issues = PreferTrailingComma().check(InternalResolvedUnitResult(
+        sourceUrl,
+        parseResult.content,
+        parseResult.unit,
+      ));
 
       expect(
         issues.map((issue) => issue.location.start.offset),
@@ -133,9 +138,11 @@ void main() {
 
       final parseResult = await resolveFile(path: path);
 
-      final issues = PreferTrailingComma().check(
-        ProcessedFile(sourceUrl, parseResult.content, parseResult.unit),
-      );
+      final issues = PreferTrailingComma().check(InternalResolvedUnitResult(
+        sourceUrl,
+        parseResult.content,
+        parseResult.unit,
+      ));
 
       expect(issues.isEmpty, isTrue);
     });
@@ -146,9 +153,12 @@ void main() {
 
       final parseResult = await resolveFile(path: path);
 
-      final issues = PreferTrailingComma(config: {'break_on': 1}).check(
-        ProcessedFile(sourceUrl, parseResult.content, parseResult.unit),
-      );
+      final issues = PreferTrailingComma(config: {'break_on': 1})
+          .check(InternalResolvedUnitResult(
+        sourceUrl,
+        parseResult.content,
+        parseResult.unit,
+      ));
 
       expect(
         issues.map((issue) => issue.location.start.offset),
