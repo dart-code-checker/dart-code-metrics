@@ -29,14 +29,14 @@ class AnalysisOptions extends Config {
 
   const AnalysisOptions({
     @required Iterable<String> excludePatterns,
-    @required Iterable<String> metricsExcludePatterns,
+    @required Iterable<String> excludeForMetricsPatterns,
     @required Map<String, Object> metrics,
     @required this.metricsConfig,
     @required this.rules,
     @required this.antiPatterns,
   }) : super(
           excludePatterns: excludePatterns,
-          metricsExcludePatterns: metricsExcludePatterns,
+          excludeForMetricsPatterns: excludeForMetricsPatterns,
           metrics: metrics,
         );
 
@@ -45,7 +45,7 @@ class AnalysisOptions extends Config {
 
     return AnalysisOptions(
       excludePatterns: _readGlobalExcludePatterns(configMap),
-      metricsExcludePatterns: _readMetricsExcludePatterns(configMap),
+      excludeForMetricsPatterns: _readMetricsExcludePatterns(configMap),
       metrics: const <String, Object>{},
       metricsConfig: _readMetricsConfig(configMap),
       rules: _readRules(configMap, _rulesKey),

@@ -52,7 +52,7 @@ class MetricsAnalyzer {
           ..._prepareExcludes(additionalExcludes),
         ],
         _metricsConfig = options?.metricsConfig ?? const metrics.Config(),
-        _metricsExclude = _prepareExcludes(options?.metricsExcludePatterns),
+        _metricsExclude = _prepareExcludes(options?.excludeForMetricsPatterns),
         _useFastParser = true;
 
   /// Return a future that will complete after static analysis done for files from [folders].

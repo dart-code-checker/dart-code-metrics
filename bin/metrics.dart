@@ -75,7 +75,7 @@ Future<void> _runAnalysis(
       ? await metrics.analysisOptionsFromFile(analysisOptionsFile)
       : const metrics.AnalysisOptions(
           excludePatterns: [],
-          metricsExcludePatterns: [],
+          excludeForMetricsPatterns: [],
           metrics: {},
           metricsConfig: metrics.Config(),
           rules: {},

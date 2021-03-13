@@ -87,7 +87,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
         ],
         contextRoot.root,
       ),
-      prepareExcludes(options?.metricsExcludePatterns, contextRoot.root),
+      prepareExcludes(options?.excludeForMetricsPatterns, contextRoot.root),
       options?.antiPatterns != null
           ? getPatternsById(options.antiPatterns)
           : [],
