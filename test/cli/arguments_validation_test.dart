@@ -13,9 +13,12 @@ void main() {
         final result = ArgResultsMock();
         when(result.rest).thenReturn([]);
 
-        expect(() {
-          checkPathsToAnalyzeNotEmpty(result);
-        }, throwsException);
+        expect(
+          () {
+            checkPathsToAnalyzeNotEmpty(result);
+          },
+          throwsException,
+        );
       });
     });
   });

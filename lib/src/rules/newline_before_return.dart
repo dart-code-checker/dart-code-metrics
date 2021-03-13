@@ -1,3 +1,4 @@
+import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
@@ -21,10 +22,10 @@ class NewlineBeforeReturnRule extends Rule {
         );
 
   @override
-  Iterable<Issue> check(ProcessedFile file) {
+  Iterable<Issue> check(ResolvedUnitResult source) {
     final _visitor = _Visitor();
 
-    file.parsedContent.visitChildren(_visitor);
+    source.unit.visitChildren(_visitor);
 
     return _visitor.statements
         // return statement is in a block
@@ -34,13 +35,13 @@ class NewlineBeforeReturnRule extends Rule {
         .where((statement) =>
             statement.returnKeyword.previous != statement.parent.beginToken)
         .where((statement) {
-          final previousTokenLine = file.parsedContent.lineInfo
+          final previousTokenLine = source.unit.lineInfo
               .getLocation(statement.returnKeyword.previous.end)
               .lineNumber;
-          final tokenLine = file.parsedContent.lineInfo
+          final tokenLine = source.unit.lineInfo
               .getLocation(_optimalToken(
                 statement.returnKeyword,
-                file.parsedContent.lineInfo,
+                source.unit.lineInfo,
               ).offset)
               .lineNumber;
 
@@ -50,7 +51,7 @@ class NewlineBeforeReturnRule extends Rule {
               this,
               nodeLocation(
                 node: statement,
-                source: file,
+                source: source,
                 withCommentOrMetadata: true,
               ),
               _failure,

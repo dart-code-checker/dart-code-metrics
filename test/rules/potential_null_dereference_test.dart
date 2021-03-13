@@ -2,6 +2,7 @@
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:code_checker/rules.dart';
+import 'package:dart_code_metrics/src/models/internal_resolved_unit_result.dart';
 import 'package:dart_code_metrics/src/rules/potential_null_dereference.dart';
 import 'package:test/test.dart';
 
@@ -177,9 +178,12 @@ void main() {
         throwIfDiagnostics: false,
       );
 
-      final issues = PotentialNullDereference().check(
-        ProcessedFile(sourceUrl, parseResult.content, parseResult.unit),
-      );
+      final issues =
+          PotentialNullDereference().check(InternalResolvedUnitResult(
+        sourceUrl,
+        parseResult.content,
+        parseResult.unit,
+      ));
 
       expect(
         issues.every((issue) => issue.ruleId == 'potential-null-dereference'),
@@ -201,9 +205,12 @@ void main() {
         throwIfDiagnostics: false,
       );
 
-      final issues = PotentialNullDereference().check(
-        ProcessedFile(sourceUrl, parseResult.content, parseResult.unit),
-      );
+      final issues =
+          PotentialNullDereference().check(InternalResolvedUnitResult(
+        sourceUrl,
+        parseResult.content,
+        parseResult.unit,
+      ));
 
       expect(
         issues.map((issue) => issue.location.start.offset),
@@ -273,9 +280,12 @@ void main() {
         throwIfDiagnostics: false,
       );
 
-      final issues = PotentialNullDereference().check(
-        ProcessedFile(sourceUrl, parseResult.content, parseResult.unit),
-      );
+      final issues =
+          PotentialNullDereference().check(InternalResolvedUnitResult(
+        sourceUrl,
+        parseResult.content,
+        parseResult.unit,
+      ));
 
       expect(issues.isEmpty, isTrue);
     });

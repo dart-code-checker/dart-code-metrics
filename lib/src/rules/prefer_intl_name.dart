@@ -1,3 +1,4 @@
+import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:code_checker/checker.dart';
 import 'package:code_checker/rules.dart';
@@ -24,8 +25,8 @@ class PreferIntlNameRule extends Rule {
         );
 
   @override
-  Iterable<Issue> check(ProcessedFile file) {
-    final hasIntlDirective = file.parsedContent.directives
+  Iterable<Issue> check(ResolvedUnitResult source) {
+    final hasIntlDirective = source.unit.directives
         .whereType<ImportDirective>()
         .any((directive) => directive.uri.stringValue == _intlPackageUrl);
 
@@ -34,7 +35,7 @@ class PreferIntlNameRule extends Rule {
     }
 
     final visitor = _Visitor();
-    file.parsedContent.visitChildren(visitor);
+    source.unit.visitChildren(visitor);
 
     return [
       ...visitor.issues.whereType<_NotCorrectNameIssue>().map((issue) {
@@ -45,7 +46,7 @@ class PreferIntlNameRule extends Rule {
           this,
           nodeLocation(
             node: issue.node,
-            source: file,
+            source: source,
             withCommentOrMetadata: true,
           ),
           '$_notCorrectNameFailure $correction',
@@ -61,7 +62,7 @@ class PreferIntlNameRule extends Rule {
                 this,
                 nodeLocation(
                   node: issue.node,
-                  source: file,
+                  source: source,
                   withCommentOrMetadata: true,
                 ),
                 _notExistsNameFailure,

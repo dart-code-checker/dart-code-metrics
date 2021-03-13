@@ -3,9 +3,9 @@ import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:code_checker/checker.dart';
-import 'package:code_checker/rules.dart';
-import 'package:dart_code_metrics/src/config/config.dart' as metrics;
 import 'package:dart_code_metrics/src/anti_patterns/long_parameter_list.dart';
+import 'package:dart_code_metrics/src/config/config.dart' as metrics;
+import 'package:dart_code_metrics/src/models/internal_resolved_unit_result.dart';
 import 'package:test/test.dart';
 
 const _content = '''
@@ -33,7 +33,11 @@ void main() {
     parseResult.unit.visitChildren(scopeVisitor);
 
     final issues = LongParameterList().check(
-      ProcessedFile(sourceUrl, parseResult.content, parseResult.unit),
+      InternalResolvedUnitResult(
+        sourceUrl,
+        parseResult.content,
+        parseResult.unit,
+      ),
       scopeVisitor.functions.where((function) {
         final declaration = function.declaration;
         if (declaration is ConstructorDeclaration &&
@@ -70,7 +74,8 @@ void main() {
     expect(
       issue.verboseMessage,
       equals(
-          "Based on configuration of this package, we don't recommend writing a function with argument count more than 4."),
+        "Based on configuration of this package, we don't recommend writing a function with argument count more than 4.",
+      ),
     );
   });
 }

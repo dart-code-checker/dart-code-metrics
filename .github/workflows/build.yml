@@ -33,12 +33,12 @@ jobs:
     - name: Self scan
       run: dart run bin/metrics.dart --reporter=github lib
 
-  build-dart-2-8:
+  build-dart-2-9:
 
     runs-on: ubuntu-latest
 
     container:
-      image:  google/dart:2.8.4
+      image:  google/dart:2.9.3
 
     steps:
     - uses: actions/checkout@v2

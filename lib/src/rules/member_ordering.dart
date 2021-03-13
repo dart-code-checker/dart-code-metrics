@@ -1,3 +1,4 @@
+import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:code_checker/checker.dart';
@@ -26,11 +27,11 @@ class MemberOrderingRule extends Rule {
         );
 
   @override
-  Iterable<Issue> check(ProcessedFile file) {
+  Iterable<Issue> check(ResolvedUnitResult source) {
     final _visitor = _Visitor(_groupsOrder);
 
     final membersInfo = [
-      for (final entry in file.parsedContent.childEntities)
+      for (final entry in source.unit.childEntities)
         if (entry is ClassDeclaration) ...entry.accept(_visitor),
     ];
 
@@ -40,7 +41,7 @@ class MemberOrderingRule extends Rule {
               this,
               nodeLocation(
                 node: info.classMember,
-                source: file,
+                source: source,
                 withCommentOrMetadata: true,
               ),
               '${info.memberOrder.memberGroup.name} $_warningMessage ${info.memberOrder.previousMemberGroup.name}',
@@ -55,7 +56,7 @@ class MemberOrderingRule extends Rule {
                 this,
                 nodeLocation(
                   node: info.classMember,
-                  source: file,
+                  source: source,
                   withCommentOrMetadata: true,
                 ),
                 '${info.memberOrder.memberNames.currentName} $_warningAlphabeticalMessage ${info.memberOrder.memberNames.previousName}',

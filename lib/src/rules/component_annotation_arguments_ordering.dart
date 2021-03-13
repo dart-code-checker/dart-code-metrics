@@ -1,3 +1,4 @@
+import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:code_checker/checker.dart';
@@ -22,11 +23,11 @@ class ComponentAnnotationArgumentsOrderingRule extends Rule {
         );
 
   @override
-  Iterable<Issue> check(ProcessedFile file) {
+  Iterable<Issue> check(ResolvedUnitResult source) {
     final _visitor = _Visitor(_groupsOrder);
 
     final argumentsInfo = [
-      for (final entry in file.parsedContent.childEntities)
+      for (final entry in source.unit.childEntities)
         if (entry is ClassDeclaration) ...entry.accept(_visitor),
     ];
 
@@ -35,7 +36,7 @@ class ComponentAnnotationArgumentsOrderingRule extends Rule {
             this,
             nodeLocation(
               node: info.argument,
-              source: file,
+              source: source,
               withCommentOrMetadata: true,
             ),
             'Arguments group ${info.argumentOrder.argumentGroup.name} $_warningMessage ${info.argumentOrder.previousArgumentGroup.name}',

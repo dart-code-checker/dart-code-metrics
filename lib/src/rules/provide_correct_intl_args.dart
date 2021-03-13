@@ -1,3 +1,4 @@
+import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:code_checker/checker.dart';
 import 'package:code_checker/rules.dart';
@@ -21,8 +22,8 @@ class ProvideCorrectIntlArgsRule extends Rule {
         );
 
   @override
-  Iterable<Issue> check(ProcessedFile file) {
-    final hasIntlDirective = file.parsedContent.directives
+  Iterable<Issue> check(ResolvedUnitResult source) {
+    final hasIntlDirective = source.unit.directives
         .whereType<ImportDirective>()
         .any((directive) => directive.uri.stringValue == _intlPackageUrl);
 
@@ -31,14 +32,14 @@ class ProvideCorrectIntlArgsRule extends Rule {
     }
 
     final visitor = _Visitor();
-    file.parsedContent.visitChildren(visitor);
+    source.unit.visitChildren(visitor);
 
     return visitor.issues
         .map((issue) => createIssue(
               this,
               nodeLocation(
                 node: issue.node,
-                source: file,
+                source: source,
                 withCommentOrMetadata: true,
               ),
               issue.nameFailure,

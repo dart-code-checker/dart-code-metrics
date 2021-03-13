@@ -2,6 +2,7 @@
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:code_checker/rules.dart';
+import 'package:dart_code_metrics/src/models/internal_resolved_unit_result.dart';
 import 'package:dart_code_metrics/src/rules/component_annotation_arguments_ordering.dart';
 import 'package:test/test.dart';
 
@@ -28,9 +29,12 @@ void main() {
     );
 
     test('initialization', () {
-      final issues = ComponentAnnotationArgumentsOrderingRule().check(
-        ProcessedFile(sourceUrl, parseResult.content, parseResult.unit),
-      );
+      final issues = ComponentAnnotationArgumentsOrderingRule()
+          .check(InternalResolvedUnitResult(
+        sourceUrl,
+        parseResult.content,
+        parseResult.unit,
+      ));
 
       expect(
         issues.every((issue) =>
@@ -44,9 +48,12 @@ void main() {
     });
 
     test('with default config reports about found issues', () {
-      final issues = ComponentAnnotationArgumentsOrderingRule().check(
-        ProcessedFile(sourceUrl, parseResult.content, parseResult.unit),
-      );
+      final issues = ComponentAnnotationArgumentsOrderingRule()
+          .check(InternalResolvedUnitResult(
+        sourceUrl,
+        parseResult.content,
+        parseResult.unit,
+      ));
 
       expect(
         issues.map((issue) => issue.location.start.offset),
@@ -86,10 +93,12 @@ void main() {
         ],
       };
 
-      final issues =
-          ComponentAnnotationArgumentsOrderingRule(config: config).check(
-        ProcessedFile(sourceUrl, parseResult.content, parseResult.unit),
-      );
+      final issues = ComponentAnnotationArgumentsOrderingRule(config: config)
+          .check(InternalResolvedUnitResult(
+        sourceUrl,
+        parseResult.content,
+        parseResult.unit,
+      ));
 
       expect(issues.isEmpty, isTrue);
     });
@@ -104,10 +113,12 @@ void main() {
         ],
       };
 
-      final issues =
-          ComponentAnnotationArgumentsOrderingRule(config: config).check(
-        ProcessedFile(sourceUrl, parseResult.content, parseResult.unit),
-      );
+      final issues = ComponentAnnotationArgumentsOrderingRule(config: config)
+          .check(InternalResolvedUnitResult(
+        sourceUrl,
+        parseResult.content,
+        parseResult.unit,
+      ));
 
       expect(
         issues.map((issue) => issue.location.start.offset),

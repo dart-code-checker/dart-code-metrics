@@ -1,3 +1,4 @@
+import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
@@ -32,10 +33,10 @@ class NoBooleanLiteralCompareRule extends Rule {
         );
 
   @override
-  Iterable<Issue> check(ProcessedFile file) {
+  Iterable<Issue> check(ResolvedUnitResult source) {
     final _visitor = _Visitor();
 
-    file.parsedContent.visitChildren(_visitor);
+    source.unit.visitChildren(_visitor);
 
     final issues = <Issue>[];
 
@@ -45,7 +46,7 @@ class NoBooleanLiteralCompareRule extends Rule {
           this,
           nodeLocation(
             node: expression,
-            source: file,
+            source: source,
             withCommentOrMetadata: true,
           ),
           _failureCompareNullAwarePropertyWithTrue,
@@ -81,7 +82,7 @@ class NoBooleanLiteralCompareRule extends Rule {
         this,
         nodeLocation(
           node: expression,
-          source: file,
+          source: source,
           withCommentOrMetadata: true,
         ),
         _failure,

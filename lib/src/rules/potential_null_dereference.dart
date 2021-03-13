@@ -1,3 +1,4 @@
+import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/syntactic_entity.dart';
 import 'package:analyzer/dart/ast/token.dart';
@@ -22,10 +23,10 @@ class PotentialNullDereference extends Rule {
         );
 
   @override
-  Iterable<Issue> check(ProcessedFile file) {
+  Iterable<Issue> check(ResolvedUnitResult source) {
     final _visitor = _Visitor();
 
-    file.parsedContent.visitChildren(_visitor);
+    source.unit.visitChildren(_visitor);
 
     return _visitor.issues
         .map(
@@ -33,7 +34,7 @@ class PotentialNullDereference extends Rule {
             this,
             nodeLocation(
               node: issue.expression,
-              source: file,
+              source: source,
               withCommentOrMetadata: true,
             ),
             '${issue.identifierName} $_warningMessage',

@@ -1,3 +1,4 @@
+import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/syntactic_entity.dart';
 import 'package:analyzer/dart/ast/token.dart';
@@ -21,26 +22,26 @@ class PreferTrailingCommaForCollectionRule extends Rule {
         );
 
   @override
-  Iterable<Issue> check(ProcessedFile file) {
+  Iterable<Issue> check(ResolvedUnitResult source) {
     final visitor = _Visitor(
-      file.parsedContent.lineInfo,
+      source.unit.lineInfo,
     );
 
-    file.parsedContent.visitChildren(visitor);
+    source.unit.visitChildren(visitor);
 
     return visitor.nodes
         .map((node) => createIssue(
               this,
               nodeLocation(
                 node: node,
-                source: file,
+                source: source,
                 withCommentOrMetadata: true,
               ),
               _failure,
               Replacement(
                 comment: _correctionComment,
                 replacement:
-                    '${file.content.substring(node.offset, node.end)},',
+                    '${source.content.substring(node.offset, node.end)},',
               ),
             ))
         .toList(growable: false);

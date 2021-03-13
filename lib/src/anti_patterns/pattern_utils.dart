@@ -1,5 +1,6 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:code_checker/rules.dart';
+import 'package:dart_code_metrics/src/models/internal_resolved_unit_result.dart';
 import 'package:source_span/source_span.dart';
 
 import 'base_pattern.dart';
@@ -8,12 +9,12 @@ Issue createIssue(
   BasePattern pattern,
   String message,
   String recommendation,
-  ProcessedFile source,
+  InternalResolvedUnitResult source,
   Declaration issueNode,
 ) {
-  final offsetLocation = source.parsedContent.lineInfo
+  final offsetLocation = source.unit.lineInfo
       .getLocation(issueNode.firstTokenAfterCommentAndMetadata.offset);
-  final endLocation = source.parsedContent.lineInfo.getLocation(issueNode.end);
+  final endLocation = source.unit.lineInfo.getLocation(issueNode.end);
 
   return Issue(
     ruleId: pattern.id,
@@ -21,13 +22,13 @@ Issue createIssue(
     location: SourceSpanBase(
       SourceLocation(
         issueNode.offset,
-        sourceUrl: source.url,
+        sourceUrl: source.uri,
         line: offsetLocation.lineNumber,
         column: offsetLocation.columnNumber,
       ),
       SourceLocation(
         issueNode.end,
-        sourceUrl: source.url,
+        sourceUrl: source.uri,
         line: endLocation.lineNumber,
         column: endLocation.columnNumber,
       ),

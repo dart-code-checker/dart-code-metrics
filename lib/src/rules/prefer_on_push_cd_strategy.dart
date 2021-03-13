@@ -1,3 +1,4 @@
+import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:code_checker/checker.dart';
@@ -17,17 +18,17 @@ class PreferOnPushCdStrategyRule extends Rule {
         );
 
   @override
-  Iterable<Issue> check(ProcessedFile file) {
+  Iterable<Issue> check(ResolvedUnitResult source) {
     final visitor = _Visitor();
 
-    file.parsedContent.visitChildren(visitor);
+    source.unit.visitChildren(visitor);
 
     return visitor.expression
         .map((expression) => createIssue(
               this,
               nodeLocation(
                 node: expression,
-                source: file,
+                source: source,
                 withCommentOrMetadata: true,
               ),
               _failure,

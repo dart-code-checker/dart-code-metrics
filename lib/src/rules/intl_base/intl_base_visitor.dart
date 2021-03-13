@@ -93,10 +93,12 @@ abstract class IntlBaseVisitor extends GeneralizingAstVisitor<void> {
   }
 
   @protected
-  void checkMethodInvocation(MethodInvocation methodInvocation,
-      {String className,
-      String variableName,
-      FormalParameterList parameterList});
+  void checkMethodInvocation(
+    MethodInvocation methodInvocation, {
+    String className,
+    String variableName,
+    FormalParameterList parameterList,
+  });
 
   void _checkVariables(String className, VariableDeclarationList variables) {
     for (final variable in variables.variables) {
@@ -134,10 +136,12 @@ abstract class IntlBaseVisitor extends GeneralizingAstVisitor<void> {
             ?.as<MethodInvocation>();
   }
 
-  void _checkMethodInvocation(MethodInvocation methodInvocation,
-      {String className,
-      String variableName,
-      FormalParameterList parameterList}) {
+  void _checkMethodInvocation(
+    MethodInvocation methodInvocation, {
+    String className,
+    String variableName,
+    FormalParameterList parameterList,
+  }) {
     if ((methodInvocation?.target?.as<SimpleIdentifier>()?.name != 'Intl') ||
         !_methodNames.contains(methodInvocation?.methodName?.name)) {
       return;
