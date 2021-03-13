@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Set min SDK version to `2.9.0`
+
 ## 2.4.1
 
 - Allow configuring output directory for HTML reporter
