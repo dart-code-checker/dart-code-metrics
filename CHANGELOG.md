@@ -4,6 +4,7 @@
 
 - Set min SDK version to `2.9.0`
 - Changed the support version range of the analyzer to `>=0.40.0 <0.42.0`
+- Changed the support version range of the analyzer_plugin to `>=0.3.0 <0.5.0`
 
 ## 2.4.1
 
