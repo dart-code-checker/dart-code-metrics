@@ -64,7 +64,7 @@ class HtmlReporter implements Reporter {
   final Config reportConfig;
   final String reportFolder;
 
-  HtmlReporter({this.reportConfig, this.reportFolder = 'metrics'});
+  HtmlReporter({@required this.reportConfig, @required this.reportFolder});
 
   @override
   Iterable<String> report(Iterable<FileRecord> records) {

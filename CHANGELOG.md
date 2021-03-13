@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Allow configuring output directory for HTML reporter
+- Fixed bug with missing CSS files in HTML report directory
+
 ## 2.4.0
 
 - Add static code diagnostic avoid-unused-parameters
@@ -107,7 +112,7 @@
 
 ## 1.2.0
 
-- Allow to analyze multiple directories
+- Allow analyzing multiple directories
 
 ## 1.1.5
 

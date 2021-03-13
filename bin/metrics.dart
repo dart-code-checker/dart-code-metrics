@@ -34,6 +34,7 @@ Future<void> main(List<String> args) async {
       arguments[reporterName] as String,
       arguments[verboseName] as bool,
       arguments[gitlabCompatibilityName] as bool,
+      arguments[reportFolder] as String,
       MetricValueLevel.fromString(arguments[setExitOnViolationLevel] as String),
     );
   } on FormatException catch (e) {
@@ -64,6 +65,7 @@ Future<void> _runAnalysis(
   String reporterType,
   bool verbose,
   bool gitlab,
+  String reportOutputFolder,
   MetricValueLevel setExitOnViolationLevel,
 ) async {
   final analysisOptionsFile =
@@ -118,7 +120,8 @@ Future<void> _runAnalysis(
       reporter = JsonReporter(reportConfig: config);
       break;
     case 'html':
-      reporter = HtmlReporter(reportConfig: config);
+      reporter =
+          HtmlReporter(reportConfig: config, reportFolder: reportOutputFolder);
       break;
     case 'codeclimate':
       reporter =
