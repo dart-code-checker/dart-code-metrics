@@ -52,7 +52,7 @@ void main() {
           ))
           .toList();
 
-      expect(issues.length, equals(4));
+      expect(issues, hasLength(4));
 
       expect(
         issues.every((issue) => issue.ruleId == 'no-magic-number'),

@@ -48,7 +48,7 @@ void main() {
           ))
           .toList();
 
-      expect(issues.length, equals(6));
+      expect(issues, hasLength(6));
 
       expect(
         issues.every((i) => i.ruleId == 'binary-expression-operand-order'),

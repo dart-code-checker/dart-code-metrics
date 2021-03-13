@@ -25,7 +25,7 @@ void main() {
         parseResult.content,
         const Config(linesOfExecutableCodeWarningLevel: 25));
 
-    expect(issues.length, equals(1));
+    expect(issues, hasLength(1));
 
     expect(issues.single.patternId, equals('long-method'));
     expect(issues.single.patternDocumentation.toString(),
@@ -83,7 +83,7 @@ void main() {
       const metrics.Config(linesOfExecutableCodeWarningLevel: 25),
     );
 
-    expect(issues.length, equals(1));
+    expect(issues, hasLength(1));
 
     expect(issues.single.ruleId, equals('long-method'));
     expect(

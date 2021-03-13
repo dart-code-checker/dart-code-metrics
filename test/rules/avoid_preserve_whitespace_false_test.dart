@@ -61,7 +61,7 @@ void main() {
       parseResult.unit,
     ));
 
-    expect(issues.length, equals(1));
+    expect(issues, hasLength(1));
 
     final issue = issues.first;
     expect(issue.ruleId, equals('avoid-preserve-whitespace-false'));

@@ -98,7 +98,7 @@ void main() {
       parseResult.unit,
     ));
 
-    expect(issues.length, equals(7));
+    expect(issues, hasLength(7));
 
     expect(
       issues.every(

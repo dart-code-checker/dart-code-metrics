@@ -113,7 +113,7 @@ void main() {
       parseResult.unit,
     ));
 
-    expect(issues.length, equals(3));
+    expect(issues, hasLength(3));
 
     expect(
       issues.every((issue) => issue.ruleId == 'newline-before-return'),

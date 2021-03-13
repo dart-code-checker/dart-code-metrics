@@ -53,7 +53,7 @@ void main() {
       const metrics.Config(),
     );
 
-    expect(issues.length, equals(1));
+    expect(issues, hasLength(1));
 
     final issue = issues.single;
     final issueSrcSpan = issue.location;

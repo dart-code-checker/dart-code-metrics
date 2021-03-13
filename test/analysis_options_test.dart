@@ -266,7 +266,7 @@ void main() {
         equals(['test/**', 'documentation/**']),
       );
 
-      expect(options.rules.keys.length, equals(4));
+      expect(options.rules.keys, hasLength(4));
       expect(
         options.rules.keys,
         containsAll(<String>[

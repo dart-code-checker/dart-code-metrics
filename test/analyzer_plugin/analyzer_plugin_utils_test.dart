@@ -101,7 +101,7 @@ void main() {
     expect(fixes.error.type, equals(AnalysisErrorType.HINT));
     expect(fixes.error.location.file, equals(sourcePath));
     expect(fixes.error.location.offset, equals(offset));
-    expect(fixes.error.location.length, equals(length));
+    expect(fixes.error.location, hasLength(length));
     expect(fixes.error.location.startLine, equals(line));
     expect(fixes.error.location.startColumn, equals(column));
     expect(fixes.error.message, equals(issueMessage));
@@ -140,7 +140,7 @@ void main() {
     expect(fixes.error.type, equals(AnalysisErrorType.LINT));
     expect(fixes.error.location.file, equals(sourcePath));
     expect(fixes.error.location.offset, equals(5));
-    expect(fixes.error.location.length, equals(length));
+    expect(fixes.error.location, hasLength(length));
     expect(fixes.error.location.startLine, equals(line));
     expect(fixes.error.location.startColumn, equals(column));
     expect(fixes.error.message, equals(metricMessage));
