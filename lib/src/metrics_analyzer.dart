@@ -52,7 +52,7 @@ class MetricsAnalyzer {
           ..._prepareExcludes(additionalExcludes),
         ],
         _metricsConfig = options?.metricsConfig ?? const metrics.Config(),
-        _metricsExclude = _prepareExcludes(options?.metricsExcludePatterns),
+        _metricsExclude = _prepareExcludes(options?.excludeForMetricsPatterns),
         _useFastParser = true;
 
   /// Return a future that will complete after static analysis done for files from [folders].
@@ -182,13 +182,11 @@ class MetricsAnalyzer {
             builder.recordFunction(
               function,
               FunctionRecord(
-                firstLine: lineInfo
-                    .getLocation(function
-                        .declaration.firstTokenAfterCommentAndMetadata.offset)
-                    .lineNumber,
-                lastLine: lineInfo
-                    .getLocation(function.declaration.endToken.end)
-                    .lineNumber,
+                location: nodeLocation(
+                  node: function.declaration,
+                  source: source,
+                ),
+                metrics: const [],
                 argumentsCount: getArgumentsCount(function),
                 cyclomaticComplexityLines: Map.fromEntries(cyclomaticLines.map(
                   (lineIndex) => MapEntry(

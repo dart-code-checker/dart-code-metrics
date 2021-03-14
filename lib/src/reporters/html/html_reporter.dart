@@ -239,7 +239,9 @@ class HtmlReporter implements Reporter {
   }
 
   void _generateFoldersReports(
-      String reportDirectory, Iterable<FileRecord> records) {
+    String reportDirectory,
+    Iterable<FileRecord> records,
+  ) {
     final folders =
         records.map((record) => p.dirname(record.relativePath)).toSet();
 
@@ -292,11 +294,15 @@ class HtmlReporter implements Reporter {
     File(p.join(reportDirectory, 'index.html'))
       ..createSync(recursive: true)
       ..writeAsStringSync(
-          htmlDocument.outerHtml.replaceAll('&amp;nbsp;', '&nbsp;'));
+        htmlDocument.outerHtml.replaceAll('&amp;nbsp;', '&nbsp;'),
+      );
   }
 
   void _generateFolderReport(
-      String reportDirectory, String folder, Iterable<FileRecord> records) {
+    String reportDirectory,
+    String folder,
+    Iterable<FileRecord> records,
+  ) {
     final tableRecords = records.map((record) {
       final report = UtilitySelector.fileReport(record, reportConfig);
       final fileName = p.basename(record.relativePath);
@@ -340,7 +346,8 @@ class HtmlReporter implements Reporter {
     File(p.join(reportDirectory, folder, 'index.html'))
       ..createSync(recursive: true)
       ..writeAsStringSync(
-          htmlDocument.outerHtml.replaceAll('&amp;nbsp;', '&nbsp;'));
+        htmlDocument.outerHtml.replaceAll('&amp;nbsp;', '&nbsp;'),
+      );
   }
 
   void _generateSourceReport(String reportDirectory, FileRecord record) {
@@ -364,7 +371,8 @@ class HtmlReporter implements Reporter {
     for (var i = 1; i <= sourceFileLines.length; ++i) {
       final functionReport = record.functions.values.firstWhere(
         (functionReport) =>
-            functionReport.firstLine <= i && functionReport.lastLine >= i,
+            functionReport.location.start.line <= i &&
+            functionReport.location.end.line >= i,
         orElse: () => null,
       );
 
@@ -376,7 +384,7 @@ class HtmlReporter implements Reporter {
         final report =
             UtilitySelector.functionReport(functionReport, reportConfig);
 
-        if (functionReport.firstLine == i) {
+        if (functionReport.location.start.line == i) {
           final complexityTooltip = Element.tag('div')
             ..classes.add('metrics-source-code__tooltip')
             ..append(Element.tag('div')
@@ -385,23 +393,33 @@ class HtmlReporter implements Reporter {
             ..append(Element.tag('p')
               ..classes.add('metrics-source-code__tooltip-text')
               ..append(renderFunctionMetric(
-                  _cyclomaticComplexity, report.cyclomaticComplexity)))
+                _cyclomaticComplexity,
+                report.cyclomaticComplexity,
+              )))
             ..append(Element.tag('p')
               ..classes.add('metrics-source-code__tooltip-text')
               ..append(renderFunctionMetric(
-                  _linesOfExecutableCode, report.linesOfExecutableCode)))
+                _linesOfExecutableCode,
+                report.linesOfExecutableCode,
+              )))
             ..append(Element.tag('p')
               ..classes.add('metrics-source-code__tooltip-text')
               ..append(renderFunctionMetric(
-                  _maintainabilityIndex, report.maintainabilityIndex)))
+                _maintainabilityIndex,
+                report.maintainabilityIndex,
+              )))
             ..append(Element.tag('p')
               ..classes.add('metrics-source-code__tooltip-text')
               ..append(renderFunctionMetric(
-                  _numberOfArguments, report.argumentsCount)))
+                _numberOfArguments,
+                report.argumentsCount,
+              )))
             ..append(Element.tag('p')
               ..classes.add('metrics-source-code__tooltip-text')
               ..append(renderFunctionMetric(
-                  _maximumNesting, report.maximumNestingLevel)));
+                _maximumNesting,
+                report.maximumNestingLevel,
+              )));
 
           final complexityIcon = Element.tag('div')
             ..classes.addAll([
@@ -474,7 +492,8 @@ class HtmlReporter implements Reporter {
 
         final issueIcon = Element.tag('div')
           ..classes.addAll(
-              ['metrics-source-code__icon', 'metrics-source-code__icon--issue'])
+            ['metrics-source-code__icon', 'metrics-source-code__icon--issue'],
+          )
           ..append(Element.tag('svg')
             ..attributes['xmlns'] = 'http://www.w3.org/2000/svg'
             ..attributes['viewBox'] = '0 0 24 24'
@@ -507,7 +526,8 @@ class HtmlReporter implements Reporter {
           ..attributes['href'] = 'index.html'
           ..text = p.dirname(record.relativePath))
         ..append(
-            Element.tag('span')..text = '/${p.basename(record.relativePath)}'))
+          Element.tag('span')..text = '/${p.basename(record.relativePath)}',
+        ))
       ..append(_generateSourceReportMetricsHeader(record))
       ..append(Element.tag('pre')
         ..append(Element.tag('table')
@@ -567,7 +587,8 @@ class HtmlReporter implements Reporter {
     File(p.setExtension(p.join(reportDirectory, record.relativePath), '.html'))
       ..createSync(recursive: true)
       ..writeAsStringSync(
-          htmlDocument.outerHtml.replaceAll('&amp;nbsp;', '&nbsp;'));
+        htmlDocument.outerHtml.replaceAll('&amp;nbsp;', '&nbsp;'),
+      );
   }
 
   Element _generateSourceReportMetricsHeader(FileRecord record) {

@@ -98,11 +98,12 @@ void main() {
       parseResult.unit,
     ));
 
-    expect(issues.length, equals(7));
+    expect(issues, hasLength(7));
 
     expect(
       issues.every(
-          (issue) => issue.ruleId == 'prefer-trailing-comma-for-collection'),
+        (issue) => issue.ruleId == 'prefer-trailing-comma-for-collection',
+      ),
       isTrue,
     );
     expect(

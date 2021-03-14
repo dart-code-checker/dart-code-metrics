@@ -9,7 +9,7 @@ import '../models/component_report.dart';
 import '../models/file_record.dart';
 import '../models/file_report.dart' as metrics;
 import '../models/function_record.dart';
-import '../models/function_report.dart';
+import '../models/function_report.dart' as metrics;
 
 double log2(num a) => log(a) / ln2;
 
@@ -19,11 +19,15 @@ double avg(Iterable<num> it) => it.isNotEmpty ? sum(it) / it.length : 0;
 
 class UtilitySelector {
   static metrics.FileReport analysisReportForRecords(
-          Iterable<FileRecord> records, metrics.Config config) =>
+    Iterable<FileRecord> records,
+    metrics.Config config,
+  ) =>
       records.map((r) => fileReport(r, config)).reduce(mergeFileReports);
 
   static metrics.FileReport fileReport(
-      FileRecord record, metrics.Config config) {
+    FileRecord record,
+    metrics.Config config,
+  ) {
     final componentReports =
         record.components.values.map((r) => componentReport(r, config));
     final functionReports =
@@ -82,7 +86,9 @@ class UtilitySelector {
   }
 
   static ComponentReport componentReport(
-          ClassReport component, metrics.Config config) =>
+    ClassReport component,
+    metrics.Config config,
+  ) =>
       ComponentReport(
         methodsCount: component.metric(NumberOfMethodsMetric.metricId)
             as MetricValue<int>,
@@ -90,8 +96,10 @@ class UtilitySelector {
             as MetricValue<double>,
       );
 
-  static FunctionReport functionReport(
-      FunctionRecord function, metrics.Config config) {
+  static metrics.FunctionReport functionReport(
+    FunctionRecord function,
+    metrics.Config config,
+  ) {
     final cyclomaticComplexity =
         sum(function.cyclomaticComplexityLines.values) + 1;
 
@@ -135,7 +143,7 @@ class UtilitySelector {
           171,
     ).toDouble();
 
-    return FunctionReport(
+    return metrics.FunctionReport(
       cyclomaticComplexity: MetricValue<int>(
         metricsId: '',
         value: cyclomaticComplexity.round(),
@@ -149,7 +157,9 @@ class UtilitySelector {
         metricsId: '',
         value: linesOfExecutableCode,
         level: valueLevel(
-            linesOfExecutableCode, config.linesOfExecutableCodeWarningLevel),
+          linesOfExecutableCode,
+          config.linesOfExecutableCodeWarningLevel,
+        ),
         comment: '',
       ),
       maintainabilityIndex: MetricValue<double>(
@@ -162,7 +172,9 @@ class UtilitySelector {
         metricsId: '',
         value: function.argumentsCount,
         level: valueLevel(
-            function.argumentsCount, config.numberOfArgumentsWarningLevel),
+          function.argumentsCount,
+          config.numberOfArgumentsWarningLevel,
+        ),
         comment: '',
       ),
       maximumNestingLevel: MetricValue<int>(
@@ -180,7 +192,9 @@ class UtilitySelector {
   static MetricValueLevel componentViolationLevel(ComponentReport report) =>
       report.methodsCount.level;
 
-  static MetricValueLevel functionViolationLevel(FunctionReport report) =>
+  static MetricValueLevel functionViolationLevel(
+    metrics.FunctionReport report,
+  ) =>
       quiver.max([
         report.cyclomaticComplexity.level,
         report.linesOfExecutableCode.level,
@@ -190,7 +204,9 @@ class UtilitySelector {
       ]);
 
   static MetricValueLevel maxViolationLevel(
-          Iterable<FileRecord> records, metrics.Config config) =>
+    Iterable<FileRecord> records,
+    metrics.Config config,
+  ) =>
       quiver.max(records
           .expand((fileRecord) => fileRecord.functions.values
               .map((functionRecord) => functionReport(functionRecord, config)))

@@ -121,7 +121,7 @@ void main() {
       parseResult.unit,
     ));
 
-    expect(issues.length, equals(22));
+    expect(issues, hasLength(22));
 
     expect(
       issues.every((issue) => issue.ruleId == 'provide-correct-intl-args'),

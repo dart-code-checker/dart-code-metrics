@@ -69,7 +69,13 @@ class CodeClimateIssue {
         .toString();
 
     return CodeClimateIssue._(
-        name, desc, categories, location, severity, fingerprint);
+      name,
+      desc,
+      categories,
+      location,
+      severity,
+      fingerprint,
+    );
   }
 
   factory CodeClimateIssue.cyclomaticComplexity(
@@ -82,8 +88,8 @@ class CodeClimateIssue {
       CodeClimateIssue._create(
         'cyclomaticComplexity',
         'Function `$functionName` has a Cyclomatic Complexity of $value (exceeds $threshold allowed). Consider refactoring.',
-        function.firstLine,
-        function.lastLine,
+        function.location.start.line,
+        function.location.end.line,
         fileName,
       );
 
@@ -96,8 +102,8 @@ class CodeClimateIssue {
       CodeClimateIssue._create(
         'maintainabilityIndex',
         'Function `$functionName` has a Maintainability Index of $value (min 40 allowed). Consider refactoring.',
-        function.firstLine,
-        function.lastLine,
+        function.location.start.line,
+        function.location.end.line,
         fileName,
       );
 
@@ -111,8 +117,8 @@ class CodeClimateIssue {
       CodeClimateIssue._create(
         'nestingLevel',
         'Function `$functionName` has a Nesting Level of $value (exceeds $threshold allowed). Consider refactoring.',
-        function.firstLine,
-        function.lastLine,
+        function.location.start.line,
+        function.location.end.line,
         fileName,
       );
 

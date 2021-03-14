@@ -26,7 +26,7 @@ import '../anti_patterns_factory.dart';
 import '../config/analysis_options.dart';
 import '../metrics/nesting_level/nesting_level_visitor.dart';
 import '../models/function_record.dart';
-import '../models/function_report.dart';
+import '../models/function_report.dart' as metrics;
 import '../reporters/utility_selector.dart';
 import '../rules_factory.dart';
 import '../utils/metrics_analyzer_utils.dart';
@@ -87,7 +87,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
         ],
         contextRoot.root,
       ),
-      prepareExcludes(options?.metricsExcludePatterns, contextRoot.root),
+      prepareExcludes(options?.excludeForMetricsPatterns, contextRoot.root),
       options?.antiPatterns != null
           ? getPatternsById(options.antiPatterns)
           : [],
@@ -102,8 +102,9 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
       },
       (e, stackTrace) {
         channel.sendNotification(
-            plugin.PluginErrorParams(false, e.toString(), stackTrace.toString())
-                .toNotification());
+          plugin.PluginErrorParams(false, e.toString(), stackTrace.toString())
+              .toNotification(),
+        );
       },
     );
 
@@ -112,7 +113,8 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
 
   @override
   Future<plugin.AnalysisSetContextRootsResult> handleAnalysisSetContextRoots(
-      plugin.AnalysisSetContextRootsParams parameters) async {
+    plugin.AnalysisSetContextRootsParams parameters,
+  ) async {
     final result = await super.handleAnalysisSetContextRoots(parameters);
     // The super-call adds files to the driver, so we need to prioritize them so they get analyzed.
     _updatePriorityFiles();
@@ -122,7 +124,8 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
 
   @override
   Future<plugin.AnalysisSetPriorityFilesResult> handleAnalysisSetPriorityFiles(
-      plugin.AnalysisSetPriorityFilesParams parameters) async {
+    plugin.AnalysisSetPriorityFilesParams parameters,
+  ) async {
     _filesFromSetPriorityFilesRequest = parameters.files;
     _updatePriorityFiles();
 
@@ -131,7 +134,8 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
 
   @override
   Future<plugin.EditGetFixesResult> handleEditGetFixes(
-      plugin.EditGetFixesParams parameters) async {
+    plugin.EditGetFixesParams parameters,
+  ) async {
     try {
       final driver = driverForPath(parameters.file) as AnalysisDriver;
       final analysisResult = await driver.getResult(parameters.file);
@@ -148,37 +152,44 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
       return plugin.EditGetFixesResult(fixes);
     } on Exception catch (e, stackTrace) {
       channel.sendNotification(
-          plugin.PluginErrorParams(false, e.toString(), stackTrace.toString())
-              .toNotification());
+        plugin.PluginErrorParams(false, e.toString(), stackTrace.toString())
+            .toNotification(),
+      );
 
       return plugin.EditGetFixesResult([]);
     }
   }
 
   void _processResult(
-      AnalysisDriver driver, ResolvedUnitResult analysisResult) {
+    AnalysisDriver driver,
+    ResolvedUnitResult analysisResult,
+  ) {
     try {
       if (analysisResult.unit != null &&
           analysisResult.libraryElement != null) {
         final fixes = _check(driver, analysisResult);
 
         channel.sendNotification(plugin.AnalysisErrorsParams(
-                analysisResult.path, fixes.map((fix) => fix.error).toList())
-            .toNotification());
+          analysisResult.path,
+          fixes.map((fix) => fix.error).toList(),
+        ).toNotification());
       } else {
         channel.sendNotification(
-            plugin.AnalysisErrorsParams(analysisResult.path, [])
-                .toNotification());
+          plugin.AnalysisErrorsParams(analysisResult.path, []).toNotification(),
+        );
       }
     } on Exception catch (e, stackTrace) {
       channel.sendNotification(
-          plugin.PluginErrorParams(false, e.toString(), stackTrace.toString())
-              .toNotification());
+        plugin.PluginErrorParams(false, e.toString(), stackTrace.toString())
+            .toNotification(),
+      );
     }
   }
 
   Iterable<plugin.AnalysisErrorFixes> _check(
-      AnalysisDriver driver, ResolvedUnitResult analysisResult) {
+    AnalysisDriver driver,
+    ResolvedUnitResult analysisResult,
+  ) {
     final result = <plugin.AnalysisErrorFixes>[];
     final config = _configs[driver];
 
@@ -193,7 +204,11 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
               analysisResult.uri;
 
       result.addAll(_checkOnCodeIssues(
-          ignores, analysisResult, sourceUri, _configs[driver]));
+        ignores,
+        analysisResult,
+        sourceUri,
+        _configs[driver],
+      ));
 
       if (!isExcluded(analysisResult, config.metricsExcludes)) {
         final scopeVisitor = ScopeVisitor();
@@ -256,7 +271,9 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
                 analysisResult.unit,
               ))
               .where((issue) => !ignores.isSuppressedAt(
-                  issue.ruleId, issue.location.start.line))
+                    issue.ruleId,
+                    issue.location.start.line,
+                  ))
               .map((issue) =>
                   codeIssueToAnalysisErrorFixes(issue, analysisResult)));
 
@@ -290,13 +307,16 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
           source.unit.lineInfo.getLocation(functionOffset);
 
       if (ignores.isSuppressedAt(
-          _codeMetricsId, functionFirstLineInfo.lineNumber)) {
+        _codeMetricsId,
+        functionFirstLineInfo.lineNumber,
+      )) {
         continue;
       }
 
       final functionReport = _buildReport(function, source, config);
       if (isReportLevel(
-          UtilitySelector.functionViolationLevel(functionReport))) {
+        UtilitySelector.functionViolationLevel(functionReport),
+      )) {
         final startSourceLocation = SourceLocation(
           functionOffset,
           sourceUrl: source.uri,
@@ -329,7 +349,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     return result;
   }
 
-  FunctionReport _buildReport(
+  metrics.FunctionReport _buildReport(
     ScopedFunctionDeclaration function,
     InternalResolvedUnitResult source,
     AnalyzerPluginConfig config,
@@ -341,22 +361,17 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     function.declaration.visitChildren(controlFlowAstVisitor);
     function.declaration.visitChildren(nestingLevelVisitor);
 
-    final functionOffset =
-        function.declaration.firstTokenAfterCommentAndMetadata.offset;
-
-    final functionFirstLineInfo =
-        source.unit.lineInfo.getLocation(functionOffset);
-    final functionLastLineInfo =
-        source.unit.lineInfo.getLocation(function.declaration.endToken.end);
-
     final cyclomaticLines = controlFlowAstVisitor.complexityElements
         .map((element) => element.start.line)
         .toSet();
 
     return UtilitySelector.functionReport(
       FunctionRecord(
-        firstLine: functionFirstLineInfo.lineNumber,
-        lastLine: functionLastLineInfo.lineNumber,
+        location: nodeLocation(
+          node: function.declaration,
+          source: source,
+        ),
+        metrics: const [],
         argumentsCount: getArgumentsCount(function),
         cyclomaticComplexityLines: Map.fromEntries(cyclomaticLines.map(
           (lineIndex) => MapEntry(
@@ -377,7 +392,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
 
   plugin.AnalysisErrorFixes _cyclomaticComplexityMetric(
     ScopedFunctionDeclaration function,
-    FunctionReport functionReport,
+    metrics.FunctionReport functionReport,
     SourceLocation startSourceLocation,
     AnalyzerPluginConfig config,
   ) =>
@@ -392,7 +407,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
 
   plugin.AnalysisErrorFixes _nestingLevelMetric(
     ScopedFunctionDeclaration function,
-    FunctionReport functionReport,
+    metrics.FunctionReport functionReport,
     SourceLocation startSourceLocation,
     AnalyzerPluginConfig config,
   ) =>
@@ -410,8 +425,9 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
       final file = resourceProvider.getFile(driver.contextRoot.optionsFilePath);
       if (file.exists) {
         return AnalysisOptions.fromMap(yamlMapToDartMap(
-            AnalysisOptionsProvider(driver.sourceFactory)
-                .getOptionsFromFile(file)));
+          AnalysisOptionsProvider(driver.sourceFactory)
+              .getOptionsFromFile(file),
+        ));
       }
     }
 

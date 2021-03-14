@@ -67,7 +67,7 @@ void main() {
       parseResult.unit,
     ));
 
-    expect(issues.length, equals(13));
+    expect(issues, hasLength(13));
 
     expect(
       issues.every((issue) => issue.ruleId == 'no-boolean-literal-compare'),

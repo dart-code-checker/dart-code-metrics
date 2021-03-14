@@ -123,12 +123,12 @@ void main() {
       final configFromEmptyMap = AnalysisOptions.fromMap(const {});
 
       expect(configFromNull.metricsConfig, equals(const metrics.Config()));
-      expect(configFromNull.metricsExcludePatterns, isEmpty);
+      expect(configFromNull.excludeForMetricsPatterns, isEmpty);
       expect(configFromNull.rules, isEmpty);
       expect(configFromNull.antiPatterns, isEmpty);
 
       expect(configFromEmptyMap.metricsConfig, equals(const metrics.Config()));
-      expect(configFromEmptyMap.metricsExcludePatterns, isEmpty);
+      expect(configFromEmptyMap.excludeForMetricsPatterns, isEmpty);
       expect(configFromEmptyMap.rules, isEmpty);
       expect(configFromEmptyMap.antiPatterns, isEmpty);
     });
@@ -138,7 +138,7 @@ void main() {
           AnalysisOptions.fromMap(_yamlToDartMap(_contentWithoutMetrics));
 
       expect(options.metricsConfig, equals(const metrics.Config()));
-      expect(options.metricsExcludePatterns, isEmpty);
+      expect(options.excludeForMetricsPatterns, isEmpty);
       expect(options.rules, isEmpty);
       expect(options.antiPatterns, isEmpty);
     });
@@ -149,7 +149,7 @@ void main() {
             AnalysisOptions.fromMap(_yamlToDartMap(_contentWitMetricsRules));
 
         expect(options.metricsConfig, equals(const metrics.Config()));
-        expect(options.metricsExcludePatterns, isEmpty);
+        expect(options.excludeForMetricsPatterns, isEmpty);
         expect(
           options.rules,
           equals({
@@ -168,7 +168,7 @@ void main() {
         );
 
         expect(options.metricsConfig, equals(const metrics.Config()));
-        expect(options.metricsExcludePatterns, isEmpty);
+        expect(options.excludeForMetricsPatterns, isEmpty);
         expect(
           options.rules,
           equals({
@@ -193,7 +193,7 @@ void main() {
         expect(options.metricsConfig.numberOfArgumentsWarningLevel, equals(4));
         expect(options.metricsConfig.numberOfMethodsWarningLevel, equals(8));
         expect(options.metricsConfig.maximumNestingWarningLevel, equals(10));
-        expect(options.metricsExcludePatterns, isEmpty);
+        expect(options.excludeForMetricsPatterns, isEmpty);
         expect(
           options.rules,
           equals({'no-boolean-literal-compare': <String, Object>{}}),
@@ -225,7 +225,7 @@ void main() {
             '.idea/**',
           ]),
         );
-        expect(options.metricsExcludePatterns, equals(['test/**']));
+        expect(options.excludeForMetricsPatterns, equals(['test/**']));
         expect(
           options.rules,
           equals({'no-boolean-literal-compare': <String, Object>{}}),
@@ -262,11 +262,11 @@ void main() {
 
       expect(options.excludePatterns, equals(['example/**']));
       expect(
-        options.metricsExcludePatterns,
+        options.excludeForMetricsPatterns,
         equals(['test/**', 'documentation/**']),
       );
 
-      expect(options.rules.keys.length, equals(4));
+      expect(options.rules.keys, hasLength(4));
       expect(
         options.rules.keys,
         containsAll(<String>[

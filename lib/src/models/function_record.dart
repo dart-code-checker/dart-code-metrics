@@ -1,10 +1,10 @@
+import 'package:code_checker/checker.dart';
+import 'package:code_checker/metrics.dart';
 import 'package:meta/meta.dart';
+import 'package:source_span/source_span.dart';
 
 @immutable
-class FunctionRecord {
-  final int firstLine;
-  final int lastLine;
-
+class FunctionRecord extends FunctionReport {
   final int argumentsCount;
 
   final Map<int, int> cyclomaticComplexityLines;
@@ -17,13 +17,13 @@ class FunctionRecord {
   final Map<String, int> operands;
 
   const FunctionRecord({
-    @required this.firstLine,
-    @required this.lastLine,
+    @required SourceSpan location,
+    @required Iterable<MetricValue<num>> metrics,
     @required this.argumentsCount,
     @required this.cyclomaticComplexityLines,
     @required this.linesWithCode,
     @required this.nestingLines,
     @required this.operators,
     @required this.operands,
-  });
+  }) : super(location: location, metrics: metrics);
 }

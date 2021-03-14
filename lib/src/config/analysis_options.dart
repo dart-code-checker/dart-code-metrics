@@ -29,14 +29,14 @@ class AnalysisOptions extends Config {
 
   const AnalysisOptions({
     @required Iterable<String> excludePatterns,
-    @required Iterable<String> metricsExcludePatterns,
+    @required Iterable<String> excludeForMetricsPatterns,
     @required Map<String, Object> metrics,
     @required this.metricsConfig,
     @required this.rules,
     @required this.antiPatterns,
   }) : super(
           excludePatterns: excludePatterns,
-          metricsExcludePatterns: metricsExcludePatterns,
+          excludeForMetricsPatterns: excludeForMetricsPatterns,
           metrics: metrics,
         );
 
@@ -45,7 +45,7 @@ class AnalysisOptions extends Config {
 
     return AnalysisOptions(
       excludePatterns: _readGlobalExcludePatterns(configMap),
-      metricsExcludePatterns: _readMetricsExcludePatterns(configMap),
+      excludeForMetricsPatterns: _readMetricsExcludePatterns(configMap),
       metrics: const <String, Object>{},
       metricsConfig: _readMetricsConfig(configMap),
       rules: _readRules(configMap, _rulesKey),
@@ -108,7 +108,9 @@ Iterable<String> _readMetricsExcludePatterns(Map<String, Object> configMap) {
 }
 
 Map<String, Map<String, Object>> _readRules(
-    Map<String, Object> configMap, String rulesKey) {
+  Map<String, Object> configMap,
+  String rulesKey,
+) {
   final metricsOptions = configMap[_rootKey];
   if (metricsOptions is Map<String, Object>) {
     final rulesNode = metricsOptions[rulesKey];
@@ -121,7 +123,9 @@ Map<String, Map<String, Object>> _readRules(
                 node.keys.length == 1 &&
                 node.values.first is Map<String, Object>)
             .map((node) => MapEntry(
-                node.keys.first, node.values.first as Map<String, Object>)),
+                  node.keys.first,
+                  node.values.first as Map<String, Object>,
+                )),
       ]));
     } else if (rulesNode is Map<String, Object>) {
       return Map.unmodifiable(Map<String, Map<String, Object>>.fromEntries([

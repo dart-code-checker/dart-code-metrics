@@ -218,7 +218,7 @@ void main() {
       parseResult.unit,
     ));
 
-    expect(issues.length, equals(36));
+    expect(issues, hasLength(36));
 
     expect(issues.every((issue) => issue.ruleId == 'prefer-intl-name'), isTrue);
 

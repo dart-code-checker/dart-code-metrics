@@ -70,7 +70,7 @@ void main() {
         parseResult.unit,
       ));
 
-      expect(issues.length, equals(1));
+      expect(issues, hasLength(1));
 
       final issue = issues.first;
       expect(issue.ruleId, equals('prefer-on-push-cd-strategy'));
@@ -98,7 +98,7 @@ void main() {
         parseResult.unit,
       ));
 
-      expect(issues.length, equals(1));
+      expect(issues, hasLength(1));
 
       final issue = issues.first;
       expect(issue.ruleId, equals('prefer-on-push-cd-strategy'));

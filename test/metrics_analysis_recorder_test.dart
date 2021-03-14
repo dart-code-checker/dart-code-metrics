@@ -92,7 +92,10 @@ void main() {
         when(functionDeclarationMock.name).thenReturn(simpleIdentifierMock);
 
         final record = ScopedFunctionDeclaration(
-            FunctionType.function, functionDeclarationMock, null);
+          FunctionType.function,
+          functionDeclarationMock,
+          null,
+        );
 
         test('throws ArgumentError if called without record', () {
           expect(
@@ -111,8 +114,11 @@ void main() {
 
         test('Stores record for file', () {
           final functionRecord = buildFunctionRecordStub(
-            firstLine: 1,
-            lastLine: 2,
+            location: SourceSpanBase(
+              SourceLocation(0, line: 1),
+              SourceLocation(0, line: 2),
+              '',
+            ),
             argumentsCount: 3,
           );
 
@@ -239,7 +245,10 @@ void main() {
       when(functionDeclarationMock.name).thenReturn(simpleIdentifierMock);
 
       final record = ScopedFunctionDeclaration(
-          FunctionType.function, functionDeclarationMock, null);
+        FunctionType.function,
+        functionDeclarationMock,
+        null,
+      );
 
       test('throws StateError if we call them in invalid state', () {
         expect(
@@ -267,8 +276,11 @@ void main() {
 
       test('store record for file', () {
         final functionRecord = buildFunctionRecordStub(
-          firstLine: 1,
-          lastLine: 2,
+          location: SourceSpanBase(
+            SourceLocation(0, line: 1),
+            SourceLocation(0, line: 2),
+            '',
+          ),
           argumentsCount: 3,
         );
 

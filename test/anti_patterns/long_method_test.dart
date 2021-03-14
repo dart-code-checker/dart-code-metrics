@@ -25,7 +25,7 @@ void main() {
         parseResult.content,
         const Config(linesOfExecutableCodeWarningLevel: 25));
 
-    expect(issues.length, equals(1));
+    expect(issues, hasLength(1));
 
     expect(issues.single.patternId, equals('long-method'));
     expect(issues.single.patternDocumentation.toString(),
@@ -34,7 +34,7 @@ void main() {
     expect(issues.single.sourceSpan.start.offset, equals(1));
     expect(issues.single.sourceSpan.start.line, equals(2));
     expect(issues.single.sourceSpan.start.column, equals(1));
-    expect(issues.single.sourceSpan.end.offset, equals(1314));
+    expect(issues.single.sourceSpan.end.offset, equals(1310));
     expect(
         issues.single.message,
         equals(
@@ -83,7 +83,7 @@ void main() {
       const metrics.Config(linesOfExecutableCodeWarningLevel: 25),
     );
 
-    expect(issues.length, equals(1));
+    expect(issues, hasLength(1));
 
     expect(issues.single.ruleId, equals('long-method'));
     expect(
@@ -94,7 +94,7 @@ void main() {
     expect(issues.single.location.start.offset, equals(1));
     expect(issues.single.location.start.line, equals(2));
     expect(issues.single.location.start.column, equals(1));
-    expect(issues.single.location.end.offset, equals(1314));
+    expect(issues.single.location.end.offset, equals(1310));
     expect(
       issues.single.message,
       equals(

@@ -83,7 +83,7 @@ void main() {
         parseResult.unit,
       ));
 
-      expect(issues.length, equals(12));
+      expect(issues, hasLength(12));
 
       expect(
         issues.every((issue) => issue.ruleId == 'double-literal-format'),
