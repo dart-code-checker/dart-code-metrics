@@ -26,7 +26,7 @@ import '../anti_patterns_factory.dart';
 import '../config/analysis_options.dart';
 import '../metrics/nesting_level/nesting_level_visitor.dart';
 import '../models/function_record.dart';
-import '../models/function_report.dart';
+import '../models/function_report.dart' as metrics;
 import '../reporters/utility_selector.dart';
 import '../rules_factory.dart';
 import '../utils/metrics_analyzer_utils.dart';
@@ -329,7 +329,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     return result;
   }
 
-  FunctionReport _buildReport(
+  metrics.FunctionReport _buildReport(
     ScopedFunctionDeclaration function,
     InternalResolvedUnitResult source,
     AnalyzerPluginConfig config,
@@ -341,22 +341,17 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     function.declaration.visitChildren(controlFlowAstVisitor);
     function.declaration.visitChildren(nestingLevelVisitor);
 
-    final functionOffset =
-        function.declaration.firstTokenAfterCommentAndMetadata.offset;
-
-    final functionFirstLineInfo =
-        source.unit.lineInfo.getLocation(functionOffset);
-    final functionLastLineInfo =
-        source.unit.lineInfo.getLocation(function.declaration.endToken.end);
-
     final cyclomaticLines = controlFlowAstVisitor.complexityElements
         .map((element) => element.start.line)
         .toSet();
 
     return UtilitySelector.functionReport(
       FunctionRecord(
-        firstLine: functionFirstLineInfo.lineNumber,
-        lastLine: functionLastLineInfo.lineNumber,
+        location: nodeLocation(
+          node: function.declaration,
+          source: source,
+        ),
+        metrics: const [],
         argumentsCount: getArgumentsCount(function),
         cyclomaticComplexityLines: Map.fromEntries(cyclomaticLines.map(
           (lineIndex) => MapEntry(
@@ -377,7 +372,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
 
   plugin.AnalysisErrorFixes _cyclomaticComplexityMetric(
     ScopedFunctionDeclaration function,
-    FunctionReport functionReport,
+    metrics.FunctionReport functionReport,
     SourceLocation startSourceLocation,
     AnalyzerPluginConfig config,
   ) =>
@@ -392,7 +387,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
 
   plugin.AnalysisErrorFixes _nestingLevelMetric(
     ScopedFunctionDeclaration function,
-    FunctionReport functionReport,
+    metrics.FunctionReport functionReport,
     SourceLocation startSourceLocation,
     AnalyzerPluginConfig config,
   ) =>

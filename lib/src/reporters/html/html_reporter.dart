@@ -364,7 +364,8 @@ class HtmlReporter implements Reporter {
     for (var i = 1; i <= sourceFileLines.length; ++i) {
       final functionReport = record.functions.values.firstWhere(
         (functionReport) =>
-            functionReport.firstLine <= i && functionReport.lastLine >= i,
+            functionReport.location.start.line <= i &&
+            functionReport.location.end.line >= i,
         orElse: () => null,
       );
 
@@ -376,7 +377,7 @@ class HtmlReporter implements Reporter {
         final report =
             UtilitySelector.functionReport(functionReport, reportConfig);
 
-        if (functionReport.firstLine == i) {
+        if (functionReport.location.start.line == i) {
           final complexityTooltip = Element.tag('div')
             ..classes.add('metrics-source-code__tooltip')
             ..append(Element.tag('div')

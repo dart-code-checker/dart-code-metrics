@@ -9,7 +9,7 @@ import '../models/component_report.dart';
 import '../models/file_record.dart';
 import '../models/file_report.dart' as metrics;
 import '../models/function_record.dart';
-import '../models/function_report.dart';
+import '../models/function_report.dart' as metrics;
 
 double log2(num a) => log(a) / ln2;
 
@@ -90,7 +90,7 @@ class UtilitySelector {
             as MetricValue<double>,
       );
 
-  static FunctionReport functionReport(
+  static metrics.FunctionReport functionReport(
       FunctionRecord function, metrics.Config config) {
     final cyclomaticComplexity =
         sum(function.cyclomaticComplexityLines.values) + 1;
@@ -135,7 +135,7 @@ class UtilitySelector {
           171,
     ).toDouble();
 
-    return FunctionReport(
+    return metrics.FunctionReport(
       cyclomaticComplexity: MetricValue<int>(
         metricsId: '',
         value: cyclomaticComplexity.round(),
@@ -180,7 +180,9 @@ class UtilitySelector {
   static MetricValueLevel componentViolationLevel(ComponentReport report) =>
       report.methodsCount.level;
 
-  static MetricValueLevel functionViolationLevel(FunctionReport report) =>
+  static MetricValueLevel functionViolationLevel(
+    metrics.FunctionReport report,
+  ) =>
       quiver.max([
         report.cyclomaticComplexity.level,
         report.linesOfExecutableCode.level,

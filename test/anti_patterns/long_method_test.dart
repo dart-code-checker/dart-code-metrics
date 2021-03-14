@@ -34,7 +34,7 @@ void main() {
     expect(issues.single.sourceSpan.start.offset, equals(1));
     expect(issues.single.sourceSpan.start.line, equals(2));
     expect(issues.single.sourceSpan.start.column, equals(1));
-    expect(issues.single.sourceSpan.end.offset, equals(1314));
+    expect(issues.single.sourceSpan.end.offset, equals(1310));
     expect(
         issues.single.message,
         equals(
@@ -94,7 +94,7 @@ void main() {
     expect(issues.single.location.start.offset, equals(1));
     expect(issues.single.location.start.line, equals(2));
     expect(issues.single.location.start.column, equals(1));
-    expect(issues.single.location.end.offset, equals(1314));
+    expect(issues.single.location.end.offset, equals(1310));
     expect(
       issues.single.message,
       equals(

@@ -182,13 +182,11 @@ class MetricsAnalyzer {
             builder.recordFunction(
               function,
               FunctionRecord(
-                firstLine: lineInfo
-                    .getLocation(function
-                        .declaration.firstTokenAfterCommentAndMetadata.offset)
-                    .lineNumber,
-                lastLine: lineInfo
-                    .getLocation(function.declaration.endToken.end)
-                    .lineNumber,
+                location: nodeLocation(
+                  node: function.declaration,
+                  source: source,
+                ),
+                metrics: const [],
                 argumentsCount: getArgumentsCount(function),
                 cyclomaticComplexityLines: Map.fromEntries(cyclomaticLines.map(
                   (lineIndex) => MapEntry(

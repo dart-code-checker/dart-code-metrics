@@ -2,7 +2,7 @@ import 'package:code_checker/checker.dart';
 import 'package:code_checker/metrics.dart';
 import 'package:dart_code_metrics/src/models/component_report.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
-import 'package:dart_code_metrics/src/models/function_report.dart';
+import 'package:dart_code_metrics/src/models/function_report.dart' as metrics;
 import 'package:source_span/source_span.dart';
 
 ClassReport buildComponentRecordStub({
@@ -32,25 +32,34 @@ ClassReport buildComponentRecordStub({
 }
 
 FunctionRecord buildFunctionRecordStub({
-  int firstLine = 0,
-  int lastLine = 0,
+  SourceSpanBase location,
+  Iterable<MetricValue<num>> metrics = const [],
   int argumentsCount = 0,
   Map<int, int> cyclomaticLinesComplexity = const <int, int>{},
   Iterable<int> linesWithCode = const <int>[],
   Iterable<Iterable<int>> nestingLines = const [<int>[]],
   Map<int, int> operators = const <int, int>{},
   Map<int, int> operands = const <int, int>{},
-}) =>
-    FunctionRecord(
-      firstLine: firstLine,
-      lastLine: lastLine,
-      argumentsCount: argumentsCount,
-      cyclomaticComplexityLines: Map.unmodifiable(cyclomaticLinesComplexity),
-      linesWithCode: linesWithCode,
-      nestingLines: nestingLines,
-      operators: Map.unmodifiable(operators),
-      operands: Map.unmodifiable(operands),
-    );
+}) {
+  const defaultMetricValue = MetricValue<int>(
+    metricsId: '',
+    value: 0,
+    level: MetricValueLevel.none,
+    comment: '',
+  );
+
+  return FunctionRecord(
+    location:
+        location ?? SourceSpanBase(SourceLocation(0), SourceLocation(0), ''),
+    metrics: [...metrics, defaultMetricValue],
+    argumentsCount: argumentsCount,
+    cyclomaticComplexityLines: Map.unmodifiable(cyclomaticLinesComplexity),
+    linesWithCode: linesWithCode,
+    nestingLines: nestingLines,
+    operators: Map.unmodifiable(operators),
+    operands: Map.unmodifiable(operands),
+  );
+}
 
 ComponentReport buildComponentReportStub({
   int methodsCount = 0,
@@ -73,7 +82,7 @@ ComponentReport buildComponentReportStub({
       ),
     );
 
-FunctionReport buildFunctionReportStub({
+metrics.FunctionReport buildFunctionReportStub({
   int cyclomaticComplexity = 0,
   MetricValueLevel cyclomaticComplexityViolationLevel = MetricValueLevel.none,
   int linesOfExecutableCode = 0,
@@ -85,7 +94,7 @@ FunctionReport buildFunctionReportStub({
   int maximumNestingLevel = 0,
   MetricValueLevel maximumNestingLevelViolationLevel = MetricValueLevel.none,
 }) =>
-    FunctionReport(
+    metrics.FunctionReport(
       cyclomaticComplexity: MetricValue<int>(
         metricsId: '',
         value: cyclomaticComplexity,
