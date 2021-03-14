@@ -2,7 +2,6 @@ include: package:pedantic/analysis_options.yaml
 
 analyzer:
   exclude:
-    - example/**
     - test/resources/**
     - test/**/examples/**
   plugins:
