@@ -24,7 +24,6 @@ dependencies:
 dev_dependencies:
   coverage: ^0.14.0
   coveralls: ^5.9.0
-  dependency_validator: ^2.0.0
   http_multi_server: ^2.2.0
   lcov: '>=5.7.0 <7.0.0'
   mockito: ^4.1.1

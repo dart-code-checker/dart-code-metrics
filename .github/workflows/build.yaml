@@ -1,0 +1,81 @@
+name: build
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build-dart-latest:
+    runs-on: ubuntu-latest
+
+    container:
+      image: google/dart:latest
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: dart pub get
+      - name: Run dependency validator
+        run: |
+          dart pub global activate dependency_validator
+          dart pub global run dependency_validator:dependency_validator
+      - name: Run analyzer
+        run: dart analyze --fatal-warnings --fatal-infos .
+      - name: Run formatter
+        run: dart format --set-exit-if-changed .
+      - name: Run tests
+        env:
+          CODECOV_TOKEN: ${{secrets.CODECOV_TOKEN}}
+        if: success()
+        run: |
+          dart test --coverage=coverage
+          dart run coverage:format_coverage --packages=.packages -i coverage -o coverage/coverage.lcov --lcov --report-on=lib
+          dart run tool/format_coverage.dart
+          bash <(curl -s https://codecov.io/bash) -f coverage/coverage.lcov
+      - name: Self scan
+        run: dart run bin/metrics.dart --reporter=github lib
+
+  build-dart-2-9:
+    runs-on: ubuntu-latest
+
+    container:
+      image: google/dart:2.9.3
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: pub downgrade
+      - name: Run dartanalyzer
+        run: dartanalyzer --fatal-warnings --fatal-infos --fatal-lints lib/ test/
+      - name: Run tests
+        run: pub run test
+
+  build-dart-dev:
+    runs-on: ubuntu-latest
+
+    container:
+      image: google/dart:dev
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: dart pub upgrade
+      - name: Run analyzer
+        run: dart analyze --fatal-warnings --fatal-infos .
+      - name: Run tests
+        run: dart test
+
+  package-analysis:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: axel-op/dart-package-analyzer@v3
+        with:
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
