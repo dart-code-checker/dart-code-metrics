@@ -92,7 +92,10 @@ void main() {
         when(functionDeclarationMock.name).thenReturn(simpleIdentifierMock);
 
         final record = ScopedFunctionDeclaration(
-            FunctionType.function, functionDeclarationMock, null);
+          FunctionType.function,
+          functionDeclarationMock,
+          null,
+        );
 
         test('throws ArgumentError if called without record', () {
           expect(
@@ -242,7 +245,10 @@ void main() {
       when(functionDeclarationMock.name).thenReturn(simpleIdentifierMock);
 
       final record = ScopedFunctionDeclaration(
-          FunctionType.function, functionDeclarationMock, null);
+        FunctionType.function,
+        functionDeclarationMock,
+        null,
+      );
 
       test('throws StateError if we call them in invalid state', () {
         expect(

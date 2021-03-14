@@ -69,7 +69,13 @@ class CodeClimateIssue {
         .toString();
 
     return CodeClimateIssue._(
-        name, desc, categories, location, severity, fingerprint);
+      name,
+      desc,
+      categories,
+      location,
+      severity,
+      fingerprint,
+    );
   }
 
   factory CodeClimateIssue.cyclomaticComplexity(
