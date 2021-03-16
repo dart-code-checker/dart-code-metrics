@@ -266,7 +266,7 @@ void main() {
               filePath,
               rootDirectory,
               (recorder) {
-                recorder.recordFunction(null, null);
+                recorder.recordFunctionData(null, null);
               },
             );
           },
