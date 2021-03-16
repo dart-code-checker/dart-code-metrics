@@ -209,7 +209,7 @@ class MetricsAnalyzer {
 
         builder
           ..recordIssues(_checkOnCodeIssues(ignores, source))
-          ..recordDesignIssues(
+          ..recordAntiPatternCases(
             _checkOnAntiPatterns(ignores, source, functions),
           );
       });

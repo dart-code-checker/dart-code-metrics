@@ -57,6 +57,12 @@ class MetricsAnalysisRecorder
 
   @override
   void recordFunction(
+    ScopedFunctionDeclaration _,
+    FunctionReport __,
+  ) {}
+
+  @override
+  void recordFunctionData(
       ScopedFunctionDeclaration declaration, FunctionRecord record) {
     _checkState();
 
@@ -68,7 +74,7 @@ class MetricsAnalysisRecorder
   }
 
   @override
-  void recordDesignIssues(Iterable<Issue> issues) {
+  void recordAntiPatternCases(Iterable<Issue> issues) {
     _checkState();
 
     _designIssues.addAll(issues);
