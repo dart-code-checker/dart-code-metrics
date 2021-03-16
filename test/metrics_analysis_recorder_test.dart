@@ -104,7 +104,7 @@ void main() {
                 filePath,
                 rootDirectory,
                 (b) {
-                  b.recordFunction(null, null);
+                  b.recordFunctionData(null, null);
                 },
               );
             },
@@ -125,7 +125,7 @@ void main() {
           expect(
             MetricsAnalysisRecorder()
                 .recordFile(filePath, rootDirectory, (b) {
-                  b.recordFunction(record, functionRecord);
+                  b.recordFunctionData(record, functionRecord);
                 })
                 .records()
                 .single
@@ -253,7 +253,7 @@ void main() {
       test('throws StateError if we call them in invalid state', () {
         expect(
           () {
-            MetricsAnalysisRecorder().recordFunction(record, null);
+            MetricsAnalysisRecorder().recordFunctionData(record, null);
           },
           throwsStateError,
         );
@@ -266,7 +266,7 @@ void main() {
               filePath,
               rootDirectory,
               (recorder) {
-                recorder.recordFunction(null, null);
+                recorder.recordFunctionData(null, null);
               },
             );
           },
@@ -286,7 +286,7 @@ void main() {
 
         final recorder = MetricsAnalysisRecorder()
             .recordFile(filePath, rootDirectory, (recorder) {
-          recorder.recordFunction(record, functionRecord);
+          recorder.recordFunctionData(record, functionRecord);
         });
 
         expect(
@@ -300,7 +300,7 @@ void main() {
       test('throws StateError if we call them in invalid state', () {
         expect(
           () {
-            MetricsAnalysisRecorder().recordDesignIssues([]);
+            MetricsAnalysisRecorder().recordAntiPatternCases([]);
           },
           throwsStateError,
         );
@@ -314,7 +314,7 @@ void main() {
 
         final recorder = MetricsAnalysisRecorder()
             .recordFile(filePath, rootDirectory, (recorder) {
-          recorder.recordDesignIssues([
+          recorder.recordAntiPatternCases([
             Issue(
               ruleId: _issuePatternId,
               documentation: Uri.parse(_issuePatternDocumentation),

@@ -57,7 +57,15 @@ class MetricsAnalysisRecorder
 
   @override
   void recordFunction(
-      ScopedFunctionDeclaration declaration, FunctionRecord record) {
+    ScopedFunctionDeclaration _,
+    FunctionReport __,
+  ) {}
+
+  @override
+  void recordFunctionData(
+    ScopedFunctionDeclaration declaration,
+    FunctionRecord record,
+  ) {
     _checkState();
 
     if (declaration == null) {
@@ -68,7 +76,7 @@ class MetricsAnalysisRecorder
   }
 
   @override
-  void recordDesignIssues(Iterable<Issue> issues) {
+  void recordAntiPatternCases(Iterable<Issue> issues) {
     _checkState();
 
     _designIssues.addAll(issues);
@@ -84,7 +92,8 @@ class MetricsAnalysisRecorder
   void _checkState() {
     if (_fileGroupPath == null) {
       throw StateError(
-          'No record groups have been started. Use `startRecordFile` before record any data');
+        'No record groups have been started. Use `startRecordFile` before record any data',
+      );
     }
   }
 
@@ -106,7 +115,8 @@ class MetricsAnalysisRecorder
       components: Map.unmodifiable(_componentRecords
           .map<String, ClassReport>((key, value) => MapEntry(key.name, value))),
       functions: Map.unmodifiable(_functionRecords.map<String, FunctionRecord>(
-          (key, value) => MapEntry(key.fullName, value))),
+        (key, value) => MapEntry(key.fullName, value),
+      )),
       issues: _issues,
       designIssues: _designIssues,
     ));
