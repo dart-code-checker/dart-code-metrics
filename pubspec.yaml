@@ -1,7 +1,9 @@
 name: dart_code_metrics
-description: Software analytics tool that helps developers analyse and improve software quality.
 version: 2.4.1
-homepage: https://github.com/wrike/dart-code-metrics
+description: Software analytics tool that helps developers analyse and improve software quality.
+homepage: https://github.com/dart-code-checker/dart-code-metrics
+repository: https://github.com/dart-code-checker/dart-code-metrics
+issue_tracker: https://github.com/dart-code-checker/dart-code-metrics/issues
 
 environment:
   sdk: ">=2.9.0 <3.0.0"
@@ -23,7 +25,7 @@ dependencies:
 
 dev_dependencies:
   coverage: ^0.14.0
-  http_multi_server: ^2.2.0
+  http_multi_server: ^2.2.0       # for valid resolve dependencies while downgrade
   lcov: '>=5.7.0 <7.0.0'
   mockito: ^4.1.1
   pedantic: ^1.9.2
