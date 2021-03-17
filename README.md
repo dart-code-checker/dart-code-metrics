@@ -1,5 +1,5 @@
 [![Build Status](https://github.com/wrike/metrics/workflows/build/badge.svg)](https://github.com/wrike/dart-code-metrics/)
-[![Coverage Status](https://codecov.io/gh/dart-code-checker/dart-code-metrics/branch/main/graphs/badge.svg?branch=main)](https://codecov.io/github/dart-code-checker/dart-code-metrics?branch=main)
+[![Coverage Status](https://codecov.io/gh/dart-code-checker/dart-code-metrics/branch/main/graphs/badge.svg?branch=main)](https://codecov.io/github/dart-code-checker/dart-code-metrics?branch=master)
 [![License](https://badgen.net/pub/license/dart_code_metrics)](https://github.com/wrike/dart-code-metrics/blob/master/LICENSE)
 [![Pub Version](https://badgen.net/pub/v/dart_code_metrics)](https://pub.dev/packages/dart_code_metrics/)
 ![Dart SDK Verison](https://badgen.net/pub/sdk-version/dart_code_metrics)
