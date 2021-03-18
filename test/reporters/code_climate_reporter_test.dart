@@ -117,7 +117,9 @@ void main() {
               ),
               message: _issueMessage,
               suggestion: const Replacement(
-                  comment: 'correction comment', replacement: 'correction'),
+                comment: 'correction comment',
+                replacement: 'correction',
+              ),
             ),
           ],
           designIssues: const [],
@@ -314,7 +316,9 @@ void main() {
 
     setUp(() {
       _reporter = CodeClimateReporter(
-          reportConfig: const metric.Config(), gitlabCompatible: true);
+        reportConfig: const metric.Config(),
+        gitlabCompatible: true,
+      );
     });
 
     test('empty file', () async {

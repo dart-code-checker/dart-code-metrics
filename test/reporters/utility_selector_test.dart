@@ -142,65 +142,67 @@ void main() {
     });
 
     test(
-        'componentViolationLevel returns aggregated violation level for component',
-        () {
-      expect(
-        UtilitySelector.componentViolationLevel(buildComponentReportStub(
-          methodsCountViolationLevel: MetricValueLevel.warning,
-        )),
-        MetricValueLevel.warning,
-      );
-    });
+      'componentViolationLevel returns aggregated violation level for component',
+      () {
+        expect(
+          UtilitySelector.componentViolationLevel(buildComponentReportStub(
+            methodsCountViolationLevel: MetricValueLevel.warning,
+          )),
+          MetricValueLevel.warning,
+        );
+      },
+    );
 
     test(
-        'functionViolationLevel returns aggregated violation level for function',
-        () {
-      expect(
-        UtilitySelector.functionViolationLevel(buildFunctionReportStub(
-          cyclomaticComplexityViolationLevel: MetricValueLevel.warning,
-          linesOfExecutableCodeViolationLevel: MetricValueLevel.noted,
-          maintainabilityIndexViolationLevel: MetricValueLevel.none,
-        )),
-        MetricValueLevel.warning,
-      );
+      'functionViolationLevel returns aggregated violation level for function',
+      () {
+        expect(
+          UtilitySelector.functionViolationLevel(buildFunctionReportStub(
+            cyclomaticComplexityViolationLevel: MetricValueLevel.warning,
+            linesOfExecutableCodeViolationLevel: MetricValueLevel.noted,
+            maintainabilityIndexViolationLevel: MetricValueLevel.none,
+          )),
+          MetricValueLevel.warning,
+        );
 
-      expect(
-        UtilitySelector.functionViolationLevel(buildFunctionReportStub(
-          cyclomaticComplexityViolationLevel: MetricValueLevel.warning,
-          linesOfExecutableCodeViolationLevel: MetricValueLevel.alarm,
-          maintainabilityIndexViolationLevel: MetricValueLevel.none,
-        )),
-        MetricValueLevel.alarm,
-      );
+        expect(
+          UtilitySelector.functionViolationLevel(buildFunctionReportStub(
+            cyclomaticComplexityViolationLevel: MetricValueLevel.warning,
+            linesOfExecutableCodeViolationLevel: MetricValueLevel.alarm,
+            maintainabilityIndexViolationLevel: MetricValueLevel.none,
+          )),
+          MetricValueLevel.alarm,
+        );
 
-      expect(
-        UtilitySelector.functionViolationLevel(buildFunctionReportStub(
-          cyclomaticComplexityViolationLevel: MetricValueLevel.none,
-          linesOfExecutableCodeViolationLevel: MetricValueLevel.none,
-          maintainabilityIndexViolationLevel: MetricValueLevel.noted,
-        )),
-        MetricValueLevel.noted,
-      );
+        expect(
+          UtilitySelector.functionViolationLevel(buildFunctionReportStub(
+            cyclomaticComplexityViolationLevel: MetricValueLevel.none,
+            linesOfExecutableCodeViolationLevel: MetricValueLevel.none,
+            maintainabilityIndexViolationLevel: MetricValueLevel.noted,
+          )),
+          MetricValueLevel.noted,
+        );
 
-      expect(
-        UtilitySelector.functionViolationLevel(buildFunctionReportStub(
-          cyclomaticComplexityViolationLevel: MetricValueLevel.none,
-          linesOfExecutableCodeViolationLevel: MetricValueLevel.none,
-          argumentsCountViolationLevel: MetricValueLevel.warning,
-        )),
-        MetricValueLevel.warning,
-      );
+        expect(
+          UtilitySelector.functionViolationLevel(buildFunctionReportStub(
+            cyclomaticComplexityViolationLevel: MetricValueLevel.none,
+            linesOfExecutableCodeViolationLevel: MetricValueLevel.none,
+            argumentsCountViolationLevel: MetricValueLevel.warning,
+          )),
+          MetricValueLevel.warning,
+        );
 
-      expect(
-        UtilitySelector.functionViolationLevel(buildFunctionReportStub(
-          cyclomaticComplexityViolationLevel: MetricValueLevel.none,
-          linesOfExecutableCodeViolationLevel: MetricValueLevel.none,
-          argumentsCountViolationLevel: MetricValueLevel.none,
-          maximumNestingLevelViolationLevel: MetricValueLevel.warning,
-        )),
-        MetricValueLevel.warning,
-      );
-    });
+        expect(
+          UtilitySelector.functionViolationLevel(buildFunctionReportStub(
+            cyclomaticComplexityViolationLevel: MetricValueLevel.none,
+            linesOfExecutableCodeViolationLevel: MetricValueLevel.none,
+            argumentsCountViolationLevel: MetricValueLevel.none,
+            maximumNestingLevelViolationLevel: MetricValueLevel.warning,
+          )),
+          MetricValueLevel.warning,
+        );
+      },
+    );
 
     group('maxViolationLevel returns', () {
       const fullPathStub = '~/lib/src/foo.dart';
@@ -258,16 +260,18 @@ void main() {
         );
       });
 
-      test('MetricValueLevel.alarm if there are warning and alarm violations',
-          () {
-        expect(
-          UtilitySelector.maxViolationLevel(
-            fileRecords,
-            const metrics.Config(linesOfExecutableCodeWarningLevel: 15),
-          ),
-          MetricValueLevel.warning,
-        );
-      });
+      test(
+        'MetricValueLevel.alarm if there are warning and alarm violations',
+        () {
+          expect(
+            UtilitySelector.maxViolationLevel(
+              fileRecords,
+              const metrics.Config(linesOfExecutableCodeWarningLevel: 15),
+            ),
+            MetricValueLevel.warning,
+          );
+        },
+      );
     });
   });
 }

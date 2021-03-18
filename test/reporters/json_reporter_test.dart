@@ -310,7 +310,8 @@ void main() {
             components: Map.unmodifiable(<String, ClassReport>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
               'function': buildFunctionRecordStub(
-                  linesWithCode: List.generate(150, (index) => index)),
+                linesWithCode: List.generate(150, (index) => index),
+              ),
             }),
             issues: const [],
             designIssues: const [],
@@ -338,7 +339,8 @@ void main() {
             components: Map.unmodifiable(<String, ClassReport>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
               'function': buildFunctionRecordStub(
-                  linesWithCode: List.generate(5, (index) => index)),
+                linesWithCode: List.generate(5, (index) => index),
+              ),
             }),
             issues: const [],
             designIssues: const [],
