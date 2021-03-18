@@ -104,10 +104,6 @@ class UtilitySelector {
         sum(function.cyclomaticComplexityLines.values) + 1;
 
     final linesOfExecutableCode = function.linesWithCode.length;
-    final maximumNestingLevel = function.nestingLines.fold<int>(
-      0,
-      (previousValue, element) => max(previousValue, element.length),
-    );
 
     // Total number of occurrences of operators.
     final totalNumberOfOccurrencesOfOperators = sum(function.operators.values);
@@ -177,15 +173,8 @@ class UtilitySelector {
         ),
         comment: '',
       ),
-      maximumNestingLevel: MetricValue<int>(
-        metricsId: '',
-        value: maximumNestingLevel,
-        level: valueLevel(
-          maximumNestingLevel,
-          config.maximumNestingWarningLevel,
-        ),
-        comment: '',
-      ),
+      maximumNestingLevel: function.metric(MaximumNestingLevelMetric.metricId)
+          as MetricValue<int>,
     );
   }
 

@@ -8,7 +8,6 @@ import 'package:analyzer/file_system/physical_file_system.dart';
 import 'package:code_checker/checker.dart';
 import 'package:code_checker/metrics.dart';
 import 'package:code_checker/rules.dart';
-import 'package:dart_code_metrics/src/metrics/nesting_level/nesting_level_visitor.dart';
 import 'package:glob/glob.dart';
 import 'package:path/path.dart' as p;
 
@@ -167,13 +166,10 @@ class MetricsAnalyzer {
             final halsteadVolumeAstVisitor = HalsteadVolumeAstVisitor();
             final linesOfExecutableCodeVisitor =
                 LinesOfExecutableCodeVisitor(lineInfo);
-            final nestingLevelVisitor =
-                NestingLevelVisitor(function.declaration, lineInfo);
 
             function.declaration.visitChildren(controlFlowAstVisitor);
             function.declaration.visitChildren(halsteadVolumeAstVisitor);
             function.declaration.visitChildren(linesOfExecutableCodeVisitor);
-            function.declaration.visitChildren(nestingLevelVisitor);
 
             final cyclomaticLines = controlFlowAstVisitor.complexityElements
                 .map((element) => element.start.line)
@@ -186,7 +182,17 @@ class MetricsAnalyzer {
                   node: function.declaration,
                   source: source,
                 ),
-                metrics: const [],
+                metrics: [
+                  MaximumNestingLevelMetric(config: {
+                    MaximumNestingLevelMetric.metricId:
+                        '${_metricsConfig.maximumNestingWarningLevel}',
+                  }).compute(
+                    function.declaration,
+                    visitor.classes,
+                    visitor.functions,
+                    source,
+                  ),
+                ],
                 argumentsCount: getArgumentsCount(function),
                 cyclomaticComplexityLines: Map.fromEntries(cyclomaticLines.map(
                   (lineIndex) => MapEntry(
@@ -197,7 +203,6 @@ class MetricsAnalyzer {
                   ),
                 )),
                 linesWithCode: linesOfExecutableCodeVisitor.linesWithCode,
-                nestingLines: nestingLevelVisitor.nestingLines,
                 operators: Map.unmodifiable(halsteadVolumeAstVisitor.operators),
                 operands: Map.unmodifiable(halsteadVolumeAstVisitor.operands),
               ),

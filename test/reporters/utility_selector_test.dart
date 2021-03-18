@@ -114,7 +114,7 @@ void main() {
       });
 
       test('without nesting information', () {
-        final record = buildFunctionRecordStub(nestingLines: [[]]);
+        final record = buildFunctionRecordStub();
         final report =
             UtilitySelector.functionReport(record, const metrics.Config());
 
@@ -123,11 +123,16 @@ void main() {
       });
 
       test('with high nesting level', () {
-        final record = buildFunctionRecordStub(nestingLines: [
-          [10],
-          [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-          [1, 5, 10, 20],
-        ]);
+        final record = buildFunctionRecordStub(
+          metrics: const [
+            MetricValue<int>(
+              metricsId: MaximumNestingLevelMetric.metricId,
+              value: 12,
+              level: MetricValueLevel.alarm,
+              comment: '',
+            ),
+          ],
+        );
         final report =
             UtilitySelector.functionReport(record, const metrics.Config());
 

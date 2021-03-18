@@ -232,10 +232,16 @@ void main() {
             relativePath: 'example.dart',
             components: Map.unmodifiable(<String, ClassReport>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
-              'function': buildFunctionRecordStub(nestingLines: [
-                [1],
-                [2, 3, 4],
-              ]),
+              'function': buildFunctionRecordStub(
+                metrics: const [
+                  MetricValue<int>(
+                    metricsId: MaximumNestingLevelMetric.metricId,
+                    value: 3,
+                    level: MetricValueLevel.none,
+                    comment: '',
+                  ),
+                ],
+              ),
             }),
             issues: const [],
             designIssues: const [],
@@ -252,11 +258,16 @@ void main() {
             relativePath: 'example.dart',
             components: Map.unmodifiable(<String, ClassReport>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
-              'function': buildFunctionRecordStub(nestingLines: [
-                [1],
-                [2, 3, 4, 5, 6, 7, 8],
-                [10, 15],
-              ]),
+              'function': buildFunctionRecordStub(
+                metrics: const [
+                  MetricValue<int>(
+                    metricsId: MaximumNestingLevelMetric.metricId,
+                    value: 7,
+                    level: MetricValueLevel.warning,
+                    comment: '',
+                  ),
+                ],
+              ),
             }),
             issues: const [],
             designIssues: const [],

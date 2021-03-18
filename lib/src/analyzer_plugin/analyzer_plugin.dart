@@ -24,7 +24,6 @@ import 'package:source_span/source_span.dart';
 
 import '../anti_patterns_factory.dart';
 import '../config/analysis_options.dart';
-import '../metrics/nesting_level/nesting_level_visitor.dart';
 import '../models/function_record.dart';
 import '../models/function_report.dart' as metrics;
 import '../reporters/utility_selector.dart';
@@ -355,11 +354,8 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     AnalyzerPluginConfig config,
   ) {
     final controlFlowAstVisitor = CyclomaticComplexityFlowVisitor(source);
-    final nestingLevelVisitor =
-        NestingLevelVisitor(function.declaration, source.unit.lineInfo);
 
     function.declaration.visitChildren(controlFlowAstVisitor);
-    function.declaration.visitChildren(nestingLevelVisitor);
 
     final cyclomaticLines = controlFlowAstVisitor.complexityElements
         .map((element) => element.start.line)
@@ -382,7 +378,6 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
           ),
         )),
         linesWithCode: List.unmodifiable(<int>[]),
-        nestingLines: nestingLevelVisitor.nestingLines,
         operators: Map.unmodifiable(<String, int>{}),
         operands: Map.unmodifiable(<String, int>{}),
       ),
