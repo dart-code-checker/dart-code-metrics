@@ -86,7 +86,7 @@ class UtilitySelector {
   }
 
   static ComponentReport componentReport(
-    ClassReport component,
+    Report component,
     metrics.Config config,
   ) =>
       ComponentReport(

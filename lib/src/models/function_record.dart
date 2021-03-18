@@ -4,7 +4,7 @@ import 'package:meta/meta.dart';
 import 'package:source_span/source_span.dart';
 
 @immutable
-class FunctionRecord extends FunctionReport {
+class FunctionRecord extends Report {
   final int argumentsCount;
 
   final Map<int, int> cyclomaticComplexityLines;

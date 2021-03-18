@@ -20,7 +20,7 @@ void main() {
         FileRecord(
           fullPath: fullPath,
           relativePath: 'example.dart',
-          components: Map.unmodifiable(<String, ClassReport>{}),
+          components: Map.unmodifiable(<String, Report>{}),
           functions: Map.unmodifiable(<String, FunctionRecord>{}),
           issues: const [],
           designIssues: [
@@ -58,7 +58,7 @@ void main() {
         FileRecord(
           fullPath: fullPath,
           relativePath: 'example.dart',
-          components: Map.unmodifiable(<String, ClassReport>{}),
+          components: Map.unmodifiable(<String, Report>{}),
           functions: Map.unmodifiable(<String, FunctionRecord>{}),
           issues: [
             Issue(
@@ -77,7 +77,9 @@ void main() {
               ),
               message: 'first issue message',
               suggestion: const Replacement(
-                  comment: 'correction comment', replacement: 'correction'),
+                comment: 'correction comment',
+                replacement: 'correction',
+              ),
             ),
             Issue(
               ruleId: 'ruleId2',
@@ -95,7 +97,9 @@ void main() {
               ),
               message: 'second issue message',
               suggestion: const Replacement(
-                  comment: 'correction comment', replacement: 'correction'),
+                comment: 'correction comment',
+                replacement: 'correction',
+              ),
             ),
           ],
           designIssues: const [],
