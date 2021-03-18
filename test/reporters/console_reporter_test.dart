@@ -203,9 +203,16 @@ void main() {
             relativePath: 'example.dart',
             components: Map.unmodifiable(<String, ClassReport>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
-              'function': buildFunctionRecordStub(nestingLines: [
-                [1, 2],
-              ]),
+              'function': buildFunctionRecordStub(
+                metrics: const [
+                  MetricValue<int>(
+                    metricsId: MaximumNestingLevelMetric.metricId,
+                    value: 2,
+                    level: MetricValueLevel.none,
+                    comment: '',
+                  ),
+                ],
+              ),
             }),
             issues: const [],
             designIssues: const [],
@@ -230,11 +237,16 @@ void main() {
             relativePath: 'example.dart',
             components: Map.unmodifiable(<String, ClassReport>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
-              'function': buildFunctionRecordStub(nestingLines: [
-                [1, 2],
-                [3],
-                [4, 5, 6, 7, 8, 9, 10],
-              ]),
+              'function': buildFunctionRecordStub(
+                metrics: const [
+                  MetricValue<int>(
+                    metricsId: MaximumNestingLevelMetric.metricId,
+                    value: 7,
+                    level: MetricValueLevel.warning,
+                    comment: '',
+                  ),
+                ],
+              ),
             }),
             issues: const [],
             designIssues: const [],
@@ -287,7 +299,8 @@ void main() {
       expect(
         report[1],
         equals(
-            '\x1B[38;5;3mDesign  \x1B[0mfirst issue message : 2:3 : patternId1 https://docu.edu/patternId1.html'),
+          '\x1B[38;5;3mDesign  \x1B[0mfirst issue message : 2:3 : patternId1 https://docu.edu/patternId1.html',
+        ),
       );
     });
 
@@ -315,7 +328,9 @@ void main() {
               ),
               message: 'first issue message',
               suggestion: const Replacement(
-                  comment: 'correction comment', replacement: 'correction'),
+                comment: 'correction comment',
+                replacement: 'correction',
+              ),
             ),
           ],
           designIssues: const [],
@@ -328,7 +343,8 @@ void main() {
       expect(
         report[1],
         equals(
-            '\x1B[38;5;4mStyle   \x1B[0mfirst issue message : 2:3 : ruleId1 https://docu.edu/ruleId1.html'),
+          '\x1B[38;5;4mStyle   \x1B[0mfirst issue message : 2:3 : ruleId1 https://docu.edu/ruleId1.html',
+        ),
       );
     });
   });

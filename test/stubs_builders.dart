@@ -37,12 +37,11 @@ FunctionRecord buildFunctionRecordStub({
   int argumentsCount = 0,
   Map<int, int> cyclomaticLinesComplexity = const <int, int>{},
   Iterable<int> linesWithCode = const <int>[],
-  Iterable<Iterable<int>> nestingLines = const [<int>[]],
   Map<int, int> operators = const <int, int>{},
   Map<int, int> operands = const <int, int>{},
 }) {
   const defaultMetricValue = MetricValue<int>(
-    metricsId: '',
+    metricsId: MaximumNestingLevelMetric.metricId,
     value: 0,
     level: MetricValueLevel.none,
     comment: '',
@@ -55,7 +54,6 @@ FunctionRecord buildFunctionRecordStub({
     argumentsCount: argumentsCount,
     cyclomaticComplexityLines: Map.unmodifiable(cyclomaticLinesComplexity),
     linesWithCode: linesWithCode,
-    nestingLines: nestingLines,
     operators: Map.unmodifiable(operators),
     operands: Map.unmodifiable(operands),
   );

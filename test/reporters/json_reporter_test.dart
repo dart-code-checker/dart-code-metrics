@@ -60,18 +60,29 @@ void main() {
               ]),
             }),
             functions: Map.unmodifiable(<String, FunctionRecord>{
-              'function':
-                  buildFunctionRecordStub(argumentsCount: 0, nestingLines: []),
-              'function2':
-                  buildFunctionRecordStub(argumentsCount: 6, nestingLines: [
-                [1, 2],
-              ]),
-              'function3':
-                  buildFunctionRecordStub(argumentsCount: 10, nestingLines: [
-                [1, 2],
-                [3],
-                [4, 5, 6, 7, 8, 9, 10],
-              ]),
+              'function': buildFunctionRecordStub(argumentsCount: 0),
+              'function2': buildFunctionRecordStub(
+                argumentsCount: 6,
+                metrics: const [
+                  MetricValue<int>(
+                    metricsId: MaximumNestingLevelMetric.metricId,
+                    value: 2,
+                    level: MetricValueLevel.none,
+                    comment: '',
+                  ),
+                ],
+              ),
+              'function3': buildFunctionRecordStub(
+                argumentsCount: 10,
+                metrics: const [
+                  MetricValue<int>(
+                    metricsId: MaximumNestingLevelMetric.metricId,
+                    value: 6,
+                    level: MetricValueLevel.warning,
+                    comment: '',
+                  ),
+                ],
+              ),
             }),
             issues: const [],
             designIssues: const [],
@@ -299,7 +310,8 @@ void main() {
             components: Map.unmodifiable(<String, ClassReport>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
               'function': buildFunctionRecordStub(
-                  linesWithCode: List.generate(150, (index) => index)),
+                linesWithCode: List.generate(150, (index) => index),
+              ),
             }),
             issues: const [],
             designIssues: const [],
@@ -327,7 +339,8 @@ void main() {
             components: Map.unmodifiable(<String, ClassReport>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
               'function': buildFunctionRecordStub(
-                  linesWithCode: List.generate(5, (index) => index)),
+                linesWithCode: List.generate(5, (index) => index),
+              ),
             }),
             issues: const [],
             designIssues: const [],
@@ -408,9 +421,16 @@ void main() {
             relativePath: 'example.dart',
             components: Map.unmodifiable(<String, ClassReport>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
-              'function': buildFunctionRecordStub(nestingLines: [
-                [1, 2],
-              ]),
+              'function': buildFunctionRecordStub(
+                metrics: const [
+                  MetricValue<int>(
+                    metricsId: MaximumNestingLevelMetric.metricId,
+                    value: 2,
+                    level: MetricValueLevel.none,
+                    comment: '',
+                  ),
+                ],
+              ),
             }),
             issues: const [],
             designIssues: const [],
@@ -437,11 +457,16 @@ void main() {
             relativePath: 'example.dart',
             components: Map.unmodifiable(<String, ClassReport>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
-              'function': buildFunctionRecordStub(nestingLines: [
-                [1, 2],
-                [3],
-                [4, 5, 6, 7, 8, 9, 10],
-              ]),
+              'function': buildFunctionRecordStub(
+                metrics: const [
+                  MetricValue<int>(
+                    metricsId: MaximumNestingLevelMetric.metricId,
+                    value: 7,
+                    level: MetricValueLevel.warning,
+                    comment: '',
+                  ),
+                ],
+              ),
             }),
             issues: const [],
             designIssues: const [],
