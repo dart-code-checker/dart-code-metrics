@@ -77,7 +77,9 @@ void main() {
               ),
               message: 'first issue message',
               suggestion: const Replacement(
-                  comment: 'correction comment', replacement: 'correction'),
+                comment: 'correction comment',
+                replacement: 'correction',
+              ),
             ),
             Issue(
               ruleId: 'ruleId2',
@@ -95,7 +97,9 @@ void main() {
               ),
               message: 'second issue message',
               suggestion: const Replacement(
-                  comment: 'correction comment', replacement: 'correction'),
+                comment: 'correction comment',
+                replacement: 'correction',
+              ),
             ),
           ],
           designIssues: const [],
