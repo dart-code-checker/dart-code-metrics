@@ -131,7 +131,7 @@ class MetricsAnalyzer {
           for (final classDeclaration in visitor.classes) {
             builder.recordClass(
               classDeclaration,
-              ClassReport(
+              Report(
                 location: nodeLocation(
                   node: classDeclaration.declaration,
                   source: source,

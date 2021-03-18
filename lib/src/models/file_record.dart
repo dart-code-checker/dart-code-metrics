@@ -8,7 +8,7 @@ class FileRecord {
   final String fullPath;
   final String relativePath;
 
-  final Map<String, ClassReport> components;
+  final Map<String, Report> components;
   final Map<String, FunctionRecord> functions;
 
   final Iterable<Issue> issues;

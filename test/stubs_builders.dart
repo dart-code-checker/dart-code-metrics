@@ -5,7 +5,7 @@ import 'package:dart_code_metrics/src/models/function_record.dart';
 import 'package:dart_code_metrics/src/models/function_report.dart' as metrics;
 import 'package:source_span/source_span.dart';
 
-ClassReport buildComponentRecordStub({
+Report buildComponentRecordStub({
   SourceSpanBase location,
   Iterable<MetricValue<num>> metrics = const [],
 }) {
@@ -24,7 +24,7 @@ ClassReport buildComponentRecordStub({
     ),
   ];
 
-  return ClassReport(
+  return Report(
     location:
         location ?? SourceSpanBase(SourceLocation(0), SourceLocation(0), ''),
     metrics: [...metrics, ...defaultMetricValues],

@@ -13,7 +13,7 @@ class MetricsAnalysisRecorder
     implements MetricsRecordsBuilder, MetricsRecordsStore {
   String _fileGroupPath;
   String _relativeGroupPath;
-  Map<ScopedClassDeclaration, ClassReport> _componentRecords;
+  Map<ScopedClassDeclaration, Report> _componentRecords;
   Map<ScopedFunctionDeclaration, FunctionRecord> _functionRecords;
   List<Issue> _issues;
   List<Issue> _designIssues;
@@ -45,7 +45,7 @@ class MetricsAnalysisRecorder
   }
 
   @override
-  void recordClass(ScopedClassDeclaration declaration, ClassReport record) {
+  void recordClass(ScopedClassDeclaration declaration, Report record) {
     _checkState();
 
     if (declaration == null) {
@@ -58,7 +58,7 @@ class MetricsAnalysisRecorder
   @override
   void recordFunction(
     ScopedFunctionDeclaration _,
-    FunctionReport __,
+    Report __,
   ) {}
 
   @override
@@ -113,7 +113,7 @@ class MetricsAnalysisRecorder
       fullPath: _fileGroupPath,
       relativePath: _relativeGroupPath,
       components: Map.unmodifiable(_componentRecords
-          .map<String, ClassReport>((key, value) => MapEntry(key.name, value))),
+          .map<String, Report>((key, value) => MapEntry(key.name, value))),
       functions: Map.unmodifiable(_functionRecords.map<String, FunctionRecord>(
         (key, value) => MapEntry(key.fullName, value),
       )),
