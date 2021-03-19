@@ -1,0 +1,8 @@
+include: ./test/obsoleted/resources/analysis_options_repo.yaml
+
+dart_code_metrics:
+  metrics-exclude:
+    - documentation/**
+  rules:
+    - no-boolean-literal-compare
+    - prefer-trailing-comma-for-collection

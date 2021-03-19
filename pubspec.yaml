@@ -26,7 +26,6 @@ dependencies:
 dev_dependencies:
   coverage: ^0.14.0
   http_multi_server: ^2.2.0       # for valid resolve dependencies while downgrade
-  lcov: '>=5.7.0 <7.0.0'
   mockito: ^4.1.1
   pedantic: ^1.9.2
   pub_semver: ^1.4.4

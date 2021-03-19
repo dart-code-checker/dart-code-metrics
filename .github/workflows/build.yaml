@@ -27,6 +27,8 @@ jobs:
           dart pub global run dependency_validator:dependency_validator
       - name: Run analyzer
         run: dart analyze --fatal-warnings --fatal-infos .
+      - name: Self scan
+        run: dart run bin/metrics.dart --reporter=github lib
       - name: Run formatter
         run: dart format --set-exit-if-changed .
       - name: Run tests
@@ -35,11 +37,11 @@ jobs:
         if: success()
         run: |
           dart test --coverage=coverage
-          dart run coverage:format_coverage --packages=.packages -i coverage -o coverage/coverage.lcov --lcov --report-on=lib
-          dart run tool/format_coverage.dart
+          dart pub run coverage:format_coverage --packages=.packages -i coverage -o coverage/coverage.lcov --lcov --report-on=lib
+          dart run tool/uncovered_coverage.dart
+          dart test test/fake_test.dart --coverage=coverage
+          dart pub run coverage:format_coverage --packages=.packages -i coverage -o coverage/coverage.lcov --lcov --report-on=lib
           bash <(curl -s https://codecov.io/bash) -f coverage/coverage.lcov
-      - name: Self scan
-        run: dart run bin/metrics.dart --reporter=github lib
 
   build-dart-2-9:
     runs-on: ubuntu-latest
