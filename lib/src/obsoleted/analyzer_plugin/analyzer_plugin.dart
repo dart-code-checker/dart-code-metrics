@@ -22,6 +22,7 @@ import 'package:code_checker/checker.dart';
 import 'package:code_checker/metrics.dart';
 import 'package:source_span/source_span.dart';
 
+import '../../suppression.dart';
 import '../anti_patterns_factory.dart';
 import '../config/analysis_options.dart';
 import '../models/function_record.dart';
@@ -197,7 +198,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
         config != null &&
         !isExcluded(analysisResult, config.globalExcludes)) {
       final ignores =
-          Suppressions(analysisResult.content, analysisResult.lineInfo);
+          Suppression(analysisResult.content, analysisResult.lineInfo);
 
       final sourceUri =
           resourceProvider.getFile(analysisResult.path)?.toUri() ??
@@ -257,7 +258,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
   }
 
   Iterable<plugin.AnalysisErrorFixes> _checkOnCodeIssues(
-    Suppressions ignores,
+    Suppression ignores,
     ResolvedUnitResult analysisResult,
     Uri sourceUri,
     AnalyzerPluginConfig config,
@@ -278,7 +279,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
                   codeIssueToAnalysisErrorFixes(issue, analysisResult)));
 
   Iterable<plugin.AnalysisErrorFixes> _checkOnAntiPatterns(
-    Suppressions ignores,
+    Suppression ignores,
     InternalResolvedUnitResult source,
     Iterable<ScopedFunctionDeclaration> functions,
     AnalyzerPluginConfig config,
@@ -292,7 +293,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
           .map(designIssueToAnalysisErrorFixes);
 
   Iterable<plugin.AnalysisErrorFixes> _checkMetrics(
-    Suppressions ignores,
+    Suppression ignores,
     InternalResolvedUnitResult source,
     Iterable<ScopedFunctionDeclaration> functions,
     AnalyzerPluginConfig config,
