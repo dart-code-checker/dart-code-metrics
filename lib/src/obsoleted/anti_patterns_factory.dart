@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, prefer-trailing-comma
 import 'anti_patterns/base_pattern.dart';
 import 'anti_patterns/long_method.dart';
 import 'anti_patterns/long_parameter_list.dart';

@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, prefer-trailing-comma
 import 'package:ansicolor/ansicolor.dart';
 import 'package:code_checker/metrics.dart';
 import 'package:code_checker/rules.dart';

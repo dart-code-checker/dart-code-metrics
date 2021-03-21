@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, long-method
 import 'dart:math';
 
 import 'package:code_checker/checker.dart';

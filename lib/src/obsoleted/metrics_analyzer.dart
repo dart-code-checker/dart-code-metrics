@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, long-method, comment_references
 import 'dart:io';
 
 import 'package:analyzer/dart/analysis/analysis_context_collection.dart';

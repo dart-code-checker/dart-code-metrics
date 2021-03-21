@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs
 import 'metrics_analysis_recorder.dart';
 import 'metrics_records_builder.dart';
 import 'models/file_record.dart';

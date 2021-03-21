@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, comment_references
 import 'package:meta/meta.dart';
 
 const cyclomaticComplexityKey = 'cyclomatic-complexity';

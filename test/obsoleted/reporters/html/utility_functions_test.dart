@@ -1,4 +1,5 @@
 @TestOn('vm')
+// ignore_for_file: prefer-trailing-comma
 import 'package:code_checker/metrics.dart';
 import 'package:dart_code_metrics/src/obsoleted/models/file_report.dart';
 import 'package:dart_code_metrics/src/obsoleted/reporters/html/html_reporter.dart';

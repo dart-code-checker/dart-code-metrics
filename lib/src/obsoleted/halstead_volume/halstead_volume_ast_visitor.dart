@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, prefer-trailing-comma
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';

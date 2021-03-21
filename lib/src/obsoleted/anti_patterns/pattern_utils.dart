@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, long-parameter-list
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:code_checker/rules.dart';
 import 'package:source_span/source_span.dart';

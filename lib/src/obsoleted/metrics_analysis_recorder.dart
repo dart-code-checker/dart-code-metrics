@@ -1,3 +1,4 @@
+// ignore_for_file: comment_references, no-empty-block
 import 'package:code_checker/checker.dart';
 import 'package:code_checker/rules.dart';
 import 'package:path/path.dart' as p;

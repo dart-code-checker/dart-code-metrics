@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, prefer-trailing-comma
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart' as plugin;
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;

@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs
 import 'dart:isolate';
 
 import 'package:analyzer/file_system/physical_file_system.dart';
