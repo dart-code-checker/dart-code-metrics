@@ -33,7 +33,7 @@ class Issue {
   ///
   /// The issue is associated with the given [location]. The issue will have the
   /// given [ruleId], [documentation], [severity] and [message] they will be
-  /// used to classificate and navigate issues in IDE or in reporters.
+  /// used to classify and navigate issues in IDE or in reporters.
   /// If [verboseMessage] or [suggestion] are provided, they will be used to
   /// complete and improve the information for the end user.
   const Issue({

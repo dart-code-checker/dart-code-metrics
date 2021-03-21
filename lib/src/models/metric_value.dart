@@ -33,10 +33,10 @@ class MetricValue<T> {
 
   /// Initialize a newly created [MetricValue].
   ///
-  /// The value will have the given [metricsId], [documentation] and [level]
-  /// they will be used to classificate value in IDE or in reporters.
-  /// [value] and [comment] or if [recommendation] and [context] are provided,
-  /// used to complete and improve the information for the end user.
+  /// The value will have the given [metricsId], [documentation] and [level].
+  /// They will be used to classify the value in IDE or in reporters.
+  /// The [value], [comment], [recommendation] and [context] (if provided),
+  /// will be used to complete and improve the information for the end user.
   const MetricValue({
     @required this.metricsId,
     @required this.documentation,
