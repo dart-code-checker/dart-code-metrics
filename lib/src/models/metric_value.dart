@@ -7,27 +7,27 @@ import 'metric_value_level.dart';
 /// Represents a value computed by the metric
 @immutable
 class MetricValue<T> {
-  /// The id of the metric whose compute this value
+  /// The id of the computed metric
   final String metricsId;
 
-  /// Documentation associated with the metrics whose compute this value
+  /// The documentation associated with the computed metric
   final MetricDocumentation documentation;
 
   /// The actual value computed by the metric
   final T value;
 
-  /// Level of this value computed by the metric
+  /// The level of this value computed by the metric
   final MetricValueLevel level;
 
-  /// Message for user containing information about this value
+  /// The message for the user containing information about this value
   final String comment;
 
-  /// Message for user containing information about how the user can improve this value
+  /// The message for the user containing information about how the user can improve this value
   final String recommendation;
 
-  /// Additional information associated with this value
+  /// An additional information associated with this value
   ///
-  /// That provide context to help the user understand how the metric compute this one
+  /// The context to help the user understand how the metric was computed
   final Iterable<ContextMessage> context;
 
   /// Initialize a newly created [MetricValue].

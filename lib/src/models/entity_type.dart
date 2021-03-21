@@ -2,10 +2,10 @@
 ///
 /// Used for classification of a metric
 class EntityType {
-  /// Entity represent a class, mixin or extension
+  /// The entity representing a class, mixin or extension
   static const EntityType classEntity = EntityType._('class');
 
-  /// Entity represent a class method or constructor, function, getter or setter
+  /// The entity representing a class method or constructor, function, getter or setter
   static const EntityType methodEntity = EntityType._('method');
 
   /// A list containing all of the enum values that are defined.

@@ -4,10 +4,10 @@ import 'package:source_span/source_span.dart';
 import 'metric_value.dart';
 import 'metric_value_level.dart';
 
-/// Represents the metrics report collected for a entity
+/// Represents a metrics report collected for an entity
 @immutable
 class Report {
-  /// Source code location of the target entity
+  /// The source code location of the target entity
   final SourceSpan location;
 
   /// Target entity metrics
@@ -18,7 +18,7 @@ class Report {
       .firstWhere((metric) => metric.metricsId == id, orElse: () => null);
 
   // TODO(dkrutskikh): after migrate on NullSafety migrate on iterable extensions from collection package
-  /// Most of highest reported level of a metric
+  /// The highest reported level of a metric
   MetricValueLevel get metricsLevel => metrics.isNotEmpty
       ? metrics.reduce((a, b) => a.level > b.level ? a : b).level
       : MetricValueLevel.none;

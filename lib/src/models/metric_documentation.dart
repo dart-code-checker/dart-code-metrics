@@ -12,18 +12,18 @@ class MetricDocumentation {
   /// The short name of a metric
   final String shortName;
 
-  /// The short message with formal statement about metric
+  /// The short message with formal statement about a metric
   final String brief;
 
-  /// Which type of entities will be measured by a metric
+  /// The type of entities which will be measured by a metric
   final EntityType measuredType;
 
-  /// Code snippets that we use when generating documentation for a metric
+  /// The code snippet that is used for a metric documentation generating
   final Iterable<SourceSpan> examples;
 
   /// Initialize a newly created [MetricDocumentation].
   ///
-  /// This data object helps us to generate documentation from source code.
+  /// This data object is used for a documentation generating from a source code.
   const MetricDocumentation({
     @required this.name,
     @required this.shortName,

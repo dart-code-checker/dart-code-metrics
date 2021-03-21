@@ -4,7 +4,7 @@ import 'package:source_span/source_span.dart';
 import 'replacement.dart';
 import 'severity.dart';
 
-/// Represents a issue detected by the analysis rule
+/// Represents an issue detected by the analysis rule
 @immutable
 class Issue {
   /// The id of the rule associated with this issue
@@ -19,10 +19,10 @@ class Issue {
   /// The severity of this issue
   final Severity severity;
 
-  /// Short message (single line)
+  /// The short message (single line)
   final String message;
 
-  /// Verbose message containing information about how the user can fix this issue
+  /// The verbose message containing information about how the user can fix this issue
   final String verboseMessage;
 
   /// The suggested relevant change

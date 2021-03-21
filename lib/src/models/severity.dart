@@ -4,19 +4,18 @@
 class Severity {
   /// Programming error
   ///
-  /// This indicates severe issue like memory leak etc
-  /// The issue is certain
+  /// Indicates a severe issue like a memory leak, etc
   static const error = Severity._('error');
 
   /// Warning
   ///
-  /// Used for dangerous coding style that can cause severe runtime errors
+  /// Indicates a dangerous coding style that can cause severe runtime errors
   /// For example: accessing an out of range array element
   static const warning = Severity._('warning');
 
   /// Performance warning
   ///
-  /// Suboptimal code and fixing it probably leads to faster performance
+  /// Indicates a suboptimal code, fixing it will lead to a better performance
   static const performance = Severity._('performance');
 
   /// Style warning
