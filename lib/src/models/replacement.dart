@@ -9,7 +9,6 @@ class Replacement {
   /// The code with changes to replace original code with.
   final String replacement;
 
-  /// Initialize a newly created [Replacement] with the given [comment] and
-  /// [replacement].
+  /// Initialize a newly created [Replacement] with the given [comment] and [replacement].
   const Replacement({@required this.comment, @required this.replacement});
 }
