@@ -2,19 +2,19 @@
 ///
 /// Used when reporting.
 class FunctionType {
-  /// The class entity representing a class constructor.
+  /// The function entity representing a class constructor.
   static const constructor = FunctionType._('constructor');
 
-  /// The class entity representing a class method.
+  /// The function entity representing a class method.
   static const method = FunctionType._('method');
 
-  /// The class entity representing a function.
+  /// The function entity representing a generic function.
   static const function = FunctionType._('function');
 
-  /// The class entity representing a getter.
+  /// The function entity representing a getter.
   static const getter = FunctionType._('getter');
 
-  /// The class entity representing a setter.
+  /// The function entity representing a setter.
   static const setter = FunctionType._('setter');
 
   final String _value;
