@@ -12,6 +12,7 @@ import 'package:code_checker/rules.dart';
 import 'package:glob/glob.dart';
 import 'package:path/path.dart' as p;
 
+import '../suppression.dart';
 import 'anti_patterns/base_pattern.dart';
 import 'anti_patterns_factory.dart';
 import 'config/analysis_options.dart' as metrics;
@@ -211,7 +212,7 @@ class MetricsAnalyzer {
           }
         }
 
-        final ignores = Suppressions(source.content, lineInfo);
+        final ignores = Suppression(source.content, lineInfo);
 
         builder
           ..recordIssues(_checkOnCodeIssues(ignores, source))
@@ -223,7 +224,7 @@ class MetricsAnalyzer {
   }
 
   Iterable<Issue> _checkOnCodeIssues(
-    Suppressions ignores,
+    Suppression ignores,
     InternalResolvedUnitResult source,
   ) =>
       _checkingCodeRules.where((rule) => !ignores.isSuppressed(rule.id)).expand(
@@ -232,7 +233,7 @@ class MetricsAnalyzer {
           );
 
   Iterable<Issue> _checkOnAntiPatterns(
-    Suppressions ignores,
+    Suppression ignores,
     InternalResolvedUnitResult source,
     Iterable<ScopedFunctionDeclaration> functions,
   ) =>

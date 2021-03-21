@@ -1,5 +1,5 @@
 /// Enum class for value level.
-/// 
+///
 /// Used when reporting computed metric value.
 class MetricValueLevel implements Comparable<MetricValueLevel> {
   /// The value in the "green" zone.

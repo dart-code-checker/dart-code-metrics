@@ -1,5 +1,5 @@
 /// Enum class for severity.
-/// 
+///
 /// Used when reporting issues.
 class Severity {
   /// Programming error.
