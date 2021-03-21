@@ -1,33 +1,33 @@
-/// Enum class for severity
+/// Enum class for severity.
 /// 
-/// Used when reporting issues
+/// Used when reporting issues.
 class Severity {
-  /// Programming error
+  /// Programming error.
   ///
-  /// Indicates a severe issue like a memory leak, etc
+  /// Indicates a severe issue like a memory leak, etc.
   static const error = Severity._('error');
 
-  /// Warning
+  /// Warning.
   ///
-  /// Indicates a dangerous coding style that can cause severe runtime errors
-  /// For example: accessing an out of range array element
+  /// Indicates a dangerous coding style that can cause severe runtime errors.
+  /// For example: accessing an out of range array element.
   static const warning = Severity._('warning');
 
-  /// Performance warning
+  /// Performance warning.
   ///
-  /// Indicates a suboptimal code, fixing it will lead to a better performance
+  /// Indicates a suboptimal code, fixing it will lead to a better performance.
   static const performance = Severity._('performance');
 
-  /// Style warning
+  /// Style warning.
   ///
   /// Used for general code cleanup recommendations. Fixing these will not fix
   /// any bugs but will make the code easier to maintain.
   /// For example: trailing comma, blank line before return, etc...
   static const style = Severity._('style');
 
-  /// No severity
+  /// No severity.
   ///
-  /// Default value
+  /// Default value.
   static const none = Severity._('none');
 
   /// A list containing all of the enum values that are defined.
@@ -37,7 +37,7 @@ class Severity {
 
   const Severity._(this._value);
 
-  /// Converts the human readable [severity] string into a [Severity] value
+  /// Converts the human readable [severity] string into a [Severity] value.
   static Severity fromString(String severity) => severity != null
       ? values.firstWhere(
           (value) => value._value == severity.toLowerCase(),
