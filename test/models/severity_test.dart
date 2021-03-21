@@ -1,5 +1,5 @@
 @TestOn('vm')
-import 'package:code_checker/src/models/severity.dart';
+import 'package:dart_code_metrics/src/models/severity.dart';
 import 'package:test/test.dart';
 
 void main() {
