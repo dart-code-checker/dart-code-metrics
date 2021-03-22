@@ -9,7 +9,7 @@ class ScopedClassDeclaration {
   /// The type of the declared class entity.
   final ClassType type;
 
-  /// The node that represents in the AST structure a Dart code snippet.
+  /// The node that represents a dart code snippet in the AST structure.
   final CompilationUnitMember declaration;
 
   /// Returns the user defined name.

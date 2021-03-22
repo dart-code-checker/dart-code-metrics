@@ -10,7 +10,7 @@ class ScopedFunctionDeclaration {
   /// The type of the declared function entity.
   final FunctionType type;
 
-  /// The node that represents in the AST structure a Dart code snippet.
+  /// The node that represents a dart code snippet in the AST structure.
   final Declaration declaration;
 
   /// The class declaration of the class to which this function belongs.
