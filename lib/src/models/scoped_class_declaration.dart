@@ -9,18 +9,21 @@ class ScopedClassDeclaration {
   /// The type of the declared class entity.
   final ClassType type;
 
-  /// The node that represents in the AST structure for a Dart program.
+  /// The node that represents in the AST structure a Dart code snippet.
   final CompilationUnitMember declaration;
 
   /// Returns the user defined name.
   String get name {
-    if (declaration is ExtensionDeclaration) {
-      return (declaration as ExtensionDeclaration).name.name;
-    } else if (declaration is NamedCompilationUnitMember) {
-      return (declaration as NamedCompilationUnitMember).name.name;
+    final node = declaration;
+    String name;
+
+    if (node is ExtensionDeclaration) {
+      name = node.name.name;
+    } else if (node is NamedCompilationUnitMember) {
+      name = node.name.name;
     }
 
-    return '';
+    return name ?? '';
   }
 
   /// Initialize a newly created [ScopedClassDeclaration] with the given [type] and [declaration].

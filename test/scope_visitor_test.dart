@@ -7,6 +7,14 @@ import 'package:dart_code_metrics/src/scope_visitor.dart';
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
+const abstractClassExample = './test/resources/abstract_class.dart';
+const classWithFactoryConstructorsExample =
+    './test/resources/class_with_factory_constructors.dart';
+const extensionWithMethodExample = './test/resources/extension.dart';
+const functionsExample = './test/resources/functions.dart';
+const mixinExample = './test/resources/mixin.dart';
+const severalClassesExample = './test/resources/weight_of_class_example.dart';
+
 void main() {
   group('ScopeVisitor collects scope from file with', () {
     ScopeVisitor visitor;
@@ -16,9 +24,7 @@ void main() {
     });
 
     test('abstract class', () async {
-      (await resolveFile(
-        path: p.normalize(p.absolute('./test/resources/abstract_class.dart')),
-      ))
+      (await resolveFile(path: p.normalize(p.absolute(abstractClassExample))))
           .unit
           .visitChildren(visitor);
 
@@ -35,8 +41,7 @@ void main() {
 
     test('class with factory constructors', () async {
       (await resolveFile(
-        path: p.normalize(p
-            .absolute('./test/resources/class_with_factory_constructors.dart')),
+        path: p.normalize(p.absolute(classWithFactoryConstructorsExample)),
       ))
           .unit
           .visitChildren(visitor);
@@ -71,7 +76,7 @@ void main() {
 
     test('extension with method', () async {
       (await resolveFile(
-        path: p.normalize(p.absolute('./test/resources/extension.dart')),
+        path: p.normalize(p.absolute(extensionWithMethodExample)),
       ))
           .unit
           .visitChildren(visitor);
@@ -88,9 +93,7 @@ void main() {
     });
 
     test('mixin', () async {
-      (await resolveFile(
-        path: p.normalize(p.absolute('./test/resources/mixin.dart')),
-      ))
+      (await resolveFile(path: p.normalize(p.absolute(mixinExample))))
           .unit
           .visitChildren(visitor);
 
@@ -106,9 +109,7 @@ void main() {
     });
 
     test('functions', () async {
-      (await resolveFile(
-        path: p.normalize(p.absolute('./test/resources/functions.dart')),
-      ))
+      (await resolveFile(path: p.normalize(p.absolute(functionsExample))))
           .unit
           .visitChildren(visitor);
 
@@ -125,11 +126,7 @@ void main() {
     });
 
     test('several classes', () async {
-      (await resolveFile(
-        path: p.normalize(
-          p.absolute('./test/resources/weight_of_class_example.dart'),
-        ),
-      ))
+      (await resolveFile(path: p.normalize(p.absolute(severalClassesExample))))
           .unit
           .visitChildren(visitor);
 

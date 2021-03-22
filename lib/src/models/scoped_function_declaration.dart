@@ -10,7 +10,7 @@ class ScopedFunctionDeclaration {
   /// The type of the declared function entity.
   final FunctionType type;
 
-  /// The node that represents in the AST structure for a Dart program.
+  /// The node that represents in the AST structure a Dart code snippet.
   final Declaration declaration;
 
   /// The class declaration of the class to which this function belongs.
@@ -18,28 +18,31 @@ class ScopedFunctionDeclaration {
 
   /// Returns the user defined name.
   String get name {
-    if (declaration is FunctionDeclaration) {
-      return (declaration as FunctionDeclaration).name?.name;
-    } else if (declaration is ConstructorDeclaration) {
-      return (declaration as ConstructorDeclaration).name?.name ??
-          (declaration.parent as NamedCompilationUnitMember).name?.name;
-    } else if (declaration is MethodDeclaration) {
-      return (declaration as MethodDeclaration).name?.name;
+    final node = declaration;
+    String name;
+
+    if (node is FunctionDeclaration) {
+      name = node.name?.name;
+    } else if (node is ConstructorDeclaration) {
+      name = node.name?.name ??
+          (node.parent as NamedCompilationUnitMember).name?.name;
+    } else if (node is MethodDeclaration) {
+      name = node.name?.name;
     }
 
-    return null;
+    return name ?? '';
   }
 
   /// Returns the full user defined name.
   ///
   /// using the pattern `className.methodName`.
   String get fullName {
-    final className = enclosingDeclaration?.name;
+    final className = enclosingDeclaration?.name ?? '';
     final functionName = name;
 
-    return functionName == null
-        ? null
-        : (className == null ? name : '$className.$functionName');
+    return className.isEmpty || functionName.isEmpty
+        ? functionName
+        : '$className.$functionName';
   }
 
   /// Initialize a newly created [ScopedFunctionDeclaration] with the given [type], [declaration] and [enclosingDeclaration].
