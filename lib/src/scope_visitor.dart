@@ -6,7 +6,7 @@ import 'models/function_type.dart';
 import 'models/scoped_class_declaration.dart';
 import 'models/scoped_function_declaration.dart';
 
-/// Visitor to collect declarations of classes and functions.
+/// A visitor to collect declarations of classes and functions.
 class ScopeVisitor extends RecursiveAstVisitor<void> {
   final _classes = <ScopedClassDeclaration>[];
   final _functions = <ScopedFunctionDeclaration>[];

@@ -6,13 +6,13 @@ import 'class_type.dart';
 /// Represents a declaration of a class / mixin / extension.
 @immutable
 class ScopedClassDeclaration {
-  /// Type of declared class entity.
+  /// The type of the declared class entity.
   final ClassType type;
 
   /// The node that represents in the AST structure for a Dart program.
   final CompilationUnitMember declaration;
 
-  /// Returns user defined name.
+  /// Returns the user defined name.
   String get name {
     if (declaration is ExtensionDeclaration) {
       return (declaration as ExtensionDeclaration).name.name;

@@ -7,7 +7,7 @@ import 'scoped_class_declaration.dart';
 /// Represents a declaration of function / method.
 @immutable
 class ScopedFunctionDeclaration {
-  /// Type of declared function entity.
+  /// The type of the declared function entity.
   final FunctionType type;
 
   /// The node that represents in the AST structure for a Dart program.
@@ -16,7 +16,7 @@ class ScopedFunctionDeclaration {
   /// The class declaration of the class to which this function belongs.
   final ScopedClassDeclaration enclosingDeclaration;
 
-  /// Returns user defined name.
+  /// Returns the user defined name.
   String get name {
     if (declaration is FunctionDeclaration) {
       return (declaration as FunctionDeclaration).name?.name;
@@ -30,7 +30,7 @@ class ScopedFunctionDeclaration {
     return null;
   }
 
-  /// Returns full user defined name.
+  /// Returns the full user defined name.
   ///
   /// using the pattern `className.methodName`.
   String get fullName {
