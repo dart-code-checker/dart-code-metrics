@@ -5,9 +5,17 @@ import 'package:analyzer/dart/ast/visitor.dart';
 
 /// The AST visitor that will collect cyclomatic complexity of visit nodes in an AST structure.
 class CyclomaticComplexityFlowVisitor extends RecursiveAstVisitor<void> {
+  static const _complexityTokenTypes = [
+    TokenType.AMPERSAND_AMPERSAND,
+    TokenType.BAR_BAR,
+    TokenType.QUESTION_PERIOD,
+    TokenType.QUESTION_QUESTION,
+    TokenType.QUESTION_QUESTION_EQ,
+  ];
+
   final _complexityEntities = <SyntacticEntity>[];
 
-  /// Returns array of entities whose increase cyclomatic complexity.
+  /// Returns an array of entities that increase cyclomatic complexity.
   Iterable<SyntacticEntity> get complexityEntities => _complexityEntities;
 
   @override
@@ -94,17 +102,9 @@ class CyclomaticComplexityFlowVisitor extends RecursiveAstVisitor<void> {
   }
 
   void _visitBlock(Token firstToken, Token lastToken) {
-    const tokenTypes = [
-      TokenType.AMPERSAND_AMPERSAND,
-      TokenType.BAR_BAR,
-      TokenType.QUESTION_PERIOD,
-      TokenType.QUESTION_QUESTION,
-      TokenType.QUESTION_QUESTION_EQ,
-    ];
-
     var token = firstToken;
     while (token != lastToken) {
-      if (token.matchesAny(tokenTypes)) {
+      if (token.matchesAny(_complexityTokenTypes)) {
         _increaseComplexity(token);
       }
 

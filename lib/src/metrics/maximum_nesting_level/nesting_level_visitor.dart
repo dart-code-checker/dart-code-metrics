@@ -6,7 +6,7 @@ class NestingLevelVisitor extends RecursiveAstVisitor<void> {
   final AstNode _functionNode;
   var _deepestNestedNodesChain = <AstNode>[];
 
-  /// Returns deepest nested nodes chain.
+  /// Returns the deepest nested nodes chain.
   Iterable<AstNode> get deepestNestedNodesChain => _deepestNestedNodesChain;
 
   /// Initialize a newly created [NestingLevelVisitor] with given [_functionNode].

@@ -3,10 +3,10 @@ import 'package:meta/meta.dart';
 /// Represents any rule documentation
 @immutable
 class RuleDocumentation {
-  /// The name of a rule
+  /// The name of the rule
   final String name;
 
-  /// The short message with formal statement about rule
+  /// The short message with formal statement about the rule
   final String brief;
 
   /// Initialize a newly created [RuleDocumentation].

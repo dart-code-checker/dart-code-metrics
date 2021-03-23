@@ -5,17 +5,17 @@ import '../models/issue.dart';
 import '../models/rule_documentation.dart';
 import '../models/severity.dart';
 
-/// Interface that code checker uses to communicate with the rules
+/// An interface to communicate with the rules
 ///
-/// All rule classes must implement from this interface
+/// All rules must implement from this interface.
 abstract class Rule {
   /// The id of the rule.
   final String id;
 
-  /// documentation associated with this rule
+  /// The documentation associated with the rule
   final RuleDocumentation documentation;
 
-  /// The severity of issues emitted by this rule
+  /// The severity of issues emitted by the rule
   final Severity severity;
 
   /// Initialize a newly created [Rule].

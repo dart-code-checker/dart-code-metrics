@@ -7,7 +7,7 @@ import '../models/scoped_class_declaration.dart';
 import '../models/scoped_function_declaration.dart';
 import 'metric.dart';
 
-/// Interface for metrics whose compute value for class node.
+/// An interface for metrics that compute a value for a class node.
 abstract class ClassMetric<T extends num> extends Metric<T> {
   /// Initialize a newly created [ClassMetric].
   const ClassMetric({

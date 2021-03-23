@@ -7,7 +7,7 @@ import '../models/scoped_class_declaration.dart';
 import '../models/scoped_function_declaration.dart';
 import 'metric.dart';
 
-/// Interface for metrics whose compute value for function node.
+/// An interface for metrics that compute a value for a function node.
 abstract class FunctionMetric<T extends num> extends Metric<T> {
   /// Initialize a newly created [FunctionMetric].
   const FunctionMetric({

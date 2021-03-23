@@ -2,13 +2,13 @@ import 'package:meta/meta.dart';
 
 import '../models/context_message.dart';
 
-/// Internal model for representing a value computed by a metric.
+/// An internal model for representing a value computed by a metric.
 @immutable
 class MetricComputationResult<T> {
   /// The actual value computed by the metric.
   final T value;
 
-  /// An additional information associated with this value.
+  /// The additional information associated with the value.
   final Iterable<ContextMessage> context;
 
   /// Initialize a newly created [MetricComputationResult].

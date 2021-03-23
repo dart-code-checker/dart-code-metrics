@@ -9,19 +9,18 @@ import '../models/scoped_class_declaration.dart';
 import '../models/scoped_function_declaration.dart';
 import 'metric_computation_result.dart';
 
-/// Interface to communicate with the metrics.
+/// An interface to communicate with the metrics.
 ///
-/// All metric classes must extends from this interface.
+/// All metrics must extend this interface.
 abstract class Metric<T extends num> {
   /// The id of the metric.
   final String id;
 
-  /// documentation associated with this metric.
+  /// The documentation associated with the metric.
   final MetricDocumentation documentation;
 
-  /// A threshold value divides the space of a metric value into regions.
-  /// Depending on the region a metric value is in, we can make an informed
-  /// assessment about the measured entity.
+  /// The threshold value divides the space of a metric value into regions. The
+  /// end user is informed about the measured entity based on the value region.
   final T threshold;
 
   final MetricValueLevel Function(T, T) _levelComputer;
@@ -43,7 +42,7 @@ abstract class Metric<T extends num> {
   ) =>
       true;
 
-  /// Returns computed [MetricValue] for given [node].
+  /// Returns the computed [MetricValue] for the given [node].
   MetricValue<T> compute(
     Declaration node,
     Iterable<ScopedClassDeclaration> classDeclarations,
@@ -70,7 +69,7 @@ abstract class Metric<T extends num> {
     );
   }
 
-  /// Returns internal metric model [MetricComputationResult] for given [node].
+  /// Returns the internal metric model [MetricComputationResult] for the given [node].
   @protected
   MetricComputationResult<T> computeImplementation(
     Declaration node,
@@ -79,7 +78,7 @@ abstract class Metric<T extends num> {
     ResolvedUnitResult source,
   );
 
-  /// Returns the message for a user containing information about computed value.
+  /// Returns the message for the user containing information about the computed value.
   @protected
   String commentMessage(String nodeType, T value, T threshold);
 
