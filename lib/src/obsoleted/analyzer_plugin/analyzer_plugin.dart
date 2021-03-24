@@ -18,11 +18,12 @@ import 'package:analyzer/src/context/context_root.dart';
 import 'package:analyzer/src/dart/analysis/driver.dart';
 import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
-import 'package:code_checker/checker.dart';
+import 'package:code_checker/checker.dart' hide nodeLocation;
 import 'package:code_checker/metrics.dart';
 import 'package:source_span/source_span.dart';
 
 import '../../suppression.dart';
+import '../../utils/node_utils.dart';
 import '../anti_patterns_factory.dart';
 import '../config/analysis_options.dart';
 import '../models/function_record.dart';

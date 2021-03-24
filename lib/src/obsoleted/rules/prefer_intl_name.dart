@@ -1,10 +1,10 @@
 // ignore_for_file: public_member_api_docs
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
-import 'package:code_checker/checker.dart';
 import 'package:code_checker/rules.dart';
 import 'package:meta/meta.dart';
 
+import '../../utils/node_utils.dart';
 import '../utils/iterable_extensions.dart';
 import '../utils/object_extensions.dart';
 import 'intl_base/intl_base_visitor.dart';

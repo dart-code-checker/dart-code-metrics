@@ -5,8 +5,9 @@ import 'package:analyzer/dart/ast/syntactic_entity.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/source/line_info.dart';
-import 'package:code_checker/checker.dart';
 import 'package:code_checker/rules.dart';
+
+import '../../utils/node_utils.dart';
 
 class PreferTrailingCommaForCollectionRule extends Rule {
   static const String ruleId = 'prefer-trailing-comma-for-collection';

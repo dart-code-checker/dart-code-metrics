@@ -3,8 +3,9 @@ import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
-import 'package:code_checker/checker.dart';
 import 'package:code_checker/rules.dart';
+
+import '../../utils/node_utils.dart';
 
 class AvoidPreserveWhitespaceFalseRule extends Rule {
   static const String ruleId = 'avoid-preserve-whitespace-false';
