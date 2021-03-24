@@ -3,8 +3,9 @@ import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/syntactic_entity.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
-import 'package:code_checker/checker.dart';
 import 'package:code_checker/rules.dart';
+
+import '../../utils/node_utils.dart';
 
 // Inspired by PVS-Studio (https://www.viva64.com/en/w/v6022/)
 

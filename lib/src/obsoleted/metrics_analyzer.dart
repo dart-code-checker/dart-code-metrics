@@ -6,13 +6,14 @@ import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/file_system/physical_file_system.dart';
-import 'package:code_checker/checker.dart';
+import 'package:code_checker/checker.dart' hide nodeLocation;
 import 'package:code_checker/metrics.dart';
 import 'package:code_checker/rules.dart';
 import 'package:glob/glob.dart';
 import 'package:path/path.dart' as p;
 
 import '../suppression.dart';
+import '../utils/node_utils.dart';
 import 'anti_patterns/base_pattern.dart';
 import 'anti_patterns_factory.dart';
 import 'config/analysis_options.dart' as metrics;
