@@ -12,10 +12,12 @@ Can be used as a command line tool, analyzer plugin or library.
 
 Reports:
 
-- Cyclomatic complexity of methods
+- [Cyclomatic Complexity](https://github.com/dart-code-checker/dart-code-metrics/blob/master/documentation/metrics/cyclomatic-complexity.md)
+- [Lines of Code](https://github.com/dart-code-checker/dart-code-metrics/blob/master/documentation/metrics/lines-of-code.md)
+- [Maximum Nesting](https://github.com/dart-code-checker/dart-code-metrics/blob/master/documentation/metrics/maximum-nesting-level.md)
+- [Number of Parameters](https://github.com/dart-code-checker/dart-code-metrics/blob/master/documentation/metrics/number-of-parameters.md)
+
 - [Lines of Executable Code](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/metrics/lines-of-executable-code.md)
-- [Maximum Nesting](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/metrics/maximum-nesting.md)
-- [Number of Arguments](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/metrics.md#number-of-arguments)
 - [Number of Methods](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/metrics.md#number-of-methods)
 
 Output formats:
