@@ -2,9 +2,9 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
-import 'package:code_checker/checker.dart';
 import 'package:path/path.dart' as path;
 
+import '../../../cli/arguments_validation_exceptions.dart';
 import 'arguments_parser.dart';
 
 /// Umbrella method to run all checks
