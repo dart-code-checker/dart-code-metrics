@@ -6,6 +6,8 @@ import 'package:quiver/iterables.dart' as quiver;
 import '../../metrics/maximum_nesting_level/maximum_nesting_level_metric.dart';
 import '../../metrics/number_of_methods_metric.dart';
 import '../../metrics/weight_of_class_metric.dart';
+import '../../models/entity_type.dart';
+import '../../models/metric_documentation.dart';
 import '../../models/metric_value.dart';
 import '../../models/metric_value_level.dart';
 import '../../models/report.dart';
@@ -148,6 +150,13 @@ class UtilitySelector {
     return metrics.FunctionReport(
       cyclomaticComplexity: MetricValue<int>(
         metricsId: '',
+        documentation: const MetricDocumentation(
+          name: '',
+          shortName: '',
+          brief: '',
+          measuredType: EntityType.classEntity,
+          examples: [],
+        ),
         value: cyclomaticComplexity.round(),
         level: valueLevel(
           cyclomaticComplexity.round(),
@@ -157,6 +166,13 @@ class UtilitySelector {
       ),
       linesOfExecutableCode: MetricValue<int>(
         metricsId: '',
+        documentation: const MetricDocumentation(
+          name: '',
+          shortName: '',
+          brief: '',
+          measuredType: EntityType.classEntity,
+          examples: [],
+        ),
         value: linesOfExecutableCode,
         level: valueLevel(
           linesOfExecutableCode,
@@ -166,12 +182,26 @@ class UtilitySelector {
       ),
       maintainabilityIndex: MetricValue<double>(
         metricsId: '',
+        documentation: const MetricDocumentation(
+          name: '',
+          shortName: '',
+          brief: '',
+          measuredType: EntityType.classEntity,
+          examples: [],
+        ),
         value: maintainabilityIndex,
         level: _maintainabilityIndexViolationLevel(maintainabilityIndex),
         comment: '',
       ),
       argumentsCount: MetricValue<int>(
         metricsId: '',
+        documentation: const MetricDocumentation(
+          name: '',
+          shortName: '',
+          brief: '',
+          measuredType: EntityType.classEntity,
+          examples: [],
+        ),
         value: function.argumentsCount,
         level: valueLevel(
           function.argumentsCount,

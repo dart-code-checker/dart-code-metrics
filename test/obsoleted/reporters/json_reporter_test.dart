@@ -3,7 +3,9 @@ import 'dart:convert';
 
 import 'package:dart_code_metrics/src/metrics/maximum_nesting_level/maximum_nesting_level_metric.dart';
 import 'package:dart_code_metrics/src/metrics/number_of_methods_metric.dart';
+import 'package:dart_code_metrics/src/models/entity_type.dart';
 import 'package:dart_code_metrics/src/models/issue.dart';
+import 'package:dart_code_metrics/src/models/metric_documentation.dart';
 import 'package:dart_code_metrics/src/models/metric_value.dart';
 import 'package:dart_code_metrics/src/models/metric_value_level.dart';
 import 'package:dart_code_metrics/src/models/replacement.dart';
@@ -42,6 +44,13 @@ void main() {
               'class': buildComponentRecordStub(metrics: const [
                 MetricValue<int>(
                   metricsId: NumberOfMethodsMetric.metricId,
+                  documentation: MetricDocumentation(
+                    name: '',
+                    shortName: '',
+                    brief: '',
+                    measuredType: EntityType.classEntity,
+                    examples: [],
+                  ),
                   value: 25,
                   level: MetricValueLevel.alarm,
                   comment: '',
@@ -50,6 +59,13 @@ void main() {
               'mixin': buildComponentRecordStub(metrics: const [
                 MetricValue<int>(
                   metricsId: NumberOfMethodsMetric.metricId,
+                  documentation: MetricDocumentation(
+                    name: '',
+                    shortName: '',
+                    brief: '',
+                    measuredType: EntityType.classEntity,
+                    examples: [],
+                  ),
                   value: 15,
                   level: MetricValueLevel.warning,
                   comment: '',
@@ -58,6 +74,13 @@ void main() {
               'extension': buildComponentRecordStub(metrics: const [
                 MetricValue<int>(
                   metricsId: NumberOfMethodsMetric.metricId,
+                  documentation: MetricDocumentation(
+                    name: '',
+                    shortName: '',
+                    brief: '',
+                    measuredType: EntityType.classEntity,
+                    examples: [],
+                  ),
                   value: 0,
                   level: MetricValueLevel.none,
                   comment: '',
@@ -71,6 +94,13 @@ void main() {
                 metrics: const [
                   MetricValue<int>(
                     metricsId: MaximumNestingLevelMetric.metricId,
+                    documentation: MetricDocumentation(
+                      name: '',
+                      shortName: '',
+                      brief: '',
+                      measuredType: EntityType.classEntity,
+                      examples: [],
+                    ),
                     value: 2,
                     level: MetricValueLevel.none,
                     comment: '',
@@ -82,6 +112,13 @@ void main() {
                 metrics: const [
                   MetricValue<int>(
                     metricsId: MaximumNestingLevelMetric.metricId,
+                    documentation: MetricDocumentation(
+                      name: '',
+                      shortName: '',
+                      brief: '',
+                      measuredType: EntityType.classEntity,
+                      examples: [],
+                    ),
                     value: 6,
                     level: MetricValueLevel.warning,
                     comment: '',
@@ -246,6 +283,13 @@ void main() {
               'class': buildComponentRecordStub(metrics: const [
                 MetricValue<int>(
                   metricsId: NumberOfMethodsMetric.metricId,
+                  documentation: MetricDocumentation(
+                    name: '',
+                    shortName: '',
+                    brief: '',
+                    measuredType: EntityType.classEntity,
+                    examples: [],
+                  ),
                   value: 0,
                   level: MetricValueLevel.none,
                   comment: '',
@@ -280,6 +324,13 @@ void main() {
               'class': buildComponentRecordStub(metrics: const [
                 MetricValue<int>(
                   metricsId: NumberOfMethodsMetric.metricId,
+                  documentation: MetricDocumentation(
+                    name: '',
+                    shortName: '',
+                    brief: '',
+                    measuredType: EntityType.classEntity,
+                    examples: [],
+                  ),
                   value: 20,
                   level: MetricValueLevel.warning,
                   comment: '',
@@ -430,6 +481,13 @@ void main() {
                 metrics: const [
                   MetricValue<int>(
                     metricsId: MaximumNestingLevelMetric.metricId,
+                    documentation: MetricDocumentation(
+                      name: '',
+                      shortName: '',
+                      brief: '',
+                      measuredType: EntityType.classEntity,
+                      examples: [],
+                    ),
                     value: 2,
                     level: MetricValueLevel.none,
                     comment: '',
@@ -466,6 +524,13 @@ void main() {
                 metrics: const [
                   MetricValue<int>(
                     metricsId: MaximumNestingLevelMetric.metricId,
+                    documentation: MetricDocumentation(
+                      name: '',
+                      shortName: '',
+                      brief: '',
+                      measuredType: EntityType.classEntity,
+                      examples: [],
+                    ),
                     value: 7,
                     level: MetricValueLevel.warning,
                     comment: '',

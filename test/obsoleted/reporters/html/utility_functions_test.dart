@@ -1,3 +1,5 @@
+import 'package:dart_code_metrics/src/models/entity_type.dart';
+import 'package:dart_code_metrics/src/models/metric_documentation.dart';
 @TestOn('vm')
 // ignore_for_file: prefer-trailing-comma
 import 'package:dart_code_metrics/src/models/metric_value.dart';
@@ -47,6 +49,13 @@ void main() {
           metricName,
           const MetricValue(
             metricsId: '',
+            documentation: MetricDocumentation(
+              name: '',
+              shortName: '',
+              brief: '',
+              measuredType: EntityType.classEntity,
+              examples: [],
+            ),
             value: 10,
             level: MetricValueLevel.warning,
             comment: '',
