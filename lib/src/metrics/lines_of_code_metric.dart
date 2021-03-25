@@ -23,7 +23,6 @@ const _documentation = MetricDocumentation(
 /// Simply counts the number of lines of code a method takes up in the source.
 /// This metric doesn't discount comments or blank lines.
 class LinesOfCodeMetric extends FunctionMetric<int> {
-  /// Id of this metric.
   static const String metricId = 'lines-of-code';
 
   /// Initialize a newly created [LinesOfCodeMetric] with passed [config].

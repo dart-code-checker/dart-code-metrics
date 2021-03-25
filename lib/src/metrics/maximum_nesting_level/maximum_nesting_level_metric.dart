@@ -27,7 +27,6 @@ const _documentation = MetricDocumentation(
 /// present in a method (function). Code with deep nesting level are often
 /// complex and tough to maintain.
 class MaximumNestingLevelMetric extends FunctionMetric<int> {
-  /// Id of this metric.
   static const String metricId = 'maximum-nesting-level';
 
   /// Initialize a newly created [MaximumNestingLevelMetric] with passed [config].
@@ -70,7 +69,7 @@ class MaximumNestingLevelMetric extends FunctionMetric<int> {
     ResolvedUnitResult source,
   ) =>
       nestingNodesChain.map((block) {
-        final message = _removeImpl(block.parent?.runtimeType?.toString() ?? '')
+        final message = userFriendlyType(block.parent?.runtimeType)
             .camelCaseToText()
             .capitalize();
 
@@ -80,12 +79,4 @@ class MaximumNestingLevelMetric extends FunctionMetric<int> {
         );
       }).toList()
         ..sort((a, b) => a.location.start.compareTo(b.location.start));
-
-  String _removeImpl(String typeName) {
-    const _impl = 'Impl';
-
-    return typeName.endsWith(_impl)
-        ? typeName.substring(0, typeName.length - _impl.length)
-        : typeName;
-  }
 }

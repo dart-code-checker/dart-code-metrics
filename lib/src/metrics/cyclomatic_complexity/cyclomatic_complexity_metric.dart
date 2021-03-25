@@ -28,7 +28,6 @@ const _documentation = MetricDocumentation(
 /// Cyclomatic complexity is a measure of the code's complexity achieved by
 /// measuring the number of linearly independent paths through a source code.
 class CyclomaticComplexityMetric extends FunctionMetric<int> {
-  /// Id of this metric.
   static const String metricId = 'cyclomatic-complexity';
 
   /// Initialize a newly created [CyclomaticComplexityMetric] with passed [config].
@@ -73,8 +72,7 @@ class CyclomaticComplexityMetric extends FunctionMetric<int> {
       complexityEntities.map((entity) {
         String message;
         if (entity is AstNode) {
-          message = _removeImpl(entity.runtimeType.toString() ?? '')
-              .camelCaseToText();
+          message = userFriendlyType(entity.runtimeType).camelCaseToText();
         } else if (entity is Token) {
           message = 'Operator ${entity.lexeme}';
         }
@@ -85,12 +83,4 @@ class CyclomaticComplexityMetric extends FunctionMetric<int> {
         );
       }).toList()
         ..sort((a, b) => a.location.start.compareTo(b.location.start));
-
-  String _removeImpl(String typeName) {
-    const _impl = 'Impl';
-
-    return typeName.endsWith(_impl)
-        ? typeName.substring(0, typeName.length - _impl.length)
-        : typeName;
-  }
 }

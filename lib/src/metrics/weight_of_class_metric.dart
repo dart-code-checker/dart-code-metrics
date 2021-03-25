@@ -26,7 +26,6 @@ const _documentation = MetricDocumentation(
 ///
 /// Number of **functional** public methods divided by the total number of public methods
 class WeightOfClassMetric extends ClassMetric<double> {
-  /// Id of this metric.
   static const String metricId = 'weight-of-class';
 
   /// Initialize a newly created [WeightOfClassMetric] with passed [config].

@@ -24,7 +24,6 @@ const _documentation = MetricDocumentation(
 ///
 /// The number of methods of a class
 class NumberOfMethodsMetric extends ClassMetric<int> {
-  /// Id of this metric.
   static const String metricId = 'number-of-methods';
 
   /// Initialize a newly created [NumberOfMethodsMetric] with passed [config].

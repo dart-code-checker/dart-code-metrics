@@ -21,7 +21,6 @@ const _documentation = MetricDocumentation(
 ///
 /// Simply counts the number of parameters received by a method.
 class NumberOfParametersMetric extends FunctionMetric<int> {
-  /// Id of this metric.
   static const String metricId = 'number-of-parameters';
 
   /// Initialize a newly created [NumberOfParametersMetric] with passed [config].
