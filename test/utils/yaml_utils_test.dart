@@ -23,7 +23,7 @@ void main() {
         configMap['code_checker'] as Map<String, Object>;
     expect(
       codeCheckerConfigMap.keys,
-      equals(['metrics', 'metrics-exclude', 'rules']),
+      containsAll(<String>['metrics', 'metrics-exclude', 'rules']),
     );
 
     final metricsCodeCheckerConfigMap =
