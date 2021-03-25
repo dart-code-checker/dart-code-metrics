@@ -1,15 +1,18 @@
-// ignore_for_file: public_member_api_docs, long-method, code-metrics
+// ignore_for_file: long-method, code-metrics
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
-import 'package:code_checker/rules.dart';
 import 'package:meta/meta.dart';
 
+import '../../models/issue.dart';
+import '../../models/severity.dart';
 import '../../utils/node_utils.dart';
+import '../../utils/rule_utils.dart';
 import '../utils/iterable_extensions.dart';
 import '../utils/object_extensions.dart';
 import 'intl_base/intl_base_visitor.dart';
+import 'obsolete_rule.dart';
 
-class ProvideCorrectIntlArgsRule extends Rule {
+class ProvideCorrectIntlArgsRule extends ObsoleteRule {
   static const String ruleId = 'provide-correct-intl-args';
   static const _documentationUrl = 'https://git.io/JJySX';
 
@@ -18,7 +21,7 @@ class ProvideCorrectIntlArgsRule extends Rule {
   ProvideCorrectIntlArgsRule({Map<String, Object> config = const {}})
       : super(
           id: ruleId,
-          documentation: Uri.parse(_documentationUrl),
+          documentationUrl: Uri.parse(_documentationUrl),
           severity: readSeverity(config, Severity.warning),
         );
 
@@ -37,14 +40,13 @@ class ProvideCorrectIntlArgsRule extends Rule {
 
     return visitor.issues
         .map((issue) => createIssue(
-              this,
-              nodeLocation(
+              rule: this,
+              location: nodeLocation(
                 node: issue.node,
                 source: source,
                 withCommentOrMetadata: true,
               ),
-              issue.nameFailure,
-              null,
+              message: issue.nameFailure,
             ))
         .toList();
   }

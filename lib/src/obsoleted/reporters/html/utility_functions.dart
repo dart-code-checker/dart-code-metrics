@@ -1,7 +1,7 @@
-// ignore_for_file: public_member_api_docs, prefer-trailing-comma
-import 'package:code_checker/metrics.dart';
+// ignore_for_file: prefer-trailing-comma
 import 'package:html/dom.dart';
 
+import '../../../models/metric_value.dart';
 import 'html_reporter.dart';
 
 const _violations = 'violations';

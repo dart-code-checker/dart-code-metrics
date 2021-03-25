@@ -1,9 +1,10 @@
-// ignore_for_file: public_member_api_docs, prefer-trailing-comma
+// ignore_for_file: prefer-trailing-comma
 import 'dart:io';
 import 'dart:isolate';
 
-import 'package:code_checker/checker.dart';
 import 'package:yaml/yaml.dart';
+
+import '../../utils/yaml_utils.dart';
 
 Future<Map<String, Object>> loadConfigFromYamlFile(File options) async {
   try {

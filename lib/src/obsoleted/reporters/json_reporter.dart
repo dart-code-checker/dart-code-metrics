@@ -1,10 +1,9 @@
-// ignore_for_file: public_member_api_docs
 import 'dart:convert';
 
-import 'package:code_checker/metrics.dart';
-import 'package:code_checker/rules.dart';
 import 'package:meta/meta.dart';
 
+import '../../models/issue.dart';
+import '../../models/metric_value.dart';
 import '../config/config.dart';
 import '../models/file_record.dart';
 import 'reporter.dart';

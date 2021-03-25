@@ -1,15 +1,17 @@
-// ignore_for_file: public_member_api_docs
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
-import 'package:code_checker/rules.dart';
 import 'package:meta/meta.dart';
 
+import '../../models/issue.dart';
+import '../../models/severity.dart';
 import '../../utils/node_utils.dart';
+import '../../utils/rule_utils.dart';
+import 'obsolete_rule.dart';
 
 // Inspired by TSLint (https://palantir.github.io/tslint/rules/member-ordering/)
 
-class MemberOrderingRule extends Rule {
+class MemberOrderingRule extends ObsoleteRule {
   static const ruleId = 'member-ordering';
   static const _documentationUrl = 'https://git.io/JJwqN';
 
@@ -24,7 +26,7 @@ class MemberOrderingRule extends Rule {
         _alphabetize = (config['alphabetize'] as bool) ?? false,
         super(
           id: ruleId,
-          documentation: Uri.parse(_documentationUrl),
+          documentationUrl: Uri.parse(_documentationUrl),
           severity: readSeverity(config, Severity.style),
         );
 
@@ -40,14 +42,14 @@ class MemberOrderingRule extends Rule {
     return [
       ...membersInfo.where((info) => info.memberOrder.isWrong).map(
             (info) => createIssue(
-              this,
-              nodeLocation(
+              rule: this,
+              location: nodeLocation(
                 node: info.classMember,
                 source: source,
                 withCommentOrMetadata: true,
               ),
-              '${info.memberOrder.memberGroup.name} $_warningMessage ${info.memberOrder.previousMemberGroup.name}',
-              null,
+              message:
+                  '${info.memberOrder.memberGroup.name} $_warningMessage ${info.memberOrder.previousMemberGroup.name}',
             ),
           ),
       if (_alphabetize)
@@ -55,14 +57,14 @@ class MemberOrderingRule extends Rule {
             .where((info) => info.memberOrder.isAlphabeticallyWrong)
             .map(
               (info) => createIssue(
-                this,
-                nodeLocation(
+                rule: this,
+                location: nodeLocation(
                   node: info.classMember,
                   source: source,
                   withCommentOrMetadata: true,
                 ),
-                '${info.memberOrder.memberNames.currentName} $_warningAlphabeticalMessage ${info.memberOrder.memberNames.previousName}',
-                null,
+                message:
+                    '${info.memberOrder.memberNames.currentName} $_warningAlphabeticalMessage ${info.memberOrder.memberNames.previousName}',
               ),
             ),
     ];

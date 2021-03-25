@@ -1,10 +1,17 @@
 @TestOn('vm')
 import 'dart:convert';
 
-import 'package:code_checker/checker.dart';
-import 'package:code_checker/metrics.dart';
-import 'package:code_checker/rules.dart';
-import 'package:dart_code_metrics/src/obsoleted/config/config.dart' as metric;
+import 'package:dart_code_metrics/src/metrics/maximum_nesting_level/maximum_nesting_level_metric.dart';
+import 'package:dart_code_metrics/src/metrics/number_of_methods_metric.dart';
+import 'package:dart_code_metrics/src/models/entity_type.dart';
+import 'package:dart_code_metrics/src/models/issue.dart';
+import 'package:dart_code_metrics/src/models/metric_documentation.dart';
+import 'package:dart_code_metrics/src/models/metric_value.dart';
+import 'package:dart_code_metrics/src/models/metric_value_level.dart';
+import 'package:dart_code_metrics/src/models/replacement.dart';
+import 'package:dart_code_metrics/src/models/report.dart';
+import 'package:dart_code_metrics/src/models/severity.dart';
+import 'package:dart_code_metrics/src/obsoleted/config/config.dart';
 import 'package:dart_code_metrics/src/obsoleted/models/file_record.dart';
 import 'package:dart_code_metrics/src/obsoleted/models/function_record.dart';
 import 'package:dart_code_metrics/src/obsoleted/reporters/code_climate/code_climate_reporter.dart';
@@ -23,7 +30,7 @@ void main() {
     CodeClimateReporter _reporter;
 
     setUp(() {
-      _reporter = CodeClimateReporter(reportConfig: const metric.Config());
+      _reporter = CodeClimateReporter(reportConfig: const Config());
     });
 
     test('empty file', () async {
@@ -158,6 +165,13 @@ void main() {
               'class': buildComponentRecordStub(metrics: const [
                 MetricValue<int>(
                   metricsId: NumberOfMethodsMetric.metricId,
+                  documentation: MetricDocumentation(
+                    name: '',
+                    shortName: '',
+                    brief: '',
+                    measuredType: EntityType.classEntity,
+                    examples: [],
+                  ),
                   value: 0,
                   level: MetricValueLevel.none,
                   comment: '',
@@ -182,6 +196,13 @@ void main() {
               'class': buildComponentRecordStub(metrics: const [
                 MetricValue<int>(
                   metricsId: NumberOfMethodsMetric.metricId,
+                  documentation: MetricDocumentation(
+                    name: '',
+                    shortName: '',
+                    brief: '',
+                    measuredType: EntityType.classEntity,
+                    examples: [],
+                  ),
                   value: 20,
                   level: MetricValueLevel.warning,
                   comment: '',
@@ -238,6 +259,13 @@ void main() {
                 metrics: const [
                   MetricValue<int>(
                     metricsId: MaximumNestingLevelMetric.metricId,
+                    documentation: MetricDocumentation(
+                      name: '',
+                      shortName: '',
+                      brief: '',
+                      measuredType: EntityType.classEntity,
+                      examples: [],
+                    ),
                     value: 3,
                     level: MetricValueLevel.none,
                     comment: '',
@@ -264,6 +292,13 @@ void main() {
                 metrics: const [
                   MetricValue<int>(
                     metricsId: MaximumNestingLevelMetric.metricId,
+                    documentation: MetricDocumentation(
+                      name: '',
+                      shortName: '',
+                      brief: '',
+                      measuredType: EntityType.classEntity,
+                      examples: [],
+                    ),
                     value: 7,
                     level: MetricValueLevel.warning,
                     comment: '',
@@ -316,7 +351,7 @@ void main() {
 
     setUp(() {
       _reporter = CodeClimateReporter(
-        reportConfig: const metric.Config(),
+        reportConfig: const Config(),
         gitlabCompatible: true,
       );
     });

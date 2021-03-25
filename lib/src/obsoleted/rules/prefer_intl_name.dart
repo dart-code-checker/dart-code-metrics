@@ -1,15 +1,18 @@
-// ignore_for_file: public_member_api_docs
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
-import 'package:code_checker/rules.dart';
 import 'package:meta/meta.dart';
 
+import '../../models/issue.dart';
+import '../../models/replacement.dart';
+import '../../models/severity.dart';
 import '../../utils/node_utils.dart';
+import '../../utils/rule_utils.dart';
 import '../utils/iterable_extensions.dart';
 import '../utils/object_extensions.dart';
 import 'intl_base/intl_base_visitor.dart';
+import 'obsolete_rule.dart';
 
-class PreferIntlNameRule extends Rule {
+class PreferIntlNameRule extends ObsoleteRule {
   static const String ruleId = 'prefer-intl-name';
   static const _documentationUrl = 'https://git.io/JJwmc';
 
@@ -21,7 +24,7 @@ class PreferIntlNameRule extends Rule {
   PreferIntlNameRule({Map<String, Object> config = const {}})
       : super(
           id: ruleId,
-          documentation: Uri.parse(_documentationUrl),
+          documentationUrl: Uri.parse(_documentationUrl),
           severity: readSeverity(config, Severity.warning),
         );
 
@@ -44,14 +47,14 @@ class PreferIntlNameRule extends Rule {
             "'${_NotCorrectNameIssue.getNewValue(issue.className, issue.variableName)}'";
 
         return createIssue(
-          this,
-          nodeLocation(
+          rule: this,
+          location: nodeLocation(
             node: issue.node,
             source: source,
             withCommentOrMetadata: true,
           ),
-          '$_notCorrectNameFailure $correction',
-          Replacement(
+          message: '$_notCorrectNameFailure $correction',
+          replacement: Replacement(
             comment: _notCorrectNameCorrectionComment,
             replacement: correction,
           ),
@@ -60,14 +63,13 @@ class PreferIntlNameRule extends Rule {
       ...visitor.issues
           .whereType<_NotExistNameIssue>()
           .map((issue) => createIssue(
-                this,
-                nodeLocation(
+                rule: this,
+                location: nodeLocation(
                   node: issue.node,
                   source: source,
                   withCommentOrMetadata: true,
                 ),
-                _notExistsNameFailure,
-                null,
+                message: _notExistsNameFailure,
               )),
     ];
   }

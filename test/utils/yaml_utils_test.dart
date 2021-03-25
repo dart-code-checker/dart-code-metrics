@@ -1,5 +1,5 @@
 @TestOn('vm')
-import 'package:code_checker/src/utils/yaml_utils.dart';
+import 'package:dart_code_metrics/src/utils/yaml_utils.dart';
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
 
@@ -23,7 +23,7 @@ void main() {
         configMap['code_checker'] as Map<String, Object>;
     expect(
       codeCheckerConfigMap.keys,
-      equals(['metrics', 'metrics-exclude', 'rules']),
+      containsAll(<String>['metrics', 'metrics-exclude', 'rules']),
     );
 
     final metricsCodeCheckerConfigMap =

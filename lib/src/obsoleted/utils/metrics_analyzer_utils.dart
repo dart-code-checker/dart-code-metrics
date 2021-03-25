@@ -1,6 +1,6 @@
-// ignore_for_file: public_member_api_docs
 import 'package:analyzer/dart/ast/ast.dart';
-import 'package:code_checker/checker.dart';
+
+import '../../models/scoped_function_declaration.dart';
 
 int getArgumentsCount(ScopedFunctionDeclaration dec) {
   final declaration = dec.declaration;

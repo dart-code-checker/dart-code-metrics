@@ -1,10 +1,10 @@
 @TestOn('vm')
 import 'package:analyzer/dart/ast/ast.dart';
-import 'package:code_checker/src/models/class_type.dart';
-import 'package:code_checker/src/models/function_type.dart';
-import 'package:code_checker/src/models/scoped_class_declaration.dart';
-import 'package:code_checker/src/models/scoped_function_declaration.dart';
-import 'package:code_checker/src/utils/scope_utils.dart';
+import 'package:dart_code_metrics/src/models/class_type.dart';
+import 'package:dart_code_metrics/src/models/function_type.dart';
+import 'package:dart_code_metrics/src/models/scoped_class_declaration.dart';
+import 'package:dart_code_metrics/src/models/scoped_function_declaration.dart';
+import 'package:dart_code_metrics/src/utils/scope_utils.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 

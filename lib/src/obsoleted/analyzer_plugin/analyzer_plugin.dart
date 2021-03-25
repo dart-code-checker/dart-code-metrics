@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, long-method
+// ignore_for_file: long-method
 import 'dart:async';
 
 import 'package:analyzer/dart/analysis/results.dart';
@@ -18,12 +18,15 @@ import 'package:analyzer/src/context/context_root.dart';
 import 'package:analyzer/src/dart/analysis/driver.dart';
 import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
-import 'package:code_checker/checker.dart' hide nodeLocation;
-import 'package:code_checker/metrics.dart';
 import 'package:source_span/source_span.dart';
 
+import '../../metrics/cyclomatic_complexity/cyclomatic_complexity_flow_visitor.dart';
+import '../../models/scoped_function_declaration.dart';
+import '../../scope_visitor.dart';
 import '../../suppression.dart';
+import '../../utils/metric_utils.dart';
 import '../../utils/node_utils.dart';
+import '../../utils/yaml_utils.dart';
 import '../anti_patterns_factory.dart';
 import '../config/analysis_options.dart';
 import '../models/function_record.dart';
@@ -356,12 +359,12 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     InternalResolvedUnitResult source,
     AnalyzerPluginConfig config,
   ) {
-    final controlFlowAstVisitor = CyclomaticComplexityFlowVisitor(source);
+    final controlFlowAstVisitor = CyclomaticComplexityFlowVisitor();
 
     function.declaration.visitChildren(controlFlowAstVisitor);
 
-    final cyclomaticLines = controlFlowAstVisitor.complexityElements
-        .map((element) => element.start.line)
+    final cyclomaticLines = controlFlowAstVisitor.complexityEntities
+        .map((entity) => nodeLocation(node: entity, source: source).start.line)
         .toSet();
 
     return UtilitySelector.functionReport(
@@ -375,8 +378,10 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
         cyclomaticComplexityLines: Map.fromEntries(cyclomaticLines.map(
           (lineIndex) => MapEntry(
             lineIndex,
-            controlFlowAstVisitor.complexityElements
-                .where((element) => element.start.line == lineIndex)
+            controlFlowAstVisitor.complexityEntities
+                .where((entity) =>
+                    nodeLocation(node: entity, source: source).start.line ==
+                    lineIndex)
                 .length,
           ),
         )),

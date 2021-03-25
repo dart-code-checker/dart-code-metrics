@@ -1,13 +1,13 @@
-// ignore_for_file: public_member_api_docs, long-method
+// ignore_for_file: long-method
 import 'dart:convert';
 import 'dart:io';
 import 'dart:isolate';
 
-import 'package:code_checker/metrics.dart';
 import 'package:html/dom.dart';
 import 'package:meta/meta.dart';
 import 'package:path/path.dart' as p;
 
+import '../../../models/metric_value_level.dart';
 import '../../config/config.dart';
 import '../../models/file_record.dart';
 import '../../models/file_report.dart';

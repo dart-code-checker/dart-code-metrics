@@ -1,6 +1,8 @@
+import 'package:dart_code_metrics/src/models/issue.dart';
+import 'package:dart_code_metrics/src/models/replacement.dart';
+import 'package:dart_code_metrics/src/models/report.dart';
+import 'package:dart_code_metrics/src/models/severity.dart';
 @TestOn('vm')
-import 'package:code_checker/checker.dart';
-import 'package:code_checker/rules.dart';
 import 'package:dart_code_metrics/src/obsoleted/models/file_record.dart';
 import 'package:dart_code_metrics/src/obsoleted/models/function_record.dart';
 import 'package:dart_code_metrics/src/obsoleted/reporters/github/github_reporter.dart';

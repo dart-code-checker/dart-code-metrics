@@ -1,6 +1,6 @@
-// ignore_for_file: public_member_api_docs, comment_references
-import 'package:code_checker/checker.dart';
-
+// ignore_for_file: comment_references
+import '../models/scoped_function_declaration.dart';
+import '../reports_builder.dart';
 import 'models/function_record.dart';
 
 /// [FileRecord] builder

@@ -1,6 +1,9 @@
+import 'package:dart_code_metrics/src/models/entity_type.dart';
+import 'package:dart_code_metrics/src/models/metric_documentation.dart';
 @TestOn('vm')
 // ignore_for_file: prefer-trailing-comma
-import 'package:code_checker/metrics.dart';
+import 'package:dart_code_metrics/src/models/metric_value.dart';
+import 'package:dart_code_metrics/src/models/metric_value_level.dart';
 import 'package:dart_code_metrics/src/obsoleted/models/file_report.dart';
 import 'package:dart_code_metrics/src/obsoleted/reporters/html/html_reporter.dart';
 import 'package:dart_code_metrics/src/obsoleted/reporters/html/utility_functions.dart';
@@ -46,6 +49,13 @@ void main() {
           metricName,
           const MetricValue(
             metricsId: '',
+            documentation: MetricDocumentation(
+              name: '',
+              shortName: '',
+              brief: '',
+              measuredType: EntityType.classEntity,
+              examples: [],
+            ),
             value: 10,
             level: MetricValueLevel.warning,
             comment: '',

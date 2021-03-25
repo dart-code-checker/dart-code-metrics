@@ -1,9 +1,9 @@
-// ignore_for_file: public_member_api_docs
-import 'package:code_checker/checker.dart';
-import 'package:code_checker/rules.dart';
 import 'package:meta/meta.dart';
 
-import '../config/config.dart' as metrics;
+import '../../models/function_type.dart';
+import '../../models/issue.dart';
+import '../../models/scoped_function_declaration.dart';
+import '../config/config.dart' as obsolete;
 import '../metrics/lines_of_executable_code/lines_of_executable_code_visitor.dart';
 import '../models/internal_resolved_unit_result.dart';
 import 'base_pattern.dart';
@@ -20,7 +20,7 @@ class LongMethod extends BasePattern {
   Iterable<Issue> check(
     InternalResolvedUnitResult source,
     Iterable<ScopedFunctionDeclaration> functions,
-    metrics.Config config,
+    obsolete.Config config,
   ) {
     final issues = <Issue>[];
 

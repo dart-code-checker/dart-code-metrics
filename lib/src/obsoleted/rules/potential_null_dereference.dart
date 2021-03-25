@@ -1,17 +1,19 @@
-// ignore_for_file: public_member_api_docs
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/syntactic_entity.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
-import 'package:code_checker/rules.dart';
 import 'package:meta/meta.dart';
 
+import '../../models/issue.dart';
+import '../../models/severity.dart';
 import '../../utils/node_utils.dart';
+import '../../utils/rule_utils.dart';
+import 'obsolete_rule.dart';
 
 // Inspired by PVS-Studio (https://www.viva64.com/en/w/v6008/)
 
-class PotentialNullDereference extends Rule {
+class PotentialNullDereference extends ObsoleteRule {
   static const String ruleId = 'potential-null-dereference';
   static const _documentationUrl = 'https://git.io/JUG51';
 
@@ -20,7 +22,7 @@ class PotentialNullDereference extends Rule {
   PotentialNullDereference({Map<String, Object> config = const {}})
       : super(
           id: ruleId,
-          documentation: Uri.parse(_documentationUrl),
+          documentationUrl: Uri.parse(_documentationUrl),
           severity: readSeverity(config, Severity.warning),
         );
 
@@ -33,14 +35,13 @@ class PotentialNullDereference extends Rule {
     return _visitor.issues
         .map(
           (issue) => createIssue(
-            this,
-            nodeLocation(
+            rule: this,
+            location: nodeLocation(
               node: issue.expression,
               source: source,
               withCommentOrMetadata: true,
             ),
-            '${issue.identifierName} $_warningMessage',
-            null,
+            message: '${issue.identifierName} $_warningMessage',
           ),
         )
         .toList(growable: false);

@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:analyzer/dart/analysis/utilities.dart';
-import 'package:code_checker/rules.dart';
+import 'package:dart_code_metrics/src/models/severity.dart';
 import 'package:dart_code_metrics/src/obsoleted/models/internal_resolved_unit_result.dart';
 import 'package:dart_code_metrics/src/obsoleted/rules/prefer_trailing_comma.dart';
 import 'package:test/test.dart';

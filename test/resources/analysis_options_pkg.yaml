@@ -1,0 +1,10 @@
+include: ./analysis_options_repo.yaml
+
+code_checker:
+  metrics:
+    metric-id1: 10
+  metrics-exclude:
+    - documentation/**
+  rules:
+    - rule-id1
+    - rule-id2

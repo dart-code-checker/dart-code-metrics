@@ -1,15 +1,18 @@
-// ignore_for_file: public_member_api_docs
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
-import 'package:code_checker/rules.dart';
 
+import '../../models/issue.dart';
+import '../../models/replacement.dart';
+import '../../models/severity.dart';
 import '../../utils/node_utils.dart';
+import '../../utils/rule_utils.dart';
+import 'obsolete_rule.dart';
 
 // Inspired by TSLint (https://palantir.github.io/tslint/rules/no-boolean-literal-compare/)
 
-class NoBooleanLiteralCompareRule extends Rule {
+class NoBooleanLiteralCompareRule extends ObsoleteRule {
   static const String ruleId = 'no-boolean-literal-compare';
   static const _documentationUrl = 'https://git.io/JJwmf';
 
@@ -30,7 +33,7 @@ class NoBooleanLiteralCompareRule extends Rule {
   NoBooleanLiteralCompareRule({Map<String, Object> config = const {}})
       : super(
           id: ruleId,
-          documentation: Uri.parse(_documentationUrl),
+          documentationUrl: Uri.parse(_documentationUrl),
           severity: readSeverity(config, Severity.style),
         );
 
@@ -45,14 +48,14 @@ class NoBooleanLiteralCompareRule extends Rule {
     for (final expression in _visitor.expressions) {
       if (_detectNullAwarePropertyCompareWithTrue(expression)) {
         issues.add(createIssue(
-          this,
-          nodeLocation(
+          rule: this,
+          location: nodeLocation(
             node: expression,
             source: source,
             withCommentOrMetadata: true,
           ),
-          _failureCompareNullAwarePropertyWithTrue,
-          Replacement(
+          message: _failureCompareNullAwarePropertyWithTrue,
+          replacement: Replacement(
             comment: _correctionCompareNullAwarePropertyWithTrue,
             replacement:
                 _nullAwarePropertyCompareWithTrueCorrection(expression),
@@ -81,14 +84,14 @@ class NoBooleanLiteralCompareRule extends Rule {
               booleanLiteralOperand == 'false');
 
       issues.add(createIssue(
-        this,
-        nodeLocation(
+        rule: this,
+        location: nodeLocation(
           node: expression,
           source: source,
           withCommentOrMetadata: true,
         ),
-        _failure,
-        Replacement(
+        message: _failure,
+        replacement: Replacement(
           comment: useDirect ? _useItDirectly : _negate,
           replacement: useDirect ? correction : '!$correction',
         ),

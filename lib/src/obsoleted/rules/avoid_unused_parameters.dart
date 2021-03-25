@@ -1,15 +1,17 @@
-// ignore_for_file: public_member_api_docs
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/syntactic_entity.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
-import 'package:code_checker/rules.dart';
 
+import '../../models/issue.dart';
+import '../../models/severity.dart';
 import '../../utils/node_utils.dart';
+import '../../utils/rule_utils.dart';
+import 'obsolete_rule.dart';
 
 // Inspired by PVS-Studio (https://www.viva64.com/en/w/v6022/)
 
-class AvoidUnusedParameters extends Rule {
+class AvoidUnusedParameters extends ObsoleteRule {
   static const String ruleId = 'avoid-unused-parameters';
   static const _documentationUrl = 'https://git.io/JL153';
 
@@ -21,7 +23,7 @@ class AvoidUnusedParameters extends Rule {
     Map<String, Object> config = const {},
   }) : super(
           id: ruleId,
-          documentation: Uri.parse(_documentationUrl),
+          documentationUrl: Uri.parse(_documentationUrl),
           severity: readSeverity(config, Severity.warning),
         );
 
@@ -34,26 +36,24 @@ class AvoidUnusedParameters extends Rule {
     return [
       ..._visitor.unusedParameters
           .map((parameter) => createIssue(
-                this,
-                nodeLocation(
+                rule: this,
+                location: nodeLocation(
                   node: parameter,
                   source: source,
                   withCommentOrMetadata: true,
                 ),
-                _warningMessage,
-                null,
+                message: _warningMessage,
               ))
           .toList(growable: false),
       ..._visitor.renameSuggestions
           .map((parameter) => createIssue(
-                this,
-                nodeLocation(
+                rule: this,
+                location: nodeLocation(
                   node: parameter,
                   source: source,
                   withCommentOrMetadata: true,
                 ),
-                _renameMessage,
-                null,
+                message: _renameMessage,
               ))
           .toList(),
     ];

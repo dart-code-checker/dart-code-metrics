@@ -1,6 +1,6 @@
-// ignore_for_file: public_member_api_docs
-import 'package:code_checker/metrics.dart';
 import 'package:meta/meta.dart';
+
+import '../../models/metric_value.dart';
 
 @immutable
 class FunctionReport {

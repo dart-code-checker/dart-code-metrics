@@ -1,13 +1,16 @@
-// ignore_for_file: public_member_api_docs
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
-import 'package:code_checker/rules.dart';
 import 'package:meta/meta.dart';
 
+import '../../models/issue.dart';
+import '../../models/replacement.dart';
+import '../../models/severity.dart';
 import '../../utils/node_utils.dart';
+import '../../utils/rule_utils.dart';
+import 'obsolete_rule.dart';
 
-class DoubleLiteralFormatRule extends Rule {
+class DoubleLiteralFormatRule extends ObsoleteRule {
   static const String ruleId = 'double-literal-format';
   static const _documentationUrl = 'https://git.io/Jf3MH';
 
@@ -26,7 +29,7 @@ class DoubleLiteralFormatRule extends Rule {
   DoubleLiteralFormatRule({Map<String, Object> config = const {}})
       : super(
           id: ruleId,
-          documentation: Uri.parse(_documentationUrl),
+          documentationUrl: Uri.parse(_documentationUrl),
           severity: readSeverity(config, Severity.style),
         );
 
@@ -43,30 +46,42 @@ class DoubleLiteralFormatRule extends Rule {
 
       if (detectLeadingZero(lexeme)) {
         issues.add(createIssue(
-          this,
-          nodeLocation(node: node, source: source, withCommentOrMetadata: true),
-          _failureLeadingZero,
-          Replacement(
+          rule: this,
+          location: nodeLocation(
+            node: node,
+            source: source,
+            withCommentOrMetadata: true,
+          ),
+          message: _failureLeadingZero,
+          replacement: Replacement(
             comment: _correctionCommentLeadingZero,
             replacement: leadingZeroCorrection(lexeme),
           ),
         ));
       } else if (detectLeadingDecimal(lexeme)) {
         issues.add(createIssue(
-          this,
-          nodeLocation(node: node, source: source, withCommentOrMetadata: true),
-          _failureLeadingDecimal,
-          Replacement(
+          rule: this,
+          location: nodeLocation(
+            node: node,
+            source: source,
+            withCommentOrMetadata: true,
+          ),
+          message: _failureLeadingDecimal,
+          replacement: Replacement(
             comment: _correctionCommentLeadingDecimal,
             replacement: leadingDecimalCorrection(lexeme),
           ),
         ));
       } else if (detectTrailingZero(lexeme)) {
         issues.add(createIssue(
-          this,
-          nodeLocation(node: node, source: source, withCommentOrMetadata: true),
-          _failureTrailingZero,
-          Replacement(
+          rule: this,
+          location: nodeLocation(
+            node: node,
+            source: source,
+            withCommentOrMetadata: true,
+          ),
+          message: _failureTrailingZero,
+          replacement: Replacement(
             comment: _correctionCommentTrailingZero,
             replacement: trailingZeroCorrection(lexeme),
           ),

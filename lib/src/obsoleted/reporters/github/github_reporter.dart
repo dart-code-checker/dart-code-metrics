@@ -1,5 +1,4 @@
-import 'package:code_checker/rules.dart';
-
+import '../../../models/severity.dart';
 import '../../models/file_record.dart';
 import '../reporter.dart';
 import 'github_workflow_commands.dart';

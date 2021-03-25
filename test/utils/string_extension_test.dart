@@ -1,5 +1,5 @@
 @TestOn('vm')
-import 'package:code_checker/src/utils/string_extension.dart';
+import 'package:dart_code_metrics/src/utils/string_extension.dart';
 import 'package:test/test.dart';
 
 void main() {

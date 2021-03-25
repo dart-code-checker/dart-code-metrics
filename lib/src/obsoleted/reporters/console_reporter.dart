@@ -1,9 +1,11 @@
-// ignore_for_file: public_member_api_docs, prefer-trailing-comma
+// ignore_for_file: prefer-trailing-comma
 import 'package:ansicolor/ansicolor.dart';
-import 'package:code_checker/metrics.dart';
-import 'package:code_checker/rules.dart';
 import 'package:meta/meta.dart';
 
+import '../../models/metric_value.dart';
+import '../../models/metric_value_level.dart';
+import '../../models/severity.dart';
+import '../../utils/metric_utils.dart';
 import '../config/config.dart';
 import '../models/file_record.dart';
 import '../reporters/reporter.dart';

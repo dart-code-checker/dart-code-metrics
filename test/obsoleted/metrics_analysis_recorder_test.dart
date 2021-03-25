@@ -1,7 +1,12 @@
 @TestOn('vm')
 import 'package:analyzer/dart/ast/ast.dart';
-import 'package:code_checker/checker.dart';
-import 'package:code_checker/rules.dart';
+import 'package:dart_code_metrics/src/models/class_type.dart';
+import 'package:dart_code_metrics/src/models/function_type.dart';
+import 'package:dart_code_metrics/src/models/issue.dart';
+import 'package:dart_code_metrics/src/models/replacement.dart';
+import 'package:dart_code_metrics/src/models/scoped_class_declaration.dart';
+import 'package:dart_code_metrics/src/models/scoped_function_declaration.dart';
+import 'package:dart_code_metrics/src/models/severity.dart';
 import 'package:dart_code_metrics/src/obsoleted/metrics_analysis_recorder.dart';
 import 'package:mockito/mockito.dart';
 import 'package:source_span/source_span.dart';

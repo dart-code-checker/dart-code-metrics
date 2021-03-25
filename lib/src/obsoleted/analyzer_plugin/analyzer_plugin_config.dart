@@ -1,8 +1,7 @@
-// ignore_for_file: public_member_api_docs
-import 'package:code_checker/rules.dart';
 import 'package:glob/glob.dart';
 import 'package:meta/meta.dart';
 
+import '../../rules/rule.dart';
 import '../anti_patterns/base_pattern.dart';
 import '../config/config.dart';
 
