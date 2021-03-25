@@ -35,6 +35,5 @@ executables:
 
 dependency_validator:
   ignore:
-    - code_checker
     - intl
     - http_multi_server
