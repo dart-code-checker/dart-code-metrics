@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:args/args.dart';
 import 'package:dart_code_metrics/metrics_analyzer.dart' as metrics;
 import 'package:dart_code_metrics/reporters.dart';
 import 'package:dart_code_metrics/src/cli/arguments_validation_exceptions.dart';
@@ -20,23 +21,7 @@ Future<void> main(List<String> args) async {
     }
 
     validateArguments(arguments);
-
-    await _runAnalysis(
-      arguments[rootFolderName] as String,
-      arguments.rest,
-      arguments[ignoredFilesName] as String,
-      int.tryParse(arguments[metrics.cyclomaticComplexityKey] as String ?? ''),
-      int.tryParse(arguments[metrics.linesOfExecutableCodeKey] as String ?? ''),
-      int.tryParse(arguments[metrics.numberOfArgumentsKey] as String ?? ''),
-      int.tryParse(arguments[metrics.numberOfMethodsKey] as String ?? ''),
-      int.tryParse(arguments[metrics.maximumNestingKey] as String ?? ''),
-      double.tryParse(arguments[metrics.weightOfClassKey] as String ?? ''),
-      arguments[reporterName] as String,
-      arguments[verboseName] as bool,
-      arguments[gitlabCompatibilityName] as bool,
-      arguments[reportFolder] as String,
-      MetricValueLevel.fromString(arguments[setExitOnViolationLevel] as String),
-    );
+    await _runAnalysis(arguments);
   } on FormatException catch (e) {
     print('${e.message}\n');
     _showUsageAndExit(1);
@@ -49,27 +34,31 @@ Future<void> main(List<String> args) async {
 void _showUsageAndExit(int exitCode) {
   print(usageHeader);
   print(_parser.usage);
+
   exit(exitCode);
 }
 
-Future<void> _runAnalysis(
-  String rootFolder,
-  Iterable<String> analysisDirectories,
-  String ignoreFilesPattern,
-  int cyclomaticComplexityThreshold,
-  int linesOfExecutableCodeThreshold,
-  int numberOfArgumentsWarningLevel,
-  int numberOfMethodsWarningLevel,
-  int maximumNestingWarningLevel,
-  double weightOfClassWarningLevel,
-  String reporterType,
-  bool verbose,
-  bool gitlab,
-  String reportOutputFolder,
-  MetricValueLevel setExitOnViolationLevel,
-) async {
+Future<void> _runAnalysis(ArgResults arguments) async {
+  final rootFolder = arguments[rootFolderName] as String;
+
   final analysisOptionsFile =
       File(p.absolute(rootFolder, metrics.analysisOptionsFileName));
+
+  final cyclomaticComplexityThreshold =
+      int.tryParse(arguments[metrics.cyclomaticComplexityKey] as String ?? '');
+  final linesOfExecutableCodeThreshold =
+      int.tryParse(arguments[metrics.linesOfExecutableCodeKey] as String ?? '');
+  final numberOfArgumentsWarningLevel =
+      int.tryParse(arguments[metrics.numberOfArgumentsKey] as String ?? '');
+  final numberOfMethodsWarningLevel =
+      int.tryParse(arguments[metrics.numberOfMethodsKey] as String ?? '');
+  final maximumNestingWarningLevel =
+      int.tryParse(arguments[metrics.maximumNestingKey] as String ?? '');
+  final weightOfClassWarningLevel =
+      double.tryParse(arguments[metrics.weightOfClassKey] as String ?? '');
+  final reporterType = arguments[reporterName] as String;
+  final exitOnViolationLevel =
+      MetricValueLevel.fromString(arguments[setExitOnViolationLevel] as String);
 
   final options = analysisOptionsFile.existsSync()
       ? await metrics.analysisOptionsFromFile(analysisOptionsFile)
@@ -86,12 +75,12 @@ Future<void> _runAnalysis(
   final analyzer = metrics.MetricsAnalyzer(
     store,
     options: options,
-    additionalExcludes: [ignoreFilesPattern],
+    additionalExcludes: [arguments[ignoredFilesName] as String],
   );
   final runner = metrics.MetricsAnalysisRunner(
     analyzer,
     store,
-    analysisDirectories,
+    arguments.rest,
     rootFolder,
   );
   await runner.run();
@@ -115,7 +104,10 @@ Future<void> _runAnalysis(
 
   switch (reporterType) {
     case 'console':
-      reporter = ConsoleReporter(reportConfig: config, reportAll: verbose);
+      reporter = ConsoleReporter(
+        reportConfig: config,
+        reportAll: arguments[verboseName] as bool,
+      );
       break;
     case 'github':
       reporter = GitHubReporter();
@@ -124,12 +116,16 @@ Future<void> _runAnalysis(
       reporter = JsonReporter(reportConfig: config);
       break;
     case 'html':
-      reporter =
-          HtmlReporter(reportConfig: config, reportFolder: reportOutputFolder);
+      reporter = HtmlReporter(
+        reportConfig: config,
+        reportFolder: arguments[reportFolder] as String,
+      );
       break;
     case 'codeclimate':
-      reporter =
-          CodeClimateReporter(reportConfig: config, gitlabCompatible: gitlab);
+      reporter = CodeClimateReporter(
+        reportConfig: config,
+        gitlabCompatible: arguments[gitlabCompatibilityName] as bool,
+      );
       break;
     default:
       throw ArgumentError.value(reporterType, 'reporter');
@@ -137,9 +133,9 @@ Future<void> _runAnalysis(
 
   (await reporter.report(runner.results())).forEach(print);
 
-  if (setExitOnViolationLevel != null &&
+  if (exitOnViolationLevel != null &&
       UtilitySelector.maxViolationLevel(runner.results(), config) >=
-          setExitOnViolationLevel) {
+          exitOnViolationLevel) {
     exit(2);
   }
 }
