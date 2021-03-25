@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, long-method, code-metrics
+// ignore_for_file: long-method, code-metrics
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:meta/meta.dart';

@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, long-method
+// ignore_for_file: long-method
 import 'dart:math';
 
 import 'package:quiver/iterables.dart' as quiver;

@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs
 import 'package:meta/meta.dart';
 import 'package:source_span/source_span.dart';
 
