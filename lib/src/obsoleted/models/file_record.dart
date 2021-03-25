@@ -1,8 +1,8 @@
 // ignore_for_file: public_member_api_docs
-import 'package:code_checker/checker.dart';
-import 'package:code_checker/rules.dart';
 import 'package:meta/meta.dart';
 
+import '../../models/issue.dart';
+import '../../models/report.dart';
 import 'function_record.dart';
 
 @immutable

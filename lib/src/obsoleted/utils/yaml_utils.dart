@@ -2,8 +2,9 @@
 import 'dart:io';
 import 'dart:isolate';
 
-import 'package:code_checker/checker.dart';
 import 'package:yaml/yaml.dart';
+
+import '../../utils/yaml_utils.dart';
 
 Future<Map<String, Object>> loadConfigFromYamlFile(File options) async {
   try {

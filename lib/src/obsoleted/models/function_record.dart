@@ -1,8 +1,9 @@
 // ignore_for_file: public_member_api_docs
-import 'package:code_checker/checker.dart';
-import 'package:code_checker/metrics.dart';
 import 'package:meta/meta.dart';
 import 'package:source_span/source_span.dart';
+
+import '../../models/metric_value.dart';
+import '../../models/report.dart';
 
 @immutable
 class FunctionRecord extends Report {

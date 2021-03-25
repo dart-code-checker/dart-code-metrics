@@ -1,8 +1,10 @@
 // ignore_for_file: comment_references, no-empty-block
-import 'package:code_checker/checker.dart';
-import 'package:code_checker/rules.dart';
 import 'package:path/path.dart' as p;
 
+import '../models/issue.dart';
+import '../models/report.dart';
+import '../models/scoped_class_declaration.dart';
+import '../models/scoped_function_declaration.dart';
 import 'metrics_records_builder.dart';
 import 'metrics_records_store.dart';
 import 'models/file_record.dart';

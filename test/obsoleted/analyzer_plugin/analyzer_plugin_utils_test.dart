@@ -1,7 +1,8 @@
 @TestOn('vm')
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart';
-import 'package:code_checker/rules.dart';
+import 'package:dart_code_metrics/src/models/issue.dart';
+import 'package:dart_code_metrics/src/models/severity.dart';
 import 'package:dart_code_metrics/src/obsoleted/analyzer_plugin/analyzer_plugin_utils.dart';
 import 'package:glob/glob.dart';
 import 'package:mockito/mockito.dart';

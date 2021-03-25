@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, prefer-trailing-comma, comment_references
+// ignore_for_file: prefer-trailing-comma, comment_references
 import 'package:meta/meta.dart';
 
 import 'metrics_analyzer.dart';

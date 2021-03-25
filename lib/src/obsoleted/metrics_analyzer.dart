@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, long-method, comment_references
+// ignore_for_file: long-method, comment_references
 import 'dart:io';
 
 import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
@@ -6,12 +6,18 @@ import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/file_system/physical_file_system.dart';
-import 'package:code_checker/checker.dart' hide nodeLocation;
-import 'package:code_checker/metrics.dart';
-import 'package:code_checker/rules.dart';
 import 'package:glob/glob.dart';
 import 'package:path/path.dart' as p;
 
+import '../metrics/cyclomatic_complexity/cyclomatic_complexity_flow_visitor.dart';
+import '../metrics/maximum_nesting_level/maximum_nesting_level_metric.dart';
+import '../metrics/number_of_methods_metric.dart';
+import '../metrics/weight_of_class_metric.dart';
+import '../models/issue.dart';
+import '../models/report.dart';
+import '../models/scoped_function_declaration.dart';
+import '../rules/rule.dart';
+import '../scope_visitor.dart';
 import '../suppression.dart';
 import '../utils/node_utils.dart';
 import 'anti_patterns/base_pattern.dart';
@@ -164,8 +170,7 @@ class MetricsAnalyzer {
           }
 
           for (final function in functions) {
-            final controlFlowAstVisitor =
-                CyclomaticComplexityFlowVisitor(source);
+            final controlFlowAstVisitor = CyclomaticComplexityFlowVisitor();
             final halsteadVolumeAstVisitor = HalsteadVolumeAstVisitor();
             final linesOfExecutableCodeVisitor =
                 LinesOfExecutableCodeVisitor(lineInfo);
@@ -174,8 +179,9 @@ class MetricsAnalyzer {
             function.declaration.visitChildren(halsteadVolumeAstVisitor);
             function.declaration.visitChildren(linesOfExecutableCodeVisitor);
 
-            final cyclomaticLines = controlFlowAstVisitor.complexityElements
-                .map((element) => element.start.line)
+            final cyclomaticLines = controlFlowAstVisitor.complexityEntities
+                .map((entity) =>
+                    nodeLocation(node: entity, source: source).start.line)
                 .toSet();
 
             builder.recordFunction(
@@ -200,8 +206,12 @@ class MetricsAnalyzer {
                 cyclomaticComplexityLines: Map.fromEntries(cyclomaticLines.map(
                   (lineIndex) => MapEntry(
                     lineIndex,
-                    controlFlowAstVisitor.complexityElements
-                        .where((element) => element.start.line == lineIndex)
+                    controlFlowAstVisitor.complexityEntities
+                        .where((entity) =>
+                            nodeLocation(node: entity, source: source)
+                                .start
+                                .line ==
+                            lineIndex)
                         .length,
                   ),
                 )),

@@ -1,8 +1,9 @@
 // ignore_for_file: public_member_api_docs, long-parameter-list
 import 'package:analyzer/dart/ast/ast.dart';
-import 'package:code_checker/rules.dart';
 import 'package:source_span/source_span.dart';
 
+import '../../models/issue.dart';
+import '../../models/severity.dart';
 import '../models/internal_resolved_unit_result.dart';
 import 'base_pattern.dart';
 

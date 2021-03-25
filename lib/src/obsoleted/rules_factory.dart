@@ -1,6 +1,4 @@
-// ignore_for_file: public_member_api_docs
-import 'package:code_checker/rules.dart';
-
+import '../rules/rule.dart';
 import 'rules/avoid_preserve_whitespace_false.dart';
 import 'rules/avoid_unused_parameters.dart';
 import 'rules/binary_expression_operand_order_rule.dart';

@@ -1,9 +1,14 @@
-import 'package:code_checker/checker.dart';
-import 'package:code_checker/metrics.dart';
+import 'package:dart_code_metrics/src/metrics/maximum_nesting_level/maximum_nesting_level_metric.dart';
+import 'package:dart_code_metrics/src/metrics/number_of_methods_metric.dart';
+import 'package:dart_code_metrics/src/metrics/weight_of_class_metric.dart';
+import 'package:dart_code_metrics/src/models/entity_type.dart';
+import 'package:dart_code_metrics/src/models/metric_documentation.dart';
+import 'package:dart_code_metrics/src/models/metric_value.dart';
+import 'package:dart_code_metrics/src/models/metric_value_level.dart';
+import 'package:dart_code_metrics/src/models/report.dart';
 import 'package:dart_code_metrics/src/obsoleted/models/component_report.dart';
 import 'package:dart_code_metrics/src/obsoleted/models/function_record.dart';
-import 'package:dart_code_metrics/src/obsoleted/models/function_report.dart'
-    as metrics;
+import 'package:dart_code_metrics/src/obsoleted/models/function_report.dart';
 import 'package:source_span/source_span.dart';
 
 Report buildComponentRecordStub({
@@ -13,12 +18,26 @@ Report buildComponentRecordStub({
   const defaultMetricValues = [
     MetricValue<int>(
       metricsId: NumberOfMethodsMetric.metricId,
+      documentation: MetricDocumentation(
+        name: 'metric1',
+        shortName: 'MTR1',
+        brief: '',
+        measuredType: EntityType.classEntity,
+        examples: [],
+      ),
       value: 0,
       level: MetricValueLevel.none,
       comment: '',
     ),
     MetricValue<double>(
       metricsId: WeightOfClassMetric.metricId,
+      documentation: MetricDocumentation(
+        name: 'metric2',
+        shortName: 'MTR2',
+        brief: '',
+        measuredType: EntityType.methodEntity,
+        examples: [],
+      ),
       value: 1,
       level: MetricValueLevel.none,
       comment: '',
@@ -43,6 +62,13 @@ FunctionRecord buildFunctionRecordStub({
 }) {
   const defaultMetricValue = MetricValue<int>(
     metricsId: MaximumNestingLevelMetric.metricId,
+    documentation: MetricDocumentation(
+      name: 'metric1',
+      shortName: 'MTR1',
+      brief: '',
+      measuredType: EntityType.methodEntity,
+      examples: [],
+    ),
     value: 0,
     level: MetricValueLevel.none,
     comment: '',
@@ -69,19 +95,33 @@ ComponentReport buildComponentReportStub({
     ComponentReport(
       methodsCount: MetricValue<int>(
         metricsId: '',
+        documentation: const MetricDocumentation(
+          name: 'metric1',
+          shortName: 'MTR1',
+          brief: '',
+          measuredType: EntityType.classEntity,
+          examples: [],
+        ),
         value: methodsCount,
         level: methodsCountViolationLevel,
         comment: '',
       ),
       weightOfClass: MetricValue<double>(
         metricsId: '',
+        documentation: const MetricDocumentation(
+          name: 'metric2',
+          shortName: 'MTR2',
+          brief: '',
+          measuredType: EntityType.classEntity,
+          examples: [],
+        ),
         value: weightOfClass,
         level: weightOfClassViolationLevel,
         comment: '',
       ),
     );
 
-metrics.FunctionReport buildFunctionReportStub({
+FunctionReport buildFunctionReportStub({
   int cyclomaticComplexity = 0,
   MetricValueLevel cyclomaticComplexityViolationLevel = MetricValueLevel.none,
   int linesOfExecutableCode = 0,
@@ -93,7 +133,7 @@ metrics.FunctionReport buildFunctionReportStub({
   int maximumNestingLevel = 0,
   MetricValueLevel maximumNestingLevelViolationLevel = MetricValueLevel.none,
 }) =>
-    metrics.FunctionReport(
+    FunctionReport(
       cyclomaticComplexity: MetricValue<int>(
         metricsId: '',
         value: cyclomaticComplexity,

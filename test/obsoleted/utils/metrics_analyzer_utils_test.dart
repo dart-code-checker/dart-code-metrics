@@ -1,7 +1,8 @@
 @TestOn('vm')
 // ignore_for_file: prefer-trailing-comma
 import 'package:analyzer/dart/ast/ast.dart';
-import 'package:code_checker/checker.dart';
+import 'package:dart_code_metrics/src/models/function_type.dart';
+import 'package:dart_code_metrics/src/models/scoped_function_declaration.dart';
 import 'package:dart_code_metrics/src/obsoleted/utils/metrics_analyzer_utils.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';

@@ -1,8 +1,9 @@
 // ignore_for_file: public_member_api_docs
-import 'package:code_checker/checker.dart';
-import 'package:code_checker/rules.dart';
 import 'package:meta/meta.dart';
 
+import '../../models/function_type.dart';
+import '../../models/issue.dart';
+import '../../models/scoped_function_declaration.dart';
 import '../config/config.dart' as metrics;
 import '../models/internal_resolved_unit_result.dart';
 import '../utils/metrics_analyzer_utils.dart';

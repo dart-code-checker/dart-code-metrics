@@ -95,7 +95,9 @@ Future<AnalysisOptions> analysisOptionsFromFile(File options) async =>
 
 Future<Map<String, Object>> _loadConfigFromYamlFile(File options) async {
   try {
-    final node = loadYamlNode(options?.readAsStringSync() ?? '');
+    final node = options != null && options.existsSync()
+        ? loadYamlNode(options?.readAsStringSync() ?? '')
+        : YamlMap();
 
     var optionsNode =
         node is YamlMap ? yamlMapToDartMap(node) : <String, Object>{};

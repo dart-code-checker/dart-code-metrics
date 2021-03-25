@@ -1,9 +1,9 @@
 // ignore_for_file: public_member_api_docs
 import 'dart:io';
 
-import 'package:code_checker/checker.dart';
 import 'package:meta/meta.dart';
 
+import '../../config/config.dart';
 import '../utils/object_extensions.dart';
 import '../utils/yaml_utils.dart';
 import 'config.dart' as metrics;
@@ -25,20 +25,20 @@ const _excludeKey = 'exclude';
 
 class AnalysisOptions extends Config {
   final metrics.Config metricsConfig;
-  final Map<String, Map<String, Object>> rules;
   final Map<String, Map<String, Object>> antiPatterns;
 
   const AnalysisOptions({
     @required Iterable<String> excludePatterns,
     @required Iterable<String> excludeForMetricsPatterns,
     @required Map<String, Object> metrics,
+    @required Map<String, Map<String, Object>> rules,
     @required this.metricsConfig,
-    @required this.rules,
     @required this.antiPatterns,
   }) : super(
           excludePatterns: excludePatterns,
           excludeForMetricsPatterns: excludeForMetricsPatterns,
           metrics: metrics,
+          rules: rules,
         );
 
   factory AnalysisOptions.fromMap(Map<String, Object> map) {

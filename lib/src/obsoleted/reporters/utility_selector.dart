@@ -1,10 +1,15 @@
 // ignore_for_file: public_member_api_docs, long-method
 import 'dart:math';
 
-import 'package:code_checker/checker.dart';
-import 'package:code_checker/metrics.dart';
 import 'package:quiver/iterables.dart' as quiver;
 
+import '../../metrics/maximum_nesting_level/maximum_nesting_level_metric.dart';
+import '../../metrics/number_of_methods_metric.dart';
+import '../../metrics/weight_of_class_metric.dart';
+import '../../models/metric_value.dart';
+import '../../models/metric_value_level.dart';
+import '../../models/report.dart';
+import '../../utils/metric_utils.dart';
 import '../config/config.dart' as metrics;
 import '../models/component_report.dart';
 import '../models/file_record.dart';

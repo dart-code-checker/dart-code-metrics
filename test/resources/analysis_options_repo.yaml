@@ -1,0 +1,20 @@
+include: ./analysis_options_common.yaml
+
+analyzer:
+  plugins:
+    - code_checker
+
+code_checker:
+  metrics:
+    metric-id1: 20
+    metric-id2: 30
+    metric-id3: 4
+  rules:
+    rule-id3:
+        alphabetize: true
+        order:
+          - first
+          - third
+          - second
+    rule-id4 : true
+    rule-id5 : false

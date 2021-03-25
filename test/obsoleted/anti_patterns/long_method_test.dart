@@ -2,10 +2,10 @@
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/ast/ast.dart';
-import 'package:code_checker/checker.dart';
 import 'package:dart_code_metrics/src/obsoleted/config/config.dart' as metrics;
 import 'package:dart_code_metrics/src/obsoleted/anti_patterns/long_method.dart';
 import 'package:dart_code_metrics/src/obsoleted/models/internal_resolved_unit_result.dart';
+import 'package:dart_code_metrics/src/scope_visitor.dart';
 import 'package:test/test.dart';
 
 const _content = '''

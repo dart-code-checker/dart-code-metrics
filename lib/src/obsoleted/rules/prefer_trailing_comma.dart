@@ -5,11 +5,15 @@ import 'package:analyzer/dart/ast/syntactic_entity.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/source/line_info.dart';
-import 'package:code_checker/rules.dart';
 
+import '../../models/issue.dart';
+import '../../models/replacement.dart';
+import '../../models/severity.dart';
 import '../../utils/node_utils.dart';
+import '../../utils/rule_utils.dart';
+import 'obsolete_rule.dart';
 
-class PreferTrailingComma extends Rule {
+class PreferTrailingComma extends ObsoleteRule {
   static const String ruleId = 'prefer-trailing-comma';
   static const _documentationUrl = 'https://git.io/Jkemi';
 
@@ -22,7 +26,7 @@ class PreferTrailingComma extends Rule {
       : _itemsBreakpoint = _parseItemsBreakpoint(config),
         super(
           id: ruleId,
-          documentation: Uri.parse(_documentationUrl),
+          documentationUrl: Uri.parse(_documentationUrl),
           severity: readSeverity(config, Severity.warning),
         );
 
@@ -35,14 +39,14 @@ class PreferTrailingComma extends Rule {
     return visitor.nodes
         .map(
           (node) => createIssue(
-            this,
-            nodeLocation(
+            rule: this,
+            location: nodeLocation(
               node: node,
               source: source,
               withCommentOrMetadata: true,
             ),
-            _warningMessage,
-            Replacement(
+            message: _warningMessage,
+            replacement: Replacement(
               comment: _correctionMessage,
               replacement:
                   '${source.content.substring(node.offset, node.end)},',

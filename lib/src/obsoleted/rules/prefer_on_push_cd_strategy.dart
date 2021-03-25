@@ -2,11 +2,14 @@
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
-import 'package:code_checker/rules.dart';
 
+import '../../models/issue.dart';
+import '../../models/severity.dart';
 import '../../utils/node_utils.dart';
+import '../../utils/rule_utils.dart';
+import 'obsolete_rule.dart';
 
-class PreferOnPushCdStrategyRule extends Rule {
+class PreferOnPushCdStrategyRule extends ObsoleteRule {
   static const String ruleId = 'prefer-on-push-cd-strategy';
   static const _documentationUrl = 'https://git.io/JJwmB';
 
@@ -15,7 +18,7 @@ class PreferOnPushCdStrategyRule extends Rule {
   PreferOnPushCdStrategyRule({Map<String, Object> config = const {}})
       : super(
           id: ruleId,
-          documentation: Uri.parse(_documentationUrl),
+          documentationUrl: Uri.parse(_documentationUrl),
           severity: readSeverity(config, Severity.warning),
         );
 
@@ -27,14 +30,13 @@ class PreferOnPushCdStrategyRule extends Rule {
 
     return visitor.expression
         .map((expression) => createIssue(
-              this,
-              nodeLocation(
+              rule: this,
+              location: nodeLocation(
                 node: expression,
                 source: source,
                 withCommentOrMetadata: true,
               ),
-              _failure,
-              null,
+              message: _failure,
             ))
         .toList(growable: false);
   }

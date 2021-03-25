@@ -1,10 +1,11 @@
 // ignore_for_file: public_member_api_docs
 import 'dart:convert';
 
-import 'package:code_checker/rules.dart';
 import 'package:crypto/crypto.dart';
 import 'package:meta/meta.dart';
 
+import '../../../models/issue.dart';
+import '../../../models/severity.dart';
 import '../../models/function_record.dart';
 
 @immutable
