@@ -1,3 +1,5 @@
+// ignore_for_file: no-empty-block
+
 class SimpleClass {
   String _value1;
   int _value2;

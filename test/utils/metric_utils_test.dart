@@ -3,6 +3,8 @@ import 'package:dart_code_metrics/src/models/metric_value_level.dart';
 import 'package:dart_code_metrics/src/utils/metric_utils.dart';
 import 'package:test/test.dart';
 
+class ExampleImpl {}
+
 void main() {
   group('Metric utils', () {
     const metricId1 = 'metric-id-1';
@@ -89,6 +91,18 @@ void main() {
         MetricValueLevel.alarm: isTrue,
       }.forEach((key, value) {
         expect(isReportLevel(key), value);
+      });
+    });
+
+    test(
+        'userFriendlyType user friendly string representations of provided type',
+        () {
+      <Type, Matcher>{
+        null: equals(''),
+        ''.runtimeType: equals('String'),
+        ExampleImpl().runtimeType: equals('Example'),
+      }.forEach((key, value) {
+        expect(userFriendlyType(key), value);
       });
     });
   });

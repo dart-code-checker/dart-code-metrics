@@ -61,3 +61,14 @@ MetricValueLevel invertValueLevel(num value, num warningLevel) {
 /// Determines if the [level] warns about need to be a report about a metric value
 bool isReportLevel(MetricValueLevel level) =>
     level == MetricValueLevel.warning || level == MetricValueLevel.alarm;
+
+/// Returns user friendly string representations of [type].
+String userFriendlyType(Type type) {
+  const _impl = 'Impl';
+
+  final typeName = type?.toString() ?? '';
+
+  return typeName.endsWith(_impl)
+      ? typeName.substring(0, typeName.length - _impl.length)
+      : typeName;
+}

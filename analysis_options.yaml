@@ -129,7 +129,7 @@ linter:
     - prefer_typing_uninitialized_variables
     - prefer_void_to_null
     - provide_deprecation_message
-    - public_member_api_docs
+    #    - public_member_api_docs
     - sized_box_for_whitespace
     - sort_child_properties_last
     #    - sort_constructors_first

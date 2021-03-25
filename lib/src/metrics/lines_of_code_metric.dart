@@ -1,0 +1,64 @@
+import 'package:analyzer/dart/analysis/results.dart';
+import 'package:analyzer/dart/ast/ast.dart';
+
+import '../models/entity_type.dart';
+import '../models/metric_documentation.dart';
+import '../models/scoped_class_declaration.dart';
+import '../models/scoped_function_declaration.dart';
+import '../utils/metric_utils.dart';
+import 'function_metric.dart';
+import 'metric_computation_result.dart';
+
+const _documentation = MetricDocumentation(
+  name: 'Lines of Code',
+  shortName: 'LOC',
+  brief:
+      'The number of lines of code of a method, including blank lines and comments',
+  measuredType: EntityType.methodEntity,
+  examples: [],
+);
+
+/// Lines of Code (LOC)
+///
+/// Simply counts the number of lines of code a method takes up in the source.
+/// This metric doesn't discount comments or blank lines.
+class LinesOfCodeMetric extends FunctionMetric<int> {
+  static const String metricId = 'lines-of-code';
+
+  /// Initialize a newly created [LinesOfCodeMetric] with passed [config].
+  LinesOfCodeMetric({Map<String, Object> config = const {}})
+      : super(
+          id: metricId,
+          documentation: _documentation,
+          threshold: readThreshold<int>(config, metricId, 100),
+          levelComputer: valueLevel,
+        );
+
+  @override
+  MetricComputationResult<int> computeImplementation(
+    Declaration node,
+    Iterable<ScopedClassDeclaration> classDeclarations,
+    Iterable<ScopedFunctionDeclaration> functionDeclarations,
+    ResolvedUnitResult source,
+  ) =>
+      MetricComputationResult(
+        value: 1 +
+            source.lineInfo.getLocation(node.endToken.offset).lineNumber -
+            source.lineInfo.getLocation(node.beginToken.offset).lineNumber,
+      );
+
+  @override
+  String commentMessage(String nodeType, int value, int threshold) {
+    final exceeds =
+        value > threshold ? ', exceeds the maximum of $threshold allowed' : '';
+    final lines = '$value ${value == 1 ? 'line' : 'lines'} of code';
+
+    return 'This $nodeType has $lines$exceeds.';
+  }
+
+  @override
+  String recommendationMessage(String nodeType, int value, int threshold) =>
+      (value > threshold)
+          ? 'Consider breaking this $nodeType up into smaller parts.'
+          : null;
+}
