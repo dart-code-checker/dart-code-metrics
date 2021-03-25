@@ -266,13 +266,12 @@ void main() {
         equals(['test/**', 'documentation/**']),
       );
 
-      expect(options.rules.keys, hasLength(4));
+      expect(options.rules.keys, hasLength(3));
       expect(
         options.rules.keys,
         containsAll(<String>[
           'no-empty-block',
           'no-boolean-literal-compare',
-          'prefer-trailing-comma-for-collection',
           'member-ordering',
         ]),
       );

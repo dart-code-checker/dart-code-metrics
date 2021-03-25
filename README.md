@@ -147,7 +147,6 @@ Right now auto-fixes are available through an IDE context menu (ex. VS Code Quic
 - [no-object-declaration](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/no_object_declaration.md)
 - [potential-null-dereference](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/potential_null_dereference.md)
 - [prefer-conditional-expressions](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/prefer_conditional_expressions.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
-- [prefer-trailing-comma-for-collection](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/prefer_trailing_comma_for_collection.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 - [prefer-trailing-comma](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/prefer_trailing_comma.md) &nbsp; ![Configurable](https://img.shields.io/badge/-configurable-informational) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 
 ### Intl specific
