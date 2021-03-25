@@ -8,6 +8,8 @@ on:
 
 jobs:
   build-dart-latest:
+    name: Build on latest stable dart version.
+
     runs-on: ubuntu-latest
 
     container:
@@ -44,6 +46,8 @@ jobs:
           bash <(curl -s https://codecov.io/bash) -f coverage/coverage.lcov
 
   build-dart-2-9:
+    name: Build on minimal supported dart version.
+
     runs-on: ubuntu-latest
 
     container:
@@ -59,6 +63,8 @@ jobs:
         run: pub run test
 
   build-dart-dev:
+    name: Build on latest dev dart version.
+
     runs-on: ubuntu-latest
 
     container:
@@ -74,6 +80,8 @@ jobs:
         run: dart test
 
   package-analysis:
+    name: Compute the package score on pub.dev site.
+
     runs-on: ubuntu-latest
 
     steps:
