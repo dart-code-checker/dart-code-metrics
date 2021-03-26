@@ -8,7 +8,6 @@ void main() {
     expect(
       getRulesById({
         'provide-correct-intl-args': <String, Object>{},
-        'prefer-trailing-comma-for-collection': <String, Object>{},
         'no-empty-block': <String, Object>{},
         'binary-expression-operand-order': <String, Object>{},
         'no-magic-number': <String, Object>{},
@@ -46,7 +45,6 @@ void main() {
         'prefer-intl-name',
         'prefer-on-push-cd-strategy',
         'prefer-trailing-comma',
-        'prefer-trailing-comma-for-collection',
         'provide-correct-intl-args',
       ]),
     );

@@ -2,10 +2,11 @@
 
 [![Build Status](https://github.com/dart-code-checker/dart-code-metrics/workflows/build/badge.svg)](https://github.com/dart-code-checker/dart-code-metrics/)
 [![Coverage Status](https://codecov.io/gh/dart-code-checker/dart-code-metrics/branch/master/graph/badge.svg?branch=master)](https://codecov.io/gh/dart-code-checker/dart-code-metrics)
-[![License](https://badgen.net/pub/license/dart_code_metrics)](https://github.com/dart-code-checker/dart-code-metrics/blob/master/LICENSE)
+[![License](https://badgen.net/pub/license/dart_code_metrics)](https://pub.dev/packages/dart_code_metrics/license)
 [![Pub Version](https://badgen.net/pub/v/dart_code_metrics)](https://pub.dev/packages/dart_code_metrics/)
-![Dart SDK Verison](https://badgen.net/pub/sdk-version/dart_code_metrics)
-![Dart Platform](https://badgen.net/pub/dart-platform/dart_code_metrics)
+[![Dart SDK Version](https://badgen.net/pub/sdk-version/dart_code_metrics)](https://pub.dev/packages/dart_code_metrics/)
+[![Pub points](https://badgen.net/pub/points/dart_code_metrics)](https://pub.dev/packages/dart_code_metrics/score)
+[![Pub popularity](https://badgen.net/pub/popularity/dart_code_metrics)](https://pub.dev/packages/dart_code_metrics/score)
 
 Dart code metrics is a static analysis tool that helps improve code quality. It analyzes code metrics and provides [additional rules](https://github.com/dart-code-checker/dart-code-metrics#rules) for dart analyzer.
 Can be used as a command line tool, analyzer plugin or library.
@@ -16,9 +17,10 @@ Reports:
 - [Lines of Code](https://github.com/dart-code-checker/dart-code-metrics/blob/master/documentation/metrics/lines-of-code.md)
 - [Maximum Nesting](https://github.com/dart-code-checker/dart-code-metrics/blob/master/documentation/metrics/maximum-nesting-level.md)
 - [Number of Parameters](https://github.com/dart-code-checker/dart-code-metrics/blob/master/documentation/metrics/number-of-parameters.md)
+- [Number of Methods](https://github.com/dart-code-checker/dart-code-metrics/blob/master/documentation/metrics/number-of-methods.md)
+- [Weight Of a Class](https://github.com/dart-code-checker/dart-code-metrics/blob/master/documentation/metrics/weight-of-class.md)
 
 - [Lines of Executable Code](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/metrics/lines-of-executable-code.md)
-- [Number of Methods](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/metrics.md#number-of-methods)
 
 Output formats:
 
@@ -147,7 +149,6 @@ Right now auto-fixes are available through an IDE context menu (ex. VS Code Quic
 - [no-object-declaration](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/no_object_declaration.md)
 - [potential-null-dereference](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/potential_null_dereference.md)
 - [prefer-conditional-expressions](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/prefer_conditional_expressions.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
-- [prefer-trailing-comma-for-collection](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/prefer_trailing_comma_for_collection.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 - [prefer-trailing-comma](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/prefer_trailing_comma.md) &nbsp; ![Configurable](https://img.shields.io/badge/-configurable-informational) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 
 ### Intl specific
