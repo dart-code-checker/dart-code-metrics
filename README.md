@@ -2,10 +2,11 @@
 
 [![Build Status](https://github.com/dart-code-checker/dart-code-metrics/workflows/build/badge.svg)](https://github.com/dart-code-checker/dart-code-metrics/)
 [![Coverage Status](https://codecov.io/gh/dart-code-checker/dart-code-metrics/branch/master/graph/badge.svg?branch=master)](https://codecov.io/gh/dart-code-checker/dart-code-metrics)
-[![License](https://badgen.net/pub/license/dart_code_metrics)](https://github.com/dart-code-checker/dart-code-metrics/blob/master/LICENSE)
+[![License](https://badgen.net/pub/license/dart_code_metrics)](https://pub.dev/packages/dart_code_metrics/license)
 [![Pub Version](https://badgen.net/pub/v/dart_code_metrics)](https://pub.dev/packages/dart_code_metrics/)
-![Dart SDK Version](https://badgen.net/pub/sdk-version/dart_code_metrics)
-![Dart Platform](https://badgen.net/pub/dart-platform/dart_code_metrics)
+[![Dart SDK Version](https://badgen.net/pub/sdk-version/dart_code_metrics)](https://pub.dev/packages/dart_code_metrics/)
+[![Pub points](https://badgen.net/pub/points/dart_code_metrics)](https://pub.dev/packages/dart_code_metrics/score)
+[![Pub popularity](https://badgen.net/pub/popularity/dart_code_metrics)](https://pub.dev/packages/dart_code_metrics/score)
 
 Dart code metrics is a static analysis tool that helps improve code quality. It analyzes code metrics and provides [additional rules](https://github.com/dart-code-checker/dart-code-metrics#rules) for dart analyzer.
 Can be used as a command line tool, analyzer plugin or library.
