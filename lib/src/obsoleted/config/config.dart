@@ -3,9 +3,9 @@ import 'package:meta/meta.dart';
 
 const cyclomaticComplexityKey = 'cyclomatic-complexity';
 const linesOfExecutableCodeKey = 'lines-of-executable-code';
-const numberOfArgumentsKey = 'number-of-arguments';
+const numberOfArgumentsKey = 'number-of-parameters';
 const numberOfMethodsKey = 'number-of-methods';
-const maximumNestingKey = 'maximum-nesting';
+const maximumNestingKey = 'maximum-nesting-level';
 const weightOfClassKey = 'weight-of-class';
 
 const cyclomaticComplexityDefaultWarningLevel = 20;

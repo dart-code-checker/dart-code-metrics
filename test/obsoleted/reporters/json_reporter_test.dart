@@ -135,12 +135,12 @@ void main() {
                 as List<Object>)
             .first as Map<String, Object>;
 
-        expect(report, containsPair('average-number-of-arguments', 5));
-        expect(report, containsPair('total-number-of-arguments-violations', 2));
+        expect(report, containsPair('average-number-of-parameters', 5));
+        expect(report, containsPair('total-number-of-parameters-violations', 2));
         expect(report, containsPair('average-number-of-methods', 13));
         expect(report, containsPair('total-number-of-methods-violations', 2));
-        expect(report, containsPair('average-maximum-nesting', 3));
-        expect(report, containsPair('total-maximum-nesting-violations', 1));
+        expect(report, containsPair('average-maximum-nesting-level', 3));
+        expect(report, containsPair('total-maximum-nesting-level-violations', 1));
       });
 
       test('with design issues', () async {
@@ -436,10 +436,10 @@ void main() {
         final functionReport = (report['records']
             as Map<String, Object>)['function'] as Map<String, Object>;
 
-        expect(functionReport, containsPair('number-of-arguments', 0));
+        expect(functionReport, containsPair('number-of-parameters', 0));
         expect(
           functionReport,
-          containsPair('number-of-arguments-violation-level', 'none'),
+          containsPair('number-of-parameters-violation-level', 'none'),
         );
       });
 
@@ -463,10 +463,10 @@ void main() {
         final functionReport = (report['records']
             as Map<String, Object>)['function'] as Map<String, Object>;
 
-        expect(functionReport, containsPair('number-of-arguments', 10));
+        expect(functionReport, containsPair('number-of-parameters', 10));
         expect(
           functionReport,
-          containsPair('number-of-arguments-violation-level', 'alarm'),
+          containsPair('number-of-parameters-violation-level', 'alarm'),
         );
       });
 
@@ -506,10 +506,10 @@ void main() {
         final functionReport = (report['records']
             as Map<String, Object>)['function'] as Map<String, Object>;
 
-        expect(functionReport, containsPair('maximum-nesting', 2));
+        expect(functionReport, containsPair('maximum-nesting-level', 2));
         expect(
           functionReport,
-          containsPair('maximum-nesting-violation-level', 'none'),
+          containsPair('maximum-nesting-level-violation-level', 'none'),
         );
       });
 
@@ -549,10 +549,10 @@ void main() {
         final functionReport = (report['records']
             as Map<String, Object>)['function'] as Map<String, Object>;
 
-        expect(functionReport, containsPair('maximum-nesting', 7));
+        expect(functionReport, containsPair('maximum-nesting-level', 7));
         expect(
           functionReport,
-          containsPair('maximum-nesting-violation-level', 'warning'),
+          containsPair('maximum-nesting-level-violation-level', 'warning'),
         );
       });
     });
