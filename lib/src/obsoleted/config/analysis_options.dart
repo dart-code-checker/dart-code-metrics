@@ -79,8 +79,8 @@ metrics.Config _readMetricsConfig(Map<String, Object> configMap) {
         linesOfExecutableCodeWarningLevel:
             configMap[metrics.linesOfExecutableCodeKey]
                 .as<int>(metrics.linesOfExecutableCodeDefaultWarningLevel),
-        numberOfArgumentsWarningLevel: configMap[metrics.numberOfArgumentsKey]
-            .as<int>(metrics.numberOfArgumentsDefaultWarningLevel),
+        numberOfArgumentsWarningLevel: configMap[metrics.numberOfParametersKey]
+            .as<int>(metrics.numberOfParametersDefaultWarningLevel),
         numberOfMethodsWarningLevel: configMap[metrics.numberOfMethodsKey]
             .as<int>(metrics.numberOfMethodsDefaultWarningLevel),
         maximumNestingWarningLevel: configMap[metrics.maximumNestingKey]

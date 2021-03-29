@@ -49,7 +49,7 @@ Future<void> _runAnalysis(ArgResults arguments) async {
   final linesOfExecutableCodeThreshold =
       int.tryParse(arguments[metrics.linesOfExecutableCodeKey] as String ?? '');
   final numberOfArgumentsWarningLevel =
-      int.tryParse(arguments[metrics.numberOfArgumentsKey] as String ?? '');
+      int.tryParse(arguments[metrics.numberOfParametersKey] as String ?? '');
   final numberOfMethodsWarningLevel =
       int.tryParse(arguments[metrics.numberOfMethodsKey] as String ?? '');
   final maximumNestingWarningLevel =
