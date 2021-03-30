@@ -6,7 +6,7 @@
 * Set min `args` 1.6.0
 * Changed the support version range of the `analyzer` to `>=0.40.0 <0.42.0`
 * Changed the support version range of the `analyzer_plugin` to `>=0.3.0 <0.5.0`
-* Remove obsolete rule `prefer-trailing-comma-for-collection`
+* Remove obsolete rules `prefer-trailing-comma-for-collection`, `potential-null-dereference`
 * Rename cli arguments:
   - `ignore-files` to `exclude`
   - `maximum-nesting` to `maximum-nesting-level`
