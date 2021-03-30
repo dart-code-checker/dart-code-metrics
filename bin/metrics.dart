@@ -24,7 +24,7 @@ Future<void> main(List<String> args) async {
 
     validateArguments(arguments);
     await _runAnalysis(arguments);
-  } on FormatException catch (e) {
+  } on ArgParserException catch (e) {
     print('${e.message}\n');
     _showUsageAndExit(1);
   } on InvalidArgumentException catch (e) {
