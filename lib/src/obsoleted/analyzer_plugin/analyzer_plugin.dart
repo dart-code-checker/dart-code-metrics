@@ -16,6 +16,10 @@ import 'package:analyzer/src/context/context_root.dart';
 
 // ignore: implementation_imports
 import 'package:analyzer/src/dart/analysis/driver.dart';
+
+// ignore: implementation_imports
+import 'package:analyzer/src/dart/analysis/file_state.dart';
+
 import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
 import 'package:source_span/source_span.dart';
@@ -77,7 +81,8 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     final contextBuilder = ContextBuilder(resourceProvider, sdkManager, null)
       ..analysisDriverScheduler = analysisDriverScheduler
       ..byteStore = byteStore
-      ..performanceLog = performanceLog;
+      ..performanceLog = performanceLog
+      ..fileContentOverlay = FileContentOverlay();
 
     final workspace = ContextBuilder.createWorkspace(
       resourceProvider: resourceProvider,
