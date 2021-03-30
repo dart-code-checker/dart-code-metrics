@@ -6,7 +6,7 @@ import 'package:yaml/yaml.dart';
 
 import '../../utils/yaml_utils.dart';
 
-Future<Map<String, Object>> loadConfigFromYamlFile(File options) async {
+Future<Map<String, Object>> loadConfigFromYamlFile(File? options) async {
   try {
     final node = loadYamlNode(options?.readAsStringSync() ?? '');
 
@@ -39,7 +39,7 @@ Map<String, Object> _mergeMaps(
       (mergedKey) => mergedKey == overrideKey,
       orElse: () => overrideKey,
     );
-    merged[mergedKey] = _merge(merged[mergedKey], overrides[overrideKey]);
+    merged[mergedKey] = _merge(merged[mergedKey], overrides[overrideKey]!);
   }
 
   return Map.unmodifiable(merged);
@@ -56,7 +56,7 @@ Map<String, Object> _mergeMaps(
 ///   * maps are merged recursively.
 ///   * if map values cannot be merged, the overriding value is taken.
 ///
-Object _merge(Object defaults, Object overrides) {
+Object _merge(Object? defaults, Object overrides) {
   var o1 = defaults;
   var o2 = overrides;
 
@@ -72,15 +72,14 @@ Object _merge(Object defaults, Object overrides) {
     return _mergeLists(o1, o2);
   }
 
-  // Default to override, unless the overriding value is `null`.
-  return o2 ?? o1;
+  return o2;
 }
 
 /// Merge lists, avoiding duplicates.
 List<Object> _mergeLists(List<Object> defaults, List<Object> overrides) =>
     List.unmodifiable(<Object>{...defaults, ...overrides});
 
-bool _isListOfStrings(Object object) =>
+bool _isListOfStrings(Object? object) =>
     object is List<Object> && object.every((node) => node is String);
 
 Map<String, bool> _listToMap(List<Object> list) =>

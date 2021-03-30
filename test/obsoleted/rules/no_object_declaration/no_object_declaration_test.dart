@@ -21,8 +21,8 @@ void main() {
 
     final issues = NoObjectDeclarationRule().check(InternalResolvedUnitResult(
       sourceUrl,
-      parseResult.content,
-      parseResult.unit,
+      parseResult!.content!,
+      parseResult.unit!,
     ));
 
     expect(

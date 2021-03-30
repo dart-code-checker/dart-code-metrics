@@ -61,7 +61,7 @@ class NumberOfMethodsMetric extends ClassMetric<int> {
   }
 
   @override
-  String recommendationMessage(String nodeType, int value, int threshold) =>
+  String? recommendationMessage(String nodeType, int value, int threshold) =>
       (value > threshold)
           ? 'Consider breaking this $nodeType up into smaller parts.'
           : null;

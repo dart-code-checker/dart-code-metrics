@@ -28,7 +28,7 @@ class BinaryExpressionOperandOrderRule extends ObsoleteRule {
   Iterable<Issue> check(ResolvedUnitResult source) {
     final visitor = _Visitor();
 
-    source.unit.visitChildren(visitor);
+    source.unit?.visitChildren(visitor);
 
     return visitor.binaryExpressions
         .map((lit) => createIssue(

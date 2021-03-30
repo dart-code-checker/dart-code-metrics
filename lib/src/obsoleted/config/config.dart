@@ -26,13 +26,22 @@ class Config {
   final double weightOfClassWarningLevel;
 
   const Config({
-    this.cyclomaticComplexityWarningLevel =
-        cyclomaticComplexityDefaultWarningLevel,
-    this.linesOfExecutableCodeWarningLevel =
-        linesOfExecutableCodeDefaultWarningLevel,
-    this.numberOfArgumentsWarningLevel = numberOfArgumentsDefaultWarningLevel,
-    this.numberOfMethodsWarningLevel = numberOfMethodsDefaultWarningLevel,
-    this.maximumNestingWarningLevel = maximumNestingDefaultWarningLevel,
-    this.weightOfClassWarningLevel = weightOfClassDefaultWarningLevel,
-  });
+    int? cyclomaticComplexityWarningLevel,
+    int? linesOfExecutableCodeWarningLevel,
+    int? numberOfArgumentsWarningLevel,
+    int? numberOfMethodsWarningLevel,
+    int? maximumNestingWarningLevel,
+    double? weightOfClassWarningLevel,
+  })  : cyclomaticComplexityWarningLevel = cyclomaticComplexityWarningLevel ??
+            cyclomaticComplexityDefaultWarningLevel,
+        linesOfExecutableCodeWarningLevel = linesOfExecutableCodeWarningLevel ??
+            linesOfExecutableCodeDefaultWarningLevel,
+        numberOfArgumentsWarningLevel = numberOfArgumentsWarningLevel ??
+            numberOfArgumentsDefaultWarningLevel,
+        numberOfMethodsWarningLevel =
+            numberOfMethodsWarningLevel ?? numberOfMethodsDefaultWarningLevel,
+        maximumNestingWarningLevel =
+            maximumNestingWarningLevel ?? maximumNestingDefaultWarningLevel,
+        weightOfClassWarningLevel =
+            weightOfClassWarningLevel ?? weightOfClassDefaultWarningLevel;
 }

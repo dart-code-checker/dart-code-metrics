@@ -97,7 +97,7 @@ void main() {
     test(
       'userFriendlyType user friendly string representations of provided type',
       () {
-        <Type, Matcher>{
+        <Type?, Matcher>{
           null: equals(''),
           ''.runtimeType: equals('String'),
           ExampleImpl().runtimeType: equals('Example'),

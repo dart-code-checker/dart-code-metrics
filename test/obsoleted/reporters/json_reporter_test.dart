@@ -24,7 +24,7 @@ void main() {
   group('JsonReporter.report report about', () {
     const fullPath = '/home/developer/work/project/example.darts';
 
-    JsonReporter _reporter;
+    late JsonReporter _reporter;
 
     setUp(() {
       _reporter = JsonReporter(reportConfig: const metrics.Config());
@@ -132,8 +132,8 @@ void main() {
         ];
 
         final report = (json.decode((await _reporter.report(records)).first)
-                as List<Object>)
-            .first as Map<String, Object>;
+                as List<Object?>)
+            .first as Map<String, Object?>;
 
         expect(report, containsPair('average-number-of-arguments', 5));
         expect(report, containsPair('total-number-of-arguments-violations', 2));
@@ -182,13 +182,13 @@ void main() {
         ];
 
         final report = (json.decode((await _reporter.report(records)).first)
-                as List<Object>)
-            .first as Map<String, Object>;
+                as List<Object?>)
+            .first as Map<String, Object?>;
 
         expect(report.containsKey('designIssues'), isTrue);
 
-        final issue = (report['designIssues'] as List<Object>)
-            .cast<Map<String, Object>>()
+        final issue = (report['designIssues'] as List<Object?>)
+            .cast<Map<String, Object?>>()
             .single;
 
         expect(issue, containsPair('patternId', _issuePatternId));
@@ -246,13 +246,13 @@ void main() {
         ];
 
         final report = (json.decode((await _reporter.report(records)).first)
-                as List<Object>)
-            .first as Map<String, Object>;
+                as List<Object?>)
+            .first as Map<String, Object?>;
 
         expect(report.containsKey('issues'), isTrue);
 
-        final issue = (report['issues'] as List<Object>)
-            .cast<Map<String, Object>>()
+        final issue = (report['issues'] as List<Object?>)
+            .cast<Map<String, Object?>>()
             .single;
 
         expect(issue, containsPair('severity', 'style'));
@@ -303,10 +303,10 @@ void main() {
         ];
 
         final report = (json.decode((await _reporter.report(records)).first)
-                as List<Object>)
-            .first as Map<String, Object>;
+                as List<Object?>)
+            .first as Map<String, Object?>;
         final functionReport = (report['records']
-            as Map<String, Object>)['class'] as Map<String, Object>;
+            as Map<String, Object?>)['class'] as Map<String, Object?>;
 
         expect(functionReport, containsPair('number-of-methods', 0));
         expect(
@@ -344,10 +344,10 @@ void main() {
         ];
 
         final report = (json.decode((await _reporter.report(records)).first)
-                as List<Object>)
-            .first as Map<String, Object>;
+                as List<Object?>)
+            .first as Map<String, Object?>;
         final functionReport = (report['records']
-            as Map<String, Object>)['class'] as Map<String, Object>;
+            as Map<String, Object?>)['class'] as Map<String, Object?>;
 
         expect(functionReport, containsPair('number-of-methods', 20));
         expect(
@@ -375,10 +375,10 @@ void main() {
         ];
 
         final report = (json.decode((await _reporter.report(records)).first)
-                as List<Object>)
-            .first as Map<String, Object>;
+                as List<Object?>)
+            .first as Map<String, Object?>;
         final functionReport = (report['records']
-            as Map<String, Object>)['function'] as Map<String, Object>;
+            as Map<String, Object?>)['function'] as Map<String, Object?>;
 
         expect(functionReport, containsPair('lines-of-executable-code', 150));
         expect(
@@ -404,10 +404,10 @@ void main() {
         ];
 
         final report = (json.decode((await _reporter.report(records)).first)
-                as List<Object>)
-            .first as Map<String, Object>;
+                as List<Object?>)
+            .first as Map<String, Object?>;
         final functionReport = (report['records']
-            as Map<String, Object>)['function'] as Map<String, Object>;
+            as Map<String, Object?>)['function'] as Map<String, Object?>;
 
         expect(functionReport, containsPair('lines-of-executable-code', 5));
         expect(
@@ -431,10 +431,10 @@ void main() {
         ];
 
         final report = (json.decode((await _reporter.report(records)).first)
-                as List<Object>)
-            .first as Map<String, Object>;
+                as List<Object?>)
+            .first as Map<String, Object?>;
         final functionReport = (report['records']
-            as Map<String, Object>)['function'] as Map<String, Object>;
+            as Map<String, Object?>)['function'] as Map<String, Object?>;
 
         expect(functionReport, containsPair('number-of-arguments', 0));
         expect(
@@ -458,10 +458,10 @@ void main() {
         ];
 
         final report = (json.decode((await _reporter.report(records)).first)
-                as List<Object>)
-            .first as Map<String, Object>;
+                as List<Object?>)
+            .first as Map<String, Object?>;
         final functionReport = (report['records']
-            as Map<String, Object>)['function'] as Map<String, Object>;
+            as Map<String, Object?>)['function'] as Map<String, Object?>;
 
         expect(functionReport, containsPair('number-of-arguments', 10));
         expect(
@@ -501,10 +501,10 @@ void main() {
         ];
 
         final report = (json.decode((await _reporter.report(records)).first)
-                as List<Object>)
-            .first as Map<String, Object>;
+                as List<Object?>)
+            .first as Map<String, Object?>;
         final functionReport = (report['records']
-            as Map<String, Object>)['function'] as Map<String, Object>;
+            as Map<String, Object?>)['function'] as Map<String, Object?>;
 
         expect(functionReport, containsPair('maximum-nesting', 2));
         expect(
@@ -544,10 +544,10 @@ void main() {
         ];
 
         final report = (json.decode((await _reporter.report(records)).first)
-                as List<Object>)
-            .first as Map<String, Object>;
+                as List<Object?>)
+            .first as Map<String, Object?>;
         final functionReport = (report['records']
-            as Map<String, Object>)['function'] as Map<String, Object>;
+            as Map<String, Object?>)['function'] as Map<String, Object?>;
 
         expect(functionReport, containsPair('maximum-nesting', 7));
         expect(

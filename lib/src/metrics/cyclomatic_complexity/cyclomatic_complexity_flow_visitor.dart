@@ -101,9 +101,9 @@ class CyclomaticComplexityFlowVisitor extends RecursiveAstVisitor<void> {
     super.visitYieldStatement(node);
   }
 
-  void _visitBlock(Token firstToken, Token lastToken) {
+  void _visitBlock(Token? firstToken, Token? lastToken) {
     var token = firstToken;
-    while (token != lastToken) {
+    while (token != lastToken && token != null) {
       if (token.matchesAny(_complexityTokenTypes)) {
         _increaseComplexity(token);
       }

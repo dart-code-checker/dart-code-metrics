@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:meta/meta.dart';
-
 import '../../config/config.dart';
 import '../utils/object_extensions.dart';
 import '../utils/yaml_utils.dart';
@@ -27,12 +25,12 @@ class AnalysisOptions extends Config {
   final Map<String, Map<String, Object>> antiPatterns;
 
   const AnalysisOptions({
-    @required Iterable<String> excludePatterns,
-    @required Iterable<String> excludeForMetricsPatterns,
-    @required Map<String, Object> metrics,
-    @required Map<String, Map<String, Object>> rules,
-    @required this.metricsConfig,
-    @required this.antiPatterns,
+    required Iterable<String> excludePatterns,
+    required Iterable<String> excludeForMetricsPatterns,
+    required Map<String, Object> metrics,
+    required Map<String, Map<String, Object>> rules,
+    required this.metricsConfig,
+    required this.antiPatterns,
   }) : super(
           excludePatterns: excludePatterns,
           excludeForMetricsPatterns: excludeForMetricsPatterns,
@@ -40,7 +38,7 @@ class AnalysisOptions extends Config {
           rules: rules,
         );
 
-  factory AnalysisOptions.fromMap(Map<String, Object> map) {
+  factory AnalysisOptions.fromMap(Map<String, Object>? map) {
     final configMap = map ?? {};
 
     return AnalysisOptions(
@@ -74,19 +72,17 @@ metrics.Config _readMetricsConfig(Map<String, Object> configMap) {
     if (configMap is Map<String, Object>) {
       return metrics.Config(
         cyclomaticComplexityWarningLevel:
-            configMap[metrics.cyclomaticComplexityKey]
-                .as<int>(metrics.cyclomaticComplexityDefaultWarningLevel),
+            configMap[metrics.cyclomaticComplexityKey] as int?,
         linesOfExecutableCodeWarningLevel:
-            configMap[metrics.linesOfExecutableCodeKey]
-                .as<int>(metrics.linesOfExecutableCodeDefaultWarningLevel),
-        numberOfArgumentsWarningLevel: configMap[metrics.numberOfArgumentsKey]
-            .as<int>(metrics.numberOfArgumentsDefaultWarningLevel),
-        numberOfMethodsWarningLevel: configMap[metrics.numberOfMethodsKey]
-            .as<int>(metrics.numberOfMethodsDefaultWarningLevel),
-        maximumNestingWarningLevel: configMap[metrics.maximumNestingKey]
-            .as<int>(metrics.maximumNestingDefaultWarningLevel),
-        weightOfClassWarningLevel: configMap[metrics.weightOfClassKey]
-            .as<double>(metrics.weightOfClassDefaultWarningLevel),
+            configMap[metrics.linesOfExecutableCodeKey] as int?,
+        numberOfArgumentsWarningLevel:
+            configMap[metrics.numberOfArgumentsKey] as int?,
+        numberOfMethodsWarningLevel:
+            configMap[metrics.numberOfMethodsKey] as int?,
+        maximumNestingWarningLevel:
+            configMap[metrics.maximumNestingKey] as int?,
+        weightOfClassWarningLevel:
+            configMap[metrics.weightOfClassKey] as double?,
       );
     }
   }

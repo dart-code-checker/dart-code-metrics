@@ -11,10 +11,10 @@ class FunctionReport {
   final MetricValue<int> maximumNestingLevel;
 
   const FunctionReport({
-    @required this.cyclomaticComplexity,
-    @required this.linesOfExecutableCode,
-    @required this.maintainabilityIndex,
-    @required this.argumentsCount,
-    @required this.maximumNestingLevel,
+    required this.cyclomaticComplexity,
+    required this.linesOfExecutableCode,
+    required this.maintainabilityIndex,
+    required this.argumentsCount,
+    required this.maximumNestingLevel,
   });
 }

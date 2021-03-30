@@ -21,8 +21,8 @@ void main() {
 
       final issues = AvoidUnusedParameters().check(InternalResolvedUnitResult(
         sourceUrl,
-        parseResult.content,
-        parseResult.unit,
+        parseResult!.content!,
+        parseResult.unit!,
       ));
 
       expect(
@@ -43,8 +43,8 @@ void main() {
 
       final issues = AvoidUnusedParameters().check(InternalResolvedUnitResult(
         sourceUrl,
-        parseResult.content,
-        parseResult.unit,
+        parseResult!.content!,
+        parseResult.unit!,
       ));
 
       expect(issues.isEmpty, isTrue);
@@ -58,8 +58,8 @@ void main() {
 
       final issues = AvoidUnusedParameters().check(InternalResolvedUnitResult(
         sourceUrl,
-        parseResult.content,
-        parseResult.unit,
+        parseResult!.content!,
+        parseResult.unit!,
       ));
 
       expect(

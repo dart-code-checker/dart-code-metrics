@@ -15,7 +15,7 @@ Future<void> main() async {
     'CyclomaticComplexityFlowVisitor collect information about cyclomatic complexity in',
     () {
       final scopeVisitor = ScopeVisitor();
-      result.unit.visitChildren(scopeVisitor);
+      result!.unit!.visitChildren(scopeVisitor);
 
       test('very complex function', () {
         final declaration = scopeVisitor.functions.first.declaration;

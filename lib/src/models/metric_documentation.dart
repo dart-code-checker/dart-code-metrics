@@ -25,10 +25,10 @@ class MetricDocumentation {
   ///
   /// This data object is used for a documentation generating from a source code.
   const MetricDocumentation({
-    @required this.name,
-    @required this.shortName,
-    @required this.brief,
-    @required this.measuredType,
-    @required this.examples,
+    required this.name,
+    required this.shortName,
+    required this.brief,
+    required this.measuredType,
+    required this.examples,
   });
 }

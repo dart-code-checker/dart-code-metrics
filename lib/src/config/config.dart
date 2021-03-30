@@ -12,10 +12,10 @@ class Config {
   final Map<String, Map<String, Object>> rules;
 
   const Config({
-    @required this.excludePatterns,
-    @required this.excludeForMetricsPatterns,
-    @required this.metrics,
-    @required this.rules,
+    required this.excludePatterns,
+    required this.excludeForMetricsPatterns,
+    required this.metrics,
+    required this.rules,
   });
 
   factory Config.fromAnalysisOptions(AnalysisOptions options) {

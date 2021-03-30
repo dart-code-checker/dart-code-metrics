@@ -1,15 +1,13 @@
-import 'package:meta/meta.dart';
-
 /// Returns `true` if this [object] represents a iterable of strings.
-bool isIterableOfStrings(Object object) =>
+bool isIterableOfStrings(Object? object) =>
     object is Iterable<Object> && object.every((node) => node is String);
 
 /// Merges two maps [defaults] with an overriding [overrides] with simple
 /// override semantics, suitable for merging two maps where one defines default
 /// values that are added to (and possibly overridden) by an overriding collection.
 Map<String, Object> mergeMaps({
-  @required Map<String, Object> defaults,
-  @required Map<String, Object> overrides,
+  required Map<String, Object> defaults,
+  required Map<String, Object> overrides,
 }) {
   final merged = Map.of(defaults);
 
@@ -19,13 +17,13 @@ Map<String, Object> mergeMaps({
       orElse: () => overrideKey,
     );
 
-    merged[mergedKey] = _merge(merged[mergedKey], overrides[overrideKey]);
+    merged[mergedKey] = _merge(merged[mergedKey], overrides[overrideKey]!);
   }
 
   return Map.unmodifiable(merged);
 }
 
-Object _merge(Object defaults, Object overrides) {
+Object _merge(Object? defaults, Object overrides) {
   var o1 = defaults;
   var o2 = overrides;
 
@@ -41,8 +39,7 @@ Object _merge(Object defaults, Object overrides) {
     return _mergeIterable(o1, o2);
   }
 
-  // Default to override, unless the overriding value is `null`.
-  return o2 ?? o1;
+  return o2;
 }
 
 List<Object> _mergeIterable(

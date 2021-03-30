@@ -1,6 +1,5 @@
 // ignore_for_file: prefer-trailing-comma
 import 'package:ansicolor/ansicolor.dart';
-import 'package:meta/meta.dart';
 
 import '../../models/metric_value.dart';
 import '../../models/metric_value_level.dart';
@@ -41,17 +40,17 @@ class ConsoleReporter implements Reporter {
   final _designIssuesColor = AnsiPen()..yellow();
   static const _designIssues = 'Design';
 
-  ConsoleReporter({@required this.reportConfig, this.reportAll = false});
+  ConsoleReporter({required this.reportConfig, this.reportAll = false});
 
   @override
-  Future<Iterable<String>> report(Iterable<FileRecord> records) async {
+  Future<Iterable<String>> report(Iterable<FileRecord>? records) async {
     if (records?.isEmpty ?? true) {
       return [];
     }
 
     final reportStrings = <String>[];
 
-    for (final analysisRecord in records) {
+    for (final analysisRecord in records!) {
       final lines = <String>[];
 
       analysisRecord.components.forEach((source, componentReport) {
@@ -65,7 +64,7 @@ class ConsoleReporter implements Reporter {
               _report(report.methodsCount, 'number of methods'),
           ];
           lines.add(
-              '${_colorPens[violationLevel](_humanReadableLabel[violationLevel]?.padRight(8))}$source - ${violations.join(', ')}');
+              '${_colorPens[violationLevel]!(_humanReadableLabel[violationLevel]!.padRight(8))}$source - ${violations.join(', ')}');
         }
       });
 
@@ -77,20 +76,20 @@ class ConsoleReporter implements Reporter {
             '${issue.location.start.line}:${issue.location.start.column}';
         final rule = [
           issue.ruleId,
-          if (issue.documentation != null) issue.documentation,
+          issue.documentation,
         ].join(' ');
         lines.add('$severity${[issue.message, position, rule].join(' : ')}');
       }
 
       for (final issue in analysisRecord.issues) {
-        final severity = _severityColors[issue.severity](
+        final severity = _severityColors[issue.severity]!(
             '${issue.severity.toString().substring(0, 1).toUpperCase()}${issue.severity.toString().substring(1)}'
                 .padRight(8));
         final position =
             '${issue.location.start.line}:${issue.location.start.column}';
         final rule = [
           issue.ruleId,
-          if (issue.documentation != null) issue.documentation,
+          issue.documentation,
         ].join(' ');
         lines.add('$severity${[issue.message, position, rule].join(' : ')}');
       }
@@ -128,7 +127,7 @@ class ConsoleReporter implements Reporter {
             _report(report.maximumNestingLevel, 'nesting level'),
         ];
         lines.add(
-            '${_colorPens[violationLevel](_humanReadableLabel[violationLevel]?.padRight(8))}$source - ${violations.join(', ')}');
+            '${_colorPens[violationLevel]!(_humanReadableLabel[violationLevel]!.padRight(8))}$source - ${violations.join(', ')}');
       }
     });
 
@@ -139,5 +138,5 @@ class ConsoleReporter implements Reporter {
       metric.level != MetricValueLevel.none;
 
   String _report(MetricValue<num> metric, String humanReadableName) =>
-      '$humanReadableName: ${_colorPens[metric.level]('${metric.value.toInt()}')}';
+      '$humanReadableName: ${_colorPens[metric.level]!('${metric.value.toInt()}')}';
 }

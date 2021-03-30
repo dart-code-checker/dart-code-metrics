@@ -3,7 +3,7 @@ import 'package:dart_code_metrics/src/obsoleted/metrics_analysis_runner.dart';
 import 'package:dart_code_metrics/src/obsoleted/metrics_analyzer.dart';
 import 'package:dart_code_metrics/src/obsoleted/metrics_records_store.dart';
 import 'package:dart_code_metrics/src/obsoleted/models/file_record.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
 
 class MetricsRecordsStoreMock extends Mock implements MetricsRecordsStore {}
@@ -33,7 +33,7 @@ void main() {
       ];
 
       final store = MetricsRecordsStoreMock();
-      when(store.records()).thenReturn(stubRecords);
+      when(store.records).thenReturn(stubRecords);
 
       final runner =
           MetricsAnalysisRunner(MetricsAnalyzerMock(), store, const [], '');
@@ -50,7 +50,7 @@ void main() {
       MetricsAnalysisRunner(analyzer, MetricsRecordsStoreMock(), folders, root)
           .run();
 
-      verify(analyzer.runAnalysis(folders, root));
+      verify(() => analyzer.runAnalysis(folders, root));
       verifyNoMoreInteractions(analyzer);
     });
   });

@@ -7,10 +7,14 @@ import 'github_workflow_commands.dart';
 
 class GitHubReporter implements Reporter {
   @override
-  Future<Iterable<String>> report(Iterable<FileRecord> records) async {
+  Future<Iterable<String>> report(Iterable<FileRecord>? records) async {
     final _commands = GitHubWorkflowCommands();
 
     final reportStrings = <String>[];
+
+    if (records == null || records.isEmpty) {
+      return reportStrings;
+    }
 
     for (final analysisRecord in records) {
       for (final issue in analysisRecord.designIssues) {

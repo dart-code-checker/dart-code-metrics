@@ -25,7 +25,7 @@ class LongMethod extends BasePattern {
     final issues = <Issue>[];
 
     for (final function in functions) {
-      final visitor = LinesOfExecutableCodeVisitor(source.unit.lineInfo);
+      final visitor = LinesOfExecutableCodeVisitor(source.unit.lineInfo!);
       function.declaration.visitChildren(visitor);
 
       if (visitor.linesWithCode.length >
@@ -49,12 +49,12 @@ class LongMethod extends BasePattern {
     return issues;
   }
 
-  String _compileMessage({@required int lines, FunctionType functionType}) =>
+  String _compileMessage({required int lines, FunctionType? functionType}) =>
       'Long $functionType. This ${functionType.toString().toLowerCase()} contains $lines lines with executable code.';
 
   String _compileRecommendationMessage({
-    @required int maximumLines,
-    FunctionType functionType,
+    required int maximumLines,
+    FunctionType? functionType,
   }) =>
       "Based on configuration of this package, we don't recommend write a ${functionType.toString().toLowerCase()} longer than $maximumLines lines with executable code.";
 }

@@ -41,12 +41,12 @@ class LongParameterList extends BasePattern {
               ))
           .toList();
 
-  String _compileMessage({@required int args, FunctionType functionType}) =>
+  String _compileMessage({required int args, FunctionType? functionType}) =>
       'Long Parameter List. This ${functionType.toString().toLowerCase()} require $args arguments.';
 
   String _compileRecommendationMessage({
-    @required int maximumArguments,
-    FunctionType functionType,
+    required int maximumArguments,
+    FunctionType? functionType,
   }) =>
       "Based on configuration of this package, we don't recommend writing a ${functionType.toString().toLowerCase()} with argument count more than $maximumArguments.";
 }

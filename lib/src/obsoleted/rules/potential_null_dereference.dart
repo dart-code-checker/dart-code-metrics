@@ -30,7 +30,7 @@ class PotentialNullDereference extends ObsoleteRule {
   Iterable<Issue> check(ResolvedUnitResult source) {
     final _visitor = _Visitor();
 
-    source.unit.visitChildren(_visitor);
+    source.unit?.visitChildren(_visitor);
 
     return _visitor.issues
         .map(
@@ -92,7 +92,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
         wasReassignedOrShadowed = true;
       } else if (child is VariableDeclaration && child.name.name == name) {
         wasReassignedOrShadowed = true;
-      } else if (child is FormalParameter && child.identifier.name == name) {
+      } else if (child is FormalParameter && child.identifier?.name == name) {
         wasReassignedOrShadowed = true;
       } else if (child is ReturnStatement) {
         wasReassignedOrShadowed = true;
@@ -127,7 +127,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
     }
   }
 
-  TokenType _getTokenType(BinaryExpression node) {
+  TokenType? _getTokenType(BinaryExpression node) {
     if (_isEqualNull(node.leftOperand, node.rightOperand, node.operator)) {
       return TokenType.AMPERSAND_AMPERSAND;
     }
@@ -157,7 +157,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
       ((leftOperand is Identifier && rightOperand is NullLiteral) ||
           (rightOperand is Identifier && leftOperand is NullLiteral));
 
-  _Issue _hasNullReference(BinaryExpression node, TokenType tokenType) {
+  _Issue? _hasNullReference(BinaryExpression node, TokenType tokenType) {
     final parent = node.parent;
     final operand =
         node.leftOperand is Identifier ? node.leftOperand : node.rightOperand;
@@ -186,7 +186,7 @@ class _Issue {
   final String identifierName;
 
   const _Issue({
-    this.expression,
-    this.identifierName,
+    required this.expression,
+    required this.identifierName,
   });
 }

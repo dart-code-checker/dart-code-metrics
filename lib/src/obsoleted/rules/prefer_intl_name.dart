@@ -1,5 +1,6 @@
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
+import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
 import '../../models/issue.dart';
@@ -7,7 +8,6 @@ import '../../models/replacement.dart';
 import '../../models/severity.dart';
 import '../../utils/node_utils.dart';
 import '../../utils/rule_utils.dart';
-import '../utils/iterable_extensions.dart';
 import '../utils/object_extensions.dart';
 import 'intl_base/intl_base_visitor.dart';
 import 'obsolete_rule.dart';
@@ -30,16 +30,16 @@ class PreferIntlNameRule extends ObsoleteRule {
 
   @override
   Iterable<Issue> check(ResolvedUnitResult source) {
-    final hasIntlDirective = source.unit.directives
+    final hasIntlDirective = source.unit?.directives
         .whereType<ImportDirective>()
         .any((directive) => directive.uri.stringValue == _intlPackageUrl);
 
-    if (!hasIntlDirective) {
+    if (hasIntlDirective == null || !hasIntlDirective) {
       return [];
     }
 
     final visitor = _Visitor();
-    source.unit.visitChildren(visitor);
+    source.unit?.visitChildren(visitor);
 
     return [
       ...visitor.issues.whereType<_NotCorrectNameIssue>().map((issue) {
@@ -79,16 +79,16 @@ class _Visitor extends IntlBaseVisitor {
   @override
   void checkMethodInvocation(
     MethodInvocation methodInvocation, {
-    String className,
-    String variableName,
-    FormalParameterList parameterList,
+    String? className,
+    String? variableName,
+    FormalParameterList? parameterList,
   }) {
-    final nameExpression = methodInvocation.argumentList?.arguments
-        ?.whereType<NamedExpression>()
-        ?.where((argument) => argument.name.label.name == 'name')
-        ?.firstOrDefault()
+    final nameExpression = methodInvocation.argumentList.arguments
+        .whereType<NamedExpression>()
+        .where((argument) => argument.name.label.name == 'name')
+        .firstOrNull
         ?.expression
-        ?.as<SimpleStringLiteral>();
+        .as<SimpleStringLiteral>();
 
     if (nameExpression == null) {
       addIssue(_NotExistNameIssue(methodInvocation.methodName));
@@ -101,8 +101,8 @@ class _Visitor extends IntlBaseVisitor {
 
 @immutable
 class _NotCorrectNameIssue extends IntlBaseIssue {
-  final String className;
-  final String variableName;
+  final String? className;
+  final String? variableName;
 
   const _NotCorrectNameIssue(
     this.className,
@@ -110,7 +110,7 @@ class _NotCorrectNameIssue extends IntlBaseIssue {
     AstNode node,
   ) : super(node);
 
-  static String getNewValue(String className, String variableName) =>
+  static String? getNewValue(String? className, String? variableName) =>
       className != null ? '${className}_$variableName' : variableName;
 }
 

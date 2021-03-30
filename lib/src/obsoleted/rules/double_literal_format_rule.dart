@@ -37,7 +37,7 @@ class DoubleLiteralFormatRule extends ObsoleteRule {
   Iterable<Issue> check(ResolvedUnitResult source) {
     final _visitor = _Visitor();
 
-    source.unit.visitChildren(_visitor);
+    source.unit?.visitChildren(_visitor);
 
     final issues = <Issue>[];
 

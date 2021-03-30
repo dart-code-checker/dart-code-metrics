@@ -119,8 +119,7 @@ void _appendMetricsThresholdOptions(ArgParser parser) {
       metric.name,
       help: metric.help,
       valueHelp: '${metric.defaultValue}',
-      // ignore: avoid_types_on_closure_parameters
-      callback: (String value) {
+      callback: (value) {
         var invalid = true;
         if (metric.defaultValue is int) {
           invalid = value != null && int.tryParse(value) == null;

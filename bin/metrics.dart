@@ -45,20 +45,20 @@ Future<void> _runAnalysis(ArgResults arguments) async {
       File(p.absolute(rootFolder, metrics.analysisOptionsFileName));
 
   final cyclomaticComplexityThreshold =
-      int.tryParse(arguments[metrics.cyclomaticComplexityKey] as String ?? '');
-  final linesOfExecutableCodeThreshold =
-      int.tryParse(arguments[metrics.linesOfExecutableCodeKey] as String ?? '');
+      int.tryParse(arguments[metrics.cyclomaticComplexityKey] as String? ?? '');
+  final linesOfExecutableCodeThreshold = int.tryParse(
+      arguments[metrics.linesOfExecutableCodeKey] as String? ?? '');
   final numberOfArgumentsWarningLevel =
-      int.tryParse(arguments[metrics.numberOfArgumentsKey] as String ?? '');
+      int.tryParse(arguments[metrics.numberOfArgumentsKey] as String? ?? '');
   final numberOfMethodsWarningLevel =
-      int.tryParse(arguments[metrics.numberOfMethodsKey] as String ?? '');
+      int.tryParse(arguments[metrics.numberOfMethodsKey] as String? ?? '');
   final maximumNestingWarningLevel =
-      int.tryParse(arguments[metrics.maximumNestingKey] as String ?? '');
+      int.tryParse(arguments[metrics.maximumNestingKey] as String? ?? '');
   final weightOfClassWarningLevel =
-      double.tryParse(arguments[metrics.weightOfClassKey] as String ?? '');
-  final reporterType = arguments[reporterName] as String;
-  final exitOnViolationLevel =
-      MetricValueLevel.fromString(arguments[setExitOnViolationLevel] as String);
+      double.tryParse(arguments[metrics.weightOfClassKey] as String? ?? '');
+  final reporterType = arguments[reporterName] as String?;
+  final exitOnViolationLevel = MetricValueLevel.fromString(
+      arguments[setExitOnViolationLevel] as String?);
 
   final options = analysisOptionsFile.existsSync()
       ? await metrics.analysisOptionsFromFile(analysisOptionsFile)

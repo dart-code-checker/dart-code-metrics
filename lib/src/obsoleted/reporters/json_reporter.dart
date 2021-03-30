@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:meta/meta.dart';
-
 import '../../models/issue.dart';
 import '../../models/metric_value.dart';
 import '../config/config.dart';
@@ -13,12 +11,12 @@ import 'utility_selector.dart';
 class JsonReporter implements Reporter {
   final Config reportConfig;
 
-  JsonReporter({@required this.reportConfig});
+  JsonReporter({required this.reportConfig});
 
   @override
-  Future<Iterable<String>> report(Iterable<FileRecord> records) async =>
+  Future<Iterable<String>> report(Iterable<FileRecord>? records) async =>
       (records?.isNotEmpty ?? false)
-          ? [json.encode(records.map(_analysisRecordToJson).toList())]
+          ? [json.encode(records!.map(_analysisRecordToJson).toList())]
           : [];
 
   Map<String, Object> _analysisRecordToJson(FileRecord record) {
@@ -69,17 +67,15 @@ class JsonReporter implements Reporter {
           .map((issue) => {
                 'severity': issue.severity.toString(),
                 'ruleId': issue.ruleId,
-                if (issue.documentation != null)
-                  'ruleDocumentation': issue.documentation.toString(),
+                'ruleDocumentation': issue.documentation.toString(),
                 'lineNumber': issue.location.start.line,
                 'columnNumber': issue.location.start.column,
-                if (issue.location.text != null)
-                  'problemCode': issue.location.text,
+                'problemCode': issue.location.text,
                 'message': issue.message,
                 if (issue.suggestion != null)
-                  'correction': issue.suggestion.replacement,
+                  'correction': issue.suggestion!.replacement,
                 if (issue.suggestion != null)
-                  'correctionComment': issue.suggestion.comment,
+                  'correctionComment': issue.suggestion!.comment,
               })
           .toList();
 
@@ -89,15 +85,13 @@ class JsonReporter implements Reporter {
       issues
           .map((issue) => {
                 'patternId': issue.ruleId,
-                if (issue.documentation != null)
-                  'patternDocumentation': issue.documentation.toString(),
+                'patternDocumentation': issue.documentation.toString(),
                 'lineNumber': issue.location.start.line,
                 'columnNumber': issue.location.start.column,
-                if (issue.location.text != null)
-                  'problemCode': issue.location.text,
+                'problemCode': issue.location.text,
                 'message': issue.message,
                 if (issue.verboseMessage != null)
-                  'recommendation': issue.verboseMessage,
+                  'recommendation': issue.verboseMessage!,
               })
           .toList();
 

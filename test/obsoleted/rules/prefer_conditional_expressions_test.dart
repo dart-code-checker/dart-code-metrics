@@ -221,7 +221,7 @@ void main() {
     );
 
     expect(
-      issues.map((issue) => issue.suggestion.replacement),
+      issues.map((issue) => issue.suggestion!.replacement),
       equals([
         'a = a == 3 ? 2 : 3;',
         'return a == 6 ? a : 3;',
@@ -234,7 +234,7 @@ void main() {
       ]),
     );
     expect(
-      issues.map((issue) => issue.suggestion.comment),
+      issues.map((issue) => issue.suggestion!.comment),
       equals([
         'Convert to conditional expression',
         'Convert to conditional expression',

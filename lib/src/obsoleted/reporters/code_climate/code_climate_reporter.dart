@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:meta/meta.dart';
-
 import '../../../utils/metric_utils.dart';
 import '../../config/config.dart';
 import '../../models/file_record.dart';
@@ -18,29 +16,29 @@ class CodeClimateReporter implements Reporter {
   final bool gitlabCompatible;
 
   CodeClimateReporter({
-    @required this.reportConfig,
+    required this.reportConfig,
     this.gitlabCompatible = false,
   });
 
   @override
-  Future<Iterable<String>> report(Iterable<FileRecord> records) async {
-    if (records?.isEmpty ?? true) {
-      return [];
+  Future<Iterable<String>> report(Iterable<FileRecord>? records) async {
+    if (records != null && records.isNotEmpty) {
+      return gitlabCompatible
+          ? [json.encode(records.map(_toIssues).expand((r) => r).toList())]
+          : records
+              .map(_toIssues)
+              .expand((r) => r)
+              .map((issue) => '${json.encode(issue)}\x00')
+              .toList();
     }
 
-    return gitlabCompatible
-        ? [json.encode(records.map(_toIssues).expand((r) => r).toList())]
-        : records
-            .map(_toIssues)
-            .expand((r) => r)
-            .map((issue) => '${json.encode(issue)}\x00')
-            .toList();
+    return [];
   }
 
   Iterable<CodeClimateIssue> _toIssues(FileRecord record) {
     final result = <CodeClimateIssue>[
       ...record.components.keys.expand((key) {
-        final component = record.components[key];
+        final component = record.components[key]!;
         final report = UtilitySelector.componentReport(component, reportConfig);
 
         return [
@@ -69,7 +67,7 @@ class CodeClimateReporter implements Reporter {
     final issues = <CodeClimateIssue>[];
 
     for (final key in record.functions.keys) {
-      final func = record.functions[key];
+      final func = record.functions[key]!;
       final report = UtilitySelector.functionReport(func, reportConfig);
 
       if (isReportLevel(report.cyclomaticComplexity.level)) {

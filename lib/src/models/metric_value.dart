@@ -23,8 +23,8 @@ class MetricValue<T> {
   final String comment;
 
   /// The message for the user containing information about how the user can
-  /// improve this value.
-  final String recommendation;
+  /// improve this value or `null` if there is no recommendation.
+  final String? recommendation;
 
   /// An additional information associated with this value.
   ///
@@ -38,11 +38,11 @@ class MetricValue<T> {
   /// The [value], [comment], [recommendation] and [context] (if provided),
   /// will be used to complete and improve the information for the end user.
   const MetricValue({
-    @required this.metricsId,
-    @required this.documentation,
-    @required this.value,
-    @required this.level,
-    @required this.comment,
+    required this.metricsId,
+    required this.documentation,
+    required this.value,
+    required this.level,
+    required this.comment,
     this.recommendation,
     this.context = const [],
   });

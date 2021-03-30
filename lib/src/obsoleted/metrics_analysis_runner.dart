@@ -21,5 +21,5 @@ class MetricsAnalysisRunner {
   Iterable<FileRecord> results() => _store.records();
 
   /// Perform analysis of file paths passed in constructor
-  Future<void> run() => _analyzer.runAnalysis(_folders, _rootFolder);
+  Future<void>? run() => _analyzer.runAnalysis(_folders, _rootFolder);
 }

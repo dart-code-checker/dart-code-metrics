@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:isolate';
 
+import 'package:collection/collection.dart';
 import 'package:html/dom.dart';
 import 'package:meta/meta.dart';
 import 'package:path/path.dart' as p;
@@ -54,9 +55,9 @@ class ReportTableRecord {
   final FileReport report;
 
   const ReportTableRecord({
-    @required this.title,
-    @required this.link,
-    @required this.report,
+    required this.title,
+    required this.link,
+    required this.report,
   });
 }
 
@@ -65,11 +66,14 @@ class HtmlReporter implements Reporter {
   final Config reportConfig;
   final String reportFolder;
 
-  HtmlReporter({@required this.reportConfig, @required this.reportFolder});
+  HtmlReporter({
+    required this.reportConfig,
+    required this.reportFolder,
+  });
 
   @override
-  Future<Iterable<String>> report(Iterable<FileRecord> records) async {
-    if (records?.isNotEmpty ?? false) {
+  Future<Iterable<String>> report(Iterable<FileRecord>? records) async {
+    if (records != null && records.isNotEmpty) {
       _createReportDirectory(reportFolder);
       await _copyResources(reportFolder);
       for (final record in records) {
@@ -370,11 +374,10 @@ class HtmlReporter implements Reporter {
     final cyclomaticValues = Element.tag('td')
       ..classes.add('metrics-source-code__complexity');
     for (var i = 1; i <= sourceFileLines.length; ++i) {
-      final functionReport = record.functions.values.firstWhere(
+      final functionReport = record.functions.values.firstWhereOrNull(
         (functionReport) =>
             functionReport.location.start.line <= i &&
             functionReport.location.end.line >= i,
-        orElse: () => null,
       );
 
       final complexityValueElement = Element.tag('div')
@@ -466,10 +469,8 @@ class HtmlReporter implements Reporter {
         complexityValueElement.classes.add(lineViolationStyle ?? '');
       }
 
-      final architecturalIssues = record.designIssues.firstWhere(
-        (element) => element.location.start.line == i,
-        orElse: () => null,
-      );
+      final architecturalIssues = record.designIssues
+          .firstWhereOrNull((element) => element.location.start.line == i);
 
       if (architecturalIssues != null) {
         final issueTooltip = Element.tag('div')

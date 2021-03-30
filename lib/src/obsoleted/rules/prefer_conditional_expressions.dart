@@ -30,7 +30,7 @@ class PreferConditionalExpressions extends ObsoleteRule {
   Iterable<Issue> check(ResolvedUnitResult source) {
     final _visitor = _Visitor();
 
-    source.unit.visitChildren(_visitor);
+    source.unit?.visitChildren(_visitor);
 
     return _visitor.statementsInfo
         .map(
@@ -42,16 +42,21 @@ class PreferConditionalExpressions extends ObsoleteRule {
               withCommentOrMetadata: true,
             ),
             message: _warningMessage,
-            replacement: Replacement(
-              comment: _correctionMessage,
-              replacement: _createCorrection(info),
-            ),
+            replacement: _createReplacement(info),
           ),
         )
         .toList(growable: false);
   }
 
-  String _createCorrection(_StatementInfo info) {
+  Replacement? _createReplacement(_StatementInfo info) {
+    final correction = _createCorrection(info);
+
+    return correction == null
+        ? null
+        : Replacement(comment: _correctionMessage, replacement: correction);
+  }
+
+  String? _createCorrection(_StatementInfo info) {
     final thenStatement = info.unwrappedThenStatement;
     final elseStatement = info.unwrappedElseStatement;
 
@@ -109,7 +114,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
     }
   }
 
-  AssignmentExpression _getAssignmentExpression(Statement statement) {
+  AssignmentExpression? _getAssignmentExpression(Statement? statement) {
     if (statement is ExpressionStatement &&
         statement.expression is AssignmentExpression) {
       return statement.expression as AssignmentExpression;
@@ -144,7 +149,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
     }
   }
 
-  ReturnStatement _getReturnStatement(Statement statement) {
+  ReturnStatement? _getReturnStatement(Statement? statement) {
     if (statement is ReturnStatement) {
       return statement;
     }
@@ -164,8 +169,8 @@ class _StatementInfo {
   final AstNode unwrappedElseStatement;
 
   const _StatementInfo({
-    this.statement,
-    this.unwrappedThenStatement,
-    this.unwrappedElseStatement,
+    required this.statement,
+    required this.unwrappedThenStatement,
+    required this.unwrappedElseStatement,
   });
 }

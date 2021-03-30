@@ -5,7 +5,7 @@ import 'package:dart_code_metrics/src/models/function_type.dart';
 import 'package:dart_code_metrics/src/models/scoped_class_declaration.dart';
 import 'package:dart_code_metrics/src/models/scoped_function_declaration.dart';
 import 'package:dart_code_metrics/src/utils/scope_utils.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
 
 class CompilationUnitMemberMock extends Mock implements CompilationUnitMember {}

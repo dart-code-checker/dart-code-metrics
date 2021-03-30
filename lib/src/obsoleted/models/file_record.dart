@@ -16,11 +16,11 @@ class FileRecord {
   final Iterable<Issue> designIssues;
 
   const FileRecord({
-    @required this.fullPath,
-    @required this.relativePath,
-    @required this.components,
-    @required this.functions,
-    @required this.issues,
-    @required this.designIssues,
+    required this.fullPath,
+    required this.relativePath,
+    required this.components,
+    required this.functions,
+    required this.issues,
+    required this.designIssues,
   });
 }

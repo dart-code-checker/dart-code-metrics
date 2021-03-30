@@ -4,7 +4,7 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/source/line_info.dart';
 import 'package:dart_code_metrics/src/utils/node_utils.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
 
 class AnnotatedNodeMock extends Mock implements AnnotatedNode {}
@@ -41,26 +41,29 @@ void main() {
     const sourceUrl = '/source.dart';
 
     final lineInfoMock = LineInfoMock();
-    when(lineInfoMock.getLocation(nodeOffset)).thenReturn(nodeOffsetLineInfo);
-    when(lineInfoMock.getLocation(nodeEnd)).thenReturn(nodeEndLineInfo);
-    when(lineInfoMock.getLocation(codeOffset)).thenReturn(codeOffsetLineInfo);
+    when(() => lineInfoMock.getLocation(nodeOffset))
+        .thenReturn(nodeOffsetLineInfo);
+    when(() => lineInfoMock.getLocation(nodeEnd)).thenReturn(nodeEndLineInfo);
+    when(() => lineInfoMock.getLocation(codeOffset))
+        .thenReturn(codeOffsetLineInfo);
 
     final compilationUnitMock = CompilationUnitMock();
-    when(compilationUnitMock.lineInfo).thenReturn(lineInfoMock);
+    when(() => compilationUnitMock.lineInfo).thenReturn(lineInfoMock);
 
     final tokenMock = TokenMock();
-    when(tokenMock.offset).thenReturn(codeOffset);
-    when(tokenMock.end).thenReturn(nodeEnd);
+    when(() => tokenMock.offset).thenReturn(codeOffset);
+    when(() => tokenMock.end).thenReturn(nodeEnd);
 
     final nodeMock = AnnotatedNodeMock();
-    when(nodeMock.firstTokenAfterCommentAndMetadata).thenReturn(tokenMock);
-    when(nodeMock.offset).thenReturn(nodeOffset);
-    when(nodeMock.end).thenReturn(nodeEnd);
+    when(() => nodeMock.firstTokenAfterCommentAndMetadata)
+        .thenReturn(tokenMock);
+    when(() => nodeMock.offset).thenReturn(nodeOffset);
+    when(() => nodeMock.end).thenReturn(nodeEnd);
 
     final sourceMock = ResolvedUnitResultMock();
-    when(sourceMock.content).thenReturn('$preNodeCode$node$postNodeCode');
-    when(sourceMock.unit).thenReturn(compilationUnitMock);
-    when(sourceMock.path).thenReturn(sourceUrl);
+    when(() => sourceMock.content).thenReturn('$preNodeCode$node$postNodeCode');
+    when(() => sourceMock.unit).thenReturn(compilationUnitMock);
+    when(() => sourceMock.path).thenReturn(sourceUrl);
 
     test('without comment or metadata', () {
       final span = nodeLocation(node: nodeMock, source: sourceMock);

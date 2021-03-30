@@ -5,7 +5,7 @@ import 'package:dart_code_metrics/src/models/issue.dart';
 import 'package:dart_code_metrics/src/models/severity.dart';
 import 'package:dart_code_metrics/src/obsoleted/analyzer_plugin/analyzer_plugin_utils.dart';
 import 'package:glob/glob.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:source_span/source_span.dart';
 import 'package:test/test.dart';
 
@@ -13,7 +13,7 @@ class AnalysisResultMock extends Mock implements AnalysisResult {}
 
 void main() {
   group('isSupported returns', () {
-    AnalysisResultMock analysisResultMock;
+    late AnalysisResultMock analysisResultMock;
 
     setUp(() {
       analysisResultMock = AnalysisResultMock();
@@ -23,19 +23,18 @@ void main() {
       expect(isSupported(analysisResultMock), isFalse);
     });
     test('true on dart files', () {
-      when(analysisResultMock.path).thenReturn('lib/src/example.dart');
+      when(() => analysisResultMock.path).thenReturn('lib/src/example.dart');
 
       expect(isSupported(analysisResultMock), isTrue);
     });
     test('false on generated dart files', () {
-      when(analysisResultMock.path).thenReturn('lib/src/example.g.dart');
+      when(() => analysisResultMock.path).thenReturn('lib/src/example.g.dart');
 
       expect(isSupported(analysisResultMock), isFalse);
     });
   });
 
   test('prepareExcludes returns exclude pattern ', () {
-    expect(prepareExcludes(null, null), isEmpty);
     expect(
       prepareExcludes(
         ['example/**', 'test/resources/**'],
@@ -52,7 +51,7 @@ void main() {
     'isExcluded returns true only for file path those matches with any exclude pattern',
     () {
       final analysisResultMock = AnalysisResultMock();
-      when(analysisResultMock.path).thenReturn('lib/src/example.dart');
+      when(() => analysisResultMock.path).thenReturn('lib/src/example.dart');
 
       expect(
         isExcluded(

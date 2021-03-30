@@ -27,7 +27,7 @@ class NoEqualThenElse extends ObsoleteRule {
   Iterable<Issue> check(ResolvedUnitResult source) {
     final _visitor = _Visitor();
 
-    source.unit.visitChildren(_visitor);
+    source.unit?.visitChildren(_visitor);
 
     return _visitor.nodes
         .map(
@@ -65,7 +65,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
   void visitConditionalExpression(ConditionalExpression node) {
     super.visitConditionalExpression(node);
 
-    if (node.thenExpression?.toString() == node.elseExpression?.toString()) {
+    if (node.thenExpression.toString() == node.elseExpression.toString()) {
       _nodes.add(node);
     }
   }

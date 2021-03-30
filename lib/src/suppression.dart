@@ -14,14 +14,14 @@ class Suppression {
   bool isSuppressed(String id) => _ignoreForFileSet.contains(_canonicalize(id));
 
   /// Checks that the [id] is suppressed for the [lineIndex].
-  bool isSuppressedAt(String id, int lineIndex) =>
+  bool isSuppressedAt(String id, int? lineIndex) =>
       isSuppressed(id) ||
       (_ignoreMap[lineIndex]?.contains(_canonicalize(id)) ?? false);
 
   /// Initialize a newly created [Suppression] with the given [content] and [info].
   Suppression(String content, LineInfo info) {
     for (final match in _ignoreMatchers.allMatches(content)) {
-      final ids = match.group(1).split(',').map(_canonicalize);
+      final ids = match.group(1)!.split(',').map(_canonicalize);
       final location = info.getLocation(match.start);
       final lineNumber = location.lineNumber;
       final beforeMatch = content.substring(
@@ -40,7 +40,7 @@ class Suppression {
     }
 
     for (final match in _ignoreForFileMatcher.allMatches(content)) {
-      _ignoreForFileSet.addAll(match.group(1).split(',').map(_canonicalize));
+      _ignoreForFileSet.addAll(match.group(1)!.split(',').map(_canonicalize));
     }
   }
 
