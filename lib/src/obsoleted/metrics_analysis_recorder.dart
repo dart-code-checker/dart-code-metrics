@@ -42,7 +42,7 @@ class MetricsAnalysisRecorder
   @override
   void recordClass(ScopedClassDeclaration declaration, Report record) {
     _checkState();
-    _componentRecords![declaration] = record;
+    _componentRecords?[declaration] = record;
   }
 
   @override

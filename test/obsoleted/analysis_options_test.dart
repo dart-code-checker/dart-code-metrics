@@ -72,9 +72,9 @@ analyzer:
 dart_code_metrics:
   metrics:
     cyclomatic-complexity: 20
-    number-of-arguments: 4
+    number-of-parameters: 4
     number-of-methods: 8
-    maximum-nesting: 10
+    maximum-nesting-level: 10
   rules:
     - no-boolean-literal-compare
 
@@ -190,7 +190,7 @@ void main() {
           options.metricsConfig.cyclomaticComplexityWarningLevel,
           equals(20),
         );
-        expect(options.metricsConfig.numberOfArgumentsWarningLevel, equals(4));
+        expect(options.metricsConfig.numberOfParametersWarningLevel, equals(4));
         expect(options.metricsConfig.numberOfMethodsWarningLevel, equals(8));
         expect(options.metricsConfig.maximumNestingWarningLevel, equals(10));
         expect(options.excludeForMetricsPatterns, isEmpty);
@@ -250,7 +250,7 @@ void main() {
         options.metricsConfig.linesOfExecutableCodeWarningLevel,
         equals(30),
       );
-      expect(options.metricsConfig.numberOfArgumentsWarningLevel, equals(4));
+      expect(options.metricsConfig.numberOfParametersWarningLevel, equals(4));
       expect(
         options.metricsConfig.numberOfMethodsWarningLevel,
         equals(metrics.numberOfMethodsDefaultWarningLevel),

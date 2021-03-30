@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:dart_code_metrics/metrics_analyzer.dart' as metrics;
 import 'package:dart_code_metrics/reporters.dart';
+import 'package:dart_code_metrics/src/cli/arguments_parser.dart';
+import 'package:dart_code_metrics/src/cli/arguments_validation.dart';
 import 'package:dart_code_metrics/src/cli/arguments_validation_exceptions.dart';
 import 'package:dart_code_metrics/src/models/metric_value_level.dart';
-import 'package:dart_code_metrics/src/obsoleted/config/cli/arguments_parser.dart';
-import 'package:dart_code_metrics/src/obsoleted/config/cli/arguments_validation.dart';
 import 'package:dart_code_metrics/src/obsoleted/reporters/utility_selector.dart';
 import 'package:path/path.dart' as p;
 
@@ -48,8 +48,8 @@ Future<void> _runAnalysis(ArgResults arguments) async {
       int.tryParse(arguments[metrics.cyclomaticComplexityKey] as String? ?? '');
   final linesOfExecutableCodeThreshold = int.tryParse(
       arguments[metrics.linesOfExecutableCodeKey] as String? ?? '');
-  final numberOfArgumentsWarningLevel =
-      int.tryParse(arguments[metrics.numberOfArgumentsKey] as String? ?? '');
+  final numberOfParametersWarningLevel =
+      int.tryParse(arguments[metrics.numberOfParametersKey] as String? ?? '');
   final numberOfMethodsWarningLevel =
       int.tryParse(arguments[metrics.numberOfMethodsKey] as String? ?? '');
   final maximumNestingWarningLevel =
@@ -75,7 +75,7 @@ Future<void> _runAnalysis(ArgResults arguments) async {
   final analyzer = metrics.MetricsAnalyzer(
     store,
     options: options,
-    additionalExcludes: [arguments[ignoredFilesName] as String],
+    additionalExcludes: [arguments[excludedName] as String],
   );
   final runner = metrics.MetricsAnalysisRunner(
     analyzer,
@@ -90,8 +90,8 @@ Future<void> _runAnalysis(ArgResults arguments) async {
         options.metricsConfig.cyclomaticComplexityWarningLevel,
     linesOfExecutableCodeWarningLevel: linesOfExecutableCodeThreshold ??
         options.metricsConfig.linesOfExecutableCodeWarningLevel,
-    numberOfArgumentsWarningLevel: numberOfArgumentsWarningLevel ??
-        options.metricsConfig.numberOfArgumentsWarningLevel,
+    numberOfParametersWarningLevel: numberOfParametersWarningLevel ??
+        options.metricsConfig.numberOfParametersWarningLevel,
     numberOfMethodsWarningLevel: numberOfMethodsWarningLevel ??
         options.metricsConfig.numberOfMethodsWarningLevel,
     maximumNestingWarningLevel: maximumNestingWarningLevel ??
@@ -103,28 +103,31 @@ Future<void> _runAnalysis(ArgResults arguments) async {
   Reporter reporter;
 
   switch (reporterType) {
-    case 'console':
-      reporter = ConsoleReporter(
-        reportConfig: config,
-        reportAll: arguments[verboseName] as bool,
-      );
+    case consoleReporter:
+      reporter = ConsoleReporter(reportConfig: config);
       break;
-    case 'github':
-      reporter = GitHubReporter();
+    case consoleVerboseReporter:
+      reporter = ConsoleReporter(reportConfig: config, reportAll: true);
       break;
-    case 'json':
-      reporter = JsonReporter(reportConfig: config);
+    case codeClimateReporter:
+      reporter = CodeClimateReporter(reportConfig: config);
       break;
-    case 'html':
+    case htmlReporter:
       reporter = HtmlReporter(
         reportConfig: config,
         reportFolder: arguments[reportFolder] as String,
       );
       break;
-    case 'codeclimate':
+    case jsonReporter:
+      reporter = JsonReporter(reportConfig: config);
+      break;
+    case githubReporter:
+      reporter = GitHubReporter();
+      break;
+    case gitlabCodeClimateReporter:
       reporter = CodeClimateReporter(
         reportConfig: config,
-        gitlabCompatible: arguments[gitlabCompatibilityName] as bool,
+        gitlabCompatible: true,
       );
       break;
     default:

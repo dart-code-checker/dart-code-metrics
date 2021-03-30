@@ -57,7 +57,7 @@ A plugin for the Dart `analyzer` library [package](https://pub.dev/packages/dart
       metrics:
         cyclomatic-complexity: 20
         lines-of-executable-code: 50
-        number-of-arguments: 4
+        number-of-parameters: 4
         maximum-nesting: 5
       metrics-exclude:
         - test/**
@@ -88,33 +88,34 @@ flutter pub global run dart_code_metrics:metrics lib
 #### Full usage
 
 ```text
-Usage: metrics [options...] <directories>
--h, --help                                             Print this usage information.
+Usage: metrics [arguments...] <directories>
+
+-h, --help                                        Print this usage information.
 
 
--r, --reporter=<console>                               The format of the output of the analysis
-                                                       [console (default), github, json, html, codeclimate]
-    --verbose                                          Additional flag for Console reporter
-    --gitlab                                           Additional flag for Code Climate reporter to report in GitLab Code Quality format
--o, --output-directory=<OUTPUT>                        Write HTML output to OUTPUT
-                                                       (defaults to "metrics")
+-r, --reporter=<console>                          The format of the output of the analysis
+                                                  [console (default), console-verbose, codeclimate, github, gitlab, html, json]
+-o, --output-directory=<OUTPUT>                   Write HTML output to OUTPUT
+                                                  (defaults to "metrics")
 
 
-    --cyclomatic-complexity=<20>                       Cyclomatic complexity threshold
-    --lines-of-executable-code=<50>                    Lines of executable code threshold
-    --number-of-arguments=<4>                          Number of arguments threshold
-    --number-of-methods=<10>                           Number of methods threshold
-    --maximum-nesting=<5>                              Maximum nesting threshold
+    --cyclomatic-complexity=<20>                  Cyclomatic Complexity threshold
+    --lines-of-code=<100>                         Lines of Code threshold
+    --maximum-nesting-level=<5>                   Maximum Nesting Level threshold
+    --number-of-methods=<10>                      Number of Methods threshold
+    --number-of-parameters=<4>                    Number of Parameters threshold
+    --weight-of-class=<0.33>                      Weight Of a Class threshold
+    --lines-of-executable-code=<50>               Lines of executable code threshold
 
 
-    --root-folder=<./>                                 Root folder
-                                                       (defaults to current directory)
-    --ignore-files=<{/**.g.dart,/**.template.dart}>    Filepaths in Glob syntax to be ignored
-                                                       (defaults to "{/**.g.dart,/**.template.dart}")
+    --root-folder=<./>                            Root folder
+                                                  (defaults to current directory)
+    --exclude=<{/**.g.dart,/**.template.dart}>    File paths in Glob syntax to be exclude
+                                                  (defaults to "{/**.g.dart,/**.template.dart}")
 
 
-    --set-exit-on-violation-level=<warning>            Set exit code 2 if code violations same or higher level than selected are detected
-                                                       [noted, warning, alarm]
+    --set-exit-on-violation-level=<warning>       Set exit code 2 if code violations same or higher level than selected are detected
+                                                  [noted, warning, alarm]
 ```
 
 If you want command line tool to check rules, you should add configuration to your `analysis_options.yaml` as listed in Analyzer plugin usage example.

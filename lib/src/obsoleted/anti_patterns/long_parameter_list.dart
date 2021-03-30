@@ -1,5 +1,3 @@
-import 'package:meta/meta.dart';
-
 import '../../models/function_type.dart';
 import '../../models/issue.dart';
 import '../../models/scoped_function_declaration.dart';
@@ -25,7 +23,7 @@ class LongParameterList extends BasePattern {
       functions
           .where((function) =>
               getArgumentsCount(function) >
-              config.numberOfArgumentsWarningLevel)
+              config.numberOfParametersWarningLevel)
           .map((function) => utils.createIssue(
                 this,
                 _compileMessage(
@@ -33,7 +31,7 @@ class LongParameterList extends BasePattern {
                   functionType: function.type,
                 ),
                 _compileRecommendationMessage(
-                  maximumArguments: config.numberOfArgumentsWarningLevel,
+                  maximumArguments: config.numberOfParametersWarningLevel,
                   functionType: function.type,
                 ),
                 source,

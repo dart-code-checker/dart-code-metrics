@@ -1,5 +1,3 @@
-import 'package:meta/meta.dart';
-
 import '../../models/function_type.dart';
 import '../../models/issue.dart';
 import '../../models/scoped_function_declaration.dart';

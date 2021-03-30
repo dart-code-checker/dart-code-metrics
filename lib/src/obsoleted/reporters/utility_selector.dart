@@ -205,7 +205,7 @@ class UtilitySelector {
         value: function.argumentsCount,
         level: valueLevel(
           function.argumentsCount,
-          config.numberOfArgumentsWarningLevel,
+          config.numberOfParametersWarningLevel,
         ),
         comment: '',
       ),

@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import '../../config/config.dart';
-import '../utils/object_extensions.dart';
 import '../utils/yaml_utils.dart';
 import 'config.dart' as metrics;
 
@@ -75,8 +74,8 @@ metrics.Config _readMetricsConfig(Map<String, Object> configMap) {
             configMap[metrics.cyclomaticComplexityKey] as int?,
         linesOfExecutableCodeWarningLevel:
             configMap[metrics.linesOfExecutableCodeKey] as int?,
-        numberOfArgumentsWarningLevel:
-            configMap[metrics.numberOfArgumentsKey] as int?,
+        numberOfParametersWarningLevel:
+            configMap[metrics.numberOfParametersKey] as int?,
         numberOfMethodsWarningLevel:
             configMap[metrics.numberOfMethodsKey] as int?,
         maximumNestingWarningLevel:
