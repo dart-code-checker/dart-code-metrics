@@ -12,7 +12,7 @@ dependencies:
   analyzer: '>=0.40.0 <0.42.0'
   analyzer_plugin: '>=0.3.0 <0.5.0'
   ansicolor: ^1.1.0
-  args: ^1.4.4
+  args: ^1.6.0
   crypto: ^2.0.6
   glob: ^1.1.7
   html: '>=0.13.4 <1.0.0'
