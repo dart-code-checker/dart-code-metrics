@@ -1,4 +1,3 @@
-# Dart Code Metrics
 
 [![Build Status](https://github.com/dart-code-checker/dart-code-metrics/workflows/build/badge.svg)](https://github.com/dart-code-checker/dart-code-metrics/)
 [![Coverage Status](https://codecov.io/gh/dart-code-checker/dart-code-metrics/branch/master/graph/badge.svg?branch=master)](https://codecov.io/gh/dart-code-checker/dart-code-metrics)
@@ -6,6 +5,13 @@
 [![Dart SDK Version](https://badgen.net/pub/sdk-version/dart_code_metrics)](https://pub.dev/packages/dart_code_metrics/)
 [![License](https://badgen.net/pub/license/dart_code_metrics)](https://pub.dev/packages/dart_code_metrics/license)
 [![Pub popularity](https://badgen.net/pub/popularity/dart_code_metrics)](https://pub.dev/packages/dart_code_metrics/score)
+
+# Dart Code Metrics
+
+[Configuring](#configuration) |
+[Rules](#rules) |
+[Metrics](#metrics) |
+[Anti-patterns](#anti-patterns)
 
 <img
   src="doc/.assets/logo.svg"
@@ -262,6 +268,14 @@ tells the Dart analyzer to ignore all occurrences of the camel_case_types warnin
 
 It's the same approach that the dart linter package [use](https://github.com/dart-lang/linter#usage).
 
+Additionally, `exclude` entry for the analyzer config can be used to ignore files. For example,
+
+```yaml
+exclude:
+  - example/**
+```
+
+will work both for the analyzer and for this plugin.
 ## Metrics
 
 Metrics configuration is [described here](#configuring-a-metrics-entry).
