@@ -3,14 +3,14 @@ import 'package:meta/meta.dart';
 
 const cyclomaticComplexityKey = 'cyclomatic-complexity';
 const linesOfExecutableCodeKey = 'lines-of-executable-code';
-const numberOfArgumentsKey = 'number-of-arguments';
+const numberOfParametersKey = 'number-of-parameters';
 const numberOfMethodsKey = 'number-of-methods';
-const maximumNestingKey = 'maximum-nesting';
+const maximumNestingKey = 'maximum-nesting-level';
 const weightOfClassKey = 'weight-of-class';
 
 const cyclomaticComplexityDefaultWarningLevel = 20;
 const linesOfExecutableCodeDefaultWarningLevel = 50;
-const numberOfArgumentsDefaultWarningLevel = 4;
+const numberOfParametersDefaultWarningLevel = 4;
 const numberOfMethodsDefaultWarningLevel = 10;
 const maximumNestingDefaultWarningLevel = 5;
 const weightOfClassDefaultWarningLevel = 0.33;
@@ -30,7 +30,7 @@ class Config {
         cyclomaticComplexityDefaultWarningLevel,
     this.linesOfExecutableCodeWarningLevel =
         linesOfExecutableCodeDefaultWarningLevel,
-    this.numberOfArgumentsWarningLevel = numberOfArgumentsDefaultWarningLevel,
+    this.numberOfArgumentsWarningLevel = numberOfParametersDefaultWarningLevel,
     this.numberOfMethodsWarningLevel = numberOfMethodsDefaultWarningLevel,
     this.maximumNestingWarningLevel = maximumNestingDefaultWarningLevel,
     this.weightOfClassWarningLevel = weightOfClassDefaultWarningLevel,

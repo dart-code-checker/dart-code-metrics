@@ -72,9 +72,9 @@ analyzer:
 dart_code_metrics:
   metrics:
     cyclomatic-complexity: 20
-    number-of-arguments: 4
+    number-of-parameters: 4
     number-of-methods: 8
-    maximum-nesting: 10
+    maximum-nesting-level: 10
   rules:
     - no-boolean-literal-compare
 

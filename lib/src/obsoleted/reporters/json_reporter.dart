@@ -41,15 +41,15 @@ class JsonReporter implements Reporter {
             ..._report(report.cyclomaticComplexity, cyclomaticComplexityKey),
             ..._report(report.linesOfExecutableCode, linesOfExecutableCodeKey),
             ..._report(report.maintainabilityIndex, 'maintainability-index'),
-            ..._report(report.argumentsCount, numberOfArgumentsKey),
+            ..._report(report.argumentsCount, numberOfParametersKey),
             ..._report(report.maximumNestingLevel, maximumNestingKey),
           });
         }),
       },
       'issues': _reportCodeIssue(record.issues),
       'designIssues': _reportDesignIssues(record.designIssues),
-      'average-$numberOfArgumentsKey': fileReport.averageArgumentsCount,
-      'total-$numberOfArgumentsKey-violations':
+      'average-$numberOfParametersKey': fileReport.averageArgumentsCount,
+      'total-$numberOfParametersKey-violations':
           fileReport.argumentsCountViolations,
       'average-$numberOfMethodsKey': fileReport.averageMethodsCount,
       'total-$numberOfMethodsKey-violations': fileReport.methodsCountViolations,
