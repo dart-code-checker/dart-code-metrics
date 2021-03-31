@@ -55,7 +55,7 @@ A plugin for the Dart `analyzer` [package](https://pub.dev/packages/analyzer) pr
 
     ```yaml
     dev_dependencies:
-      dart_code_metrics: ^2.4.1
+      dart_code_metrics: ^3.0.0
     ```
 
     and then run
@@ -82,7 +82,7 @@ A plugin for the Dart `analyzer` [package](https://pub.dev/packages/analyzer) pr
         cyclomatic-complexity: 20
         lines-of-executable-code: 50
         number-of-parameters: 4
-        maximum-nesting: 5
+        maximum-nesting-level: 5
       metrics-exclude:
         - test/**
       rules:
@@ -203,7 +203,7 @@ dart_code_metrics:
     cyclomatic-complexity: 20
     lines-of-executable-code: 50
     number-of-arguments: 4
-    maximum-nesting: 5
+    maximum-nesting-level: 5
   metrics-exclude:
     - test/**
   rules:
