@@ -264,7 +264,7 @@ To ignore a rule for an entire file, use the ignore_for_file comment flag. For e
 void emptyFunction() {}
 ```
 
-tells the Dart analyzer to ignore all occurrences of the camel_case_types warning in this file.
+tells the analyzer to ignore all occurrences of the camel_case_types warning in this file.
 
 It's the same approach that the dart linter package [use](https://github.com/dart-lang/linter#usage).
 
@@ -276,6 +276,7 @@ exclude:
 ```
 
 will work both for the analyzer and for this plugin.
+
 ## Metrics
 
 Metrics configuration is [described here](#configuring-a-metrics-entry).
