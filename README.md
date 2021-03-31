@@ -42,7 +42,7 @@ A plugin for the Dart `analyzer` [package](https://pub.dev/packages/analyzer) pr
 1. Install package as a dev dependency
 
     ```sh
-    $ pub add --dev dart_code_metrics
+    $ dart pub add --dev dart_code_metrics
     
     # or for a Flutter package
     $ flutter pub add --dev dart_code_metrics
@@ -61,7 +61,7 @@ A plugin for the Dart `analyzer` [package](https://pub.dev/packages/analyzer) pr
     and then run
 
     ```sh
-    $ pub get
+    $ dart pub get
     
     # or for a Flutter package
     $ flutter pub get
@@ -114,7 +114,7 @@ Install the package as listed in the [Analyzer plugin usage example](#analyzer-p
 If you want the command-line tool to check rules, you [should configure](#configuring-a-rules-entry) `rules` entry in the `analysis_options.yaml` first.
 
 ```sh
-pub run dart_code_metrics:metrics lib
+dart pub run dart_code_metrics:metrics lib
 
 # or for a Flutter package
 flutter pub run dart_code_metrics:metrics lib
@@ -123,8 +123,8 @@ flutter pub run dart_code_metrics:metrics lib
 #### Global usage
 
 ```sh
-pub global activate dart_code_metrics
-pub global run dart_code_metrics:metrics lib
+dart pub global activate dart_code_metrics
+dart pub global run dart_code_metrics:metrics lib
 
 # or for a Flutter package
 flutter pub global activate dart_code_metrics
