@@ -8,7 +8,7 @@
 
 # Dart Code Metrics
 
-[Configuring](#configuration) |
+[Configuration](#configuration) |
 [Rules](#rules) |
 [Metrics](#metrics) |
 [Anti-patterns](#anti-patterns)
@@ -28,16 +28,15 @@ Dart Code Metrics is a static analysis tool that helps you analyse and improve y
 
 ## Links
 
-- See [CHANGELOG.md](./CHANGELOG.md) for major/breaking updates, and releases for a detailed version history.
+- See [CHANGELOG.md](./CHANGELOG.md) for major/breaking updates, and [releases](https://github.com/dart-code-checker/dart-code-metrics/releases) for a detailed version history.
 - To contribute, please read [CONTRIBUTING.md](./CONTRIBUTING.md) first.
 - Please [open an issue](https://github.com/dart-code-checker/dart-code-metrics/issues/new?assignees=dkrutskikh&labels=question&template=question.md&title=%5BQuestion%5D+) if anything is missing or unclear in this documentation.
-- Please [open an issue](https://github.com/dart-code-checker/dart-code-metrics/issues/new?assignees=dkrutskikh&labels=enhancement&template=new-rule-proposal.md&title=%5BNew+rule%5D+) if you have a suggestion for a rule or metric
 
 ## Usage
 
 ### Analyzer plugin
 
-A plugin for the Dart `analyzer` [package](https://pub.dev/packages/analyzer) providing additional rules from Dart Code Metrics. It will highlight anti-patterns and rules issues in IDE.
+A plugin for the Dart `analyzer` [package](https://pub.dev/packages/analyzer) providing additional rules from Dart Code Metrics. All issues produced by rules or anti-patterns will be highlighted in IDE.
 
 1. Install package as a dev dependency
 
@@ -179,13 +178,13 @@ analyzer:
 
 dart_code_metrics:
   anti-patterns:
-    - ... # add this entry to configure list of anti-patterns
+    - ... # add this entry to configure the list of anti-patterns
   metrics:
-    ... # add this entry to configure list of reported metrics
+    ... # add this entry to configure the list of reported metrics
   metrics-exclude:
-    - ... # add this entry to configure list of files that should be ignored by metrics
+    - ... # add this entry to configure the list of files that should be ignored by metrics
   rules:
-    - ... ## add this entry to configure list of rules
+    - ... ## add this entry to configure the list of rules
 ```
 
 Basic config example:
@@ -217,15 +216,15 @@ dart_code_metrics:
 
 ### Configuring a rules entry
 
-To enable a rule add it's id to the `rules` entry. Rules with a `configurable` badge have additional configuration, check out their docs for more information.
+To enable a rule add its id to the `rules` entry. Rules with a `configurable` badge have additional configuration, check out their docs for more information.
 
 ### Configuring a metrics entry
 
-To enable a metric add it's id to the `metrics` entry in the `analysis_options.yaml`. All metrics can take a threshold value. If no value provided, the default value will be used.
+To enable a metric add its id to the `metrics` entry in the `analysis_options.yaml`. All metrics can take a threshold value. If no value was provided, the default value will be used.
 
 ### Configuring a metrics-exclude entry
 
-To exclude a metrics provide a list of regular expressions for ignored files. For example:
+To exclude files from a metrics report provide a list of regular expressions for ignored files. For example:
 
 ```yaml
 dart_code_metrics:
@@ -236,7 +235,7 @@ dart_code_metrics:
 
 ### Configuring an anti-pattern entry
 
-To enable an anti-pattern add it's id to the `anti-patterns` entry.
+To enable an anti-pattern add its id to the `anti-patterns` entry.
 
 ## Ignoring a rule or anti-pattern
 
@@ -329,7 +328,7 @@ Rules configuration is [described here](#configuring-a-rules-entry).
 
 ## Anti-patterns
 
-Anti-patterns used by the plugin to display issues in IDE like for rules, except that their configuration is based on a metrics config.
+Like rules, anti-patterns display issues in IDE, except that their configuration is based on a `metrics` entry in the config.
 
 - [long-method](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/anti-patterns/long-method.md)
 - [long-parameter-list](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/anti-patterns/long-parameter-list.md)
