@@ -2,15 +2,15 @@
 
 ## Unreleased
 
-* Set min `SDK` version to `2.9.0`
-* Set min `args` 1.6.0
-* Changed the support version range of the `analyzer` to `>=0.40.0 <0.42.0`
-* Changed the support version range of the `analyzer_plugin` to `>=0.3.0 <0.5.0`
-* Remove obsolete rule `prefer-trailing-comma-for-collection`
+* Set min `SDK` version to `2.12.0`.
+* Changed the supported `analyzer` version to `^1.3.0`.
+* Changed the supported `analyzer_plugin` version to `^0.5.0`.
+* Stable null safety release.
+* Remove obsolete rule `prefer-trailing-comma-for-collection`.
 * Rename cli arguments:
-  - `ignore-files` to `exclude`
-  - `maximum-nesting` to `maximum-nesting-level`
-  - `number-of-arguments` to `number-of-parameters`
+  * `ignore-files` to `exclude`
+  * `maximum-nesting` to `maximum-nesting-level`
+  * `number-of-arguments` to `number-of-parameters`
 
 ## 2.4.1
 
