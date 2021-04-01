@@ -6,7 +6,7 @@
 * Changed the supported `analyzer` version to `^1.3.0`.
 * Changed the supported `analyzer_plugin` version to `^0.5.0`.
 * Stable null safety release.
-* Remove obsolete rule `prefer-trailing-comma-for-collection`.
+* Remove obsolete rule `prefer-trailing-comma-for-collection`, `potential-null-dereference`.
 * Rename cli arguments:
   * `ignore-files` to `exclude`
   * `maximum-nesting` to `maximum-nesting-level`
