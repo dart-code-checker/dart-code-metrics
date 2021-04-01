@@ -27,10 +27,10 @@ abstract class Metric<T extends num> {
 
   /// Initialize a newly created [Metric].
   const Metric({
-    @required this.id,
-    @required this.documentation,
-    @required this.threshold,
-    @required MetricValueLevel Function(T, T) levelComputer,
+    required this.id,
+    required this.documentation,
+    required this.threshold,
+    required MetricValueLevel Function(T, T) levelComputer,
   }) : _levelComputer = levelComputer;
 
   /// Returns true if the metric can be computed on this [node].
@@ -85,11 +85,11 @@ abstract class Metric<T extends num> {
   /// Returns the message for a user containing information about how the user
   /// can improve this value.
   @protected
-  String recommendationMessage(String nodeType, T value, T threshold) => null;
+  String? recommendationMessage(String nodeType, T value, T threshold) => null;
 
   /// Returns human readable type of [node]
   @protected
-  String nodeType(
+  String? nodeType(
     Declaration node,
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,

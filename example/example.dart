@@ -31,7 +31,7 @@ Future<void> main() async {
   const reporterConfig = Config(
     cyclomaticComplexityWarningLevel: 10,
     linesOfExecutableCodeWarningLevel: 50,
-    numberOfArgumentsWarningLevel: 4,
+    numberOfParametersWarningLevel: 4,
   );
 
   // Now the reporter itself

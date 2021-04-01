@@ -25,7 +25,7 @@ class NoEqualArguments extends ObsoleteRule {
   Iterable<Issue> check(ResolvedUnitResult source) {
     final _visitor = _Visitor();
 
-    source.unit.visitChildren(_visitor);
+    source.unit?.visitChildren(_visitor);
 
     return _visitor.arguments
         .map((argument) => createIssue(

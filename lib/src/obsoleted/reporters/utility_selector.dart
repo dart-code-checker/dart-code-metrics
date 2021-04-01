@@ -205,7 +205,7 @@ class UtilitySelector {
         value: function.argumentsCount,
         level: valueLevel(
           function.argumentsCount,
-          config.numberOfArgumentsWarningLevel,
+          config.numberOfParametersWarningLevel,
         ),
         comment: '',
       ),
@@ -226,7 +226,7 @@ class UtilitySelector {
         report.maintainabilityIndex.level,
         report.argumentsCount.level,
         report.maximumNestingLevel.level,
-      ]);
+      ])!;
 
   static MetricValueLevel maxViolationLevel(
     Iterable<FileRecord> records,
@@ -235,7 +235,7 @@ class UtilitySelector {
       quiver.max(records
           .expand((fileRecord) => fileRecord.functions.values
               .map((functionRecord) => functionReport(functionRecord, config)))
-          .map(functionViolationLevel));
+          .map(functionViolationLevel))!;
 
   static metrics.FileReport mergeFileReports(
     metrics.FileReport lhs,

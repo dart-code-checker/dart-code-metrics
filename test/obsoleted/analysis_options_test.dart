@@ -190,7 +190,7 @@ void main() {
           options.metricsConfig.cyclomaticComplexityWarningLevel,
           equals(20),
         );
-        expect(options.metricsConfig.numberOfArgumentsWarningLevel, equals(4));
+        expect(options.metricsConfig.numberOfParametersWarningLevel, equals(4));
         expect(options.metricsConfig.numberOfMethodsWarningLevel, equals(8));
         expect(options.metricsConfig.maximumNestingWarningLevel, equals(10));
         expect(options.excludeForMetricsPatterns, isEmpty);
@@ -250,7 +250,7 @@ void main() {
         options.metricsConfig.linesOfExecutableCodeWarningLevel,
         equals(30),
       );
-      expect(options.metricsConfig.numberOfArgumentsWarningLevel, equals(4));
+      expect(options.metricsConfig.numberOfParametersWarningLevel, equals(4));
       expect(
         options.metricsConfig.numberOfMethodsWarningLevel,
         equals(metrics.numberOfMethodsDefaultWarningLevel),

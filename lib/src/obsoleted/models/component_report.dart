@@ -8,7 +8,7 @@ class ComponentReport {
   final MetricValue<double> weightOfClass;
 
   const ComponentReport({
-    @required this.methodsCount,
-    @required this.weightOfClass,
+    required this.methodsCount,
+    required this.weightOfClass,
   });
 }

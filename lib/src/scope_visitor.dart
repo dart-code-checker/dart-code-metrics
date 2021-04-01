@@ -11,7 +11,7 @@ class ScopeVisitor extends RecursiveAstVisitor<void> {
   final _classes = <ScopedClassDeclaration>[];
   final _functions = <ScopedFunctionDeclaration>[];
 
-  ScopedClassDeclaration _enclosingDeclaration;
+  ScopedClassDeclaration? _enclosingDeclaration;
 
   /// Returns the declarations of the found classes.
   Iterable<ScopedClassDeclaration> get classes => _classes;
@@ -74,7 +74,7 @@ class ScopeVisitor extends RecursiveAstVisitor<void> {
     void Function() visitCallback,
   ) {
     _enclosingDeclaration = ScopedClassDeclaration(type, node);
-    _classes.add(_enclosingDeclaration);
+    _classes.add(_enclosingDeclaration!);
 
     visitCallback();
 

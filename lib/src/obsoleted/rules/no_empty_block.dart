@@ -28,7 +28,7 @@ class NoEmptyBlockRule extends ObsoleteRule {
   Iterable<Issue> check(ResolvedUnitResult source) {
     final _visitor = _Visitor();
 
-    source.unit.visitChildren(_visitor);
+    source.unit?.visitChildren(_visitor);
 
     return _visitor.emptyBlocks
         .map((block) => createIssue(
@@ -55,7 +55,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
     if (node.statements.isEmpty &&
         node.parent is! CatchClause &&
-        !(node.endToken.precedingComments?.lexeme?.contains('TODO') ?? false)) {
+        !(node.endToken.precedingComments?.lexeme.contains('TODO') ?? false)) {
       _emptyBlocks.add(node);
     }
   }

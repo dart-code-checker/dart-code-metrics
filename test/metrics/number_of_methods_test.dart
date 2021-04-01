@@ -49,7 +49,7 @@ void main() {
       final visitor = ScopeVisitor();
 
       final result = await resolveFile(path: p.normalize(p.absolute(key)));
-      result.unit.visitChildren(visitor);
+      result!.unit!.visitChildren(visitor);
 
       final metricValue = metric.compute(
         visitor.classes.single.declaration,

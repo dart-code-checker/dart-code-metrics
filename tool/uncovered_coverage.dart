@@ -69,7 +69,7 @@ Iterable<File> _findSourceFiles(Directory directory, bool skipGenerated) {
 }
 
 bool _isSourceFileHaveValidExtension(File file) =>
-    p.extension(file.path)?.endsWith('.dart') ?? false;
+    p.extension(file.path).endsWith('.dart');
 
 bool _isSourceFileNotPartOfLibrary(File file) =>
     file.readAsLinesSync().every((line) => !line.startsWith('part of '));

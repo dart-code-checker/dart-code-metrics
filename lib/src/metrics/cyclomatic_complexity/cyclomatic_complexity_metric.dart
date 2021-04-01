@@ -70,7 +70,7 @@ class CyclomaticComplexityMetric extends FunctionMetric<int> {
     ResolvedUnitResult source,
   ) =>
       complexityEntities.map((entity) {
-        String message;
+        late String message;
         if (entity is AstNode) {
           message = userFriendlyType(entity.runtimeType).camelCaseToText();
         } else if (entity is Token) {

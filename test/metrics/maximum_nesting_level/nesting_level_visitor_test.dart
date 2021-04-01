@@ -13,7 +13,7 @@ Future<void> main() async {
 
   group('NestingLevelVisitor collect information about nesting levels', () {
     final scopeVisitor = ScopeVisitor();
-    result.unit.visitChildren(scopeVisitor);
+    result!.unit!.visitChildren(scopeVisitor);
 
     test('in simple function', () {
       final declaration = scopeVisitor.functions.first.declaration;

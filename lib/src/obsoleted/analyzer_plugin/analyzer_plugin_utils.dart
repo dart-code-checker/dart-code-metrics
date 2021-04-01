@@ -11,39 +11,42 @@ import '../../models/severity.dart';
 
 bool isSupported(AnalysisResult result) =>
     result.path != null &&
-    result.path.endsWith('.dart') &&
-    !result.path.endsWith('.g.dart');
+    result.path!.endsWith('.dart') &&
+    !result.path!.endsWith('.g.dart');
 
-Iterable<Glob> prepareExcludes(Iterable<String> patterns, String root) =>
-    patterns?.map((exclude) => Glob(p.join(root, exclude)))?.toList() ?? [];
+Iterable<Glob> prepareExcludes(Iterable<String>? patterns, String root) =>
+    patterns?.map((exclude) => Glob(p.join(root, exclude))).toList() ?? [];
 
 bool isExcluded(AnalysisResult result, Iterable<Glob> excludes) =>
-    excludes.any((exclude) => exclude.matches(result.path));
+    result.path != null &&
+    excludes.any((exclude) => exclude.matches(result.path!));
 
 plugin.AnalysisErrorFixes codeIssueToAnalysisErrorFixes(
         Issue issue, ResolvedUnitResult unitResult) =>
     plugin.AnalysisErrorFixes(
       plugin.AnalysisError(
-        _severityMapping[issue.severity],
+        _severityMapping[issue.severity]!,
         plugin.AnalysisErrorType.LINT,
         plugin.Location(
-          issue.location.sourceUrl.path,
+          issue.location.sourceUrl!.path,
           issue.location.start.offset,
           issue.location.length,
           issue.location.start.line,
           issue.location.start.column,
+          issue.location.end.line,
+          issue.location.end.column,
         ),
         issue.message,
         issue.ruleId,
         correction: issue.suggestion?.replacement,
-        url: issue.documentation?.toString(),
+        url: issue.documentation.toString(),
         hasFix: issue.suggestion != null,
       ),
       fixes: [
         if (issue.suggestion != null)
           plugin.PrioritizedSourceChange(
             1,
-            plugin.SourceChange(issue.suggestion.comment, edits: [
+            plugin.SourceChange(issue.suggestion!.comment, edits: [
               plugin.SourceFileEdit(
                 unitResult.libraryElement.source.fullName,
                 unitResult.libraryElement.source.modificationStamp,
@@ -51,7 +54,7 @@ plugin.AnalysisErrorFixes codeIssueToAnalysisErrorFixes(
                   plugin.SourceEdit(
                     issue.location.start.offset,
                     issue.location.length,
-                    issue.suggestion.replacement,
+                    issue.suggestion!.replacement,
                   ),
                 ],
               ),
@@ -65,16 +68,18 @@ plugin.AnalysisErrorFixes designIssueToAnalysisErrorFixes(Issue issue) =>
       plugin.AnalysisErrorSeverity.INFO,
       plugin.AnalysisErrorType.HINT,
       plugin.Location(
-        issue.location.sourceUrl.path,
+        issue.location.sourceUrl!.path,
         issue.location.start.offset,
         issue.location.length,
         issue.location.start.line,
         issue.location.start.column,
+        issue.location.end.line,
+        issue.location.end.column,
       ),
       issue.message,
       issue.ruleId,
       correction: issue.verboseMessage,
-      url: issue.documentation?.toString(),
+      url: issue.documentation.toString(),
       hasFix: false,
     ));
 
@@ -88,9 +93,11 @@ plugin.AnalysisErrorFixes metricReportToAnalysisErrorFixes(
       plugin.AnalysisErrorSeverity.INFO,
       plugin.AnalysisErrorType.LINT,
       plugin.Location(
-        startLocation.sourceUrl.path,
+        startLocation.sourceUrl!.path,
         startLocation.offset,
         length,
+        startLocation.line,
+        startLocation.column,
         startLocation.line,
         startLocation.column,
       ),

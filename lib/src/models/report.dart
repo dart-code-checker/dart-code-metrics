@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 import 'package:source_span/source_span.dart';
 
@@ -14,8 +15,8 @@ class Report {
   final Iterable<MetricValue<num>> metrics;
 
   /// Returns a certain target metric.
-  MetricValue<num> metric(String id) => metrics
-      .firstWhere((metric) => metric.metricsId == id, orElse: () => null);
+  MetricValue<num>? metric(String id) =>
+      metrics.firstWhereOrNull((metric) => metric.metricsId == id);
 
   // TODO(dkrutskikh): after migrate on NullSafety migrate on iterable extensions from collection package
   /// The highest reported level of a metric.
@@ -24,5 +25,8 @@ class Report {
       : MetricValueLevel.none;
 
   /// Initialize a newly created [Report].
-  const Report({@required this.location, @required this.metrics});
+  const Report({
+    required this.location,
+    required this.metrics,
+  });
 }

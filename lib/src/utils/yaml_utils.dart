@@ -15,7 +15,7 @@ Map<String, Object> yamlMapToDartMap(YamlMap map) =>
             ))));
 
 /// Convert yaml [node] to Dart [Object].
-Object yamlNodeToDartObject(YamlNode node) {
+Object yamlNodeToDartObject(YamlNode? node) {
   var object = Object();
 
   if (node is YamlMap) {

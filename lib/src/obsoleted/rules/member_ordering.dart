@@ -1,6 +1,7 @@
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
+import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
 import '../../models/issue.dart';
@@ -23,7 +24,7 @@ class MemberOrderingRule extends ObsoleteRule {
 
   MemberOrderingRule({Map<String, Object> config = const {}})
       : _groupsOrder = _parseOrder(config),
-        _alphabetize = (config['alphabetize'] as bool) ?? false,
+        _alphabetize = (config['alphabetize'] as bool?) ?? false,
         super(
           id: ruleId,
           documentationUrl: Uri.parse(_documentationUrl),
@@ -35,8 +36,8 @@ class MemberOrderingRule extends ObsoleteRule {
     final _visitor = _Visitor(_groupsOrder);
 
     final membersInfo = [
-      for (final entry in source.unit.childEntities)
-        if (entry is ClassDeclaration) ...entry.accept(_visitor),
+      for (final entry in source.unit!.childEntities)
+        if (entry is ClassDeclaration) ...entry.accept(_visitor)!,
     ];
 
     return [
@@ -49,7 +50,7 @@ class MemberOrderingRule extends ObsoleteRule {
                 withCommentOrMetadata: true,
               ),
               message:
-                  '${info.memberOrder.memberGroup.name} $_warningMessage ${info.memberOrder.previousMemberGroup.name}',
+                  '${info.memberOrder.memberGroup.name} $_warningMessage ${info.memberOrder.previousMemberGroup?.name}',
             ),
           ),
       if (_alphabetize)
@@ -77,10 +78,7 @@ class MemberOrderingRule extends ObsoleteRule {
 
     return order.isEmpty
         ? _MembersGroup._groupsOrder
-        : order
-            .map(_MembersGroup.parse)
-            .where((group) => group != null)
-            .toList();
+        : order.map(_MembersGroup.parse).whereNotNull().toList();
   }
 }
 
@@ -210,7 +208,7 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
       return _MemberOrder(
         memberNames: memberNames,
         isAlphabeticallyWrong: hasSameGroup &&
-            memberNames.currentName.compareTo(memberNames.previousName) != 1,
+            memberNames.currentName.compareTo(memberNames.previousName!) != 1,
         memberGroup: memberGroup,
         previousMemberGroup: previousMemberGroup,
         isWrong: (hasSameGroup && lastMemberOrder.isWrong) ||
@@ -277,8 +275,8 @@ class _MembersGroup {
 
   const _MembersGroup._(this.name);
 
-  static _MembersGroup parse(String name) => _groupsOrder
-      .firstWhere((group) => group.name == name, orElse: () => null);
+  static _MembersGroup? parse(String name) =>
+      _groupsOrder.firstWhereOrNull((group) => group.name == name);
 }
 
 @immutable
@@ -314,8 +312,8 @@ class _Annotation {
 
   const _Annotation._(this.name, this.group);
 
-  static _Annotation parse(String name) => _annotations
-      .firstWhere((annotation) => annotation.name == name, orElse: () => null);
+  static _Annotation? parse(String name) =>
+      _annotations.firstWhereOrNull((annotation) => annotation.name == name);
 }
 
 @immutable
@@ -324,8 +322,8 @@ class _MemberInfo {
   final _MemberOrder memberOrder;
 
   const _MemberInfo({
-    this.classMember,
-    this.memberOrder,
+    required this.classMember,
+    required this.memberOrder,
   });
 }
 
@@ -335,13 +333,13 @@ class _MemberOrder {
   final bool isAlphabeticallyWrong;
   final _MemberNames memberNames;
   final _MembersGroup memberGroup;
-  final _MembersGroup previousMemberGroup;
+  final _MembersGroup? previousMemberGroup;
 
   const _MemberOrder({
-    this.isWrong,
-    this.isAlphabeticallyWrong,
-    this.memberNames,
-    this.memberGroup,
+    required this.isWrong,
+    required this.isAlphabeticallyWrong,
+    required this.memberNames,
+    required this.memberGroup,
     this.previousMemberGroup,
   });
 }
@@ -349,10 +347,10 @@ class _MemberOrder {
 @immutable
 class _MemberNames {
   final String currentName;
-  final String previousName;
+  final String? previousName;
 
   const _MemberNames({
-    this.currentName,
+    required this.currentName,
     this.previousName,
   });
 }

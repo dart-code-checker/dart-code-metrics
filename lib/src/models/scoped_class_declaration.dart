@@ -15,10 +15,10 @@ class ScopedClassDeclaration {
   /// Returns the user defined name.
   String get name {
     final node = declaration;
-    String name;
+    String? name;
 
     if (node is ExtensionDeclaration) {
-      name = node.name.name;
+      name = node.name?.name;
     } else if (node is NamedCompilationUnitMember) {
       name = node.name.name;
     }

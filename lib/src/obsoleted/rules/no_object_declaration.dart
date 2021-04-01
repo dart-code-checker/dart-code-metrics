@@ -26,7 +26,7 @@ class NoObjectDeclarationRule extends ObsoleteRule {
   Iterable<Issue> check(ResolvedUnitResult source) {
     final _visitor = _Visitor();
 
-    source.unit.visitChildren(_visitor);
+    source.unit?.visitChildren(_visitor);
 
     return _visitor.members
         .map(
@@ -67,7 +67,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
     }
   }
 
-  bool _hasObjectType(TypeAnnotation type) =>
+  bool _hasObjectType(TypeAnnotation? type) =>
       type?.type?.isDartCoreObject ??
       (type is TypeName && type.name.name == 'Object');
 }

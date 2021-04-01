@@ -3,7 +3,7 @@ import 'package:dart_code_metrics/src/models/replacement.dart';
 import 'package:dart_code_metrics/src/models/severity.dart';
 import 'package:dart_code_metrics/src/rules/rule.dart';
 import 'package:dart_code_metrics/src/utils/rule_utils.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:source_span/source_span.dart';
 import 'package:test/test.dart';
 
@@ -35,8 +35,8 @@ void main() {
             Replacement(comment: 'comment', replacement: 'new code');
 
         final rule = RuleMock();
-        when(rule.id).thenReturn(id);
-        when(rule.severity).thenReturn(severity);
+        when(() => rule.id).thenReturn(id);
+        when(() => rule.severity).thenReturn(severity);
 
         final issue = createIssue(
           rule: rule,

@@ -1,6 +1,7 @@
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
+import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
 import '../../models/issue.dart';
@@ -31,8 +32,8 @@ class ComponentAnnotationArgumentsOrderingRule extends ObsoleteRule {
     final _visitor = _Visitor(_groupsOrder);
 
     final argumentsInfo = [
-      for (final entry in source.unit.childEntities)
-        if (entry is ClassDeclaration) ...entry.accept(_visitor),
+      for (final entry in source.unit!.childEntities)
+        if (entry is ClassDeclaration) ...entry.accept(_visitor)!,
     ];
 
     return argumentsInfo.where((info) => info.argumentOrder.isWrong).map(
@@ -44,7 +45,7 @@ class ComponentAnnotationArgumentsOrderingRule extends ObsoleteRule {
               withCommentOrMetadata: true,
             ),
             message:
-                'Arguments group ${info.argumentOrder.argumentGroup.name} $_warningMessage ${info.argumentOrder.previousArgumentGroup.name}',
+                'Arguments group ${info.argumentOrder.argumentGroup.name} $_warningMessage ${info.argumentOrder.previousArgumentGroup?.name}',
           ),
         );
   }
@@ -56,10 +57,7 @@ class ComponentAnnotationArgumentsOrderingRule extends ObsoleteRule {
 
     return order.isEmpty
         ? _ArgumentGroup._groupsOrder
-        : order
-            .map(_ArgumentGroup.parseGroupName)
-            .where((group) => group != null)
-            .toList();
+        : order.map(_ArgumentGroup.parseGroupName).whereNotNull().toList();
   }
 }
 
@@ -71,7 +69,7 @@ class _Visitor extends SimpleAstVisitor<List<_ArgumentInfo>> {
   @override
   List<_ArgumentInfo> visitClassDeclaration(ClassDeclaration node) {
     final componentAnnotation =
-        node.metadata.firstWhere(_isComponentAnnotation, orElse: () => null);
+        node.metadata.firstWhereOrNull(_isComponentAnnotation);
 
     return componentAnnotation != null
         ? _visitAnnotation(componentAnnotation)
@@ -81,17 +79,19 @@ class _Visitor extends SimpleAstVisitor<List<_ArgumentInfo>> {
   List<_ArgumentInfo> _visitAnnotation(Annotation node) {
     final _argumentsInfo = <_ArgumentInfo>[];
 
-    final arguments = node.arguments.arguments.whereType<NamedExpression>();
+    final arguments = node.arguments?.arguments.whereType<NamedExpression>();
 
-    for (final argument in arguments) {
-      final name = argument.name.label.name;
-      final group = _ArgumentGroup.parseArgumentName(name);
+    if (arguments != null) {
+      for (final argument in arguments) {
+        final name = argument.name.label.name;
+        final group = _ArgumentGroup.parseArgumentName(name);
 
-      if (group != null && _groupsOrder.contains(group)) {
-        _argumentsInfo.add(_ArgumentInfo(
-          argument: argument,
-          argumentOrder: _getOrder(group, name, _argumentsInfo),
-        ));
+        if (group != null && _groupsOrder.contains(group)) {
+          _argumentsInfo.add(_ArgumentInfo(
+            argument: argument,
+            argumentOrder: _getOrder(group, name, _argumentsInfo),
+          ));
+        }
       }
     }
 
@@ -194,16 +194,11 @@ class _ArgumentGroup {
 
   const _ArgumentGroup._(this.name, this.arguments);
 
-  static _ArgumentGroup parseGroupName(String name) => _groupsOrder.firstWhere(
-        (group) => group.name == name,
-        orElse: () => null,
-      );
+  static _ArgumentGroup? parseGroupName(String name) =>
+      _groupsOrder.firstWhereOrNull((group) => group.name == name);
 
-  static _ArgumentGroup parseArgumentName(String name) =>
-      _groupsOrder.firstWhere(
-        (group) => group.arguments.contains(name),
-        orElse: () => null,
-      );
+  static _ArgumentGroup? parseArgumentName(String name) =>
+      _groupsOrder.firstWhereOrNull((group) => group.arguments.contains(name));
 }
 
 @immutable
@@ -212,8 +207,8 @@ class _ArgumentInfo {
   final _ArgumentOrder argumentOrder;
 
   const _ArgumentInfo({
-    this.argument,
-    this.argumentOrder,
+    required this.argument,
+    required this.argumentOrder,
   });
 }
 
@@ -221,11 +216,11 @@ class _ArgumentInfo {
 class _ArgumentOrder {
   final bool isWrong;
   final _ArgumentGroup argumentGroup;
-  final _ArgumentGroup previousArgumentGroup;
+  final _ArgumentGroup? previousArgumentGroup;
 
   const _ArgumentOrder({
-    this.isWrong,
-    this.argumentGroup,
+    required this.isWrong,
+    required this.argumentGroup,
     this.previousArgumentGroup,
   });
 }

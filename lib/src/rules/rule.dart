@@ -1,5 +1,4 @@
 import 'package:analyzer/dart/analysis/results.dart';
-import 'package:meta/meta.dart';
 
 import '../models/issue.dart';
 import '../models/rule_documentation.dart';
@@ -20,9 +19,9 @@ abstract class Rule {
 
   /// Initialize a newly created [Rule].
   const Rule({
-    @required this.id,
-    @required this.documentation,
-    @required this.severity,
+    required this.id,
+    required this.documentation,
+    required this.severity,
   });
 
   /// Returns [Iterable] with [Issue]'s detected while check the passed [source]

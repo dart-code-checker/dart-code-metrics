@@ -2,6 +2,7 @@ import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/syntactic_entity.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
+import 'package:collection/collection.dart';
 
 import '../../models/issue.dart';
 import '../../models/severity.dart';
@@ -31,7 +32,7 @@ class AvoidUnusedParameters extends ObsoleteRule {
   Iterable<Issue> check(ResolvedUnitResult source) {
     final _visitor = _Visitor();
 
-    source.unit.visitChildren(_visitor);
+    source.unit?.visitChildren(_visitor);
 
     return [
       ..._visitor.unusedParameters
@@ -77,14 +78,13 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
     if (parent is ClassDeclaration && parent.isAbstract ||
         node.externalKeyword != null ||
-        (parameters?.parameters?.isEmpty ?? true)) {
+        (parameters == null || parameters.parameters.isEmpty)) {
       return;
     }
 
-    final isOverride = node.metadata.firstWhere(
+    final isOverride = node.metadata.firstWhereOrNull(
           (node) =>
               node.name.name == 'override' && node.atSign.type.lexeme == '@',
-          orElse: () => null,
         ) !=
         null;
 
@@ -112,7 +112,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
     final parameters = node.functionExpression.parameters;
 
     if (node.externalKeyword != null ||
-        (parameters?.parameters?.isEmpty ?? true)) {
+        (parameters == null || parameters.parameters.isEmpty)) {
       return;
     }
 
@@ -130,12 +130,15 @@ class _Visitor extends RecursiveAstVisitor<void> {
   ) {
     final result = <FormalParameter>[];
 
-    final names =
-        parameters.map((parameter) => parameter.identifier.name).toList();
+    final names = parameters
+        .map((parameter) => parameter.identifier?.name)
+        .whereNotNull()
+        .toList();
     final usedNames = _getUsedNames(children, names, []);
 
     for (final parameter in parameters) {
-      if (!usedNames.contains(parameter.identifier.name)) {
+      final name = parameter.identifier?.name;
+      if (name != null && !usedNames.contains(name)) {
         result.add(parameter);
       }
     }
@@ -157,8 +160,14 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
     for (final child in children) {
       if (child is FunctionExpression) {
-        for (final parameter in child.parameters.parameters) {
-          ignoredForSubtree.add(parameter.identifier.name);
+        final parameters = child.parameters;
+        if (parameters != null) {
+          for (final parameter in parameters.parameters) {
+            final name = parameter.identifier?.name;
+            if (name != null) {
+              ignoredForSubtree.add(name);
+            }
+          }
         }
       } else if (child is Identifier &&
           parametersNames.contains(child.name) &&
@@ -184,5 +193,6 @@ class _Visitor extends RecursiveAstVisitor<void> {
   }
 
   bool _hasNoUnderscoresInName(FormalParameter parameter) =>
-      parameter.identifier.name.replaceAll('_', '').isNotEmpty;
+      parameter.identifier != null &&
+      parameter.identifier!.name.replaceAll('_', '').isNotEmpty;
 }

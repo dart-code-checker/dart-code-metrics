@@ -1,5 +1,3 @@
-import 'package:meta/meta.dart';
-
 import '../../models/issue.dart';
 import '../../models/scoped_function_declaration.dart';
 import '../config/config.dart' as metrics;
@@ -10,8 +8,8 @@ abstract class BasePattern {
   final Uri documentation;
 
   const BasePattern({
-    @required this.id,
-    @required this.documentation,
+    required this.id,
+    required this.documentation,
   });
 
   Iterable<Issue> check(

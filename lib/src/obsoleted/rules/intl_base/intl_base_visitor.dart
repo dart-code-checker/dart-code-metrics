@@ -1,8 +1,8 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
+import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
-import '../../utils/iterable_extensions.dart';
 import '../../utils/object_extensions.dart';
 
 abstract class IntlBaseVisitor extends GeneralizingAstVisitor<void> {
@@ -18,14 +18,14 @@ abstract class IntlBaseVisitor extends GeneralizingAstVisitor<void> {
   Iterable<IntlBaseIssue> get issues => _issues;
 
   @protected
-  void addIssue(IntlBaseIssue issue) {
+  void addIssue(IntlBaseIssue? issue) {
     if (issue != null) {
       _issues.add(issue);
     }
   }
 
   @protected
-  void addIssues(Iterable<IntlBaseIssue> issues) {
+  void addIssues(Iterable<IntlBaseIssue>? issues) {
     if (issues != null) {
       _issues.addAll(issues);
     }
@@ -33,11 +33,11 @@ abstract class IntlBaseVisitor extends GeneralizingAstVisitor<void> {
 
   @override
   void visitFieldDeclaration(FieldDeclaration node) {
-    if (node.fields.type.as<TypeName>()?.name?.name != 'String') {
+    if (node.fields.type?.as<TypeName>()?.name.name != 'String') {
       return;
     }
 
-    final className = node.parent.as<NamedCompilationUnitMember>().name.name;
+    final className = node.parent?.as<NamedCompilationUnitMember>()?.name.name;
 
     _checkVariables(className, node.fields);
 
@@ -96,14 +96,14 @@ abstract class IntlBaseVisitor extends GeneralizingAstVisitor<void> {
   @protected
   void checkMethodInvocation(
     MethodInvocation methodInvocation, {
-    String className,
-    String variableName,
-    FormalParameterList parameterList,
+    String? className,
+    String? variableName,
+    FormalParameterList? parameterList,
   });
 
-  void _checkVariables(String className, VariableDeclarationList variables) {
+  void _checkVariables(String? className, VariableDeclarationList variables) {
     for (final variable in variables.variables) {
-      final initializer = variable.initializer.as<MethodInvocation>();
+      final initializer = variable.initializer?.as<MethodInvocation>();
       if (initializer != null) {
         final variableName = variable.name.name;
 
@@ -116,35 +116,35 @@ abstract class IntlBaseVisitor extends GeneralizingAstVisitor<void> {
     }
   }
 
-  String _getClassName(MethodDeclaration node) {
-    final name = node.parent?.as<NamedCompilationUnitMember>()?.name?.name;
+  String? _getClassName(MethodDeclaration node) {
+    final name = node.parent?.as<NamedCompilationUnitMember>()?.name.name;
 
     return name ?? node.parent?.as<ExtensionDeclaration>()?.name?.name;
   }
 
-  MethodInvocation _getMethodInvocation(FunctionBody body) {
+  MethodInvocation? _getMethodInvocation(FunctionBody body) {
     final methodInvocation =
-        body?.as<ExpressionFunctionBody>()?.expression?.as<MethodInvocation>();
+        body.as<ExpressionFunctionBody>()?.expression.as<MethodInvocation>();
 
     return methodInvocation ??
         body
-            ?.as<BlockFunctionBody>()
+            .as<BlockFunctionBody>()
             ?.block
-            ?.statements
-            ?.whereType<ReturnStatement>()
-            ?.lastOrDefault()
+            .statements
+            .whereType<ReturnStatement>()
+            .lastOrNull
             ?.expression
             ?.as<MethodInvocation>();
   }
 
   void _checkMethodInvocation(
     MethodInvocation methodInvocation, {
-    String className,
-    String variableName,
-    FormalParameterList parameterList,
+    String? className,
+    String? variableName,
+    FormalParameterList? parameterList,
   }) {
-    if ((methodInvocation?.target?.as<SimpleIdentifier>()?.name != 'Intl') ||
-        !_methodNames.contains(methodInvocation?.methodName?.name)) {
+    if ((methodInvocation.target?.as<SimpleIdentifier>()?.name != 'Intl') ||
+        !_methodNames.contains(methodInvocation.methodName.name)) {
       return;
     }
 
@@ -160,7 +160,7 @@ abstract class IntlBaseVisitor extends GeneralizingAstVisitor<void> {
 @immutable
 abstract class IntlBaseIssue {
   final AstNode node;
-  final String nameFailure;
+  final String? nameFailure;
 
   const IntlBaseIssue(
     this.node, {

@@ -8,6 +8,7 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/file_system/physical_file_system.dart';
 import 'package:glob/glob.dart';
 import 'package:path/path.dart' as p;
+import 'package:file/local.dart';
 
 import '../metrics/cyclomatic_complexity/cyclomatic_complexity_flow_visitor.dart';
 import '../metrics/maximum_nesting_level/maximum_nesting_level_metric.dart';
@@ -48,12 +49,12 @@ class MetricsAnalyzer {
 
   MetricsAnalyzer(
     this._store, {
-    metrics.AnalysisOptions options,
+    metrics.AnalysisOptions? options,
     Iterable<String> additionalExcludes = const [],
   })  : _checkingCodeRules =
-            options?.rules != null ? getRulesById(options.rules) : [],
+            options?.rules != null ? getRulesById(options!.rules) : [],
         _checkingAntiPatterns = options?.antiPatterns != null
-            ? getPatternsById(options.antiPatterns)
+            ? getPatternsById(options!.antiPatterns)
             : [],
         _globalExclude = [
           ..._prepareExcludes(options?.excludePatterns),
@@ -64,8 +65,8 @@ class MetricsAnalyzer {
         _useFastParser = true;
 
   /// Return a future that will complete after static analysis done for files from [folders].
-  Future<void> runAnalysis(Iterable<String> folders, String rootFolder) async {
-    AnalysisContextCollection collection;
+  Future<void>? runAnalysis(Iterable<String> folders, String rootFolder) async {
+    AnalysisContextCollection? collection;
     if (!_useFastParser) {
       collection = AnalysisContextCollection(
         includedPaths: folders
@@ -77,7 +78,11 @@ class MetricsAnalyzer {
 
     final filePaths = folders
         .expand((directory) => Glob('$directory/**.dart')
-            .listSync(root: rootFolder, followLinks: false)
+            .listFileSystemSync(
+              const LocalFileSystem(),
+              root: rootFolder,
+              followLinks: false,
+            )
             .whereType<File>()
             .where((entity) => !_isExcluded(
                   p.relative(entity.path, from: rootFolder),
@@ -103,14 +108,14 @@ class MetricsAnalyzer {
           result.unit,
         );
       } else {
-        final analysisContext = collection.contextFor(normalized);
+        final analysisContext = collection!.contextFor(normalized);
         final result =
             await analysisContext.currentSession.getResolvedUnit(normalized);
 
         source = InternalResolvedUnitResult(
           Uri.parse(filePath),
-          result.content,
-          result.unit,
+          result.content!,
+          result.unit!,
         );
       }
 
@@ -130,7 +135,7 @@ class MetricsAnalyzer {
         return true;
       }).toList();
 
-      final lineInfo = source.unit.lineInfo;
+      final lineInfo = source.unit.lineInfo!;
 
       _store.recordFile(filePath, rootFolder, (builder) {
         if (!_isExcluded(
@@ -258,8 +263,8 @@ class MetricsAnalyzer {
                   )));
 }
 
-Iterable<Glob> _prepareExcludes(Iterable<String> patterns) =>
-    patterns?.map((exclude) => Glob(exclude))?.toList() ?? [];
+Iterable<Glob> _prepareExcludes(Iterable<String>? patterns) =>
+    patterns?.map((exclude) => Glob(exclude)).toList() ?? [];
 
 bool _isExcluded(String filePath, Iterable<Glob> excludes) =>
     excludes.any((exclude) => exclude.matches(filePath));

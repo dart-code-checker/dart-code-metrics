@@ -98,7 +98,6 @@ void main() {
       'userFriendlyType user friendly string representations of provided type',
       () {
         <Type, Matcher>{
-          null: equals(''),
           ''.runtimeType: equals('String'),
           ExampleImpl().runtimeType: equals('Example'),
         }.forEach((key, value) {

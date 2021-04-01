@@ -162,8 +162,8 @@ class CodeClimateIssue {
       issue.location.start.line,
       issue.location.start.line,
       fileName,
-      categories: categoryHumanReadable[issue.severity],
-      severity: severityHumanReadable[issue.severity],
+      categories: categoryHumanReadable[issue.severity]!,
+      severity: severityHumanReadable[issue.severity]!,
     );
   }
 

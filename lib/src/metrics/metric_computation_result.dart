@@ -13,7 +13,7 @@ class MetricComputationResult<T> {
 
   /// Initialize a newly created [MetricComputationResult].
   const MetricComputationResult({
-    @required this.value,
+    required this.value,
     this.context = const [],
   });
 }

@@ -10,5 +10,8 @@ class Replacement {
   final String replacement;
 
   /// Initialize a newly created [Replacement] with the given [comment] and [replacement].
-  const Replacement({@required this.comment, @required this.replacement});
+  const Replacement({
+    required this.comment,
+    required this.replacement,
+  });
 }

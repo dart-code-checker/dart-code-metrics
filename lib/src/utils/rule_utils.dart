@@ -1,4 +1,3 @@
-import 'package:meta/meta.dart';
 import 'package:source_span/source_span.dart';
 
 import '../models/issue.dart';
@@ -10,11 +9,11 @@ import '../rules/rule.dart';
 /// with [verboseMessage] describing the problem and with information how to fix
 /// this one ([replacement]).
 Issue createIssue({
-  @required Rule rule,
-  @required SourceSpan location,
-  @required String message,
-  String verboseMessage,
-  Replacement replacement,
+  required Rule rule,
+  required SourceSpan location,
+  required String message,
+  String? verboseMessage,
+  Replacement? replacement,
 }) =>
     Issue(
       ruleId: rule.id,
@@ -34,5 +33,5 @@ Uri documentation(String ruleId) => Uri(
     );
 
 /// Returns the [Severity] from map based [config] otherwise [defaultValue]
-Severity readSeverity(Map<String, Object> config, Severity defaultValue) =>
-    Severity.fromString(config['severity'] as String) ?? defaultValue;
+Severity readSeverity(Map<String, Object?> config, Severity defaultValue) =>
+    Severity.fromString(config['severity'] as String?) ?? defaultValue;

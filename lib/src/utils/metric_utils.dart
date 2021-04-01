@@ -9,23 +9,23 @@ Uri documentation(String metricId) => Uri(
 
 /// Returns a threshold from [Map] based [config] for metrics with [metricId] otherwise [defaultValue]
 T readThreshold<T extends num>(
-  Map<String, Object> config,
+  Map<String, Object?> config,
   String metricId,
   T defaultValue,
 ) {
   final configValue = config[metricId]?.toString();
 
   if (configValue != null && T == int) {
-    return int.tryParse(configValue) as T ?? defaultValue;
+    return int.tryParse(configValue) as T? ?? defaultValue;
   } else if (configValue != null && T == double) {
-    return double.tryParse(configValue) as T ?? defaultValue;
+    return double.tryParse(configValue) as T? ?? defaultValue;
   }
 
   return defaultValue;
 }
 
 /// Returns calculated [MetricValueLevel] based on the [value] to [warningLevel] ratio
-MetricValueLevel valueLevel(num value, num warningLevel) {
+MetricValueLevel valueLevel(num? value, num? warningLevel) {
   if (value == null || warningLevel == null) {
     return MetricValueLevel.none;
   }
@@ -42,7 +42,7 @@ MetricValueLevel valueLevel(num value, num warningLevel) {
 }
 
 /// Returns calculated [MetricValueLevel] based on the [value] to [warningLevel] inverted ratio
-MetricValueLevel invertValueLevel(num value, num warningLevel) {
+MetricValueLevel invertValueLevel(num? value, num? warningLevel) {
   if (value == null || warningLevel == null) {
     return MetricValueLevel.none;
   }
@@ -66,7 +66,7 @@ bool isReportLevel(MetricValueLevel level) =>
 String userFriendlyType(Type type) {
   const _impl = 'Impl';
 
-  final typeName = type?.toString() ?? '';
+  final typeName = type.toString();
 
   return typeName.endsWith(_impl)
       ? typeName.substring(0, typeName.length - _impl.length)

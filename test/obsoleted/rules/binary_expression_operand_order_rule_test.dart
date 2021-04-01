@@ -83,7 +83,7 @@ void main() {
         equals(['1 + c', '1 + c', '12.44 * c', '1 & c', '2 | c', '4 ^ c']),
       );
       expect(
-        issues.map((issue) => issue.suggestion.replacement),
+        issues.map((issue) => issue.suggestion!.replacement),
         equals(['c + 1', 'c + 1', 'c * 12.44', 'c & 1', 'c | 2', 'c ^ 4']),
       );
     });
