@@ -16,7 +16,7 @@ Future<void> main() async {
   final scopeVisitor = ScopeVisitor();
 
   final example = await resolveFile(path: p.normalize(p.absolute(examplePath)));
-  example.unit.visitChildren(scopeVisitor);
+  example!.unit!.visitChildren(scopeVisitor);
 
   group('LinesOfCodeMetric computes lines of code of the', () {
     test('simple function', () {

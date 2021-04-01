@@ -23,11 +23,11 @@ class Issue {
   final String message;
 
   /// The verbose message containing information about how the user can fix this
-  /// issue.
-  final String verboseMessage;
+  /// issue or `null` if there is no information.
+  final String? verboseMessage;
 
-  /// The suggested relevant change.
-  final Replacement suggestion;
+  /// The suggested relevant change or `null` if there is no change.
+  final Replacement? suggestion;
 
   /// Initialize a newly created [Issue].
   ///
@@ -37,11 +37,11 @@ class Issue {
   /// If [verboseMessage] or [suggestion] are provided, they will be used to
   /// complete and improve the information for the end user.
   const Issue({
-    @required this.ruleId,
-    @required this.documentation,
-    @required this.location,
-    @required this.severity,
-    @required this.message,
+    required this.ruleId,
+    required this.documentation,
+    required this.location,
+    required this.severity,
+    required this.message,
     this.verboseMessage,
     this.suggestion,
   });

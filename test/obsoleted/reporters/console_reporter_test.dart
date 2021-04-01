@@ -23,8 +23,8 @@ void main() {
   group('ConsoleReporter.report report about', () {
     const fullPath = '/home/developer/work/project/example.dart';
 
-    ConsoleReporter _reporter;
-    ConsoleReporter _verboseReporter;
+    late ConsoleReporter _reporter;
+    late ConsoleReporter _verboseReporter;
 
     setUp(() {
       ansiColorDisabled = false;

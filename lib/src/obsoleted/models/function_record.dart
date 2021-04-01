@@ -16,12 +16,12 @@ class FunctionRecord extends Report {
   final Map<String, int> operands;
 
   const FunctionRecord({
-    @required SourceSpan location,
-    @required Iterable<MetricValue<num>> metrics,
-    @required this.argumentsCount,
-    @required this.cyclomaticComplexityLines,
-    @required this.linesWithCode,
-    @required this.operators,
-    @required this.operands,
+    required SourceSpan location,
+    required Iterable<MetricValue<num>> metrics,
+    required this.argumentsCount,
+    required this.cyclomaticComplexityLines,
+    required this.linesWithCode,
+    required this.operators,
+    required this.operands,
   }) : super(location: location, metrics: metrics);
 }

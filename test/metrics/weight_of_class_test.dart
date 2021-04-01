@@ -16,7 +16,7 @@ void main() {
 
     final result =
         await resolveFile(path: p.normalize(p.absolute(examplePath)));
-    result.unit.visitChildren(visitor);
+    result!.unit!.visitChildren(visitor);
 
     final firstClassSupport = metric.supports(
       visitor.classes.first.declaration,

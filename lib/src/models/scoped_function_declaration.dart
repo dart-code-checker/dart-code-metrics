@@ -14,20 +14,20 @@ class ScopedFunctionDeclaration {
   final Declaration declaration;
 
   /// The class declaration of the class to which this function belongs.
-  final ScopedClassDeclaration enclosingDeclaration;
+  final ScopedClassDeclaration? enclosingDeclaration;
 
   /// Returns the user defined name.
   String get name {
     final node = declaration;
-    String name;
+    String? name;
 
     if (node is FunctionDeclaration) {
-      name = node.name?.name;
+      name = node.name.name;
     } else if (node is ConstructorDeclaration) {
       name = node.name?.name ??
-          (node.parent as NamedCompilationUnitMember).name?.name;
+          (node.parent as NamedCompilationUnitMember).name.name;
     } else if (node is MethodDeclaration) {
-      name = node.name?.name;
+      name = node.name.name;
     }
 
     return name ?? '';
@@ -37,10 +37,10 @@ class ScopedFunctionDeclaration {
   ///
   /// using the pattern `className.methodName`.
   String get fullName {
-    final className = enclosingDeclaration?.name ?? '';
+    final className = enclosingDeclaration?.name;
     final functionName = name;
 
-    return className.isEmpty || functionName.isEmpty
+    return className == null || className.isEmpty || functionName.isEmpty
         ? functionName
         : '$className.$functionName';
   }

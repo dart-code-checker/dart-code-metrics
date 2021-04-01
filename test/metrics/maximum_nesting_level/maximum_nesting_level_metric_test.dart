@@ -18,7 +18,7 @@ Future<void> main() async {
 
   group('MaximumNestingLevelMetric computes maximum nesting level of the', () {
     final scopeVisitor = ScopeVisitor();
-    example.unit.visitChildren(scopeVisitor);
+    example!.unit!.visitChildren(scopeVisitor);
 
     test('simple function', () {
       final metricValue = metric.compute(

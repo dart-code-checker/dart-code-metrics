@@ -3,36 +3,34 @@ import 'package:source_span/source_span.dart';
 // https://docs.github.com/en/actions/reference/workflow-commands-for-github-actions#setting-a-warning-message
 
 class GitHubWorkflowCommands {
-  String warning(String message, {SourceSpan sourceSpan}) => _construct(
+  String warning(String message, {SourceSpan? sourceSpan}) => _construct(
         'warning',
         message,
         _params(
           sourceSpan?.sourceUrl?.toFilePath(),
-          sourceSpan?.start?.line,
-          sourceSpan?.start?.column,
+          sourceSpan?.start.line,
+          sourceSpan?.start.column,
         ),
       );
 
-  String error(String message, {SourceSpan sourceSpan}) => _construct(
+  String error(String message, {SourceSpan? sourceSpan}) => _construct(
         'error',
         message,
         _params(
           sourceSpan?.sourceUrl?.toFilePath(),
-          sourceSpan?.start?.line,
-          sourceSpan?.start?.column,
+          sourceSpan?.start.line,
+          sourceSpan?.start.column,
         ),
       );
 
   String _construct(
     String command, [
-    String message,
-    Map<String, Object> parameters,
+    String? message,
+    Map<String, Object>? parameters,
   ]) {
     final sb = StringBuffer('::$command');
-    final params = parameters?.entries
-        ?.map((e) => '${e.key}=${e.value}')
-        ?.join(',')
-        ?.trim();
+    final params =
+        parameters?.entries.map((e) => '${e.key}=${e.value}').join(',').trim();
     if (params != null && params.isNotEmpty) {
       sb.write(' $params');
     }
@@ -44,7 +42,7 @@ class GitHubWorkflowCommands {
     return sb.toString();
   }
 
-  Map<String, Object> _params(String file, int line, int column) => {
+  Map<String, Object> _params(String? file, int? line, int? column) => {
         if (file != null) 'file': file,
         if (line != null) 'line': line,
         if (column != null) 'col': column,

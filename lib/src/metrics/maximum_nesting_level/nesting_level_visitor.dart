@@ -16,18 +16,18 @@ class NestingLevelVisitor extends RecursiveAstVisitor<void> {
   void visitBlock(Block node) {
     final nestedNodesChain = <AstNode>[];
 
-    AstNode astNode = node;
+    AstNode? astNode = node;
     do {
       if (astNode is Block &&
-          (astNode?.parent is! BlockFunctionBody ||
-              astNode?.parent?.parent is ConstructorDeclaration ||
-              astNode?.parent?.parent is FunctionExpression ||
-              astNode?.parent?.parent is MethodDeclaration)) {
+          (astNode.parent is! BlockFunctionBody ||
+              astNode.parent?.parent is ConstructorDeclaration ||
+              astNode.parent?.parent is FunctionExpression ||
+              astNode.parent?.parent is MethodDeclaration)) {
         nestedNodesChain.add(astNode);
       }
 
-      astNode = astNode.parent;
-    } while (astNode.parent != _functionNode);
+      astNode = astNode?.parent;
+    } while (astNode?.parent != _functionNode);
 
     if (nestedNodesChain.length > _deepestNestedNodesChain.length) {
       _deepestNestedNodesChain = nestedNodesChain;

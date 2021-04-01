@@ -21,17 +21,17 @@ class FileReport {
   final int maximumNestingLevelViolations;
 
   const FileReport({
-    @required this.averageArgumentsCount,
-    @required this.argumentsCountViolations,
-    @required this.averageMaintainabilityIndex,
-    @required this.maintainabilityIndexViolations,
-    @required this.averageMethodsCount,
-    @required this.methodsCountViolations,
-    @required this.totalCyclomaticComplexity,
-    @required this.cyclomaticComplexityViolations,
-    @required this.totalLinesOfExecutableCode,
-    @required this.linesOfExecutableCodeViolations,
-    @required this.averageMaximumNestingLevel,
-    @required this.maximumNestingLevelViolations,
+    required this.averageArgumentsCount,
+    required this.argumentsCountViolations,
+    required this.averageMaintainabilityIndex,
+    required this.maintainabilityIndexViolations,
+    required this.averageMethodsCount,
+    required this.methodsCountViolations,
+    required this.totalCyclomaticComplexity,
+    required this.cyclomaticComplexityViolations,
+    required this.totalLinesOfExecutableCode,
+    required this.linesOfExecutableCodeViolations,
+    required this.averageMaximumNestingLevel,
+    required this.maximumNestingLevelViolations,
   });
 }

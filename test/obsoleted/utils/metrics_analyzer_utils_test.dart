@@ -4,7 +4,7 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:dart_code_metrics/src/models/function_type.dart';
 import 'package:dart_code_metrics/src/models/scoped_function_declaration.dart';
 import 'package:dart_code_metrics/src/obsoleted/utils/metrics_analyzer_utils.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
 
 class ConstructorDeclarationMock extends Mock
@@ -22,25 +22,25 @@ class MethodDeclarationMock extends Mock implements MethodDeclaration {}
 
 void main() {
   group('getArgumentsCount returns arguments count of', () {
-    FormalParameterListMock formalParameterListMock;
-    NodeListMock<FormalParameter> nodeListMock;
+    late FormalParameterListMock formalParameterListMock;
+    late NodeListMock<FormalParameter> nodeListMock;
 
     setUp(() {
       formalParameterListMock = FormalParameterListMock();
       nodeListMock = NodeListMock<FormalParameter>();
 
-      when(formalParameterListMock.parameters).thenReturn(nodeListMock);
+      when(() => formalParameterListMock.parameters).thenReturn(nodeListMock);
     });
 
     test('static function', () {
       final functionDeclarationMock = FunctionDeclarationMock();
       final functionExpressionMock = FunctionExpressionMock();
 
-      when(functionDeclarationMock.functionExpression)
+      when(() => functionDeclarationMock.functionExpression)
           .thenReturn(functionExpressionMock);
-      when(functionExpressionMock.parameters)
+      when(() => functionExpressionMock.parameters)
           .thenReturn(formalParameterListMock);
-      when(nodeListMock.length).thenReturn(1);
+      when(() => nodeListMock.length).thenReturn(1);
 
       final declaration = ScopedFunctionDeclaration(
           FunctionType.function, functionDeclarationMock, null);
@@ -56,9 +56,9 @@ void main() {
 
       expect(getArgumentsCount(declaration), 0);
 
-      when(methodDeclarationMock.parameters)
+      when(() => methodDeclarationMock.parameters)
           .thenReturn(formalParameterListMock);
-      when(nodeListMock.length).thenReturn(2);
+      when(() => nodeListMock.length).thenReturn(2);
 
       expect(getArgumentsCount(declaration), equals(2));
     });

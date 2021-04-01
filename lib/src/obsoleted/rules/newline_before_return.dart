@@ -29,7 +29,7 @@ class NewlineBeforeReturnRule extends ObsoleteRule {
   Iterable<Issue> check(ResolvedUnitResult source) {
     final _visitor = _Visitor();
 
-    source.unit.visitChildren(_visitor);
+    source.unit?.visitChildren(_visitor);
 
     return _visitor.statements
         // return statement is in a block
@@ -37,16 +37,15 @@ class NewlineBeforeReturnRule extends ObsoleteRule {
             statement.parent != null && statement.parent is Block)
         // return statement isn't first token in a block
         .where((statement) =>
-            statement.returnKeyword.previous != statement.parent.beginToken)
+            statement.returnKeyword.previous != statement.parent?.beginToken)
         .where((statement) {
-          final previousTokenLine = source.unit.lineInfo
-              .getLocation(statement.returnKeyword.previous.end)
+          final lineInfo = source.unit!.lineInfo!;
+          final previousTokenLine = lineInfo
+              .getLocation(statement.returnKeyword.previous!.end)
               .lineNumber;
-          final tokenLine = source.unit.lineInfo
-              .getLocation(_optimalToken(
-                statement.returnKeyword,
-                source.unit.lineInfo,
-              ).offset)
+          final tokenLine = lineInfo
+              .getLocation(
+                  _optimalToken(statement.returnKeyword, lineInfo).offset)
               .lineNumber;
 
           return !(tokenLine > previousTokenLine + 1);
@@ -77,10 +76,10 @@ class NewlineBeforeReturnRule extends ObsoleteRule {
     return optimalToken;
   }
 
-  Token _latestCommentToken(Token token) {
-    Token latestCommentToken = token?.precedingComments;
+  Token? _latestCommentToken(Token token) {
+    Token? latestCommentToken = token.precedingComments;
     while (latestCommentToken?.next != null) {
-      latestCommentToken = latestCommentToken.next;
+      latestCommentToken = latestCommentToken?.next;
     }
 
     return latestCommentToken;

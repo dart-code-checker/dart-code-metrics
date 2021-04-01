@@ -16,7 +16,7 @@ Future<void> main() async {
   final scopeVisitor = ScopeVisitor();
 
   final example = await resolveFile(path: p.normalize(p.absolute(examplePath)));
-  example.unit.visitChildren(scopeVisitor);
+  example!.unit!.visitChildren(scopeVisitor);
 
   group('NumberOfParametersMetric computes parameters received by the', () {
     test('simple function', () {

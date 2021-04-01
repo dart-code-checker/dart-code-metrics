@@ -1,13 +1,14 @@
 // ignore_for_file: long-method, code-metrics
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
+import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
 import '../../models/issue.dart';
 import '../../models/severity.dart';
 import '../../utils/node_utils.dart';
 import '../../utils/rule_utils.dart';
-import '../utils/iterable_extensions.dart';
+
 import '../utils/object_extensions.dart';
 import 'intl_base/intl_base_visitor.dart';
 import 'obsolete_rule.dart';
@@ -27,16 +28,16 @@ class ProvideCorrectIntlArgsRule extends ObsoleteRule {
 
   @override
   Iterable<Issue> check(ResolvedUnitResult source) {
-    final hasIntlDirective = source.unit.directives
+    final hasIntlDirective = source.unit?.directives
         .whereType<ImportDirective>()
         .any((directive) => directive.uri.stringValue == _intlPackageUrl);
 
-    if (!hasIntlDirective) {
+    if (hasIntlDirective == null || !hasIntlDirective) {
       return [];
     }
 
     final visitor = _Visitor();
-    source.unit.visitChildren(visitor);
+    source.unit!.visitChildren(visitor);
 
     return visitor.issues
         .map((issue) => createIssue(
@@ -46,7 +47,7 @@ class ProvideCorrectIntlArgsRule extends ObsoleteRule {
                 source: source,
                 withCommentOrMetadata: true,
               ),
-              message: issue.nameFailure,
+              message: issue.nameFailure!,
             ))
         .toList();
   }
@@ -56,9 +57,9 @@ class _Visitor extends IntlBaseVisitor {
   @override
   void checkMethodInvocation(
     MethodInvocation methodInvocation, {
-    String className,
-    String variableName,
-    FormalParameterList parameterList,
+    String? className,
+    String? variableName,
+    FormalParameterList? parameterList,
   }) {
     switch (methodInvocation.methodName.name) {
       case 'message':
@@ -72,32 +73,34 @@ class _Visitor extends IntlBaseVisitor {
 
   void _checkMessageMethod(
     MethodInvocation methodInvocation,
-    FormalParameterList parameterList,
+    FormalParameterList? parameterList,
   ) {
-    final argsArgument = methodInvocation.argumentList?.arguments
-        ?.whereType<NamedExpression>()
-        ?.where((argument) => argument.name.label.name == 'args')
-        ?.firstOrDefault()
+    final argsArgument = methodInvocation.argumentList.arguments
+        .whereType<NamedExpression>()
+        .where((argument) => argument.name.label.name == 'args')
+        .firstOrNull
         ?.expression
-        ?.as<ListLiteral>();
+        .as<ListLiteral>();
 
     final parameterSimpleIdentifiers = parameterList?.parameters
-            ?.map((parameter) => parameter.identifier)
-            ?.toList() ??
+            .map((parameter) => parameter.identifier)
+            .toList() ??
         <SimpleIdentifier>[];
 
     if (argsArgument != null && parameterSimpleIdentifiers.isEmpty) {
       addIssue(_ArgsMustBeOmittedIssue(argsArgument));
     }
 
-    if (argsArgument == null && parameterSimpleIdentifiers.isNotEmpty) {
+    if (argsArgument == null &&
+        parameterList != null &&
+        parameterSimpleIdentifiers.isNotEmpty) {
       addIssue(_NotExistArgsIssue(parameterList));
     }
 
     _checkAllArgsElementsMustBeSimpleIdentifier(argsArgument);
 
     final argsSimpleIdentifiers =
-        argsArgument?.elements?.whereType<SimpleIdentifier>()?.toList() ??
+        argsArgument?.elements.whereType<SimpleIdentifier>().toList() ??
             <SimpleIdentifier>[];
 
     _checkAllParametersMustBeContainsInArgs(
@@ -109,9 +112,8 @@ class _Visitor extends IntlBaseVisitor {
       parameterSimpleIdentifiers,
     );
 
-    final messageArgument = methodInvocation.argumentList?.arguments
-        ?.firstOrDefault()
-        ?.as<StringInterpolation>();
+    final messageArgument =
+        methodInvocation.argumentList.arguments.first.as<StringInterpolation>();
 
     if (messageArgument != null) {
       final interpolationExpressions = messageArgument.elements
@@ -142,14 +144,16 @@ class _Visitor extends IntlBaseVisitor {
       }
     } else {
       for (final item in parameterSimpleIdentifiers) {
-        addIssue(_ParameterMustBeOmittedIssue(item));
-        addIssue(_ArgsItemMustBeOmittedIssue(item));
+        if (item != null) {
+          addIssue(_ParameterMustBeOmittedIssue(item));
+          addIssue(_ArgsItemMustBeOmittedIssue(item));
+        }
       }
     }
   }
 
   void _checkAllArgsElementsMustBeSimpleIdentifier(
-    ListLiteral argsListLiteral,
+    ListLiteral? argsListLiteral,
   ) {
     final argsElements = argsListLiteral?.elements ?? <CollectionElement>[];
 
@@ -158,12 +162,12 @@ class _Visitor extends IntlBaseVisitor {
 
   void _checkItemsOnSimple<T extends AstNode>(Iterable<T> items) {
     addIssues(items
-        ?.where((item) => item is! SimpleIdentifier)
-        ?.map((item) => _MustBeSimpleIdentifierIssue(item)));
+        .where((item) => item is! SimpleIdentifier)
+        .map((item) => _MustBeSimpleIdentifierIssue(item)));
   }
 
   void _checkAllParametersMustBeContainsInArgs(
-    Iterable<SimpleIdentifier> parameters,
+    Iterable<SimpleIdentifier?> parameters,
     Iterable<SimpleIdentifier> argsArgument,
   ) {
     _addIssuesIfNotContains(
@@ -175,7 +179,7 @@ class _Visitor extends IntlBaseVisitor {
 
   void _checkAllArgsMustBeContainsInParameters(
     Iterable<SimpleIdentifier> argsArgument,
-    Iterable<SimpleIdentifier> parameters,
+    Iterable<SimpleIdentifier?> parameters,
   ) {
     _addIssuesIfNotContains(
       argsArgument,
@@ -186,7 +190,7 @@ class _Visitor extends IntlBaseVisitor {
 
   void _checkAllInterpolationMustBeContainsInParameters(
     Iterable<SimpleIdentifier> simpleIdentifierExpressions,
-    Iterable<SimpleIdentifier> parameters,
+    Iterable<SimpleIdentifier?> parameters,
   ) {
     _addIssuesIfNotContains(
       simpleIdentifierExpressions,
@@ -207,15 +211,16 @@ class _Visitor extends IntlBaseVisitor {
   }
 
   void _addIssuesIfNotContains(
-    Iterable<SimpleIdentifier> checkedItems,
-    Iterable<SimpleIdentifier> existsItems,
+    Iterable<SimpleIdentifier?> checkedItems,
+    Iterable<SimpleIdentifier?> existsItems,
     IntlBaseIssue Function(SimpleIdentifier args) issueFactory,
   ) {
-    final argsNames = existsItems.map((item) => item.token.lexeme).toSet();
+    final argsNames = existsItems.map((item) => item?.token.lexeme).toSet();
 
     addIssues(checkedItems
-        ?.where((arg) => !argsNames.contains(arg.token.lexeme))
-        ?.map(issueFactory));
+        .where((arg) => !argsNames.contains(arg?.token.lexeme))
+        .whereNotNull()
+        .map(issueFactory));
   }
 }
 

@@ -1,30 +1,30 @@
 @TestOn('vm')
-import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:dart_code_metrics/src/metrics/function_metric.dart';
-import 'package:dart_code_metrics/src/metrics/metric_computation_result.dart';
 import 'package:dart_code_metrics/src/models/function_type.dart';
-import 'package:dart_code_metrics/src/models/scoped_class_declaration.dart';
+import 'package:dart_code_metrics/src/models/metric_documentation.dart';
+import 'package:dart_code_metrics/src/models/metric_value_level.dart';
 import 'package:dart_code_metrics/src/models/scoped_function_declaration.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
 
 class CompilationUnitMemberMock extends Mock implements CompilationUnitMember {}
 
 class DeclarationMock extends Mock implements Declaration {}
 
+class DocumentationMock extends Mock implements MetricDocumentation {}
+
 class FunctionMetricTest extends FunctionMetric<int> {
-  @override
-  MetricComputationResult<int> computeImplementation(
-    Declaration node,
-    Iterable<ScopedClassDeclaration> classDeclarations,
-    Iterable<ScopedFunctionDeclaration> functionDeclarations,
-    ResolvedUnitResult source,
-  ) =>
-      null;
+  FunctionMetricTest()
+      : super(
+          id: '0',
+          documentation: DocumentationMock(),
+          threshold: 0,
+          levelComputer: (_, __) => MetricValueLevel.none,
+        );
 
   @override
-  String commentMessage(String type, int value, int threshold) => null;
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
 void main() {

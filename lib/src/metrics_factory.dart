@@ -1,5 +1,3 @@
-import 'package:meta/meta.dart';
-
 import 'metrics/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import 'metrics/lines_of_code_metric.dart';
 import 'metrics/maximum_nesting_level/maximum_nesting_level_metric.dart';
@@ -23,11 +21,11 @@ final _implementedMetrics = <String, Metric Function(Map<String, Object>)>{
 };
 
 Iterable<Metric> metrics({
-  @required Map<String, Object> config,
-  EntityType measuredType,
+  required Map<String, Object> config,
+  EntityType? measuredType,
 }) {
   final _metrics =
-      _implementedMetrics.keys.map((id) => _implementedMetrics[id](config));
+      _implementedMetrics.keys.map((id) => _implementedMetrics[id]!(config));
 
   return measuredType != null
       ? _metrics

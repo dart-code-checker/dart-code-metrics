@@ -39,11 +39,11 @@ class NumberOfParametersMetric extends FunctionMetric<int> {
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
     ResolvedUnitResult source,
   ) {
-    int parametersCount;
+    int? parametersCount;
     if (node is FunctionDeclaration) {
-      parametersCount = node.functionExpression?.parameters?.parameters?.length;
+      parametersCount = node.functionExpression.parameters?.parameters.length;
     } else if (node is MethodDeclaration) {
-      parametersCount = node?.parameters?.parameters?.length;
+      parametersCount = node.parameters?.parameters.length;
     }
 
     return MetricComputationResult(value: parametersCount ?? 0);

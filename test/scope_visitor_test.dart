@@ -17,15 +17,15 @@ const severalClassesExample = './test/resources/weight_of_class_example.dart';
 
 void main() {
   group('ScopeVisitor collects scope from file with', () {
-    ScopeVisitor visitor;
+    late ScopeVisitor visitor;
 
     setUp(() {
       visitor = ScopeVisitor();
     });
 
     test('abstract class', () async {
-      (await resolveFile(path: p.normalize(p.absolute(abstractClassExample))))
-          .unit
+      (await resolveFile(path: p.normalize(p.absolute(abstractClassExample))))!
+          .unit!
           .visitChildren(visitor);
 
       final classDeclaration = visitor.classes.single;
@@ -42,8 +42,8 @@ void main() {
     test('class with factory constructors', () async {
       (await resolveFile(
         path: p.normalize(p.absolute(classWithFactoryConstructorsExample)),
-      ))
-          .unit
+      ))!
+          .unit!
           .visitChildren(visitor);
 
       final classDeclaration = visitor.classes.single;
@@ -77,8 +77,8 @@ void main() {
     test('extension with method', () async {
       (await resolveFile(
         path: p.normalize(p.absolute(extensionWithMethodExample)),
-      ))
-          .unit
+      ))!
+          .unit!
           .visitChildren(visitor);
 
       final classDeclaration = visitor.classes.single;
@@ -93,8 +93,8 @@ void main() {
     });
 
     test('mixin', () async {
-      (await resolveFile(path: p.normalize(p.absolute(mixinExample))))
-          .unit
+      (await resolveFile(path: p.normalize(p.absolute(mixinExample))))!
+          .unit!
           .visitChildren(visitor);
 
       final classDeclaration = visitor.classes.single;
@@ -109,8 +109,8 @@ void main() {
     });
 
     test('functions', () async {
-      (await resolveFile(path: p.normalize(p.absolute(functionsExample))))
-          .unit
+      (await resolveFile(path: p.normalize(p.absolute(functionsExample))))!
+          .unit!
           .visitChildren(visitor);
 
       expect(visitor.classes, isEmpty);
@@ -126,8 +126,8 @@ void main() {
     });
 
     test('several classes', () async {
-      (await resolveFile(path: p.normalize(p.absolute(severalClassesExample))))
-          .unit
+      (await resolveFile(path: p.normalize(p.absolute(severalClassesExample))))!
+          .unit!
           .visitChildren(visitor);
 
       expect(visitor.classes, hasLength(3));

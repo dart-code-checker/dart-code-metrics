@@ -1,6 +1,6 @@
+@TestOn('vm')
 import 'package:dart_code_metrics/src/config/analysis_options.dart';
 import 'package:dart_code_metrics/src/config/config.dart';
-@TestOn('vm')
 import 'package:test/test.dart';
 
 const _options = AnalysisOptions({

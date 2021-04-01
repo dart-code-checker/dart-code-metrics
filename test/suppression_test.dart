@@ -11,7 +11,8 @@ void main() {
     final parseResult =
         await resolveFile(path: p.normalize(p.absolute(examplePath)));
 
-    final suppression = Suppression(parseResult.content, parseResult.lineInfo);
+    final suppression =
+        Suppression(parseResult!.content!, parseResult.lineInfo);
 
     expect(suppression.isSuppressed('rule_id1'), isTrue);
     expect(suppression.isSuppressed('rule_id2'), isTrue);

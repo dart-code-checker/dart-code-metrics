@@ -11,5 +11,8 @@ class ContextMessage {
   final SourceSpan location;
 
   /// Initialize a newly created [ContextMessage] with the given [message] and [location].
-  const ContextMessage({@required this.message, @required this.location});
+  const ContextMessage({
+    required this.message,
+    required this.location,
+  });
 }

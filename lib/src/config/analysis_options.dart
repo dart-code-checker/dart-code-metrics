@@ -18,11 +18,11 @@ class AnalysisOptions {
   const AnalysisOptions(this.options);
 
   Iterable<String> readIterableOfString(Iterable<String> pathSegments) {
-    Object data = options;
+    Object? data = options;
 
     for (final key in pathSegments) {
       if (data is Map<String, Object> && data.containsKey(key)) {
-        data = (data as Map<String, Object>)[key];
+        data = data[key];
       } else {
         return [];
       }
@@ -32,11 +32,11 @@ class AnalysisOptions {
   }
 
   Map<String, Object> readMap(Iterable<String> pathSegments) {
-    Object data = options;
+    Object? data = options;
 
     for (final key in pathSegments) {
-      if (data is Map<String, Object> && data.containsKey(key)) {
-        data = (data as Map<String, Object>)[key];
+      if (data is Map<String, Object?> && data.containsKey(key)) {
+        data = data[key];
       } else {
         return {};
       }
@@ -46,11 +46,11 @@ class AnalysisOptions {
   }
 
   Map<String, Map<String, Object>> readMapOfMap(Iterable<String> pathSegments) {
-    Object data = options;
+    Object? data = options;
 
     for (final key in pathSegments) {
-      if (data is Map<String, Object> && data.containsKey(key)) {
-        data = (data as Map<String, Object>)[key];
+      if (data is Map<String, Object?> && data.containsKey(key)) {
+        data = data[key];
       } else {
         return {};
       }
@@ -88,15 +88,15 @@ class AnalysisOptions {
   }
 }
 
-Future<AnalysisOptions> analysisOptionsFromFile(File options) async =>
+Future<AnalysisOptions> analysisOptionsFromFile(File? options) async =>
     options != null && options.existsSync()
         ? AnalysisOptions(await _loadConfigFromYamlFile(options))
         : const AnalysisOptions({});
 
 Future<Map<String, Object>> _loadConfigFromYamlFile(File options) async {
   try {
-    final node = options != null && options.existsSync()
-        ? loadYamlNode(options?.readAsStringSync() ?? '')
+    final node = options.existsSync()
+        ? loadYamlNode(options.readAsStringSync())
         : YamlMap();
 
     var optionsNode =

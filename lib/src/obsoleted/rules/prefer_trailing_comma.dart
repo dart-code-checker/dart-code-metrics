@@ -19,7 +19,7 @@ class PreferTrailingComma extends ObsoleteRule {
   static const _warningMessage = 'Prefer trailing comma';
   static const _correctionMessage = 'Add trailing comma';
 
-  final int _itemsBreakpoint;
+  final int? _itemsBreakpoint;
 
   PreferTrailingComma({Map<String, Object> config = const {}})
       : _itemsBreakpoint = _parseItemsBreakpoint(config),
@@ -31,9 +31,9 @@ class PreferTrailingComma extends ObsoleteRule {
 
   @override
   Iterable<Issue> check(ResolvedUnitResult source) {
-    final visitor = _Visitor(source.unit.lineInfo, _itemsBreakpoint);
+    final visitor = _Visitor(source.unit!.lineInfo!, _itemsBreakpoint);
 
-    source.unit.visitChildren(visitor);
+    source.unit!.visitChildren(visitor);
 
     return visitor.nodes
         .map(
@@ -48,14 +48,14 @@ class PreferTrailingComma extends ObsoleteRule {
             replacement: Replacement(
               comment: _correctionMessage,
               replacement:
-                  '${source.content.substring(node.offset, node.end)},',
+                  '${source.content?.substring(node.offset, node.end)},',
             ),
           ),
         )
         .toList(growable: false);
   }
 
-  static int _parseItemsBreakpoint(Map<String, Object> config) {
+  static int? _parseItemsBreakpoint(Map<String, Object> config) {
     final breakpoint = config['break_on'];
 
     return breakpoint != null ? int.tryParse(breakpoint.toString()) : null;
@@ -64,7 +64,7 @@ class PreferTrailingComma extends ObsoleteRule {
 
 class _Visitor extends RecursiveAstVisitor<void> {
   final LineInfo _lineInfo;
-  final int _breakpoint;
+  final int? _breakpoint;
 
   final _nodes = <AstNode>[];
 
@@ -122,10 +122,10 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
     final last = nodes.last;
 
-    if (last.endToken?.next?.type != TokenType.COMMA &&
+    if (last.endToken.next?.type != TokenType.COMMA &&
         (!_isLastItemMultiLine(last, leftBracket, rightBracket) &&
                 _getLineNumber(leftBracket) != _getLineNumber(rightBracket) ||
-            _breakpoint != null && nodes.length >= _breakpoint)) {
+            _breakpoint != null && nodes.length >= _breakpoint!)) {
       _nodes.add(last);
     }
   }

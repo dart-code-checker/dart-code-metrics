@@ -1,6 +1,7 @@
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
+import 'package:collection/collection.dart';
 
 import '../../models/issue.dart';
 import '../../models/severity.dart';
@@ -25,7 +26,7 @@ class PreferOnPushCdStrategyRule extends ObsoleteRule {
   Iterable<Issue> check(ResolvedUnitResult source) {
     final visitor = _Visitor();
 
-    source.unit.visitChildren(visitor);
+    source.unit?.visitChildren(visitor);
 
     return visitor.expression
         .map((expression) => createIssue(
@@ -52,11 +53,9 @@ class _Visitor extends RecursiveAstVisitor<void> {
       return;
     }
 
-    final changeDetectionArg =
-        node.arguments.arguments.whereType<NamedExpression>().firstWhere(
-              (arg) => arg.name.label.name == 'changeDetection',
-              orElse: () => null,
-            );
+    final changeDetectionArg = node.arguments?.arguments
+        .whereType<NamedExpression>()
+        .firstWhereOrNull((arg) => arg.name.label.name == 'changeDetection');
 
     if (changeDetectionArg == null) {
       return _expression.add(node);

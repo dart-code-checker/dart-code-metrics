@@ -68,8 +68,8 @@ class MaximumNestingLevelMetric extends FunctionMetric<int> {
     Iterable<AstNode> nestingNodesChain,
     ResolvedUnitResult source,
   ) =>
-      nestingNodesChain.map((block) {
-        final message = userFriendlyType(block.parent?.runtimeType)
+      nestingNodesChain.where((block) => block.parent != null).map((block) {
+        final message = userFriendlyType(block.parent.runtimeType)
             .camelCaseToText()
             .capitalize();
 

@@ -20,19 +20,28 @@ const weightOfClassDefaultWarningLevel = 0.33;
 class Config {
   final int cyclomaticComplexityWarningLevel;
   final int linesOfExecutableCodeWarningLevel;
-  final int numberOfArgumentsWarningLevel;
+  final int numberOfParametersWarningLevel;
   final int numberOfMethodsWarningLevel;
   final int maximumNestingWarningLevel;
   final double weightOfClassWarningLevel;
 
   const Config({
-    this.cyclomaticComplexityWarningLevel =
-        cyclomaticComplexityDefaultWarningLevel,
-    this.linesOfExecutableCodeWarningLevel =
-        linesOfExecutableCodeDefaultWarningLevel,
-    this.numberOfArgumentsWarningLevel = numberOfParametersDefaultWarningLevel,
-    this.numberOfMethodsWarningLevel = numberOfMethodsDefaultWarningLevel,
-    this.maximumNestingWarningLevel = maximumNestingDefaultWarningLevel,
-    this.weightOfClassWarningLevel = weightOfClassDefaultWarningLevel,
-  });
+    int? cyclomaticComplexityWarningLevel,
+    int? linesOfExecutableCodeWarningLevel,
+    int? numberOfParametersWarningLevel,
+    int? numberOfMethodsWarningLevel,
+    int? maximumNestingWarningLevel,
+    double? weightOfClassWarningLevel,
+  })  : cyclomaticComplexityWarningLevel = cyclomaticComplexityWarningLevel ??
+            cyclomaticComplexityDefaultWarningLevel,
+        linesOfExecutableCodeWarningLevel = linesOfExecutableCodeWarningLevel ??
+            linesOfExecutableCodeDefaultWarningLevel,
+        numberOfParametersWarningLevel = numberOfParametersWarningLevel ??
+            numberOfParametersDefaultWarningLevel,
+        numberOfMethodsWarningLevel =
+            numberOfMethodsWarningLevel ?? numberOfMethodsDefaultWarningLevel,
+        maximumNestingWarningLevel =
+            maximumNestingWarningLevel ?? maximumNestingDefaultWarningLevel,
+        weightOfClassWarningLevel =
+            weightOfClassWarningLevel ?? weightOfClassDefaultWarningLevel;
 }

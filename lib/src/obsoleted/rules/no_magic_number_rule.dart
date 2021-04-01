@@ -29,7 +29,7 @@ class NoMagicNumberRule extends ObsoleteRule {
   Iterable<Issue> check(ResolvedUnitResult source) {
     final visitor = _Visitor();
 
-    source.unit.visitChildren(visitor);
+    source.unit?.visitChildren(visitor);
 
     return visitor.literals
         .where(_isMagicNumber)
@@ -77,7 +77,7 @@ class NoMagicNumberRule extends ObsoleteRule {
       null;
 
   static Iterable<num> _parseConfig(Map<String, Object> config) =>
-      config['allowed'] as Iterable<num> ?? [-1, 0, 1];
+      config['allowed'] as Iterable<num>? ?? [-1, 0, 1];
 }
 
 class _Visitor extends RecursiveAstVisitor<void> {

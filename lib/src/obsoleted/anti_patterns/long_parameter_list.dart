@@ -1,5 +1,3 @@
-import 'package:meta/meta.dart';
-
 import '../../models/function_type.dart';
 import '../../models/issue.dart';
 import '../../models/scoped_function_declaration.dart';
@@ -25,7 +23,7 @@ class LongParameterList extends BasePattern {
       functions
           .where((function) =>
               getArgumentsCount(function) >
-              config.numberOfArgumentsWarningLevel)
+              config.numberOfParametersWarningLevel)
           .map((function) => utils.createIssue(
                 this,
                 _compileMessage(
@@ -33,7 +31,7 @@ class LongParameterList extends BasePattern {
                   functionType: function.type,
                 ),
                 _compileRecommendationMessage(
-                  maximumArguments: config.numberOfArgumentsWarningLevel,
+                  maximumArguments: config.numberOfParametersWarningLevel,
                   functionType: function.type,
                 ),
                 source,
@@ -41,12 +39,12 @@ class LongParameterList extends BasePattern {
               ))
           .toList();
 
-  String _compileMessage({@required int args, FunctionType functionType}) =>
+  String _compileMessage({required int args, FunctionType? functionType}) =>
       'Long Parameter List. This ${functionType.toString().toLowerCase()} require $args arguments.';
 
   String _compileRecommendationMessage({
-    @required int maximumArguments,
-    FunctionType functionType,
+    required int maximumArguments,
+    FunctionType? functionType,
   }) =>
       "Based on configuration of this package, we don't recommend writing a ${functionType.toString().toLowerCase()} with argument count more than $maximumArguments.";
 }

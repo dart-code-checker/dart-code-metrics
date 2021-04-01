@@ -23,8 +23,8 @@ void main() {
 
       final issues = PreferTrailingComma().check(InternalResolvedUnitResult(
         sourceUrl,
-        parseResult.content,
-        parseResult.unit,
+        parseResult!.content!,
+        parseResult.unit!,
       ));
 
       expect(
@@ -45,8 +45,8 @@ void main() {
 
       final issues = PreferTrailingComma().check(InternalResolvedUnitResult(
         sourceUrl,
-        parseResult.content,
-        parseResult.unit,
+        parseResult!.content!,
+        parseResult.unit!,
       ));
 
       expect(
@@ -99,7 +99,7 @@ void main() {
       );
 
       expect(
-        issues.map((issue) => issue.suggestion.comment),
+        issues.map((issue) => issue.suggestion!.comment),
         equals([
           'Add trailing comma',
           'Add trailing comma',
@@ -115,7 +115,7 @@ void main() {
         ]),
       );
       expect(
-        issues.map((issue) => issue.suggestion.replacement),
+        issues.map((issue) => issue.suggestion!.replacement),
         equals([
           'String thirdArgument,',
           "'and another string for length exceed',",
@@ -140,8 +140,8 @@ void main() {
 
       final issues = PreferTrailingComma().check(InternalResolvedUnitResult(
         sourceUrl,
-        parseResult.content,
-        parseResult.unit,
+        parseResult!.content!,
+        parseResult.unit!,
       ));
 
       expect(issues.isEmpty, isTrue);
@@ -156,8 +156,8 @@ void main() {
       final issues = PreferTrailingComma(config: {'break_on': 1})
           .check(InternalResolvedUnitResult(
         sourceUrl,
-        parseResult.content,
-        parseResult.unit,
+        parseResult!.content!,
+        parseResult.unit!,
       ));
 
       expect(

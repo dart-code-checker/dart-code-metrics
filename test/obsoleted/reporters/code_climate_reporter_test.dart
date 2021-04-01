@@ -20,14 +20,14 @@ import 'package:test/test.dart';
 
 import '../stubs_builders.dart';
 
-Map<String, Object> _decodeReport(Iterable<String> lines) =>
-    json.decode(lines.first.replaceAll('\x00', '')) as Map<String, Object>;
+Map<String, Object?> _decodeReport(Iterable<String> lines) =>
+    json.decode(lines.first.replaceAll('\x00', '')) as Map<String, Object?>;
 
 void main() {
   group('CodeClimateReporter.report report about', () {
     const fullPath = '/home/developer/work/project/example.dart';
 
-    CodeClimateReporter _reporter;
+    late CodeClimateReporter _reporter;
 
     setUp(() {
       _reporter = CodeClimateReporter(reportConfig: const Config());
@@ -347,7 +347,7 @@ void main() {
   group('CodeClimateReporter.report gitlab compatible report about', () {
     const fullPath = '/home/developer/work/project/example.dart';
 
-    CodeClimateReporter _reporter;
+    late CodeClimateReporter _reporter;
 
     setUp(() {
       _reporter = CodeClimateReporter(
@@ -396,9 +396,9 @@ void main() {
         ),
       ];
 
-      final report =
-          (json.decode((await _reporter.report(records)).first) as List<Object>)
-              .first as Map<String, Object>;
+      final report = (json.decode((await _reporter.report(records)).first)
+              as List<Object?>)
+          .first as Map<String, Object?>;
 
       expect(report, containsPair('type', 'issue'));
       expect(report, containsPair('check_name', _issuePatternId));

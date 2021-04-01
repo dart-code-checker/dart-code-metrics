@@ -13,7 +13,7 @@ class RuleDocumentation {
   ///
   /// This data object is used for a documentation generating from a source code.
   const RuleDocumentation({
-    @required this.name,
-    @required this.brief,
+    required this.name,
+    required this.brief,
   });
 }

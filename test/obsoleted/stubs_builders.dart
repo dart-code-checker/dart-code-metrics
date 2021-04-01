@@ -12,7 +12,7 @@ import 'package:dart_code_metrics/src/obsoleted/models/function_report.dart';
 import 'package:source_span/source_span.dart';
 
 Report buildComponentRecordStub({
-  SourceSpanBase location,
+  SourceSpanBase? location,
   Iterable<MetricValue<num>> metrics = const [],
 }) {
   const defaultMetricValues = [
@@ -52,7 +52,7 @@ Report buildComponentRecordStub({
 }
 
 FunctionRecord buildFunctionRecordStub({
-  SourceSpanBase location,
+  SourceSpanBase? location,
   Iterable<MetricValue<num>> metrics = const [],
   int argumentsCount = 0,
   Map<int, int> cyclomaticLinesComplexity = const <int, int>{},

@@ -18,7 +18,7 @@ Future<void> main() async {
 
   group('CyclomaticComplexityMetric computes cyclomatic complexity of the', () {
     final scopeVisitor = ScopeVisitor();
-    example.unit.visitChildren(scopeVisitor);
+    example!.unit!.visitChildren(scopeVisitor);
 
     test('very complex function', () {
       final metricValue = metric.compute(

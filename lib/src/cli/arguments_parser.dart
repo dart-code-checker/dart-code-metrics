@@ -82,8 +82,7 @@ void _appendMetricsThresholdOptions(ArgParser parser) {
       metric.id,
       help: '${metric.documentation.name} threshold',
       valueHelp: '${metric.threshold}',
-      // ignore: avoid_types_on_closure_parameters
-      callback: (String i) {
+      callback: (i) {
         if (i != null && int.tryParse(i) == null) {
           print("'$i' invalid value for argument ${metric.documentation.name}");
         }
@@ -94,8 +93,7 @@ void _appendMetricsThresholdOptions(ArgParser parser) {
     linesOfExecutableCodeKey,
     help: 'Lines of executable code threshold',
     valueHelp: '$linesOfExecutableCodeDefaultWarningLevel',
-    // ignore: avoid_types_on_closure_parameters
-    callback: (String i) {
+    callback: (i) {
       if (i != null && int.tryParse(i) == null) {
         print("'$i' invalid value for argument $linesOfExecutableCodeKey");
       }
@@ -127,6 +125,6 @@ void _appendExitOption(ArgParser parser) {
     allowed: ['noted', 'warning', 'alarm'],
     valueHelp: 'warning',
     help:
-    'Set exit code 2 if code violations same or higher level than selected are detected',
+        'Set exit code 2 if code violations same or higher level than selected are detected',
   );
 }
