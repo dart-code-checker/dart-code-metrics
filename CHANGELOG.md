@@ -11,6 +11,7 @@
   * `ignore-files` to `exclude`
   * `maximum-nesting` to `maximum-nesting-level`
   * `number-of-arguments` to `number-of-parameters`
+* Update README
 
 ## 2.4.1
 
