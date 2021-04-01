@@ -26,7 +26,6 @@ dependencies:
 
 dev_dependencies:
   coverage: ^1.0.2
-  http_multi_server: ^3.0.0 # for valid resolve dependencies while downgrade
   mocktail: ^0.1.1
   pedantic: ^1.11.0
   pub_semver: ^2.0.0
@@ -38,4 +37,3 @@ executables:
 dependency_validator:
   ignore:
     - intl
-    - http_multi_server
