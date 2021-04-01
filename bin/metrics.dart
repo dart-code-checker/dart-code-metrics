@@ -56,7 +56,7 @@ Future<void> _runAnalysis(ArgResults arguments) async {
       int.tryParse(arguments[metrics.maximumNestingKey] as String? ?? '');
   final weightOfClassWarningLevel =
       double.tryParse(arguments[metrics.weightOfClassKey] as String? ?? '');
-  final reporterType = arguments[reporterName] as String?;
+  final reporterType = arguments[reporterName] as String;
   final exitOnViolationLevel = MetricValueLevel.fromString(
       arguments[setExitOnViolationLevel] as String?);
 
@@ -86,18 +86,12 @@ Future<void> _runAnalysis(ArgResults arguments) async {
   await runner.run();
 
   final config = metrics.Config(
-    cyclomaticComplexityWarningLevel: cyclomaticComplexityThreshold ??
-        options.metricsConfig.cyclomaticComplexityWarningLevel,
-    linesOfExecutableCodeWarningLevel: linesOfExecutableCodeThreshold ??
-        options.metricsConfig.linesOfExecutableCodeWarningLevel,
-    numberOfParametersWarningLevel: numberOfParametersWarningLevel ??
-        options.metricsConfig.numberOfParametersWarningLevel,
-    numberOfMethodsWarningLevel: numberOfMethodsWarningLevel ??
-        options.metricsConfig.numberOfMethodsWarningLevel,
-    maximumNestingWarningLevel: maximumNestingWarningLevel ??
-        options.metricsConfig.maximumNestingWarningLevel,
-    weightOfClassWarningLevel: weightOfClassWarningLevel ??
-        options.metricsConfig.weightOfClassWarningLevel,
+    cyclomaticComplexityWarningLevel: cyclomaticComplexityThreshold,
+    linesOfExecutableCodeWarningLevel: linesOfExecutableCodeThreshold,
+    numberOfParametersWarningLevel: numberOfParametersWarningLevel,
+    numberOfMethodsWarningLevel: numberOfMethodsWarningLevel,
+    maximumNestingWarningLevel: maximumNestingWarningLevel,
+    weightOfClassWarningLevel: weightOfClassWarningLevel,
   );
 
   Reporter reporter;

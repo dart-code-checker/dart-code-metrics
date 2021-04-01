@@ -10,12 +10,12 @@ environment:
 
 dependencies:
   analyzer: ^1.3.0
-  analyzer_plugin:
-    path: ../sdk/pkg/analyzer_plugin
+  analyzer_plugin: ^0.5.0
   ansicolor: ^2.0.1
   args: ^2.0.0
   collection: ^1.15.0
   crypto: ^3.0.0
+  file: ^6.1.0
   glob: ^2.0.1
   html: '>=0.15.0 <1.0.0'
   meta: ^1.3.0
@@ -26,7 +26,6 @@ dependencies:
 
 dev_dependencies:
   coverage: ^1.0.2
-  http_multi_server: ^3.0.0 # for valid resolve dependencies while downgrade
   mocktail: ^0.1.1
   pedantic: ^1.11.0
   pub_semver: ^2.0.0
@@ -38,4 +37,3 @@ executables:
 dependency_validator:
   ignore:
     - intl
-    - http_multi_server
