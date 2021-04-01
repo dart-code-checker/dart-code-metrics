@@ -165,7 +165,7 @@ Usage: metrics [arguments...] <directories>
 
 ### Library
 
-[See `example/example.dart`](https://github.com/dart-code-checker/dart-code-metrics/blob/master/example/example.dart)
+[See `example/example.dart`](https://github.com/dart-code-checker/dart-code-metrics/blob/master/example/example.dart).
 
 ## Configuration
 
@@ -180,11 +180,11 @@ dart_code_metrics:
   anti-patterns:
     - ... # add this entry to configure the list of anti-patterns
   metrics:
-    ... # add this entry to configure the list of reported metrics
+      ... # add this entry to configure the list of reported metrics
   metrics-exclude:
     - ... # add this entry to configure the list of files that should be ignored by metrics
   rules:
-    - ... ## add this entry to configure the list of rules
+    - ... # add this entry to configure the list of rules
 ```
 
 Basic config example:
