@@ -63,7 +63,7 @@ bool isReportLevel(MetricValueLevel level) =>
     level == MetricValueLevel.warning || level == MetricValueLevel.alarm;
 
 /// Returns user friendly string representations of [type].
-String userFriendlyType(Type? type) {
+String userFriendlyType(Type type) {
   const _impl = 'Impl';
 
   final typeName = type.toString();
