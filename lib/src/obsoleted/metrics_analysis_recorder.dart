@@ -49,7 +49,9 @@ class MetricsAnalysisRecorder
   void recordFunction(
     ScopedFunctionDeclaration _,
     Report __,
-  ) {}
+  ) {
+    throw UnimplementedError();
+  }
 
   @override
   void recordFunctionData(

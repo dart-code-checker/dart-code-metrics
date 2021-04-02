@@ -189,7 +189,7 @@ class MetricsAnalyzer {
                     nodeLocation(node: entity, source: source).start.line)
                 .toSet();
 
-            builder.recordFunction(
+            builder.recordFunctionData(
               function,
               FunctionRecord(
                 location: nodeLocation(
