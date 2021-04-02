@@ -13,6 +13,7 @@ import 'package:file/local.dart';
 import '../metrics/cyclomatic_complexity/cyclomatic_complexity_flow_visitor.dart';
 import '../metrics/maximum_nesting_level/maximum_nesting_level_metric.dart';
 import '../metrics/number_of_methods_metric.dart';
+import '../metrics/number_of_parameters_metric.dart';
 import '../metrics/weight_of_class_metric.dart';
 import '../models/issue.dart';
 import '../models/report.dart';
@@ -31,7 +32,6 @@ import 'metrics_records_store.dart';
 import 'models/function_record.dart';
 import 'models/internal_resolved_unit_result.dart';
 import 'rules_factory.dart';
-import 'utils/metrics_analyzer_utils.dart';
 
 // ignore: deprecated_member_use
 final _featureSet = FeatureSet.fromEnableFlags([]);
@@ -206,8 +206,16 @@ class MetricsAnalyzer {
                     visitor.functions,
                     source,
                   ),
+                  NumberOfParametersMetric(config: {
+                    NumberOfParametersMetric.metricId:
+                        '${_metricsConfig.numberOfParametersWarningLevel}',
+                  }).compute(
+                    function.declaration,
+                    visitor.classes,
+                    visitor.functions,
+                    source,
+                  ),
                 ],
-                argumentsCount: getArgumentsCount(function),
                 cyclomaticComplexityLines: Map.fromEntries(cyclomaticLines.map(
                   (lineIndex) => MapEntry(
                     lineIndex,

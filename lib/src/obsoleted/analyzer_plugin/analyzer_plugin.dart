@@ -25,6 +25,7 @@ import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
 import 'package:source_span/source_span.dart';
 
 import '../../metrics/cyclomatic_complexity/cyclomatic_complexity_flow_visitor.dart';
+import '../../metrics/number_of_parameters_metric.dart';
 import '../../models/scoped_function_declaration.dart';
 import '../../scope_visitor.dart';
 import '../../suppression.dart';
@@ -38,7 +39,6 @@ import '../models/function_report.dart' as metrics;
 import '../models/internal_resolved_unit_result.dart';
 import '../reporters/utility_selector.dart';
 import '../rules_factory.dart';
-import '../utils/metrics_analyzer_utils.dart';
 import 'analyzer_plugin_config.dart';
 import 'analyzer_plugin_utils.dart';
 
@@ -383,8 +383,20 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
           node: function.declaration,
           source: source,
         ),
-        metrics: const [],
-        argumentsCount: getArgumentsCount(function),
+        metrics: [
+          NumberOfParametersMetric(config: {
+            NumberOfParametersMetric.metricId:
+                '${config.metricsConfigs.numberOfParametersWarningLevel}',
+          }).compute(
+            function.declaration,
+            [
+              if (function.enclosingDeclaration != null)
+                function.enclosingDeclaration!,
+            ],
+            [function],
+            source,
+          ),
+        ],
         cyclomaticComplexityLines: Map.fromEntries(cyclomaticLines.map(
           (lineIndex) => MapEntry(
             lineIndex,

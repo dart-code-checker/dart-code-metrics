@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:dart_code_metrics/src/metrics/maximum_nesting_level/maximum_nesting_level_metric.dart';
 import 'package:dart_code_metrics/src/metrics/number_of_methods_metric.dart';
+import 'package:dart_code_metrics/src/metrics/number_of_parameters_metric.dart';
 import 'package:dart_code_metrics/src/models/entity_type.dart';
 import 'package:dart_code_metrics/src/models/issue.dart';
 import 'package:dart_code_metrics/src/models/metric_documentation.dart';
@@ -18,6 +19,7 @@ import 'package:dart_code_metrics/src/obsoleted/reporters/json_reporter.dart';
 import 'package:source_span/source_span.dart';
 import 'package:test/test.dart';
 
+import '../../stubs_builders.dart';
 import '../stubs_builders.dart';
 
 void main() {
@@ -88,11 +90,22 @@ void main() {
               ]),
             }),
             functions: Map.unmodifiable(<String, FunctionRecord>{
-              'function': buildFunctionRecordStub(argumentsCount: 0),
+              'function': buildFunctionRecordStub(
+                metrics: [
+                  buildMetricValueStub<int>(
+                    id: NumberOfParametersMetric.metricId,
+                    value: 0,
+                  ),
+                ],
+              ),
               'function2': buildFunctionRecordStub(
-                argumentsCount: 6,
-                metrics: const [
-                  MetricValue<int>(
+                metrics: [
+                  buildMetricValueStub<int>(
+                    id: NumberOfParametersMetric.metricId,
+                    value: 6,
+                    level: MetricValueLevel.warning,
+                  ),
+                  const MetricValue<int>(
                     metricsId: MaximumNestingLevelMetric.metricId,
                     documentation: MetricDocumentation(
                       name: '',
@@ -108,9 +121,13 @@ void main() {
                 ],
               ),
               'function3': buildFunctionRecordStub(
-                argumentsCount: 10,
-                metrics: const [
-                  MetricValue<int>(
+                metrics: [
+                  buildMetricValueStub<int>(
+                    id: NumberOfParametersMetric.metricId,
+                    value: 10,
+                    level: MetricValueLevel.alarm,
+                  ),
+                  const MetricValue<int>(
                     metricsId: MaximumNestingLevelMetric.metricId,
                     documentation: MetricDocumentation(
                       name: '',
@@ -137,12 +154,16 @@ void main() {
 
         expect(report, containsPair('average-number-of-parameters', 5));
         expect(
-            report, containsPair('total-number-of-parameters-violations', 2));
+          report,
+          containsPair('total-number-of-parameters-violations', 2),
+        );
         expect(report, containsPair('average-number-of-methods', 13));
         expect(report, containsPair('total-number-of-methods-violations', 2));
         expect(report, containsPair('average-maximum-nesting-level', 3));
         expect(
-            report, containsPair('total-maximum-nesting-level-violations', 1));
+          report,
+          containsPair('total-maximum-nesting-level-violations', 1),
+        );
       });
 
       test('with design issues', () async {
@@ -425,7 +446,14 @@ void main() {
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
-              'function': buildFunctionRecordStub(argumentsCount: 0),
+              'function': buildFunctionRecordStub(
+                metrics: [
+                  buildMetricValueStub<int>(
+                    id: NumberOfParametersMetric.metricId,
+                    value: 0,
+                  ),
+                ],
+              ),
             }),
             issues: const [],
             antiPatternCases: const [],
@@ -452,7 +480,15 @@ void main() {
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
-              'function': buildFunctionRecordStub(argumentsCount: 10),
+              'function': buildFunctionRecordStub(
+                metrics: [
+                  buildMetricValueStub<int>(
+                    id: NumberOfParametersMetric.metricId,
+                    value: 10,
+                    level: MetricValueLevel.alarm,
+                  ),
+                ],
+              ),
             }),
             issues: const [],
             antiPatternCases: const [],

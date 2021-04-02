@@ -1,17 +1,19 @@
+@TestOn('vm')
 import 'package:dart_code_metrics/src/metrics/maximum_nesting_level/maximum_nesting_level_metric.dart';
 import 'package:dart_code_metrics/src/metrics/number_of_methods_metric.dart';
+import 'package:dart_code_metrics/src/metrics/number_of_parameters_metric.dart';
 import 'package:dart_code_metrics/src/models/entity_type.dart';
 import 'package:dart_code_metrics/src/models/metric_documentation.dart';
 import 'package:dart_code_metrics/src/models/metric_value.dart';
 import 'package:dart_code_metrics/src/models/metric_value_level.dart';
 import 'package:dart_code_metrics/src/models/report.dart';
-@TestOn('vm')
 import 'package:dart_code_metrics/src/obsoleted/config/config.dart' as metrics;
 import 'package:dart_code_metrics/src/obsoleted/models/file_record.dart';
 import 'package:dart_code_metrics/src/obsoleted/models/function_record.dart';
 import 'package:dart_code_metrics/src/obsoleted/reporters/utility_selector.dart';
 import 'package:test/test.dart';
 
+import '../../stubs_builders.dart';
 import '../stubs_builders.dart';
 
 void main() {
@@ -69,9 +71,33 @@ void main() {
             ]),
           }),
           functions: Map.unmodifiable(<String, FunctionRecord>{
-            'function': buildFunctionRecordStub(argumentsCount: 0),
-            'function2': buildFunctionRecordStub(argumentsCount: 6),
-            'function3': buildFunctionRecordStub(argumentsCount: 10),
+            'function': buildFunctionRecordStub(
+              metrics: [
+                buildMetricValueStub<int>(
+                  id: NumberOfParametersMetric.metricId,
+                  value: 0,
+                  level: MetricValueLevel.none,
+                ),
+              ],
+            ),
+            'function2': buildFunctionRecordStub(
+              metrics: [
+                buildMetricValueStub<int>(
+                  id: NumberOfParametersMetric.metricId,
+                  value: 6,
+                  level: MetricValueLevel.warning,
+                ),
+              ],
+            ),
+            'function3': buildFunctionRecordStub(
+              metrics: [
+                buildMetricValueStub<int>(
+                  id: NumberOfParametersMetric.metricId,
+                  value: 10,
+                  level: MetricValueLevel.alarm,
+                ),
+              ],
+            ),
           }),
           issues: const [],
           antiPatternCases: const [],
@@ -136,7 +162,14 @@ void main() {
 
     group('functionReport calculates report for function', () {
       test('without arguments', () {
-        final record = buildFunctionRecordStub(argumentsCount: 0);
+        final record = buildFunctionRecordStub(
+          metrics: [
+            buildMetricValueStub<int>(
+              id: NumberOfParametersMetric.metricId,
+              value: 0,
+            ),
+          ],
+        );
         final report =
             UtilitySelector.functionReport(record, const metrics.Config());
 
@@ -145,7 +178,15 @@ void main() {
       });
 
       test('with a lot of arguments', () {
-        final record = buildFunctionRecordStub(argumentsCount: 10);
+        final record = buildFunctionRecordStub(
+          metrics: [
+            buildMetricValueStub<int>(
+              id: NumberOfParametersMetric.metricId,
+              value: 10,
+              level: MetricValueLevel.alarm,
+            ),
+          ],
+        );
         final report =
             UtilitySelector.functionReport(record, const metrics.Config());
 

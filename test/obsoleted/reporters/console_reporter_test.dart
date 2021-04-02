@@ -2,6 +2,7 @@
 import 'package:ansicolor/ansicolor.dart';
 import 'package:dart_code_metrics/src/metrics/maximum_nesting_level/maximum_nesting_level_metric.dart';
 import 'package:dart_code_metrics/src/metrics/number_of_methods_metric.dart';
+import 'package:dart_code_metrics/src/metrics/number_of_parameters_metric.dart';
 import 'package:dart_code_metrics/src/models/entity_type.dart';
 import 'package:dart_code_metrics/src/models/issue.dart';
 import 'package:dart_code_metrics/src/models/metric_documentation.dart';
@@ -17,6 +18,7 @@ import 'package:dart_code_metrics/src/obsoleted/reporters/console_reporter.dart'
 import 'package:source_span/source_span.dart';
 import 'package:test/test.dart';
 
+import '../../stubs_builders.dart';
 import '../stubs_builders.dart';
 
 void main() {
@@ -176,7 +178,14 @@ void main() {
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
-              'function': buildFunctionRecordStub(argumentsCount: 0),
+              'function': buildFunctionRecordStub(
+                metrics: [
+                  buildMetricValueStub<int>(
+                    id: NumberOfParametersMetric.metricId,
+                    value: 0,
+                  ),
+                ],
+              ),
             }),
             issues: const [],
             antiPatternCases: const [],
@@ -201,7 +210,15 @@ void main() {
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
-              'function': buildFunctionRecordStub(argumentsCount: 10),
+              'function': buildFunctionRecordStub(
+                metrics: [
+                  buildMetricValueStub<int>(
+                    id: NumberOfParametersMetric.metricId,
+                    value: 10,
+                    level: MetricValueLevel.alarm,
+                  ),
+                ],
+              ),
             }),
             issues: const [],
             antiPatternCases: const [],

@@ -6,8 +6,6 @@ import '../../models/report.dart';
 
 @immutable
 class FunctionRecord extends Report {
-  final int argumentsCount;
-
   final Map<int, int> cyclomaticComplexityLines;
 
   final Iterable<int> linesWithCode;
@@ -18,7 +16,6 @@ class FunctionRecord extends Report {
   const FunctionRecord({
     required SourceSpan location,
     required Iterable<MetricValue<num>> metrics,
-    required this.argumentsCount,
     required this.cyclomaticComplexityLines,
     required this.linesWithCode,
     required this.operators,

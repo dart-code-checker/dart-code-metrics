@@ -56,7 +56,8 @@ class _Visitor extends RecursiveAstVisitor<void> {
       final preserveWhitespaceArg = node.arguments?.arguments
           .whereType<NamedExpression>()
           .firstWhereOrNull(
-              (arg) => arg.name.label.name == 'preserveWhitespace');
+            (arg) => arg.name.label.name == 'preserveWhitespace',
+          );
       if (preserveWhitespaceArg != null) {
         final expression = preserveWhitespaceArg.expression;
         if (expression is BooleanLiteral &&

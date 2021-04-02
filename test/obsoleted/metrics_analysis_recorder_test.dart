@@ -1,5 +1,6 @@
 @TestOn('vm')
 import 'package:analyzer/dart/ast/ast.dart';
+import 'package:dart_code_metrics/src/metrics/number_of_parameters_metric.dart';
 import 'package:dart_code_metrics/src/models/class_type.dart';
 import 'package:dart_code_metrics/src/models/function_type.dart';
 import 'package:dart_code_metrics/src/models/issue.dart';
@@ -12,6 +13,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:source_span/source_span.dart';
 import 'package:test/test.dart';
 
+import '../stubs_builders.dart';
 import 'stubs_builders.dart';
 
 class ClassDeclarationMock extends Mock implements ClassDeclaration {}
@@ -77,7 +79,12 @@ void main() {
               SourceLocation(0, line: 2),
               '',
             ),
-            argumentsCount: 3,
+            metrics: [
+              buildMetricValueStub<int>(
+                id: NumberOfParametersMetric.metricId,
+                value: 3,
+              ),
+            ],
           );
 
           expect(
@@ -191,7 +198,12 @@ void main() {
             SourceLocation(0, line: 2),
             '',
           ),
-          argumentsCount: 3,
+          metrics: [
+            buildMetricValueStub<int>(
+              id: NumberOfParametersMetric.metricId,
+              value: 3,
+            ),
+          ],
         );
 
         final recorder = MetricsAnalysisRecorder()
