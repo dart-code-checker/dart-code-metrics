@@ -66,7 +66,7 @@ void main() {
             }),
             functions: Map.unmodifiable(<String, FunctionRecord>{}),
             issues: const [],
-            designIssues: const [],
+            antiPatternCases: const [],
           ),
         ];
 
@@ -105,7 +105,7 @@ void main() {
             }),
             functions: Map.unmodifiable(<String, FunctionRecord>{}),
             issues: const [],
-            designIssues: const [],
+            antiPatternCases: const [],
           ),
         ];
 
@@ -129,7 +129,7 @@ void main() {
               ),
             }),
             issues: const [],
-            designIssues: const [],
+            antiPatternCases: const [],
           ),
         ];
 
@@ -154,7 +154,7 @@ void main() {
               ),
             }),
             issues: const [],
-            designIssues: const [],
+            antiPatternCases: const [],
           ),
         ];
 
@@ -179,7 +179,7 @@ void main() {
               'function': buildFunctionRecordStub(argumentsCount: 0),
             }),
             issues: const [],
-            designIssues: const [],
+            antiPatternCases: const [],
           ),
         ];
 
@@ -204,7 +204,7 @@ void main() {
               'function': buildFunctionRecordStub(argumentsCount: 10),
             }),
             issues: const [],
-            designIssues: const [],
+            antiPatternCases: const [],
           ),
         ];
 
@@ -243,7 +243,7 @@ void main() {
               ),
             }),
             issues: const [],
-            designIssues: const [],
+            antiPatternCases: const [],
           ),
         ];
 
@@ -284,7 +284,7 @@ void main() {
               ),
             }),
             issues: const [],
-            designIssues: const [],
+            antiPatternCases: const [],
           ),
         ];
 
@@ -306,7 +306,7 @@ void main() {
           classes: Map.unmodifiable(<String, Report>{}),
           functions: Map.unmodifiable(<String, FunctionRecord>{}),
           issues: const [],
-          designIssues: [
+          antiPatternCases: [
             Issue(
               ruleId: 'patternId1',
               documentation: Uri.parse('https://docu.edu/patternId1.html'),
@@ -368,7 +368,7 @@ void main() {
               ),
             ),
           ],
-          designIssues: const [],
+          antiPatternCases: const [],
         ),
       ];
 

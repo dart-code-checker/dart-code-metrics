@@ -25,7 +25,7 @@ void main() {
           classes: Map.unmodifiable(<String, Report>{}),
           functions: Map.unmodifiable(<String, FunctionRecord>{}),
           issues: const [],
-          designIssues: [
+          antiPatternCases: [
             Issue(
               ruleId: 'patternId1',
               documentation: Uri.parse('https://docu.edu/patternId1.html'),
@@ -104,7 +104,7 @@ void main() {
               ),
             ),
           ],
-          designIssues: const [],
+          antiPatternCases: const [],
         ),
       ];
 

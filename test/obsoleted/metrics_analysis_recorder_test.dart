@@ -245,7 +245,7 @@ void main() {
           ]);
         });
 
-        final issue = recorder.records().single.designIssues.single;
+        final issue = recorder.records().single.antiPatternCases.single;
         expect(issue.ruleId, _issuePatternId);
         expect(
           issue.documentation.toString(),

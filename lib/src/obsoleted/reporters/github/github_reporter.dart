@@ -17,7 +17,7 @@ class GitHubReporter implements Reporter {
     }
 
     for (final analysisRecord in records) {
-      for (final issue in analysisRecord.designIssues) {
+      for (final issue in analysisRecord.antiPatternCases) {
         reportStrings
             .add(_commands.warning(issue.message, sourceSpan: issue.location));
       }

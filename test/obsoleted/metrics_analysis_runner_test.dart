@@ -20,7 +20,7 @@ void main() {
           classes: {},
           functions: {},
           issues: [],
-          designIssues: [],
+          antiPatternCases: [],
         ),
         FileRecord(
           fullPath: 'lib/bar.dart',
@@ -28,7 +28,7 @@ void main() {
           classes: {},
           functions: {},
           issues: [],
-          designIssues: [],
+          antiPatternCases: [],
         ),
       ];
 

@@ -103,7 +103,7 @@ class MetricsAnalysisRecorder
         (key, value) => MapEntry(key.fullName, value),
       )),
       issues: _issues!,
-      designIssues: _designIssues!,
+      antiPatternCases: _designIssues!,
     ));
     _relativeGroupPath = null;
     _fileGroupPath = null;

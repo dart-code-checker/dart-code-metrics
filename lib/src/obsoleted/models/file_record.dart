@@ -13,7 +13,7 @@ class FileRecord {
   final Map<String, FunctionRecord> functions;
 
   final Iterable<Issue> issues;
-  final Iterable<Issue> designIssues;
+  final Iterable<Issue> antiPatternCases;
 
   const FileRecord({
     required this.fullPath,
@@ -21,6 +21,6 @@ class FileRecord {
     required this.classes,
     required this.functions,
     required this.issues,
-    required this.designIssues,
+    required this.antiPatternCases,
   });
 }

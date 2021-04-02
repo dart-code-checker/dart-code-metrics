@@ -58,7 +58,7 @@ class JsonReporter implements Reporter {
         }),
       },
       'issues': _reportCodeIssue(record.issues),
-      'designIssues': _reportDesignIssues(record.designIssues),
+      'designIssues': _reportDesignIssues(record.antiPatternCases),
       'average-${NumberOfParametersMetric.metricId}':
           fileReport.averageArgumentsCount,
       'total-${NumberOfParametersMetric.metricId}-violations':
