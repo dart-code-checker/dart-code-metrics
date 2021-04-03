@@ -48,7 +48,7 @@ void main() {
                 })
                 .records()
                 .single
-                .components,
+                .classes,
             containsPair(componentName, componentRecord),
           );
         });
@@ -163,7 +163,7 @@ void main() {
         });
 
         expect(
-          recorder.records().single.components,
+          recorder.records().single.classes,
           containsPair(componentName, componentRecord),
         );
       });

@@ -22,7 +22,7 @@ void main() {
         FileRecord(
           fullPath: fullPath,
           relativePath: 'example.dart',
-          components: Map.unmodifiable(<String, Report>{}),
+          classes: Map.unmodifiable(<String, Report>{}),
           functions: Map.unmodifiable(<String, FunctionRecord>{}),
           issues: const [],
           designIssues: [
@@ -60,7 +60,7 @@ void main() {
         FileRecord(
           fullPath: fullPath,
           relativePath: 'example.dart',
-          components: Map.unmodifiable(<String, Report>{}),
+          classes: Map.unmodifiable(<String, Report>{}),
           functions: Map.unmodifiable(<String, FunctionRecord>{}),
           issues: [
             Issue(

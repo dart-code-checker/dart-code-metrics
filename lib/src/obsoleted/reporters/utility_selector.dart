@@ -37,7 +37,7 @@ class UtilitySelector {
     metrics.Config config,
   ) {
     final componentReports =
-        record.components.values.map((r) => componentReport(r, config));
+        record.classes.values.map((r) => componentReport(r, config));
     final functionReports =
         record.functions.values.map((r) => functionReport(r, config));
 

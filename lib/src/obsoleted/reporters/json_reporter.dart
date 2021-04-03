@@ -29,7 +29,7 @@ class JsonReporter implements Reporter {
     return {
       'source': record.relativePath,
       'records': {
-        ...record.components.map((key, value) {
+        ...record.classes.map((key, value) {
           final report = UtilitySelector.componentReport(value, reportConfig);
 
           return MapEntry(key, {
