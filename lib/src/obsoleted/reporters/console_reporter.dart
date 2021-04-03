@@ -53,7 +53,7 @@ class ConsoleReporter implements Reporter {
     for (final analysisRecord in records!) {
       final lines = <String>[];
 
-      analysisRecord.components.forEach((source, componentReport) {
+      analysisRecord.classes.forEach((source, componentReport) {
         final report =
             UtilitySelector.componentReport(componentReport, reportConfig);
         final violationLevel = UtilitySelector.componentViolationLevel(report);

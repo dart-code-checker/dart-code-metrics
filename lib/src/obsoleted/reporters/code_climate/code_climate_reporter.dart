@@ -37,8 +37,8 @@ class CodeClimateReporter implements Reporter {
 
   Iterable<CodeClimateIssue> _toIssues(FileRecord record) {
     final result = <CodeClimateIssue>[
-      ...record.components.keys.expand((key) {
-        final component = record.components[key]!;
+      ...record.classes.keys.expand((key) {
+        final component = record.classes[key]!;
         final report = UtilitySelector.componentReport(component, reportConfig);
 
         return [

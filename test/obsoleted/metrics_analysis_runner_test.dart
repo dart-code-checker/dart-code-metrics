@@ -17,7 +17,7 @@ void main() {
         FileRecord(
           fullPath: 'lib/foo.dart',
           relativePath: 'foo.dart',
-          components: {},
+          classes: {},
           functions: {},
           issues: [],
           designIssues: [],
@@ -25,7 +25,7 @@ void main() {
         FileRecord(
           fullPath: 'lib/bar.dart',
           relativePath: 'bar.dart',
-          components: {},
+          classes: {},
           functions: {},
           issues: [],
           designIssues: [],

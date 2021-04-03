@@ -97,7 +97,7 @@ class MetricsAnalysisRecorder
     _records.add(FileRecord(
       fullPath: _fileGroupPath!,
       relativePath: _relativeGroupPath!,
-      components: Map.unmodifiable(_componentRecords!
+      classes: Map.unmodifiable(_componentRecords!
           .map<String, Report>((key, value) => MapEntry(key.name, value))),
       functions: Map.unmodifiable(_functionRecords!.map<String, FunctionRecord>(
         (key, value) => MapEntry(key.fullName, value),

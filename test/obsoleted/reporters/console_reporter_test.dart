@@ -47,7 +47,7 @@ void main() {
           FileRecord(
             fullPath: fullPath,
             relativePath: 'example.dart',
-            components: Map.unmodifiable(<String, Report>{
+            classes: Map.unmodifiable(<String, Report>{
               'class': buildComponentRecordStub(metrics: const [
                 MetricValue<int>(
                   metricsId: NumberOfMethodsMetric.metricId,
@@ -74,7 +74,7 @@ void main() {
         final verboseReport = (await _verboseReporter.report(records)).toList();
 
         expect(report, isEmpty);
-        expect(verboseReport.length, 3);
+        expect(verboseReport, hasLength(3));
         expect(
           verboseReport[1],
           contains('number of methods: \x1B[38;5;7m0\x1B[0m'),
@@ -86,7 +86,7 @@ void main() {
           FileRecord(
             fullPath: fullPath,
             relativePath: 'example.dart',
-            components: Map.unmodifiable(<String, Report>{
+            classes: Map.unmodifiable(<String, Report>{
               'class': buildComponentRecordStub(metrics: const [
                 MetricValue<int>(
                   metricsId: NumberOfMethodsMetric.metricId,
@@ -111,7 +111,7 @@ void main() {
 
         final report = (await _reporter.report(records)).toList();
 
-        expect(report.length, 3);
+        expect(report, hasLength(3));
         expect(report[1], contains('number of methods: \x1B[38;5;3m20\x1B[0m'));
       });
     });
@@ -122,7 +122,7 @@ void main() {
           FileRecord(
             fullPath: fullPath,
             relativePath: 'example.dart',
-            components: Map.unmodifiable(<String, Report>{}),
+            classes: Map.unmodifiable(<String, Report>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
               'function': buildFunctionRecordStub(
                 linesWithCode: List.generate(150, (index) => index),
@@ -135,7 +135,7 @@ void main() {
 
         final report = (await _reporter.report(records)).toList();
 
-        expect(report.length, 3);
+        expect(report, hasLength(3));
         expect(
           report[1],
           contains('lines of executable code: \x1B[38;5;1m150\x1B[0m'),
@@ -147,7 +147,7 @@ void main() {
           FileRecord(
             fullPath: fullPath,
             relativePath: 'example.dart',
-            components: Map.unmodifiable(<String, Report>{}),
+            classes: Map.unmodifiable(<String, Report>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
               'function': buildFunctionRecordStub(
                 linesWithCode: List.generate(5, (index) => index),
@@ -162,7 +162,7 @@ void main() {
         final verboseReport = (await _verboseReporter.report(records)).toList();
 
         expect(report, isEmpty);
-        expect(verboseReport.length, 3);
+        expect(verboseReport, hasLength(3));
         expect(
           verboseReport[1],
           contains('lines of executable code: \x1B[38;5;7m5\x1B[0m'),
@@ -174,7 +174,7 @@ void main() {
           FileRecord(
             fullPath: fullPath,
             relativePath: 'example.dart',
-            components: Map.unmodifiable(<String, Report>{}),
+            classes: Map.unmodifiable(<String, Report>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
               'function': buildFunctionRecordStub(argumentsCount: 0),
             }),
@@ -187,7 +187,7 @@ void main() {
         final verboseReport = (await _verboseReporter.report(records)).toList();
 
         expect(report, isEmpty);
-        expect(verboseReport.length, 3);
+        expect(verboseReport, hasLength(3));
         expect(
           verboseReport[1],
           contains('number of arguments: \x1B[38;5;7m0\x1B[0m'),
@@ -199,7 +199,7 @@ void main() {
           FileRecord(
             fullPath: fullPath,
             relativePath: 'example.dart',
-            components: Map.unmodifiable(<String, Report>{}),
+            classes: Map.unmodifiable(<String, Report>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
               'function': buildFunctionRecordStub(argumentsCount: 10),
             }),
@@ -210,7 +210,7 @@ void main() {
 
         final report = (await _reporter.report(records)).toList();
 
-        expect(report.length, 3);
+        expect(report, hasLength(3));
         expect(
           report[1],
           contains('number of arguments: \x1B[38;5;1m10\x1B[0m'),
@@ -222,7 +222,7 @@ void main() {
           FileRecord(
             fullPath: fullPath,
             relativePath: 'example.dart',
-            components: Map.unmodifiable(<String, Report>{}),
+            classes: Map.unmodifiable(<String, Report>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
               'function': buildFunctionRecordStub(
                 metrics: const [
@@ -251,7 +251,7 @@ void main() {
         final verboseReport = (await _verboseReporter.report(records)).toList();
 
         expect(report, isEmpty);
-        expect(verboseReport.length, 3);
+        expect(verboseReport, hasLength(3));
         expect(
           verboseReport[1],
           contains('nesting level: \x1B[38;5;7m2\x1B[0m'),
@@ -263,7 +263,7 @@ void main() {
           FileRecord(
             fullPath: fullPath,
             relativePath: 'example.dart',
-            components: Map.unmodifiable(<String, Report>{}),
+            classes: Map.unmodifiable(<String, Report>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
               'function': buildFunctionRecordStub(
                 metrics: const [
@@ -290,7 +290,7 @@ void main() {
 
         final report = (await _reporter.report(records)).toList();
 
-        expect(report.length, 3);
+        expect(report, hasLength(3));
         expect(
           report[1],
           contains('nesting level: \x1B[38;5;3m7\x1B[0m'),
@@ -303,7 +303,7 @@ void main() {
         FileRecord(
           fullPath: fullPath,
           relativePath: 'example.dart',
-          components: Map.unmodifiable(<String, Report>{}),
+          classes: Map.unmodifiable(<String, Report>{}),
           functions: Map.unmodifiable(<String, FunctionRecord>{}),
           issues: const [],
           designIssues: [
@@ -330,7 +330,7 @@ void main() {
 
       final report = (await _reporter.report(records)).toList();
 
-      expect(report.length, 3);
+      expect(report, hasLength(3));
       expect(
         report[1],
         equals(
@@ -344,7 +344,7 @@ void main() {
         FileRecord(
           fullPath: fullPath,
           relativePath: 'example.dart',
-          components: Map.unmodifiable(<String, Report>{}),
+          classes: Map.unmodifiable(<String, Report>{}),
           functions: Map.unmodifiable(<String, FunctionRecord>{}),
           issues: [
             Issue(
@@ -374,7 +374,7 @@ void main() {
 
       final report = (await _reporter.report(records)).toList();
 
-      expect(report.length, 3);
+      expect(report, hasLength(3));
       expect(
         report[1],
         equals(

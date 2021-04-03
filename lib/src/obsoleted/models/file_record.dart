@@ -9,7 +9,7 @@ class FileRecord {
   final String fullPath;
   final String relativePath;
 
-  final Map<String, Report> components;
+  final Map<String, Report> classes;
   final Map<String, FunctionRecord> functions;
 
   final Iterable<Issue> issues;
@@ -18,7 +18,7 @@ class FileRecord {
   const FileRecord({
     required this.fullPath,
     required this.relativePath,
-    required this.components,
+    required this.classes,
     required this.functions,
     required this.issues,
     required this.designIssues,

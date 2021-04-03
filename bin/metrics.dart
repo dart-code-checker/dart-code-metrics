@@ -6,6 +6,11 @@ import 'package:dart_code_metrics/reporters.dart';
 import 'package:dart_code_metrics/src/cli/arguments_parser.dart';
 import 'package:dart_code_metrics/src/cli/arguments_validation.dart';
 import 'package:dart_code_metrics/src/cli/arguments_validation_exceptions.dart';
+import 'package:dart_code_metrics/src/metrics/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
+import 'package:dart_code_metrics/src/metrics/maximum_nesting_level/maximum_nesting_level_metric.dart';
+import 'package:dart_code_metrics/src/metrics/number_of_methods_metric.dart';
+import 'package:dart_code_metrics/src/metrics/number_of_parameters_metric.dart';
+import 'package:dart_code_metrics/src/metrics/weight_of_class_metric.dart';
 import 'package:dart_code_metrics/src/models/metric_value_level.dart';
 import 'package:dart_code_metrics/src/obsoleted/reporters/utility_selector.dart';
 import 'package:path/path.dart' as p;
@@ -44,21 +49,26 @@ Future<void> _runAnalysis(ArgResults arguments) async {
   final analysisOptionsFile =
       File(p.absolute(rootFolder, metrics.analysisOptionsFileName));
 
-  final cyclomaticComplexityThreshold =
-      int.tryParse(arguments[metrics.cyclomaticComplexityKey] as String? ?? '');
+  final cyclomaticComplexityThreshold = int.tryParse(
+    arguments[CyclomaticComplexityMetric.metricId] as String? ?? '',
+  );
   final linesOfExecutableCodeThreshold = int.tryParse(
-      arguments[metrics.linesOfExecutableCodeKey] as String? ?? '');
-  final numberOfParametersWarningLevel =
-      int.tryParse(arguments[metrics.numberOfParametersKey] as String? ?? '');
+    arguments[metrics.linesOfExecutableCodeKey] as String? ?? '',
+  );
+  final numberOfParametersWarningLevel = int.tryParse(
+    arguments[NumberOfParametersMetric.metricId] as String? ?? '',
+  );
   final numberOfMethodsWarningLevel =
-      int.tryParse(arguments[metrics.numberOfMethodsKey] as String? ?? '');
-  final maximumNestingWarningLevel =
-      int.tryParse(arguments[metrics.maximumNestingKey] as String? ?? '');
+      int.tryParse(arguments[NumberOfMethodsMetric.metricId] as String? ?? '');
+  final maximumNestingWarningLevel = int.tryParse(
+    arguments[MaximumNestingLevelMetric.metricId] as String? ?? '',
+  );
   final weightOfClassWarningLevel =
-      double.tryParse(arguments[metrics.weightOfClassKey] as String? ?? '');
+      double.tryParse(arguments[WeightOfClassMetric.metricId] as String? ?? '');
   final reporterType = arguments[reporterName] as String;
   final exitOnViolationLevel = MetricValueLevel.fromString(
-      arguments[setExitOnViolationLevel] as String?);
+    arguments[setExitOnViolationLevel] as String?,
+  );
 
   final options = analysisOptionsFile.existsSync()
       ? await metrics.analysisOptionsFromFile(analysisOptionsFile)

@@ -1,12 +1,7 @@
 // ignore_for_file: comment_references
 import 'package:meta/meta.dart';
 
-const cyclomaticComplexityKey = 'cyclomatic-complexity';
 const linesOfExecutableCodeKey = 'lines-of-executable-code';
-const numberOfParametersKey = 'number-of-parameters';
-const numberOfMethodsKey = 'number-of-methods';
-const maximumNestingKey = 'maximum-nesting-level';
-const weightOfClassKey = 'weight-of-class';
 
 const cyclomaticComplexityDefaultWarningLevel = 20;
 const linesOfExecutableCodeDefaultWarningLevel = 50;

@@ -21,7 +21,7 @@ void main() {
         FileRecord(
           fullPath: '/home/developer/work/project/example.dart',
           relativePath: 'example.dart',
-          components: Map.unmodifiable(<String, Report>{
+          classes: Map.unmodifiable(<String, Report>{
             'class': buildComponentRecordStub(metrics: const [
               MetricValue<int>(
                 metricsId: NumberOfMethodsMetric.metricId,
@@ -258,7 +258,7 @@ void main() {
         FileRecord(
           fullPath: fullPathStub,
           relativePath: relativePathStub,
-          components: Map.unmodifiable(<String, Report>{}),
+          classes: Map.unmodifiable(<String, Report>{}),
           functions: Map.unmodifiable(<String, FunctionRecord>{
             'a': buildFunctionRecordStub(linesWithCode: List.filled(10, 0)),
           }),
@@ -268,7 +268,7 @@ void main() {
         FileRecord(
           fullPath: fullPathStub,
           relativePath: relativePathStub,
-          components: Map.unmodifiable(<String, Report>{}),
+          classes: Map.unmodifiable(<String, Report>{}),
           functions: Map.unmodifiable(<String, FunctionRecord>{
             'a': buildFunctionRecordStub(linesWithCode: List.filled(20, 0)),
           }),
@@ -278,7 +278,7 @@ void main() {
         FileRecord(
           fullPath: fullPathStub,
           relativePath: relativePathStub,
-          components: Map.unmodifiable(<String, Report>{}),
+          classes: Map.unmodifiable(<String, Report>{}),
           functions: Map.unmodifiable(<String, FunctionRecord>{
             'a': buildFunctionRecordStub(linesWithCode: List.filled(30, 0)),
           }),

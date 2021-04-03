@@ -1,5 +1,9 @@
 import 'dart:convert';
 
+import '../../metrics/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
+import '../../metrics/maximum_nesting_level/maximum_nesting_level_metric.dart';
+import '../../metrics/number_of_methods_metric.dart';
+import '../../metrics/number_of_parameters_metric.dart';
 import '../../models/issue.dart';
 import '../../models/metric_value.dart';
 import '../config/config.dart';
@@ -25,37 +29,50 @@ class JsonReporter implements Reporter {
     return {
       'source': record.relativePath,
       'records': {
-        ...record.components.map((key, value) {
+        ...record.classes.map((key, value) {
           final report = UtilitySelector.componentReport(value, reportConfig);
 
           return MapEntry(key, {
-            ..._report(report.methodsCount, numberOfMethodsKey),
+            ..._report(report.methodsCount, NumberOfMethodsMetric.metricId),
           });
         }),
         ...record.functions.map((key, value) {
           final report = UtilitySelector.functionReport(value, reportConfig);
 
           return MapEntry(key, {
-            ..._report(report.cyclomaticComplexity, cyclomaticComplexityKey),
+            ..._report(
+              report.cyclomaticComplexity,
+              CyclomaticComplexityMetric.metricId,
+            ),
             ..._report(report.linesOfExecutableCode, linesOfExecutableCodeKey),
             ..._report(report.maintainabilityIndex, 'maintainability-index'),
-            ..._report(report.argumentsCount, numberOfParametersKey),
-            ..._report(report.maximumNestingLevel, maximumNestingKey),
+            ..._report(
+              report.argumentsCount,
+              NumberOfParametersMetric.metricId,
+            ),
+            ..._report(
+              report.maximumNestingLevel,
+              MaximumNestingLevelMetric.metricId,
+            ),
           });
         }),
       },
       'issues': _reportCodeIssue(record.issues),
       'designIssues': _reportDesignIssues(record.designIssues),
-      'average-$numberOfParametersKey': fileReport.averageArgumentsCount,
-      'total-$numberOfParametersKey-violations':
+      'average-${NumberOfParametersMetric.metricId}':
+          fileReport.averageArgumentsCount,
+      'total-${NumberOfParametersMetric.metricId}-violations':
           fileReport.argumentsCountViolations,
-      'average-$numberOfMethodsKey': fileReport.averageMethodsCount,
-      'total-$numberOfMethodsKey-violations': fileReport.methodsCountViolations,
+      'average-${NumberOfMethodsMetric.metricId}':
+          fileReport.averageMethodsCount,
+      'total-${NumberOfMethodsMetric.metricId}-violations':
+          fileReport.methodsCountViolations,
       'total-$linesOfExecutableCodeKey': fileReport.totalLinesOfExecutableCode,
       'total-$linesOfExecutableCodeKey-violations':
           fileReport.linesOfExecutableCodeViolations,
-      'average-$maximumNestingKey': fileReport.averageMaximumNestingLevel,
-      'total-$maximumNestingKey-violations':
+      'average-${MaximumNestingLevelMetric.metricId}':
+          fileReport.averageMaximumNestingLevel,
+      'total-${MaximumNestingLevelMetric.metricId}-violations':
           fileReport.maximumNestingLevelViolations,
     };
   }
