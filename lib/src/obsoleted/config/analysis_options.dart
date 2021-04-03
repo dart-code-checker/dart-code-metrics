@@ -1,6 +1,11 @@
 import 'dart:io';
 
 import '../../config/config.dart';
+import '../../metrics/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
+import '../../metrics/maximum_nesting_level/maximum_nesting_level_metric.dart';
+import '../../metrics/number_of_methods_metric.dart';
+import '../../metrics/number_of_parameters_metric.dart';
+import '../../metrics/weight_of_class_metric.dart';
 import '../utils/yaml_utils.dart';
 import 'config.dart' as metrics;
 
@@ -71,17 +76,17 @@ metrics.Config _readMetricsConfig(Map<String, Object> configMap) {
     if (configMap is Map<String, Object>) {
       return metrics.Config(
         cyclomaticComplexityWarningLevel:
-            configMap[metrics.cyclomaticComplexityKey] as int?,
+            configMap[CyclomaticComplexityMetric.metricId] as int?,
         linesOfExecutableCodeWarningLevel:
             configMap[metrics.linesOfExecutableCodeKey] as int?,
         numberOfParametersWarningLevel:
-            configMap[metrics.numberOfParametersKey] as int?,
+            configMap[NumberOfParametersMetric.metricId] as int?,
         numberOfMethodsWarningLevel:
-            configMap[metrics.numberOfMethodsKey] as int?,
+            configMap[NumberOfMethodsMetric.metricId] as int?,
         maximumNestingWarningLevel:
-            configMap[metrics.maximumNestingKey] as int?,
+            configMap[MaximumNestingLevelMetric.metricId] as int?,
         weightOfClassWarningLevel:
-            configMap[metrics.weightOfClassKey] as double?,
+            configMap[WeightOfClassMetric.metricId] as double?,
       );
     }
   }
