@@ -13,7 +13,7 @@ import 'obsolete_rule.dart';
 
 class MemberOrderingExtendedRule extends ObsoleteRule {
   static const ruleId = 'member-ordering-extended';
-  static const _documentationUrl = '';
+  static const _documentationUrl = 'https://git.io/JY1dv';
 
   static const _warningMessage = 'should be before';
   static const _warningAlphabeticalMessage = 'should be alphabetically before';
