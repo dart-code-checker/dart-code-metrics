@@ -74,7 +74,7 @@ void main() {
         final verboseReport = (await _verboseReporter.report(records)).toList();
 
         expect(report, isEmpty);
-        expect(verboseReport.length, 3);
+        expect(verboseReport, hasLength(3));
         expect(
           verboseReport[1],
           contains('number of methods: \x1B[38;5;7m0\x1B[0m'),
@@ -111,7 +111,7 @@ void main() {
 
         final report = (await _reporter.report(records)).toList();
 
-        expect(report.length, 3);
+        expect(report, hasLength(3));
         expect(report[1], contains('number of methods: \x1B[38;5;3m20\x1B[0m'));
       });
     });
@@ -135,7 +135,7 @@ void main() {
 
         final report = (await _reporter.report(records)).toList();
 
-        expect(report.length, 3);
+        expect(report, hasLength(3));
         expect(
           report[1],
           contains('lines of executable code: \x1B[38;5;1m150\x1B[0m'),
@@ -162,7 +162,7 @@ void main() {
         final verboseReport = (await _verboseReporter.report(records)).toList();
 
         expect(report, isEmpty);
-        expect(verboseReport.length, 3);
+        expect(verboseReport, hasLength(3));
         expect(
           verboseReport[1],
           contains('lines of executable code: \x1B[38;5;7m5\x1B[0m'),
@@ -187,7 +187,7 @@ void main() {
         final verboseReport = (await _verboseReporter.report(records)).toList();
 
         expect(report, isEmpty);
-        expect(verboseReport.length, 3);
+        expect(verboseReport, hasLength(3));
         expect(
           verboseReport[1],
           contains('number of arguments: \x1B[38;5;7m0\x1B[0m'),
@@ -210,7 +210,7 @@ void main() {
 
         final report = (await _reporter.report(records)).toList();
 
-        expect(report.length, 3);
+        expect(report, hasLength(3));
         expect(
           report[1],
           contains('number of arguments: \x1B[38;5;1m10\x1B[0m'),
@@ -251,7 +251,7 @@ void main() {
         final verboseReport = (await _verboseReporter.report(records)).toList();
 
         expect(report, isEmpty);
-        expect(verboseReport.length, 3);
+        expect(verboseReport, hasLength(3));
         expect(
           verboseReport[1],
           contains('nesting level: \x1B[38;5;7m2\x1B[0m'),
@@ -290,7 +290,7 @@ void main() {
 
         final report = (await _reporter.report(records)).toList();
 
-        expect(report.length, 3);
+        expect(report, hasLength(3));
         expect(
           report[1],
           contains('nesting level: \x1B[38;5;3m7\x1B[0m'),
@@ -330,7 +330,7 @@ void main() {
 
       final report = (await _reporter.report(records)).toList();
 
-      expect(report.length, 3);
+      expect(report, hasLength(3));
       expect(
         report[1],
         equals(
@@ -374,7 +374,7 @@ void main() {
 
       final report = (await _reporter.report(records)).toList();
 
-      expect(report.length, 3);
+      expect(report, hasLength(3));
       expect(
         report[1],
         equals(
