@@ -39,7 +39,7 @@ class CodeClimateReporter implements Reporter {
     final result = <CodeClimateIssue>[
       ...record.classes.keys.expand((key) {
         final component = record.classes[key]!;
-        final report = UtilitySelector.componentReport(component, reportConfig);
+        final report = UtilitySelector.componentReport(component);
 
         return [
           if (isReportLevel(report.methodsCount.level))
@@ -68,7 +68,7 @@ class CodeClimateReporter implements Reporter {
 
     for (final key in record.functions.keys) {
       final func = record.functions[key]!;
-      final report = UtilitySelector.functionReport(func, reportConfig);
+      final report = UtilitySelector.functionReport(func);
 
       if (isReportLevel(report.cyclomaticComplexity.level)) {
         issues.add(CodeClimateIssue.cyclomaticComplexity(

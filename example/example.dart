@@ -35,7 +35,7 @@ Future<void> main() async {
   );
 
   // Now the reporter itself
-  final reporter = ConsoleReporter(reportConfig: reporterConfig);
+  final reporter = ConsoleReporter();
 
   // Now pass collected analysis reports from runner to reporter and that's it
   (await reporter.report(runner.results())).forEach(print);

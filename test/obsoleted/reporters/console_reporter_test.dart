@@ -30,9 +30,8 @@ void main() {
 
     setUp(() {
       ansiColorDisabled = false;
-      _reporter = ConsoleReporter(reportConfig: const Config());
-      _verboseReporter =
-          ConsoleReporter(reportConfig: const Config(), reportAll: true);
+      _reporter = ConsoleReporter();
+      _verboseReporter = ConsoleReporter(reportAll: true);
     });
 
     test('files without any records', () async {

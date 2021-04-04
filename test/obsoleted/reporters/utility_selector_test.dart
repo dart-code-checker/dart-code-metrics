@@ -103,7 +103,6 @@ void main() {
           issues: const [],
           antiPatternCases: const [],
         ),
-        const metrics.Config(),
       );
       expect(report.averageArgumentsCount, 5);
       expect(report.argumentsCountViolations, 2);
@@ -128,8 +127,7 @@ void main() {
             comment: '',
           ),
         ]);
-        final report =
-            UtilitySelector.componentReport(record, const metrics.Config());
+        final report = UtilitySelector.componentReport(record);
 
         expect(report.methodsCount.value, 0);
         expect(report.methodsCount.level, MetricValueLevel.none);
@@ -153,8 +151,7 @@ void main() {
             comment: '',
           ),
         ]);
-        final report =
-            UtilitySelector.componentReport(record, const metrics.Config());
+        final report = UtilitySelector.componentReport(record);
 
         expect(report.methodsCount.value, methodsCount);
         expect(report.methodsCount.level, MetricValueLevel.alarm);
@@ -171,8 +168,7 @@ void main() {
             ),
           ],
         );
-        final report =
-            UtilitySelector.functionReport(record, const metrics.Config());
+        final report = UtilitySelector.functionReport(record);
 
         expect(report.argumentsCount.value, 0);
         expect(report.argumentsCount.level, MetricValueLevel.none);
@@ -188,8 +184,7 @@ void main() {
             ),
           ],
         );
-        final report =
-            UtilitySelector.functionReport(record, const metrics.Config());
+        final report = UtilitySelector.functionReport(record);
 
         expect(report.argumentsCount.value, 10);
         expect(report.argumentsCount.level, MetricValueLevel.alarm);
@@ -197,8 +192,7 @@ void main() {
 
       test('without nesting information', () {
         final record = buildFunctionRecordStub();
-        final report =
-            UtilitySelector.functionReport(record, const metrics.Config());
+        final report = UtilitySelector.functionReport(record);
 
         expect(report.maximumNestingLevel.value, 0);
         expect(report.maximumNestingLevel.level, MetricValueLevel.none);
@@ -222,8 +216,7 @@ void main() {
             ),
           ],
         );
-        final report =
-            UtilitySelector.functionReport(record, const metrics.Config());
+        final report = UtilitySelector.functionReport(record);
 
         expect(report.maximumNestingLevel.value, 12);
         expect(report.maximumNestingLevel.level, MetricValueLevel.alarm);

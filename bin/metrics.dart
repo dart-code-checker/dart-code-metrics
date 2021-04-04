@@ -108,22 +108,19 @@ Future<void> _runAnalysis(ArgResults arguments) async {
 
   switch (reporterType) {
     case consoleReporter:
-      reporter = ConsoleReporter(reportConfig: config);
+      reporter = ConsoleReporter();
       break;
     case consoleVerboseReporter:
-      reporter = ConsoleReporter(reportConfig: config, reportAll: true);
+      reporter = ConsoleReporter(reportAll: true);
       break;
     case codeClimateReporter:
       reporter = CodeClimateReporter(reportConfig: config);
       break;
     case htmlReporter:
-      reporter = HtmlReporter(
-        reportConfig: config,
-        reportFolder: arguments[reportFolder] as String,
-      );
+      reporter = HtmlReporter(reportFolder: arguments[reportFolder] as String);
       break;
     case jsonReporter:
-      reporter = JsonReporter(reportConfig: config);
+      reporter = JsonReporter();
       break;
     case githubReporter:
       reporter = GitHubReporter();

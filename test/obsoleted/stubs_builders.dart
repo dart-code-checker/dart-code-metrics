@@ -71,14 +71,13 @@ FunctionRecord buildFunctionRecordStub({
     buildMetricValueStub<int>(id: MaximumNestingLevelMetric.metricId, value: 0),
     buildMetricValueStub<int>(id: NumberOfParametersMetric.metricId, value: 0),
     buildMetricValueStub<int>(id: linesOfExecutableCodeKey, value: 0),
+    buildMetricValueStub<double>(id: 'maintainability-index', value: 100),
   ];
 
   return FunctionRecord(
     location:
         location ?? SourceSpanBase(SourceLocation(0), SourceLocation(0), ''),
     metrics: [...metrics, ...defaultMetricValues],
-    operators: Map.unmodifiable(operators),
-    operands: Map.unmodifiable(operands),
   );
 }
 

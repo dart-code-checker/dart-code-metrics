@@ -5,15 +5,12 @@ import '../../models/metric_value.dart';
 import '../../models/metric_value_level.dart';
 import '../../models/severity.dart';
 import '../../utils/metric_utils.dart';
-import '../config/config.dart';
 import '../models/file_record.dart';
 import '../reporters/reporter.dart';
 import '../reporters/utility_selector.dart';
 
 /// Plain terminal reporter
 class ConsoleReporter implements Reporter {
-  final Config reportConfig;
-
   /// If true will report info about all files even if they're not above warning threshold
   final bool reportAll;
 
@@ -40,7 +37,7 @@ class ConsoleReporter implements Reporter {
   final _designIssuesColor = AnsiPen()..yellow();
   static const _designIssues = 'Design';
 
-  ConsoleReporter({required this.reportConfig, this.reportAll = false});
+  ConsoleReporter({this.reportAll = false});
 
   @override
   Future<Iterable<String>> report(Iterable<FileRecord>? records) async {
@@ -55,7 +52,7 @@ class ConsoleReporter implements Reporter {
 
       analysisRecord.classes.forEach((source, componentReport) {
         final report =
-            UtilitySelector.componentReport(componentReport, reportConfig);
+            UtilitySelector.componentReport(componentReport);
         final violationLevel = UtilitySelector.componentViolationLevel(report);
 
         if (reportAll || isReportLevel(violationLevel)) {
@@ -109,8 +106,7 @@ class ConsoleReporter implements Reporter {
     final lines = <String>[];
 
     record.functions.forEach((source, functionReport) {
-      final report =
-          UtilitySelector.functionReport(functionReport, reportConfig);
+      final report = UtilitySelector.functionReport(functionReport);
       final violationLevel = UtilitySelector.functionViolationLevel(report);
 
       if (reportAll || isReportLevel(violationLevel)) {

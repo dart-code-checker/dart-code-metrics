@@ -401,10 +401,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
               source,
             ),
           ],
-          operators: Map.unmodifiable(<String, int>{}),
-          operands: Map.unmodifiable(<String, int>{}),
         ),
-        config.metricsConfigs,
       );
 
   plugin.AnalysisErrorFixes? _cyclomaticComplexityMetric(

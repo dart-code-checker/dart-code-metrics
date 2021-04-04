@@ -12,7 +12,6 @@ import 'package:dart_code_metrics/src/models/metric_value_level.dart';
 import 'package:dart_code_metrics/src/models/replacement.dart';
 import 'package:dart_code_metrics/src/models/report.dart';
 import 'package:dart_code_metrics/src/models/severity.dart';
-import 'package:dart_code_metrics/src/obsoleted/config/config.dart' as metrics;
 import 'package:dart_code_metrics/src/obsoleted/config/config.dart';
 import 'package:dart_code_metrics/src/obsoleted/models/file_record.dart';
 import 'package:dart_code_metrics/src/obsoleted/models/function_record.dart';
@@ -30,7 +29,7 @@ void main() {
     late JsonReporter _reporter;
 
     setUp(() {
-      _reporter = JsonReporter(reportConfig: const metrics.Config());
+      _reporter = JsonReporter();
     });
 
     test('empty file', () async {

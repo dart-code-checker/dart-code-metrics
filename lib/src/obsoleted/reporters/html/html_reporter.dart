@@ -10,7 +10,6 @@ import 'package:path/path.dart' as p;
 
 import '../../../metrics/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import '../../../models/metric_value_level.dart';
-import '../../config/config.dart';
 import '../../models/file_record.dart';
 import '../../models/file_report.dart';
 import '../reporter.dart';
@@ -64,11 +63,9 @@ class ReportTableRecord {
 
 /// HTML-doc reporter
 class HtmlReporter implements Reporter {
-  final Config reportConfig;
   final String reportFolder;
 
   HtmlReporter({
-    required this.reportConfig,
     required this.reportFolder,
   });
 
@@ -262,7 +259,6 @@ class HtmlReporter implements Reporter {
     final tableRecords = folders.map((folder) {
       final report = UtilitySelector.analysisReportForRecords(
         records.where((record) => p.dirname(record.relativePath) == folder),
-        reportConfig,
       );
 
       return ReportTableRecord(
@@ -310,7 +306,7 @@ class HtmlReporter implements Reporter {
     Iterable<FileRecord> records,
   ) {
     final tableRecords = records.map((record) {
-      final report = UtilitySelector.fileReport(record, reportConfig);
+      final report = UtilitySelector.fileReport(record);
       final fileName = p.basename(record.relativePath);
 
       return ReportTableRecord(
@@ -386,8 +382,7 @@ class HtmlReporter implements Reporter {
 
       var line = ' ';
       if (functionReport != null) {
-        final report =
-            UtilitySelector.functionReport(functionReport, reportConfig);
+        final report = UtilitySelector.functionReport(functionReport);
 
         if (functionReport.location.start.line == i) {
           final complexityTooltip = Element.tag('div')
@@ -599,7 +594,7 @@ class HtmlReporter implements Reporter {
   }
 
   Element _generateSourceReportMetricsHeader(FileRecord record) {
-    final report = UtilitySelector.fileReport(record, reportConfig);
+    final report = UtilitySelector.fileReport(record);
 
     return Element.tag('div')
       ..classes.add('metric-sub-header')

@@ -13,10 +13,6 @@ import 'utility_selector.dart';
 
 /// Machine-readable report in JSON format
 class JsonReporter implements Reporter {
-  final Config reportConfig;
-
-  JsonReporter({required this.reportConfig});
-
   @override
   Future<Iterable<String>> report(Iterable<FileRecord>? records) async =>
       (records?.isNotEmpty ?? false)
@@ -24,20 +20,20 @@ class JsonReporter implements Reporter {
           : [];
 
   Map<String, Object> _analysisRecordToJson(FileRecord record) {
-    final fileReport = UtilitySelector.fileReport(record, reportConfig);
+    final fileReport = UtilitySelector.fileReport(record);
 
     return {
       'source': record.relativePath,
       'records': {
         ...record.classes.map((key, value) {
-          final report = UtilitySelector.componentReport(value, reportConfig);
+          final report = UtilitySelector.componentReport(value);
 
           return MapEntry(key, {
             ..._report(report.methodsCount, NumberOfMethodsMetric.metricId),
           });
         }),
         ...record.functions.map((key, value) {
-          final report = UtilitySelector.functionReport(value, reportConfig);
+          final report = UtilitySelector.functionReport(value);
 
           return MapEntry(key, {
             ..._report(
