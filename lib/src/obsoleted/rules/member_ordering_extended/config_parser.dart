@@ -1,5 +1,6 @@
 part of 'member_ordering_extended_rule.dart';
 
+// ignore: avoid_classes_with_only_static_members
 class _ConfigParser {
   static final regExp = RegExp(
     '(overridden_|protected_)?(private_|public_)?(static_)?(late_)?'
