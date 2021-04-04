@@ -4,22 +4,22 @@ import '../../metrics/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import '../../metrics/maximum_nesting_level/maximum_nesting_level_metric.dart';
 import '../../metrics/number_of_methods_metric.dart';
 import '../../metrics/number_of_parameters_metric.dart';
+import '../../models/file_report.dart';
 import '../../models/issue.dart';
 import '../../models/metric_value.dart';
 import '../config/config.dart';
-import '../models/file_record.dart';
 import 'reporter.dart';
 import 'utility_selector.dart';
 
 /// Machine-readable report in JSON format
 class JsonReporter implements Reporter {
   @override
-  Future<Iterable<String>> report(Iterable<FileRecord>? records) async =>
+  Future<Iterable<String>> report(Iterable<FileReport>? records) async =>
       (records?.isNotEmpty ?? false)
           ? [json.encode(records!.map(_analysisRecordToJson).toList())]
           : [];
 
-  Map<String, Object> _analysisRecordToJson(FileRecord record) {
+  Map<String, Object> _analysisRecordToJson(FileReport record) {
     final fileReport = UtilitySelector.fileReport(record);
 
     return {

@@ -1,8 +1,8 @@
 import 'dart:convert';
 
+import '../../../models/file_report.dart';
 import '../../../utils/metric_utils.dart';
 import '../../config/config.dart';
-import '../../models/file_record.dart';
 import '../reporter.dart';
 import '../utility_selector.dart';
 import 'code_climate_issue.dart';
@@ -21,7 +21,7 @@ class CodeClimateReporter implements Reporter {
   });
 
   @override
-  Future<Iterable<String>> report(Iterable<FileRecord>? records) async {
+  Future<Iterable<String>> report(Iterable<FileReport>? records) async {
     if (records != null && records.isNotEmpty) {
       return gitlabCompatible
           ? [json.encode(records.map(_toIssues).expand((r) => r).toList())]
@@ -35,7 +35,7 @@ class CodeClimateReporter implements Reporter {
     return [];
   }
 
-  Iterable<CodeClimateIssue> _toIssues(FileRecord record) {
+  Iterable<CodeClimateIssue> _toIssues(FileReport record) {
     final result = <CodeClimateIssue>[
       ...record.classes.keys.expand((key) {
         final component = record.classes[key]!;
@@ -63,7 +63,7 @@ class CodeClimateReporter implements Reporter {
           CodeClimateIssue.fromDesignIssue(issue, record.relativePath)));
   }
 
-  Iterable<CodeClimateIssue> _functionMetrics(FileRecord record) {
+  Iterable<CodeClimateIssue> _functionMetrics(FileReport record) {
     final issues = <CodeClimateIssue>[];
 
     for (final key in record.functions.keys) {

@@ -8,13 +8,13 @@ import '../../metrics/maximum_nesting_level/maximum_nesting_level_metric.dart';
 import '../../metrics/number_of_methods_metric.dart';
 import '../../metrics/number_of_parameters_metric.dart';
 import '../../metrics/weight_of_class_metric.dart';
+import '../../models/file_report.dart';
 import '../../models/metric_value.dart';
 import '../../models/metric_value_level.dart';
 import '../../models/report.dart';
 import '../../utils/metric_utils.dart';
 import '../config/config.dart' as metrics;
 import '../models/component_report.dart';
-import '../models/file_record.dart';
 import '../models/file_report.dart' as metrics;
 import '../models/function_report.dart' as metrics;
 
@@ -26,13 +26,11 @@ double avg(Iterable<num> it) => it.isNotEmpty ? sum(it) / it.length : 0;
 
 class UtilitySelector {
   static metrics.FileReport analysisReportForRecords(
-    Iterable<FileRecord> records,
+    Iterable<FileReport> records,
   ) =>
       records.map(fileReport).reduce(mergeFileReports);
 
-  static metrics.FileReport fileReport(
-    FileRecord record,
-  ) {
+  static metrics.FileReport fileReport(FileReport record) {
     final componentReports = record.classes.values.map(componentReport);
     final functionReports = record.functions.values.map(functionReport);
 
@@ -123,10 +121,7 @@ class UtilitySelector {
         report.maximumNestingLevel.level,
       ])!;
 
-  static MetricValueLevel maxViolationLevel(
-    Iterable<FileRecord> records,
-    metrics.Config config,
-  ) =>
+  static MetricValueLevel maxViolationLevel(Iterable<FileReport> records) =>
       quiver.max(records
           .expand(
             (fileRecord) => fileRecord.functions.values.map(functionReport),

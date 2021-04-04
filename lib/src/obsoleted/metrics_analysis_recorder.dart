@@ -1,13 +1,13 @@
 // ignore_for_file: comment_references, no-empty-block
 import 'package:path/path.dart' as p;
 
+import '../models/file_report.dart';
 import '../models/issue.dart';
 import '../models/report.dart';
 import '../models/scoped_class_declaration.dart';
 import '../models/scoped_function_declaration.dart';
 import 'metrics_records_builder.dart';
 import 'metrics_records_store.dart';
-import 'models/file_record.dart';
 
 /// Holds analysis records in format-agnostic way
 /// See [MetricsAnalysisRunner] to get analysis info
@@ -20,10 +20,10 @@ class MetricsAnalysisRecorder
   List<Issue>? _issues;
   List<Issue>? _designIssues;
 
-  final _records = <FileRecord>[];
+  final _records = <FileReport>[];
 
   @override
-  Iterable<FileRecord> records() => _records;
+  Iterable<FileReport> records() => _records;
 
   @override
   MetricsRecordsStore recordFile(
@@ -93,8 +93,8 @@ class MetricsAnalysisRecorder
   }
 
   void _endRecordFile() {
-    _records.add(FileRecord(
-      fullPath: _fileGroupPath!,
+    _records.add(FileReport(
+      path: _fileGroupPath!,
       relativePath: _relativeGroupPath!,
       classes: Map.unmodifiable(_componentRecords!
           .map<String, Report>((key, value) => MapEntry(key.name, value))),

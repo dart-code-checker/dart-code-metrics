@@ -138,7 +138,7 @@ Future<void> _runAnalysis(ArgResults arguments) async {
   (await reporter.report(runner.results())).forEach(print);
 
   if (exitOnViolationLevel != null &&
-      UtilitySelector.maxViolationLevel(runner.results(), config) >=
+      UtilitySelector.maxViolationLevel(runner.results()) >=
           exitOnViolationLevel) {
     exit(2);
   }

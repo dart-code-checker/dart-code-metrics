@@ -1,11 +1,11 @@
 // ignore_for_file: prefer-trailing-comma
 import 'package:ansicolor/ansicolor.dart';
 
+import '../../models/file_report.dart';
 import '../../models/metric_value.dart';
 import '../../models/metric_value_level.dart';
 import '../../models/severity.dart';
 import '../../utils/metric_utils.dart';
-import '../models/file_record.dart';
 import '../reporters/reporter.dart';
 import '../reporters/utility_selector.dart';
 
@@ -40,7 +40,7 @@ class ConsoleReporter implements Reporter {
   ConsoleReporter({this.reportAll = false});
 
   @override
-  Future<Iterable<String>> report(Iterable<FileRecord>? records) async {
+  Future<Iterable<String>> report(Iterable<FileReport>? records) async {
     if (records?.isEmpty ?? true) {
       return [];
     }
@@ -101,7 +101,7 @@ class ConsoleReporter implements Reporter {
     return reportStrings;
   }
 
-  Iterable<String> _reportAboutFunctions(FileRecord record) {
+  Iterable<String> _reportAboutFunctions(FileReport record) {
     final lines = <String>[];
 
     record.functions.forEach((source, functionReport) {

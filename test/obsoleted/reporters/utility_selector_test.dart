@@ -3,13 +3,12 @@ import 'package:dart_code_metrics/src/metrics/maximum_nesting_level/maximum_nest
 import 'package:dart_code_metrics/src/metrics/number_of_methods_metric.dart';
 import 'package:dart_code_metrics/src/metrics/number_of_parameters_metric.dart';
 import 'package:dart_code_metrics/src/models/entity_type.dart';
+import 'package:dart_code_metrics/src/models/file_report.dart';
 import 'package:dart_code_metrics/src/models/metric_documentation.dart';
 import 'package:dart_code_metrics/src/models/metric_value.dart';
 import 'package:dart_code_metrics/src/models/metric_value_level.dart';
 import 'package:dart_code_metrics/src/models/report.dart';
-import 'package:dart_code_metrics/src/obsoleted/config/config.dart' as metrics;
 import 'package:dart_code_metrics/src/obsoleted/config/config.dart';
-import 'package:dart_code_metrics/src/obsoleted/models/file_record.dart';
 import 'package:dart_code_metrics/src/obsoleted/reporters/utility_selector.dart';
 import 'package:test/test.dart';
 
@@ -20,8 +19,8 @@ void main() {
   group('UtilitySelector', () {
     test('fileReport calculates report for file', () {
       final report = UtilitySelector.fileReport(
-        FileRecord(
-          fullPath: '/home/developer/work/project/example.dart',
+        FileReport(
+          path: '/home/developer/work/project/example.dart',
           relativePath: 'example.dart',
           classes: Map.unmodifiable(<String, Report>{
             'class': buildComponentRecordStub(metrics: const [
@@ -289,8 +288,8 @@ void main() {
       const fullPathStub = '~/lib/src/foo.dart';
       const relativePathStub = 'lib/src/foo.dart';
       final fileRecords = [
-        FileRecord(
-          fullPath: fullPathStub,
+        FileReport(
+          path: fullPathStub,
           relativePath: relativePathStub,
           classes: Map.unmodifiable(<String, Report>{}),
           functions: Map.unmodifiable(<String, Report>{
@@ -306,8 +305,8 @@ void main() {
           issues: const [],
           antiPatternCases: const [],
         ),
-        FileRecord(
-          fullPath: fullPathStub,
+        FileReport(
+          path: fullPathStub,
           relativePath: relativePathStub,
           classes: Map.unmodifiable(<String, Report>{}),
           functions: Map.unmodifiable(<String, Report>{
@@ -324,8 +323,8 @@ void main() {
           issues: const [],
           antiPatternCases: const [],
         ),
-        FileRecord(
-          fullPath: fullPathStub,
+        FileReport(
+          path: fullPathStub,
           relativePath: relativePathStub,
           classes: Map.unmodifiable(<String, Report>{}),
           functions: Map.unmodifiable(<String, Report>{
@@ -346,10 +345,7 @@ void main() {
 
       test('MetricValueLevel.none if no violations', () {
         expect(
-          UtilitySelector.maxViolationLevel(
-            fileRecords,
-            const metrics.Config(linesOfExecutableCodeWarningLevel: 100500),
-          ),
+          UtilitySelector.maxViolationLevel(fileRecords),
           MetricValueLevel.warning,
         );
       });

@@ -4,6 +4,7 @@ import 'package:dart_code_metrics/src/metrics/maximum_nesting_level/maximum_nest
 import 'package:dart_code_metrics/src/metrics/number_of_methods_metric.dart';
 import 'package:dart_code_metrics/src/metrics/number_of_parameters_metric.dart';
 import 'package:dart_code_metrics/src/models/entity_type.dart';
+import 'package:dart_code_metrics/src/models/file_report.dart';
 import 'package:dart_code_metrics/src/models/issue.dart';
 import 'package:dart_code_metrics/src/models/metric_documentation.dart';
 import 'package:dart_code_metrics/src/models/metric_value.dart';
@@ -12,7 +13,6 @@ import 'package:dart_code_metrics/src/models/replacement.dart';
 import 'package:dart_code_metrics/src/models/report.dart';
 import 'package:dart_code_metrics/src/models/severity.dart';
 import 'package:dart_code_metrics/src/obsoleted/config/config.dart';
-import 'package:dart_code_metrics/src/obsoleted/models/file_record.dart';
 import 'package:dart_code_metrics/src/obsoleted/reporters/console_reporter.dart';
 import 'package:source_span/source_span.dart';
 import 'package:test/test.dart';
@@ -44,8 +44,8 @@ void main() {
     group('component', () {
       test('without methods', () async {
         final records = [
-          FileRecord(
-            fullPath: fullPath,
+          FileReport(
+            path: fullPath,
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{
               'class': buildComponentRecordStub(metrics: const [
@@ -83,8 +83,8 @@ void main() {
 
       test('with a lot of methods', () async {
         final records = [
-          FileRecord(
-            fullPath: fullPath,
+          FileReport(
+            path: fullPath,
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{
               'class': buildComponentRecordStub(metrics: const [
@@ -119,8 +119,8 @@ void main() {
     group('function', () {
       test('with long body', () async {
         final records = [
-          FileRecord(
-            fullPath: fullPath,
+          FileReport(
+            path: fullPath,
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{}),
             functions: Map.unmodifiable(<String, Report>{
@@ -150,8 +150,8 @@ void main() {
 
       test('with short body', () async {
         final records = [
-          FileRecord(
-            fullPath: fullPath,
+          FileReport(
+            path: fullPath,
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{}),
             functions: Map.unmodifiable(<String, Report>{
@@ -182,8 +182,8 @@ void main() {
 
       test('without arguments', () async {
         final records = [
-          FileRecord(
-            fullPath: fullPath,
+          FileReport(
+            path: fullPath,
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{}),
             functions: Map.unmodifiable(<String, Report>{
@@ -214,8 +214,8 @@ void main() {
 
       test('with a lot of arguments', () async {
         final records = [
-          FileRecord(
-            fullPath: fullPath,
+          FileReport(
+            path: fullPath,
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{}),
             functions: Map.unmodifiable(<String, Report>{
@@ -245,8 +245,8 @@ void main() {
 
       test('with low nested level', () async {
         final records = [
-          FileRecord(
-            fullPath: fullPath,
+          FileReport(
+            path: fullPath,
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{}),
             functions: Map.unmodifiable(<String, Report>{
@@ -286,8 +286,8 @@ void main() {
 
       test('with high nested level', () async {
         final records = [
-          FileRecord(
-            fullPath: fullPath,
+          FileReport(
+            path: fullPath,
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{}),
             functions: Map.unmodifiable(<String, Report>{
@@ -326,8 +326,8 @@ void main() {
 
     test('with design issues', () async {
       final records = [
-        FileRecord(
-          fullPath: fullPath,
+        FileReport(
+          path: fullPath,
           relativePath: 'example.dart',
           classes: Map.unmodifiable(<String, Report>{}),
           functions: Map.unmodifiable(<String, Report>{}),
@@ -367,8 +367,8 @@ void main() {
 
     test('with style severity issues', () async {
       final records = [
-        FileRecord(
-          fullPath: fullPath,
+        FileReport(
+          path: fullPath,
           relativePath: 'example.dart',
           classes: Map.unmodifiable(<String, Report>{}),
           functions: Map.unmodifiable(<String, Report>{}),

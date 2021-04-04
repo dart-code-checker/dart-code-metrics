@@ -1,10 +1,11 @@
-import 'package:dart_code_metrics/src/models/entity_type.dart';
-import 'package:dart_code_metrics/src/models/metric_documentation.dart';
 @TestOn('vm')
 // ignore_for_file: prefer-trailing-comma
+import 'package:dart_code_metrics/src/models/entity_type.dart';
+import 'package:dart_code_metrics/src/models/metric_documentation.dart';
 import 'package:dart_code_metrics/src/models/metric_value.dart';
 import 'package:dart_code_metrics/src/models/metric_value_level.dart';
-import 'package:dart_code_metrics/src/obsoleted/models/file_report.dart';
+import 'package:dart_code_metrics/src/obsoleted/models/file_report.dart'
+    as metrics;
 import 'package:dart_code_metrics/src/obsoleted/reporters/html/html_reporter.dart';
 import 'package:dart_code_metrics/src/obsoleted/reporters/html/utility_functions.dart';
 import 'package:test/test.dart';
@@ -72,7 +73,7 @@ void main() {
           const ReportTableRecord(
             title: 'fileName',
             link: 'fileLink',
-            report: FileReport(
+            report: metrics.FileReport(
               averageArgumentsCount: 1,
               argumentsCountViolations: 0,
               averageMaintainabilityIndex: 2,

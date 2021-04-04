@@ -9,9 +9,9 @@ import 'package:meta/meta.dart';
 import 'package:path/path.dart' as p;
 
 import '../../../metrics/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
+import '../../../models/file_report.dart';
 import '../../../models/metric_value_level.dart';
-import '../../models/file_record.dart';
-import '../../models/file_report.dart';
+import '../../models/file_report.dart' as metrics;
 import '../reporter.dart';
 import '../utility_selector.dart';
 import 'utility_functions.dart';
@@ -52,7 +52,7 @@ class ReportTableRecord {
   final String title;
   final String link;
 
-  final FileReport report;
+  final metrics.FileReport report;
 
   const ReportTableRecord({
     required this.title,
@@ -70,7 +70,7 @@ class HtmlReporter implements Reporter {
   });
 
   @override
-  Future<Iterable<String>> report(Iterable<FileRecord>? records) async {
+  Future<Iterable<String>> report(Iterable<FileReport>? records) async {
     if (records != null && records.isNotEmpty) {
       _createReportDirectory(reportFolder);
       await _copyResources(reportFolder);
@@ -243,7 +243,7 @@ class HtmlReporter implements Reporter {
 
   void _generateFoldersReports(
     String reportDirectory,
-    Iterable<FileRecord> records,
+    Iterable<FileReport> records,
   ) {
     final folders =
         records.map((record) => p.dirname(record.relativePath)).toSet();
@@ -303,7 +303,7 @@ class HtmlReporter implements Reporter {
   void _generateFolderReport(
     String reportDirectory,
     String folder,
-    Iterable<FileRecord> records,
+    Iterable<FileReport> records,
   ) {
     final tableRecords = records.map((record) {
       final report = UtilitySelector.fileReport(record);
@@ -352,8 +352,8 @@ class HtmlReporter implements Reporter {
       );
   }
 
-  void _generateSourceReport(String reportDirectory, FileRecord record) {
-    final sourceFileContent = File(record.fullPath).readAsStringSync();
+  void _generateSourceReport(String reportDirectory, FileReport record) {
+    final sourceFileContent = File(record.path).readAsStringSync();
     final sourceFileLines = LineSplitter.split(sourceFileContent);
 
     final linesIndices = Element.tag('td')
@@ -593,7 +593,7 @@ class HtmlReporter implements Reporter {
       );
   }
 
-  Element _generateSourceReportMetricsHeader(FileRecord record) {
+  Element _generateSourceReportMetricsHeader(FileReport record) {
     final report = UtilitySelector.fileReport(record);
 
     return Element.tag('div')

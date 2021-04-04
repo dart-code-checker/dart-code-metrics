@@ -1,10 +1,11 @@
+// ignore_for_file: comment_references
+import '../models/file_report.dart';
 import 'metrics_analysis_recorder.dart';
 import 'metrics_records_builder.dart';
-import 'models/file_record.dart';
 
 abstract class MetricsRecordsStore {
   /// File records saved so far
-  Iterable<FileRecord> records();
+  Iterable<FileReport> records();
 
   /// Add new file record for [filePath] using [MetricsRecordsBuilder] in [f]
   /// See [MetricsRecordsBuilder] interface on how to build new [FileRecord]
