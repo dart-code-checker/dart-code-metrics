@@ -1,5 +1,5 @@
-import 'package:dart_code_metrics/src/models/severity.dart';
 @TestOn('vm')
+import 'package:dart_code_metrics/src/models/severity.dart';
 import 'package:dart_code_metrics/src/obsoleted/models/internal_resolved_unit_result.dart';
 import 'package:dart_code_metrics/src/obsoleted/rules/binary_expression_operand_order_rule.dart';
 import 'package:test/test.dart';

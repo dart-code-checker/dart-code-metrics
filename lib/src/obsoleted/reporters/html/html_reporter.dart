@@ -8,10 +8,10 @@ import 'package:html/dom.dart';
 import 'package:meta/meta.dart';
 import 'package:path/path.dart' as p;
 
+import '../../../metrics/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
+import '../../../models/file_report.dart';
 import '../../../models/metric_value_level.dart';
-import '../../config/config.dart';
-import '../../models/file_record.dart';
-import '../../models/file_report.dart';
+import '../../models/file_report.dart' as metrics;
 import '../reporter.dart';
 import '../utility_selector.dart';
 import 'utility_functions.dart';
@@ -52,7 +52,7 @@ class ReportTableRecord {
   final String title;
   final String link;
 
-  final FileReport report;
+  final metrics.FileReport report;
 
   const ReportTableRecord({
     required this.title,
@@ -63,16 +63,14 @@ class ReportTableRecord {
 
 /// HTML-doc reporter
 class HtmlReporter implements Reporter {
-  final Config reportConfig;
   final String reportFolder;
 
   HtmlReporter({
-    required this.reportConfig,
     required this.reportFolder,
   });
 
   @override
-  Future<Iterable<String>> report(Iterable<FileRecord>? records) async {
+  Future<Iterable<String>> report(Iterable<FileReport>? records) async {
     if (records != null && records.isNotEmpty) {
       _createReportDirectory(reportFolder);
       await _copyResources(reportFolder);
@@ -95,10 +93,10 @@ class HtmlReporter implements Reporter {
 
   Future<void> _copyResources(String reportFolder) async {
     const resources = [
-      'package:dart_code_metrics/src/reporters/html/resources/variables.css',
-      'package:dart_code_metrics/src/reporters/html/resources/normalize.css',
-      'package:dart_code_metrics/src/reporters/html/resources/base.css',
-      'package:dart_code_metrics/src/reporters/html/resources/main.css',
+      'package:dart_code_metrics/src/obsoleted/reporters/html/resources/variables.css',
+      'package:dart_code_metrics/src/obsoleted/reporters/html/resources/normalize.css',
+      'package:dart_code_metrics/src/obsoleted/reporters/html/resources/base.css',
+      'package:dart_code_metrics/src/obsoleted/reporters/html/resources/main.css',
     ];
 
     for (final resource in resources) {
@@ -245,7 +243,7 @@ class HtmlReporter implements Reporter {
 
   void _generateFoldersReports(
     String reportDirectory,
-    Iterable<FileRecord> records,
+    Iterable<FileReport> records,
   ) {
     final folders =
         records.map((record) => p.dirname(record.relativePath)).toSet();
@@ -261,7 +259,6 @@ class HtmlReporter implements Reporter {
     final tableRecords = folders.map((folder) {
       final report = UtilitySelector.analysisReportForRecords(
         records.where((record) => p.dirname(record.relativePath) == folder),
-        reportConfig,
       );
 
       return ReportTableRecord(
@@ -306,10 +303,10 @@ class HtmlReporter implements Reporter {
   void _generateFolderReport(
     String reportDirectory,
     String folder,
-    Iterable<FileRecord> records,
+    Iterable<FileReport> records,
   ) {
     final tableRecords = records.map((record) {
-      final report = UtilitySelector.fileReport(record, reportConfig);
+      final report = UtilitySelector.fileReport(record);
       final fileName = p.basename(record.relativePath);
 
       return ReportTableRecord(
@@ -355,8 +352,8 @@ class HtmlReporter implements Reporter {
       );
   }
 
-  void _generateSourceReport(String reportDirectory, FileRecord record) {
-    final sourceFileContent = File(record.fullPath).readAsStringSync();
+  void _generateSourceReport(String reportDirectory, FileReport record) {
+    final sourceFileContent = File(record.path).readAsStringSync();
     final sourceFileLines = LineSplitter.split(sourceFileContent);
 
     final linesIndices = Element.tag('td')
@@ -385,8 +382,7 @@ class HtmlReporter implements Reporter {
 
       var line = ' ';
       if (functionReport != null) {
-        final report =
-            UtilitySelector.functionReport(functionReport, reportConfig);
+        final report = UtilitySelector.functionReport(functionReport);
 
         if (functionReport.location.start.line == i) {
           final complexityTooltip = Element.tag('div')
@@ -445,11 +441,15 @@ class HtmlReporter implements Reporter {
             ..append(complexityIcon);
         }
 
-        final lineWithComplexityIncrement =
-            functionReport.cyclomaticComplexityLines.containsKey(i);
+        final lineWithComplexityIncrement = functionReport
+                .metric(CyclomaticComplexityMetric.metricId)
+                ?.context
+                .where((element) => element.location.start.line == i)
+                .length ??
+            0;
 
-        if (lineWithComplexityIncrement) {
-          line = '$line +${functionReport.cyclomaticComplexityLines[i]}'.trim();
+        if (lineWithComplexityIncrement > 0) {
+          line = '$line +$lineWithComplexityIncrement'.trim();
           complexityValueElement.text = line.replaceAll(' ', '&nbsp;');
         }
 
@@ -462,14 +462,14 @@ class HtmlReporter implements Reporter {
         final functionViolationLevel =
             UtilitySelector.functionViolationLevel(report);
 
-        final lineViolationStyle = lineWithComplexityIncrement
+        final lineViolationStyle = lineWithComplexityIncrement > 0
             ? _violationLevelLineStyle[functionViolationLevel]
             : _violationLevelFunctionStyle[functionViolationLevel];
 
         complexityValueElement.classes.add(lineViolationStyle ?? '');
       }
 
-      final architecturalIssues = record.designIssues
+      final architecturalIssues = record.antiPatternCases
           .firstWhereOrNull((element) => element.location.start.line == i);
 
       if (architecturalIssues != null) {
@@ -593,8 +593,8 @@ class HtmlReporter implements Reporter {
       );
   }
 
-  Element _generateSourceReportMetricsHeader(FileRecord record) {
-    final report = UtilitySelector.fileReport(record, reportConfig);
+  Element _generateSourceReportMetricsHeader(FileReport record) {
+    final report = UtilitySelector.fileReport(record);
 
     return Element.tag('div')
       ..classes.add('metric-sub-header')
@@ -630,10 +630,10 @@ class HtmlReporter implements Reporter {
             record.issues.length,
             forceViolations: true,
           ),
-        if (record.designIssues.isNotEmpty)
+        if (record.antiPatternCases.isNotEmpty)
           renderSummaryMetric(
             _designIssues,
-            record.designIssues.length,
+            record.antiPatternCases.length,
             forceViolations: true,
           ),
       ]);

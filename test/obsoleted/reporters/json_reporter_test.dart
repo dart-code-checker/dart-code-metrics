@@ -3,7 +3,9 @@ import 'dart:convert';
 
 import 'package:dart_code_metrics/src/metrics/maximum_nesting_level/maximum_nesting_level_metric.dart';
 import 'package:dart_code_metrics/src/metrics/number_of_methods_metric.dart';
+import 'package:dart_code_metrics/src/metrics/number_of_parameters_metric.dart';
 import 'package:dart_code_metrics/src/models/entity_type.dart';
+import 'package:dart_code_metrics/src/models/file_report.dart';
 import 'package:dart_code_metrics/src/models/issue.dart';
 import 'package:dart_code_metrics/src/models/metric_documentation.dart';
 import 'package:dart_code_metrics/src/models/metric_value.dart';
@@ -11,13 +13,12 @@ import 'package:dart_code_metrics/src/models/metric_value_level.dart';
 import 'package:dart_code_metrics/src/models/replacement.dart';
 import 'package:dart_code_metrics/src/models/report.dart';
 import 'package:dart_code_metrics/src/models/severity.dart';
-import 'package:dart_code_metrics/src/obsoleted/config/config.dart' as metrics;
-import 'package:dart_code_metrics/src/obsoleted/models/file_record.dart';
-import 'package:dart_code_metrics/src/obsoleted/models/function_record.dart';
+import 'package:dart_code_metrics/src/obsoleted/config/config.dart';
 import 'package:dart_code_metrics/src/obsoleted/reporters/json_reporter.dart';
 import 'package:source_span/source_span.dart';
 import 'package:test/test.dart';
 
+import '../../stubs_builders.dart';
 import '../stubs_builders.dart';
 
 void main() {
@@ -27,7 +28,7 @@ void main() {
     late JsonReporter _reporter;
 
     setUp(() {
-      _reporter = JsonReporter(reportConfig: const metrics.Config());
+      _reporter = JsonReporter();
     });
 
     test('empty file', () async {
@@ -37,8 +38,8 @@ void main() {
     group('file', () {
       test('aggregated arguments metric values', () async {
         final records = [
-          FileRecord(
-            fullPath: fullPath,
+          FileReport(
+            path: fullPath,
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{
               'class': buildComponentRecordStub(metrics: const [
@@ -87,12 +88,23 @@ void main() {
                 ),
               ]),
             }),
-            functions: Map.unmodifiable(<String, FunctionRecord>{
-              'function': buildFunctionRecordStub(argumentsCount: 0),
+            functions: Map.unmodifiable(<String, Report>{
+              'function': buildFunctionRecordStub(
+                metrics: [
+                  buildMetricValueStub<int>(
+                    id: NumberOfParametersMetric.metricId,
+                    value: 0,
+                  ),
+                ],
+              ),
               'function2': buildFunctionRecordStub(
-                argumentsCount: 6,
-                metrics: const [
-                  MetricValue<int>(
+                metrics: [
+                  buildMetricValueStub<int>(
+                    id: NumberOfParametersMetric.metricId,
+                    value: 6,
+                    level: MetricValueLevel.warning,
+                  ),
+                  const MetricValue<int>(
                     metricsId: MaximumNestingLevelMetric.metricId,
                     documentation: MetricDocumentation(
                       name: '',
@@ -108,9 +120,13 @@ void main() {
                 ],
               ),
               'function3': buildFunctionRecordStub(
-                argumentsCount: 10,
-                metrics: const [
-                  MetricValue<int>(
+                metrics: [
+                  buildMetricValueStub<int>(
+                    id: NumberOfParametersMetric.metricId,
+                    value: 10,
+                    level: MetricValueLevel.alarm,
+                  ),
+                  const MetricValue<int>(
                     metricsId: MaximumNestingLevelMetric.metricId,
                     documentation: MetricDocumentation(
                       name: '',
@@ -127,7 +143,7 @@ void main() {
               ),
             }),
             issues: const [],
-            designIssues: const [],
+            antiPatternCases: const [],
           ),
         ];
 
@@ -137,12 +153,16 @@ void main() {
 
         expect(report, containsPair('average-number-of-parameters', 5));
         expect(
-            report, containsPair('total-number-of-parameters-violations', 2));
+          report,
+          containsPair('total-number-of-parameters-violations', 2),
+        );
         expect(report, containsPair('average-number-of-methods', 13));
         expect(report, containsPair('total-number-of-methods-violations', 2));
         expect(report, containsPair('average-maximum-nesting-level', 3));
         expect(
-            report, containsPair('total-maximum-nesting-level-violations', 1));
+          report,
+          containsPair('total-maximum-nesting-level-violations', 1),
+        );
       });
 
       test('with design issues', () async {
@@ -155,13 +175,13 @@ void main() {
         const _issueRecommendation = 'issue recommendation';
 
         final records = [
-          FileRecord(
-            fullPath: fullPath,
+          FileReport(
+            path: fullPath,
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{}),
-            functions: Map.unmodifiable(<String, FunctionRecord>{}),
+            functions: Map.unmodifiable(<String, Report>{}),
             issues: const [],
-            designIssues: [
+            antiPatternCases: [
               Issue(
                 ruleId: _issuePatternId,
                 documentation: Uri.parse(_issuePatternDocumentation),
@@ -216,11 +236,11 @@ void main() {
         const _issueCorrectionComment = 'correction comment';
 
         final records = [
-          FileRecord(
-            fullPath: fullPath,
+          FileReport(
+            path: fullPath,
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{}),
-            functions: Map.unmodifiable(<String, FunctionRecord>{}),
+            functions: Map.unmodifiable(<String, Report>{}),
             issues: [
               Issue(
                 ruleId: _issueRuleId,
@@ -243,7 +263,7 @@ void main() {
                 ),
               ),
             ],
-            designIssues: const [],
+            antiPatternCases: const [],
           ),
         ];
 
@@ -278,8 +298,8 @@ void main() {
     group('component', () {
       test('without methods', () async {
         final records = [
-          FileRecord(
-            fullPath: fullPath,
+          FileReport(
+            path: fullPath,
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{
               'class': buildComponentRecordStub(metrics: const [
@@ -298,9 +318,9 @@ void main() {
                 ),
               ]),
             }),
-            functions: Map.unmodifiable(<String, FunctionRecord>{}),
+            functions: Map.unmodifiable(<String, Report>{}),
             issues: const [],
-            designIssues: const [],
+            antiPatternCases: const [],
           ),
         ];
 
@@ -319,8 +339,8 @@ void main() {
 
       test('with a lot of methods', () async {
         final records = [
-          FileRecord(
-            fullPath: fullPath,
+          FileReport(
+            path: fullPath,
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{
               'class': buildComponentRecordStub(metrics: const [
@@ -339,9 +359,9 @@ void main() {
                 ),
               ]),
             }),
-            functions: Map.unmodifiable(<String, FunctionRecord>{}),
+            functions: Map.unmodifiable(<String, Report>{}),
             issues: const [],
-            designIssues: const [],
+            antiPatternCases: const [],
           ),
         ];
 
@@ -362,17 +382,23 @@ void main() {
     group('function', () {
       test('with long body', () async {
         final records = [
-          FileRecord(
-            fullPath: fullPath,
+          FileReport(
+            path: fullPath,
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{}),
-            functions: Map.unmodifiable(<String, FunctionRecord>{
+            functions: Map.unmodifiable(<String, Report>{
               'function': buildFunctionRecordStub(
-                linesWithCode: List.generate(150, (index) => index),
+                metrics: [
+                  buildMetricValueStub<int>(
+                    id: linesOfExecutableCodeKey,
+                    value: 150,
+                    level: MetricValueLevel.alarm,
+                  ),
+                ],
               ),
             }),
             issues: const [],
-            designIssues: const [],
+            antiPatternCases: const [],
           ),
         ];
 
@@ -391,17 +417,22 @@ void main() {
 
       test('with short body', () async {
         final records = [
-          FileRecord(
-            fullPath: fullPath,
+          FileReport(
+            path: fullPath,
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{}),
-            functions: Map.unmodifiable(<String, FunctionRecord>{
+            functions: Map.unmodifiable(<String, Report>{
               'function': buildFunctionRecordStub(
-                linesWithCode: List.generate(5, (index) => index),
+                metrics: [
+                  buildMetricValueStub<int>(
+                    id: linesOfExecutableCodeKey,
+                    value: 5,
+                  ),
+                ],
               ),
             }),
             issues: const [],
-            designIssues: const [],
+            antiPatternCases: const [],
           ),
         ];
 
@@ -420,15 +451,22 @@ void main() {
 
       test('without arguments', () async {
         final records = [
-          FileRecord(
-            fullPath: fullPath,
+          FileReport(
+            path: fullPath,
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{}),
-            functions: Map.unmodifiable(<String, FunctionRecord>{
-              'function': buildFunctionRecordStub(argumentsCount: 0),
+            functions: Map.unmodifiable(<String, Report>{
+              'function': buildFunctionRecordStub(
+                metrics: [
+                  buildMetricValueStub<int>(
+                    id: NumberOfParametersMetric.metricId,
+                    value: 0,
+                  ),
+                ],
+              ),
             }),
             issues: const [],
-            designIssues: const [],
+            antiPatternCases: const [],
           ),
         ];
 
@@ -447,15 +485,23 @@ void main() {
 
       test('with a lot of arguments', () async {
         final records = [
-          FileRecord(
-            fullPath: fullPath,
+          FileReport(
+            path: fullPath,
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{}),
-            functions: Map.unmodifiable(<String, FunctionRecord>{
-              'function': buildFunctionRecordStub(argumentsCount: 10),
+            functions: Map.unmodifiable(<String, Report>{
+              'function': buildFunctionRecordStub(
+                metrics: [
+                  buildMetricValueStub<int>(
+                    id: NumberOfParametersMetric.metricId,
+                    value: 10,
+                    level: MetricValueLevel.alarm,
+                  ),
+                ],
+              ),
             }),
             issues: const [],
-            designIssues: const [],
+            antiPatternCases: const [],
           ),
         ];
 
@@ -474,11 +520,11 @@ void main() {
 
       test('with low nested level', () async {
         final records = [
-          FileRecord(
-            fullPath: fullPath,
+          FileReport(
+            path: fullPath,
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{}),
-            functions: Map.unmodifiable(<String, FunctionRecord>{
+            functions: Map.unmodifiable(<String, Report>{
               'function': buildFunctionRecordStub(
                 metrics: const [
                   MetricValue<int>(
@@ -498,7 +544,7 @@ void main() {
               ),
             }),
             issues: const [],
-            designIssues: const [],
+            antiPatternCases: const [],
           ),
         ];
 
@@ -517,11 +563,11 @@ void main() {
 
       test('with high nested level', () async {
         final records = [
-          FileRecord(
-            fullPath: fullPath,
+          FileReport(
+            path: fullPath,
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{}),
-            functions: Map.unmodifiable(<String, FunctionRecord>{
+            functions: Map.unmodifiable(<String, Report>{
               'function': buildFunctionRecordStub(
                 metrics: const [
                   MetricValue<int>(
@@ -541,7 +587,7 @@ void main() {
               ),
             }),
             issues: const [],
-            designIssues: const [],
+            antiPatternCases: const [],
           ),
         ];
 

@@ -45,7 +45,8 @@ class NewlineBeforeReturnRule extends ObsoleteRule {
               .lineNumber;
           final tokenLine = lineInfo
               .getLocation(
-                  _optimalToken(statement.returnKeyword, lineInfo).offset)
+                _optimalToken(statement.returnKeyword, lineInfo).offset,
+              )
               .lineNumber;
 
           return !(tokenLine > previousTokenLine + 1);

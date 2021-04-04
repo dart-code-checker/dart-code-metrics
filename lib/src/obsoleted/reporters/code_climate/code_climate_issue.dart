@@ -4,8 +4,8 @@ import 'package:crypto/crypto.dart';
 import 'package:meta/meta.dart';
 
 import '../../../models/issue.dart';
+import '../../../models/report.dart';
 import '../../../models/severity.dart';
-import '../../models/function_record.dart';
 
 @immutable
 class CodeClimateLocationLines {
@@ -80,7 +80,7 @@ class CodeClimateIssue {
   }
 
   factory CodeClimateIssue.cyclomaticComplexity(
-    FunctionRecord function,
+    Report function,
     int value,
     String fileName,
     String functionName,
@@ -95,7 +95,7 @@ class CodeClimateIssue {
       );
 
   factory CodeClimateIssue.maintainabilityIndex(
-    FunctionRecord function,
+    Report function,
     int value,
     String fileName,
     String functionName,
@@ -109,7 +109,7 @@ class CodeClimateIssue {
       );
 
   factory CodeClimateIssue.maximumNestingLevel(
-    FunctionRecord function,
+    Report function,
     int value,
     String fileName,
     String functionName,

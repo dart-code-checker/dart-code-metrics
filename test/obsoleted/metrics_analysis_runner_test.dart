@@ -1,8 +1,8 @@
 @TestOn('vm')
+import 'package:dart_code_metrics/src/models/file_report.dart';
 import 'package:dart_code_metrics/src/obsoleted/metrics_analysis_runner.dart';
 import 'package:dart_code_metrics/src/obsoleted/metrics_analyzer.dart';
 import 'package:dart_code_metrics/src/obsoleted/metrics_records_store.dart';
-import 'package:dart_code_metrics/src/obsoleted/models/file_record.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
 
@@ -14,21 +14,21 @@ void main() {
   group('MetricsAnalysisRunner', () {
     test('results() returns array of FileRecords', () {
       const stubRecords = [
-        FileRecord(
-          fullPath: 'lib/foo.dart',
+        FileReport(
+          path: 'lib/foo.dart',
           relativePath: 'foo.dart',
           classes: {},
           functions: {},
           issues: [],
-          designIssues: [],
+          antiPatternCases: [],
         ),
-        FileRecord(
-          fullPath: 'lib/bar.dart',
+        FileReport(
+          path: 'lib/bar.dart',
           relativePath: 'bar.dart',
           classes: {},
           functions: {},
           issues: [],
-          designIssues: [],
+          antiPatternCases: [],
         ),
       ];
 

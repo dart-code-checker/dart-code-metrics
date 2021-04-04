@@ -1,5 +1,6 @@
 // ignore_for_file: long-method, comment_references
 import 'dart:io';
+import 'dart:math';
 
 import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
 import 'package:analyzer/dart/analysis/features.dart';
@@ -10,28 +11,34 @@ import 'package:glob/glob.dart';
 import 'package:path/path.dart' as p;
 import 'package:file/local.dart';
 
-import '../metrics/cyclomatic_complexity/cyclomatic_complexity_flow_visitor.dart';
+import '../metrics/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import '../metrics/maximum_nesting_level/maximum_nesting_level_metric.dart';
 import '../metrics/number_of_methods_metric.dart';
+import '../metrics/number_of_parameters_metric.dart';
 import '../metrics/weight_of_class_metric.dart';
+import '../models/entity_type.dart';
 import '../models/issue.dart';
+import '../models/metric_documentation.dart';
+import '../models/metric_value.dart';
+import '../models/metric_value_level.dart';
 import '../models/report.dart';
 import '../models/scoped_function_declaration.dart';
 import '../rules/rule.dart';
 import '../scope_visitor.dart';
 import '../suppression.dart';
+import '../utils/metric_utils.dart';
 import '../utils/node_utils.dart';
 import 'anti_patterns/base_pattern.dart';
 import 'anti_patterns_factory.dart';
 import 'config/analysis_options.dart' as metrics;
 import 'config/config.dart' as metrics;
+import 'config/config.dart';
 import 'halstead_volume/halstead_volume_ast_visitor.dart';
 import 'metrics/lines_of_executable_code/lines_of_executable_code_visitor.dart';
 import 'metrics_records_store.dart';
-import 'models/function_record.dart';
 import 'models/internal_resolved_unit_result.dart';
+import 'reporters/utility_selector.dart';
 import 'rules_factory.dart';
-import 'utils/metrics_analyzer_utils.dart';
 
 // ignore: deprecated_member_use
 final _featureSet = FeatureSet.fromEnableFlags([]);
@@ -175,28 +182,104 @@ class MetricsAnalyzer {
           }
 
           for (final function in functions) {
-            final controlFlowAstVisitor = CyclomaticComplexityFlowVisitor();
-            final halsteadVolumeAstVisitor = HalsteadVolumeAstVisitor();
+            final cyclomatic = CyclomaticComplexityMetric(config: {
+              CyclomaticComplexityMetric.metricId:
+                  '${_metricsConfig.cyclomaticComplexityWarningLevel}',
+            }).compute(
+              function.declaration,
+              visitor.classes,
+              visitor.functions,
+              source,
+            );
+
             final linesOfExecutableCodeVisitor =
                 LinesOfExecutableCodeVisitor(lineInfo);
 
-            function.declaration.visitChildren(controlFlowAstVisitor);
-            function.declaration.visitChildren(halsteadVolumeAstVisitor);
             function.declaration.visitChildren(linesOfExecutableCodeVisitor);
 
-            final cyclomaticLines = controlFlowAstVisitor.complexityEntities
-                .map((entity) =>
-                    nodeLocation(node: entity, source: source).start.line)
-                .toSet();
+            final linesOfExecutableCode = MetricValue<int>(
+              metricsId: linesOfExecutableCodeKey,
+              documentation: const MetricDocumentation(
+                name: '',
+                shortName: '',
+                brief: '',
+                measuredType: EntityType.methodEntity,
+                examples: [],
+              ),
+              value: linesOfExecutableCodeVisitor.linesWithCode.length,
+              level: valueLevel(
+                linesOfExecutableCodeVisitor.linesWithCode.length,
+                _metricsConfig.linesOfExecutableCodeWarningLevel,
+              ),
+              comment: '',
+            );
+
+            final halsteadVolumeAstVisitor = HalsteadVolumeAstVisitor();
+
+            function.declaration.visitChildren(halsteadVolumeAstVisitor);
+
+            // Total number of occurrences of operators.
+            final totalNumberOfOccurrencesOfOperators =
+                sum(halsteadVolumeAstVisitor.operators.values);
+
+            // Total number of occurrences of operands
+            final totalNumberOfOccurrencesOfOperands =
+                sum(halsteadVolumeAstVisitor.operands.values);
+
+            // Number of distinct operators.
+            final numberOfDistinctOperators =
+                halsteadVolumeAstVisitor.operators.keys.length;
+
+            // Number of distinct operands.
+            final numberOfDistinctOperands =
+                halsteadVolumeAstVisitor.operands.keys.length;
+
+            // Halstead Program Length – The total number of operator occurrences and the total number of operand occurrences.
+            final halsteadProgramLength = totalNumberOfOccurrencesOfOperators +
+                totalNumberOfOccurrencesOfOperands;
+
+            // Halstead Vocabulary – The total number of unique operator and unique operand occurrences.
+            final halsteadVocabulary =
+                numberOfDistinctOperators + numberOfDistinctOperands;
+
+            // Program Volume – Proportional to program size, represents the size, in bits, of space necessary for storing the program. This parameter is dependent on specific algorithm implementation.
+            final halsteadVolume =
+                halsteadProgramLength * log2(max(1, halsteadVocabulary));
+
+            final maintainabilityIndex = max(
+              0,
+              (171 -
+                      5.2 * log(max(1, halsteadVolume)) -
+                      cyclomatic.value * 0.23 -
+                      16.2 * log(max(1, linesOfExecutableCode.value))) *
+                  100 /
+                  171,
+            ).toDouble();
 
             builder.recordFunctionData(
               function,
-              FunctionRecord(
+              Report(
                 location: nodeLocation(
                   node: function.declaration,
                   source: source,
                 ),
                 metrics: [
+                  cyclomatic,
+                  MetricValue<double>(
+                    metricsId: '',
+                    documentation: const MetricDocumentation(
+                      name: '',
+                      shortName: '',
+                      brief: '',
+                      measuredType: EntityType.classEntity,
+                      examples: [],
+                    ),
+                    value: maintainabilityIndex,
+                    level: _maintainabilityIndexViolationLevel(
+                      maintainabilityIndex,
+                    ),
+                    comment: '',
+                  ),
                   MaximumNestingLevelMetric(config: {
                     MaximumNestingLevelMetric.metricId:
                         '${_metricsConfig.maximumNestingWarningLevel}',
@@ -206,23 +289,17 @@ class MetricsAnalyzer {
                     visitor.functions,
                     source,
                   ),
-                ],
-                argumentsCount: getArgumentsCount(function),
-                cyclomaticComplexityLines: Map.fromEntries(cyclomaticLines.map(
-                  (lineIndex) => MapEntry(
-                    lineIndex,
-                    controlFlowAstVisitor.complexityEntities
-                        .where((entity) =>
-                            nodeLocation(node: entity, source: source)
-                                .start
-                                .line ==
-                            lineIndex)
-                        .length,
+                  NumberOfParametersMetric(config: {
+                    NumberOfParametersMetric.metricId:
+                        '${_metricsConfig.numberOfParametersWarningLevel}',
+                  }).compute(
+                    function.declaration,
+                    visitor.classes,
+                    visitor.functions,
+                    source,
                   ),
-                )),
-                linesWithCode: linesOfExecutableCodeVisitor.linesWithCode,
-                operators: Map.unmodifiable(halsteadVolumeAstVisitor.operators),
-                operands: Map.unmodifiable(halsteadVolumeAstVisitor.operands),
+                  linesOfExecutableCode,
+                ],
               ),
             );
           }
@@ -268,3 +345,15 @@ Iterable<Glob> _prepareExcludes(Iterable<String>? patterns) =>
 
 bool _isExcluded(String filePath, Iterable<Glob> excludes) =>
     excludes.any((exclude) => exclude.matches(filePath));
+
+MetricValueLevel _maintainabilityIndexViolationLevel(double index) {
+  if (index < 10) {
+    return MetricValueLevel.alarm;
+  } else if (index < 20) {
+    return MetricValueLevel.warning;
+  } else if (index < 40) {
+    return MetricValueLevel.noted;
+  }
+
+  return MetricValueLevel.none;
+}

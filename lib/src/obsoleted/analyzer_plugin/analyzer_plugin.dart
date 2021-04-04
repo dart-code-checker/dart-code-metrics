@@ -24,7 +24,9 @@ import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
 import 'package:source_span/source_span.dart';
 
-import '../../metrics/cyclomatic_complexity/cyclomatic_complexity_flow_visitor.dart';
+import '../../metrics/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
+import '../../metrics/number_of_parameters_metric.dart';
+import '../../models/report.dart';
 import '../../models/scoped_function_declaration.dart';
 import '../../scope_visitor.dart';
 import '../../suppression.dart';
@@ -33,12 +35,10 @@ import '../../utils/node_utils.dart';
 import '../../utils/yaml_utils.dart';
 import '../anti_patterns_factory.dart';
 import '../config/analysis_options.dart';
-import '../models/function_record.dart';
 import '../models/function_report.dart' as metrics;
 import '../models/internal_resolved_unit_result.dart';
 import '../reporters/utility_selector.dart';
 import '../rules_factory.dart';
-import '../utils/metrics_analyzer_utils.dart';
 import 'analyzer_plugin_config.dart';
 import 'analyzer_plugin_utils.dart';
 
@@ -368,40 +368,41 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     ScopedFunctionDeclaration function,
     InternalResolvedUnitResult source,
     AnalyzerPluginConfig config,
-  ) {
-    final controlFlowAstVisitor = CyclomaticComplexityFlowVisitor();
-
-    function.declaration.visitChildren(controlFlowAstVisitor);
-
-    final cyclomaticLines = controlFlowAstVisitor.complexityEntities
-        .map((entity) => nodeLocation(node: entity, source: source).start.line)
-        .toSet();
-
-    return UtilitySelector.functionReport(
-      FunctionRecord(
-        location: nodeLocation(
-          node: function.declaration,
-          source: source,
-        ),
-        metrics: const [],
-        argumentsCount: getArgumentsCount(function),
-        cyclomaticComplexityLines: Map.fromEntries(cyclomaticLines.map(
-          (lineIndex) => MapEntry(
-            lineIndex,
-            controlFlowAstVisitor.complexityEntities
-                .where((entity) =>
-                    nodeLocation(node: entity, source: source).start.line ==
-                    lineIndex)
-                .length,
+  ) =>
+      UtilitySelector.functionReport(
+        Report(
+          location: nodeLocation(
+            node: function.declaration,
+            source: source,
           ),
-        )),
-        linesWithCode: List.unmodifiable(<int>[]),
-        operators: Map.unmodifiable(<String, int>{}),
-        operands: Map.unmodifiable(<String, int>{}),
-      ),
-      config.metricsConfigs,
-    );
-  }
+          metrics: [
+            CyclomaticComplexityMetric(config: {
+              CyclomaticComplexityMetric.metricId:
+                  '${config.metricsConfigs.cyclomaticComplexityWarningLevel}',
+            }).compute(
+              function.declaration,
+              [
+                if (function.enclosingDeclaration != null)
+                  function.enclosingDeclaration!,
+              ],
+              [function],
+              source,
+            ),
+            NumberOfParametersMetric(config: {
+              NumberOfParametersMetric.metricId:
+                  '${config.metricsConfigs.numberOfParametersWarningLevel}',
+            }).compute(
+              function.declaration,
+              [
+                if (function.enclosingDeclaration != null)
+                  function.enclosingDeclaration!,
+              ],
+              [function],
+              source,
+            ),
+          ],
+        ),
+      );
 
   plugin.AnalysisErrorFixes? _cyclomaticComplexityMetric(
     ScopedFunctionDeclaration function,

@@ -3,20 +3,19 @@ import 'dart:math';
 
 import 'package:quiver/iterables.dart' as quiver;
 
+import '../../metrics/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import '../../metrics/maximum_nesting_level/maximum_nesting_level_metric.dart';
 import '../../metrics/number_of_methods_metric.dart';
+import '../../metrics/number_of_parameters_metric.dart';
 import '../../metrics/weight_of_class_metric.dart';
-import '../../models/entity_type.dart';
-import '../../models/metric_documentation.dart';
+import '../../models/file_report.dart';
 import '../../models/metric_value.dart';
 import '../../models/metric_value_level.dart';
 import '../../models/report.dart';
 import '../../utils/metric_utils.dart';
 import '../config/config.dart' as metrics;
 import '../models/component_report.dart';
-import '../models/file_record.dart';
 import '../models/file_report.dart' as metrics;
-import '../models/function_record.dart';
 import '../models/function_report.dart' as metrics;
 
 double log2(num a) => log(a) / ln2;
@@ -27,19 +26,13 @@ double avg(Iterable<num> it) => it.isNotEmpty ? sum(it) / it.length : 0;
 
 class UtilitySelector {
   static metrics.FileReport analysisReportForRecords(
-    Iterable<FileRecord> records,
-    metrics.Config config,
+    Iterable<FileReport> records,
   ) =>
-      records.map((r) => fileReport(r, config)).reduce(mergeFileReports);
+      records.map(fileReport).reduce(mergeFileReports);
 
-  static metrics.FileReport fileReport(
-    FileRecord record,
-    metrics.Config config,
-  ) {
-    final componentReports =
-        record.classes.values.map((r) => componentReport(r, config));
-    final functionReports =
-        record.functions.values.map((r) => functionReport(r, config));
+  static metrics.FileReport fileReport(FileReport record) {
+    final componentReports = record.classes.values.map(componentReport);
+    final functionReports = record.functions.values.map(functionReport);
 
     final averageArgumentCount =
         avg(functionReports.map((r) => r.argumentsCount.value));
@@ -93,126 +86,26 @@ class UtilitySelector {
     );
   }
 
-  static ComponentReport componentReport(
-    Report component,
-    metrics.Config config,
-  ) =>
-      ComponentReport(
+  static ComponentReport componentReport(Report component) => ComponentReport(
         methodsCount: component.metric(NumberOfMethodsMetric.metricId)
             as MetricValue<int>,
         weightOfClass: component.metric(WeightOfClassMetric.metricId)
             as MetricValue<double>,
       );
 
-  static metrics.FunctionReport functionReport(
-    FunctionRecord function,
-    metrics.Config config,
-  ) {
-    final cyclomaticComplexity =
-        sum(function.cyclomaticComplexityLines.values) + 1;
-
-    final linesOfExecutableCode = function.linesWithCode.length;
-
-    // Total number of occurrences of operators.
-    final totalNumberOfOccurrencesOfOperators = sum(function.operators.values);
-
-    // Total number of occurrences of operands
-    final totalNumberOfOccurrencesOfOperands = sum(function.operands.values);
-
-    // Number of distinct operators.
-    final numberOfDistinctOperators = function.operators.keys.length;
-
-    // Number of distinct operands.
-    final numberOfDistinctOperands = function.operands.keys.length;
-
-    // Halstead Program Length – The total number of operator occurrences and the total number of operand occurrences.
-    final halsteadProgramLength = totalNumberOfOccurrencesOfOperators +
-        totalNumberOfOccurrencesOfOperands;
-
-    // Halstead Vocabulary – The total number of unique operator and unique operand occurrences.
-    final halsteadVocabulary =
-        numberOfDistinctOperators + numberOfDistinctOperands;
-
-    // Program Volume – Proportional to program size, represents the size, in bits, of space necessary for storing the program. This parameter is dependent on specific algorithm implementation.
-    final halsteadVolume =
-        halsteadProgramLength * log2(max(1, halsteadVocabulary));
-
-    final maintainabilityIndex = max(
-      0,
-      (171 -
-              5.2 * log(max(1, halsteadVolume)) -
-              cyclomaticComplexity * 0.23 -
-              16.2 * log(max(1, linesOfExecutableCode))) *
-          100 /
-          171,
-    ).toDouble();
-
-    return metrics.FunctionReport(
-      cyclomaticComplexity: MetricValue<int>(
-        metricsId: '',
-        documentation: const MetricDocumentation(
-          name: '',
-          shortName: '',
-          brief: '',
-          measuredType: EntityType.classEntity,
-          examples: [],
-        ),
-        value: cyclomaticComplexity.round(),
-        level: valueLevel(
-          cyclomaticComplexity.round(),
-          config.cyclomaticComplexityWarningLevel,
-        ),
-        comment: '',
-      ),
-      linesOfExecutableCode: MetricValue<int>(
-        metricsId: '',
-        documentation: const MetricDocumentation(
-          name: '',
-          shortName: '',
-          brief: '',
-          measuredType: EntityType.classEntity,
-          examples: [],
-        ),
-        value: linesOfExecutableCode,
-        level: valueLevel(
-          linesOfExecutableCode,
-          config.linesOfExecutableCodeWarningLevel,
-        ),
-        comment: '',
-      ),
-      maintainabilityIndex: MetricValue<double>(
-        metricsId: '',
-        documentation: const MetricDocumentation(
-          name: '',
-          shortName: '',
-          brief: '',
-          measuredType: EntityType.classEntity,
-          examples: [],
-        ),
-        value: maintainabilityIndex,
-        level: _maintainabilityIndexViolationLevel(maintainabilityIndex),
-        comment: '',
-      ),
-      argumentsCount: MetricValue<int>(
-        metricsId: '',
-        documentation: const MetricDocumentation(
-          name: '',
-          shortName: '',
-          brief: '',
-          measuredType: EntityType.classEntity,
-          examples: [],
-        ),
-        value: function.argumentsCount,
-        level: valueLevel(
-          function.argumentsCount,
-          config.numberOfParametersWarningLevel,
-        ),
-        comment: '',
-      ),
-      maximumNestingLevel: function.metric(MaximumNestingLevelMetric.metricId)
-          as MetricValue<int>,
-    );
-  }
+  static metrics.FunctionReport functionReport(Report function) =>
+      metrics.FunctionReport(
+        cyclomaticComplexity: function
+            .metric(CyclomaticComplexityMetric.metricId) as MetricValue<int>,
+        linesOfExecutableCode: function.metric(metrics.linesOfExecutableCodeKey)
+            as MetricValue<int>,
+        maintainabilityIndex:
+            function.metric('maintainability-index') as MetricValue<double>,
+        argumentsCount: function.metric(NumberOfParametersMetric.metricId)
+            as MetricValue<int>,
+        maximumNestingLevel: function.metric(MaximumNestingLevelMetric.metricId)
+            as MetricValue<int>,
+      );
 
   static MetricValueLevel componentViolationLevel(ComponentReport report) =>
       report.methodsCount.level;
@@ -228,13 +121,11 @@ class UtilitySelector {
         report.maximumNestingLevel.level,
       ])!;
 
-  static MetricValueLevel maxViolationLevel(
-    Iterable<FileRecord> records,
-    metrics.Config config,
-  ) =>
+  static MetricValueLevel maxViolationLevel(Iterable<FileReport> records) =>
       quiver.max(records
-          .expand((fileRecord) => fileRecord.functions.values
-              .map((functionRecord) => functionReport(functionRecord, config)))
+          .expand(
+            (fileRecord) => fileRecord.functions.values.map(functionReport),
+          )
           .map(functionViolationLevel))!;
 
   static metrics.FileReport mergeFileReports(
@@ -271,16 +162,4 @@ class UtilitySelector {
         maximumNestingLevelViolations: lhs.maximumNestingLevelViolations +
             rhs.maximumNestingLevelViolations,
       );
-
-  static MetricValueLevel _maintainabilityIndexViolationLevel(double index) {
-    if (index < 10) {
-      return MetricValueLevel.alarm;
-    } else if (index < 20) {
-      return MetricValueLevel.warning;
-    } else if (index < 40) {
-      return MetricValueLevel.noted;
-    }
-
-    return MetricValueLevel.none;
-  }
 }

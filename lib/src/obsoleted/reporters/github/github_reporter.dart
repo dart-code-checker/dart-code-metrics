@@ -1,5 +1,5 @@
+import '../../../models/file_report.dart';
 import '../../../models/severity.dart';
-import '../../models/file_record.dart';
 import '../reporter.dart';
 import 'github_workflow_commands.dart';
 
@@ -7,7 +7,7 @@ import 'github_workflow_commands.dart';
 
 class GitHubReporter implements Reporter {
   @override
-  Future<Iterable<String>> report(Iterable<FileRecord>? records) async {
+  Future<Iterable<String>> report(Iterable<FileReport>? records) async {
     final _commands = GitHubWorkflowCommands();
 
     final reportStrings = <String>[];
@@ -17,9 +17,11 @@ class GitHubReporter implements Reporter {
     }
 
     for (final analysisRecord in records) {
-      for (final issue in analysisRecord.designIssues) {
-        reportStrings
-            .add(_commands.warning(issue.message, sourceSpan: issue.location));
+      for (final antiPattern in analysisRecord.antiPatternCases) {
+        reportStrings.add(_commands.warning(
+          antiPattern.message,
+          sourceSpan: antiPattern.location,
+        ));
       }
 
       for (final issue in analysisRecord.issues) {

@@ -1,10 +1,9 @@
+@TestOn('vm')
+import 'package:dart_code_metrics/src/models/file_report.dart';
 import 'package:dart_code_metrics/src/models/issue.dart';
 import 'package:dart_code_metrics/src/models/replacement.dart';
 import 'package:dart_code_metrics/src/models/report.dart';
 import 'package:dart_code_metrics/src/models/severity.dart';
-@TestOn('vm')
-import 'package:dart_code_metrics/src/obsoleted/models/file_record.dart';
-import 'package:dart_code_metrics/src/obsoleted/models/function_record.dart';
 import 'package:dart_code_metrics/src/obsoleted/reporters/github/github_reporter.dart';
 import 'package:source_span/source_span.dart';
 import 'package:test/test.dart';
@@ -19,13 +18,13 @@ void main() {
 
     test('with design issues', () async {
       final records = [
-        FileRecord(
-          fullPath: fullPath,
+        FileReport(
+          path: fullPath,
           relativePath: 'example.dart',
           classes: Map.unmodifiable(<String, Report>{}),
-          functions: Map.unmodifiable(<String, FunctionRecord>{}),
+          functions: Map.unmodifiable(<String, Report>{}),
           issues: const [],
-          designIssues: [
+          antiPatternCases: [
             Issue(
               ruleId: 'patternId1',
               documentation: Uri.parse('https://docu.edu/patternId1.html'),
@@ -57,11 +56,11 @@ void main() {
 
     test('with style severity issues', () async {
       final records = [
-        FileRecord(
-          fullPath: fullPath,
+        FileReport(
+          path: fullPath,
           relativePath: 'example.dart',
           classes: Map.unmodifiable(<String, Report>{}),
-          functions: Map.unmodifiable(<String, FunctionRecord>{}),
+          functions: Map.unmodifiable(<String, Report>{}),
           issues: [
             Issue(
               ruleId: 'ruleId1',
@@ -104,7 +103,7 @@ void main() {
               ),
             ),
           ],
-          designIssues: const [],
+          antiPatternCases: const [],
         ),
       ];
 

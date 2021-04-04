@@ -1,14 +1,13 @@
 // ignore_for_file: comment_references, no-empty-block
 import 'package:path/path.dart' as p;
 
+import '../models/file_report.dart';
 import '../models/issue.dart';
 import '../models/report.dart';
 import '../models/scoped_class_declaration.dart';
 import '../models/scoped_function_declaration.dart';
 import 'metrics_records_builder.dart';
 import 'metrics_records_store.dart';
-import 'models/file_record.dart';
-import 'models/function_record.dart';
 
 /// Holds analysis records in format-agnostic way
 /// See [MetricsAnalysisRunner] to get analysis info
@@ -17,14 +16,14 @@ class MetricsAnalysisRecorder
   String? _fileGroupPath;
   String? _relativeGroupPath;
   Map<ScopedClassDeclaration, Report>? _componentRecords;
-  Map<ScopedFunctionDeclaration, FunctionRecord>? _functionRecords;
+  Map<ScopedFunctionDeclaration, Report>? _functionRecords;
   List<Issue>? _issues;
-  List<Issue>? _designIssues;
+  List<Issue>? _antiPatternCases;
 
-  final _records = <FileRecord>[];
+  final _records = <FileReport>[];
 
   @override
-  Iterable<FileRecord> records() => _records;
+  Iterable<FileReport> records() => _records;
 
   @override
   MetricsRecordsStore recordFile(
@@ -56,7 +55,7 @@ class MetricsAnalysisRecorder
   @override
   void recordFunctionData(
     ScopedFunctionDeclaration declaration,
-    FunctionRecord record,
+    Report record,
   ) {
     _checkState();
     _functionRecords![declaration] = record;
@@ -66,7 +65,7 @@ class MetricsAnalysisRecorder
   void recordAntiPatternCases(Iterable<Issue> issues) {
     _checkState();
 
-    _designIssues!.addAll(issues);
+    _antiPatternCases!.addAll(issues);
   }
 
   @override
@@ -90,25 +89,25 @@ class MetricsAnalysisRecorder
     _componentRecords = {};
     _functionRecords = {};
     _issues = [];
-    _designIssues = [];
+    _antiPatternCases = [];
   }
 
   void _endRecordFile() {
-    _records.add(FileRecord(
-      fullPath: _fileGroupPath!,
+    _records.add(FileReport(
+      path: _fileGroupPath!,
       relativePath: _relativeGroupPath!,
       classes: Map.unmodifiable(_componentRecords!
           .map<String, Report>((key, value) => MapEntry(key.name, value))),
-      functions: Map.unmodifiable(_functionRecords!.map<String, FunctionRecord>(
+      functions: Map.unmodifiable(_functionRecords!.map<String, Report>(
         (key, value) => MapEntry(key.fullName, value),
       )),
       issues: _issues!,
-      designIssues: _designIssues!,
+      antiPatternCases: _antiPatternCases!,
     ));
     _relativeGroupPath = null;
     _fileGroupPath = null;
     _functionRecords = null;
     _issues = null;
-    _designIssues = null;
+    _antiPatternCases = null;
   }
 }

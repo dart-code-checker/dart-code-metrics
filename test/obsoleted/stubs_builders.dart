@@ -1,15 +1,19 @@
+import 'package:dart_code_metrics/src/metrics/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import 'package:dart_code_metrics/src/metrics/maximum_nesting_level/maximum_nesting_level_metric.dart';
 import 'package:dart_code_metrics/src/metrics/number_of_methods_metric.dart';
+import 'package:dart_code_metrics/src/metrics/number_of_parameters_metric.dart';
 import 'package:dart_code_metrics/src/metrics/weight_of_class_metric.dart';
 import 'package:dart_code_metrics/src/models/entity_type.dart';
 import 'package:dart_code_metrics/src/models/metric_documentation.dart';
 import 'package:dart_code_metrics/src/models/metric_value.dart';
 import 'package:dart_code_metrics/src/models/metric_value_level.dart';
 import 'package:dart_code_metrics/src/models/report.dart';
+import 'package:dart_code_metrics/src/obsoleted/config/config.dart';
 import 'package:dart_code_metrics/src/obsoleted/models/component_report.dart';
-import 'package:dart_code_metrics/src/obsoleted/models/function_record.dart';
 import 'package:dart_code_metrics/src/obsoleted/models/function_report.dart';
 import 'package:source_span/source_span.dart';
+
+import '../stubs_builders.dart';
 
 Report buildComponentRecordStub({
   SourceSpanBase? location,
@@ -51,38 +55,28 @@ Report buildComponentRecordStub({
   );
 }
 
-FunctionRecord buildFunctionRecordStub({
+Report buildFunctionRecordStub({
   SourceSpanBase? location,
   Iterable<MetricValue<num>> metrics = const [],
-  int argumentsCount = 0,
   Map<int, int> cyclomaticLinesComplexity = const <int, int>{},
-  Iterable<int> linesWithCode = const <int>[],
   Map<int, int> operators = const <int, int>{},
   Map<int, int> operands = const <int, int>{},
 }) {
-  const defaultMetricValue = MetricValue<int>(
-    metricsId: MaximumNestingLevelMetric.metricId,
-    documentation: MetricDocumentation(
-      name: 'metric1',
-      shortName: 'MTR1',
-      brief: '',
-      measuredType: EntityType.methodEntity,
-      examples: [],
+  final defaultMetricValues = [
+    buildMetricValueStub<int>(
+      id: CyclomaticComplexityMetric.metricId,
+      value: 0,
     ),
-    value: 0,
-    level: MetricValueLevel.none,
-    comment: '',
-  );
+    buildMetricValueStub<int>(id: MaximumNestingLevelMetric.metricId, value: 0),
+    buildMetricValueStub<int>(id: NumberOfParametersMetric.metricId, value: 0),
+    buildMetricValueStub<int>(id: linesOfExecutableCodeKey, value: 0),
+    buildMetricValueStub<double>(id: 'maintainability-index', value: 100),
+  ];
 
-  return FunctionRecord(
+  return Report(
     location:
         location ?? SourceSpanBase(SourceLocation(0), SourceLocation(0), ''),
-    metrics: [...metrics, defaultMetricValue],
-    argumentsCount: argumentsCount,
-    cyclomaticComplexityLines: Map.unmodifiable(cyclomaticLinesComplexity),
-    linesWithCode: linesWithCode,
-    operators: Map.unmodifiable(operators),
-    operands: Map.unmodifiable(operands),
+    metrics: [...metrics, ...defaultMetricValues],
   );
 }
 

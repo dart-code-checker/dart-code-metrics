@@ -4,40 +4,36 @@ import '../../metrics/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import '../../metrics/maximum_nesting_level/maximum_nesting_level_metric.dart';
 import '../../metrics/number_of_methods_metric.dart';
 import '../../metrics/number_of_parameters_metric.dart';
+import '../../models/file_report.dart';
 import '../../models/issue.dart';
 import '../../models/metric_value.dart';
 import '../config/config.dart';
-import '../models/file_record.dart';
 import 'reporter.dart';
 import 'utility_selector.dart';
 
 /// Machine-readable report in JSON format
 class JsonReporter implements Reporter {
-  final Config reportConfig;
-
-  JsonReporter({required this.reportConfig});
-
   @override
-  Future<Iterable<String>> report(Iterable<FileRecord>? records) async =>
+  Future<Iterable<String>> report(Iterable<FileReport>? records) async =>
       (records?.isNotEmpty ?? false)
           ? [json.encode(records!.map(_analysisRecordToJson).toList())]
           : [];
 
-  Map<String, Object> _analysisRecordToJson(FileRecord record) {
-    final fileReport = UtilitySelector.fileReport(record, reportConfig);
+  Map<String, Object> _analysisRecordToJson(FileReport record) {
+    final fileReport = UtilitySelector.fileReport(record);
 
     return {
       'source': record.relativePath,
       'records': {
         ...record.classes.map((key, value) {
-          final report = UtilitySelector.componentReport(value, reportConfig);
+          final report = UtilitySelector.componentReport(value);
 
           return MapEntry(key, {
             ..._report(report.methodsCount, NumberOfMethodsMetric.metricId),
           });
         }),
         ...record.functions.map((key, value) {
-          final report = UtilitySelector.functionReport(value, reportConfig);
+          final report = UtilitySelector.functionReport(value);
 
           return MapEntry(key, {
             ..._report(
@@ -58,7 +54,7 @@ class JsonReporter implements Reporter {
         }),
       },
       'issues': _reportCodeIssue(record.issues),
-      'designIssues': _reportDesignIssues(record.designIssues),
+      'designIssues': _reportDesignIssues(record.antiPatternCases),
       'average-${NumberOfParametersMetric.metricId}':
           fileReport.averageArgumentsCount,
       'total-${NumberOfParametersMetric.metricId}-violations':

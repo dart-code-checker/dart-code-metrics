@@ -1,25 +1,26 @@
+@TestOn('vm')
 import 'package:dart_code_metrics/src/metrics/maximum_nesting_level/maximum_nesting_level_metric.dart';
 import 'package:dart_code_metrics/src/metrics/number_of_methods_metric.dart';
+import 'package:dart_code_metrics/src/metrics/number_of_parameters_metric.dart';
 import 'package:dart_code_metrics/src/models/entity_type.dart';
+import 'package:dart_code_metrics/src/models/file_report.dart';
 import 'package:dart_code_metrics/src/models/metric_documentation.dart';
 import 'package:dart_code_metrics/src/models/metric_value.dart';
 import 'package:dart_code_metrics/src/models/metric_value_level.dart';
 import 'package:dart_code_metrics/src/models/report.dart';
-@TestOn('vm')
-import 'package:dart_code_metrics/src/obsoleted/config/config.dart' as metrics;
-import 'package:dart_code_metrics/src/obsoleted/models/file_record.dart';
-import 'package:dart_code_metrics/src/obsoleted/models/function_record.dart';
+import 'package:dart_code_metrics/src/obsoleted/config/config.dart';
 import 'package:dart_code_metrics/src/obsoleted/reporters/utility_selector.dart';
 import 'package:test/test.dart';
 
+import '../../stubs_builders.dart';
 import '../stubs_builders.dart';
 
 void main() {
   group('UtilitySelector', () {
     test('fileReport calculates report for file', () {
       final report = UtilitySelector.fileReport(
-        FileRecord(
-          fullPath: '/home/developer/work/project/example.dart',
+        FileReport(
+          path: '/home/developer/work/project/example.dart',
           relativePath: 'example.dart',
           classes: Map.unmodifiable(<String, Report>{
             'class': buildComponentRecordStub(metrics: const [
@@ -68,15 +69,38 @@ void main() {
               ),
             ]),
           }),
-          functions: Map.unmodifiable(<String, FunctionRecord>{
-            'function': buildFunctionRecordStub(argumentsCount: 0),
-            'function2': buildFunctionRecordStub(argumentsCount: 6),
-            'function3': buildFunctionRecordStub(argumentsCount: 10),
+          functions: Map.unmodifiable(<String, Report>{
+            'function': buildFunctionRecordStub(
+              metrics: [
+                buildMetricValueStub<int>(
+                  id: NumberOfParametersMetric.metricId,
+                  value: 0,
+                  level: MetricValueLevel.none,
+                ),
+              ],
+            ),
+            'function2': buildFunctionRecordStub(
+              metrics: [
+                buildMetricValueStub<int>(
+                  id: NumberOfParametersMetric.metricId,
+                  value: 6,
+                  level: MetricValueLevel.warning,
+                ),
+              ],
+            ),
+            'function3': buildFunctionRecordStub(
+              metrics: [
+                buildMetricValueStub<int>(
+                  id: NumberOfParametersMetric.metricId,
+                  value: 10,
+                  level: MetricValueLevel.alarm,
+                ),
+              ],
+            ),
           }),
           issues: const [],
-          designIssues: const [],
+          antiPatternCases: const [],
         ),
-        const metrics.Config(),
       );
       expect(report.averageArgumentsCount, 5);
       expect(report.argumentsCountViolations, 2);
@@ -101,8 +125,7 @@ void main() {
             comment: '',
           ),
         ]);
-        final report =
-            UtilitySelector.componentReport(record, const metrics.Config());
+        final report = UtilitySelector.componentReport(record);
 
         expect(report.methodsCount.value, 0);
         expect(report.methodsCount.level, MetricValueLevel.none);
@@ -126,8 +149,7 @@ void main() {
             comment: '',
           ),
         ]);
-        final report =
-            UtilitySelector.componentReport(record, const metrics.Config());
+        final report = UtilitySelector.componentReport(record);
 
         expect(report.methodsCount.value, methodsCount);
         expect(report.methodsCount.level, MetricValueLevel.alarm);
@@ -136,18 +158,31 @@ void main() {
 
     group('functionReport calculates report for function', () {
       test('without arguments', () {
-        final record = buildFunctionRecordStub(argumentsCount: 0);
-        final report =
-            UtilitySelector.functionReport(record, const metrics.Config());
+        final record = buildFunctionRecordStub(
+          metrics: [
+            buildMetricValueStub<int>(
+              id: NumberOfParametersMetric.metricId,
+              value: 0,
+            ),
+          ],
+        );
+        final report = UtilitySelector.functionReport(record);
 
         expect(report.argumentsCount.value, 0);
         expect(report.argumentsCount.level, MetricValueLevel.none);
       });
 
       test('with a lot of arguments', () {
-        final record = buildFunctionRecordStub(argumentsCount: 10);
-        final report =
-            UtilitySelector.functionReport(record, const metrics.Config());
+        final record = buildFunctionRecordStub(
+          metrics: [
+            buildMetricValueStub<int>(
+              id: NumberOfParametersMetric.metricId,
+              value: 10,
+              level: MetricValueLevel.alarm,
+            ),
+          ],
+        );
+        final report = UtilitySelector.functionReport(record);
 
         expect(report.argumentsCount.value, 10);
         expect(report.argumentsCount.level, MetricValueLevel.alarm);
@@ -155,8 +190,7 @@ void main() {
 
       test('without nesting information', () {
         final record = buildFunctionRecordStub();
-        final report =
-            UtilitySelector.functionReport(record, const metrics.Config());
+        final report = UtilitySelector.functionReport(record);
 
         expect(report.maximumNestingLevel.value, 0);
         expect(report.maximumNestingLevel.level, MetricValueLevel.none);
@@ -180,8 +214,7 @@ void main() {
             ),
           ],
         );
-        final report =
-            UtilitySelector.functionReport(record, const metrics.Config());
+        final report = UtilitySelector.functionReport(record);
 
         expect(report.maximumNestingLevel.value, 12);
         expect(report.maximumNestingLevel.level, MetricValueLevel.alarm);
@@ -255,70 +288,67 @@ void main() {
       const fullPathStub = '~/lib/src/foo.dart';
       const relativePathStub = 'lib/src/foo.dart';
       final fileRecords = [
-        FileRecord(
-          fullPath: fullPathStub,
+        FileReport(
+          path: fullPathStub,
           relativePath: relativePathStub,
           classes: Map.unmodifiable(<String, Report>{}),
-          functions: Map.unmodifiable(<String, FunctionRecord>{
-            'a': buildFunctionRecordStub(linesWithCode: List.filled(10, 0)),
+          functions: Map.unmodifiable(<String, Report>{
+            'a': buildFunctionRecordStub(
+              metrics: [
+                buildMetricValueStub<int>(
+                  id: linesOfExecutableCodeKey,
+                  value: 10,
+                ),
+              ],
+            ),
           }),
           issues: const [],
-          designIssues: const [],
+          antiPatternCases: const [],
         ),
-        FileRecord(
-          fullPath: fullPathStub,
+        FileReport(
+          path: fullPathStub,
           relativePath: relativePathStub,
           classes: Map.unmodifiable(<String, Report>{}),
-          functions: Map.unmodifiable(<String, FunctionRecord>{
-            'a': buildFunctionRecordStub(linesWithCode: List.filled(20, 0)),
+          functions: Map.unmodifiable(<String, Report>{
+            'a': buildFunctionRecordStub(
+              metrics: [
+                buildMetricValueStub<int>(
+                  id: linesOfExecutableCodeKey,
+                  value: 20,
+                  level: MetricValueLevel.noted,
+                ),
+              ],
+            ),
           }),
           issues: const [],
-          designIssues: const [],
+          antiPatternCases: const [],
         ),
-        FileRecord(
-          fullPath: fullPathStub,
+        FileReport(
+          path: fullPathStub,
           relativePath: relativePathStub,
           classes: Map.unmodifiable(<String, Report>{}),
-          functions: Map.unmodifiable(<String, FunctionRecord>{
-            'a': buildFunctionRecordStub(linesWithCode: List.filled(30, 0)),
+          functions: Map.unmodifiable(<String, Report>{
+            'a': buildFunctionRecordStub(
+              metrics: [
+                buildMetricValueStub<int>(
+                  id: linesOfExecutableCodeKey,
+                  value: 30,
+                  level: MetricValueLevel.warning,
+                ),
+              ],
+            ),
           }),
           issues: const [],
-          designIssues: const [],
+          antiPatternCases: const [],
         ),
       ];
 
       test('MetricValueLevel.none if no violations', () {
         expect(
-          UtilitySelector.maxViolationLevel(
-            fileRecords,
-            const metrics.Config(linesOfExecutableCodeWarningLevel: 100500),
-          ),
-          MetricValueLevel.none,
-        );
-      });
-
-      test('MetricValueLevel.warning if maximum violation is warning', () {
-        expect(
-          UtilitySelector.maxViolationLevel(
-            fileRecords,
-            const metrics.Config(linesOfExecutableCodeWarningLevel: 20),
-          ),
+          UtilitySelector.maxViolationLevel(fileRecords),
           MetricValueLevel.warning,
         );
       });
-
-      test(
-        'MetricValueLevel.alarm if there are warning and alarm violations',
-        () {
-          expect(
-            UtilitySelector.maxViolationLevel(
-              fileRecords,
-              const metrics.Config(linesOfExecutableCodeWarningLevel: 15),
-            ),
-            MetricValueLevel.warning,
-          );
-        },
-      );
     });
   });
 }
