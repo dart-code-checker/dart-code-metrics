@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:dart_code_metrics/src/models/severity.dart';
 import 'package:dart_code_metrics/src/obsoleted/models/internal_resolved_unit_result.dart';
-import 'package:dart_code_metrics/src/obsoleted/rules/member_ordering_extended_rule.dart';
+import 'package:dart_code_metrics/src/obsoleted/rules/member_ordering_extended/member_ordering_extended_rule.dart';
 import 'package:test/test.dart';
 
 // ignore_for_file: no_adjacent_strings_in_list

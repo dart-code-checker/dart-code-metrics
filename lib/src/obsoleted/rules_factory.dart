@@ -5,7 +5,7 @@ import 'rules/binary_expression_operand_order_rule.dart';
 import 'rules/component_annotation_arguments_ordering.dart';
 import 'rules/double_literal_format_rule.dart';
 import 'rules/member_ordering.dart';
-import 'rules/member_ordering_extended_rule.dart';
+import 'rules/member_ordering_extended/member_ordering_extended_rule.dart';
 import 'rules/newline_before_return.dart';
 import 'rules/no_boolean_literal_compare_rule.dart';
 import 'rules/no_empty_block.dart';
