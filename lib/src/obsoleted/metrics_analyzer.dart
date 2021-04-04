@@ -36,7 +36,6 @@ import 'config/config.dart';
 import 'halstead_volume/halstead_volume_ast_visitor.dart';
 import 'metrics/lines_of_executable_code/lines_of_executable_code_visitor.dart';
 import 'metrics_records_store.dart';
-import 'models/function_record.dart';
 import 'models/internal_resolved_unit_result.dart';
 import 'reporters/utility_selector.dart';
 import 'rules_factory.dart';
@@ -259,7 +258,7 @@ class MetricsAnalyzer {
 
             builder.recordFunctionData(
               function,
-              FunctionRecord(
+              Report(
                 location: nodeLocation(
                   node: function.declaration,
                   source: source,

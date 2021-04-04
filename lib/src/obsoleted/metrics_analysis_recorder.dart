@@ -8,7 +8,6 @@ import '../models/scoped_function_declaration.dart';
 import 'metrics_records_builder.dart';
 import 'metrics_records_store.dart';
 import 'models/file_record.dart';
-import 'models/function_record.dart';
 
 /// Holds analysis records in format-agnostic way
 /// See [MetricsAnalysisRunner] to get analysis info
@@ -17,7 +16,7 @@ class MetricsAnalysisRecorder
   String? _fileGroupPath;
   String? _relativeGroupPath;
   Map<ScopedClassDeclaration, Report>? _componentRecords;
-  Map<ScopedFunctionDeclaration, FunctionRecord>? _functionRecords;
+  Map<ScopedFunctionDeclaration, Report>? _functionRecords;
   List<Issue>? _issues;
   List<Issue>? _designIssues;
 
@@ -56,7 +55,7 @@ class MetricsAnalysisRecorder
   @override
   void recordFunctionData(
     ScopedFunctionDeclaration declaration,
-    FunctionRecord record,
+    Report record,
   ) {
     _checkState();
     _functionRecords![declaration] = record;
@@ -99,7 +98,7 @@ class MetricsAnalysisRecorder
       relativePath: _relativeGroupPath!,
       classes: Map.unmodifiable(_componentRecords!
           .map<String, Report>((key, value) => MapEntry(key.name, value))),
-      functions: Map.unmodifiable(_functionRecords!.map<String, FunctionRecord>(
+      functions: Map.unmodifiable(_functionRecords!.map<String, Report>(
         (key, value) => MapEntry(key.fullName, value),
       )),
       issues: _issues!,

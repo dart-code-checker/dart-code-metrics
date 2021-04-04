@@ -14,7 +14,6 @@ import 'package:dart_code_metrics/src/models/report.dart';
 import 'package:dart_code_metrics/src/models/severity.dart';
 import 'package:dart_code_metrics/src/obsoleted/config/config.dart';
 import 'package:dart_code_metrics/src/obsoleted/models/file_record.dart';
-import 'package:dart_code_metrics/src/obsoleted/models/function_record.dart';
 import 'package:dart_code_metrics/src/obsoleted/reporters/json_reporter.dart';
 import 'package:source_span/source_span.dart';
 import 'package:test/test.dart';
@@ -89,7 +88,7 @@ void main() {
                 ),
               ]),
             }),
-            functions: Map.unmodifiable(<String, FunctionRecord>{
+            functions: Map.unmodifiable(<String, Report>{
               'function': buildFunctionRecordStub(
                 metrics: [
                   buildMetricValueStub<int>(
@@ -180,7 +179,7 @@ void main() {
             fullPath: fullPath,
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{}),
-            functions: Map.unmodifiable(<String, FunctionRecord>{}),
+            functions: Map.unmodifiable(<String, Report>{}),
             issues: const [],
             antiPatternCases: [
               Issue(
@@ -241,7 +240,7 @@ void main() {
             fullPath: fullPath,
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{}),
-            functions: Map.unmodifiable(<String, FunctionRecord>{}),
+            functions: Map.unmodifiable(<String, Report>{}),
             issues: [
               Issue(
                 ruleId: _issueRuleId,
@@ -319,7 +318,7 @@ void main() {
                 ),
               ]),
             }),
-            functions: Map.unmodifiable(<String, FunctionRecord>{}),
+            functions: Map.unmodifiable(<String, Report>{}),
             issues: const [],
             antiPatternCases: const [],
           ),
@@ -360,7 +359,7 @@ void main() {
                 ),
               ]),
             }),
-            functions: Map.unmodifiable(<String, FunctionRecord>{}),
+            functions: Map.unmodifiable(<String, Report>{}),
             issues: const [],
             antiPatternCases: const [],
           ),
@@ -387,7 +386,7 @@ void main() {
             fullPath: fullPath,
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{}),
-            functions: Map.unmodifiable(<String, FunctionRecord>{
+            functions: Map.unmodifiable(<String, Report>{
               'function': buildFunctionRecordStub(
                 metrics: [
                   buildMetricValueStub<int>(
@@ -422,7 +421,7 @@ void main() {
             fullPath: fullPath,
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{}),
-            functions: Map.unmodifiable(<String, FunctionRecord>{
+            functions: Map.unmodifiable(<String, Report>{
               'function': buildFunctionRecordStub(
                 metrics: [
                   buildMetricValueStub<int>(
@@ -456,7 +455,7 @@ void main() {
             fullPath: fullPath,
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{}),
-            functions: Map.unmodifiable(<String, FunctionRecord>{
+            functions: Map.unmodifiable(<String, Report>{
               'function': buildFunctionRecordStub(
                 metrics: [
                   buildMetricValueStub<int>(
@@ -490,7 +489,7 @@ void main() {
             fullPath: fullPath,
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{}),
-            functions: Map.unmodifiable(<String, FunctionRecord>{
+            functions: Map.unmodifiable(<String, Report>{
               'function': buildFunctionRecordStub(
                 metrics: [
                   buildMetricValueStub<int>(
@@ -525,7 +524,7 @@ void main() {
             fullPath: fullPath,
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{}),
-            functions: Map.unmodifiable(<String, FunctionRecord>{
+            functions: Map.unmodifiable(<String, Report>{
               'function': buildFunctionRecordStub(
                 metrics: const [
                   MetricValue<int>(
@@ -568,7 +567,7 @@ void main() {
             fullPath: fullPath,
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{}),
-            functions: Map.unmodifiable(<String, FunctionRecord>{
+            functions: Map.unmodifiable(<String, Report>{
               'function': buildFunctionRecordStub(
                 metrics: const [
                   MetricValue<int>(

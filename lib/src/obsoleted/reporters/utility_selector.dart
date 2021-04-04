@@ -16,7 +16,6 @@ import '../config/config.dart' as metrics;
 import '../models/component_report.dart';
 import '../models/file_record.dart';
 import '../models/file_report.dart' as metrics;
-import '../models/function_record.dart';
 import '../models/function_report.dart' as metrics;
 
 double log2(num a) => log(a) / ln2;
@@ -96,7 +95,7 @@ class UtilitySelector {
             as MetricValue<double>,
       );
 
-  static metrics.FunctionReport functionReport(FunctionRecord function) =>
+  static metrics.FunctionReport functionReport(Report function) =>
       metrics.FunctionReport(
         cyclomaticComplexity: function
             .metric(CyclomaticComplexityMetric.metricId) as MetricValue<int>,

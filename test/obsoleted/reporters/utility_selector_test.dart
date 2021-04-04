@@ -10,7 +10,6 @@ import 'package:dart_code_metrics/src/models/report.dart';
 import 'package:dart_code_metrics/src/obsoleted/config/config.dart' as metrics;
 import 'package:dart_code_metrics/src/obsoleted/config/config.dart';
 import 'package:dart_code_metrics/src/obsoleted/models/file_record.dart';
-import 'package:dart_code_metrics/src/obsoleted/models/function_record.dart';
 import 'package:dart_code_metrics/src/obsoleted/reporters/utility_selector.dart';
 import 'package:test/test.dart';
 
@@ -71,7 +70,7 @@ void main() {
               ),
             ]),
           }),
-          functions: Map.unmodifiable(<String, FunctionRecord>{
+          functions: Map.unmodifiable(<String, Report>{
             'function': buildFunctionRecordStub(
               metrics: [
                 buildMetricValueStub<int>(
@@ -294,7 +293,7 @@ void main() {
           fullPath: fullPathStub,
           relativePath: relativePathStub,
           classes: Map.unmodifiable(<String, Report>{}),
-          functions: Map.unmodifiable(<String, FunctionRecord>{
+          functions: Map.unmodifiable(<String, Report>{
             'a': buildFunctionRecordStub(
               metrics: [
                 buildMetricValueStub<int>(
@@ -311,7 +310,7 @@ void main() {
           fullPath: fullPathStub,
           relativePath: relativePathStub,
           classes: Map.unmodifiable(<String, Report>{}),
-          functions: Map.unmodifiable(<String, FunctionRecord>{
+          functions: Map.unmodifiable(<String, Report>{
             'a': buildFunctionRecordStub(
               metrics: [
                 buildMetricValueStub<int>(
@@ -329,7 +328,7 @@ void main() {
           fullPath: fullPathStub,
           relativePath: relativePathStub,
           classes: Map.unmodifiable(<String, Report>{}),
-          functions: Map.unmodifiable(<String, FunctionRecord>{
+          functions: Map.unmodifiable(<String, Report>{
             'a': buildFunctionRecordStub(
               metrics: [
                 buildMetricValueStub<int>(

@@ -26,6 +26,7 @@ import 'package:source_span/source_span.dart';
 
 import '../../metrics/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import '../../metrics/number_of_parameters_metric.dart';
+import '../../models/report.dart';
 import '../../models/scoped_function_declaration.dart';
 import '../../scope_visitor.dart';
 import '../../suppression.dart';
@@ -34,7 +35,6 @@ import '../../utils/node_utils.dart';
 import '../../utils/yaml_utils.dart';
 import '../anti_patterns_factory.dart';
 import '../config/analysis_options.dart';
-import '../models/function_record.dart';
 import '../models/function_report.dart' as metrics;
 import '../models/internal_resolved_unit_result.dart';
 import '../reporters/utility_selector.dart';
@@ -370,7 +370,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     AnalyzerPluginConfig config,
   ) =>
       UtilitySelector.functionReport(
-        FunctionRecord(
+        Report(
           location: nodeLocation(
             node: function.declaration,
             source: source,

@@ -10,7 +10,6 @@ import 'package:dart_code_metrics/src/models/metric_value_level.dart';
 import 'package:dart_code_metrics/src/models/report.dart';
 import 'package:dart_code_metrics/src/obsoleted/config/config.dart';
 import 'package:dart_code_metrics/src/obsoleted/models/component_report.dart';
-import 'package:dart_code_metrics/src/obsoleted/models/function_record.dart';
 import 'package:dart_code_metrics/src/obsoleted/models/function_report.dart';
 import 'package:source_span/source_span.dart';
 
@@ -56,7 +55,7 @@ Report buildComponentRecordStub({
   );
 }
 
-FunctionRecord buildFunctionRecordStub({
+Report buildFunctionRecordStub({
   SourceSpanBase? location,
   Iterable<MetricValue<num>> metrics = const [],
   Map<int, int> cyclomaticLinesComplexity = const <int, int>{},
@@ -74,7 +73,7 @@ FunctionRecord buildFunctionRecordStub({
     buildMetricValueStub<double>(id: 'maintainability-index', value: 100),
   ];
 
-  return FunctionRecord(
+  return Report(
     location:
         location ?? SourceSpanBase(SourceLocation(0), SourceLocation(0), ''),
     metrics: [...metrics, ...defaultMetricValues],
