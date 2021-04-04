@@ -18,7 +18,7 @@ class MetricsAnalysisRecorder
   Map<ScopedClassDeclaration, Report>? _componentRecords;
   Map<ScopedFunctionDeclaration, Report>? _functionRecords;
   List<Issue>? _issues;
-  List<Issue>? _designIssues;
+  List<Issue>? _antiPatternCases;
 
   final _records = <FileReport>[];
 
@@ -65,7 +65,7 @@ class MetricsAnalysisRecorder
   void recordAntiPatternCases(Iterable<Issue> issues) {
     _checkState();
 
-    _designIssues!.addAll(issues);
+    _antiPatternCases!.addAll(issues);
   }
 
   @override
@@ -89,7 +89,7 @@ class MetricsAnalysisRecorder
     _componentRecords = {};
     _functionRecords = {};
     _issues = [];
-    _designIssues = [];
+    _antiPatternCases = [];
   }
 
   void _endRecordFile() {
@@ -102,12 +102,12 @@ class MetricsAnalysisRecorder
         (key, value) => MapEntry(key.fullName, value),
       )),
       issues: _issues!,
-      antiPatternCases: _designIssues!,
+      antiPatternCases: _antiPatternCases!,
     ));
     _relativeGroupPath = null;
     _fileGroupPath = null;
     _functionRecords = null;
     _issues = null;
-    _designIssues = null;
+    _antiPatternCases = null;
   }
 }

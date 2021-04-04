@@ -1,5 +1,5 @@
-import 'package:dart_code_metrics/src/models/file_report.dart';
 @TestOn('vm')
+import 'package:dart_code_metrics/src/models/file_report.dart';
 import 'package:dart_code_metrics/src/models/issue.dart';
 import 'package:dart_code_metrics/src/models/replacement.dart';
 import 'package:dart_code_metrics/src/models/report.dart';

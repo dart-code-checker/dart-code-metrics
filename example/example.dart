@@ -26,14 +26,7 @@ Future<void> main() async {
 
   // Now runner.results() contains some insights about analyzed code. Let's report it!
   // For a simple example we would report results to terminal
-
-  // First of all config has to be created for a reporter
-  const reporterConfig = Config(
-    cyclomaticComplexityWarningLevel: 10,
-    linesOfExecutableCodeWarningLevel: 50,
-    numberOfParametersWarningLevel: 4,
-  );
-
+  
   // Now the reporter itself
   final reporter = ConsoleReporter();
 

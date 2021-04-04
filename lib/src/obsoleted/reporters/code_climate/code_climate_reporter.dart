@@ -59,8 +59,8 @@ class CodeClimateReporter implements Reporter {
       ..addAll(_functionMetrics(record))
       ..addAll(record.issues.map((issue) =>
           CodeClimateIssue.fromCodeIssue(issue, record.relativePath)))
-      ..addAll(record.antiPatternCases.map((issue) =>
-          CodeClimateIssue.fromDesignIssue(issue, record.relativePath)));
+      ..addAll(record.antiPatternCases.map((antiPattern) =>
+          CodeClimateIssue.fromDesignIssue(antiPattern, record.relativePath)));
   }
 
   Iterable<CodeClimateIssue> _functionMetrics(FileReport record) {

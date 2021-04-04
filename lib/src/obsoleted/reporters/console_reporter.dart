@@ -66,15 +66,13 @@ class ConsoleReporter implements Reporter {
 
       lines.addAll(_reportAboutFunctions(analysisRecord));
 
-      for (final issue in analysisRecord.antiPatternCases) {
+      for (final antiPattern in analysisRecord.antiPatternCases) {
         final severity = _designIssuesColor(_designIssues.padRight(8));
         final position =
-            '${issue.location.start.line}:${issue.location.start.column}';
-        final rule = [
-          issue.ruleId,
-          issue.documentation,
-        ].join(' ');
-        lines.add('$severity${[issue.message, position, rule].join(' : ')}');
+            '${antiPattern.location.start.line}:${antiPattern.location.start.column}';
+        final rule = [antiPattern.ruleId, antiPattern.documentation].join(' ');
+        lines.add(
+            '$severity${[antiPattern.message, position, rule].join(' : ')}');
       }
 
       for (final issue in analysisRecord.issues) {
