@@ -1,3 +1,4 @@
+import 'package:dart_code_metrics/src/metrics/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import 'package:dart_code_metrics/src/metrics/maximum_nesting_level/maximum_nesting_level_metric.dart';
 import 'package:dart_code_metrics/src/metrics/number_of_methods_metric.dart';
 import 'package:dart_code_metrics/src/metrics/number_of_parameters_metric.dart';
@@ -63,6 +64,10 @@ FunctionRecord buildFunctionRecordStub({
   Map<int, int> operands = const <int, int>{},
 }) {
   final defaultMetricValues = [
+    buildMetricValueStub<int>(
+      id: CyclomaticComplexityMetric.metricId,
+      value: 0,
+    ),
     buildMetricValueStub<int>(id: MaximumNestingLevelMetric.metricId, value: 0),
     buildMetricValueStub<int>(id: NumberOfParametersMetric.metricId, value: 0),
     buildMetricValueStub<int>(id: linesOfExecutableCodeKey, value: 0),
@@ -72,7 +77,6 @@ FunctionRecord buildFunctionRecordStub({
     location:
         location ?? SourceSpanBase(SourceLocation(0), SourceLocation(0), ''),
     metrics: [...metrics, ...defaultMetricValues],
-    cyclomaticComplexityLines: Map.unmodifiable(cyclomaticLinesComplexity),
     operators: Map.unmodifiable(operators),
     operands: Map.unmodifiable(operands),
   );

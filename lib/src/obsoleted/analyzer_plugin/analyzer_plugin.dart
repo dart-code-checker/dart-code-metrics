@@ -24,7 +24,7 @@ import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
 import 'package:source_span/source_span.dart';
 
-import '../../metrics/cyclomatic_complexity/cyclomatic_complexity_flow_visitor.dart';
+import '../../metrics/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import '../../metrics/number_of_parameters_metric.dart';
 import '../../models/scoped_function_declaration.dart';
 import '../../scope_visitor.dart';
@@ -368,51 +368,44 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     ScopedFunctionDeclaration function,
     InternalResolvedUnitResult source,
     AnalyzerPluginConfig config,
-  ) {
-    final controlFlowAstVisitor = CyclomaticComplexityFlowVisitor();
-
-    function.declaration.visitChildren(controlFlowAstVisitor);
-
-    final cyclomaticLines = controlFlowAstVisitor.complexityEntities
-        .map((entity) => nodeLocation(node: entity, source: source).start.line)
-        .toSet();
-
-    return UtilitySelector.functionReport(
-      FunctionRecord(
-        location: nodeLocation(
-          node: function.declaration,
-          source: source,
+  ) =>
+      UtilitySelector.functionReport(
+        FunctionRecord(
+          location: nodeLocation(
+            node: function.declaration,
+            source: source,
+          ),
+          metrics: [
+            CyclomaticComplexityMetric(config: {
+              CyclomaticComplexityMetric.metricId:
+                  '${config.metricsConfigs.cyclomaticComplexityWarningLevel}',
+            }).compute(
+              function.declaration,
+              [
+                if (function.enclosingDeclaration != null)
+                  function.enclosingDeclaration!,
+              ],
+              [function],
+              source,
+            ),
+            NumberOfParametersMetric(config: {
+              NumberOfParametersMetric.metricId:
+                  '${config.metricsConfigs.numberOfParametersWarningLevel}',
+            }).compute(
+              function.declaration,
+              [
+                if (function.enclosingDeclaration != null)
+                  function.enclosingDeclaration!,
+              ],
+              [function],
+              source,
+            ),
+          ],
+          operators: Map.unmodifiable(<String, int>{}),
+          operands: Map.unmodifiable(<String, int>{}),
         ),
-        metrics: [
-          NumberOfParametersMetric(config: {
-            NumberOfParametersMetric.metricId:
-                '${config.metricsConfigs.numberOfParametersWarningLevel}',
-          }).compute(
-            function.declaration,
-            [
-              if (function.enclosingDeclaration != null)
-                function.enclosingDeclaration!,
-            ],
-            [function],
-            source,
-          ),
-        ],
-        cyclomaticComplexityLines: Map.fromEntries(cyclomaticLines.map(
-          (lineIndex) => MapEntry(
-            lineIndex,
-            controlFlowAstVisitor.complexityEntities
-                .where((entity) =>
-                    nodeLocation(node: entity, source: source).start.line ==
-                    lineIndex)
-                .length,
-          ),
-        )),
-        operators: Map.unmodifiable(<String, int>{}),
-        operands: Map.unmodifiable(<String, int>{}),
-      ),
-      config.metricsConfigs,
-    );
-  }
+        config.metricsConfigs,
+      );
 
   plugin.AnalysisErrorFixes? _cyclomaticComplexityMetric(
     ScopedFunctionDeclaration function,

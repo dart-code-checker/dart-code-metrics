@@ -8,6 +8,7 @@ import 'package:html/dom.dart';
 import 'package:meta/meta.dart';
 import 'package:path/path.dart' as p;
 
+import '../../../metrics/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import '../../../models/metric_value_level.dart';
 import '../../config/config.dart';
 import '../../models/file_record.dart';
@@ -95,10 +96,10 @@ class HtmlReporter implements Reporter {
 
   Future<void> _copyResources(String reportFolder) async {
     const resources = [
-      'package:dart_code_metrics/src/reporters/html/resources/variables.css',
-      'package:dart_code_metrics/src/reporters/html/resources/normalize.css',
-      'package:dart_code_metrics/src/reporters/html/resources/base.css',
-      'package:dart_code_metrics/src/reporters/html/resources/main.css',
+      'package:dart_code_metrics/src/obsoleted/reporters/html/resources/variables.css',
+      'package:dart_code_metrics/src/obsoleted/reporters/html/resources/normalize.css',
+      'package:dart_code_metrics/src/obsoleted/reporters/html/resources/base.css',
+      'package:dart_code_metrics/src/obsoleted/reporters/html/resources/main.css',
     ];
 
     for (final resource in resources) {
@@ -445,11 +446,15 @@ class HtmlReporter implements Reporter {
             ..append(complexityIcon);
         }
 
-        final lineWithComplexityIncrement =
-            functionReport.cyclomaticComplexityLines.containsKey(i);
+        final lineWithComplexityIncrement = functionReport
+                .metric(CyclomaticComplexityMetric.metricId)
+                ?.context
+                .where((element) => element.location.start.line == i)
+                .length ??
+            0;
 
-        if (lineWithComplexityIncrement) {
-          line = '$line +${functionReport.cyclomaticComplexityLines[i]}'.trim();
+        if (lineWithComplexityIncrement > 0) {
+          line = '$line +$lineWithComplexityIncrement'.trim();
           complexityValueElement.text = line.replaceAll(' ', '&nbsp;');
         }
 
@@ -462,7 +467,7 @@ class HtmlReporter implements Reporter {
         final functionViolationLevel =
             UtilitySelector.functionViolationLevel(report);
 
-        final lineViolationStyle = lineWithComplexityIncrement
+        final lineViolationStyle = lineWithComplexityIncrement > 0
             ? _violationLevelLineStyle[functionViolationLevel]
             : _violationLevelFunctionStyle[functionViolationLevel];
 

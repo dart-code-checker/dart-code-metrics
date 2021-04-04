@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:quiver/iterables.dart' as quiver;
 
+import '../../metrics/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import '../../metrics/maximum_nesting_level/maximum_nesting_level_metric.dart';
 import '../../metrics/number_of_methods_metric.dart';
 import '../../metrics/number_of_parameters_metric.dart';
@@ -109,9 +110,6 @@ class UtilitySelector {
     FunctionRecord function,
     metrics.Config config,
   ) {
-    final cyclomaticComplexity =
-        sum(function.cyclomaticComplexityLines.values) + 1;
-
     // Total number of occurrences of operators.
     final totalNumberOfOccurrencesOfOperators = sum(function.operators.values);
 
@@ -136,6 +134,9 @@ class UtilitySelector {
     final halsteadVolume =
         halsteadProgramLength * log2(max(1, halsteadVocabulary));
 
+    final cyclomaticComplexity = function
+        .metric(CyclomaticComplexityMetric.metricId) as MetricValue<int>;
+
     final linesOfExecutableCode =
         function.metric(metrics.linesOfExecutableCodeKey) as MetricValue<int>;
 
@@ -143,29 +144,14 @@ class UtilitySelector {
       0,
       (171 -
               5.2 * log(max(1, halsteadVolume)) -
-              cyclomaticComplexity * 0.23 -
+              cyclomaticComplexity.value * 0.23 -
               16.2 * log(max(1, linesOfExecutableCode.value))) *
           100 /
           171,
     ).toDouble();
 
     return metrics.FunctionReport(
-      cyclomaticComplexity: MetricValue<int>(
-        metricsId: '',
-        documentation: const MetricDocumentation(
-          name: '',
-          shortName: '',
-          brief: '',
-          measuredType: EntityType.classEntity,
-          examples: [],
-        ),
-        value: cyclomaticComplexity.round(),
-        level: valueLevel(
-          cyclomaticComplexity.round(),
-          config.cyclomaticComplexityWarningLevel,
-        ),
-        comment: '',
-      ),
+      cyclomaticComplexity: cyclomaticComplexity,
       linesOfExecutableCode: linesOfExecutableCode,
       maintainabilityIndex: MetricValue<double>(
         metricsId: '',

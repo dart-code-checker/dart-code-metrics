@@ -10,7 +10,7 @@ import 'package:glob/glob.dart';
 import 'package:path/path.dart' as p;
 import 'package:file/local.dart';
 
-import '../metrics/cyclomatic_complexity/cyclomatic_complexity_flow_visitor.dart';
+import '../metrics/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import '../metrics/maximum_nesting_level/maximum_nesting_level_metric.dart';
 import '../metrics/number_of_methods_metric.dart';
 import '../metrics/number_of_parameters_metric.dart';
@@ -180,19 +180,12 @@ class MetricsAnalyzer {
           }
 
           for (final function in functions) {
-            final controlFlowAstVisitor = CyclomaticComplexityFlowVisitor();
             final halsteadVolumeAstVisitor = HalsteadVolumeAstVisitor();
             final linesOfExecutableCodeVisitor =
                 LinesOfExecutableCodeVisitor(lineInfo);
 
-            function.declaration.visitChildren(controlFlowAstVisitor);
             function.declaration.visitChildren(halsteadVolumeAstVisitor);
             function.declaration.visitChildren(linesOfExecutableCodeVisitor);
-
-            final cyclomaticLines = controlFlowAstVisitor.complexityEntities
-                .map((entity) =>
-                    nodeLocation(node: entity, source: source).start.line)
-                .toSet();
 
             builder.recordFunctionData(
               function,
@@ -202,6 +195,15 @@ class MetricsAnalyzer {
                   source: source,
                 ),
                 metrics: [
+                  CyclomaticComplexityMetric(config: {
+                    CyclomaticComplexityMetric.metricId:
+                        '${_metricsConfig.cyclomaticComplexityWarningLevel}',
+                  }).compute(
+                    function.declaration,
+                    visitor.classes,
+                    visitor.functions,
+                    source,
+                  ),
                   MaximumNestingLevelMetric(config: {
                     MaximumNestingLevelMetric.metricId:
                         '${_metricsConfig.maximumNestingWarningLevel}',
@@ -237,18 +239,6 @@ class MetricsAnalyzer {
                     comment: '',
                   ),
                 ],
-                cyclomaticComplexityLines: Map.fromEntries(cyclomaticLines.map(
-                  (lineIndex) => MapEntry(
-                    lineIndex,
-                    controlFlowAstVisitor.complexityEntities
-                        .where((entity) =>
-                            nodeLocation(node: entity, source: source)
-                                .start
-                                .line ==
-                            lineIndex)
-                        .length,
-                  ),
-                )),
                 operators: Map.unmodifiable(halsteadVolumeAstVisitor.operators),
                 operands: Map.unmodifiable(halsteadVolumeAstVisitor.operands),
               ),
