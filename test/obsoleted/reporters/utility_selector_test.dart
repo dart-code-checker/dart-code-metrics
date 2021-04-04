@@ -8,6 +8,7 @@ import 'package:dart_code_metrics/src/models/metric_value.dart';
 import 'package:dart_code_metrics/src/models/metric_value_level.dart';
 import 'package:dart_code_metrics/src/models/report.dart';
 import 'package:dart_code_metrics/src/obsoleted/config/config.dart' as metrics;
+import 'package:dart_code_metrics/src/obsoleted/config/config.dart';
 import 'package:dart_code_metrics/src/obsoleted/models/file_record.dart';
 import 'package:dart_code_metrics/src/obsoleted/models/function_record.dart';
 import 'package:dart_code_metrics/src/obsoleted/reporters/utility_selector.dart';
@@ -301,7 +302,14 @@ void main() {
           relativePath: relativePathStub,
           classes: Map.unmodifiable(<String, Report>{}),
           functions: Map.unmodifiable(<String, FunctionRecord>{
-            'a': buildFunctionRecordStub(linesWithCode: List.filled(10, 0)),
+            'a': buildFunctionRecordStub(
+              metrics: [
+                buildMetricValueStub<int>(
+                  id: linesOfExecutableCodeKey,
+                  value: 10,
+                ),
+              ],
+            ),
           }),
           issues: const [],
           antiPatternCases: const [],
@@ -311,7 +319,15 @@ void main() {
           relativePath: relativePathStub,
           classes: Map.unmodifiable(<String, Report>{}),
           functions: Map.unmodifiable(<String, FunctionRecord>{
-            'a': buildFunctionRecordStub(linesWithCode: List.filled(20, 0)),
+            'a': buildFunctionRecordStub(
+              metrics: [
+                buildMetricValueStub<int>(
+                  id: linesOfExecutableCodeKey,
+                  value: 20,
+                  level: MetricValueLevel.noted,
+                ),
+              ],
+            ),
           }),
           issues: const [],
           antiPatternCases: const [],
@@ -321,7 +337,15 @@ void main() {
           relativePath: relativePathStub,
           classes: Map.unmodifiable(<String, Report>{}),
           functions: Map.unmodifiable(<String, FunctionRecord>{
-            'a': buildFunctionRecordStub(linesWithCode: List.filled(30, 0)),
+            'a': buildFunctionRecordStub(
+              metrics: [
+                buildMetricValueStub<int>(
+                  id: linesOfExecutableCodeKey,
+                  value: 30,
+                  level: MetricValueLevel.warning,
+                ),
+              ],
+            ),
           }),
           issues: const [],
           antiPatternCases: const [],
@@ -334,32 +358,9 @@ void main() {
             fileRecords,
             const metrics.Config(linesOfExecutableCodeWarningLevel: 100500),
           ),
-          MetricValueLevel.none,
-        );
-      });
-
-      test('MetricValueLevel.warning if maximum violation is warning', () {
-        expect(
-          UtilitySelector.maxViolationLevel(
-            fileRecords,
-            const metrics.Config(linesOfExecutableCodeWarningLevel: 20),
-          ),
           MetricValueLevel.warning,
         );
       });
-
-      test(
-        'MetricValueLevel.alarm if there are warning and alarm violations',
-        () {
-          expect(
-            UtilitySelector.maxViolationLevel(
-              fileRecords,
-              const metrics.Config(linesOfExecutableCodeWarningLevel: 15),
-            ),
-            MetricValueLevel.warning,
-          );
-        },
-      );
     });
   });
 }

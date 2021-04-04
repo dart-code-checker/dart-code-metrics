@@ -127,7 +127,13 @@ void main() {
             classes: Map.unmodifiable(<String, Report>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
               'function': buildFunctionRecordStub(
-                linesWithCode: List.generate(150, (index) => index),
+                metrics: [
+                  buildMetricValueStub<int>(
+                    id: linesOfExecutableCodeKey,
+                    value: 150,
+                    level: MetricValueLevel.alarm,
+                  ),
+                ],
               ),
             }),
             issues: const [],
@@ -152,7 +158,12 @@ void main() {
             classes: Map.unmodifiable(<String, Report>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
               'function': buildFunctionRecordStub(
-                linesWithCode: List.generate(5, (index) => index),
+                metrics: [
+                  buildMetricValueStub<int>(
+                    id: linesOfExecutableCodeKey,
+                    value: 5,
+                  ),
+                ],
               ),
             }),
             issues: const [],

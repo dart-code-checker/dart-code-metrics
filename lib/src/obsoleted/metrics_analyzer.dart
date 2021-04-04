@@ -15,17 +15,22 @@ import '../metrics/maximum_nesting_level/maximum_nesting_level_metric.dart';
 import '../metrics/number_of_methods_metric.dart';
 import '../metrics/number_of_parameters_metric.dart';
 import '../metrics/weight_of_class_metric.dart';
+import '../models/entity_type.dart';
 import '../models/issue.dart';
+import '../models/metric_documentation.dart';
+import '../models/metric_value.dart';
 import '../models/report.dart';
 import '../models/scoped_function_declaration.dart';
 import '../rules/rule.dart';
 import '../scope_visitor.dart';
 import '../suppression.dart';
+import '../utils/metric_utils.dart';
 import '../utils/node_utils.dart';
 import 'anti_patterns/base_pattern.dart';
 import 'anti_patterns_factory.dart';
 import 'config/analysis_options.dart' as metrics;
 import 'config/config.dart' as metrics;
+import 'config/config.dart';
 import 'halstead_volume/halstead_volume_ast_visitor.dart';
 import 'metrics/lines_of_executable_code/lines_of_executable_code_visitor.dart';
 import 'metrics_records_store.dart';
@@ -215,6 +220,22 @@ class MetricsAnalyzer {
                     visitor.functions,
                     source,
                   ),
+                  MetricValue<int>(
+                    metricsId: linesOfExecutableCodeKey,
+                    documentation: const MetricDocumentation(
+                      name: '',
+                      shortName: '',
+                      brief: '',
+                      measuredType: EntityType.methodEntity,
+                      examples: [],
+                    ),
+                    value: linesOfExecutableCodeVisitor.linesWithCode.length,
+                    level: valueLevel(
+                      linesOfExecutableCodeVisitor.linesWithCode.length,
+                      _metricsConfig.linesOfExecutableCodeWarningLevel,
+                    ),
+                    comment: '',
+                  ),
                 ],
                 cyclomaticComplexityLines: Map.fromEntries(cyclomaticLines.map(
                   (lineIndex) => MapEntry(
@@ -228,7 +249,6 @@ class MetricsAnalyzer {
                         .length,
                   ),
                 )),
-                linesWithCode: linesOfExecutableCodeVisitor.linesWithCode,
                 operators: Map.unmodifiable(halsteadVolumeAstVisitor.operators),
                 operands: Map.unmodifiable(halsteadVolumeAstVisitor.operands),
               ),

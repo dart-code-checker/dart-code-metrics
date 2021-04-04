@@ -8,8 +8,6 @@ import '../../models/report.dart';
 class FunctionRecord extends Report {
   final Map<int, int> cyclomaticComplexityLines;
 
-  final Iterable<int> linesWithCode;
-
   final Map<String, int> operators;
   final Map<String, int> operands;
 
@@ -17,7 +15,6 @@ class FunctionRecord extends Report {
     required SourceSpan location,
     required Iterable<MetricValue<num>> metrics,
     required this.cyclomaticComplexityLines,
-    required this.linesWithCode,
     required this.operators,
     required this.operands,
   }) : super(location: location, metrics: metrics);

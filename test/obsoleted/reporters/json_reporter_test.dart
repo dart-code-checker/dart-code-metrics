@@ -13,6 +13,7 @@ import 'package:dart_code_metrics/src/models/replacement.dart';
 import 'package:dart_code_metrics/src/models/report.dart';
 import 'package:dart_code_metrics/src/models/severity.dart';
 import 'package:dart_code_metrics/src/obsoleted/config/config.dart' as metrics;
+import 'package:dart_code_metrics/src/obsoleted/config/config.dart';
 import 'package:dart_code_metrics/src/obsoleted/models/file_record.dart';
 import 'package:dart_code_metrics/src/obsoleted/models/function_record.dart';
 import 'package:dart_code_metrics/src/obsoleted/reporters/json_reporter.dart';
@@ -389,7 +390,13 @@ void main() {
             classes: Map.unmodifiable(<String, Report>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
               'function': buildFunctionRecordStub(
-                linesWithCode: List.generate(150, (index) => index),
+                metrics: [
+                  buildMetricValueStub<int>(
+                    id: linesOfExecutableCodeKey,
+                    value: 150,
+                    level: MetricValueLevel.alarm,
+                  ),
+                ],
               ),
             }),
             issues: const [],
@@ -418,7 +425,12 @@ void main() {
             classes: Map.unmodifiable(<String, Report>{}),
             functions: Map.unmodifiable(<String, FunctionRecord>{
               'function': buildFunctionRecordStub(
-                linesWithCode: List.generate(5, (index) => index),
+                metrics: [
+                  buildMetricValueStub<int>(
+                    id: linesOfExecutableCodeKey,
+                    value: 5,
+                  ),
+                ],
               ),
             }),
             issues: const [],

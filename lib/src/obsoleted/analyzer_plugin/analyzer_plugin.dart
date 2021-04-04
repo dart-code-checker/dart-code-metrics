@@ -407,7 +407,6 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
                 .length,
           ),
         )),
-        linesWithCode: List.unmodifiable(<int>[]),
         operators: Map.unmodifiable(<String, int>{}),
         operands: Map.unmodifiable(<String, int>{}),
       ),

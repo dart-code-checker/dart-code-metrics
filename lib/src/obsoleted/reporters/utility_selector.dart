@@ -112,8 +112,6 @@ class UtilitySelector {
     final cyclomaticComplexity =
         sum(function.cyclomaticComplexityLines.values) + 1;
 
-    final linesOfExecutableCode = function.linesWithCode.length;
-
     // Total number of occurrences of operators.
     final totalNumberOfOccurrencesOfOperators = sum(function.operators.values);
 
@@ -138,12 +136,15 @@ class UtilitySelector {
     final halsteadVolume =
         halsteadProgramLength * log2(max(1, halsteadVocabulary));
 
+    final linesOfExecutableCode =
+        function.metric(metrics.linesOfExecutableCodeKey) as MetricValue<int>;
+
     final maintainabilityIndex = max(
       0,
       (171 -
               5.2 * log(max(1, halsteadVolume)) -
               cyclomaticComplexity * 0.23 -
-              16.2 * log(max(1, linesOfExecutableCode))) *
+              16.2 * log(max(1, linesOfExecutableCode.value))) *
           100 /
           171,
     ).toDouble();
@@ -165,22 +166,7 @@ class UtilitySelector {
         ),
         comment: '',
       ),
-      linesOfExecutableCode: MetricValue<int>(
-        metricsId: '',
-        documentation: const MetricDocumentation(
-          name: '',
-          shortName: '',
-          brief: '',
-          measuredType: EntityType.classEntity,
-          examples: [],
-        ),
-        value: linesOfExecutableCode,
-        level: valueLevel(
-          linesOfExecutableCode,
-          config.linesOfExecutableCodeWarningLevel,
-        ),
-        comment: '',
-      ),
+      linesOfExecutableCode: linesOfExecutableCode,
       maintainabilityIndex: MetricValue<double>(
         metricsId: '',
         documentation: const MetricDocumentation(
