@@ -7,7 +7,7 @@ analyzer:
     implicit-casts: false
     implicit-dynamic: false
 
-code_checker:
+dart_code_metrics:
   metrics-exclude:
     - test/**
   rules:

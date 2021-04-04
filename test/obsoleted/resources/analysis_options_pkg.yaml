@@ -1,4 +1,4 @@
-include: ./test/obsoleted/resources/analysis_options_repo.yaml
+include: ./analysis_options_repo.yaml
 
 dart_code_metrics:
   metrics-exclude:

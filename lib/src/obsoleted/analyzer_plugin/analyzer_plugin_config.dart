@@ -1,23 +1,25 @@
 import 'package:glob/glob.dart';
 import 'package:meta/meta.dart';
 
+import '../../metrics/metric.dart';
 import '../../rules/rule.dart';
 import '../anti_patterns/base_pattern.dart';
-import '../config/config.dart';
 
 @immutable
 class AnalyzerPluginConfig {
-  final Config metricsConfigs;
   final Iterable<Glob> globalExcludes;
+  final Iterable<Rule> codeRules;
+  final Iterable<Metric> methodsMetrics;
   final Iterable<Glob> metricsExcludes;
-  final Iterable<BasePattern> checkingAntiPatterns;
-  final Iterable<Rule> checkingCodeRules;
+  final Iterable<BasePattern> antiPatterns;
+  final Map<String, Object> metricsConfig;
 
   const AnalyzerPluginConfig(
-    this.metricsConfigs,
     this.globalExcludes,
+    this.codeRules,
+    this.methodsMetrics,
     this.metricsExcludes,
-    this.checkingAntiPatterns,
-    this.checkingCodeRules,
+    this.antiPatterns,
+    this.metricsConfig,
   );
 }

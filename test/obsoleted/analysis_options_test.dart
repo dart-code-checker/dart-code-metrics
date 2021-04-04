@@ -1,6 +1,7 @@
 @TestOn('vm')
 import 'dart:io';
 
+import 'package:dart_code_metrics/src/config/analysis_options.dart' as modern;
 import 'package:dart_code_metrics/src/obsoleted/config/analysis_options.dart';
 import 'package:dart_code_metrics/src/obsoleted/config/config.dart' as metrics;
 import 'package:dart_code_metrics/src/utils/yaml_utils.dart';
@@ -117,27 +118,72 @@ linter:
 ''';
 
 void main() {
+  const defaultConfig = metrics.Config();
+
   group('AnalysisOptions from', () {
     test('empty content', () {
-      final configFromNull = AnalysisOptions.fromMap(null);
-      final configFromEmptyMap = AnalysisOptions.fromMap(const {});
+      final configFromEmptyMap = AnalysisOptions.fromModernAnalysisOptions(
+        const modern.AnalysisOptions({}),
+      );
 
-      expect(configFromNull.metricsConfig, equals(const metrics.Config()));
-      expect(configFromNull.excludeForMetricsPatterns, isEmpty);
-      expect(configFromNull.rules, isEmpty);
-      expect(configFromNull.antiPatterns, isEmpty);
-
-      expect(configFromEmptyMap.metricsConfig, equals(const metrics.Config()));
+      expect(
+        configFromEmptyMap.metricsConfig.cyclomaticComplexityWarningLevel,
+        equals(defaultConfig.cyclomaticComplexityWarningLevel),
+      );
+      expect(
+        configFromEmptyMap.metricsConfig.linesOfExecutableCodeWarningLevel,
+        equals(defaultConfig.linesOfExecutableCodeWarningLevel),
+      );
+      expect(
+        configFromEmptyMap.metricsConfig.numberOfParametersWarningLevel,
+        equals(defaultConfig.numberOfParametersWarningLevel),
+      );
+      expect(
+        configFromEmptyMap.metricsConfig.numberOfMethodsWarningLevel,
+        equals(defaultConfig.numberOfMethodsWarningLevel),
+      );
+      expect(
+        configFromEmptyMap.metricsConfig.maximumNestingWarningLevel,
+        equals(defaultConfig.maximumNestingWarningLevel),
+      );
+      expect(
+        configFromEmptyMap.metricsConfig.weightOfClassWarningLevel,
+        equals(defaultConfig.weightOfClassWarningLevel),
+      );
       expect(configFromEmptyMap.excludeForMetricsPatterns, isEmpty);
       expect(configFromEmptyMap.rules, isEmpty);
       expect(configFromEmptyMap.antiPatterns, isEmpty);
     });
 
     test('content without metrics', () {
-      final options =
-          AnalysisOptions.fromMap(_yamlToDartMap(_contentWithoutMetrics));
+      final options = AnalysisOptions.fromModernAnalysisOptions(
+        modern.AnalysisOptions(_yamlToDartMap(_contentWithoutMetrics)),
+      );
 
-      expect(options.metricsConfig, equals(const metrics.Config()));
+      expect(
+        options.metricsConfig.cyclomaticComplexityWarningLevel,
+        equals(defaultConfig.cyclomaticComplexityWarningLevel),
+      );
+      expect(
+        options.metricsConfig.linesOfExecutableCodeWarningLevel,
+        equals(defaultConfig.linesOfExecutableCodeWarningLevel),
+      );
+      expect(
+        options.metricsConfig.numberOfParametersWarningLevel,
+        equals(defaultConfig.numberOfParametersWarningLevel),
+      );
+      expect(
+        options.metricsConfig.numberOfMethodsWarningLevel,
+        equals(defaultConfig.numberOfMethodsWarningLevel),
+      );
+      expect(
+        options.metricsConfig.maximumNestingWarningLevel,
+        equals(defaultConfig.maximumNestingWarningLevel),
+      );
+      expect(
+        options.metricsConfig.weightOfClassWarningLevel,
+        equals(defaultConfig.weightOfClassWarningLevel),
+      );
       expect(options.excludeForMetricsPatterns, isEmpty);
       expect(options.rules, isEmpty);
       expect(options.antiPatterns, isEmpty);
@@ -145,10 +191,34 @@ void main() {
 
     group('content with metrics', () {
       test('rules defined as list', () {
-        final options =
-            AnalysisOptions.fromMap(_yamlToDartMap(_contentWitMetricsRules));
+        final options = AnalysisOptions.fromModernAnalysisOptions(
+          modern.AnalysisOptions(_yamlToDartMap(_contentWitMetricsRules)),
+        );
 
-        expect(options.metricsConfig, equals(const metrics.Config()));
+        expect(
+          options.metricsConfig.cyclomaticComplexityWarningLevel,
+          equals(defaultConfig.cyclomaticComplexityWarningLevel),
+        );
+        expect(
+          options.metricsConfig.linesOfExecutableCodeWarningLevel,
+          equals(defaultConfig.linesOfExecutableCodeWarningLevel),
+        );
+        expect(
+          options.metricsConfig.numberOfParametersWarningLevel,
+          equals(defaultConfig.numberOfParametersWarningLevel),
+        );
+        expect(
+          options.metricsConfig.numberOfMethodsWarningLevel,
+          equals(defaultConfig.numberOfMethodsWarningLevel),
+        );
+        expect(
+          options.metricsConfig.maximumNestingWarningLevel,
+          equals(defaultConfig.maximumNestingWarningLevel),
+        );
+        expect(
+          options.metricsConfig.weightOfClassWarningLevel,
+          equals(defaultConfig.weightOfClassWarningLevel),
+        );
         expect(options.excludeForMetricsPatterns, isEmpty);
         expect(
           options.rules,
@@ -163,11 +233,34 @@ void main() {
       });
 
       test('rules defined as map', () {
-        final options = AnalysisOptions.fromMap(
-          _yamlToDartMap(_contentWitMetricsRulesAsMap),
+        final options = AnalysisOptions.fromModernAnalysisOptions(
+          modern.AnalysisOptions(_yamlToDartMap(_contentWitMetricsRulesAsMap)),
         );
 
-        expect(options.metricsConfig, equals(const metrics.Config()));
+        expect(
+          options.metricsConfig.cyclomaticComplexityWarningLevel,
+          equals(defaultConfig.cyclomaticComplexityWarningLevel),
+        );
+        expect(
+          options.metricsConfig.linesOfExecutableCodeWarningLevel,
+          equals(defaultConfig.linesOfExecutableCodeWarningLevel),
+        );
+        expect(
+          options.metricsConfig.numberOfParametersWarningLevel,
+          equals(defaultConfig.numberOfParametersWarningLevel),
+        );
+        expect(
+          options.metricsConfig.numberOfMethodsWarningLevel,
+          equals(defaultConfig.numberOfMethodsWarningLevel),
+        );
+        expect(
+          options.metricsConfig.maximumNestingWarningLevel,
+          equals(defaultConfig.maximumNestingWarningLevel),
+        );
+        expect(
+          options.metricsConfig.weightOfClassWarningLevel,
+          equals(defaultConfig.weightOfClassWarningLevel),
+        );
         expect(options.excludeForMetricsPatterns, isEmpty);
         expect(
           options.rules,
@@ -182,8 +275,8 @@ void main() {
       });
 
       test('thresholds define', () {
-        final options = AnalysisOptions.fromMap(
-          _yamlToDartMap(_contentWitMetricsThresholds),
+        final options = AnalysisOptions.fromModernAnalysisOptions(
+          modern.AnalysisOptions(_yamlToDartMap(_contentWitMetricsThresholds)),
         );
 
         expect(
@@ -202,8 +295,10 @@ void main() {
       });
 
       test('exclude define', () {
-        final options = AnalysisOptions.fromMap(
-          _yamlToDartMap(_contentWitMetricsThresholdsAndExcludes),
+        final options = AnalysisOptions.fromModernAnalysisOptions(
+          modern.AnalysisOptions(
+            _yamlToDartMap(_contentWitMetricsThresholdsAndExcludes),
+          ),
         );
 
         expect(
@@ -238,8 +333,10 @@ void main() {
     });
 
     test('file', () async {
-      final options = await analysisOptionsFromFile(
-        File('./test/obsoleted/resources/analysis_options_pkg.yaml'),
+      final options = AnalysisOptions.fromModernAnalysisOptions(
+        await modern.analysisOptionsFromFile(
+          File('./test/obsoleted/resources/analysis_options_pkg.yaml'),
+        ),
       );
 
       expect(
