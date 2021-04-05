@@ -2,7 +2,7 @@ part of 'member_ordering_extended_rule.dart';
 
 // ignore: avoid_classes_with_only_static_members
 class _ConfigParser {
-  static const _defaultRulesList = [
+  static const _defaultOrderList = [
     'public_fields',
     'private_fields',
     'public_getters',
@@ -22,7 +22,7 @@ class _ConfigParser {
   static List<_MemberGroup> parseOrder(Map<String, Object> config) {
     final order = config.containsKey('order') && config['order'] is Iterable
         ? List<String>.from(config['order'] as Iterable)
-        : _defaultRulesList;
+        : _defaultOrderList;
 
     return order.map(_parseGroup).whereNotNull().toList();
   }
