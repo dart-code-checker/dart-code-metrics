@@ -2,7 +2,19 @@ part of 'member_ordering_extended_rule.dart';
 
 // ignore: avoid_classes_with_only_static_members
 class _ConfigParser {
-  static final regExp = RegExp(
+  static const _defaultRulesList = [
+    'public_fields',
+    'private_fields',
+    'public_getters',
+    'private_getters',
+    'public_setters',
+    'private_setters',
+    'constructors',
+    'public_methods',
+    'private_methods',
+  ];
+
+  static final _regExp = RegExp(
     '(overridden_|protected_)?(private_|public_)?(static_)?(late_)?'
     '(var_|final_|const_)?(nullable_)?(named_)?(factory_)?',
   );
@@ -10,17 +22,7 @@ class _ConfigParser {
   static List<_MemberGroup> parseOrder(Map<String, Object> config) {
     final order = config.containsKey('order') && config['order'] is Iterable
         ? List<String>.from(config['order'] as Iterable)
-        : <String>[
-            'public_fields',
-            'private_fields',
-            'public_getters',
-            'private_getters',
-            'public_setters',
-            'private_setters',
-            'constructors',
-            'public_methods',
-            'private_methods',
-          ];
+        : _defaultRulesList;
 
     return order.map(_parseGroup).whereNotNull().toList();
   }
@@ -28,7 +30,7 @@ class _ConfigParser {
   // ignore: long-method
   static _MemberGroup? _parseGroup(String group) {
     final type = _MemberType.parse(group.split('_').lastOrNull);
-    final result = regExp.allMatches(group.toLowerCase());
+    final result = _regExp.allMatches(group.toLowerCase());
 
     final hasGroups = result.isNotEmpty && result.first.groupCount > 0;
     if (hasGroups && type != null) {

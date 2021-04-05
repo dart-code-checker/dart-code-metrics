@@ -8,8 +8,6 @@ import 'package:dart_code_metrics/src/obsoleted/models/internal_resolved_unit_re
 import 'package:dart_code_metrics/src/obsoleted/rules/member_ordering_extended/member_ordering_extended_rule.dart';
 import 'package:test/test.dart';
 
-// ignore_for_file: no_adjacent_strings_in_list
-
 const _examplePath =
     'test/obsoleted/rules/member_ordering_extended/examples/example.dart';
 const _multipleClassesExamplePath =
