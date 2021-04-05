@@ -4,7 +4,7 @@ analyzer:
   plugins:
     - code_checker
 
-code_checker:
+dart_code_metrics:
   metrics:
     metric-id1: 20
     metric-id2: 30

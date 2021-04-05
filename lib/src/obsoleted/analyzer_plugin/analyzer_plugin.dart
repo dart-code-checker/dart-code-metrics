@@ -24,6 +24,7 @@ import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
 import 'package:source_span/source_span.dart';
 
+import '../../config/analysis_options.dart' as modern;
 import '../../metrics/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import '../../metrics/number_of_parameters_metric.dart';
 import '../../models/report.dart';
@@ -98,7 +99,6 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     }
 
     _configs[dartDriver] = AnalyzerPluginConfig(
-      options.metricsConfig,
       prepareExcludes(
         [
           ..._defaultSkippedFolders,
@@ -106,9 +106,14 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
         ],
         contextRoot.root,
       ),
+      getRulesById(options.rules),
+      [
+        CyclomaticComplexityMetric(config: options.metrics),
+        NumberOfParametersMetric(config: options.metrics),
+      ],
       prepareExcludes(options.excludeForMetricsPatterns, contextRoot.root),
       getPatternsById(options.antiPatterns),
-      getRulesById(options.rules),
+      options.metrics,
     );
 
     runZonedGuarded(
@@ -277,20 +282,20 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     Uri sourceUri,
     AnalyzerPluginConfig config,
   ) =>
-      config.checkingCodeRules
-          .where((rule) => !ignores.isSuppressed(rule.id))
-          .expand((rule) => rule
-              .check(InternalResolvedUnitResult(
-                sourceUri,
-                analysisResult.content!,
-                analysisResult.unit!,
-              ))
-              .where((issue) => !ignores.isSuppressedAt(
-                    issue.ruleId,
-                    issue.location.start.line,
-                  ))
-              .map((issue) =>
-                  codeIssueToAnalysisErrorFixes(issue, analysisResult)));
+      config.codeRules.where((rule) => !ignores.isSuppressed(rule.id)).expand(
+            (rule) => rule
+                .check(InternalResolvedUnitResult(
+                  sourceUri,
+                  analysisResult.content!,
+                  analysisResult.unit!,
+                ))
+                .where((issue) => !ignores.isSuppressedAt(
+                      issue.ruleId,
+                      issue.location.start.line,
+                    ))
+                .map((issue) =>
+                    codeIssueToAnalysisErrorFixes(issue, analysisResult)),
+          );
 
   Iterable<plugin.AnalysisErrorFixes> _checkOnAntiPatterns(
     Suppression ignores,
@@ -298,10 +303,10 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     Iterable<ScopedFunctionDeclaration> functions,
     AnalyzerPluginConfig config,
   ) =>
-      config.checkingAntiPatterns
+      config.antiPatterns
           .where((pattern) => !ignores.isSuppressed(pattern.id))
           .expand((pattern) =>
-              pattern.check(source, functions, config.metricsConfigs))
+              pattern.check(source, functions, config.metricsConfig))
           .where((issue) =>
               !ignores.isSuppressedAt(issue.ruleId, issue.location.start.line))
           .map(designIssueToAnalysisErrorFixes);
@@ -375,11 +380,8 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
             node: function.declaration,
             source: source,
           ),
-          metrics: [
-            CyclomaticComplexityMetric(config: {
-              CyclomaticComplexityMetric.metricId:
-                  '${config.metricsConfigs.cyclomaticComplexityWarningLevel}',
-            }).compute(
+          metrics: config.methodsMetrics.map(
+            (metric) => metric.compute(
               function.declaration,
               [
                 if (function.enclosingDeclaration != null)
@@ -388,19 +390,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
               [function],
               source,
             ),
-            NumberOfParametersMetric(config: {
-              NumberOfParametersMetric.metricId:
-                  '${config.metricsConfigs.numberOfParametersWarningLevel}',
-            }).compute(
-              function.declaration,
-              [
-                if (function.enclosingDeclaration != null)
-                  function.enclosingDeclaration!,
-              ],
-              [function],
-              source,
-            ),
-          ],
+          ),
         ),
       );
 
@@ -414,7 +404,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
           ? metricReportToAnalysisErrorFixes(
               startSourceLocation,
               function.declaration.end - startSourceLocation.offset,
-              '${function.type} has a Cyclomatic Complexity of ${functionReport.cyclomaticComplexity.value} (exceeds ${config.metricsConfigs.cyclomaticComplexityWarningLevel} allowed). Consider refactoring.',
+              functionReport.cyclomaticComplexity.comment,
               _codeMetricsId,
             )
           : null;
@@ -429,7 +419,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
           ? metricReportToAnalysisErrorFixes(
               startSourceLocation,
               function.declaration.end - startSourceLocation.offset,
-              '${function.type} has a Nesting Level of ${functionReport.maximumNestingLevel.value} (exceeds ${config.metricsConfigs.maximumNestingWarningLevel} allowed). Consider refactoring.',
+              functionReport.maximumNestingLevel.comment,
               _codeMetricsId,
             )
           : null;
@@ -437,9 +427,12 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
   AnalysisOptions? _readOptions(AnalysisDriver driver) {
     final file = driver.analysisContext?.contextRoot.optionsFile;
     if (file != null && file.exists) {
-      return AnalysisOptions.fromMap(yamlMapToDartMap(
-        AnalysisOptionsProvider(driver.sourceFactory).getOptionsFromFile(file),
-      ));
+      return AnalysisOptions.fromModernAnalysisOptions(
+        modern.AnalysisOptions(yamlMapToDartMap(
+          AnalysisOptionsProvider(driver.sourceFactory)
+              .getOptionsFromFile(file),
+        )),
+      );
     }
 
     return null;

@@ -6,6 +6,7 @@ import 'package:dart_code_metrics/reporters.dart';
 import 'package:dart_code_metrics/src/cli/arguments_parser.dart';
 import 'package:dart_code_metrics/src/cli/arguments_validation.dart';
 import 'package:dart_code_metrics/src/cli/arguments_validation_exceptions.dart';
+import 'package:dart_code_metrics/src/config/analysis_options.dart';
 import 'package:dart_code_metrics/src/metrics/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import 'package:dart_code_metrics/src/metrics/maximum_nesting_level/maximum_nesting_level_metric.dart';
 import 'package:dart_code_metrics/src/metrics/number_of_methods_metric.dart';
@@ -36,18 +37,11 @@ Future<void> main(List<String> args) async {
   }
 }
 
-void _showUsageAndExit(int exitCode) {
-  print(usageHeader);
-  print(_parser.usage);
-
-  exit(exitCode);
-}
-
 Future<void> _runAnalysis(ArgResults arguments) async {
   final rootFolder = arguments[rootFolderName] as String;
 
   final analysisOptionsFile =
-      File(p.absolute(rootFolder, metrics.analysisOptionsFileName));
+      File(p.absolute(rootFolder, analysisOptionsFileName));
 
   final cyclomaticComplexityThreshold = int.tryParse(
     arguments[CyclomaticComplexityMetric.metricId] as String? ?? '',
@@ -71,7 +65,9 @@ Future<void> _runAnalysis(ArgResults arguments) async {
   );
 
   final options = analysisOptionsFile.existsSync()
-      ? await metrics.analysisOptionsFromFile(analysisOptionsFile)
+      ? metrics.AnalysisOptions.fromModernAnalysisOptions(
+          await analysisOptionsFromFile(analysisOptionsFile),
+        )
       : const metrics.AnalysisOptions(
           excludePatterns: [],
           excludeForMetricsPatterns: [],
@@ -142,4 +138,11 @@ Future<void> _runAnalysis(ArgResults arguments) async {
           exitOnViolationLevel) {
     exit(2);
   }
+}
+
+void _showUsageAndExit(int exitCode) {
+  print(usageHeader);
+  print(_parser.usage);
+
+  exit(exitCode);
 }

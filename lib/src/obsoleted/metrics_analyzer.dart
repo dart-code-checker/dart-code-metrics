@@ -50,6 +50,7 @@ class MetricsAnalyzer {
   final Iterable<BasePattern> _checkingAntiPatterns;
   final Iterable<Glob> _globalExclude;
   final metrics.Config _metricsConfig;
+  final Map<String, Object> metricsConfig;
   final Iterable<Glob> _metricsExclude;
   final MetricsRecordsStore _store;
   final bool _useFastParser;
@@ -68,6 +69,7 @@ class MetricsAnalyzer {
           ..._prepareExcludes(additionalExcludes),
         ],
         _metricsConfig = options?.metricsConfig ?? const metrics.Config(),
+        metricsConfig = options?.metrics ?? {},
         _metricsExclude = _prepareExcludes(options?.excludeForMetricsPatterns),
         _useFastParser = true;
 
@@ -266,7 +268,7 @@ class MetricsAnalyzer {
                 metrics: [
                   cyclomatic,
                   MetricValue<double>(
-                    metricsId: '',
+                    metricsId: 'maintainability-index',
                     documentation: const MetricDocumentation(
                       name: '',
                       shortName: '',
@@ -333,7 +335,7 @@ class MetricsAnalyzer {
       _checkingAntiPatterns
           .where((pattern) => !ignores.isSuppressed(pattern.id))
           .expand((pattern) => pattern
-              .check(source, functions, _metricsConfig)
+              .check(source, functions, metricsConfig)
               .where((issue) => !ignores.isSuppressedAt(
                     issue.ruleId,
                     issue.location.start.line,

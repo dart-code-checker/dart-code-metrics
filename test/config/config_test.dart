@@ -7,10 +7,10 @@ const _options = AnalysisOptions({
   'include': 'package:pedantic/analysis_options.yaml',
   'analyzer': {
     'exclude': ['test/resources/**'],
-    'plugins': ['code_checker'],
+    'plugins': ['dart_code_metrics'],
     'strong-mode': {'implicit-casts': false, 'implicit-dynamic': false},
   },
-  'code_checker': {
+  'dart_code_metrics': {
     'anti-patterns': {
       'anti-pattern-id1': true,
       'anti-pattern-id2': false,
@@ -39,6 +39,9 @@ const _defaults = Config(
     'rule-id1': {},
     'rule-id2': {'severity': 'info'},
   },
+  antiPatterns: {
+    'anti-patterns-id1': {},
+  },
 );
 
 const _empty = Config(
@@ -46,6 +49,7 @@ const _empty = Config(
   excludeForMetricsPatterns: [],
   metrics: {},
   rules: {},
+  antiPatterns: {},
 );
 
 const _merged = Config(
@@ -61,6 +65,10 @@ const _merged = Config(
     'rule-id1': {},
     'rule-id2': {'severity': 'warning'},
   },
+  antiPatterns: {
+    'anti-patterns-id1': {},
+    'anti-patterns-id2': {'severity': 'error'},
+  },
 );
 
 const _overrides = Config(
@@ -72,6 +80,9 @@ const _overrides = Config(
   },
   rules: {
     'rule-id2': {'severity': 'warning'},
+  },
+  antiPatterns: {
+    'anti-patterns-id2': {'severity': 'error'},
   },
 );
 
