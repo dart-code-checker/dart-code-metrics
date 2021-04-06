@@ -12,7 +12,7 @@
   * `maximum-nesting` to `maximum-nesting-level`
   * `number-of-arguments` to `number-of-parameters`
 * Update README.
-* Add static code diagnostic `member-ordering-extended`.
+* Add static code diagnostic `member-ordering-extended`, `avoid-returning-widgets`.
 
 ## 2.4.1
 
