@@ -1,8 +1,11 @@
 import 'dart:convert';
 
+import '../../../config/config.dart';
+import '../../../metrics/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
+import '../../../metrics/maximum_nesting_level/maximum_nesting_level_metric.dart';
+import '../../../metrics/number_of_methods_metric.dart';
 import '../../../models/file_report.dart';
 import '../../../utils/metric_utils.dart';
-import '../../config/config.dart';
 import '../reporter.dart';
 import '../utility_selector.dart';
 import 'code_climate_issue.dart';
@@ -49,7 +52,11 @@ class CodeClimateReporter implements Reporter {
               report.methodsCount.value,
               record.relativePath,
               key,
-              reportConfig.numberOfMethodsWarningLevel,
+              readThreshold<int>(
+                reportConfig.metrics,
+                NumberOfMethodsMetric.metricId,
+                10,
+              ),
             ),
         ];
       }),
@@ -76,7 +83,11 @@ class CodeClimateReporter implements Reporter {
           report.cyclomaticComplexity.value,
           record.relativePath,
           key,
-          reportConfig.cyclomaticComplexityWarningLevel,
+          readThreshold<int>(
+            reportConfig.metrics,
+            CyclomaticComplexityMetric.metricId,
+            20,
+          ),
         ));
       }
 
@@ -95,7 +106,11 @@ class CodeClimateReporter implements Reporter {
           report.maximumNestingLevel.value,
           record.relativePath,
           key,
-          reportConfig.maximumNestingWarningLevel,
+          readThreshold<int>(
+            reportConfig.metrics,
+            MaximumNestingLevelMetric.metricId,
+            5,
+          ),
         ));
       }
     }

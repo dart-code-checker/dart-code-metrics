@@ -4,14 +4,30 @@ import 'package:dart_code_metrics/reporters.dart';
 Future<void> main() async {
   // Get some folder you would like to analyze
   const foldersToAnalyze = ['lib', 'test'];
+
   // Root folder path is used to resolve relative file paths
   const rootFolder = 'projectRoot';
+
+  // First of all config has to be created for a checker
+  const config = Config(
+    excludePatterns: ['test/resources/**'],
+    excludeForMetricsPatterns: ['test/**'],
+    metrics: {
+      'maximum-nesting-level': '5',
+      'number-of-methods': '10',
+    },
+    rules: {
+      'double-literal-format': {},
+      'newline-before-return': {'severity': 'info'},
+    },
+    antiPatterns: {'long-method': {}},
+  );
 
   // Store keeps reported issues in format-agnostic way
   final store = MetricsRecordsStore.store();
 
   // Analyzer traverses files and report its findings to passed store
-  final analyzer = MetricsAnalyzer(store);
+  final analyzer = MetricsAnalyzer(store, config);
 
   // Runner coordinates analyzer and store
   final runner = MetricsAnalysisRunner(

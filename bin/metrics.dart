@@ -1,17 +1,13 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
-import 'package:dart_code_metrics/metrics_analyzer.dart' as metrics;
+import 'package:dart_code_metrics/metrics_analyzer.dart';
 import 'package:dart_code_metrics/reporters.dart';
 import 'package:dart_code_metrics/src/cli/arguments_parser.dart';
 import 'package:dart_code_metrics/src/cli/arguments_validation.dart';
 import 'package:dart_code_metrics/src/cli/arguments_validation_exceptions.dart';
 import 'package:dart_code_metrics/src/config/analysis_options.dart';
-import 'package:dart_code_metrics/src/metrics/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
-import 'package:dart_code_metrics/src/metrics/maximum_nesting_level/maximum_nesting_level_metric.dart';
-import 'package:dart_code_metrics/src/metrics/number_of_methods_metric.dart';
-import 'package:dart_code_metrics/src/metrics/number_of_parameters_metric.dart';
-import 'package:dart_code_metrics/src/metrics/weight_of_class_metric.dart';
+import 'package:dart_code_metrics/src/metrics_factory.dart';
 import 'package:dart_code_metrics/src/models/metric_value_level.dart';
 import 'package:dart_code_metrics/src/obsoleted/reporters/utility_selector.dart';
 import 'package:path/path.dart' as p;
@@ -43,61 +39,20 @@ Future<void> _runAnalysis(ArgResults arguments) async {
   final analysisOptionsFile =
       File(p.absolute(rootFolder, analysisOptionsFileName));
 
-  final cyclomaticComplexityThreshold = int.tryParse(
-    arguments[CyclomaticComplexityMetric.metricId] as String? ?? '',
-  );
-  final linesOfExecutableCodeThreshold = int.tryParse(
-    arguments[metrics.linesOfExecutableCodeKey] as String? ?? '',
-  );
-  final numberOfParametersWarningLevel = int.tryParse(
-    arguments[NumberOfParametersMetric.metricId] as String? ?? '',
-  );
-  final numberOfMethodsWarningLevel =
-      int.tryParse(arguments[NumberOfMethodsMetric.metricId] as String? ?? '');
-  final maximumNestingWarningLevel = int.tryParse(
-    arguments[MaximumNestingLevelMetric.metricId] as String? ?? '',
-  );
-  final weightOfClassWarningLevel =
-      double.tryParse(arguments[WeightOfClassMetric.metricId] as String? ?? '');
+  final options = await analysisOptionsFromFile(analysisOptionsFile);
+  final config =
+      Config.fromAnalysisOptions(options).merge(_configFromArgs(arguments));
+
+  final store = MetricsRecordsStore.store();
+  final analyzer = MetricsAnalyzer(store, config);
+
+  final runner =
+      MetricsAnalysisRunner(analyzer, store, arguments.rest, rootFolder);
+  await runner.run();
+
   final reporterType = arguments[reporterName] as String;
   final exitOnViolationLevel = MetricValueLevel.fromString(
     arguments[setExitOnViolationLevel] as String?,
-  );
-
-  final options = analysisOptionsFile.existsSync()
-      ? metrics.AnalysisOptions.fromModernAnalysisOptions(
-          await analysisOptionsFromFile(analysisOptionsFile),
-        )
-      : const metrics.AnalysisOptions(
-          excludePatterns: [],
-          excludeForMetricsPatterns: [],
-          metrics: {},
-          metricsConfig: metrics.Config(),
-          rules: {},
-          antiPatterns: {},
-        );
-
-  final store = metrics.MetricsRecordsStore.store();
-  final analyzer = metrics.MetricsAnalyzer(
-    store,
-    options: options,
-    additionalExcludes: [arguments[excludedName] as String],
-  );
-  final runner = metrics.MetricsAnalysisRunner(
-    analyzer,
-    store,
-    arguments.rest,
-    rootFolder,
-  );
-  await runner.run();
-
-  final config = metrics.Config(
-    cyclomaticComplexityWarningLevel: cyclomaticComplexityThreshold,
-    linesOfExecutableCodeWarningLevel: linesOfExecutableCodeThreshold,
-    numberOfParametersWarningLevel: numberOfParametersWarningLevel,
-    numberOfMethodsWarningLevel: numberOfMethodsWarningLevel,
-    maximumNestingWarningLevel: maximumNestingWarningLevel,
-    weightOfClassWarningLevel: weightOfClassWarningLevel,
   );
 
   Reporter reporter;
@@ -139,6 +94,21 @@ Future<void> _runAnalysis(ArgResults arguments) async {
     exit(2);
   }
 }
+
+Config _configFromArgs(ArgResults arguments) => Config(
+      excludePatterns: [arguments[excludedName] as String],
+      excludeForMetricsPatterns: const [],
+      metrics: {
+        for (final metric in metrics(config: {}))
+          if (arguments.wasParsed(metric.id))
+            metric.id: arguments[metric.id] as Object,
+        if (arguments.wasParsed(linesOfExecutableCodeKey))
+          linesOfExecutableCodeKey:
+              arguments[linesOfExecutableCodeKey] as Object,
+      },
+      rules: const {},
+      antiPatterns: const {},
+    );
 
 void _showUsageAndExit(int exitCode) {
   print(usageHeader);

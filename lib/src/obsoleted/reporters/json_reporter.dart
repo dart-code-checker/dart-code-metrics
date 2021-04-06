@@ -7,7 +7,7 @@ import '../../metrics/number_of_parameters_metric.dart';
 import '../../models/file_report.dart';
 import '../../models/issue.dart';
 import '../../models/metric_value.dart';
-import '../config/config.dart';
+import '../constants.dart';
 import 'reporter.dart';
 import 'utility_selector.dart';
 

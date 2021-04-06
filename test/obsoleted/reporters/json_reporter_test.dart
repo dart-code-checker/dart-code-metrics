@@ -13,7 +13,7 @@ import 'package:dart_code_metrics/src/models/metric_value_level.dart';
 import 'package:dart_code_metrics/src/models/replacement.dart';
 import 'package:dart_code_metrics/src/models/report.dart';
 import 'package:dart_code_metrics/src/models/severity.dart';
-import 'package:dart_code_metrics/src/obsoleted/config/config.dart';
+import 'package:dart_code_metrics/src/obsoleted/constants.dart';
 import 'package:dart_code_metrics/src/obsoleted/reporters/json_reporter.dart';
 import 'package:source_span/source_span.dart';
 import 'package:test/test.dart';
