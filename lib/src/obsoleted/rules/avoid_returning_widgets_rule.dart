@@ -45,12 +45,10 @@ class AvoidReturningWidgets extends ObsoleteRule {
         .toList(growable: false);
   }
 
-  static List<String> _getIgnoredNames(Map<String, Object> config) {
-    return config.containsKey('ignored_names') &&
-            config['ignored_names'] is Iterable
-        ? List<String>.from(config['ignored_names'] as Iterable)
-        : <String>[];
-  }
+  static List<String> _getIgnoredNames(Map<String, Object> config) =>
+      config.containsKey('ignored_names') && config['ignored_names'] is Iterable
+          ? List<String>.from(config['ignored_names'] as Iterable)
+          : <String>[];
 }
 
 class _Visitor extends RecursiveAstVisitor<void> {
