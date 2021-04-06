@@ -64,7 +64,7 @@ class MetricsAnalyzer {
         _metricsConfig = config.metrics;
 
   /// Return a future that will complete after static analysis done for files from [folders].
-  Future<void>? runAnalysis(Iterable<String> folders, String rootFolder) async {
+  Future<void> runAnalysis(Iterable<String> folders, String rootFolder) async {
     final collection = AnalysisContextCollection(
       includedPaths:
           folders.map((path) => p.normalize(p.join(rootFolder, path))).toList(),
