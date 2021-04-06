@@ -14,7 +14,7 @@
 [Anti-patterns](#anti-patterns)
 
 <img
-  src="doc/.assets/logo.svg"
+  src="https://raw.githubusercontent.com/dart-code-checker/dart-code-metrics/master/doc/.assets/logo.svg"
   alt="Dart Code Metrics logo"
   height="120" width="120"
   align="right">
@@ -45,7 +45,6 @@ A plugin for the Dart `analyzer` [package](https://pub.dev/packages/analyzer) pr
     
     # or for a Flutter package
     $ flutter pub add --dev dart_code_metrics
-
     ```
 
     **OR**

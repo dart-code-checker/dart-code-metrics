@@ -9,13 +9,9 @@ class Test {
 
   late String? lateNullableField;
 
-  void doWork  {
+  void doWork() {}
 
-  }
-
-  void doAnotherWork {
-
-  }
+  void doAnotherWork() {}
 
   final data = 1;
 
@@ -27,9 +23,7 @@ class Test {
 
   String _doWork() => 'test';
 
-  void _doAnotherWork {
-
-  }
+  void _doAnotherWork() {}
 
   String get value => _value;
 

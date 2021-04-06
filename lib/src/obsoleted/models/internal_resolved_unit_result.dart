@@ -2,7 +2,6 @@ import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/error/error.dart';
 
-// ignonre: non_abstract_class_inherits_abstract_member
 class InternalResolvedUnitResult extends ResolvedUnitResult {
   final Uri _sourceUri;
   final String _content;

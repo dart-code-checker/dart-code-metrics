@@ -1,6 +1,7 @@
 @TestOn('vm')
 import 'dart:convert';
 
+import 'package:dart_code_metrics/src/config/config.dart';
 import 'package:dart_code_metrics/src/metrics/maximum_nesting_level/maximum_nesting_level_metric.dart';
 import 'package:dart_code_metrics/src/metrics/number_of_methods_metric.dart';
 import 'package:dart_code_metrics/src/models/entity_type.dart';
@@ -12,7 +13,6 @@ import 'package:dart_code_metrics/src/models/metric_value_level.dart';
 import 'package:dart_code_metrics/src/models/replacement.dart';
 import 'package:dart_code_metrics/src/models/report.dart';
 import 'package:dart_code_metrics/src/models/severity.dart';
-import 'package:dart_code_metrics/src/obsoleted/config/config.dart';
 import 'package:dart_code_metrics/src/obsoleted/reporters/code_climate/code_climate_reporter.dart';
 import 'package:source_span/source_span.dart';
 import 'package:test/test.dart';
@@ -29,7 +29,15 @@ void main() {
     late CodeClimateReporter _reporter;
 
     setUp(() {
-      _reporter = CodeClimateReporter(reportConfig: const Config());
+      _reporter = CodeClimateReporter(
+        reportConfig: const Config(
+          excludePatterns: [],
+          excludeForMetricsPatterns: [],
+          metrics: {},
+          rules: {},
+          antiPatterns: {},
+        ),
+      );
     });
 
     test('empty file', () async {
@@ -350,7 +358,13 @@ void main() {
 
     setUp(() {
       _reporter = CodeClimateReporter(
-        reportConfig: const Config(),
+        reportConfig: const Config(
+          excludePatterns: [],
+          excludeForMetricsPatterns: [],
+          metrics: {},
+          rules: {},
+          antiPatterns: {},
+        ),
         gitlabCompatible: true,
       );
     });

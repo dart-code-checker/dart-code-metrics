@@ -2,7 +2,7 @@ import '../../models/function_type.dart';
 import '../../models/issue.dart';
 import '../../models/scoped_function_declaration.dart';
 import '../../utils/metric_utils.dart';
-import '../config/config.dart';
+import '../constants.dart';
 import '../metrics/lines_of_executable_code/lines_of_executable_code_visitor.dart';
 import '../models/internal_resolved_unit_result.dart';
 import 'base_pattern.dart';
