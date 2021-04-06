@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* Add static code diagnostic `avoid-returning-widgets`.
+
 ## 3.0.0-nullsafety.0
 
 * Set min `SDK` version to `2.12.0`.
@@ -11,7 +15,7 @@
   * `maximum-nesting` to `maximum-nesting-level`
   * `number-of-arguments` to `number-of-parameters`
 * Update README.
-* Add static code diagnostic `member-ordering-extended`, `avoid-returning-widgets`.
+* Add static code diagnostic `member-ordering-extended`.
 
 ## 2.4.1
 
