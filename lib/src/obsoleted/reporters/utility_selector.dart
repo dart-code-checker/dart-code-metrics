@@ -8,15 +8,17 @@ import '../../metrics/maximum_nesting_level/maximum_nesting_level_metric.dart';
 import '../../metrics/number_of_methods_metric.dart';
 import '../../metrics/number_of_parameters_metric.dart';
 import '../../metrics/weight_of_class_metric.dart';
+import '../../models/entity_type.dart';
 import '../../models/file_report.dart';
+import '../../models/metric_documentation.dart';
 import '../../models/metric_value.dart';
 import '../../models/metric_value_level.dart';
 import '../../models/report.dart';
 import '../../utils/metric_utils.dart';
-import '../config/config.dart' as metrics;
+import '../constants.dart';
 import '../models/component_report.dart';
 import '../models/file_report.dart' as metrics;
-import '../models/function_report.dart' as metrics;
+import '../models/function_report.dart';
 
 double log2(num a) => log(a) / ln2;
 
@@ -86,33 +88,77 @@ class UtilitySelector {
     );
   }
 
-  static ComponentReport componentReport(Report component) => ComponentReport(
-        methodsCount: component.metric(NumberOfMethodsMetric.metricId)
-            as MetricValue<int>,
-        weightOfClass: component.metric(WeightOfClassMetric.metricId)
-            as MetricValue<double>,
-      );
+  static ComponentReport componentReport(Report component) {
+    final numberOfMethodsMetric =
+        component.metric(NumberOfMethodsMetric.metricId) ??
+            _buildMetricValueStub<int>(
+              id: NumberOfMethodsMetric.metricId,
+              value: 0,
+              type: EntityType.classEntity,
+            );
 
-  static metrics.FunctionReport functionReport(Report function) =>
-      metrics.FunctionReport(
-        cyclomaticComplexity: function
-            .metric(CyclomaticComplexityMetric.metricId) as MetricValue<int>,
-        linesOfExecutableCode: function.metric(metrics.linesOfExecutableCodeKey)
-            as MetricValue<int>,
-        maintainabilityIndex:
-            function.metric('maintainability-index') as MetricValue<double>,
-        argumentsCount: function.metric(NumberOfParametersMetric.metricId)
-            as MetricValue<int>,
-        maximumNestingLevel: function.metric(MaximumNestingLevelMetric.metricId)
-            as MetricValue<int>,
-      );
+    final weightOfClassMetric =
+        component.metric(WeightOfClassMetric.metricId) ??
+            _buildMetricValueStub<double>(
+              id: NumberOfMethodsMetric.metricId,
+              value: 0,
+              type: EntityType.classEntity,
+            );
+
+    return ComponentReport(
+      methodsCount: numberOfMethodsMetric as MetricValue<int>,
+      weightOfClass: weightOfClassMetric as MetricValue<double>,
+    );
+  }
+
+  static FunctionReport functionReport(Report function) {
+    final cyclomaticComplexityMetric =
+        function.metric(CyclomaticComplexityMetric.metricId) ??
+            _buildMetricValueStub<int>(
+              id: CyclomaticComplexityMetric.metricId,
+              value: 0,
+            );
+
+    final linesOfExecutableMetric = function.metric(linesOfExecutableCodeKey) ??
+        _buildMetricValueStub<int>(
+          id: linesOfExecutableCodeKey,
+          value: 0,
+        );
+
+    final maintainabilityIndexMetric =
+        function.metric('maintainability-index') ??
+            _buildMetricValueStub<double>(
+              id: 'maintainability-index',
+              value: 100,
+            );
+
+    final numberOfParametersMetric =
+        function.metric(NumberOfParametersMetric.metricId) ??
+            _buildMetricValueStub<int>(
+              id: NumberOfParametersMetric.metricId,
+              value: 0,
+            );
+
+    final maximumNestingLevelMetric =
+        function.metric(MaximumNestingLevelMetric.metricId) ??
+            _buildMetricValueStub<int>(
+              id: MaximumNestingLevelMetric.metricId,
+              value: 0,
+            );
+
+    return FunctionReport(
+      cyclomaticComplexity: cyclomaticComplexityMetric as MetricValue<int>,
+      linesOfExecutableCode: linesOfExecutableMetric as MetricValue<int>,
+      maintainabilityIndex: maintainabilityIndexMetric as MetricValue<double>,
+      argumentsCount: numberOfParametersMetric as MetricValue<int>,
+      maximumNestingLevel: maximumNestingLevelMetric as MetricValue<int>,
+    );
+  }
 
   static MetricValueLevel componentViolationLevel(ComponentReport report) =>
       report.methodsCount.level;
 
-  static MetricValueLevel functionViolationLevel(
-    metrics.FunctionReport report,
-  ) =>
+  static MetricValueLevel functionViolationLevel(FunctionReport report) =>
       quiver.max([
         report.cyclomaticComplexity.level,
         report.linesOfExecutableCode.level,
@@ -163,3 +209,23 @@ class UtilitySelector {
             rhs.maximumNestingLevelViolations,
       );
 }
+
+MetricValue<T> _buildMetricValueStub<T>({
+  required String id,
+  required T value,
+  EntityType type = EntityType.methodEntity,
+  MetricValueLevel level = MetricValueLevel.none,
+}) =>
+    MetricValue<T>(
+      metricsId: id,
+      documentation: MetricDocumentation(
+        name: id,
+        shortName: id.toUpperCase(),
+        brief: 'brief $id',
+        measuredType: type,
+        examples: const [],
+      ),
+      value: value,
+      level: level,
+      comment: '',
+    );

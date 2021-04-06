@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:args/args.dart';
 
 import '../metrics_factory.dart';
-import '../obsoleted/config/config.dart';
+import '../obsoleted/constants.dart';
 
 const usageHeader = 'Usage: metrics [arguments...] <directories>';
 

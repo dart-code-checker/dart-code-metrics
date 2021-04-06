@@ -8,7 +8,7 @@ import 'package:dart_code_metrics/src/models/metric_documentation.dart';
 import 'package:dart_code_metrics/src/models/metric_value.dart';
 import 'package:dart_code_metrics/src/models/metric_value_level.dart';
 import 'package:dart_code_metrics/src/models/report.dart';
-import 'package:dart_code_metrics/src/obsoleted/config/config.dart';
+import 'package:dart_code_metrics/src/obsoleted/constants.dart';
 import 'package:dart_code_metrics/src/obsoleted/reporters/utility_selector.dart';
 import 'package:test/test.dart';
 

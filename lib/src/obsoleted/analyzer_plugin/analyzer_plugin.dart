@@ -24,7 +24,8 @@ import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
 import 'package:source_span/source_span.dart';
 
-import '../../config/analysis_options.dart' as modern;
+import '../../config/analysis_options.dart';
+import '../../config/config.dart';
 import '../../metrics/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import '../../metrics/number_of_parameters_metric.dart';
 import '../../models/report.dart';
@@ -35,8 +36,7 @@ import '../../utils/metric_utils.dart';
 import '../../utils/node_utils.dart';
 import '../../utils/yaml_utils.dart';
 import '../anti_patterns_factory.dart';
-import '../config/analysis_options.dart';
-import '../models/function_report.dart' as metrics;
+import '../models/function_report.dart';
 import '../models/internal_resolved_unit_result.dart';
 import '../reporters/utility_selector.dart';
 import '../rules_factory.dart';
@@ -369,7 +369,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     return result;
   }
 
-  metrics.FunctionReport _buildReport(
+  FunctionReport _buildReport(
     ScopedFunctionDeclaration function,
     InternalResolvedUnitResult source,
     AnalyzerPluginConfig config,
@@ -396,7 +396,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
 
   plugin.AnalysisErrorFixes? _cyclomaticComplexityMetric(
     ScopedFunctionDeclaration function,
-    metrics.FunctionReport functionReport,
+    FunctionReport functionReport,
     SourceLocation startSourceLocation,
     AnalyzerPluginConfig config,
   ) =>
@@ -411,7 +411,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
 
   plugin.AnalysisErrorFixes? _nestingLevelMetric(
     ScopedFunctionDeclaration function,
-    metrics.FunctionReport functionReport,
+    FunctionReport functionReport,
     SourceLocation startSourceLocation,
     AnalyzerPluginConfig config,
   ) =>
@@ -424,11 +424,11 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
             )
           : null;
 
-  AnalysisOptions? _readOptions(AnalysisDriver driver) {
+  Config? _readOptions(AnalysisDriver driver) {
     final file = driver.analysisContext?.contextRoot.optionsFile;
     if (file != null && file.exists) {
-      return AnalysisOptions.fromModernAnalysisOptions(
-        modern.AnalysisOptions(yamlMapToDartMap(
+      return Config.fromAnalysisOptions(
+        AnalysisOptions(yamlMapToDartMap(
           AnalysisOptionsProvider(driver.sourceFactory)
               .getOptionsFromFile(file),
         )),
