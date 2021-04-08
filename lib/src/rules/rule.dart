@@ -17,11 +17,15 @@ abstract class Rule {
   /// The severity of issues emitted by the rule
   final Severity severity;
 
+  /// A list of excluded files for the rule
+  final Iterable<String> excludes;
+
   /// Initialize a newly created [Rule].
   const Rule({
     required this.id,
     required this.documentation,
     required this.severity,
+    required this.excludes,
   });
 
   /// Returns [Iterable] with [Issue]'s detected while check the passed [source]

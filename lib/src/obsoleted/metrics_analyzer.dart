@@ -274,7 +274,12 @@ class MetricsAnalyzer {
         );
 
         builder
-          ..recordIssues(_checkOnCodeIssues(ignores, source))
+          ..recordIssues(_checkOnCodeIssues(
+            ignores,
+            source,
+            filePath,
+            rootFolder,
+          ))
           ..recordAntiPatternCases(
             _checkOnAntiPatterns(ignores, source, functions),
           );
@@ -285,8 +290,17 @@ class MetricsAnalyzer {
   Iterable<Issue> _checkOnCodeIssues(
     Suppression ignores,
     InternalResolvedUnitResult source,
+    String filePath,
+    String rootFolder,
   ) =>
-      _codeRules.where((rule) => !ignores.isSuppressed(rule.id)).expand(
+      _codeRules
+          .where((rule) =>
+              !ignores.isSuppressed(rule.id) &&
+              !_isExcluded(
+                p.relative(filePath, from: rootFolder),
+                _metricsExclude,
+              ))
+          .expand(
             (rule) => rule.check(source).where((issue) => !ignores
                 .isSuppressedAt(issue.ruleId, issue.location.start.line)),
           );

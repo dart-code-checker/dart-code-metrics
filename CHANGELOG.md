@@ -12,6 +12,7 @@
   * `number-of-arguments` to `number-of-parameters`
 * Update README.
 * Add static code diagnostic `member-ordering-extended`.
+* Add excludes for a separate rule.
 
 ## 2.4.1
 
