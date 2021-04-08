@@ -425,14 +425,18 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
           : null;
 
   Config? _readOptions(AnalysisDriver driver) {
-    final file = driver.analysisContext?.contextRoot.optionsFile;
-    if (file != null && file.exists) {
-      return Config.fromAnalysisOptions(
-        AnalysisOptions(yamlMapToDartMap(
-          AnalysisOptionsProvider(driver.sourceFactory)
-              .getOptionsFromFile(file),
-        )),
-      );
+    // ignore: deprecated_member_use
+    final optionsPath = driver.contextRoot?.optionsFilePath;
+    if (optionsPath != null && optionsPath.isNotEmpty) {
+      final file = resourceProvider.getFile(optionsPath);
+      if (file.exists) {
+        return Config.fromAnalysisOptions(
+          AnalysisOptions(yamlMapToDartMap(
+            AnalysisOptionsProvider(driver.sourceFactory)
+                .getOptionsFromFile(file),
+          )),
+        );
+      }
     }
 
     return null;

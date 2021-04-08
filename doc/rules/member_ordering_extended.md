@@ -26,8 +26,8 @@ For example, the value for `order` may be an array consisting of the following s
 
 - public-late-final-fields
 - private-late-final-fields
-- public-optional-fields
-- private-optional-fields
+- public-nullable-fields
+- private-nullable-fields
 - named-constructors
 - factory-constructors
 - getters

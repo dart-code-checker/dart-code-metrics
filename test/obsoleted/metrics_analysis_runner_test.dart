@@ -46,6 +46,8 @@ void main() {
       const root = '/home/developer/project/';
 
       final analyzer = MetricsAnalyzerMock();
+      when(() => analyzer.runAnalysis(folders, root))
+          .thenAnswer((_) async => print('called'));
 
       MetricsAnalysisRunner(analyzer, MetricsRecordsStoreMock(), folders, root)
           .run();
