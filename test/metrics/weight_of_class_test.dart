@@ -6,7 +6,7 @@ import 'package:dart_code_metrics/src/scope_visitor.dart';
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
-const examplePath = './test/resources/weight_of_class_example.dart';
+const _examplePath = './test/resources/weight_of_class_example.dart';
 
 void main() {
   test('WeightOfClassMetric computes weight of the example class', () async {
@@ -15,7 +15,7 @@ void main() {
     final visitor = ScopeVisitor();
 
     final result =
-        await resolveFile(path: p.normalize(p.absolute(examplePath)));
+        await resolveFile(path: p.normalize(p.absolute(_examplePath)));
     result!.unit!.visitChildren(visitor);
 
     final firstClassSupport = metric.supports(

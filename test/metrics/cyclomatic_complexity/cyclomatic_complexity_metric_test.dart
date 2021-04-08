@@ -6,7 +6,7 @@ import 'package:dart_code_metrics/src/scope_visitor.dart';
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
-const examplePath =
+const _examplePath =
     './test/resources/cyclomatic_complexity_metric_example.dart';
 
 Future<void> main() async {
@@ -14,7 +14,8 @@ Future<void> main() async {
     config: {CyclomaticComplexityMetric.metricId: '10'},
   );
 
-  final example = await resolveFile(path: p.normalize(p.absolute(examplePath)));
+  final example =
+      await resolveFile(path: p.normalize(p.absolute(_examplePath)));
 
   group('CyclomaticComplexityMetric computes cyclomatic complexity of the', () {
     final scopeVisitor = ScopeVisitor();

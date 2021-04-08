@@ -1,3 +1,4 @@
+@TestOn('vm')
 import 'dart:io';
 
 import 'package:analyzer/dart/analysis/utilities.dart';
@@ -6,15 +7,15 @@ import 'package:dart_code_metrics/src/obsoleted/models/internal_resolved_unit_re
 import 'package:dart_code_metrics/src/obsoleted/rules/avoid_unused_parameters.dart';
 import 'package:test/test.dart';
 
-const correctExamplePath =
+const _correctExamplePath =
     'test/obsoleted/rules/avoid_unused_parameters/examples/correct_example.dart';
-const incorrectExamplePath =
+const _incorrectExamplePath =
     'test/obsoleted/rules/avoid_unused_parameters/examples/incorrect_example.dart';
 
 void main() {
   group('AvoidUnusedParameters', () {
     test('initialization', () async {
-      final path = File(correctExamplePath).absolute.path;
+      final path = File(_correctExamplePath).absolute.path;
       final sourceUrl = Uri.parse(path);
 
       final parseResult = await resolveFile(path: path);
@@ -36,7 +37,7 @@ void main() {
     });
 
     test('reports no issues', () async {
-      final path = File(correctExamplePath).absolute.path;
+      final path = File(_correctExamplePath).absolute.path;
       final sourceUrl = Uri.parse(path);
 
       final parseResult = await resolveFile(path: path);
@@ -51,7 +52,7 @@ void main() {
     });
 
     test('reports about found issues', () async {
-      final path = File(incorrectExamplePath).absolute.path;
+      final path = File(_incorrectExamplePath).absolute.path;
       final sourceUrl = Uri.parse(path);
 
       final parseResult = await resolveFile(path: path);
