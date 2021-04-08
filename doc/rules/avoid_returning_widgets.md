@@ -19,7 +19,7 @@ Additional resources:
 * <https://www.reddit.com/r/FlutterDev/comments/avhvco/extracting_widgets_to_a_function_is_not_an/>
 * <https://medium.com/flutter-community/splitting-widgets-to-methods-is-a-performance-antipattern-16aa3fb4026c>
 
-Use `ignored_names` configuration, if you want to add some function or method names to ignore, for example:
+Use `ignored-names` configuration, if you want to add some function or method names to ignore, for example:
 
 ```yaml
 dart_code_metrics:
@@ -27,7 +27,7 @@ dart_code_metrics:
   rules:
     ...
     - avoid-returning-widgets:
-        ignored_names:
+        ignored-names:
           - testFunction
 ```
 

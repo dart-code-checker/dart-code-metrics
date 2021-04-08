@@ -1,3 +1,4 @@
+@TestOn('vm')
 import 'dart:io';
 
 import 'package:analyzer/dart/analysis/utilities.dart';
@@ -100,7 +101,7 @@ void main() {
       final parseResult = await resolveFile(path: path);
 
       final config = {
-        'ignored_names': [
+        'ignored-names': [
           '_getWidgetFuture',
           '_getWidget',
         ],

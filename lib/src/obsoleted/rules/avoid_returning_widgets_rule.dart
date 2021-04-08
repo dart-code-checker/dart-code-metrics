@@ -46,8 +46,8 @@ class AvoidReturningWidgets extends ObsoleteRule {
   }
 
   static List<String> _getIgnoredNames(Map<String, Object> config) =>
-      config.containsKey('ignored_names') && config['ignored_names'] is Iterable
-          ? List<String>.from(config['ignored_names'] as Iterable)
+      config.containsKey('ignored-names') && config['ignored-names'] is Iterable
+          ? List<String>.from(config['ignored-names'] as Iterable)
           : <String>[];
 }
 
