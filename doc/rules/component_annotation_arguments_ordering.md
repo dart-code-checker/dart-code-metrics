@@ -21,7 +21,7 @@ The value for `order` may be an array consisting of the following strings (defau
 - encapsulation
 - visibility
 - exports
-- change_detection
+- change-detection
 
 ### Config example
 
@@ -30,5 +30,5 @@ component-annotation-arguments-ordering:
   order:
     - selector
     - templates
-    - change_detection
+    - change-detection
 ```

@@ -57,7 +57,11 @@ class ComponentAnnotationArgumentsOrderingRule extends ObsoleteRule {
 
     return order.isEmpty
         ? _ArgumentGroup._groupsOrder
-        : order.map(_ArgumentGroup.parseGroupName).whereNotNull().toList();
+        : order
+            .map(normalizeRuleConfigItem)
+            .map(_ArgumentGroup.parseGroupName)
+            .whereNotNull()
+            .toList();
   }
 }
 
@@ -175,7 +179,7 @@ class _ArgumentGroup {
     ['exports', 'exportAs'],
   );
   static const changeDetection = _ArgumentGroup._(
-    'change_detection',
+    'change-detection',
     ['changeDetection'],
   );
 

@@ -12,6 +12,7 @@
   * `number-of-arguments` to `number-of-parameters`
 * Update README.
 * Add static code diagnostic `member-ordering-extended`.
+* Rename all rules config items from snake_case to kebab-case with backward compatibility.
 
 ## 2.4.1
 
