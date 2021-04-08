@@ -38,7 +38,7 @@ Uri documentation(String ruleId) => Uri(
 Severity readSeverity(Map<String, Object?> config, Severity defaultValue) =>
     Severity.fromString(config['severity'] as String?) ?? defaultValue;
 
-/// Return a list of excludes from the given [config]
+/// Returns a list of excludes from the given [config]
 Iterable<String> readExcludes(Map<String, Object> config) {
   final data = config['exclude'];
 
