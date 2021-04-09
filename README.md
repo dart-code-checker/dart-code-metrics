@@ -215,7 +215,18 @@ dart_code_metrics:
 
 ### Configuring a rules entry
 
-To enable a rule add its id to the `rules` entry. Rules with a `configurable` badge have additional configuration, check out their docs for more information.
+To enable a rule add its id to the `rules` entry. All rules have severity which can be overridden with `severity` config entry. For example,
+
+```yaml
+dart_code_metrics:
+  rules:
+    - newline-before-return
+        severity: info
+```
+
+will set severity to `info`. Available severity values: none, style, performace, warning, error.
+
+Rules with a `configurable` badge have additional configuration, check out their docs for more information.
 
 ### Configuring a metrics entry
 
