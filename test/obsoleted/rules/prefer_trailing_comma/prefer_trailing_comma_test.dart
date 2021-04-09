@@ -1,3 +1,4 @@
+@TestOn('vm')
 import 'dart:io';
 
 import 'package:analyzer/dart/analysis/utilities.dart';
@@ -8,15 +9,15 @@ import 'package:test/test.dart';
 
 // ignore_for_file: avoid_escaping_inner_quotes, no_adjacent_strings_in_list
 
-const correctExamplePath =
+const _correctExamplePath =
     'test/obsoleted/rules/prefer_trailing_comma/examples/correct_example.dart';
-const incorrectExamplePath =
+const _incorrectExamplePath =
     'test/obsoleted/rules/prefer_trailing_comma/examples/incorrect_example.dart';
 
 void main() {
   group('PreferTrailingComma', () {
     test('initialization', () async {
-      final path = File(correctExamplePath).absolute.path;
+      final path = File(_correctExamplePath).absolute.path;
       final sourceUrl = Uri.parse(path);
 
       final parseResult = await resolveFile(path: path);
@@ -38,7 +39,7 @@ void main() {
     });
 
     test('with default config reports about found issues', () async {
-      final path = File(incorrectExamplePath).absolute.path;
+      final path = File(_incorrectExamplePath).absolute.path;
       final sourceUrl = Uri.parse(path);
 
       final parseResult = await resolveFile(path: path);
@@ -133,7 +134,7 @@ void main() {
     });
 
     test('with default config reports no issues', () async {
-      final path = File(correctExamplePath).absolute.path;
+      final path = File(_correctExamplePath).absolute.path;
       final sourceUrl = Uri.parse(path);
 
       final parseResult = await resolveFile(path: path);
@@ -148,7 +149,7 @@ void main() {
     });
 
     test('with custom config reports about found issues', () async {
-      final path = File(correctExamplePath).absolute.path;
+      final path = File(_correctExamplePath).absolute.path;
       final sourceUrl = Uri.parse(path);
 
       final parseResult = await resolveFile(path: path);

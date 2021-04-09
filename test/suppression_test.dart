@@ -4,12 +4,12 @@ import 'package:dart_code_metrics/src/suppression.dart';
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
-const examplePath = 'test/resources/suppression_example.dart';
+const _examplePath = 'test/resources/suppression_example.dart';
 
 void main() {
   test('suppression in content', () async {
     final parseResult =
-        await resolveFile(path: p.normalize(p.absolute(examplePath)));
+        await resolveFile(path: p.normalize(p.absolute(_examplePath)));
 
     final suppression =
         Suppression(parseResult!.content!, parseResult.lineInfo);

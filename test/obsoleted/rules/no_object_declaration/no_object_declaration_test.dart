@@ -9,12 +9,12 @@ import 'package:test/test.dart';
 
 // ignore_for_file: no_adjacent_strings_in_list
 
-const examplePath =
+const _examplePath =
     'test/obsoleted/rules/no_object_declaration/examples/example.dart';
 
 void main() {
   test('NoObjectDeclarationRule reports about found issues', () async {
-    final path = File(examplePath).absolute.path;
+    final path = File(_examplePath).absolute.path;
     final sourceUrl = Uri.parse(path);
 
     final parseResult = await resolveFile(path: path);

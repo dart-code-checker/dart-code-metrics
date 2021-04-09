@@ -6,7 +6,8 @@ import 'package:dart_code_metrics/src/scope_visitor.dart';
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
-const examplePath = './test/resources/number_of_parameters_metric_example.dart';
+const _examplePath =
+    './test/resources/number_of_parameters_metric_example.dart';
 
 Future<void> main() async {
   final metric = NumberOfParametersMetric(
@@ -15,7 +16,8 @@ Future<void> main() async {
 
   final scopeVisitor = ScopeVisitor();
 
-  final example = await resolveFile(path: p.normalize(p.absolute(examplePath)));
+  final example =
+      await resolveFile(path: p.normalize(p.absolute(_examplePath)));
   example!.unit!.visitChildren(scopeVisitor);
 
   group('NumberOfParametersMetric computes parameters received by the', () {
