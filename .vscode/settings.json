@@ -1,6 +1,9 @@
 {
     "cSpell.words": [
+        "Gitlab",
         "ansicolor",
+        "cyclomatic",
+        "dartdocs",
         "mocktail",
         "nullsafety",
         "semver"
