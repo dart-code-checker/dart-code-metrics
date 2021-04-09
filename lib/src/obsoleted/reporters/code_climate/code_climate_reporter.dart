@@ -11,8 +11,9 @@ import '../../../utils/metric_utils.dart';
 import '../utility_selector.dart';
 import 'code_climate_issue.dart';
 
-/// Creates reports in Code Climate format widely understood by various CI and analysis tools
 // Code Climate Engine Specification https://github.com/codeclimate/platform/blob/master/spec/analyzers/SPEC.md
+
+/// Creates reports in Code Climate format widely understood by various CI and analysis tools
 class CodeClimateReporter implements Reporter {
   final IOSink _output;
 
