@@ -16,7 +16,7 @@ final _implementedReports = <String,
       ConsoleReporter(stdout, reportAll: true),
   codeClimateReporter: (output, config, __) =>
       CodeClimateReporter(stdout, reportConfig: config),
-  htmlReporter: (output, config, __) =>
+  htmlReporter: (_, __, reportFolder) =>
       HtmlReporter(reportFolder: reportFolder),
   jsonReporter: (output, _, __) => JsonReporter(output),
   githubReporter: (output, _, __) => GitHubReporter(output),

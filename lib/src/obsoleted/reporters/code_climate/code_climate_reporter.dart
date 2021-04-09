@@ -33,13 +33,15 @@ class CodeClimateReporter implements Reporter {
       return;
     }
 
-    return gitlabCompatible
-        ? _output.writeln(
-            json.encode(records.map(_toIssues).expand((r) => r).toList()),
-          )
-        : records.map(_toIssues).expand((r) => r).forEach((issue) {
-            _output.writeln('${json.encode(issue)}\x00');
-          });
+    final codeClimateRecords = records.map(_toIssues).expand((r) => r);
+
+    if (gitlabCompatible) {
+      _output.writeln(json.encode(codeClimateRecords.toList()));
+    } else {
+      for (final record in codeClimateRecords) {
+        _output.writeln('${json.encode(record)}\x00');
+      }
+    }
   }
 
   Iterable<CodeClimateIssue> _toIssues(FileReport record) {
