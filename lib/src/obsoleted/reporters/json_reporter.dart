@@ -1,4 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
+
+import 'package:meta/meta.dart';
 
 import '../../metrics/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import '../../metrics/maximum_nesting_level/maximum_nesting_level_metric.dart';
@@ -7,17 +10,28 @@ import '../../metrics/number_of_parameters_metric.dart';
 import '../../models/file_report.dart';
 import '../../models/issue.dart';
 import '../../models/metric_value.dart';
+import '../../reporters/reporter.dart';
 import '../constants.dart';
-import 'reporter.dart';
 import 'utility_selector.dart';
 
 /// Machine-readable report in JSON format
+@immutable
 class JsonReporter implements Reporter {
+  final IOSink _output;
+
+  const JsonReporter(this._output);
+
   @override
-  Future<Iterable<String>> report(Iterable<FileReport>? records) async =>
-      (records?.isNotEmpty ?? false)
-          ? [json.encode(records!.map(_analysisRecordToJson).toList())]
-          : [];
+  Future<void> report(Iterable<FileReport> records) async {
+    if (records.isEmpty) {
+      return;
+    }
+
+    final encodedReport =
+        json.encode(records.map(_analysisRecordToJson).toList());
+
+    _output.write(encodedReport);
+  }
 
   Map<String, Object> _analysisRecordToJson(FileReport record) {
     final fileReport = UtilitySelector.fileReport(record);

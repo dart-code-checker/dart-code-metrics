@@ -1,5 +1,6 @@
 @TestOn('vm')
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dart_code_metrics/src/config/config.dart';
 import 'package:dart_code_metrics/src/metrics/maximum_nesting_level/maximum_nesting_level_metric.dart';
@@ -14,22 +15,30 @@ import 'package:dart_code_metrics/src/models/replacement.dart';
 import 'package:dart_code_metrics/src/models/report.dart';
 import 'package:dart_code_metrics/src/models/severity.dart';
 import 'package:dart_code_metrics/src/obsoleted/reporters/code_climate/code_climate_reporter.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:source_span/source_span.dart';
 import 'package:test/test.dart';
 
 import '../stubs_builders.dart';
+
+class IOSinkMock extends Mock implements IOSink {}
 
 Map<String, Object?> _decodeReport(Iterable<String> lines) =>
     json.decode(lines.first.replaceAll('\x00', '')) as Map<String, Object?>;
 
 void main() {
   group('CodeClimateReporter.report report about', () {
+    // ignore: close_sinks
+    late IOSinkMock output;
     const fullPath = '/home/developer/work/project/example.dart';
 
     late CodeClimateReporter _reporter;
 
     setUp(() {
+      output = IOSinkMock();
+
       _reporter = CodeClimateReporter(
+        output,
         reportConfig: const Config(
           excludePatterns: [],
           excludeForMetricsPatterns: [],
@@ -41,7 +50,9 @@ void main() {
     });
 
     test('empty file', () async {
-      expect(await _reporter.report([]), isEmpty);
+      await _reporter.report([]);
+
+      verifyNever(() => output.writeln(any()));
     });
 
     test('file with design issues', () async {
@@ -80,7 +91,10 @@ void main() {
         ),
       ];
 
-      final report = _decodeReport(await _reporter.report(records));
+      await _reporter.report(records);
+      final report = _decodeReport(
+        verify(() => output.writeln(captureAny())).captured.cast<String>(),
+      );
 
       expect(report, containsPair('type', 'issue'));
       expect(report, containsPair('check_name', _issuePatternId));
@@ -140,7 +154,10 @@ void main() {
         ),
       ];
 
-      final report = _decodeReport(await _reporter.report(records));
+      await _reporter.report(records);
+      final report = _decodeReport(
+        verify(() => output.writeln(captureAny())).captured.cast<String>(),
+      );
 
       expect(report, containsPair('type', 'issue'));
       expect(report, containsPair('check_name', _issueRuleId));
@@ -191,7 +208,8 @@ void main() {
           ),
         ];
 
-        expect(await _reporter.report(records), isEmpty);
+        await _reporter.report(records);
+        verifyNever(() => output.writeln(any()));
       });
 
       test('with a lot of methods', () async {
@@ -222,7 +240,10 @@ void main() {
           ),
         ];
 
-        final report = _decodeReport(await _reporter.report(records));
+        await _reporter.report(records);
+        final report = _decodeReport(
+          verify(() => output.writeln(captureAny())).captured.cast<String>(),
+        );
 
         expect(report, containsPair('type', 'issue'));
         expect(report, containsPair('check_name', 'numberOfMethods'));
@@ -285,7 +306,8 @@ void main() {
           ),
         ];
 
-        expect(await _reporter.report(records), isEmpty);
+        await _reporter.report(records);
+        verifyNever(() => output.writeln(any()));
       });
 
       test('with high nesting level', () async {
@@ -318,7 +340,10 @@ void main() {
           ),
         ];
 
-        final report = _decodeReport(await _reporter.report(records));
+        await _reporter.report(records);
+        final report = _decodeReport(
+          verify(() => output.writeln(captureAny())).captured.cast<String>(),
+        );
 
         expect(report, containsPair('type', 'issue'));
         expect(report, containsPair('check_name', 'nestingLevel'));
@@ -352,12 +377,17 @@ void main() {
   });
 
   group('CodeClimateReporter.report gitlab compatible report about', () {
+    // ignore: close_sinks
+    late IOSinkMock output;
     const fullPath = '/home/developer/work/project/example.dart';
 
     late CodeClimateReporter _reporter;
 
     setUp(() {
+      output = IOSinkMock();
+
       _reporter = CodeClimateReporter(
+        output,
         reportConfig: const Config(
           excludePatterns: [],
           excludeForMetricsPatterns: [],
@@ -370,7 +400,9 @@ void main() {
     });
 
     test('empty file', () async {
-      expect(await _reporter.report([]), isEmpty);
+      await _reporter.report([]);
+
+      verifyNever(() => output.writeln(any()));
     });
 
     test('file with design issues', () async {
@@ -409,8 +441,13 @@ void main() {
         ),
       ];
 
-      final report = (json.decode((await _reporter.report(records)).first)
-              as List<Object?>)
+      await _reporter.report(records);
+      final report = (json.decode(
+        verify(() => output.writeln(captureAny()))
+            .captured
+            .cast<String>()
+            .first,
+      ) as List<Object?>)
           .first as Map<String, Object?>;
 
       expect(report, containsPair('type', 'issue'));

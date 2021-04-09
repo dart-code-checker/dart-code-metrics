@@ -11,8 +11,8 @@ import 'package:path/path.dart' as p;
 import '../../../metrics/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import '../../../models/file_report.dart';
 import '../../../models/metric_value_level.dart';
+import '../../../reporters/reporter.dart';
 import '../../models/file_report.dart' as metrics;
-import '../reporter.dart';
 import '../utility_selector.dart';
 import 'utility_functions.dart';
 
@@ -70,17 +70,17 @@ class HtmlReporter implements Reporter {
   });
 
   @override
-  Future<Iterable<String>> report(Iterable<FileReport>? records) async {
-    if (records != null && records.isNotEmpty) {
-      _createReportDirectory(reportFolder);
-      await _copyResources(reportFolder);
-      for (final record in records) {
-        _generateSourceReport(reportFolder, record);
-      }
-      _generateFoldersReports(reportFolder, records);
+  Future<void> report(Iterable<FileReport> records) async {
+    if (records.isEmpty) {
+      return;
     }
 
-    return [];
+    _createReportDirectory(reportFolder);
+    await _copyResources(reportFolder);
+    for (final record in records) {
+      _generateSourceReport(reportFolder, record);
+    }
+    _generateFoldersReports(reportFolder, records);
   }
 
   void _createReportDirectory(String directoryName) {

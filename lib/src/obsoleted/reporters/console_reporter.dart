@@ -1,16 +1,19 @@
-// ignore_for_file: prefer-trailing-comma
+import 'dart:io';
+
 import 'package:ansicolor/ansicolor.dart';
 
 import '../../models/file_report.dart';
 import '../../models/metric_value.dart';
 import '../../models/metric_value_level.dart';
 import '../../models/severity.dart';
+import '../../reporters/reporter.dart';
 import '../../utils/metric_utils.dart';
-import '../reporters/reporter.dart';
 import '../reporters/utility_selector.dart';
 
 /// Plain terminal reporter
 class ConsoleReporter implements Reporter {
+  final IOSink _output;
+
   /// If true will report info about all files even if they're not above warning threshold
   final bool reportAll;
 
@@ -37,17 +40,15 @@ class ConsoleReporter implements Reporter {
   final _designIssuesColor = AnsiPen()..yellow();
   static const _designIssues = 'Design';
 
-  ConsoleReporter({this.reportAll = false});
+  ConsoleReporter(this._output, {this.reportAll = false});
 
   @override
-  Future<Iterable<String>> report(Iterable<FileReport>? records) async {
-    if (records?.isEmpty ?? true) {
-      return [];
+  Future<void> report(Iterable<FileReport> records) async {
+    if (records.isEmpty) {
+      return;
     }
 
-    final reportStrings = <String>[];
-
-    for (final analysisRecord in records!) {
+    for (final analysisRecord in records) {
       final lines = <String>[];
 
       analysisRecord.classes.forEach((source, componentReport) {
@@ -60,7 +61,8 @@ class ConsoleReporter implements Reporter {
               _report(report.methodsCount, 'number of methods'),
           ];
           lines.add(
-              '${_colorPens[violationLevel]!(_humanReadableLabel[violationLevel]!.padRight(8))}$source - ${violations.join(', ')}');
+            '${_colorPens[violationLevel]!(_humanReadableLabel[violationLevel]!.padRight(8))}$source - ${violations.join(', ')}',
+          );
         }
       });
 
@@ -72,13 +74,15 @@ class ConsoleReporter implements Reporter {
             '${antiPattern.location.start.line}:${antiPattern.location.start.column}';
         final rule = [antiPattern.ruleId, antiPattern.documentation].join(' ');
         lines.add(
-            '$severity${[antiPattern.message, position, rule].join(' : ')}');
+          '$severity${[antiPattern.message, position, rule].join(' : ')}',
+        );
       }
 
       for (final issue in analysisRecord.issues) {
         final severity = _severityColors[issue.severity]!(
-            '${issue.severity.toString().substring(0, 1).toUpperCase()}${issue.severity.toString().substring(1)}'
-                .padRight(8));
+          '${issue.severity.toString().substring(0, 1).toUpperCase()}${issue.severity.toString().substring(1)}'
+              .padRight(8),
+        );
         final position =
             '${issue.location.start.line}:${issue.location.start.column}';
         final rule = [
@@ -89,14 +93,11 @@ class ConsoleReporter implements Reporter {
       }
 
       if (lines.isNotEmpty) {
-        reportStrings
-          ..add('${analysisRecord.relativePath}:')
-          ..addAll(lines)
-          ..add('');
+        _output.writeln('${analysisRecord.relativePath}:');
+        lines.forEach(_output.writeln);
+        _output.writeln('');
       }
     }
-
-    return reportStrings;
   }
 
   Iterable<String> _reportAboutFunctions(FileReport record) {
@@ -120,7 +121,8 @@ class ConsoleReporter implements Reporter {
             _report(report.maximumNestingLevel, 'nesting level'),
         ];
         lines.add(
-            '${_colorPens[violationLevel]!(_humanReadableLabel[violationLevel]!.padRight(8))}$source - ${violations.join(', ')}');
+          '${_colorPens[violationLevel]!(_humanReadableLabel[violationLevel]!.padRight(8))}$source - ${violations.join(', ')}',
+        );
       }
     });
 
