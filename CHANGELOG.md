@@ -3,6 +3,7 @@
 ## Unreleased
 
 * Changed the supported `analyzer` version to `^1.4.0`.
+* Changed the supported `analyzer_plugin` version to `^0.6.0`.
 
 ## 3.0.0-nullsafety.0
 
