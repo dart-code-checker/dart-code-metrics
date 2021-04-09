@@ -10,7 +10,6 @@ import 'package:dart_code_metrics/src/config/analysis_options.dart';
 import 'package:dart_code_metrics/src/metrics_factory.dart';
 import 'package:dart_code_metrics/src/models/metric_value_level.dart';
 import 'package:dart_code_metrics/src/obsoleted/reporters/utility_selector.dart';
-import 'package:dart_code_metrics/src/reporters/reporter.dart';
 import 'package:path/path.dart' as p;
 
 final _parser = argumentsParser();
@@ -51,45 +50,16 @@ Future<void> _runAnalysis(ArgResults arguments) async {
       MetricsAnalysisRunner(analyzer, store, arguments.rest, rootFolder);
   await runner.run();
 
-  final reporterType = arguments[reporterName] as String;
+  await reporter(
+    name: arguments[reporterName] as String,
+    output: stdout,
+    config: config,
+    reportFolder: arguments[reportFolder] as String,
+  )?.report(runner.results());
+
   final exitOnViolationLevel = MetricValueLevel.fromString(
     arguments[setExitOnViolationLevel] as String?,
   );
-
-  Reporter reporter;
-
-  switch (reporterType) {
-    case consoleReporter:
-      reporter = ConsoleReporter(stdout);
-      break;
-    case consoleVerboseReporter:
-      reporter = ConsoleReporter(stdout, reportAll: true);
-      break;
-    case codeClimateReporter:
-      reporter = CodeClimateReporter(stdout, reportConfig: config);
-      break;
-    case htmlReporter:
-      reporter = HtmlReporter(reportFolder: arguments[reportFolder] as String);
-      break;
-    case jsonReporter:
-      reporter = JsonReporter(stdout);
-      break;
-    case githubReporter:
-      reporter = GitHubReporter(stdout);
-      break;
-    case gitlabCodeClimateReporter:
-      reporter = CodeClimateReporter(
-        stdout,
-        reportConfig: config,
-        gitlabCompatible: true,
-      );
-      break;
-    default:
-      throw ArgumentError.value(reporterType, 'reporter');
-  }
-
-  await reporter.report(runner.results());
-
   if (exitOnViolationLevel != null &&
       UtilitySelector.maxViolationLevel(runner.results()) >=
           exitOnViolationLevel) {
