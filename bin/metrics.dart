@@ -10,6 +10,7 @@ import 'package:dart_code_metrics/src/config/analysis_options.dart';
 import 'package:dart_code_metrics/src/metrics_factory.dart';
 import 'package:dart_code_metrics/src/models/metric_value_level.dart';
 import 'package:dart_code_metrics/src/obsoleted/reporters/utility_selector.dart';
+import 'package:dart_code_metrics/src/reporters/reporter.dart';
 import 'package:path/path.dart' as p;
 
 final _parser = argumentsParser();
@@ -59,25 +60,26 @@ Future<void> _runAnalysis(ArgResults arguments) async {
 
   switch (reporterType) {
     case consoleReporter:
-      reporter = ConsoleReporter();
+      reporter = ConsoleReporter(stdout);
       break;
     case consoleVerboseReporter:
-      reporter = ConsoleReporter(reportAll: true);
+      reporter = ConsoleReporter(stdout, reportAll: true);
       break;
     case codeClimateReporter:
-      reporter = CodeClimateReporter(reportConfig: config);
+      reporter = CodeClimateReporter(stdout, reportConfig: config);
       break;
     case htmlReporter:
       reporter = HtmlReporter(reportFolder: arguments[reportFolder] as String);
       break;
     case jsonReporter:
-      reporter = JsonReporter();
+      reporter = JsonReporter(stdout);
       break;
     case githubReporter:
-      reporter = GitHubReporter();
+      reporter = GitHubReporter(stdout);
       break;
     case gitlabCodeClimateReporter:
       reporter = CodeClimateReporter(
+        stdout,
         reportConfig: config,
         gitlabCompatible: true,
       );
@@ -86,7 +88,7 @@ Future<void> _runAnalysis(ArgResults arguments) async {
       throw ArgumentError.value(reporterType, 'reporter');
   }
 
-  (await reporter.report(runner.results())).forEach(print);
+  await reporter.report(runner.results());
 
   if (exitOnViolationLevel != null &&
       UtilitySelector.maxViolationLevel(runner.results()) >=

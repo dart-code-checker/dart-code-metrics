@@ -1,5 +1,6 @@
 @TestOn('vm')
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dart_code_metrics/src/metrics/maximum_nesting_level/maximum_nesting_level_metric.dart';
 import 'package:dart_code_metrics/src/metrics/number_of_methods_metric.dart';
@@ -15,24 +16,29 @@ import 'package:dart_code_metrics/src/models/report.dart';
 import 'package:dart_code_metrics/src/models/severity.dart';
 import 'package:dart_code_metrics/src/obsoleted/constants.dart';
 import 'package:dart_code_metrics/src/obsoleted/reporters/json_reporter.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:source_span/source_span.dart';
 import 'package:test/test.dart';
 
 import '../../stubs_builders.dart';
 import '../stubs_builders.dart';
 
+class IOSinkMock extends Mock implements IOSink {}
+
 void main() {
   group('JsonReporter.report report about', () {
+    // ignore: close_sinks
+    late IOSinkMock output;
     const fullPath = '/home/developer/work/project/example.darts';
 
-    late JsonReporter _reporter;
-
     setUp(() {
-      _reporter = JsonReporter();
+      output = IOSinkMock();
     });
 
     test('empty file', () async {
-      expect(await _reporter.report([]), isEmpty);
+      await JsonReporter(output).report([]);
+
+      verifyNever(() => output.write(any()));
     });
 
     group('file', () {
@@ -147,9 +153,11 @@ void main() {
           ),
         ];
 
-        final report = (json.decode((await _reporter.report(records)).first)
-                as List<Object?>)
-            .first as Map<String, Object?>;
+        await JsonReporter(output).report(records);
+        final report = (json.decode(
+          verify(() => output.write(captureAny())).captured.first as String,
+        ) as List)
+            .first as Map;
 
         expect(report, containsPair('average-number-of-parameters', 5));
         expect(
@@ -203,9 +211,11 @@ void main() {
           ),
         ];
 
-        final report = (json.decode((await _reporter.report(records)).first)
-                as List<Object?>)
-            .first as Map<String, Object?>;
+        await JsonReporter(output).report(records);
+        final report = (json.decode(
+          verify(() => output.write(captureAny())).captured.first as String,
+        ) as List)
+            .first as Map;
 
         expect(report.containsKey('designIssues'), isTrue);
 
@@ -267,9 +277,11 @@ void main() {
           ),
         ];
 
-        final report = (json.decode((await _reporter.report(records)).first)
-                as List<Object?>)
-            .first as Map<String, Object?>;
+        await JsonReporter(output).report(records);
+        final report = (json.decode(
+          verify(() => output.write(captureAny())).captured.first as String,
+        ) as List)
+            .first as Map;
 
         expect(report.containsKey('issues'), isTrue);
 
@@ -324,9 +336,12 @@ void main() {
           ),
         ];
 
-        final report = (json.decode((await _reporter.report(records)).first)
-                as List<Object?>)
-            .first as Map<String, Object?>;
+        await JsonReporter(output).report(records);
+        final report = (json.decode(
+          verify(() => output.write(captureAny())).captured.first as String,
+        ) as List)
+            .first as Map;
+
         final functionReport = (report['records']
             as Map<String, Object?>)['class'] as Map<String, Object?>;
 
@@ -365,9 +380,12 @@ void main() {
           ),
         ];
 
-        final report = (json.decode((await _reporter.report(records)).first)
-                as List<Object?>)
-            .first as Map<String, Object?>;
+        await JsonReporter(output).report(records);
+        final report = (json.decode(
+          verify(() => output.write(captureAny())).captured.first as String,
+        ) as List)
+            .first as Map;
+
         final functionReport = (report['records']
             as Map<String, Object?>)['class'] as Map<String, Object?>;
 
@@ -402,9 +420,12 @@ void main() {
           ),
         ];
 
-        final report = (json.decode((await _reporter.report(records)).first)
-                as List<Object?>)
-            .first as Map<String, Object?>;
+        await JsonReporter(output).report(records);
+        final report = (json.decode(
+          verify(() => output.write(captureAny())).captured.first as String,
+        ) as List)
+            .first as Map;
+
         final functionReport = (report['records']
             as Map<String, Object?>)['function'] as Map<String, Object?>;
 
@@ -436,9 +457,12 @@ void main() {
           ),
         ];
 
-        final report = (json.decode((await _reporter.report(records)).first)
-                as List<Object?>)
-            .first as Map<String, Object?>;
+        await JsonReporter(output).report(records);
+        final report = (json.decode(
+          verify(() => output.write(captureAny())).captured.first as String,
+        ) as List)
+            .first as Map;
+
         final functionReport = (report['records']
             as Map<String, Object?>)['function'] as Map<String, Object?>;
 
@@ -470,9 +494,12 @@ void main() {
           ),
         ];
 
-        final report = (json.decode((await _reporter.report(records)).first)
-                as List<Object?>)
-            .first as Map<String, Object?>;
+        await JsonReporter(output).report(records);
+        final report = (json.decode(
+          verify(() => output.write(captureAny())).captured.first as String,
+        ) as List)
+            .first as Map;
+
         final functionReport = (report['records']
             as Map<String, Object?>)['function'] as Map<String, Object?>;
 
@@ -505,9 +532,12 @@ void main() {
           ),
         ];
 
-        final report = (json.decode((await _reporter.report(records)).first)
-                as List<Object?>)
-            .first as Map<String, Object?>;
+        await JsonReporter(output).report(records);
+        final report = (json.decode(
+          verify(() => output.write(captureAny())).captured.first as String,
+        ) as List)
+            .first as Map;
+
         final functionReport = (report['records']
             as Map<String, Object?>)['function'] as Map<String, Object?>;
 
@@ -548,9 +578,12 @@ void main() {
           ),
         ];
 
-        final report = (json.decode((await _reporter.report(records)).first)
-                as List<Object?>)
-            .first as Map<String, Object?>;
+        await JsonReporter(output).report(records);
+        final report = (json.decode(
+          verify(() => output.write(captureAny())).captured.first as String,
+        ) as List)
+            .first as Map;
+
         final functionReport = (report['records']
             as Map<String, Object?>)['function'] as Map<String, Object?>;
 
@@ -591,9 +624,12 @@ void main() {
           ),
         ];
 
-        final report = (json.decode((await _reporter.report(records)).first)
-                as List<Object?>)
-            .first as Map<String, Object?>;
+        await JsonReporter(output).report(records);
+        final report = (json.decode(
+          verify(() => output.write(captureAny())).captured.first as String,
+        ) as List)
+            .first as Map;
+
         final functionReport = (report['records']
             as Map<String, Object?>)['function'] as Map<String, Object?>;
 
