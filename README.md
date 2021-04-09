@@ -343,6 +343,10 @@ Like rules, anti-patterns display issues in IDE, except that their configuration
 - [long-method](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/anti-patterns/long-method.md)
 - [long-parameter-list](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/anti-patterns/long-parameter-list.md)
 
+## Troubleshooting
+
+Please read [the following guide](./TROUBLESHOOTING) if the plugin is not working as you'd expect it to work.
+
 ## Contributing
 
 If you are interested in contributing, please check out the [contribution guidelines](https://github.com/dart-code-checker/dart-code-metrics/blob/master/CONTRIBUTING.md). Feedback and contributions are welcome!
