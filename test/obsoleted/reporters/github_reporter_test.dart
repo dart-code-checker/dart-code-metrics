@@ -1,19 +1,32 @@
 @TestOn('vm')
+import 'dart:io';
+
 import 'package:dart_code_metrics/src/models/file_report.dart';
 import 'package:dart_code_metrics/src/models/issue.dart';
 import 'package:dart_code_metrics/src/models/replacement.dart';
 import 'package:dart_code_metrics/src/models/report.dart';
 import 'package:dart_code_metrics/src/models/severity.dart';
 import 'package:dart_code_metrics/src/obsoleted/reporters/github/github_reporter.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:source_span/source_span.dart';
 import 'package:test/test.dart';
 
+class IOSinkMock extends Mock implements IOSink {}
+
 void main() {
   group('GitHubReporter.report report about', () {
+    // ignore: close_sinks
+    late IOSinkMock output;
     const fullPath = '/home/developer/work/project/example.dart';
 
+    setUp(() {
+      output = IOSinkMock();
+    });
+
     test('files without any records', () async {
-      expect(await GitHubReporter().report([]), isEmpty);
+      await GitHubReporter(output).report([]);
+
+      verifyNever(() => output.writeln(any()));
     });
 
     test('with design issues', () async {
@@ -46,8 +59,10 @@ void main() {
         ),
       ];
 
+      await GitHubReporter(output).report(records);
+
       expect(
-        await GitHubReporter().report(records),
+        verify(() => output.writeln(captureAny())).captured.cast<String>(),
         equals([
           '::warning file=/home/developer/work/project/example.dart,line=2,col=3::first issue message',
         ]),
@@ -107,8 +122,10 @@ void main() {
         ),
       ];
 
+      await GitHubReporter(output).report(records);
+
       expect(
-        await GitHubReporter().report(records),
+        verify(() => output.writeln(captureAny())).captured.cast<String>(),
         equals([
           '::warning file=/home/developer/work/project/example.dart,line=2,col=3::first issue message',
           '::error file=/home/developer/work/project/example.dart,line=4,col=3::second issue message',

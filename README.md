@@ -215,7 +215,18 @@ dart_code_metrics:
 
 ### Configuring a rules entry
 
-To enable a rule add its id to the `rules` entry. Rules with a `configurable` badge have additional configuration, check out their docs for more information.
+To enable a rule add its id to the `rules` entry. All rules have severity which can be overridden with `severity` config entry. For example,
+
+```yaml
+dart_code_metrics:
+  rules:
+    - newline-before-return
+        severity: info
+```
+
+will set severity to `info`. Available severity values: none, style, performance, warning, error.
+
+Rules with a `configurable` badge have additional configuration, check out their docs for more information.
 
 ### Configuring a metrics entry
 
@@ -335,6 +346,10 @@ Like rules, anti-patterns display issues in IDE, except that their configuration
 
 - [long-method](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/anti-patterns/long-method.md)
 - [long-parameter-list](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/anti-patterns/long-parameter-list.md)
+
+## Troubleshooting
+
+Please read [the following guide](./TROUBLESHOOTING.md) if the plugin is not working as you'd expect it to work.
 
 ## Contributing
 

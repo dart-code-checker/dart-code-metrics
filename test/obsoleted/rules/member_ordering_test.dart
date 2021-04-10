@@ -175,8 +175,8 @@ void main() {
     expect(
       issues.map((issue) => issue.message),
       equals([
-        'public_fields should be before public_methods',
-        'public_getters should be before private_methods',
+        'public-fields should be before public-methods',
+        'public-getters should be before private-methods',
       ]),
     );
   });
@@ -220,9 +220,9 @@ void main() {
     final config = {
       'order': [
         'constructors',
-        'public_setters',
-        'private_methods',
-        'public_fields',
+        'public-setters',
+        'private-methods',
+        'public-fields',
       ],
     };
 
@@ -259,8 +259,8 @@ void main() {
     expect(
       issues.map((issue) => issue.message),
       equals([
-        'constructors should be before public_fields',
-        'public_setters should be before private_methods',
+        'constructors should be before public-fields',
+        'public-setters should be before private-methods',
       ]),
     );
   });
@@ -276,12 +276,12 @@ void main() {
 
     final config = {
       'order': [
-        'angular_outputs',
-        'angular_inputs',
-        'angular_host_listeners',
-        'angular_host_bindings',
-        'angular_content_children',
-        'angular_view_children',
+        'angular-outputs',
+        'angular-inputs',
+        'angular-host-listeners',
+        'angular-host-bindings',
+        'angular-content-children',
+        'angular-view-children',
         'constructors',
       ],
     };
@@ -331,13 +331,13 @@ void main() {
     expect(
       issues.map((issue) => issue.message),
       equals([
-        'angular_view_children should be before constructors',
-        'angular_view_children should be before constructors',
-        'angular_content_children should be before angular_view_children',
-        'angular_content_children should be before angular_view_children',
-        'angular_inputs should be before angular_content_children',
-        'angular_outputs should be before angular_inputs',
-        'angular_host_listeners should be before angular_host_bindings',
+        'angular-view-children should be before constructors',
+        'angular-view-children should be before constructors',
+        'angular-content-children should be before angular-view-children',
+        'angular-content-children should be before angular-view-children',
+        'angular-inputs should be before angular-content-children',
+        'angular-outputs should be before angular-inputs',
+        'angular-host-listeners should be before angular-host-bindings',
       ]),
     );
   });
@@ -354,9 +354,9 @@ void main() {
     final config = {
       'alphabetize': true,
       'order': [
-        'public_methods',
-        'public_fields',
-        'angular_inputs',
+        'public-methods',
+        'public-fields',
+        'angular-inputs',
       ],
     };
 
@@ -407,9 +407,9 @@ void main() {
     expect(
       issues.map((issue) => issue.message),
       equals([
-        'public_methods should be before public_fields',
-        'public_methods should be before public_fields',
-        'public_methods should be before public_fields',
+        'public-methods should be before public-fields',
+        'public-methods should be before public-fields',
+        'public-methods should be before public-fields',
         'data should be alphabetically before value',
         'algorithm should be alphabetically before data',
         'create should be alphabetically before work',

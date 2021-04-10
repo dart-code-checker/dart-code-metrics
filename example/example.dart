@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dart_code_metrics/metrics_analyzer.dart';
 import 'package:dart_code_metrics/reporters.dart';
 
@@ -44,10 +46,10 @@ Future<void> main() async {
   // For a simple example we would report results to terminal
 
   // Now the reporter itself
-  final reporter = ConsoleReporter();
+  final reporter = ConsoleReporter(stdout);
 
   // Now pass collected analysis reports from runner to reporter and that's it
-  (await reporter.report(runner.results())).forEach(print);
+  await reporter.report(runner.results());
 
   // There is also JsonReporter for making machine-readable reports
   // HtmlReporter produces fancy html-documents with bells and whistles

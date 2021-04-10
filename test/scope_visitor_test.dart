@@ -7,13 +7,13 @@ import 'package:dart_code_metrics/src/scope_visitor.dart';
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
-const abstractClassExample = './test/resources/abstract_class.dart';
-const classWithFactoryConstructorsExample =
+const _abstractClassExample = './test/resources/abstract_class.dart';
+const _classWithFactoryConstructorsExample =
     './test/resources/class_with_factory_constructors.dart';
-const extensionWithMethodExample = './test/resources/extension.dart';
-const functionsExample = './test/resources/functions.dart';
-const mixinExample = './test/resources/mixin.dart';
-const severalClassesExample = './test/resources/weight_of_class_example.dart';
+const _extensionWithMethodExample = './test/resources/extension.dart';
+const _functionsExample = './test/resources/functions.dart';
+const _mixinExample = './test/resources/mixin.dart';
+const _severalClassesExample = './test/resources/weight_of_class_example.dart';
 
 void main() {
   group('ScopeVisitor collects scope from file with', () {
@@ -24,7 +24,7 @@ void main() {
     });
 
     test('abstract class', () async {
-      (await resolveFile(path: p.normalize(p.absolute(abstractClassExample))))!
+      (await resolveFile(path: p.normalize(p.absolute(_abstractClassExample))))!
           .unit!
           .visitChildren(visitor);
 
@@ -41,7 +41,7 @@ void main() {
 
     test('class with factory constructors', () async {
       (await resolveFile(
-        path: p.normalize(p.absolute(classWithFactoryConstructorsExample)),
+        path: p.normalize(p.absolute(_classWithFactoryConstructorsExample)),
       ))!
           .unit!
           .visitChildren(visitor);
@@ -76,7 +76,7 @@ void main() {
 
     test('extension with method', () async {
       (await resolveFile(
-        path: p.normalize(p.absolute(extensionWithMethodExample)),
+        path: p.normalize(p.absolute(_extensionWithMethodExample)),
       ))!
           .unit!
           .visitChildren(visitor);
@@ -93,7 +93,7 @@ void main() {
     });
 
     test('mixin', () async {
-      (await resolveFile(path: p.normalize(p.absolute(mixinExample))))!
+      (await resolveFile(path: p.normalize(p.absolute(_mixinExample))))!
           .unit!
           .visitChildren(visitor);
 
@@ -109,7 +109,7 @@ void main() {
     });
 
     test('functions', () async {
-      (await resolveFile(path: p.normalize(p.absolute(functionsExample))))!
+      (await resolveFile(path: p.normalize(p.absolute(_functionsExample))))!
           .unit!
           .visitChildren(visitor);
 
@@ -126,7 +126,9 @@ void main() {
     });
 
     test('several classes', () async {
-      (await resolveFile(path: p.normalize(p.absolute(severalClassesExample))))!
+      (await resolveFile(
+        path: p.normalize(p.absolute(_severalClassesExample)),
+      ))!
           .unit!
           .visitChildren(visitor);
 

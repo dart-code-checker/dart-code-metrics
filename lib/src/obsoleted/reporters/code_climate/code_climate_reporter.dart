@@ -1,41 +1,48 @@
 import 'dart:convert';
+import 'dart:io';
 
 import '../../../config/config.dart';
 import '../../../metrics/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import '../../../metrics/maximum_nesting_level/maximum_nesting_level_metric.dart';
 import '../../../metrics/number_of_methods_metric.dart';
 import '../../../models/file_report.dart';
+import '../../../reporters/reporter.dart';
 import '../../../utils/metric_utils.dart';
-import '../reporter.dart';
 import '../utility_selector.dart';
 import 'code_climate_issue.dart';
 
-/// Creates reports in Code Climate format widely understood by various CI and analysis tools
 // Code Climate Engine Specification https://github.com/codeclimate/platform/blob/master/spec/analyzers/SPEC.md
+
+/// Creates reports in Code Climate format widely understood by various CI and analysis tools
 class CodeClimateReporter implements Reporter {
+  final IOSink _output;
+
   final Config reportConfig;
 
   /// If true will report in GitLab Code Quality format
   final bool gitlabCompatible;
 
-  CodeClimateReporter({
+  CodeClimateReporter(
+    this._output, {
     required this.reportConfig,
     this.gitlabCompatible = false,
   });
 
   @override
-  Future<Iterable<String>> report(Iterable<FileReport>? records) async {
-    if (records != null && records.isNotEmpty) {
-      return gitlabCompatible
-          ? [json.encode(records.map(_toIssues).expand((r) => r).toList())]
-          : records
-              .map(_toIssues)
-              .expand((r) => r)
-              .map((issue) => '${json.encode(issue)}\x00')
-              .toList();
+  Future<void> report(Iterable<FileReport> records) async {
+    if (records.isEmpty) {
+      return;
     }
 
-    return [];
+    final codeClimateRecords = records.map(_toIssues).expand((r) => r);
+
+    if (gitlabCompatible) {
+      _output.writeln(json.encode(codeClimateRecords.toList()));
+    } else {
+      for (final record in codeClimateRecords) {
+        _output.writeln('${json.encode(record)}\x00');
+      }
+    }
   }
 
   Iterable<CodeClimateIssue> _toIssues(FileReport record) {

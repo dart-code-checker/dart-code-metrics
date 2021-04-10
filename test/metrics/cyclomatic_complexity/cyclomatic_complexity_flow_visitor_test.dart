@@ -5,11 +5,11 @@ import 'package:dart_code_metrics/src/metrics/cyclomatic_complexity/cyclomatic_c
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
-const examplePath =
+const _examplePath =
     './test/resources/cyclomatic_complexity_metric_example.dart';
 
 Future<void> main() async {
-  final result = await resolveFile(path: p.normalize(p.absolute(examplePath)));
+  final result = await resolveFile(path: p.normalize(p.absolute(_examplePath)));
 
   group(
     'CyclomaticComplexityFlowVisitor collect information about cyclomatic complexity in',
