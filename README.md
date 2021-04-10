@@ -224,7 +224,7 @@ dart_code_metrics:
         severity: info
 ```
 
-will set severity to `info`. Available severity values: none, style, performace, warning, error.
+will set severity to `info`. Available severity values: none, style, performance, warning, error.
 
 Rules with a `configurable` badge have additional configuration, check out their docs for more information.
 
@@ -345,7 +345,7 @@ Like rules, anti-patterns display issues in IDE, except that their configuration
 
 ## Troubleshooting
 
-Please read [the following guide](./TROUBLESHOOTING) if the plugin is not working as you'd expect it to work.
+Please read [the following guide](./TROUBLESHOOTING.md) if the plugin is not working as you'd expect it to work.
 
 ## Contributing
 
