@@ -3,8 +3,7 @@ name: Bug report
 about: Report an issue with Dart code metrics.
 title: "[BUG] "
 labels: bug
-assignees: dkrutskikh
-
+assignees: dkrutskikh, incendial
 ---
 
 <!--

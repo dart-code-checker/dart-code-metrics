@@ -12,21 +12,21 @@ Enforces member ordering.
 
 The value for `order` may be an array consisting of the following strings (default order listed):
 
-- public_fields
-- private_fields
-- public_getters
-- private_getters
-- public_setters
-- private_setters
+- public-fields
+- private-fields
+- public-getters
+- private-getters
+- public-setters
+- private-setters
 - constructors
-- public_methods
-- private_methods
-- angular_inputs
-- angular_outputs
-- angular_host_bindings
-- angular_host_listeners
-- angular_view_children
-- angular_content_children
+- public-methods
+- private-methods
+- angular-inputs
+- angular-outputs
+- angular-host-bindings
+- angular-host-listeners
+- angular-view-children
+- angular-content-children
 
 The `alphabetize` option will enforce that members within the same category should be alphabetically sorted by name.
 
@@ -36,7 +36,7 @@ The `alphabetize` option will enforce that members within the same category shou
 member-ordering:
   alphabetize: true
   order:
-    - public_fields
-    - private_fields
+    - public-fields
+    - private-fields
     - constructors
 ```

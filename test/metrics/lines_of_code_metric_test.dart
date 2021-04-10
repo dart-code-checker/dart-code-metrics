@@ -6,7 +6,7 @@ import 'package:dart_code_metrics/src/scope_visitor.dart';
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
-const examplePath = './test/resources/lines_of_code_metric_example.dart';
+const _examplePath = './test/resources/lines_of_code_metric_example.dart';
 
 Future<void> main() async {
   final metric = LinesOfCodeMetric(
@@ -15,7 +15,8 @@ Future<void> main() async {
 
   final scopeVisitor = ScopeVisitor();
 
-  final example = await resolveFile(path: p.normalize(p.absolute(examplePath)));
+  final example =
+      await resolveFile(path: p.normalize(p.absolute(_examplePath)));
   example!.unit!.visitChildren(scopeVisitor);
 
   group('LinesOfCodeMetric computes lines of code of the', () {

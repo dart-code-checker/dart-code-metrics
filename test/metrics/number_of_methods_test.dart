@@ -6,8 +6,6 @@ import 'package:dart_code_metrics/src/scope_visitor.dart';
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
-const examplePath = './test/resources/newline_before_return_example.dart';
-
 void main() {
   test('NumberOfMethodsMetric computes', () {
     final metric = NumberOfMethodsMetric(

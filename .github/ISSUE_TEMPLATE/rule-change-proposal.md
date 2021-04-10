@@ -3,8 +3,7 @@ name: Rule change proposal
 about: Request a change to an existing rule.
 title: "[Rule change] "
 labels: enhancement
-assignees: dkrutskikh
-
+assignees: dkrutskikh, incendial
 ---
 
 <!--

@@ -6,7 +6,7 @@ import 'package:dart_code_metrics/src/scope_visitor.dart';
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
-const examplePath =
+const _examplePath =
     './test/resources/maximum_nesting_level_metric_example.dart';
 
 Future<void> main() async {
@@ -14,7 +14,8 @@ Future<void> main() async {
     config: {MaximumNestingLevelMetric.metricId: '2'},
   );
 
-  final example = await resolveFile(path: p.normalize(p.absolute(examplePath)));
+  final example =
+      await resolveFile(path: p.normalize(p.absolute(_examplePath)));
 
   group('MaximumNestingLevelMetric computes maximum nesting level of the', () {
     final scopeVisitor = ScopeVisitor();

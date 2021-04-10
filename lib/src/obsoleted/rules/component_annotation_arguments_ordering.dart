@@ -8,6 +8,7 @@ import '../../models/issue.dart';
 import '../../models/severity.dart';
 import '../../utils/node_utils.dart';
 import '../../utils/rule_utils.dart';
+import '../../utils/string_extension.dart';
 import 'obsolete_rule.dart';
 
 class ComponentAnnotationArgumentsOrderingRule extends ObsoleteRule {
@@ -58,7 +59,11 @@ class ComponentAnnotationArgumentsOrderingRule extends ObsoleteRule {
 
     return order.isEmpty
         ? _ArgumentGroup._groupsOrder
-        : order.map(_ArgumentGroup.parseGroupName).whereNotNull().toList();
+        : order
+            .map((group) => group.snakeCaseToKebab())
+            .map(_ArgumentGroup.parseGroupName)
+            .whereNotNull()
+            .toList();
   }
 }
 
@@ -176,7 +181,7 @@ class _ArgumentGroup {
     ['exports', 'exportAs'],
   );
   static const changeDetection = _ArgumentGroup._(
-    'change_detection',
+    'change-detection',
     ['changeDetection'],
   );
 

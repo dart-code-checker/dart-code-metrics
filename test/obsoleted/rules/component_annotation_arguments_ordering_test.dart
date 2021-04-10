@@ -80,7 +80,7 @@ void main() {
       expect(
         issues.map((issue) => issue.message),
         equals([
-          'Arguments group styles should be before change_detection',
+          'Arguments group styles should be before change-detection',
         ]),
       );
     });
@@ -106,7 +106,7 @@ void main() {
     test('with custom config reports about found issues', () {
       final config = {
         'order': [
-          'change_detection',
+          'change-detection',
           'templates',
           'selector',
           'styles',
@@ -147,7 +147,7 @@ void main() {
         issues.map((issue) => issue.message),
         equals([
           'Arguments group templates should be before selector',
-          'Arguments group change_detection should be before templates',
+          'Arguments group change-detection should be before templates',
         ]),
       );
     });

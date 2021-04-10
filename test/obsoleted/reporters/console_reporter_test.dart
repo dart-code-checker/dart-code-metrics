@@ -1,4 +1,6 @@
 @TestOn('vm')
+import 'dart:io';
+
 import 'package:ansicolor/ansicolor.dart';
 import 'package:dart_code_metrics/src/metrics/maximum_nesting_level/maximum_nesting_level_metric.dart';
 import 'package:dart_code_metrics/src/metrics/number_of_methods_metric.dart';
@@ -14,31 +16,39 @@ import 'package:dart_code_metrics/src/models/report.dart';
 import 'package:dart_code_metrics/src/models/severity.dart';
 import 'package:dart_code_metrics/src/obsoleted/constants.dart';
 import 'package:dart_code_metrics/src/obsoleted/reporters/console_reporter.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:source_span/source_span.dart';
 import 'package:test/test.dart';
 
 import '../../stubs_builders.dart';
 import '../stubs_builders.dart';
 
+class IOSinkMock extends Mock implements IOSink {}
+
 void main() {
   group('ConsoleReporter.report report about', () {
+    late IOSinkMock output; // ignore: close_sinks
+    late IOSinkMock verboseOutput; // ignore: close_sinks
     const fullPath = '/home/developer/work/project/example.dart';
 
     late ConsoleReporter _reporter;
     late ConsoleReporter _verboseReporter;
 
     setUp(() {
+      output = IOSinkMock();
+      verboseOutput = IOSinkMock();
+
       ansiColorDisabled = false;
-      _reporter = ConsoleReporter();
-      _verboseReporter = ConsoleReporter(reportAll: true);
+      _reporter = ConsoleReporter(output);
+      _verboseReporter = ConsoleReporter(verboseOutput, reportAll: true);
     });
 
     test('files without any records', () async {
-      final report = await _reporter.report([]);
-      final verboseReport = (await _verboseReporter.report([])).toList();
+      await _reporter.report([]);
+      await _verboseReporter.report([]);
 
-      expect(report, isEmpty);
-      expect(verboseReport, isEmpty);
+      verifyNever(() => output.writeln(any()));
+      verifyNever(() => verboseOutput.writeln(any()));
     });
 
     group('component', () {
@@ -70,10 +80,13 @@ void main() {
           ),
         ];
 
-        final report = await _reporter.report(records);
-        final verboseReport = (await _verboseReporter.report(records)).toList();
+        await _reporter.report(records);
+        await _verboseReporter.report(records);
 
-        expect(report, isEmpty);
+        verifyNever(() => output.writeln(any()));
+        final verboseReport = verify(() => verboseOutput.writeln(captureAny()))
+            .captured
+            .cast<String>();
         expect(verboseReport, hasLength(3));
         expect(
           verboseReport[1],
@@ -109,8 +122,10 @@ void main() {
           ),
         ];
 
-        final report = (await _reporter.report(records)).toList();
+        await _reporter.report(records);
 
+        final report =
+            verify(() => output.writeln(captureAny())).captured.cast<String>();
         expect(report, hasLength(3));
         expect(report[1], contains('number of methods: \x1B[38;5;3m20\x1B[0m'));
       });
@@ -139,8 +154,10 @@ void main() {
           ),
         ];
 
-        final report = (await _reporter.report(records)).toList();
+        await _reporter.report(records);
 
+        final report =
+            verify(() => output.writeln(captureAny())).captured.cast<String>();
         expect(report, hasLength(3));
         expect(
           report[1],
@@ -169,10 +186,14 @@ void main() {
           ),
         ];
 
-        final report = await _reporter.report(records);
-        final verboseReport = (await _verboseReporter.report(records)).toList();
+        await _reporter.report(records);
+        await _verboseReporter.report(records);
 
-        expect(report, isEmpty);
+        verifyNever(() => output.writeln(any()));
+
+        final verboseReport = verify(() => verboseOutput.writeln(captureAny()))
+            .captured
+            .cast<String>();
         expect(verboseReport, hasLength(3));
         expect(
           verboseReport[1],
@@ -201,10 +222,14 @@ void main() {
           ),
         ];
 
-        final report = await _reporter.report(records);
-        final verboseReport = (await _verboseReporter.report(records)).toList();
+        await _reporter.report(records);
+        await _verboseReporter.report(records);
 
-        expect(report, isEmpty);
+        verifyNever(() => output.writeln(any()));
+
+        final verboseReport = verify(() => verboseOutput.writeln(captureAny()))
+            .captured
+            .cast<String>();
         expect(verboseReport, hasLength(3));
         expect(
           verboseReport[1],
@@ -234,8 +259,10 @@ void main() {
           ),
         ];
 
-        final report = (await _reporter.report(records)).toList();
+        await _reporter.report(records);
 
+        final report =
+            verify(() => output.writeln(captureAny())).captured.cast<String>();
         expect(report, hasLength(3));
         expect(
           report[1],
@@ -273,10 +300,14 @@ void main() {
           ),
         ];
 
-        final report = await _reporter.report(records);
-        final verboseReport = (await _verboseReporter.report(records)).toList();
+        await _reporter.report(records);
+        await _verboseReporter.report(records);
 
-        expect(report, isEmpty);
+        verifyNever(() => output.writeln(any()));
+
+        final verboseReport = verify(() => verboseOutput.writeln(captureAny()))
+            .captured
+            .cast<String>();
         expect(verboseReport, hasLength(3));
         expect(
           verboseReport[1],
@@ -314,13 +345,12 @@ void main() {
           ),
         ];
 
-        final report = (await _reporter.report(records)).toList();
+        await _reporter.report(records);
 
+        final report =
+            verify(() => output.writeln(captureAny())).captured.cast<String>();
         expect(report, hasLength(3));
-        expect(
-          report[1],
-          contains('nesting level: \x1B[38;5;3m7\x1B[0m'),
-        );
+        expect(report[1], contains('nesting level: \x1B[38;5;3m7\x1B[0m'));
       });
     });
 
@@ -354,8 +384,10 @@ void main() {
         ),
       ];
 
-      final report = (await _reporter.report(records)).toList();
+      await _reporter.report(records);
 
+      final report =
+          verify(() => output.writeln(captureAny())).captured.cast<String>();
       expect(report, hasLength(3));
       expect(
         report[1],
@@ -398,8 +430,10 @@ void main() {
         ),
       ];
 
-      final report = (await _reporter.report(records)).toList();
+      await _reporter.report(records);
 
+      final report =
+          verify(() => output.writeln(captureAny())).captured.cast<String>();
       expect(report, hasLength(3));
       expect(
         report[1],

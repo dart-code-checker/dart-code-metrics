@@ -8,6 +8,7 @@ import '../../models/issue.dart';
 import '../../models/severity.dart';
 import '../../utils/node_utils.dart';
 import '../../utils/rule_utils.dart';
+import '../../utils/string_extension.dart';
 import 'obsolete_rule.dart';
 
 // Inspired by TSLint (https://palantir.github.io/tslint/rules/member-ordering/)
@@ -79,7 +80,11 @@ class MemberOrderingRule extends ObsoleteRule {
 
     return order.isEmpty
         ? _MembersGroup._groupsOrder
-        : order.map(_MembersGroup.parse).whereNotNull().toList();
+        : order
+            .map((group) => group.snakeCaseToKebab())
+            .map(_MembersGroup.parse)
+            .whereNotNull()
+            .toList();
   }
 }
 
@@ -237,24 +242,24 @@ class _MembersGroup {
   final String name;
 
   // Generic
-  static const publicFields = _MembersGroup._('public_fields');
-  static const privateFields = _MembersGroup._('private_fields');
-  static const publicGetters = _MembersGroup._('public_getters');
-  static const privateGetters = _MembersGroup._('private_getters');
-  static const publicSetters = _MembersGroup._('public_setters');
-  static const privateSetters = _MembersGroup._('private_setters');
-  static const publicMethods = _MembersGroup._('public_methods');
-  static const privateMethods = _MembersGroup._('private_methods');
+  static const publicFields = _MembersGroup._('public-fields');
+  static const privateFields = _MembersGroup._('private-fields');
+  static const publicGetters = _MembersGroup._('public-getters');
+  static const privateGetters = _MembersGroup._('private-getters');
+  static const publicSetters = _MembersGroup._('public-setters');
+  static const privateSetters = _MembersGroup._('private-setters');
+  static const publicMethods = _MembersGroup._('public-methods');
+  static const privateMethods = _MembersGroup._('private-methods');
   static const constructors = _MembersGroup._('constructors');
 
   // Angular
-  static const angularInputs = _MembersGroup._('angular_inputs');
-  static const angularOutputs = _MembersGroup._('angular_outputs');
-  static const angularHostBindings = _MembersGroup._('angular_host_bindings');
-  static const angularHostListeners = _MembersGroup._('angular_host_listeners');
-  static const angularViewChildren = _MembersGroup._('angular_view_children');
+  static const angularInputs = _MembersGroup._('angular-inputs');
+  static const angularOutputs = _MembersGroup._('angular-outputs');
+  static const angularHostBindings = _MembersGroup._('angular-host-bindings');
+  static const angularHostListeners = _MembersGroup._('angular-host-listeners');
+  static const angularViewChildren = _MembersGroup._('angular-view-children');
   static const angularContentChildren =
-      _MembersGroup._('angular_content_children');
+      _MembersGroup._('angular-content-children');
 
   static const _groupsOrder = [
     publicFields,

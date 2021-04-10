@@ -5,11 +5,11 @@ import 'package:dart_code_metrics/src/scope_visitor.dart';
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
-const examplePath =
+const _examplePath =
     './test/resources/maximum_nesting_level_metric_example.dart';
 
 Future<void> main() async {
-  final result = await resolveFile(path: p.normalize(p.absolute(examplePath)));
+  final result = await resolveFile(path: p.normalize(p.absolute(_examplePath)));
 
   group('NestingLevelVisitor collect information about nesting levels', () {
     final scopeVisitor = ScopeVisitor();

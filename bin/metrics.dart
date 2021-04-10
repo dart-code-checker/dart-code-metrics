@@ -50,44 +50,16 @@ Future<void> _runAnalysis(ArgResults arguments) async {
       MetricsAnalysisRunner(analyzer, store, arguments.rest, rootFolder);
   await runner.run();
 
-  final reporterType = arguments[reporterName] as String;
+  await reporter(
+    name: arguments[reporterName] as String,
+    output: stdout,
+    config: config,
+    reportFolder: arguments[reportFolder] as String,
+  )?.report(runner.results());
+
   final exitOnViolationLevel = MetricValueLevel.fromString(
     arguments[setExitOnViolationLevel] as String?,
   );
-
-  Reporter reporter;
-
-  switch (reporterType) {
-    case consoleReporter:
-      reporter = ConsoleReporter();
-      break;
-    case consoleVerboseReporter:
-      reporter = ConsoleReporter(reportAll: true);
-      break;
-    case codeClimateReporter:
-      reporter = CodeClimateReporter(reportConfig: config);
-      break;
-    case htmlReporter:
-      reporter = HtmlReporter(reportFolder: arguments[reportFolder] as String);
-      break;
-    case jsonReporter:
-      reporter = JsonReporter();
-      break;
-    case githubReporter:
-      reporter = GitHubReporter();
-      break;
-    case gitlabCodeClimateReporter:
-      reporter = CodeClimateReporter(
-        reportConfig: config,
-        gitlabCompatible: true,
-      );
-      break;
-    default:
-      throw ArgumentError.value(reporterType, 'reporter');
-  }
-
-  (await reporter.report(runner.results())).forEach(print);
-
   if (exitOnViolationLevel != null &&
       UtilitySelector.maxViolationLevel(runner.results()) >=
           exitOnViolationLevel) {
