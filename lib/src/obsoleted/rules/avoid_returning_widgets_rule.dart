@@ -16,7 +16,9 @@ class AvoidReturningWidgets extends ObsoleteRule {
 
   static const _warningMessage = 'Avoid returning widgets from a function';
 
-  final List<String> _ignoredNames;
+  static const _ignoredNamesConfig = 'ignored-names';
+
+  final Iterable<String> _ignoredNames;
 
   AvoidReturningWidgets({Map<String, Object> config = const {}})
       : _ignoredNames = _getIgnoredNames(config),
@@ -45,9 +47,10 @@ class AvoidReturningWidgets extends ObsoleteRule {
         .toList(growable: false);
   }
 
-  static List<String> _getIgnoredNames(Map<String, Object> config) =>
-      config.containsKey('ignored-names') && config['ignored-names'] is Iterable
-          ? List<String>.from(config['ignored-names'] as Iterable)
+  static Iterable<String> _getIgnoredNames(Map<String, Object> config) =>
+      config.containsKey(_ignoredNamesConfig) &&
+              config[_ignoredNamesConfig] is Iterable
+          ? List<String>.from(config[_ignoredNamesConfig] as Iterable)
           : <String>[];
 }
 
