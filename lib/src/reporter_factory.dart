@@ -6,7 +6,7 @@ import 'obsoleted/reporters/code_climate/code_climate_reporter.dart';
 import 'obsoleted/reporters/console_reporter.dart';
 import 'obsoleted/reporters/github/github_reporter.dart';
 import 'obsoleted/reporters/html/html_reporter.dart';
-import 'obsoleted/reporters/json_reporter.dart';
+import 'reporters/json_reporter.dart';
 import 'reporters/reporter.dart';
 
 final _implementedReports = <String,
