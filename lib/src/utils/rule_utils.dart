@@ -35,7 +35,3 @@ Uri documentation(String ruleId) => Uri(
 /// Returns the [Severity] from map based [config] otherwise [defaultValue]
 Severity readSeverity(Map<String, Object?> config, Severity defaultValue) =>
     Severity.fromString(config['severity'] as String?) ?? defaultValue;
-
-/// Used for migrating old rules config approach with underscores
-String normalizeRuleConfigItem(String configItem) =>
-    configItem.replaceAll('_', '-');

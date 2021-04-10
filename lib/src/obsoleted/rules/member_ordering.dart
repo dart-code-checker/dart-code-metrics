@@ -8,6 +8,7 @@ import '../../models/issue.dart';
 import '../../models/severity.dart';
 import '../../utils/node_utils.dart';
 import '../../utils/rule_utils.dart';
+import '../../utils/string_extension.dart';
 import 'obsolete_rule.dart';
 
 // Inspired by TSLint (https://palantir.github.io/tslint/rules/member-ordering/)
@@ -79,7 +80,7 @@ class MemberOrderingRule extends ObsoleteRule {
     return order.isEmpty
         ? _MembersGroup._groupsOrder
         : order
-            .map(normalizeRuleConfigItem)
+            .map((group) => group.snakeCaseToKebab())
             .map(_MembersGroup.parse)
             .whereNotNull()
             .toList();
