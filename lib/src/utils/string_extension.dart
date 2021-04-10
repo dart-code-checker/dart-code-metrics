@@ -11,4 +11,9 @@ extension StringExtensions on String {
   ///
   /// Example: print('capitalize'.capitalize()); => 'Capitalize'
   String capitalize() => this[0].toUpperCase() + substring(1);
+
+  /// Returns a string in kebab case
+  ///
+  /// Example: print('snake_case'.snakeCaseToKebab()); => 'snake-case'
+  String snakeCaseToKebab() => replaceAll('_', '-');
 }

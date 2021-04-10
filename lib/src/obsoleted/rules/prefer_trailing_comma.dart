@@ -56,7 +56,9 @@ class PreferTrailingComma extends ObsoleteRule {
   }
 
   static int? _parseItemsBreakpoint(Map<String, Object> config) {
-    final breakpoint = config['break_on'];
+    final breakpoint = config.containsKey('break-on')
+        ? config['break-on']
+        : config['break_on'];
 
     return breakpoint != null ? int.tryParse(breakpoint.toString()) : null;
   }

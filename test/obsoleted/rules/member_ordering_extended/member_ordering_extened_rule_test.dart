@@ -83,12 +83,12 @@ void main() {
         expect(
           issues.map((issue) => issue.message),
           equals([
-            'public_fields should be before private_fields',
-            'public_fields should be before private_fields',
-            'public_fields should be before private_fields',
-            'public_fields should be before private_fields',
-            'public_fields should be before public_methods',
-            'public_getters should be before private_methods',
+            'public-fields should be before private-fields',
+            'public-fields should be before private-fields',
+            'public-fields should be before private-fields',
+            'public-fields should be before private-fields',
+            'public-fields should be before public-methods',
+            'public-getters should be before private-methods',
           ]),
         );
       });
@@ -120,9 +120,9 @@ void main() {
         final config = {
           'order': [
             'constructors',
-            'public_setters',
-            'private_methods',
-            'public_fields',
+            'public-setters',
+            'private-methods',
+            'public-fields',
           ],
         };
 
@@ -161,10 +161,10 @@ void main() {
         expect(
           issues.map((issue) => issue.message),
           equals([
-            'constructors should be before public_fields',
-            'constructors should be before public_fields',
-            'constructors should be before public_fields',
-            'public_setters should be before private_methods',
+            'constructors should be before public-fields',
+            'constructors should be before public-fields',
+            'constructors should be before public-fields',
+            'public-setters should be before private-methods',
           ]),
         );
       });
@@ -179,7 +179,7 @@ void main() {
           'order': [
             'constructors',
             'fields',
-            'getters_setters',
+            'getters-setters',
             'methods',
           ],
         };
@@ -193,19 +193,19 @@ void main() {
 
         expect(
           issues.map((issue) => issue.location.start.offset),
-          equals([216, 235, 246, 281, 389]),
+          equals([216, 235, 246, 281, 358, 389]),
         );
         expect(
           issues.map((issue) => issue.location.start.line),
-          equals([16, 18, 20, 22, 30]),
+          equals([16, 18, 20, 22, 28, 30]),
         );
         expect(
           issues.map((issue) => issue.location.start.column),
-          equals([3, 3, 3, 3, 3]),
+          equals([3, 3, 3, 3, 3, 3]),
         );
         expect(
           issues.map((issue) => issue.location.end.offset),
-          equals([231, 242, 277, 295, 427]),
+          equals([231, 242, 277, 295, 385, 427]),
         );
         expect(
           issues.map((issue) => issue.location.text),
@@ -214,6 +214,7 @@ void main() {
             'Test();',
             'factory Test.empty() => Test();',
             'Test.create();',
+            'String get value => _value;',
             'set value(String str) => _value = str;',
           ]),
         );
@@ -224,7 +225,8 @@ void main() {
             'constructors should be before fields',
             'constructors should be before fields',
             'constructors should be before fields',
-            'getters_setters should be before methods',
+            'getters-setters should be before methods',
+            'getters-setters should be before methods',
           ]),
         );
       });
@@ -241,9 +243,9 @@ void main() {
             'order': [
               'constructors',
               'fields',
-              'getters_setters',
-              'named_constructors',
-              'factory_constructors',
+              'getters-setters',
+              'named-constructors',
+              'factory-constructors',
               'methods',
             ],
           };
@@ -257,19 +259,19 @@ void main() {
 
           expect(
             issues.map((issue) => issue.location.start.offset),
-            equals([216, 235, 281, 389]),
+            equals([216, 235, 281, 358, 389]),
           );
           expect(
             issues.map((issue) => issue.location.start.line),
-            equals([16, 18, 22, 30]),
+            equals([16, 18, 22, 28, 30]),
           );
           expect(
             issues.map((issue) => issue.location.start.column),
-            equals([3, 3, 3, 3]),
+            equals([3, 3, 3, 3, 3]),
           );
           expect(
             issues.map((issue) => issue.location.end.offset),
-            equals([231, 242, 295, 427]),
+            equals([231, 242, 295, 385, 427]),
           );
           expect(
             issues.map((issue) => issue.location.text),
@@ -277,6 +279,7 @@ void main() {
               'final data = 1;',
               'Test();',
               'Test.create();',
+              'String get value => _value;',
               'set value(String str) => _value = str;',
             ]),
           );
@@ -285,8 +288,9 @@ void main() {
             equals([
               'fields should be before methods',
               'constructors should be before fields',
-              'named_constructors should be before factory_constructors',
-              'getters_setters should be before methods',
+              'named-constructors should be before factory-constructors',
+              'getters-setters should be before methods',
+              'getters-setters should be before methods',
             ]),
           );
         },
@@ -302,13 +306,13 @@ void main() {
 
           final config = {
             'order': [
-              'public_static_fields',
-              'private_static_fields',
-              'public_final_fields',
-              'private_final_fields',
-              'late_fields',
-              'nullable_fields',
-              'private_fields',
+              'public-static-fields',
+              'private-static-fields',
+              'public-final-fields',
+              'private-final-fields',
+              'late-fields',
+              'nullable-fields',
+              'private-fields',
             ],
           };
 
@@ -346,9 +350,9 @@ void main() {
           expect(
             issues.map((issue) => issue.message),
             equals([
-              'public_static_fields should be before private_fields',
-              'late_fields should be before nullable_fields',
-              'public_final_fields should be before late_fields',
+              'public-static-fields should be before private-fields',
+              'late-fields should be before nullable-fields',
+              'public-final-fields should be before late-fields',
             ]),
           );
         },
@@ -363,8 +367,8 @@ void main() {
         final config = {
           'alphabetize': true,
           'order': [
-            'public_methods',
-            'public_fields',
+            'public-methods',
+            'public-fields',
           ],
         };
 
@@ -405,9 +409,9 @@ void main() {
         expect(
           issues.map((issue) => issue.message),
           equals([
-            'public_methods should be before public_fields',
-            'public_methods should be before public_fields',
-            'public_methods should be before public_fields',
+            'public-methods should be before public-fields',
+            'public-methods should be before public-fields',
+            'public-methods should be before public-fields',
             'data should be alphabetically before value',
             'algorithm should be alphabetically before data',
             'create should be alphabetically before work',

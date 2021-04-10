@@ -154,7 +154,7 @@ void main() {
 
       final parseResult = await resolveFile(path: path);
 
-      final issues = PreferTrailingComma(config: {'break_on': 1})
+      final issues = PreferTrailingComma(config: {'break-on': 1})
           .check(InternalResolvedUnitResult(
         sourceUrl,
         parseResult!.content!,

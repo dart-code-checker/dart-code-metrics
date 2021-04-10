@@ -9,7 +9,7 @@ class _MemberType {
   static const constructor = _MemberType._('constructors');
   static const getter = _MemberType._('getters');
   static const setter = _MemberType._('setters');
-  static const getterAndSetter = _MemberType._('getters_setters');
+  static const getterAndSetter = _MemberType._('getters-setters');
 
   static const all = [
     field,
