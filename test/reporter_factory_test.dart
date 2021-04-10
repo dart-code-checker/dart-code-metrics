@@ -6,8 +6,8 @@ import 'package:dart_code_metrics/src/obsoleted/reporters/code_climate/code_clim
 import 'package:dart_code_metrics/src/obsoleted/reporters/console_reporter.dart';
 import 'package:dart_code_metrics/src/obsoleted/reporters/github/github_reporter.dart';
 import 'package:dart_code_metrics/src/obsoleted/reporters/html/html_reporter.dart';
-import 'package:dart_code_metrics/src/obsoleted/reporters/json_reporter.dart';
 import 'package:dart_code_metrics/src/reporter_factory.dart';
+import 'package:dart_code_metrics/src/reporters/json_reporter.dart';
 import 'package:test/test.dart';
 
 void main() {
