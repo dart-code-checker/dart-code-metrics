@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* Add static code diagnostic `avoid-returning-widgets`.
+
 ## 3.0.0
 
 - Rename all rules config items from snake_case to kebab-case with backward compatibility.
