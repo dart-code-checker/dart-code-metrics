@@ -13,6 +13,7 @@ import 'package:path/path.dart' as p;
 import '../config/config.dart';
 import '../metrics/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import '../metrics/metric.dart';
+import '../metrics/source_lines_of_code/source_code_visitor.dart';
 import '../metrics_factory.dart';
 import '../models/entity_type.dart';
 import '../models/issue.dart';
@@ -31,7 +32,6 @@ import 'anti_patterns/obsolete_pattern.dart';
 import 'anti_patterns_factory.dart';
 import 'constants.dart';
 import 'halstead_volume/halstead_volume_ast_visitor.dart';
-import 'metrics/lines_of_executable_code/lines_of_executable_code_visitor.dart';
 import 'metrics_records_store.dart';
 import 'models/internal_resolved_unit_result.dart';
 import 'reporters/utility_selector.dart';
@@ -156,8 +156,7 @@ class MetricsAnalyzer {
                   result,
                 );
 
-            final linesOfExecutableCodeVisitor =
-                LinesOfExecutableCodeVisitor(lineInfo);
+            final linesOfExecutableCodeVisitor = SourceCodeVisitor(lineInfo);
 
             function.declaration.visitChildren(linesOfExecutableCodeVisitor);
 
