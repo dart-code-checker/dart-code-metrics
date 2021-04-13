@@ -1,6 +1,6 @@
 # JSON reporter
 
-Dart Code Metrics can generate report in JSON format. Use `--reporter=json` to enable this format. A sample command to analyze package and output:
+Dart Code Metrics can generate a report in JSON format. Use `--reporter=json` to enable this format. The reporter prints a single JSON object containing meta information and the violations grouped by a file. A sample command to analyze a package:
 
 ```sh
 dart pub run dart_code_metrics:metrics --reporter=json lib
@@ -9,18 +9,16 @@ dart pub run dart_code_metrics:metrics --reporter=json lib
 flutter pub run dart_code_metrics:metrics --reporter=json lib
 ```
 
-This reporter prints a single JSON object containing some header information, and then the violations grouped by file.
-
 ## The **root** object fields are
 
-- `formatVersion` - an integer which will be incremented if we change the serialization format.
-- `timestamp` - a creation time of the report
+- `formatVersion` - an integer representing a format version (will be incremented each time the serialization format changes)
+- `timestamp` - a creation time of the report in format YYYY-MM-DD HH:MM:SS
 - `records` - an array of [objects](#the-record-object-fields-are)
 
 ```JSON
 {
   "formatVersion": 2,
-  "timestamp": "2021-04-11 14:44:42.433491",
+  "timestamp": "2021-04-11 14:44:42",
   "records": [
     {
       ...
@@ -38,8 +36,8 @@ This reporter prints a single JSON object containing some header information, an
 ## The **record** object fields are
 
 - `path` - a relative path to the target file
-- `classes` - a map with **class name** ad the **key** and **[class report](#the-report-object-fields-are)** as the **value**
-- `functions` - a map with **function name** ad the **key** and **[function report](#the-report-object-fields-are)** as the **value**
+- `classes` - a map with **class name** as the **key** and **[class report](#the-report-object-fields-are)** as the **value**
+- `functions` - a map with **function name** as the **key** and **[function report](#the-report-object-fields-are)** as the **value**
 - `issues` - an array of [issues](#the-issue-object-fields-are) detected in the target file
 - `antiPatternCases` - an array of [anti-pattern cases](#the-issue-object-fields-are) detected in the target file
 
@@ -114,8 +112,8 @@ This reporter prints a single JSON object containing some header information, an
 - `metricsId` - an id of the computed metric
 - `value` - an actual value computed by the metric
 - `level` - a level of this value computed by the metric
-- `comment` - a message with information about this value
-- `recommendation` - a message with information about how the user can improve this value *(optional)*
+- `comment` - a message with information about the value
+- `recommendation` - a message with information about how the user can improve the value *(optional)*
 - `context` - an [additional information](#the-context-message-object-fields-are) associated with this value that helps understand how the metric was computed
 
 ```JSON

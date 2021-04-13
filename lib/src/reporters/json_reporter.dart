@@ -27,9 +27,19 @@ class JsonReporter implements Reporter {
       return;
     }
 
+    final nowTime = DateTime.now();
+    final reportTime = DateTime(
+      nowTime.year,
+      nowTime.month,
+      nowTime.day,
+      nowTime.hour,
+      nowTime.minute,
+      nowTime.second,
+    );
+
     final encodedReport = json.encode({
       'formatVersion': _formatVersion,
-      'timestamp': DateTime.now().toString(),
+      'timestamp': reportTime.toString(),
       'records': records.map(_analysisRecordToJson).toList(),
     });
 
