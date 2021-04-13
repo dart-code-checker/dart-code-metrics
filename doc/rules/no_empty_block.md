@@ -4,7 +4,7 @@
 no-empty-block
 
 ## Description
-Disallows empty blocks exept catch clause block. Blocks with a todo comment inside are not considered empty.
+Disallows empty blocks except catch clause block. Blocks with a todo comment inside are not considered empty.
 
 Empty blocks are often indicators of missing code.
 

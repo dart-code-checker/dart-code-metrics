@@ -1,4 +1,5 @@
 import '../rules/rule.dart';
+import 'rules/always_remove_listener_rule.dart';
 import 'rules/avoid_preserve_whitespace_false.dart';
 import 'rules/avoid_unused_parameters.dart';
 import 'rules/binary_expression_operand_order_rule.dart';
@@ -20,6 +21,8 @@ import 'rules/prefer_trailing_comma.dart';
 import 'rules/provide_correct_intl_args.dart';
 
 final _implementedRules = <String, Rule Function(Map<String, Object>)>{
+  AlwaysRemoveListenerRule.ruleId: (config) =>
+      AlwaysRemoveListenerRule(config: config),
   AvoidPreserveWhitespaceFalseRule.ruleId: (config) =>
       AvoidPreserveWhitespaceFalseRule(config: config),
   AvoidUnusedParameters.ruleId: (config) =>
