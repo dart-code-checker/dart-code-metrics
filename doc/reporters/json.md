@@ -95,9 +95,9 @@ flutter pub run dart_code_metrics:metrics --reporter=json lib
 
 ## The **location** object fields are
 
-- `offset` - a zero-based offset of this location in the source
-- `line` - a zero-based line of this location in the source
-- `column` - a zero-based column of this location in the source
+- `offset` - a zero-based offset of the location in the source
+- `line` - a zero-based line of the location in the source
+- `column` - a zero-based column of the location in the source
 
 ```JSON
 {
@@ -111,10 +111,10 @@ flutter pub run dart_code_metrics:metrics --reporter=json lib
 
 - `metricsId` - an id of the computed metric
 - `value` - an actual value computed by the metric
-- `level` - a level of this value computed by the metric
+- `level` - a level of the value computed by the metric
 - `comment` - a message with information about the value
 - `recommendation` - a message with information about how the user can improve the value *(optional)*
-- `context` - an [additional information](#the-context-message-object-fields-are) associated with this value that helps understand how the metric was computed
+- `context` - an [additional information](#the-context-message-object-fields-are) associated with the value that helps understand how the metric was computed
 
 ```JSON
 {
@@ -145,12 +145,12 @@ flutter pub run dart_code_metrics:metrics --reporter=json lib
 
 ## The **issue** object fields are
 
-- `ruleId` - an id of the rule associated with this issue
-- `documentation` - an url of a page containing documentation associated with this issue
-- `codeSpan` - a source [code span](#the-code-span-object-fields-are) associated with this issue
-- `severity` - a severity of this issue
+- `ruleId` - an id of the rule associated with the issue
+- `documentation` - an url of a page containing documentation associated with the issue
+- `codeSpan` - a source [code span](#the-code-span-object-fields-are) associated with the issue
+- `severity` - a severity of the issue
 - `message` - a short message
-- `verboseMessage` - a verbose message containing information about how the user can fix this issue (optional)
+- `verboseMessage` - a verbose message containing information about how the user can fix the issue (optional)
 - `suggestion` - a [suggested](#the-suggestion-object-fields-are) relevant change (optional)
 
 ```JSON
