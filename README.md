@@ -103,7 +103,7 @@ It will produce a result in one of the supported formats:
 - [GitHub](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/reporters/github-reporter.md)
 - Codeclimate
 - HTML
-- JSON
+- [JSON](./doc/reporters/json.md)
 
 #### Basic usage
 
