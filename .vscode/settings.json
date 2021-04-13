@@ -2,10 +2,13 @@
     "cSpell.words": [
         "Gitlab",
         "ansicolor",
+        "codecov",
         "cyclomatic",
+        "dartanalyzer",
         "dartdocs",
         "dkrutskikh",
         "incendial",
+        "lcov",
         "mocktail",
         "nullsafety",
         "semver"

@@ -17,6 +17,8 @@ import 'reporter.dart';
 class JsonReporter implements Reporter {
   final IOSink _output;
 
+  static const _formatVersion = 2;
+
   const JsonReporter(this._output);
 
   @override
@@ -25,8 +27,11 @@ class JsonReporter implements Reporter {
       return;
     }
 
-    final encodedReport =
-        json.encode({'records': records.map(_analysisRecordToJson).toList()});
+    final encodedReport = json.encode({
+      'formatVersion': _formatVersion,
+      'timestamp': DateTime.now().toString(),
+      'records': records.map(_analysisRecordToJson).toList(),
+    });
 
     _output.write(encodedReport);
   }
@@ -47,7 +52,7 @@ class JsonReporter implements Reporter {
     Map<String, Report> reports,
   ) =>
       reports.map((key, value) => MapEntry(key, {
-            'location': _reportLocation(value.location),
+            'codeSpan': _reportSourceSpan(value.location),
             'metrics': _reportMetrics(value.metrics),
           }));
 
@@ -62,12 +67,8 @@ class JsonReporter implements Reporter {
         return {
           'ruleId': issue.ruleId,
           'documentation': issue.documentation.toString(),
-          'location': _reportLocation(issue.location),
+          'codeSpan': _reportSourceSpan(issue.location),
           'severity': issue.severity.toString(),
-          'problemCode': source.substring(
-            issue.location.start.offset,
-            issue.location.end.offset,
-          ),
           'message': issue.message,
           if (verboseMessage != null && verboseMessage.isNotEmpty)
             'verboseMessage': verboseMessage,
@@ -75,7 +76,7 @@ class JsonReporter implements Reporter {
         };
       }).toList();
 
-  Map<String, Object> _reportLocation(SourceSpan location) => {
+  Map<String, Object> _reportSourceSpan(SourceSpan location) => {
         'start': _reportSourceLocation(location.start),
         'end': _reportSourceLocation(location.end),
         'text': location.text,
@@ -109,7 +110,7 @@ class JsonReporter implements Reporter {
       messages
           .map((message) => {
                 'message': message.message,
-                'location': _reportLocation(message.location),
+                'codeSpan': _reportSourceSpan(message.location),
               })
           .toList();
 

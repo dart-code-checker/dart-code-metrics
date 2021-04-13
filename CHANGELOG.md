@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Add excludes for a separate rule.
+- Add static code diagnostic `avoid-returning-widgets`.
 
 ## 3.0.0
 
