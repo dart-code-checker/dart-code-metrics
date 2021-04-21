@@ -357,9 +357,7 @@ If you are interested in contributing, please check out the [contribution guidel
 
 ## How to reach us
 
-Please feel free to ask any questions about this tool. Join our community chat on Telegram. We speak English and Russian.
-
-[![Telegram](https://badgen.net/badge/icon/telegram?icon=telegram&label)](https://t.me/DartCodeMetrics)
+Please feel free to ask any questions about this tool. Join our community chat on [Telegram](https://t.me/DartCodeMetrics). We speak English and Russian.
 
 ## LICENCE
 
