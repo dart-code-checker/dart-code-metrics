@@ -359,7 +359,7 @@ If you are interested in contributing, please check out the [contribution guidel
 
 Please feel free to ask any questions about this tool. Join our community chat on Telegram. We speak English and Russian.
 
-[![Telegram](https://img.shields.io/badge/chat-on%20Telegram-blue.svg)](https://t.me/DartCodeMetrics)
+[![Telegram](https://badgen.net/badge/icon/telegram?icon=telegram&label)](https://t.me/DartCodeMetrics)
 
 ## LICENCE
 
