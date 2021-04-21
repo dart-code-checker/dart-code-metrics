@@ -26,7 +26,7 @@ import '../scope_visitor.dart';
 import '../suppression.dart';
 import '../utils/metric_utils.dart';
 import '../utils/node_utils.dart';
-import 'anti_patterns/base_pattern.dart';
+import 'anti_patterns/obsolete_pattern.dart';
 import 'anti_patterns_factory.dart';
 import 'constants.dart';
 import 'halstead_volume/halstead_volume_ast_visitor.dart';
@@ -41,7 +41,7 @@ import 'rules_factory.dart';
 class MetricsAnalyzer {
   final Iterable<Glob> _globalExclude;
   final Iterable<Rule> _codeRules;
-  final Iterable<BasePattern> _antiPatterns;
+  final Iterable<ObsoletePattern> _antiPatterns;
   final Iterable<Metric> _classesMetrics;
   final Iterable<Metric> _methodsMetrics;
   final Iterable<Glob> _metricsExclude;
@@ -299,7 +299,7 @@ class MetricsAnalyzer {
       _antiPatterns
           .where((pattern) => !ignores.isSuppressed(pattern.id))
           .expand((pattern) => pattern
-              .check(source, functions, _metricsConfig)
+              .legacyCheck(source, functions, _metricsConfig)
               .where((issue) => !ignores.isSuppressedAt(
                     issue.ruleId,
                     issue.location.start.line,

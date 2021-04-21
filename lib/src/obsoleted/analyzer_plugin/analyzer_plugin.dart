@@ -306,7 +306,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
       config.antiPatterns
           .where((pattern) => !ignores.isSuppressed(pattern.id))
           .expand((pattern) =>
-              pattern.check(source, functions, config.metricsConfig))
+              pattern.legacyCheck(source, functions, config.metricsConfig))
           .where((issue) =>
               !ignores.isSuppressedAt(issue.ruleId, issue.location.start.line))
           .map(designIssueToAnalysisErrorFixes);

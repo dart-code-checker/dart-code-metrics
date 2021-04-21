@@ -32,7 +32,7 @@ void main() {
     final scopeVisitor = ScopeVisitor();
     parseResult.unit.visitChildren(scopeVisitor);
 
-    final issues = LongParameterList().check(
+    final issues = LongParameterList().legacyCheck(
       InternalResolvedUnitResult(
         sourceUrl,
         parseResult.content,
