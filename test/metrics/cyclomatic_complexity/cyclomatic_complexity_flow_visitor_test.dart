@@ -9,6 +9,7 @@ const _examplePath =
     './test/resources/cyclomatic_complexity_metric_example.dart';
 
 Future<void> main() async {
+  // ignore: deprecated_member_use
   final result = await resolveFile(path: p.normalize(p.absolute(_examplePath)));
 
   group(

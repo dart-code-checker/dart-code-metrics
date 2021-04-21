@@ -9,6 +9,7 @@ const _examplePath =
     './test/resources/maximum_nesting_level_metric_example.dart';
 
 Future<void> main() async {
+  // ignore: deprecated_member_use
   final result = await resolveFile(path: p.normalize(p.absolute(_examplePath)));
 
   group('NestingLevelVisitor collect information about nesting levels', () {

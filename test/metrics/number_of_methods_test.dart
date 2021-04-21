@@ -46,6 +46,7 @@ void main() {
     }.forEach((key, value) async {
       final visitor = ScopeVisitor();
 
+      // ignore: deprecated_member_use
       final result = await resolveFile(path: p.normalize(p.absolute(key)));
       result!.unit!.visitChildren(visitor);
 

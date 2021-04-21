@@ -15,6 +15,7 @@ void main() {
     final visitor = ScopeVisitor();
 
     final result =
+        // ignore: deprecated_member_use
         await resolveFile(path: p.normalize(p.absolute(_examplePath)));
     result!.unit!.visitChildren(visitor);
 

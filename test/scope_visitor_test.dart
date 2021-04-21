@@ -24,6 +24,7 @@ void main() {
     });
 
     test('abstract class', () async {
+      // ignore: deprecated_member_use
       (await resolveFile(path: p.normalize(p.absolute(_abstractClassExample))))!
           .unit!
           .visitChildren(visitor);
@@ -40,6 +41,7 @@ void main() {
     });
 
     test('class with factory constructors', () async {
+      // ignore: deprecated_member_use
       (await resolveFile(
         path: p.normalize(p.absolute(_classWithFactoryConstructorsExample)),
       ))!
@@ -75,6 +77,7 @@ void main() {
     });
 
     test('extension with method', () async {
+      // ignore: deprecated_member_use
       (await resolveFile(
         path: p.normalize(p.absolute(_extensionWithMethodExample)),
       ))!
@@ -93,6 +96,7 @@ void main() {
     });
 
     test('mixin', () async {
+      // ignore: deprecated_member_use
       (await resolveFile(path: p.normalize(p.absolute(_mixinExample))))!
           .unit!
           .visitChildren(visitor);
@@ -109,6 +113,7 @@ void main() {
     });
 
     test('functions', () async {
+      // ignore: deprecated_member_use
       (await resolveFile(path: p.normalize(p.absolute(_functionsExample))))!
           .unit!
           .visitChildren(visitor);
@@ -126,6 +131,7 @@ void main() {
     });
 
     test('several classes', () async {
+      // ignore: deprecated_member_use
       (await resolveFile(
         path: p.normalize(p.absolute(_severalClassesExample)),
       ))!

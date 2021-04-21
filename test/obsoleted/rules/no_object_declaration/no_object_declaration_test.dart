@@ -17,6 +17,7 @@ void main() {
     final path = File(_examplePath).absolute.path;
     final sourceUrl = Uri.parse(path);
 
+    // ignore: deprecated_member_use
     final parseResult = await resolveFile(path: path);
 
     final issues = NoObjectDeclarationRule().check(InternalResolvedUnitResult(

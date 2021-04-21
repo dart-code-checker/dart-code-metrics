@@ -20,6 +20,7 @@ void main() {
       final path = File(_examplePath).absolute.path;
       final sourceUrl = Uri.parse(path);
 
+      // ignore: deprecated_member_use
       final parseResult = await resolveFile(path: path);
 
       final issues =
@@ -44,6 +45,7 @@ void main() {
         final path = File(_examplePath).absolute.path;
         final sourceUrl = Uri.parse(path);
 
+        // ignore: deprecated_member_use
         final parseResult = await resolveFile(path: path);
 
         final issues =
@@ -97,6 +99,7 @@ void main() {
         final path = File(_multipleClassesExamplePath).absolute.path;
         final sourceUrl = Uri.parse(path);
 
+        // ignore: deprecated_member_use
         final parseResult = await resolveFile(path: path);
 
         final issues =
@@ -115,6 +118,7 @@ void main() {
         final path = File(_examplePath).absolute.path;
         final sourceUrl = Uri.parse(path);
 
+        // ignore: deprecated_member_use
         final parseResult = await resolveFile(path: path);
 
         final config = {
@@ -173,6 +177,7 @@ void main() {
         final path = File(_examplePath).absolute.path;
         final sourceUrl = Uri.parse(path);
 
+        // ignore: deprecated_member_use
         final parseResult = await resolveFile(path: path);
 
         final config = {
@@ -237,6 +242,7 @@ void main() {
           final path = File(_examplePath).absolute.path;
           final sourceUrl = Uri.parse(path);
 
+          // ignore: deprecated_member_use
           final parseResult = await resolveFile(path: path);
 
           final config = {
@@ -302,6 +308,7 @@ void main() {
           final path = File(_examplePath).absolute.path;
           final sourceUrl = Uri.parse(path);
 
+          // ignore: deprecated_member_use
           final parseResult = await resolveFile(path: path);
 
           final config = {
@@ -362,6 +369,7 @@ void main() {
         final path = File(_alphabeticalExamplePath).absolute.path;
         final sourceUrl = Uri.parse(path);
 
+        // ignore: deprecated_member_use
         final parseResult = await resolveFile(path: path);
 
         final config = {

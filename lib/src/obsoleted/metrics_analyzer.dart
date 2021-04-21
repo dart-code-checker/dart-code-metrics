@@ -91,6 +91,7 @@ class MetricsAnalyzer {
 
       final analysisContext = collection.contextFor(normalized);
       final result =
+          // ignore: deprecated_member_use
           await analysisContext.currentSession.getResolvedUnit(normalized);
 
       final visitor = ScopeVisitor();
