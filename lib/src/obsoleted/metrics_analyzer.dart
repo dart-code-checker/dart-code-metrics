@@ -6,6 +6,7 @@ import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/file_system/physical_file_system.dart';
 import 'package:analyzer/source/line_info.dart';
+import 'package:dart_code_metrics/src/obsoleted/analyzer_plugin/analyzer_plugin_utils.dart';
 import 'package:file/local.dart';
 import 'package:glob/glob.dart';
 import 'package:path/path.dart' as p;
@@ -298,7 +299,7 @@ class MetricsAnalyzer {
               !ignores.isSuppressed(rule.id) &&
               !_isExcluded(
                 p.relative(filePath, from: rootFolder),
-                _metricsExclude,
+                prepareExcludes(rule.excludes, rootFolder),
               ))
           .expand(
             (rule) => rule.check(source).where((issue) => !ignores
