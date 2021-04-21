@@ -355,6 +355,12 @@ Please read [the following guide](./TROUBLESHOOTING.md) if the plugin is not wor
 
 If you are interested in contributing, please check out the [contribution guidelines](https://github.com/dart-code-checker/dart-code-metrics/blob/master/CONTRIBUTING.md). Feedback and contributions are welcome!
 
+## How to reach us
+
+Please feel free to ask any questions about this tool. Join our community chat on Telegram. We speak English and Russian.
+
+[![Telegram](https://img.shields.io/badge/chat-on%20Telegram-blue.svg)](https://t.me/DartCodeMetrics)
+
 ## LICENCE
 
 [MIT](./LICENSE)
