@@ -1,8 +1,8 @@
 # GitHub reporter
 
-Report about design and static code diagnostics issues in pull requests based on GitHub Actions Workflow commands.
+Reports about design and static code diagnostics issues in pull requests based on GitHub Actions Workflow commands.
 
-1. Provide dart/flutter and get packages:
+1. Install dart/flutter and get packages:
 
 **Flutter example**
 
@@ -71,8 +71,8 @@ jobs:
       - name: Run Code Metrics
         run: flutter pub run dart_code_metrics:metrics --reporter=github lib
 ```
-
 ---
+Example of a report in a PR:
 
 ![Issue screenshot](../resources/github-repoeter-sample.gif "Example Issue")
 
