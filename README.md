@@ -327,7 +327,7 @@ Rules configuration is [described here](#configuring-a-rules-entry).
 
 ### Flutter specific
 
-- [avoid-returning-widgets](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/avoid_returning_widgets.md)
+- [avoid-returning-widgets](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/avoid_returning_widgets.md) &nbsp; ![Configurable](https://img.shields.io/badge/-configurable-informational)
 
 ### Intl specific
 
