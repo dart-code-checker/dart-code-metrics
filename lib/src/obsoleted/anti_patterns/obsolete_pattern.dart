@@ -14,9 +14,9 @@ abstract class ObsoletePattern extends Pattern {
     required String id,
     required this.documentationUrl,
   }) : super(
-    id: id,
-    documentation: const PatternDocumentation(name: '', brief: ''),
-  );
+          id: id,
+          documentation: const PatternDocumentation(name: '', brief: ''),
+        );
 
   Iterable<Issue> legacyCheck(
     InternalResolvedUnitResult source,

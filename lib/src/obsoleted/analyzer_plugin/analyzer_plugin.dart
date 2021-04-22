@@ -53,7 +53,8 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
   var _filesFromSetPriorityFilesRequest = <String>[];
 
   @override
-  String get contactInfo => 'https://github.com/dart-code-checker/dart-code-metrics/issues';
+  String get contactInfo =>
+      'https://github.com/dart-code-checker/dart-code-metrics/issues';
 
   @override
   List<String> get fileGlobsToAnalyze => const ['*.dart'];

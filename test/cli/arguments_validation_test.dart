@@ -8,8 +8,9 @@ class ArgResultsMock extends Mock implements ArgResults {}
 
 void main() {
   group('arguments validation', () {
-    group('checkPathsToAnalyzeNotEmpty', () {
-      test("emits exception when arguments doesn't contains any folder", () {
+    test(
+      "checkPathsToAnalyzeNotEmpty emits exception when arguments doesn't contains any folder",
+      () {
         final result = ArgResultsMock();
 
         when(() => result.rest).thenReturn([]);
@@ -22,7 +23,7 @@ void main() {
 
         when(() => result.rest).thenReturn(['lib']);
         checkPathsToAnalyzeNotEmpty(result);
-      });
-    });
+      },
+    );
   });
 }
