@@ -13,7 +13,7 @@ const _documentation = MetricDocumentation(
   name: 'Lines of Code',
   shortName: 'LOC',
   brief:
-      'The number of lines of code of a method, including blank lines and comments',
+      'The number of physical lines of code of a method, including blank lines and comments',
   measuredType: EntityType.methodEntity,
   examples: [],
 );
