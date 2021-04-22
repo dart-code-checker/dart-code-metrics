@@ -50,7 +50,7 @@ class MaximumNestingLevelMetric extends FunctionMetric<int> {
 
     return MetricComputationResult(
       value: visitor.deepestNestedNodesChain.length,
-      context: _context(node, visitor.deepestNestedNodesChain, source),
+      context: _context(visitor.deepestNestedNodesChain, source),
     );
   }
 
@@ -64,7 +64,6 @@ class MaximumNestingLevelMetric extends FunctionMetric<int> {
   }
 
   Iterable<ContextMessage> _context(
-    Declaration node,
     Iterable<AstNode> nestingNodesChain,
     ResolvedUnitResult source,
   ) =>

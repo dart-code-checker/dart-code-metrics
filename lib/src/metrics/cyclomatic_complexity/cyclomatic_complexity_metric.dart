@@ -51,7 +51,7 @@ class CyclomaticComplexityMetric extends FunctionMetric<int> {
 
     return MetricComputationResult(
       value: visitor.complexityEntities.length + 1,
-      context: _context(node, visitor.complexityEntities, source),
+      context: _context(visitor.complexityEntities, source),
     );
   }
 
@@ -65,7 +65,6 @@ class CyclomaticComplexityMetric extends FunctionMetric<int> {
   }
 
   Iterable<ContextMessage> _context(
-    Declaration node,
     Iterable<SyntacticEntity> complexityEntities,
     ResolvedUnitResult source,
   ) =>
