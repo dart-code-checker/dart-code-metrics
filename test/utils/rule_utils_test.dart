@@ -89,5 +89,25 @@ void main() {
         ]),
       );
     });
+
+    group('readExcludes', () {
+      test('returns a list of excludes', () {
+        const excludes = [
+          'hello.dart',
+          'world/**',
+        ];
+
+        expect(readExcludes({'exclude': excludes}), equals(excludes));
+      });
+
+      test('returns an empty list', () {
+        const wrongExcludes = [
+          1,
+          2,
+        ];
+
+        expect(readExcludes({'exclude': wrongExcludes}), isEmpty);
+      });
+    });
   });
 }

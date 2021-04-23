@@ -280,11 +280,22 @@ It's the same approach that the dart linter package [use](https://github.com/dar
 Additionally, `exclude` entry for the analyzer config can be used to ignore files. For example,
 
 ```yaml
-exclude:
-  - example/**
+analyzer:
+  exclude:
+    - example/**
 ```
 
 will work both for the analyzer and for this plugin.
+
+If you want a specific rule to ignore files, you can configure `exclude` entry for it. For example,
+
+```yaml
+dart_code_metrics:
+  rules:
+    no_equal_arguments:
+      exclude:
+        - test/**
+```
 
 ## Metrics
 

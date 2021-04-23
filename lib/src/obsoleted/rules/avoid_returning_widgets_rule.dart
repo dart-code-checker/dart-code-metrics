@@ -12,7 +12,7 @@ import 'obsolete_rule.dart';
 
 class AvoidReturningWidgets extends ObsoleteRule {
   static const String ruleId = 'avoid-returning-widgets';
-  static const _documentationUrl = '';
+  static const _documentationUrl = 'https://git.io/JOmR1';
 
   static const _warningMessage = 'Avoid returning widgets from a function';
 
@@ -26,6 +26,7 @@ class AvoidReturningWidgets extends ObsoleteRule {
           id: ruleId,
           documentationUrl: Uri.parse(_documentationUrl),
           severity: readSeverity(config, Severity.warning),
+          excludes: readExcludes(config),
         );
 
   @override

@@ -20,6 +20,7 @@ class PreferOnPushCdStrategyRule extends ObsoleteRule {
           id: ruleId,
           documentationUrl: Uri.parse(_documentationUrl),
           severity: readSeverity(config, Severity.warning),
+          excludes: readExcludes(config),
         );
 
   @override

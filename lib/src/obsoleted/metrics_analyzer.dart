@@ -26,6 +26,7 @@ import '../scope_visitor.dart';
 import '../suppression.dart';
 import '../utils/metric_utils.dart';
 import '../utils/node_utils.dart';
+import 'analyzer_plugin/analyzer_plugin_utils.dart';
 import 'anti_patterns/obsolete_pattern.dart';
 import 'anti_patterns_factory.dart';
 import 'constants.dart';
@@ -275,7 +276,12 @@ class MetricsAnalyzer {
         );
 
         builder
-          ..recordIssues(_checkOnCodeIssues(ignores, source))
+          ..recordIssues(_checkOnCodeIssues(
+            ignores,
+            source,
+            filePath,
+            rootFolder,
+          ))
           ..recordAntiPatternCases(
             _checkOnAntiPatterns(ignores, source, functions),
           );
@@ -286,8 +292,17 @@ class MetricsAnalyzer {
   Iterable<Issue> _checkOnCodeIssues(
     Suppression ignores,
     InternalResolvedUnitResult source,
+    String filePath,
+    String rootFolder,
   ) =>
-      _codeRules.where((rule) => !ignores.isSuppressed(rule.id)).expand(
+      _codeRules
+          .where((rule) =>
+              !ignores.isSuppressed(rule.id) &&
+              !_isExcluded(
+                p.relative(filePath, from: rootFolder),
+                prepareExcludes(rule.excludes, rootFolder),
+              ))
+          .expand(
             (rule) => rule.check(source).where((issue) => !ignores
                 .isSuppressedAt(issue.ruleId, issue.location.start.line)),
           );
