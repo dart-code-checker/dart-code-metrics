@@ -22,4 +22,4 @@ Example:
   }
 ```
 
-**Number of Parameters** for example function is **4**.
+**Number of Parameters** for the example function is **4**.

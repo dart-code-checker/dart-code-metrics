@@ -30,4 +30,4 @@ void visitBlock(Block node) {
 }
 ```
 
-**Maximum Nesting Level** for example function is **3**.
+**Maximum Nesting Level** for the example function is **3**.
