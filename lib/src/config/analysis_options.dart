@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'dart:isolate';
 
-import 'package:path/path.dart' as p;
 import 'package:meta/meta.dart';
+import 'package:path/path.dart' as p;
 import 'package:yaml/yaml.dart';
 
 import '../utils/analysis_options_utils.dart';
