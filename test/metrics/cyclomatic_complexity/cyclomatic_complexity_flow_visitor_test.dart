@@ -1,7 +1,7 @@
 @TestOn('vm')
 import 'package:analyzer/dart/analysis/utilities.dart';
-import 'package:dart_code_metrics/src/scope_visitor.dart';
 import 'package:dart_code_metrics/src/metrics/cyclomatic_complexity/cyclomatic_complexity_flow_visitor.dart';
+import 'package:dart_code_metrics/src/scope_visitor.dart';
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
