@@ -103,7 +103,7 @@ It will produce a result in one of the supported formats:
 - [GitHub](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/reporters/github-reporter.md)
 - Codeclimate
 - HTML
-- JSON
+- [JSON](./doc/reporters/json.md)
 
 #### Basic usage
 
@@ -338,7 +338,7 @@ Rules configuration is [described here](#configuring-a-rules-entry).
 
 ### Flutter specific
 
-- [avoid-returning-widgets](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/avoid_returning_widgets.md)
+- [avoid-returning-widgets](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/avoid_returning_widgets.md) &nbsp; ![Configurable](https://img.shields.io/badge/-configurable-informational)
 
 ### Intl specific
 
@@ -365,6 +365,10 @@ Please read [the following guide](./TROUBLESHOOTING.md) if the plugin is not wor
 ## Contributing
 
 If you are interested in contributing, please check out the [contribution guidelines](https://github.com/dart-code-checker/dart-code-metrics/blob/master/CONTRIBUTING.md). Feedback and contributions are welcome!
+
+## How to reach us
+
+Please feel free to ask any questions about this tool. Join our community [chat on Telegram](https://t.me/DartCodeMetrics). We speak both English and Russian.
 
 ## LICENCE
 

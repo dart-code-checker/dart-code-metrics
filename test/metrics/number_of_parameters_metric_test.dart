@@ -17,6 +17,7 @@ Future<void> main() async {
   final scopeVisitor = ScopeVisitor();
 
   final example =
+      // ignore: deprecated_member_use
       await resolveFile(path: p.normalize(p.absolute(_examplePath)));
   example!.unit!.visitChildren(scopeVisitor);
 

@@ -53,7 +53,8 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
   var _filesFromSetPriorityFilesRequest = <String>[];
 
   @override
-  String get contactInfo => 'https://github.com/wrike/dart-code-metrics/issues';
+  String get contactInfo =>
+      'https://github.com/dart-code-checker/dart-code-metrics/issues';
 
   @override
   List<String> get fileGlobsToAnalyze => const ['*.dart'];
@@ -161,6 +162,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
   ) async {
     try {
       final driver = driverForPath(parameters.file) as AnalysisDriver;
+      // ignore: deprecated_member_use
       final analysisResult = await driver.getResult(parameters.file);
 
       final fixes = _check(driver, analysisResult)
@@ -320,7 +322,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
       config.antiPatterns
           .where((pattern) => !ignores.isSuppressed(pattern.id))
           .expand((pattern) =>
-              pattern.check(source, functions, config.metricsConfig))
+              pattern.legacyCheck(source, functions, config.metricsConfig))
           .where((issue) =>
               !ignores.isSuppressedAt(issue.ruleId, issue.location.start.line))
           .map(designIssueToAnalysisErrorFixes);

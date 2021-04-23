@@ -9,6 +9,7 @@ const _examplePath = 'test/resources/suppression_example.dart';
 void main() {
   test('suppression in content', () async {
     final parseResult =
+        // ignore: deprecated_member_use
         await resolveFile(path: p.normalize(p.absolute(_examplePath)));
 
     final suppression =

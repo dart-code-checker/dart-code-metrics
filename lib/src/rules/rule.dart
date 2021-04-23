@@ -4,7 +4,7 @@ import '../models/issue.dart';
 import '../models/rule_documentation.dart';
 import '../models/severity.dart';
 
-/// An interface to communicate with the rules
+/// An interface to communicate with a rules
 ///
 /// All rules must implement from this interface.
 abstract class Rule {

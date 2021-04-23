@@ -3,6 +3,7 @@ import 'package:source_span/source_span.dart';
 import '../models/issue.dart';
 import '../models/replacement.dart';
 import '../models/severity.dart';
+import '../obsoleted/rules/obsolete_rule.dart';
 import '../rules/rule.dart';
 
 // ignore_for_file: long-parameter-list
@@ -19,7 +20,8 @@ Issue createIssue({
 }) =>
     Issue(
       ruleId: rule.id,
-      documentation: documentation(rule.id),
+      documentation:
+          rule is ObsoleteRule ? rule.documentationUrl : documentation(rule.id),
       location: location,
       severity: rule.severity,
       message: message,

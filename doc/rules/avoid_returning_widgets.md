@@ -1,5 +1,7 @@
 # Avoid returning widgets
 
+![Configurable](https://img.shields.io/badge/-configurable-informational)
+
 ## Rule id
 
 avoid-returning-widgets
