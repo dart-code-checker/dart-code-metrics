@@ -14,7 +14,7 @@ void validateArguments(ArgResults arguments) {
   checkPathsToAnalyzeNotEmpty(arguments);
   checkPathsExistAndDirectories(arguments);
 
-  checkObsoletedArguments(arguments, deprecatedOptions).forEach((warning) {
+  checkDeprecatedArguments(arguments, deprecatedOptions).forEach((warning) {
     print((AnsiPen()..red()).write(warning));
   });
 }
@@ -52,12 +52,12 @@ void checkPathsExistAndDirectories(ArgResults arguments) {
   }
 }
 
-Iterable<String> checkObsoletedArguments(
+Iterable<String> checkDeprecatedArguments(
   ArgResults arguments,
   Iterable<DeprecatedOption> deprecated,
 ) =>
     [
       for (final option in deprecated)
         if (arguments.wasParsed(option.deprecated))
-          '${option.deprecated} deprecated argument${option.modern != null ? ', please use ${option.modern}' : ''}. This argument will be removed in ${option.supportUntilVersion} version.',
+          '${option.deprecated} deprecated argument${option.replacement != null ? ', please use ${option.replacement}' : ''}. This argument will be removed in ${option.supportUntilVersion} version.',
     ];

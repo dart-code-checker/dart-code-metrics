@@ -35,13 +35,13 @@ void main() {
         when(() => result.wasParsed('option1')).thenReturn(true);
         when(() => result.wasParsed('option2')).thenReturn(true);
 
-        expect(checkObsoletedArguments(result, []), isEmpty);
+        expect(checkDeprecatedArguments(result, []), isEmpty);
         expect(
-          checkObsoletedArguments(result, [
+          checkDeprecatedArguments(result, [
             const DeprecatedOption(
               supportUntilVersion: '1.1',
               deprecated: 'option1',
-              modern: 'option 1',
+              replacement: 'option 1',
             ),
             const DeprecatedOption(
               supportUntilVersion: '1.2',
