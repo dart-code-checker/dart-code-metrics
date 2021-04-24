@@ -28,7 +28,7 @@ void main() {
     );
 
     test(
-      'checkObsoletedArguments returns warnings for use deprecated arguments',
+      'checkDeprecatedArguments returns warnings for use deprecated arguments',
       () {
         final result = ArgResultsMock();
 
