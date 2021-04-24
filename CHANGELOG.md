@@ -4,7 +4,8 @@
 
 * Add excludes for a separate rule.
 * Add static code diagnostic `avoid-returning-widgets`.
-* Improve code diagnostic `no-boolean-literal-compare`.
+* Improve static code diagnostic `no-boolean-literal-compare`.
+* Add `Source lines of Code` metric.
 
 ## 3.0.0
 

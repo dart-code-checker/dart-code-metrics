@@ -1,17 +1,18 @@
-// ignore_for_file: prefer-trailing-comma
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/source/line_info.dart';
 
-class LinesOfExecutableCodeVisitor extends RecursiveAstVisitor<void> {
+/// The AST visitor that will find lines with code.
+class SourceCodeVisitor extends RecursiveAstVisitor<void> {
   final LineInfo _lineInfo;
 
   final _linesWithCode = <int>{};
 
+  /// Returns the array with indices of lines with code.
   Iterable<int> get linesWithCode => _linesWithCode;
 
-  LinesOfExecutableCodeVisitor(this._lineInfo);
+  SourceCodeVisitor(this._lineInfo);
 
   @override
   void visitBlockFunctionBody(BlockFunctionBody node) {

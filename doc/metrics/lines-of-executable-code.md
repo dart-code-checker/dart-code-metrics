@@ -35,4 +35,4 @@ Iterable<Issue> check(
 }
 ```
 
-**Lines of Executable Code** for example function is **20**.
+**Lines of Executable Code** for the example function is **20**.

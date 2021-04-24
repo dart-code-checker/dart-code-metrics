@@ -79,8 +79,9 @@ A plugin for the Dart `analyzer` [package](https://pub.dev/packages/analyzer) pr
       metrics:
         cyclomatic-complexity: 20
         lines-of-executable-code: 50
-        number-of-parameters: 4
         maximum-nesting-level: 5
+        number-of-parameters: 4
+        source-lines-of-code: 50
       metrics-exclude:
         - test/**
       rules:
@@ -148,6 +149,7 @@ Usage: metrics [arguments...] <directories>
     --maximum-nesting-level=<5>                   Maximum Nesting Level threshold
     --number-of-methods=<10>                      Number of Methods threshold
     --number-of-parameters=<4>                    Number of Parameters threshold
+    --source-lines-of-code=<50>                   Source lines of Code threshold
     --weight-of-class=<0.33>                      Weight Of a Class threshold
     --lines-of-executable-code=<50>               Lines of executable code threshold
 
@@ -306,8 +308,9 @@ Available metrics:
 - [Cyclomatic Complexity](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/metrics/cyclomatic-complexity.md)
 - [Lines of Code](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/metrics/lines-of-code.md)
 - [Maximum Nesting](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/metrics/maximum-nesting-level.md)
-- [Number of Parameters](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/metrics/number-of-parameters.md)
 - [Number of Methods](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/metrics/number-of-methods.md)
+- [Number of Parameters](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/metrics/number-of-parameters.md)
+- [Source lines of Code](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/metrics/source-lines-of-code.md)
 - [Weight of a Class](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/metrics/weight-of-class.md)
 - [Lines of Executable Code](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/metrics/lines-of-executable-code.md)
 

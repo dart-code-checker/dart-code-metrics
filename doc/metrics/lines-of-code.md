@@ -18,4 +18,4 @@ Example:
       );
 ```
 
-**Lines of Code** for example function is **11**.
+**Lines of Code** for the example function is **11**.

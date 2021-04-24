@@ -30,4 +30,4 @@ void visitBlock(Token firstToken, Token lastToken) {
 }
 ```
 
-**Cyclomatic Complexity** for example function is **3**.
+**Cyclomatic Complexity** for the example function is **3**.
