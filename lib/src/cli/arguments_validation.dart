@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:ansicolor/ansicolor.dart';
 import 'package:args/args.dart';
 import 'package:path/path.dart' as p;
 
+import '../config/deprecated_option.dart';
 import 'arguments_parser.dart';
 import 'arguments_validation_exceptions.dart';
 
@@ -11,6 +13,10 @@ void validateArguments(ArgResults arguments) {
   checkRootFolderExistAndDirectory(arguments);
   checkPathsToAnalyzeNotEmpty(arguments);
   checkPathsExistAndDirectories(arguments);
+
+  checkObsoletedArguments(arguments, deprecatedOptions).forEach((warning) {
+    print((AnsiPen()..red()).write(warning));
+  });
 }
 
 void checkRootFolderExistAndDirectory(ArgResults arguments) {
@@ -45,3 +51,13 @@ void checkPathsExistAndDirectories(ArgResults arguments) {
     }
   }
 }
+
+Iterable<String> checkObsoletedArguments(
+  ArgResults arguments,
+  Iterable<DeprecatedOption> deprecated,
+) =>
+    [
+      for (final option in deprecated)
+        if (arguments.wasParsed(option.deprecated))
+          '${option.deprecated} deprecated argument${option.modern != null ? ', please use ${option.modern}' : ''}. This argument will be removed in ${option.supportUntilVersion} version.',
+    ];

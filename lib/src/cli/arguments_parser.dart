@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
+import 'package:collection/collection.dart';
 
+import '../config/deprecated_option.dart';
 import '../metrics_factory.dart';
 import '../obsoleted/constants.dart';
 
@@ -78,9 +80,15 @@ void _appendReporterOption(ArgParser parser) {
 
 void _appendMetricsThresholdOptions(ArgParser parser) {
   for (final metric in metrics(config: {})) {
+    final deprecation = deprecatedOptions
+        .firstWhereOrNull((option) => option.deprecated == metric.id);
+    final deprecationMessage = deprecation != null
+        ? ' (deprecated, will be removed in ${deprecation.supportUntilVersion} version)'
+        : '';
+
     parser.addOption(
       metric.id,
-      help: '${metric.documentation.name} threshold',
+      help: '${metric.documentation.name} threshold$deprecationMessage',
       valueHelp: '${metric.threshold}',
       callback: (i) {
         if (i != null && int.tryParse(i) == null) {
