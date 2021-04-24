@@ -2,8 +2,9 @@
 
 ## Unreleased
 
-- Add excludes for a separate rule.
-- Add static code diagnostic `avoid-returning-widgets`.
+* Add excludes for a separate rule.
+* Add static code diagnostic `avoid-returning-widgets`.
+* Improve code diagnostic `no-boolean-literal-compare`.
 
 ## 3.0.0
 
