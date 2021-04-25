@@ -1,11 +1,9 @@
 @TestOn('vm')
-import 'dart:io';
-
-import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:dart_code_metrics/src/models/severity.dart';
-import 'package:dart_code_metrics/src/obsoleted/models/internal_resolved_unit_result.dart';
 import 'package:dart_code_metrics/src/obsoleted/rules/avoid_unused_parameters.dart';
 import 'package:test/test.dart';
+
+import '../../../helpers/rule_test_helper.dart';
 
 const _correctExamplePath =
     'test/obsoleted/rules/avoid_unused_parameters/examples/correct_example.dart';
@@ -15,76 +13,34 @@ const _incorrectExamplePath =
 void main() {
   group('AvoidUnusedParameters', () {
     test('initialization', () async {
-      final path = File(_correctExamplePath).absolute.path;
-      final sourceUrl = Uri.parse(path);
+      final unit = await RuleTestHelper.resolveFromFile(_correctExamplePath);
+      final issues = AvoidUnusedParameters().check(unit);
 
-      // ignore: deprecated_member_use
-      final parseResult = await resolveFile(path: path);
-
-      final issues = AvoidUnusedParameters().check(InternalResolvedUnitResult(
-        sourceUrl,
-        parseResult!.content!,
-        parseResult.unit!,
-      ));
-
-      expect(
-        issues.every((issue) => issue.ruleId == 'avoid-unused-parameters'),
-        isTrue,
-      );
-      expect(
-        issues.every((issue) => issue.severity == Severity.warning),
-        isTrue,
+      RuleTestHelper.verifyInitialization(
+        issues: issues,
+        ruleId: 'avoid-unused-parameters',
+        severity: Severity.warning,
       );
     });
 
     test('reports no issues', () async {
-      final path = File(_correctExamplePath).absolute.path;
-      final sourceUrl = Uri.parse(path);
+      final unit = await RuleTestHelper.resolveFromFile(_correctExamplePath);
+      final issues = AvoidUnusedParameters().check(unit);
 
-      // ignore: deprecated_member_use
-      final parseResult = await resolveFile(path: path);
-
-      final issues = AvoidUnusedParameters().check(InternalResolvedUnitResult(
-        sourceUrl,
-        parseResult!.content!,
-        parseResult.unit!,
-      ));
-
-      expect(issues.isEmpty, isTrue);
+      RuleTestHelper.verifyNoIssues(issues);
     });
 
     test('reports about found issues', () async {
-      final path = File(_incorrectExamplePath).absolute.path;
-      final sourceUrl = Uri.parse(path);
+      final unit = await RuleTestHelper.resolveFromFile(_incorrectExamplePath);
+      final issues = AvoidUnusedParameters().check(unit);
 
-      // ignore: deprecated_member_use
-      final parseResult = await resolveFile(path: path);
-
-      final issues = AvoidUnusedParameters().check(InternalResolvedUnitResult(
-        sourceUrl,
-        parseResult!.content!,
-        parseResult.unit!,
-      ));
-
-      expect(
-        issues.map((issue) => issue.location.start.offset),
-        equals([132, 190, 341, 379, 607, 493, 677, 94]),
-      );
-      expect(
-        issues.map((issue) => issue.location.start.line),
-        equals([7, 9, 18, 20, 29, 24, 34, 5]),
-      );
-      expect(
-        issues.map((issue) => issue.location.start.column),
-        equals([20, 40, 20, 20, 28, 38, 20, 23]),
-      );
-      expect(
-        issues.map((issue) => issue.location.end.offset),
-        equals([145, 209, 354, 397, 623, 506, 693, 107]),
-      );
-      expect(
-        issues.map((issue) => issue.location.text),
-        equals([
+      RuleTestHelper.verifyIssues(
+        issues: issues,
+        startOffsets: [152, 220, 379, 425, 671, 547, 749, 104],
+        startLines: [9, 12, 22, 25, 36, 30, 42, 6],
+        startColumns: [20, 40, 20, 20, 28, 38, 20, 23],
+        endOffsets: [165, 239, 392, 443, 687, 560, 765, 117],
+        locationTexts: [
           'String string',
           'String secondString',
           'String string',
@@ -93,11 +49,8 @@ void main() {
           'String string',
           'TestClass object',
           'String string',
-        ]),
-      );
-      expect(
-        issues.map((issue) => issue.message),
-        equals([
+        ],
+        messages: [
           'Parameter is unused',
           'Parameter is unused',
           'Parameter is unused',
@@ -106,7 +59,7 @@ void main() {
           'Parameter is unused',
           'Parameter is unused',
           'Parameter is unused, consider renaming it to _, __, etc.',
-        ]),
+        ],
       );
     });
   });
