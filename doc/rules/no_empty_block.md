@@ -17,7 +17,7 @@ Bad:
 ```dart
   // LINT
   if ( ... ) {
-    
+
   }
 
   [1, 2, 3, 4].forEach((val) {}); // LINT

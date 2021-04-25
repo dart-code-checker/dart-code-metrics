@@ -26,7 +26,6 @@ The value for `order` may be an array consisting of the following strings (defau
 ### Config example
 
 ```yaml
-
 dart_code_metrics:
   ...
   rules:
