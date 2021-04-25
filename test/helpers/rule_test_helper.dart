@@ -14,7 +14,8 @@ class RuleTestHelper {
     final path = File(filePath).absolute.path;
     final sourceUrl = Uri.parse(path);
 
-    final parseResult = await resolveFile2(path: path) as ResolvedUnitResult;
+    // ignore: deprecated_member_use
+    final parseResult = await resolveFile(path: path) as ResolvedUnitResult;
 
     return InternalResolvedUnitResult(
       sourceUrl,
