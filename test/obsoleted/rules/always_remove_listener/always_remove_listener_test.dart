@@ -10,12 +10,15 @@ import 'package:test/test.dart';
 const _examplePath =
     'test/obsoleted/rules/always_remove_listener/examples/example.dart';
 
+// TODO(incendial): migrate to the new testing approach
+
 void main() {
   group('AlwaysRemoveListenerRule', () {
     test('initialization', () async {
       final path = File(_examplePath).absolute.path;
       final sourceUrl = Uri.parse(path);
 
+      // ignore: deprecated_member_use
       final parseResult = await resolveFile(path: path);
 
       final issues =
@@ -39,6 +42,7 @@ void main() {
       final path = File(_examplePath).absolute.path;
       final sourceUrl = Uri.parse(path);
 
+      // ignore: deprecated_member_use
       final parseResult = await resolveFile(path: path);
 
       final issues =
@@ -50,11 +54,11 @@ void main() {
 
       expect(
         issues.map((issue) => issue.location.start.offset),
-        equals([393, 445, 496, 641, 833, 892]),
+        equals([433, 485, 581, 726, 918, 977]),
       );
       expect(
         issues.map((issue) => issue.location.start.line),
-        equals([20, 21, 23, 28, 36, 38]),
+        equals([21, 22, 25, 30, 38, 40]),
       );
       expect(
         issues.map((issue) => issue.location.start.column),
@@ -62,7 +66,7 @@ void main() {
       );
       expect(
         issues.map((issue) => issue.location.end.offset),
-        equals([431, 481, 537, 661, 877, 927]),
+        equals([471, 521, 622, 746, 962, 1012]),
       );
       expect(
         issues.map((issue) => issue.location.text),

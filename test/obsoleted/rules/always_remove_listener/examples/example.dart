@@ -9,6 +9,7 @@ class _MyWidgetState extends State {
   final _someListener = Listener();
   final _anotherListener = Listener();
   final _thirdListener = Listener();
+  final _disposedListener = Listener();
 
   const _MyWidgetState();
 
@@ -19,6 +20,7 @@ class _MyWidgetState extends State {
     _someListener.addListener(listener);
     _anotherListener.addListener(listener); // LINT
     _thirdListener.addListener(listener); // LINT
+    _disposedListener.addListener(listener);
 
     widget.someListener.addListener(listener); // LINT
 
@@ -45,6 +47,8 @@ class _MyWidgetState extends State {
     _someListener.removeListener(listener);
     _thirdListener.removeListener(wrongListener);
 
+    _disposedListener.dispose();
+
     widget.anotherListener.removeListener(listener);
 
     super.dispose();
@@ -55,7 +59,9 @@ class _MyWidgetState extends State {
   void wrongListener() => print('wrong');
 }
 
-class Listener implements Listenable {}
+class Listener implements Listenable {
+  void dispose() {}
+}
 
 class State {
   MyWidget get widget => MyWidget();

@@ -73,6 +73,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
           _compareInvocations(
             visitor.addedListeners,
             visitor.removedListeners,
+            visitor.disposedListeners,
           );
 
           return;
@@ -88,6 +89,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
             _compareDidUpdateInvocations(
               visitor.addedListeners,
               visitor.removedListeners,
+              visitor.disposedListeners,
               widgetParameter,
             );
           }
@@ -103,6 +105,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
   void _compareInvocations(
     Iterable<MethodInvocation> addedListeners,
     Iterable<MethodInvocation> removedListeners,
+    Iterable<MethodInvocation> disposedListeners,
   ) {
     for (final addedListener in addedListeners) {
       final target = addedListener.realTarget;
@@ -110,6 +113,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
         _compareInvocation(
           addedListener,
           removedListeners,
+          disposedListeners,
           target.name,
           target.staticElement,
         );
@@ -120,6 +124,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
   void _compareDidUpdateInvocations(
     Iterable<MethodInvocation> addedListeners,
     Iterable<MethodInvocation> removedListeners,
+    Iterable<MethodInvocation> disposedListeners,
     FormalParameter widgetParameter,
   ) {
     for (final addedListener in addedListeners) {
@@ -138,6 +143,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
         _compareInvocation(
           addedListener,
           removedListeners,
+          disposedListeners,
           targetName,
           target.staticElement,
         );
@@ -145,6 +151,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
         _compareInvocation(
           addedListener,
           removedListeners,
+          disposedListeners,
           target.name,
           target.staticElement,
         );
@@ -155,6 +162,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
   void _compareInvocation(
     MethodInvocation addedListener,
     Iterable<MethodInvocation> removedListeners,
+    Iterable<MethodInvocation> disposedListeners,
     String? targetName,
     Element? staticElement,
   ) {
@@ -168,7 +176,13 @@ class _Visitor extends RecursiveAstVisitor<void> {
         ) ==
         null;
 
-    if (removedListener.isEmpty || haveNotSameCallbacks) {
+    final disposedListener = disposedListeners
+        .where((invocation) =>
+            _haveSameTargets(invocation, targetName, staticElement))
+        .toList();
+
+    if ((removedListener.isEmpty || haveNotSameCallbacks) &&
+        disposedListener.isEmpty) {
       _missingInvocations.add(addedListener);
     }
   }
@@ -212,10 +226,13 @@ class _Visitor extends RecursiveAstVisitor<void> {
 class _ListenableVisitor extends RecursiveAstVisitor<void> {
   final _addedListeners = <MethodInvocation>[];
   final _removedListeners = <MethodInvocation>[];
+  final _disposedListeners = <MethodInvocation>[];
 
   Iterable<MethodInvocation> get addedListeners => _addedListeners;
 
   Iterable<MethodInvocation> get removedListeners => _removedListeners;
+
+  Iterable<MethodInvocation> get disposedListeners => _disposedListeners;
 
   @override
   void visitMethodInvocation(MethodInvocation node) {
@@ -233,6 +250,12 @@ class _ListenableVisitor extends RecursiveAstVisitor<void> {
       if (type is InterfaceType &&
           type.allSupertypes.firstWhereOrNull(_isListenable) != null) {
         _removedListeners.add(node);
+      }
+    } else if (node.methodName.name == 'dispose') {
+      final type = node.realTarget?.staticType;
+      if (type is InterfaceType &&
+          type.allSupertypes.firstWhereOrNull(_isListenable) != null) {
+        _disposedListeners.add(node);
       }
     }
   }
