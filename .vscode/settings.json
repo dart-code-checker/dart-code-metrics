@@ -12,6 +12,7 @@
         "lcov",
         "mocktail",
         "nullsafety",
+        "pubspec",
         "semver"
     ]
 }
