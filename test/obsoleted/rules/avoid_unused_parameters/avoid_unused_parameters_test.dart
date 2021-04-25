@@ -18,6 +18,7 @@ void main() {
       final path = File(_correctExamplePath).absolute.path;
       final sourceUrl = Uri.parse(path);
 
+      // ignore: deprecated_member_use
       final parseResult = await resolveFile(path: path);
 
       final issues = AvoidUnusedParameters().check(InternalResolvedUnitResult(
@@ -40,6 +41,7 @@ void main() {
       final path = File(_correctExamplePath).absolute.path;
       final sourceUrl = Uri.parse(path);
 
+      // ignore: deprecated_member_use
       final parseResult = await resolveFile(path: path);
 
       final issues = AvoidUnusedParameters().check(InternalResolvedUnitResult(
@@ -55,6 +57,7 @@ void main() {
       final path = File(_incorrectExamplePath).absolute.path;
       final sourceUrl = Uri.parse(path);
 
+      // ignore: deprecated_member_use
       final parseResult = await resolveFile(path: path);
 
       final issues = AvoidUnusedParameters().check(InternalResolvedUnitResult(

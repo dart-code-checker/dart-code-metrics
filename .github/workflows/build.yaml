@@ -30,7 +30,7 @@ jobs:
       - name: Run analyzer
         run: dart analyze --fatal-warnings --fatal-infos .
       - name: Self scan
-        run: dart run bin/metrics.dart --reporter=github lib
+        run: dart run bin/metrics.dart --reporter=github bin example lib test 
       - name: Run formatter
         run: dart format --set-exit-if-changed .
       - name: Run tests

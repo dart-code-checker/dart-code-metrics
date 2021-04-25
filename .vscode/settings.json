@@ -1,13 +1,18 @@
 {
     "cSpell.words": [
         "Gitlab",
+        "SLOC",
         "ansicolor",
+        "codecov",
         "cyclomatic",
+        "dartanalyzer",
         "dartdocs",
         "dkrutskikh",
         "incendial",
+        "lcov",
         "mocktail",
         "nullsafety",
+        "pubspec",
         "semver"
     ]
 }

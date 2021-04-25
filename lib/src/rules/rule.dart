@@ -4,7 +4,7 @@ import '../models/issue.dart';
 import '../models/rule_documentation.dart';
 import '../models/severity.dart';
 
-/// An interface to communicate with the rules
+/// An interface to communicate with a rules
 ///
 /// All rules must implement from this interface.
 abstract class Rule {
@@ -17,11 +17,15 @@ abstract class Rule {
   /// The severity of issues emitted by the rule
   final Severity severity;
 
+  /// A list of excluded files for the rule
+  final Iterable<String> excludes;
+
   /// Initialize a newly created [Rule].
   const Rule({
     required this.id,
     required this.documentation,
     required this.severity,
+    required this.excludes,
   });
 
   /// Returns [Iterable] with [Issue]'s detected while check the passed [source]

@@ -15,6 +15,8 @@ class NoMagicNumberRule extends ObsoleteRule {
   static const _warningMessage =
       'Avoid using magic numbers. Extract them to named constants';
 
+  static const _defaultMagicNumbers = [-1, 0, 1];
+
   final Iterable<num> _allowedMagicNumbers;
 
   NoMagicNumberRule({Map<String, Object> config = const {}})
@@ -23,6 +25,7 @@ class NoMagicNumberRule extends ObsoleteRule {
           id: ruleId,
           documentationUrl: Uri.parse(_documentationUrl),
           severity: readSeverity(config, Severity.warning),
+          excludes: readExcludes(config),
         );
 
   @override
@@ -77,7 +80,7 @@ class NoMagicNumberRule extends ObsoleteRule {
       null;
 
   static Iterable<num> _parseConfig(Map<String, Object> config) =>
-      config['allowed'] as Iterable<num>? ?? [-1, 0, 1];
+      (config['allowed'] as Iterable?)?.cast<num>() ?? _defaultMagicNumbers;
 }
 
 class _Visitor extends RecursiveAstVisitor<void> {

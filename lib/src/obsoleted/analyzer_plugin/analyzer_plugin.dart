@@ -53,7 +53,8 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
   var _filesFromSetPriorityFilesRequest = <String>[];
 
   @override
-  String get contactInfo => 'https://github.com/wrike/dart-code-metrics/issues';
+  String get contactInfo =>
+      'https://github.com/dart-code-checker/dart-code-metrics/issues';
 
   @override
   List<String> get fileGlobsToAnalyze => const ['*.dart'];
@@ -73,8 +74,9 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
 
   @override
   AnalysisDriverGeneric createAnalysisDriver(plugin.ContextRoot contextRoot) {
+    final rootPath = contextRoot.root;
     final root = ContextRoot(
-      contextRoot.root,
+      rootPath,
       contextRoot.exclude,
       pathContext: resourceProvider.pathContext,
     )..optionsFilePath = contextRoot.optionsFile;
@@ -88,7 +90,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     final workspace = ContextBuilder.createWorkspace(
       resourceProvider: resourceProvider,
       options: ContextBuilderOptions(),
-      rootPath: contextRoot.root,
+      rootPath: rootPath,
     );
 
     final dartDriver = contextBuilder.buildDriver(root, workspace);
@@ -104,14 +106,14 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
           ..._defaultSkippedFolders,
           ...options.excludePatterns,
         ],
-        contextRoot.root,
+        rootPath,
       ),
       getRulesById(options.rules),
       [
         CyclomaticComplexityMetric(config: options.metrics),
         NumberOfParametersMetric(config: options.metrics),
       ],
-      prepareExcludes(options.excludeForMetricsPatterns, contextRoot.root),
+      prepareExcludes(options.excludeForMetricsPatterns, rootPath),
       getPatternsById(options.antiPatterns),
       options.metrics,
     );
@@ -160,6 +162,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
   ) async {
     try {
       final driver = driverForPath(parameters.file) as AnalysisDriver;
+      // ignore: deprecated_member_use
       final analysisResult = await driver.getResult(parameters.file);
 
       final fixes = _check(driver, analysisResult)
@@ -222,12 +225,15 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
           Suppression(analysisResult.content!, analysisResult.lineInfo);
 
       final sourceUri = resourceProvider.getFile(analysisResult.path!).toUri();
+      // ignore: deprecated_member_use
+      final root = driver.contextRoot?.root;
 
       result.addAll(_checkOnCodeIssues(
         ignores,
         analysisResult,
         sourceUri,
         _configs[driver]!,
+        root,
       ));
 
       if (!isExcluded(analysisResult, config.metricsExcludes)) {
@@ -276,13 +282,23 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     return result;
   }
 
+  // ignore: long-parameter-list
   Iterable<plugin.AnalysisErrorFixes> _checkOnCodeIssues(
     Suppression ignores,
     ResolvedUnitResult analysisResult,
     Uri sourceUri,
     AnalyzerPluginConfig config,
+    String? root,
   ) =>
-      config.codeRules.where((rule) => !ignores.isSuppressed(rule.id)).expand(
+      config.codeRules
+          .where((rule) =>
+              !ignores.isSuppressed(rule.id) &&
+              (root == null ||
+                  !isExcluded(
+                    analysisResult,
+                    prepareExcludes(rule.excludes, root),
+                  )))
+          .expand(
             (rule) => rule
                 .check(InternalResolvedUnitResult(
                   sourceUri,
@@ -306,7 +322,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
       config.antiPatterns
           .where((pattern) => !ignores.isSuppressed(pattern.id))
           .expand((pattern) =>
-              pattern.check(source, functions, config.metricsConfig))
+              pattern.legacyCheck(source, functions, config.metricsConfig))
           .where((issue) =>
               !ignores.isSuppressedAt(issue.ruleId, issue.location.start.line))
           .map(designIssueToAnalysisErrorFixes);

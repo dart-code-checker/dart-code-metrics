@@ -13,6 +13,7 @@ import 'package:path/path.dart' as p;
 import '../config/config.dart';
 import '../metrics/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import '../metrics/metric.dart';
+import '../metrics/source_lines_of_code/source_code_visitor.dart';
 import '../metrics_factory.dart';
 import '../models/entity_type.dart';
 import '../models/issue.dart';
@@ -26,11 +27,11 @@ import '../scope_visitor.dart';
 import '../suppression.dart';
 import '../utils/metric_utils.dart';
 import '../utils/node_utils.dart';
-import 'anti_patterns/base_pattern.dart';
+import 'analyzer_plugin/analyzer_plugin_utils.dart';
+import 'anti_patterns/obsolete_pattern.dart';
 import 'anti_patterns_factory.dart';
 import 'constants.dart';
 import 'halstead_volume/halstead_volume_ast_visitor.dart';
-import 'metrics/lines_of_executable_code/lines_of_executable_code_visitor.dart';
 import 'metrics_records_store.dart';
 import 'models/internal_resolved_unit_result.dart';
 import 'reporters/utility_selector.dart';
@@ -41,7 +42,7 @@ import 'rules_factory.dart';
 class MetricsAnalyzer {
   final Iterable<Glob> _globalExclude;
   final Iterable<Rule> _codeRules;
-  final Iterable<BasePattern> _antiPatterns;
+  final Iterable<ObsoletePattern> _antiPatterns;
   final Iterable<Metric> _classesMetrics;
   final Iterable<Metric> _methodsMetrics;
   final Iterable<Glob> _metricsExclude;
@@ -91,6 +92,7 @@ class MetricsAnalyzer {
 
       final analysisContext = collection.contextFor(normalized);
       final result =
+          // ignore: deprecated_member_use
           await analysisContext.currentSession.getResolvedUnit(normalized);
 
       final visitor = ScopeVisitor();
@@ -154,8 +156,7 @@ class MetricsAnalyzer {
                   result,
                 );
 
-            final linesOfExecutableCodeVisitor =
-                LinesOfExecutableCodeVisitor(lineInfo);
+            final linesOfExecutableCodeVisitor = SourceCodeVisitor(lineInfo);
 
             function.declaration.visitChildren(linesOfExecutableCodeVisitor);
 
@@ -274,7 +275,12 @@ class MetricsAnalyzer {
         );
 
         builder
-          ..recordIssues(_checkOnCodeIssues(ignores, source))
+          ..recordIssues(_checkOnCodeIssues(
+            ignores,
+            source,
+            filePath,
+            rootFolder,
+          ))
           ..recordAntiPatternCases(
             _checkOnAntiPatterns(ignores, source, functions),
           );
@@ -285,8 +291,17 @@ class MetricsAnalyzer {
   Iterable<Issue> _checkOnCodeIssues(
     Suppression ignores,
     InternalResolvedUnitResult source,
+    String filePath,
+    String rootFolder,
   ) =>
-      _codeRules.where((rule) => !ignores.isSuppressed(rule.id)).expand(
+      _codeRules
+          .where((rule) =>
+              !ignores.isSuppressed(rule.id) &&
+              !_isExcluded(
+                p.relative(filePath, from: rootFolder),
+                prepareExcludes(rule.excludes, rootFolder),
+              ))
+          .expand(
             (rule) => rule.check(source).where((issue) => !ignores
                 .isSuppressedAt(issue.ruleId, issue.location.start.line)),
           );
@@ -299,7 +314,7 @@ class MetricsAnalyzer {
       _antiPatterns
           .where((pattern) => !ignores.isSuppressed(pattern.id))
           .expand((pattern) => pattern
-              .check(source, functions, _metricsConfig)
+              .legacyCheck(source, functions, _metricsConfig)
               .where((issue) => !ignores.isSuppressedAt(
                     issue.ruleId,
                     issue.location.start.line,

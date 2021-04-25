@@ -2,6 +2,8 @@ import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
+import 'package:analyzer/dart/element/nullability_suffix.dart';
+import 'package:analyzer/dart/element/type.dart';
 
 import '../../models/issue.dart';
 import '../../models/replacement.dart';
@@ -16,12 +18,6 @@ class NoBooleanLiteralCompareRule extends ObsoleteRule {
   static const String ruleId = 'no-boolean-literal-compare';
   static const _documentationUrl = 'https://git.io/JJwmf';
 
-  static const _failureCompareNullAwarePropertyWithTrue =
-      'Comparison of null-conditional boolean with boolean literal may result in comparing null with boolean.';
-
-  static const _correctionCompareNullAwarePropertyWithTrue =
-      'Prefer using null-coalescing operator with false literal on right hand side.';
-
   static const _failure =
       'Comparing boolean values to boolean literals is unnecessary, as those expressions will result in booleans too. Just use the boolean values directly or negate them.';
 
@@ -35,6 +31,7 @@ class NoBooleanLiteralCompareRule extends ObsoleteRule {
           id: ruleId,
           documentationUrl: Uri.parse(_documentationUrl),
           severity: readSeverity(config, Severity.style),
+          excludes: readExcludes(config),
         );
 
   @override
@@ -46,25 +43,6 @@ class NoBooleanLiteralCompareRule extends ObsoleteRule {
     final issues = <Issue>[];
 
     for (final expression in _visitor.expressions) {
-      if (_detectNullAwarePropertyCompareWithTrue(expression)) {
-        issues.add(createIssue(
-          rule: this,
-          location: nodeLocation(
-            node: expression,
-            source: source,
-            withCommentOrMetadata: true,
-          ),
-          message: _failureCompareNullAwarePropertyWithTrue,
-          replacement: Replacement(
-            comment: _correctionCompareNullAwarePropertyWithTrue,
-            replacement:
-                _nullAwarePropertyCompareWithTrueCorrection(expression),
-          ),
-        ));
-
-        continue;
-      }
-
       final leftOperandBooleanLiteral =
           expression.leftOperand is BooleanLiteral;
 
@@ -103,7 +81,7 @@ class NoBooleanLiteralCompareRule extends ObsoleteRule {
 }
 
 class _Visitor extends RecursiveAstVisitor<void> {
-  static const _scannedTokenTypes = [TokenType.EQ_EQ, TokenType.BANG_EQ];
+  static const _scannedTokenTypes = {TokenType.EQ_EQ, TokenType.BANG_EQ};
 
   final _expressions = <BinaryExpression>[];
 
@@ -113,48 +91,20 @@ class _Visitor extends RecursiveAstVisitor<void> {
   void visitBinaryExpression(BinaryExpression node) {
     super.visitBinaryExpression(node);
 
-    if (_scannedTokenTypes.any((element) => element == node.operator.type) &&
-        (node.leftOperand is BooleanLiteral ||
+    if (!_scannedTokenTypes.contains(node.operator.type)) {
+      return;
+    }
+
+    if ((node.leftOperand is BooleanLiteral &&
+            _isTypeBoolean(node.rightOperand.staticType)) ||
+        (_isTypeBoolean(node.leftOperand.staticType) &&
             node.rightOperand is BooleanLiteral)) {
       _expressions.add(node);
     }
   }
-}
 
-bool _detectNullAwarePropertyCompareWithTrue(BinaryExpression expression) =>
-    _leftNullAwareOperandCompareWithTrue(expression) ||
-    _rightNullAwareOperandCompareWithTrue(expression);
-
-String _nullAwarePropertyCompareWithTrueCorrection(
-  BinaryExpression expression,
-) {
-  if (_leftNullAwareOperandCompareWithTrue(expression)) {
-    return '${expression.leftOperand} ?? false';
-  } else if (_rightNullAwareOperandCompareWithTrue(expression)) {
-    return '${expression.rightOperand} ?? false';
-  }
-
-  return expression.toString();
-}
-
-bool _leftNullAwareOperandCompareWithTrue(BinaryExpression expression) {
-  final leftOperand = expression.leftOperand;
-  final rightOperand = expression.rightOperand;
-
-  return leftOperand is PropertyAccess &&
-      leftOperand.isNullAware &&
-      expression.operator.type == TokenType.EQ_EQ &&
-      rightOperand is BooleanLiteral &&
-      rightOperand.value;
-}
-
-bool _rightNullAwareOperandCompareWithTrue(BinaryExpression expression) {
-  final leftOperand = expression.leftOperand;
-  final rightOperand = expression.rightOperand;
-
-  return rightOperand is PropertyAccess &&
-      rightOperand.isNullAware &&
-      expression.operator.type == TokenType.EQ_EQ &&
-      leftOperand is BooleanLiteral &&
-      leftOperand.value;
+  bool _isTypeBoolean(DartType? type) =>
+      type != null &&
+      type.isDartCoreBool &&
+      type.nullabilitySuffix == NullabilitySuffix.none;
 }

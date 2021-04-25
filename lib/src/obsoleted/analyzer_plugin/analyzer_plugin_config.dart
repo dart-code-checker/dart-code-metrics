@@ -3,7 +3,7 @@ import 'package:meta/meta.dart';
 
 import '../../metrics/metric.dart';
 import '../../rules/rule.dart';
-import '../anti_patterns/base_pattern.dart';
+import '../anti_patterns/obsolete_pattern.dart';
 
 @immutable
 class AnalyzerPluginConfig {
@@ -11,7 +11,7 @@ class AnalyzerPluginConfig {
   final Iterable<Rule> codeRules;
   final Iterable<Metric> methodsMetrics;
   final Iterable<Glob> metricsExcludes;
-  final Iterable<BasePattern> antiPatterns;
+  final Iterable<ObsoletePattern> antiPatterns;
   final Map<String, Object> metricsConfig;
 
   const AnalyzerPluginConfig(

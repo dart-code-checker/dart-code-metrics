@@ -29,8 +29,8 @@ void main() {
       JsonReporter(output).report(testReport);
 
       final report = json.decode(
-              verify(() => output.write(captureAny())).captured.first as String)
-          as Map;
+        verify(() => output.write(captureAny())).captured.first as String,
+      ) as Map;
 
       expect(report, contains('records'));
       expect(report['records'] as Iterable, hasLength(2));
@@ -46,14 +46,12 @@ void main() {
           {
             'ruleId': 'id',
             'documentation': 'https://documentation.com',
-            'location': {
+            'codeSpan': {
               'start': {'offset': 0, 'line': 0, 'column': 0},
               'end': {'offset': 20, 'line': 0, 'column': 20},
               'text': 'simple function body',
             },
             'severity': 'warning',
-            'problemCode': 'class Logger {\n'
-                '  fin',
             'message': 'simple message',
             'verboseMessage': 'verbose message',
           },

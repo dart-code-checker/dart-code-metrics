@@ -5,10 +5,10 @@ import 'package:source_span/source_span.dart';
 import '../../models/issue.dart';
 import '../../models/severity.dart';
 import '../models/internal_resolved_unit_result.dart';
-import 'base_pattern.dart';
+import 'obsolete_pattern.dart';
 
 Issue createIssue(
-  BasePattern pattern,
+  ObsoletePattern pattern,
   String message,
   String recommendation,
   InternalResolvedUnitResult source,
@@ -20,7 +20,7 @@ Issue createIssue(
 
   return Issue(
     ruleId: pattern.id,
-    documentation: pattern.documentation,
+    documentation: pattern.documentationUrl,
     location: SourceSpanBase(
       SourceLocation(
         issueNode.offset,

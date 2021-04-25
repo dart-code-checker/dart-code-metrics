@@ -1,6 +1,7 @@
 import '../rules/rule.dart';
 import 'rules/always_remove_listener_rule.dart';
 import 'rules/avoid_preserve_whitespace_false.dart';
+import 'rules/avoid_returning_widgets_rule.dart';
 import 'rules/avoid_unused_parameters.dart';
 import 'rules/binary_expression_operand_order_rule.dart';
 import 'rules/component_annotation_arguments_ordering.dart';
@@ -25,6 +26,8 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
       AlwaysRemoveListenerRule(config: config),
   AvoidPreserveWhitespaceFalseRule.ruleId: (config) =>
       AvoidPreserveWhitespaceFalseRule(config: config),
+  AvoidReturningWidgets.ruleId: (config) =>
+      AvoidReturningWidgets(config: config),
   AvoidUnusedParameters.ruleId: (config) =>
       AvoidUnusedParameters(config: config),
   BinaryExpressionOperandOrderRule.ruleId: (config) =>
@@ -59,8 +62,7 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
 Iterable<Rule> get allRules =>
     _implementedRules.keys.map((id) => _implementedRules[id]!({}));
 
-Iterable<Rule> getRulesById(Map<String, Object> rulesConfig) =>
+Iterable<Rule> getRulesById(Map<String, Map<String, Object>> rulesConfig) =>
     List.unmodifiable(_implementedRules.keys
         .where((id) => rulesConfig.keys.contains(id))
-        .map<Rule>((id) =>
-            _implementedRules[id]!(rulesConfig[id] as Map<String, Object>)));
+        .map<Rule>((id) => _implementedRules[id]!(rulesConfig[id]!)));

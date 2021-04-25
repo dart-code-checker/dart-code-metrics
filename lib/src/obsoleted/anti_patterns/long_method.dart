@@ -1,22 +1,22 @@
+import '../../metrics/source_lines_of_code/source_code_visitor.dart';
 import '../../models/function_type.dart';
 import '../../models/issue.dart';
 import '../../models/scoped_function_declaration.dart';
 import '../../utils/metric_utils.dart';
 import '../constants.dart';
-import '../metrics/lines_of_executable_code/lines_of_executable_code_visitor.dart';
 import '../models/internal_resolved_unit_result.dart';
-import 'base_pattern.dart';
+import 'obsolete_pattern.dart';
 import 'pattern_utils.dart' as utils;
 
-class LongMethod extends BasePattern {
+class LongMethod extends ObsoletePattern {
   static const String patternId = 'long-method';
   static const _documentationUrl = 'https://git.io/JUIP7';
 
   LongMethod()
-      : super(id: patternId, documentation: Uri.parse(_documentationUrl));
+      : super(id: patternId, documentationUrl: Uri.parse(_documentationUrl));
 
   @override
-  Iterable<Issue> check(
+  Iterable<Issue> legacyCheck(
     InternalResolvedUnitResult source,
     Iterable<ScopedFunctionDeclaration> functions,
     Map<String, Object> metricsConfig,
@@ -30,7 +30,7 @@ class LongMethod extends BasePattern {
     final issues = <Issue>[];
 
     for (final function in functions) {
-      final visitor = LinesOfExecutableCodeVisitor(source.unit.lineInfo!);
+      final visitor = SourceCodeVisitor(source.unit.lineInfo!);
       function.declaration.visitChildren(visitor);
 
       if (visitor.linesWithCode.length > threshold) {

@@ -30,6 +30,7 @@ class MemberOrderingRule extends ObsoleteRule {
           id: ruleId,
           documentationUrl: Uri.parse(_documentationUrl),
           severity: readSeverity(config, Severity.style),
+          excludes: readExcludes(config),
         );
 
   @override

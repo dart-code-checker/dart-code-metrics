@@ -62,7 +62,7 @@ void main() {
     final scopeVisitor = ScopeVisitor();
     parseResult.unit.visitChildren(scopeVisitor);
 
-    final issues = LongMethod().check(
+    final issues = LongMethod().legacyCheck(
       InternalResolvedUnitResult(
         sourceUrl,
         parseResult.content,
