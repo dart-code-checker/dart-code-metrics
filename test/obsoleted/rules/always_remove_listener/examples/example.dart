@@ -1,17 +1,17 @@
-class MyWidget {
+class ShinyWidget {
   final someListener = Listener();
   final anotherListener = Listener();
 
-  const MyWidget();
+  const ShinyWidget();
 }
 
-class _MyWidgetState extends State {
+class _ShinyWidgetState extends State {
   final _someListener = Listener();
   final _anotherListener = Listener();
   final _thirdListener = Listener();
   final _disposedListener = Listener();
 
-  const _MyWidgetState();
+  const _ShinyWidgetState();
 
   @override
   void initState() {
@@ -31,7 +31,7 @@ class _MyWidgetState extends State {
   }
 
   @override
-  didUpdateWidget(MyWidget oldWidget) {
+  didUpdateWidget(ShinyWidget oldWidget) {
     widget.someListener.addListener(listener);
     oldWidget.someListener.removeListener(listener);
 
@@ -64,7 +64,7 @@ class Listener implements Listenable {
 }
 
 class State {
-  MyWidget get widget => MyWidget();
+  ShinyWidget get widget => ShinyWidget();
 }
 
 // Copy-pasted from Flutter source code

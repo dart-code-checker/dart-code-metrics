@@ -13,7 +13,7 @@ import 'obsolete_rule.dart';
 
 class AlwaysRemoveListenerRule extends ObsoleteRule {
   static const String ruleId = 'always-remove-listener';
-  static const _documentationUrl = '';
+  static const _documentationUrl = 'https://git.io/JO7VM';
 
   static const _warningMessage =
       'Listener is not removed. This might lead to a memory leak.';
@@ -23,6 +23,7 @@ class AlwaysRemoveListenerRule extends ObsoleteRule {
           id: ruleId,
           documentationUrl: Uri.parse(_documentationUrl),
           severity: readSeverity(config, Severity.warning),
+          excludes: readExcludes(config),
         );
 
   @override

@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* Add static code diagnostic `always-remove-listener`.
+
 ## 3.1.0
 
 * Add excludes for a separate rule.
