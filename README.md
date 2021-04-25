@@ -324,6 +324,7 @@ Rules configuration is [described here](#configuring-a-rules-entry).
 
 ### Common
 
+- [avoid-late-keyword](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/avoid_late_keyword.md)
 - [avoid-unused-parameters](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/avoid_unused_parameters.md)
 - [binary-expression-operand-order](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/binary_expression_operand_order.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 - [double-literal-format](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/double_literal_format.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)

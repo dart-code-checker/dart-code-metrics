@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* Add static code diagnostic `avoid-late-keyword`.
+
 ## 3.1.0
 
 * Add excludes for a separate rule.
