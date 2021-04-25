@@ -3,6 +3,8 @@
 ## Unreleased
 
 * Add static code diagnostic `avoid-non-null-assertion`.
+* Migrate all rule tests to `resolveFile`.
+* Improve static code diagnostics `no-equal-arguments`, `no-magic-number`.
 
 ## 3.1.0
 

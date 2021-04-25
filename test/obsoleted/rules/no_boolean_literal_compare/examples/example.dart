@@ -3,29 +3,29 @@ void main() {
 
   var a = true;
 
-  var b = a == true;
+  var b = a == true; // LINT
 
-  var c = b != true;
+  var c = b != true; // LINT
 
-  var d = true == c;
+  var d = true == c; // LINT
 
-  var e = false != c;
+  var e = false != c; // LINT
 
-  if (e == true) {}
+  if (e == true) {} // LINT
 
-  if (e != false) {}
+  if (e != false) {} // LINT
 
   var f = exampleString?.isEmpty == true;
 
   var g = true == exampleString?.isEmpty;
 
-  var h = exampleString.isEmpty == true;
+  var h = exampleString.isEmpty == true; // LINT
 
-  var i = true == exampleString.isEmpty;
+  var i = true == exampleString.isEmpty; // LINT
 
   [true, false]
-      .where((value) => value == false)
-      .where((value) => value != false);
+      .where((value) => value == false) // LINT
+      .where((value) => value != false); // LINT
 
   var y = a != e;
   var z = a == e;
@@ -34,6 +34,7 @@ void main() {
 
   if (b != d) {}
 
+  // LINT
   [true, false].where((value) => value == true).where((value) => value == c);
 
   dynamic dyn = 'a';
