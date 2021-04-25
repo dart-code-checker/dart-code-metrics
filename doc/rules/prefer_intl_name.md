@@ -3,13 +3,17 @@
 ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 
 ## Rule id
+
 prefer-intl-name
 
 ## Description
+
 Prefer used pattern `${ClassName}_${ClassMemberName}` for `name` argument in `Intl.message()`, `Intl.plural()`, `Intl.gender()`, `Intl.select()` methods.
 
 ### Example
+
 Bad:
+
 ```dart
 import 'package:intl/intl.dart';
 
@@ -61,6 +65,7 @@ String title8() => Intl.message(
 ```
 
 Good:
+
 ```dart
 import 'package:intl/intl.dart';
 

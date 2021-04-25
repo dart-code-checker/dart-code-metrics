@@ -18,6 +18,7 @@ final value2 = 2;
 
 ...
 
+// LINT
 if (condition) {
   result = value1;
 } else {
@@ -26,7 +27,7 @@ if (condition) {
 
 ...
 
-result = condition ? value1 : value1;
+result = condition ? value1 : value1; // LINT
 ```
 
 Good:

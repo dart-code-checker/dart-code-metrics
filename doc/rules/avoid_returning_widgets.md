@@ -8,7 +8,7 @@ avoid-returning-widgets
 
 ## Description
 
-Warns when a method or function returns a Widget or a subclass of a Widget (**Note** `build` method will not trigger the rule).
+Warns when a method or function returns a Widget or subclass of a Widget (**Note** `build` method will not trigger the rule).
 
 Extracting widgets to a method is considered as a Flutter anti-pattern, because when Flutter rebuilds widget tree, it calls the function all the time, making more processor time for the operations.
 
@@ -21,7 +21,7 @@ Additional resources:
 * <https://www.reddit.com/r/FlutterDev/comments/avhvco/extracting_widgets_to_a_function_is_not_an/>
 * <https://medium.com/flutter-community/splitting-widgets-to-methods-is-a-performance-antipattern-16aa3fb4026c>
 
-Use `ignored-names` configuration, if you want to add some function or method names to ignore, for example:
+Use `ignored-names` configuration, if you want to ignore a function or method name. For example:
 
 ```yaml
 dart_code_metrics:
@@ -43,6 +43,7 @@ Bad:
 class MyWidget extends StatelessWidget {
   const MyWidget();
 
+  // LINT
   Widget _buildShinyWidget() {
     return Container(
       child: Column(
