@@ -54,7 +54,7 @@ void main() {
 
       expect(
         issues.map((issue) => issue.location.start.offset),
-        equals([433, 485, 581, 726, 918, 977]),
+        equals([445, 497, 593, 738, 933, 992]),
       );
       expect(
         issues.map((issue) => issue.location.start.line),
@@ -66,7 +66,7 @@ void main() {
       );
       expect(
         issues.map((issue) => issue.location.end.offset),
-        equals([471, 521, 622, 746, 962, 1012]),
+        equals([483, 533, 634, 758, 977, 1027]),
       );
       expect(
         issues.map((issue) => issue.location.text),
