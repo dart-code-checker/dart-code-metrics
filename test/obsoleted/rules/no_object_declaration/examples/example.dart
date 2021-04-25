@@ -1,8 +1,9 @@
 class Test {
-  Object data = 1;
+  Object data = 1; // LINT
 
-  Object get getter => 1;
+  Object get getter => 1; // LINT
 
+  // LINT
   Object doWork() {
     return null;
   }

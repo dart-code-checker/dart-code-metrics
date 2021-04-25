@@ -6,6 +6,7 @@
 * Add static code diagnostic `avoid-returning-widgets`.
 * Improve static code diagnostic `no-boolean-literal-compare`.
 * Add `Source lines of Code` metric.
+* Migrate all rule tests to `resolveFile`.
 
 ## 3.0.0
 

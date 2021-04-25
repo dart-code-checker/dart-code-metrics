@@ -28,9 +28,10 @@ void main() {
     test('complex report', () {
       JsonReporter(output).report(testReport);
 
-      final report = json.decode(
-        verify(() => output.write(captureAny())).captured.first as String,
-      ) as Map;
+      final captured = verify(
+        () => output.write(captureAny()),
+      ).captured.first as String;
+      final report = json.decode(captured) as Map;
 
       expect(report, contains('records'));
       expect(report['records'] as Iterable, hasLength(2));

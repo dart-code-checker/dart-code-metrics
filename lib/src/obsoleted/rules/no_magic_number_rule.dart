@@ -64,7 +64,10 @@ class NoMagicNumberRule extends ObsoleteRule {
 
   bool _isNotInDateTime(Literal l) =>
       l.thisOrAncestorMatching(
-        (a) => a is MethodInvocation && a.methodName.name == 'DateTime',
+        (a) =>
+            a is InstanceCreationExpression &&
+            a.staticType?.getDisplayString(withNullability: false) ==
+                'DateTime',
       ) ==
       null;
 
