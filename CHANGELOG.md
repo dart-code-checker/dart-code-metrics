@@ -1,12 +1,16 @@
 # Changelog
 
+## Unreleased
+
+* Migrate all rule tests to `resolveFile`.
+* Improve static code diagnostics `no-equal-arguments`, `no-magic-number`.
+
 ## 3.1.0
 
 * Add excludes for a separate rule.
 * Add static code diagnostic `avoid-returning-widgets`.
 * Improve static code diagnostic `no-boolean-literal-compare`.
 * Add `Source lines of Code` metric.
-* Migrate all rule tests to `resolveFile`.
 
 ## 3.0.0
 
