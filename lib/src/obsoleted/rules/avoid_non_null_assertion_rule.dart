@@ -61,6 +61,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
   bool _isMapIndexOperator(Expression operand) {
     if (operand is IndexExpression) {
       final type = operand.target?.staticType;
+
       return type != null && type.isDartCoreMap;
     }
 
