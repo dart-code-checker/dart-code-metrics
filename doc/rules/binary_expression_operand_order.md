@@ -3,17 +3,21 @@
 ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 
 ## Rule id
+
 binary-expression-operand-order
 
 ## Description
-Issue a warning when literal value is on left hand side in binary expressions.
+
+Warns when a literal value is on the left hand side in a binary expressions.
 
 Bad:
+
 ```dart
 final a = 1 + b;
 ```
 
 Good:
+
 ```dart
 final a = b + 1;
 ```

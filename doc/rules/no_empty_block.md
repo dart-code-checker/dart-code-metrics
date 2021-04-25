@@ -1,29 +1,33 @@
 # No empty block
 
 ## Rule id
+
 no-empty-block
 
 ## Description
-Disallows empty blocks exept catch clause block. Blocks with a todo comment inside are not considered empty.
+
+Disallows empty blocks except catch clause block. Blocks with a todo comment inside are not considered empty.
 
 Empty blocks are often indicators of missing code.
 
-Inspired by TSLint (https://palantir.github.io/tslint/rules/no-empty/)
-
 ### Example
-Bad:
-```dart
-  if ( ... ) {
 
+Bad:
+
+```dart
+  // LINT
+  if ( ... ) {
+    
   }
 
-  [1, 2, 3, 4].forEach((val) {});
+  [1, 2, 3, 4].forEach((val) {}); // LINT
 
 
-  void function() {}
+  void function() {} // LINT
 ```
 
 Good:
+
 ```dart
   if ( ... ) {
     // TODO(developername): need to implement.
@@ -38,3 +42,5 @@ Good:
     // TODO(developername): need to implement.
   }
 ```
+
+Inspired by [TSLint rule](https://palantir.github.io/tslint/rules/no-empty/)

@@ -28,8 +28,12 @@ Use `break-on` configuration, if you want to override the default behavior.
 ### Config example
 
 ```yaml
-prefer-trailing-comma:
-  break-on: 2
+dart_code_metrics:
+  ...
+  rules:
+    ...
+    - prefer-trailing-comma:
+        break-on: 2
 ```
 
 ### Example
@@ -37,6 +41,7 @@ prefer-trailing-comma:
 Bad:
 
 ```dart
+// LINT
 void firstFunction(
     String firstArgument, String secondArgument, String thirdArgument) {
   return;
@@ -44,43 +49,43 @@ void firstFunction(
 
 void secondFunction() {
   firstFunction('some string', 'some other string',
-      'and another string for length exceed');
+      'and another string for length exceed'); // LINT
 }
 
 void thirdFunction(String someLongVarName, void Function() someLongCallbackName,
-    String arg3) {}
+    String arg3) {} // LINT
 
 class TestClass {
   void firstMethod(
-      String firstArgument, String secondArgument, String thirdArgument) {
+      String firstArgument, String secondArgument, String thirdArgument) { // LINT
     return;
   }
 
   void secondMethod() {
     firstMethod('some string', 'some other string',
-        'and another string for length exceed');
+        'and another string for length exceed'); // LINT
 
     thirdFunction('some string', () {
       return;
-    }, 'some other string');
+    }, 'some other string'); // LINT
   }
 }
 
 final secondArray = [
   'some string',
   'some other string',
-  'and another string for length exceed'
+  'and another string for length exceed' // LINT
 ];
 
 final secondSet = {
   'some string',
   'some other string',
-  'and another string for length exceed'
+  'and another string for length exceed' // LINT
 };
 
 final secondMap = {
   'some string': 'and another string for length exceed',
-  'and another string for length exceed': 'and another string for length exceed'
+  'and another string for length exceed': 'and another string for length exceed' // LINT
 };
 ```
 
@@ -136,7 +141,7 @@ class TestClass {
 
 With given config:
 
-```
+``` yaml
 - break-on: 2
 ```
 

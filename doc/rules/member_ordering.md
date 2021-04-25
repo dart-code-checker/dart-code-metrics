@@ -33,10 +33,14 @@ The `alphabetize` option will enforce that members within the same category shou
 ### Config example
 
 ```yaml
-member-ordering:
-  alphabetize: true
-  order:
-    - public-fields
-    - private-fields
-    - constructors
+dart_code_metrics:
+  ...
+  rules:
+    ...
+    - member-ordering:
+        alphabetize: true
+        order:
+          - public-fields
+          - private-fields
+          - constructors
 ```
