@@ -15,13 +15,15 @@ Warns on comparison to a boolean literal, as in `x == true`. Comparing boolean v
 Bad:
 
 ```dart
-  var b = x == true;
-  var c = x != true;
+  var b = x == true; // LINT
+  var c = x != true; // LINT
 
+   // LINT
   if (x == true) {
     ...
   }
 
+   // LINT
   if (x != false) {
     ...
   }

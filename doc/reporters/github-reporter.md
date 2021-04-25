@@ -75,6 +75,6 @@ jobs:
 ---
 Example of a report in a PR:
 
-![Issue screenshot](../resources/github-repoeter-sample.gif "Example Issue")
+![Issue screenshot](../.assets/github-reporter-sample.gif "Example Issue")
 
 ---

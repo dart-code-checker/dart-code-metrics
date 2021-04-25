@@ -1,6 +1,6 @@
 # Lines of Executable Code
 
-**Lines of Executable Code** is the approximate number of executable code lines or operations in a function or a method. Blank or comment lines are not counted. Function with high values of this metric are often complex and tough to maintain.
+**Lines of Executable Code** is the approximate number of executable code lines or operations in a function or method. Blank or comment lines are not counted. Function with high values of this metric are often complex and tough to maintain.
 
 Example:
 

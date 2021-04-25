@@ -1,16 +1,19 @@
 # Provide correct intl args
 
 ## Rule id
+
 provide-correct-intl-args
 
 ## Description
+
 Warns when the `Intl.message()` invocation has incorrect `args` list.
 
 ### Example
+
 Bad:
+
 ```dart
 import 'package:intl/intl.dart';    
-//Issues
 
 class SomeButtonClassI18n {
   static const int value = 0;
@@ -106,8 +109,8 @@ class SomeButtonClassI18n {
 ```
 
 Good:
-```dart
 
+```dart
 import 'package:intl/intl.dart';    
 
 class SomeButtonClassI18n {

@@ -6,7 +6,7 @@ no-object-declaration
 
 ## Description
 
-Warns when class member is declared with Object type.
+Warns when a class member is declared with Object type.
 
 ## Example
 
@@ -14,10 +14,11 @@ Bad:
 
 ```dart
 class Test {
-    Object data = 1;
+    Object data = 1; // LINT
 
-    Object get getter => 1;
+    Object get getter => 1; // LINT
 
+    // LINT
     Object doWork() {
         return;
     }
