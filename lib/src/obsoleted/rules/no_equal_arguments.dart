@@ -61,6 +61,13 @@ class _Visitor extends RecursiveAstVisitor<void> {
     _visitArguments(node.argumentList.arguments);
   }
 
+  @override
+  void visitInstanceCreationExpression(InstanceCreationExpression node) {
+    super.visitInstanceCreationExpression(node);
+
+    _visitArguments(node.argumentList.arguments);
+  }
+
   void _visitArguments(NodeList<Expression> arguments) {
     for (final argument in arguments) {
       final lastAppearance = arguments.lastWhere((arg) {
