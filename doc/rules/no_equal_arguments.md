@@ -6,7 +6,7 @@ no-equal-arguments
 
 ## Description
 
-Warns when equal arguments passed to function or method invocations.
+Warns when equal arguments passed to a function or method invocation.
 
 ### Example
 
@@ -23,7 +23,7 @@ class User {
 User createUser(String firstName, String lastName)  {
   return User(
     firstName,
-    firstName, // <--
+    firstName, // LINT
   );
 }
 
@@ -34,7 +34,7 @@ void getUserData(User user) {
 
   final fullName = getFullName(
     user.firstName,
-    user.firstName, // <--
+    user.firstName, // LINT
   );
 }
 ```

@@ -16,19 +16,19 @@ Note: abstract classes are completely ignored by the rule to avoid redundant che
 Bad:
 
 ```dart
-void someFunction(String s) {
+void someFunction(String s) { // LINT
   return;
 }
 
 class SomeClass {
-  void method(String s) {
+  void method(String s) { // LINT
     return;
   }
 }
 
 class SomeClass extends AnotherClass {
   @override
-  void method(String s) {}
+  void method(String s) {} // LINT
 }
 ```
 

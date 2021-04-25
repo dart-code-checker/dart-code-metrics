@@ -26,9 +26,13 @@ The value for `order` may be an array consisting of the following strings (defau
 ### Config example
 
 ```yaml
-component-annotation-arguments-ordering:
-  order:
-    - selector
-    - templates
-    - change-detection
+dart_code_metrics:
+  ...
+  rules:
+    ...
+    - component-annotation-arguments-ordering:
+        order:
+          - selector
+          - templates
+          - change-detection
 ```

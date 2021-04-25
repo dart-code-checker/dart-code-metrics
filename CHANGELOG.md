@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 3.1.0
 
 * Add excludes for a separate rule.
 * Add static code diagnostic `avoid-returning-widgets`.
