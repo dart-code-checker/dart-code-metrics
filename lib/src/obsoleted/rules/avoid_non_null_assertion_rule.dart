@@ -35,7 +35,6 @@ class AvoidNonNullAssertionRule extends ObsoleteRule {
               location: nodeLocation(
                 node: expression,
                 source: source,
-                withCommentOrMetadata: true,
               ),
               message: _failure,
             ))
