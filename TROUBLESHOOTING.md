@@ -4,7 +4,7 @@
 
 If the plugin is not working as you'd expect it to work, please consider going through the following steps before creating [an issue](https://github.com/dart-code-checker/dart-code-metrics/issues/new?assignees=dkrutskikh&labels=bug&template=bug-report.md&title=%5BBUG%5D+):
 
-1. Check that the plugin is added to an `analyzer` entry in the `analysis_options.yaml` as described in the [Configuration](./README#Configuration) section.
+1. Check that the plugin is added to an `analyzer` entry in the `analysis_options.yaml` as described in the [Configuration](./README.md#Configuration) section.
 
 2. Check that the `dart_code_metrics` entry in the `analysis_options.yaml` is configured correctly. Note, that you need to add each rule or metric you want to be checked to the config and there is **no** default rule or metric lists config. **Note:** for a rule config there is a 4 spaces / 2 tabs indentation.
 
