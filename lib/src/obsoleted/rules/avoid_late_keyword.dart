@@ -10,7 +10,7 @@ import 'obsolete_rule.dart';
 
 class AvoidLateKeywordRule extends ObsoleteRule {
   static const String ruleId = 'avoid-late-keyword';
-  static const _documentationUrl = '';
+  static const _documentationUrl = 'https://git.io/JOb9p';
 
   static const _warning = "Avoid using 'late' keyword.";
 
@@ -34,7 +34,6 @@ class AvoidLateKeywordRule extends ObsoleteRule {
               location: nodeLocation(
                 node: declaration,
                 source: source,
-                withCommentOrMetadata: true,
               ),
               message: _warning,
             ))
