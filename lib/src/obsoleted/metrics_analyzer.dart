@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
+import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/file_system/physical_file_system.dart';
 import 'package:analyzer/source/line_info.dart';
@@ -33,7 +34,6 @@ import 'anti_patterns_factory.dart';
 import 'constants.dart';
 import 'halstead_volume/halstead_volume_ast_visitor.dart';
 import 'metrics_records_store.dart';
-import 'models/internal_resolved_unit_result.dart';
 import 'reporters/utility_selector.dart';
 import 'rules_factory.dart';
 
@@ -268,21 +268,15 @@ class MetricsAnalyzer {
 
         final ignores = Suppression(result.content ?? '', lineInfo);
 
-        final source = InternalResolvedUnitResult(
-          Uri.parse(filePath),
-          result.content!,
-          result.unit!,
-        );
-
         builder
           ..recordIssues(_checkOnCodeIssues(
             ignores,
-            source,
+            result,
             filePath,
             rootFolder,
           ))
           ..recordAntiPatternCases(
-            _checkOnAntiPatterns(ignores, source, functions),
+            _checkOnAntiPatterns(ignores, result, functions),
           );
       });
     }
@@ -290,7 +284,7 @@ class MetricsAnalyzer {
 
   Iterable<Issue> _checkOnCodeIssues(
     Suppression ignores,
-    InternalResolvedUnitResult source,
+    ResolvedUnitResult source,
     String filePath,
     String rootFolder,
   ) =>
@@ -308,7 +302,7 @@ class MetricsAnalyzer {
 
   Iterable<Issue> _checkOnAntiPatterns(
     Suppression ignores,
-    InternalResolvedUnitResult source,
+    ResolvedUnitResult source,
     Iterable<ScopedFunctionDeclaration> functions,
   ) =>
       _antiPatterns

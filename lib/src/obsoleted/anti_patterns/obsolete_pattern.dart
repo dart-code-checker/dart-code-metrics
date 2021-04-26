@@ -5,7 +5,6 @@ import '../../models/issue.dart';
 import '../../models/pattern_documentation.dart';
 import '../../models/report.dart';
 import '../../models/scoped_function_declaration.dart';
-import '../models/internal_resolved_unit_result.dart';
 
 abstract class ObsoletePattern extends Pattern {
   final Uri documentationUrl;
@@ -19,7 +18,7 @@ abstract class ObsoletePattern extends Pattern {
         );
 
   Iterable<Issue> legacyCheck(
-    InternalResolvedUnitResult source,
+    ResolvedUnitResult source,
     Iterable<ScopedFunctionDeclaration> functions,
     Map<String, Object> metricsConfig,
   );

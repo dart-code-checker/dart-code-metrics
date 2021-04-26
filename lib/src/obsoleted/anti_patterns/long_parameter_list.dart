@@ -1,9 +1,10 @@
+import 'package:analyzer/dart/analysis/results.dart';
+
 import '../../metrics/number_of_parameters_metric.dart';
 import '../../models/function_type.dart';
 import '../../models/issue.dart';
 import '../../models/scoped_function_declaration.dart';
 import '../../utils/metric_utils.dart';
-import '../models/internal_resolved_unit_result.dart';
 import '../utils/metrics_analyzer_utils.dart';
 import 'obsolete_pattern.dart';
 import 'pattern_utils.dart' as utils;
@@ -17,7 +18,7 @@ class LongParameterList extends ObsoletePattern {
 
   @override
   Iterable<Issue> legacyCheck(
-    InternalResolvedUnitResult source,
+    ResolvedUnitResult source,
     Iterable<ScopedFunctionDeclaration> functions,
     Map<String, Object> metricsConfig,
   ) {

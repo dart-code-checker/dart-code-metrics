@@ -37,7 +37,6 @@ import '../../utils/node_utils.dart';
 import '../../utils/yaml_utils.dart';
 import '../anti_patterns_factory.dart';
 import '../models/function_report.dart';
-import '../models/internal_resolved_unit_result.dart';
 import '../reporters/utility_selector.dart';
 import '../rules_factory.dart';
 import 'analyzer_plugin_config.dart';
@@ -255,11 +254,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
 
         result.addAll(_checkOnAntiPatterns(
           ignores,
-          InternalResolvedUnitResult(
-            sourceUri,
-            analysisResult.content!,
-            analysisResult.unit!,
-          ),
+          analysisResult,
           functions,
           _configs[driver]!,
         ));
@@ -267,11 +262,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
         if (!ignores.isSuppressed(_codeMetricsId)) {
           result.addAll(_checkMetrics(
             ignores,
-            InternalResolvedUnitResult(
-              sourceUri,
-              analysisResult.content!,
-              analysisResult.unit!,
-            ),
+            analysisResult,
             functions,
             _configs[driver]!,
           ));
@@ -298,24 +289,16 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
                     analysisResult,
                     prepareExcludes(rule.excludes, root),
                   )))
-          .expand(
-            (rule) => rule
-                .check(InternalResolvedUnitResult(
-                  sourceUri,
-                  analysisResult.content!,
-                  analysisResult.unit!,
-                ))
-                .where((issue) => !ignores.isSuppressedAt(
-                      issue.ruleId,
-                      issue.location.start.line,
-                    ))
-                .map((issue) =>
-                    codeIssueToAnalysisErrorFixes(issue, analysisResult)),
-          );
+          .expand((rule) => rule.check(analysisResult))
+          .where((issue) => !ignores.isSuppressedAt(
+                issue.ruleId,
+                issue.location.start.line,
+              ))
+          .map((issue) => codeIssueToAnalysisErrorFixes(issue, analysisResult));
 
   Iterable<plugin.AnalysisErrorFixes> _checkOnAntiPatterns(
     Suppression ignores,
-    InternalResolvedUnitResult source,
+    ResolvedUnitResult source,
     Iterable<ScopedFunctionDeclaration> functions,
     AnalyzerPluginConfig config,
   ) =>
@@ -329,7 +312,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
 
   Iterable<plugin.AnalysisErrorFixes> _checkMetrics(
     Suppression ignores,
-    InternalResolvedUnitResult source,
+    ResolvedUnitResult source,
     Iterable<ScopedFunctionDeclaration> functions,
     AnalyzerPluginConfig config,
   ) {
@@ -340,7 +323,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
           function.declaration.firstTokenAfterCommentAndMetadata.offset;
 
       final functionFirstLineInfo =
-          source.unit.lineInfo?.getLocation(functionOffset);
+          source.unit?.lineInfo?.getLocation(functionOffset);
 
       if (ignores.isSuppressedAt(
         _codeMetricsId,
@@ -387,7 +370,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
 
   FunctionReport _buildReport(
     ScopedFunctionDeclaration function,
-    InternalResolvedUnitResult source,
+    ResolvedUnitResult source,
     AnalyzerPluginConfig config,
   ) =>
       UtilitySelector.functionReport(

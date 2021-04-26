@@ -4,24 +4,14 @@ import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:dart_code_metrics/src/models/issue.dart';
 import 'package:dart_code_metrics/src/models/severity.dart';
-import 'package:dart_code_metrics/src/obsoleted/models/internal_resolved_unit_result.dart';
 import 'package:test/test.dart';
 
 class RuleTestHelper {
-  static Future<InternalResolvedUnitResult> resolveFromFile(
-    String filePath,
-  ) async {
+  static Future<ResolvedUnitResult> resolveFromFile(String filePath) async {
     final path = File(filePath).absolute.path;
-    final sourceUrl = Uri.parse(path);
 
     // ignore: deprecated_member_use
-    final parseResult = await resolveFile(path: path) as ResolvedUnitResult;
-
-    return InternalResolvedUnitResult(
-      sourceUrl,
-      parseResult.content!,
-      parseResult.unit!,
-    );
+    return await resolveFile(path: path) as ResolvedUnitResult;
   }
 
   static void verifyInitialization({
@@ -41,6 +31,7 @@ class RuleTestHelper {
     Iterable<int>? endOffsets,
     Iterable<String>? locationTexts,
     Iterable<String>? messages,
+    Iterable<String>? verboseMessage,
     Iterable<String>? replacements,
     Iterable<String>? replacementComments,
   }) {
@@ -89,6 +80,14 @@ class RuleTestHelper {
         issues.map((issue) => issue.message),
         equals(messages),
         reason: 'incorrect message',
+      );
+    }
+
+    if (verboseMessage != null) {
+      expect(
+        issues.map((issue) => issue.verboseMessage),
+        equals(verboseMessage),
+        reason: 'incorrect verbose message',
       );
     }
 
