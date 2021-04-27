@@ -147,8 +147,9 @@ class MetricsAnalyzer {
 
           for (final function in functions) {
             final cyclomatic = _methodsMetrics
-                .firstWhere((metric) =>
-                    metric.id == CyclomaticComplexityMetric.metricId)
+                .firstWhere(
+                  (metric) => metric.id == CyclomaticComplexityMetric.metricId,
+                )
                 .compute(
                   function.declaration,
                   visitor.classes,
@@ -274,16 +275,21 @@ class MetricsAnalyzer {
           result.unit!,
         );
 
-        builder
-          ..recordIssues(_checkOnCodeIssues(
-            ignores,
-            source,
-            filePath,
-            rootFolder,
-          ))
-          ..recordAntiPatternCases(
+        builder.recordIssues(_checkOnCodeIssues(
+          ignores,
+          source,
+          filePath,
+          rootFolder,
+        ));
+
+        if (!_isExcluded(
+          p.relative(filePath, from: rootFolder),
+          _metricsExclude,
+        )) {
+          builder.recordAntiPatternCases(
             _checkOnAntiPatterns(ignores, source, functions),
           );
+        }
       });
     }
   }
