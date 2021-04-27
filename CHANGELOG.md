@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-* Add static code diagnostic `avoid-non-null-assertion`.
+* Add static code diagnostics `avoid-non-null-assertion`,  `avoid-late-keyword`.
 * Migrate all rule tests to `resolveFile`.
 * Improve static code diagnostics `no-equal-arguments`, `no-magic-number`.
 

@@ -1,4 +1,5 @@
 import '../rules/rule.dart';
+import 'rules/avoid_late_keyword.dart';
 import 'rules/avoid_non_null_assertion_rule.dart';
 import 'rules/avoid_preserve_whitespace_false.dart';
 import 'rules/avoid_returning_widgets_rule.dart';
@@ -22,6 +23,7 @@ import 'rules/prefer_trailing_comma.dart';
 import 'rules/provide_correct_intl_args.dart';
 
 final _implementedRules = <String, Rule Function(Map<String, Object>)>{
+  AvoidLateKeywordRule.ruleId: (config) => AvoidLateKeywordRule(config: config),
   AvoidNonNullAssertionRule.ruleId: (config) =>
       AvoidNonNullAssertionRule(config: config),
   AvoidPreserveWhitespaceFalseRule.ruleId: (config) =>
