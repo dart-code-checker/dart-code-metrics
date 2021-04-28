@@ -33,7 +33,3 @@ dev_dependencies:
 
 executables:
   metrics:
-
-dependency_validator:
-  ignore:
-    - intl
