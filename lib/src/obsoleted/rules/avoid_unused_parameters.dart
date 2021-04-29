@@ -14,7 +14,6 @@ import 'obsolete_rule.dart';
 
 class AvoidUnusedParameters extends ObsoleteRule {
   static const String ruleId = 'avoid-unused-parameters';
-  static const _documentationUrl = 'https://git.io/JL153';
 
   static const _warningMessage = 'Parameter is unused';
   static const _renameMessage =
@@ -24,7 +23,6 @@ class AvoidUnusedParameters extends ObsoleteRule {
     Map<String, Object> config = const {},
   }) : super(
           id: ruleId,
-          documentationUrl: Uri.parse(_documentationUrl),
           severity: readSeverity(config, Severity.warning),
           excludes: readExcludes(config),
         );

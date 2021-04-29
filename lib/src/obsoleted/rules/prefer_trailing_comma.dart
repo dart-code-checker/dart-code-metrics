@@ -14,7 +14,6 @@ import 'obsolete_rule.dart';
 
 class PreferTrailingComma extends ObsoleteRule {
   static const String ruleId = 'prefer-trailing-comma';
-  static const _documentationUrl = 'https://git.io/Jkemi';
 
   static const _warningMessage = 'Prefer trailing comma';
   static const _correctionMessage = 'Add trailing comma';
@@ -25,7 +24,6 @@ class PreferTrailingComma extends ObsoleteRule {
       : _itemsBreakpoint = _parseItemsBreakpoint(config),
         super(
           id: ruleId,
-          documentationUrl: Uri.parse(_documentationUrl),
           severity: readSeverity(config, Severity.warning),
           excludes: readExcludes(config),
         );

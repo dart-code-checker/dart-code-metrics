@@ -3,7 +3,6 @@ import 'package:source_span/source_span.dart';
 import '../models/issue.dart';
 import '../models/replacement.dart';
 import '../models/severity.dart';
-import '../obsoleted/rules/obsolete_rule.dart';
 import '../rules/rule.dart';
 
 // ignore_for_file: long-parameter-list
@@ -20,8 +19,7 @@ Issue createIssue({
 }) =>
     Issue(
       ruleId: rule.id,
-      documentation:
-          rule is ObsoleteRule ? rule.documentationUrl : documentation(rule.id),
+      documentation: documentation(rule.id),
       location: location,
       severity: rule.severity,
       message: message,
@@ -32,8 +30,16 @@ Issue createIssue({
 /// Returns a url of a page containing documentation associated with [ruleId]
 Uri documentation(String ruleId) => Uri(
       scheme: 'https',
-      host: 'dart-code-checker.github.io',
-      pathSegments: ['dart-code-metrics', 'rules', '$ruleId.html'],
+      host: 'github.com',
+      pathSegments: [
+        'dart-code-checker',
+        'dart-code-metrics',
+        'tree',
+        'master',
+        'doc',
+        'rules',
+        '$ruleId.html',
+      ],
     );
 
 /// Returns a [Severity] from map based [config] otherwise [defaultValue]

@@ -10,7 +10,6 @@ import 'obsolete_rule.dart';
 
 class NoMagicNumberRule extends ObsoleteRule {
   static const String ruleId = 'no-magic-number';
-  static const _documentationUrl = 'https://git.io/JJwmL';
 
   static const _warningMessage =
       'Avoid using magic numbers. Extract them to named constants';
@@ -23,7 +22,6 @@ class NoMagicNumberRule extends ObsoleteRule {
       : _allowedMagicNumbers = _parseConfig(config),
         super(
           id: ruleId,
-          documentationUrl: Uri.parse(_documentationUrl),
           severity: readSeverity(config, Severity.warning),
           excludes: readExcludes(config),
         );

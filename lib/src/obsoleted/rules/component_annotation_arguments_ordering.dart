@@ -13,7 +13,6 @@ import 'obsolete_rule.dart';
 
 class ComponentAnnotationArgumentsOrderingRule extends ObsoleteRule {
   static const ruleId = 'component-annotation-arguments-ordering';
-  static const _documentationUrl = 'https://git.io/JJ5HC';
 
   static const _warningMessage = 'should be before';
 
@@ -24,7 +23,6 @@ class ComponentAnnotationArgumentsOrderingRule extends ObsoleteRule {
   })  : _groupsOrder = _parseOrder(config),
         super(
           id: ruleId,
-          documentationUrl: Uri.parse(_documentationUrl),
           severity: readSeverity(config, Severity.style),
           excludes: readExcludes(config),
         );

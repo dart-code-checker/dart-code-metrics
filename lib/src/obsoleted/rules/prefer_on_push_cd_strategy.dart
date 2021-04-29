@@ -11,14 +11,12 @@ import 'obsolete_rule.dart';
 
 class PreferOnPushCdStrategyRule extends ObsoleteRule {
   static const String ruleId = 'prefer-on-push-cd-strategy';
-  static const _documentationUrl = 'https://git.io/JJwmB';
 
   static const _failure = 'Prefer using onPush change detection strategy.';
 
   PreferOnPushCdStrategyRule({Map<String, Object> config = const {}})
       : super(
           id: ruleId,
-          documentationUrl: Uri.parse(_documentationUrl),
           severity: readSeverity(config, Severity.warning),
           excludes: readExcludes(config),
         );

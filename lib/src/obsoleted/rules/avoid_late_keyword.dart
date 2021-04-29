@@ -10,14 +10,12 @@ import 'obsolete_rule.dart';
 
 class AvoidLateKeywordRule extends ObsoleteRule {
   static const String ruleId = 'avoid-late-keyword';
-  static const _documentationUrl = 'https://git.io/JOb9p';
 
   static const _warning = "Avoid using 'late' keyword.";
 
   AvoidLateKeywordRule({Map<String, Object> config = const {}})
       : super(
           id: ruleId,
-          documentationUrl: Uri.parse(_documentationUrl),
           severity: readSeverity(config, Severity.warning),
           excludes: readExcludes(config),
         );

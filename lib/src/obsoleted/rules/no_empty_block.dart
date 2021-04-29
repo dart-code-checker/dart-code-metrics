@@ -12,7 +12,6 @@ import 'obsolete_rule.dart';
 
 class NoEmptyBlockRule extends ObsoleteRule {
   static const String ruleId = 'no-empty-block';
-  static const _documentationUrl = 'https://git.io/JfDi3';
 
   static const _failure =
       'Block is empty. Empty blocks are often indicators of missing code.';
@@ -20,7 +19,6 @@ class NoEmptyBlockRule extends ObsoleteRule {
   NoEmptyBlockRule({Map<String, Object> config = const {}})
       : super(
           id: ruleId,
-          documentationUrl: Uri.parse(_documentationUrl),
           severity: readSeverity(config, Severity.style),
           excludes: readExcludes(config),
         );

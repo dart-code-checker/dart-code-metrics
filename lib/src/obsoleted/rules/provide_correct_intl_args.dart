@@ -15,14 +15,12 @@ import 'obsolete_rule.dart';
 
 class ProvideCorrectIntlArgsRule extends ObsoleteRule {
   static const String ruleId = 'provide-correct-intl-args';
-  static const _documentationUrl = 'https://git.io/JJySX';
 
   static const _intlPackageUrl = 'package:intl/intl.dart';
 
   ProvideCorrectIntlArgsRule({Map<String, Object> config = const {}})
       : super(
           id: ruleId,
-          documentationUrl: Uri.parse(_documentationUrl),
           severity: readSeverity(config, Severity.warning),
           excludes: readExcludes(config),
         );

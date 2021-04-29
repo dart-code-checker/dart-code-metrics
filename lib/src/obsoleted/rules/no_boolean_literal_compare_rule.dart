@@ -16,7 +16,6 @@ import 'obsolete_rule.dart';
 
 class NoBooleanLiteralCompareRule extends ObsoleteRule {
   static const String ruleId = 'no-boolean-literal-compare';
-  static const _documentationUrl = 'https://git.io/JJwmf';
 
   static const _failure =
       'Comparing boolean values to boolean literals is unnecessary, as those expressions will result in booleans too. Just use the boolean values directly or negate them.';
@@ -29,7 +28,6 @@ class NoBooleanLiteralCompareRule extends ObsoleteRule {
   NoBooleanLiteralCompareRule({Map<String, Object> config = const {}})
       : super(
           id: ruleId,
-          documentationUrl: Uri.parse(_documentationUrl),
           severity: readSeverity(config, Severity.style),
           excludes: readExcludes(config),
         );

@@ -10,7 +10,6 @@ import 'obsolete_rule.dart';
 
 class NoObjectDeclarationRule extends ObsoleteRule {
   static const String ruleId = 'no-object-declaration';
-  static const _documentationUrl = 'https://git.io/JJwmY';
 
   static const _warningMessage =
       'Avoid Object type declaration in class member';
@@ -18,7 +17,6 @@ class NoObjectDeclarationRule extends ObsoleteRule {
   NoObjectDeclarationRule({Map<String, Object> config = const {}})
       : super(
           id: ruleId,
-          documentationUrl: Uri.parse(_documentationUrl),
           severity: readSeverity(config, Severity.style),
           excludes: readExcludes(config),
         );

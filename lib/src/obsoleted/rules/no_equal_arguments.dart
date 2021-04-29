@@ -10,14 +10,12 @@ import 'obsolete_rule.dart';
 
 class NoEqualArguments extends ObsoleteRule {
   static const String ruleId = 'no-equal-arguments';
-  static const _documentationUrl = 'https://git.io/JUlBH';
 
   static const _warningMessage = 'The argument has already been passed';
 
   NoEqualArguments({Map<String, Object> config = const {}})
       : super(
           id: ruleId,
-          documentationUrl: Uri.parse(_documentationUrl),
           severity: readSeverity(config, Severity.warning),
           excludes: readExcludes(config),
         );

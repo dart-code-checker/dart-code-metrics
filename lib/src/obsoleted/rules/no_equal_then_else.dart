@@ -12,14 +12,12 @@ import 'obsolete_rule.dart';
 
 class NoEqualThenElse extends ObsoleteRule {
   static const String ruleId = 'no-equal-then-else';
-  static const _documentationUrl = 'https://git.io/JUvxA';
 
   static const _warningMessage = 'Then and else branches are equal';
 
   NoEqualThenElse({Map<String, Object> config = const {}})
       : super(
           id: ruleId,
-          documentationUrl: Uri.parse(_documentationUrl),
           severity: readSeverity(config, Severity.warning),
           excludes: readExcludes(config),
         );
