@@ -16,7 +16,7 @@ void main() {
       () {
         const id = 'rule-id';
         final documentationUrl = Uri.parse(
-          'https://dart-code-checker.github.io/dart-code-metrics/rules/rule-id.html',
+          'https://github.com/dart-code-checker/dart-code-metrics/tree/master/doc/rules/rule-id.html',
         );
         const severity = Severity.none;
 
@@ -62,7 +62,7 @@ void main() {
       expect(
         documentation(ruleId1).toString(),
         equals(
-          'https://dart-code-checker.github.io/dart-code-metrics/rules/$ruleId1.html',
+          'https://github.com/dart-code-checker/dart-code-metrics/tree/master/doc/rules/$ruleId1.html',
         ),
       );
       expect(

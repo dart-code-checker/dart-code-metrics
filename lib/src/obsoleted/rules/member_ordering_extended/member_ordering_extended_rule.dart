@@ -20,7 +20,6 @@ part 'models/modifier.dart';
 
 class MemberOrderingExtendedRule extends ObsoleteRule {
   static const ruleId = 'member-ordering-extended';
-  static const _documentationUrl = 'https://git.io/JY1dv';
 
   static const _warningMessage = 'should be before';
   static const _warningAlphabeticalMessage = 'should be alphabetically before';
@@ -33,7 +32,6 @@ class MemberOrderingExtendedRule extends ObsoleteRule {
         _alphabetize = (config['alphabetize'] as bool?) ?? false,
         super(
           id: ruleId,
-          documentationUrl: Uri.parse(_documentationUrl),
           severity: readSeverity(config, Severity.style),
           excludes: readExcludes(config),
         );

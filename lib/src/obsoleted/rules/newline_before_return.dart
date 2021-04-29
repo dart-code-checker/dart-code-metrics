@@ -14,14 +14,12 @@ import 'obsolete_rule.dart';
 
 class NewlineBeforeReturnRule extends ObsoleteRule {
   static const String ruleId = 'newline-before-return';
-  static const _documentationUrl = 'https://git.io/JfDiO';
 
   static const _failure = 'Missing blank line before return';
 
   NewlineBeforeReturnRule({Map<String, Object> config = const {}})
       : super(
           id: ruleId,
-          documentationUrl: Uri.parse(_documentationUrl),
           severity: readSeverity(config, Severity.style),
           excludes: readExcludes(config),
         );

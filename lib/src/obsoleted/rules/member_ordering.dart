@@ -15,7 +15,6 @@ import 'obsolete_rule.dart';
 
 class MemberOrderingRule extends ObsoleteRule {
   static const ruleId = 'member-ordering';
-  static const _documentationUrl = 'https://git.io/JJwqN';
 
   static const _warningMessage = 'should be before';
   static const _warningAlphabeticalMessage = 'should be alphabetically before';
@@ -28,7 +27,6 @@ class MemberOrderingRule extends ObsoleteRule {
         _alphabetize = (config['alphabetize'] as bool?) ?? false,
         super(
           id: ruleId,
-          documentationUrl: Uri.parse(_documentationUrl),
           severity: readSeverity(config, Severity.style),
           excludes: readExcludes(config),
         );

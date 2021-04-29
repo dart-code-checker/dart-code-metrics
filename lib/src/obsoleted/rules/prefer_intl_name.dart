@@ -14,7 +14,6 @@ import 'obsolete_rule.dart';
 
 class PreferIntlNameRule extends ObsoleteRule {
   static const String ruleId = 'prefer-intl-name';
-  static const _documentationUrl = 'https://git.io/JJwmc';
 
   static const _intlPackageUrl = 'package:intl/intl.dart';
   static const _notCorrectNameFailure = 'Incorrect Intl name, should be';
@@ -24,7 +23,6 @@ class PreferIntlNameRule extends ObsoleteRule {
   PreferIntlNameRule({Map<String, Object> config = const {}})
       : super(
           id: ruleId,
-          documentationUrl: Uri.parse(_documentationUrl),
           severity: readSeverity(config, Severity.warning),
           excludes: readExcludes(config),
         );

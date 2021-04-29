@@ -11,14 +11,12 @@ import 'obsolete_rule.dart';
 
 class AvoidNonNullAssertionRule extends ObsoleteRule {
   static const String ruleId = 'avoid-non-null-assertion';
-  static const _documentationUrl = 'https://git.io/JO5Ju';
 
   static const _failure = 'Avoid using non null assertion.';
 
   AvoidNonNullAssertionRule({Map<String, Object> config = const {}})
       : super(
           id: ruleId,
-          documentationUrl: Uri.parse(_documentationUrl),
           severity: readSeverity(config, Severity.warning),
           excludes: readExcludes(config),
         );

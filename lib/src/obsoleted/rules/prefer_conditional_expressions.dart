@@ -14,7 +14,6 @@ import 'obsolete_rule.dart';
 
 class PreferConditionalExpressions extends ObsoleteRule {
   static const String ruleId = 'prefer-conditional-expressions';
-  static const _documentationUrl = 'https://git.io/JJwms';
 
   static const _warningMessage = 'Prefer conditional expression';
   static const _correctionMessage = 'Convert to conditional expression';
@@ -22,7 +21,6 @@ class PreferConditionalExpressions extends ObsoleteRule {
   PreferConditionalExpressions({Map<String, Object> config = const {}})
       : super(
           id: ruleId,
-          documentationUrl: Uri.parse(_documentationUrl),
           severity: readSeverity(config, Severity.style),
           excludes: readExcludes(config),
         );

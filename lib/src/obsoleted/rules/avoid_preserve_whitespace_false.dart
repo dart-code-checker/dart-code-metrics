@@ -12,14 +12,12 @@ import 'obsolete_rule.dart';
 
 class AvoidPreserveWhitespaceFalseRule extends ObsoleteRule {
   static const String ruleId = 'avoid-preserve-whitespace-false';
-  static const _documentationUrl = 'https://git.io/JfDik';
 
   static const _failure = 'Avoid using preserveWhitespace: false.';
 
   AvoidPreserveWhitespaceFalseRule({Map<String, Object> config = const {}})
       : super(
           id: ruleId,
-          documentationUrl: Uri.parse(_documentationUrl),
           severity: readSeverity(config, Severity.warning),
           excludes: readExcludes(config),
         );
