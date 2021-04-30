@@ -1,4 +1,6 @@
-# Creating new lint rule
+# Contribution guide
+
+## Creating new lint rule
 
 To create a new rule:
 
@@ -59,3 +61,23 @@ To create a new rule:
     ```
 
 10. Add the rule tests under `test/analyzers/lint_analyzer/rules/rules_list/`. Prefer to split test examples to a correct/incorrect groups.
+
+## Run the plugin in IDE
+
+The plugin works in multiple IDEs and is implemented as analysis server plugin. To work on and test IDE/analysis server integration features and issues you
+will need to load the plugin into analysis server.
+
+To set this up:
+
+1. Assume you have cloned the repository into `<absolute-path>` directory.
+2. Change `dart_code_metrics` dependency in `tools\analyzer_plugin\pubspec.yaml` to path dependency:
+
+    ```yaml
+    dependencies:
+    dart_code_metrics:
+      path: <absolute-path>
+    ```
+
+3. Do the same in your project(s) you wish to work on `dart-code-metrics`: reference it from absolute path.
+4. For Visual Studio Code on Windows: delete `C:\Users\<your-windows-user-name>\AppData\Local\.dartServer` folder.
+5. Start / restart your IDE
