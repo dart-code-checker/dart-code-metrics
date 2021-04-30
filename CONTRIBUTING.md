@@ -74,8 +74,8 @@ To set this up:
 
     ```yaml
     dependencies:
-    dart_code_metrics:
-      path: <absolute-path>
+      dart_code_metrics:
+        path: <absolute-path>
     ```
 
 3. Do the same in your project(s) you wish to work on `dart-code-metrics`: reference it from absolute path.
