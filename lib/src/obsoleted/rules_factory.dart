@@ -1,3 +1,4 @@
+import '../rules/double_literal_format/double_literal_format.dart';
 import '../rules/rule.dart';
 import 'rules/avoid_late_keyword.dart';
 import 'rules/avoid_non_null_assertion_rule.dart';
@@ -6,7 +7,6 @@ import 'rules/avoid_returning_widgets_rule.dart';
 import 'rules/avoid_unused_parameters.dart';
 import 'rules/binary_expression_operand_order_rule.dart';
 import 'rules/component_annotation_arguments_ordering.dart';
-import 'rules/double_literal_format_rule.dart';
 import 'rules/member_ordering.dart';
 import 'rules/member_ordering_extended/member_ordering_extended_rule.dart';
 import 'rules/newline_before_return.dart';

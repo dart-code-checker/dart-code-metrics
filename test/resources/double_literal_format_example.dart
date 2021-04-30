@@ -1,5 +1,6 @@
+// ignore_for_file: double-literal-format, unused_local_variable
 void main() {
-  var a = [
+  const a = [
     05.23, // LINT
     5.23,
     003.6e+5, // LINT
@@ -10,7 +11,7 @@ void main() {
     -1.1e-1,
   ];
 
-  var b = [
+  const b = [
     .257, // LINT
     0.257,
     .16e+5, // LINT
@@ -21,7 +22,7 @@ void main() {
     -0.14e-5,
   ];
 
-  var c = [
+  const c = [
     0.2100, // LINT
     0.21,
     0.100e+5, // LINT
@@ -32,7 +33,7 @@ void main() {
     -0.4e-5,
   ];
 
-  var d = [
+  const d = [
     0.0,
     -0.0,
     12.0e+1,

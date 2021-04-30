@@ -8,7 +8,7 @@ double-literal-format
 
 ## Description
 
-Checks that double literals should begin with ‘0.’ instead of just ‘.’, and should not end with a trailing ‘0’. Helps keep a consistent style of numeric literals and decrease potential typos.
+Checks that double literals should begin with `0.` instead of just `.`, and should not end with a trailing `0`. Helps keep a consistent style of numeric literals and decrease potential typos.
 
 ### Redundant leading '0'
 
