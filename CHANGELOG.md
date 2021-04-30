@@ -1,10 +1,10 @@
 # Changelog
 
-## Unreleased
+## 3.2.0-dev.1
 
 * Add static code diagnostics `avoid-non-null-assertion`,  `avoid-late-keyword`.
-* Migrate all rule tests to `resolveFile`.
 * Improve static code diagnostics `no-equal-arguments`, `no-magic-number`.
+* Migrate all rule tests to `resolveFile`.
 
 ## 3.1.0
 
