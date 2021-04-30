@@ -16,6 +16,7 @@ import 'package:analyzer/src/dart/analysis/file_state.dart';
 import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
 import 'package:source_span/source_span.dart';
+import 'package:path/path.dart' as path;
 
 import '../analyzers/lint_analyzer/anti_patterns/anti_patterns_factory.dart';
 import '../analyzers/lint_analyzer/metrics/metric_utils.dart';
@@ -95,20 +96,27 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
       return dartDriver;
     }
 
+    final analysisOptionsFilePath = contextRoot.optionsFile;
+    // We need to take into account mono repositories / multiroot workspaces where
+    // "rootPath" is not the same as "analysisOptions.yaml" file location.
+    final excludeRootPath = analysisOptionsFilePath == null
+        ? rootPath
+        : path.dirname(analysisOptionsFilePath);
+
     _configs[dartDriver] = AnalyzerPluginConfig(
       prepareExcludes(
         [
           ..._defaultSkippedFolders,
           ...options.excludePatterns,
         ],
-        rootPath,
+        excludeRootPath,
       ),
       getRulesById(options.rules),
       [
         CyclomaticComplexityMetric(config: options.metrics),
         NumberOfParametersMetric(config: options.metrics),
       ],
-      prepareExcludes(options.excludeForMetricsPatterns, rootPath),
+      prepareExcludes(options.excludeForMetricsPatterns, excludeRootPath),
       getPatternsById(options.antiPatterns),
       options.metrics,
     );
