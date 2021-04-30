@@ -2,8 +2,6 @@
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart' as plugin;
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
-import 'package:glob/glob.dart';
-import 'package:path/path.dart' as p;
 import 'package:source_span/source_span.dart';
 
 import '../../models/issue.dart';
@@ -13,13 +11,6 @@ bool isSupported(AnalysisResult result) =>
     result.path != null &&
     result.path!.endsWith('.dart') &&
     !result.path!.endsWith('.g.dart');
-
-Iterable<Glob> prepareExcludes(Iterable<String>? patterns, String root) =>
-    patterns?.map((exclude) => Glob(p.join(root, exclude))).toList() ?? [];
-
-bool isExcluded(AnalysisResult result, Iterable<Glob> excludes) =>
-    result.path != null &&
-    excludes.any((exclude) => exclude.matches(result.path!));
 
 plugin.AnalysisErrorFixes codeIssueToAnalysisErrorFixes(
         Issue issue, ResolvedUnitResult unitResult) =>

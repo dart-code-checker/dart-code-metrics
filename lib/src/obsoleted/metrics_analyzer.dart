@@ -10,6 +10,7 @@ import 'package:file/local.dart';
 import 'package:glob/glob.dart';
 import 'package:path/path.dart' as p;
 
+import '../analyzer_plugin/plugin_utils.dart';
 import '../config/config.dart';
 import '../metrics/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import '../metrics/metric.dart';
@@ -27,7 +28,6 @@ import '../scope_visitor.dart';
 import '../suppression.dart';
 import '../utils/metric_utils.dart';
 import '../utils/node_utils.dart';
-import 'analyzer_plugin/analyzer_plugin_utils.dart';
 import 'anti_patterns/obsolete_pattern.dart';
 import 'anti_patterns_factory.dart';
 import 'constants.dart';

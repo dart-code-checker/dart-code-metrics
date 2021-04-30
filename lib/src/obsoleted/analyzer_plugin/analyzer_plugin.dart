@@ -24,6 +24,7 @@ import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
 import 'package:source_span/source_span.dart';
 
+import '../../analyzer_plugin/plugin_utils.dart';
 import '../../config/analysis_options.dart';
 import '../../config/config.dart';
 import '../../metrics/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
