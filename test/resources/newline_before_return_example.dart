@@ -1,3 +1,4 @@
+// ignore_for_file: always_put_control_body_on_new_line, newline-before-return
 int simpleFunction() {
   var a = 4;
 

@@ -1,12 +1,11 @@
 @TestOn('vm')
 import 'package:dart_code_metrics/src/models/severity.dart';
-import 'package:dart_code_metrics/src/obsoleted/rules/newline_before_return.dart';
+import 'package:dart_code_metrics/src/rules/newline_before_return/newline_before_return.dart';
 import 'package:test/test.dart';
 
-import '../../../helpers/rule_test_helper.dart';
+import '../helpers/rule_test_helper.dart';
 
-const _examplePath =
-    'test/obsoleted/rules/newline_before_return/examples/example.dart';
+const _examplePath = 'test/resources/newline_before_return_example.dart';
 
 void main() {
   group('NewlineBeforeReturnRule', () {
@@ -27,10 +26,10 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [177, 898, 1060],
-        startLines: [12, 57, 69],
+        startOffsets: [256, 977, 1139],
+        startLines: [13, 58, 70],
         startColumns: [5, 5, 5],
-        endOffsets: [190, 911, 1073],
+        endOffsets: [269, 990, 1152],
         locationTexts: [
           'return a + 1;',
           'return a + 2;',
