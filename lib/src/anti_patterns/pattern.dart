@@ -1,8 +1,7 @@
-import 'package:analyzer/dart/analysis/results.dart';
-
 import '../models/issue.dart';
 import '../models/pattern_documentation.dart';
 import '../models/report.dart';
+import '../obsoleted/models/internal_resolved_unit_result.dart';
 
 /// An interface to communicate with a patterns
 ///
@@ -20,5 +19,5 @@ abstract class Pattern {
   });
 
   /// Returns [Iterable] with [Issue]'s detected while check the passed [source]
-  Iterable<Issue> check(ResolvedUnitResult source, Report report);
+  Iterable<Issue> check(InternalResolvedUnitResult source, Report report);
 }

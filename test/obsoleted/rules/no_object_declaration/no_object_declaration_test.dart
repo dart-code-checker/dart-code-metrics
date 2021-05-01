@@ -3,6 +3,7 @@ import 'package:dart_code_metrics/src/models/severity.dart';
 import 'package:dart_code_metrics/src/obsoleted/rules/no_object_declaration.dart';
 import 'package:test/test.dart';
 
+import '../../../helpers/file_resolver.dart';
 import '../../../helpers/rule_test_helper.dart';
 
 // ignore_for_file: no_adjacent_strings_in_list
@@ -13,7 +14,7 @@ const _examplePath =
 void main() {
   group('NoObjectDeclarationRule', () {
     test('initialization', () async {
-      final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+      final unit = await FileResolver.resolve(_examplePath);
       final issues = NoObjectDeclarationRule().check(unit);
 
       RuleTestHelper.verifyInitialization(
@@ -24,7 +25,7 @@ void main() {
     });
 
     test('reports about found issues', () async {
-      final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+      final unit = await FileResolver.resolve(_examplePath);
       final issues = NoObjectDeclarationRule().check(unit);
 
       RuleTestHelper.verifyIssues(

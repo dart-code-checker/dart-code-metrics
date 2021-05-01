@@ -1,5 +1,3 @@
-import 'package:analyzer/dart/analysis/results.dart';
-
 import '../../anti_patterns/pattern.dart';
 import '../../models/issue.dart';
 import '../../models/pattern_documentation.dart';
@@ -25,5 +23,5 @@ abstract class ObsoletePattern extends Pattern {
   );
 
   @override
-  Iterable<Issue> check(ResolvedUnitResult source, Report report) => [];
+  Iterable<Issue> check(InternalResolvedUnitResult source, Report report) => [];
 }

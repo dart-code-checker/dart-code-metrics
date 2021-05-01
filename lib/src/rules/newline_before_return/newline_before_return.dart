@@ -1,4 +1,3 @@
-import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
@@ -7,6 +6,7 @@ import 'package:analyzer/source/line_info.dart';
 import '../../models/issue.dart';
 import '../../models/rule_documentation.dart';
 import '../../models/severity.dart';
+import '../../obsoleted/models/internal_resolved_unit_result.dart';
 import '../../utils/node_utils.dart';
 import '../../utils/rule_utils.dart';
 import '../rule.dart';
@@ -34,10 +34,10 @@ class NewlineBeforeReturnRule extends Rule {
         );
 
   @override
-  Iterable<Issue> check(ResolvedUnitResult source) {
+  Iterable<Issue> check(InternalResolvedUnitResult source) {
     final visitor = _Visitor();
 
-    source.unit?.visitChildren(visitor);
+    source.unit.visitChildren(visitor);
 
     return visitor.statements
         // return statement is in a block
@@ -46,8 +46,8 @@ class NewlineBeforeReturnRule extends Rule {
         .where((statement) =>
             statement.returnKeyword.previous != statement.parent?.beginToken)
         .where((statement) {
-          final lineInfo = source.unit!.lineInfo!;
-          
+          final lineInfo = source.unit.lineInfo!;
+
           final previousTokenLine = lineInfo
               .getLocation(statement.returnKeyword.previous!.end)
               .lineNumber;

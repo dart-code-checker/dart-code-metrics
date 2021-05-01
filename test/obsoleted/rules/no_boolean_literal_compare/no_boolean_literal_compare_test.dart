@@ -3,6 +3,7 @@ import 'package:dart_code_metrics/src/models/severity.dart';
 import 'package:dart_code_metrics/src/obsoleted/rules/no_boolean_literal_compare_rule.dart';
 import 'package:test/test.dart';
 
+import '../../../helpers/file_resolver.dart';
 import '../../../helpers/rule_test_helper.dart';
 
 const _examplePath =
@@ -11,7 +12,7 @@ const _examplePath =
 void main() {
   group('NoBooleanLiteralCompareRule', () {
     test('initialization', () async {
-      final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+      final unit = await FileResolver.resolve(_examplePath);
       final issues = NoBooleanLiteralCompareRule().check(unit);
 
       RuleTestHelper.verifyInitialization(
@@ -22,7 +23,7 @@ void main() {
     });
 
     test('reports about found issues', () async {
-      final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+      final unit = await FileResolver.resolve(_examplePath);
       final issues = NoBooleanLiteralCompareRule().check(unit);
 
       RuleTestHelper.verifyIssues(

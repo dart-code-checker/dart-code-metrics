@@ -1,4 +1,3 @@
-import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 
 import '../models/context_message.dart';
@@ -7,6 +6,7 @@ import '../models/function_type.dart';
 import '../models/metric_documentation.dart';
 import '../models/scoped_class_declaration.dart';
 import '../models/scoped_function_declaration.dart';
+import '../obsoleted/models/internal_resolved_unit_result.dart';
 import '../utils/metric_utils.dart';
 import '../utils/node_utils.dart';
 import '../utils/scope_utils.dart';
@@ -42,7 +42,7 @@ class WeightOfClassMetric extends ClassMetric<double> {
     Declaration node,
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
-    ResolvedUnitResult source,
+    InternalResolvedUnitResult source,
   ) =>
       super.supports(node, classDeclarations, functionDeclarations, source) &&
       classMethods(node, functionDeclarations)
@@ -54,7 +54,7 @@ class WeightOfClassMetric extends ClassMetric<double> {
     Declaration node,
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
-    ResolvedUnitResult source,
+    InternalResolvedUnitResult source,
   ) {
     final totalPublicMethods = classMethods(node, functionDeclarations)
         .where(_isPublicMethod)
@@ -94,7 +94,7 @@ class WeightOfClassMetric extends ClassMetric<double> {
   Iterable<ContextMessage> _context(
     Iterable<ScopedFunctionDeclaration> functionalMethods,
     Iterable<ScopedFunctionDeclaration> totalMethods,
-    ResolvedUnitResult source,
+    InternalResolvedUnitResult source,
   ) =>
       totalMethods
           .map((func) => ContextMessage(

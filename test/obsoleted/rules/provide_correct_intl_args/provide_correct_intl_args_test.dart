@@ -3,6 +3,7 @@ import 'package:dart_code_metrics/src/models/severity.dart';
 import 'package:dart_code_metrics/src/obsoleted/rules/provide_correct_intl_args.dart';
 import 'package:test/test.dart';
 
+import '../../../helpers/file_resolver.dart';
 import '../../../helpers/rule_test_helper.dart';
 
 const _examplePath =
@@ -13,7 +14,7 @@ const _incorrectExamplePath =
 void main() {
   group('PreferIntlArgsRule', () {
     test('initialization', () async {
-      final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+      final unit = await FileResolver.resolve(_examplePath);
       final issues = ProvideCorrectIntlArgsRule().check(unit);
 
       RuleTestHelper.verifyInitialization(
@@ -24,14 +25,14 @@ void main() {
     });
 
     test('reports no issues', () async {
-      final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+      final unit = await FileResolver.resolve(_examplePath);
       final issues = ProvideCorrectIntlArgsRule().check(unit);
 
       RuleTestHelper.verifyNoIssues(issues);
     });
 
     test('reports about found issues', () async {
-      final unit = await RuleTestHelper.resolveFromFile(_incorrectExamplePath);
+      final unit = await FileResolver.resolve(_incorrectExamplePath);
       final issues = ProvideCorrectIntlArgsRule().check(unit);
 
       RuleTestHelper.verifyIssues(

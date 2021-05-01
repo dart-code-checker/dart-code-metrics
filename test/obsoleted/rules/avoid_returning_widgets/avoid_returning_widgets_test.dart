@@ -3,6 +3,7 @@ import 'package:dart_code_metrics/src/models/severity.dart';
 import 'package:dart_code_metrics/src/obsoleted/rules/avoid_returning_widgets_rule.dart';
 import 'package:test/test.dart';
 
+import '../../../helpers/file_resolver.dart';
 import '../../../helpers/rule_test_helper.dart';
 
 // ignore_for_file: no_adjacent_strings_in_list
@@ -13,7 +14,7 @@ const _examplePath =
 void main() {
   group('AvoidReturningWidgets', () {
     test('initialization', () async {
-      final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+      final unit = await FileResolver.resolve(_examplePath);
       final issues = AvoidReturningWidgets().check(unit);
 
       RuleTestHelper.verifyInitialization(
@@ -24,7 +25,7 @@ void main() {
     });
 
     test('reports about found issues with the default config', () async {
-      final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+      final unit = await FileResolver.resolve(_examplePath);
       final issues = AvoidReturningWidgets().check(unit);
 
       RuleTestHelper.verifyIssues(
@@ -57,7 +58,7 @@ void main() {
     });
 
     test('reports about found issues with a custom config', () async {
-      final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+      final unit = await FileResolver.resolve(_examplePath);
       final config = {
         'ignored-names': [
           '_getWidgetFuture',

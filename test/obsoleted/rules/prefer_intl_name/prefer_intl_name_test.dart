@@ -3,6 +3,7 @@ import 'package:dart_code_metrics/src/models/severity.dart';
 import 'package:dart_code_metrics/src/obsoleted/rules/prefer_intl_name.dart';
 import 'package:test/test.dart';
 
+import '../../../helpers/file_resolver.dart';
 import '../../../helpers/rule_test_helper.dart';
 
 const _examplePath =
@@ -15,7 +16,7 @@ const _notExistingExamplePath =
 void main() {
   group('PreferIntlNameRule', () {
     test('initialization', () async {
-      final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+      final unit = await FileResolver.resolve(_examplePath);
       final issues = PreferIntlNameRule().check(unit);
 
       RuleTestHelper.verifyInitialization(
@@ -26,14 +27,14 @@ void main() {
     });
 
     test('reports no issues', () async {
-      final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+      final unit = await FileResolver.resolve(_examplePath);
       final issues = PreferIntlNameRule().check(unit);
 
       RuleTestHelper.verifyNoIssues(issues);
     });
 
     test('reports about found issues for incorrect names', () async {
-      final unit = await RuleTestHelper.resolveFromFile(_incorrectExamplePath);
+      final unit = await FileResolver.resolve(_incorrectExamplePath);
       final issues = PreferIntlNameRule().check(unit);
 
       RuleTestHelper.verifyIssues(
@@ -285,8 +286,7 @@ void main() {
     });
 
     test('reports about found issues for not existing names', () async {
-      final unit =
-          await RuleTestHelper.resolveFromFile(_notExistingExamplePath);
+      final unit = await FileResolver.resolve(_notExistingExamplePath);
       final issues = PreferIntlNameRule().check(unit);
 
       RuleTestHelper.verifyIssues(

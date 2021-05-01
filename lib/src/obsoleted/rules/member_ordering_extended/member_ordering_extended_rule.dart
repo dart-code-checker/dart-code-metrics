@@ -1,4 +1,3 @@
-import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
@@ -9,6 +8,7 @@ import '../../../models/issue.dart';
 import '../../../models/severity.dart';
 import '../../../utils/node_utils.dart';
 import '../../../utils/rule_utils.dart';
+import '../../models/internal_resolved_unit_result.dart';
 import '../obsolete_rule.dart';
 
 part 'config_parser.dart';
@@ -37,11 +37,11 @@ class MemberOrderingExtendedRule extends ObsoleteRule {
         );
 
   @override
-  Iterable<Issue> check(ResolvedUnitResult source) {
+  Iterable<Issue> check(InternalResolvedUnitResult source) {
     final _visitor = _Visitor(_groupsOrder);
 
     final membersInfo = [
-      for (final entry in source.unit!.childEntities)
+      for (final entry in source.unit.childEntities)
         if (entry is ClassDeclaration) ...entry.accept(_visitor)!,
     ];
 

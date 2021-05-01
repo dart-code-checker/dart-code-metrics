@@ -3,6 +3,7 @@ import 'package:dart_code_metrics/src/models/severity.dart';
 import 'package:dart_code_metrics/src/obsoleted/rules/no_magic_number_rule.dart';
 import 'package:test/test.dart';
 
+import '../../../helpers/file_resolver.dart';
 import '../../../helpers/rule_test_helper.dart';
 
 const _examplePath =
@@ -15,7 +16,7 @@ const _exceptionsExamplePath =
 void main() {
   group('NoMagicNumberRule', () {
     test('initialization', () async {
-      final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+      final unit = await FileResolver.resolve(_examplePath);
       final issues = NoMagicNumberRule().check(unit);
 
       RuleTestHelper.verifyInitialization(
@@ -26,7 +27,7 @@ void main() {
     });
 
     test('reports magic numbers', () async {
-      final unit = await RuleTestHelper.resolveFromFile(_incorrectExamplePath);
+      final unit = await FileResolver.resolve(_incorrectExamplePath);
       final issues = NoMagicNumberRule().check(unit);
 
       RuleTestHelper.verifyIssues(
@@ -40,21 +41,21 @@ void main() {
     });
 
     test("doesn't report constants", () async {
-      final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+      final unit = await FileResolver.resolve(_examplePath);
       final issues = NoMagicNumberRule().check(unit);
 
       RuleTestHelper.verifyNoIssues(issues);
     });
 
     test("doesn't report exceptional code", () async {
-      final unit = await RuleTestHelper.resolveFromFile(_exceptionsExamplePath);
+      final unit = await FileResolver.resolve(_exceptionsExamplePath);
       final issues = NoMagicNumberRule().check(unit);
 
       RuleTestHelper.verifyNoIssues(issues);
     });
 
     test("doesn't report magic numbers allowed in config", () async {
-      final unit = await RuleTestHelper.resolveFromFile(_incorrectExamplePath);
+      final unit = await FileResolver.resolve(_incorrectExamplePath);
       final config = {
         'allowed': [42, 12, 3.14],
       };

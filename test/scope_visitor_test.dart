@@ -1,11 +1,11 @@
 @TestOn('vm')
-import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:dart_code_metrics/src/models/class_type.dart';
 import 'package:dart_code_metrics/src/models/function_type.dart';
 import 'package:dart_code_metrics/src/scope_visitor.dart';
-import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
+
+import 'helpers/file_resolver.dart';
 
 const _abstractClassExample = './test/resources/abstract_class.dart';
 const _classWithFactoryConstructorsExample =
@@ -24,9 +24,8 @@ void main() {
     });
 
     test('abstract class', () async {
-      // ignore: deprecated_member_use
-      (await resolveFile(path: p.normalize(p.absolute(_abstractClassExample))))!
-          .unit!
+      (await FileResolver.resolve(_abstractClassExample))
+          .unit
           .visitChildren(visitor);
 
       final classDeclaration = visitor.classes.single;
@@ -41,11 +40,8 @@ void main() {
     });
 
     test('class with factory constructors', () async {
-      // ignore: deprecated_member_use
-      (await resolveFile(
-        path: p.normalize(p.absolute(_classWithFactoryConstructorsExample)),
-      ))!
-          .unit!
+      (await FileResolver.resolve(_classWithFactoryConstructorsExample))
+          .unit
           .visitChildren(visitor);
 
       final classDeclaration = visitor.classes.single;
@@ -77,11 +73,8 @@ void main() {
     });
 
     test('extension with method', () async {
-      // ignore: deprecated_member_use
-      (await resolveFile(
-        path: p.normalize(p.absolute(_extensionWithMethodExample)),
-      ))!
-          .unit!
+      (await FileResolver.resolve(_extensionWithMethodExample))
+          .unit
           .visitChildren(visitor);
 
       final classDeclaration = visitor.classes.single;
@@ -96,10 +89,7 @@ void main() {
     });
 
     test('mixin', () async {
-      // ignore: deprecated_member_use
-      (await resolveFile(path: p.normalize(p.absolute(_mixinExample))))!
-          .unit!
-          .visitChildren(visitor);
+      (await FileResolver.resolve(_mixinExample)).unit.visitChildren(visitor);
 
       final classDeclaration = visitor.classes.single;
       expect(classDeclaration.declaration, isA<MixinDeclaration>());
@@ -113,9 +103,8 @@ void main() {
     });
 
     test('functions', () async {
-      // ignore: deprecated_member_use
-      (await resolveFile(path: p.normalize(p.absolute(_functionsExample))))!
-          .unit!
+      (await FileResolver.resolve(_functionsExample))
+          .unit
           .visitChildren(visitor);
 
       expect(visitor.classes, isEmpty);
@@ -131,11 +120,8 @@ void main() {
     });
 
     test('several classes', () async {
-      // ignore: deprecated_member_use
-      (await resolveFile(
-        path: p.normalize(p.absolute(_severalClassesExample)),
-      ))!
-          .unit!
+      (await FileResolver.resolve(_severalClassesExample))
+          .unit
           .visitChildren(visitor);
 
       expect(visitor.classes, hasLength(3));

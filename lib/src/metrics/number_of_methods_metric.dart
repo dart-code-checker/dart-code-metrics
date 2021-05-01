@@ -1,4 +1,3 @@
-import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 
 import '../models/context_message.dart';
@@ -6,6 +5,7 @@ import '../models/entity_type.dart';
 import '../models/metric_documentation.dart';
 import '../models/scoped_class_declaration.dart';
 import '../models/scoped_function_declaration.dart';
+import '../obsoleted/models/internal_resolved_unit_result.dart';
 import '../utils/metric_utils.dart';
 import '../utils/node_utils.dart';
 import '../utils/scope_utils.dart';
@@ -40,7 +40,7 @@ class NumberOfMethodsMetric extends ClassMetric<int> {
     Declaration node,
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
-    ResolvedUnitResult source,
+    InternalResolvedUnitResult source,
   ) {
     final methods = classMethods(node, functionDeclarations);
 
@@ -68,7 +68,7 @@ class NumberOfMethodsMetric extends ClassMetric<int> {
 
   Iterable<ContextMessage> _context(
     Iterable<ScopedFunctionDeclaration> methods,
-    ResolvedUnitResult source,
+    InternalResolvedUnitResult source,
   ) =>
       methods
           .map((func) => ContextMessage(

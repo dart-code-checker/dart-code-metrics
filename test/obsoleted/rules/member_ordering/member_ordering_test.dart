@@ -3,6 +3,7 @@ import 'package:dart_code_metrics/src/models/severity.dart';
 import 'package:dart_code_metrics/src/obsoleted/rules/member_ordering.dart';
 import 'package:test/test.dart';
 
+import '../../../helpers/file_resolver.dart';
 import '../../../helpers/rule_test_helper.dart';
 
 // ignore_for_file: no_adjacent_strings_in_list
@@ -19,7 +20,7 @@ const _alphabeticalExamplePath =
 void main() {
   group('MemberOrdering', () {
     test('initialization', () async {
-      final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+      final unit = await FileResolver.resolve(_examplePath);
       final issues = MemberOrderingRule().check(unit);
 
       RuleTestHelper.verifyInitialization(
@@ -30,7 +31,7 @@ void main() {
     });
     group('with default config', () {
       test('reports about found issues', () async {
-        final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+        final unit = await FileResolver.resolve(_examplePath);
         final issues = MemberOrderingRule().check(unit);
 
         RuleTestHelper.verifyIssues(
@@ -51,8 +52,7 @@ void main() {
       });
 
       test('and multiple classes reports no issues', () async {
-        final unit =
-            await RuleTestHelper.resolveFromFile(_multipleClassesExamplePath);
+        final unit = await FileResolver.resolve(_multipleClassesExamplePath);
         final issues = MemberOrderingRule().check(unit);
 
         RuleTestHelper.verifyNoIssues(issues);
@@ -61,7 +61,7 @@ void main() {
 
     group('with custom config', () {
       test('reports about found issues', () async {
-        final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+        final unit = await FileResolver.resolve(_examplePath);
         final config = {
           'order': [
             'constructors',
@@ -91,7 +91,7 @@ void main() {
       });
 
       test('for angular decorators reports about found issues', () async {
-        final unit = await RuleTestHelper.resolveFromFile(_angularExamplePath);
+        final unit = await FileResolver.resolve(_angularExamplePath);
         final config = {
           'order': [
             'angular-outputs',
@@ -141,8 +141,7 @@ void main() {
       });
 
       test('for alphabetical order reports about found issues', () async {
-        final unit =
-            await RuleTestHelper.resolveFromFile(_alphabeticalExamplePath);
+        final unit = await FileResolver.resolve(_alphabeticalExamplePath);
         final config = {
           'alphabetize': true,
           'order': [

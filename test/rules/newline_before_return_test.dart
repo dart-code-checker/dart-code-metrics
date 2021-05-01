@@ -3,6 +3,7 @@ import 'package:dart_code_metrics/src/models/severity.dart';
 import 'package:dart_code_metrics/src/rules/newline_before_return/newline_before_return.dart';
 import 'package:test/test.dart';
 
+import '../helpers/file_resolver.dart';
 import '../helpers/rule_test_helper.dart';
 
 const _examplePath = 'test/resources/newline_before_return_example.dart';
@@ -10,7 +11,7 @@ const _examplePath = 'test/resources/newline_before_return_example.dart';
 void main() {
   group('NewlineBeforeReturnRule', () {
     test('initialization', () async {
-      final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+      final unit = await FileResolver.resolve(_examplePath);
       final issues = NewlineBeforeReturnRule().check(unit);
 
       RuleTestHelper.verifyInitialization(
@@ -21,7 +22,7 @@ void main() {
     });
 
     test('reports about found issues', () async {
-      final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+      final unit = await FileResolver.resolve(_examplePath);
       final issues = NewlineBeforeReturnRule().check(unit);
 
       RuleTestHelper.verifyIssues(

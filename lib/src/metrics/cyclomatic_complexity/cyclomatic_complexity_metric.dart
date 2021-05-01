@@ -1,4 +1,3 @@
-import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/syntactic_entity.dart';
 import 'package:analyzer/dart/ast/token.dart';
@@ -8,6 +7,7 @@ import '../../models/entity_type.dart';
 import '../../models/metric_documentation.dart';
 import '../../models/scoped_class_declaration.dart';
 import '../../models/scoped_function_declaration.dart';
+import '../../obsoleted/models/internal_resolved_unit_result.dart';
 import '../../utils/metric_utils.dart';
 import '../../utils/node_utils.dart';
 import '../../utils/string_extension.dart';
@@ -44,7 +44,7 @@ class CyclomaticComplexityMetric extends FunctionMetric<int> {
     Declaration node,
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
-    ResolvedUnitResult source,
+    InternalResolvedUnitResult source,
   ) {
     final visitor = CyclomaticComplexityFlowVisitor();
     node.visitChildren(visitor);
@@ -66,7 +66,7 @@ class CyclomaticComplexityMetric extends FunctionMetric<int> {
 
   Iterable<ContextMessage> _context(
     Iterable<SyntacticEntity> complexityEntities,
-    ResolvedUnitResult source,
+    InternalResolvedUnitResult source,
   ) =>
       complexityEntities.map((entity) {
         late String message;

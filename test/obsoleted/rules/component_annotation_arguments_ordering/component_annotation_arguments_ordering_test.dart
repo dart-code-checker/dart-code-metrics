@@ -3,6 +3,7 @@ import 'package:dart_code_metrics/src/models/severity.dart';
 import 'package:dart_code_metrics/src/obsoleted/rules/component_annotation_arguments_ordering.dart';
 import 'package:test/test.dart';
 
+import '../../../helpers/file_resolver.dart';
 import '../../../helpers/rule_test_helper.dart';
 
 const _examplePath =
@@ -11,7 +12,7 @@ const _examplePath =
 void main() {
   group('ComponentAnnotationArgumentsOrdering', () {
     test('initialization', () async {
-      final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+      final unit = await FileResolver.resolve(_examplePath);
       final issues = ComponentAnnotationArgumentsOrderingRule().check(unit);
 
       RuleTestHelper.verifyInitialization(
@@ -22,7 +23,7 @@ void main() {
     });
 
     test('with default config reports about found issues', () async {
-      final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+      final unit = await FileResolver.resolve(_examplePath);
       final issues = ComponentAnnotationArgumentsOrderingRule().check(unit);
 
       RuleTestHelper.verifyIssues(
@@ -37,7 +38,7 @@ void main() {
     });
 
     test('with custom config reports no issues', () async {
-      final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+      final unit = await FileResolver.resolve(_examplePath);
       final config = {
         'order': [
           'selector',
@@ -52,7 +53,7 @@ void main() {
     });
 
     test('with custom config reports about found issues', () async {
-      final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+      final unit = await FileResolver.resolve(_examplePath);
       final config = {
         'order': [
           'change-detection',

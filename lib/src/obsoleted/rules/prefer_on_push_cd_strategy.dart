@@ -1,4 +1,3 @@
-import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:collection/collection.dart';
@@ -7,6 +6,7 @@ import '../../models/issue.dart';
 import '../../models/severity.dart';
 import '../../utils/node_utils.dart';
 import '../../utils/rule_utils.dart';
+import '../models/internal_resolved_unit_result.dart';
 import 'obsolete_rule.dart';
 
 class PreferOnPushCdStrategyRule extends ObsoleteRule {
@@ -22,10 +22,10 @@ class PreferOnPushCdStrategyRule extends ObsoleteRule {
         );
 
   @override
-  Iterable<Issue> check(ResolvedUnitResult source) {
+  Iterable<Issue> check(InternalResolvedUnitResult source) {
     final visitor = _Visitor();
 
-    source.unit?.visitChildren(visitor);
+    source.unit.visitChildren(visitor);
 
     return visitor.expression
         .map((expression) => createIssue(

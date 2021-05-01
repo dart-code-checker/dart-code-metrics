@@ -1,10 +1,10 @@
 @TestOn('vm')
-import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:dart_code_metrics/src/metrics/lines_of_code_metric.dart';
 import 'package:dart_code_metrics/src/models/metric_value_level.dart';
 import 'package:dart_code_metrics/src/scope_visitor.dart';
-import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
+
+import '../helpers/file_resolver.dart';
 
 const _examplePath = './test/resources/lines_of_code_metric_example.dart';
 
@@ -15,10 +15,8 @@ Future<void> main() async {
 
   final scopeVisitor = ScopeVisitor();
 
-  final example =
-      // ignore: deprecated_member_use
-      await resolveFile(path: p.normalize(p.absolute(_examplePath)));
-  example!.unit!.visitChildren(scopeVisitor);
+  final example = await FileResolver.resolve(_examplePath);
+  example.unit.visitChildren(scopeVisitor);
 
   group('LinesOfCodeMetric computes lines of code of the', () {
     test('simple function', () {

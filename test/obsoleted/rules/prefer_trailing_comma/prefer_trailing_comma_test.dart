@@ -3,6 +3,7 @@ import 'package:dart_code_metrics/src/models/severity.dart';
 import 'package:dart_code_metrics/src/obsoleted/rules/prefer_trailing_comma.dart';
 import 'package:test/test.dart';
 
+import '../../../helpers/file_resolver.dart';
 import '../../../helpers/rule_test_helper.dart';
 
 // ignore_for_file: avoid_escaping_inner_quotes, no_adjacent_strings_in_list
@@ -15,7 +16,7 @@ const _incorrectExamplePath =
 void main() {
   group('PreferTrailingComma', () {
     test('initialization', () async {
-      final unit = await RuleTestHelper.resolveFromFile(_correctExamplePath);
+      final unit = await FileResolver.resolve(_correctExamplePath);
       final issues = PreferTrailingComma().check(unit);
 
       RuleTestHelper.verifyInitialization(
@@ -26,7 +27,7 @@ void main() {
     });
 
     test('with default config reports about found issues', () async {
-      final unit = await RuleTestHelper.resolveFromFile(_incorrectExamplePath);
+      final unit = await FileResolver.resolve(_incorrectExamplePath);
       final issues = PreferTrailingComma().check(unit);
 
       RuleTestHelper.verifyIssues(
@@ -103,14 +104,14 @@ void main() {
     });
 
     test('with default config reports no issues', () async {
-      final unit = await RuleTestHelper.resolveFromFile(_correctExamplePath);
+      final unit = await FileResolver.resolve(_correctExamplePath);
       final issues = PreferTrailingComma().check(unit);
 
       RuleTestHelper.verifyNoIssues(issues);
     });
 
     test('with custom config reports about found issues', () async {
-      final unit = await RuleTestHelper.resolveFromFile(_correctExamplePath);
+      final unit = await FileResolver.resolve(_correctExamplePath);
       final config = {'break-on': 1};
 
       final issues = PreferTrailingComma(config: config).check(unit);

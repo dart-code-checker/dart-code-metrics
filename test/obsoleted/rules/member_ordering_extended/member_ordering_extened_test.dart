@@ -3,6 +3,7 @@ import 'package:dart_code_metrics/src/models/severity.dart';
 import 'package:dart_code_metrics/src/obsoleted/rules/member_ordering_extended/member_ordering_extended_rule.dart';
 import 'package:test/test.dart';
 
+import '../../../helpers/file_resolver.dart';
 import '../../../helpers/rule_test_helper.dart';
 
 const _examplePath =
@@ -15,7 +16,7 @@ const _alphabeticalExamplePath =
 void main() {
   group('MemberOrderingExtended', () {
     test('initialization', () async {
-      final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+      final unit = await FileResolver.resolve(_examplePath);
       final issues = MemberOrderingExtendedRule().check(unit);
 
       RuleTestHelper.verifyInitialization(
@@ -27,7 +28,7 @@ void main() {
 
     group('with default config', () {
       test('reports about found issues', () async {
-        final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+        final unit = await FileResolver.resolve(_examplePath);
         final issues = MemberOrderingExtendedRule().check(unit);
 
         RuleTestHelper.verifyIssues(
@@ -56,8 +57,7 @@ void main() {
       });
 
       test('and multiple classes in a file reports no issues', () async {
-        final unit =
-            await RuleTestHelper.resolveFromFile(_multipleClassesExamplePath);
+        final unit = await FileResolver.resolve(_multipleClassesExamplePath);
         final issues = MemberOrderingExtendedRule().check(unit);
 
         RuleTestHelper.verifyNoIssues(issues);
@@ -66,7 +66,7 @@ void main() {
 
     group('with custom config', () {
       test('reports about found issues', () async {
-        final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+        final unit = await FileResolver.resolve(_examplePath);
         final config = {
           'order': [
             'constructors',
@@ -100,7 +100,7 @@ void main() {
       });
 
       test('accepts categories and reports about found issues', () async {
-        final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+        final unit = await FileResolver.resolve(_examplePath);
         final config = {
           'order': [
             'constructors',
@@ -140,7 +140,7 @@ void main() {
       test(
         'accepts decomposed constructor categories and reports about found issues',
         () async {
-          final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+          final unit = await FileResolver.resolve(_examplePath);
           final config = {
             'order': [
               'constructors',
@@ -181,7 +181,7 @@ void main() {
       test(
         'accepts decomposed fields categories and reports about found issues',
         () async {
-          final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+          final unit = await FileResolver.resolve(_examplePath);
           final config = {
             'order': [
               'public-static-fields',
@@ -217,8 +217,7 @@ void main() {
       );
 
       test('and alphabetical order reports about found issues', () async {
-        final unit =
-            await RuleTestHelper.resolveFromFile(_alphabeticalExamplePath);
+        final unit = await FileResolver.resolve(_alphabeticalExamplePath);
         final config = {
           'alphabetize': true,
           'order': [

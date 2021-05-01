@@ -1,10 +1,10 @@
 @TestOn('vm')
-import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:dart_code_metrics/src/metrics/weight_of_class_metric.dart';
 import 'package:dart_code_metrics/src/models/metric_value_level.dart';
 import 'package:dart_code_metrics/src/scope_visitor.dart';
-import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
+
+import '../helpers/file_resolver.dart';
 
 const _examplePath = './test/resources/weight_of_class_example.dart';
 
@@ -14,10 +14,8 @@ void main() {
 
     final visitor = ScopeVisitor();
 
-    final result =
-        // ignore: deprecated_member_use
-        await resolveFile(path: p.normalize(p.absolute(_examplePath)));
-    result!.unit!.visitChildren(visitor);
+    final result = await FileResolver.resolve(_examplePath);
+    result.unit.visitChildren(visitor);
 
     final firstClassSupport = metric.supports(
       visitor.classes.first.declaration,

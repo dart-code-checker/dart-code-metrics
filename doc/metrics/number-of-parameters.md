@@ -9,7 +9,7 @@ Example:
     Declaration node,
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
-    ResolvedUnitResult source,
+    InternalResolvedUnitResult source,
   ) {
     int parametersCount;
     if (node is FunctionDeclaration) {

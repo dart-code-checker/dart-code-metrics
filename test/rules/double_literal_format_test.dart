@@ -3,6 +3,7 @@ import 'package:dart_code_metrics/src/models/severity.dart';
 import 'package:dart_code_metrics/src/rules/double_literal_format/double_literal_format.dart';
 import 'package:test/test.dart';
 
+import '../helpers/file_resolver.dart';
 import '../helpers/rule_test_helper.dart';
 
 const _examplePath = 'test/resources/double_literal_format_example.dart';
@@ -10,7 +11,7 @@ const _examplePath = 'test/resources/double_literal_format_example.dart';
 void main() {
   group('DoubleLiteralFormatRule', () {
     test('initialization', () async {
-      final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+      final unit = await FileResolver.resolve(_examplePath);
       final issues = DoubleLiteralFormatRule().check(unit);
 
       RuleTestHelper.verifyInitialization(
@@ -21,7 +22,7 @@ void main() {
     });
 
     test('report about found issues', () async {
-      final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+      final unit = await FileResolver.resolve(_examplePath);
       final issues = DoubleLiteralFormatRule().check(unit);
 
       RuleTestHelper.verifyIssues(

@@ -1,4 +1,3 @@
-import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
@@ -8,6 +7,7 @@ import '../../models/replacement.dart';
 import '../../models/severity.dart';
 import '../../utils/node_utils.dart';
 import '../../utils/rule_utils.dart';
+import '../models/internal_resolved_unit_result.dart';
 import '../utils/object_extensions.dart';
 import 'intl_base/intl_base_visitor.dart';
 import 'obsolete_rule.dart';
@@ -28,17 +28,17 @@ class PreferIntlNameRule extends ObsoleteRule {
         );
 
   @override
-  Iterable<Issue> check(ResolvedUnitResult source) {
-    final hasIntlDirective = source.unit?.directives
+  Iterable<Issue> check(InternalResolvedUnitResult source) {
+    final hasIntlDirective = source.unit.directives
         .whereType<ImportDirective>()
         .any((directive) => directive.uri.stringValue == _intlPackageUrl);
 
-    if (hasIntlDirective == null || !hasIntlDirective) {
+    if (!hasIntlDirective) {
       return [];
     }
 
     final visitor = _Visitor();
-    source.unit?.visitChildren(visitor);
+    source.unit.visitChildren(visitor);
 
     return [
       ...visitor.issues.whereType<_NotCorrectNameIssue>().map((issue) {

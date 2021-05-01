@@ -1,10 +1,10 @@
 @TestOn('vm')
-import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:dart_code_metrics/src/metrics/maximum_nesting_level/maximum_nesting_level_metric.dart';
 import 'package:dart_code_metrics/src/models/metric_value_level.dart';
 import 'package:dart_code_metrics/src/scope_visitor.dart';
-import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
+
+import '../../helpers/file_resolver.dart';
 
 const _examplePath =
     './test/resources/maximum_nesting_level_metric_example.dart';
@@ -14,13 +14,11 @@ Future<void> main() async {
     config: {MaximumNestingLevelMetric.metricId: '2'},
   );
 
-  final example =
-      // ignore: deprecated_member_use
-      await resolveFile(path: p.normalize(p.absolute(_examplePath)));
+  final example = await FileResolver.resolve(_examplePath);
 
   group('MaximumNestingLevelMetric computes maximum nesting level of the', () {
     final scopeVisitor = ScopeVisitor();
-    example!.unit!.visitChildren(scopeVisitor);
+    example.unit.visitChildren(scopeVisitor);
 
     test('simple function', () {
       final metricValue = metric.compute(

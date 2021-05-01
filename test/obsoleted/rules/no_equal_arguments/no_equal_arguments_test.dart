@@ -3,6 +3,7 @@ import 'package:dart_code_metrics/src/models/severity.dart';
 import 'package:dart_code_metrics/src/obsoleted/rules/no_equal_arguments.dart';
 import 'package:test/test.dart';
 
+import '../../../helpers/file_resolver.dart';
 import '../../../helpers/rule_test_helper.dart';
 
 const _examplePath =
@@ -13,7 +14,7 @@ const _incorrectExamplePath =
 void main() {
   group('NoEqualArguments', () {
     test('initialization', () async {
-      final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+      final unit = await FileResolver.resolve(_examplePath);
       final issues = NoEqualArguments().check(unit);
 
       RuleTestHelper.verifyInitialization(
@@ -24,7 +25,7 @@ void main() {
     });
 
     test('reports about found issues', () async {
-      final unit = await RuleTestHelper.resolveFromFile(_incorrectExamplePath);
+      final unit = await FileResolver.resolve(_incorrectExamplePath);
       final issues = NoEqualArguments().check(unit);
 
       RuleTestHelper.verifyIssues(
@@ -55,7 +56,7 @@ void main() {
     });
 
     test('reports no issues', () async {
-      final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+      final unit = await FileResolver.resolve(_examplePath);
       final issues = NoEqualArguments().check(unit);
 
       RuleTestHelper.verifyNoIssues(issues);

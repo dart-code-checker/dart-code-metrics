@@ -1,4 +1,3 @@
-import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 
 import '../../models/context_message.dart';
@@ -6,6 +5,7 @@ import '../../models/entity_type.dart';
 import '../../models/metric_documentation.dart';
 import '../../models/scoped_class_declaration.dart';
 import '../../models/scoped_function_declaration.dart';
+import '../../obsoleted/models/internal_resolved_unit_result.dart';
 import '../../utils/metric_utils.dart';
 import '../../utils/node_utils.dart';
 import '../../utils/string_extension.dart';
@@ -43,7 +43,7 @@ class MaximumNestingLevelMetric extends FunctionMetric<int> {
     Declaration node,
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
-    ResolvedUnitResult source,
+    InternalResolvedUnitResult source,
   ) {
     final visitor = NestingLevelVisitor(node);
     node.visitChildren(visitor);
@@ -65,7 +65,7 @@ class MaximumNestingLevelMetric extends FunctionMetric<int> {
 
   Iterable<ContextMessage> _context(
     Iterable<AstNode> nestingNodesChain,
-    ResolvedUnitResult source,
+    InternalResolvedUnitResult source,
   ) =>
       nestingNodesChain.where((block) => block.parent != null).map((block) {
         final message = userFriendlyType(block.parent.runtimeType)

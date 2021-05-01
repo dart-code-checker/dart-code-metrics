@@ -218,8 +218,12 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
   ) {
     final result = <plugin.AnalysisErrorFixes>[];
     final config = _configs[driver];
+    final unit = analysisResult.unit;
+    final content = analysisResult.content;
 
-    if (isSupported(analysisResult) &&
+    if (unit != null &&
+        content != null &&
+        isSupported(analysisResult) &&
         config != null &&
         !isExcluded(analysisResult, config.globalExcludes)) {
       final ignores =
@@ -239,7 +243,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
 
       if (!isExcluded(analysisResult, config.metricsExcludes)) {
         final scopeVisitor = ScopeVisitor();
-        analysisResult.unit!.visitChildren(scopeVisitor);
+        unit.visitChildren(scopeVisitor);
 
         final functions = scopeVisitor.functions.where((function) {
           final declaration = function.declaration;
@@ -258,8 +262,9 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
           ignores,
           InternalResolvedUnitResult(
             sourceUri,
-            analysisResult.content!,
-            analysisResult.unit!,
+            content,
+            unit,
+            analysisResult.lineInfo,
           ),
           functions,
           _configs[driver]!,
@@ -270,8 +275,9 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
             ignores,
             InternalResolvedUnitResult(
               sourceUri,
-              analysisResult.content!,
-              analysisResult.unit!,
+              content,
+              unit,
+              analysisResult.lineInfo,
             ),
             functions,
             _configs[driver]!,
@@ -290,29 +296,38 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     Uri sourceUri,
     AnalyzerPluginConfig config,
     String? root,
-  ) =>
-      config.codeRules
-          .where((rule) =>
-              !ignores.isSuppressed(rule.id) &&
-              (root == null ||
-                  !isExcluded(
-                    analysisResult,
-                    prepareExcludes(rule.excludes, root),
-                  )))
-          .expand(
-            (rule) => rule
-                .check(InternalResolvedUnitResult(
-                  sourceUri,
-                  analysisResult.content!,
-                  analysisResult.unit!,
-                ))
-                .where((issue) => !ignores.isSuppressedAt(
-                      issue.ruleId,
-                      issue.location.start.line,
-                    ))
-                .map((issue) =>
-                    codeIssueToAnalysisErrorFixes(issue, analysisResult)),
-          );
+  ) {
+    final unit = analysisResult.unit;
+    final content = analysisResult.content;
+
+    if (unit == null || content == null) {
+      return [];
+    }
+
+    return config.codeRules
+        .where((rule) =>
+            !ignores.isSuppressed(rule.id) &&
+            (root == null ||
+                !isExcluded(
+                  analysisResult,
+                  prepareExcludes(rule.excludes, root),
+                )))
+        .expand(
+          (rule) => rule
+              .check(InternalResolvedUnitResult(
+                sourceUri,
+                content,
+                unit,
+                analysisResult.lineInfo,
+              ))
+              .where((issue) => !ignores.isSuppressedAt(
+                    issue.ruleId,
+                    issue.location.start.line,
+                  ))
+              .map((issue) =>
+                  codeIssueToAnalysisErrorFixes(issue, analysisResult)),
+        );
+  }
 
   Iterable<plugin.AnalysisErrorFixes> _checkOnAntiPatterns(
     Suppression ignores,
@@ -356,7 +371,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
       )) {
         final startSourceLocation = SourceLocation(
           functionOffset,
-          sourceUrl: source.uri,
+          sourceUrl: source.sourceUri,
           line: functionFirstLineInfo?.lineNumber,
           column: functionFirstLineInfo?.columnNumber,
         );

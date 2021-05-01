@@ -3,6 +3,7 @@ import 'package:dart_code_metrics/src/models/severity.dart';
 import 'package:dart_code_metrics/src/obsoleted/rules/prefer_on_push_cd_strategy.dart';
 import 'package:test/test.dart';
 
+import '../../../helpers/file_resolver.dart';
 import '../../../helpers/rule_test_helper.dart';
 
 const _examplePath =
@@ -15,7 +16,7 @@ const _incorrectExamplePath =
 void main() {
   group('PreferOnPushCdStrategy', () {
     test('initialization', () async {
-      final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+      final unit = await FileResolver.resolve(_examplePath);
       final issues = PreferOnPushCdStrategyRule().check(unit);
 
       RuleTestHelper.verifyInitialization(
@@ -26,14 +27,14 @@ void main() {
     });
 
     test('reports no issues', () async {
-      final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+      final unit = await FileResolver.resolve(_examplePath);
       final issues = PreferOnPushCdStrategyRule().check(unit);
 
       RuleTestHelper.verifyNoIssues(issues);
     });
 
     test('reports about missing OnPush change detection strategy', () async {
-      final unit = await RuleTestHelper.resolveFromFile(_missingExamplePath);
+      final unit = await FileResolver.resolve(_missingExamplePath);
       final issues = PreferOnPushCdStrategyRule().check(unit);
 
       RuleTestHelper.verifyIssues(
@@ -44,7 +45,7 @@ void main() {
     });
 
     test('reports about incorrect OnPush change detection strategy', () async {
-      final unit = await RuleTestHelper.resolveFromFile(_incorrectExamplePath);
+      final unit = await FileResolver.resolve(_incorrectExamplePath);
       final issues = PreferOnPushCdStrategyRule().check(unit);
 
       RuleTestHelper.verifyIssues(

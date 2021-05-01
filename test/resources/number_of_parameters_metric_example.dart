@@ -31,7 +31,7 @@ class NumberOfParametersMetric extends FunctionMetric<int> {
     Declaration node,
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
-    ResolvedUnitResult source,
+    InternalResolvedUnitResult source,
   ) {
     int argumentsCount;
     if (node is FunctionDeclaration) {

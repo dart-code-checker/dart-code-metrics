@@ -1,8 +1,8 @@
 @TestOn('vm')
-import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/source/line_info.dart';
+import 'package:dart_code_metrics/src/obsoleted/models/internal_resolved_unit_result.dart';
 import 'package:dart_code_metrics/src/utils/node_utils.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
@@ -15,7 +15,8 @@ class CharacterLocationMock extends Mock implements CharacterLocation {}
 
 class LineInfoMock extends Mock implements LineInfo {}
 
-class ResolvedUnitResultMock extends Mock implements ResolvedUnitResult {}
+class InternalResolvedUnitResultMock extends Mock
+    implements InternalResolvedUnitResult {}
 
 class TokenMock extends Mock implements Token {}
 
@@ -60,7 +61,7 @@ void main() {
     when(() => nodeMock.offset).thenReturn(nodeOffset);
     when(() => nodeMock.end).thenReturn(nodeEnd);
 
-    final sourceMock = ResolvedUnitResultMock();
+    final sourceMock = InternalResolvedUnitResultMock();
     when(() => sourceMock.content).thenReturn('$preNodeCode$node$postNodeCode');
     when(() => sourceMock.unit).thenReturn(compilationUnitMock);
     when(() => sourceMock.path).thenReturn(sourceUrl);

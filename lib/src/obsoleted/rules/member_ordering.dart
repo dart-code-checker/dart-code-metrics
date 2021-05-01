@@ -1,4 +1,3 @@
-import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:collection/collection.dart';
@@ -9,6 +8,7 @@ import '../../models/severity.dart';
 import '../../utils/node_utils.dart';
 import '../../utils/rule_utils.dart';
 import '../../utils/string_extension.dart';
+import '../models/internal_resolved_unit_result.dart';
 import 'obsolete_rule.dart';
 
 // Inspired by TSLint (https://palantir.github.io/tslint/rules/member-ordering/)
@@ -32,11 +32,11 @@ class MemberOrderingRule extends ObsoleteRule {
         );
 
   @override
-  Iterable<Issue> check(ResolvedUnitResult source) {
+  Iterable<Issue> check(InternalResolvedUnitResult source) {
     final _visitor = _Visitor(_groupsOrder);
 
     final membersInfo = [
-      for (final entry in source.unit!.childEntities)
+      for (final entry in source.unit.childEntities)
         if (entry is ClassDeclaration) ...entry.accept(_visitor)!,
     ];
 

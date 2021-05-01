@@ -24,13 +24,13 @@ Issue createIssue(
     location: SourceSpanBase(
       SourceLocation(
         issueNode.offset,
-        sourceUrl: source.uri,
+        sourceUrl: source.sourceUri,
         line: offsetLocation?.lineNumber,
         column: offsetLocation?.columnNumber,
       ),
       SourceLocation(
         issueNode.end,
-        sourceUrl: source.uri,
+        sourceUrl: source.sourceUri,
         line: endLocation?.lineNumber,
         column: endLocation?.columnNumber,
       ),
