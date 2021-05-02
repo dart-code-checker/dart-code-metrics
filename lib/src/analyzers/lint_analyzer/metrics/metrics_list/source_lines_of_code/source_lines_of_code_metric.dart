@@ -1,8 +1,8 @@
-import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:source_span/source_span.dart';
 
 import '../../../../models/context_message.dart';
+import '../../../../models/internal_resolved_unit_result.dart';
 import '../../../../models/scoped_class_declaration.dart';
 import '../../../../models/scoped_function_declaration.dart';
 import '../../metric_utils.dart';
@@ -44,7 +44,7 @@ class SourceLinesOfCodeMetric extends FunctionMetric<int> {
     Declaration node,
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
-    ResolvedUnitResult source,
+    InternalResolvedUnitResult source,
   ) {
     final visitor = SourceCodeVisitor(source.lineInfo);
     node.visitChildren(visitor);
@@ -73,11 +73,11 @@ class SourceLinesOfCodeMetric extends FunctionMetric<int> {
   Iterable<ContextMessage> _context(
     Declaration node,
     Iterable<int> linesWithCode,
-    ResolvedUnitResult source,
+    InternalResolvedUnitResult source,
   ) =>
       linesWithCode.map((lineIndex) {
         final lineStartLocation = SourceLocation(
-          source.unit?.lineInfo?.getOffsetOfLine(lineIndex) ?? 0,
+          source.lineInfo.getOffsetOfLine(lineIndex),
           sourceUrl: source.path,
           line: lineIndex,
           column: 0,

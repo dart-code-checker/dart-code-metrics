@@ -1,20 +1,19 @@
 @TestOn('vm')
-import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/metrics_list/maximum_nesting_level/nesting_level_visitor.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/scope_visitor.dart';
-import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
+
+import '../../../../../helpers/file_resolver.dart';
 
 const _examplePath =
     './test/resources/maximum_nesting_level_metric_example.dart';
 
 Future<void> main() async {
-  // ignore: deprecated_member_use
-  final result = await resolveFile(path: p.normalize(p.absolute(_examplePath)));
+  final result = await FileResolver.resolve(_examplePath);
 
   group('NestingLevelVisitor collect information about nesting levels', () {
     final scopeVisitor = ScopeVisitor();
-    result!.unit!.visitChildren(scopeVisitor);
+    result.unit.visitChildren(scopeVisitor);
 
     test('in simple function', () {
       final declaration = scopeVisitor.functions.first.declaration;

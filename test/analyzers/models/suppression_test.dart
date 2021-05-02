@@ -1,19 +1,19 @@
 @TestOn('vm')
-import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:dart_code_metrics/src/analyzers/models/suppression.dart';
-import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
+
+import '../../helpers/file_resolver.dart';
 
 const _examplePath = 'test/resources/suppression_example.dart';
 
 void main() {
   test('suppression in content', () async {
-    final parseResult =
-        // ignore: deprecated_member_use
-        await resolveFile(path: p.normalize(p.absolute(_examplePath)));
+    final parseResult = await FileResolver.resolve(_examplePath);
 
-    final suppression =
-        Suppression(parseResult!.content!, parseResult.lineInfo);
+    final suppression = Suppression(
+      parseResult.content,
+      parseResult.lineInfo,
+    );
 
     expect(suppression.isSuppressed('rule_id1'), isTrue);
     expect(suppression.isSuppressed('rule_id2'), isTrue);

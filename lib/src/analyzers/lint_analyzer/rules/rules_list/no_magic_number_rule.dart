@@ -1,8 +1,8 @@
-import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 
 import '../../../../utils/node_utils.dart';
+import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
 import '../../../models/severity.dart';
 import '../models/obsolete_rule.dart';
@@ -27,10 +27,10 @@ class NoMagicNumberRule extends ObsoleteRule {
         );
 
   @override
-  Iterable<Issue> check(ResolvedUnitResult source) {
+  Iterable<Issue> check(InternalResolvedUnitResult source) {
     final visitor = _Visitor();
 
-    source.unit?.visitChildren(visitor);
+    source.unit.visitChildren(visitor);
 
     return visitor.literals
         .where(_isMagicNumber)

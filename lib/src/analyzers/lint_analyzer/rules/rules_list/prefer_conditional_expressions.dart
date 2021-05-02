@@ -1,9 +1,9 @@
-import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../utils/node_utils.dart';
+import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
 import '../../../models/replacement.dart';
 import '../../../models/severity.dart';
@@ -26,10 +26,10 @@ class PreferConditionalExpressions extends ObsoleteRule {
         );
 
   @override
-  Iterable<Issue> check(ResolvedUnitResult source) {
+  Iterable<Issue> check(InternalResolvedUnitResult source) {
     final _visitor = _Visitor();
 
-    source.unit?.visitChildren(_visitor);
+    source.unit.visitChildren(_visitor);
 
     return _visitor.statementsInfo
         .map(

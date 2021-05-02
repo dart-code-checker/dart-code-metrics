@@ -1,10 +1,10 @@
 @TestOn('vm')
-import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/metrics_list/number_of_methods_metric.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value_level.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/scope_visitor.dart';
-import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
+
+import '../../../../helpers/file_resolver.dart';
 
 void main() {
   test('NumberOfMethodsMetric computes', () {
@@ -46,9 +46,8 @@ void main() {
     }.forEach((key, value) async {
       final visitor = ScopeVisitor();
 
-      // ignore: deprecated_member_use
-      final result = await resolveFile(path: p.normalize(p.absolute(key)));
-      result!.unit!.visitChildren(visitor);
+      final result = await FileResolver.resolve(key);
+      result.unit.visitChildren(visitor);
 
       final metricValue = metric.compute(
         visitor.classes.single.declaration,

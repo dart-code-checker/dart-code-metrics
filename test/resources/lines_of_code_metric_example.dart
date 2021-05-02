@@ -20,7 +20,7 @@ class LinesOfCodeMetric extends FunctionMetric<int> {
     Declaration node,
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
-    ResolvedUnitResult source,
+    InternalResolvedUnitResult source,
   ) =>
       MetricComputationResult(
         value: 1 +

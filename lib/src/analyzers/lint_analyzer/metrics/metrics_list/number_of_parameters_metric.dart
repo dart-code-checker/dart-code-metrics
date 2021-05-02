@@ -1,6 +1,6 @@
-import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 
+import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/scoped_class_declaration.dart';
 import '../../../models/scoped_function_declaration.dart';
 import '../metric_utils.dart';
@@ -37,7 +37,7 @@ class NumberOfParametersMetric extends FunctionMetric<int> {
     Declaration node,
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
-    ResolvedUnitResult source,
+    InternalResolvedUnitResult source,
   ) {
     int? parametersCount;
     if (node is FunctionDeclaration) {

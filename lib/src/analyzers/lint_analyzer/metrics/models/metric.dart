@@ -1,7 +1,7 @@
-import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:meta/meta.dart';
 
+import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/scoped_class_declaration.dart';
 import '../../../models/scoped_function_declaration.dart';
 import 'metric_computation_result.dart';
@@ -38,7 +38,7 @@ abstract class Metric<T extends num> {
     Declaration node,
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
-    ResolvedUnitResult source,
+    InternalResolvedUnitResult source,
   ) =>
       true;
 
@@ -47,7 +47,7 @@ abstract class Metric<T extends num> {
     Declaration node,
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
-    ResolvedUnitResult source,
+    InternalResolvedUnitResult source,
   ) {
     final result = computeImplementation(
       node,
@@ -75,7 +75,7 @@ abstract class Metric<T extends num> {
     Declaration node,
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
-    ResolvedUnitResult source,
+    InternalResolvedUnitResult source,
   );
 
   /// Returns the message for the user containing information about the computed value.
