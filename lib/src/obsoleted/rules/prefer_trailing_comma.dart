@@ -30,7 +30,7 @@ class PreferTrailingComma extends ObsoleteRule {
 
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
-    final visitor = _Visitor(source.unit.lineInfo!, _itemsBreakpoint);
+    final visitor = _Visitor(source.lineInfo, _itemsBreakpoint);
 
     source.unit.visitChildren(visitor);
 

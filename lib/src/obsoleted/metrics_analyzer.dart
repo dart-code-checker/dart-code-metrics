@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
+import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/file_system/physical_file_system.dart';
 import 'package:analyzer/source/line_info.dart';
@@ -98,7 +99,9 @@ class MetricsAnalyzer {
       final unit = result.unit;
       final content = result.content;
 
-      if (unit == null || content == null) {
+      if (unit == null ||
+          content == null ||
+          result.state != ResultState.VALID) {
         continue;
       }
 
@@ -125,7 +128,7 @@ class MetricsAnalyzer {
         return true;
       }).toList();
 
-      final lineInfo = result.unit?.lineInfo ?? LineInfo([]);
+      final lineInfo = result.lineInfo;
 
       _store.recordFile(filePath, rootFolder, (builder) {
         if (!_isExcluded(

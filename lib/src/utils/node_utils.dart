@@ -15,21 +15,21 @@ SourceSpan nodeLocation({
       : node.offset;
   final end = node.end;
 
-  final offsetLocation = source.unit.lineInfo?.getLocation(offset);
-  final endLocation = source.unit.lineInfo?.getLocation(end);
+  final offsetLocation = source.lineInfo.getLocation(offset);
+  final endLocation = source.lineInfo.getLocation(end);
 
   return SourceSpan(
     SourceLocation(
       offset,
       sourceUrl: source.path,
-      line: offsetLocation?.lineNumber,
-      column: offsetLocation?.columnNumber,
+      line: offsetLocation.lineNumber,
+      column: offsetLocation.columnNumber,
     ),
     SourceLocation(
       end,
       sourceUrl: source.path,
-      line: endLocation?.lineNumber,
-      column: endLocation?.columnNumber,
+      line: endLocation.lineNumber,
+      column: endLocation.columnNumber,
     ),
     source.content.substring(offset, end),
   );

@@ -223,11 +223,11 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
 
     if (unit != null &&
         content != null &&
+        analysisResult.state == ResultState.VALID &&
         isSupported(analysisResult) &&
         config != null &&
         !isExcluded(analysisResult, config.globalExcludes)) {
-      final ignores =
-          Suppression(analysisResult.content!, analysisResult.lineInfo);
+      final ignores = Suppression(content, analysisResult.lineInfo);
 
       final sourceUri = resourceProvider.getFile(analysisResult.path!).toUri();
       // ignore: deprecated_member_use
@@ -300,7 +300,9 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     final unit = analysisResult.unit;
     final content = analysisResult.content;
 
-    if (unit == null || content == null) {
+    if (unit == null ||
+        content == null ||
+        analysisResult.state != ResultState.VALID) {
       return [];
     }
 
@@ -355,12 +357,11 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
       final functionOffset =
           function.declaration.firstTokenAfterCommentAndMetadata.offset;
 
-      final functionFirstLineInfo =
-          source.unit.lineInfo?.getLocation(functionOffset);
+      final functionFirstLineInfo = source.lineInfo.getLocation(functionOffset);
 
       if (ignores.isSuppressedAt(
         _codeMetricsId,
-        functionFirstLineInfo?.lineNumber,
+        functionFirstLineInfo.lineNumber,
       )) {
         continue;
       }
@@ -372,8 +373,8 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
         final startSourceLocation = SourceLocation(
           functionOffset,
           sourceUrl: source.sourceUri,
-          line: functionFirstLineInfo?.lineNumber,
-          column: functionFirstLineInfo?.columnNumber,
+          line: functionFirstLineInfo.lineNumber,
+          column: functionFirstLineInfo.columnNumber,
         );
 
         final cyclomatic = _cyclomaticComplexityMetric(

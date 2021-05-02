@@ -30,7 +30,7 @@ class LongMethod extends ObsoletePattern {
     final issues = <Issue>[];
 
     for (final function in functions) {
-      final visitor = SourceCodeVisitor(source.unit.lineInfo!);
+      final visitor = SourceCodeVisitor(source.lineInfo);
       function.declaration.visitChildren(visitor);
 
       if (visitor.linesWithCode.length > threshold) {

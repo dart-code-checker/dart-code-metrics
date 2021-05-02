@@ -46,7 +46,7 @@ class NewlineBeforeReturnRule extends Rule {
         .where((statement) =>
             statement.returnKeyword.previous != statement.parent?.beginToken)
         .where((statement) {
-          final lineInfo = source.unit.lineInfo!;
+          final lineInfo = source.lineInfo;
 
           final previousTokenLine = lineInfo
               .getLocation(statement.returnKeyword.previous!.end)
