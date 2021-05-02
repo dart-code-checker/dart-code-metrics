@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:collection/collection.dart';
 
-import '../config/deprecated_option.dart';
-import '../metrics_factory.dart';
-import '../obsoleted/constants.dart';
+import '../../src/analyzers/lint_analyzer/constants.dart';
+import '../../src/analyzers/lint_analyzer/metrics/metrics_factory.dart';
+import '../config_builder/models/deprecated_option.dart';
 
 const usageHeader = 'Usage: metrics [arguments...] <directories>';
 

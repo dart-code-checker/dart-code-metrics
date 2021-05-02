@@ -2,16 +2,17 @@ import 'dart:io';
 
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
-import 'package:dart_code_metrics/src/models/issue.dart';
-import 'package:dart_code_metrics/src/models/severity.dart';
-import 'package:dart_code_metrics/src/obsoleted/models/internal_resolved_unit_result.dart';
+import 'package:dart_code_metrics/src/analyzers/models/internal_resolved_unit_result.dart';
+import 'package:dart_code_metrics/src/analyzers/models/issue.dart';
+import 'package:dart_code_metrics/src/analyzers/models/severity.dart';
 import 'package:test/test.dart';
 
 class RuleTestHelper {
   static Future<InternalResolvedUnitResult> resolveFromFile(
     String filePath,
   ) async {
-    final path = File(filePath).absolute.path;
+    final fullPath = 'test/analyzers/lint_analyzer/rules/rules_list/$filePath';
+    final path = File(fullPath).absolute.path;
     final sourceUrl = Uri.parse(path);
 
     // ignore: deprecated_member_use
