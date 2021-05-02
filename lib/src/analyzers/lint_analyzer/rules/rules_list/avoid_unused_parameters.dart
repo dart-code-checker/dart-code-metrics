@@ -1,10 +1,10 @@
-import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/syntactic_entity.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:collection/collection.dart';
 
 import '../../../../utils/node_utils.dart';
+import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
 import '../../../models/severity.dart';
 import '../models/obsolete_rule.dart';
@@ -28,10 +28,10 @@ class AvoidUnusedParameters extends ObsoleteRule {
         );
 
   @override
-  Iterable<Issue> check(ResolvedUnitResult source) {
+  Iterable<Issue> check(InternalResolvedUnitResult source) {
     final _visitor = _Visitor();
 
-    source.unit?.visitChildren(_visitor);
+    source.unit.visitChildren(_visitor);
 
     return [
       ..._visitor.unusedParameters

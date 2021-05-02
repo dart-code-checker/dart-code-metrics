@@ -1,9 +1,9 @@
-import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 
 import '../../../../utils/node_utils.dart';
+import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
 import '../../../models/replacement.dart';
 import '../../../models/severity.dart';
@@ -24,10 +24,10 @@ class BinaryExpressionOperandOrderRule extends ObsoleteRule {
         );
 
   @override
-  Iterable<Issue> check(ResolvedUnitResult source) {
+  Iterable<Issue> check(InternalResolvedUnitResult source) {
     final visitor = _Visitor();
 
-    source.unit?.visitChildren(visitor);
+    source.unit.visitChildren(visitor);
 
     return visitor.binaryExpressions
         .map((lit) => createIssue(

@@ -1,5 +1,4 @@
-import 'package:analyzer/dart/analysis/results.dart';
-
+import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
 import '../../../models/severity.dart';
 import 'rule_documentation.dart';
@@ -29,5 +28,5 @@ abstract class Rule {
   });
 
   /// Returns [Iterable] with [Issue]'s detected while check the passed [source]
-  Iterable<Issue> check(ResolvedUnitResult source);
+  Iterable<Issue> check(InternalResolvedUnitResult source);
 }

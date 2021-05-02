@@ -11,7 +11,7 @@ MetricComputationResult<int> computeImplementation(
   Declaration node,
   Iterable<ScopedClassDeclaration> classDeclarations,
   Iterable<ScopedFunctionDeclaration> functionDeclarations,
-  ResolvedUnitResult source,
+  InternalResolvedUnitResult source,
 ) {
   final visitor = SourceCodeVisitor(source.lineInfo);
   node.visitChildren(visitor);

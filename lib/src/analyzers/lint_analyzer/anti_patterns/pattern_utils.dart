@@ -14,9 +14,9 @@ Issue createIssue(
   InternalResolvedUnitResult source,
   Declaration issueNode,
 ) {
-  final offsetLocation = source.unit.lineInfo
-      ?.getLocation(issueNode.firstTokenAfterCommentAndMetadata.offset);
-  final endLocation = source.unit.lineInfo?.getLocation(issueNode.end);
+  final offsetLocation = source.lineInfo
+      .getLocation(issueNode.firstTokenAfterCommentAndMetadata.offset);
+  final endLocation = source.lineInfo.getLocation(issueNode.end);
 
   return Issue(
     ruleId: pattern.id,
@@ -24,15 +24,15 @@ Issue createIssue(
     location: SourceSpanBase(
       SourceLocation(
         issueNode.offset,
-        sourceUrl: source.uri,
-        line: offsetLocation?.lineNumber,
-        column: offsetLocation?.columnNumber,
+        sourceUrl: source.sourceUri,
+        line: offsetLocation.lineNumber,
+        column: offsetLocation.columnNumber,
       ),
       SourceLocation(
         issueNode.end,
-        sourceUrl: source.uri,
-        line: endLocation?.lineNumber,
-        column: endLocation?.columnNumber,
+        sourceUrl: source.sourceUri,
+        line: endLocation.lineNumber,
+        column: endLocation.columnNumber,
       ),
       source.content.substring(issueNode.offset, issueNode.end),
     ),

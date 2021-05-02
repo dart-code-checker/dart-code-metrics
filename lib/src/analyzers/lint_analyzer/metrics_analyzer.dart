@@ -3,9 +3,9 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
+import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/file_system/physical_file_system.dart';
-import 'package:analyzer/source/line_info.dart';
 import 'package:file/local.dart';
 import 'package:glob/glob.dart';
 import 'package:path/path.dart' as p;
@@ -95,8 +95,24 @@ class MetricsAnalyzer {
           // ignore: deprecated_member_use
           await analysisContext.currentSession.getResolvedUnit(normalized);
 
+      final unit = result.unit;
+      final content = result.content;
+
+      if (unit == null ||
+          content == null ||
+          result.state != ResultState.VALID) {
+        continue;
+      }
+
+      final internalResult = InternalResolvedUnitResult(
+        result.uri,
+        content,
+        unit,
+        result.lineInfo,
+      );
+
       final visitor = ScopeVisitor();
-      result.unit?.visitChildren(visitor);
+      internalResult.unit.visitChildren(visitor);
 
       final functions = visitor.functions.where((function) {
         final declaration = function.declaration;
@@ -111,7 +127,7 @@ class MetricsAnalyzer {
         return true;
       }).toList();
 
-      final lineInfo = result.unit?.lineInfo ?? LineInfo([]);
+      final lineInfo = internalResult.lineInfo;
 
       _store.recordFile(filePath, rootFolder, (builder) {
         if (!_isExcluded(
@@ -124,7 +140,7 @@ class MetricsAnalyzer {
               Report(
                 location: nodeLocation(
                   node: classDeclaration.declaration,
-                  source: result,
+                  source: internalResult,
                 ),
                 metrics: [
                   for (final metric in _classesMetrics)
@@ -132,13 +148,13 @@ class MetricsAnalyzer {
                       classDeclaration.declaration,
                       visitor.classes,
                       visitor.functions,
-                      result,
+                      internalResult,
                     ))
                       metric.compute(
                         classDeclaration.declaration,
                         visitor.classes,
                         visitor.functions,
-                        result,
+                        internalResult,
                       ),
                 ],
               ),
@@ -154,7 +170,7 @@ class MetricsAnalyzer {
                   function.declaration,
                   visitor.classes,
                   visitor.functions,
-                  result,
+                  internalResult,
                 );
 
             final linesOfExecutableCodeVisitor = SourceCodeVisitor(lineInfo);
@@ -229,7 +245,7 @@ class MetricsAnalyzer {
               Report(
                 location: nodeLocation(
                   node: function.declaration,
-                  source: result,
+                  source: internalResult,
                 ),
                 metrics: [
                   for (final metric in _methodsMetrics)
@@ -237,13 +253,13 @@ class MetricsAnalyzer {
                       function.declaration,
                       visitor.classes,
                       visitor.functions,
-                      result,
+                      internalResult,
                     ))
                       metric.compute(
                         function.declaration,
                         visitor.classes,
                         visitor.functions,
-                        result,
+                        internalResult,
                       ),
                   MetricValue<double>(
                     metricsId: 'maintainability-index',
@@ -267,17 +283,11 @@ class MetricsAnalyzer {
           }
         }
 
-        final ignores = Suppression(result.content ?? '', lineInfo);
-
-        final source = InternalResolvedUnitResult(
-          Uri.parse(filePath),
-          result.content!,
-          result.unit!,
-        );
+        final ignores = Suppression(internalResult.content, lineInfo);
 
         builder.recordIssues(_checkOnCodeIssues(
           ignores,
-          source,
+          internalResult,
           filePath,
           rootFolder,
         ));
@@ -287,7 +297,7 @@ class MetricsAnalyzer {
           _metricsExclude,
         )) {
           builder.recordAntiPatternCases(
-            _checkOnAntiPatterns(ignores, source, functions),
+            _checkOnAntiPatterns(ignores, internalResult, functions),
           );
         }
       });

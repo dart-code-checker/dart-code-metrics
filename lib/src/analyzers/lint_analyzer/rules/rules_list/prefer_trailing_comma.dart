@@ -1,4 +1,3 @@
-import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/syntactic_entity.dart';
 import 'package:analyzer/dart/ast/token.dart';
@@ -6,6 +5,7 @@ import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/source/line_info.dart';
 
 import '../../../../utils/node_utils.dart';
+import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
 import '../../../models/replacement.dart';
 import '../../../models/severity.dart';
@@ -29,10 +29,10 @@ class PreferTrailingComma extends ObsoleteRule {
         );
 
   @override
-  Iterable<Issue> check(ResolvedUnitResult source) {
-    final visitor = _Visitor(source.unit!.lineInfo!, _itemsBreakpoint);
+  Iterable<Issue> check(InternalResolvedUnitResult source) {
+    final visitor = _Visitor(source.lineInfo, _itemsBreakpoint);
 
-    source.unit!.visitChildren(visitor);
+    source.unit.visitChildren(visitor);
 
     return visitor.nodes
         .map(
@@ -47,7 +47,7 @@ class PreferTrailingComma extends ObsoleteRule {
             replacement: Replacement(
               comment: _correctionMessage,
               replacement:
-                  '${source.content?.substring(node.offset, node.end)},',
+                  '${source.content.substring(node.offset, node.end)},',
             ),
           ),
         )
