@@ -65,6 +65,7 @@ void main() {
     when(() => sourceMock.content).thenReturn('$preNodeCode$node$postNodeCode');
     when(() => sourceMock.unit).thenReturn(compilationUnitMock);
     when(() => sourceMock.path).thenReturn(sourceUrl);
+    when(() => sourceMock.lineInfo).thenReturn(lineInfoMock);
 
     test('without comment or metadata', () {
       final span = nodeLocation(node: nodeMock, source: sourceMock);
