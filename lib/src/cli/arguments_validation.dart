@@ -4,7 +4,7 @@ import 'package:ansicolor/ansicolor.dart';
 import 'package:args/args.dart';
 import 'package:path/path.dart' as p;
 
-import '../config/deprecated_option.dart';
+import '../config_builder/models/deprecated_option.dart';
 import 'arguments_parser.dart';
 import 'arguments_validation_exceptions.dart';
 
