@@ -1,7 +1,7 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
-import 'package:dart_code_metrics/src/utils/object_extensions.dart';
 import 'package:dart_code_metrics/src/utils/iterable_extensions.dart';
+import 'package:dart_code_metrics/src/utils/object_extensions.dart';
 import 'package:meta/meta.dart';
 
 abstract class IntlBaseVisitor extends GeneralizingAstVisitor<void> {
