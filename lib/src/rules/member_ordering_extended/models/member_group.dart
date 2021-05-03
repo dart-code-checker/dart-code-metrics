@@ -36,10 +36,11 @@ class _FieldMemberGroup extends _MemberGroup {
         );
 
   factory _FieldMemberGroup.parse(FieldDeclaration declaration) {
-    final annotation = declaration.metadata
+    final annotations = declaration.metadata
         .map((metadata) => _Annotation.parse(metadata.name.name))
-        .whereNotNull()
-        .firstOrNull;
+        .where((annotation) => annotation != null);
+    final annotation =
+        annotations.isNotEmpty ? annotations.first : _Annotation.unset;
     final modifier =
         Identifier.isPrivateName(declaration.fields.variables.first.name.name)
             ? _Modifier.private
@@ -51,7 +52,7 @@ class _FieldMemberGroup extends _MemberGroup {
             : _FieldKeyword.unset;
 
     return _FieldMemberGroup._(
-      annotation: annotation ?? _Annotation.unset,
+      annotation: annotation,
       isStatic: declaration.isStatic,
       memberType: _MemberType.field,
       modifier: modifier,
@@ -93,16 +94,17 @@ class _MethodMemberGroup extends _MemberGroup {
         );
 
   factory _MethodMemberGroup.parse(MethodDeclaration declaration) {
-    final annotation = declaration.metadata
+    final annotations = declaration.metadata
         .map((metadata) => _Annotation.parse(metadata.name.name))
-        .whereNotNull()
-        .firstOrNull;
+        .where((annotation) => annotation != null);
+    final annotation =
+        annotations.isNotEmpty ? annotations.first : _Annotation.unset;
     final modifier = Identifier.isPrivateName(declaration.name.name)
         ? _Modifier.private
         : _Modifier.public;
 
     return _MethodMemberGroup._(
-      annotation: annotation ?? _Annotation.unset,
+      annotation: annotation,
       isStatic: declaration.isStatic,
       memberType: _MemberType.method,
       modifier: modifier,
@@ -144,10 +146,11 @@ class _ConstructorMemberGroup extends _MemberGroup {
         );
 
   factory _ConstructorMemberGroup.parse(ConstructorDeclaration declaration) {
-    final annotation = declaration.metadata
+    final annotations = declaration.metadata
         .map((metadata) => _Annotation.parse(metadata.name.name))
-        .whereNotNull()
-        .firstOrNull;
+        .where((annotation) => annotation != null);
+    final annotation =
+        annotations.isNotEmpty ? annotations.first : _Annotation.unset;
     final name = declaration.name;
     final isFactory = declaration.factoryKeyword != null;
     final isNamed = name != null;
@@ -161,7 +164,7 @@ class _ConstructorMemberGroup extends _MemberGroup {
     return _ConstructorMemberGroup._(
       isNamed: isNamed,
       isFactory: isFactory,
-      annotation: annotation ?? _Annotation.unset,
+      annotation: annotation,
       modifier: modifier,
       memberType: _MemberType.constructor,
       rawRepresentation: '',
@@ -196,17 +199,18 @@ class _GetSetMemberGroup extends _MemberGroup {
   }) : super(annotation, memberType, modifier, rawRepresentation);
 
   factory _GetSetMemberGroup.parse(MethodDeclaration declaration) {
-    final annotation = declaration.metadata
+    final annotations = declaration.metadata
         .map((metadata) => _Annotation.parse(metadata.name.name))
-        .whereNotNull()
-        .firstOrNull;
+        .where((annotation) => annotation != null);
+    final annotation =
+        annotations.isNotEmpty ? annotations.first : _Annotation.unset;
     final type = declaration.isGetter ? _MemberType.getter : _MemberType.setter;
     final modifier = Identifier.isPrivateName(declaration.name.name)
         ? _Modifier.private
         : _Modifier.public;
 
     return _GetSetMemberGroup._(
-      annotation: annotation ?? _Annotation.unset,
+      annotation: annotation,
       isStatic: declaration.isStatic,
       memberType: type,
       modifier: modifier,

@@ -24,14 +24,16 @@ class _ConfigParser {
         ? List<String>.from(config['order'] as Iterable)
         : _defaultOrderList;
 
-    return order.map(_parseGroup).whereNotNull().toList();
+    return order.map(_parseGroup).where((group) => group != null).toList();
   }
 
   // ignore: long-method
   static _MemberGroup _parseGroup(String group) {
     final lastGroup = group.endsWith('getters-setters')
         ? 'getters-setters'
-        : group.split('-').lastOrNull;
+        : group.split('-').isNotEmpty
+            ? group.split('-').last
+            : null;
     final type = _MemberType.parse(lastGroup);
     final result = _regExp.allMatches(group.toLowerCase());
 

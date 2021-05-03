@@ -2,7 +2,6 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:code_checker/checker.dart';
 import 'package:code_checker/rules.dart';
-import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
 part 'config_parser.dart';
@@ -158,11 +157,12 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
               _isGetSetGroup(group, parsedGroup) ||
               _isMethodGroup(group, parsedGroup),
         )
-        .sorted(
-          (a, b) => b.getSortingCoefficient() - a.getSortingCoefficient(),
-        );
+        .toList()
+          ..sort(
+            (a, b) => b.getSortingCoefficient() - a.getSortingCoefficient(),
+          );
 
-    return closestGroups.firstOrNull;
+    return closestGroups.isNotEmpty ? closestGroups.first : null;
   }
 
   _MemberOrder _getOrder(_MemberGroup memberGroup, String memberName) {

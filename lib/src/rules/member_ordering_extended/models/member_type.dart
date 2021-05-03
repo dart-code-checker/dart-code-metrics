@@ -23,5 +23,5 @@ class _MemberType {
   const _MemberType._(this.type);
 
   static _MemberType parse(String name) =>
-      all.firstWhereOrNull((type) => name == type.type);
+      all.firstWhere((type) => name == type.type, orElse: () => null);
 }

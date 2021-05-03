@@ -1,7 +1,7 @@
 import 'package:code_checker/checker.dart';
 import 'package:code_checker/rules.dart';
-import 'package:meta/meta.dart';
 import 'package:dart_code_metrics/src/models/function_record.dart';
+import 'package:meta/meta.dart';
 
 @immutable
 class FileRecord {
