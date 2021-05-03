@@ -1,5 +1,5 @@
 @TestOn('vm')
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/no_magic_number_rule.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/no_magic_number/no_magic_number.dart';
 import 'package:dart_code_metrics/src/analyzers/models/severity.dart';
 import 'package:test/test.dart';
 
@@ -57,7 +57,7 @@ void main() {
         'allowed': [42, 12, 3.14],
       };
 
-      final issues = NoMagicNumberRule(config: config).check(unit);
+      final issues = NoMagicNumberRule(config).check(unit);
 
       RuleTestHelper.verifyNoIssues(issues);
     });

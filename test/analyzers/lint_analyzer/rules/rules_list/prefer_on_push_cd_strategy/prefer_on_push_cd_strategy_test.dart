@@ -1,5 +1,5 @@
 @TestOn('vm')
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/prefer_on_push_cd_strategy.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/prefer_on_push_cd_strategy/prefer_on_push_cd_strategy.dart';
 import 'package:dart_code_metrics/src/analyzers/models/severity.dart';
 import 'package:test/test.dart';
 
@@ -12,7 +12,7 @@ const _incorrectExamplePath =
     'prefer_on_push_cd_strategy/examples/incorrect_example.dart';
 
 void main() {
-  group('PreferOnPushCdStrategy', () {
+  group('PreferOnPushCdStrategyRule', () {
     test('initialization', () async {
       final unit = await RuleTestHelper.resolveFromFile(_examplePath);
       final issues = PreferOnPushCdStrategyRule().check(unit);

@@ -8,7 +8,7 @@ prefer-intl-name
 
 ## Description
 
-Prefer used pattern `${ClassName}_${ClassMemberName}` for `name` argument in `Intl.message()`, `Intl.plural()`, `Intl.gender()`, `Intl.select()` methods.
+Recommends to use `${ClassName}_${ClassMemberName}` pattern for `name` argument in `Intl.message()`, `Intl.plural()`, `Intl.gender()`, `Intl.select()` methods.
 
 ### Example
 

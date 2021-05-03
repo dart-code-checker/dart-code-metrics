@@ -1,4 +1,4 @@
-part of 'member_ordering_extended_rule.dart';
+part of 'member_ordering_extended.dart';
 
 // ignore: avoid_classes_with_only_static_members
 class _ConfigParser {
@@ -26,6 +26,9 @@ class _ConfigParser {
 
     return order.map(_parseGroup).whereNotNull().toList();
   }
+
+  static bool parseAlphabetize(Map<String, Object> config) =>
+      (config['alphabetize'] as bool?) ?? false;
 
   // ignore: long-method
   static _MemberGroup? _parseGroup(String group) {

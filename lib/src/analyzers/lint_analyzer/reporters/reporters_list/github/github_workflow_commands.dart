@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:source_span/source_span.dart';
 
 // https://docs.github.com/en/actions/reference/workflow-commands-for-github-actions#setting-a-warning-message
@@ -7,7 +9,7 @@ class GitHubWorkflowCommands {
         'warning',
         message,
         _params(
-          sourceSpan?.sourceUrl?.toFilePath(),
+          _getFilePath(sourceSpan?.sourceUrl),
           sourceSpan?.start.line,
           sourceSpan?.start.column,
         ),
@@ -17,7 +19,7 @@ class GitHubWorkflowCommands {
         'error',
         message,
         _params(
-          sourceSpan?.sourceUrl?.toFilePath(),
+          _getFilePath(sourceSpan?.sourceUrl),
           sourceSpan?.start.line,
           sourceSpan?.start.column,
         ),
@@ -47,4 +49,16 @@ class GitHubWorkflowCommands {
         if (line != null) 'line': line,
         if (column != null) 'col': column,
       };
+
+  String? _getFilePath(Uri? uri) {
+    if (uri == null) {
+      return null;
+    }
+
+    if (uri.scheme == 'file') {
+      return uri.toFilePath();
+    }
+
+    return File(uri.path).absolute.path;
+  }
 }

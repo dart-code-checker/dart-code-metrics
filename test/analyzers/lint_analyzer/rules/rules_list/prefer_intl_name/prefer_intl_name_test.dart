@@ -1,5 +1,5 @@
 @TestOn('vm')
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/prefer_intl_name.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/prefer_intl_name/prefer_intl_name.dart';
 import 'package:dart_code_metrics/src/analyzers/models/severity.dart';
 import 'package:test/test.dart';
 

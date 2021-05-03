@@ -1,5 +1,5 @@
 @TestOn('vm')
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/avoid_late_keyword.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/avoid_late_keyword/avoid_late_keyword.dart';
 import 'package:dart_code_metrics/src/analyzers/models/severity.dart';
 import 'package:test/test.dart';
 
@@ -8,7 +8,7 @@ import '../../../../../helpers/rule_test_helper.dart';
 const _examplePath = 'avoid_late_keyword/examples/example.dart';
 
 void main() {
-  group('AvoidLateKeyword', () {
+  group('AvoidLateKeywordRule', () {
     test('initialization', () async {
       final unit = await RuleTestHelper.resolveFromFile(_examplePath);
       final issues = AvoidLateKeywordRule().check(unit);

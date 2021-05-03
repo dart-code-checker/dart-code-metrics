@@ -1,5 +1,5 @@
 @TestOn('vm')
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/component_annotation_arguments_ordering.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/component_annotation_arguments_ordering/component_annotation_arguments_ordering.dart';
 import 'package:dart_code_metrics/src/analyzers/models/severity.dart';
 import 'package:test/test.dart';
 
@@ -9,7 +9,7 @@ const _examplePath =
     'component_annotation_arguments_ordering/examples/example.dart';
 
 void main() {
-  group('ComponentAnnotationArgumentsOrdering', () {
+  group('ComponentAnnotationArgumentsOrderingRule', () {
     test('initialization', () async {
       final unit = await RuleTestHelper.resolveFromFile(_examplePath);
       final issues = ComponentAnnotationArgumentsOrderingRule().check(unit);
@@ -32,7 +32,7 @@ void main() {
         startColumns: [3],
         endOffsets: [139],
         locationTexts: ['styleUrls: []'],
-        messages: ['Arguments group styles should be before change-detection'],
+        messages: ['Arguments group styles should be before change-detection.'],
       );
     });
 
@@ -46,7 +46,7 @@ void main() {
       };
 
       final issues =
-          ComponentAnnotationArgumentsOrderingRule(config: config).check(unit);
+          ComponentAnnotationArgumentsOrderingRule(config).check(unit);
 
       RuleTestHelper.verifyNoIssues(issues);
     });
@@ -63,7 +63,7 @@ void main() {
       };
 
       final issues =
-          ComponentAnnotationArgumentsOrderingRule(config: config).check(unit);
+          ComponentAnnotationArgumentsOrderingRule(config).check(unit);
 
       RuleTestHelper.verifyIssues(
         issues: issues,
@@ -76,8 +76,8 @@ void main() {
           'changeDetection: ChangeDetectionStrategy.OnPush',
         ],
         messages: [
-          'Arguments group templates should be before selector',
-          'Arguments group change-detection should be before templates',
+          'Arguments group templates should be before selector.',
+          'Arguments group change-detection should be before templates.',
         ],
       );
     });

@@ -1,5 +1,5 @@
 @TestOn('vm')
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/member_ordering.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/member_ordering/member_ordering.dart';
 import 'package:dart_code_metrics/src/analyzers/models/severity.dart';
 import 'package:test/test.dart';
 
@@ -15,7 +15,7 @@ const _alphabeticalExamplePath =
     'member_ordering/examples/alphabetical_example.dart';
 
 void main() {
-  group('MemberOrdering', () {
+  group('MemberOrderingRule', () {
     test('initialization', () async {
       final unit = await RuleTestHelper.resolveFromFile(_examplePath);
       final issues = MemberOrderingRule().check(unit);
@@ -42,8 +42,8 @@ void main() {
             'String get value => _value;',
           ],
           messages: [
-            'public-fields should be before public-methods',
-            'public-getters should be before private-methods',
+            'public-fields should be before public-methods.',
+            'public-getters should be before private-methods.',
           ],
         );
       });
@@ -69,7 +69,7 @@ void main() {
           ],
         };
 
-        final issues = MemberOrderingRule(config: config).check(unit);
+        final issues = MemberOrderingRule(config).check(unit);
 
         RuleTestHelper.verifyIssues(
           issues: issues,
@@ -82,8 +82,8 @@ void main() {
             'set value(String str) => _value = str;',
           ],
           messages: [
-            'constructors should be before public-fields',
-            'public-setters should be before private-methods',
+            'constructors should be before public-fields.',
+            'public-setters should be before private-methods.',
           ],
         );
       });
@@ -102,7 +102,7 @@ void main() {
           ],
         };
 
-        final issues = MemberOrderingRule(config: config).check(unit);
+        final issues = MemberOrderingRule(config).check(unit);
 
         RuleTestHelper.verifyIssues(
           issues: issues,
@@ -127,13 +127,13 @@ void main() {
                 '  void handle() => null;',
           ],
           messages: [
-            'angular-view-children should be before constructors',
-            'angular-view-children should be before constructors',
-            'angular-content-children should be before angular-view-children',
-            'angular-content-children should be before angular-view-children',
-            'angular-inputs should be before angular-content-children',
-            'angular-outputs should be before angular-inputs',
-            'angular-host-listeners should be before angular-host-bindings',
+            'angular-view-children should be before constructors.',
+            'angular-view-children should be before constructors.',
+            'angular-content-children should be before angular-view-children.',
+            'angular-content-children should be before angular-view-children.',
+            'angular-inputs should be before angular-content-children.',
+            'angular-outputs should be before angular-inputs.',
+            'angular-host-listeners should be before angular-host-bindings.',
           ],
         );
       });
@@ -150,7 +150,7 @@ void main() {
           ],
         };
 
-        final issues = MemberOrderingRule(config: config).check(unit);
+        final issues = MemberOrderingRule(config).check(unit);
 
         RuleTestHelper.verifyIssues(
           issues: issues,
@@ -169,13 +169,13 @@ void main() {
                 '  String first;',
           ],
           messages: [
-            'public-methods should be before public-fields',
-            'public-methods should be before public-fields',
-            'public-methods should be before public-fields',
-            'data should be alphabetically before value',
-            'algorithm should be alphabetically before data',
-            'create should be alphabetically before work',
-            'first should be alphabetically before last',
+            'public-methods should be before public-fields.',
+            'public-methods should be before public-fields.',
+            'public-methods should be before public-fields.',
+            'data should be alphabetically before value.',
+            'algorithm should be alphabetically before data.',
+            'create should be alphabetically before work.',
+            'first should be alphabetically before last.',
           ],
         );
       });

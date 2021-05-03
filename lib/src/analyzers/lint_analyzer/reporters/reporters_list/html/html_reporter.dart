@@ -93,10 +93,10 @@ class HtmlReporter implements Reporter {
 
   Future<void> _copyResources(String reportFolder) async {
     const resources = [
-      'package:dart_code_metrics/src/obsoleted/reporters/html/resources/variables.css',
-      'package:dart_code_metrics/src/obsoleted/reporters/html/resources/normalize.css',
-      'package:dart_code_metrics/src/obsoleted/reporters/html/resources/base.css',
-      'package:dart_code_metrics/src/obsoleted/reporters/html/resources/main.css',
+      'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/html/resources/variables.css',
+      'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/html/resources/normalize.css',
+      'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/html/resources/base.css',
+      'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/html/resources/main.css',
     ];
 
     for (final resource in resources) {

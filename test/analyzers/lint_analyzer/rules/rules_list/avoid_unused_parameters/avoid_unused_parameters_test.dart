@@ -1,5 +1,5 @@
 @TestOn('vm')
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/avoid_unused_parameters.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/avoid_unused_parameters/avoid_unused_parameters.dart';
 import 'package:dart_code_metrics/src/analyzers/models/severity.dart';
 import 'package:test/test.dart';
 
@@ -11,10 +11,10 @@ const _incorrectExamplePath =
     'avoid_unused_parameters/examples/incorrect_example.dart';
 
 void main() {
-  group('AvoidUnusedParameters', () {
+  group('AvoidUnusedParametersRule', () {
     test('initialization', () async {
       final unit = await RuleTestHelper.resolveFromFile(_correctExamplePath);
-      final issues = AvoidUnusedParameters().check(unit);
+      final issues = AvoidUnusedParametersRule().check(unit);
 
       RuleTestHelper.verifyInitialization(
         issues: issues,
@@ -25,14 +25,14 @@ void main() {
 
     test('reports no issues', () async {
       final unit = await RuleTestHelper.resolveFromFile(_correctExamplePath);
-      final issues = AvoidUnusedParameters().check(unit);
+      final issues = AvoidUnusedParametersRule().check(unit);
 
       RuleTestHelper.verifyNoIssues(issues);
     });
 
     test('reports about found issues', () async {
       final unit = await RuleTestHelper.resolveFromFile(_incorrectExamplePath);
-      final issues = AvoidUnusedParameters().check(unit);
+      final issues = AvoidUnusedParametersRule().check(unit);
 
       RuleTestHelper.verifyIssues(
         issues: issues,
@@ -51,13 +51,13 @@ void main() {
           'String string',
         ],
         messages: [
-          'Parameter is unused',
-          'Parameter is unused',
-          'Parameter is unused',
-          'Parameter is unused',
-          'Parameter is unused',
-          'Parameter is unused',
-          'Parameter is unused',
+          'Parameter is unused.',
+          'Parameter is unused.',
+          'Parameter is unused.',
+          'Parameter is unused.',
+          'Parameter is unused.',
+          'Parameter is unused.',
+          'Parameter is unused.',
           'Parameter is unused, consider renaming it to _, __, etc.',
         ],
       );

@@ -1,5 +1,5 @@
 @TestOn('vm')
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/no_boolean_literal_compare_rule.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/no_boolean_literal_compare/no_boolean_literal_compare.dart';
 import 'package:dart_code_metrics/src/analyzers/models/severity.dart';
 import 'package:test/test.dart';
 

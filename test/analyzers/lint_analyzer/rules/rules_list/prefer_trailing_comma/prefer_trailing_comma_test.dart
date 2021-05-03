@@ -1,5 +1,5 @@
 @TestOn('vm')
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/prefer_trailing_comma.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/prefer_trailing_comma/prefer_trailing_comma.dart';
 import 'package:dart_code_metrics/src/analyzers/models/severity.dart';
 import 'package:test/test.dart';
 
@@ -13,10 +13,10 @@ const _incorrectExamplePath =
     'prefer_trailing_comma/examples/incorrect_example.dart';
 
 void main() {
-  group('PreferTrailingComma', () {
+  group('PreferTrailingCommaRule', () {
     test('initialization', () async {
       final unit = await RuleTestHelper.resolveFromFile(_correctExamplePath);
-      final issues = PreferTrailingComma().check(unit);
+      final issues = PreferTrailingCommaRule().check(unit);
 
       RuleTestHelper.verifyInitialization(
         issues: issues,
@@ -27,7 +27,7 @@ void main() {
 
     test('with default config reports about found issues', () async {
       final unit = await RuleTestHelper.resolveFromFile(_incorrectExamplePath);
-      final issues = PreferTrailingComma().check(unit);
+      final issues = PreferTrailingCommaRule().check(unit);
 
       RuleTestHelper.verifyIssues(
         issues: issues,
@@ -61,30 +61,30 @@ void main() {
           "'and another string for length exceed': 'and another string for length exceed'",
         ],
         messages: [
-          'Prefer trailing comma',
-          'Prefer trailing comma',
-          'Prefer trailing comma',
-          'Prefer trailing comma',
-          'Prefer trailing comma',
-          'Prefer trailing comma',
-          'Prefer trailing comma',
-          'Prefer trailing comma',
-          'Prefer trailing comma',
-          'Prefer trailing comma',
-          'Prefer trailing comma',
+          'Prefer trailing comma.',
+          'Prefer trailing comma.',
+          'Prefer trailing comma.',
+          'Prefer trailing comma.',
+          'Prefer trailing comma.',
+          'Prefer trailing comma.',
+          'Prefer trailing comma.',
+          'Prefer trailing comma.',
+          'Prefer trailing comma.',
+          'Prefer trailing comma.',
+          'Prefer trailing comma.',
         ],
         replacementComments: [
-          'Add trailing comma',
-          'Add trailing comma',
-          'Add trailing comma',
-          'Add trailing comma',
-          'Add trailing comma',
-          'Add trailing comma',
-          'Add trailing comma',
-          'Add trailing comma',
-          'Add trailing comma',
-          'Add trailing comma',
-          'Add trailing comma',
+          'Add trailing comma.',
+          'Add trailing comma.',
+          'Add trailing comma.',
+          'Add trailing comma.',
+          'Add trailing comma.',
+          'Add trailing comma.',
+          'Add trailing comma.',
+          'Add trailing comma.',
+          'Add trailing comma.',
+          'Add trailing comma.',
+          'Add trailing comma.',
         ],
         replacements: [
           'String thirdArgument,',
@@ -104,7 +104,7 @@ void main() {
 
     test('with default config reports no issues', () async {
       final unit = await RuleTestHelper.resolveFromFile(_correctExamplePath);
-      final issues = PreferTrailingComma().check(unit);
+      final issues = PreferTrailingCommaRule().check(unit);
 
       RuleTestHelper.verifyNoIssues(issues);
     });
@@ -113,7 +113,7 @@ void main() {
       final unit = await RuleTestHelper.resolveFromFile(_correctExamplePath);
       final config = {'break-on': 1};
 
-      final issues = PreferTrailingComma(config: config).check(unit);
+      final issues = PreferTrailingCommaRule(config).check(unit);
 
       RuleTestHelper.verifyIssues(
         issues: issues,
@@ -138,16 +138,16 @@ void main() {
           '\'some string\': \'some string\'',
         ],
         messages: [
-          'Prefer trailing comma',
-          'Prefer trailing comma',
-          'Prefer trailing comma',
-          'Prefer trailing comma',
-          'Prefer trailing comma',
-          'Prefer trailing comma',
-          'Prefer trailing comma',
-          'Prefer trailing comma',
-          'Prefer trailing comma',
-          'Prefer trailing comma',
+          'Prefer trailing comma.',
+          'Prefer trailing comma.',
+          'Prefer trailing comma.',
+          'Prefer trailing comma.',
+          'Prefer trailing comma.',
+          'Prefer trailing comma.',
+          'Prefer trailing comma.',
+          'Prefer trailing comma.',
+          'Prefer trailing comma.',
+          'Prefer trailing comma.',
         ],
       );
     });

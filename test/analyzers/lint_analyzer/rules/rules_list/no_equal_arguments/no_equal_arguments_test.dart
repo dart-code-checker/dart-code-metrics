@@ -1,5 +1,5 @@
 @TestOn('vm')
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/no_equal_arguments.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/no_equal_arguments/no_equal_arguments.dart';
 import 'package:dart_code_metrics/src/analyzers/models/severity.dart';
 import 'package:test/test.dart';
 
@@ -10,10 +10,10 @@ const _incorrectExamplePath =
     'no_equal_arguments/examples/incorrect_example.dart';
 
 void main() {
-  group('NoEqualArguments', () {
+  group('NoEqualArgumentsRule', () {
     test('initialization', () async {
       final unit = await RuleTestHelper.resolveFromFile(_examplePath);
-      final issues = NoEqualArguments().check(unit);
+      final issues = NoEqualArgumentsRule().check(unit);
 
       RuleTestHelper.verifyInitialization(
         issues: issues,
@@ -24,7 +24,7 @@ void main() {
 
     test('reports about found issues', () async {
       final unit = await RuleTestHelper.resolveFromFile(_incorrectExamplePath);
-      final issues = NoEqualArguments().check(unit);
+      final issues = NoEqualArgumentsRule().check(unit);
 
       RuleTestHelper.verifyIssues(
         issues: issues,
@@ -42,20 +42,20 @@ void main() {
           'lastName: user.firstName',
         ],
         messages: [
-          'The argument has already been passed',
-          'The argument has already been passed',
-          'The argument has already been passed',
-          'The argument has already been passed',
-          'The argument has already been passed',
-          'The argument has already been passed',
-          'The argument has already been passed',
+          'The argument has already been passed.',
+          'The argument has already been passed.',
+          'The argument has already been passed.',
+          'The argument has already been passed.',
+          'The argument has already been passed.',
+          'The argument has already been passed.',
+          'The argument has already been passed.',
         ],
       );
     });
 
     test('reports no issues', () async {
       final unit = await RuleTestHelper.resolveFromFile(_examplePath);
-      final issues = NoEqualArguments().check(unit);
+      final issues = NoEqualArgumentsRule().check(unit);
 
       RuleTestHelper.verifyNoIssues(issues);
     });
