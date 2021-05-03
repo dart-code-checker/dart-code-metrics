@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* Improve static code diagnostics `avoid-returning-widgets`.
+
 ## 3.2.0-dev.1
 
 * Add static code diagnostics `avoid-non-null-assertion`,  `avoid-late-keyword`.
