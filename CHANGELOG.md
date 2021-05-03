@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Backport static code diagnostic `avoid-returning-widgets`.
+
 ## 2.4.1
 
 - Allow configuring output directory for HTML reporter
