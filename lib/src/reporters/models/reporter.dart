@@ -1,4 +1,4 @@
-import '../../../models/file_report.dart';
+import '../../analyzers/models/file_report.dart';
 
 /// Abstract reporter interface.
 abstract class Reporter {

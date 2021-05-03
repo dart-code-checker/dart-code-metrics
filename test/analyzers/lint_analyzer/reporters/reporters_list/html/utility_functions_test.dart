@@ -4,9 +4,8 @@ import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/ent
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_documentation.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value_level.dart';
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/models/file_report.dart'
-    as metrics;
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/html/html_reporter.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/models/file_metrics_report.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/html/lint_html_reporter.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/html/utility_functions.dart';
 import 'package:test/test.dart';
 
@@ -73,7 +72,7 @@ void main() {
           const ReportTableRecord(
             title: 'fileName',
             link: 'fileLink',
-            report: metrics.FileReport(
+            report: FileMetricsReport(
               averageArgumentsCount: 1,
               argumentsCountViolations: 0,
               averageMaintainabilityIndex: 2,

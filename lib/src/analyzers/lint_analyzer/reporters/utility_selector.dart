@@ -16,9 +16,9 @@ import '../metrics/models/entity_type.dart';
 import '../metrics/models/metric_documentation.dart';
 import '../metrics/models/metric_value.dart';
 import '../metrics/models/metric_value_level.dart';
-import 'models/component_report.dart';
-import 'models/file_report.dart' as metrics;
-import 'models/function_report.dart';
+import 'models/class_metrics_report.dart';
+import 'models/file_metrics_report.dart';
+import 'models/function_metrics_report.dart';
 
 double log2(num a) => log(a) / ln2;
 
@@ -27,52 +27,54 @@ num sum(Iterable<num> it) => it.fold(0, (a, b) => a + b);
 double avg(Iterable<num> it) => it.isNotEmpty ? sum(it) / it.length : 0;
 
 class UtilitySelector {
-  static metrics.FileReport analysisReportForRecords(
+  static FileMetricsReport analysisReportForRecords(
     Iterable<FileReport> records,
   ) =>
       records.map(fileReport).reduce(mergeFileReports);
 
-  static metrics.FileReport fileReport(FileReport record) {
-    final componentReports = record.classes.values.map(componentReport);
-    final functionReports = record.functions.values.map(functionReport);
+  static FileMetricsReport fileReport(FileReport record) {
+    final classMetricsReports = record.classes.values.map(classMetricsReport);
+    final functionMetricsReports =
+        record.functions.values.map(functionMetricsReport);
 
     final averageArgumentCount =
-        avg(functionReports.map((r) => r.argumentsCount.value));
-    final totalArgumentsCountViolations = functionReports
+        avg(functionMetricsReports.map((r) => r.argumentsCount.value));
+    final totalArgumentsCountViolations = functionMetricsReports
         .where((r) => isReportLevel(r.argumentsCount.level))
         .length;
 
     final averageMaintainabilityIndex =
-        avg(functionReports.map((r) => r.maintainabilityIndex.value));
-    final totalMaintainabilityIndexViolations = functionReports
+        avg(functionMetricsReports.map((r) => r.maintainabilityIndex.value));
+    final totalMaintainabilityIndexViolations = functionMetricsReports
         .where((r) => isReportLevel(r.maintainabilityIndex.level))
         .length;
 
     final averageMethodsCount =
-        avg(componentReports.map((r) => r.methodsCount.value));
-    final totalMethodsCountViolations = componentReports
+        avg(classMetricsReports.map((r) => r.methodsCount.value));
+    final totalMethodsCountViolations = classMetricsReports
         .where((r) => isReportLevel(r.methodsCount.level))
         .length;
 
     final totalCyclomaticComplexity =
-        sum(functionReports.map((r) => r.cyclomaticComplexity.value));
-    final totalCyclomaticComplexityViolations = functionReports
+        sum(functionMetricsReports.map((r) => r.cyclomaticComplexity.value));
+    final totalCyclomaticComplexityViolations = functionMetricsReports
         .where((r) => isReportLevel(r.cyclomaticComplexity.level))
         .length;
 
     final totalLinesOfExecutableCode =
-        sum(functionReports.map((r) => r.linesOfExecutableCode.value));
-    final totalLinesOfExecutableCodeViolations = functionReports
+        sum(functionMetricsReports.map((r) => r.linesOfExecutableCode.value));
+    final totalLinesOfExecutableCodeViolations = functionMetricsReports
         .where((r) => isReportLevel(r.linesOfExecutableCode.level))
         .length;
 
     final averageMaximumNestingLevel =
-        avg(functionReports.map((r) => r.maximumNestingLevel.value)).round();
-    final totalMaximumNestingLevelViolations = functionReports
+        avg(functionMetricsReports.map((r) => r.maximumNestingLevel.value))
+            .round();
+    final totalMaximumNestingLevelViolations = functionMetricsReports
         .where((r) => isReportLevel(r.maximumNestingLevel.level))
         .length;
 
-    return metrics.FileReport(
+    return FileMetricsReport(
       averageArgumentsCount: averageArgumentCount.round(),
       argumentsCountViolations: totalArgumentsCountViolations,
       averageMaintainabilityIndex: averageMaintainabilityIndex,
@@ -88,7 +90,7 @@ class UtilitySelector {
     );
   }
 
-  static ComponentReport componentReport(Report component) {
+  static ClassMetricsReport classMetricsReport(Report component) {
     final numberOfMethodsMetric =
         component.metric(NumberOfMethodsMetric.metricId) ??
             _buildMetricValueStub<int>(
@@ -105,13 +107,13 @@ class UtilitySelector {
               type: EntityType.classEntity,
             );
 
-    return ComponentReport(
+    return ClassMetricsReport(
       methodsCount: numberOfMethodsMetric as MetricValue<int>,
       weightOfClass: weightOfClassMetric as MetricValue<double>,
     );
   }
 
-  static FunctionReport functionReport(Report function) {
+  static FunctionMetricsReport functionMetricsReport(Report function) {
     final cyclomaticComplexityMetric =
         function.metric(CyclomaticComplexityMetric.metricId) ??
             _buildMetricValueStub<int>(
@@ -146,7 +148,7 @@ class UtilitySelector {
               value: 0,
             );
 
-    return FunctionReport(
+    return FunctionMetricsReport(
       cyclomaticComplexity: cyclomaticComplexityMetric as MetricValue<int>,
       linesOfExecutableCode: linesOfExecutableMetric as MetricValue<int>,
       maintainabilityIndex: maintainabilityIndexMetric as MetricValue<double>,
@@ -155,10 +157,12 @@ class UtilitySelector {
     );
   }
 
-  static MetricValueLevel componentViolationLevel(ComponentReport report) =>
+  static MetricValueLevel classMetricViolationLevel(
+          ClassMetricsReport report) =>
       report.methodsCount.level;
 
-  static MetricValueLevel functionViolationLevel(FunctionReport report) =>
+  static MetricValueLevel functionMetricViolationLevel(
+          FunctionMetricsReport report) =>
       quiver.max([
         report.cyclomaticComplexity.level,
         report.linesOfExecutableCode.level,
@@ -170,15 +174,16 @@ class UtilitySelector {
   static MetricValueLevel maxViolationLevel(Iterable<FileReport> records) =>
       quiver.max(records
           .expand(
-            (fileRecord) => fileRecord.functions.values.map(functionReport),
+            (fileRecord) =>
+                fileRecord.functions.values.map(functionMetricsReport),
           )
-          .map(functionViolationLevel))!;
+          .map(functionMetricViolationLevel))!;
 
-  static metrics.FileReport mergeFileReports(
-    metrics.FileReport lhs,
-    metrics.FileReport rhs,
+  static FileMetricsReport mergeFileReports(
+    FileMetricsReport lhs,
+    FileMetricsReport rhs,
   ) =>
-      metrics.FileReport(
+      FileMetricsReport(
         averageArgumentsCount:
             ((lhs.averageArgumentsCount + rhs.averageArgumentsCount) / 2)
                 .round(),

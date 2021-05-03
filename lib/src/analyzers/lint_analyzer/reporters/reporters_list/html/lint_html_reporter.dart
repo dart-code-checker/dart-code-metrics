@@ -1,18 +1,17 @@
 // ignore_for_file: long-method
 import 'dart:convert';
 import 'dart:io';
-import 'dart:isolate';
 
 import 'package:collection/collection.dart';
 import 'package:html/dom.dart';
 import 'package:meta/meta.dart';
 import 'package:path/path.dart' as p;
 
+import '../../../../../reporters/models/html_reporter.dart';
 import '../../../../models/file_report.dart';
 import '../../../metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import '../../../metrics/models/metric_value_level.dart';
-import '../../models/file_report.dart' as metrics;
-import '../../models/reporter.dart';
+import '../../models/file_metrics_report.dart';
 import '../../utility_selector.dart';
 import 'utility_functions.dart';
 
@@ -52,7 +51,7 @@ class ReportTableRecord {
   final String title;
   final String link;
 
-  final metrics.FileReport report;
+  final FileMetricsReport report;
 
   const ReportTableRecord({
     required this.title,
@@ -61,52 +60,17 @@ class ReportTableRecord {
   });
 }
 
-/// HTML-doc reporter
-class HtmlReporter implements Reporter {
-  final String reportFolder;
-
-  HtmlReporter({
-    required this.reportFolder,
-  });
+class LintHtmlReporter extends HtmlReporter {
+  LintHtmlReporter(String reportFolder) : super(reportFolder);
 
   @override
   Future<void> report(Iterable<FileReport> records) async {
-    if (records.isEmpty) {
-      return;
-    }
+    await super.report(records);
 
-    _createReportDirectory(reportFolder);
-    await _copyResources(reportFolder);
     for (final record in records) {
       _generateSourceReport(reportFolder, record);
     }
     _generateFoldersReports(reportFolder, records);
-  }
-
-  void _createReportDirectory(String directoryName) {
-    final reportDirectory = Directory(directoryName);
-    if (reportDirectory.existsSync()) {
-      reportDirectory.deleteSync(recursive: true);
-    }
-    reportDirectory.createSync(recursive: true);
-  }
-
-  Future<void> _copyResources(String reportFolder) async {
-    const resources = [
-      'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/html/resources/variables.css',
-      'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/html/resources/normalize.css',
-      'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/html/resources/base.css',
-      'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/html/resources/main.css',
-    ];
-
-    for (final resource in resources) {
-      final resolvedUri = await Isolate.resolvePackageUri(Uri.parse(resource));
-      if (resolvedUri != null) {
-        final fileWithExtension = p.split(resolvedUri.toString()).last;
-        File.fromUri(resolvedUri)
-            .copySync(p.join(reportFolder, fileWithExtension));
-      }
-    }
   }
 
   Element _generateTable(String title, Iterable<ReportTableRecord> records) {
@@ -382,7 +346,7 @@ class HtmlReporter implements Reporter {
 
       var line = ' ';
       if (functionReport != null) {
-        final report = UtilitySelector.functionReport(functionReport);
+        final report = UtilitySelector.functionMetricsReport(functionReport);
 
         if (functionReport.location.start.line == i) {
           final complexityTooltip = Element.tag('div')
@@ -460,7 +424,7 @@ class HtmlReporter implements Reporter {
         }
 */
         final functionViolationLevel =
-            UtilitySelector.functionViolationLevel(report);
+            UtilitySelector.functionMetricViolationLevel(report);
 
         final lineViolationStyle = lineWithComplexityIncrement > 0
             ? _violationLevelLineStyle[functionViolationLevel]

@@ -10,7 +10,7 @@ import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/ent
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_documentation.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value_level.dart';
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/console_reporter.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/console/lint_console_reporter.dart';
 import 'package:dart_code_metrics/src/analyzers/models/file_report.dart';
 import 'package:dart_code_metrics/src/analyzers/models/issue.dart';
 import 'package:dart_code_metrics/src/analyzers/models/replacement.dart';
@@ -25,21 +25,21 @@ import '../../../../stubs_builders.dart';
 class IOSinkMock extends Mock implements IOSink {}
 
 void main() {
-  group('ConsoleReporter.report report about', () {
+  group('LintConsoleReporter.report report about', () {
     late IOSinkMock output; // ignore: close_sinks
     late IOSinkMock verboseOutput; // ignore: close_sinks
     const fullPath = '/home/developer/work/project/example.dart';
 
-    late ConsoleReporter _reporter;
-    late ConsoleReporter _verboseReporter;
+    late LintConsoleReporter _reporter;
+    late LintConsoleReporter _verboseReporter;
 
     setUp(() {
       output = IOSinkMock();
       verboseOutput = IOSinkMock();
 
       ansiColorDisabled = false;
-      _reporter = ConsoleReporter(output);
-      _verboseReporter = ConsoleReporter(verboseOutput, reportAll: true);
+      _reporter = LintConsoleReporter(output);
+      _verboseReporter = LintConsoleReporter(verboseOutput, reportAll: true);
     });
 
     test('files without any records', () async {

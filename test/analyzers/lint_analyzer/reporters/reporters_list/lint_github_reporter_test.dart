@@ -1,7 +1,7 @@
 @TestOn('vm')
 import 'dart:io';
 
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/github/github_reporter.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/github/lint_github_reporter.dart';
 import 'package:dart_code_metrics/src/analyzers/models/file_report.dart';
 import 'package:dart_code_metrics/src/analyzers/models/issue.dart';
 import 'package:dart_code_metrics/src/analyzers/models/replacement.dart';
@@ -14,7 +14,7 @@ import 'package:test/test.dart';
 class IOSinkMock extends Mock implements IOSink {}
 
 void main() {
-  group('GitHubReporter.report report about', () {
+  group('LintGitHubReporter.report report about', () {
     // ignore: close_sinks
     late IOSinkMock output;
     const fullPath = '/home/developer/work/project/example.dart';
@@ -24,7 +24,7 @@ void main() {
     });
 
     test('files without any records', () async {
-      await GitHubReporter(output).report([]);
+      await LintGitHubReporter(output).report([]);
 
       verifyNever(() => output.writeln(any()));
     });
@@ -59,7 +59,7 @@ void main() {
         ),
       ];
 
-      await GitHubReporter(output).report(records);
+      await LintGitHubReporter(output).report(records);
 
       expect(
         verify(() => output.writeln(captureAny())).captured.cast<String>(),
@@ -122,7 +122,7 @@ void main() {
         ),
       ];
 
-      await GitHubReporter(output).report(records);
+      await LintGitHubReporter(output).report(records);
 
       expect(
         verify(() => output.writeln(captureAny())).captured.cast<String>(),

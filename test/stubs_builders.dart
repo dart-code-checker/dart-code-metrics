@@ -8,8 +8,8 @@ import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/ent
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_documentation.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value_level.dart';
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/models/component_report.dart';
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/models/function_report.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/models/class_metrics_report.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/models/function_metrics_report.dart';
 import 'package:dart_code_metrics/src/analyzers/models/report.dart';
 import 'package:source_span/source_span.dart';
 
@@ -98,13 +98,13 @@ Report buildFunctionRecordStub({
   );
 }
 
-ComponentReport buildComponentReportStub({
+ClassMetricsReport buildClassMetricsReportStub({
   int methodsCount = 0,
   MetricValueLevel methodsCountViolationLevel = MetricValueLevel.none,
   double weightOfClass = 1,
   MetricValueLevel weightOfClassViolationLevel = MetricValueLevel.none,
 }) =>
-    ComponentReport(
+    ClassMetricsReport(
       methodsCount: MetricValue<int>(
         metricsId: '',
         documentation: const MetricDocumentation(
@@ -133,7 +133,7 @@ ComponentReport buildComponentReportStub({
       ),
     );
 
-FunctionReport buildFunctionReportStub({
+FunctionMetricsReport buildFunctionMetricsReportStub({
   int cyclomaticComplexity = 0,
   MetricValueLevel cyclomaticComplexityViolationLevel = MetricValueLevel.none,
   int linesOfExecutableCode = 0,
@@ -145,7 +145,7 @@ FunctionReport buildFunctionReportStub({
   int maximumNestingLevel = 0,
   MetricValueLevel maximumNestingLevelViolationLevel = MetricValueLevel.none,
 }) =>
-    FunctionReport(
+    FunctionMetricsReport(
       cyclomaticComplexity: MetricValue<int>(
         metricsId: '',
         documentation: const MetricDocumentation(
