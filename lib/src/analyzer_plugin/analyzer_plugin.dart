@@ -1,4 +1,3 @@
-// ignore_for_file: long-method
 import 'dart:async';
 
 import 'package:analyzer/dart/analysis/results.dart';
@@ -283,7 +282,6 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     return result;
   }
 
-  // ignore: long-parameter-list
   Iterable<plugin.AnalysisErrorFixes> _checkOnCodeIssues(
     Suppression ignores,
     ResolvedUnitResult analysisResult,

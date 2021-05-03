@@ -5,8 +5,6 @@ import '../../models/replacement.dart';
 import '../../models/severity.dart';
 import 'models/rule.dart';
 
-// ignore_for_file: long-parameter-list
-
 /// Creates a new [Issue] found by [rule] in the [location] with [message] or
 /// with [verboseMessage] describing the problem and with information how to fix
 /// this one ([replacement]).
