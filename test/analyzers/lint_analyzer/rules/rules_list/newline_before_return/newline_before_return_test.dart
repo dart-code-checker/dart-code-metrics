@@ -36,9 +36,9 @@ void main() {
           'return a + 2;',
         ],
         messages: [
-          'Missing blank line before return',
-          'Missing blank line before return',
-          'Missing blank line before return',
+          'Missing blank line before return.',
+          'Missing blank line before return.',
+          'Missing blank line before return.',
         ],
       );
     });

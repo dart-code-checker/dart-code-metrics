@@ -32,7 +32,7 @@ void main() {
         startColumns: [3],
         endOffsets: [139],
         locationTexts: ['styleUrls: []'],
-        messages: ['Arguments group styles should be before change-detection'],
+        messages: ['Arguments group styles should be before change-detection.'],
       );
     });
 
@@ -76,8 +76,8 @@ void main() {
           'changeDetection: ChangeDetectionStrategy.OnPush',
         ],
         messages: [
-          'Arguments group templates should be before selector',
-          'Arguments group change-detection should be before templates',
+          'Arguments group templates should be before selector.',
+          'Arguments group change-detection should be before templates.',
         ],
       );
     });

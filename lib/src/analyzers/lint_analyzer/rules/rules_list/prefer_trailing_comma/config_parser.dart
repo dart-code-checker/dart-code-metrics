@@ -1,7 +1,7 @@
 part of 'prefer_trailing_comma.dart';
 
 class _ConfigParser {
-  static const _breakOnConfigName = 'allowed';
+  static const _breakOnConfigName = 'break-on';
 
   static int? parseBreakpoint(Map<String, Object> config) {
     final breakpoint = config.containsKey(_breakOnConfigName)

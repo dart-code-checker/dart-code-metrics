@@ -40,9 +40,9 @@ void main() {
               '  }',
         ],
         messages: [
-          'Avoid Object type declaration in class member',
-          'Avoid Object type declaration in class member',
-          'Avoid Object type declaration in class member',
+          'Avoid Object type declaration in class member.',
+          'Avoid Object type declaration in class member.',
+          'Avoid Object type declaration in class member.',
         ],
       );
     });

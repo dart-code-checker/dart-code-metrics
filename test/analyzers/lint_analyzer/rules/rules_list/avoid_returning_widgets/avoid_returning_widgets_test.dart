@@ -45,12 +45,12 @@ void main() {
           'Widget _getWidget() => Container();',
         ],
         messages: [
-          'Avoid returning widgets from a function',
-          'Avoid returning widgets from a function',
-          'Avoid returning widgets from a function',
-          'Avoid returning widgets from a function',
-          'Avoid returning widgets from a function',
-          'Avoid returning widgets from a function',
+          'Avoid returning widgets from a function.',
+          'Avoid returning widgets from a function.',
+          'Avoid returning widgets from a function.',
+          'Avoid returning widgets from a function.',
+          'Avoid returning widgets from a function.',
+          'Avoid returning widgets from a function.',
         ],
       );
     });
@@ -83,10 +83,10 @@ void main() {
           'List<Widget> _getWidgetsList() => [Container()].toList();',
         ],
         messages: [
-          'Avoid returning widgets from a function',
-          'Avoid returning widgets from a function',
-          'Avoid returning widgets from a function',
-          'Avoid returning widgets from a function',
+          'Avoid returning widgets from a function.',
+          'Avoid returning widgets from a function.',
+          'Avoid returning widgets from a function.',
+          'Avoid returning widgets from a function.',
         ],
       );
     });

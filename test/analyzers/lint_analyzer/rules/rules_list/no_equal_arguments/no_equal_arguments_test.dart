@@ -42,13 +42,13 @@ void main() {
           'lastName: user.firstName',
         ],
         messages: [
-          'The argument has already been passed',
-          'The argument has already been passed',
-          'The argument has already been passed',
-          'The argument has already been passed',
-          'The argument has already been passed',
-          'The argument has already been passed',
-          'The argument has already been passed',
+          'The argument has already been passed.',
+          'The argument has already been passed.',
+          'The argument has already been passed.',
+          'The argument has already been passed.',
+          'The argument has already been passed.',
+          'The argument has already been passed.',
+          'The argument has already been passed.',
         ],
       );
     });

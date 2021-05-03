@@ -55,11 +55,11 @@ void main() {
           'value1 == 11 ? value1 : value1',
         ],
         messages: [
-          'Then and else branches are equal',
-          'Then and else branches are equal',
-          'Then and else branches are equal',
-          'Then and else branches are equal',
-          'Then and else branches are equal',
+          'Then and else branches are equal.',
+          'Then and else branches are equal.',
+          'Then and else branches are equal.',
+          'Then and else branches are equal.',
+          'Then and else branches are equal.',
         ],
       );
     });
