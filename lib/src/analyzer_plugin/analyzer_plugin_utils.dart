@@ -7,11 +7,6 @@ import 'package:source_span/source_span.dart';
 import '../analyzers/models/issue.dart';
 import '../analyzers/models/severity.dart';
 
-bool isSupported(AnalysisResult result) =>
-    result.path != null &&
-    result.path!.endsWith('.dart') &&
-    !result.path!.endsWith('.g.dart');
-
 plugin.AnalysisErrorFixes codeIssueToAnalysisErrorFixes(
         Issue issue, ResolvedUnitResult unitResult) =>
     plugin.AnalysisErrorFixes(

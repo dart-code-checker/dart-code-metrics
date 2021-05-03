@@ -2,7 +2,6 @@
 import 'dart:async';
 
 import 'package:analyzer/dart/analysis/results.dart';
-import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/file_system/file_system.dart';
 // ignore: implementation_imports
 import 'package:analyzer/src/analysis_options/analysis_options_provider.dart';
@@ -16,34 +15,27 @@ import 'package:analyzer/src/dart/analysis/driver.dart';
 import 'package:analyzer/src/dart/analysis/file_state.dart';
 import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
-import 'package:source_span/source_span.dart';
 
 import '../analyzers/lint_analyzer/anti_patterns/anti_patterns_factory.dart';
-import '../analyzers/lint_analyzer/metrics/metric_utils.dart';
+import '../analyzers/lint_analyzer/lint_analyzer.dart';
 import '../analyzers/lint_analyzer/metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import '../analyzers/lint_analyzer/metrics/metrics_list/number_of_parameters_metric.dart';
-import '../analyzers/lint_analyzer/reporters/models/function_metrics_report.dart';
-import '../analyzers/lint_analyzer/reporters/utility_selector.dart';
+import '../analyzers/lint_analyzer/parserd_config.dart';
 import '../analyzers/lint_analyzer/rules/rules_factory.dart';
-import '../analyzers/lint_analyzer/scope_visitor.dart';
-import '../analyzers/models/internal_resolved_unit_result.dart';
-import '../analyzers/models/report.dart';
-import '../analyzers/models/scoped_function_declaration.dart';
-import '../analyzers/models/suppression.dart';
 import '../config_builder/models/analysis_options.dart';
 import '../config_builder/models/config.dart';
-import '../utils/node_utils.dart';
+import '../utils/exclude_utils.dart';
 import '../utils/yaml_utils.dart';
-import 'analyzer_plugin_config.dart';
 import 'analyzer_plugin_utils.dart';
-import 'plugin_utils.dart';
 
-const _codeMetricsId = 'code-metrics';
+// TODO const _codeMetricsId = 'code-metrics';
 
 const _defaultSkippedFolders = ['.dart_tool/**', 'packages/**'];
 
 class MetricsAnalyzerPlugin extends ServerPlugin {
-  final _configs = <AnalysisDriverGeneric, AnalyzerPluginConfig>{};
+  static const _analyzer = LintAnalyzer();
+
+  final _configs = <AnalysisDriverGeneric, ParsedConfig>{};
 
   var _filesFromSetPriorityFilesRequest = <String>[];
 
@@ -95,7 +87,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
       return dartDriver;
     }
 
-    _configs[dartDriver] = AnalyzerPluginConfig(
+    _configs[dartDriver] = ParsedConfig(
       prepareExcludes(
         [
           ..._defaultSkippedFolders,
@@ -104,12 +96,13 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
         rootPath,
       ),
       getRulesById(options.rules),
+      getPatternsById(options.antiPatterns),
+      [],
       [
         CyclomaticComplexityMetric(config: options.metrics),
         NumberOfParametersMetric(config: options.metrics),
       ],
       prepareExcludes(options.excludeForMetricsPatterns, rootPath),
-      getPatternsById(options.antiPatterns),
       options.metrics,
     );
 
@@ -212,244 +205,30 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
   ) {
     final result = <plugin.AnalysisErrorFixes>[];
     final config = _configs[driver];
-    final unit = analysisResult.unit;
-    final content = analysisResult.content;
 
-    if (unit != null &&
-        content != null &&
-        analysisResult.state == ResultState.VALID &&
-        isSupported(analysisResult) &&
-        config != null &&
-        !isExcluded(analysisResult, config.globalExcludes)) {
-      final ignores = Suppression(content, analysisResult.lineInfo);
-
-      final sourceUri = resourceProvider.getFile(analysisResult.path!).toUri();
+    if (config != null) {
       // ignore: deprecated_member_use
       final root = driver.contextRoot?.root;
 
-      result.addAll(_checkOnCodeIssues(
-        ignores,
-        analysisResult,
-        sourceUri,
-        _configs[driver]!,
-        root,
-      ));
+      final report = _analyzer.runPluginAnalysis(analysisResult, config, root!);
 
-      if (!isExcluded(analysisResult, config.metricsExcludes)) {
-        final scopeVisitor = ScopeVisitor();
-        unit.visitChildren(scopeVisitor);
-
-        final functions = scopeVisitor.functions.where((function) {
-          final declaration = function.declaration;
-          if (declaration is ConstructorDeclaration &&
-              declaration.body is EmptyFunctionBody) {
-            return false;
-          } else if (declaration is MethodDeclaration &&
-              declaration.body is EmptyFunctionBody) {
-            return false;
-          }
-
-          return true;
-        }).toList();
-
-        result.addAll(_checkOnAntiPatterns(
-          ignores,
-          InternalResolvedUnitResult(
-            sourceUri,
-            content,
-            unit,
-            analysisResult.lineInfo,
-          ),
-          functions,
-          _configs[driver]!,
-        ));
-
-        if (!ignores.isSuppressed(_codeMetricsId)) {
-          result.addAll(_checkMetrics(
-            ignores,
-            InternalResolvedUnitResult(
-              sourceUri,
-              content,
-              unit,
-              analysisResult.lineInfo,
-            ),
-            functions,
-            _configs[driver]!,
-          ));
-        }
-      }
-    }
-
-    return result;
-  }
-
-  // ignore: long-parameter-list
-  Iterable<plugin.AnalysisErrorFixes> _checkOnCodeIssues(
-    Suppression ignores,
-    ResolvedUnitResult analysisResult,
-    Uri sourceUri,
-    AnalyzerPluginConfig config,
-    String? root,
-  ) {
-    final unit = analysisResult.unit;
-    final content = analysisResult.content;
-
-    if (unit == null ||
-        content == null ||
-        analysisResult.state != ResultState.VALID) {
-      return [];
-    }
-
-    return config.codeRules
-        .where((rule) =>
-            !ignores.isSuppressed(rule.id) &&
-            (root == null ||
-                !isExcluded(
-                  analysisResult,
-                  prepareExcludes(rule.excludes, root),
-                )))
-        .expand(
-          (rule) => rule
-              .check(InternalResolvedUnitResult(
-                sourceUri,
-                content,
-                unit,
-                analysisResult.lineInfo,
-              ))
-              .where((issue) => !ignores.isSuppressedAt(
-                    issue.ruleId,
-                    issue.location.start.line,
-                  ))
+      if (report != null) {
+        result.addAll([
+          ...report.issues
               .map((issue) =>
-                  codeIssueToAnalysisErrorFixes(issue, analysisResult)),
-        );
-  }
-
-  Iterable<plugin.AnalysisErrorFixes> _checkOnAntiPatterns(
-    Suppression ignores,
-    InternalResolvedUnitResult source,
-    Iterable<ScopedFunctionDeclaration> functions,
-    AnalyzerPluginConfig config,
-  ) =>
-      config.antiPatterns
-          .where((pattern) => !ignores.isSuppressed(pattern.id))
-          .expand((pattern) =>
-              pattern.legacyCheck(source, functions, config.metricsConfig))
-          .where((issue) =>
-              !ignores.isSuppressedAt(issue.ruleId, issue.location.start.line))
-          .map(designIssueToAnalysisErrorFixes);
-
-  Iterable<plugin.AnalysisErrorFixes> _checkMetrics(
-    Suppression ignores,
-    InternalResolvedUnitResult source,
-    Iterable<ScopedFunctionDeclaration> functions,
-    AnalyzerPluginConfig config,
-  ) {
-    final result = <plugin.AnalysisErrorFixes>[];
-
-    for (final function in functions) {
-      final functionOffset =
-          function.declaration.firstTokenAfterCommentAndMetadata.offset;
-
-      final functionFirstLineInfo = source.lineInfo.getLocation(functionOffset);
-
-      if (ignores.isSuppressedAt(
-        _codeMetricsId,
-        functionFirstLineInfo.lineNumber,
-      )) {
-        continue;
-      }
-
-      final functionReport = _buildReport(function, source, config);
-      if (isReportLevel(
-        UtilitySelector.functionMetricViolationLevel(functionReport),
-      )) {
-        final startSourceLocation = SourceLocation(
-          functionOffset,
-          sourceUrl: source.sourceUri,
-          line: functionFirstLineInfo.lineNumber,
-          column: functionFirstLineInfo.columnNumber,
-        );
-
-        final cyclomatic = _cyclomaticComplexityMetric(
-          function,
-          functionReport,
-          startSourceLocation,
-          config,
-        );
-        if (cyclomatic != null) {
-          result.add(cyclomatic);
-        }
-
-        final nesting = _nestingLevelMetric(
-          function,
-          functionReport,
-          startSourceLocation,
-          config,
-        );
-        if (nesting != null) {
-          result.add(nesting);
-        }
+                  codeIssueToAnalysisErrorFixes(issue, analysisResult))
+              .toList(),
+          ...report.antiPatternCases
+              .map(designIssueToAnalysisErrorFixes)
+              .toList(),
+          // ...report.functions.map((key, value) => null),
+          // TODO
+        ]);
       }
     }
 
     return result;
   }
-
-  FunctionMetricsReport _buildReport(
-    ScopedFunctionDeclaration function,
-    InternalResolvedUnitResult source,
-    AnalyzerPluginConfig config,
-  ) =>
-      UtilitySelector.functionMetricsReport(
-        Report(
-          location: nodeLocation(
-            node: function.declaration,
-            source: source,
-          ),
-          metrics: config.methodsMetrics.map(
-            (metric) => metric.compute(
-              function.declaration,
-              [
-                if (function.enclosingDeclaration != null)
-                  function.enclosingDeclaration!,
-              ],
-              [function],
-              source,
-            ),
-          ),
-        ),
-      );
-
-  plugin.AnalysisErrorFixes? _cyclomaticComplexityMetric(
-    ScopedFunctionDeclaration function,
-    FunctionMetricsReport functionReport,
-    SourceLocation startSourceLocation,
-    AnalyzerPluginConfig config,
-  ) =>
-      isReportLevel(functionReport.cyclomaticComplexity.level)
-          ? metricReportToAnalysisErrorFixes(
-              startSourceLocation,
-              function.declaration.end - startSourceLocation.offset,
-              functionReport.cyclomaticComplexity.comment,
-              _codeMetricsId,
-            )
-          : null;
-
-  plugin.AnalysisErrorFixes? _nestingLevelMetric(
-    ScopedFunctionDeclaration function,
-    FunctionMetricsReport functionReport,
-    SourceLocation startSourceLocation,
-    AnalyzerPluginConfig config,
-  ) =>
-      isReportLevel(functionReport.maximumNestingLevel.level)
-          ? metricReportToAnalysisErrorFixes(
-              startSourceLocation,
-              function.declaration.end - startSourceLocation.offset,
-              functionReport.maximumNestingLevel.comment,
-              _codeMetricsId,
-            )
-          : null;
 
   Config? _readOptions(AnalysisDriver driver) {
     // ignore: deprecated_member_use
