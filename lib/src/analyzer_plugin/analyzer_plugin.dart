@@ -18,8 +18,8 @@ import 'package:analyzer/src/dart/analysis/driver.dart';
 import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
 import 'package:code_checker/checker.dart';
-import 'package:code_checker/rules.dart';
 import 'package:code_checker/metrics.dart';
+import 'package:code_checker/rules.dart';
 import 'package:source_span/source_span.dart';
 
 import '../anti_patterns_factory.dart';

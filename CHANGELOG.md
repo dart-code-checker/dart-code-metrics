@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- Backport static code diagnostic `avoid-returning-widgets`.
+- Backport static code diagnostic `member-ordering-extended`, `avoid-returning-widgets`.
 
 ## 2.4.1
 
