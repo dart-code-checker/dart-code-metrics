@@ -237,52 +237,57 @@ void main() {
       () {
         expect(
           UtilitySelector.functionMetricViolationLevel(
-              buildFunctionMetricsReportStub(
-            cyclomaticComplexityViolationLevel: MetricValueLevel.warning,
-            linesOfExecutableCodeViolationLevel: MetricValueLevel.noted,
-            maintainabilityIndexViolationLevel: MetricValueLevel.none,
-          )),
+            buildFunctionMetricsReportStub(
+              cyclomaticComplexityViolationLevel: MetricValueLevel.warning,
+              linesOfExecutableCodeViolationLevel: MetricValueLevel.noted,
+              maintainabilityIndexViolationLevel: MetricValueLevel.none,
+            ),
+          ),
           MetricValueLevel.warning,
         );
 
         expect(
           UtilitySelector.functionMetricViolationLevel(
-              buildFunctionMetricsReportStub(
-            cyclomaticComplexityViolationLevel: MetricValueLevel.warning,
-            linesOfExecutableCodeViolationLevel: MetricValueLevel.alarm,
-            maintainabilityIndexViolationLevel: MetricValueLevel.none,
-          )),
+            buildFunctionMetricsReportStub(
+              cyclomaticComplexityViolationLevel: MetricValueLevel.warning,
+              linesOfExecutableCodeViolationLevel: MetricValueLevel.alarm,
+              maintainabilityIndexViolationLevel: MetricValueLevel.none,
+            ),
+          ),
           MetricValueLevel.alarm,
         );
 
         expect(
           UtilitySelector.functionMetricViolationLevel(
-              buildFunctionMetricsReportStub(
-            cyclomaticComplexityViolationLevel: MetricValueLevel.none,
-            linesOfExecutableCodeViolationLevel: MetricValueLevel.none,
-            maintainabilityIndexViolationLevel: MetricValueLevel.noted,
-          )),
+            buildFunctionMetricsReportStub(
+              cyclomaticComplexityViolationLevel: MetricValueLevel.none,
+              linesOfExecutableCodeViolationLevel: MetricValueLevel.none,
+              maintainabilityIndexViolationLevel: MetricValueLevel.noted,
+            ),
+          ),
           MetricValueLevel.noted,
         );
 
         expect(
           UtilitySelector.functionMetricViolationLevel(
-              buildFunctionMetricsReportStub(
-            cyclomaticComplexityViolationLevel: MetricValueLevel.none,
-            linesOfExecutableCodeViolationLevel: MetricValueLevel.none,
-            argumentsCountViolationLevel: MetricValueLevel.warning,
-          )),
+            buildFunctionMetricsReportStub(
+              cyclomaticComplexityViolationLevel: MetricValueLevel.none,
+              linesOfExecutableCodeViolationLevel: MetricValueLevel.none,
+              argumentsCountViolationLevel: MetricValueLevel.warning,
+            ),
+          ),
           MetricValueLevel.warning,
         );
 
         expect(
           UtilitySelector.functionMetricViolationLevel(
-              buildFunctionMetricsReportStub(
-            cyclomaticComplexityViolationLevel: MetricValueLevel.none,
-            linesOfExecutableCodeViolationLevel: MetricValueLevel.none,
-            argumentsCountViolationLevel: MetricValueLevel.none,
-            maximumNestingLevelViolationLevel: MetricValueLevel.warning,
-          )),
+            buildFunctionMetricsReportStub(
+              cyclomaticComplexityViolationLevel: MetricValueLevel.none,
+              linesOfExecutableCodeViolationLevel: MetricValueLevel.none,
+              argumentsCountViolationLevel: MetricValueLevel.none,
+              maximumNestingLevelViolationLevel: MetricValueLevel.warning,
+            ),
+          ),
           MetricValueLevel.warning,
         );
       },

@@ -11,6 +11,7 @@ class AntiPatternTestHelper {
   ) async {
     final fullPath =
         'test/analyzers/lint_analyzer/anti_patterns/anti_patterns_list/$filePath';
+
     return FileResolver.resolve(fullPath);
   }
 

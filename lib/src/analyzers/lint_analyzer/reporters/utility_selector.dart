@@ -158,11 +158,13 @@ class UtilitySelector {
   }
 
   static MetricValueLevel classMetricViolationLevel(
-          ClassMetricsReport report) =>
+    ClassMetricsReport report,
+  ) =>
       report.methodsCount.level;
 
   static MetricValueLevel functionMetricViolationLevel(
-          FunctionMetricsReport report) =>
+    FunctionMetricsReport report,
+  ) =>
       quiver.max([
         report.cyclomaticComplexity.level,
         report.linesOfExecutableCode.level,

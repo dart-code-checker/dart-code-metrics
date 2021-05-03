@@ -18,6 +18,7 @@ class _Visitor extends IntlBaseVisitor {
     }
   }
 
+  // ignore: long-method
   void _checkMessageMethod(
     MethodInvocation methodInvocation,
     FormalParameterList? parameterList,
