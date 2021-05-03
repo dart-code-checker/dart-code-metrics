@@ -1,5 +1,5 @@
 @TestOn('vm')
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/member_ordering.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/member_ordering/member_ordering.dart';
 import 'package:dart_code_metrics/src/analyzers/models/severity.dart';
 import 'package:test/test.dart';
 
@@ -15,7 +15,7 @@ const _alphabeticalExamplePath =
     'member_ordering/examples/alphabetical_example.dart';
 
 void main() {
-  group('MemberOrdering', () {
+  group('MemberOrderingRule', () {
     test('initialization', () async {
       final unit = await RuleTestHelper.resolveFromFile(_examplePath);
       final issues = MemberOrderingRule().check(unit);
@@ -69,7 +69,7 @@ void main() {
           ],
         };
 
-        final issues = MemberOrderingRule(config: config).check(unit);
+        final issues = MemberOrderingRule(config).check(unit);
 
         RuleTestHelper.verifyIssues(
           issues: issues,
@@ -102,7 +102,7 @@ void main() {
           ],
         };
 
-        final issues = MemberOrderingRule(config: config).check(unit);
+        final issues = MemberOrderingRule(config).check(unit);
 
         RuleTestHelper.verifyIssues(
           issues: issues,
@@ -150,7 +150,7 @@ void main() {
           ],
         };
 
-        final issues = MemberOrderingRule(config: config).check(unit);
+        final issues = MemberOrderingRule(config).check(unit);
 
         RuleTestHelper.verifyIssues(
           issues: issues,

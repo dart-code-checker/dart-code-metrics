@@ -1,5 +1,5 @@
 @TestOn('vm')
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/provide_correct_intl_args.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/provide_correct_intl_args/provide_correct_intl_args.dart';
 import 'package:dart_code_metrics/src/analyzers/models/severity.dart';
 import 'package:test/test.dart';
 
@@ -10,7 +10,7 @@ const _incorrectExamplePath =
     'provide_correct_intl_args/examples/incorrect_example.dart';
 
 void main() {
-  group('PreferIntlArgsRule', () {
+  group('ProvideCorrectIntlArgsRule', () {
     test('initialization', () async {
       final unit = await RuleTestHelper.resolveFromFile(_examplePath);
       final issues = ProvideCorrectIntlArgsRule().check(unit);

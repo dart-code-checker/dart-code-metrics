@@ -1,5 +1,5 @@
 @TestOn('vm')
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/avoid_returning_widgets_rule.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/avoid_returning_widgets/avoid_returning_widgets.dart';
 import 'package:dart_code_metrics/src/analyzers/models/severity.dart';
 import 'package:test/test.dart';
 
@@ -10,10 +10,10 @@ import '../../../../../helpers/rule_test_helper.dart';
 const _examplePath = 'avoid_returning_widgets/examples/example.dart';
 
 void main() {
-  group('AvoidReturningWidgets', () {
+  group('AvoidReturningWidgetsRule', () {
     test('initialization', () async {
       final unit = await RuleTestHelper.resolveFromFile(_examplePath);
-      final issues = AvoidReturningWidgets().check(unit);
+      final issues = AvoidReturningWidgetsRule().check(unit);
 
       RuleTestHelper.verifyInitialization(
         issues: issues,
@@ -24,7 +24,7 @@ void main() {
 
     test('reports about found issues with the default config', () async {
       final unit = await RuleTestHelper.resolveFromFile(_examplePath);
-      final issues = AvoidReturningWidgets().check(unit);
+      final issues = AvoidReturningWidgetsRule().check(unit);
 
       RuleTestHelper.verifyIssues(
         issues: issues,
@@ -64,7 +64,7 @@ void main() {
         ],
       };
 
-      final issues = AvoidReturningWidgets(config: config).check(unit);
+      final issues = AvoidReturningWidgetsRule(config).check(unit);
 
       RuleTestHelper.verifyIssues(
         issues: issues,

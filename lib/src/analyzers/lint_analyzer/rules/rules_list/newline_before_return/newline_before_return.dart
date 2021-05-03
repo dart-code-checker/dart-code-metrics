@@ -11,24 +11,23 @@ import '../../models/rule.dart';
 import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
 
-part 'return_statement_visitor.dart';
+part 'visitor.dart';
 
 // Inspired by ESLint (https://eslint.org/docs/rules/newline-before-return)
-
-const _documentation = RuleDocumentation(
-  name: 'New Line Before Return',
-  brief: 'Enforces blank line between statements and return in a block',
-);
-
-const _failure = 'Missing blank line before return';
 
 class NewlineBeforeReturnRule extends Rule {
   static const String ruleId = 'newline-before-return';
 
-  NewlineBeforeReturnRule({Map<String, Object> config = const {}})
+  static const _warning = 'Missing blank line before return.';
+
+  NewlineBeforeReturnRule([Map<String, Object> config = const {}])
       : super(
           id: ruleId,
-          documentation: _documentation,
+          documentation: const RuleDocumentation(
+            name: 'New Line Before Return',
+            brief:
+                'Enforces blank line between statements and return in a block',
+          ),
           severity: readSeverity(config, Severity.style),
           excludes: readExcludes(config),
         );
@@ -62,7 +61,7 @@ class NewlineBeforeReturnRule extends Rule {
         .map((statement) => createIssue(
               rule: this,
               location: nodeLocation(node: statement, source: source),
-              message: _failure,
+              message: _warning,
             ))
         .toList(growable: false);
   }

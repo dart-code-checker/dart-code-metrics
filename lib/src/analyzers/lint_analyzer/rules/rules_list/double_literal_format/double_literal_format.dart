@@ -10,33 +10,34 @@ import '../../models/rule.dart';
 import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
 
-part 'double_literal_visitor.dart';
+part 'visitor.dart';
 
 // Inspired by TSLint (https://palantir.github.io/tslint/rules/number-literal-format/)
-
-const _documentation = RuleDocumentation(
-  name: 'Double Literal Format',
-  brief:
-      "Checks that double literals should begin with '0.' instead of just '.', and should not end with a trailing '0'",
-);
-
-const _failureLeadingZero =
-    "Double literal shouldn't have redundant leading '0'.";
-const _correctionCommentLeadingZero = "Remove redundant leading '0'";
-
-const _failureLeadingDecimal = "Double literal shouldn't begin with '.'.";
-const _correctionCommentLeadingDecimal = "Add missing leading '0'";
-
-const _failureTrailingZero = "Double literal shouldn't have a trailing '0'.";
-const _correctionCommentTrailingZero = "Remove redundant trailing '0'";
 
 class DoubleLiteralFormatRule extends Rule {
   static const String ruleId = 'double-literal-format';
 
-  DoubleLiteralFormatRule({Map<String, Object> config = const {}})
+  static const _warningLeadingZero =
+      "Double literal shouldn't have redundant leading '0'.";
+  static const _correctionCommentLeadingZero = "Remove redundant leading '0'.";
+
+  static const _warningLeadingDecimal =
+      "Double literal shouldn't begin with '.'.";
+  static const _correctionCommentLeadingDecimal = "Add missing leading '0'.";
+
+  static const _warningTrailingZero =
+      "Double literal shouldn't have a trailing '0'.";
+  static const _correctionCommentTrailingZero =
+      "Remove redundant trailing '0'.";
+
+  DoubleLiteralFormatRule([Map<String, Object> config = const {}])
       : super(
           id: ruleId,
-          documentation: _documentation,
+          documentation: const RuleDocumentation(
+            name: 'Double Literal Format',
+            brief:
+                "Checks that double literals should begin with '0.' instead of just '.', and should not end with a trailing '0'",
+          ),
           severity: readSeverity(config, Severity.style),
           excludes: readExcludes(config),
         );
@@ -56,21 +57,21 @@ class DoubleLiteralFormatRule extends Rule {
       Replacement? replacement;
 
       if (_detectLeadingZero(lexeme)) {
-        message = _failureLeadingZero;
+        message = _warningLeadingZero;
 
         replacement = Replacement(
           comment: _correctionCommentLeadingZero,
           replacement: _leadingZeroCorrection(lexeme),
         );
       } else if (_detectLeadingDecimal(lexeme)) {
-        message = _failureLeadingDecimal;
+        message = _warningLeadingDecimal;
 
         replacement = Replacement(
           comment: _correctionCommentLeadingDecimal,
           replacement: _leadingDecimalCorrection(lexeme),
         );
       } else if (_detectTrailingZero(lexeme)) {
-        message = _failureTrailingZero;
+        message = _warningTrailingZero;
 
         replacement = Replacement(
           comment: _correctionCommentTrailingZero,

@@ -1,5 +1,5 @@
 @TestOn('vm')
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/member_ordering_extended/member_ordering_extended_rule.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/member_ordering_extended/member_ordering_extended.dart';
 import 'package:dart_code_metrics/src/analyzers/models/severity.dart';
 import 'package:test/test.dart';
 
@@ -12,7 +12,7 @@ const _alphabeticalExamplePath =
     'member_ordering_extended/examples/alphabetical_example.dart';
 
 void main() {
-  group('MemberOrderingExtended', () {
+  group('MemberOrderingExtendedRule', () {
     test('initialization', () async {
       final unit = await RuleTestHelper.resolveFromFile(_examplePath);
       final issues = MemberOrderingExtendedRule().check(unit);
@@ -75,7 +75,7 @@ void main() {
           ],
         };
 
-        final issues = MemberOrderingExtendedRule(config: config).check(unit);
+        final issues = MemberOrderingExtendedRule(config).check(unit);
 
         RuleTestHelper.verifyIssues(
           issues: issues,
@@ -109,7 +109,7 @@ void main() {
           ],
         };
 
-        final issues = MemberOrderingExtendedRule(config: config).check(unit);
+        final issues = MemberOrderingExtendedRule(config).check(unit);
 
         RuleTestHelper.verifyIssues(
           issues: issues,
@@ -151,7 +151,7 @@ void main() {
             ],
           };
 
-          final issues = MemberOrderingExtendedRule(config: config).check(unit);
+          final issues = MemberOrderingExtendedRule(config).check(unit);
 
           RuleTestHelper.verifyIssues(
             issues: issues,
@@ -193,7 +193,7 @@ void main() {
             ],
           };
 
-          final issues = MemberOrderingExtendedRule(config: config).check(unit);
+          final issues = MemberOrderingExtendedRule(config).check(unit);
 
           RuleTestHelper.verifyIssues(
             issues: issues,
@@ -226,7 +226,7 @@ void main() {
           ],
         };
 
-        final issues = MemberOrderingExtendedRule(config: config).check(unit);
+        final issues = MemberOrderingExtendedRule(config).check(unit);
 
         RuleTestHelper.verifyIssues(
           issues: issues,
