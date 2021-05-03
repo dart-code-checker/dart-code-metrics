@@ -90,7 +90,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
       _isFuture(type);
 
   bool _isIterable(DartType type) =>
-      type.isDartCoreIterable &&
+      type.getDisplayString(withNullability: false).startsWith('Iterable') &&
       type is InterfaceType &&
       (_isWidget(type.typeArguments) ||
           _isSubclassOfWidget(type.typeArguments));
@@ -117,6 +117,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
       types.isNotEmpty &&
       types.first is InterfaceType &&
       (types.first as InterfaceType)
+              .element
               .allSupertypes
               .firstWhere((type) => _isWidget([type]), orElse: () => null) !=
           null;
