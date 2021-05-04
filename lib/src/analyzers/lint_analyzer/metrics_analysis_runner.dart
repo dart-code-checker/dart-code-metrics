@@ -1,4 +1,4 @@
-// ignore_for_file: prefer-trailing-comma, comment_references
+// ignore_for_file: comment_references
 import 'package:meta/meta.dart';
 
 import '../models/file_report.dart';
@@ -16,7 +16,11 @@ class MetricsAnalysisRunner {
   final String _rootFolder;
 
   const MetricsAnalysisRunner(
-      this._analyzer, this._store, this._folders, this._rootFolder);
+    this._analyzer,
+    this._store,
+    this._folders,
+    this._rootFolder,
+  );
 
   /// Get results of analysis run. Will return empty iterable if [run()] wasn't executed yet
   Iterable<FileReport> results() => _store.records();

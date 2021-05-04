@@ -1,4 +1,3 @@
-// ignore_for_file: long-method, code-metrics
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';

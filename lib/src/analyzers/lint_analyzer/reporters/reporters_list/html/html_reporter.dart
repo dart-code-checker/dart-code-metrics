@@ -1,4 +1,3 @@
-// ignore_for_file: long-method
 import 'dart:convert';
 import 'dart:io';
 import 'dart:isolate';

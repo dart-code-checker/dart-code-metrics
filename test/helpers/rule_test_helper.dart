@@ -10,6 +10,7 @@ class RuleTestHelper {
     String filePath,
   ) async {
     final fullPath = 'test/analyzers/lint_analyzer/rules/rules_list/$filePath';
+
     return FileResolver.resolve(fullPath);
   }
 
