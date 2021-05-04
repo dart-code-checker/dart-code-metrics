@@ -69,7 +69,7 @@ will need to load the plugin into analysis server.
 
 To set this up:
 
-1. Clone the repository into `<absolute-path>` directory..
+1. Clone the repository into `<absolute-path>` directory.
 2. Change the plugin starter `dart_code_metrics` dependency in `tools\analyzer_plugin\pubspec.yaml` to a path dependency:
 
     ```yaml
