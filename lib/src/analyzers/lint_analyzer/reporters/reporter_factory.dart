@@ -11,8 +11,10 @@ import 'reporters_list/json_reporter.dart';
 
 final _implementedReports = <String,
     Reporter Function(IOSink output, Config config, String reportFolder)>{
+  // ignore: deprecated_member_use_from_same_package
   consoleReporter: (output, _, __) => ConsoleReporter(output),
   consoleVerboseReporter: (output, _, __) =>
+      // ignore: deprecated_member_use_from_same_package
       ConsoleReporter(output, reportAll: true),
   codeClimateReporter: (output, config, __) =>
       CodeClimateReporter(output, reportConfig: config),

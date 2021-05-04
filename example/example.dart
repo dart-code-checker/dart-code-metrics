@@ -26,12 +26,15 @@ Future<void> main() async {
   );
 
   // Store keeps reported issues in format-agnostic way
+  // ignore: deprecated_member_use_from_same_package
   final store = MetricsRecordsStore.store();
 
   // Analyzer traverses files and report its findings to passed store
+  // ignore: deprecated_member_use_from_same_package
   final analyzer = MetricsAnalyzer(store, config);
 
   // Runner coordinates analyzer and store
+  // ignore: deprecated_member_use_from_same_package
   final runner = MetricsAnalysisRunner(
     analyzer,
     store,
@@ -46,6 +49,7 @@ Future<void> main() async {
   // For a simple example we would report results to terminal
 
   // Now the reporter itself
+  // ignore: deprecated_member_use_from_same_package
   final reporter = ConsoleReporter(stdout);
 
   // Now pass collected analysis reports from runner to reporter and that's it

@@ -12,7 +12,11 @@ import 'metrics_records_store.dart';
 /// Holds analysis records in format-agnostic way
 /// See [MetricsAnalysisRunner] to get analysis info
 class MetricsAnalysisRecorder
-    implements MetricsRecordsBuilder, MetricsRecordsStore {
+    implements
+        // ignore: deprecated_member_use_from_same_package
+        MetricsRecordsBuilder,
+        // ignore: deprecated_member_use_from_same_package
+        MetricsRecordsStore {
   String? _fileGroupPath;
   String? _relativeGroupPath;
   Map<ScopedClassDeclaration, Report>? _componentRecords;
@@ -26,9 +30,11 @@ class MetricsAnalysisRecorder
   Iterable<FileReport> records() => _records;
 
   @override
+  // ignore: deprecated_member_use_from_same_package
   MetricsRecordsStore recordFile(
     String filePath,
     String rootDirectory,
+    // ignore: deprecated_member_use_from_same_package
     void Function(MetricsRecordsBuilder) f,
   ) {
     _startRecordFile(filePath, rootDirectory);

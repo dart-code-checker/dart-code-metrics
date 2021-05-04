@@ -30,7 +30,9 @@ void main() {
     late IOSinkMock verboseOutput; // ignore: close_sinks
     const fullPath = '/home/developer/work/project/example.dart';
 
+    // ignore: deprecated_member_use_from_same_package
     late ConsoleReporter _reporter;
+    // ignore: deprecated_member_use_from_same_package
     late ConsoleReporter _verboseReporter;
 
     setUp(() {
@@ -38,7 +40,9 @@ void main() {
       verboseOutput = IOSinkMock();
 
       ansiColorDisabled = false;
+      // ignore: deprecated_member_use_from_same_package
       _reporter = ConsoleReporter(output);
+      // ignore: deprecated_member_use_from_same_package
       _verboseReporter = ConsoleReporter(verboseOutput, reportAll: true);
     });
 

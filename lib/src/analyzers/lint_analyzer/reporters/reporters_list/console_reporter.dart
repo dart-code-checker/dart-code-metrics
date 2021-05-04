@@ -11,6 +11,7 @@ import '../models/reporter.dart';
 import '../utility_selector.dart';
 
 /// Plain terminal reporter
+@Deprecated('will be replaced with LintConsoleAnalyzer in 3.3')
 class ConsoleReporter implements Reporter {
   final IOSink _output;
 
