@@ -1,4 +1,3 @@
-// ignore_for_file: prefer-trailing-comma
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart' as plugin;
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
@@ -13,7 +12,9 @@ bool isSupported(AnalysisResult result) =>
     !result.path!.endsWith('.g.dart');
 
 plugin.AnalysisErrorFixes codeIssueToAnalysisErrorFixes(
-        Issue issue, ResolvedUnitResult unitResult) =>
+  Issue issue,
+  ResolvedUnitResult unitResult,
+) =>
     plugin.AnalysisErrorFixes(
       plugin.AnalysisError(
         _severityMapping[issue.severity]!,
