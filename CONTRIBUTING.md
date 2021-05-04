@@ -81,7 +81,8 @@ To set this up:
       sdk: '>=2.12.0 <3.0.0'
 
     dependencies:
-      dart_code_metrics: <absolute-path>
+      dart_code_metrics:
+        path: <absolute-path>
     ```
 
 3. Do the same in your project(s) you wish to work on `dart-code-metrics`: reference it from absolute path.
