@@ -1,4 +1,3 @@
-// ignore_for_file: long-parameter-list
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:source_span/source_span.dart';
 

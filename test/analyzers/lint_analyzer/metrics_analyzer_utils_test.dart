@@ -1,5 +1,4 @@
 @TestOn('vm')
-// ignore_for_file: prefer-trailing-comma
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics_analyzer_utils.dart';
 import 'package:dart_code_metrics/src/analyzers/models/function_type.dart';
@@ -43,7 +42,10 @@ void main() {
       when(() => nodeListMock.length).thenReturn(1);
 
       final declaration = ScopedFunctionDeclaration(
-          FunctionType.function, functionDeclarationMock, null);
+        FunctionType.function,
+        functionDeclarationMock,
+        null,
+      );
 
       expect(getArgumentsCount(declaration), equals(1));
     });
@@ -52,7 +54,10 @@ void main() {
       final methodDeclarationMock = MethodDeclarationMock();
 
       final declaration = ScopedFunctionDeclaration(
-          FunctionType.function, methodDeclarationMock, null);
+        FunctionType.function,
+        methodDeclarationMock,
+        null,
+      );
 
       expect(getArgumentsCount(declaration), 0);
 
@@ -65,7 +70,10 @@ void main() {
 
     test('class constructor', () {
       final declaration = ScopedFunctionDeclaration(
-          FunctionType.function, ConstructorDeclarationMock(), null);
+        FunctionType.function,
+        ConstructorDeclarationMock(),
+        null,
+      );
 
       expect(getArgumentsCount(declaration), isZero);
     });
