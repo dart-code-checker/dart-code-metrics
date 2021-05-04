@@ -31,6 +31,7 @@ import '../analyzers/models/scoped_function_declaration.dart';
 import '../analyzers/models/suppression.dart';
 import '../config_builder/models/analysis_options.dart';
 import '../config_builder/models/config.dart';
+import '../config_builder/models/deprecated_option.dart';
 import '../utils/node_utils.dart';
 import '../utils/yaml_utils.dart';
 import 'analyzer_plugin_config.dart';
@@ -111,6 +112,18 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
       getPatternsById(options.antiPatterns),
       options.metrics,
     );
+
+    final deprecations = checkConfigDeprecatedOptions(
+      _configs[dartDriver]!,
+      deprecatedOptions,
+      contextRoot.optionsFile!,
+    );
+    if (deprecations.isNotEmpty) {
+      channel.sendNotification(plugin.AnalysisErrorsParams(
+        contextRoot.optionsFile!,
+        deprecations.map((deprecation) => deprecation.error).toList(),
+      ).toNotification());
+    }
 
     runZonedGuarded(
       () {
@@ -273,6 +286,16 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
           ));
         }
       }
+    } else if (config != null &&
+        // ignore: deprecated_member_use
+        analysisResult.path == driver.contextRoot?.optionsFilePath) {
+      final deprecations = checkConfigDeprecatedOptions(
+        config,
+        deprecatedOptions,
+        analysisResult.path ?? '',
+      );
+
+      result.addAll(deprecations);
     }
 
     return result;
