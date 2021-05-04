@@ -8,6 +8,7 @@ import 'metrics_records_store.dart';
 /// Coordinates [MetricsAnalyzer] and [MetricsRecordsStore] to collect code quality info
 /// Use [ConsoleReporter], [HtmlReporter], [JsonReporter] or [CodeClimateReporter] to produce reports from collected info
 @immutable
+@Deprecated('will be removed in 3.3')
 class MetricsAnalysisRunner {
   final MetricsAnalyzer _analyzer;
   final MetricsRecordsStore _store;

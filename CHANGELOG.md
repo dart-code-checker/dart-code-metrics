@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* Deprecate `ConsoleReporter`, `MetricsAnalysisRunner`, `MetricsAnalyzer`, `MetricsRecordsBuilder` and `MetricsRecordsStore`.
+
 ## 3.2.0-dev.1
 
 * Add static code diagnostics `avoid-non-null-assertion`,  `avoid-late-keyword`.
