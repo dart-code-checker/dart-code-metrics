@@ -130,7 +130,7 @@ Iterable<plugin.AnalysisErrorFixes> checkConfigDeprecatedOptions(
               message:
                   '${option.deprecated} deprecated option. This option will be removed in ${option.supportUntilVersion} version.',
               verboseMessage: option.replacement != null
-                  ? 'Please migrate on ${option.replacement}.'
+                  ? 'Please migrate on ${option.replacement}, and restart analysis server.'
                   : null,
             ),
             null,
