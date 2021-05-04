@@ -18,15 +18,11 @@ class Report {
   MetricValue<num>? metric(String id) =>
       metrics.firstWhereOrNull((metric) => metric.metricsId == id);
 
-  // TODO(dkrutskikh): after migrate on NullSafety migrate on iterable extensions from collection package
   /// The highest reported level of a metric.
   MetricValueLevel get metricsLevel => metrics.isNotEmpty
-      ? metrics.reduce((a, b) => a.level > b.level ? a : b).level
+      ? metrics.map((value) => value.level).max
       : MetricValueLevel.none;
 
   /// Initialize a newly created [Report].
-  const Report({
-    required this.location,
-    required this.metrics,
-  });
+  const Report({required this.location, required this.metrics});
 }

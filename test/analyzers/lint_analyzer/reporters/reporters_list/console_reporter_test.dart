@@ -61,7 +61,7 @@ void main() {
             path: fullPath,
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{
-              'class': buildComponentRecordStub(metrics: const [
+              'class': buildRecordStub(metrics: const [
                 MetricValue<int>(
                   metricsId: NumberOfMethodsMetric.metricId,
                   documentation: MetricDocumentation(
@@ -103,7 +103,7 @@ void main() {
             path: fullPath,
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{
-              'class': buildComponentRecordStub(metrics: const [
+              'class': buildRecordStub(metrics: const [
                 MetricValue<int>(
                   metricsId: NumberOfMethodsMetric.metricId,
                   documentation: MetricDocumentation(

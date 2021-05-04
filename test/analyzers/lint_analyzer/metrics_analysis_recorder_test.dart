@@ -40,7 +40,7 @@ void main() {
             ScopedClassDeclaration(ClassType.generic, classDeclarationMock);
 
         test('Stores record for file', () {
-          final componentRecord = buildComponentRecordStub();
+          final componentRecord = buildRecordStub();
 
           expect(
             MetricsAnalysisRecorder()
@@ -161,7 +161,7 @@ void main() {
           ScopedClassDeclaration(ClassType.generic, classDeclarationMock);
 
       test('store record for file', () {
-        final componentRecord = buildComponentRecordStub();
+        final componentRecord = buildRecordStub();
 
         final recorder = MetricsAnalysisRecorder()
             .recordFile(filePath, rootDirectory, (recorder) {
