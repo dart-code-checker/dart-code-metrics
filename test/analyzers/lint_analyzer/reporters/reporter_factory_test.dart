@@ -31,6 +31,7 @@ void main() {
         config: config,
         reportFolder: '',
       ),
+      // ignore: deprecated_member_use_from_same_package
       isA<ConsoleReporter>(),
     );
     expect(
@@ -40,6 +41,7 @@ void main() {
         config: config,
         reportFolder: '',
       ),
+      // ignore: deprecated_member_use_from_same_package
       isA<ConsoleReporter>(),
     );
     expect(

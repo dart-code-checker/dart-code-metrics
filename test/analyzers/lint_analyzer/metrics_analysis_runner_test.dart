@@ -6,8 +6,10 @@ import 'package:dart_code_metrics/src/analyzers/models/file_report.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
 
+// ignore: deprecated_member_use_from_same_package
 class MetricsRecordsStoreMock extends Mock implements MetricsRecordsStore {}
 
+// ignore: deprecated_member_use_from_same_package
 class MetricsAnalyzerMock extends Mock implements MetricsAnalyzer {}
 
 void main() {
@@ -36,6 +38,7 @@ void main() {
       when(store.records).thenReturn(stubRecords);
 
       final runner =
+          // ignore: deprecated_member_use_from_same_package
           MetricsAnalysisRunner(MetricsAnalyzerMock(), store, const [], '');
 
       expect(runner.results(), equals(stubRecords));
@@ -49,6 +52,7 @@ void main() {
       when(() => analyzer.runAnalysis(folders, root))
           .thenAnswer((_) async => print('called'));
 
+      // ignore: deprecated_member_use_from_same_package
       MetricsAnalysisRunner(analyzer, MetricsRecordsStoreMock(), folders, root)
           .run();
 

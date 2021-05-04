@@ -43,10 +43,13 @@ Future<void> _runAnalysis(ArgResults arguments) async {
   final config =
       Config.fromAnalysisOptions(options).merge(_configFromArgs(arguments));
 
+  // ignore: deprecated_member_use_from_same_package
   final store = MetricsRecordsStore.store();
+  // ignore: deprecated_member_use_from_same_package
   final analyzer = MetricsAnalyzer(store, config);
 
   final runner =
+      // ignore: deprecated_member_use_from_same_package
       MetricsAnalysisRunner(analyzer, store, arguments.rest, rootFolder);
   await runner.run();
 
