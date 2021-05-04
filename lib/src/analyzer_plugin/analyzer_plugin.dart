@@ -226,13 +226,9 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
       // ignore: deprecated_member_use
       final root = driver.contextRoot?.root;
 
-      result.addAll(_checkOnCodeIssues(
-        ignores,
-        analysisResult,
-        sourceUri,
-        _configs[driver]!,
-        root,
-      ));
+      result.addAll(
+        _checkOnCodeIssues(ignores, analysisResult, sourceUri, config, root),
+      );
 
       if (!isExcluded(analysisResult, config.metricsExcludes)) {
         final scopeVisitor = ScopeVisitor();
@@ -260,7 +256,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
             analysisResult.lineInfo,
           ),
           functions,
-          _configs[driver]!,
+          config,
         ));
 
         if (!ignores.isSuppressed(_codeMetricsId)) {
@@ -273,7 +269,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
               analysisResult.lineInfo,
             ),
             functions,
-            _configs[driver]!,
+            config,
           ));
         }
       }
