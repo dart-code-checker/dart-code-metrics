@@ -6,19 +6,19 @@ import '../../../models/entity_type.dart';
 /// Represents any metric documentation.
 @immutable
 class MetricDocumentation {
-  /// The name of a metric.
+  /// The name of the metric.
   final String name;
 
-  /// The short name of a metric.
+  /// The short name of the metric.
   final String shortName;
 
-  /// The short message with formal statement about a metric.
+  /// The short message with formal statement about the metric.
   final String brief;
 
-  /// The type of entities which will be measured by a metric.
+  /// The type of entities which will be measured by the metric.
   final EntityType measuredType;
 
-  /// The code snippet that is used for a metric documentation generating.
+  /// The code snippet that is used for the metric documentation generating.
   final Iterable<SourceSpan> examples;
 
   /// Initialize a newly created [MetricDocumentation].

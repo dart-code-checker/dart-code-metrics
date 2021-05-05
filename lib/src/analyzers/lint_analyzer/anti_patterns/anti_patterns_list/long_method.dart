@@ -1,4 +1,5 @@
 import '../../../../utils/node_utils.dart';
+import '../../../models/entity_type.dart';
 import '../../../models/function_type.dart';
 import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
@@ -20,6 +21,7 @@ class LongMethod extends ObsoletePattern {
             name: 'Long Method',
             brief:
                 'Long blocks of code are difficult to reuse and understand because they are usually responsible for more than one thing. Separating those to several short ones with proper names helps you reuse your code and understand it better without reading methods body.',
+            supportedType: EntityType.methodEntity,
           ),
         );
 
