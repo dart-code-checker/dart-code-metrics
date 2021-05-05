@@ -7,12 +7,21 @@ import '../../metrics/metric_utils.dart';
 import '../../metrics/metrics_list/number_of_parameters_metric.dart';
 import '../../metrics_analyzer_utils.dart';
 import '../models/obsolete_pattern.dart';
+import '../models/pattern_documentation.dart';
 import '../pattern_utils.dart';
 
 class LongParameterList extends ObsoletePattern {
   static const String patternId = 'long-parameter-list';
 
-  LongParameterList() : super(id: patternId);
+  LongParameterList()
+      : super(
+          id: patternId,
+          documentation: const PatternDocumentation(
+            name: 'Long Parameter List',
+            brief:
+                'Long parameter lists are difficult to understand and use. Wrapping them into an object allows grouping parameters and change transferred data only by the object modification.',
+          ),
+        );
 
   @override
   Iterable<Issue> legacyCheck(

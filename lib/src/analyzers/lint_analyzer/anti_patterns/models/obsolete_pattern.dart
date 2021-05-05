@@ -8,9 +8,10 @@ import 'pattern_documentation.dart';
 abstract class ObsoletePattern extends Pattern {
   const ObsoletePattern({
     required String id,
+    required PatternDocumentation documentation,
   }) : super(
           id: id,
-          documentation: const PatternDocumentation(name: '', brief: ''),
+          documentation: documentation,
         );
 
   Iterable<Issue> legacyCheck(
