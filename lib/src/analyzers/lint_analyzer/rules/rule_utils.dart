@@ -17,7 +17,7 @@ Issue createIssue({
 }) =>
     Issue(
       ruleId: rule.id,
-      documentation: documentation(rule.id),
+      documentation: documentation(rule),
       location: location,
       severity: rule.severity,
       message: message,
@@ -25,8 +25,8 @@ Issue createIssue({
       suggestion: replacement,
     );
 
-/// Returns a url of a page containing documentation associated with [ruleId]
-Uri documentation(String ruleId) => Uri(
+/// Returns a url of a page containing documentation associated with [rule]
+Uri documentation(Rule rule) => Uri(
       scheme: 'https',
       host: 'github.com',
       pathSegments: [
@@ -36,7 +36,7 @@ Uri documentation(String ruleId) => Uri(
         'master',
         'doc',
         'rules',
-        '$ruleId.html',
+        '${rule.id}.html',
       ],
     );
 

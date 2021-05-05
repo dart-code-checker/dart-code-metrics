@@ -25,7 +25,7 @@ void main() {
           id: metric2Id,
           value: 15.5,
           level: MetricValueLevel.warning,
-        )
+        ),
       ]);
     });
 
@@ -40,12 +40,12 @@ void main() {
       () {
         expect(report.metricsLevel, equals(MetricValueLevel.alarm));
         expect(
-            Report(
-              location:
-                  SourceSpanBase(SourceLocation(0), SourceLocation(0), ''),
-              metrics: const [],
-            ).metricsLevel,
-            equals(MetricValueLevel.none));
+          Report(
+            location: SourceSpanBase(SourceLocation(0), SourceLocation(0), ''),
+            metrics: const [],
+          ).metricsLevel,
+          equals(MetricValueLevel.none),
+        );
       },
     );
   });

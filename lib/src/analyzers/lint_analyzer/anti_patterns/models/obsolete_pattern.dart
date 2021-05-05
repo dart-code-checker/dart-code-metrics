@@ -6,11 +6,8 @@ import 'pattern.dart';
 import 'pattern_documentation.dart';
 
 abstract class ObsoletePattern extends Pattern {
-  final Uri documentationUrl;
-
   const ObsoletePattern({
     required String id,
-    required this.documentationUrl,
   }) : super(
           id: id,
           documentation: const PatternDocumentation(name: '', brief: ''),

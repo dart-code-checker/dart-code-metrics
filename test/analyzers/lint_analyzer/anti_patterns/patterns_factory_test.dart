@@ -1,5 +1,5 @@
 @TestOn('vm')
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/anti_patterns/anti_patterns_factory.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/anti_patterns/patterns_factory.dart';
 import 'package:test/test.dart';
 
 void main() {

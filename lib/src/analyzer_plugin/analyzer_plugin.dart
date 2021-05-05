@@ -17,7 +17,7 @@ import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
 import 'package:source_span/source_span.dart';
 
-import '../analyzers/lint_analyzer/anti_patterns/anti_patterns_factory.dart';
+import '../analyzers/lint_analyzer/anti_patterns/patterns_factory.dart';
 import '../analyzers/lint_analyzer/metrics/metric_utils.dart';
 import '../analyzers/lint_analyzer/metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import '../analyzers/lint_analyzer/metrics/metrics_list/number_of_parameters_metric.dart';

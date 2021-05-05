@@ -1,3 +1,4 @@
+import '../../../../utils/node_utils.dart';
 import '../../../models/function_type.dart';
 import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
@@ -6,14 +7,12 @@ import '../../constants.dart';
 import '../../metrics/metric_utils.dart';
 import '../../metrics/metrics_list/source_lines_of_code/source_code_visitor.dart';
 import '../models/obsolete_pattern.dart';
-import '../pattern_utils.dart' as utils;
+import '../pattern_utils.dart';
 
 class LongMethod extends ObsoletePattern {
   static const String patternId = 'long-method';
-  static const _documentationUrl = 'https://git.io/JUIP7';
 
-  LongMethod()
-      : super(id: patternId, documentationUrl: Uri.parse(_documentationUrl));
+  LongMethod() : super(id: patternId);
 
   @override
   Iterable<Issue> legacyCheck(
@@ -34,18 +33,20 @@ class LongMethod extends ObsoletePattern {
       function.declaration.visitChildren(visitor);
 
       if (visitor.linesWithCode.length > threshold) {
-        issues.add(utils.createIssue(
-          this,
-          _compileMessage(
+        issues.add(createIssue(
+          pattern: this,
+          location: nodeLocation(
+            node: function.declaration,
+            source: source,
+          ),
+          message: _compileMessage(
             lines: visitor.linesWithCode.length,
             functionType: function.type,
           ),
-          _compileRecommendationMessage(
+          verboseMessage: _compileRecommendationMessage(
             maximumLines: threshold,
             functionType: function.type,
           ),
-          source,
-          function.declaration,
         ));
       }
     }
