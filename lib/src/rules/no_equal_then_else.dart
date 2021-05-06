@@ -7,7 +7,7 @@ import 'package:code_checker/rules.dart';
 
 class NoEqualThenElse extends Rule {
   static const String ruleId = 'no-equal-then-else';
-  static const _documentationUrl = 'https://git.io/JUvxA';
+  static const _documentationUrl = 'https://git.io/J31OQ';
 
   static const _warningMessage = 'Then and else branches are equal';
 

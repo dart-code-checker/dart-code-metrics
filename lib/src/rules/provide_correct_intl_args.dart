@@ -9,7 +9,7 @@ import 'intl_base/intl_base_visitor.dart';
 
 class ProvideCorrectIntlArgsRule extends Rule {
   static const String ruleId = 'provide-correct-intl-args';
-  static const _documentationUrl = 'https://git.io/JJySX';
+  static const _documentationUrl = 'https://git.io/J313w';
 
   static const _intlPackageUrl = 'package:intl/intl.dart';
 

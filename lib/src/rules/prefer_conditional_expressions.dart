@@ -8,7 +8,7 @@ import 'package:meta/meta.dart';
 
 class PreferConditionalExpressions extends Rule {
   static const String ruleId = 'prefer-conditional-expressions';
-  static const _documentationUrl = 'https://git.io/JJwms';
+  static const _documentationUrl = 'https://git.io/J313L';
 
   static const _warningMessage = 'Prefer conditional expression';
   static const _correctionMessage = 'Convert to conditional expression';

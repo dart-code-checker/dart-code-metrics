@@ -6,7 +6,7 @@ import 'package:meta/meta.dart';
 
 class DoubleLiteralFormatRule extends Rule {
   static const String ruleId = 'double-literal-format';
-  static const _documentationUrl = 'https://git.io/Jf3MH';
+  static const _documentationUrl = 'https://git.io/J31YD';
 
   static const _failureLeadingZero =
       "Double literal shouldn't have redundant leading '0'.";

@@ -6,7 +6,7 @@ import 'package:code_checker/rules.dart';
 
 class BinaryExpressionOperandOrderRule extends Rule {
   static const String ruleId = 'binary-expression-operand-order';
-  static const _documentationUrl = 'https://git.io/JJVAC';
+  static const _documentationUrl = 'https://git.io/J31Yu';
 
   static const _warningMessage = 'Prefer literals at RHS in binary expressions';
   static const _correctionComment = 'Fix operator order';

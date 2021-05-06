@@ -5,7 +5,7 @@ import 'package:code_checker/rules.dart';
 
 class PreferOnPushCdStrategyRule extends Rule {
   static const String ruleId = 'prefer-on-push-cd-strategy';
-  static const _documentationUrl = 'https://git.io/JJwmB';
+  static const _documentationUrl = 'https://git.io/J3138';
 
   static const _failure = 'Prefer using onPush change detection strategy.';
 

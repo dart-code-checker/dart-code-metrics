@@ -9,7 +9,7 @@ import 'intl_base/intl_base_visitor.dart';
 
 class PreferIntlNameRule extends Rule {
   static const String ruleId = 'prefer-intl-name';
-  static const _documentationUrl = 'https://git.io/JJwmc';
+  static const _documentationUrl = 'https://git.io/J313G';
 
   static const _intlPackageUrl = 'package:intl/intl.dart';
   static const _notCorrectNameFailure = 'Incorrect Intl name, should be';

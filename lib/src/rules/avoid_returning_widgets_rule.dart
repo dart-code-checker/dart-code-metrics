@@ -6,7 +6,7 @@ import 'package:code_checker/rules.dart';
 
 class AvoidReturningWidgets extends Rule {
   static const String ruleId = 'avoid-returning-widgets';
-  static const _documentationUrl = 'https://git.io/JOmR1';
+  static const _documentationUrl = 'https://git.io/J31YI';
 
   static const _warningMessage = 'Avoid returning widgets from a function';
 
