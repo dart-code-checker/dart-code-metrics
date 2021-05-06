@@ -8,7 +8,7 @@ import 'package:code_checker/rules.dart';
 
 class PreferTrailingComma extends Rule {
   static const String ruleId = 'prefer-trailing-comma';
-  static const _documentationUrl = 'https://git.io/Jkemi';
+  static const _documentationUrl = 'https://git.io/J3132';
 
   static const _warningMessage = 'Prefer trailing comma';
   static const _correctionMessage = 'Add trailing comma';

@@ -5,7 +5,7 @@ import 'package:code_checker/rules.dart';
 
 class NoMagicNumberRule extends Rule {
   static const String ruleId = 'no-magic-number';
-  static const _documentationUrl = 'https://git.io/JJwmL';
+  static const _documentationUrl = 'https://git.io/J31OF';
 
   static const _warningMessage =
       'Avoid using magic numbers. Extract them to named constants';

@@ -5,7 +5,7 @@ import 'package:code_checker/rules.dart';
 
 class NoEqualArguments extends Rule {
   static const String ruleId = 'no-equal-arguments';
-  static const _documentationUrl = 'https://git.io/JUlBH';
+  static const _documentationUrl = 'https://git.io/J31O1';
 
   static const _warningMessage = 'The argument has already been passed';
 

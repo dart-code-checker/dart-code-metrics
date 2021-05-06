@@ -6,7 +6,7 @@ import 'package:meta/meta.dart';
 
 class ComponentAnnotationArgumentsOrderingRule extends Rule {
   static const ruleId = 'component-annotation-arguments-ordering';
-  static const _documentationUrl = 'https://git.io/JJ5HC';
+  static const _documentationUrl = 'https://git.io/J31YP';
 
   static const _warningMessage = 'should be before';
 

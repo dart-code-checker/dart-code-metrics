@@ -5,7 +5,7 @@ import 'package:code_checker/rules.dart';
 
 class NoObjectDeclarationRule extends Rule {
   static const String ruleId = 'no-object-declaration';
-  static const _documentationUrl = 'https://git.io/JJwmY';
+  static const _documentationUrl = 'https://git.io/J31Oj';
 
   static const _warningMessage =
       'Avoid Object type declaration in class member';

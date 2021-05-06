@@ -7,7 +7,7 @@ import 'package:code_checker/rules.dart';
 
 class NoEmptyBlockRule extends Rule {
   static const String ruleId = 'no-empty-block';
-  static const _documentationUrl = 'https://git.io/JfDi3';
+  static const _documentationUrl = 'https://git.io/J31O6';
 
   static const _failure =
       'Block is empty. Empty blocks are often indicators of missing code.';

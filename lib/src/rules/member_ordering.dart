@@ -8,7 +8,7 @@ import 'package:meta/meta.dart';
 
 class MemberOrderingRule extends Rule {
   static const ruleId = 'member-ordering';
-  static const _documentationUrl = 'https://git.io/JJwqN';
+  static const _documentationUrl = 'https://git.io/J31Y5';
 
   static const _warningMessage = 'should be before';
   static const _warningAlphabeticalMessage = 'should be alphabetically before';

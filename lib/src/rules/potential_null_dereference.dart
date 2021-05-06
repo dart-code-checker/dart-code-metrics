@@ -10,7 +10,7 @@ import 'package:meta/meta.dart';
 
 class PotentialNullDereference extends Rule {
   static const String ruleId = 'potential-null-dereference';
-  static const _documentationUrl = 'https://git.io/JUG51';
+  static const _documentationUrl = 'https://git.io/J313U';
 
   static const _warningMessage = 'can potentially be null';
 
