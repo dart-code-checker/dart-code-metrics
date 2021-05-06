@@ -12,10 +12,16 @@ bool isSupported(AnalysisResult result) =>
     !result.path.endsWith('.g.dart');
 
 Iterable<Glob> prepareExcludes(Iterable<String> patterns, String root) =>
-    patterns?.map((exclude) => Glob(p.join(root, exclude)))?.toList() ?? [];
+    patterns
+        ?.map((exclude) => Glob(p.join(root, exclude).replaceAll(r'\', '/')))
+        ?.toList() ??
+    [];
 
-bool isExcluded(AnalysisResult result, Iterable<Glob> excludes) =>
-    excludes.any((exclude) => exclude.matches(result.path));
+bool isExcluded(AnalysisResult result, Iterable<Glob> excludes) {
+  final path = result.path?.replaceAll(r'\', '/');
+
+  return path != null && excludes.any((exclude) => exclude.matches(path));
+}
 
 plugin.AnalysisErrorFixes codeIssueToAnalysisErrorFixes(
         Issue issue, ResolvedUnitResult unitResult) =>
