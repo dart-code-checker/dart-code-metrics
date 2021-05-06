@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Backport static code diagnostic `member-ordering-extended`.
+- Backport fix excludes on Windows OS.
 
 ## 2.4.1
 
