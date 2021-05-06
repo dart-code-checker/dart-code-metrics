@@ -150,7 +150,7 @@ Right now auto-fixes are available through an IDE context menu (ex. VS Code Quic
 
 ### Flutter specific
 
-- [avoid-returning-widgets](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/avoid-returning-widgets.md) &nbsp; ![Configurable](https://img.shields.io/badge/-configurable-informational)
+- [avoid-returning-widgets](https://github.com/dart-code-checker/dart-code-metrics/blob/2.x.x/doc/rules/avoid-returning-widgets.md) &nbsp; ![Configurable](https://img.shields.io/badge/-configurable-informational)
 
 ### Intl specific
 
