@@ -1,4 +1,5 @@
 import '../../../../utils/node_utils.dart';
+import '../../../models/entity_type.dart';
 import '../../../models/function_type.dart';
 import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
@@ -7,12 +8,22 @@ import '../../constants.dart';
 import '../../metrics/metric_utils.dart';
 import '../../metrics/metrics_list/source_lines_of_code/source_code_visitor.dart';
 import '../models/obsolete_pattern.dart';
+import '../models/pattern_documentation.dart';
 import '../pattern_utils.dart';
 
 class LongMethod extends ObsoletePattern {
   static const String patternId = 'long-method';
 
-  LongMethod() : super(id: patternId);
+  LongMethod()
+      : super(
+          id: patternId,
+          documentation: const PatternDocumentation(
+            name: 'Long Method',
+            brief:
+                'Long blocks of code are difficult to reuse and understand because they are usually responsible for more than one thing. Separating those to several short ones with proper names helps you reuse your code and understand it better without reading methods body.',
+            supportedType: EntityType.methodEntity,
+          ),
+        );
 
   @override
   Iterable<Issue> legacyCheck(

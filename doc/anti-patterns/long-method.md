@@ -1,6 +1,6 @@
 # Long Method
 
-Long methods/functions are difficult to reuse and understand because they are usually responsible for more than one thing. Separating those to several short ones with proper names helps you reuse your code and understand it better without reading methods body.
+Long blocks of code are difficult to reuse and understand because they are usually responsible for more than one thing. Separating those to several short ones with proper names helps you reuse your code and understand it better without reading methods body.
 
 Lines of code with clarification comments are usually a sign for possible method extraction because you can name extracted method in a way that will cover the comment description and then remove the comment. Even comments for one line is a sign for method extraction.
 

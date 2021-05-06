@@ -1,4 +1,5 @@
 import '../../../../utils/node_utils.dart';
+import '../../../models/entity_type.dart';
 import '../../../models/function_type.dart';
 import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
@@ -7,12 +8,22 @@ import '../../metrics/metric_utils.dart';
 import '../../metrics/metrics_list/number_of_parameters_metric.dart';
 import '../../metrics_analyzer_utils.dart';
 import '../models/obsolete_pattern.dart';
+import '../models/pattern_documentation.dart';
 import '../pattern_utils.dart';
 
 class LongParameterList extends ObsoletePattern {
   static const String patternId = 'long-parameter-list';
 
-  LongParameterList() : super(id: patternId);
+  LongParameterList()
+      : super(
+          id: patternId,
+          documentation: const PatternDocumentation(
+            name: 'Long Parameter List',
+            brief:
+                'Long parameter lists are difficult to understand and use. Wrapping them into an object allows grouping parameters and change transferred data only by the object modification.',
+            supportedType: EntityType.methodEntity,
+          ),
+        );
 
   @override
   Iterable<Issue> legacyCheck(
