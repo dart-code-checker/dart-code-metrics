@@ -169,19 +169,21 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
   ) async {
     try {
       final driver = driverForPath(parameters.file) as AnalysisDriver;
-      // ignore: deprecated_member_use
-      final analysisResult = await driver.getResult(parameters.file);
+      final analysisResult = await driver.getResult2(parameters.file);
+      if (analysisResult is ResolvedUnitResult) {
+        final fixes = _check(driver, analysisResult)
+            .where((fix) =>
+                fix.error.location.file == parameters.file &&
+                fix.error.location.offset <= parameters.offset &&
+                parameters.offset <=
+                    fix.error.location.offset + fix.error.location.length &&
+                fix.fixes.isNotEmpty)
+            .toList();
 
-      final fixes = _check(driver, analysisResult)
-          .where((fix) =>
-              fix.error.location.file == parameters.file &&
-              fix.error.location.offset <= parameters.offset &&
-              parameters.offset <=
-                  fix.error.location.offset + fix.error.location.length &&
-              fix.fixes.isNotEmpty)
-          .toList();
-
-      return plugin.EditGetFixesResult(fixes);
+        return plugin.EditGetFixesResult(fixes);
+      } else {
+        return plugin.EditGetFixesResult([]);
+      }
     } on Exception catch (e, stackTrace) {
       channel.sendNotification(
         plugin.PluginErrorParams(false, e.toString(), stackTrace.toString())

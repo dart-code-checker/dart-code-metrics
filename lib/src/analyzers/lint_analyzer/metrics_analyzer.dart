@@ -93,8 +93,10 @@ class MetricsAnalyzer {
 
       final analysisContext = collection.contextFor(normalized);
       final result =
-          // ignore: deprecated_member_use
-          await analysisContext.currentSession.getResolvedUnit(normalized);
+          await analysisContext.currentSession.getResolvedUnit2(normalized);
+      if (result is! ResolvedUnitResult) {
+        continue;
+      }
 
       final unit = result.unit;
       final content = result.content;
