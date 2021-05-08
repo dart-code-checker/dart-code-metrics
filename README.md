@@ -1,4 +1,4 @@
-[![Build Status](https://badgen.net/github/checks/dart-code-checker/dart-code-metrics?icon=github)](https://github.com/dart-code-checker/dart-code-metrics/)
+[![Build Status](https://badgen.net/github/status/dart-code-checker/dart-code-metrics?icon=github)](https://github.com/dart-code-checker/dart-code-metrics/)
 [![Coverage Status](https://badgen.net//codecov/c/github/dart-code-checker/dart-code-metrics)](https://codecov.io/gh/dart-code-checker/dart-code-metrics/)
 [![Pub Version](https://badgen.net/pub/v/dart_code_metrics)](https://pub.dev/packages/dart_code_metrics/)
 [![Dart SDK Version](https://badgen.net/pub/sdk-version/dart_code_metrics)](https://pub.dev/packages/dart_code_metrics/)
