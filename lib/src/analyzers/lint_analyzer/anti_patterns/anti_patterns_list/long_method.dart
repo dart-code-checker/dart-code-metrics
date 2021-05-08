@@ -7,6 +7,7 @@ import '../../../models/scoped_function_declaration.dart';
 import '../../constants.dart';
 import '../../metrics/metric_utils.dart';
 import '../../metrics/metrics_list/source_lines_of_code/source_code_visitor.dart';
+import '../../metrics/metrics_list/source_lines_of_code/source_lines_of_code_metric.dart';
 import '../models/obsolete_pattern.dart';
 import '../models/pattern_documentation.dart';
 import '../pattern_utils.dart';
@@ -31,11 +32,18 @@ class LongMethod extends ObsoletePattern {
     Iterable<ScopedFunctionDeclaration> functions,
     Map<String, Object> metricsConfig,
   ) {
-    final threshold = readThreshold<int>(
-      metricsConfig,
-      linesOfExecutableCodeKey,
-      linesOfExecutableCodeDefaultWarningLevel,
-    );
+    final threshold =
+        metricsConfig.containsKey(SourceLinesOfCodeMetric.metricId)
+            ? readThreshold<int>(
+                metricsConfig,
+                SourceLinesOfCodeMetric.metricId,
+                linesOfExecutableCodeDefaultWarningLevel,
+              )
+            : readThreshold<int>(
+                metricsConfig,
+                linesOfExecutableCodeKey,
+                linesOfExecutableCodeDefaultWarningLevel,
+              );
 
     final issues = <Issue>[];
 
