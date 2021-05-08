@@ -36,7 +36,7 @@ A plugin for the Dart `analyzer` library [package](https://pub.dev/packages/dart
 
     ```yaml
     dev_dependencies:
-      dart_code_metrics: ^2.4.1
+      dart_code_metrics: ^2.5.0
     ```
 
 2. Add configuration to `analysis_options.yaml`

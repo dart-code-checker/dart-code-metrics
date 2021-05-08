@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 2.5.0
 
 - Backport static code diagnostics `member-ordering-extended`, `avoid-returning-widgets`.
 - Backport fix excludes on Windows OS.
