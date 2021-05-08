@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 3.2.0
 
 * Deprecate `ConsoleReporter`, `MetricsAnalysisRunner`, `MetricsAnalyzer`, `MetricsRecordsBuilder` and `MetricsRecordsStore`.
 * Improve static code diagnostics `avoid-returning-widgets`.
