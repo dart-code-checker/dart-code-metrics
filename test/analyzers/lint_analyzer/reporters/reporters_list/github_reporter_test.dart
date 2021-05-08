@@ -44,11 +44,11 @@ void main() {
               location: SourceSpanBase(
                 SourceLocation(
                   1,
-                  sourceUrl: Uri.parse(fullPath),
+                  sourceUrl: Uri.parse('file://$fullPath'),
                   line: 2,
                   column: 3,
                 ),
-                SourceLocation(6, sourceUrl: Uri.parse(fullPath)),
+                SourceLocation(6, sourceUrl: Uri.parse('file://$fullPath')),
                 'issue',
               ),
               severity: Severity.none,
@@ -84,11 +84,11 @@ void main() {
               location: SourceSpanBase(
                 SourceLocation(
                   1,
-                  sourceUrl: Uri.parse(fullPath),
+                  sourceUrl: Uri.parse('file://$fullPath'),
                   line: 2,
                   column: 3,
                 ),
-                SourceLocation(6, sourceUrl: Uri.parse(fullPath)),
+                SourceLocation(6, sourceUrl: Uri.parse('file://$fullPath')),
                 'issue',
               ),
               message: 'first issue message',
@@ -104,11 +104,11 @@ void main() {
               location: SourceSpanBase(
                 SourceLocation(
                   11,
-                  sourceUrl: Uri.parse(fullPath),
+                  sourceUrl: Uri.parse('file://$fullPath'),
                   line: 4,
                   column: 3,
                 ),
-                SourceLocation(17, sourceUrl: Uri.parse(fullPath)),
+                SourceLocation(17, sourceUrl: Uri.parse('file://$fullPath')),
                 'issue2',
               ),
               message: 'second issue message',
