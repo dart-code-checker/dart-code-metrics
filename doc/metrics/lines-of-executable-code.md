@@ -1,4 +1,4 @@
-# Lines of Executable Code *(**deprecated**, will be removed in 3.3 version)*
+# Lines of Executable Code *(**deprecated**, will be removed in 3.3 version, use **Source lines of Code**)*
 
 **Lines of Executable Code** is the approximate number of executable code lines or operations in a function or method. Blank or comment lines are not counted. Function with high values of this metric are often complex and tough to maintain.
 
