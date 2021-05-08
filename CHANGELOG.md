@@ -42,6 +42,11 @@
 * Update README.
 * Add static code diagnostic `member-ordering-extended`.
 
+## 2.5.0
+
+* Backport static code diagnostics `member-ordering-extended`, `avoid-returning-widgets`.
+* Backport fix excludes on Windows OS.
+
 ## 2.4.1
 
 * Allow configuring output directory for `HTML` reporter.
