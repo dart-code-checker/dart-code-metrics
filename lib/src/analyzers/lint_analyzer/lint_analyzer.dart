@@ -43,7 +43,12 @@ class LintAnalyzer {
     String rootFolder,
   ) {
     if (!isExcluded(result.path, config.globalExcludes)) {
-      return runAnalysisForFile(result, config, rootFolder);
+      return _runAnalysisForFile(
+        result,
+        config,
+        rootFolder,
+        filePath: result.path,
+      );
     }
 
     return null;
@@ -70,7 +75,7 @@ class LintAnalyzer {
             )
             .whereType<File>()
             .where((entity) => !isExcluded(
-                  relative(entity.path, from: rootFolder), // TODO
+                  relative(entity.path, from: rootFolder),
                   parsedConfig.globalExcludes,
                 ))
             .map((entity) => entity.path))
@@ -85,7 +90,12 @@ class LintAnalyzer {
       final unit =
           // ignore: deprecated_member_use
           await analysisContext.currentSession.getResolvedUnit(normalized);
-      final result = runAnalysisForFile(unit, parsedConfig, rootFolder);
+      final result = _runAnalysisForFile(
+        unit,
+        parsedConfig,
+        rootFolder,
+        filePath: filePath,
+      );
 
       if (result != null) {
         analyzerResult.add(result);
@@ -95,11 +105,12 @@ class LintAnalyzer {
     return analyzerResult;
   }
 
-  FileReport? runAnalysisForFile(
+  FileReport? _runAnalysisForFile(
     ResolvedUnitResult result,
     ParsedConfig config,
-    String? rootFolder,
-  ) {
+    String rootFolder, {
+    String? filePath,
+  }) {
     final unit = result.unit;
     final content = result.content;
 
@@ -114,16 +125,19 @@ class LintAnalyzer {
         unit,
         result.lineInfo,
       );
+      final path = internalResult.path;
+      final relativePath =
+          filePath != null ? relative(filePath, from: rootFolder) : '';
 
       final issues = _checkOnCodeIssues(
         ignores,
         internalResult,
         config,
-        internalResult.path,
+        path,
         rootFolder,
       );
 
-      if (!isExcluded(internalResult.path, config.metricsExcludes)) {
+      if (!isExcluded(path, config.metricsExcludes)) {
         final visitor = ScopeVisitor();
         internalResult.unit.visitChildren(visitor);
 
@@ -161,7 +175,7 @@ class LintAnalyzer {
 
         return FileReport(
           path: internalResult.path,
-          relativePath: '', //TODO
+          relativePath: relativePath,
           classes: Map.unmodifiable(classMetrics
               .map<String, Report>((key, value) => MapEntry(key.name, value))),
           functions: Map.unmodifiable(functionMetrics.map<String, Report>(
@@ -173,12 +187,12 @@ class LintAnalyzer {
       }
 
       return FileReport(
-        path: internalResult.path,
-        relativePath: '', //TODO
-        classes: {},
-        functions: {},
+        path: path,
+        relativePath: relativePath,
+        classes: const {},
+        functions: const {},
         issues: issues,
-        antiPatternCases: [],
+        antiPatternCases: const [],
       );
     }
 
@@ -206,7 +220,8 @@ class LintAnalyzer {
                       issue.ruleId,
                       issue.location.start.line,
                     )),
-          );
+          )
+          .toList();
 
   Iterable<Issue> _checkOnAntiPatterns(
     Suppression ignores,
@@ -221,7 +236,8 @@ class LintAnalyzer {
               .where((issue) => !ignores.isSuppressedAt(
                     issue.ruleId,
                     issue.location.start.line,
-                  )));
+                  )))
+          .toList();
 
   Map<ScopedClassDeclaration, Report> _checkClassMetrics(
     ScopeVisitor visitor,
@@ -236,6 +252,7 @@ class LintAnalyzer {
           node: classDeclaration.declaration,
           source: source,
         ),
+        declaration: classDeclaration.declaration,
         metrics: [
           for (final metric in config.classesMetrics)
             if (metric.supports(
@@ -350,6 +367,7 @@ class LintAnalyzer {
           node: function.declaration,
           source: source,
         ),
+        declaration: function.declaration,
         metrics: [
           for (final metric in config.methodsMetrics)
             if (metric.supports(

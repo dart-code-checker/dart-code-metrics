@@ -14,12 +14,15 @@ import 'package:analyzer/src/dart/analysis/driver.dart';
 import 'package:analyzer/src/dart/analysis/file_state.dart';
 import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
+import 'package:source_span/source_span.dart';
 
 import '../analyzers/lint_analyzer/anti_patterns/patterns_factory.dart';
 import '../analyzers/lint_analyzer/lint_analyzer.dart';
+import '../analyzers/lint_analyzer/metrics/metric_utils.dart';
 import '../analyzers/lint_analyzer/metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import '../analyzers/lint_analyzer/metrics/metrics_list/number_of_parameters_metric.dart';
 import '../analyzers/lint_analyzer/parserd_config.dart';
+import '../analyzers/lint_analyzer/reporters/utility_selector.dart';
 import '../analyzers/lint_analyzer/rules/rules_factory.dart';
 import '../config_builder/models/analysis_options.dart';
 import '../config_builder/models/config.dart';
@@ -28,7 +31,7 @@ import '../utils/exclude_utils.dart';
 import '../utils/yaml_utils.dart';
 import 'analyzer_plugin_utils.dart';
 
-// TODO const _codeMetricsId = 'code-metrics';
+const _codeMetricsId = 'code-metrics';
 
 const _defaultSkippedFolders = ['.dart_tool/**', 'packages/**'];
 
@@ -97,7 +100,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
       ),
       getRulesById(options.rules),
       getPatternsById(options.antiPatterns),
-      [],
+      const [],
       [
         CyclomaticComplexityMetric(config: options.metrics),
         NumberOfParametersMetric(config: options.metrics),
@@ -233,9 +236,46 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
           ...report.antiPatternCases
               .map(designIssueToAnalysisErrorFixes)
               .toList(),
-          // ...report.functions.map((key, value) => null),
-          // TODO
         ]);
+
+        report.functions.forEach((source, functionReport) {
+          final functionOffset = functionReport
+              .declaration.firstTokenAfterCommentAndMetadata.offset;
+
+          final functionFirstLineInfo =
+              analysisResult.lineInfo.getLocation(functionOffset);
+
+          final report = UtilitySelector.functionMetricsReport(functionReport);
+          final violationLevel =
+              UtilitySelector.functionMetricViolationLevel(report);
+
+          if (isReportLevel(violationLevel)) {
+            final startSourceLocation = SourceLocation(
+              functionOffset,
+              sourceUrl: analysisResult.uri,
+              line: functionFirstLineInfo.lineNumber,
+              column: functionFirstLineInfo.columnNumber,
+            );
+
+            if (isReportLevel(report.cyclomaticComplexity.level)) {
+              result.add(metricReportToAnalysisErrorFixes(
+                startSourceLocation,
+                functionReport.declaration.end - startSourceLocation.offset,
+                report.cyclomaticComplexity.comment,
+                _codeMetricsId,
+              ));
+            }
+
+            if (isReportLevel(report.maximumNestingLevel.level)) {
+              result.add(metricReportToAnalysisErrorFixes(
+                startSourceLocation,
+                functionReport.declaration.end - startSourceLocation.offset,
+                report.maximumNestingLevel.comment,
+                _codeMetricsId,
+              ));
+            }
+          }
+        });
       }
 
       // ignore: deprecated_member_use

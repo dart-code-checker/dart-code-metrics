@@ -45,6 +45,8 @@ Future<void> _runAnalysis(ArgResults arguments) async {
   final config =
       Config.fromAnalysisOptions(options).merge(_configFromArgs(arguments));
 
+  print(config.metrics);
+
   final lintAnalyserResult = await const LintAnalyzer()
       .runCliAnalysis(arguments.rest, rootFolder, config);
 
