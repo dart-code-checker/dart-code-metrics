@@ -277,7 +277,8 @@ class MetricsAnalyzer {
                     ),
                     comment: '',
                   ),
-                  linesOfExecutableCode,
+                  if (_metricsConfig.containsKey(linesOfExecutableCodeKey))
+                    linesOfExecutableCode,
                 ],
               ),
             );
