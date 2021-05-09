@@ -117,6 +117,7 @@ class LintAnalyzer {
     if (unit != null &&
         content != null &&
         result.state == ResultState.VALID &&
+        filePath != null &&
         _isSupported(result)) {
       final ignores = Suppression(content, result.lineInfo);
       final internalResult = InternalResolvedUnitResult(
@@ -125,15 +126,13 @@ class LintAnalyzer {
         unit,
         result.lineInfo,
       );
-      final path = internalResult.path;
-      final relativePath =
-          filePath != null ? relative(filePath, from: rootFolder) : '';
+      final relativePath = relative(filePath, from: rootFolder);
 
       final issues = _checkOnCodeIssues(
         ignores,
         internalResult,
         config,
-        path,
+        filePath,
         rootFolder,
       );
 
@@ -174,7 +173,7 @@ class LintAnalyzer {
         );
 
         return FileReport(
-          path: path,
+          path: filePath,
           relativePath: relativePath,
           classes: Map.unmodifiable(classMetrics
               .map<String, Report>((key, value) => MapEntry(key.name, value))),
@@ -187,7 +186,7 @@ class LintAnalyzer {
       }
 
       return FileReport(
-        path: path,
+        path: filePath,
         relativePath: relativePath,
         classes: const {},
         functions: const {},
