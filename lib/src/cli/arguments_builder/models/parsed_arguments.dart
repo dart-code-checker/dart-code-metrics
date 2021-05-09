@@ -1,4 +1,4 @@
-import '../../../../metrics.dart';
+import '../../../analyzers/lint_analyzer/metrics/models/metric_value_level.dart';
 
 class ParsedArguments {
   final String rootFolder;

@@ -9,7 +9,7 @@ import 'package:file/local.dart';
 import 'package:glob/glob.dart';
 import 'package:path/path.dart';
 
-import '../../../metrics_analyzer.dart';
+import '../../config_builder/models/config.dart';
 import '../../utils/exclude_utils.dart';
 import '../../utils/node_utils.dart';
 import '../models/entity_type.dart';
