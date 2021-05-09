@@ -329,21 +329,21 @@ Rules configuration is [described here](#configuring-a-rules-entry).
 - [avoid-unused-parameters](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/avoid-unused-parameters.md)
 - [binary-expression-operand-order](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/binary-expression-operand-order.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 - [double-literal-format](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/double-literal-format.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
-- [member-ordering](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/member-ordering.md) &nbsp; ![Configurable](https://img.shields.io/badge/-configurable-informational)
-- [member-ordering-extended](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/member-ordering-extended.md) &nbsp; ![Configurable](https://img.shields.io/badge/-configurable-informational)
+- [member-ordering](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/member-ordering.md) &nbsp; [![Configurable](https://img.shields.io/badge/-configurable-informational)](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/member-ordering.md#config-example)
+- [member-ordering-extended](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/member-ordering-extended.md) &nbsp; [![Configurable](https://img.shields.io/badge/-configurable-informational)](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/member-ordering-extended.md#config-example)
 - [newline-before-return](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/newline-before-return.md)
 - [no-boolean-literal-compare](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/no-boolean-literal-compare.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 - [no-empty-block](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/no-empty-block.md)
 - [no-equal-arguments](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/no-equal-arguments.md)
 - [no-equal-then-else](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/no-equal-then-else.md)
-- [no-magic-number](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/no-magic-number.md) &nbsp; ![Configurable](https://img.shields.io/badge/-configurable-informational)
+- [no-magic-number](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/no-magic-number.md) &nbsp; [![Configurable](https://img.shields.io/badge/-configurable-informational)](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/no-magic-number.md#config-example)
 - [no-object-declaration](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/no-object-declaration.md)
 - [prefer-conditional-expressions](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/prefer-conditional-expressions.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
-- [prefer-trailing-comma](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/prefer-trailing-comma.md) &nbsp; ![Configurable](https://img.shields.io/badge/-configurable-informational) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
+- [prefer-trailing-comma](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/prefer-trailing-comma.md) &nbsp; [![Configurable](https://img.shields.io/badge/-configurable-informational)](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/prefer-trailing-comma.md#config-example) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 
 ### Flutter specific
 
-- [avoid-returning-widgets](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/avoid-returning-widgets.md) &nbsp; ![Configurable](https://img.shields.io/badge/-configurable-informational)
+- [avoid-returning-widgets](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/avoid-returning-widgets.md) &nbsp; [![Configurable](https://img.shields.io/badge/-configurable-informational)](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/avoid-returning-widgets.md#config-example)
 
 ### Intl specific
 
@@ -353,7 +353,7 @@ Rules configuration is [described here](#configuring-a-rules-entry).
 ### Angular specific
 
 - [avoid-preserve-whitespace-false](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/avoid-preserve-whitespace-false.md)
-- [component-annotation-arguments-ordering](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/component-annotation-arguments-ordering.md) &nbsp; ![Configurable](https://img.shields.io/badge/-configurable-informational)
+- [component-annotation-arguments-ordering](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/component-annotation-arguments-ordering.md) &nbsp; [![Configurable](https://img.shields.io/badge/-configurable-informational)](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/component-annotation-arguments-ordering.md#config-example)
 - [prefer-on-push-cd-strategy](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/prefer-on-push-cd-strategy.md)
 
 ## Anti-patterns
