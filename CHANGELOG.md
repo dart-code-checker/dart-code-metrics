@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.2.1
+
+* Remove unnecessary scan by `Lines of Executable Code`
+
 ## 3.2.0
 
 * Deprecate `ConsoleReporter`, `MetricsAnalysisRunner`, `MetricsAnalyzer`, `MetricsRecordsBuilder` and `MetricsRecordsStore`.
