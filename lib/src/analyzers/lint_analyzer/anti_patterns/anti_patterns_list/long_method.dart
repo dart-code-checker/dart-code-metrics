@@ -62,12 +62,15 @@ class LongMethod extends ObsoletePattern {
     return issues;
   }
 
-  String _compileMessage({required int lines, FunctionType? functionType}) =>
-      'Long $functionType. This ${functionType.toString().toLowerCase()} contains $lines lines with code.';
+  String _compileMessage({
+    required int lines,
+    required FunctionType functionType,
+  }) =>
+      'Long $functionType. This functionType contains $lines lines with code.';
 
   String _compileRecommendationMessage({
     required int maximumLines,
-    FunctionType? functionType,
+    required FunctionType functionType,
   }) =>
-      "Based on configuration of this package, we don't recommend write a ${functionType.toString().toLowerCase()} longer than $maximumLines lines with code.";
+      "Based on configuration of this package, we don't recommend write a $functionType longer than $maximumLines lines with code.";
 }
