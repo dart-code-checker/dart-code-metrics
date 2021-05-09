@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-* Remove `Lines of Executable Code` metric.
+* Remove deprecated `Lines of Executable Code` metric, use `Source lines of Code` instead.
 
 ## 3.2.1
 
