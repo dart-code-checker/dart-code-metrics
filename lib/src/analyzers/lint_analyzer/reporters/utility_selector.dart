@@ -5,12 +5,12 @@ import 'package:quiver/iterables.dart' as quiver;
 import '../../models/entity_type.dart';
 import '../../models/file_report.dart';
 import '../../models/report.dart';
-import '../constants.dart';
 import '../metrics/metric_utils.dart';
 import '../metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import '../metrics/metrics_list/maximum_nesting_level/maximum_nesting_level_metric.dart';
 import '../metrics/metrics_list/number_of_methods_metric.dart';
 import '../metrics/metrics_list/number_of_parameters_metric.dart';
+import '../metrics/metrics_list/source_lines_of_code/source_lines_of_code_metric.dart';
 import '../metrics/metrics_list/weight_of_class_metric.dart';
 import '../metrics/models/metric_documentation.dart';
 import '../metrics/models/metric_value.dart';
@@ -60,10 +60,10 @@ class UtilitySelector {
         .where((r) => isReportLevel(r.cyclomaticComplexity.level))
         .length;
 
-    final totalLinesOfExecutableCode =
-        sum(functionMetricsReports.map((r) => r.linesOfExecutableCode.value));
-    final totalLinesOfExecutableCodeViolations = functionMetricsReports
-        .where((r) => isReportLevel(r.linesOfExecutableCode.level))
+    final totalSourceLinesOfCode =
+        sum(functionMetricsReports.map((r) => r.sourceLinesOfCode.value));
+    final totalSourceLinesOfCodeViolations = functionMetricsReports
+        .where((r) => isReportLevel(r.sourceLinesOfCode.level))
         .length;
 
     final averageMaximumNestingLevel =
@@ -82,8 +82,8 @@ class UtilitySelector {
       methodsCountViolations: totalMethodsCountViolations,
       totalCyclomaticComplexity: totalCyclomaticComplexity.round(),
       cyclomaticComplexityViolations: totalCyclomaticComplexityViolations,
-      totalLinesOfExecutableCode: totalLinesOfExecutableCode.round(),
-      linesOfExecutableCodeViolations: totalLinesOfExecutableCodeViolations,
+      totalSourceLinesOfCode: totalSourceLinesOfCode.round(),
+      sourceLinesOfCodeViolations: totalSourceLinesOfCodeViolations,
       averageMaximumNestingLevel: averageMaximumNestingLevel,
       maximumNestingLevelViolations: totalMaximumNestingLevelViolations,
     );
@@ -120,11 +120,12 @@ class UtilitySelector {
               value: 0,
             );
 
-    final linesOfExecutableMetric = function.metric(linesOfExecutableCodeKey) ??
-        _buildMetricValueStub<int>(
-          id: linesOfExecutableCodeKey,
-          value: 0,
-        );
+    final sourceLinesOfCodeMetric =
+        function.metric(SourceLinesOfCodeMetric.metricId) ??
+            _buildMetricValueStub<int>(
+              id: SourceLinesOfCodeMetric.metricId,
+              value: 0,
+            );
 
     final maintainabilityIndexMetric =
         function.metric('maintainability-index') ??
@@ -149,7 +150,7 @@ class UtilitySelector {
 
     return FunctionMetricsReport(
       cyclomaticComplexity: cyclomaticComplexityMetric as MetricValue<int>,
-      linesOfExecutableCode: linesOfExecutableMetric as MetricValue<int>,
+      sourceLinesOfCode: sourceLinesOfCodeMetric as MetricValue<int>,
       maintainabilityIndex: maintainabilityIndexMetric as MetricValue<double>,
       argumentsCount: numberOfParametersMetric as MetricValue<int>,
       maximumNestingLevel: maximumNestingLevelMetric as MetricValue<int>,
@@ -166,7 +167,7 @@ class UtilitySelector {
   ) =>
       quiver.max([
         report.cyclomaticComplexity.level,
-        report.linesOfExecutableCode.level,
+        report.sourceLinesOfCode.level,
         report.maintainabilityIndex.level,
         report.argumentsCount.level,
         report.maximumNestingLevel.level,
@@ -203,10 +204,10 @@ class UtilitySelector {
             lhs.totalCyclomaticComplexity + rhs.totalCyclomaticComplexity,
         cyclomaticComplexityViolations: lhs.cyclomaticComplexityViolations +
             rhs.cyclomaticComplexityViolations,
-        totalLinesOfExecutableCode:
-            lhs.totalLinesOfExecutableCode + rhs.totalLinesOfExecutableCode,
-        linesOfExecutableCodeViolations: lhs.linesOfExecutableCodeViolations +
-            rhs.linesOfExecutableCodeViolations,
+        totalSourceLinesOfCode:
+            lhs.totalSourceLinesOfCode + rhs.totalSourceLinesOfCode,
+        sourceLinesOfCodeViolations:
+            lhs.sourceLinesOfCodeViolations + rhs.sourceLinesOfCodeViolations,
         averageMaximumNestingLevel:
             ((lhs.averageMaximumNestingLevel + rhs.averageMaximumNestingLevel) /
                     2)

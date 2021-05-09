@@ -72,9 +72,6 @@ Config _configFromArgs(ArgResults arguments) => Config(
         for (final metric in metrics(config: {}))
           if (arguments.wasParsed(metric.id))
             metric.id: arguments[metric.id] as Object,
-        if (arguments.wasParsed(linesOfExecutableCodeKey))
-          linesOfExecutableCodeKey:
-              arguments[linesOfExecutableCodeKey] as Object,
       },
       rules: const {},
       antiPatterns: const {},

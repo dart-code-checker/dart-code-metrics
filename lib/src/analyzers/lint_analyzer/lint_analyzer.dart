@@ -26,6 +26,7 @@ import 'metrics/metric_utils.dart';
 import 'metrics/metrics_factory.dart';
 import 'metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import 'metrics/metrics_list/source_lines_of_code/source_code_visitor.dart';
+import 'metrics/metrics_list/source_lines_of_code/source_lines_of_code_metric.dart';
 import 'metrics/models/metric_documentation.dart';
 import 'metrics/models/metric_value.dart';
 import 'metrics/models/metric_value_level.dart';
@@ -295,12 +296,12 @@ class LintAnalyzer {
             source,
           );
 
-      final linesOfExecutableCodeVisitor = SourceCodeVisitor(source.lineInfo);
+      final sourceLinesOfCodeVisitor = SourceCodeVisitor(source.lineInfo);
 
-      function.declaration.visitChildren(linesOfExecutableCodeVisitor);
+      function.declaration.visitChildren(sourceLinesOfCodeVisitor);
 
-      final linesOfExecutableCode = MetricValue<int>(
-        metricsId: linesOfExecutableCodeKey,
+      final sourceLinesOfCode = MetricValue<int>(
+        metricsId: SourceLinesOfCodeMetric.metricId,
         documentation: const MetricDocumentation(
           name: '',
           shortName: '',
@@ -308,13 +309,13 @@ class LintAnalyzer {
           measuredType: EntityType.methodEntity,
           examples: [],
         ),
-        value: linesOfExecutableCodeVisitor.linesWithCode.length,
+        value: sourceLinesOfCodeVisitor.linesWithCode.length,
         level: valueLevel(
-          linesOfExecutableCodeVisitor.linesWithCode.length,
+          sourceLinesOfCodeVisitor.linesWithCode.length,
           readThreshold<int>(
             config.metricsConfig,
-            linesOfExecutableCodeKey,
-            linesOfExecutableCodeDefaultWarningLevel,
+            SourceLinesOfCodeMetric.metricId,
+            50,
           ),
         ),
         comment: '',
@@ -357,7 +358,7 @@ class LintAnalyzer {
         (171 -
                 5.2 * log(max(1, halsteadVolume)) -
                 cyclomatic.value * 0.23 -
-                16.2 * log(max(1, linesOfExecutableCode.value))) *
+                16.2 * log(max(1, sourceLinesOfCode.value))) *
             100 /
             171,
       ).toDouble();
@@ -397,8 +398,6 @@ class LintAnalyzer {
             ),
             comment: '',
           ),
-          if (config.metricsConfig.containsKey(linesOfExecutableCodeKey))
-            linesOfExecutableCode,
         ],
       );
 

@@ -83,10 +83,10 @@ class LintConsoleReporter extends ConsoleReporter {
               report.cyclomaticComplexity,
               'cyclomatic complexity',
             ),
-          if (reportAll || _isNeedToReport(report.linesOfExecutableCode))
+          if (reportAll || _isNeedToReport(report.sourceLinesOfCode))
             _helper.getMetricReport(
-              report.linesOfExecutableCode,
-              'lines of executable code',
+              report.sourceLinesOfCode,
+              'source lines of code',
             ),
           if (reportAll || _isNeedToReport(report.maintainabilityIndex))
             _helper.getMetricReport(

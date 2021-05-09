@@ -78,7 +78,6 @@ A plugin for the Dart `analyzer` [package](https://pub.dev/packages/analyzer) pr
         - long-parameter-list
       metrics:
         cyclomatic-complexity: 20
-        lines-of-executable-code: 50
         maximum-nesting-level: 5
         number-of-parameters: 4
         source-lines-of-code: 50
@@ -151,7 +150,6 @@ Usage: metrics [arguments...] <directories>
     --number-of-parameters=<4>                    Number of Parameters threshold
     --source-lines-of-code=<50>                   Source lines of Code threshold
     --weight-of-class=<0.33>                      Weight Of a Class threshold
-    --lines-of-executable-code=<50>               Lines of executable code threshold
 
 
     --root-folder=<./>                            Root folder
@@ -201,7 +199,6 @@ dart_code_metrics:
     - long-parameter-list
   metrics:
     cyclomatic-complexity: 20
-    lines-of-executable-code: 50
     number-of-arguments: 4
     maximum-nesting-level: 5
   metrics-exclude:
@@ -312,7 +309,6 @@ Available metrics:
 - [Number of Parameters](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/metrics/number-of-parameters.md)
 - [Source lines of Code](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/metrics/source-lines-of-code.md)
 - [Weight of a Class](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/metrics/weight-of-class.md)
-- [Lines of Executable Code](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/metrics/lines-of-executable-code.md)
 
 ## Rules
 

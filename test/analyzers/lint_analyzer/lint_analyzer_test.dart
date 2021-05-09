@@ -61,29 +61,6 @@ void main() {
       });
     });
 
-    test('should report lines-of-executable-code metric', () async {
-      final config = _createConfig(metrics: {'lines-of-executable-code': 50});
-
-      final result = await analyzer.runCliAnalysis(
-        folders,
-        rootDirectory,
-        config,
-      );
-
-      final report = result.first.functions.values.first;
-      final metrics = {for (final m in report.metrics) m.metricsId: m.level};
-
-      expect(metrics, {
-        'cyclomatic-complexity': MetricValueLevel.none,
-        'lines-of-code': MetricValueLevel.none,
-        'maximum-nesting-level': MetricValueLevel.none,
-        'number-of-parameters': MetricValueLevel.none,
-        'source-lines-of-code': MetricValueLevel.none,
-        'maintainability-index': MetricValueLevel.none,
-        'lines-of-executable-code': MetricValueLevel.none,
-      });
-    });
-
     test('should exceed source-lines-of-code metric', () async {
       final config = _createConfig(metrics: {'source-lines-of-code': 1});
 
