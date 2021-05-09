@@ -1,3 +1,4 @@
+import 'package:analyzer/dart/ast/ast.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/constants.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/metrics_list/maximum_nesting_level/maximum_nesting_level_metric.dart';
@@ -11,7 +12,10 @@ import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/met
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/models/class_metrics_report.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/models/function_metrics_report.dart';
 import 'package:dart_code_metrics/src/analyzers/models/report.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:source_span/source_span.dart';
+
+class _DeclarationMock extends Mock implements Declaration {}
 
 MetricValue<T> buildMetricValueStub<T>({
   required String id,
@@ -69,6 +73,7 @@ Report buildRecordStub({
   return Report(
     location:
         location ?? SourceSpanBase(SourceLocation(0), SourceLocation(0), ''),
+    declaration: _DeclarationMock(),
     metrics: [...metrics, ...defaultMetricValues],
   );
 }
@@ -94,6 +99,7 @@ Report buildFunctionRecordStub({
   return Report(
     location:
         location ?? SourceSpanBase(SourceLocation(0), SourceLocation(0), ''),
+    declaration: _DeclarationMock(),
     metrics: [...metrics, ...defaultMetricValues],
   );
 }

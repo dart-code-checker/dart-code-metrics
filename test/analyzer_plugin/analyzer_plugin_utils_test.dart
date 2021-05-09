@@ -2,10 +2,8 @@
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart';
 import 'package:dart_code_metrics/src/analyzer_plugin/analyzer_plugin_utils.dart';
-import 'package:dart_code_metrics/src/analyzer_plugin/plugin_utils.dart';
 import 'package:dart_code_metrics/src/analyzers/models/issue.dart';
 import 'package:dart_code_metrics/src/analyzers/models/severity.dart';
-import 'package:glob/glob.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:source_span/source_span.dart';
 import 'package:test/test.dart';
@@ -13,64 +11,6 @@ import 'package:test/test.dart';
 class AnalysisResultMock extends Mock implements AnalysisResult {}
 
 void main() {
-  group('isSupported returns', () {
-    late AnalysisResultMock analysisResultMock;
-
-    setUp(() {
-      analysisResultMock = AnalysisResultMock();
-    });
-
-    test('false on analysis result without path', () {
-      expect(isSupported(analysisResultMock), isFalse);
-    });
-    test('true on dart files', () {
-      when(() => analysisResultMock.path).thenReturn('lib/src/example.dart');
-
-      expect(isSupported(analysisResultMock), isTrue);
-    });
-    test('false on generated dart files', () {
-      when(() => analysisResultMock.path).thenReturn('lib/src/example.g.dart');
-
-      expect(isSupported(analysisResultMock), isFalse);
-    });
-  });
-
-  test('prepareExcludes returns exclude pattern ', () {
-    expect(
-      prepareExcludes(
-        ['example/**', 'test/resources/**'],
-        '/home/developer/devs/my-project',
-      ).map((glob) => glob.pattern),
-      equals([
-        '/home/developer/devs/my-project/example/**',
-        '/home/developer/devs/my-project/test/resources/**',
-      ]),
-    );
-  });
-
-  test(
-    'isExcluded returns true only for file path those matches with any exclude pattern',
-    () {
-      final analysisResultMock = AnalysisResultMock();
-      when(() => analysisResultMock.path).thenReturn('lib/src/example.dart');
-
-      expect(
-        isExcluded(
-          analysisResultMock,
-          [Glob('test/**.dart'), Glob('lib/src/**.dart')],
-        ),
-        isTrue,
-      );
-      expect(
-        isExcluded(
-          analysisResultMock,
-          [Glob('test/**.dart'), Glob('bin/**.dart')],
-        ),
-        isFalse,
-      );
-    },
-  );
-
   test('designIssueToAnalysisErrorFixes constructs AnalysisErrorFixes', () {
     const sourcePath = 'source_file.dart';
     const offset = 5;

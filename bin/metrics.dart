@@ -5,6 +5,9 @@ import 'package:dart_code_metrics/config.dart';
 import 'package:dart_code_metrics/metrics.dart';
 import 'package:dart_code_metrics/metrics_analyzer.dart';
 import 'package:dart_code_metrics/reporters.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/lint_analyzer.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/metrics_factory.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value_level.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/utility_selector.dart';
 import 'package:dart_code_metrics/src/cli/arguments_parser.dart';
 import 'package:dart_code_metrics/src/cli/arguments_validation.dart';
@@ -42,28 +45,21 @@ Future<void> _runAnalysis(ArgResults arguments) async {
   final config =
       Config.fromAnalysisOptions(options).merge(_configFromArgs(arguments));
 
-  // ignore: deprecated_member_use_from_same_package
-  final store = MetricsRecordsStore.store();
-  // ignore: deprecated_member_use_from_same_package
-  final analyzer = MetricsAnalyzer(store, config);
-
-  final runner =
-      // ignore: deprecated_member_use_from_same_package
-      MetricsAnalysisRunner(analyzer, store, arguments.rest, rootFolder);
-  await runner.run();
+  final lintAnalyserResult = await const LintAnalyzer()
+      .runCliAnalysis(arguments.rest, rootFolder, config);
 
   await reporter(
     name: arguments[reporterName] as String,
     output: stdout,
     config: config,
     reportFolder: arguments[reportFolder] as String,
-  )?.report(runner.results());
+  )?.report(lintAnalyserResult);
 
   final exitOnViolationLevel = MetricValueLevel.fromString(
     arguments[setExitOnViolationLevel] as String?,
   );
   if (exitOnViolationLevel != null &&
-      UtilitySelector.maxViolationLevel(runner.results()) >=
+      UtilitySelector.maxViolationLevel(lintAnalyserResult) >=
           exitOnViolationLevel) {
     exit(2);
   }

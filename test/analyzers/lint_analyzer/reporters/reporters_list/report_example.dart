@@ -1,3 +1,4 @@
+import 'package:analyzer/dart/ast/ast.dart';
 import 'package:dart_code_metrics/src/analyzers/models/entity_type.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_documentation.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value.dart';
@@ -7,13 +8,17 @@ import 'package:dart_code_metrics/src/analyzers/models/file_report.dart';
 import 'package:dart_code_metrics/src/analyzers/models/issue.dart';
 import 'package:dart_code_metrics/src/analyzers/models/report.dart';
 import 'package:dart_code_metrics/src/analyzers/models/severity.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:source_span/source_span.dart';
 
 const src1Path = 'test/resources/abstract_class.dart';
 const src2Path = 'test/resources/class_with_factory_constructors.dart';
 
+class _DeclarationMock extends Mock implements Declaration {}
+
 final _class1Report = Report(
   location: SourceSpan(SourceLocation(0), SourceLocation(10), 'class body'),
+  declaration: _DeclarationMock(),
   metrics: const [
     MetricValue<int>(
       metricsId: 'id',
@@ -34,6 +39,7 @@ final _class1Report = Report(
 final _function1Report = Report(
   location:
       SourceSpan(SourceLocation(0), SourceLocation(16), 'constructor body'),
+  declaration: _DeclarationMock(),
   metrics: const [
     MetricValue<int>(
       metricsId: 'id',
@@ -54,6 +60,7 @@ final _function1Report = Report(
 
 final _function2Report = Report(
   location: SourceSpan(SourceLocation(0), SourceLocation(11), 'method body'),
+  declaration: _DeclarationMock(),
   metrics: [
     MetricValue<int>(
       metricsId: 'id2',
@@ -80,6 +87,7 @@ final _function2Report = Report(
 final _function3Report = Report(
   location:
       SourceSpan(SourceLocation(0), SourceLocation(20), 'simple function body'),
+  declaration: _DeclarationMock(),
   metrics: const [
     MetricValue<int>(
       metricsId: 'id',

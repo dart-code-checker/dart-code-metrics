@@ -6,7 +6,6 @@ import '../../../models/issue.dart';
 import '../../../models/scoped_function_declaration.dart';
 import '../../metrics/metric_utils.dart';
 import '../../metrics/metrics_list/number_of_parameters_metric.dart';
-import '../../metrics_analyzer_utils.dart';
 import '../models/obsolete_pattern.dart';
 import '../models/pattern_documentation.dart';
 import '../pattern_utils.dart';

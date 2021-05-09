@@ -1,3 +1,4 @@
+import 'package:analyzer/dart/ast/ast.dart';
 import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 import 'package:source_span/source_span.dart';
@@ -10,6 +11,9 @@ import '../lint_analyzer/metrics/models/metric_value_level.dart';
 class Report {
   /// The source code location of the target entity.
   final SourceSpan location;
+
+  /// The node that represents a dart code snippet in the AST structure.
+  final Declaration declaration;
 
   /// Target entity metrics.
   final Iterable<MetricValue<num>> metrics;
@@ -24,5 +28,9 @@ class Report {
       : MetricValueLevel.none;
 
   /// Initialize a newly created [Report].
-  const Report({required this.location, required this.metrics});
+  const Report({
+    required this.location,
+    required this.metrics,
+    required this.declaration,
+  });
 }

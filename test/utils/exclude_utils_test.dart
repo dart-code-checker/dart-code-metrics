@@ -1,11 +1,7 @@
 @TestOn('vm')
-import 'package:analyzer/dart/analysis/results.dart';
-import 'package:dart_code_metrics/src/analyzer_plugin/plugin_utils.dart';
+import 'package:dart_code_metrics/src/utils/exclude_utils.dart';
 import 'package:glob/glob.dart';
 import 'package:test/test.dart';
-import 'package:mocktail/mocktail.dart';
-
-class AnalysisResultMock extends Mock implements AnalysisResult {}
 
 void main() {
   group('isExcluded checks passed path to exclude', () {
@@ -16,11 +12,10 @@ void main() {
         '/home/user/project/src/exclude_me.dart',
       ].map((item) => Glob(item));
 
-      final result = AnalysisResultMock();
-      when(() => result.path)
-          .thenReturn('/home/user/project/src/exclude_me.dart');
-
-      expect(isExcluded(result, excludes), isTrue);
+      expect(
+        isExcluded('/home/user/project/src/exclude_me.dart', excludes),
+        isTrue,
+      );
     });
 
     test('Windows style paths', () {
@@ -30,11 +25,13 @@ void main() {
         'c:/Users/dmitry/Development/src/exclude_me.dart',
       ].map((item) => Glob(item));
 
-      final result = AnalysisResultMock();
-      when(() => result.path)
-          .thenReturn(r'c:\Users\dmitry\Development/src/exclude_me.dart');
-
-      expect(isExcluded(result, excludes), isTrue);
+      expect(
+        isExcluded(
+          r'c:\Users\dmitry\Development/src/exclude_me.dart',
+          excludes,
+        ),
+        isTrue,
+      );
     });
   });
 
