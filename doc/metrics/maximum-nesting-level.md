@@ -4,7 +4,17 @@
 
 Generally the blocks with `if`, `else`, `else if`, `do`, `while`, `for`, `switch`, `catch`, etc statements are the part of nested loops.
 
-Example:
+## Config example
+
+```yaml
+dart_code_metrics:
+  ...
+  metrics:
+    ...
+    - maximum-nesting-level: 5
+```
+
+## Example
 
 ```dart
 void visitBlock(Block node) {

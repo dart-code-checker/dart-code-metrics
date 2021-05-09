@@ -7,7 +7,17 @@ Number of linearly independent paths through a block of code. Conditional operat
 * `else`, `finally` and `default` don't count
 * some operators (`&&`, `||`, `?.`, `??`, `??=`) increase complexity
 
-Example:
+## Config example
+
+```yaml
+dart_code_metrics:
+  ...
+  metrics:
+    ...
+    - cyclomatic-complexity: 20
+```
+
+## Example
 
 ```dart
 void visitBlock(Token firstToken, Token lastToken) {

@@ -23,6 +23,8 @@ Additional resources:
 
 Use `ignored-names` configuration, if you want to ignore a function or method name. For example:
 
+### Config example
+
 ```yaml
 dart_code_metrics:
   ...
