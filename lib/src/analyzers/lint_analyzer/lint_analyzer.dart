@@ -12,6 +12,7 @@ import 'package:path/path.dart';
 import '../../../metrics_analyzer.dart';
 import '../../utils/exclude_utils.dart';
 import '../../utils/node_utils.dart';
+import '../models/entity_type.dart';
 import '../models/file_report.dart';
 import '../models/internal_resolved_unit_result.dart';
 import '../models/issue.dart';
@@ -19,13 +20,12 @@ import '../models/report.dart';
 import '../models/scoped_class_declaration.dart';
 import '../models/scoped_function_declaration.dart';
 import '../models/suppression.dart';
-import 'anti_patterns/anti_patterns_factory.dart';
+import 'anti_patterns/patterns_factory.dart';
 import 'metrics/halstead_volume_ast_visitor.dart';
 import 'metrics/metric_utils.dart';
 import 'metrics/metrics_factory.dart';
 import 'metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import 'metrics/metrics_list/source_lines_of_code/source_code_visitor.dart';
-import 'metrics/models/entity_type.dart';
 import 'metrics/models/metric_documentation.dart';
 import 'metrics/models/metric_value.dart';
 import 'metrics/models/metric_value_level.dart';
@@ -379,7 +379,8 @@ class LintAnalyzer {
             ),
             comment: '',
           ),
-          linesOfExecutableCode,
+          if (config.metricsConfig.containsKey(linesOfExecutableCodeKey))
+            linesOfExecutableCode,
         ],
       );
 
