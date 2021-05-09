@@ -1,7 +1,7 @@
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/constants.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/metrics_list/maximum_nesting_level/maximum_nesting_level_metric.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/metrics_list/number_of_methods_metric.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/metrics_list/number_of_parameters_metric.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/metrics_list/source_lines_of_code/source_lines_of_code_metric.dart';
 import 'package:dart_code_metrics/src/analyzers/models/entity_type.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_documentation.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value.dart';
@@ -239,7 +239,7 @@ void main() {
           UtilitySelector.functionMetricViolationLevel(
             buildFunctionMetricsReportStub(
               cyclomaticComplexityViolationLevel: MetricValueLevel.warning,
-              linesOfExecutableCodeViolationLevel: MetricValueLevel.noted,
+              sourceLinesOfCodeViolationLevel: MetricValueLevel.noted,
               maintainabilityIndexViolationLevel: MetricValueLevel.none,
             ),
           ),
@@ -250,7 +250,7 @@ void main() {
           UtilitySelector.functionMetricViolationLevel(
             buildFunctionMetricsReportStub(
               cyclomaticComplexityViolationLevel: MetricValueLevel.warning,
-              linesOfExecutableCodeViolationLevel: MetricValueLevel.alarm,
+              sourceLinesOfCodeViolationLevel: MetricValueLevel.alarm,
               maintainabilityIndexViolationLevel: MetricValueLevel.none,
             ),
           ),
@@ -261,7 +261,7 @@ void main() {
           UtilitySelector.functionMetricViolationLevel(
             buildFunctionMetricsReportStub(
               cyclomaticComplexityViolationLevel: MetricValueLevel.none,
-              linesOfExecutableCodeViolationLevel: MetricValueLevel.none,
+              sourceLinesOfCodeViolationLevel: MetricValueLevel.none,
               maintainabilityIndexViolationLevel: MetricValueLevel.noted,
             ),
           ),
@@ -272,7 +272,7 @@ void main() {
           UtilitySelector.functionMetricViolationLevel(
             buildFunctionMetricsReportStub(
               cyclomaticComplexityViolationLevel: MetricValueLevel.none,
-              linesOfExecutableCodeViolationLevel: MetricValueLevel.none,
+              sourceLinesOfCodeViolationLevel: MetricValueLevel.none,
               argumentsCountViolationLevel: MetricValueLevel.warning,
             ),
           ),
@@ -283,7 +283,7 @@ void main() {
           UtilitySelector.functionMetricViolationLevel(
             buildFunctionMetricsReportStub(
               cyclomaticComplexityViolationLevel: MetricValueLevel.none,
-              linesOfExecutableCodeViolationLevel: MetricValueLevel.none,
+              sourceLinesOfCodeViolationLevel: MetricValueLevel.none,
               argumentsCountViolationLevel: MetricValueLevel.none,
               maximumNestingLevelViolationLevel: MetricValueLevel.warning,
             ),
@@ -305,7 +305,7 @@ void main() {
             'a': buildFunctionRecordStub(
               metrics: [
                 buildMetricValueStub<int>(
-                  id: linesOfExecutableCodeKey,
+                  id: SourceLinesOfCodeMetric.metricId,
                   value: 10,
                 ),
               ],
@@ -322,7 +322,7 @@ void main() {
             'a': buildFunctionRecordStub(
               metrics: [
                 buildMetricValueStub<int>(
-                  id: linesOfExecutableCodeKey,
+                  id: SourceLinesOfCodeMetric.metricId,
                   value: 20,
                   level: MetricValueLevel.noted,
                 ),
@@ -340,7 +340,7 @@ void main() {
             'a': buildFunctionRecordStub(
               metrics: [
                 buildMetricValueStub<int>(
-                  id: linesOfExecutableCodeKey,
+                  id: SourceLinesOfCodeMetric.metricId,
                   value: 30,
                   level: MetricValueLevel.warning,
                 ),

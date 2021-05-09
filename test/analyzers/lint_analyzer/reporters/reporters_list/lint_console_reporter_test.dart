@@ -2,10 +2,10 @@
 import 'dart:io';
 
 import 'package:ansicolor/ansicolor.dart';
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/constants.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/metrics_list/maximum_nesting_level/maximum_nesting_level_metric.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/metrics_list/number_of_methods_metric.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/metrics_list/number_of_parameters_metric.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/metrics_list/source_lines_of_code/source_lines_of_code_metric.dart';
 import 'package:dart_code_metrics/src/analyzers/models/entity_type.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_documentation.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value.dart';
@@ -141,7 +141,7 @@ void main() {
               'function': buildFunctionRecordStub(
                 metrics: [
                   buildMetricValueStub<int>(
-                    id: linesOfExecutableCodeKey,
+                    id: SourceLinesOfCodeMetric.metricId,
                     value: 150,
                     level: MetricValueLevel.alarm,
                   ),
@@ -160,7 +160,7 @@ void main() {
         expect(report, hasLength(3));
         expect(
           report[1],
-          contains('lines of executable code: \x1B[38;5;1m150\x1B[0m'),
+          contains('source lines of code: \x1B[38;5;1m150\x1B[0m'),
         );
       });
 
@@ -174,7 +174,7 @@ void main() {
               'function': buildFunctionRecordStub(
                 metrics: [
                   buildMetricValueStub<int>(
-                    id: linesOfExecutableCodeKey,
+                    id: SourceLinesOfCodeMetric.metricId,
                     value: 5,
                   ),
                 ],
@@ -196,7 +196,7 @@ void main() {
         expect(verboseReport, hasLength(3));
         expect(
           verboseReport[1],
-          contains('lines of executable code: \x1B[38;5;7m5\x1B[0m'),
+          contains('source lines of code: \x1B[38;5;7m5\x1B[0m'),
         );
       });
 

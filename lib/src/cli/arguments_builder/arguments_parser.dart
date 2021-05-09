@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:collection/collection.dart';
 
-import '../../analyzers/lint_analyzer/constants.dart';
 import '../../analyzers/lint_analyzer/metrics/metrics_factory.dart';
 import '../../config_builder/models/deprecated_option.dart';
 import 'models/flag_names.dart';
@@ -80,17 +79,6 @@ void _appendMetricsThresholdOptions(ArgParser parser) {
       },
     );
   }
-  parser.addOption(
-    linesOfExecutableCodeKey,
-    help:
-        'Lines of executable code threshold (deprecated, will be removed in 3.3 version)',
-    valueHelp: '$linesOfExecutableCodeDefaultWarningLevel',
-    callback: (i) {
-      if (i != null && int.tryParse(i) == null) {
-        print("'$i' invalid value for argument $linesOfExecutableCodeKey");
-      }
-    },
-  );
 }
 
 void _appendRootOption(ArgParser parser) {

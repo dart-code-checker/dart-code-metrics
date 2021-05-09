@@ -1,8 +1,5 @@
 import 'package:meta/meta.dart';
 
-import '../../analyzers/lint_analyzer/constants.dart';
-import '../../analyzers/lint_analyzer/metrics/metrics_list/source_lines_of_code/source_lines_of_code_metric.dart';
-
 /// Class representing deprecated config option
 @immutable
 class DeprecatedOption {
@@ -22,10 +19,4 @@ class DeprecatedOption {
   });
 }
 
-const Iterable<DeprecatedOption> deprecatedOptions = [
-  DeprecatedOption(
-    supportUntilVersion: '3.3',
-    deprecated: linesOfExecutableCodeKey,
-    replacement: SourceLinesOfCodeMetric.metricId,
-  ),
-];
+const Iterable<DeprecatedOption> deprecatedOptions = [];

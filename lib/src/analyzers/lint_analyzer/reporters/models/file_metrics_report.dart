@@ -14,8 +14,8 @@ class FileMetricsReport {
   final int totalCyclomaticComplexity;
   final int cyclomaticComplexityViolations;
 
-  final int totalLinesOfExecutableCode;
-  final int linesOfExecutableCodeViolations;
+  final int totalSourceLinesOfCode;
+  final int sourceLinesOfCodeViolations;
 
   final int averageMaximumNestingLevel;
   final int maximumNestingLevelViolations;
@@ -29,8 +29,8 @@ class FileMetricsReport {
     required this.methodsCountViolations,
     required this.totalCyclomaticComplexity,
     required this.cyclomaticComplexityViolations,
-    required this.totalLinesOfExecutableCode,
-    required this.linesOfExecutableCodeViolations,
+    required this.totalSourceLinesOfCode,
+    required this.sourceLinesOfCodeViolations,
     required this.averageMaximumNestingLevel,
     required this.maximumNestingLevelViolations,
   });
