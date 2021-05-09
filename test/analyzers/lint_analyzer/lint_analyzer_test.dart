@@ -10,7 +10,7 @@ void main() {
     const analyzer = LintAnalyzer();
     const rootDirectory = '';
     final folders = [
-      normalize(File('test/resources/lint_analyzer').absolute.path)
+      normalize(File('test/resources/lint_analyzer').absolute.path),
     ];
 
     test('should analyze files', () async {
@@ -104,6 +104,20 @@ void main() {
         'source-lines-of-code': MetricValueLevel.alarm,
         'maintainability-index': MetricValueLevel.none,
       });
+    });
+
+    test('should not report metrics', () async {
+      final config = _createConfig(excludeForMetricsPatterns: ['test/**']);
+
+      final result = await analyzer.runCliAnalysis(
+        folders,
+        rootDirectory,
+        config,
+      );
+
+      final report = result.first.functions.values;
+
+      expect(report, isEmpty);
     });
 
     test('should report prefer-trailing-comma rule', () async {

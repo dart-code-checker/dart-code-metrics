@@ -137,7 +137,7 @@ class LintAnalyzer {
         rootFolder,
       );
 
-      if (!isExcluded(path, config.metricsExcludes)) {
+      if (!isExcluded(filePath, config.metricsExcludes)) {
         final visitor = ScopeVisitor();
         internalResult.unit.visitChildren(visitor);
 
@@ -174,7 +174,7 @@ class LintAnalyzer {
         );
 
         return FileReport(
-          path: internalResult.path,
+          path: path,
           relativePath: relativePath,
           classes: Map.unmodifiable(classMetrics
               .map<String, Report>((key, value) => MapEntry(key.name, value))),

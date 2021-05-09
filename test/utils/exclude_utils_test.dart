@@ -27,7 +27,9 @@ void main() {
 
       expect(
         isExcluded(
-            r'c:\Users\dmitry\Development/src/exclude_me.dart', excludes),
+          r'c:\Users\dmitry\Development/src/exclude_me.dart',
+          excludes,
+        ),
         isTrue,
       );
     });
