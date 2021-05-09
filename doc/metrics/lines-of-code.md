@@ -2,7 +2,17 @@
 
 The lines of code are the total number of lines in a method (or _function_). The comment lines, and the blank lines are also counted. A longer method is often difficult to maintain, tend to do a lot of things and can make it hard following what's going on.
 
-Example:
+## Config example
+
+```yaml
+dart_code_metrics:
+  ...
+  metrics:
+    ...
+    - lines-of-code: 100
+```
+
+## Example
 
 ```dart
   MetricComputationResult<int> computeImplementation(

@@ -68,7 +68,7 @@ dart_code_metrics:
   ...
   rules:
     ...
-    - member-ordering
+    - member-ordering-extended
 ```
 
 **OR** with a custom one:
@@ -78,7 +78,7 @@ dart_code_metrics:
   ...
   rules:
     ...
-    - member-ordering:
+    - member-ordering-extended:
         alphabetize: true
         order:
           - public-fields
