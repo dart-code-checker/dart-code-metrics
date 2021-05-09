@@ -23,7 +23,7 @@ final _implementedMetrics = <String, Metric Function(Map<String, Object>)>{
   WeightOfClassMetric.metricId: (config) => WeightOfClassMetric(config: config),
 };
 
-Iterable<Metric> metrics({
+Iterable<Metric> getMetrics({
   required Map<String, Object> config,
   EntityType? measuredType,
 }) {

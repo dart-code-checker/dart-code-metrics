@@ -411,11 +411,11 @@ class LintAnalyzer {
         prepareExcludes(config.excludePatterns, root),
         getRulesById(config.rules),
         getPatternsById(config.antiPatterns),
-        metrics(
+        getMetrics(
           config: config.metrics,
           measuredType: EntityType.classEntity,
         ),
-        metrics(
+        getMetrics(
           config: config.metrics,
           measuredType: EntityType.methodEntity,
         ),

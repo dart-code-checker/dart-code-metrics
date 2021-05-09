@@ -7,16 +7,16 @@ import 'package:test/test.dart';
 void main() {
   group('MetricsFactory', () {
     test('metrics constructs all metrics initialized by passed config', () {
-      expect(metrics(config: {}), isNotEmpty);
+      expect(getMetrics(config: {}), isNotEmpty);
       expect(
-        metrics(config: {})
+        getMetrics(config: {})
             .where((metric) => metric.id == MaximumNestingLevelMetric.metricId)
             .single
             .threshold,
         equals(5),
       );
       expect(
-        metrics(config: {MaximumNestingLevelMetric.metricId: '10'})
+        getMetrics(config: {MaximumNestingLevelMetric.metricId: '10'})
             .where((metric) => metric.id == MaximumNestingLevelMetric.metricId)
             .single
             .threshold,
@@ -26,10 +26,10 @@ void main() {
 
     test('metrics constructs only required type of metrics', () {
       final classMetrics =
-          metrics(config: {}, measuredType: EntityType.classEntity);
+          getMetrics(config: {}, measuredType: EntityType.classEntity);
 
       final methodMetrics =
-          metrics(config: {}, measuredType: EntityType.methodEntity);
+          getMetrics(config: {}, measuredType: EntityType.methodEntity);
 
       expect(classMetrics, isNotEmpty);
       expect(methodMetrics, isNotEmpty);

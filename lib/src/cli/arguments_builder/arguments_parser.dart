@@ -3,27 +3,10 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:collection/collection.dart';
 
-import '../../src/analyzers/lint_analyzer/constants.dart';
-import '../../src/analyzers/lint_analyzer/metrics/metrics_factory.dart';
-import '../config_builder/models/deprecated_option.dart';
-
-const usageHeader = 'Usage: metrics [arguments...] <directories>';
-
-const helpFlagName = 'help';
-const reporterName = 'reporter';
-const excludedName = 'exclude';
-const rootFolderName = 'root-folder';
-
-const consoleReporter = 'console';
-const consoleVerboseReporter = 'console-verbose';
-const codeClimateReporter = 'codeclimate';
-const htmlReporter = 'html';
-const jsonReporter = 'json';
-const githubReporter = 'github';
-const gitlabCodeClimateReporter = 'gitlab';
-
-const reportFolder = 'output-directory';
-const setExitOnViolationLevel = 'set-exit-on-violation-level';
+import '../../analyzers/lint_analyzer/constants.dart';
+import '../../analyzers/lint_analyzer/metrics/metrics_factory.dart';
+import '../../config_builder/models/deprecated_option.dart';
+import 'models/flag_names.dart';
 
 ArgParser argumentsParser() {
   final parser = ArgParser()..addSeparator('');
@@ -44,7 +27,7 @@ ArgParser argumentsParser() {
 
 void _appendHelpOption(ArgParser parser) {
   parser.addFlag(
-    helpFlagName,
+    FlagNames.help,
     abbr: 'h',
     help: 'Print this usage information.',
     negatable: false,
@@ -54,23 +37,23 @@ void _appendHelpOption(ArgParser parser) {
 void _appendReporterOption(ArgParser parser) {
   parser
     ..addOption(
-      reporterName,
+      FlagNames.reporter,
       abbr: 'r',
       help: 'The format of the output of the analysis',
-      valueHelp: consoleReporter,
+      valueHelp: FlagNames.consoleReporter,
       allowed: [
-        consoleReporter,
-        consoleVerboseReporter,
-        codeClimateReporter,
-        githubReporter,
-        gitlabCodeClimateReporter,
-        htmlReporter,
-        jsonReporter,
+        FlagNames.consoleReporter,
+        FlagNames.consoleVerboseReporter,
+        FlagNames.codeClimateReporter,
+        FlagNames.githubReporter,
+        FlagNames.gitlabCodeClimateReporter,
+        FlagNames.htmlReporter,
+        FlagNames.jsonReporter,
       ],
-      defaultsTo: consoleReporter,
+      defaultsTo: FlagNames.consoleReporter,
     )
     ..addOption(
-      reportFolder,
+      FlagNames.reportFolder,
       abbr: 'o',
       help: 'Write HTML output to OUTPUT',
       valueHelp: 'OUTPUT',
@@ -79,7 +62,7 @@ void _appendReporterOption(ArgParser parser) {
 }
 
 void _appendMetricsThresholdOptions(ArgParser parser) {
-  for (final metric in metrics(config: {})) {
+  for (final metric in getMetrics(config: {})) {
     final deprecation = deprecatedOptions
         .firstWhereOrNull((option) => option.deprecated == metric.id);
     final deprecationMessage = deprecation != null
@@ -112,7 +95,7 @@ void _appendMetricsThresholdOptions(ArgParser parser) {
 
 void _appendRootOption(ArgParser parser) {
   parser.addOption(
-    rootFolderName,
+    FlagNames.rootFolder,
     help: 'Root folder',
     valueHelp: './',
     defaultsTo: Directory.current.path,
@@ -121,7 +104,7 @@ void _appendRootOption(ArgParser parser) {
 
 void _appendExcludeOption(ArgParser parser) {
   parser.addOption(
-    excludedName,
+    FlagNames.exclude,
     help: 'File paths in Glob syntax to be exclude',
     valueHelp: '{/**.g.dart,/**.template.dart}',
     defaultsTo: '{/**.g.dart,/**.template.dart}',
@@ -130,7 +113,7 @@ void _appendExcludeOption(ArgParser parser) {
 
 void _appendExitOption(ArgParser parser) {
   parser.addOption(
-    setExitOnViolationLevel,
+    FlagNames.setExitOnViolationLevel,
     allowed: ['noted', 'warning', 'alarm'],
     valueHelp: 'warning',
     help:

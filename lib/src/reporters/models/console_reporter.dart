@@ -6,6 +6,9 @@ import 'reporter.dart';
 
 /// Plain terminal reporter
 abstract class ConsoleReporter extends Reporter {
+  static const String id = 'console';
+  static const String alternativeId = 'console-verbose';
+
   @protected
   final IOSink output;
 

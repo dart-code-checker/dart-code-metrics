@@ -7,6 +7,8 @@ import 'reporter.dart';
 
 /// Creates report about issues in pull request based on GitHub Actions Workflow commands.
 abstract class GitHubReporter extends Reporter {
+  static const String id = 'github';
+
   static final commands = GitHubWorkflowCommands();
 
   @protected
