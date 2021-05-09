@@ -66,7 +66,7 @@ class LongMethod extends ObsoletePattern {
     required int lines,
     required FunctionType functionType,
   }) =>
-      'Long $functionType. This functionType contains $lines lines with code.';
+      'Long $functionType. This $functionType contains $lines lines with code.';
 
   String _compileRecommendationMessage({
     required int maximumLines,
