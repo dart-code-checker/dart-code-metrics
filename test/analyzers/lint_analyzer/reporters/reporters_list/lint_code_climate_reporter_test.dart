@@ -8,13 +8,12 @@ import 'package:dart_code_metrics/src/analyzers/models/entity_type.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_documentation.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value_level.dart';
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/code_climate/code_climate_reporter.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/code_climate/lint_code_climate_reporter.dart';
 import 'package:dart_code_metrics/src/analyzers/models/file_report.dart';
 import 'package:dart_code_metrics/src/analyzers/models/issue.dart';
 import 'package:dart_code_metrics/src/analyzers/models/replacement.dart';
 import 'package:dart_code_metrics/src/analyzers/models/report.dart';
 import 'package:dart_code_metrics/src/analyzers/models/severity.dart';
-import 'package:dart_code_metrics/src/config_builder/models/config.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:source_span/source_span.dart';
 import 'package:test/test.dart';
@@ -27,25 +26,19 @@ Map<String, Object?> _decodeReport(Iterable<String> lines) =>
     json.decode(lines.first.replaceAll('\x00', '')) as Map<String, Object?>;
 
 void main() {
-  group('CodeClimateReporter.report report about', () {
+  group('LintCodeClimateReporter.report report about', () {
     // ignore: close_sinks
     late IOSinkMock output;
     const fullPath = '/home/developer/work/project/example.dart';
 
-    late CodeClimateReporter _reporter;
+    late LintCodeClimateReporter _reporter;
 
     setUp(() {
       output = IOSinkMock();
 
-      _reporter = CodeClimateReporter(
+      _reporter = LintCodeClimateReporter(
         output,
-        reportConfig: const Config(
-          excludePatterns: [],
-          excludeForMetricsPatterns: [],
-          metrics: {},
-          rules: {},
-          antiPatterns: {},
-        ),
+        metrics: {},
       );
     });
 
@@ -376,25 +369,19 @@ void main() {
     });
   });
 
-  group('CodeClimateReporter.report gitlab compatible report about', () {
+  group('LintCodeClimateReporter.report gitlab compatible report about', () {
     // ignore: close_sinks
     late IOSinkMock output;
     const fullPath = '/home/developer/work/project/example.dart';
 
-    late CodeClimateReporter _reporter;
+    late LintCodeClimateReporter _reporter;
 
     setUp(() {
       output = IOSinkMock();
 
-      _reporter = CodeClimateReporter(
+      _reporter = LintCodeClimateReporter(
         output,
-        reportConfig: const Config(
-          excludePatterns: [],
-          excludeForMetricsPatterns: [],
-          metrics: {},
-          rules: {},
-          antiPatterns: {},
-        ),
+        metrics: {},
         gitlabCompatible: true,
       );
     });

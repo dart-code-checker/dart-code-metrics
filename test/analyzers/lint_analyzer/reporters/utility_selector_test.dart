@@ -107,7 +107,7 @@ void main() {
       expect(report.methodsCountViolations, 2);
     });
 
-    group('componentReport calculates report for function', () {
+    group('classMetricsReport calculates report for function', () {
       test('without methods', () {
         final record = buildRecordStub(metrics: const [
           MetricValue<int>(
@@ -124,7 +124,7 @@ void main() {
             comment: '',
           ),
         ]);
-        final report = UtilitySelector.componentReport(record);
+        final report = UtilitySelector.classMetricsReport(record);
 
         expect(report.methodsCount.value, 0);
         expect(report.methodsCount.level, MetricValueLevel.none);
@@ -148,14 +148,14 @@ void main() {
             comment: '',
           ),
         ]);
-        final report = UtilitySelector.componentReport(record);
+        final report = UtilitySelector.classMetricsReport(record);
 
         expect(report.methodsCount.value, methodsCount);
         expect(report.methodsCount.level, MetricValueLevel.alarm);
       });
     });
 
-    group('functionReport calculates report for function', () {
+    group('functionMetricsReport calculates report for function', () {
       test('without arguments', () {
         final record = buildFunctionRecordStub(
           metrics: [
@@ -165,7 +165,7 @@ void main() {
             ),
           ],
         );
-        final report = UtilitySelector.functionReport(record);
+        final report = UtilitySelector.functionMetricsReport(record);
 
         expect(report.argumentsCount.value, 0);
         expect(report.argumentsCount.level, MetricValueLevel.none);
@@ -181,7 +181,7 @@ void main() {
             ),
           ],
         );
-        final report = UtilitySelector.functionReport(record);
+        final report = UtilitySelector.functionMetricsReport(record);
 
         expect(report.argumentsCount.value, 10);
         expect(report.argumentsCount.level, MetricValueLevel.alarm);
@@ -189,7 +189,7 @@ void main() {
 
       test('without nesting information', () {
         final record = buildFunctionRecordStub();
-        final report = UtilitySelector.functionReport(record);
+        final report = UtilitySelector.functionMetricsReport(record);
 
         expect(report.maximumNestingLevel.value, 0);
         expect(report.maximumNestingLevel.level, MetricValueLevel.none);
@@ -213,7 +213,7 @@ void main() {
             ),
           ],
         );
-        final report = UtilitySelector.functionReport(record);
+        final report = UtilitySelector.functionMetricsReport(record);
 
         expect(report.maximumNestingLevel.value, 12);
         expect(report.maximumNestingLevel.level, MetricValueLevel.alarm);
@@ -221,10 +221,10 @@ void main() {
     });
 
     test(
-      'componentViolationLevel returns aggregated violation level for component',
+      'classMetricViolationLevel returns aggregated violation level for component',
       () {
         expect(
-          UtilitySelector.componentViolationLevel(buildComponentReportStub(
+          UtilitySelector.classMetricViolationLevel(buildClassMetricsReportStub(
             methodsCountViolationLevel: MetricValueLevel.warning,
           )),
           MetricValueLevel.warning,
@@ -236,48 +236,58 @@ void main() {
       'functionViolationLevel returns aggregated violation level for function',
       () {
         expect(
-          UtilitySelector.functionViolationLevel(buildFunctionReportStub(
-            cyclomaticComplexityViolationLevel: MetricValueLevel.warning,
-            linesOfExecutableCodeViolationLevel: MetricValueLevel.noted,
-            maintainabilityIndexViolationLevel: MetricValueLevel.none,
-          )),
+          UtilitySelector.functionMetricViolationLevel(
+            buildFunctionMetricsReportStub(
+              cyclomaticComplexityViolationLevel: MetricValueLevel.warning,
+              linesOfExecutableCodeViolationLevel: MetricValueLevel.noted,
+              maintainabilityIndexViolationLevel: MetricValueLevel.none,
+            ),
+          ),
           MetricValueLevel.warning,
         );
 
         expect(
-          UtilitySelector.functionViolationLevel(buildFunctionReportStub(
-            cyclomaticComplexityViolationLevel: MetricValueLevel.warning,
-            linesOfExecutableCodeViolationLevel: MetricValueLevel.alarm,
-            maintainabilityIndexViolationLevel: MetricValueLevel.none,
-          )),
+          UtilitySelector.functionMetricViolationLevel(
+            buildFunctionMetricsReportStub(
+              cyclomaticComplexityViolationLevel: MetricValueLevel.warning,
+              linesOfExecutableCodeViolationLevel: MetricValueLevel.alarm,
+              maintainabilityIndexViolationLevel: MetricValueLevel.none,
+            ),
+          ),
           MetricValueLevel.alarm,
         );
 
         expect(
-          UtilitySelector.functionViolationLevel(buildFunctionReportStub(
-            cyclomaticComplexityViolationLevel: MetricValueLevel.none,
-            linesOfExecutableCodeViolationLevel: MetricValueLevel.none,
-            maintainabilityIndexViolationLevel: MetricValueLevel.noted,
-          )),
+          UtilitySelector.functionMetricViolationLevel(
+            buildFunctionMetricsReportStub(
+              cyclomaticComplexityViolationLevel: MetricValueLevel.none,
+              linesOfExecutableCodeViolationLevel: MetricValueLevel.none,
+              maintainabilityIndexViolationLevel: MetricValueLevel.noted,
+            ),
+          ),
           MetricValueLevel.noted,
         );
 
         expect(
-          UtilitySelector.functionViolationLevel(buildFunctionReportStub(
-            cyclomaticComplexityViolationLevel: MetricValueLevel.none,
-            linesOfExecutableCodeViolationLevel: MetricValueLevel.none,
-            argumentsCountViolationLevel: MetricValueLevel.warning,
-          )),
+          UtilitySelector.functionMetricViolationLevel(
+            buildFunctionMetricsReportStub(
+              cyclomaticComplexityViolationLevel: MetricValueLevel.none,
+              linesOfExecutableCodeViolationLevel: MetricValueLevel.none,
+              argumentsCountViolationLevel: MetricValueLevel.warning,
+            ),
+          ),
           MetricValueLevel.warning,
         );
 
         expect(
-          UtilitySelector.functionViolationLevel(buildFunctionReportStub(
-            cyclomaticComplexityViolationLevel: MetricValueLevel.none,
-            linesOfExecutableCodeViolationLevel: MetricValueLevel.none,
-            argumentsCountViolationLevel: MetricValueLevel.none,
-            maximumNestingLevelViolationLevel: MetricValueLevel.warning,
-          )),
+          UtilitySelector.functionMetricViolationLevel(
+            buildFunctionMetricsReportStub(
+              cyclomaticComplexityViolationLevel: MetricValueLevel.none,
+              linesOfExecutableCodeViolationLevel: MetricValueLevel.none,
+              argumentsCountViolationLevel: MetricValueLevel.none,
+              maximumNestingLevelViolationLevel: MetricValueLevel.warning,
+            ),
+          ),
           MetricValueLevel.warning,
         );
       },

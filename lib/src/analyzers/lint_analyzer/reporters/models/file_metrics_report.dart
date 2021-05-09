@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
 
 @immutable
-class FileReport {
+class FileMetricsReport {
   final int averageArgumentsCount;
   final int argumentsCountViolations;
 
@@ -20,7 +20,7 @@ class FileReport {
   final int averageMaximumNestingLevel;
   final int maximumNestingLevelViolations;
 
-  const FileReport({
+  const FileMetricsReport({
     required this.averageArgumentsCount,
     required this.argumentsCountViolations,
     required this.averageMaintainabilityIndex,

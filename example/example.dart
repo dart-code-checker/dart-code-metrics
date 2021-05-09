@@ -47,7 +47,7 @@ Future<void> main() async {
   // For a simple example we would report results to terminal
 
   // Now the reporter itself
-  final reporter = ConsoleReporter(stdout);
+  final reporter = LintConsoleReporter(stdout);
 
   // Now pass collected analysis reports from runner to reporter and that's it
   await reporter.report(runner.results());

@@ -4,22 +4,17 @@ import 'dart:io';
 import 'package:meta/meta.dart';
 import 'package:source_span/source_span.dart';
 
-import '../../../models/context_message.dart';
-import '../../../models/file_report.dart';
-import '../../../models/issue.dart';
-import '../../../models/replacement.dart';
-import '../../../models/report.dart';
-import '../../metrics/models/metric_value.dart';
-import '../models/reporter.dart';
+import '../../../../../reporters/models/json_reporter.dart';
+import '../../../../models/context_message.dart';
+import '../../../../models/file_report.dart';
+import '../../../../models/issue.dart';
+import '../../../../models/replacement.dart';
+import '../../../../models/report.dart';
+import '../../../metrics/models/metric_value.dart';
 
-/// Machine-readable report in JSON format
 @immutable
-class JsonReporter implements Reporter {
-  final IOSink _output;
-
-  static const _formatVersion = 2;
-
-  const JsonReporter(this._output);
+class LintJsonReporter extends JsonReporter {
+  const LintJsonReporter(IOSink output) : super(output, 2);
 
   @override
   Future<void> report(Iterable<FileReport> records) async {
@@ -38,12 +33,12 @@ class JsonReporter implements Reporter {
     );
 
     final encodedReport = json.encode({
-      'formatVersion': _formatVersion,
+      'formatVersion': formatVersion,
       'timestamp': reportTime.toString(),
       'records': records.map(_analysisRecordToJson).toList(),
     });
 
-    _output.write(encodedReport);
+    output.write(encodedReport);
   }
 
   Map<String, Object> _analysisRecordToJson(FileReport report) {

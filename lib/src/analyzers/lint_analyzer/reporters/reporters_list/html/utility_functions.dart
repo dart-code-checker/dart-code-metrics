@@ -1,7 +1,7 @@
 import 'package:html/dom.dart';
 
 import '../../../metrics/models/metric_value.dart';
-import 'html_reporter.dart';
+import 'lint_html_reporter.dart';
 
 const _violations = 'violations';
 

@@ -2,7 +2,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/json_reporter.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/json/lint_json_reporter.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
 
@@ -11,7 +11,7 @@ import 'report_example.dart';
 class IOSinkMock extends Mock implements IOSink {}
 
 void main() {
-  group('JsonReporter reports in json format', () {
+  group('LintJsonReporter reports in json format', () {
     // ignore: close_sinks
     late IOSinkMock output;
 
@@ -20,13 +20,13 @@ void main() {
     });
 
     test('empty report', () {
-      JsonReporter(output).report([]);
+      LintJsonReporter(output).report([]);
 
       verifyNever(() => output.write(captureAny()));
     });
 
     test('complex report', () {
-      JsonReporter(output).report(testReport);
+      LintJsonReporter(output).report(testReport);
 
       final captured = verify(
         () => output.write(captureAny()),

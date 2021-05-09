@@ -21,7 +21,7 @@ import '../analyzers/lint_analyzer/anti_patterns/patterns_factory.dart';
 import '../analyzers/lint_analyzer/metrics/metric_utils.dart';
 import '../analyzers/lint_analyzer/metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import '../analyzers/lint_analyzer/metrics/metrics_list/number_of_parameters_metric.dart';
-import '../analyzers/lint_analyzer/reporters/models/function_report.dart';
+import '../analyzers/lint_analyzer/reporters/models/function_metrics_report.dart';
 import '../analyzers/lint_analyzer/reporters/utility_selector.dart';
 import '../analyzers/lint_analyzer/rules/rules_factory.dart';
 import '../analyzers/lint_analyzer/scope_visitor.dart';
@@ -379,7 +379,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
 
       final functionReport = _buildReport(function, source, config);
       if (isReportLevel(
-        UtilitySelector.functionViolationLevel(functionReport),
+        UtilitySelector.functionMetricViolationLevel(functionReport),
       )) {
         final startSourceLocation = SourceLocation(
           functionOffset,
@@ -413,12 +413,12 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     return result;
   }
 
-  FunctionReport _buildReport(
+  FunctionMetricsReport _buildReport(
     ScopedFunctionDeclaration function,
     InternalResolvedUnitResult source,
     AnalyzerPluginConfig config,
   ) =>
-      UtilitySelector.functionReport(
+      UtilitySelector.functionMetricsReport(
         Report(
           location: nodeLocation(
             node: function.declaration,
@@ -440,7 +440,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
 
   plugin.AnalysisErrorFixes? _cyclomaticComplexityMetric(
     ScopedFunctionDeclaration function,
-    FunctionReport functionReport,
+    FunctionMetricsReport functionReport,
     SourceLocation startSourceLocation,
     AnalyzerPluginConfig config,
   ) =>
@@ -455,7 +455,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
 
   plugin.AnalysisErrorFixes? _nestingLevelMetric(
     ScopedFunctionDeclaration function,
-    FunctionReport functionReport,
+    FunctionMetricsReport functionReport,
     SourceLocation startSourceLocation,
     AnalyzerPluginConfig config,
   ) =>

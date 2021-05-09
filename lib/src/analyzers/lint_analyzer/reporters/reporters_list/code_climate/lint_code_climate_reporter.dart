@@ -1,32 +1,26 @@
 import 'dart:convert';
 import 'dart:io';
 
-import '../../../../../config_builder/models/config.dart';
+import '../../../../../reporters/models/code_climate_reporter.dart';
 import '../../../../models/file_report.dart';
 import '../../../metrics/metric_utils.dart';
 import '../../../metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import '../../../metrics/metrics_list/maximum_nesting_level/maximum_nesting_level_metric.dart';
 import '../../../metrics/metrics_list/number_of_methods_metric.dart';
-import '../../models/reporter.dart';
 import '../../utility_selector.dart';
 import 'code_climate_issue.dart';
 
-// Code Climate Engine Specification https://github.com/codeclimate/platform/blob/master/spec/analyzers/SPEC.md
+class LintCodeClimateReporter extends CodeClimateReporter {
+  final Map<String, Object> metrics;
 
-/// Creates reports in Code Climate format widely understood by various CI and analysis tools
-class CodeClimateReporter implements Reporter {
-  final IOSink _output;
-
-  final Config reportConfig;
-
-  /// If true will report in GitLab Code Quality format
-  final bool gitlabCompatible;
-
-  CodeClimateReporter(
-    this._output, {
-    required this.reportConfig,
-    this.gitlabCompatible = false,
-  });
+  LintCodeClimateReporter(
+    IOSink output, {
+    required this.metrics,
+    bool gitlabCompatible = false,
+  }) : super(
+          output,
+          gitlabCompatible: gitlabCompatible,
+        );
 
   @override
   Future<void> report(Iterable<FileReport> records) async {
@@ -37,10 +31,10 @@ class CodeClimateReporter implements Reporter {
     final codeClimateRecords = records.map(_toIssues).expand((r) => r);
 
     if (gitlabCompatible) {
-      _output.writeln(json.encode(codeClimateRecords.toList()));
+      output.writeln(json.encode(codeClimateRecords.toList()));
     } else {
       for (final record in codeClimateRecords) {
-        _output.writeln('${json.encode(record)}\x00');
+        output.writeln('${json.encode(record)}\x00');
       }
     }
   }
@@ -49,7 +43,7 @@ class CodeClimateReporter implements Reporter {
     final result = <CodeClimateIssue>[
       ...record.classes.keys.expand((key) {
         final component = record.classes[key]!;
-        final report = UtilitySelector.componentReport(component);
+        final report = UtilitySelector.classMetricsReport(component);
 
         return [
           if (isReportLevel(report.methodsCount.level))
@@ -60,7 +54,7 @@ class CodeClimateReporter implements Reporter {
               record.relativePath,
               key,
               readThreshold<int>(
-                reportConfig.metrics,
+                metrics,
                 NumberOfMethodsMetric.metricId,
                 10,
               ),
@@ -82,7 +76,7 @@ class CodeClimateReporter implements Reporter {
 
     for (final key in record.functions.keys) {
       final func = record.functions[key]!;
-      final report = UtilitySelector.functionReport(func);
+      final report = UtilitySelector.functionMetricsReport(func);
 
       if (isReportLevel(report.cyclomaticComplexity.level)) {
         issues.add(CodeClimateIssue.cyclomaticComplexity(
@@ -91,7 +85,7 @@ class CodeClimateReporter implements Reporter {
           record.relativePath,
           key,
           readThreshold<int>(
-            reportConfig.metrics,
+            metrics,
             CyclomaticComplexityMetric.metricId,
             20,
           ),
@@ -114,7 +108,7 @@ class CodeClimateReporter implements Reporter {
           record.relativePath,
           key,
           readThreshold<int>(
-            reportConfig.metrics,
+            metrics,
             MaximumNestingLevelMetric.metricId,
             5,
           ),
