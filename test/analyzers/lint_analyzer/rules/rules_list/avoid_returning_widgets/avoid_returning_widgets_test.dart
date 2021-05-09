@@ -28,11 +28,12 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [88, 202, 271, 398, 527, 662],
-        startLines: [6, 15, 20, 25, 30, 36],
-        startColumns: [3, 3, 3, 3, 3, 1],
-        endOffsets: [144, 257, 327, 455, 590, 697],
+        startOffsets: [88, 175, 289, 358, 485, 614, 749],
+        startLines: [6, 11, 20, 25, 30, 35, 41],
+        startColumns: [3, 3, 3, 3, 3, 3, 1],
+        endOffsets: [127, 231, 344, 414, 542, 677, 784],
         locationTexts: [
+          'Widget get widgetGetter => Container();',
           'Widget _getMyShinyWidget() {\n'
               '    return Container();\n'
               '  }',
@@ -45,6 +46,7 @@ void main() {
           'Widget _getWidget() => Container();',
         ],
         messages: [
+          'Avoid returning widgets from a function.',
           'Avoid returning widgets from a function.',
           'Avoid returning widgets from a function.',
           'Avoid returning widgets from a function.',
@@ -68,11 +70,12 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [88, 202, 271, 398],
-        startLines: [6, 15, 20, 25],
-        startColumns: [3, 3, 3, 3],
-        endOffsets: [144, 257, 327, 455],
+        startOffsets: [88, 175, 289, 358, 485],
+        startLines: [6, 11, 20, 25, 30],
+        startColumns: [3, 3, 3, 3, 3],
+        endOffsets: [127, 231, 344, 414, 542],
         locationTexts: [
+          'Widget get widgetGetter => Container();',
           'Widget _getMyShinyWidget() {\n'
               '    return Container();\n'
               '  }',
@@ -83,6 +86,7 @@ void main() {
           'List<Widget> _getWidgetsList() => [Container()].toList();',
         ],
         messages: [
+          'Avoid returning widgets from a function.',
           'Avoid returning widgets from a function.',
           'Avoid returning widgets from a function.',
           'Avoid returning widgets from a function.',

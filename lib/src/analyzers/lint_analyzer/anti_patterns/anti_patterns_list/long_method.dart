@@ -1,3 +1,5 @@
+import '../../../../utils/node_utils.dart';
+import '../../../models/entity_type.dart';
 import '../../../models/function_type.dart';
 import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
@@ -5,15 +7,24 @@ import '../../../models/scoped_function_declaration.dart';
 import '../../constants.dart';
 import '../../metrics/metric_utils.dart';
 import '../../metrics/metrics_list/source_lines_of_code/source_code_visitor.dart';
+import '../../metrics/metrics_list/source_lines_of_code/source_lines_of_code_metric.dart';
 import '../models/obsolete_pattern.dart';
-import '../pattern_utils.dart' as utils;
+import '../models/pattern_documentation.dart';
+import '../pattern_utils.dart';
 
 class LongMethod extends ObsoletePattern {
   static const String patternId = 'long-method';
-  static const _documentationUrl = 'https://git.io/JUIP7';
 
   LongMethod()
-      : super(id: patternId, documentationUrl: Uri.parse(_documentationUrl));
+      : super(
+          id: patternId,
+          documentation: const PatternDocumentation(
+            name: 'Long Method',
+            brief:
+                'Long blocks of code are difficult to reuse and understand because they are usually responsible for more than one thing. Separating those to several short ones with proper names helps you reuse your code and understand it better without reading methods body.',
+            supportedType: EntityType.methodEntity,
+          ),
+        );
 
   @override
   Iterable<Issue> legacyCheck(
@@ -21,11 +32,18 @@ class LongMethod extends ObsoletePattern {
     Iterable<ScopedFunctionDeclaration> functions,
     Map<String, Object> metricsConfig,
   ) {
-    final threshold = readThreshold<int>(
-      metricsConfig,
-      linesOfExecutableCodeKey,
-      linesOfExecutableCodeDefaultWarningLevel,
-    );
+    final threshold =
+        metricsConfig.containsKey(SourceLinesOfCodeMetric.metricId)
+            ? readThreshold<int>(
+                metricsConfig,
+                SourceLinesOfCodeMetric.metricId,
+                linesOfExecutableCodeDefaultWarningLevel,
+              )
+            : readThreshold<int>(
+                metricsConfig,
+                linesOfExecutableCodeKey,
+                linesOfExecutableCodeDefaultWarningLevel,
+              );
 
     final issues = <Issue>[];
 
@@ -34,18 +52,20 @@ class LongMethod extends ObsoletePattern {
       function.declaration.visitChildren(visitor);
 
       if (visitor.linesWithCode.length > threshold) {
-        issues.add(utils.createIssue(
-          this,
-          _compileMessage(
+        issues.add(createIssue(
+          pattern: this,
+          location: nodeLocation(
+            node: function.declaration,
+            source: source,
+          ),
+          message: _compileMessage(
             lines: visitor.linesWithCode.length,
             functionType: function.type,
           ),
-          _compileRecommendationMessage(
+          verboseMessage: _compileRecommendationMessage(
             maximumLines: threshold,
             functionType: function.type,
           ),
-          source,
-          function.declaration,
         ));
       }
     }

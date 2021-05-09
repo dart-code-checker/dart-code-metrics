@@ -56,7 +56,7 @@ class GitHubWorkflowCommands {
     }
 
     if (uri.scheme == 'file') {
-      return uri.toFilePath();
+      return uri.toFilePath(windows: false);
     }
 
     return File(uri.path).absolute.path;

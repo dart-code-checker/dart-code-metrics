@@ -1,4 +1,3 @@
-// ignore_for_file: long-method
 import 'dart:async';
 
 import 'package:analyzer/dart/analysis/results.dart';
@@ -18,7 +17,7 @@ import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
 import 'package:source_span/source_span.dart';
 
-import '../analyzers/lint_analyzer/anti_patterns/anti_patterns_factory.dart';
+import '../analyzers/lint_analyzer/anti_patterns/patterns_factory.dart';
 import '../analyzers/lint_analyzer/metrics/metric_utils.dart';
 import '../analyzers/lint_analyzer/metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import '../analyzers/lint_analyzer/metrics/metrics_list/number_of_parameters_metric.dart';
@@ -32,6 +31,7 @@ import '../analyzers/models/scoped_function_declaration.dart';
 import '../analyzers/models/suppression.dart';
 import '../config_builder/models/analysis_options.dart';
 import '../config_builder/models/config.dart';
+import '../config_builder/models/deprecated_option.dart';
 import '../utils/node_utils.dart';
 import '../utils/yaml_utils.dart';
 import 'analyzer_plugin_config.dart';
@@ -112,6 +112,18 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
       getPatternsById(options.antiPatterns),
       options.metrics,
     );
+
+    final deprecations = checkConfigDeprecatedOptions(
+      _configs[dartDriver]!,
+      deprecatedOptions,
+      contextRoot.optionsFile!,
+    );
+    if (deprecations.isNotEmpty) {
+      channel.sendNotification(plugin.AnalysisErrorsParams(
+        contextRoot.optionsFile!,
+        deprecations.map((deprecation) => deprecation.error).toList(),
+      ).toNotification());
+    }
 
     runZonedGuarded(
       () {
@@ -227,13 +239,9 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
       // ignore: deprecated_member_use
       final root = driver.contextRoot?.root;
 
-      result.addAll(_checkOnCodeIssues(
-        ignores,
-        analysisResult,
-        sourceUri,
-        _configs[driver]!,
-        root,
-      ));
+      result.addAll(
+        _checkOnCodeIssues(ignores, analysisResult, sourceUri, config, root),
+      );
 
       if (!isExcluded(analysisResult, config.metricsExcludes)) {
         final scopeVisitor = ScopeVisitor();
@@ -261,7 +269,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
             analysisResult.lineInfo,
           ),
           functions,
-          _configs[driver]!,
+          config,
         ));
 
         if (!ignores.isSuppressed(_codeMetricsId)) {
@@ -274,16 +282,25 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
               analysisResult.lineInfo,
             ),
             functions,
-            _configs[driver]!,
+            config,
           ));
         }
       }
+    } else if (config != null &&
+        // ignore: deprecated_member_use
+        analysisResult.path == driver.contextRoot?.optionsFilePath) {
+      final deprecations = checkConfigDeprecatedOptions(
+        config,
+        deprecatedOptions,
+        analysisResult.path ?? '',
+      );
+
+      result.addAll(deprecations);
     }
 
     return result;
   }
 
-  // ignore: long-parameter-list
   Iterable<plugin.AnalysisErrorFixes> _checkOnCodeIssues(
     Suppression ignores,
     ResolvedUnitResult analysisResult,

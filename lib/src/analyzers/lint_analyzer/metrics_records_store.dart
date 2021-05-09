@@ -3,6 +3,7 @@ import '../models/file_report.dart';
 import 'metrics_analysis_recorder.dart';
 import 'metrics_records_builder.dart';
 
+@Deprecated('will be removed in 3.3')
 abstract class MetricsRecordsStore {
   /// File records saved so far
   Iterable<FileReport> records();

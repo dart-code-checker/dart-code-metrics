@@ -1,15 +1,14 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
+import 'package:dart_code_metrics/config.dart';
+import 'package:dart_code_metrics/metrics.dart';
 import 'package:dart_code_metrics/metrics_analyzer.dart';
 import 'package:dart_code_metrics/reporters.dart';
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/metrics_factory.dart';
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value_level.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/utility_selector.dart';
 import 'package:dart_code_metrics/src/cli/arguments_parser.dart';
 import 'package:dart_code_metrics/src/cli/arguments_validation.dart';
 import 'package:dart_code_metrics/src/cli/arguments_validation_exceptions.dart';
-import 'package:dart_code_metrics/src/config_builder/models/analysis_options.dart';
 import 'package:path/path.dart' as p;
 
 final _parser = argumentsParser();
@@ -43,10 +42,13 @@ Future<void> _runAnalysis(ArgResults arguments) async {
   final config =
       Config.fromAnalysisOptions(options).merge(_configFromArgs(arguments));
 
+  // ignore: deprecated_member_use_from_same_package
   final store = MetricsRecordsStore.store();
+  // ignore: deprecated_member_use_from_same_package
   final analyzer = MetricsAnalyzer(store, config);
 
   final runner =
+      // ignore: deprecated_member_use_from_same_package
       MetricsAnalysisRunner(analyzer, store, arguments.rest, rootFolder);
   await runner.run();
 

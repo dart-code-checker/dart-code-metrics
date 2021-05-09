@@ -3,6 +3,11 @@ class SomeWidget extends StatelessWidget {
   Widget build() {}
 
   // LINT
+  Widget get widgetGetter => Container();
+
+  String get stringGetter => '';
+
+  // LINT
   Widget _getMyShinyWidget() {
     return Container();
   }

@@ -1,4 +1,4 @@
-// ignore_for_file: prefer-trailing-comma, comment_references
+// ignore_for_file: comment_references
 import 'package:meta/meta.dart';
 
 import '../models/file_report.dart';
@@ -8,6 +8,7 @@ import 'metrics_records_store.dart';
 /// Coordinates [MetricsAnalyzer] and [MetricsRecordsStore] to collect code quality info
 /// Use [ConsoleReporter], [HtmlReporter], [JsonReporter] or [CodeClimateReporter] to produce reports from collected info
 @immutable
+@Deprecated('will be removed in 3.3')
 class MetricsAnalysisRunner {
   final MetricsAnalyzer _analyzer;
   final MetricsRecordsStore _store;
@@ -15,7 +16,11 @@ class MetricsAnalysisRunner {
   final String _rootFolder;
 
   const MetricsAnalysisRunner(
-      this._analyzer, this._store, this._folders, this._rootFolder);
+    this._analyzer,
+    this._store,
+    this._folders,
+    this._rootFolder,
+  );
 
   /// Get results of analysis run. Will return empty iterable if [run()] wasn't executed yet
   Iterable<FileReport> results() => _store.records();

@@ -1,4 +1,4 @@
-// ignore_for_file: long-method, comment_references
+// ignore_for_file: comment_references
 import 'dart:io';
 import 'dart:math';
 
@@ -13,20 +13,20 @@ import 'package:path/path.dart' as p;
 import '../../analyzer_plugin/plugin_utils.dart';
 import '../../config_builder/models/config.dart';
 import '../../utils/node_utils.dart';
+import '../models/entity_type.dart';
 import '../models/internal_resolved_unit_result.dart';
 import '../models/issue.dart';
 import '../models/report.dart';
 import '../models/scoped_function_declaration.dart';
 import '../models/suppression.dart';
-import 'anti_patterns/anti_patterns_factory.dart';
 import 'anti_patterns/models/obsolete_pattern.dart';
+import 'anti_patterns/patterns_factory.dart';
 import 'constants.dart';
 import 'metrics/halstead_volume_ast_visitor.dart';
 import 'metrics/metric_utils.dart';
 import 'metrics/metrics_factory.dart';
 import 'metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import 'metrics/metrics_list/source_lines_of_code/source_code_visitor.dart';
-import 'metrics/models/entity_type.dart';
 import 'metrics/models/metric.dart';
 import 'metrics/models/metric_documentation.dart';
 import 'metrics/models/metric_value.dart';
@@ -39,6 +39,7 @@ import 'scope_visitor.dart';
 
 /// Performs code quality analysis on specified files
 /// See [MetricsAnalysisRunner] to get analysis info
+@Deprecated('will be replaced with LintAnalyzer in 3.3')
 class MetricsAnalyzer {
   final Iterable<Glob> _globalExclude;
   final Iterable<Rule> _codeRules;

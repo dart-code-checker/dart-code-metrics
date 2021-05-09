@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.2.0
+
+* Deprecate `ConsoleReporter`, `MetricsAnalysisRunner`, `MetricsAnalyzer`, `MetricsRecordsBuilder` and `MetricsRecordsStore`.
+* Improve static code diagnostics `avoid-returning-widgets`.
+
 ## 3.2.0-dev.1
 
 * Add static code diagnostics `avoid-non-null-assertion`,  `avoid-late-keyword`.
@@ -36,6 +41,11 @@
   * `number-of-arguments` to `number-of-parameters`
 * Update README.
 * Add static code diagnostic `member-ordering-extended`.
+
+## 2.5.0
+
+* Backport static code diagnostics `member-ordering-extended`, `avoid-returning-widgets`.
+* Backport fix excludes on Windows OS.
 
 ## 2.4.1
 

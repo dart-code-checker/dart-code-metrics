@@ -1,3 +1,5 @@
+import '../../../../utils/node_utils.dart';
+import '../../../models/entity_type.dart';
 import '../../../models/function_type.dart';
 import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
@@ -6,14 +8,22 @@ import '../../metrics/metric_utils.dart';
 import '../../metrics/metrics_list/number_of_parameters_metric.dart';
 import '../../metrics_analyzer_utils.dart';
 import '../models/obsolete_pattern.dart';
-import '../pattern_utils.dart' as utils;
+import '../models/pattern_documentation.dart';
+import '../pattern_utils.dart';
 
 class LongParameterList extends ObsoletePattern {
   static const String patternId = 'long-parameter-list';
-  static const _documentationUrl = 'https://git.io/JUGrU';
 
   LongParameterList()
-      : super(id: patternId, documentationUrl: Uri.parse(_documentationUrl));
+      : super(
+          id: patternId,
+          documentation: const PatternDocumentation(
+            name: 'Long Parameter List',
+            brief:
+                'Long parameter lists are difficult to understand and use. Wrapping them into an object allows grouping parameters and change transferred data only by the object modification.',
+            supportedType: EntityType.methodEntity,
+          ),
+        );
 
   @override
   Iterable<Issue> legacyCheck(
@@ -26,18 +36,20 @@ class LongParameterList extends ObsoletePattern {
 
     return functions
         .where((function) => getArgumentsCount(function) > threshold)
-        .map((function) => utils.createIssue(
-              this,
-              _compileMessage(
+        .map((function) => createIssue(
+              pattern: this,
+              location: nodeLocation(
+                node: function.declaration,
+                source: source,
+              ),
+              message: _compileMessage(
                 args: getArgumentsCount(function),
                 functionType: function.type,
               ),
-              _compileRecommendationMessage(
+              verboseMessage: _compileRecommendationMessage(
                 maximumArguments: threshold,
                 functionType: function.type,
               ),
-              source,
-              function.declaration,
             ))
         .toList();
   }
