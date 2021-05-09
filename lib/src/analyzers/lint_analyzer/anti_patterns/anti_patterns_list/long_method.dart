@@ -4,7 +4,6 @@ import '../../../models/function_type.dart';
 import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
 import '../../../models/scoped_function_declaration.dart';
-import '../../constants.dart';
 import '../../metrics/metric_utils.dart';
 import '../../metrics/metrics_list/source_lines_of_code/source_code_visitor.dart';
 import '../../metrics/metrics_list/source_lines_of_code/source_lines_of_code_metric.dart';
@@ -33,17 +32,7 @@ class LongMethod extends ObsoletePattern {
     Map<String, Object> metricsConfig,
   ) {
     final threshold =
-        metricsConfig.containsKey(SourceLinesOfCodeMetric.metricId)
-            ? readThreshold<int>(
-                metricsConfig,
-                SourceLinesOfCodeMetric.metricId,
-                linesOfExecutableCodeDefaultWarningLevel,
-              )
-            : readThreshold<int>(
-                metricsConfig,
-                linesOfExecutableCodeKey,
-                linesOfExecutableCodeDefaultWarningLevel,
-              );
+        readThreshold<int>(metricsConfig, SourceLinesOfCodeMetric.metricId, 50);
 
     final issues = <Issue>[];
 
@@ -74,11 +63,11 @@ class LongMethod extends ObsoletePattern {
   }
 
   String _compileMessage({required int lines, FunctionType? functionType}) =>
-      'Long $functionType. This ${functionType.toString().toLowerCase()} contains $lines lines with executable code.';
+      'Long $functionType. This ${functionType.toString().toLowerCase()} contains $lines lines with code.';
 
   String _compileRecommendationMessage({
     required int maximumLines,
     FunctionType? functionType,
   }) =>
-      "Based on configuration of this package, we don't recommend write a ${functionType.toString().toLowerCase()} longer than $maximumLines lines with executable code.";
+      "Based on configuration of this package, we don't recommend write a ${functionType.toString().toLowerCase()} longer than $maximumLines lines with code.";
 }

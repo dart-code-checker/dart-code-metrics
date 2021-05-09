@@ -1,9 +1,9 @@
 import 'package:analyzer/dart/ast/ast.dart';
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/constants.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/metrics_list/maximum_nesting_level/maximum_nesting_level_metric.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/metrics_list/number_of_methods_metric.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/metrics_list/number_of_parameters_metric.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/metrics_list/source_lines_of_code/source_lines_of_code_metric.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/metrics_list/weight_of_class_metric.dart';
 import 'package:dart_code_metrics/src/analyzers/models/entity_type.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_documentation.dart';
@@ -92,7 +92,7 @@ Report buildFunctionRecordStub({
     ),
     buildMetricValueStub<int>(id: MaximumNestingLevelMetric.metricId, value: 0),
     buildMetricValueStub<int>(id: NumberOfParametersMetric.metricId, value: 0),
-    buildMetricValueStub<int>(id: linesOfExecutableCodeKey, value: 0),
+    buildMetricValueStub<int>(id: SourceLinesOfCodeMetric.metricId, value: 0),
     buildMetricValueStub<double>(id: 'maintainability-index', value: 100),
   ];
 
@@ -142,8 +142,8 @@ ClassMetricsReport buildClassMetricsReportStub({
 FunctionMetricsReport buildFunctionMetricsReportStub({
   int cyclomaticComplexity = 0,
   MetricValueLevel cyclomaticComplexityViolationLevel = MetricValueLevel.none,
-  int linesOfExecutableCode = 0,
-  MetricValueLevel linesOfExecutableCodeViolationLevel = MetricValueLevel.none,
+  int sourceLinesOfCode = 0,
+  MetricValueLevel sourceLinesOfCodeViolationLevel = MetricValueLevel.none,
   double maintainabilityIndex = 0,
   MetricValueLevel maintainabilityIndexViolationLevel = MetricValueLevel.none,
   int argumentsCount = 0,
@@ -165,7 +165,7 @@ FunctionMetricsReport buildFunctionMetricsReportStub({
         level: cyclomaticComplexityViolationLevel,
         comment: '',
       ),
-      linesOfExecutableCode: MetricValue<int>(
+      sourceLinesOfCode: MetricValue<int>(
         metricsId: '',
         documentation: const MetricDocumentation(
           name: '',
@@ -174,8 +174,8 @@ FunctionMetricsReport buildFunctionMetricsReportStub({
           measuredType: EntityType.classEntity,
           examples: [],
         ),
-        value: linesOfExecutableCode,
-        level: linesOfExecutableCodeViolationLevel,
+        value: sourceLinesOfCode,
+        level: sourceLinesOfCodeViolationLevel,
         comment: '',
       ),
       maintainabilityIndex: MetricValue<double>(

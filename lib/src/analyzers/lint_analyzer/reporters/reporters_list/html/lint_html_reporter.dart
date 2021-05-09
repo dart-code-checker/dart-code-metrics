@@ -31,9 +31,8 @@ const _violationLevelLineStyle = {
 const _cyclomaticComplexity = 'Cyclomatic complexity';
 const _cyclomaticComplexityWithViolations =
     '$_cyclomaticComplexity / violations';
-const _linesOfExecutableCode = 'Lines of executable code';
-const _linesOfExecutableCodeWithViolations =
-    '$_linesOfExecutableCode / violations';
+const _sourceLinesOfCode = 'Source lines of code';
+const _sourceLinesOfCodeWithViolations = '$_sourceLinesOfCode / violations';
 const _maintainabilityIndex = 'Maintainability index';
 const _maintainabilityIndexWithViolations =
     '$_maintainabilityIndex / violations';
@@ -91,15 +90,14 @@ class LintHtmlReporter extends HtmlReporter {
       (prevValue, record) =>
           prevValue + record.report.cyclomaticComplexityViolations,
     );
-    final totalLinesOfExecutableCode = sortedRecords.fold<int>(
+    final totalSourceLinesOfCode = sortedRecords.fold<int>(
       0,
-      (prevValue, record) =>
-          prevValue + record.report.totalLinesOfExecutableCode,
+      (prevValue, record) => prevValue + record.report.totalSourceLinesOfCode,
     );
-    final linesOfExecutableCodeViolations = sortedRecords.fold<int>(
+    final sourceLinesOfCodeViolations = sortedRecords.fold<int>(
       0,
       (prevValue, record) =>
-          prevValue + record.report.linesOfExecutableCodeViolations,
+          prevValue + record.report.sourceLinesOfCodeViolations,
     );
     final averageMaintainabilityIndex = sortedRecords.fold<double>(
           0,
@@ -137,8 +135,7 @@ class LintHtmlReporter extends HtmlReporter {
     );
 
     final withCyclomaticComplexityViolations = complexityViolations > 0;
-    final withLinesOfExecutableCodeViolations =
-        linesOfExecutableCodeViolations > 0;
+    final withSourceLinesOfCodeViolations = sourceLinesOfCodeViolations > 0;
     final withMaintainabilityIndexViolations =
         maintainabilityIndexViolations > 0;
     final withArgumentsCountViolations = argumentsCountViolations > 0;
@@ -147,9 +144,9 @@ class LintHtmlReporter extends HtmlReporter {
     final cyclomaticComplexityTitle = withCyclomaticComplexityViolations
         ? _cyclomaticComplexityWithViolations
         : _cyclomaticComplexity;
-    final linesOfExecutableCodeTitle = withLinesOfExecutableCodeViolations
-        ? _linesOfExecutableCodeWithViolations
-        : _linesOfExecutableCode;
+    final sourceLinesOfCodeTitle = withSourceLinesOfCodeViolations
+        ? _sourceLinesOfCodeWithViolations
+        : _sourceLinesOfCode;
     final maintainabilityIndexTitle = withMaintainabilityIndexViolations
         ? _maintainabilityIndexWithViolations
         : _maintainabilityIndex;
@@ -166,7 +163,7 @@ class LintHtmlReporter extends HtmlReporter {
         ..append(Element.tag('tr')
           ..append(Element.tag('th')..text = title)
           ..append(Element.tag('th')..text = cyclomaticComplexityTitle)
-          ..append(Element.tag('th')..text = linesOfExecutableCodeTitle)
+          ..append(Element.tag('th')..text = sourceLinesOfCodeTitle)
           ..append(Element.tag('th')..text = maintainabilityIndexTitle)
           ..append(Element.tag('th')..text = argumentsCountTitle)
           ..append(Element.tag('th')..text = maximumNestingTitle)))
@@ -183,9 +180,9 @@ class LintHtmlReporter extends HtmlReporter {
           violations: complexityViolations,
         ))
         ..append(renderSummaryMetric(
-          _linesOfExecutableCode,
-          totalLinesOfExecutableCode,
-          violations: linesOfExecutableCodeViolations,
+          _sourceLinesOfCode,
+          totalSourceLinesOfCode,
+          violations: sourceLinesOfCodeViolations,
         ))
         ..append(renderSummaryMetric(
           _maintainabilityIndex,
@@ -362,8 +359,8 @@ class LintHtmlReporter extends HtmlReporter {
             ..append(Element.tag('p')
               ..classes.add('metrics-source-code__tooltip-text')
               ..append(renderFunctionMetric(
-                _linesOfExecutableCode,
-                report.linesOfExecutableCode,
+                _sourceLinesOfCode,
+                report.sourceLinesOfCode,
               )))
             ..append(Element.tag('p')
               ..classes.add('metrics-source-code__tooltip-text')
@@ -568,9 +565,9 @@ class LintHtmlReporter extends HtmlReporter {
           violations: report.cyclomaticComplexityViolations,
         ),
         renderSummaryMetric(
-          _linesOfExecutableCode,
-          report.totalLinesOfExecutableCode,
-          violations: report.linesOfExecutableCodeViolations,
+          _sourceLinesOfCode,
+          report.totalSourceLinesOfCode,
+          violations: report.sourceLinesOfCodeViolations,
         ),
         renderSummaryMetric(
           _maintainabilityIndex,

@@ -56,8 +56,8 @@ Element renderFunctionMetric(String name, MetricValue<num> metric) {
 Element renderTableRecord(ReportTableRecord record) {
   final recordHaveCyclomaticComplexityViolations =
       record.report.cyclomaticComplexityViolations > 0;
-  final recordHaveLinesOfExecutableCodeViolations =
-      record.report.linesOfExecutableCodeViolations > 0;
+  final recordHaveSourceLinesOfCodeViolations =
+      record.report.sourceLinesOfCodeViolations > 0;
   final recordHaveMaintainabilityIndexViolations =
       record.report.maintainabilityIndexViolations > 0;
   final recordHaveArgumentsCountViolations =
@@ -78,11 +78,11 @@ Element renderTableRecord(ReportTableRecord record) {
         recordHaveCyclomaticComplexityViolations ? 'with-violations' : '',
       ))
     ..append(Element.tag('td')
-      ..text = recordHaveLinesOfExecutableCodeViolations
-          ? '${record.report.totalLinesOfExecutableCode} / ${record.report.linesOfExecutableCodeViolations}'
-          : '${record.report.totalLinesOfExecutableCode}'
+      ..text = recordHaveSourceLinesOfCodeViolations
+          ? '${record.report.totalSourceLinesOfCode} / ${record.report.sourceLinesOfCodeViolations}'
+          : '${record.report.totalSourceLinesOfCode}'
       ..classes.add(
-        recordHaveLinesOfExecutableCodeViolations ? 'with-violations' : '',
+        recordHaveSourceLinesOfCodeViolations ? 'with-violations' : '',
       ))
     ..append(Element.tag('td')
       ..text = recordHaveMaintainabilityIndexViolations

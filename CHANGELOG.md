@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* Remove `Lines of Executable Code` metric.
+
 ## 3.2.1
 
 * Remove unnecessary scan by `Lines of Executable Code`
