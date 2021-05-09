@@ -1,8 +1,8 @@
-// ignore_for_file: long-method
 import 'dart:math';
 
 import 'package:quiver/iterables.dart' as quiver;
 
+import '../../models/entity_type.dart';
 import '../../models/file_report.dart';
 import '../../models/report.dart';
 import '../constants.dart';
@@ -12,7 +12,6 @@ import '../metrics/metrics_list/maximum_nesting_level/maximum_nesting_level_metr
 import '../metrics/metrics_list/number_of_methods_metric.dart';
 import '../metrics/metrics_list/number_of_parameters_metric.dart';
 import '../metrics/metrics_list/weight_of_class_metric.dart';
-import '../metrics/models/entity_type.dart';
 import '../metrics/models/metric_documentation.dart';
 import '../metrics/models/metric_value.dart';
 import '../metrics/models/metric_value_level.dart';

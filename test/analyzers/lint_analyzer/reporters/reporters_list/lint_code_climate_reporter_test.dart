@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/metrics_list/maximum_nesting_level/maximum_nesting_level_metric.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/metrics_list/number_of_methods_metric.dart';
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/entity_type.dart';
+import 'package:dart_code_metrics/src/analyzers/models/entity_type.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_documentation.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value_level.dart';
@@ -179,7 +179,7 @@ void main() {
             path: fullPath,
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{
-              'class': buildComponentRecordStub(metrics: const [
+              'class': buildRecordStub(metrics: const [
                 MetricValue<int>(
                   metricsId: NumberOfMethodsMetric.metricId,
                   documentation: MetricDocumentation(
@@ -211,7 +211,7 @@ void main() {
             path: fullPath,
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{
-              'class': buildComponentRecordStub(metrics: const [
+              'class': buildRecordStub(metrics: const [
                 MetricValue<int>(
                   metricsId: NumberOfMethodsMetric.metricId,
                   documentation: MetricDocumentation(

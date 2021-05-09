@@ -1,7 +1,7 @@
 @TestOn('vm')
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/metrics_factory.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/metrics_list/maximum_nesting_level/maximum_nesting_level_metric.dart';
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/entity_type.dart';
+import 'package:dart_code_metrics/src/analyzers/models/entity_type.dart';
 import 'package:test/test.dart';
 
 void main() {

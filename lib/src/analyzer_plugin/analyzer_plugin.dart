@@ -1,4 +1,3 @@
-// ignore_for_file: long-method
 import 'dart:async';
 
 import 'package:analyzer/dart/analysis/results.dart';
@@ -16,7 +15,7 @@ import 'package:analyzer/src/dart/analysis/file_state.dart';
 import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
 
-import '../analyzers/lint_analyzer/anti_patterns/anti_patterns_factory.dart';
+import '../analyzers/lint_analyzer/anti_patterns/patterns_factory.dart';
 import '../analyzers/lint_analyzer/lint_analyzer.dart';
 import '../analyzers/lint_analyzer/metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import '../analyzers/lint_analyzer/metrics/metrics_list/number_of_parameters_metric.dart';
@@ -24,6 +23,7 @@ import '../analyzers/lint_analyzer/parserd_config.dart';
 import '../analyzers/lint_analyzer/rules/rules_factory.dart';
 import '../config_builder/models/analysis_options.dart';
 import '../config_builder/models/config.dart';
+import '../config_builder/models/deprecated_option.dart';
 import '../utils/exclude_utils.dart';
 import '../utils/yaml_utils.dart';
 import 'analyzer_plugin_utils.dart';
@@ -105,6 +105,18 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
       prepareExcludes(options.excludeForMetricsPatterns, rootPath),
       options.metrics,
     );
+
+    final deprecations = checkConfigDeprecatedOptions(
+      _configs[dartDriver]!,
+      deprecatedOptions,
+      contextRoot.optionsFile!,
+    );
+    if (deprecations.isNotEmpty) {
+      channel.sendNotification(plugin.AnalysisErrorsParams(
+        contextRoot.optionsFile!,
+        deprecations.map((deprecation) => deprecation.error).toList(),
+      ).toNotification());
+    }
 
     runZonedGuarded(
       () {
@@ -224,6 +236,17 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
           // ...report.functions.map((key, value) => null),
           // TODO
         ]);
+      }
+
+      // ignore: deprecated_member_use
+      if (analysisResult.path == driver.contextRoot?.optionsFilePath) {
+        final deprecations = checkConfigDeprecatedOptions(
+          config,
+          deprecatedOptions,
+          analysisResult.path ?? '',
+        );
+
+        result.addAll(deprecations);
       }
     }
 

@@ -1,10 +1,10 @@
-
-[![Build Status](https://github.com/dart-code-checker/dart-code-metrics/workflows/build/badge.svg)](https://github.com/dart-code-checker/dart-code-metrics/)
-[![Coverage Status](https://codecov.io/gh/dart-code-checker/dart-code-metrics/branch/master/graph/badge.svg?branch=master)](https://codecov.io/gh/dart-code-checker/dart-code-metrics)
+[![Build Status](https://badgen.net/github/status/dart-code-checker/dart-code-metrics?icon=github)](https://github.com/dart-code-checker/dart-code-metrics/)
+[![Coverage Status](https://badgen.net//codecov/c/github/dart-code-checker/dart-code-metrics)](https://codecov.io/gh/dart-code-checker/dart-code-metrics/)
 [![Pub Version](https://badgen.net/pub/v/dart_code_metrics)](https://pub.dev/packages/dart_code_metrics/)
 [![Dart SDK Version](https://badgen.net/pub/sdk-version/dart_code_metrics)](https://pub.dev/packages/dart_code_metrics/)
-[![License](https://badgen.net/pub/license/dart_code_metrics)](https://pub.dev/packages/dart_code_metrics/license)
+[![License](https://badgen.net/github/license/dart-code-checker/dart-code-metrics)](https://github.com/dart-code-checker/dart-code-metrics/blob/master/LICENSE)
 [![Pub popularity](https://badgen.net/pub/popularity/dart_code_metrics)](https://pub.dev/packages/dart_code_metrics/score)
+[![GitHub popularity](https://badgen.net/github/stars/dart-code-checker/dart-code-metrics)](https://github.com/dart-code-checker/dart-code-metrics/stargazers)
 
 # Dart Code Metrics
 
@@ -53,7 +53,7 @@ A plugin for the Dart `analyzer` [package](https://pub.dev/packages/analyzer) pr
 
     ```yaml
     dev_dependencies:
-      dart_code_metrics: ^3.2.0-dev.1
+      dart_code_metrics: ^3.2.0
     ```
 
     and then run

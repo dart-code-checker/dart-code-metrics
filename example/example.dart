@@ -1,3 +1,4 @@
+// ignore_for_file: deprecated_member_use_from_same_package
 import 'dart:io';
 
 import 'package:dart_code_metrics/metrics_analyzer.dart';

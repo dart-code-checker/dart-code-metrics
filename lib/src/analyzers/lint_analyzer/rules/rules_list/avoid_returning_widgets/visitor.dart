@@ -13,7 +13,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
   void visitMethodDeclaration(MethodDeclaration node) {
     super.visitMethodDeclaration(node);
 
-    if (!node.isGetter && !node.isSetter && !_isIgnored(node.name.name)) {
+    if (!node.isSetter && !_isIgnored(node.name.name)) {
       final type = node.returnType?.type;
       if (type != null && _hasWidgetType(type)) {
         _declarations.add(node);
@@ -25,7 +25,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
   void visitFunctionDeclaration(FunctionDeclaration node) {
     super.visitFunctionDeclaration(node);
 
-    if (!node.isGetter && !node.isSetter && !_isIgnored(node.name.name)) {
+    if (!node.isSetter && !_isIgnored(node.name.name)) {
       final type = node.returnType?.type;
       if (type != null && _hasWidgetType(type)) {
         _declarations.add(node);

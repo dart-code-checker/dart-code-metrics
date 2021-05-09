@@ -30,7 +30,6 @@ class _ConfigParser {
   static bool parseAlphabetize(Map<String, Object> config) =>
       (config['alphabetize'] as bool?) ?? false;
 
-  // ignore: long-method
   static _MemberGroup? _parseGroup(String group) {
     final lastGroup = group.endsWith('getters-setters')
         ? 'getters-setters'

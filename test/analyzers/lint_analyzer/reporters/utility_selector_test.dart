@@ -2,7 +2,7 @@ import 'package:dart_code_metrics/src/analyzers/lint_analyzer/constants.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/metrics_list/maximum_nesting_level/maximum_nesting_level_metric.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/metrics_list/number_of_methods_metric.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/metrics_list/number_of_parameters_metric.dart';
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/entity_type.dart';
+import 'package:dart_code_metrics/src/analyzers/models/entity_type.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_documentation.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value_level.dart';
@@ -22,7 +22,7 @@ void main() {
           path: '/home/developer/work/project/example.dart',
           relativePath: 'example.dart',
           classes: Map.unmodifiable(<String, Report>{
-            'class': buildComponentRecordStub(metrics: const [
+            'class': buildRecordStub(metrics: const [
               MetricValue<int>(
                 metricsId: NumberOfMethodsMetric.metricId,
                 documentation: MetricDocumentation(
@@ -37,7 +37,7 @@ void main() {
                 comment: '',
               ),
             ]),
-            'mixin': buildComponentRecordStub(metrics: const [
+            'mixin': buildRecordStub(metrics: const [
               MetricValue<int>(
                 metricsId: NumberOfMethodsMetric.metricId,
                 documentation: MetricDocumentation(
@@ -52,7 +52,7 @@ void main() {
                 comment: '',
               ),
             ]),
-            'extension': buildComponentRecordStub(metrics: const [
+            'extension': buildRecordStub(metrics: const [
               MetricValue<int>(
                 metricsId: NumberOfMethodsMetric.metricId,
                 documentation: MetricDocumentation(
@@ -109,7 +109,7 @@ void main() {
 
     group('classMetricsReport calculates report for function', () {
       test('without methods', () {
-        final record = buildComponentRecordStub(metrics: const [
+        final record = buildRecordStub(metrics: const [
           MetricValue<int>(
             metricsId: NumberOfMethodsMetric.metricId,
             documentation: MetricDocumentation(
@@ -133,7 +133,7 @@ void main() {
       test('with a lot of methods', () {
         const methodsCount = 30;
 
-        final record = buildComponentRecordStub(metrics: const [
+        final record = buildRecordStub(metrics: const [
           MetricValue<int>(
             metricsId: NumberOfMethodsMetric.metricId,
             documentation: MetricDocumentation(

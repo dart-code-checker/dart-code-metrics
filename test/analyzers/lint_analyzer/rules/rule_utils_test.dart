@@ -55,18 +55,25 @@ void main() {
         expect(issue.suggestion, equals(replacement));
       },
     );
+
     test('documentation returns the url with documentation', () {
       const ruleId1 = 'rule-id-1';
       const ruleId2 = 'rule-id-2';
 
+      final rule1 = RuleMock();
+      when(() => rule1.id).thenReturn(ruleId1);
+
+      final rule2 = RuleMock();
+      when(() => rule2.id).thenReturn(ruleId2);
+
       expect(
-        documentation(ruleId1).toString(),
+        documentation(rule1).toString(),
         equals(
           'https://github.com/dart-code-checker/dart-code-metrics/tree/master/doc/rules/$ruleId1.html',
         ),
       );
       expect(
-        documentation(ruleId2).pathSegments.last,
+        documentation(rule2).pathSegments.last,
         equals('$ruleId2.html'),
       );
     });
