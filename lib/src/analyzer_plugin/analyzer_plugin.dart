@@ -288,17 +288,20 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
           ));
         }
       }
-    } else if (config != null &&
-        // ignore: deprecated_member_use
-        analysisResult.path == driver.contextRoot?.optionsFilePath) {
-      final deprecations = checkConfigDeprecatedOptions(
-        config,
-        deprecatedOptions,
-        analysisResult.path ?? '',
-      );
-
-      result.addAll(deprecations);
     }
+    // Temporary disable deprecation check
+    //
+    // else if (config != null &&
+    //     // ignore: deprecated_member_use
+    //     analysisResult.path == driver.contextRoot?.optionsFilePath) {
+    //   final deprecations = checkConfigDeprecatedOptions(
+    //     config,
+    //     deprecatedOptions,
+    //     analysisResult.path ?? '',
+    //   );
+
+    //   result.addAll(deprecations);
+    // }
 
     return result;
   }
