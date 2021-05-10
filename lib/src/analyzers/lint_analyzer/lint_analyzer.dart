@@ -28,8 +28,8 @@ import 'metrics/metrics_list/source_lines_of_code/source_lines_of_code_metric.da
 import 'metrics/models/metric_documentation.dart';
 import 'metrics/models/metric_value.dart';
 import 'metrics/models/metric_value_level.dart';
-import 'reporters/utility_selector.dart';
 import 'metrics/scope_visitor.dart';
+import 'reporters/utility_selector.dart';
 
 class LintAnalyzer {
   const LintAnalyzer();
