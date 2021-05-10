@@ -4,7 +4,7 @@ import 'package:dart_code_metrics/src/analyzers/models/class_type.dart';
 import 'package:dart_code_metrics/src/analyzers/models/function_type.dart';
 import 'package:dart_code_metrics/src/analyzers/models/scoped_class_declaration.dart';
 import 'package:dart_code_metrics/src/analyzers/models/scoped_function_declaration.dart';
-import 'package:dart_code_metrics/src/analyzers/utils/scope_utils.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/scope_utils.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
 

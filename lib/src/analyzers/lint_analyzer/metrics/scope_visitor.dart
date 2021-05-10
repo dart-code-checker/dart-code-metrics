@@ -1,10 +1,10 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 
-import '../models/class_type.dart';
-import '../models/function_type.dart';
-import '../models/scoped_class_declaration.dart';
-import '../models/scoped_function_declaration.dart';
+import '../../models/class_type.dart';
+import '../../models/function_type.dart';
+import '../../models/scoped_class_declaration.dart';
+import '../../models/scoped_function_declaration.dart';
 
 /// A visitor to collect declarations of classes and functions.
 class ScopeVisitor extends RecursiveAstVisitor<void> {

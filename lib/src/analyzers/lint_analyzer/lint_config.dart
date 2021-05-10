@@ -6,7 +6,7 @@ import 'metrics/models/metric.dart';
 import 'rules/models/rule.dart';
 
 @immutable
-class ParsedConfig {
+class LintConfig {
   final Iterable<Glob> globalExcludes;
   final Iterable<Rule> codeRules;
   final Iterable<ObsoletePattern> antiPatterns;
@@ -15,7 +15,7 @@ class ParsedConfig {
   final Iterable<Glob> metricsExcludes;
   final Map<String, Object> metricsConfig;
 
-  const ParsedConfig(
+  const LintConfig(
     this.globalExcludes,
     this.codeRules,
     this.antiPatterns,

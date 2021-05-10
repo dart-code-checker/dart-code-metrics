@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dart_code_metrics/metrics_analyzer.dart';
 import 'package:dart_code_metrics/reporters.dart';
+import 'package:dart_code_metrics/src/config_builder/config_builder.dart';
 
 Future<void> main() async {
   // Get some folder you would like to analyze
@@ -26,8 +27,10 @@ Future<void> main() async {
     antiPatterns: {'long-method': {}},
   );
 
+  final lintConfig = ConfigBuilder.getLintConfig(config, rootFolder);
+
   final result = await const LintAnalyzer()
-      .runCliAnalysis(foldersToAnalyze, rootFolder, config);
+      .runCliAnalysis(foldersToAnalyze, rootFolder, lintConfig);
 
   // Now runner.results() contains some insights about analyzed code. Let's report it!
   // For a simple example we would report results to terminal
