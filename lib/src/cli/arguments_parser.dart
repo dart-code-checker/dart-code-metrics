@@ -100,7 +100,7 @@ void _appendMetricsThresholdOptions(ArgParser parser) {
   parser.addOption(
     linesOfExecutableCodeKey,
     help:
-        'Lines of executable code threshold (deprecated, will be removed in 3.3 version)',
+        'Lines of executable code threshold (deprecated, will be removed in 4.0 version)',
     valueHelp: '$linesOfExecutableCodeDefaultWarningLevel',
     callback: (i) {
       if (i != null && int.tryParse(i) == null) {
