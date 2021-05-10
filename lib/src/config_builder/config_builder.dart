@@ -1,4 +1,3 @@
-import '../../config.dart';
 import '../analyzers/lint_analyzer/anti_patterns/patterns_factory.dart';
 import '../analyzers/lint_analyzer/lint_config.dart';
 import '../analyzers/lint_analyzer/metrics/metrics_factory.dart';
@@ -7,6 +6,7 @@ import '../analyzers/lint_analyzer/rules/rules_factory.dart';
 import '../analyzers/models/entity_type.dart';
 import '../cli/arguments_builder/models/parsed_arguments.dart';
 import '../utils/exclude_utils.dart';
+import 'models/analysis_options.dart';
 import 'models/config.dart';
 
 class ConfigBuilder {
