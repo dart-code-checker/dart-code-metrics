@@ -4,6 +4,10 @@
 
 * Remove deprecated `Lines of Executable Code` metric, use `Source lines of Code` instead.
 
+## 3.2.2
+
+* Update deprecation version for `Lines of Executable Code` `ConsoleReporter`, `MetricsAnalysisRunner`, `MetricsAnalyzer`, `MetricsRecordsBuilder` and `MetricsRecordsStore`.
+
 ## 3.2.1
 
 * Remove unnecessary scan by `Lines of Executable Code`
