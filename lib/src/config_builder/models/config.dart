@@ -1,5 +1,7 @@
 import 'package:meta/meta.dart';
 
+import '../../../metrics.dart';
+import '../../cli/arguments_builder/models/parsed_arguments.dart';
 import '../analysis_options_utils.dart';
 import 'analysis_options.dart';
 
@@ -32,6 +34,18 @@ class Config {
       antiPatterns: options.readMapOfMap([_rootKey, 'anti-patterns']),
     );
   }
+
+  factory Config.fromArgs(ParsedArguments arguments) => Config(
+        excludePatterns: [arguments.excludePath],
+        excludeForMetricsPatterns: const [],
+        metrics: {
+          for (final metric in getMetrics(config: {}))
+            if (arguments.metricsConfig.containsKey(metric.id))
+              metric.id: arguments.metricsConfig[metric.id]!,
+        },
+        rules: const {},
+        antiPatterns: const {},
+      );
 
   Config merge(Config overrides) => Config(
         excludePatterns: {...excludePatterns, ...overrides.excludePatterns},

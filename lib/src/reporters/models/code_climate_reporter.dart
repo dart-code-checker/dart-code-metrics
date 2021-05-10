@@ -8,6 +8,9 @@ import 'reporter.dart';
 
 /// Creates reports in Code Climate format widely understood by various CI and analysis tools
 abstract class CodeClimateReporter extends Reporter {
+  static const String id = 'codeclimate';
+  static const String alternativeId = 'gitlab';
+
   @protected
   final IOSink output;
 

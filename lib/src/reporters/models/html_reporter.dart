@@ -9,6 +9,8 @@ import 'reporter.dart';
 
 /// HTML-doc reporter
 abstract class HtmlReporter extends Reporter {
+  static const String id = 'html';
+
   @protected
   final String reportFolder;
 

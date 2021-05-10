@@ -1,5 +1,5 @@
 @TestOn('vm')
-import 'package:dart_code_metrics/src/cli/arguments_parser.dart';
+import 'package:dart_code_metrics/src/cli/arguments_builder/arguments_parser.dart';
 import 'package:test/test.dart';
 
 const _usage = '\n'

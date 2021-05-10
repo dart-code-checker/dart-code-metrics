@@ -6,6 +6,8 @@ import 'reporter.dart';
 
 /// Machine-readable report in JSON format
 abstract class JsonReporter extends Reporter {
+  static const String id = 'json';
+
   @protected
   final IOSink output;
 

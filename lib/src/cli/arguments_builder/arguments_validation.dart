@@ -2,11 +2,12 @@ import 'dart:io';
 
 import 'package:ansicolor/ansicolor.dart';
 import 'package:args/args.dart';
+import 'package:meta/meta.dart';
 import 'package:path/path.dart' as p;
 
-import '../config_builder/models/deprecated_option.dart';
-import 'arguments_parser.dart';
-import 'arguments_validation_exceptions.dart';
+import '../../config_builder/models/deprecated_option.dart';
+import 'exceptions/arguments_validation_exceptions.dart';
+import 'models/flag_names.dart';
 
 /// Umbrella method to run all checks throws [InvalidArgumentException]
 void validateArguments(ArgResults arguments) {
@@ -19,8 +20,9 @@ void validateArguments(ArgResults arguments) {
   });
 }
 
+@visibleForTesting
 void checkRootFolderExistAndDirectory(ArgResults arguments) {
-  final rootFolderPath = arguments[rootFolderName] as String;
+  final rootFolderPath = arguments[FlagNames.rootFolder] as String;
   if (!Directory(rootFolderPath).existsSync()) {
     final _exceptionMessage =
         'Root folder $rootFolderPath does not exist or not a directory';
@@ -29,6 +31,7 @@ void checkRootFolderExistAndDirectory(ArgResults arguments) {
   }
 }
 
+@visibleForTesting
 void checkPathsToAnalyzeNotEmpty(ArgResults arguments) {
   if (arguments.rest.isEmpty) {
     const _exceptionMessage =
@@ -38,8 +41,9 @@ void checkPathsToAnalyzeNotEmpty(ArgResults arguments) {
   }
 }
 
+@visibleForTesting
 void checkPathsExistAndDirectories(ArgResults arguments) {
-  final rootFolderPath = arguments[rootFolderName] as String;
+  final rootFolderPath = arguments[FlagNames.rootFolder] as String;
 
   for (final relativePath in arguments.rest) {
     final absolutePath = p.join(rootFolderPath, relativePath);
@@ -52,6 +56,7 @@ void checkPathsExistAndDirectories(ArgResults arguments) {
   }
 }
 
+@visibleForTesting
 Iterable<String> checkDeprecatedArguments(
   ArgResults arguments,
   Iterable<DeprecatedOption> deprecated,

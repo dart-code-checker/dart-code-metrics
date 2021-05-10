@@ -9,7 +9,7 @@ import 'package:file/local.dart';
 import 'package:glob/glob.dart';
 import 'package:path/path.dart';
 
-import '../../../metrics_analyzer.dart';
+import '../../config_builder/models/config.dart';
 import '../../utils/exclude_utils.dart';
 import '../../utils/node_utils.dart';
 import '../models/entity_type.dart';
@@ -118,6 +118,7 @@ class LintAnalyzer {
     if (unit != null &&
         content != null &&
         result.state == ResultState.VALID &&
+        filePath != null &&
         _isSupported(result)) {
       final ignores = Suppression(content, result.lineInfo);
       final internalResult = InternalResolvedUnitResult(
@@ -126,15 +127,13 @@ class LintAnalyzer {
         unit,
         result.lineInfo,
       );
-      final path = internalResult.path;
-      final relativePath =
-          filePath != null ? relative(filePath, from: rootFolder) : '';
+      final relativePath = relative(filePath, from: rootFolder);
 
       final issues = _checkOnCodeIssues(
         ignores,
         internalResult,
         config,
-        path,
+        filePath,
         rootFolder,
       );
 
@@ -175,7 +174,7 @@ class LintAnalyzer {
         );
 
         return FileReport(
-          path: path,
+          path: filePath,
           relativePath: relativePath,
           classes: Map.unmodifiable(classMetrics
               .map<String, Report>((key, value) => MapEntry(key.name, value))),
@@ -188,7 +187,7 @@ class LintAnalyzer {
       }
 
       return FileReport(
-        path: path,
+        path: filePath,
         relativePath: relativePath,
         classes: const {},
         functions: const {},
@@ -411,11 +410,11 @@ class LintAnalyzer {
         prepareExcludes(config.excludePatterns, root),
         getRulesById(config.rules),
         getPatternsById(config.antiPatterns),
-        metrics(
+        getMetrics(
           config: config.metrics,
           measuredType: EntityType.classEntity,
         ),
-        metrics(
+        getMetrics(
           config: config.metrics,
           measuredType: EntityType.methodEntity,
         ),
