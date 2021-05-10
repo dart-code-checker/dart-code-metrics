@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../../../metrics.dart';
+import '../../analyzers/lint_analyzer/metrics/metrics_factory.dart';
 import '../../cli/arguments_builder/models/parsed_arguments.dart';
 import '../analysis_options_utils.dart';
 import 'analysis_options.dart';
