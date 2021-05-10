@@ -113,17 +113,19 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
       options.metrics,
     );
 
-    final deprecations = checkConfigDeprecatedOptions(
-      _configs[dartDriver]!,
-      deprecatedOptions,
-      contextRoot.optionsFile!,
-    );
-    if (deprecations.isNotEmpty) {
-      channel.sendNotification(plugin.AnalysisErrorsParams(
-        contextRoot.optionsFile!,
-        deprecations.map((deprecation) => deprecation.error).toList(),
-      ).toNotification());
-    }
+    // Temporary disable deprecation check
+    //
+    // final deprecations = checkConfigDeprecatedOptions(
+    //   _configs[dartDriver]!,
+    //   deprecatedOptions,
+    //   contextRoot.optionsFile!,
+    // );
+    // if (deprecations.isNotEmpty) {
+    //   channel.sendNotification(plugin.AnalysisErrorsParams(
+    //     contextRoot.optionsFile!,
+    //     deprecations.map((deprecation) => deprecation.error).toList(),
+    //   ).toNotification());
+    // }
 
     runZonedGuarded(
       () {
