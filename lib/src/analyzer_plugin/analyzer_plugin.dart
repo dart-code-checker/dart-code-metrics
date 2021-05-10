@@ -16,29 +16,24 @@ import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
 import 'package:source_span/source_span.dart';
 
-import '../analyzers/lint_analyzer/anti_patterns/patterns_factory.dart';
 import '../analyzers/lint_analyzer/lint_analyzer.dart';
+import '../analyzers/lint_analyzer/lint_config.dart';
 import '../analyzers/lint_analyzer/metrics/metric_utils.dart';
 import '../analyzers/lint_analyzer/metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import '../analyzers/lint_analyzer/metrics/metrics_list/number_of_parameters_metric.dart';
-import '../analyzers/lint_analyzer/parserd_config.dart';
 import '../analyzers/lint_analyzer/reporters/utility_selector.dart';
-import '../analyzers/lint_analyzer/rules/rules_factory.dart';
+import '../config_builder/config_builder.dart';
 import '../config_builder/models/analysis_options.dart';
-import '../config_builder/models/config.dart';
 import '../config_builder/models/deprecated_option.dart';
-import '../utils/exclude_utils.dart';
 import '../utils/yaml_utils.dart';
 import 'analyzer_plugin_utils.dart';
 
 const _codeMetricsId = 'code-metrics';
 
-const _defaultSkippedFolders = ['.dart_tool/**', 'packages/**'];
-
 class MetricsAnalyzerPlugin extends ServerPlugin {
   static const _analyzer = LintAnalyzer();
 
-  final _configs = <AnalysisDriverGeneric, ParsedConfig>{};
+  final _configs = <AnalysisDriverGeneric, LintConfig>{};
 
   var _filesFromSetPriorityFilesRequest = <String>[];
 
@@ -84,33 +79,14 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     );
 
     final dartDriver = contextBuilder.buildDriver(root, workspace);
+    final config = _createConfig(dartDriver, rootPath);
 
-    final options = _readOptions(dartDriver);
-    if (options == null) {
+    if (config == null) {
       return dartDriver;
     }
 
-    _configs[dartDriver] = ParsedConfig(
-      prepareExcludes(
-        [
-          ..._defaultSkippedFolders,
-          ...options.excludePatterns,
-        ],
-        rootPath,
-      ),
-      getRulesById(options.rules),
-      getPatternsById(options.antiPatterns),
-      const [],
-      [
-        CyclomaticComplexityMetric(config: options.metrics),
-        NumberOfParametersMetric(config: options.metrics),
-      ],
-      prepareExcludes(options.excludeForMetricsPatterns, rootPath),
-      options.metrics,
-    );
-
     final deprecations = checkConfigDeprecatedOptions(
-      _configs[dartDriver]!,
+      config,
       deprecatedOptions,
       contextRoot.optionsFile!,
     );
@@ -293,18 +269,30 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     return result;
   }
 
-  Config? _readOptions(AnalysisDriver driver) {
+  LintConfig? _createConfig(AnalysisDriver driver, String rootPath) {
     // ignore: deprecated_member_use
     final optionsPath = driver.contextRoot?.optionsFilePath;
     if (optionsPath != null && optionsPath.isNotEmpty) {
       final file = resourceProvider.getFile(optionsPath);
       if (file.exists) {
-        return Config.fromAnalysisOptions(
-          AnalysisOptions(yamlMapToDartMap(
-            AnalysisOptionsProvider(driver.sourceFactory)
-                .getOptionsFromFile(file),
-          )),
+        final options = AnalysisOptions(yamlMapToDartMap(
+          AnalysisOptionsProvider(driver.sourceFactory)
+              .getOptionsFromFile(file),
+        ));
+        final config = ConfigBuilder.getConfig(options);
+        final lintConfig = ConfigBuilder.getLintConfig(
+          config,
+          rootPath,
+          classMetrics: const [],
+          functionMetrics: [
+            CyclomaticComplexityMetric(config: config.metrics),
+            NumberOfParametersMetric(config: config.metrics),
+          ],
         );
+
+        _configs[driver] = lintConfig;
+
+        return lintConfig;
       }
     }
 

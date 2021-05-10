@@ -2,7 +2,7 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/anti_patterns/anti_patterns_list/long_method.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/metrics_list/source_lines_of_code/source_lines_of_code_metric.dart';
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/scope_visitor.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/scope_visitor.dart';
 import 'package:dart_code_metrics/src/analyzers/models/severity.dart';
 import 'package:test/test.dart';
 

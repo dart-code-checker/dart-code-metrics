@@ -21,21 +21,18 @@ import '../models/report.dart';
 import '../models/scoped_class_declaration.dart';
 import '../models/scoped_function_declaration.dart';
 import '../models/suppression.dart';
-import 'anti_patterns/patterns_factory.dart';
+import 'lint_config.dart';
 import 'metrics/halstead_volume_ast_visitor.dart';
 import 'metrics/metric_utils.dart';
-import 'metrics/metrics_factory.dart';
 import 'metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import 'metrics/metrics_list/source_lines_of_code/source_code_visitor.dart';
 import 'metrics/metrics_list/source_lines_of_code/source_lines_of_code_metric.dart';
 import 'metrics/models/metric_documentation.dart';
 import 'metrics/models/metric_value.dart';
 import 'metrics/models/metric_value_level.dart';
-import 'parserd_config.dart';
+import 'metrics/scope_visitor.dart';
 import 'reporters/reporter_factory.dart';
 import 'reporters/utility_selector.dart';
-import 'rules/rules_factory.dart';
-import 'scope_visitor.dart';
 
 class LintAnalyzer {
   const LintAnalyzer();
@@ -55,7 +52,7 @@ class LintAnalyzer {
 
   FileReport? runPluginAnalysis(
     ResolvedUnitResult result,
-    ParsedConfig config,
+    LintConfig config,
     String rootFolder,
   ) {
     if (!isExcluded(result.path, config.globalExcludes)) {
@@ -73,9 +70,8 @@ class LintAnalyzer {
   Future<Iterable<FileReport>> runCliAnalysis(
     Iterable<String> folders,
     String rootFolder,
-    Config config,
+    LintConfig config,
   ) async {
-    final parsedConfig = _parseConfig(config, rootFolder);
     final collection = AnalysisContextCollection(
       includedPaths:
           folders.map((path) => normalize(join(rootFolder, path))).toList(),
@@ -92,7 +88,7 @@ class LintAnalyzer {
             .whereType<File>()
             .where((entity) => !isExcluded(
                   relative(entity.path, from: rootFolder),
-                  parsedConfig.globalExcludes,
+                  config.globalExcludes,
                 ))
             .map((entity) => entity.path))
         .toList();
@@ -108,7 +104,7 @@ class LintAnalyzer {
           await analysisContext.currentSession.getResolvedUnit(normalized);
       final result = _runAnalysisForFile(
         unit,
-        parsedConfig,
+        config,
         rootFolder,
         filePath: filePath,
       );
@@ -123,7 +119,7 @@ class LintAnalyzer {
 
   FileReport? _runAnalysisForFile(
     ResolvedUnitResult result,
-    ParsedConfig config,
+    LintConfig config,
     String rootFolder, {
     String? filePath,
   }) {
@@ -217,7 +213,7 @@ class LintAnalyzer {
   Iterable<Issue> _checkOnCodeIssues(
     Suppression ignores,
     InternalResolvedUnitResult source,
-    ParsedConfig config,
+    LintConfig config,
     String filePath,
     String? rootFolder,
   ) =>
@@ -242,7 +238,7 @@ class LintAnalyzer {
     Suppression ignores,
     InternalResolvedUnitResult source,
     Iterable<ScopedFunctionDeclaration> functions,
-    ParsedConfig config,
+    LintConfig config,
   ) =>
       config.antiPatterns
           .where((pattern) => !ignores.isSuppressed(pattern.id))
@@ -257,7 +253,7 @@ class LintAnalyzer {
   Map<ScopedClassDeclaration, Report> _checkClassMetrics(
     ScopeVisitor visitor,
     InternalResolvedUnitResult source,
-    ParsedConfig config,
+    LintConfig config,
   ) {
     final classRecords = <ScopedClassDeclaration, Report>{};
 
@@ -294,7 +290,7 @@ class LintAnalyzer {
   Map<ScopedFunctionDeclaration, Report> _checkFunctionMetrics(
     ScopeVisitor visitor,
     InternalResolvedUnitResult source,
-    ParsedConfig config,
+    LintConfig config,
   ) {
     final functionRecords = <ScopedFunctionDeclaration, Report>{};
 
@@ -420,22 +416,6 @@ class LintAnalyzer {
 
     return functionRecords;
   }
-
-  ParsedConfig _parseConfig(Config config, String root) => ParsedConfig(
-        prepareExcludes(config.excludePatterns, root),
-        getRulesById(config.rules),
-        getPatternsById(config.antiPatterns),
-        getMetrics(
-          config: config.metrics,
-          measuredType: EntityType.classEntity,
-        ),
-        getMetrics(
-          config: config.metrics,
-          measuredType: EntityType.methodEntity,
-        ),
-        prepareExcludes(config.excludeForMetricsPatterns, root),
-        config.metrics,
-      );
 
   MetricValueLevel _maintainabilityIndexViolationLevel(double index) {
     if (index < 10) {

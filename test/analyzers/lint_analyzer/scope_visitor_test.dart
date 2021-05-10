@@ -1,6 +1,6 @@
 @TestOn('vm')
 import 'package:analyzer/dart/ast/ast.dart';
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/scope_visitor.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/scope_visitor.dart';
 import 'package:dart_code_metrics/src/analyzers/models/class_type.dart';
 import 'package:dart_code_metrics/src/analyzers/models/function_type.dart';
 import 'package:test/test.dart';

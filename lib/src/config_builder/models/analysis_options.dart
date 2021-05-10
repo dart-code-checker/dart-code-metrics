@@ -8,7 +8,7 @@ import 'package:yaml/yaml.dart';
 import '../../utils/yaml_utils.dart';
 import '../analysis_options_utils.dart';
 
-const String analysisOptionsFileName = 'analysis_options.yaml';
+const _analysisOptionsFileName = 'analysis_options.yaml';
 
 /// Class representing dart analysis options
 @immutable
@@ -86,6 +86,12 @@ class AnalysisOptions {
 
     return {};
   }
+}
+
+Future<AnalysisOptions> analysisOptionsFromFilePath(String path) {
+  final analysisOptionsFile = File(p.absolute(path, _analysisOptionsFileName));
+
+  return analysisOptionsFromFile(analysisOptionsFile);
 }
 
 Future<AnalysisOptions> analysisOptionsFromFile(File? options) async =>
