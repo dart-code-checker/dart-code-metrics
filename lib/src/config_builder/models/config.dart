@@ -36,7 +36,7 @@ class Config {
   }
 
   factory Config.fromArgs(ParsedArguments arguments) => Config(
-        excludePatterns: [arguments.exclude],
+        excludePatterns: [arguments.excludePath],
         excludeForMetricsPatterns: const [],
         metrics: {
           for (final metric in getMetrics(config: {}))

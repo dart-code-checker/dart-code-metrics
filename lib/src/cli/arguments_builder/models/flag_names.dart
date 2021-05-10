@@ -13,7 +13,7 @@ class FlagNames {
   static const rootFolder = 'root-folder';
 
   static const consoleReporter = ConsoleReporter.id;
-  static const consoleVerboseReporter = ConsoleReporter.alternativeId;
+  static const consoleVerboseReporter = ConsoleReporter.verboseId;
   static const codeClimateReporter = CodeClimateReporter.id;
   static const htmlReporter = HtmlReporter.id;
   static const jsonReporter = JsonReporter.id;

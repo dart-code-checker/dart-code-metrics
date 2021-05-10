@@ -16,7 +16,7 @@ import 'reporters_list/json/lint_json_reporter.dart';
 final _implementedReports = <String,
     Reporter Function(IOSink output, Config config, String reportFolder)>{
   ConsoleReporter.id: (output, _, __) => LintConsoleReporter(output),
-  ConsoleReporter.alternativeId: (output, _, __) =>
+  ConsoleReporter.verboseId: (output, _, __) =>
       LintConsoleReporter(output, reportAll: true),
   CodeClimateReporter.id: (output, config, _) =>
       LintCodeClimateReporter(output, metrics: config.metrics),

@@ -28,11 +28,11 @@ class ArgumentsBuilder {
         rootFolder: arguments[FlagNames.rootFolder] as String,
         reporterName: arguments[FlagNames.reporter] as String,
         reportFolder: arguments[FlagNames.reportFolder] as String,
-        metricValueLevel: MetricValueLevel.fromString(
+        maximumAllowedLevel: MetricValueLevel.fromString(
           arguments[FlagNames.setExitOnViolationLevel] as String?,
         ),
         folders: arguments.rest,
-        exclude: arguments[FlagNames.exclude] as String,
+        excludePath: arguments[FlagNames.exclude] as String,
         metricsConfig: {
           for (final metric in getMetrics(config: {}))
             if (arguments.wasParsed(metric.id))

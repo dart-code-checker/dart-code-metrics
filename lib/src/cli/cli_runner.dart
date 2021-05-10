@@ -34,9 +34,9 @@ class CliRunner {
         reportFolder: parsedArgs.reportFolder,
       )?.report(lintAnalyserResult);
 
-      if (parsedArgs.metricValueLevel != null &&
+      if (parsedArgs.maximumAllowedLevel != null &&
           UtilitySelector.maxViolationLevel(lintAnalyserResult) >=
-              parsedArgs.metricValueLevel!) {
+              parsedArgs.maximumAllowedLevel!) {
         exit(2);
       }
     }
