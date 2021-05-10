@@ -1,8 +1,8 @@
 // ignore_for_file: deprecated_member_use_from_same_package
 import 'dart:io';
 
+import 'package:dart_code_metrics/config.dart';
 import 'package:dart_code_metrics/metrics_analyzer.dart';
-import 'package:dart_code_metrics/reporters.dart';
 
 Future<void> main() async {
   // Get some folder you would like to analyze
