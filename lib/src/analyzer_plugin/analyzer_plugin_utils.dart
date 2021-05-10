@@ -3,7 +3,7 @@ import 'package:analyzer_plugin/protocol/protocol_common.dart' as plugin;
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
 import 'package:source_span/source_span.dart';
 
-import '../analyzers/lint_analyzer/parserd_config.dart';
+import '../analyzers/lint_analyzer/lint_config.dart';
 import '../analyzers/models/issue.dart';
 import '../analyzers/models/severity.dart';
 import '../config_builder/models/deprecated_option.dart';
@@ -98,7 +98,7 @@ plugin.AnalysisErrorFixes metricReportToAnalysisErrorFixes(
     ));
 
 Iterable<plugin.AnalysisErrorFixes> checkConfigDeprecatedOptions(
-  ParsedConfig config,
+  LintConfig config,
   Iterable<DeprecatedOption> deprecatedOptions,
   String analysisOptionPath,
 ) {
