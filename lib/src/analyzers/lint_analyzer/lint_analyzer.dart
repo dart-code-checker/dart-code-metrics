@@ -9,6 +9,8 @@ import 'package:file/local.dart';
 import 'package:glob/glob.dart';
 import 'package:path/path.dart';
 
+import '../../config_builder/models/config.dart';
+import '../../reporters/models/reporter.dart';
 import '../../utils/exclude_utils.dart';
 import '../../utils/node_utils.dart';
 import '../models/entity_type.dart';
@@ -29,10 +31,24 @@ import 'metrics/models/metric_documentation.dart';
 import 'metrics/models/metric_value.dart';
 import 'metrics/models/metric_value_level.dart';
 import 'metrics/scope_visitor.dart';
+import 'reporters/reporter_factory.dart';
 import 'reporters/utility_selector.dart';
 
 class LintAnalyzer {
   const LintAnalyzer();
+
+  Reporter? getReporter({
+    required Config config,
+    required String name,
+    required IOSink output,
+    required String reportFolder,
+  }) =>
+      reporter(
+        config: config,
+        name: name,
+        output: output,
+        reportFolder: reportFolder,
+      );
 
   FileReport? runPluginAnalysis(
     ResolvedUnitResult result,
