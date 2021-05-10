@@ -1,16 +1,20 @@
 import '../../config.dart';
-import '../../metrics.dart';
-import '../../metrics_analyzer.dart';
 import '../analyzers/lint_analyzer/anti_patterns/patterns_factory.dart';
 import '../analyzers/lint_analyzer/lint_config.dart';
+import '../analyzers/lint_analyzer/metrics/metrics_factory.dart';
 import '../analyzers/lint_analyzer/metrics/models/metric.dart';
 import '../analyzers/lint_analyzer/rules/rules_factory.dart';
 import '../analyzers/models/entity_type.dart';
 import '../cli/arguments_builder/models/parsed_arguments.dart';
 import '../utils/exclude_utils.dart';
+import 'models/config.dart';
 
 class ConfigBuilder {
-  static const _defaultSkippedFolders = ['.dart_tool/**', 'packages/**'];
+  static const _defaultSkippedFolders = [
+    'ios/',
+    '.dart_tool/**',
+    'packages/**'
+  ];
 
   static Config getConfig(
     AnalysisOptions options, [
