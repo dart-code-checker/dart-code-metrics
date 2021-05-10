@@ -39,7 +39,7 @@ import 'scope_visitor.dart';
 
 /// Performs code quality analysis on specified files
 /// See [MetricsAnalysisRunner] to get analysis info
-@Deprecated('will be replaced with LintAnalyzer in 3.3')
+@Deprecated('will be replaced with LintAnalyzer in 4.0')
 class MetricsAnalyzer {
   final Iterable<Glob> _globalExclude;
   final Iterable<Rule> _codeRules;

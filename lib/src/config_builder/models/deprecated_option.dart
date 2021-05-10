@@ -24,7 +24,7 @@ class DeprecatedOption {
 
 const Iterable<DeprecatedOption> deprecatedOptions = [
   DeprecatedOption(
-    supportUntilVersion: '3.3',
+    supportUntilVersion: '4.0',
     deprecated: linesOfExecutableCodeKey,
     replacement: SourceLinesOfCodeMetric.metricId,
   ),
