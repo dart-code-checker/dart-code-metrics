@@ -42,6 +42,20 @@ Widget _getWidget() => Container();
 
 String _getString() => '';
 
+// LINT
+@FunctionalWidget
+Widget _getFunctionalWidget() => Container();
+
+// LINT
+@swidget
+Widget _getOtherFunctionalWidget() => Container();
+
 class Widget {}
 
 class Container extends Widget {}
+
+class FunctionalWidget {
+  const FunctionalWidget();
+}
+
+const swidget = FunctionalWidget();

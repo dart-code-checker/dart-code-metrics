@@ -33,9 +33,11 @@ dart_code_metrics:
     - avoid-returning-widgets:
         ignored-names:
           - testFunction
+        ignored-annotations:
+          - FunctionalWidget
 ```
 
-will ignore all functions named `testFunction`.
+will ignore all functions named `testFunction` and all functions having `FunctionalWidget` annotation.
 
 ### Example
 

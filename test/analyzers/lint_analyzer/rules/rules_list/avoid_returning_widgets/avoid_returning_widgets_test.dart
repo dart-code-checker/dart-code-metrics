@@ -28,10 +28,10 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [88, 175, 289, 358, 485, 614, 749],
-        startLines: [6, 11, 20, 25, 30, 35, 41],
-        startColumns: [3, 3, 3, 3, 3, 3, 1],
-        endOffsets: [127, 231, 344, 414, 542, 677, 784],
+        startOffsets: [88, 175, 289, 358, 485, 614, 749, 822, 895],
+        startLines: [6, 11, 20, 25, 30, 35, 41, 46, 50],
+        startColumns: [3, 3, 3, 3, 3, 3, 1, 1, 1],
+        endOffsets: [127, 231, 344, 414, 542, 677, 784, 885, 954],
         locationTexts: [
           'Widget get widgetGetter => Container();',
           'Widget _getMyShinyWidget() {\n'
@@ -44,8 +44,14 @@ void main() {
           'List<Widget> _getWidgetsList() => [Container()].toList();',
           'Future<Widget> _getWidgetFuture() => Future.value(Container());',
           'Widget _getWidget() => Container();',
+          '@FunctionalWidget\n'
+              'Widget _getFunctionalWidget() => Container();',
+          '@swidget\n'
+              'Widget _getOtherFunctionalWidget() => Container();',
         ],
         messages: [
+          'Avoid returning widgets from a function.',
+          'Avoid returning widgets from a function.',
           'Avoid returning widgets from a function.',
           'Avoid returning widgets from a function.',
           'Avoid returning widgets from a function.',
@@ -64,6 +70,10 @@ void main() {
           '_getWidgetFuture',
           '_getWidget',
         ],
+        'ignored-annotations': [
+          'FunctionalWidget',
+          'swidget',
+        ]
       };
 
       final issues = AvoidReturningWidgetsRule(config).check(unit);

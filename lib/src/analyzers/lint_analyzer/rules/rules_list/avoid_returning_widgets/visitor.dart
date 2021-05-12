@@ -4,29 +4,51 @@ class _Visitor extends RecursiveAstVisitor<void> {
   final _declarations = <Declaration>[];
 
   final Iterable<String> _ignoredNames;
+  final Iterable<String> _ignoredAnnotations;
 
   Iterable<Declaration> get declarations => _declarations;
 
-  _Visitor(this._ignoredNames);
+  _Visitor(this._ignoredNames, this._ignoredAnnotations);
 
   @override
   void visitMethodDeclaration(MethodDeclaration node) {
     super.visitMethodDeclaration(node);
 
-    if (!node.isSetter && !_isIgnored(node.name.name)) {
-      final type = node.returnType?.type;
-      if (type != null && _hasWidgetType(type)) {
-        _declarations.add(node);
-      }
-    }
+    _visitDeclaration(
+      node,
+      node.name,
+      node.returnType,
+      isSetter: node.isSetter,
+    );
   }
 
   @override
   void visitFunctionDeclaration(FunctionDeclaration node) {
     super.visitFunctionDeclaration(node);
 
-    if (!node.isSetter && !_isIgnored(node.name.name)) {
-      final type = node.returnType?.type;
+    _visitDeclaration(
+      node,
+      node.name,
+      node.returnType,
+      isSetter: node.isSetter,
+    );
+  }
+
+  void _visitDeclaration(
+    Declaration node,
+    SimpleIdentifier name,
+    TypeAnnotation? returnType, {
+    required bool isSetter,
+  }) {
+    final hasIgnoredAnnotation = node.metadata.firstWhereOrNull(
+          (node) =>
+              _ignoredAnnotations.contains(node.name.name) &&
+              node.atSign.type.lexeme == '@',
+        ) !=
+        null;
+
+    if (!hasIgnoredAnnotation && !isSetter && !_isIgnored(name.name)) {
+      final type = returnType?.type;
       if (type != null && _hasWidgetType(type)) {
         _declarations.add(node);
       }
