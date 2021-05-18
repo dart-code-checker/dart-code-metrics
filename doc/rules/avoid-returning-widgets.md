@@ -8,7 +8,10 @@ avoid-returning-widgets
 
 ## Description
 
-Warns when a method or function returns a Widget or subclass of a Widget (**Note** `build` method will not trigger the rule).
+Warns when a method or function returns a Widget or subclass of a Widget. The following patterns will not trigger the rule:
+
+- Widget `build` method overrides.
+- Functions with [functional_widget](https://pub.dev/packages/functional_widget) package annotations.
 
 Extracting widgets to a method is considered as a Flutter anti-pattern, because when Flutter rebuilds widget tree, it calls the function all the time, making more processor time for the operations.
 
@@ -21,7 +24,7 @@ Additional resources:
 * <https://www.reddit.com/r/FlutterDev/comments/avhvco/extracting_widgets_to_a_function_is_not_an/>
 * <https://medium.com/flutter-community/splitting-widgets-to-methods-is-a-performance-antipattern-16aa3fb4026c>
 
-Use `ignored-names` configuration, if you want to ignore a function or method name. For example:
+Use `ignored-names` configuration, if you want to ignore a function or method name. Use `ignored-annotations` configuration, if you want to override default ignored annotation list. For example:
 
 ### Config example
 
@@ -34,10 +37,10 @@ dart_code_metrics:
         ignored-names:
           - testFunction
         ignored-annotations:
-          - FunctionalWidget
+          - allowedAnnotation
 ```
 
-will ignore all functions named `testFunction` and all functions having `FunctionalWidget` annotation.
+will ignore all functions named `testFunction` and all functions having `allowedAnnotation` annotation.
 
 ### Example
 
