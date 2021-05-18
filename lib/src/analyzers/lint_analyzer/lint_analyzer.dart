@@ -95,24 +95,37 @@ class LintAnalyzer {
 
     final analyzerResult = <FileReport>[];
 
+    var totalContextForMs = 0;
+    var totalGetResolvedUnitMs = 0;
+    var totalRunAnalysisforFileMs = 0;
+    DateTime startTime;
     for (final filePath in filePaths) {
       final normalized = normalize(absolute(filePath));
 
+      startTime = DateTime.now();
       final analysisContext = collection.contextFor(normalized);
+      totalContextForMs += DateTime.now().difference(startTime).inMilliseconds;
+
+      startTime = DateTime.now();
       final unit =
           // ignore: deprecated_member_use
           await analysisContext.currentSession.getResolvedUnit(normalized);
+      totalGetResolvedUnitMs += DateTime.now().difference(startTime).inMilliseconds;
+
+      startTime = DateTime.now();
       final result = _runAnalysisForFile(
         unit,
         config,
         rootFolder,
         filePath: filePath,
       );
+      totalRunAnalysisforFileMs += DateTime.now().difference(startTime).inMilliseconds;
 
       if (result != null) {
         analyzerResult.add(result);
       }
     }
+    print('contextForMs: $totalContextForMs, getResolvedUnitMs: $totalGetResolvedUnitMs, runAnalysisforFileMs: $totalRunAnalysisforFileMs');
 
     return analyzerResult;
   }
