@@ -69,7 +69,7 @@ void main() {
         ],
         'ignored-annotations': [
           'ignoredAnnotation',
-        ]
+        ],
       };
 
       final issues = AvoidReturningWidgetsRule(config).check(unit);
