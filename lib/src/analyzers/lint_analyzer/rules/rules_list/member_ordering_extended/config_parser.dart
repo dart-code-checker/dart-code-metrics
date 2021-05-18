@@ -20,7 +20,7 @@ class _ConfigParser {
   );
 
   static List<_MemberGroup> parseOrder(Map<String, Object> config) {
-    final order = config.containsKey('order') && config['order'] is Iterable
+    final order = config['order'] is Iterable
         ? List<String>.from(config['order'] as Iterable)
         : _defaultOrderList;
 
