@@ -3,8 +3,16 @@ import 'models/metric_value_level.dart';
 /// Returns the url of a page containing documentation associated with [metricId]
 Uri documentation(String metricId) => Uri(
       scheme: 'https',
-      host: 'dart-code-checker.github.io',
-      pathSegments: ['dart-code-metrics', 'metrics', '$metricId.html'],
+      host: 'github.io',
+      pathSegments: [
+        'dart-code-checker',
+        'dart-code-metrics',
+        'blob',
+        '3.x.x',
+        'doc',
+        'metrics',
+        '$metricId.md',
+      ],
     );
 
 /// Returns a threshold from [Map] based [config] for metrics with [metricId] otherwise [defaultValue]

@@ -14,7 +14,7 @@
 [Anti-patterns](#anti-patterns)
 
 <img
-  src="https://raw.githubusercontent.com/dart-code-checker/dart-code-metrics/master/doc/.assets/logo.svg"
+  src="https://raw.githubusercontent.com/dart-code-checker/dart-code-metrics/3.x.x/doc/.assets/logo.svg"
   alt="Dart Code Metrics logo"
   height="120" width="120"
   align="right">
@@ -101,7 +101,7 @@ The package can be used as a command-line tool.
 It will produce a result in one of the supported formats:
 
 - Plain terminal
-- [GitHub](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/reporters/github-reporter.md)
+- [GitHub](https://github.com/dart-code-checker/dart-code-metrics/blob/3.x.x/doc/reporters/github-reporter.md)
 - Codeclimate
 - HTML
 - [JSON](./doc/reporters/json.md)
@@ -166,7 +166,7 @@ Usage: metrics [arguments...] <directories>
 
 ### Library
 
-[See `example/example.dart`](https://github.com/dart-code-checker/dart-code-metrics/blob/master/example/example.dart).
+[See `example/example.dart`](https://github.com/dart-code-checker/dart-code-metrics/blob/3.x.x/example/example.dart).
 
 ## Configuration
 
@@ -305,14 +305,14 @@ Metrics configuration is [described here](#configuring-a-metrics-entry).
 
 Available metrics:
 
-- [Cyclomatic Complexity](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/metrics/cyclomatic-complexity.md)
-- [Lines of Code](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/metrics/lines-of-code.md)
-- [Maximum Nesting](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/metrics/maximum-nesting-level.md)
-- [Number of Methods](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/metrics/number-of-methods.md)
-- [Number of Parameters](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/metrics/number-of-parameters.md)
-- [Source lines of Code](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/metrics/source-lines-of-code.md)
-- [Weight of a Class](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/metrics/weight-of-class.md)
-- [Lines of Executable Code](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/metrics/lines-of-executable-code.md)
+- [Cyclomatic Complexity](https://github.com/dart-code-checker/dart-code-metrics/blob/3.x.x/doc/metrics/cyclomatic-complexity.md)
+- [Lines of Code](https://github.com/dart-code-checker/dart-code-metrics/blob/3.x.x/doc/metrics/lines-of-code.md)
+- [Maximum Nesting](https://github.com/dart-code-checker/dart-code-metrics/blob/3.x.x/doc/metrics/maximum-nesting-level.md)
+- [Number of Methods](https://github.com/dart-code-checker/dart-code-metrics/blob/3.x.x/doc/metrics/number-of-methods.md)
+- [Number of Parameters](https://github.com/dart-code-checker/dart-code-metrics/blob/3.x.x/doc/metrics/number-of-parameters.md)
+- [Source lines of Code](https://github.com/dart-code-checker/dart-code-metrics/blob/3.x.x/doc/metrics/source-lines-of-code.md)
+- [Weight of a Class](https://github.com/dart-code-checker/dart-code-metrics/blob/3.x.x/doc/metrics/weight-of-class.md)
+- [Lines of Executable Code](https://github.com/dart-code-checker/dart-code-metrics/blob/3.x.x/doc/metrics/lines-of-executable-code.md)
 
 ## Rules
 
@@ -324,44 +324,44 @@ Rules configuration is [described here](#configuring-a-rules-entry).
 
 ### Common
 
-- [avoid-late-keyword](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/avoid-late-keyword.md)
-- [avoid-non-null-assertion](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/avoid-non-null-assertion.md)
-- [avoid-unused-parameters](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/avoid-unused-parameters.md)
-- [binary-expression-operand-order](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/binary-expression-operand-order.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
-- [double-literal-format](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/double-literal-format.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
-- [member-ordering](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/member-ordering.md) &nbsp; ![Configurable](https://img.shields.io/badge/-configurable-informational)
-- [member-ordering-extended](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/member-ordering-extended.md) &nbsp; ![Configurable](https://img.shields.io/badge/-configurable-informational)
-- [newline-before-return](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/newline-before-return.md)
-- [no-boolean-literal-compare](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/no-boolean-literal-compare.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
-- [no-empty-block](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/no-empty-block.md)
-- [no-equal-arguments](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/no-equal-arguments.md)
-- [no-equal-then-else](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/no-equal-then-else.md)
-- [no-magic-number](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/no-magic-number.md) &nbsp; ![Configurable](https://img.shields.io/badge/-configurable-informational)
-- [no-object-declaration](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/no-object-declaration.md)
-- [prefer-conditional-expressions](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/prefer-conditional-expressions.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
-- [prefer-trailing-comma](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/prefer-trailing-comma.md) &nbsp; ![Configurable](https://img.shields.io/badge/-configurable-informational) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
+- [avoid-late-keyword](https://github.com/dart-code-checker/dart-code-metrics/blob/3.x.x/doc/rules/avoid-late-keyword.md)
+- [avoid-non-null-assertion](https://github.com/dart-code-checker/dart-code-metrics/blob/3.x.x/doc/rules/avoid-non-null-assertion.md)
+- [avoid-unused-parameters](https://github.com/dart-code-checker/dart-code-metrics/blob/3.x.x/doc/rules/avoid-unused-parameters.md)
+- [binary-expression-operand-order](https://github.com/dart-code-checker/dart-code-metrics/blob/3.x.x/doc/rules/binary-expression-operand-order.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
+- [double-literal-format](https://github.com/dart-code-checker/dart-code-metrics/blob/3.x.x/doc/rules/double-literal-format.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
+- [member-ordering](https://github.com/dart-code-checker/dart-code-metrics/blob/3.x.x/doc/rules/member-ordering.md) &nbsp; ![Configurable](https://img.shields.io/badge/-configurable-informational)
+- [member-ordering-extended](https://github.com/dart-code-checker/dart-code-metrics/blob/3.x.x/doc/rules/member-ordering-extended.md) &nbsp; ![Configurable](https://img.shields.io/badge/-configurable-informational)
+- [newline-before-return](https://github.com/dart-code-checker/dart-code-metrics/blob/3.x.x/doc/rules/newline-before-return.md)
+- [no-boolean-literal-compare](https://github.com/dart-code-checker/dart-code-metrics/blob/3.x.x/doc/rules/no-boolean-literal-compare.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
+- [no-empty-block](https://github.com/dart-code-checker/dart-code-metrics/blob/3.x.x/doc/rules/no-empty-block.md)
+- [no-equal-arguments](https://github.com/dart-code-checker/dart-code-metrics/blob/3.x.x/doc/rules/no-equal-arguments.md)
+- [no-equal-then-else](https://github.com/dart-code-checker/dart-code-metrics/blob/3.x.x/doc/rules/no-equal-then-else.md)
+- [no-magic-number](https://github.com/dart-code-checker/dart-code-metrics/blob/3.x.x/doc/rules/no-magic-number.md) &nbsp; ![Configurable](https://img.shields.io/badge/-configurable-informational)
+- [no-object-declaration](https://github.com/dart-code-checker/dart-code-metrics/blob/3.x.x/doc/rules/no-object-declaration.md)
+- [prefer-conditional-expressions](https://github.com/dart-code-checker/dart-code-metrics/blob/3.x.x/doc/rules/prefer-conditional-expressions.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
+- [prefer-trailing-comma](https://github.com/dart-code-checker/dart-code-metrics/blob/3.x.x/doc/rules/prefer-trailing-comma.md) &nbsp; ![Configurable](https://img.shields.io/badge/-configurable-informational) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 
 ### Flutter specific
 
-- [avoid-returning-widgets](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/avoid-returning-widgets.md) &nbsp; ![Configurable](https://img.shields.io/badge/-configurable-informational)
+- [avoid-returning-widgets](https://github.com/dart-code-checker/dart-code-metrics/blob/3.x.x/doc/rules/avoid-returning-widgets.md) &nbsp; ![Configurable](https://img.shields.io/badge/-configurable-informational)
 
 ### Intl specific
 
-- [prefer-intl-name](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/prefer-intl-name.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
-- [provide-correct-intl-args](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/provide-correct-intl-args.md)
+- [prefer-intl-name](https://github.com/dart-code-checker/dart-code-metrics/blob/3.x.x/doc/rules/prefer-intl-name.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
+- [provide-correct-intl-args](https://github.com/dart-code-checker/dart-code-metrics/blob/3.x.x/doc/rules/provide-correct-intl-args.md)
 
 ### Angular specific
 
-- [avoid-preserve-whitespace-false](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/avoid-preserve-whitespace-false.md)
-- [component-annotation-arguments-ordering](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/component-annotation-arguments-ordering.md) &nbsp; ![Configurable](https://img.shields.io/badge/-configurable-informational)
-- [prefer-on-push-cd-strategy](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/prefer-on-push-cd-strategy.md)
+- [avoid-preserve-whitespace-false](https://github.com/dart-code-checker/dart-code-metrics/blob/3.x.x/doc/rules/avoid-preserve-whitespace-false.md)
+- [component-annotation-arguments-ordering](https://github.com/dart-code-checker/dart-code-metrics/blob/3.x.x/doc/rules/component-annotation-arguments-ordering.md) &nbsp; ![Configurable](https://img.shields.io/badge/-configurable-informational)
+- [prefer-on-push-cd-strategy](https://github.com/dart-code-checker/dart-code-metrics/blob/3.x.x/doc/rules/prefer-on-push-cd-strategy.md)
 
 ## Anti-patterns
 
 Like rules, anti-patterns display issues in IDE, except that their configuration is based on a `metrics` entry in the config.
 
-- [long-method](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/anti-patterns/long-method.md)
-- [long-parameter-list](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/anti-patterns/long-parameter-list.md)
+- [long-method](https://github.com/dart-code-checker/dart-code-metrics/blob/3.x.x/doc/anti-patterns/long-method.md)
+- [long-parameter-list](https://github.com/dart-code-checker/dart-code-metrics/blob/3.x.x/doc/anti-patterns/long-parameter-list.md)
 
 ## Troubleshooting
 

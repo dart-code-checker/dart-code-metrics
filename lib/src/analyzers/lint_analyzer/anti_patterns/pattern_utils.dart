@@ -26,10 +26,10 @@ Uri documentation(Pattern pattern) => Uri(
       pathSegments: [
         'dart-code-checker',
         'dart-code-metrics',
-        'tree',
-        'master',
+        'blob',
+        '3.x.x',
         'doc',
         'anti-patterns',
-        '${pattern.id}.html',
+        '${pattern.id}.md',
       ],
     );

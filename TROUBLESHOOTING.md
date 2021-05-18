@@ -20,5 +20,5 @@ If the plugin is not working as you'd expect it to work, please consider going t
     then a `Analyzer Server Diagnostics` webpage will be opened.
 
     To check that the plugin is active, open the `Plugins` tab and ensure that there is no errors.
-    
+
     If there is an error or the plugin is still not working as expected, please create [an issue](https://github.com/dart-code-checker/dart-code-metrics/issues/new?assignees=dkrutskikh&labels=bug&template=bug-report.md&title=%5BBUG%5D+) with the `Plugins`  page screenshot, it will be very useful for an investigation.
