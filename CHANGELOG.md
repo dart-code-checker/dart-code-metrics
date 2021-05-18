@@ -3,6 +3,7 @@
 ## Unreleased
 
 * Remove deprecated `Lines of Executable Code` metric, use `Source lines of Code` instead.
+* Add static code diagnostic `avoid-unnecessary-setstate`.
 
 ## 3.2.2
 
@@ -10,7 +11,7 @@
 
 ## 3.2.1
 
-* Remove unnecessary scan by `Lines of Executable Code`
+* Remove unnecessary scan by `Lines of Executable Code`.
 
 ## 3.2.0
 

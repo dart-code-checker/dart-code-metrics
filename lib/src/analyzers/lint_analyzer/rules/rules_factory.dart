@@ -3,6 +3,7 @@ import 'rules_list/avoid_late_keyword/avoid_late_keyword.dart';
 import 'rules_list/avoid_non_null_assertion/avoid_non_null_assertion.dart';
 import 'rules_list/avoid_preserve_whitespace_false/avoid_preserve_whitespace_false.dart';
 import 'rules_list/avoid_returning_widgets/avoid_returning_widgets.dart';
+import 'rules_list/avoid_unnecessary_setstate/avoid_unnecessary_setstate.dart';
 import 'rules_list/avoid_unused_parameters/avoid_unused_parameters.dart';
 import 'rules_list/binary_expression_operand_order/binary_expression_operand_order.dart';
 import 'rules_list/component_annotation_arguments_ordering/component_annotation_arguments_ordering.dart';
@@ -30,6 +31,8 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
       AvoidPreserveWhitespaceFalseRule(config),
   AvoidReturningWidgetsRule.ruleId: (config) =>
       AvoidReturningWidgetsRule(config),
+  AvoidUnnecessarySetStateRule.ruleId: (config) =>
+      AvoidUnnecessarySetStateRule(config),
   AvoidUnusedParametersRule.ruleId: (config) =>
       AvoidUnusedParametersRule(config),
   BinaryExpressionOperandOrderRule.ruleId: (config) =>
