@@ -1,4 +1,4 @@
-# Member ordering
+# Extended member ordering
 
 ![Configurable](https://img.shields.io/badge/-configurable-informational)
 
