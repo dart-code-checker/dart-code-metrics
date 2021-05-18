@@ -4,17 +4,24 @@ class _ConfigParser {
   static const _ignoredNamesConfig = 'ignored-names';
   static const _ignoredAnnotationsConfig = 'ignored-annotations';
 
+  static const _defaultIgnoredAnnotations = [
+    'FunctionalWidget',
+    'swidget',
+    'hwidget',
+  ];
+
   static Iterable<String> getIgnoredNames(Map<String, Object> config) =>
-      _getIterable(config, _ignoredNamesConfig);
+      _getIterable(config, _ignoredNamesConfig) ?? [];
 
   static Iterable<String> getIgnoredAnnotations(Map<String, Object> config) =>
-      _getIterable(config, _ignoredAnnotationsConfig);
+      _getIterable(config, _ignoredAnnotationsConfig) ??
+      _defaultIgnoredAnnotations;
 
-  static Iterable<String> _getIterable(
+  static Iterable<String>? _getIterable(
     Map<String, Object> config,
     String name,
   ) =>
-      config.containsKey(name) && config[name] is Iterable
+      config[name] is Iterable
           ? List<String>.from(config[name] as Iterable)
-          : <String>[];
+          : null;
 }

@@ -42,13 +42,18 @@ Widget _getWidget() => Container();
 
 String _getString() => '';
 
-// LINT
 @FunctionalWidget
 Widget _getFunctionalWidget() => Container();
 
-// LINT
 @swidget
-Widget _getOtherFunctionalWidget() => Container();
+Widget _getStatelessFunctionalWidget() => Container();
+
+@hwidget
+Widget _getHookFunctionalWidget() => Container();
+
+// LINT
+@ignoredAnnotation
+Widget _getWidgetWithIgnoredAnnotation() => Container();
 
 class Widget {}
 
@@ -59,3 +64,8 @@ class FunctionalWidget {
 }
 
 const swidget = FunctionalWidget();
+const hwidget = FunctionalWidget();
+
+class IgnoredAnnotation {
+  const IgnoredAnnotation();
+}

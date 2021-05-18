@@ -28,10 +28,10 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [88, 175, 289, 358, 485, 614, 749, 822, 895],
-        startLines: [6, 11, 20, 25, 30, 35, 41, 46, 50],
-        startColumns: [3, 3, 3, 3, 3, 3, 1, 1, 1],
-        endOffsets: [127, 231, 344, 414, 542, 677, 784, 885, 954],
+        startOffsets: [88, 175, 289, 358, 485, 614, 749, 1012],
+        startLines: [6, 11, 20, 25, 30, 35, 41, 55],
+        startColumns: [3, 3, 3, 3, 3, 3, 1, 1],
+        endOffsets: [127, 231, 344, 414, 542, 677, 784, 1087],
         locationTexts: [
           'Widget get widgetGetter => Container();',
           'Widget _getMyShinyWidget() {\n'
@@ -44,13 +44,10 @@ void main() {
           'List<Widget> _getWidgetsList() => [Container()].toList();',
           'Future<Widget> _getWidgetFuture() => Future.value(Container());',
           'Widget _getWidget() => Container();',
-          '@FunctionalWidget\n'
-              'Widget _getFunctionalWidget() => Container();',
-          '@swidget\n'
-              'Widget _getOtherFunctionalWidget() => Container();',
+          '@ignoredAnnotation\n'
+              'Widget _getWidgetWithIgnoredAnnotation() => Container();'
         ],
         messages: [
-          'Avoid returning widgets from a function.',
           'Avoid returning widgets from a function.',
           'Avoid returning widgets from a function.',
           'Avoid returning widgets from a function.',
@@ -71,8 +68,7 @@ void main() {
           '_getWidget',
         ],
         'ignored-annotations': [
-          'FunctionalWidget',
-          'swidget',
+          'ignoredAnnotation',
         ]
       };
 
@@ -80,10 +76,10 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [88, 175, 289, 358, 485],
-        startLines: [6, 11, 20, 25, 30],
-        startColumns: [3, 3, 3, 3, 3],
-        endOffsets: [127, 231, 344, 414, 542],
+        startOffsets: [88, 175, 289, 358, 485, 814, 879, 944],
+        startLines: [6, 11, 20, 25, 30, 45, 48, 51],
+        startColumns: [3, 3, 3, 3, 3, 1, 1, 1],
+        endOffsets: [127, 231, 344, 414, 542, 877, 942, 1002],
         locationTexts: [
           'Widget get widgetGetter => Container();',
           'Widget _getMyShinyWidget() {\n'
@@ -94,8 +90,17 @@ void main() {
               '  }',
           'Iterable<Widget> _getWidgetsIterable() => [Container()];',
           'List<Widget> _getWidgetsList() => [Container()].toList();',
+          '@FunctionalWidget\n'
+              'Widget _getFunctionalWidget() => Container();',
+          '@swidget\n'
+              'Widget _getStatelessFunctionalWidget() => Container();',
+          '@hwidget\n'
+              'Widget _getHookFunctionalWidget() => Container();'
         ],
         messages: [
+          'Avoid returning widgets from a function.',
+          'Avoid returning widgets from a function.',
+          'Avoid returning widgets from a function.',
           'Avoid returning widgets from a function.',
           'Avoid returning widgets from a function.',
           'Avoid returning widgets from a function.',
