@@ -53,7 +53,7 @@ A plugin for the Dart `analyzer` [package](https://pub.dev/packages/analyzer) pr
 
     ```yaml
     dev_dependencies:
-      dart_code_metrics: ^3.2.2
+      dart_code_metrics: ^3.2.3
     ```
 
     and then run
