@@ -1,5 +1,4 @@
 @TestOn('vm')
-import 'package:dart_code_metrics/src/analyzers/models/entity_type.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_documentation.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value_level.dart';
@@ -7,6 +6,7 @@ import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/models/f
     as metrics;
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/html/html_reporter.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/html/utility_functions.dart';
+import 'package:dart_code_metrics/src/analyzers/models/entity_type.dart';
 import 'package:test/test.dart';
 
 void main() {

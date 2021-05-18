@@ -16,7 +16,7 @@ void main() {
       () {
         const id = 'rule-id';
         final documentationUrl = Uri.parse(
-          'https://github.com/dart-code-checker/dart-code-metrics/tree/master/doc/rules/rule-id.html',
+          'https://github.com/dart-code-checker/dart-code-metrics/blob/3.x.x/doc/rules/rule-id.md',
         );
         const severity = Severity.none;
 
@@ -69,13 +69,10 @@ void main() {
       expect(
         documentation(rule1).toString(),
         equals(
-          'https://github.com/dart-code-checker/dart-code-metrics/tree/master/doc/rules/$ruleId1.html',
+          'https://github.com/dart-code-checker/dart-code-metrics/blob/3.x.x/doc/rules/$ruleId1.md',
         ),
       );
-      expect(
-        documentation(rule2).pathSegments.last,
-        equals('$ruleId2.html'),
-      );
+      expect(documentation(rule2).pathSegments.last, equals('$ruleId2.md'));
     });
 
     test('readSeverity returns a Severity from Map based config', () {

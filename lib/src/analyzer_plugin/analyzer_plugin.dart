@@ -31,7 +31,6 @@ import '../analyzers/models/scoped_function_declaration.dart';
 import '../analyzers/models/suppression.dart';
 import '../config_builder/models/analysis_options.dart';
 import '../config_builder/models/config.dart';
-import '../config_builder/models/deprecated_option.dart';
 import '../utils/node_utils.dart';
 import '../utils/yaml_utils.dart';
 import 'analyzer_plugin_config.dart';

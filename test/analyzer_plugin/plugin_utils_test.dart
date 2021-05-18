@@ -2,8 +2,8 @@
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:dart_code_metrics/src/analyzer_plugin/plugin_utils.dart';
 import 'package:glob/glob.dart';
-import 'package:test/test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:test/test.dart';
 
 class AnalysisResultMock extends Mock implements AnalysisResult {}
 
