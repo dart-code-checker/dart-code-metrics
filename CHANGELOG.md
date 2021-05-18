@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.2.3
+
+* Fix anti-patterns, metrics and rules documentation url.
+
 ## 3.2.2
 
 * Update deprecation version for `Lines of Executable Code` `ConsoleReporter`, `MetricsAnalysisRunner`, `MetricsAnalyzer`, `MetricsRecordsBuilder` and `MetricsRecordsStore`.
