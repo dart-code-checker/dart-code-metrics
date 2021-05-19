@@ -10,6 +10,21 @@ no-equal-arguments
 
 Warns when equal arguments passed to a function or method invocation.
 
+Use `ignored-parameters` configuration, if you want to ignore specific named parameters.
+
+### Config example
+
+```yaml
+dart_code_metrics:
+  ...
+  rules:
+    ...
+    - no-equal-arguments:
+        ignored-parameters:
+          - height
+          - width
+```
+
 ### Example
 
 Bad:
