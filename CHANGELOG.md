@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-* Improve static code diagnostic `no-equal-arguments`.
+* Improve static code diagnostics `no-equal-arguments`, `no-magic-numbers`.
 
 ## 3.2.3
 
