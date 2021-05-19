@@ -95,7 +95,7 @@ void main() {
           '@swidget\n'
               'Widget _getStatelessFunctionalWidget() => Container();',
           '@hwidget\n'
-              'Widget _getHookFunctionalWidget() => Container();'
+              'Widget _getHookFunctionalWidget() => Container();',
         ],
         messages: [
           'Avoid returning widgets from a function.',
