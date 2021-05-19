@@ -20,14 +20,14 @@ void main() {
     expect(configMap.keys.single, equals('code_checker'));
 
     final codeCheckerConfigMap =
-        configMap['code_checker'] as Map<String, Object>;
+        configMap['code_checker']! as Map<String, Object>;
     expect(
       codeCheckerConfigMap.keys,
       containsAll(<String>['metrics', 'metrics-exclude', 'rules']),
     );
 
     final metricsCodeCheckerConfigMap =
-        codeCheckerConfigMap['metrics'] as Map<String, Object>;
+        codeCheckerConfigMap['metrics']! as Map<String, Object>;
     expect(
       metricsCodeCheckerConfigMap,
       containsPair('cyclomatic-complexity', 20),
@@ -38,7 +38,7 @@ void main() {
     );
 
     final metricsExcludeCodeCheckerConfigList =
-        codeCheckerConfigMap['metrics-exclude'] as List<Object>;
+        codeCheckerConfigMap['metrics-exclude']! as List<Object>;
     expect(metricsExcludeCodeCheckerConfigList, equals(['test/**']));
   });
 }

@@ -140,7 +140,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     plugin.EditGetFixesParams parameters,
   ) async {
     try {
-      final driver = driverForPath(parameters.file) as AnalysisDriver;
+      final driver = driverForPath(parameters.file)! as AnalysisDriver;
       // ignore: deprecated_member_use
       final analysisResult = await driver.getResult(parameters.file);
 

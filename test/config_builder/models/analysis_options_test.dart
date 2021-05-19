@@ -50,7 +50,7 @@ void main() {
       expect(options.options, contains('linter'));
       expect(options.options['linter'], contains('rules'));
       expect(
-        (options.options['linter'] as Map<String, Object>)['rules'],
+        (options.options['linter']! as Map<String, Object>)['rules'],
         containsAll(
           <String>['always_declare_return_types', 'type_init_formals'],
         ),
@@ -59,14 +59,14 @@ void main() {
       expect(options.options, contains('analyzer'));
       expect(options.options['analyzer'], contains('exclude'));
       expect(
-        (options.options['analyzer'] as Map<String, Object>)['exclude'],
+        (options.options['analyzer']! as Map<String, Object>)['exclude'],
         containsAll(<String>['example/**']),
       );
 
       expect(options.options, contains('dart_code_metrics'));
       expect(options.options['dart_code_metrics'], contains('metrics'));
       expect(
-        (options.options['dart_code_metrics']
+        (options.options['dart_code_metrics']!
             as Map<String, Object>)['metrics'],
         allOf(
           containsPair('metric-id1', 10),
@@ -78,14 +78,14 @@ void main() {
       expect(options.options, contains('dart_code_metrics'));
       expect(options.options['dart_code_metrics'], contains('metrics-exclude'));
       expect(
-        (options.options['dart_code_metrics']
+        (options.options['dart_code_metrics']!
             as Map<String, Object>)['metrics-exclude'],
         containsAll(<String>['test/**', 'documentation/**']),
       );
 
       expect(options.options['dart_code_metrics'], contains('rules'));
       expect(
-        (options.options['dart_code_metrics'] as Map<String, Object>)['rules'],
+        (options.options['dart_code_metrics']! as Map<String, Object>)['rules'],
         allOf(
           containsPair('rule-id1', true),
           containsPair('rule-id2', true),

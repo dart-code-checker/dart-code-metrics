@@ -28,7 +28,7 @@ class AnalysisOptions {
       }
     }
 
-    return isIterableOfStrings(data) ? (data as Iterable).cast<String>() : [];
+    return isIterableOfStrings(data) ? (data! as Iterable).cast<String>() : [];
   }
 
   Map<String, Object> readMap(Iterable<String> pathSegments) {
@@ -80,7 +80,7 @@ class AnalysisOptions {
           final node = rulesNode[key];
 
           return node is Map<String, Object>;
-        }).map((key) => MapEntry(key, rulesNode[key] as Map<String, Object>)),
+        }).map((key) => MapEntry(key, rulesNode[key]! as Map<String, Object>)),
       ]));
     }
 

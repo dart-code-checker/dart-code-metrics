@@ -25,7 +25,7 @@ class ScopedFunctionDeclaration {
       name = node.name.name;
     } else if (node is ConstructorDeclaration) {
       name = node.name?.name ??
-          (node.parent as NamedCompilationUnitMember).name.name;
+          (node.parent! as NamedCompilationUnitMember).name.name;
     } else if (node is MethodDeclaration) {
       name = node.name.name;
     }

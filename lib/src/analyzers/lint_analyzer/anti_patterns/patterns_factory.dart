@@ -15,5 +15,5 @@ Iterable<ObsoletePattern> getPatternsById(Map<String, Object> patternsConfig) =>
     List.unmodifiable(_implementedPatterns.keys
         .where((id) => patternsConfig.keys.contains(id))
         .map<ObsoletePattern>((id) => _implementedPatterns[id]!(
-              patternsConfig[id] as Map<String, Object>,
+              patternsConfig[id]! as Map<String, Object>,
             )));

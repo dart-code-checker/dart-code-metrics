@@ -435,7 +435,7 @@ void main() {
             .cast<String>()
             .first,
       ) as List<Object?>)
-          .first as Map<String, Object?>;
+          .first! as Map<String, Object?>;
 
       expect(report, containsPair('type', 'issue'));
       expect(report, containsPair('check_name', _issuePatternId));

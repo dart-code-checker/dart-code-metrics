@@ -112,7 +112,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
           parametersNames.contains(child.name) &&
           !ignoredForSubtree.contains(child.name) &&
           !(child.parent is PropertyAccess &&
-              (child.parent as PropertyAccess).target != child)) {
+              (child.parent! as PropertyAccess).target != child)) {
         final name = child.name;
 
         parametersNames.remove(name);

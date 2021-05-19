@@ -28,7 +28,7 @@ Object _merge(Object? defaults, Object overrides) {
   var o2 = overrides;
 
   if (isIterableOfStrings(o1) && o2 is Map<String, Object>) {
-    o1 = _iterableToMap(o1 as Iterable<Object>);
+    o1 = _iterableToMap(o1! as Iterable<Object>);
   } else if (o1 is Map<String, Object> && isIterableOfStrings(o2)) {
     o2 = _iterableToMap(o2 as Iterable<Object>);
   }

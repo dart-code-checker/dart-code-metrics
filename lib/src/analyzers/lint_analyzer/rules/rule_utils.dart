@@ -49,7 +49,7 @@ Iterable<String> readExcludes(Map<String, Object> config) {
   final data = config['exclude'];
 
   return _isIterableOfStrings(data)
-      ? (data as Iterable).cast<String>()
+      ? (data! as Iterable).cast<String>()
       : const <String>[];
 }
 

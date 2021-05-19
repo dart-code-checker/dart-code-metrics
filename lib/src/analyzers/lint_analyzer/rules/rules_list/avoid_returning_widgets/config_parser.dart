@@ -22,6 +22,6 @@ class _ConfigParser {
     String name,
   ) =>
       config[name] is Iterable
-          ? List<String>.from(config[name] as Iterable)
+          ? List<String>.from(config[name]! as Iterable)
           : null;
 }

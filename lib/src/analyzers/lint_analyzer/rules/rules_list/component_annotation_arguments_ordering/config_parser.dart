@@ -5,7 +5,7 @@ class _ConfigParser {
 
   static List<_ArgumentGroup> parseOrder(Map<String, Object> config) {
     final order = config[_orderConfig] is Iterable
-        ? List<String>.from(config[_orderConfig] as Iterable)
+        ? List<String>.from(config[_orderConfig]! as Iterable)
         : <String>[];
 
     return order.isEmpty
