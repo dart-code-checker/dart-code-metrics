@@ -34,7 +34,6 @@ jobs:
       - name: Verify formatting
         run: dart format --set-exit-if-changed .
       - name: Run tests
-      - name: Run tests
         run: pub run test
 
   minimal-dart:
