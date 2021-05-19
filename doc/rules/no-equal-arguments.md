@@ -1,5 +1,7 @@
 # No equal arguments
 
+![Configurable](https://img.shields.io/badge/-configurable-informational)
+
 ## Rule id
 
 no-equal-arguments
