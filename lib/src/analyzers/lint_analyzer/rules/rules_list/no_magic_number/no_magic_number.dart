@@ -16,7 +16,7 @@ class NoMagicNumberRule extends Rule {
   static const String ruleId = 'no-magic-number';
 
   static const _warningMessage =
-      'Avoid using magic numbers. Extract them to named constants.';
+      'Avoid using magic numbers. Extract them to named constants or variables.';
 
   final Iterable<num> _allowedMagicNumbers;
 
@@ -27,7 +27,7 @@ class NoMagicNumberRule extends Rule {
           documentation: const RuleDocumentation(
             name: 'No magic number',
             brief:
-                'Warns against using number literals outside of named constants.',
+                'Warns against using number literals outside of named constants or variables.',
           ),
           severity: readSeverity(config, Severity.warning),
           excludes: readExcludes(config),
@@ -41,8 +41,8 @@ class NoMagicNumberRule extends Rule {
 
     return visitor.literals
         .where(_isMagicNumber)
-        .where(_isNotInsideNamedConstant)
-        .where(_isNotInsideConstantCollectionLiteral)
+        .where(_isNotInsideVariable)
+        .where(_isNotInsideCollectionLiteral)
         .where(_isNotInsideConstConstructor)
         .where(_isNotInDateTime)
         .map((lit) => createIssue(
@@ -61,9 +61,9 @@ class NoMagicNumberRule extends Rule {
       (l is DoubleLiteral && !_allowedMagicNumbers.contains(l.value)) ||
       (l is IntegerLiteral && !_allowedMagicNumbers.contains(l.value));
 
-  bool _isNotInsideNamedConstant(Literal l) =>
+  bool _isNotInsideVariable(Literal l) =>
       l.thisOrAncestorMatching(
-        (ancestor) => ancestor is VariableDeclaration && ancestor.isConst,
+        (ancestor) => ancestor is VariableDeclaration,
       ) ==
       null;
 
@@ -76,9 +76,9 @@ class NoMagicNumberRule extends Rule {
       ) ==
       null;
 
-  bool _isNotInsideConstantCollectionLiteral(Literal l) =>
+  bool _isNotInsideCollectionLiteral(Literal l) =>
       l.thisOrAncestorMatching(
-        (ancestor) => ancestor is TypedLiteral && ancestor.isConst,
+        (ancestor) => ancestor is TypedLiteral,
       ) ==
       null;
 
