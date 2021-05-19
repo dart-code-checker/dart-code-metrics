@@ -9,7 +9,13 @@ class FileResolver {
   static Future<InternalResolvedUnitResult> resolve(
     String filePath,
   ) async {
-    final path = normalize(File(filePath).absolute.path);
+    final file = File(filePath);
+
+    if (!file.existsSync()) {
+      throw StateError('Unable to find a file for the given path: $filePath');
+    }
+
+    final path = normalize(file.absolute.path);
     final sourceUrl = Uri.parse(path);
 
     // ignore: deprecated_member_use
