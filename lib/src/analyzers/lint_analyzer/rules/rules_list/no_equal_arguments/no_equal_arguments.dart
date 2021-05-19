@@ -10,14 +10,18 @@ import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
 
 part 'visitor.dart';
+part 'config_parser.dart';
 
 class NoEqualArgumentsRule extends Rule {
   static const String ruleId = 'no-equal-arguments';
 
   static const _warningMessage = 'The argument has already been passed.';
 
+  final Iterable<String> _ignoredParameters;
+
   NoEqualArgumentsRule([Map<String, Object> config = const {}])
-      : super(
+      : _ignoredParameters = _ConfigParser.parseIgnoredParameters(config),
+        super(
           id: ruleId,
           documentation: const RuleDocumentation(
             name: 'No equal arguments',
@@ -30,7 +34,7 @@ class NoEqualArgumentsRule extends Rule {
 
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
-    final _visitor = _Visitor();
+    final _visitor = _Visitor(_ignoredParameters);
 
     source.unit.visitChildren(_visitor);
 

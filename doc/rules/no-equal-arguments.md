@@ -1,5 +1,7 @@
 # No equal arguments
 
+![Configurable](https://img.shields.io/badge/-configurable-informational)
+
 ## Rule id
 
 no-equal-arguments
@@ -7,6 +9,21 @@ no-equal-arguments
 ## Description
 
 Warns when equal arguments passed to a function or method invocation.
+
+Use `ignored-parameters` configuration, if you want to ignore specific named parameters.
+
+### Config example
+
+```yaml
+dart_code_metrics:
+  ...
+  rules:
+    ...
+    - no-equal-arguments:
+        ignored-parameters:
+          - height
+          - width
+```
 
 ### Example
 
