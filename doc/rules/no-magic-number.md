@@ -8,7 +8,7 @@ no-magic-number
 
 ## Description
 
-Warns against using number literals outside of named constants.
+Warns against using number literals outside of named constants or variables.
 Exception is made for common constants by default: -1, 0 and 1.
 Exception is made for literals inside `DateTime` constructor as there is no way to create `const` `DateTime` and extracting each `int` argument to separate named constant is far too inconvenient
 

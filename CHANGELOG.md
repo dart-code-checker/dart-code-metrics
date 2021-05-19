@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* Improve static code diagnostic `no-magic-numbers`.
+
 ## 3.2.3
 
 * Fix anti-patterns, metrics and rules documentation url.
