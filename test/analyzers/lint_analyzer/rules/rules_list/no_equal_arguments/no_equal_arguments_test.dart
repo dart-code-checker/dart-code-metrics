@@ -69,10 +69,10 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [200],
+        startOffsets: [201],
         startLines: [9],
         startColumns: [3],
-        endOffsets: [219],
+        endOffsets: [220],
         locationTexts: [
           'lastName: firstName',
         ],
