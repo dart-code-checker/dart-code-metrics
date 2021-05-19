@@ -45,7 +45,7 @@ void main() {
           'Future<Widget> _getWidgetFuture() => Future.value(Container());',
           'Widget _getWidget() => Container();',
           '@ignoredAnnotation\n'
-              'Widget _getWidgetWithIgnoredAnnotation() => Container();'
+              'Widget _getWidgetWithIgnoredAnnotation() => Container();',
         ],
         messages: [
           'Avoid returning widgets from a function.',
