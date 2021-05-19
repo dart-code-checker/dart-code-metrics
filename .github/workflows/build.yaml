@@ -2,9 +2,9 @@ name: build
 
 on:
   push:
-    branches: [3.x.x]
+    branches: ["3.x.x"]
   pull_request:
-    branches: [3.x.x]
+    branches: ["3.x.x"]
 
 jobs:
   stable-dart:
@@ -33,7 +33,6 @@ jobs:
         run: dart run bin/metrics.dart --reporter=github bin example lib test
       - name: Verify formatting
         run: dart format --set-exit-if-changed .
-      - name: Run tests
       - name: Run tests
         run: pub run test
 
