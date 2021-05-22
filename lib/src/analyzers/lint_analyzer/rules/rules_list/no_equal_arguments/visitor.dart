@@ -31,8 +31,10 @@ class _Visitor extends RecursiveAstVisitor<void> {
   }
 
   void _visitArguments(NodeList<Expression> arguments) {
-    for (final argument in arguments) {
-      final lastAppearance = arguments.lastWhere((arg) {
+    final notIgnoredArguments = arguments.where(_isNotIgnored).toList();
+
+    for (final argument in notIgnoredArguments) {
+      final lastAppearance = notIgnoredArguments.lastWhere((arg) {
         if (argument is NamedExpression &&
             arg is NamedExpression &&
             argument.expression is! Literal &&
@@ -47,9 +49,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
         return argument.toString() == arg.toString();
       });
 
-      if (argument != lastAppearance &&
-          !(lastAppearance is NamedExpression &&
-              _ignoredParameters.contains(lastAppearance.name.label.name))) {
+      if (argument != lastAppearance) {
         _arguments.add(lastAppearance);
       }
     }
@@ -61,4 +61,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
           left.operand is Literal &&
           right is PrefixExpression &&
           right.operand is Literal);
+
+  bool _isNotIgnored(Expression arg) => !(arg is NamedExpression &&
+      _ignoredParameters.contains(arg.name.label.name));
 }
