@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 3.3.0
 
 * Improve static code diagnostics `no-equal-arguments`, `no-magic-numbers`, `member-ordering-extended`.
 
