@@ -5,8 +5,7 @@ import 'package:test/test.dart';
 
 import '../../../../../helpers/rule_test_helper.dart';
 
-const _examplePath =
-    'test/obsoleted/rules/always_remove_listener/examples/example.dart';
+const _examplePath = 'always_remove_listener/examples/example.dart';
 
 void main() {
   group('AlwaysRemoveListenerRule', () {
