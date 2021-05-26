@@ -1,3 +1,4 @@
+@TestOn('vm')
 import 'dart:io';
 
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/lint_analyzer.dart';

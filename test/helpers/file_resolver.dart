@@ -18,8 +18,7 @@ class FileResolver {
     final path = normalize(file.absolute.path);
     final sourceUrl = Uri.parse(path);
 
-    // ignore: deprecated_member_use
-    final parseResult = await resolveFile(path: path) as ResolvedUnitResult;
+    final parseResult = await resolveFile2(path: path) as ResolvedUnitResult;
 
     return InternalResolvedUnitResult(
       sourceUrl,
