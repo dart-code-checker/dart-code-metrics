@@ -58,11 +58,12 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
   @override
   AnalysisDriverGeneric createAnalysisDriver(plugin.ContextRoot contextRoot) {
     final rootPath = contextRoot.root;
-    final locator = ContextLocator(resourceProvider: resourceProvider)
-        .locateRoots(
-            includedPaths: [rootPath],
-            excludedPaths: contextRoot.exclude,
-            optionsFile: contextRoot.optionsFile);
+    final locator =
+        ContextLocator(resourceProvider: resourceProvider).locateRoots(
+      includedPaths: [rootPath],
+      excludedPaths: contextRoot.exclude,
+      optionsFile: contextRoot.optionsFile,
+    );
 
     if (locator.isEmpty) {
       final error = StateError('Unexpected empty located root');
