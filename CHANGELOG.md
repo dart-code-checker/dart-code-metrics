@@ -1,8 +1,12 @@
 # Changelog
 
+## 3.3.2
+
+* Temporary lock `meta` package upper bound range to `1.3.x` version.
+
 ## 3.3.1
 
-* Temporary lock `analyzer` package upper bound range to `1.5.0` version.
+* Temporary lock `analyzer` package upper bound range to `1.5.x` version.
 
 ## 3.3.0
 
