@@ -10,7 +10,7 @@ class CoolWidget {
 class AnotherWidget {
   Widget build() {
     return Padding(
-      child: Icon();
+      child: Icon(),
     );
   }
 }
