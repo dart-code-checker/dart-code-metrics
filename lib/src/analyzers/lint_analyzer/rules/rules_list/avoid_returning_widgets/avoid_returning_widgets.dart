@@ -20,9 +20,11 @@ class AvoidReturningWidgetsRule extends Rule {
   static const _warningMessage = 'Avoid returning widgets from a function.';
 
   final Iterable<String> _ignoredNames;
+  final Iterable<String> _ignoredAnnotations;
 
   AvoidReturningWidgetsRule([Map<String, Object> config = const {}])
       : _ignoredNames = _ConfigParser.getIgnoredNames(config),
+        _ignoredAnnotations = _ConfigParser.getIgnoredAnnotations(config),
         super(
           id: ruleId,
           documentation: const RuleDocumentation(
@@ -36,7 +38,7 @@ class AvoidReturningWidgetsRule extends Rule {
 
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
-    final _visitor = _Visitor(_ignoredNames);
+    final _visitor = _Visitor(_ignoredNames, _ignoredAnnotations);
 
     source.unit.visitChildren(_visitor);
 

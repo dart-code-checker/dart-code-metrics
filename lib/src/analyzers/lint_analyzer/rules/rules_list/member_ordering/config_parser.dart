@@ -4,10 +4,9 @@ class _ConfigParser {
   static const _orderConfig = 'order';
 
   static List<_MembersGroup> parseOrder(Map<String, Object> config) {
-    final order =
-        config.containsKey(_orderConfig) && config[_orderConfig] is Iterable
-            ? List<String>.from(config[_orderConfig] as Iterable)
-            : <String>[];
+    final order = config[_orderConfig] is Iterable
+        ? List<String>.from(config[_orderConfig] as Iterable)
+        : <String>[];
 
     return order.isEmpty
         ? _MembersGroup._groupsOrder
