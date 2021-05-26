@@ -16,7 +16,8 @@ part 'visitor.dart';
 class AvoidUnnecessarySetStateRule extends Rule {
   static const String ruleId = 'avoid-unnecessary-setstate';
 
-  static const _warningMessage = 'Avoid calling unnecessary setState.';
+  static const _warningMessage =
+      'Avoid calling unnecessary setState. Consider changing the state directly.';
   static const _methodWarningMessage = 'Avoid calling a method with setState.';
 
   AvoidUnnecessarySetStateRule([Map<String, Object> config = const {}])
@@ -24,7 +25,8 @@ class AvoidUnnecessarySetStateRule extends Rule {
           id: ruleId,
           documentation: const RuleDocumentation(
             name: 'Avoid returning widgets',
-            brief: 'Warns ',
+            brief:
+                'Warns when `setState` is called inside `initState`, `didUpdateWidget` or `build` methods and when it is called from a `sync` method that is called inside those methods.',
           ),
           severity: readSeverity(config, Severity.warning),
           excludes: readExcludes(config),
@@ -37,26 +39,22 @@ class AvoidUnnecessarySetStateRule extends Rule {
     source.unit.visitChildren(_visitor);
 
     return [
-      ..._visitor.setStateInvocations
-          .map((invocation) => createIssue(
-                rule: this,
-                location: nodeLocation(
-                  node: invocation,
-                  source: source,
-                ),
-                message: _warningMessage,
-              ))
-          .toList(growable: false),
-      ..._visitor.classMethodsInvocations
-          .map((invocation) => createIssue(
-                rule: this,
-                location: nodeLocation(
-                  node: invocation,
-                  source: source,
-                ),
-                message: _methodWarningMessage,
-              ))
-          .toList(growable: false)
+      ..._visitor.setStateInvocations.map((invocation) => createIssue(
+            rule: this,
+            location: nodeLocation(
+              node: invocation,
+              source: source,
+            ),
+            message: _warningMessage,
+          )),
+      ..._visitor.classMethodsInvocations.map((invocation) => createIssue(
+            rule: this,
+            location: nodeLocation(
+              node: invocation,
+              source: source,
+            ),
+            message: _methodWarningMessage,
+          ))
     ];
   }
 }

@@ -45,7 +45,7 @@ class _MyWidgetState extends State<MyWidget> {
       });
     }
 
-    myMethod(); // LINT
+    myStateUpdateMethod(); // LINT
   }
 
   @override
@@ -56,7 +56,7 @@ class _MyWidgetState extends State<MyWidget> {
     });
   }
 
-  void myMethod() {
+  void myStateUpdateMethod() {
     setState(() {
       myString = "Hello";
     });
@@ -76,10 +76,10 @@ class _MyWidgetState extends State<MyWidget> {
       });
     }
 
-    myMethod(); // LINT
+    myStateUpdateMethod(); // LINT
 
     return ElevatedButton(
-      onPressed: () => myMethod(),
+      onPressed: () => myStateUpdateMethod(),
       onLongPress: () {
         setState(() {
           myString = data;
@@ -108,16 +108,18 @@ class _MyWidgetState extends State<MyWidget> {
   void initState() {
     super.initState();
 
+    myString = "Hello";
+
     classWithMethod.myMethod();
     myAsyncMethod();
   }
 
   @override
   void didUpdateWidget(MyWidget oldWidget) {
-    ...
+    myString = "Hello";
   }
 
-  void myMethod() {
+  void myStateUpdateMethod() {
     setState(() {
       myString = "Hello";
     });
@@ -136,7 +138,7 @@ class _MyWidgetState extends State<MyWidget> {
     myAsyncMethod();
 
     return ElevatedButton(
-      onPressed: () => myMethod(),
+      onPressed: () => myStateUpdateMethod(),
       onLongPress: () {
         setState(() {
           myString = data;
