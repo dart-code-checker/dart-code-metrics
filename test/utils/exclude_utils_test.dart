@@ -16,6 +16,9 @@ void main() {
         isExcluded('/home/user/project/src/exclude_me.dart', excludes),
         isTrue,
       );
+    }, onPlatform: const <String, Skip>{
+      'windows':
+          Skip('the tests is intended for os with unix style filesystem'),
     });
 
     test('Windows style paths', () {

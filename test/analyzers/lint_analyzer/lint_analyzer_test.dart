@@ -129,6 +129,8 @@ void main() {
 
       expect(ids, List.filled(6, 'prefer-trailing-comma'));
     });
+  }, onPlatform: const <String, Skip>{
+    'windows': Skip('the tests is intended for os with unix style filesystem'),
   });
 }
 
