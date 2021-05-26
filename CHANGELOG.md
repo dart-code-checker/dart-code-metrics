@@ -3,6 +3,7 @@
 ## Unreleased
 
 * Remove deprecated `Lines of Executable Code` metric, use `Source lines of Code` instead.
+* Add static code diagnostic `avoid-wrapping-in-padding`.
 
 ## 3.2.2
 
