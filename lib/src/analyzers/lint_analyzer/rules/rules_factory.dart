@@ -1,8 +1,10 @@
 import 'models/rule.dart';
+import 'rules_list/always_remove_listener/always_remove_listener.dart';
 import 'rules_list/avoid_late_keyword/avoid_late_keyword.dart';
 import 'rules_list/avoid_non_null_assertion/avoid_non_null_assertion.dart';
 import 'rules_list/avoid_preserve_whitespace_false/avoid_preserve_whitespace_false.dart';
 import 'rules_list/avoid_returning_widgets/avoid_returning_widgets.dart';
+import 'rules_list/avoid_unnecessary_setstate/avoid_unnecessary_setstate.dart';
 import 'rules_list/avoid_unused_parameters/avoid_unused_parameters.dart';
 import 'rules_list/avoid_wrapping_in_padding/avoid_wrapping_in_padding.dart';
 import 'rules_list/binary_expression_operand_order/binary_expression_operand_order.dart';
@@ -24,6 +26,7 @@ import 'rules_list/prefer_trailing_comma/prefer_trailing_comma.dart';
 import 'rules_list/provide_correct_intl_args/provide_correct_intl_args.dart';
 
 final _implementedRules = <String, Rule Function(Map<String, Object>)>{
+  AlwaysRemoveListenerRule.ruleId: (config) => AlwaysRemoveListenerRule(config),
   AvoidLateKeywordRule.ruleId: (config) => AvoidLateKeywordRule(config),
   AvoidNonNullAssertionRule.ruleId: (config) =>
       AvoidNonNullAssertionRule(config),
@@ -31,6 +34,8 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
       AvoidPreserveWhitespaceFalseRule(config),
   AvoidReturningWidgetsRule.ruleId: (config) =>
       AvoidReturningWidgetsRule(config),
+  AvoidUnnecessarySetStateRule.ruleId: (config) =>
+      AvoidUnnecessarySetStateRule(config),
   AvoidUnusedParametersRule.ruleId: (config) =>
       AvoidUnusedParametersRule(config),
   AvoidWrappingInPaddingRule.ruleId: (config) =>

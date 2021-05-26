@@ -1,15 +1,15 @@
+@TestOn('vm')
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/metrics_list/maximum_nesting_level/maximum_nesting_level_metric.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/metrics_list/number_of_methods_metric.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/metrics_list/number_of_parameters_metric.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/metrics_list/source_lines_of_code/source_lines_of_code_metric.dart';
-import 'package:dart_code_metrics/src/analyzers/models/entity_type.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_documentation.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value_level.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/utility_selector.dart';
+import 'package:dart_code_metrics/src/analyzers/models/entity_type.dart';
 import 'package:dart_code_metrics/src/analyzers/models/file_report.dart';
 import 'package:dart_code_metrics/src/analyzers/models/report.dart';
-@TestOn('vm')
 import 'package:test/test.dart';
 
 import '../../../stubs_builders.dart';

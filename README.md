@@ -339,7 +339,9 @@ Rules configuration is [described here](#configuring-a-rules-entry).
 
 ### Flutter specific
 
+- [always-remove-listener](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/always_remove_listener.md)
 - [avoid-returning-widgets](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/avoid-returning-widgets.md) &nbsp; [![Configurable](https://img.shields.io/badge/-configurable-informational)](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/avoid-returning-widgets.md#config-example)
+- [avoid-unnecessary-setstate](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/avoid-unnecessary-setstate.md)
 - [avoid-wrapping-in-padding](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/avoid-wrapping-in-padding.md)
 
 ### Intl specific

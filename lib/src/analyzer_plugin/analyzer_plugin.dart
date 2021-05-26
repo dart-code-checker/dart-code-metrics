@@ -1,17 +1,15 @@
 import 'dart:async';
 
+import 'package:analyzer/dart/analysis/context_builder.dart';
+import 'package:analyzer/dart/analysis/context_locator.dart';
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/file_system/file_system.dart';
 // ignore: implementation_imports
 import 'package:analyzer/src/analysis_options/analysis_options_provider.dart';
 // ignore: implementation_imports
-import 'package:analyzer/src/context/builder.dart';
-// ignore: implementation_imports
-import 'package:analyzer/src/context/context_root.dart';
-// ignore: implementation_imports
 import 'package:analyzer/src/dart/analysis/driver.dart';
 // ignore: implementation_imports
-import 'package:analyzer/src/dart/analysis/file_state.dart';
+import 'package:analyzer/src/dart/analysis/driver_based_analysis_context.dart';
 import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
 import 'package:source_span/source_span.dart';
@@ -60,25 +58,28 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
   @override
   AnalysisDriverGeneric createAnalysisDriver(plugin.ContextRoot contextRoot) {
     final rootPath = contextRoot.root;
-    final root = ContextRoot(
-      rootPath,
-      contextRoot.exclude,
-      pathContext: resourceProvider.pathContext,
-    )..optionsFilePath = contextRoot.optionsFile;
-
-    final contextBuilder = ContextBuilder(resourceProvider, sdkManager, null)
-      ..analysisDriverScheduler = analysisDriverScheduler
-      ..byteStore = byteStore
-      ..performanceLog = performanceLog
-      ..fileContentOverlay = FileContentOverlay();
-
-    final workspace = ContextBuilder.createWorkspace(
-      resourceProvider: resourceProvider,
-      options: ContextBuilderOptions(),
-      rootPath: rootPath,
+    final locator =
+        ContextLocator(resourceProvider: resourceProvider).locateRoots(
+      includedPaths: [rootPath],
+      excludedPaths: contextRoot.exclude,
+      optionsFile: contextRoot.optionsFile,
     );
 
-    final dartDriver = contextBuilder.buildDriver(root, workspace);
+    if (locator.isEmpty) {
+      final error = StateError('Unexpected empty context');
+      channel.sendNotification(plugin.PluginErrorParams(
+        true,
+        error.message,
+        error.stackTrace.toString(),
+      ).toNotification());
+
+      throw error;
+    }
+
+    final builder = ContextBuilder(resourceProvider: resourceProvider);
+    final context = builder.createContext(contextRoot: locator.first)
+        as DriverBasedAnalysisContext;
+    final dartDriver = context.driver;
     final config = _createConfig(dartDriver, rootPath);
 
     if (config == null) {
@@ -141,8 +142,11 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
   ) async {
     try {
       final driver = driverForPath(parameters.file) as AnalysisDriver;
-      // ignore: deprecated_member_use
-      final analysisResult = await driver.getResult(parameters.file);
+      final analysisResult = await driver.getResult2(parameters.file);
+
+      if (analysisResult is! ResolvedUnitResult) {
+        return plugin.EditGetFixesResult([]);
+      }
 
       final fixes = _check(driver, analysisResult)
           .where((fix) =>
@@ -198,8 +202,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     final config = _configs[driver];
 
     if (config != null) {
-      // ignore: deprecated_member_use
-      final root = driver.contextRoot?.root;
+      final root = driver.analysisContext?.contextRoot.root.path;
 
       final report = _analyzer.runPluginAnalysis(analysisResult, config, root!);
 
@@ -254,8 +257,8 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
         });
       }
 
-      // ignore: deprecated_member_use
-      if (analysisResult.path == driver.contextRoot?.optionsFilePath) {
+      if (analysisResult.path ==
+          driver.analysisContext?.contextRoot.optionsFile?.path) {
         final deprecations = checkConfigDeprecatedOptions(
           config,
           deprecatedOptions,
@@ -270,30 +273,25 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
   }
 
   LintConfig? _createConfig(AnalysisDriver driver, String rootPath) {
-    // ignore: deprecated_member_use
-    final optionsPath = driver.contextRoot?.optionsFilePath;
-    if (optionsPath != null && optionsPath.isNotEmpty) {
-      final file = resourceProvider.getFile(optionsPath);
-      if (file.exists) {
-        final options = AnalysisOptions(yamlMapToDartMap(
-          AnalysisOptionsProvider(driver.sourceFactory)
-              .getOptionsFromFile(file),
-        ));
-        final config = ConfigBuilder.getConfig(options);
-        final lintConfig = ConfigBuilder.getLintConfig(
-          config,
-          rootPath,
-          classMetrics: const [],
-          functionMetrics: [
-            CyclomaticComplexityMetric(config: config.metrics),
-            NumberOfParametersMetric(config: config.metrics),
-          ],
-        );
+    final file = driver.analysisContext?.contextRoot.optionsFile;
+    if (file != null && file.exists) {
+      final options = AnalysisOptions(yamlMapToDartMap(
+        AnalysisOptionsProvider(driver.sourceFactory).getOptionsFromFile(file),
+      ));
+      final config = ConfigBuilder.getConfig(options);
+      final lintConfig = ConfigBuilder.getLintConfig(
+        config,
+        rootPath,
+        classMetrics: const [],
+        functionMetrics: [
+          CyclomaticComplexityMetric(config: config.metrics),
+          NumberOfParametersMetric(config: config.metrics),
+        ],
+      );
 
-        _configs[driver] = lintConfig;
+      _configs[driver] = lintConfig;
 
-        return lintConfig;
-      }
+      return lintConfig;
     }
 
     return null;
