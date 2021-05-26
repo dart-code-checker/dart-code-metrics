@@ -18,7 +18,10 @@ class FileResolver {
     final path = normalize(file.absolute.path);
     final sourceUrl = Uri.parse(path);
 
-    final parseResult = await resolveFile2(path: path) as ResolvedUnitResult;
+    final parseResult = await resolveFile2(path: path);
+    if (parseResult is! ResolvedUnitResult) {
+      throw ArgumentError("$path can't resolve");
+    }
 
     return InternalResolvedUnitResult(
       sourceUrl,

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/lint_analyzer.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/lint_config.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value_level.dart';
+import 'package:dart_code_metrics/src/analyzers/models/file_report.dart';
 import 'package:dart_code_metrics/src/config_builder/config_builder.dart';
 import 'package:dart_code_metrics/src/config_builder/models/config.dart';
 import 'package:path/path.dart';
@@ -53,7 +54,10 @@ void main() {
         config,
       );
 
-      final report = result.first.functions.values.first;
+      final report = reportForFile(result, 'lint_analyzer_exclude_example.dart')
+          .functions
+          .values
+          .first;
       final metrics = {for (final m in report.metrics) m.metricsId: m.level};
 
       expect(metrics, {
@@ -76,7 +80,10 @@ void main() {
         config,
       );
 
-      final report = result.first.functions.values.first;
+      final report = reportForFile(result, 'lint_analyzer_exclude_example.dart')
+          .functions
+          .values
+          .first;
       final metrics = {for (final m in report.metrics) m.metricsId: m.level};
 
       expect(metrics, {
@@ -99,7 +106,9 @@ void main() {
         config,
       );
 
-      final report = result.first.functions.values;
+      final report = reportForFile(result, 'lint_analyzer_exclude_example.dart')
+          .functions
+          .values;
 
       expect(report, isEmpty);
     });
@@ -114,7 +123,8 @@ void main() {
         config,
       );
 
-      final issues = result.first.issues;
+      final issues =
+          reportForFile(result, 'lint_analyzer_exclude_example.dart').issues;
       final ids = issues.map((issue) => issue.ruleId);
 
       expect(ids, List.filled(6, 'prefer-trailing-comma'));
@@ -140,3 +150,6 @@ LintConfig _createConfig(
       ),
       rootDirectory,
     );
+
+FileReport reportForFile(Iterable<FileReport> reports, String fileName) =>
+    reports.firstWhere((report) => report.relativePath.endsWith(fileName));
