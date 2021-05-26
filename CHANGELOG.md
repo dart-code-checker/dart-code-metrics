@@ -3,6 +3,26 @@
 ## Unreleased
 
 * Add static code diagnostic `always-remove-listener`.
+* Remove deprecated `Lines of Executable Code` metric, use `Source lines of Code` instead.
+
+## 3.2.2
+
+* Update deprecation version for `Lines of Executable Code` `ConsoleReporter`, `MetricsAnalysisRunner`, `MetricsAnalyzer`, `MetricsRecordsBuilder` and `MetricsRecordsStore`.
+
+## 3.2.1
+
+* Remove unnecessary scan by `Lines of Executable Code`
+
+## 3.2.0
+
+* Deprecate `ConsoleReporter`, `MetricsAnalysisRunner`, `MetricsAnalyzer`, `MetricsRecordsBuilder` and `MetricsRecordsStore`.
+* Improve static code diagnostics `avoid-returning-widgets`.
+
+## 3.2.0-dev.1
+
+* Add static code diagnostics `avoid-non-null-assertion`,  `avoid-late-keyword`.
+* Improve static code diagnostics `no-equal-arguments`, `no-magic-number`.
+* Migrate all rule tests to `resolveFile`.
 
 ## 3.1.0
 
@@ -34,6 +54,11 @@
   * `number-of-arguments` to `number-of-parameters`
 * Update README.
 * Add static code diagnostic `member-ordering-extended`.
+
+## 2.5.0
+
+* Backport static code diagnostics `member-ordering-extended`, `avoid-returning-widgets`.
+* Backport fix excludes on Windows OS.
 
 ## 2.4.1
 

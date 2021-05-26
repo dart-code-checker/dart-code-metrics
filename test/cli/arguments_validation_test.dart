@@ -1,7 +1,7 @@
 @TestOn('vm')
 import 'package:args/args.dart';
-import 'package:dart_code_metrics/src/cli/arguments_validation.dart';
-import 'package:dart_code_metrics/src/config/deprecated_option.dart';
+import 'package:dart_code_metrics/src/cli/arguments_builder/arguments_validation.dart';
+import 'package:dart_code_metrics/src/config_builder/models/deprecated_option.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
 

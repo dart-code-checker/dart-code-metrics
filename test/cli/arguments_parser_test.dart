@@ -1,5 +1,5 @@
 @TestOn('vm')
-import 'package:dart_code_metrics/src/cli/arguments_parser.dart';
+import 'package:dart_code_metrics/src/cli/arguments_builder/arguments_parser.dart';
 import 'package:test/test.dart';
 
 const _usage = '\n'
@@ -19,7 +19,6 @@ const _usage = '\n'
     '    --number-of-parameters=<4>                    Number of Parameters threshold\n'
     '    --source-lines-of-code=<50>                   Source lines of Code threshold\n'
     '    --weight-of-class=<0.33>                      Weight Of a Class threshold\n'
-    '    --lines-of-executable-code=<50>               Lines of executable code threshold\n'
     '\n'
     '\n'
     '    --root-folder=<./>                            Root folder\n'

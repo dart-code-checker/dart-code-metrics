@@ -1,12 +1,17 @@
 {
+    "files.eol": "\n",
+    "files.insertFinalNewline": true,
     "cSpell.words": [
+        "Backport",
         "Gitlab",
+        "McCabe's",
         "SLOC",
         "ansicolor",
         "codecov",
         "cyclomatic",
         "dartanalyzer",
         "dartdocs",
+        "dependabot",
         "dkrutskikh",
         "incendial",
         "lcov",

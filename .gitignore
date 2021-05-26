@@ -25,3 +25,5 @@ doc/api/
 
 /coverage/*
 /metrics/*
+
+.DS_Store

@@ -1,7 +1,8 @@
+// ignore_for_file: deprecated_member_use_from_same_package
 import 'dart:io';
 
+import 'package:dart_code_metrics/config.dart';
 import 'package:dart_code_metrics/metrics_analyzer.dart';
-import 'package:dart_code_metrics/reporters.dart';
 
 Future<void> main() async {
   // Get some folder you would like to analyze
@@ -25,31 +26,19 @@ Future<void> main() async {
     antiPatterns: {'long-method': {}},
   );
 
-  // Store keeps reported issues in format-agnostic way
-  final store = MetricsRecordsStore.store();
+  final lintConfig = ConfigBuilder.getLintConfig(config, rootFolder);
 
-  // Analyzer traverses files and report its findings to passed store
-  final analyzer = MetricsAnalyzer(store, config);
-
-  // Runner coordinates analyzer and store
-  final runner = MetricsAnalysisRunner(
-    analyzer,
-    store,
-    foldersToAnalyze,
-    rootFolder,
-  );
-
-  // Execute run() to analyze files and collect results
-  await runner.run();
+  final result = await const LintAnalyzer()
+      .runCliAnalysis(foldersToAnalyze, rootFolder, lintConfig);
 
   // Now runner.results() contains some insights about analyzed code. Let's report it!
   // For a simple example we would report results to terminal
 
   // Now the reporter itself
-  final reporter = ConsoleReporter(stdout);
+  final reporter = LintConsoleReporter(stdout);
 
   // Now pass collected analysis reports from runner to reporter and that's it
-  await reporter.report(runner.results());
+  await reporter.report(result);
 
   // There is also JsonReporter for making machine-readable reports
   // HtmlReporter produces fancy html-documents with bells and whistles

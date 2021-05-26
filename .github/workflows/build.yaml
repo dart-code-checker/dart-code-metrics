@@ -7,19 +7,19 @@ on:
     branches: [master]
 
 jobs:
-  build-dart-latest:
-    name: Build on latest stable dart version.
+  stable-dart:
+    name: Build on stable dart
 
     runs-on: ubuntu-latest
-
-    container:
-      image: google/dart:latest
 
     defaults:
       run:
         shell: bash
 
     steps:
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: 'stable'
       - uses: actions/checkout@v2
       - name: Install dependencies
         run: dart pub get
@@ -27,11 +27,11 @@ jobs:
         run: |
           dart pub global activate dependency_validator
           dart pub global run dependency_validator:dependency_validator
-      - name: Run analyzer
+      - name: Analyze project
         run: dart analyze --fatal-warnings --fatal-infos .
       - name: Self scan
-        run: dart run bin/metrics.dart --reporter=github bin example lib test 
-      - name: Run formatter
+        run: dart run bin/metrics.dart --reporter=github bin example lib test
+      - name: Verify formatting
         run: dart format --set-exit-if-changed .
       - name: Run tests
         env:
@@ -45,36 +45,36 @@ jobs:
           dart pub run coverage:format_coverage --packages=.packages -i coverage -o coverage/coverage.lcov --lcov --report-on=lib
           bash <(curl -s https://codecov.io/bash) -f coverage/coverage.lcov
 
-  build-dart-2-12:
-    name: Build on minimal supported dart version.
+  minimal-dart:
+    name: Build on minimal supported dart
 
     runs-on: ubuntu-latest
 
-    container:
-      image: google/dart:2.12.0
-
     steps:
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '2.0.0'
       - uses: actions/checkout@v2
       - name: Install dependencies
         run: pub downgrade
-      - name: Run dartanalyzer
+      - name: Analyze project
         run: dartanalyzer --fatal-warnings --fatal-infos --fatal-lints lib/ test/
       - name: Run tests
         run: pub run test
 
-  build-dart-dev:
-    name: Build on latest dev dart version.
+  beta-dart:
+    name: Build on beta dart
 
     runs-on: ubuntu-latest
 
-    container:
-      image: google/dart:dev
-
     steps:
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: 'beta'
       - uses: actions/checkout@v2
       - name: Install dependencies
         run: dart pub upgrade
-      - name: Run analyzer
+      - name: Analyze project
         run: dart analyze --fatal-warnings --fatal-infos .
       - name: Run tests
         run: dart test
