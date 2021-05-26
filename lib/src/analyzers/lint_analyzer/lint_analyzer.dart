@@ -100,17 +100,19 @@ class LintAnalyzer {
 
       final analysisContext = collection.contextFor(normalized);
       final unit =
-          // ignore: deprecated_member_use
-          await analysisContext.currentSession.getResolvedUnit(normalized);
-      final result = _runAnalysisForFile(
-        unit,
-        config,
-        rootFolder,
-        filePath: filePath,
-      );
+          await analysisContext.currentSession.getResolvedUnit2(normalized);
 
-      if (result != null) {
-        analyzerResult.add(result);
+      if (unit is ResolvedUnitResult) {
+        final result = _runAnalysisForFile(
+          unit,
+          config,
+          rootFolder,
+          filePath: filePath,
+        );
+
+        if (result != null) {
+          analyzerResult.add(result);
+        }
       }
     }
 
