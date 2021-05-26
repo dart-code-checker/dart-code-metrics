@@ -2,8 +2,8 @@
 
 ## Unreleased
 
+* Add static code diagnostics `always-remove-listener` and `avoid-unnecessary-setstate`.
 * Remove deprecated `Lines of Executable Code` metric, use `Source lines of Code` instead.
-* Add static code diagnostic `avoid-unnecessary-setstate`.
 * Changed the supported `analyzer` version to `^1.7.0`.
 
 ## 3.2.2
