@@ -5,7 +5,7 @@ import 'package:test/test.dart';
 
 import '../../../../../helpers/rule_test_helper.dart';
 
-const _examplePath = 'avoid_wrapping_with_padding/examples/example.dart';
+const _examplePath = 'avoid_wrapping_in_padding/examples/example.dart';
 
 void main() {
   group('AvoidWrappingInPaddingRule', () {

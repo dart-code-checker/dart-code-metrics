@@ -4,7 +4,7 @@
 
 * Add static code diagnostics `always-remove-listener`, `avoid-wrapping-in-padding` and `avoid-unnecessary-setstate`.
 * Remove deprecated `Lines of Executable Code` metric, use `Source lines of Code` instead.
-* Add static code diagnostic `avoid-wrapping-in-padding`.
+* Changed the supported `analyzer` version to `^1.7.0`.
 
 ## 3.2.2
 
