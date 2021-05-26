@@ -1,5 +1,5 @@
 name: dart_code_metrics
-version: 3.3.0
+version: 3.3.1
 description: Software analytics tool that helps developers analyse and improve software quality.
 homepage: https://github.com/dart-code-checker/dart-code-metrics
 repository: https://github.com/dart-code-checker/dart-code-metrics
@@ -9,7 +9,7 @@ environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
-  analyzer: ^1.4.0
+  analyzer: ">=1.4.0 <1.6.0"
   analyzer_plugin: ^0.6.0
   ansicolor: ^2.0.1
   args: ^2.0.0

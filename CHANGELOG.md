@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.3.1
+
+* Temporary lock `analyzer` package upper bound range to `1.5.0` version.
+
 ## 3.3.0
 
 * Improve static code diagnostics `no-equal-arguments`, `no-magic-numbers`, `member-ordering-extended`.
