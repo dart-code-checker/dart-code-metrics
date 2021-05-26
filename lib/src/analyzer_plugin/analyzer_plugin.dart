@@ -66,7 +66,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     );
 
     if (locator.isEmpty) {
-      final error = StateError('Unexpected empty located root');
+      final error = StateError('Unexpected empty context');
       channel.sendNotification(plugin.PluginErrorParams(
         true,
         error.message,

@@ -12,7 +12,9 @@ class FileResolver {
     final file = File(filePath);
 
     if (!file.existsSync()) {
-      throw StateError('Unable to find a file for the given path: $filePath');
+      throw ArgumentError(
+        'Unable to find a file for the given path: $filePath',
+      );
     }
 
     final path = normalize(file.absolute.path);
@@ -20,7 +22,9 @@ class FileResolver {
 
     final parseResult = await resolveFile2(path: path);
     if (parseResult is! ResolvedUnitResult) {
-      throw ArgumentError("$path can't resolve");
+      throw ArgumentError(
+        'Unable to correctly resolve file for given path: $path',
+      );
     }
 
     return InternalResolvedUnitResult(
