@@ -4,6 +4,7 @@
 
 * Add static code diagnostic `always-remove-listener`.
 * Remove deprecated `Lines of Executable Code` metric, use `Source lines of Code` instead.
+* Changed the supported `analyzer` version to `^1.7.0`.
 
 ## 3.2.2
 
