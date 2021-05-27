@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.3.3
+
+* Improve static code diagnostic `member-ordering-extended`.
+
 ## 3.3.2
 
 * Temporary lock `meta` package upper bound range to `1.3.x` version.
