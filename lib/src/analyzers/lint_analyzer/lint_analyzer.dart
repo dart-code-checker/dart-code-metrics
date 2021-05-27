@@ -91,7 +91,7 @@ class LintAnalyzer {
                   config.globalExcludes,
                 ))
             .map((entity) => entity.path))
-        .toList();
+        .toSet();
 
     var totalContextForMs = 0;
     var totalGetResolvedUnitMs = 0;
