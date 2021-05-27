@@ -5,21 +5,25 @@ import 'package:test/test.dart';
 
 void main() {
   group('isExcluded checks passed path to exclude', () {
-    test('UNIX style paths', () {
-      final excludes = [
-        '/home/user/project/.dart_tool/**',
-        '/home/user/project/packages/**',
-        '/home/user/project/src/exclude_me.dart',
-      ].map((item) => Glob(item));
+    test(
+      'UNIX style paths',
+      () {
+        final excludes = [
+          '/home/user/project/.dart_tool/**',
+          '/home/user/project/packages/**',
+          '/home/user/project/src/exclude_me.dart',
+        ].map((item) => Glob(item));
 
-      expect(
-        isExcluded('/home/user/project/src/exclude_me.dart', excludes),
-        isTrue,
-      );
-    }, onPlatform: const <String, Skip>{
-      'windows':
-          Skip('the tests is intended for os with unix style filesystem'),
-    });
+        expect(
+          isExcluded('/home/user/project/src/exclude_me.dart', excludes),
+          isTrue,
+        );
+      },
+      onPlatform: const <String, Skip>{
+        'windows':
+            Skip('the tests is intended for os with unix style filesystem'),
+      },
+    );
 
     test('Windows style paths', () {
       final excludes = [

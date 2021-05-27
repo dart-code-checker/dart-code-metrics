@@ -54,7 +54,7 @@ class AvoidUnnecessarySetStateRule extends Rule {
               source: source,
             ),
             message: _methodWarningMessage,
-          ))
+          )),
     ];
   }
 }
