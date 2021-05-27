@@ -1,1 +1,1 @@
-class ExportedClass {};
+class ExportedClass {}
