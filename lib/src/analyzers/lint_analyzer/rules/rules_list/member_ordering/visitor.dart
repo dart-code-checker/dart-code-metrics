@@ -126,7 +126,7 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
       return _MemberOrder(
         memberNames: memberNames,
         isAlphabeticallyWrong: hasSameGroup &&
-            memberNames.currentName.compareTo(memberNames.previousName!) != 1,
+            memberNames.currentName.compareTo(memberNames.previousName!) < 0,
         memberGroup: memberGroup,
         previousMemberGroup: previousMemberGroup,
         isWrong: (hasSameGroup && lastMemberOrder.isWrong) ||
