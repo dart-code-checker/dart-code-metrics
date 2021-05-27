@@ -78,7 +78,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
     final hasSetState = visitor.setStateInvocations.isNotEmpty;
 
     visitedRestMethods[name] = hasSetState;
-    
+
     return hasSetState;
   }
 }
