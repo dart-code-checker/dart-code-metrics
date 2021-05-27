@@ -93,15 +93,23 @@ class LintAnalyzer {
             .map((entity) => entity.path))
         .toList();
 
+    var totalContextForMs = 0;
+    var totalGetResolvedUnitMs = 0;
+    var totalRunAnalysisforFileMs = 0;
+
     final analyzerResult = <FileReport>[];
 
     for (final filePath in filePaths) {
       final normalized = normalize(absolute(filePath));
 
+      final beforeContextFor = DateTime.now();
+
       final analysisContext = collection.contextFor(normalized);
+      final beforeGetResolvedUnit = DateTime.now();
       final unit =
           await analysisContext.currentSession.getResolvedUnit2(normalized);
 
+      final beforeRunAnalysisforFile = DateTime.now();
       if (unit is ResolvedUnitResult) {
         final result = _runAnalysisForFile(
           unit,
@@ -114,7 +122,24 @@ class LintAnalyzer {
           analyzerResult.add(result);
         }
       }
+
+      totalContextForMs +=
+          beforeGetResolvedUnit.difference(beforeContextFor).inMilliseconds;
+      totalGetResolvedUnitMs += beforeRunAnalysisforFile
+          .difference(beforeGetResolvedUnit)
+          .inMilliseconds;
+      totalRunAnalysisforFileMs +=
+          DateTime.now().difference(beforeRunAnalysisforFile).inMilliseconds;
     }
+
+    stdout
+      ..writeln('contextForMs: $totalContextForMs')
+      ..writeln('getResolvedUnitMs: $totalGetResolvedUnitMs')
+      ..writeln('runAnalysisforFileMs: $totalRunAnalysisforFileMs')
+      ..writeln('totalFiles: ${analyzerResult.length}')
+      ..writeln(
+        'totalTime: ${totalContextForMs + totalGetResolvedUnitMs + totalRunAnalysisforFileMs}',
+      );
 
     return analyzerResult;
   }
