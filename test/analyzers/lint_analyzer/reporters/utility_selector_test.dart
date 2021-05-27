@@ -7,9 +7,9 @@ import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/met
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value_level.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/utility_selector.dart';
-import 'package:dart_code_metrics/src/analyzers/models/entity_type.dart';
-import 'package:dart_code_metrics/src/analyzers/models/file_report.dart';
-import 'package:dart_code_metrics/src/analyzers/models/report.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/entity_type.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/lint_file_report.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/report.dart';
 import 'package:test/test.dart';
 
 import '../../../stubs_builders.dart';
@@ -18,7 +18,7 @@ void main() {
   group('UtilitySelector', () {
     test('fileReport calculates report for file', () {
       final report = UtilitySelector.fileReport(
-        FileReport(
+        LintFileReport(
           path: '/home/developer/work/project/example.dart',
           relativePath: 'example.dart',
           classes: Map.unmodifiable(<String, Report>{
@@ -297,7 +297,7 @@ void main() {
       const fullPathStub = '~/lib/src/foo.dart';
       const relativePathStub = 'lib/src/foo.dart';
       final fileRecords = [
-        FileReport(
+        LintFileReport(
           path: fullPathStub,
           relativePath: relativePathStub,
           classes: Map.unmodifiable(<String, Report>{}),
@@ -314,7 +314,7 @@ void main() {
           issues: const [],
           antiPatternCases: const [],
         ),
-        FileReport(
+        LintFileReport(
           path: fullPathStub,
           relativePath: relativePathStub,
           classes: Map.unmodifiable(<String, Report>{}),
@@ -332,7 +332,7 @@ void main() {
           issues: const [],
           antiPatternCases: const [],
         ),
-        FileReport(
+        LintFileReport(
           path: fullPathStub,
           relativePath: relativePathStub,
           classes: Map.unmodifiable(<String, Report>{}),

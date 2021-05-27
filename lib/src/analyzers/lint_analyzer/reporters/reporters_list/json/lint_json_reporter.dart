@@ -5,19 +5,19 @@ import 'package:meta/meta.dart';
 import 'package:source_span/source_span.dart';
 
 import '../../../../../reporters/models/json_reporter.dart';
-import '../../../../models/context_message.dart';
-import '../../../../models/file_report.dart';
-import '../../../../models/issue.dart';
-import '../../../../models/replacement.dart';
-import '../../../../models/report.dart';
 import '../../../metrics/models/metric_value.dart';
+import '../../../models/context_message.dart';
+import '../../../models/lint_file_report.dart';
+import '../../../models/issue.dart';
+import '../../../models/replacement.dart';
+import '../../../models/report.dart';
 
 @immutable
-class LintJsonReporter extends JsonReporter {
+class LintJsonReporter extends JsonReporter<LintFileReport> {
   const LintJsonReporter(IOSink output) : super(output, 2);
 
   @override
-  Future<void> report(Iterable<FileReport> records) async {
+  Future<void> report(Iterable<LintFileReport> records) async {
     if (records.isEmpty) {
       return;
     }
@@ -41,7 +41,7 @@ class LintJsonReporter extends JsonReporter {
     output.write(encodedReport);
   }
 
-  Map<String, Object> _analysisRecordToJson(FileReport report) {
+  Map<String, Object> _analysisRecordToJson(LintFileReport report) {
     final sourceContent = File(report.path).readAsStringSync();
 
     return {

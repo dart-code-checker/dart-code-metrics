@@ -1,8 +1,8 @@
 import 'package:source_span/source_span.dart';
 
-import '../../models/issue.dart';
-import '../../models/replacement.dart';
-import '../../models/severity.dart';
+import '../models/issue.dart';
+import '../models/replacement.dart';
+import '../models/severity.dart';
 import 'models/rule.dart';
 
 /// Creates a new [Issue] found by [rule] in the [location] with [message] or

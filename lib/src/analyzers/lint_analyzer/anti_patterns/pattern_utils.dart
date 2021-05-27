@@ -1,9 +1,9 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:source_span/source_span.dart';
 
-import '../../models/issue.dart';
-import '../../models/scoped_function_declaration.dart';
-import '../../models/severity.dart';
+import '../models/issue.dart';
+import '../models/scoped_function_declaration.dart';
+import '../models/severity.dart';
 import 'models/pattern.dart';
 
 Issue createIssue({

@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
 import 'package:source_span/source_span.dart';
 
-import '../../../models/entity_type.dart';
+import '../../models/entity_type.dart';
 
 /// Represents any metric documentation.
 @immutable

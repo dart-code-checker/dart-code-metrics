@@ -1,4 +1,4 @@
-import '../../models/entity_type.dart';
+import '../models/entity_type.dart';
 import 'metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import 'metrics_list/lines_of_code_metric.dart';
 import 'metrics_list/maximum_nesting_level/maximum_nesting_level_metric.dart';

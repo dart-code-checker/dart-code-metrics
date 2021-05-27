@@ -1,14 +1,14 @@
 import 'dart:io';
 
 import '../../../../../reporters/models/github_reporter.dart';
-import '../../../../models/file_report.dart';
-import '../../../../models/severity.dart';
+import '../../../models/lint_file_report.dart';
+import '../../../models/severity.dart';
 
-class LintGitHubReporter extends GitHubReporter {
+class LintGitHubReporter extends GitHubReporter<LintFileReport> {
   const LintGitHubReporter(IOSink output) : super(output);
 
   @override
-  Future<void> report(Iterable<FileReport> records) async {
+  Future<void> report(Iterable<LintFileReport> records) async {
     if (records.isEmpty) {
       return;
     }

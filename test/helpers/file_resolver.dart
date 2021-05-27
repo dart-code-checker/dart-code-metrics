@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
-import 'package:dart_code_metrics/src/analyzers/models/internal_resolved_unit_result.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/internal_resolved_unit_result.dart';
 import 'package:path/path.dart';
 
 class FileResolver {

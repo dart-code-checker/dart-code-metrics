@@ -1,10 +1,10 @@
 import 'package:ansicolor/ansicolor.dart';
 import 'package:source_span/source_span.dart';
 
-import '../../../../models/issue.dart';
-import '../../../../models/severity.dart';
 import '../../../metrics/models/metric_value.dart';
 import '../../../metrics/models/metric_value_level.dart';
+import '../../../models/issue.dart';
+import '../../../models/severity.dart';
 
 class LintConsoleReporterHelper {
   static final _colorPens = {

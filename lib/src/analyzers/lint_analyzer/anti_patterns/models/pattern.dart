@@ -1,6 +1,6 @@
-import '../../../models/internal_resolved_unit_result.dart';
-import '../../../models/issue.dart';
-import '../../../models/report.dart';
+import '../../models/internal_resolved_unit_result.dart';
+import '../../models/issue.dart';
+import '../../models/report.dart';
 import 'pattern_documentation.dart';
 
 /// An interface to communicate with a patterns
