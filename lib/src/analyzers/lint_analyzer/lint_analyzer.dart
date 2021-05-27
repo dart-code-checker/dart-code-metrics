@@ -99,6 +99,7 @@ class LintAnalyzer {
 
     final analyzerResult = <FileReport>[];
 
+/*
     for (final filePath in filePaths) {
       final normalized = normalize(absolute(filePath));
 
@@ -130,6 +131,37 @@ class LintAnalyzer {
           .inMilliseconds;
       totalRunAnalysisforFileMs +=
           DateTime.now().difference(beforeRunAnalysisforFile).inMilliseconds;
+    }
+*/
+    for (final context in collection.contexts) {
+      for (final filePath in context.contextRoot.analyzedFiles()) {
+        if (!filePaths.contains(filePath)) {
+          continue;
+        }
+
+        final beforeGetResolvedUnit = DateTime.now();
+        final unit = await context.currentSession.getResolvedUnit2(filePath);
+
+        final beforeRunAnalysisforFile = DateTime.now();
+        if (unit is ResolvedUnitResult) {
+          final result = _runAnalysisForFile(
+            unit,
+            config,
+            rootFolder,
+            filePath: filePath,
+          );
+
+          if (result != null) {
+            analyzerResult.add(result);
+          }
+        }
+
+        totalGetResolvedUnitMs += beforeRunAnalysisforFile
+            .difference(beforeGetResolvedUnit)
+            .inMilliseconds;
+        totalRunAnalysisforFileMs +=
+            DateTime.now().difference(beforeRunAnalysisforFile).inMilliseconds;
+      }
     }
 
     stdout
