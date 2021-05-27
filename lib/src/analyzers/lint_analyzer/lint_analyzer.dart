@@ -93,7 +93,7 @@ class LintAnalyzer {
             .map((entity) => entity.path))
         .toSet();
 
-    var totalContextForMs = 0;
+    const totalContextForMs = 0;
     var totalGetResolvedUnitMs = 0;
     var totalRunAnalysisforFileMs = 0;
 
