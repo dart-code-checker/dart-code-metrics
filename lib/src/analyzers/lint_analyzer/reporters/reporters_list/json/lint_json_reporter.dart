@@ -7,8 +7,8 @@ import 'package:source_span/source_span.dart';
 import '../../../../../reporters/models/json_reporter.dart';
 import '../../../metrics/models/metric_value.dart';
 import '../../../models/context_message.dart';
-import '../../../models/lint_file_report.dart';
 import '../../../models/issue.dart';
+import '../../../models/lint_file_report.dart';
 import '../../../models/replacement.dart';
 import '../../../models/report.dart';
 
