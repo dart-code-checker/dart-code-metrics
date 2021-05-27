@@ -91,18 +91,20 @@ class LintAnalyzer {
                   config.globalExcludes,
                 ))
             .map((entity) => entity.path))
-        .toList();
+        .toSet();
 
     final analyzerResult = <FileReport>[];
 
-    for (final filePath in filePaths) {
-      final normalized = normalize(absolute(filePath));
+    for (final context in collection.contexts) {
+      for (final filePath in context.contextRoot.analyzedFiles()) {
+        if (!filePaths.contains(filePath)) {
+          continue;
+        }
 
-      final analysisContext = collection.contextFor(normalized);
-      final unit =
-          await analysisContext.currentSession.getResolvedUnit2(normalized);
-
-      if (unit is ResolvedUnitResult) {
+        final unit = await context.currentSession.getResolvedUnit2(filePath);
+        if (unit is! ResolvedUnitResult) {
+          continue;
+        }
         final result = _runAnalysisForFile(
           unit,
           config,
