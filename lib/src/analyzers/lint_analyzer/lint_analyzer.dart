@@ -96,24 +96,22 @@ class LintAnalyzer {
     final analyzerResult = <FileReport>[];
 
     for (final context in collection.contexts) {
-      for (final filePath in context.contextRoot.analyzedFiles()) {
-        if (!filePaths.contains(filePath)) {
-          continue;
-        }
+      final analyzedFiles =
+          filePaths.intersection(context.contextRoot.analyzedFiles().toSet());
 
+      for (final filePath in analyzedFiles) {
         final unit = await context.currentSession.getResolvedUnit2(filePath);
-        if (unit is! ResolvedUnitResult) {
-          continue;
-        }
-        final result = _runAnalysisForFile(
-          unit,
-          config,
-          rootFolder,
-          filePath: filePath,
-        );
+        if (unit is ResolvedUnitResult) {
+          final result = _runAnalysisForFile(
+            unit,
+            config,
+            rootFolder,
+            filePath: filePath,
+          );
 
-        if (result != null) {
-          analyzerResult.add(result);
+          if (result != null) {
+            analyzerResult.add(result);
+          }
         }
       }
     }
