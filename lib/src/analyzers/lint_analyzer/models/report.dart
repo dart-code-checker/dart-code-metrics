@@ -3,8 +3,8 @@ import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 import 'package:source_span/source_span.dart';
 
-import '../../../../metrics_analyzer.dart';
 import '../metrics/models/metric_value.dart';
+import '../metrics/models/metric_value_level.dart';
 
 /// Represents a metrics report collected for an entity.
 @immutable
