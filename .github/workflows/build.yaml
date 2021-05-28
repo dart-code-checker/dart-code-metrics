@@ -53,7 +53,7 @@ jobs:
     steps:
       - uses: dart-lang/setup-dart@v1
         with:
-          sdk: "2.12"
+          sdk: "2.12.4"
       - uses: actions/checkout@v2
       - name: Install dependencies
         run: pub downgrade
