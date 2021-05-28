@@ -17,9 +17,9 @@ jobs:
         shell: bash
 
     steps:
-      - uses: subosito/flutter-action@v1
+      - uses: dart-lang/setup-dart@v1
         with:
-          channel: 'stable'
+          sdk: "stable"
       - uses: actions/checkout@v2
       - name: Install dependencies
         run: dart pub get
@@ -51,9 +51,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: subosito/flutter-action@v1
+      - uses: dart-lang/setup-dart@v1
         with:
-          flutter-version: '2.0.0'
+          sdk: "2.12"
       - uses: actions/checkout@v2
       - name: Install dependencies
         run: pub downgrade
@@ -68,9 +68,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: subosito/flutter-action@v1
+      - uses: dart-lang/setup-dart@v1
         with:
-          channel: 'beta'
+          sdk: "beta"
       - uses: actions/checkout@v2
       - name: Install dependencies
         run: dart pub upgrade
@@ -85,9 +85,9 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - uses: subosito/flutter-action@v1
+      - uses: dart-lang/setup-dart@v1
         with:
-          channel: 'beta'
+          sdk: "stable"
       - uses: actions/checkout@v2
       - name: Install dependencies
         run: dart pub upgrade
