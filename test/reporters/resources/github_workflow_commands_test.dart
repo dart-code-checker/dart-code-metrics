@@ -24,8 +24,11 @@ void main() {
 
   group('GitHubWorkflowCommands', () {
     test('warning returns github error workflow command', () {
-      final command = GitHubWorkflowCommands().error('error message',
-          absolutePath: absolutePath, sourceSpan: location);
+      final command = GitHubWorkflowCommands().error(
+        'error message',
+        absolutePath: absolutePath,
+        sourceSpan: location,
+      );
 
       expect(
         command,
@@ -36,8 +39,11 @@ void main() {
     });
 
     test('warning returns github warning workflow command', () {
-      final command = GitHubWorkflowCommands().warning('warning message',
-          absolutePath: absolutePath, sourceSpan: location);
+      final command = GitHubWorkflowCommands().warning(
+        'warning message',
+        absolutePath: absolutePath,
+        sourceSpan: location,
+      );
 
       expect(
         command,
