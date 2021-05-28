@@ -2,6 +2,7 @@
 import 'dart:io';
 
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/lint_file_report.dart';
+import 'package:dart_code_metrics/src/analyzers/unused_files_analyzer/reporters/reporters_list/console/unused_files_console_reporter.dart';
 import 'package:dart_code_metrics/src/analyzers/unused_files_analyzer/unused_files_analyzer.dart';
 import 'package:dart_code_metrics/src/analyzers/unused_files_analyzer/unused_files_config.dart';
 import 'package:dart_code_metrics/src/config_builder/config_builder.dart';
@@ -31,6 +32,12 @@ void main() {
         final report = result.first.relativePath;
 
         expect(report, endsWith('unused_file.dart'));
+      });
+
+      test('should return a reporter', () {
+        final reporter = analyzer.getReporter(name: 'console', output: stdout);
+
+        expect(reporter, isA<UnusedFilesConsoleReporter>());
       });
     },
     onPlatform: const <String, Skip>{

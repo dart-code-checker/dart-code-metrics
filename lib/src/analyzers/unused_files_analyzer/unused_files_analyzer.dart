@@ -7,7 +7,6 @@ import 'package:file/local.dart';
 import 'package:glob/glob.dart';
 import 'package:path/path.dart';
 
-import '../../../config.dart';
 import '../../../reporters.dart';
 import '../../utils/exclude_utils.dart';
 import 'models/unused_files_file_report.dart';
@@ -19,16 +18,12 @@ class UnusedFilesAnalyzer {
   const UnusedFilesAnalyzer();
 
   Reporter? getReporter({
-    required Config config,
     required String name,
     required IOSink output,
-    required String reportFolder,
   }) =>
       reporter(
-        config: config,
         name: name,
         output: output,
-        reportFolder: reportFolder,
       );
 
   Future<Iterable<UnusedFilesFileReport>> runCliAnalysis(

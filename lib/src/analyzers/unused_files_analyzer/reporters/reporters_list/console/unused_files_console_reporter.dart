@@ -10,11 +10,13 @@ class UnusedFilesConsoleReporter
   @override
   Future<void> report(Iterable<UnusedFilesFileReport> records) async {
     if (records.isEmpty) {
+      output.writeln('No unused files found!');
+
       return;
     }
 
     for (final analysisRecord in records) {
-      output..writeln('${analysisRecord.relativePath}:')..writeln('');
+      output.writeln('Unused file: ${analysisRecord.relativePath}');
     }
   }
 }
