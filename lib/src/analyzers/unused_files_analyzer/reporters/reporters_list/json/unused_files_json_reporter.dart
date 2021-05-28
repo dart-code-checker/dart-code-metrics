@@ -35,7 +35,7 @@ class UnusedFilesJsonReporter extends JsonReporter<UnusedFilesFileReport> {
     output.write(encodedReport);
   }
 
-  Map<String, Object> _analysisRecordToJson(UnusedFilesFileReport report) => {
+  Map<String, String> _analysisRecordToJson(UnusedFilesFileReport report) => {
         'path': report.relativePath,
       };
 }
