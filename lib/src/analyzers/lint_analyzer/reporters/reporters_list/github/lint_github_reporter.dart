@@ -17,6 +17,7 @@ class LintGitHubReporter extends GitHubReporter {
       for (final antiPattern in analysisRecord.antiPatternCases) {
         output.writeln(GitHubReporter.commands.warning(
           antiPattern.message,
+          absolutePath: analysisRecord.path,
           sourceSpan: antiPattern.location,
         ));
       }
@@ -24,10 +25,16 @@ class LintGitHubReporter extends GitHubReporter {
       for (final issue in analysisRecord.issues) {
         output.writeln(
           issue.severity == Severity.error
-              ? GitHubReporter.commands
-                  .error(issue.message, sourceSpan: issue.location)
-              : GitHubReporter.commands
-                  .warning(issue.message, sourceSpan: issue.location),
+              ? GitHubReporter.commands.error(
+                  issue.message,
+                  absolutePath: analysisRecord.path,
+                  sourceSpan: issue.location,
+                )
+              : GitHubReporter.commands.warning(
+                  issue.message,
+                  absolutePath: analysisRecord.path,
+                  sourceSpan: issue.location,
+                ),
         );
       }
     }
