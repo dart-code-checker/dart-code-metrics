@@ -5,8 +5,6 @@ import 'package:test/test.dart';
 
 import '../../../../../helpers/rule_test_helper.dart';
 
-// ignore_for_file: no_adjacent_strings_in_list
-
 const _examplePath = 'no_equal_then_else/examples/example.dart';
 
 void main() {
