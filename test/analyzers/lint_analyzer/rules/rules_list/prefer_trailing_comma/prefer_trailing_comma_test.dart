@@ -5,7 +5,7 @@ import 'package:test/test.dart';
 
 import '../../../../../helpers/rule_test_helper.dart';
 
-// ignore_for_file: avoid_escaping_inner_quotes, no_adjacent_strings_in_list
+// ignore_for_file: avoid_escaping_inner_quotes
 
 const _correctExamplePath =
     'prefer_trailing_comma/examples/correct_example.dart';

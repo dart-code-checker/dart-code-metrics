@@ -5,8 +5,6 @@ import 'package:test/test.dart';
 
 import '../../../../../helpers/rule_test_helper.dart';
 
-// ignore_for_file: no_adjacent_strings_in_list
-
 const _examplePath = 'member_ordering/examples/example.dart';
 const _multipleClassesExamplePath =
     'member_ordering/examples/multiple_classes_example.dart';
