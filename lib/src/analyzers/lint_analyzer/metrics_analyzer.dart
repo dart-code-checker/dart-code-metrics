@@ -86,223 +86,226 @@ class MetricsAnalyzer {
                   _globalExclude,
                 ))
             .map((entity) => entity.path))
-        .toList();
+        .toSet();
 
-    for (final filePath in filePaths) {
-      final normalized = p.normalize(p.absolute(filePath));
+    for (final context in collection.contexts) {
+      final analyzedFiles =
+          filePaths.intersection(context.contextRoot.analyzedFiles().toSet());
 
-      final analysisContext = collection.contextFor(normalized);
-      final result =
-          // ignore: deprecated_member_use
-          await analysisContext.currentSession.getResolvedUnit(normalized);
+      for (final filePath in analyzedFiles) {
+        // ignore: deprecated_member_use
+        final result = await context.currentSession.getResolvedUnit(filePath);
 
-      final unit = result.unit;
-      final content = result.content;
+        final unit = result.unit;
+        final content = result.content;
 
-      if (unit == null ||
-          content == null ||
-          result.state != ResultState.VALID) {
-        continue;
-      }
-
-      final internalResult = InternalResolvedUnitResult(
-        result.uri,
-        content,
-        unit,
-        result.lineInfo,
-      );
-
-      final visitor = ScopeVisitor();
-      internalResult.unit.visitChildren(visitor);
-
-      final functions = visitor.functions.where((function) {
-        final declaration = function.declaration;
-        if (declaration is ConstructorDeclaration &&
-            declaration.body is EmptyFunctionBody) {
-          return false;
-        } else if (declaration is MethodDeclaration &&
-            declaration.body is EmptyFunctionBody) {
-          return false;
+        if (unit == null ||
+            content == null ||
+            result.state != ResultState.VALID) {
+          continue;
         }
 
-        return true;
-      }).toList();
+        final internalResult = InternalResolvedUnitResult(
+          result.uri,
+          content,
+          unit,
+          result.lineInfo,
+        );
 
-      final lineInfo = internalResult.lineInfo;
+        final visitor = ScopeVisitor();
+        internalResult.unit.visitChildren(visitor);
 
-      _store.recordFile(filePath, rootFolder, (builder) {
-        if (!_isExcluded(
-          p.relative(filePath, from: rootFolder),
-          _metricsExclude,
-        )) {
-          for (final classDeclaration in visitor.classes) {
-            builder.recordClass(
-              classDeclaration,
-              Report(
-                location: nodeLocation(
-                  node: classDeclaration.declaration,
-                  source: internalResult,
-                ),
-                metrics: [
-                  for (final metric in _classesMetrics)
-                    if (metric.supports(
-                      classDeclaration.declaration,
-                      visitor.classes,
-                      visitor.functions,
-                      internalResult,
-                    ))
-                      metric.compute(
+        final functions = visitor.functions.where((function) {
+          final declaration = function.declaration;
+          if (declaration is ConstructorDeclaration &&
+              declaration.body is EmptyFunctionBody) {
+            return false;
+          } else if (declaration is MethodDeclaration &&
+              declaration.body is EmptyFunctionBody) {
+            return false;
+          }
+
+          return true;
+        }).toList();
+
+        final lineInfo = internalResult.lineInfo;
+
+        _store.recordFile(filePath, rootFolder, (builder) {
+          if (!_isExcluded(
+            p.relative(filePath, from: rootFolder),
+            _metricsExclude,
+          )) {
+            for (final classDeclaration in visitor.classes) {
+              builder.recordClass(
+                classDeclaration,
+                Report(
+                  location: nodeLocation(
+                    node: classDeclaration.declaration,
+                    source: internalResult,
+                  ),
+                  metrics: [
+                    for (final metric in _classesMetrics)
+                      if (metric.supports(
                         classDeclaration.declaration,
                         visitor.classes,
                         visitor.functions,
                         internalResult,
-                      ),
-                ],
-              ),
-            );
-          }
-
-          for (final function in functions) {
-            final cyclomatic = _methodsMetrics
-                .firstWhere(
-                  (metric) => metric.id == CyclomaticComplexityMetric.metricId,
-                )
-                .compute(
-                  function.declaration,
-                  visitor.classes,
-                  visitor.functions,
-                  internalResult,
-                );
-
-            final linesOfExecutableCodeVisitor = SourceCodeVisitor(lineInfo);
-
-            function.declaration.visitChildren(linesOfExecutableCodeVisitor);
-
-            final linesOfExecutableCode = MetricValue<int>(
-              metricsId: linesOfExecutableCodeKey,
-              documentation: const MetricDocumentation(
-                name: '',
-                shortName: '',
-                brief: '',
-                measuredType: EntityType.methodEntity,
-                examples: [],
-              ),
-              value: linesOfExecutableCodeVisitor.linesWithCode.length,
-              level: valueLevel(
-                linesOfExecutableCodeVisitor.linesWithCode.length,
-                readThreshold<int>(
-                  _metricsConfig,
-                  linesOfExecutableCodeKey,
-                  linesOfExecutableCodeDefaultWarningLevel,
+                      ))
+                        metric.compute(
+                          classDeclaration.declaration,
+                          visitor.classes,
+                          visitor.functions,
+                          internalResult,
+                        ),
+                  ],
                 ),
-              ),
-              comment: '',
-            );
+              );
+            }
 
-            final halsteadVolumeAstVisitor = HalsteadVolumeAstVisitor();
+            for (final function in functions) {
+              final cyclomatic = _methodsMetrics
+                  .firstWhere(
+                    (metric) =>
+                        metric.id == CyclomaticComplexityMetric.metricId,
+                  )
+                  .compute(
+                    function.declaration,
+                    visitor.classes,
+                    visitor.functions,
+                    internalResult,
+                  );
 
-            function.declaration.visitChildren(halsteadVolumeAstVisitor);
+              final linesOfExecutableCodeVisitor = SourceCodeVisitor(lineInfo);
 
-            // Total number of occurrences of operators.
-            final totalNumberOfOccurrencesOfOperators =
-                sum(halsteadVolumeAstVisitor.operators.values);
+              function.declaration.visitChildren(linesOfExecutableCodeVisitor);
 
-            // Total number of occurrences of operands
-            final totalNumberOfOccurrencesOfOperands =
-                sum(halsteadVolumeAstVisitor.operands.values);
-
-            // Number of distinct operators.
-            final numberOfDistinctOperators =
-                halsteadVolumeAstVisitor.operators.keys.length;
-
-            // Number of distinct operands.
-            final numberOfDistinctOperands =
-                halsteadVolumeAstVisitor.operands.keys.length;
-
-            // Halstead Program Length – The total number of operator occurrences and the total number of operand occurrences.
-            final halsteadProgramLength = totalNumberOfOccurrencesOfOperators +
-                totalNumberOfOccurrencesOfOperands;
-
-            // Halstead Vocabulary – The total number of unique operator and unique operand occurrences.
-            final halsteadVocabulary =
-                numberOfDistinctOperators + numberOfDistinctOperands;
-
-            // Program Volume – Proportional to program size, represents the size, in bits, of space necessary for storing the program. This parameter is dependent on specific algorithm implementation.
-            final halsteadVolume =
-                halsteadProgramLength * log2(max(1, halsteadVocabulary));
-
-            final maintainabilityIndex = max(
-              0,
-              (171 -
-                      5.2 * log(max(1, halsteadVolume)) -
-                      cyclomatic.value * 0.23 -
-                      16.2 * log(max(1, linesOfExecutableCode.value))) *
-                  100 /
-                  171,
-            ).toDouble();
-
-            builder.recordFunctionData(
-              function,
-              Report(
-                location: nodeLocation(
-                  node: function.declaration,
-                  source: internalResult,
+              final linesOfExecutableCode = MetricValue<int>(
+                metricsId: linesOfExecutableCodeKey,
+                documentation: const MetricDocumentation(
+                  name: '',
+                  shortName: '',
+                  brief: '',
+                  measuredType: EntityType.methodEntity,
+                  examples: [],
                 ),
-                metrics: [
-                  for (final metric in _methodsMetrics)
-                    if (metric.supports(
-                      function.declaration,
-                      visitor.classes,
-                      visitor.functions,
-                      internalResult,
-                    ))
-                      metric.compute(
+                value: linesOfExecutableCodeVisitor.linesWithCode.length,
+                level: valueLevel(
+                  linesOfExecutableCodeVisitor.linesWithCode.length,
+                  readThreshold<int>(
+                    _metricsConfig,
+                    linesOfExecutableCodeKey,
+                    linesOfExecutableCodeDefaultWarningLevel,
+                  ),
+                ),
+                comment: '',
+              );
+
+              final halsteadVolumeAstVisitor = HalsteadVolumeAstVisitor();
+
+              function.declaration.visitChildren(halsteadVolumeAstVisitor);
+
+              // Total number of occurrences of operators.
+              final totalNumberOfOccurrencesOfOperators =
+                  sum(halsteadVolumeAstVisitor.operators.values);
+
+              // Total number of occurrences of operands
+              final totalNumberOfOccurrencesOfOperands =
+                  sum(halsteadVolumeAstVisitor.operands.values);
+
+              // Number of distinct operators.
+              final numberOfDistinctOperators =
+                  halsteadVolumeAstVisitor.operators.keys.length;
+
+              // Number of distinct operands.
+              final numberOfDistinctOperands =
+                  halsteadVolumeAstVisitor.operands.keys.length;
+
+              // Halstead Program Length – The total number of operator occurrences and the total number of operand occurrences.
+              final halsteadProgramLength =
+                  totalNumberOfOccurrencesOfOperators +
+                      totalNumberOfOccurrencesOfOperands;
+
+              // Halstead Vocabulary – The total number of unique operator and unique operand occurrences.
+              final halsteadVocabulary =
+                  numberOfDistinctOperators + numberOfDistinctOperands;
+
+              // Program Volume – Proportional to program size, represents the size, in bits, of space necessary for storing the program. This parameter is dependent on specific algorithm implementation.
+              final halsteadVolume =
+                  halsteadProgramLength * log2(max(1, halsteadVocabulary));
+
+              final maintainabilityIndex = max(
+                0,
+                (171 -
+                        5.2 * log(max(1, halsteadVolume)) -
+                        cyclomatic.value * 0.23 -
+                        16.2 * log(max(1, linesOfExecutableCode.value))) *
+                    100 /
+                    171,
+              ).toDouble();
+
+              builder.recordFunctionData(
+                function,
+                Report(
+                  location: nodeLocation(
+                    node: function.declaration,
+                    source: internalResult,
+                  ),
+                  metrics: [
+                    for (final metric in _methodsMetrics)
+                      if (metric.supports(
                         function.declaration,
                         visitor.classes,
                         visitor.functions,
                         internalResult,
+                      ))
+                        metric.compute(
+                          function.declaration,
+                          visitor.classes,
+                          visitor.functions,
+                          internalResult,
+                        ),
+                    MetricValue<double>(
+                      metricsId: 'maintainability-index',
+                      documentation: const MetricDocumentation(
+                        name: '',
+                        shortName: '',
+                        brief: '',
+                        measuredType: EntityType.classEntity,
+                        examples: [],
                       ),
-                  MetricValue<double>(
-                    metricsId: 'maintainability-index',
-                    documentation: const MetricDocumentation(
-                      name: '',
-                      shortName: '',
-                      brief: '',
-                      measuredType: EntityType.classEntity,
-                      examples: [],
+                      value: maintainabilityIndex,
+                      level: _maintainabilityIndexViolationLevel(
+                        maintainabilityIndex,
+                      ),
+                      comment: '',
                     ),
-                    value: maintainabilityIndex,
-                    level: _maintainabilityIndexViolationLevel(
-                      maintainabilityIndex,
-                    ),
-                    comment: '',
-                  ),
-                  if (_metricsConfig.containsKey(linesOfExecutableCodeKey))
-                    linesOfExecutableCode,
-                ],
-              ),
+                    if (_metricsConfig.containsKey(linesOfExecutableCodeKey))
+                      linesOfExecutableCode,
+                  ],
+                ),
+              );
+            }
+          }
+
+          final ignores = Suppression(internalResult.content, lineInfo);
+
+          builder.recordIssues(_checkOnCodeIssues(
+            ignores,
+            internalResult,
+            filePath,
+            rootFolder,
+          ));
+
+          if (!_isExcluded(
+            p.relative(filePath, from: rootFolder),
+            _metricsExclude,
+          )) {
+            builder.recordAntiPatternCases(
+              _checkOnAntiPatterns(ignores, internalResult, functions),
             );
           }
-        }
-
-        final ignores = Suppression(internalResult.content, lineInfo);
-
-        builder.recordIssues(_checkOnCodeIssues(
-          ignores,
-          internalResult,
-          filePath,
-          rootFolder,
-        ));
-
-        if (!_isExcluded(
-          p.relative(filePath, from: rootFolder),
-          _metricsExclude,
-        )) {
-          builder.recordAntiPatternCases(
-            _checkOnAntiPatterns(ignores, internalResult, functions),
-          );
-        }
-      });
+        });
+      }
     }
   }
 

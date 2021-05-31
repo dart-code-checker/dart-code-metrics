@@ -24,6 +24,7 @@ class GitHubReporter implements Reporter {
       for (final antiPattern in analysisRecord.antiPatternCases) {
         _output.writeln(_commands.warning(
           antiPattern.message,
+          absolutePath: analysisRecord.path,
           sourceSpan: antiPattern.location,
         ));
       }
@@ -31,8 +32,16 @@ class GitHubReporter implements Reporter {
       for (final issue in analysisRecord.issues) {
         _output.writeln(
           issue.severity == Severity.error
-              ? _commands.error(issue.message, sourceSpan: issue.location)
-              : _commands.warning(issue.message, sourceSpan: issue.location),
+              ? _commands.error(
+                  issue.message,
+                  absolutePath: analysisRecord.path,
+                  sourceSpan: issue.location,
+                )
+              : _commands.warning(
+                  issue.message,
+                  absolutePath: analysisRecord.path,
+                  sourceSpan: issue.location,
+                ),
         );
       }
     }
