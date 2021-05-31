@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../../../analyzers/lint_analyzer/metrics/models/metric_value_level.dart';
+import '../../analyzers/lint_analyzer/metrics/models/metric_value_level.dart';
 
 @immutable
 class ParsedArguments {

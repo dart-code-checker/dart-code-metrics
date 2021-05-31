@@ -50,22 +50,22 @@ class UnusedFilesAnalyzer {
                   config.globalExcludes,
                 ))
             .map((entity) => entity.path))
-        .toList();
+        .toSet();
 
     final unusedFiles = filePaths.toSet();
 
-    for (final filePath in filePaths) {
-      final normalized = normalize(absolute(filePath));
+    for (final context in collection.contexts) {
+      final analyzedFiles =
+          filePaths.intersection(context.contextRoot.analyzedFiles().toSet());
 
-      final analysisContext = collection.contextFor(normalized);
-      final unit =
-          await analysisContext.currentSession.getResolvedUnit2(normalized);
+      for (final filePath in analyzedFiles) {
+        final unit = await context.currentSession.getResolvedUnit2(filePath);
+        if (unit is ResolvedUnitResult) {
+          final visitor = UnusedFilesVisitor(filePath);
+          unit.unit?.visitChildren(visitor);
 
-      if (unit is ResolvedUnitResult) {
-        final visitor = UnusedFilesVisitor(filePath);
-        unit.unit?.visitChildren(visitor);
-
-        unusedFiles.removeAll(visitor.paths);
+          unusedFiles.removeAll(visitor.paths);
+        }
       }
     }
 
@@ -76,6 +76,6 @@ class UnusedFilesAnalyzer {
         path: path,
         relativePath: relativePath,
       );
-    });
+    }).toList();
   }
 }

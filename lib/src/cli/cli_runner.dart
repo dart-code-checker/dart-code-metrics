@@ -1,43 +1,44 @@
 import 'dart:io';
 
-import '../analyzers/lint_analyzer/lint_analyzer.dart';
-import '../analyzers/lint_analyzer/reporters/utility_selector.dart';
-import '../config_builder/config_builder.dart';
-import '../config_builder/models/analysis_options.dart';
-import 'arguments_builder/arguments_builder.dart';
+import 'package:args/command_runner.dart';
 
-class CliRunner {
-  static const _analyzer = LintAnalyzer();
+import 'commands/analyze.dart';
+import 'commands/check_unused_files.dart';
 
-  static Future<void> runAnalysis(List<String> args) async {
-    final parsedArgs = ArgumentsBuilder.getArguments(args);
+class CliRunner extends CommandRunner<void> {
+  static final _commands = [
+    AnalyzeCommand(),
+    CheckUnusedFilesCommand(),
+  ];
 
-    if (parsedArgs != null) {
-      final options = await analysisOptionsFromFilePath(parsedArgs.rootFolder);
-      final config = ConfigBuilder.getConfig(options, parsedArgs);
-      final lintConfig =
-          ConfigBuilder.getLintConfig(config, parsedArgs.rootFolder);
+  CliRunner()
+      : super(
+          'metrics',
+          'Analyze and improve your code quality.',
+        ) {
+    _commands.forEach(addCommand);
+  }
 
-      final lintAnalyserResult = await _analyzer.runCliAnalysis(
-        parsedArgs.folders,
-        parsedArgs.rootFolder,
-        lintConfig,
-      );
+  @override
+  String get invocation => '${super.invocation} <directories>';
 
-      await _analyzer
-          .getReporter(
-            name: parsedArgs.reporterName,
-            output: stdout,
-            config: config,
-            reportFolder: parsedArgs.reportFolder,
-          )
-          ?.report(lintAnalyserResult);
-
-      if (parsedArgs.maximumAllowedLevel != null &&
-          UtilitySelector.maxViolationLevel(lintAnalyserResult) >=
-              parsedArgs.maximumAllowedLevel!) {
-        exit(2);
-      }
+  @override
+  Future<void> run(Iterable<String> args) async {
+    try {
+      await super.run(_addDefaultCommand(args));
+    } on UsageException catch (e) {
+      print('${e.message}\n');
+      print('${e.usage}\n');
+      exit(64);
+    } on Exception catch (e) {
+      print('Oops; metrics has exited unexpectedly: "$e"');
+      exit(1);
     }
   }
+
+  Iterable<String> _addDefaultCommand(Iterable<String> args) => args.isEmpty
+      ? args
+      : !commands.keys.contains(args.first)
+          ? ['analyze', ...args]
+          : args;
 }
