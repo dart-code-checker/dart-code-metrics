@@ -57,8 +57,8 @@ void main() {
           'Avoid calling unnecessary setState. Consider changing the state directly.',
           'Avoid calling unnecessary setState. Consider changing the state directly.',
           'Avoid calling unnecessary setState. Consider changing the state directly.',
-          'Avoid calling a method with setState.',
-          'Avoid calling a method with setState.',
+          'Avoid calling a sync method with setState.',
+          'Avoid calling a sync method with setState.',
         ],
       );
     });

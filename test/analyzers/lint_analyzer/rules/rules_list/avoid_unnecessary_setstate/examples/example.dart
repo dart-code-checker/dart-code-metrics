@@ -77,6 +77,7 @@ class _MyWidgetState extends State<MyWidget> {
 
     myMethod(); // LINT
     myAsyncMethod();
+    _myPrivateMethod();
 
     return ElevatedButton(
       onPressed: () => myMethod(),
@@ -87,6 +88,22 @@ class _MyWidgetState extends State<MyWidget> {
       },
       child: Text('PRESS'),
     );
+  }
+
+  void _myPrivateMethod() {
+    final function = () {
+      setState(() {
+        myString = "Hello";
+      });
+    };
+
+    function();
+
+    final lambdaFunction = () => setState(() {
+          myString = "Hello";
+        });
+
+    lambdaFunction();
   }
 }
 
