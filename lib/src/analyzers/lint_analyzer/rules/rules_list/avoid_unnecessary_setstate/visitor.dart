@@ -84,9 +84,9 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
 class _MethodVisitor extends RecursiveAstVisitor<void> {
   late final classMethodsNames =
-      declarations.map((declaration) => declaration.name.name);
-
-  late final bodies = declarations.map((declaration) => declaration.body);
+      declarations.map((declaration) => declaration.name.name).toList();
+  late final bodies =
+      declarations.map((declaration) => declaration.body).toList();
 
   final Iterable<MethodDeclaration> declarations;
 
@@ -105,17 +105,18 @@ class _MethodVisitor extends RecursiveAstVisitor<void> {
 
     final name = node.methodName.name;
 
-    if (name == 'setState' &&
-        node.thisOrAncestorMatching((parent) =>
-                parent is FunctionBody && !bodies.contains(parent)) ==
-            null) {
+    if (name == 'setState' && _isNotInFunctionBody(node)) {
       _setStateInvocations.add(node);
     } else if (classMethodsNames.contains(name) &&
-        node.thisOrAncestorMatching((parent) =>
-                parent is FunctionBody && !bodies.contains(parent)) ==
-            null &&
+        _isNotInFunctionBody(node) &&
         node.realTarget == null) {
       _classMethodsInvocations.add(node);
     }
   }
+
+  bool _isNotInFunctionBody(MethodInvocation node) =>
+      node.thisOrAncestorMatching(
+        (parent) => parent is FunctionBody && !bodies.contains(parent),
+      ) ==
+      null;
 }
