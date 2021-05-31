@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 3.3.4
 
 * Fix GitHub reporter
 
