@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.3.4
+
+* Fix GitHub reporter
+
 ## 3.3.3
 
 * Improve static code diagnostic `member-ordering-extended`.
