@@ -8,10 +8,10 @@ import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/metrics_li
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_documentation.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value_level.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/entity_type.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/report.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/models/class_metrics_report.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/models/function_metrics_report.dart';
-import 'package:dart_code_metrics/src/analyzers/models/entity_type.dart';
-import 'package:dart_code_metrics/src/analyzers/models/report.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:source_span/source_span.dart';
 

@@ -1,9 +1,9 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:meta/meta.dart';
 
-import '../../../models/internal_resolved_unit_result.dart';
-import '../../../models/scoped_class_declaration.dart';
-import '../../../models/scoped_function_declaration.dart';
+import '../../models/internal_resolved_unit_result.dart';
+import '../../models/scoped_class_declaration.dart';
+import '../../models/scoped_function_declaration.dart';
 import 'metric_computation_result.dart';
 import 'metric_documentation.dart';
 import 'metric_value.dart';

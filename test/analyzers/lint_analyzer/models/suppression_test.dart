@@ -1,8 +1,8 @@
 @TestOn('vm')
-import 'package:dart_code_metrics/src/analyzers/models/suppression.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/suppression.dart';
 import 'package:test/test.dart';
 
-import '../../helpers/file_resolver.dart';
+import '../../../helpers/file_resolver.dart';
 
 const _examplePath = 'test/resources/suppression_example.dart';
 

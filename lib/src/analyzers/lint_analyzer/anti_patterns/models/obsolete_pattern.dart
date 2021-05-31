@@ -1,7 +1,7 @@
-import '../../../models/internal_resolved_unit_result.dart';
-import '../../../models/issue.dart';
-import '../../../models/report.dart';
-import '../../../models/scoped_function_declaration.dart';
+import '../../models/internal_resolved_unit_result.dart';
+import '../../models/issue.dart';
+import '../../models/report.dart';
+import '../../models/scoped_function_declaration.dart';
 import 'pattern.dart';
 import 'pattern_documentation.dart';
 

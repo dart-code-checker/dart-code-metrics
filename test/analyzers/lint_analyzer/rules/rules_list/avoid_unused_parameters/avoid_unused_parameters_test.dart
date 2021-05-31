@@ -1,6 +1,6 @@
 @TestOn('vm')
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/avoid_unused_parameters/avoid_unused_parameters.dart';
-import 'package:dart_code_metrics/src/analyzers/models/severity.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
 import 'package:test/test.dart';
 
 import '../../../../../helpers/rule_test_helper.dart';

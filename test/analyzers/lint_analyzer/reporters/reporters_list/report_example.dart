@@ -2,12 +2,12 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_documentation.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value_level.dart';
-import 'package:dart_code_metrics/src/analyzers/models/context_message.dart';
-import 'package:dart_code_metrics/src/analyzers/models/entity_type.dart';
-import 'package:dart_code_metrics/src/analyzers/models/file_report.dart';
-import 'package:dart_code_metrics/src/analyzers/models/issue.dart';
-import 'package:dart_code_metrics/src/analyzers/models/report.dart';
-import 'package:dart_code_metrics/src/analyzers/models/severity.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/context_message.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/entity_type.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/lint_file_report.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/issue.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/report.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:source_span/source_span.dart';
 
@@ -115,8 +115,8 @@ final _issueReport = Issue(
   verboseMessage: 'verbose message',
 );
 
-final Iterable<FileReport> testReport = [
-  FileReport(
+final Iterable<LintFileReport> testReport = [
+  LintFileReport(
     path: src1Path,
     relativePath: src1Path,
     classes: {'class': _class1Report},
@@ -127,7 +127,7 @@ final Iterable<FileReport> testReport = [
     issues: const [],
     antiPatternCases: const [],
   ),
-  FileReport(
+  LintFileReport(
     path: src2Path,
     relativePath: src2Path,
     classes: const {},

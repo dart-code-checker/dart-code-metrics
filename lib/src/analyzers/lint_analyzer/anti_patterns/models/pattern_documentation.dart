@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../../../models/entity_type.dart';
+import '../../models/entity_type.dart';
 
 /// Represents any pattern documentation
 @immutable

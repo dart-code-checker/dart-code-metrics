@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../../../models/context_message.dart';
+import '../../models/context_message.dart';
 import 'metric_documentation.dart';
 import 'metric_value_level.dart';
 

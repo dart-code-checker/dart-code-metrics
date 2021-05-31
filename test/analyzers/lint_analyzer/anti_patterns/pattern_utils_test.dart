@@ -2,9 +2,9 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/anti_patterns/models/pattern.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/anti_patterns/pattern_utils.dart';
-import 'package:dart_code_metrics/src/analyzers/models/function_type.dart';
-import 'package:dart_code_metrics/src/analyzers/models/scoped_function_declaration.dart';
-import 'package:dart_code_metrics/src/analyzers/models/severity.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/function_type.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/scoped_function_declaration.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:source_span/source_span.dart';
 import 'package:test/test.dart';

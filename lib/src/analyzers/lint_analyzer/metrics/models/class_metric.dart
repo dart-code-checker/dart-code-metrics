@@ -1,8 +1,8 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:collection/collection.dart';
 
-import '../../../models/scoped_class_declaration.dart';
-import '../../../models/scoped_function_declaration.dart';
+import '../../models/scoped_class_declaration.dart';
+import '../../models/scoped_function_declaration.dart';
 import 'metric.dart';
 import 'metric_documentation.dart';
 import 'metric_value_level.dart';
