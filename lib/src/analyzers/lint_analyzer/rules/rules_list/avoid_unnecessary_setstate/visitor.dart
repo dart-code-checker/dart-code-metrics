@@ -20,6 +20,9 @@ class _Visitor extends RecursiveAstVisitor<void> {
     }
 
     final declarations = node.members.whereType<MethodDeclaration>().toList();
+    final classMethodsNames =
+        declarations.map((declaration) => declaration.name.name).toSet();
+    final bodies = declarations.map((declaration) => declaration.body).toList();
     final methods = declarations
         .where((member) => _checkedMethods.contains(member.name.name))
         .toList();
@@ -30,7 +33,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
     final visitedRestMethods = <String, bool>{};
 
     for (final method in methods) {
-      final visitor = _MethodVisitor(declarations);
+      final visitor = _MethodVisitor(classMethodsNames, bodies);
       method.visitChildren(visitor);
 
       _setStateInvocations.addAll(visitor.setStateInvocations);
@@ -38,7 +41,8 @@ class _Visitor extends RecursiveAstVisitor<void> {
         visitor.classMethodsInvocations
             .where((invocation) => _containsSetState(
                   visitedRestMethods,
-                  declarations,
+                  classMethodsNames,
+                  bodies,
                   restMethods.firstWhere((method) =>
                       method.name.name == invocation.methodName.name),
                 ))
@@ -58,7 +62,8 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
   bool _containsSetState(
     Map<String, bool> visitedRestMethods,
-    Iterable<MethodDeclaration> declarations,
+    Set<String> classMethodsNames,
+    Iterable<FunctionBody> bodies,
     MethodDeclaration declaration,
   ) {
     final type = declaration.returnType?.type;
@@ -71,7 +76,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
       return true;
     }
 
-    final visitor = _MethodVisitor(declarations);
+    final visitor = _MethodVisitor(classMethodsNames, bodies);
     declaration.visitChildren(visitor);
 
     final hasSetState = visitor.setStateInvocations.isNotEmpty;
@@ -83,12 +88,8 @@ class _Visitor extends RecursiveAstVisitor<void> {
 }
 
 class _MethodVisitor extends RecursiveAstVisitor<void> {
-  late final classMethodsNames =
-      declarations.map((declaration) => declaration.name.name).toList();
-  late final bodies =
-      declarations.map((declaration) => declaration.body).toList();
-
-  final Iterable<MethodDeclaration> declarations;
+  final Set<String> classMethodsNames;
+  final Iterable<FunctionBody> bodies;
 
   final _setStateInvocations = <MethodInvocation>[];
   final _classMethodsInvocations = <MethodInvocation>[];
@@ -97,7 +98,7 @@ class _MethodVisitor extends RecursiveAstVisitor<void> {
   Iterable<MethodInvocation> get classMethodsInvocations =>
       _classMethodsInvocations;
 
-  _MethodVisitor(this.declarations);
+  _MethodVisitor(this.classMethodsNames, this.bodies);
 
   @override
   void visitMethodInvocation(MethodInvocation node) {
