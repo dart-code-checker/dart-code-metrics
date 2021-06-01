@@ -126,10 +126,8 @@ class _Visitor extends RecursiveAstVisitor<void> {
             _haveSameTargets(invocation, targetName, staticElement))
         .toList();
 
-    final haveNotSameCallbacks = removedListener.firstWhereOrNull(
-          (listener) => _haveSameCallbacks(addedListener, listener),
-        ) ==
-        null;
+    final haveNotSameCallbacks = removedListener
+        .every((listener) => _haveSameCallbacks(addedListener, listener));
 
     final disposedListener = disposedListeners
         .where((invocation) =>
@@ -195,20 +193,17 @@ class _ListenableVisitor extends RecursiveAstVisitor<void> {
 
     if (node.methodName.name == 'addListener') {
       final type = node.realTarget?.staticType;
-      if (type is InterfaceType &&
-          type.allSupertypes.firstWhereOrNull(_isListenable) != null) {
+      if (type is InterfaceType && type.allSupertypes.any(_isListenable)) {
         _addedListeners.add(node);
       }
     } else if (node.methodName.name == 'removeListener') {
       final type = node.realTarget?.staticType;
-      if (type is InterfaceType &&
-          type.allSupertypes.firstWhereOrNull(_isListenable) != null) {
+      if (type is InterfaceType && type.allSupertypes.any(_isListenable)) {
         _removedListeners.add(node);
       }
     } else if (node.methodName.name == 'dispose') {
       final type = node.realTarget?.staticType;
-      if (type is InterfaceType &&
-          type.allSupertypes.firstWhereOrNull(_isListenable) != null) {
+      if (type is InterfaceType && type.allSupertypes.any(_isListenable)) {
         _disposedListeners.add(node);
       }
     }
