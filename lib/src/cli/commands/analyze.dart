@@ -1,11 +1,14 @@
 import 'dart:io';
 
+import 'package:collection/collection.dart';
+
 import '../../analyzers/lint_analyzer/lint_analyzer.dart';
 import '../../analyzers/lint_analyzer/metrics/metrics_factory.dart';
 import '../../analyzers/lint_analyzer/metrics/models/metric_value_level.dart';
 import '../../analyzers/lint_analyzer/reporters/utility_selector.dart';
 import '../../config_builder/config_builder.dart';
 import '../../config_builder/models/analysis_options.dart';
+import '../../config_builder/models/deprecated_option.dart';
 import '../models/flag_names.dart';
 import '../models/parsed_arguments.dart';
 import 'base_command.dart';
@@ -119,13 +122,11 @@ class AnalyzeCommand extends BaseCommand {
     argParser.addSeparator('');
 
     for (final metric in getMetrics(config: {})) {
-      // final deprecation = deprecatedOptions
-      //     .firstWhereOrNull((option) => option.deprecated == metric.id);
-      // final deprecationMessage = deprecation != null
-      //     ? ' (deprecated, will be removed in ${deprecation.supportUntilVersion} version)'
-      //     : '';
-
-      const deprecationMessage = '';
+      final deprecation = deprecatedOptions
+          .firstWhereOrNull((option) => option.deprecated == metric.id);
+      final deprecationMessage = deprecation != null
+          ? ' (deprecated, will be removed in ${deprecation.supportUntilVersion} version)'
+          : '';
 
       argParser.addOption(
         metric.id,
