@@ -18,7 +18,8 @@ class AvoidUnnecessarySetStateRule extends Rule {
 
   static const _warningMessage =
       'Avoid calling unnecessary setState. Consider changing the state directly.';
-  static const _methodWarningMessage = 'Avoid calling a method with setState.';
+  static const _methodWarningMessage =
+      'Avoid calling a sync method with setState.';
 
   AvoidUnnecessarySetStateRule([Map<String, Object> config = const {}])
       : super(

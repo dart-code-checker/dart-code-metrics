@@ -76,6 +76,6 @@ class UnusedFilesAnalyzer {
         path: path,
         relativePath: relativePath,
       );
-    }).toList();
+    }).toSet();
   }
 }
