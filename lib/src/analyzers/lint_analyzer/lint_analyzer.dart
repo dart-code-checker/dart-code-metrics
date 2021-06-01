@@ -13,14 +13,6 @@ import '../../config_builder/models/config.dart';
 import '../../reporters/models/reporter.dart';
 import '../../utils/exclude_utils.dart';
 import '../../utils/node_utils.dart';
-import '../models/entity_type.dart';
-import '../models/file_report.dart';
-import '../models/internal_resolved_unit_result.dart';
-import '../models/issue.dart';
-import '../models/report.dart';
-import '../models/scoped_class_declaration.dart';
-import '../models/scoped_function_declaration.dart';
-import '../models/suppression.dart';
 import 'lint_config.dart';
 import 'metrics/halstead_volume_ast_visitor.dart';
 import 'metrics/metric_utils.dart';
@@ -31,6 +23,14 @@ import 'metrics/models/metric_documentation.dart';
 import 'metrics/models/metric_value.dart';
 import 'metrics/models/metric_value_level.dart';
 import 'metrics/scope_visitor.dart';
+import 'models/entity_type.dart';
+import 'models/internal_resolved_unit_result.dart';
+import 'models/issue.dart';
+import 'models/lint_file_report.dart';
+import 'models/report.dart';
+import 'models/scoped_class_declaration.dart';
+import 'models/scoped_function_declaration.dart';
+import 'models/suppression.dart';
 import 'reporters/reporter_factory.dart';
 import 'reporters/utility_selector.dart';
 
@@ -50,7 +50,7 @@ class LintAnalyzer {
         reportFolder: reportFolder,
       );
 
-  FileReport? runPluginAnalysis(
+  LintFileReport? runPluginAnalysis(
     ResolvedUnitResult result,
     LintConfig config,
     String rootFolder,
@@ -67,7 +67,7 @@ class LintAnalyzer {
     return null;
   }
 
-  Future<Iterable<FileReport>> runCliAnalysis(
+  Future<Iterable<LintFileReport>> runCliAnalysis(
     Iterable<String> folders,
     String rootFolder,
     LintConfig config,
@@ -93,7 +93,7 @@ class LintAnalyzer {
             .map((entity) => entity.path))
         .toSet();
 
-    final analyzerResult = <FileReport>[];
+    final analyzerResult = <LintFileReport>[];
 
     for (final context in collection.contexts) {
       final analyzedFiles =
@@ -119,7 +119,7 @@ class LintAnalyzer {
     return analyzerResult;
   }
 
-  FileReport? _runAnalysisForFile(
+  LintFileReport? _runAnalysisForFile(
     ResolvedUnitResult result,
     LintConfig config,
     String rootFolder, {
@@ -186,7 +186,7 @@ class LintAnalyzer {
           config,
         );
 
-        return FileReport(
+        return LintFileReport(
           path: filePath,
           relativePath: relativePath,
           classes: Map.unmodifiable(classMetrics
@@ -199,7 +199,7 @@ class LintAnalyzer {
         );
       }
 
-      return FileReport(
+      return LintFileReport(
         path: filePath,
         relativePath: relativePath,
         classes: const {},

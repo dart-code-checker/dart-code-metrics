@@ -2,15 +2,15 @@ import 'dart:convert';
 import 'dart:io';
 
 import '../../../../../reporters/models/code_climate_reporter.dart';
-import '../../../../models/file_report.dart';
 import '../../../metrics/metric_utils.dart';
 import '../../../metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import '../../../metrics/metrics_list/maximum_nesting_level/maximum_nesting_level_metric.dart';
 import '../../../metrics/metrics_list/number_of_methods_metric.dart';
+import '../../../models/lint_file_report.dart';
 import '../../utility_selector.dart';
 import 'code_climate_issue.dart';
 
-class LintCodeClimateReporter extends CodeClimateReporter {
+class LintCodeClimateReporter extends CodeClimateReporter<LintFileReport> {
   final Map<String, Object> metrics;
 
   LintCodeClimateReporter(
@@ -23,7 +23,7 @@ class LintCodeClimateReporter extends CodeClimateReporter {
         );
 
   @override
-  Future<void> report(Iterable<FileReport> records) async {
+  Future<void> report(Iterable<LintFileReport> records) async {
     if (records.isEmpty) {
       return;
     }
@@ -39,7 +39,7 @@ class LintCodeClimateReporter extends CodeClimateReporter {
     }
   }
 
-  Iterable<CodeClimateIssue> _toIssues(FileReport record) {
+  Iterable<CodeClimateIssue> _toIssues(LintFileReport record) {
     final result = <CodeClimateIssue>[
       ...record.classes.keys.expand((key) {
         final component = record.classes[key]!;
@@ -71,7 +71,7 @@ class LintCodeClimateReporter extends CodeClimateReporter {
           CodeClimateIssue.fromDesignIssue(antiPattern, record.relativePath)));
   }
 
-  Iterable<CodeClimateIssue> _functionMetrics(FileReport record) {
+  Iterable<CodeClimateIssue> _functionMetrics(LintFileReport record) {
     final issues = <CodeClimateIssue>[];
 
     for (final key in record.functions.keys) {

@@ -1,6 +1,6 @@
 import 'package:analyzer/dart/ast/ast.dart';
 
-import '../../models/scoped_function_declaration.dart';
+import '../models/scoped_function_declaration.dart';
 
 /// Returns functions belonging to the passed [classNode]
 Iterable<ScopedFunctionDeclaration> classMethods(

@@ -1,14 +1,14 @@
 import 'dart:io';
 
 import '../../../../../reporters/models/console_reporter.dart';
-import '../../../../models/file_report.dart';
 import '../../../metrics/metric_utils.dart';
 import '../../../metrics/models/metric_value.dart';
 import '../../../metrics/models/metric_value_level.dart';
+import '../../../models/lint_file_report.dart';
 import '../../utility_selector.dart';
 import 'lint_console_reporter_helper.dart';
 
-class LintConsoleReporter extends ConsoleReporter {
+class LintConsoleReporter extends ConsoleReporter<LintFileReport> {
   /// If true will report info about all files even if they're not above warning threshold
   final bool reportAll;
 
@@ -17,7 +17,7 @@ class LintConsoleReporter extends ConsoleReporter {
   LintConsoleReporter(IOSink output, {this.reportAll = false}) : super(output);
 
   @override
-  Future<void> report(Iterable<FileReport> records) async {
+  Future<void> report(Iterable<LintFileReport> records) async {
     if (records.isEmpty) {
       return;
     }
@@ -48,7 +48,7 @@ class LintConsoleReporter extends ConsoleReporter {
     }
   }
 
-  Iterable<String> _reportClassMetrics(FileReport record) {
+  Iterable<String> _reportClassMetrics(LintFileReport record) {
     final lines = <String>[];
 
     record.classes.forEach((source, classMetricReport) {
@@ -68,7 +68,7 @@ class LintConsoleReporter extends ConsoleReporter {
     return lines;
   }
 
-  Iterable<String> _reportFunctionMetrics(FileReport record) {
+  Iterable<String> _reportFunctionMetrics(LintFileReport record) {
     final lines = <String>[];
 
     record.functions.forEach((source, functionReport) {

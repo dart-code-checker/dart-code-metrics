@@ -1,12 +1,12 @@
 import '../../../../utils/node_utils.dart';
-import '../../../models/entity_type.dart';
-import '../../../models/function_type.dart';
-import '../../../models/internal_resolved_unit_result.dart';
-import '../../../models/issue.dart';
-import '../../../models/scoped_function_declaration.dart';
 import '../../metrics/metric_utils.dart';
 import '../../metrics/metrics_list/source_lines_of_code/source_code_visitor.dart';
 import '../../metrics/metrics_list/source_lines_of_code/source_lines_of_code_metric.dart';
+import '../../models/entity_type.dart';
+import '../../models/function_type.dart';
+import '../../models/internal_resolved_unit_result.dart';
+import '../../models/issue.dart';
+import '../../models/scoped_function_declaration.dart';
 import '../models/obsolete_pattern.dart';
 import '../models/pattern_documentation.dart';
 import '../pattern_utils.dart';

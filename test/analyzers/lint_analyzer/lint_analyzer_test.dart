@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/lint_analyzer.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/lint_config.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value_level.dart';
-import 'package:dart_code_metrics/src/analyzers/models/file_report.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/lint_file_report.dart';
 import 'package:dart_code_metrics/src/config_builder/config_builder.dart';
 import 'package:dart_code_metrics/src/config_builder/models/config.dart';
 import 'package:path/path.dart';
@@ -163,5 +163,8 @@ LintConfig _createConfig(
       rootDirectory,
     );
 
-FileReport reportForFile(Iterable<FileReport> reports, String fileName) =>
+LintFileReport reportForFile(
+  Iterable<LintFileReport> reports,
+  String fileName,
+) =>
     reports.firstWhere((report) => report.relativePath.endsWith(fileName));

@@ -7,9 +7,9 @@ import 'package:meta/meta.dart';
 import 'package:path/path.dart' as p;
 
 import '../../../../../reporters/models/html_reporter.dart';
-import '../../../../models/file_report.dart';
 import '../../../metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import '../../../metrics/models/metric_value_level.dart';
+import '../../../models/lint_file_report.dart';
 import '../../models/file_metrics_report.dart';
 import '../../utility_selector.dart';
 import 'utility_functions.dart';
@@ -58,11 +58,11 @@ class ReportTableRecord {
   });
 }
 
-class LintHtmlReporter extends HtmlReporter {
+class LintHtmlReporter extends HtmlReporter<LintFileReport> {
   LintHtmlReporter(String reportFolder) : super(reportFolder);
 
   @override
-  Future<void> report(Iterable<FileReport> records) async {
+  Future<void> report(Iterable<LintFileReport> records) async {
     await super.report(records);
 
     for (final record in records) {
@@ -203,7 +203,7 @@ class LintHtmlReporter extends HtmlReporter {
 
   void _generateFoldersReports(
     String reportDirectory,
-    Iterable<FileReport> records,
+    Iterable<LintFileReport> records,
   ) {
     final folders =
         records.map((record) => p.dirname(record.relativePath)).toSet();
@@ -263,7 +263,7 @@ class LintHtmlReporter extends HtmlReporter {
   void _generateFolderReport(
     String reportDirectory,
     String folder,
-    Iterable<FileReport> records,
+    Iterable<LintFileReport> records,
   ) {
     final tableRecords = records.map((record) {
       final report = UtilitySelector.fileReport(record);
@@ -312,7 +312,7 @@ class LintHtmlReporter extends HtmlReporter {
       );
   }
 
-  void _generateSourceReport(String reportDirectory, FileReport record) {
+  void _generateSourceReport(String reportDirectory, LintFileReport record) {
     final sourceFileContent = File(record.path).readAsStringSync();
     final sourceFileLines = LineSplitter.split(sourceFileContent);
 
@@ -553,7 +553,7 @@ class LintHtmlReporter extends HtmlReporter {
       );
   }
 
-  Element _generateSourceReportMetricsHeader(FileReport record) {
+  Element _generateSourceReportMetricsHeader(LintFileReport record) {
     final report = UtilitySelector.fileReport(record);
 
     return Element.tag('div')

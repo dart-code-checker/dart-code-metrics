@@ -2,7 +2,7 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/source/line_info.dart';
-import 'package:dart_code_metrics/src/analyzers/models/internal_resolved_unit_result.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/internal_resolved_unit_result.dart';
 import 'package:dart_code_metrics/src/utils/node_utils.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
