@@ -4,20 +4,19 @@ Declaration? _visitDeclaration(
   Declaration node,
   SimpleIdentifier name,
   TypeAnnotation? returnType,
-  Iterable<String> _ignoredNames,
-  Iterable<String> _ignoredAnnotations, {
+  Iterable<String> ignoredNames,
+  Iterable<String> ignoredAnnotations, {
   required bool isSetter,
 }) {
-  final hasIgnoredAnnotation = node.metadata.firstWhereOrNull(
-        (node) =>
-            _ignoredAnnotations.contains(node.name.name) &&
-            node.atSign.type.lexeme == '@',
-      ) !=
-      null;
+  final hasIgnoredAnnotation = node.metadata.any(
+    (node) =>
+        ignoredAnnotations.contains(node.name.name) &&
+        node.atSign.type.lexeme == '@',
+  );
 
   if (!hasIgnoredAnnotation &&
       !isSetter &&
-      !_isIgnored(name.name, _ignoredNames)) {
+      !_isIgnored(name.name, ignoredNames)) {
     final type = returnType?.type;
     if (type != null && _hasWidgetType(type)) {
       return node;
@@ -54,19 +53,17 @@ bool _isFuture(DartType type) =>
 
 bool _isIgnored(
   String name,
-  Iterable<String> _ignoredNames,
+  Iterable<String> ignoredNames,
 ) =>
-    name == 'build' || _ignoredNames.contains(name);
+    name == 'build' || ignoredNames.contains(name);
 
 bool _isWidget(DartType? type) =>
     type?.getDisplayString(withNullability: false) == 'Widget';
 
 bool _isSubclassOfWidget(DartType? type) =>
-    type is InterfaceType &&
-    type.allSupertypes.firstWhereOrNull(_isWidget) != null;
+    type is InterfaceType && type.allSupertypes.any(_isWidget);
 
 bool _isSubclassOfWidgetState(DartType? type) =>
-    type is InterfaceType &&
-    type.allSupertypes.firstWhereOrNull(_isWidgetState) != null;
+    type is InterfaceType && type.allSupertypes.any(_isWidgetState);
 
 bool _isWidgetState(DartType? type) => type?.element?.displayName == 'State';
