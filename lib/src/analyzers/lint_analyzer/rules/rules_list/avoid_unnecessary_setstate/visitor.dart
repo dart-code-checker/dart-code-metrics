@@ -55,8 +55,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
       _isWidgetState(type) || _isSubclassOfWidgetState(type);
 
   bool _isSubclassOfWidgetState(DartType? type) =>
-      type is InterfaceType &&
-      type.allSupertypes.firstWhereOrNull(_isWidgetState) != null;
+      type is InterfaceType && type.allSupertypes.any(_isWidgetState);
 
   bool _isWidgetState(DartType? type) => type?.element?.displayName == 'State';
 
