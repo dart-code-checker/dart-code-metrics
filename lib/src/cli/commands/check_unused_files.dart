@@ -36,7 +36,7 @@ class CheckUnusedFilesCommand extends BaseCommand {
     final reporterName = argResults[FlagNames.reporter] as String;
 
     final unusedFilesConfig =
-        ConfigBuilder.getUnusedFilesConfig(rootFolder, excludePath.split(','));
+        ConfigBuilder.getUnusedFilesConfig(rootFolder, [excludePath]);
     final unusedFilesResult = await _analyzer.runCliAnalysis(
       folders,
       rootFolder,
