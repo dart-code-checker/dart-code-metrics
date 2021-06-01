@@ -126,8 +126,8 @@ class _Visitor extends RecursiveAstVisitor<void> {
             _haveSameTargets(invocation, targetName, staticElement))
         .toList();
 
-    final haveNotSameCallbacks = removedListener
-        .every((listener) => _haveSameCallbacks(addedListener, listener));
+    final haveNotSameCallbacks = !removedListener
+        .any((listener) => _haveSameCallbacks(addedListener, listener));
 
     final disposedListener = disposedListeners
         .where((invocation) =>
