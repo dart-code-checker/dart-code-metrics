@@ -11,7 +11,7 @@ Declaration? _visitDeclaration(
   final hasIgnoredAnnotation = node.metadata.any(
     (node) =>
         ignoredAnnotations.contains(node.name.name) &&
-        node.atSign.type.lexeme == '@',
+        node.atSign.type == TokenType.AT,
   );
 
   if (!hasIgnoredAnnotation &&

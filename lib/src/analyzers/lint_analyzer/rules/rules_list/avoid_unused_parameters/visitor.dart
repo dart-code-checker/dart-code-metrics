@@ -22,7 +22,8 @@ class _Visitor extends RecursiveAstVisitor<void> {
     }
 
     final isOverride = node.metadata.any(
-      (node) => node.name.name == 'override' && node.atSign.type.lexeme == '@',
+      (node) =>
+          node.name.name == 'override' && node.atSign.type == TokenType.AT,
     );
 
     if (isOverride) {

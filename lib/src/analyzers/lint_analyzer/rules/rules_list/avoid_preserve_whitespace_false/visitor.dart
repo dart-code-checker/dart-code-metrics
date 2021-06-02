@@ -8,7 +8,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
   @override
   void visitAnnotation(Annotation node) {
     if (node.name.name == 'Component' &&
-        node.atSign.type.lexeme == '@' &&
+        node.atSign.type == TokenType.AT &&
         node.parent is ClassDeclaration) {
       final preserveWhitespaceArg = node.arguments?.arguments
           .whereType<NamedExpression>()

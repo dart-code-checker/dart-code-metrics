@@ -33,6 +33,6 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
   bool _isComponentAnnotation(Annotation node) =>
       node.name.name == 'Component' &&
-      node.atSign.type.lexeme == '@' &&
+      node.atSign.type == TokenType.AT &&
       node.parent is ClassDeclaration;
 }

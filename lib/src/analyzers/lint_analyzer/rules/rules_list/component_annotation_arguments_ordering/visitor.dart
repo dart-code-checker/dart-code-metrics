@@ -69,7 +69,7 @@ class _Visitor extends SimpleAstVisitor<List<_ArgumentInfo>> {
       _groupsOrder.indexOf(argumentGroup);
 
   bool _isComponentAnnotation(Annotation node) =>
-      node.name.name == 'Component' && node.atSign.type.lexeme == '@';
+      node.name.name == 'Component' && node.atSign.type == TokenType.AT;
 }
 
 @immutable
