@@ -37,8 +37,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
   @override
   void visitClassDeclaration(ClassDeclaration node) {
     final classType = node.extendsClause?.superclass.type;
-    if (!(_isWidget(classType) || _isSubclassOfWidget(classType)) &&
-        !(_isWidgetState(classType) || _isSubclassOfWidgetState(classType))) {
+    if (!_isWidgetOrSubclass(classType) && !_isStateOrSubclass(classType)) {
       return;
     }
 
@@ -74,13 +73,6 @@ class _InvocationsVisitor extends RecursiveAstVisitor<void> {
   void visitMethodInvocation(MethodInvocation node) {
     if (_declarationNames.contains(node.methodName.name) &&
         node.realTarget == null) {
-      _invocations.add(node);
-    }
-  }
-
-  @override
-  void visitFunctionExpressionInvocation(FunctionExpressionInvocation node) {
-    if (_declarationNames.contains(node.staticElement?.name)) {
       _invocations.add(node);
     }
   }
@@ -134,11 +126,7 @@ class _DeclarationsVisitor extends RecursiveAstVisitor<void> {
     );
 
     if (declaration != null) {
-      if (node.isGetter) {
-        _getters.add(declaration);
-      } else {
-        _declarations.add(declaration);
-      }
+      _declarations.add(declaration);
     }
   }
 }
