@@ -8,9 +8,12 @@ avoid-returning-widgets
 
 ## Description
 
-Warns when a method or function returns a Widget or subclass of a Widget. The following patterns will not trigger the rule:
+Warns when a method, function or getter returns a Widget or subclass of a Widget.
+
+The following patterns will not trigger the rule:
 
 - Widget `build` method overrides.
+- Class method that is passed to a builder.
 - Functions with [functional_widget](https://pub.dev/packages/functional_widget) package annotations.
 
 Extracting widgets to a method is considered as a Flutter anti-pattern, because when Flutter rebuilds widget tree, it calls the function all the time, making more processor time for the operations.
@@ -19,12 +22,16 @@ Consider creating a separate widget instead of a function or method.
 
 Additional resources:
 
-* <https://github.com/flutter/flutter/issues/19269>
-* <https://flutter.dev/docs/perf/rendering/best-practices#controlling-build-cost>
-* <https://www.reddit.com/r/FlutterDev/comments/avhvco/extracting_widgets_to_a_function_is_not_an/>
-* <https://medium.com/flutter-community/splitting-widgets-to-methods-is-a-performance-antipattern-16aa3fb4026c>
+- <https://github.com/flutter/flutter/issues/19269>
+- <https://flutter.dev/docs/perf/rendering/best-practices#controlling-build-cost>
+- <https://www.reddit.com/r/FlutterDev/comments/avhvco/extracting_widgets_to_a_function_is_not_an/>
+- <https://medium.com/flutter-community/splitting-widgets-to-methods-is-a-performance-antipattern-16aa3fb4026c>
 
-Use `ignored-names` configuration, if you want to ignore a function or method name. Use `ignored-annotations` configuration, if you want to override default ignored annotation list. For example:
+Use `ignored-names` configuration, if you want to ignore a function or method name.
+
+Use `ignored-annotations` configuration, if you want to override default ignored annotation list.
+
+For example:
 
 ### Config example
 
@@ -51,6 +58,8 @@ class MyWidget extends StatelessWidget {
   const MyWidget();
 
   // LINT
+  Widget _getWidget() => Container();
+
   Widget _buildShinyWidget() {
     return Container(
       child: Column(
@@ -68,7 +77,7 @@ class MyWidget extends StatelessWidget {
       children: [
         Text('Text!'),
         ...
-        _buildShinyWidget(),
+        _buildShinyWidget(), // LINT
       ],
     );
   }
@@ -105,6 +114,23 @@ class _MyShinyWidget extends StatelessWidget {
           ...
         ],
       ),
+    );
+  }
+}
+```
+
+Good:
+
+```dart
+class MyWidget extends StatelessWidget {
+  Widget _buildMyWidget(BuildContext context) {
+    return Container();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Builder(
+      builder: _buildMyWidget,
     );
   }
 }

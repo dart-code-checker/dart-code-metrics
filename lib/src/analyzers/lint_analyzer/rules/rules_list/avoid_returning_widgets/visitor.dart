@@ -1,90 +1,132 @@
 part of 'avoid_returning_widgets.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
+  final _invocations = <InvocationExpression>[];
+  final _getters = <Declaration>[];
+  final _globalFunctions = <Declaration>[];
+
+  final Iterable<String> _ignoredNames;
+  final Iterable<String> _ignoredAnnotations;
+
+  Iterable<InvocationExpression> get invocations => _invocations;
+  Iterable<Declaration> get getters => _getters;
+  Iterable<Declaration> get globalFunctions => _globalFunctions;
+
+  _Visitor(this._ignoredNames, this._ignoredAnnotations);
+
+  @override
+  void visitFunctionDeclaration(FunctionDeclaration node) {
+    if (node.parent is! CompilationUnit) {
+      return;
+    }
+
+    final declaration = _visitDeclaration(
+      node,
+      node.name,
+      node.returnType,
+      _ignoredNames,
+      _ignoredAnnotations,
+      isSetter: node.isSetter,
+    );
+
+    if (declaration != null) {
+      _globalFunctions.add(declaration);
+    }
+  }
+
+  @override
+  void visitClassDeclaration(ClassDeclaration node) {
+    final classType = node.extendsClause?.superclass.type;
+    if (!_isWidgetOrSubclass(classType) && !_isStateOrSubclass(classType)) {
+      return;
+    }
+
+    final declarationsVisitor = _DeclarationsVisitor(
+      _ignoredNames,
+      _ignoredAnnotations,
+    );
+    node.visitChildren(declarationsVisitor);
+
+    final names = declarationsVisitor.declarations
+        .map((declaration) => declaration.declaredElement?.name)
+        .whereType<String>()
+        .toSet();
+
+    final invocationsVisitor = _InvocationsVisitor(names);
+    node.visitChildren(invocationsVisitor);
+
+    _invocations.addAll(invocationsVisitor.invocations);
+    _getters.addAll(declarationsVisitor.getters);
+  }
+}
+
+class _InvocationsVisitor extends RecursiveAstVisitor<void> {
+  final _invocations = <InvocationExpression>[];
+
+  final Set<String> _declarationNames;
+
+  Iterable<InvocationExpression> get invocations => _invocations;
+
+  _InvocationsVisitor(this._declarationNames);
+
+  @override
+  void visitMethodInvocation(MethodInvocation node) {
+    if (_declarationNames.contains(node.methodName.name) &&
+        node.realTarget == null) {
+      _invocations.add(node);
+    }
+  }
+}
+
+class _DeclarationsVisitor extends RecursiveAstVisitor<void> {
   final _declarations = <Declaration>[];
+  final _getters = <Declaration>[];
 
   final Iterable<String> _ignoredNames;
   final Iterable<String> _ignoredAnnotations;
 
   Iterable<Declaration> get declarations => _declarations;
+  Iterable<Declaration> get getters => _getters;
 
-  _Visitor(this._ignoredNames, this._ignoredAnnotations);
+  _DeclarationsVisitor(this._ignoredNames, this._ignoredAnnotations);
 
   @override
   void visitMethodDeclaration(MethodDeclaration node) {
     super.visitMethodDeclaration(node);
 
-    _visitDeclaration(
+    final declaration = _visitDeclaration(
       node,
       node.name,
       node.returnType,
+      _ignoredNames,
+      _ignoredAnnotations,
       isSetter: node.isSetter,
     );
+
+    if (declaration != null) {
+      if (node.isGetter) {
+        _getters.add(declaration);
+      } else {
+        _declarations.add(declaration);
+      }
+    }
   }
 
   @override
   void visitFunctionDeclaration(FunctionDeclaration node) {
     super.visitFunctionDeclaration(node);
 
-    _visitDeclaration(
+    final declaration = _visitDeclaration(
       node,
       node.name,
       node.returnType,
+      _ignoredNames,
+      _ignoredAnnotations,
       isSetter: node.isSetter,
     );
-  }
 
-  void _visitDeclaration(
-    Declaration node,
-    SimpleIdentifier name,
-    TypeAnnotation? returnType, {
-    required bool isSetter,
-  }) {
-    final hasIgnoredAnnotation = node.metadata.any(
-      (node) =>
-          _ignoredAnnotations.contains(node.name.name) &&
-          node.atSign.type == TokenType.AT,
-    );
-
-    if (!hasIgnoredAnnotation && !isSetter && !_isIgnored(name.name)) {
-      final type = returnType?.type;
-      if (type != null && _hasWidgetType(type)) {
-        _declarations.add(node);
-      }
+    if (declaration != null) {
+      _declarations.add(declaration);
     }
   }
-
-  bool _hasWidgetType(DartType type) =>
-      _isWidget(type) ||
-      _isSubclassOfWidget(type) ||
-      _isIterable(type) ||
-      _isList(type) ||
-      _isFuture(type);
-
-  bool _isIterable(DartType type) =>
-      type.isDartCoreIterable &&
-      type is InterfaceType &&
-      (_isWidget(type.typeArguments.firstOrNull) ||
-          _isSubclassOfWidget(type.typeArguments.firstOrNull));
-
-  bool _isList(DartType type) =>
-      type.isDartCoreList &&
-      type is InterfaceType &&
-      (_isWidget(type.typeArguments.firstOrNull) ||
-          _isSubclassOfWidget(type.typeArguments.firstOrNull));
-
-  bool _isFuture(DartType type) =>
-      type.isDartAsyncFuture &&
-      type is InterfaceType &&
-      (_isWidget(type.typeArguments.firstOrNull) ||
-          _isSubclassOfWidget(type.typeArguments.firstOrNull));
-
-  bool _isWidget(DartType? type) =>
-      type?.getDisplayString(withNullability: false) == 'Widget';
-
-  bool _isSubclassOfWidget(DartType? type) =>
-      type is InterfaceType && type.allSupertypes.any(_isWidget);
-
-  bool _isIgnored(String name) =>
-      name == 'build' || _ignoredNames.contains(name);
 }

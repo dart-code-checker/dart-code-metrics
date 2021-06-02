@@ -3,6 +3,7 @@
 ## Unreleased
 
 * Add static code diagnostics `always-remove-listener` and `avoid-unnecessary-setstate`.
+* Improve static code diagnostic `avoid-returning-widgets`.
 * Remove deprecated `Lines of Executable Code` metric, use `Source lines of Code` instead.
 * Changed the supported `analyzer` version to `^1.7.0`.
 
