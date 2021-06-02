@@ -40,12 +40,11 @@ class _Visitor extends RecursiveAstVisitor<void> {
     TypeAnnotation? returnType, {
     required bool isSetter,
   }) {
-    final hasIgnoredAnnotation = node.metadata.firstWhereOrNull(
-          (node) =>
-              _ignoredAnnotations.contains(node.name.name) &&
-              node.atSign.type.lexeme == '@',
-        ) !=
-        null;
+    final hasIgnoredAnnotation = node.metadata.any(
+      (node) =>
+          _ignoredAnnotations.contains(node.name.name) &&
+          node.atSign.type == TokenType.AT,
+    );
 
     if (!hasIgnoredAnnotation && !isSetter && !_isIgnored(name.name)) {
       final type = returnType?.type;
@@ -84,8 +83,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
       type?.getDisplayString(withNullability: false) == 'Widget';
 
   bool _isSubclassOfWidget(DartType? type) =>
-      type is InterfaceType &&
-      type.allSupertypes.firstWhereOrNull(_isWidget) != null;
+      type is InterfaceType && type.allSupertypes.any(_isWidget);
 
   bool _isIgnored(String name) =>
       name == 'build' || _ignoredNames.contains(name);
