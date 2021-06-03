@@ -1,6 +1,6 @@
 @TestOn('vm')
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/avoid_wrapping_in_padding/avoid_wrapping_in_padding.dart';
-import 'package:dart_code_metrics/src/analyzers/models/severity.dart';
 import 'package:test/test.dart';
 
 import '../../../../../helpers/rule_test_helper.dart';
@@ -31,7 +31,6 @@ void main() {
         startColumns: [12],
         endOffsets: [101],
         locationTexts: [
-          // ignore: no_adjacent_strings_in_list
           'Padding(\n'
               '      child: Container(),\n'
               '    )',

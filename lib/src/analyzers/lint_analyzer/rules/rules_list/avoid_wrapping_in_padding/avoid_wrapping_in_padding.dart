@@ -4,9 +4,9 @@ import 'package:analyzer/dart/element/element.dart';
 import 'package:collection/collection.dart';
 
 import '../../../../../utils/node_utils.dart';
-import '../../../../models/internal_resolved_unit_result.dart';
-import '../../../../models/issue.dart';
-import '../../../../models/severity.dart';
+import '../../../models/internal_resolved_unit_result.dart';
+import '../../../models/issue.dart';
+import '../../../models/severity.dart';
 import '../../models/rule.dart';
 import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
