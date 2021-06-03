@@ -1,11 +1,9 @@
 @TestOn('vm')
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/prefer_conditional_expressions/prefer_conditional_expressions.dart';
-import 'package:dart_code_metrics/src/analyzers/models/severity.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
 import 'package:test/test.dart';
 
 import '../../../../../helpers/rule_test_helper.dart';
-
-// ignore_for_file: no_adjacent_strings_in_list
 
 const _examplePath = 'prefer_conditional_expressions/examples/example.dart';
 

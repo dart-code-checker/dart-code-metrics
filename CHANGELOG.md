@@ -3,8 +3,33 @@
 ## Unreleased
 
 * Add static code diagnostics `always-remove-listener`, `avoid-wrapping-in-padding` and `avoid-unnecessary-setstate`.
+* Improve static code diagnostic `avoid-returning-widgets`.
 * Remove deprecated `Lines of Executable Code` metric, use `Source lines of Code` instead.
 * Changed the supported `analyzer` version to `^1.7.0`.
+
+## 3.3.4
+
+* Fix GitHub reporter
+
+## 3.3.3
+
+* Improve static code diagnostic `member-ordering-extended`.
+
+## 3.3.2
+
+* Temporary lock `meta` package upper bound range to `1.3.x` version.
+
+## 3.3.1
+
+* Temporary lock `analyzer` package upper bound range to `1.5.x` version.
+
+## 3.3.0
+
+* Improve static code diagnostics `no-equal-arguments`, `no-magic-numbers`, `member-ordering-extended`.
+
+## 3.2.3
+
+* Fix anti-patterns, metrics and rules documentation url.
 
 ## 3.2.2
 

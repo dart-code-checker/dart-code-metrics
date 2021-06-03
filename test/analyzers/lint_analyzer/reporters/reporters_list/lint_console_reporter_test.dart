@@ -9,13 +9,13 @@ import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/metrics_li
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_documentation.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value_level.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/entity_type.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/lint_file_report.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/issue.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/replacement.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/report.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/console/lint_console_reporter.dart';
-import 'package:dart_code_metrics/src/analyzers/models/entity_type.dart';
-import 'package:dart_code_metrics/src/analyzers/models/file_report.dart';
-import 'package:dart_code_metrics/src/analyzers/models/issue.dart';
-import 'package:dart_code_metrics/src/analyzers/models/replacement.dart';
-import 'package:dart_code_metrics/src/analyzers/models/report.dart';
-import 'package:dart_code_metrics/src/analyzers/models/severity.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:source_span/source_span.dart';
 import 'package:test/test.dart';
@@ -53,7 +53,7 @@ void main() {
     group('component', () {
       test('without methods', () async {
         final records = [
-          FileReport(
+          LintFileReport(
             path: fullPath,
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{
@@ -95,7 +95,7 @@ void main() {
 
       test('with a lot of methods', () async {
         final records = [
-          FileReport(
+          LintFileReport(
             path: fullPath,
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{
@@ -133,7 +133,7 @@ void main() {
     group('function', () {
       test('with long body', () async {
         final records = [
-          FileReport(
+          LintFileReport(
             path: fullPath,
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{}),
@@ -166,7 +166,7 @@ void main() {
 
       test('with short body', () async {
         final records = [
-          FileReport(
+          LintFileReport(
             path: fullPath,
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{}),
@@ -202,7 +202,7 @@ void main() {
 
       test('without arguments', () async {
         final records = [
-          FileReport(
+          LintFileReport(
             path: fullPath,
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{}),
@@ -238,7 +238,7 @@ void main() {
 
       test('with a lot of arguments', () async {
         final records = [
-          FileReport(
+          LintFileReport(
             path: fullPath,
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{}),
@@ -271,7 +271,7 @@ void main() {
 
       test('with low nested level', () async {
         final records = [
-          FileReport(
+          LintFileReport(
             path: fullPath,
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{}),
@@ -316,7 +316,7 @@ void main() {
 
       test('with high nested level', () async {
         final records = [
-          FileReport(
+          LintFileReport(
             path: fullPath,
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{}),
@@ -355,7 +355,7 @@ void main() {
 
     test('with design issues', () async {
       final records = [
-        FileReport(
+        LintFileReport(
           path: fullPath,
           relativePath: 'example.dart',
           classes: Map.unmodifiable(<String, Report>{}),
@@ -398,7 +398,7 @@ void main() {
 
     test('with style severity issues', () async {
       final records = [
-        FileReport(
+        LintFileReport(
           path: fullPath,
           relativePath: 'example.dart',
           classes: Map.unmodifiable(<String, Report>{}),

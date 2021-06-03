@@ -1,11 +1,9 @@
 @TestOn('vm')
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/avoid_unnecessary_setstate/avoid_unnecessary_setstate.dart';
-import 'package:dart_code_metrics/src/analyzers/models/severity.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
 import 'package:test/test.dart';
 
 import '../../../../../helpers/rule_test_helper.dart';
-
-// ignore_for_file: no_adjacent_strings_in_list
 
 const _examplePath = 'avoid_unnecessary_setstate/examples/example.dart';
 const _stateSubclassExamplePath =
@@ -59,8 +57,8 @@ void main() {
           'Avoid calling unnecessary setState. Consider changing the state directly.',
           'Avoid calling unnecessary setState. Consider changing the state directly.',
           'Avoid calling unnecessary setState. Consider changing the state directly.',
-          'Avoid calling a method with setState.',
-          'Avoid calling a method with setState.',
+          'Avoid calling a sync method with setState.',
+          'Avoid calling a sync method with setState.',
         ],
       );
     });

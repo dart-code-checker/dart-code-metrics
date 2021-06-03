@@ -1,46 +1,58 @@
-class SomeWidget extends StatelessWidget {
-  @override
-  Widget build() {}
+class MyWidget extends StatelessWidget {
+  Widget _buildMyWidget(BuildContext context) {
+    return Container();
+  }
 
+  @override
+  Widget build(BuildContext context) {
+    return Builder(
+      builder: _buildMyWidget,
+    );
+  }
+}
+
+class AnotherWidget extends StatelessWidget {
   // LINT
   Widget get widgetGetter => Container();
 
   String get stringGetter => '';
 
-  // LINT
-  Widget _getMyShinyWidget() {
-    return Container();
-  }
-
-  String _getString() {
-    return '';
-  }
-
-  // LINT
-  Container _getContainer() {
-    return Container();
-  }
-
-  // LINT
   Iterable<Widget> _getWidgetsIterable() => [Container()];
 
-  Iterable<String> _getWidgetsIterable() => ['string'];
-
-  // LINT
   List<Widget> _getWidgetsList() => [Container()].toList();
 
-  List<String> _getStringsList() => ['string'].toList();
-
-  // LINT
   Future<Widget> _getWidgetFuture() => Future.value(Container());
 
-  Future<String> _otherStringFuture() => Future.value('');
+  Widget _buildMyWidget(BuildContext context) {
+    return Container();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Widget _localBuildMyWidget() {
+      return Container();
+    }
+
+    _localBuildMyWidget(); // LINT
+
+    _getWidgetsIterable(); // LINT
+
+    _getWidgetsList(); // LINT
+
+    _getWidgetFuture(); // LINT
+
+    _buildMyWidget(context); // LINT
+
+    return Container(
+      child: _buildMyWidget(context), // LINT
+    );
+  }
 }
 
 // LINT
-Widget _getWidget() => Container();
-
-String _getString() => '';
+Widget _globalBuildMyWidget() {
+  return Container();
+}
 
 @FunctionalWidget
 Widget _getFunctionalWidget() => Container();
@@ -55,10 +67,6 @@ Widget _getHookFunctionalWidget() => Container();
 @ignoredAnnotation
 Widget _getWidgetWithIgnoredAnnotation() => Container();
 
-class Widget {}
-
-class Container extends Widget {}
-
 class FunctionalWidget {
   const FunctionalWidget();
 }
@@ -69,3 +77,19 @@ const hwidget = FunctionalWidget();
 class IgnoredAnnotation {
   const IgnoredAnnotation();
 }
+
+class Widget {}
+
+class Container extends Widget {
+  final Widget? child;
+
+  const Container({this.child});
+}
+
+class Builder extends Widget {
+  final Widget Function(BuildContext) builder;
+
+  const Builder(this.builder);
+}
+
+class StatelessWidget extends Widget {}

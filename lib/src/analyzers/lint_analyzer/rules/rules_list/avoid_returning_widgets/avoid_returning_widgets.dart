@@ -1,23 +1,28 @@
 import 'package:analyzer/dart/ast/ast.dart';
+import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:collection/collection.dart';
 
 import '../../../../../utils/node_utils.dart';
-import '../../../../models/internal_resolved_unit_result.dart';
-import '../../../../models/issue.dart';
-import '../../../../models/severity.dart';
+import '../../../models/internal_resolved_unit_result.dart';
+import '../../../models/issue.dart';
+import '../../../models/severity.dart';
 import '../../models/rule.dart';
 import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
 
 part 'config_parser.dart';
 part 'visitor.dart';
+part 'visit_declaration.dart';
 
 class AvoidReturningWidgetsRule extends Rule {
   static const String ruleId = 'avoid-returning-widgets';
 
   static const _warningMessage = 'Avoid returning widgets from a function.';
+  static const _getterWarningMessage = 'Avoid returning widgets from a getter.';
+  static const _globalFunctionWarningMessage =
+      'Avoid returning widgets from a global function.';
 
   final Iterable<String> _ignoredNames;
   final Iterable<String> _ignoredAnnotations;
@@ -42,16 +47,34 @@ class AvoidReturningWidgetsRule extends Rule {
 
     source.unit.visitChildren(_visitor);
 
-    return _visitor.declarations
-        .map((declaration) => createIssue(
-              rule: this,
-              location: nodeLocation(
-                node: declaration,
-                source: source,
-                withCommentOrMetadata: true,
-              ),
-              message: _warningMessage,
-            ))
-        .toList(growable: false);
+    return [
+      ..._visitor.invocations.map((invocation) => createIssue(
+            rule: this,
+            location: nodeLocation(
+              node: invocation,
+              source: source,
+              withCommentOrMetadata: true,
+            ),
+            message: _warningMessage,
+          )),
+      ..._visitor.getters.map((getter) => createIssue(
+            rule: this,
+            location: nodeLocation(
+              node: getter,
+              source: source,
+              withCommentOrMetadata: true,
+            ),
+            message: _getterWarningMessage,
+          )),
+      ..._visitor.globalFunctions.map((globalFunction) => createIssue(
+            rule: this,
+            location: nodeLocation(
+              node: globalFunction,
+              source: source,
+              withCommentOrMetadata: true,
+            ),
+            message: _globalFunctionWarningMessage,
+          )),
+    ];
   }
 }

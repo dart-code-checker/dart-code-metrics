@@ -1,11 +1,11 @@
 import 'package:analyzer/dart/ast/ast.dart';
 
 import '../../../../utils/node_utils.dart';
-import '../../../models/context_message.dart';
-import '../../../models/entity_type.dart';
-import '../../../models/internal_resolved_unit_result.dart';
-import '../../../models/scoped_class_declaration.dart';
-import '../../../models/scoped_function_declaration.dart';
+import '../../models/context_message.dart';
+import '../../models/entity_type.dart';
+import '../../models/internal_resolved_unit_result.dart';
+import '../../models/scoped_class_declaration.dart';
+import '../../models/scoped_function_declaration.dart';
 import '../metric_utils.dart';
 import '../models/class_metric.dart';
 import '../models/metric_computation_result.dart';

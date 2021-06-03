@@ -2,7 +2,7 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/syntactic_entity.dart';
 import 'package:source_span/source_span.dart';
 
-import '../analyzers/models/internal_resolved_unit_result.dart';
+import '../analyzers/lint_analyzer/models/internal_resolved_unit_result.dart';
 
 /// Returns [SourceSpan] with information about original code for [node] from [source]
 SourceSpan nodeLocation({

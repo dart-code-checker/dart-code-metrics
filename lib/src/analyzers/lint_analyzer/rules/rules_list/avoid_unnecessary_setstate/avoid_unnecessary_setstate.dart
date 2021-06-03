@@ -1,12 +1,11 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/dart/element/type.dart';
-import 'package:collection/collection.dart';
 
 import '../../../../../utils/node_utils.dart';
-import '../../../../models/internal_resolved_unit_result.dart';
-import '../../../../models/issue.dart';
-import '../../../../models/severity.dart';
+import '../../../models/internal_resolved_unit_result.dart';
+import '../../../models/issue.dart';
+import '../../../models/severity.dart';
 import '../../models/rule.dart';
 import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
@@ -18,7 +17,8 @@ class AvoidUnnecessarySetStateRule extends Rule {
 
   static const _warningMessage =
       'Avoid calling unnecessary setState. Consider changing the state directly.';
-  static const _methodWarningMessage = 'Avoid calling a method with setState.';
+  static const _methodWarningMessage =
+      'Avoid calling a sync method with setState.';
 
   AvoidUnnecessarySetStateRule([Map<String, Object> config = const {}])
       : super(
@@ -54,7 +54,7 @@ class AvoidUnnecessarySetStateRule extends Rule {
               source: source,
             ),
             message: _methodWarningMessage,
-          ))
+          )),
     ];
   }
 }

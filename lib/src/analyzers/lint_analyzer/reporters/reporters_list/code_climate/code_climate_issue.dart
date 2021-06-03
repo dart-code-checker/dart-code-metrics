@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:meta/meta.dart';
 
-import '../../../../models/issue.dart';
-import '../../../../models/report.dart';
-import '../../../../models/severity.dart';
+import '../../../models/issue.dart';
+import '../../../models/report.dart';
+import '../../../models/severity.dart';
 
 @immutable
 class CodeClimateLocationLines {

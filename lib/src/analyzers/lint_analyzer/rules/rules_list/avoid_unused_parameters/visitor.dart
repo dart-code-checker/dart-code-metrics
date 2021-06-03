@@ -21,11 +21,10 @@ class _Visitor extends RecursiveAstVisitor<void> {
       return;
     }
 
-    final isOverride = node.metadata.firstWhereOrNull(
-          (node) =>
-              node.name.name == 'override' && node.atSign.type.lexeme == '@',
-        ) !=
-        null;
+    final isOverride = node.metadata.any(
+      (node) =>
+          node.name.name == 'override' && node.atSign.type == TokenType.AT,
+    );
 
     if (isOverride) {
       _renameSuggestions.addAll(

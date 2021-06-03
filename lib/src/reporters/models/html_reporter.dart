@@ -4,11 +4,11 @@ import 'dart:isolate';
 import 'package:meta/meta.dart';
 import 'package:path/path.dart' as p;
 
-import '../../analyzers/models/file_report.dart';
+import 'file_report.dart';
 import 'reporter.dart';
 
 /// HTML-doc reporter
-abstract class HtmlReporter extends Reporter {
+abstract class HtmlReporter<T extends FileReport> extends Reporter<T> {
   static const String id = 'html';
 
   @protected
@@ -18,7 +18,7 @@ abstract class HtmlReporter extends Reporter {
 
   @mustCallSuper
   @override
-  Future<void> report(Iterable<FileReport> records) async {
+  Future<void> report(Iterable<T> records) async {
     if (records.isEmpty) {
       return;
     }
