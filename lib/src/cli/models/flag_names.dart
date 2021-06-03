@@ -1,13 +1,10 @@
-import '../../../reporters/models/code_climate_reporter.dart';
-import '../../../reporters/models/console_reporter.dart';
-import '../../../reporters/models/github_reporter.dart';
-import '../../../reporters/models/html_reporter.dart';
-import '../../../reporters/models/json_reporter.dart';
+import '../../reporters/models/code_climate_reporter.dart';
+import '../../reporters/models/console_reporter.dart';
+import '../../reporters/models/github_reporter.dart';
+import '../../reporters/models/html_reporter.dart';
+import '../../reporters/models/json_reporter.dart';
 
 class FlagNames {
-  static const usage = 'Usage: metrics [arguments...] <directories>';
-
-  static const help = 'help';
   static const reporter = 'reporter';
   static const exclude = 'exclude';
   static const rootFolder = 'root-folder';

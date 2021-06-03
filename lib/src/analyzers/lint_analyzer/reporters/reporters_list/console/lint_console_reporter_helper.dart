@@ -47,7 +47,7 @@ class LintConsoleReporterHelper {
       return color(_normalize(leftSide + rightSide));
     }
 
-    throw StateError('Unexpected severity');
+    throw StateError('Unexpected severity.');
   }
 
   String getSeverityForAntiPattern() =>
@@ -62,7 +62,7 @@ class LintConsoleReporterHelper {
       return '$humanReadableName: ${color('$value')}';
     }
 
-    throw StateError('Unexpected violation level');
+    throw StateError('Unexpected violation level.');
   }
 
   String getMetricMessage(
@@ -79,7 +79,7 @@ class LintConsoleReporterHelper {
       return '${color(normalizedLabel)}$source - ${violations.join(', ')}';
     }
 
-    throw StateError('Unexpected violation level');
+    throw StateError('Unexpected violation level.');
   }
 
   String _getPosition(SourceSpan location) =>

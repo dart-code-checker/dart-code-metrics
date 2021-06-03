@@ -18,6 +18,16 @@ class UnusedFilesVisitor extends GeneralizingAstVisitor<void> {
       _paths.add(absolutePath);
     }
 
+    if (node is NamespaceDirective) {
+      for (final config in node.configurations) {
+        final path = config.uriSource?.fullName;
+
+        if (path != null) {
+          _paths.add(path);
+        }
+      }
+    }
+
     if (node is ExportDirective && !_paths.contains(_currentFilePath)) {
       _paths.add(_currentFilePath);
     }

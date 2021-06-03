@@ -6,7 +6,6 @@ import 'package:dart_code_metrics/src/analyzers/unused_files_analyzer/reporters/
 import 'package:dart_code_metrics/src/analyzers/unused_files_analyzer/unused_files_analyzer.dart';
 import 'package:dart_code_metrics/src/analyzers/unused_files_analyzer/unused_files_config.dart';
 import 'package:dart_code_metrics/src/config_builder/config_builder.dart';
-import 'package:dart_code_metrics/src/config_builder/models/config.dart';
 import 'package:path/path.dart';
 import 'package:test/test.dart';
 
@@ -49,22 +48,9 @@ void main() {
 
 UnusedFilesConfig _createConfig(
   String rootDirectory, {
-  Map<String, Map<String, Object>> antiPatterns = const {},
   Iterable<String> excludePatterns = const [],
-  Map<String, Object> metrics = const {},
-  Iterable<String> excludeForMetricsPatterns = const [],
-  Map<String, Map<String, Object>> rules = const {},
 }) =>
-    UnusedFilesConfig(ConfigBuilder.getLintConfig(
-      Config(
-        antiPatterns: antiPatterns,
-        excludePatterns: excludePatterns,
-        metrics: metrics,
-        excludeForMetricsPatterns: excludeForMetricsPatterns,
-        rules: rules,
-      ),
-      rootDirectory,
-    ).globalExcludes);
+    ConfigBuilder.getUnusedFilesConfig(rootDirectory, excludePatterns);
 
 LintFileReport reportForFile(
   Iterable<LintFileReport> reports,
