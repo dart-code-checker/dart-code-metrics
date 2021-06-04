@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:ansicolor/ansicolor.dart';
+
 import '../../../../../reporters/models/console_reporter.dart';
 import '../../../models/unused_files_file_report.dart';
 
@@ -15,8 +17,17 @@ class UnusedFilesConsoleReporter
       return;
     }
 
-    for (final analysisRecord in records) {
+    final sortedRecords = records.toList()
+      ..sort((a, b) => a.relativePath.compareTo(b.relativePath));
+
+    for (final analysisRecord in sortedRecords) {
       output.writeln('Unused file: ${analysisRecord.relativePath}');
     }
+
+    final color = AnsiPen()..yellow();
+
+    output
+      ..writeln('')
+      ..writeln('Total unused files - ${color(sortedRecords.length)}');
   }
 }

@@ -1,12 +1,12 @@
 @TestOn('vm')
 import 'dart:io';
 
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/github/lint_github_reporter.dart';
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/lint_file_report.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/issue.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/lint_file_report.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/replacement.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/report.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/github/lint_github_reporter.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:source_span/source_span.dart';
 import 'package:test/test.dart';

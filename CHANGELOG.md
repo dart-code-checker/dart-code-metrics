@@ -6,6 +6,7 @@
 * Improve static code diagnostic `avoid-returning-widgets`.
 * Remove deprecated `Lines of Executable Code` metric, use `Source lines of Code` instead.
 * Changed the supported `analyzer` version to `^1.7.0`.
+* Introduce `analyze` and `check-unused-files` commands.
 
 ## 3.3.4
 
