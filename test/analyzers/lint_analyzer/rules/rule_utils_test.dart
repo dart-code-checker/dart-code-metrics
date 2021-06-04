@@ -1,8 +1,8 @@
 @TestOn('vm')
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/models/rule.dart';
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rule_utils.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/replacement.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/models/rule.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rule_utils.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:source_span/source_span.dart';
 import 'package:test/test.dart';

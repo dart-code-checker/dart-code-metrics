@@ -4,8 +4,8 @@ import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/met
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value_level.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/context_message.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/entity_type.dart';
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/lint_file_report.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/issue.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/lint_file_report.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/report.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
 import 'package:mocktail/mocktail.dart';

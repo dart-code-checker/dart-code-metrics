@@ -6,10 +6,10 @@ import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/metrics_li
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_documentation.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value_level.dart';
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/utility_selector.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/entity_type.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/lint_file_report.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/report.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/utility_selector.dart';
 import 'package:test/test.dart';
 
 import '../../../stubs_builders.dart';
