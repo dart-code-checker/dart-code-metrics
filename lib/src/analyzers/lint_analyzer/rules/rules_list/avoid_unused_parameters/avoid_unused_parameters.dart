@@ -20,8 +20,6 @@ class AvoidUnusedParametersRule extends Rule {
   static const String ruleId = 'avoid-unused-parameters';
 
   static const _warningMessage = 'Parameter is unused.';
-  static const _renameMessage =
-      'Parameter is unused, consider renaming it to _, __, etc.';
 
   AvoidUnusedParametersRule([Map<String, Object> config = const {}])
       : super(
@@ -41,29 +39,16 @@ class AvoidUnusedParametersRule extends Rule {
 
     source.unit.visitChildren(_visitor);
 
-    return [
-      ..._visitor.unusedParameters
-          .map((parameter) => createIssue(
-                rule: this,
-                location: nodeLocation(
-                  node: parameter,
-                  source: source,
-                  withCommentOrMetadata: true,
-                ),
-                message: _warningMessage,
-              ))
-          .toList(growable: false),
-      ..._visitor.renameSuggestions
-          .map((parameter) => createIssue(
-                rule: this,
-                location: nodeLocation(
-                  node: parameter,
-                  source: source,
-                  withCommentOrMetadata: true,
-                ),
-                message: _renameMessage,
-              ))
-          .toList(),
-    ];
+    return _visitor.unusedParameters
+        .map((parameter) => createIssue(
+              rule: this,
+              location: nodeLocation(
+                node: parameter,
+                source: source,
+                withCommentOrMetadata: true,
+              ),
+              message: _warningMessage,
+            ))
+        .toList(growable: false);
   }
 }

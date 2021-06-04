@@ -36,10 +36,10 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [152, 220, 379, 425, 671, 547, 749, 104],
-        startLines: [9, 12, 22, 25, 36, 30, 42, 6],
-        startColumns: [20, 40, 20, 20, 28, 38, 20, 23],
-        endOffsets: [165, 239, 392, 443, 687, 560, 765, 117],
+        startOffsets: [142, 210, 369, 415, 661, 537, 739],
+        startLines: [8, 11, 21, 24, 35, 29, 41],
+        startColumns: [20, 40, 20, 20, 28, 38, 20],
+        endOffsets: [155, 229, 382, 433, 677, 550, 755],
         locationTexts: [
           'String string',
           'String secondString',
@@ -48,7 +48,6 @@ void main() {
           'TestClass object',
           'String string',
           'TestClass object',
-          'String string',
         ],
         messages: [
           'Parameter is unused.',
@@ -58,7 +57,6 @@ void main() {
           'Parameter is unused.',
           'Parameter is unused.',
           'Parameter is unused.',
-          'Parameter is unused, consider renaming it to _, __, etc.',
         ],
       );
     });
