@@ -86,17 +86,19 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
       return dartDriver;
     }
 
-    final deprecations = checkConfigDeprecatedOptions(
-      config,
-      deprecatedOptions,
-      contextRoot.optionsFile!,
-    );
-    if (deprecations.isNotEmpty) {
-      channel.sendNotification(plugin.AnalysisErrorsParams(
-        contextRoot.optionsFile!,
-        deprecations.map((deprecation) => deprecation.error).toList(),
-      ).toNotification());
-    }
+    // Temporary disable deprecation check
+    //
+    // final deprecations = checkConfigDeprecatedOptions(
+    //   config,
+    //   deprecatedOptions,
+    //   contextRoot.optionsFile!,
+    // );
+    // if (deprecations.isNotEmpty) {
+    //   channel.sendNotification(plugin.AnalysisErrorsParams(
+    //     contextRoot.optionsFile!,
+    //     deprecations.map((deprecation) => deprecation.error).toList(),
+    //   ).toNotification());
+    // }
 
     runZonedGuarded(
       () {
@@ -257,16 +259,18 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
         });
       }
 
-      if (analysisResult.path ==
-          driver.analysisContext?.contextRoot.optionsFile?.path) {
-        final deprecations = checkConfigDeprecatedOptions(
-          config,
-          deprecatedOptions,
-          analysisResult.path ?? '',
-        );
-
-        result.addAll(deprecations);
-      }
+      // Temporary disable deprecation check
+      //
+      // if (analysisResult.path ==
+      //     driver.analysisContext?.contextRoot.optionsFile?.path) {
+      //   final deprecations = checkConfigDeprecatedOptions(
+      //     config,
+      //     deprecatedOptions,
+      //     analysisResult.path ?? '',
+      //   );
+      //
+      //   result.addAll(deprecations);
+      // }
     }
 
     return result;
