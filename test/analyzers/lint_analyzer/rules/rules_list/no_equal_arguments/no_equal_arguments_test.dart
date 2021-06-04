@@ -8,6 +8,8 @@ import '../../../../../helpers/rule_test_helper.dart';
 const _examplePath = 'no_equal_arguments/examples/example.dart';
 const _incorrectExamplePath =
     'no_equal_arguments/examples/incorrect_example.dart';
+const _namedParametersExamplePath =
+    'no_equal_arguments/examples/named_parameters_example.dart';
 
 void main() {
   group('NoEqualArgumentsRule', () {
@@ -59,5 +61,35 @@ void main() {
 
       RuleTestHelper.verifyNoIssues(issues);
     });
+  });
+
+  test('reports about found issue with default config', () async {
+    final unit =
+        await RuleTestHelper.resolveFromFile(_namedParametersExamplePath);
+    final issues = NoEqualArgumentsRule().check(unit);
+
+    RuleTestHelper.verifyIssues(
+      issues: issues,
+      startOffsets: [201],
+      startLines: [9],
+      startColumns: [3],
+      endOffsets: [220],
+      locationTexts: ['lastName: firstName'],
+      messages: ['The argument has already been passed.'],
+    );
+  });
+
+  test('reports no issues with custom config', () async {
+    final unit =
+        await RuleTestHelper.resolveFromFile(_namedParametersExamplePath);
+    final config = {
+      'ignored-parameters': [
+        'lastName',
+      ],
+    };
+
+    final issues = NoEqualArgumentsRule(config).check(unit);
+
+    RuleTestHelper.verifyNoIssues(issues);
   });
 }

@@ -138,7 +138,9 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
       (!group.isFactory || group.isFactory == parsedGroup.isFactory) &&
       (!group.isNamed || group.isNamed == parsedGroup.isNamed) &&
       (group.modifier == _Modifier.unset ||
-          group.modifier == parsedGroup.modifier);
+          group.modifier == parsedGroup.modifier) &&
+      (group.annotation == _Annotation.unset ||
+          group.annotation == parsedGroup.annotation);
 
   bool _isMethodGroup(_MemberGroup group, _MemberGroup parsedGroup) =>
       group is _MethodMemberGroup &&
@@ -146,7 +148,9 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
       (!group.isStatic || group.isStatic == parsedGroup.isStatic) &&
       (!group.isNullable || group.isNullable == parsedGroup.isNullable) &&
       (group.modifier == _Modifier.unset ||
-          group.modifier == parsedGroup.modifier);
+          group.modifier == parsedGroup.modifier) &&
+      (group.annotation == _Annotation.unset ||
+          group.annotation == parsedGroup.annotation);
 
   bool _isGetSetGroup(_MemberGroup group, _MemberGroup parsedGroup) =>
       group is _GetSetMemberGroup &&
@@ -158,7 +162,9 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
       (!group.isStatic || group.isStatic == parsedGroup.isStatic) &&
       (!group.isNullable || group.isNullable == parsedGroup.isNullable) &&
       (group.modifier == _Modifier.unset ||
-          group.modifier == parsedGroup.modifier);
+          group.modifier == parsedGroup.modifier) &&
+      (group.annotation == _Annotation.unset ||
+          group.annotation == parsedGroup.annotation);
 
   bool _isFieldGroup(_MemberGroup group, _MemberGroup parsedGroup) =>
       group is _FieldMemberGroup &&
@@ -169,7 +175,9 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
       (group.modifier == _Modifier.unset ||
           group.modifier == parsedGroup.modifier) &&
       (group.keyword == _FieldKeyword.unset ||
-          group.keyword == parsedGroup.keyword);
+          group.keyword == parsedGroup.keyword) &&
+      (group.annotation == _Annotation.unset ||
+          group.annotation == parsedGroup.annotation);
 }
 
 @immutable

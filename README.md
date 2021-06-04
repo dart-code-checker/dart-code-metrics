@@ -53,7 +53,7 @@ A plugin for the Dart `analyzer` [package](https://pub.dev/packages/analyzer) pr
 
     ```yaml
     dev_dependencies:
-      dart_code_metrics: ^3.2.3
+      dart_code_metrics: ^3.3.0
     ```
 
     and then run
@@ -330,7 +330,7 @@ Rules configuration is [described here](#configuring-a-rules-entry).
 - [newline-before-return](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/newline-before-return.md)
 - [no-boolean-literal-compare](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/no-boolean-literal-compare.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 - [no-empty-block](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/no-empty-block.md)
-- [no-equal-arguments](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/no-equal-arguments.md)
+- [no-equal-arguments](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/no-equal-arguments.md) &nbsp; ![Configurable](https://img.shields.io/badge/-configurable-informational)
 - [no-equal-then-else](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/no-equal-then-else.md)
 - [no-magic-number](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/no-magic-number.md) &nbsp; [![Configurable](https://img.shields.io/badge/-configurable-informational)](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/no-magic-number.md#config-example)
 - [no-object-declaration](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/no-object-declaration.md)
