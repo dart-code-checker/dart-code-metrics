@@ -32,11 +32,11 @@ Uri documentation(Rule rule) => Uri(
       pathSegments: [
         'dart-code-checker',
         'dart-code-metrics',
-        'tree',
+        'blob',
         'master',
         'doc',
         'rules',
-        '${rule.id}.html',
+        '${rule.id}.md',
       ],
     );
 

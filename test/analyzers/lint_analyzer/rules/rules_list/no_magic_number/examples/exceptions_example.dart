@@ -7,3 +7,6 @@ final f = Intl.message(example: const <String, int>{'Assigned': 3});
 final f = foo(const [32, 12]);
 final f = Future.delayed(const Duration(seconds: 5));
 final f = foo(const Bar(5));
+final number = 500;
+var number = 500;
+var numbers = [100, 200, 300];

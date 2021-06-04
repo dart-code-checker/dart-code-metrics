@@ -10,6 +10,8 @@ const _multipleClassesExamplePath =
     'member_ordering_extended/examples/multiple_classes_example.dart';
 const _alphabeticalExamplePath =
     'member_ordering_extended/examples/alphabetical_example.dart';
+const _alphabeticalCorrectExamplePath =
+    'member_ordering_extended/examples/alphabetical_correct_example.dart';
 
 void main() {
   group('MemberOrderingExtendedRule', () {
@@ -215,42 +217,63 @@ void main() {
         },
       );
 
-      test('and alphabetical order reports about found issues', () async {
-        final unit =
-            await RuleTestHelper.resolveFromFile(_alphabeticalExamplePath);
-        final config = {
-          'alphabetize': true,
-          'order': [
-            'public-methods',
-            'public-fields',
-          ],
-        };
+      group('and alphabetical order', () {
+        test('reports about found issues', () async {
+          final unit =
+              await RuleTestHelper.resolveFromFile(_alphabeticalExamplePath);
+          final config = {
+            'alphabetize': true,
+            'order': [
+              'public-methods',
+              'public-fields',
+            ],
+          };
 
-        final issues = MemberOrderingExtendedRule(config).check(unit);
+          final issues = MemberOrderingExtendedRule(config).check(unit);
 
-        RuleTestHelper.verifyIssues(
-          issues: issues,
-          startOffsets: [94, 120, 148, 35, 62, 120],
-          startLines: [8, 10, 12, 4, 6, 10],
-          startColumns: [3, 3, 3, 3, 3, 3],
-          endOffsets: [108, 136, 162, 50, 82, 136],
-          locationTexts: [
-            'void work() {}',
-            'void create() {}',
-            'void init() {}',
-            'final data = 2;',
-            'final algorithm = 3;',
-            'void create() {}',
-          ],
-          messages: [
-            'public-methods should be before public-fields.',
-            'public-methods should be before public-fields.',
-            'public-methods should be before public-fields.',
-            'data should be alphabetically before value.',
-            'algorithm should be alphabetically before data.',
-            'create should be alphabetically before work.',
-          ],
-        );
+          RuleTestHelper.verifyIssues(
+            issues: issues,
+            startOffsets: [94, 120, 148, 35, 62, 120],
+            startLines: [8, 10, 12, 4, 6, 10],
+            startColumns: [3, 3, 3, 3, 3, 3],
+            endOffsets: [108, 136, 162, 50, 82, 136],
+            locationTexts: [
+              'void work() {}',
+              'void create() {}',
+              'void init() {}',
+              'final data = 2;',
+              'final algorithm = 3;',
+              'void create() {}',
+            ],
+            messages: [
+              'public-methods should be before public-fields.',
+              'public-methods should be before public-fields.',
+              'public-methods should be before public-fields.',
+              'data should be alphabetically before value.',
+              'algorithm should be alphabetically before data.',
+              'create should be alphabetically before work.',
+            ],
+          );
+        });
+
+        test('reports no issues', () async {
+          final unit = await RuleTestHelper.resolveFromFile(
+            _alphabeticalCorrectExamplePath,
+          );
+          final config = {
+            'alphabetize': true,
+            'order': [
+              'public-fields',
+              'public-getters-setters',
+              'private-fields',
+              'private-getters-setters',
+            ],
+          };
+
+          final issues = MemberOrderingExtendedRule(config).check(unit);
+
+          RuleTestHelper.verifyNoIssues(issues);
+        });
       });
     });
   });

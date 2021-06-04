@@ -16,7 +16,7 @@ void main() {
       () {
         const id = 'rule-id';
         final documentationUrl = Uri.parse(
-          'https://github.com/dart-code-checker/dart-code-metrics/tree/master/doc/rules/rule-id.html',
+          'https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/rule-id.md',
         );
         const severity = Severity.none;
 
@@ -69,12 +69,12 @@ void main() {
       expect(
         documentation(rule1).toString(),
         equals(
-          'https://github.com/dart-code-checker/dart-code-metrics/tree/master/doc/rules/$ruleId1.html',
+          'https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/$ruleId1.md',
         ),
       );
       expect(
         documentation(rule2).pathSegments.last,
-        equals('$ruleId2.html'),
+        equals('$ruleId2.md'),
       );
     });
 
@@ -108,10 +108,7 @@ void main() {
       });
 
       test('returns an empty list', () {
-        const wrongExcludes = [
-          1,
-          2,
-        ];
+        const wrongExcludes = [1, 2];
 
         expect(readExcludes({'exclude': wrongExcludes}), isEmpty);
       });

@@ -98,9 +98,10 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
       final lastMemberOrder = _membersInfo.last.memberOrder;
       final hasSameGroup = lastMemberOrder.memberGroup == memberGroup;
 
-      final previousMemberGroup = hasSameGroup
-          ? lastMemberOrder.previousMemberGroup
-          : lastMemberOrder.memberGroup;
+      final previousMemberGroup =
+          hasSameGroup && lastMemberOrder.previousMemberGroup != null
+              ? lastMemberOrder.previousMemberGroup
+              : lastMemberOrder.memberGroup;
 
       final memberNames = _MemberNames(
         currentName: memberName,
@@ -110,7 +111,7 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
       return _MemberOrder(
         memberNames: memberNames,
         isAlphabeticallyWrong: hasSameGroup &&
-            memberNames.currentName.compareTo(memberNames.previousName!) != 1,
+            memberNames.currentName.compareTo(memberNames.previousName!) < 0,
         memberGroup: memberGroup,
         previousMemberGroup: previousMemberGroup,
         isWrong: (hasSameGroup && lastMemberOrder.isWrong) ||
@@ -138,7 +139,9 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
       (!group.isFactory || group.isFactory == parsedGroup.isFactory) &&
       (!group.isNamed || group.isNamed == parsedGroup.isNamed) &&
       (group.modifier == _Modifier.unset ||
-          group.modifier == parsedGroup.modifier);
+          group.modifier == parsedGroup.modifier) &&
+      (group.annotation == _Annotation.unset ||
+          group.annotation == parsedGroup.annotation);
 
   bool _isMethodGroup(_MemberGroup group, _MemberGroup parsedGroup) =>
       group is _MethodMemberGroup &&
@@ -146,7 +149,9 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
       (!group.isStatic || group.isStatic == parsedGroup.isStatic) &&
       (!group.isNullable || group.isNullable == parsedGroup.isNullable) &&
       (group.modifier == _Modifier.unset ||
-          group.modifier == parsedGroup.modifier);
+          group.modifier == parsedGroup.modifier) &&
+      (group.annotation == _Annotation.unset ||
+          group.annotation == parsedGroup.annotation);
 
   bool _isGetSetGroup(_MemberGroup group, _MemberGroup parsedGroup) =>
       group is _GetSetMemberGroup &&
@@ -158,7 +163,9 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
       (!group.isStatic || group.isStatic == parsedGroup.isStatic) &&
       (!group.isNullable || group.isNullable == parsedGroup.isNullable) &&
       (group.modifier == _Modifier.unset ||
-          group.modifier == parsedGroup.modifier);
+          group.modifier == parsedGroup.modifier) &&
+      (group.annotation == _Annotation.unset ||
+          group.annotation == parsedGroup.annotation);
 
   bool _isFieldGroup(_MemberGroup group, _MemberGroup parsedGroup) =>
       group is _FieldMemberGroup &&
@@ -169,7 +176,9 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
       (group.modifier == _Modifier.unset ||
           group.modifier == parsedGroup.modifier) &&
       (group.keyword == _FieldKeyword.unset ||
-          group.keyword == parsedGroup.keyword);
+          group.keyword == parsedGroup.keyword) &&
+      (group.annotation == _Annotation.unset ||
+          group.annotation == parsedGroup.annotation);
 }
 
 @immutable

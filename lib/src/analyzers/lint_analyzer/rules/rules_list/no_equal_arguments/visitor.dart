@@ -3,7 +3,11 @@ part of 'no_equal_arguments.dart';
 class _Visitor extends RecursiveAstVisitor<void> {
   final _arguments = <Expression>[];
 
+  final Iterable<String> _ignoredParameters;
+
   Iterable<Expression> get arguments => _arguments;
+
+  _Visitor(this._ignoredParameters);
 
   @override
   void visitMethodInvocation(MethodInvocation node) {
@@ -27,8 +31,10 @@ class _Visitor extends RecursiveAstVisitor<void> {
   }
 
   void _visitArguments(NodeList<Expression> arguments) {
-    for (final argument in arguments) {
-      final lastAppearance = arguments.lastWhere((arg) {
+    final notIgnoredArguments = arguments.where(_isNotIgnored).toList();
+
+    for (final argument in notIgnoredArguments) {
+      final lastAppearance = notIgnoredArguments.lastWhere((arg) {
         if (argument is NamedExpression &&
             arg is NamedExpression &&
             argument.expression is! Literal &&
@@ -55,4 +61,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
           left.operand is Literal &&
           right is PrefixExpression &&
           right.operand is Literal);
+
+  bool _isNotIgnored(Expression arg) => !(arg is NamedExpression &&
+      _ignoredParameters.contains(arg.name.label.name));
 }
