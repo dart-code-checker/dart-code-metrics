@@ -1,7 +1,6 @@
 class TestClass implements AbstractClass {
   String value;
 
-  // LINT
   @override
   void abstractMethod(String string) {}
 

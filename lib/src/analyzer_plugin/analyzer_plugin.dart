@@ -22,7 +22,6 @@ import '../analyzers/lint_analyzer/metrics/metrics_list/number_of_parameters_met
 import '../analyzers/lint_analyzer/reporters/utility_selector.dart';
 import '../config_builder/config_builder.dart';
 import '../config_builder/models/analysis_options.dart';
-import '../config_builder/models/deprecated_option.dart';
 import '../utils/yaml_utils.dart';
 import 'analyzer_plugin_utils.dart';
 
@@ -86,17 +85,19 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
       return dartDriver;
     }
 
-    final deprecations = checkConfigDeprecatedOptions(
-      config,
-      deprecatedOptions,
-      contextRoot.optionsFile!,
-    );
-    if (deprecations.isNotEmpty) {
-      channel.sendNotification(plugin.AnalysisErrorsParams(
-        contextRoot.optionsFile!,
-        deprecations.map((deprecation) => deprecation.error).toList(),
-      ).toNotification());
-    }
+    // Temporary disable deprecation check
+    //
+    // final deprecations = checkConfigDeprecatedOptions(
+    //   config,
+    //   deprecatedOptions,
+    //   contextRoot.optionsFile!,
+    // );
+    // if (deprecations.isNotEmpty) {
+    //   channel.sendNotification(plugin.AnalysisErrorsParams(
+    //     contextRoot.optionsFile!,
+    //     deprecations.map((deprecation) => deprecation.error).toList(),
+    //   ).toNotification());
+    // }
 
     runZonedGuarded(
       () {
@@ -257,16 +258,18 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
         });
       }
 
-      if (analysisResult.path ==
-          driver.analysisContext?.contextRoot.optionsFile?.path) {
-        final deprecations = checkConfigDeprecatedOptions(
-          config,
-          deprecatedOptions,
-          analysisResult.path ?? '',
-        );
-
-        result.addAll(deprecations);
-      }
+      // Temporary disable deprecation check
+      //
+      // if (analysisResult.path ==
+      //     driver.analysisContext?.contextRoot.optionsFile?.path) {
+      //   final deprecations = checkConfigDeprecatedOptions(
+      //     config,
+      //     deprecatedOptions,
+      //     analysisResult.path ?? '',
+      //   );
+      //
+      //   result.addAll(deprecations);
+      // }
     }
 
     return result;

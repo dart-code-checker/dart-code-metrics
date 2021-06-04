@@ -18,7 +18,7 @@ void main() {
       () {
         const id = 'pattern-id';
         final documentationUrl = Uri.parse(
-          'https://github.com/dart-code-checker/dart-code-metrics/tree/master/doc/anti-patterns/pattern-id.html',
+          'https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/anti-patterns/pattern-id.md',
         );
         const severity = Severity.none;
 
@@ -65,12 +65,12 @@ void main() {
       expect(
         documentation(pattern1).toString(),
         equals(
-          'https://github.com/dart-code-checker/dart-code-metrics/tree/master/doc/anti-patterns/$patternId1.html',
+          'https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/anti-patterns/$patternId1.md',
         ),
       );
       expect(
         documentation(pattern2).pathSegments.last,
-        equals('$patternId2.html'),
+        equals('$patternId2.md'),
       );
     });
 
