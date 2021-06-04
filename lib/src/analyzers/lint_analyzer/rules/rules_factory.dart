@@ -6,6 +6,7 @@ import 'rules_list/avoid_preserve_whitespace_false/avoid_preserve_whitespace_fal
 import 'rules_list/avoid_returning_widgets/avoid_returning_widgets.dart';
 import 'rules_list/avoid_unnecessary_setstate/avoid_unnecessary_setstate.dart';
 import 'rules_list/avoid_unused_parameters/avoid_unused_parameters.dart';
+import 'rules_list/avoid_wrapping_in_padding/avoid_wrapping_in_padding.dart';
 import 'rules_list/binary_expression_operand_order/binary_expression_operand_order.dart';
 import 'rules_list/component_annotation_arguments_ordering/component_annotation_arguments_ordering.dart';
 import 'rules_list/double_literal_format/double_literal_format.dart';
@@ -37,6 +38,8 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
       AvoidUnnecessarySetStateRule(config),
   AvoidUnusedParametersRule.ruleId: (config) =>
       AvoidUnusedParametersRule(config),
+  AvoidWrappingInPaddingRule.ruleId: (config) =>
+      AvoidWrappingInPaddingRule(config),
   BinaryExpressionOperandOrderRule.ruleId: (config) =>
       BinaryExpressionOperandOrderRule(config),
   ComponentAnnotationArgumentsOrderingRule.ruleId: (config) =>
