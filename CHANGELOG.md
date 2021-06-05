@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 4.0.0-dev.1
 
 * Add static code diagnostics `always-remove-listener`, `avoid-wrapping-in-padding` and `avoid-unnecessary-setstate`.
 * Improve static code diagnostic `avoid-returning-widgets`.
