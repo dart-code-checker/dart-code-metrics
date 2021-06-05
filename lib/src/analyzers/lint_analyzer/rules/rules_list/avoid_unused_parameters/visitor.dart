@@ -2,11 +2,8 @@ part of 'avoid_unused_parameters.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
   final _unusedParameters = <FormalParameter>[];
-  final _renameSuggestions = <FormalParameter>[];
 
   Iterable<FormalParameter> get unusedParameters => _unusedParameters;
-
-  Iterable<FormalParameter> get renameSuggestions => _renameSuggestions;
 
   @override
   void visitMethodDeclaration(MethodDeclaration node) {
@@ -27,14 +24,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
         ) !=
         null;
 
-    if (isOverride) {
-      _renameSuggestions.addAll(
-        _getUnusedParameters(
-          node.body.childEntities,
-          parameters.parameters,
-        ).where(_hasNoUnderscoresInName),
-      );
-    } else {
+    if (!isOverride) {
       _unusedParameters.addAll(
         _getUnusedParameters(
           node.body.childEntities,

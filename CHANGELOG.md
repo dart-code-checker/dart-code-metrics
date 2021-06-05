@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* Improve static code diagnostic `avoid-unused-parameters`.
+
 ## 3.3.4
 
 * Fix GitHub reporter
