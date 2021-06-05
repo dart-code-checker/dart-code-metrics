@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 3.3.5
 
 * Improve static code diagnostic `avoid-unused-parameters`.
 
