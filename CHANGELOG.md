@@ -3,10 +3,14 @@
 ## Unreleased
 
 * Add static code diagnostics `always-remove-listener`, `avoid-wrapping-in-padding` and `avoid-unnecessary-setstate`.
-* Improve static code diagnostics `avoid-returning-widgets` and `avoid-unused-parameters`.
+* Improve static code diagnostic `avoid-returning-widgets`.
 * Remove deprecated `Lines of Executable Code` metric, use `Source lines of Code` instead.
 * Changed the supported `analyzer` version to `^1.7.0`.
 * Introduce `analyze` and `check-unused-files` commands.
+
+## 3.3.5
+
+* Improve static code diagnostic `avoid-unused-parameters`.
 
 ## 3.3.4
 
