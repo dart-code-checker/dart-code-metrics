@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 4.0.0-dev.2
 
 * Switch on absolute path in plugin mode for compatibility with LSP mode.
 
