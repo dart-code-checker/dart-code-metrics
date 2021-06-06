@@ -1,5 +1,6 @@
 @TestOn('vm')
 import 'package:dart_code_metrics/src/utils/path_utils.dart';
+import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
 void main() {
@@ -29,5 +30,14 @@ void main() {
       },
       testOn: 'windows',
     );
+
+    test('null for passed null', () {
+      expect(
+        uriToPath(
+          Uri.parse('package:dart_code_metrics/src/utils/path_utils.dart'),
+        ),
+        equals(p.absolute('dart_code_metrics/src/utils/path_utils.dart')),
+      );
+    });
   });
 }
