@@ -7,6 +7,7 @@ import '../analyzers/lint_analyzer/lint_config.dart';
 import '../analyzers/lint_analyzer/models/issue.dart';
 import '../analyzers/lint_analyzer/models/severity.dart';
 import '../config_builder/models/deprecated_option.dart';
+import '../utils/path_utils.dart';
 
 plugin.AnalysisErrorFixes codeIssueToAnalysisErrorFixes(
   Issue issue,
@@ -17,7 +18,7 @@ plugin.AnalysisErrorFixes codeIssueToAnalysisErrorFixes(
         _severityMapping[issue.severity]!,
         plugin.AnalysisErrorType.LINT,
         plugin.Location(
-          issue.location.sourceUrl!.path,
+          uriToPath(issue.location.sourceUrl) ?? '',
           issue.location.start.offset,
           issue.location.length,
           issue.location.start.line,
@@ -59,7 +60,7 @@ plugin.AnalysisErrorFixes designIssueToAnalysisErrorFixes(Issue issue) =>
       plugin.AnalysisErrorSeverity.INFO,
       plugin.AnalysisErrorType.HINT,
       plugin.Location(
-        issue.location.sourceUrl!.path,
+        uriToPath(issue.location.sourceUrl) ?? '',
         issue.location.start.offset,
         issue.location.length,
         issue.location.start.line,

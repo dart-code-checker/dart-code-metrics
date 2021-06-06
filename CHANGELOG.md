@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* Switch on absolute path in plugin mode for compatibility with LSP mode.
+
 ## 4.0.0-dev.1
 
 * Add static code diagnostics `always-remove-listener`, `avoid-wrapping-in-padding` and `avoid-unnecessary-setstate`.

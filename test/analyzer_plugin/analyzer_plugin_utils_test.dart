@@ -11,60 +11,60 @@ import 'package:test/test.dart';
 class AnalysisResultMock extends Mock implements AnalysisResult {}
 
 void main() {
-  test('designIssueToAnalysisErrorFixes constructs AnalysisErrorFixes', () {
-    const sourcePath = 'source_file.dart';
-    const offset = 5;
-    const length = 4;
-    const end = offset + length;
-    const line = 2;
-    const column = 1;
-    const patternId = 'pattern id';
-    const patternDocumentationUrl = 'https://www.example.com';
-    const issueMessage = 'diagnostic message';
-    const issueRecommendationMessage = 'diagnostic recommendation message';
+  const sourcePath = '/project/source_file.dart';
+  const offset = 5;
+  const length = 4;
+  const line = 2;
+  const column = 1;
 
-    final fixes = designIssueToAnalysisErrorFixes(Issue(
-      ruleId: patternId,
-      documentation: Uri.parse(patternDocumentationUrl),
-      location: SourceSpanBase(
-        SourceLocation(
-          offset,
-          sourceUrl: Uri.parse(sourcePath),
-          line: line,
-          column: column,
+  test(
+    'designIssueToAnalysisErrorFixes constructs AnalysisErrorFixes',
+    () {
+      const end = offset + length;
+      const patternId = 'pattern id';
+      const patternDocumentationUrl = 'https://www.example.com';
+      const issueMessage = 'diagnostic message';
+      const issueRecommendationMessage = 'diagnostic recommendation message';
+
+      final fixes = designIssueToAnalysisErrorFixes(Issue(
+        ruleId: patternId,
+        documentation: Uri.parse(patternDocumentationUrl),
+        location: SourceSpanBase(
+          SourceLocation(
+            offset,
+            sourceUrl: Uri.file(sourcePath),
+            line: line,
+            column: column,
+          ),
+          SourceLocation(end, sourceUrl: Uri.file(sourcePath)),
+          'abcd',
         ),
-        SourceLocation(end, sourceUrl: Uri.parse(sourcePath)),
-        'abcd',
-      ),
-      severity: Severity.none,
-      message: issueMessage,
-      verboseMessage: issueRecommendationMessage,
-    ));
+        severity: Severity.none,
+        message: issueMessage,
+        verboseMessage: issueRecommendationMessage,
+      ));
 
-    expect(fixes.error.severity, equals(AnalysisErrorSeverity.INFO));
-    expect(fixes.error.type, equals(AnalysisErrorType.HINT));
-    expect(fixes.error.location.file, equals(sourcePath));
-    expect(fixes.error.location.offset, equals(offset));
-    expect(fixes.error.location, hasLength(length));
-    expect(fixes.error.location.startLine, equals(line));
-    expect(fixes.error.location.startColumn, equals(column));
-    expect(fixes.error.message, equals(issueMessage));
-    expect(fixes.error.code, equals(patternId));
-    expect(fixes.error.correction, equals(issueRecommendationMessage));
-    expect(fixes.error.url, equals(patternDocumentationUrl));
-    expect(fixes.error.contextMessages, isNull);
-    expect(fixes.error.hasFix, isFalse);
-    expect(fixes.fixes, isEmpty);
-  });
+      expect(fixes.error.severity, equals(AnalysisErrorSeverity.INFO));
+      expect(fixes.error.type, equals(AnalysisErrorType.HINT));
+      expect(fixes.error.location.file, equals(sourcePath));
+      expect(fixes.error.location.offset, equals(offset));
+      expect(fixes.error.location, hasLength(length));
+      expect(fixes.error.location.startLine, equals(line));
+      expect(fixes.error.location.startColumn, equals(column));
+      expect(fixes.error.message, equals(issueMessage));
+      expect(fixes.error.code, equals(patternId));
+      expect(fixes.error.correction, equals(issueRecommendationMessage));
+      expect(fixes.error.url, equals(patternDocumentationUrl));
+      expect(fixes.error.contextMessages, isNull);
+      expect(fixes.error.hasFix, isFalse);
+      expect(fixes.fixes, isEmpty);
+    },
+    testOn: 'posix',
+  );
 
   test(
     'metricReportToAnalysisErrorFixes constructs AnalysisErrorFixes from metric report',
     () {
-      const sourcePath = 'source_file.dart';
-      const offset = 5;
-      const length = 4;
-      const line = 2;
-      const column = 1;
       const metricMessage = 'diagnostic message';
       const metricId = 'metric id';
 

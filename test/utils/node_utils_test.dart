@@ -5,6 +5,7 @@ import 'package:analyzer/source/line_info.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/internal_resolved_unit_result.dart';
 import 'package:dart_code_metrics/src/utils/node_utils.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
 class AnnotatedNodeMock extends Mock implements AnnotatedNode {}
@@ -14,9 +15,6 @@ class CompilationUnitMock extends Mock implements CompilationUnit {}
 class CharacterLocationMock extends Mock implements CharacterLocation {}
 
 class LineInfoMock extends Mock implements LineInfo {}
-
-class InternalResolvedUnitResultMock extends Mock
-    implements InternalResolvedUnitResult {}
 
 class TokenMock extends Mock implements Token {}
 
@@ -39,7 +37,7 @@ void main() {
     const codeOffset = preNodeCode.length + nodeComment.length;
     final codeOffsetLineInfo = CharacterLocation(line, codeOffset - line);
 
-    const sourceUrl = '/source.dart';
+    const sourcePath = '/source.dart';
 
     final lineInfoMock = LineInfoMock();
     when(() => lineInfoMock.getLocation(nodeOffset))
@@ -58,16 +56,17 @@ void main() {
     when(() => nodeMock.offset).thenReturn(nodeOffset);
     when(() => nodeMock.end).thenReturn(nodeEnd);
 
-    final sourceMock = InternalResolvedUnitResultMock();
-    when(() => sourceMock.content).thenReturn('$preNodeCode$node$postNodeCode');
-    when(() => sourceMock.unit).thenReturn(CompilationUnitMock());
-    when(() => sourceMock.path).thenReturn(sourceUrl);
-    when(() => sourceMock.lineInfo).thenReturn(lineInfoMock);
+    final sourceStub = InternalResolvedUnitResult(
+      sourcePath,
+      '$preNodeCode$node$postNodeCode',
+      CompilationUnitMock(),
+      lineInfoMock,
+    );
 
     test('without comment or metadata', () {
-      final span = nodeLocation(node: nodeMock, source: sourceMock);
+      final span = nodeLocation(node: nodeMock, source: sourceStub);
 
-      expect(span.sourceUrl.toString(), equals(sourceUrl));
+      expect(span.sourceUrl?.toFilePath(), equals(p.normalize(sourcePath)));
 
       expect(span.start.offset, equals(codeOffset));
       expect(span.start.line, equals(line));
@@ -82,16 +81,19 @@ void main() {
     test('with comment or metadata', () {
       final span = nodeLocation(
         node: nodeMock,
-        source: sourceMock,
+        source: sourceStub,
         withCommentOrMetadata: true,
       );
 
-      expect(span.start.sourceUrl.toString(), equals(sourceUrl));
+      expect(
+        span.start.sourceUrl?.toFilePath(),
+        equals(p.normalize(sourcePath)),
+      );
       expect(span.start.offset, equals(nodeOffset));
       expect(span.start.line, equals(line));
       expect(span.start.column, equals(nodeOffset - line));
 
-      expect(span.end.sourceUrl.toString(), equals(sourceUrl));
+      expect(span.end.sourceUrl?.toFilePath(), equals(p.normalize(sourcePath)));
       expect(span.end.offset, equals(nodeEnd));
       expect(span.end.line, equals(line));
       expect(span.end.column, equals(nodeEnd - line));

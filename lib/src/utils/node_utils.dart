@@ -14,6 +14,7 @@ SourceSpan nodeLocation({
       ? node.firstTokenAfterCommentAndMetadata.offset
       : node.offset;
   final end = node.end;
+  final sourceUrl = Uri.file(source.path);
 
   final offsetLocation = source.lineInfo.getLocation(offset);
   final endLocation = source.lineInfo.getLocation(end);
@@ -21,13 +22,13 @@ SourceSpan nodeLocation({
   return SourceSpan(
     SourceLocation(
       offset,
-      sourceUrl: source.path,
+      sourceUrl: sourceUrl,
       line: offsetLocation.lineNumber,
       column: offsetLocation.columnNumber,
     ),
     SourceLocation(
       end,
-      sourceUrl: source.path,
+      sourceUrl: sourceUrl,
       line: endLocation.lineNumber,
       column: endLocation.columnNumber,
     ),

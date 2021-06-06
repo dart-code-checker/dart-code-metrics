@@ -39,10 +39,7 @@ void main() {
         expect(reporter, isA<UnusedFilesConsoleReporter>());
       });
     },
-    onPlatform: const <String, Skip>{
-      'windows':
-          Skip('the tests is intended for os with unix style filesystem'),
-    },
+    testOn: 'posix',
   );
 }
 
