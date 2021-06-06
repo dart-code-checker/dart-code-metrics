@@ -135,7 +135,7 @@ class LintAnalyzer {
         _isSupported(result)) {
       final ignores = Suppression(content, result.lineInfo);
       final internalResult = InternalResolvedUnitResult(
-        result.uri,
+        filePath,
         content,
         unit,
         result.lineInfo,

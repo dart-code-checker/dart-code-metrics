@@ -18,7 +18,6 @@ class FileResolver {
     }
 
     final path = normalize(file.absolute.path);
-    final sourceUrl = Uri.parse(path);
 
     final parseResult = await resolveFile2(path: path);
     if (parseResult is! ResolvedUnitResult) {
@@ -28,7 +27,7 @@ class FileResolver {
     }
 
     return InternalResolvedUnitResult(
-      sourceUrl,
+      path,
       parseResult.content!,
       parseResult.unit!,
       parseResult.lineInfo,
