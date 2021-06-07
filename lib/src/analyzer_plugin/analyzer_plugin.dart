@@ -219,6 +219,8 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
         ]);
 
         report.functions.forEach((source, functionReport) {
+          final filePath = analysisResult.path;
+
           final functionOffset = functionReport
               .declaration.firstTokenAfterCommentAndMetadata.offset;
 
@@ -229,10 +231,10 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
           final violationLevel =
               UtilitySelector.functionMetricViolationLevel(report);
 
-          if (isReportLevel(violationLevel)) {
+          if (isReportLevel(violationLevel) && filePath != null) {
             final startSourceLocation = SourceLocation(
               functionOffset,
-              sourceUrl: analysisResult.uri,
+              sourceUrl: Uri.file(filePath),
               line: functionFirstLineInfo.lineNumber,
               column: functionFirstLineInfo.columnNumber,
             );
