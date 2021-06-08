@@ -1,9 +1,5 @@
 # Changelog
 
-## Unreleased
-
-* Fix analyzer plugin quick fix action performs on wrong file for file with `part of`.
-
 ## 4.0.0-dev.3
 
 * Fix plugin integration null reference.
@@ -19,6 +15,10 @@
 * Remove deprecated `Lines of Executable Code` metric, use `Source lines of Code` instead.
 * Changed the supported `analyzer` version to `^1.7.0`.
 * Introduce `analyze` and `check-unused-files` commands.
+
+## 3.3.6
+
+* Fix analyzer plugin quick fix action performs on wrong file for file with `part of`.
 
 ## 3.3.5
 
