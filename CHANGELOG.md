@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 3.3.6
 
 * Fix analyzer plugin quick fix action performs on wrong file for file with `part of`.
 
