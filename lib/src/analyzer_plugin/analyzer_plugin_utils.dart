@@ -12,48 +12,51 @@ import '../utils/path_utils.dart';
 plugin.AnalysisErrorFixes codeIssueToAnalysisErrorFixes(
   Issue issue,
   ResolvedUnitResult? unitResult,
-) =>
-    plugin.AnalysisErrorFixes(
-      plugin.AnalysisError(
-        _severityMapping[issue.severity]!,
-        plugin.AnalysisErrorType.LINT,
-        plugin.Location(
-          uriToPath(issue.location.sourceUrl) ?? '',
-          issue.location.start.offset,
-          issue.location.length,
-          issue.location.start.line,
-          issue.location.start.column,
-          issue.location.end.line,
-          issue.location.end.column,
-        ),
-        issue.message,
-        issue.ruleId,
-        correction:
-            '${issue.verboseMessage ?? ''} ${issue.suggestion?.replacement ?? ''}'
-                .trim(),
-        url: issue.documentation.toString(),
-        hasFix: issue.suggestion != null,
+) {
+  final fileWithIssue = uriToPath(issue.location.sourceUrl) ?? '';
+
+  return plugin.AnalysisErrorFixes(
+    plugin.AnalysisError(
+      _severityMapping[issue.severity]!,
+      plugin.AnalysisErrorType.LINT,
+      plugin.Location(
+        fileWithIssue,
+        issue.location.start.offset,
+        issue.location.length,
+        issue.location.start.line,
+        issue.location.start.column,
+        issue.location.end.line,
+        issue.location.end.column,
       ),
-      fixes: [
-        if (issue.suggestion != null && unitResult != null)
-          plugin.PrioritizedSourceChange(
-            1,
-            plugin.SourceChange(issue.suggestion!.comment, edits: [
-              plugin.SourceFileEdit(
-                unitResult.libraryElement.source.fullName,
-                unitResult.libraryElement.source.modificationStamp,
-                edits: [
-                  plugin.SourceEdit(
-                    issue.location.start.offset,
-                    issue.location.length,
-                    issue.suggestion!.replacement,
-                  ),
-                ],
-              ),
-            ]),
-          ),
-      ],
-    );
+      issue.message,
+      issue.ruleId,
+      correction:
+          '${issue.verboseMessage ?? ''} ${issue.suggestion?.replacement ?? ''}'
+              .trim(),
+      url: issue.documentation.toString(),
+      hasFix: issue.suggestion != null,
+    ),
+    fixes: [
+      if (issue.suggestion != null && unitResult != null)
+        plugin.PrioritizedSourceChange(
+          1,
+          plugin.SourceChange(issue.suggestion!.comment, edits: [
+            plugin.SourceFileEdit(
+              fileWithIssue,
+              unitResult.libraryElement.source.modificationStamp,
+              edits: [
+                plugin.SourceEdit(
+                  issue.location.start.offset,
+                  issue.location.length,
+                  issue.suggestion!.replacement,
+                ),
+              ],
+            ),
+          ]),
+        ),
+    ],
+  );
+}
 
 plugin.AnalysisErrorFixes designIssueToAnalysisErrorFixes(Issue issue) =>
     plugin.AnalysisErrorFixes(plugin.AnalysisError(
