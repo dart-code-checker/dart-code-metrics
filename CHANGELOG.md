@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* Fix analyzer plugin quick fix action performs on wrong file for file with `part of`.
+
 ## 4.0.0-dev.3
 
 * Fix plugin integration null reference.
