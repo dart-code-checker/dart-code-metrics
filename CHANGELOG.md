@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* Fix analyzer plugin quick fix action performs on wrong file for file with `part of`.
+
 ## 3.3.5
 
 * Improve static code diagnostic `avoid-unused-parameters`.
