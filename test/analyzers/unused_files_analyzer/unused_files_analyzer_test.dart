@@ -28,7 +28,7 @@ void main() {
           config,
         );
 
-        final report = result.first.relativePath;
+        final report = result.single.relativePath;
 
         expect(report, endsWith('unused_file.dart'));
       });

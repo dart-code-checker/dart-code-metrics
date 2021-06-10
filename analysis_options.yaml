@@ -3,6 +3,7 @@ include: package:pedantic/analysis_options.yaml
 analyzer:
   exclude:
     - test/resources/**
+    - test/resources/unused_files_analyzer/generated/**/**
     - test/**/examples/**
   plugins:
     - dart_code_metrics
