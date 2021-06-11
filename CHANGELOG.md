@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* Fix check unused files for files that are listed in the analyzer exclude section
+
 ## 4.0.0-dev.3
 
 * Fix plugin integration null reference.

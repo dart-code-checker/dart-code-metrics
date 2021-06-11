@@ -15,6 +15,11 @@ void main() {
     () {
       const analyzer = UnusedFilesAnalyzer();
       const rootDirectory = '';
+      const analyzerExcludes = [
+        'test/resources/**',
+        'test/resources/unused_files_analyzer/generated/**/**',
+        'test/**/examples/**',
+      ];
       final folders = [
         normalize(File('test/resources/unused_files_analyzer').absolute.path),
       ];
@@ -26,9 +31,10 @@ void main() {
           folders,
           rootDirectory,
           config,
+          analyzerExcludes,
         );
 
-        final report = result.first.relativePath;
+        final report = result.single.relativePath;
 
         expect(report, endsWith('unused_file.dart'));
       });
