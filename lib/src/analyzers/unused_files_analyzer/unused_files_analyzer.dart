@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
 import 'package:analyzer/dart/analysis/results.dart';
+import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/file_system/physical_file_system.dart';
 import 'package:file/local.dart';
 import 'package:glob/glob.dart';
@@ -30,6 +31,7 @@ class UnusedFilesAnalyzer {
     Iterable<String> folders,
     String rootFolder,
     UnusedFilesConfig config,
+    Iterable<String> analyzerExcludes,
   ) async {
     final collection = AnalysisContextCollection(
       includedPaths:
@@ -52,20 +54,28 @@ class UnusedFilesAnalyzer {
             .map((entity) => entity.path))
         .toSet();
 
+    final analyzerExcludePatterns =
+        analyzerExcludes.map((exclude) => Glob(exclude)).toSet();
+    final notAnalyzedFiles = <String>[];
+
     final unusedFiles = filePaths.toSet();
 
     for (final context in collection.contexts) {
       final analyzedFiles =
           filePaths.intersection(context.contextRoot.analyzedFiles().toSet());
 
+      notAnalyzedFiles.addAll(filePaths.difference(analyzedFiles));
+
       for (final filePath in analyzedFiles) {
         final unit = await context.currentSession.getResolvedUnit2(filePath);
-        if (unit is ResolvedUnitResult) {
-          final visitor = UnusedFilesVisitor(filePath);
-          unit.unit?.visitChildren(visitor);
+        unusedFiles.removeAll(_analyzeFile(filePath, unit));
+      }
+    }
 
-          unusedFiles.removeAll(visitor.paths);
-        }
+    for (final filePath in notAnalyzedFiles) {
+      if (analyzerExcludePatterns.any((pattern) => pattern.matches(filePath))) {
+        final unit = await resolveFile2(path: filePath);
+        unusedFiles.removeAll(_analyzeFile(filePath, unit));
       }
     }
 
@@ -77,5 +87,16 @@ class UnusedFilesAnalyzer {
         relativePath: relativePath,
       );
     }).toSet();
+  }
+
+  Iterable<String> _analyzeFile(String filePath, SomeResolvedUnitResult unit) {
+    if (unit is ResolvedUnitResult) {
+      final visitor = UnusedFilesVisitor(filePath);
+      unit.unit?.visitChildren(visitor);
+
+      return visitor.paths;
+    }
+
+    return [];
   }
 }

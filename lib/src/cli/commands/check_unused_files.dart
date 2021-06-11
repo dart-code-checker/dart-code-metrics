@@ -2,6 +2,7 @@ import 'dart:io';
 
 import '../../analyzers/unused_files_analyzer/unused_files_analyzer.dart';
 import '../../config_builder/config_builder.dart';
+import '../../config_builder/models/analysis_options.dart';
 import '../models/flag_names.dart';
 import 'base_command.dart';
 
@@ -35,12 +36,16 @@ class CheckUnusedFilesCommand extends BaseCommand {
     final excludePath = argResults[FlagNames.exclude] as String;
     final reporterName = argResults[FlagNames.reporter] as String;
 
+    final options = await analysisOptionsFromFilePath(rootFolder);
+    final config = ConfigBuilder.getConfig(options);
+
     final unusedFilesConfig =
         ConfigBuilder.getUnusedFilesConfig(rootFolder, [excludePath]);
     final unusedFilesResult = await _analyzer.runCliAnalysis(
       folders,
       rootFolder,
       unusedFilesConfig,
+      config.excludePatterns,
     );
 
     await _analyzer
