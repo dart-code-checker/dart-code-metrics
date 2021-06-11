@@ -54,8 +54,9 @@ class UnusedFilesAnalyzer {
             .map((entity) => entity.path))
         .toSet();
 
-    final analyzerExcludePatterns =
-        analyzerExcludes.map((exclude) => Glob(exclude)).toSet();
+    final analyzerExcludePatterns = analyzerExcludes
+        .map((exclude) => Glob(normalize(join(rootFolder, exclude))))
+        .toSet();
     final notAnalyzedFiles = <String>[];
 
     final unusedFiles = filePaths.toSet();
