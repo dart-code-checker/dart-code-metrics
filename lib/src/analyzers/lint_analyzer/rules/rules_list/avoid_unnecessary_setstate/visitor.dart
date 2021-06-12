@@ -15,7 +15,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
     super.visitClassDeclaration(node);
 
     final type = node.extendsClause?.superclass.type;
-    if (type == null || !_hasWidgetStateType(type)) {
+    if (type == null || !isStateOrSubclass(type)) {
       return;
     }
 
@@ -50,14 +50,6 @@ class _Visitor extends RecursiveAstVisitor<void> {
       );
     }
   }
-
-  bool _hasWidgetStateType(DartType type) =>
-      _isWidgetState(type) || _isSubclassOfWidgetState(type);
-
-  bool _isSubclassOfWidgetState(DartType? type) =>
-      type is InterfaceType && type.allSupertypes.any(_isWidgetState);
-
-  bool _isWidgetState(DartType? type) => type?.element?.displayName == 'State';
 
   bool _containsSetState(
     Map<String, bool> visitedRestMethods,
