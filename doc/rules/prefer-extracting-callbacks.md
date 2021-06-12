@@ -10,6 +10,20 @@ Warns about inline callbacks in a widget tree and suggests to extract them to wi
 
 **NOTE** the rule will not trigger for lambdas, like `onPressed: () => _handler(...)`, in order to cover cases when a callback needs a variable from the outside.
 
+Use `ignored-parameters` configuration, if you want to ignore specific named parameters (`builder` argument is ignored by default).
+
+### Config example
+
+```yaml
+dart_code_metrics:
+  ...
+  rules:
+    ...
+    - no-equal-arguments:
+        ignored-arguments:
+          - onPressed
+```
+
 ### Example
 
 Bad:

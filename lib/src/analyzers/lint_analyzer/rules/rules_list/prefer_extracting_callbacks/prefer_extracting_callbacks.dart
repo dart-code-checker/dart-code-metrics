@@ -11,6 +11,7 @@ import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
 
 part 'visitor.dart';
+part 'config_parser.dart';
 
 class PreferExtractingCallbacksRule extends Rule {
   static const String ruleId = 'prefer-extracting-callbacks';
@@ -18,13 +19,16 @@ class PreferExtractingCallbacksRule extends Rule {
   static const _warningMessage =
       'Prefer extracting the callback to a separate widget method.';
 
+  final Iterable<String> _ignoredArguments;
+
   PreferExtractingCallbacksRule([Map<String, Object> config = const {}])
-      : super(
+      : _ignoredArguments = _ConfigParser.parseIgnoredArguments(config),
+        super(
           id: ruleId,
           documentation: const RuleDocumentation(
             name: 'Prefer extracting callbacks',
             brief:
-                'Warns about inline callbacks in a widget tree and suggest to extract them to a widget method',
+                'Warns about inline callbacks in a widget tree and suggest to extract them to a widget method.',
           ),
           severity: readSeverity(config, Severity.style),
           excludes: readExcludes(config),
@@ -32,7 +36,7 @@ class PreferExtractingCallbacksRule extends Rule {
 
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
-    final _visitor = _Visitor();
+    final _visitor = _Visitor(_ignoredArguments);
 
     source.unit.visitChildren(_visitor);
 

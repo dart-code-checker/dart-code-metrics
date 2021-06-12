@@ -44,5 +44,18 @@ void main() {
         ],
       );
     });
+
+    test('with custom config reports no issues', () async {
+      final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+      final config = {
+        'ignored-arguments': [
+          'onPressed',
+        ],
+      };
+
+      final issues = PreferExtractingCallbacksRule(config).check(unit);
+
+      RuleTestHelper.verifyNoIssues(issues);
+    });
   });
 }
