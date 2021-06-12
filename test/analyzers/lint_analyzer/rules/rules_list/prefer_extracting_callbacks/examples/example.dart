@@ -7,6 +7,7 @@ class MyWidget extends StatelessWidget {
     );
 
     return TextButton(
+      // LINT
       onPressed: () {
         return null;
       },
@@ -50,6 +51,7 @@ class MyAnotherWidget extends StatelessWidget {
     );
 
     return TextButton(
+      // LINT
       onPressed: () {
         return null;
       },

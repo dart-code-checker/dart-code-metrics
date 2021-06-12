@@ -2,7 +2,7 @@
 
 ## Rule id
 
-always-remove-listener
+prefer-extracting-callbacks
 
 ## Description
 

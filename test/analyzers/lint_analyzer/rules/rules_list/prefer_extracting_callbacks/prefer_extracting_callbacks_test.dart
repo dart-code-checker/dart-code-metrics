@@ -26,10 +26,10 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [215, 976],
-        startLines: [10, 53],
+        startOffsets: [229, 1004],
+        startLines: [11, 55],
         startColumns: [7, 7],
-        endOffsets: [259, 1020],
+        endOffsets: [273, 1048],
         locationTexts: [
           'onPressed: () {\n'
               '        return null;\n'
