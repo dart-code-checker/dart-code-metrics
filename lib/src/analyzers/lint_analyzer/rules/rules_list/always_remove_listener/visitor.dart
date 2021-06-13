@@ -193,22 +193,19 @@ class _ListenableVisitor extends RecursiveAstVisitor<void> {
 
     if (node.methodName.name == 'addListener') {
       final type = node.realTarget?.staticType;
-      if (type is InterfaceType && type.allSupertypes.any(_isListenable)) {
+      if (isSubclassOfListenable(type)) {
         _addedListeners.add(node);
       }
     } else if (node.methodName.name == 'removeListener') {
       final type = node.realTarget?.staticType;
-      if (type is InterfaceType && type.allSupertypes.any(_isListenable)) {
+      if (isSubclassOfListenable(type)) {
         _removedListeners.add(node);
       }
     } else if (node.methodName.name == 'dispose') {
       final type = node.realTarget?.staticType;
-      if (type is InterfaceType && type.allSupertypes.any(_isListenable)) {
+      if (isSubclassOfListenable(type)) {
         _disposedListeners.add(node);
       }
     }
   }
-
-  bool _isListenable(DartType type) =>
-      type.getDisplayString(withNullability: false) == 'Listenable';
 }

@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* Add static code diagnostic `prefer-extracting-callbacks`.
+
 ## 4.0.0-dev.4
 
 * Fix check unused files for files that are listed in the analyzer exclude section

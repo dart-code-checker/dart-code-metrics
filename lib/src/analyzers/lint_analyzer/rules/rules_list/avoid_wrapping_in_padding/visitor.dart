@@ -9,15 +9,12 @@ class _Visitor extends RecursiveAstVisitor<void> {
   void visitInstanceCreationExpression(InstanceCreationExpression node) {
     super.visitInstanceCreationExpression(node);
 
-    if (isPaddingWidget(node) && hasChildWithPadding(node)) {
+    if (isPaddingWidget(node.staticType) && _hasChildWithPadding(node)) {
       _expressions.add(node);
     }
   }
 
-  bool isPaddingWidget(Expression node) =>
-      node.staticType?.getDisplayString(withNullability: false) == 'Padding';
-
-  bool hasChildWithPadding(InstanceCreationExpression node) {
+  bool _hasChildWithPadding(InstanceCreationExpression node) {
     final child = node.argumentList.arguments.firstWhereOrNull(
       (arg) => arg is NamedExpression && arg.name.label.name == 'child',
     );

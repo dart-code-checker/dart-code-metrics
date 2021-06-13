@@ -20,6 +20,7 @@ import 'rules_list/no_equal_then_else/no_equal_then_else.dart';
 import 'rules_list/no_magic_number/no_magic_number.dart';
 import 'rules_list/no_object_declaration/no_object_declaration.dart';
 import 'rules_list/prefer_conditional_expressions/prefer_conditional_expressions.dart';
+import 'rules_list/prefer_extracting_callbacks/prefer_extracting_callbacks.dart';
 import 'rules_list/prefer_intl_name/prefer_intl_name.dart';
 import 'rules_list/prefer_on_push_cd_strategy/prefer_on_push_cd_strategy.dart';
 import 'rules_list/prefer_trailing_comma/prefer_trailing_comma.dart';
@@ -58,6 +59,8 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   NoObjectDeclarationRule.ruleId: (config) => NoObjectDeclarationRule(config),
   PreferConditionalExpressionsRule.ruleId: (config) =>
       PreferConditionalExpressionsRule(config),
+  PreferExtractingCallbacksRule.ruleId: (config) =>
+      PreferExtractingCallbacksRule(config),
   PreferIntlNameRule.ruleId: (config) => PreferIntlNameRule(config),
   PreferOnPushCdStrategyRule.ruleId: (config) =>
       PreferOnPushCdStrategyRule(config),
