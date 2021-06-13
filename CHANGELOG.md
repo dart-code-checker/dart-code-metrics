@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 4.0.0-dev.5
 
 * Add static code diagnostic `prefer-extracting-callbacks`.
 
