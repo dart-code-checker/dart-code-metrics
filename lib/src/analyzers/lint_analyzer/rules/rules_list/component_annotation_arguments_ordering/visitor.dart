@@ -28,7 +28,7 @@ class _Visitor extends SimpleAstVisitor<List<_ArgumentInfo>> {
         if (group != null && _groupsOrder.contains(group)) {
           _argumentsInfo.add(_ArgumentInfo(
             argument: argument,
-            argumentOrder: _getOrder(group, name, _argumentsInfo),
+            argumentOrder: _getOrder(group, _argumentsInfo),
           ));
         }
       }
@@ -39,7 +39,6 @@ class _Visitor extends SimpleAstVisitor<List<_ArgumentInfo>> {
 
   _ArgumentOrder _getOrder(
     _ArgumentGroup group,
-    String argumentName,
     Iterable<_ArgumentInfo> argumentsInfo,
   ) {
     if (argumentsInfo.isNotEmpty) {

@@ -51,7 +51,7 @@ class SourceLinesOfCodeMetric extends FunctionMetric<int> {
 
     return MetricComputationResult(
       value: visitor.linesWithCode.length,
-      context: _context(node, visitor.linesWithCode, source),
+      context: _context(visitor.linesWithCode, source),
     );
   }
 
@@ -71,7 +71,6 @@ class SourceLinesOfCodeMetric extends FunctionMetric<int> {
           : null;
 
   Iterable<ContextMessage> _context(
-    Declaration node,
     Iterable<int> linesWithCode,
     InternalResolvedUnitResult source,
   ) =>

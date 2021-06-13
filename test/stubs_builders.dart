@@ -81,9 +81,6 @@ Report buildRecordStub({
 Report buildFunctionRecordStub({
   SourceSpanBase? location,
   Iterable<MetricValue<num>> metrics = const [],
-  Map<int, int> cyclomaticLinesComplexity = const <int, int>{},
-  Map<int, int> operators = const <int, int>{},
-  Map<int, int> operands = const <int, int>{},
 }) {
   final defaultMetricValues = [
     buildMetricValueStub<int>(
