@@ -10,7 +10,7 @@ bool hasWidgetType(DartType type) =>
 bool isWidgetOrSubclass(DartType? type) =>
     _isWidget(type) || _isSubclassOfWidget(type);
 
-bool isStateOrSubclass(DartType? type) =>
+bool isWidgetStateOrSubclass(DartType? type) =>
     _isWidgetState(type) || _isSubclassOfWidgetState(type);
 
 bool isSubclassOfListenable(DartType? type) =>

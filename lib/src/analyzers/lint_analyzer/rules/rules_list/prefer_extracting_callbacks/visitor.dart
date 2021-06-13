@@ -12,7 +12,7 @@ class _Visitor extends SimpleAstVisitor<void> {
   @override
   void visitClassDeclaration(ClassDeclaration node) {
     final classType = node.extendsClause?.superclass.type;
-    if (!isWidgetOrSubclass(classType) && !isStateOrSubclass(classType)) {
+    if (!isWidgetOrSubclass(classType) && !isWidgetStateOrSubclass(classType)) {
       return;
     }
 
