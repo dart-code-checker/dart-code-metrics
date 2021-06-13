@@ -32,6 +32,7 @@ void main() {
         'avoid-returning-widgets': <String, Object>{},
         'avoid-unnecessary-setstate': <String, Object>{},
         'always-remove-listener': <String, Object>{},
+        'avoid-wrapping-in-padding': <String, Object>{},
       }).map((rule) => rule.id),
       equals([
         'always-remove-listener',
@@ -41,6 +42,7 @@ void main() {
         'avoid-returning-widgets',
         'avoid-unnecessary-setstate',
         'avoid-unused-parameters',
+        'avoid-wrapping-in-padding',
         'binary-expression-operand-order',
         'component-annotation-arguments-ordering',
         'double-literal-format',
