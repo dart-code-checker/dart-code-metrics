@@ -11,10 +11,6 @@ import 'models/analysis_options.dart';
 import 'models/config.dart';
 
 class ConfigBuilder {
-  static const _defaultSkippedFolders = [
-    'packages/**',
-  ];
-
   static Config getConfig(
     AnalysisOptions options, [
     ParsedArguments? arguments,
@@ -33,7 +29,6 @@ class ConfigBuilder {
       LintConfig(
         prepareExcludes(
           [
-            ..._defaultSkippedFolders,
             ...config.excludePatterns,
           ],
           rootPath,
@@ -60,7 +55,6 @@ class ConfigBuilder {
   ) =>
       UnusedFilesConfig(prepareExcludes(
         [
-          ..._defaultSkippedFolders,
           ...excludePatterns,
         ],
         rootPath,
