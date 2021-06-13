@@ -27,12 +27,7 @@ class ConfigBuilder {
     Iterable<Metric<num>>? functionMetrics,
   }) =>
       LintConfig(
-        prepareExcludes(
-          [
-            ...config.excludePatterns,
-          ],
-          rootPath,
-        ),
+        prepareExcludes(config.excludePatterns, rootPath),
         getRulesById(config.rules),
         getPatternsById(config.antiPatterns),
         classMetrics ??
@@ -53,10 +48,5 @@ class ConfigBuilder {
     String rootPath,
     Iterable<String> excludePatterns,
   ) =>
-      UnusedFilesConfig(prepareExcludes(
-        [
-          ...excludePatterns,
-        ],
-        rootPath,
-      ));
+      UnusedFilesConfig(prepareExcludes(excludePatterns, rootPath));
 }
