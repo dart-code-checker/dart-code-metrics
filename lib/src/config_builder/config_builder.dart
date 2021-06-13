@@ -12,8 +12,6 @@ import 'models/config.dart';
 
 class ConfigBuilder {
   static const _defaultSkippedFolders = [
-    'ios/',
-    '.dart_tool/**',
     'packages/**',
   ];
 
