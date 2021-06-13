@@ -22,6 +22,7 @@ dart_code_metrics:
   metrics-exclude:
     - test/**
   rules:
+    - avoid-unused-parameters
     - binary-expression-operand-order
     - double-literal-format
     - newline-before-return

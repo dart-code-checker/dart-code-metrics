@@ -41,17 +41,13 @@ class LintJsonReporter extends JsonReporter<LintFileReport> {
     output.write(encodedReport);
   }
 
-  Map<String, Object> _analysisRecordToJson(LintFileReport report) {
-    final sourceContent = File(report.path).readAsStringSync();
-
-    return {
-      'path': report.relativePath,
-      'classes': _reportReports(report.classes),
-      'functions': _reportReports(report.functions),
-      'issues': _reportIssues(report.issues, sourceContent),
-      'antiPatternCases': _reportIssues(report.antiPatternCases, sourceContent),
-    };
-  }
+  Map<String, Object> _analysisRecordToJson(LintFileReport report) => {
+        'path': report.relativePath,
+        'classes': _reportReports(report.classes),
+        'functions': _reportReports(report.functions),
+        'issues': _reportIssues(report.issues),
+        'antiPatternCases': _reportIssues(report.antiPatternCases),
+      };
 
   Map<String, Map<String, Object>> _reportReports(
     Map<String, Report> reports,
@@ -61,10 +57,7 @@ class LintJsonReporter extends JsonReporter<LintFileReport> {
             'metrics': _reportMetrics(value.metrics),
           }));
 
-  List<Map<String, Object>> _reportIssues(
-    Iterable<Issue> issues,
-    String source,
-  ) =>
+  List<Map<String, Object>> _reportIssues(Iterable<Issue> issues) =>
       issues.map((issue) {
         final suggestion = issue.suggestion;
         final verboseMessage = issue.verboseMessage;
