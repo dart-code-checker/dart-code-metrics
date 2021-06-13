@@ -1,5 +1,7 @@
 # Prefer extracting callbacks
 
+![Configurable](https://img.shields.io/badge/-configurable-informational)
+
 ## Rule id
 
 prefer-extracting-callbacks
@@ -20,7 +22,7 @@ dart_code_metrics:
   rules:
     ...
     - no-equal-arguments:
-        ignored-arguments:
+        ignored-named-arguments:
           - onPressed
 ```
 
