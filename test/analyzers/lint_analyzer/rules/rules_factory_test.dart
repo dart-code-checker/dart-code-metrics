@@ -33,6 +33,7 @@ void main() {
         'avoid-unnecessary-setstate': <String, Object>{},
         'always-remove-listener': <String, Object>{},
         'avoid-wrapping-in-padding': <String, Object>{},
+        'prefer-extracting-callbacks': <String, Object>{},
       }).map((rule) => rule.id),
       equals([
         'always-remove-listener',
@@ -56,6 +57,7 @@ void main() {
         'no-magic-number',
         'no-object-declaration',
         'prefer-conditional-expressions',
+        'prefer-extracting-callbacks',
         'prefer-intl-name',
         'prefer-on-push-cd-strategy',
         'prefer-trailing-comma',
