@@ -1,3 +1,6 @@
+import 'package:analyzer/dart/ast/ast.dart' as analyzer;
+import 'package:analyzer/dart/element/type.dart' as analyzer;
+
 import '../../../../utils/node_utils.dart';
 import '../../metrics/metric_utils.dart';
 import '../../metrics/metrics_list/source_lines_of_code/source_code_visitor.dart';
@@ -7,6 +10,7 @@ import '../../models/function_type.dart';
 import '../../models/internal_resolved_unit_result.dart';
 import '../../models/issue.dart';
 import '../../models/scoped_function_declaration.dart';
+import '../../rules/flutter_rule_utils.dart';
 import '../models/obsolete_pattern.dart';
 import '../models/pattern_documentation.dart';
 import '../pattern_utils.dart';
@@ -37,6 +41,10 @@ class LongMethod extends ObsoletePattern {
     final issues = <Issue>[];
 
     for (final function in functions) {
+      if (_isExcluded(function)) {
+        continue;
+      }
+
       final visitor = SourceCodeVisitor(source.lineInfo);
       function.declaration.visitChildren(visitor);
 
@@ -60,6 +68,22 @@ class LongMethod extends ObsoletePattern {
     }
 
     return issues;
+  }
+
+  bool _isExcluded(ScopedFunctionDeclaration function) {
+    final declaration = function.declaration;
+    analyzer.DartType? returnType;
+    String? name;
+
+    if (declaration is analyzer.FunctionDeclaration) {
+      returnType = declaration.returnType?.type;
+      name = declaration.name.name;
+    } else if (declaration is analyzer.MethodDeclaration) {
+      returnType = declaration.returnType?.type;
+      name = declaration.name.name;
+    }
+
+    return returnType != null && hasWidgetType(returnType) && name == 'build';
   }
 
   String _compileMessage({
