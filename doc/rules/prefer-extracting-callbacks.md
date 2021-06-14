@@ -10,7 +10,7 @@ prefer-extracting-callbacks
 
 Warns about inline callbacks in a widget tree and suggests to extract them to widget methods in order to make a `build` method more readable. In addition extracting can help test those methods separately as well.
 
-**NOTE** the rule will not trigger for lambdas, like `onPressed: () => _handler(...)`, in order to cover cases when a callback needs a variable from the outside.
+**NOTE** the rule will not trigger on arrow functions like `onPressed: () => _handler(...)` in order to cover cases when a callback needs a variable from the outside.
 
 Use `ignored-parameters` configuration, if you want to ignore specific named parameters (`builder` argument is ignored by default).
 
