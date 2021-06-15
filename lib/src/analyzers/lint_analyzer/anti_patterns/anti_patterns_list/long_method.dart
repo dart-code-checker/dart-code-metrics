@@ -1,12 +1,11 @@
-import 'package:analyzer/dart/ast/ast.dart' as analyzer;
-import 'package:analyzer/dart/element/type.dart' as analyzer;
+import 'package:analyzer/dart/ast/ast.dart';
+import 'package:analyzer/dart/element/type.dart';
 
 import '../../../../utils/node_utils.dart';
 import '../../metrics/metric_utils.dart';
 import '../../metrics/metrics_list/source_lines_of_code/source_code_visitor.dart';
 import '../../metrics/metrics_list/source_lines_of_code/source_lines_of_code_metric.dart';
 import '../../models/entity_type.dart';
-import '../../models/function_type.dart';
 import '../../models/internal_resolved_unit_result.dart';
 import '../../models/issue.dart';
 import '../../models/scoped_function_declaration.dart';
@@ -38,47 +37,42 @@ class LongMethod extends ObsoletePattern {
     final threshold =
         readThreshold<int>(metricsConfig, SourceLinesOfCodeMetric.metricId, 50);
 
-    final issues = <Issue>[];
-
-    for (final function in functions) {
-      if (_isExcluded(function)) {
-        continue;
-      }
-
+    return functions
+        .where((function) => !_isExcluded(function))
+        .expand<Issue>((function) {
       final visitor = SourceCodeVisitor(source.lineInfo);
       function.declaration.visitChildren(visitor);
 
-      if (visitor.linesWithCode.length > threshold) {
-        issues.add(createIssue(
-          pattern: this,
-          location: nodeLocation(
-            node: function.declaration,
-            source: source,
+      return [
+        if (visitor.linesWithCode.length > threshold)
+          createIssue(
+            pattern: this,
+            location: nodeLocation(
+              node: function.declaration,
+              source: source,
+            ),
+            message: _compileMessage(
+              lines: visitor.linesWithCode.length,
+              functionType: function.type,
+            ),
+            verboseMessage: _compileRecommendationMessage(
+              maximumLines: threshold,
+              functionType: function.type,
+            ),
           ),
-          message: _compileMessage(
-            lines: visitor.linesWithCode.length,
-            functionType: function.type,
-          ),
-          verboseMessage: _compileRecommendationMessage(
-            maximumLines: threshold,
-            functionType: function.type,
-          ),
-        ));
-      }
-    }
-
-    return issues;
+      ];
+    }).toList();
   }
 
   bool _isExcluded(ScopedFunctionDeclaration function) {
     final declaration = function.declaration;
-    analyzer.DartType? returnType;
+    DartType? returnType;
     String? name;
 
-    if (declaration is analyzer.FunctionDeclaration) {
+    if (declaration is FunctionDeclaration) {
       returnType = declaration.returnType?.type;
       name = declaration.name.name;
-    } else if (declaration is analyzer.MethodDeclaration) {
+    } else if (declaration is MethodDeclaration) {
       returnType = declaration.returnType?.type;
       name = declaration.name.name;
     }
@@ -88,13 +82,13 @@ class LongMethod extends ObsoletePattern {
 
   String _compileMessage({
     required int lines,
-    required FunctionType functionType,
+    required Object functionType,
   }) =>
       'Long $functionType. This $functionType contains $lines lines with code.';
 
   String _compileRecommendationMessage({
     required int maximumLines,
-    required FunctionType functionType,
+    required Object functionType,
   }) =>
       "Based on configuration of this package, we don't recommend write a $functionType longer than $maximumLines lines with code.";
 }
