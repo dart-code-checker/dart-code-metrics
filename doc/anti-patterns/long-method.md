@@ -12,6 +12,10 @@ Lines of code with clarification comments are usually a sign for possible method
 
 Uses [`Source lines of Code`](../metrics/source-lines-of-code.md) value and compares it with configured threshold.
 
+## Exceptions
+
+* Flutter widget build method.
+
 ---
 
 P.S. We use terminology from a book **Refactoring Improving the Design of Existing Code** by *Martin Fowler*
