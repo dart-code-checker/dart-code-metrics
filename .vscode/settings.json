@@ -18,6 +18,7 @@
         "mocktail",
         "nullsafety",
         "pubspec",
-        "semver"
+        "semver",
+        "setstate"
     ]
 }
