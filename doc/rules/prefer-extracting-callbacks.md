@@ -12,7 +12,7 @@ Warns about inline callbacks in a widget tree and suggests to extract them to wi
 
 **NOTE** the rule will not trigger on arrow functions like `onPressed: () => _handler(...)` in order to cover cases when a callback needs a variable from the outside.
 
-Use `ignored-parameters` configuration, if you want to ignore specific named parameters (`builder` argument is ignored by default).
+Use `ignored-named-arguments` configuration, if you want to ignore specific named parameters (`builder` argument is ignored by default).
 
 ### Config example
 
@@ -21,7 +21,7 @@ dart_code_metrics:
   ...
   rules:
     ...
-    - no-equal-arguments:
+    - prefer-extracting-callbacks:
         ignored-named-arguments:
           - onPressed
 ```
