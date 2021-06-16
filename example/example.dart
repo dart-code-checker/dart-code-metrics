@@ -36,12 +36,14 @@ Future<void> main() async {
   // For a simple example we would report results to terminal
 
   // Now pass collected analysis reports from runner to reporter and that's it
-  await analyzer.getReporter(
-    name: 'console',
-    output: stdout,
-    config: config,
-    reportFolder: '.',
-  )?.report(result);
+  await analyzer
+      .getReporter(
+        name: 'console',
+        output: stdout,
+        config: config,
+        reportFolder: '.',
+      )
+      ?.report(result);
 
   // There is also JsonReporter for making machine-readable reports
   // HtmlReporter produces fancy html-documents with bells and whistles
