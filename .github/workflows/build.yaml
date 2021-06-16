@@ -46,7 +46,7 @@ jobs:
           bash <(curl -s https://codecov.io/bash) -f coverage/coverage.lcov
 
   minimal-dart:
-    name: Build on minimal supported dart
+    name: Build on minimal supported 2.12 dart
 
     runs-on: ubuntu-latest
 

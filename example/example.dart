@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:dart_code_metrics/config.dart';
-import 'package:dart_code_metrics/metrics_analyzer.dart';
+import 'package:dart_code_metrics/lint_analyzer.dart';
 
 Future<void> main() async {
   // Get some folder you would like to analyze
@@ -27,17 +27,23 @@ Future<void> main() async {
 
   final lintConfig = ConfigBuilder.getLintConfig(config, rootFolder);
 
-  final result = await const LintAnalyzer()
-      .runCliAnalysis(foldersToAnalyze, rootFolder, lintConfig);
+  const analyzer = LintAnalyzer();
+
+  final result =
+      await analyzer.runCliAnalysis(foldersToAnalyze, rootFolder, lintConfig);
 
   // Now runner.results() contains some insights about analyzed code. Let's report it!
   // For a simple example we would report results to terminal
 
-  // Now the reporter itself
-  final reporter = LintConsoleReporter(stdout);
-
   // Now pass collected analysis reports from runner to reporter and that's it
-  await reporter.report(result);
+  await analyzer
+      .getReporter(
+        name: 'console',
+        output: stdout,
+        config: config,
+        reportFolder: '.',
+      )
+      ?.report(result);
 
   // There is also JsonReporter for making machine-readable reports
   // HtmlReporter produces fancy html-documents with bells and whistles
