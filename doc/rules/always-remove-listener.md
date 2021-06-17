@@ -79,6 +79,10 @@ class _ShinyWidgetState extends State {
   void listener() {
     // ...
   }
+  
+  void wrongListener() {
+    // ...
+  }
 }
 ```
 
