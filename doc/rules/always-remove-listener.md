@@ -13,7 +13,7 @@ Warns when an event listener is added but never removed.
 StatefulWidget classes sometimes add event listeners but fail to remove them. This results in memory leaks if the valueListenable lifecycle is significantly longer than the widget.
 
 Every listener added manually needs to be removed typically in the dispose method.
-If listeners are added in didUpdateWidget or updateDependencies then they also need to be removed from those methods as otherwise widgets end up with multiple listeners.
+If listeners are added in `didUpdateWidget` or `updateDependencies` then they also need to be removed from those methods as otherwise widgets end up with multiple listeners.
 
 ### Example
 
@@ -75,6 +75,10 @@ class _ShinyWidgetState extends State {
 
     super.dispose();
   }
+  
+  void listener() {
+    // ...
+  }
 }
 ```
 
@@ -125,6 +129,10 @@ class _ShinyWidgetState extends State {
     widget.anotherListener.removeListener(listener);
 
     super.dispose();
+  }
+
+  void listener() {
+    // ...
   }
 }
 ```
