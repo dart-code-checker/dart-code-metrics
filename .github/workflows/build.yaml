@@ -106,7 +106,7 @@ jobs:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
 
   self-scan:
-    name: Analyze the package by latest stable version
+    name: Analyze by latest stable version
 
     runs-on: ubuntu-latest
 
