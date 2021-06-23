@@ -22,8 +22,6 @@ import '../config_builder/models/analysis_options.dart';
 import '../utils/yaml_utils.dart';
 import 'analyzer_plugin_utils.dart';
 
-const _codeMetricsId = 'code-metrics';
-
 class MetricsAnalyzerPlugin extends ServerPlugin {
   static const _analyzer = LintAnalyzer();
 
