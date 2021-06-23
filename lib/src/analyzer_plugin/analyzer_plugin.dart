@@ -222,47 +222,6 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
               .map(designIssueToAnalysisErrorFixes)
               .toList(),
         ]);
-
-        report.functions.forEach((source, functionReport) {
-          final filePath = analysisResult.path;
-
-          final functionOffset = functionReport
-              .declaration.firstTokenAfterCommentAndMetadata.offset;
-
-          final functionFirstLineInfo =
-              analysisResult.lineInfo.getLocation(functionOffset);
-
-          final report = UtilitySelector.functionMetricsReport(functionReport);
-          final violationLevel =
-              UtilitySelector.functionMetricViolationLevel(report);
-
-          if (isReportLevel(violationLevel) && filePath != null) {
-            final startSourceLocation = SourceLocation(
-              functionOffset,
-              sourceUrl: Uri.file(filePath),
-              line: functionFirstLineInfo.lineNumber,
-              column: functionFirstLineInfo.columnNumber,
-            );
-
-            if (isReportLevel(report.cyclomaticComplexity.level)) {
-              result.add(metricReportToAnalysisErrorFixes(
-                startSourceLocation,
-                functionReport.declaration.end - startSourceLocation.offset,
-                report.cyclomaticComplexity.comment,
-                _codeMetricsId,
-              ));
-            }
-
-            if (isReportLevel(report.maximumNestingLevel.level)) {
-              result.add(metricReportToAnalysisErrorFixes(
-                startSourceLocation,
-                functionReport.declaration.end - startSourceLocation.offset,
-                report.maximumNestingLevel.comment,
-                _codeMetricsId,
-              ));
-            }
-          }
-        });
       }
 
       // Temporary disable deprecation check
