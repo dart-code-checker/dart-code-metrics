@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* Improve static code diagnostic `always-remove-listener`.
+
 ## 4.0.0
 
 * Add static code diagnostics `always-remove-listener`, `avoid-wrapping-in-padding`, `avoid-unnecessary-setstate` and `prefer-extracting-callbacks`.

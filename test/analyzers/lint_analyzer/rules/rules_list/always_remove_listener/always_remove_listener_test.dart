@@ -6,6 +6,8 @@ import 'package:test/test.dart';
 import '../../../../../helpers/rule_test_helper.dart';
 
 const _examplePath = 'always_remove_listener/examples/example.dart';
+const _valueNotifierExamplePath =
+    'always_remove_listener/examples/value_notifier_example.dart';
 
 void main() {
   group('AlwaysRemoveListenerRule', () {
@@ -47,6 +49,14 @@ void main() {
           'Listener is not removed. This might lead to a memory leak.',
         ],
       );
+    });
+
+    test('should report no issues for value notifier', () async {
+      final unit =
+          await RuleTestHelper.resolveFromFile(_valueNotifierExamplePath);
+      final issues = AlwaysRemoveListenerRule().check(unit);
+
+      RuleTestHelper.verifyNoIssues(issues);
     });
   });
 }
