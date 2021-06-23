@@ -33,11 +33,11 @@ class _MyHomePageState<T> extends State<MyHomePage> {
         _counter++;
       });
 
-  T _callback<T>() => { }
+  T _callback<T>() {}
 }
 
 class State<T> {
-  final _w = MyHomePage<bool>()
+  final _w = MyHomePage<bool>();
   MyHomePage get widget => _w;
 }
 
