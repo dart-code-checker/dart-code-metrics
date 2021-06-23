@@ -12,14 +12,11 @@ import 'package:analyzer/src/dart/analysis/driver.dart';
 import 'package:analyzer/src/dart/analysis/driver_based_analysis_context.dart';
 import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
-import 'package:source_span/source_span.dart';
 
 import '../analyzers/lint_analyzer/lint_analyzer.dart';
 import '../analyzers/lint_analyzer/lint_config.dart';
-import '../analyzers/lint_analyzer/metrics/metric_utils.dart';
 import '../analyzers/lint_analyzer/metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import '../analyzers/lint_analyzer/metrics/metrics_list/number_of_parameters_metric.dart';
-import '../analyzers/lint_analyzer/reporters/utility_selector.dart';
 import '../config_builder/config_builder.dart';
 import '../config_builder/models/analysis_options.dart';
 import '../utils/yaml_utils.dart';
