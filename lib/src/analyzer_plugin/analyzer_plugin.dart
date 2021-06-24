@@ -12,20 +12,15 @@ import 'package:analyzer/src/dart/analysis/driver.dart';
 import 'package:analyzer/src/dart/analysis/driver_based_analysis_context.dart';
 import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
-import 'package:source_span/source_span.dart';
 
 import '../analyzers/lint_analyzer/lint_analyzer.dart';
 import '../analyzers/lint_analyzer/lint_config.dart';
-import '../analyzers/lint_analyzer/metrics/metric_utils.dart';
 import '../analyzers/lint_analyzer/metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import '../analyzers/lint_analyzer/metrics/metrics_list/number_of_parameters_metric.dart';
-import '../analyzers/lint_analyzer/reporters/utility_selector.dart';
 import '../config_builder/config_builder.dart';
 import '../config_builder/models/analysis_options.dart';
 import '../utils/yaml_utils.dart';
 import 'analyzer_plugin_utils.dart';
-
-const _codeMetricsId = 'code-metrics';
 
 class MetricsAnalyzerPlugin extends ServerPlugin {
   static const _analyzer = LintAnalyzer();
@@ -222,47 +217,6 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
               .map(designIssueToAnalysisErrorFixes)
               .toList(),
         ]);
-
-        report.functions.forEach((source, functionReport) {
-          final filePath = analysisResult.path;
-
-          final functionOffset = functionReport
-              .declaration.firstTokenAfterCommentAndMetadata.offset;
-
-          final functionFirstLineInfo =
-              analysisResult.lineInfo.getLocation(functionOffset);
-
-          final report = UtilitySelector.functionMetricsReport(functionReport);
-          final violationLevel =
-              UtilitySelector.functionMetricViolationLevel(report);
-
-          if (isReportLevel(violationLevel) && filePath != null) {
-            final startSourceLocation = SourceLocation(
-              functionOffset,
-              sourceUrl: Uri.file(filePath),
-              line: functionFirstLineInfo.lineNumber,
-              column: functionFirstLineInfo.columnNumber,
-            );
-
-            if (isReportLevel(report.cyclomaticComplexity.level)) {
-              result.add(metricReportToAnalysisErrorFixes(
-                startSourceLocation,
-                functionReport.declaration.end - startSourceLocation.offset,
-                report.cyclomaticComplexity.comment,
-                _codeMetricsId,
-              ));
-            }
-
-            if (isReportLevel(report.maximumNestingLevel.level)) {
-              result.add(metricReportToAnalysisErrorFixes(
-                startSourceLocation,
-                functionReport.declaration.end - startSourceLocation.offset,
-                report.maximumNestingLevel.comment,
-                _codeMetricsId,
-              ));
-            }
-          }
-        });
       }
 
       // Temporary disable deprecation check

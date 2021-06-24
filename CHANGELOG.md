@@ -3,6 +3,7 @@
 ## Unreleased
 
 * Improve static code diagnostic `always-remove-listener`.
+* Disable metrics report for the plugin.
 
 ## 4.0.0
 
