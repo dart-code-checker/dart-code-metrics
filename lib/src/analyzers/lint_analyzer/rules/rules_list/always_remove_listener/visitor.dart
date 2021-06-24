@@ -154,7 +154,9 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
     return removedTarget is Identifier &&
         removedTarget.name == targetName &&
-        removedTarget.staticElement == staticElement;
+        (removedTarget.staticElement == staticElement ||
+            removedTarget.staticElement?.declaration ==
+                staticElement?.declaration);
   }
 
   bool _haveSameCallbacks(
