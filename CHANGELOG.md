@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 4.0.1
 
 * Improve static code diagnostic `always-remove-listener`.
 * Disable metrics report for the plugin.
