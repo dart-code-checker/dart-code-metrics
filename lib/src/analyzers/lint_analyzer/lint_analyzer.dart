@@ -9,6 +9,8 @@ import 'package:file/local.dart';
 import 'package:glob/glob.dart';
 import 'package:path/path.dart';
 
+import '../../config_builder/config_builder.dart';
+import '../../config_builder/models/analysis_options.dart';
 import '../../config_builder/models/config.dart';
 import '../../reporters/models/reporter.dart';
 import '../../utils/exclude_utils.dart';
@@ -78,24 +80,35 @@ class LintAnalyzer {
       resourceProvider: PhysicalResourceProvider.INSTANCE,
     );
 
-    final filePaths = folders
-        .expand((directory) => Glob('$directory/**.dart')
-            .listFileSystemSync(
-              const LocalFileSystem(),
-              root: rootFolder,
-              followLinks: false,
-            )
-            .whereType<File>()
-            .where((entity) => !isExcluded(
-                  relative(entity.path, from: rootFolder),
-                  config.globalExcludes,
-                ))
-            .map((entity) => entity.path))
-        .toSet();
-
     final analyzerResult = <LintFileReport>[];
 
     for (final context in collection.contexts) {
+      final optionsFilePath = context.contextRoot.optionsFile?.path;
+
+      final analysisOptions = optionsFilePath == null
+          ? await analysisOptionsFromFilePath(rootFolder)
+          : await analysisOptionsFromFile(File(optionsFilePath));
+
+      final analysisOptionsConfig = ConfigBuilder.getConfig(analysisOptions);
+      final lintConfig =
+          ConfigBuilder.getLintConfig(analysisOptionsConfig, rootFolder)
+              .merge(config);
+
+      final filePaths = folders
+          .expand((directory) => Glob('$directory/**.dart')
+              .listFileSystemSync(
+                const LocalFileSystem(),
+                root: rootFolder,
+                followLinks: false,
+              )
+              .whereType<File>()
+              .where((entity) => !isExcluded(
+                    relative(entity.path, from: rootFolder),
+                    lintConfig.globalExcludes,
+                  ))
+              .map((entity) => entity.path))
+          .toSet();
+
       final analyzedFiles =
           filePaths.intersection(context.contextRoot.analyzedFiles().toSet());
 
@@ -104,7 +117,7 @@ class LintAnalyzer {
         if (unit is ResolvedUnitResult) {
           final result = _runAnalysisForFile(
             unit,
-            config,
+            lintConfig,
             rootFolder,
             filePath: filePath,
           );

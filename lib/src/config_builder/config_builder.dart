@@ -20,6 +20,9 @@ class ConfigBuilder {
               .merge(Config.fromArgs(arguments))
           : Config.fromAnalysisOptions(options);
 
+  static Config getConfigFromArgs(ParsedArguments arguments) =>
+      Config.fromArgs(arguments);
+
   static LintConfig getLintConfig(
     Config config,
     String rootPath, {

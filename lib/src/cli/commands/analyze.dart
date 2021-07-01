@@ -7,7 +7,6 @@ import '../../analyzers/lint_analyzer/metrics/metrics_factory.dart';
 import '../../analyzers/lint_analyzer/metrics/models/metric_value_level.dart';
 import '../../analyzers/lint_analyzer/reporters/utility_selector.dart';
 import '../../config_builder/config_builder.dart';
-import '../../config_builder/models/analysis_options.dart';
 import '../../config_builder/models/deprecated_option.dart';
 import '../models/flag_names.dart';
 import '../models/parsed_arguments.dart';
@@ -55,8 +54,7 @@ class AnalyzeCommand extends BaseCommand {
       },
     );
 
-    final options = await analysisOptionsFromFilePath(parsedArgs.rootFolder);
-    final config = ConfigBuilder.getConfig(options, parsedArgs);
+    final config = ConfigBuilder.getConfigFromArgs(parsedArgs);
     final lintConfig =
         ConfigBuilder.getLintConfig(config, parsedArgs.rootFolder);
 

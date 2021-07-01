@@ -24,4 +24,14 @@ class LintConfig {
     this.metricsExcludes,
     this.metricsConfig,
   );
+
+  LintConfig merge(LintConfig overrides) => LintConfig(
+        [...overrides.globalExcludes, ...globalExcludes],
+        [...overrides.codeRules, ...codeRules],
+        [...overrides.antiPatterns, ...antiPatterns],
+        [...overrides.classesMetrics, ...classesMetrics],
+        [...overrides.methodsMetrics, ...methodsMetrics],
+        [...overrides.metricsExcludes, ...metricsExcludes],
+        {...overrides.metricsConfig, ...metricsConfig},
+      );
 }
