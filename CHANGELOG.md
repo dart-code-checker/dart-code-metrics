@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* Add support for analysis options auto discovery.
+
 ## 4.0.1
 
 * Improve static code diagnostic `always-remove-listener`.

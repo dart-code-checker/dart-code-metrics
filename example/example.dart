@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:dart_code_metrics/config.dart';
 import 'package:dart_code_metrics/lint_analyzer.dart';
 
 Future<void> main() async {
@@ -11,7 +10,7 @@ Future<void> main() async {
   const rootFolder = 'projectRoot';
 
   // First of all config has to be created for a checker
-  const config = Config(
+  const config = LintConfig(
     excludePatterns: ['test/resources/**'],
     excludeForMetricsPatterns: ['test/**'],
     metrics: {
@@ -25,12 +24,10 @@ Future<void> main() async {
     antiPatterns: {'long-method': {}},
   );
 
-  final lintConfig = ConfigBuilder.getLintConfig(config, rootFolder);
-
   const analyzer = LintAnalyzer();
 
   final result =
-      await analyzer.runCliAnalysis(foldersToAnalyze, rootFolder, lintConfig);
+      await analyzer.runCliAnalysis(foldersToAnalyze, rootFolder, config);
 
   // Now runner.results() contains some insights about analyzed code. Let's report it!
   // For a simple example we would report results to terminal

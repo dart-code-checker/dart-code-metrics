@@ -2,7 +2,8 @@ include: package:pedantic/analysis_options.yaml
 
 analyzer:
   exclude:
-    - test/resources/**
+    - test/resources/*
+    - test/resources/unused_files_analyzer/**
     - test/resources/unused_files_analyzer/generated/**/**
     - test/**/examples/**
   plugins:
@@ -20,7 +21,15 @@ dart_code_metrics:
     maximum-nesting: 5
     number-of-parameters: 4
   metrics-exclude:
-    - test/**
+    - test/analyzer_plugin/**
+    - test/analyzers/**
+    - test/cli/**
+    - test/config_builder/**
+    - test/helpers/**
+    - test/reporters/**
+    - test/utils/**
+    - test/resources/*
+    - test/*
   rules:
     - avoid-unused-parameters
     - binary-expression-operand-order

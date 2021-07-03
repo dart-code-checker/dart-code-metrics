@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:isolate';
 
+import 'package:analyzer/dart/analysis/analysis_context.dart';
 import 'package:meta/meta.dart';
 import 'package:path/path.dart' as p;
 import 'package:yaml/yaml.dart';
@@ -86,6 +87,16 @@ class AnalysisOptions {
 
     return {};
   }
+}
+
+Future<AnalysisOptions?> analysisOptionsFromContext(
+  AnalysisContext context,
+) async {
+  final optionsFilePath = context.contextRoot.optionsFile?.path;
+
+  return optionsFilePath == null
+      ? null
+      : analysisOptionsFromFile(File(optionsFilePath));
 }
 
 Future<AnalysisOptions> analysisOptionsFromFilePath(String path) {

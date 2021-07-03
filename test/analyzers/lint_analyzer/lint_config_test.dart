@@ -1,6 +1,6 @@
 @TestOn('vm')
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/lint_config.dart';
 import 'package:dart_code_metrics/src/config_builder/models/analysis_options.dart';
-import 'package:dart_code_metrics/src/config_builder/models/config.dart';
 import 'package:test/test.dart';
 
 const _options = AnalysisOptions({
@@ -27,7 +27,7 @@ const _options = AnalysisOptions({
   },
 });
 
-const _defaults = Config(
+const _defaults = LintConfig(
   excludePatterns: ['test/resources/**'],
   excludeForMetricsPatterns: ['test/**'],
   metrics: {
@@ -44,7 +44,7 @@ const _defaults = Config(
   },
 );
 
-const _empty = Config(
+const _empty = LintConfig(
   excludePatterns: [],
   excludeForMetricsPatterns: [],
   metrics: {},
@@ -52,7 +52,7 @@ const _empty = Config(
   antiPatterns: {},
 );
 
-const _merged = Config(
+const _merged = LintConfig(
   excludePatterns: ['test/resources/**'],
   excludeForMetricsPatterns: ['test/**', 'examples/**'],
   metrics: {
@@ -71,7 +71,7 @@ const _merged = Config(
   },
 );
 
-const _overrides = Config(
+const _overrides = LintConfig(
   excludePatterns: [],
   excludeForMetricsPatterns: ['examples/**'],
   metrics: {
@@ -87,10 +87,11 @@ const _overrides = Config(
 );
 
 void main() {
-  group('Config', () {
+  group('LintConfig', () {
     group('fromAnalysisOptions constructs instance from passed', () {
       test('empty options', () {
-        final config = Config.fromAnalysisOptions(const AnalysisOptions({}));
+        final config =
+            LintConfig.fromAnalysisOptions(const AnalysisOptions({}));
 
         expect(config.excludePatterns, isEmpty);
         expect(config.excludeForMetricsPatterns, isEmpty);
@@ -99,7 +100,7 @@ void main() {
       });
 
       test('data', () {
-        final config = Config.fromAnalysisOptions(_options);
+        final config = LintConfig.fromAnalysisOptions(_options);
 
         expect(config.excludePatterns, equals(['test/resources/**']));
         expect(

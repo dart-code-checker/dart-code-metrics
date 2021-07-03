@@ -54,14 +54,12 @@ class AnalyzeCommand extends BaseCommand {
       },
     );
 
-    final config = ConfigBuilder.getConfigFromArgs(parsedArgs);
-    final lintConfig =
-        ConfigBuilder.getLintConfig(config, parsedArgs.rootFolder);
+    final config = ConfigBuilder.getLintConfigFromArgs(parsedArgs);
 
     final lintAnalyserResult = await _analyzer.runCliAnalysis(
       parsedArgs.folders,
       parsedArgs.rootFolder,
-      lintConfig,
+      config,
     );
 
     await _analyzer

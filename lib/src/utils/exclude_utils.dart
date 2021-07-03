@@ -11,3 +11,12 @@ Iterable<Glob> prepareExcludes(Iterable<String> patterns, String root) =>
     patterns
         .map((exclude) => Glob(p.join(root, exclude).replaceAll(r'\', '/')))
         .toList();
+
+Iterable<Glob> prepareNormalizedExcludes(
+  Iterable<String> patterns,
+  String root,
+) =>
+    patterns
+        .map((exclude) =>
+            Glob(p.normalize(p.join(root, exclude).replaceAll(r'\', '/'))))
+        .toList();
