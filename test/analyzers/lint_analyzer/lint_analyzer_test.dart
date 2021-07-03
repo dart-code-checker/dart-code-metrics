@@ -91,7 +91,7 @@ void main() {
           'lines-of-code': MetricValueLevel.none,
           'maximum-nesting-level': MetricValueLevel.none,
           'number-of-parameters': MetricValueLevel.none,
-          'source-lines-of-code': MetricValueLevel.alarm,
+          'source-lines-of-code': MetricValueLevel.warning,
           'maintainability-index': MetricValueLevel.none,
         });
       });
