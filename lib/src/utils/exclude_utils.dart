@@ -13,5 +13,5 @@ Iterable<Glob> prepareExcludes(
 ) =>
     patterns
         .map((exclude) =>
-            Glob(p.normalize(p.join(root, exclude).replaceAll(r'\', '/'))))
+            Glob(p.normalize(p.join(root, exclude)).replaceAll(r'\', '/')))
         .toList();
