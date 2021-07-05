@@ -4,7 +4,6 @@ analyzer:
   exclude:
     - test/resources/*
     - test/resources/unused_files_analyzer/**
-    - test/resources/unused_files_analyzer/generated/**/**
     - test/**/examples/**
   plugins:
     - dart_code_metrics

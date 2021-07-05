@@ -2,7 +2,7 @@ import 'package:meta/meta.dart';
 
 import '../../config_builder/models/analysis_options.dart';
 
-/// Class representing config
+/// Represents raw unused files config which can be merged with other raw configs.
 @immutable
 class UnusedFilesConfig {
   final Iterable<String> excludePatterns;

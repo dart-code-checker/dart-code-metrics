@@ -5,7 +5,7 @@ import '../../config_builder/analysis_options_utils.dart';
 import '../../config_builder/models/analysis_options.dart';
 import 'metrics/metrics_factory.dart';
 
-/// Class representing config
+/// Represents raw lint config which can be merged with other raw configs.
 @immutable
 class LintConfig {
   final Iterable<String> excludePatterns;

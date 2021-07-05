@@ -6,7 +6,7 @@ import 'package:path/path.dart';
 
 import 'exclude_utils.dart';
 
-Set<String> extractFilesFromFolders(
+Set<String> extractDartFilesFromFolders(
   Iterable<String> folders,
   String rootFolder,
   Iterable<Glob> globalExcludes,

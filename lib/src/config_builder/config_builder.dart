@@ -58,6 +58,6 @@ class ConfigBuilder {
   ) =>
       UnusedFilesAnalysisConfig(
         prepareExcludes(config.excludePatterns, rootPath),
-        prepareNormalizedExcludes(config.analyzerExcludePatterns, rootPath),
+        prepareExcludes(config.analyzerExcludePatterns, rootPath),
       );
 }

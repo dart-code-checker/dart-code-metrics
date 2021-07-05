@@ -50,7 +50,7 @@ class UnusedFilesAnalyzer {
       final unusedFilesAnalysisConfig =
           ConfigBuilder.getUnusedFilesConfig(contextConfig, rootFolder);
 
-      final filePaths = extractFilesFromFolders(
+      final filePaths = extractDartFilesFromFolders(
         folders,
         rootFolder,
         unusedFilesAnalysisConfig.globalExcludes,

@@ -90,7 +90,7 @@ class LintAnalyzer {
       final lintAnalysisConfig =
           ConfigBuilder.getLintAnalysisConfig(contextConfig, rootFolder);
 
-      final filePaths = extractFilesFromFolders(
+      final filePaths = extractDartFilesFromFolders(
         folders,
         rootFolder,
         lintAnalysisConfig.globalExcludes,
