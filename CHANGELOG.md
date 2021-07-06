@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 4.0.2-dev.1
 
 * Add support for analysis options auto discovery.
 
