@@ -88,13 +88,13 @@ void main() {
         (options.options['dart_code_metrics'] as Map<String, Object>)['rules'],
         allOf(
           containsPair('rule-id1', true),
-          containsPair('rule-id2', true),
+          containsPair('rule-id2', false),
           containsPair('rule-id3', {
             'alphabetize': true,
             'order': ['first', 'third', 'second'],
           }),
           containsPair('rule-id4', true),
-          containsPair('rule-id5', false),
+          containsPair('rule-id5', true),
         ),
       );
     });

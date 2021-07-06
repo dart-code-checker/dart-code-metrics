@@ -6,5 +6,7 @@ dart_code_metrics:
   metrics-exclude:
     - documentation/**
   rules:
-    - rule-id1
-    - rule-id2
+    rule-id1: true
+    rule-id2: false
+    rule-id4: true
+    rule-id5: true
