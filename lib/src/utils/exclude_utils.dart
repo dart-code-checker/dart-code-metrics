@@ -7,7 +7,11 @@ bool isExcluded(String? absolutePath, Iterable<Glob> excludes) {
   return path != null && excludes.any((exclude) => exclude.matches(path));
 }
 
-Iterable<Glob> prepareExcludes(Iterable<String> patterns, String root) =>
+Iterable<Glob> prepareExcludes(
+  Iterable<String> patterns,
+  String root,
+) =>
     patterns
-        .map((exclude) => Glob(p.join(root, exclude).replaceAll(r'\', '/')))
+        .map((exclude) =>
+            Glob(p.normalize(p.join(root, exclude)).replaceAll(r'\', '/')))
         .toList();

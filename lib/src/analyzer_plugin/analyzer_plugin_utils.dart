@@ -3,7 +3,7 @@ import 'package:analyzer_plugin/protocol/protocol_common.dart' as plugin;
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
 import 'package:source_span/source_span.dart';
 
-import '../analyzers/lint_analyzer/lint_config.dart';
+import '../analyzers/lint_analyzer/lint_analysis_config.dart';
 import '../analyzers/lint_analyzer/models/issue.dart';
 import '../analyzers/lint_analyzer/models/severity.dart';
 import '../config_builder/models/deprecated_option.dart';
@@ -102,7 +102,7 @@ plugin.AnalysisErrorFixes metricReportToAnalysisErrorFixes(
     ));
 
 Iterable<plugin.AnalysisErrorFixes> checkConfigDeprecatedOptions(
-  LintConfig config,
+  LintAnalysisConfig config,
   Iterable<DeprecatedOption> deprecatedOptions,
   String analysisOptionPath,
 ) {

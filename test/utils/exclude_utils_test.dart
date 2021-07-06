@@ -42,10 +42,10 @@ void main() {
   group('prepareExcludes returns array of Glob with absolute path in', () {
     const patterns = ['.dart_tool/**', 'packages/**', 'src/exclude_me.dart'];
     test('UNIX', () {
-      final exludes = prepareExcludes(patterns, '/home/user/project');
+      final excludes = prepareExcludes(patterns, '/home/user/project');
 
       expect(
-        exludes.map((exclude) => exclude.pattern),
+        excludes.map((exclude) => exclude.pattern),
         equals([
           '/home/user/project/.dart_tool/**',
           '/home/user/project/packages/**',
@@ -55,10 +55,11 @@ void main() {
     });
 
     test('Windows', () {
-      final exludes = prepareExcludes(patterns, r'c:\Users\dmitry\Development');
+      final excludes =
+          prepareExcludes(patterns, r'c:\Users\dmitry\Development');
 
       expect(
-        exludes.map((exclude) => exclude.pattern),
+        excludes.map((exclude) => exclude.pattern),
         equals([
           'c:/Users/dmitry/Development/.dart_tool/**',
           'c:/Users/dmitry/Development/packages/**',

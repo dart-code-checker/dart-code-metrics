@@ -4,12 +4,12 @@ import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/file_system/physical_file_system.dart';
-import 'package:file/local.dart';
-import 'package:glob/glob.dart';
 import 'package:path/path.dart';
 
 import '../../../reporters.dart';
-import '../../utils/exclude_utils.dart';
+import '../../config_builder/config_builder.dart';
+import '../../config_builder/models/analysis_options.dart';
+import '../../utils/file_utils.dart';
 import 'models/unused_files_file_report.dart';
 import 'reporters/reporter_factory.dart';
 import 'unused_files_config.dart';
@@ -31,7 +31,6 @@ class UnusedFilesAnalyzer {
     Iterable<String> folders,
     String rootFolder,
     UnusedFilesConfig config,
-    Iterable<String> analyzerExcludes,
   ) async {
     final collection = AnalysisContextCollection(
       includedPaths:
@@ -39,44 +38,42 @@ class UnusedFilesAnalyzer {
       resourceProvider: PhysicalResourceProvider.INSTANCE,
     );
 
-    final filePaths = folders
-        .expand((directory) => Glob('$directory/**.dart')
-            .listFileSystemSync(
-              const LocalFileSystem(),
-              root: rootFolder,
-              followLinks: false,
-            )
-            .whereType<File>()
-            .where((entity) => !isExcluded(
-                  relative(entity.path, from: rootFolder),
-                  config.globalExcludes,
-                ))
-            .map((entity) => entity.path))
-        .toSet();
-
-    final analyzerExcludePatterns = analyzerExcludes
-        .map((exclude) => Glob(normalize(join(rootFolder, exclude))))
-        .toSet();
-    final notAnalyzedFiles = <String>[];
-
-    final unusedFiles = filePaths.toSet();
+    final unusedFiles = <String>{};
 
     for (final context in collection.contexts) {
+      final analysisOptions = await analysisOptionsFromContext(context) ??
+          await analysisOptionsFromFilePath(rootFolder);
+
+      final contextConfig =
+          ConfigBuilder.getUnusedFilesConfigFromOption(analysisOptions)
+              .merge(config);
+      final unusedFilesAnalysisConfig =
+          ConfigBuilder.getUnusedFilesConfig(contextConfig, rootFolder);
+
+      final filePaths = extractDartFilesFromFolders(
+        folders,
+        rootFolder,
+        unusedFilesAnalysisConfig.globalExcludes,
+      );
+
+      unusedFiles.addAll(filePaths);
+
       final analyzedFiles =
           filePaths.intersection(context.contextRoot.analyzedFiles().toSet());
-
-      notAnalyzedFiles.addAll(filePaths.difference(analyzedFiles));
 
       for (final filePath in analyzedFiles) {
         final unit = await context.currentSession.getResolvedUnit2(filePath);
         unusedFiles.removeAll(_analyzeFile(filePath, unit));
       }
-    }
 
-    for (final filePath in notAnalyzedFiles) {
-      if (analyzerExcludePatterns.any((pattern) => pattern.matches(filePath))) {
-        final unit = await resolveFile2(path: filePath);
-        unusedFiles.removeAll(_analyzeFile(filePath, unit));
+      final notAnalyzedFiles = filePaths.difference(analyzedFiles);
+
+      for (final filePath in notAnalyzedFiles) {
+        if (unusedFilesAnalysisConfig.analyzerExcludedPatterns
+            .any((pattern) => pattern.matches(filePath))) {
+          final unit = await resolveFile2(path: filePath);
+          unusedFiles.removeAll(_analyzeFile(filePath, unit));
+        }
       }
     }
 

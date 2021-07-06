@@ -5,8 +5,6 @@ import 'package:dart_code_metrics/src/analyzers/lint_analyzer/lint_analyzer.dart
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/lint_config.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value_level.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/lint_file_report.dart';
-import 'package:dart_code_metrics/src/config_builder/config_builder.dart';
-import 'package:dart_code_metrics/src/config_builder/models/config.dart';
 import 'package:path/path.dart';
 import 'package:test/test.dart';
 
@@ -21,7 +19,7 @@ void main() {
       ];
 
       test('should analyze files', () async {
-        final config = _createConfig(rootDirectory);
+        final config = _createConfig();
 
         final result = await analyzer.runCliAnalysis(
           folders,
@@ -34,7 +32,6 @@ void main() {
 
       test('should analyze only one file', () async {
         final config = _createConfig(
-          rootDirectory,
           excludePatterns: ['test/resources/**/*_exclude_example.dart'],
         );
 
@@ -48,7 +45,7 @@ void main() {
       });
 
       test('should report default code metrics', () async {
-        final config = _createConfig(rootDirectory);
+        final config = _createConfig();
 
         final result = await analyzer.runCliAnalysis(
           folders,
@@ -74,8 +71,7 @@ void main() {
       });
 
       test('should exceed source-lines-of-code metric', () async {
-        final config =
-            _createConfig(rootDirectory, metrics: {'source-lines-of-code': 1});
+        final config = _createConfig(metrics: {'source-lines-of-code': 1});
 
         final result = await analyzer.runCliAnalysis(
           folders,
@@ -95,14 +91,13 @@ void main() {
           'lines-of-code': MetricValueLevel.none,
           'maximum-nesting-level': MetricValueLevel.none,
           'number-of-parameters': MetricValueLevel.none,
-          'source-lines-of-code': MetricValueLevel.alarm,
+          'source-lines-of-code': MetricValueLevel.warning,
           'maintainability-index': MetricValueLevel.none,
         });
       });
 
       test('should not report metrics', () async {
         final config = _createConfig(
-          rootDirectory,
           excludeForMetricsPatterns: ['test/**'],
         );
 
@@ -120,9 +115,8 @@ void main() {
         expect(report, isEmpty);
       });
 
-      test('should report prefer-trailing-comma rule', () async {
-        final config =
-            _createConfig(rootDirectory, rules: {'prefer-trailing-comma': {}});
+      test('should report avoid-late-keyword rule', () async {
+        final config = _createConfig(rules: {'avoid-late-keyword': {}});
 
         final result = await analyzer.runCliAnalysis(
           folders,
@@ -134,30 +128,26 @@ void main() {
             reportForFile(result, 'lint_analyzer_exclude_example.dart').issues;
         final ids = issues.map((issue) => issue.ruleId);
 
-        expect(ids, List.filled(6, 'prefer-trailing-comma'));
+        expect(ids, List.filled(1, 'avoid-late-keyword'));
       });
     },
     testOn: 'posix',
   );
 }
 
-LintConfig _createConfig(
-  String rootDirectory, {
+LintConfig _createConfig({
   Map<String, Map<String, Object>> antiPatterns = const {},
   Iterable<String> excludePatterns = const [],
   Map<String, Object> metrics = const {},
   Iterable<String> excludeForMetricsPatterns = const [],
   Map<String, Map<String, Object>> rules = const {},
 }) =>
-    ConfigBuilder.getLintConfig(
-      Config(
-        antiPatterns: antiPatterns,
-        excludePatterns: excludePatterns,
-        metrics: metrics,
-        excludeForMetricsPatterns: excludeForMetricsPatterns,
-        rules: rules,
-      ),
-      rootDirectory,
+    LintConfig(
+      antiPatterns: antiPatterns,
+      excludePatterns: excludePatterns,
+      metrics: metrics,
+      excludeForMetricsPatterns: excludeForMetricsPatterns,
+      rules: rules,
     );
 
 LintFileReport reportForFile(

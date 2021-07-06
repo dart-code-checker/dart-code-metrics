@@ -13,8 +13,8 @@ import 'package:analyzer/src/dart/analysis/driver_based_analysis_context.dart';
 import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
 
+import '../analyzers/lint_analyzer/lint_analysis_config.dart';
 import '../analyzers/lint_analyzer/lint_analyzer.dart';
-import '../analyzers/lint_analyzer/lint_config.dart';
 import '../analyzers/lint_analyzer/metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import '../analyzers/lint_analyzer/metrics/metrics_list/number_of_parameters_metric.dart';
 import '../config_builder/config_builder.dart';
@@ -25,7 +25,7 @@ import 'analyzer_plugin_utils.dart';
 class MetricsAnalyzerPlugin extends ServerPlugin {
   static const _analyzer = LintAnalyzer();
 
-  final _configs = <AnalysisDriverGeneric, LintConfig>{};
+  final _configs = <AnalysisDriverGeneric, LintAnalysisConfig>{};
 
   var _filesFromSetPriorityFilesRequest = <String>[];
 
@@ -236,14 +236,14 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     return result;
   }
 
-  LintConfig? _createConfig(AnalysisDriver driver, String rootPath) {
+  LintAnalysisConfig? _createConfig(AnalysisDriver driver, String rootPath) {
     final file = driver.analysisContext?.contextRoot.optionsFile;
     if (file != null && file.exists) {
       final options = AnalysisOptions(yamlMapToDartMap(
         AnalysisOptionsProvider(driver.sourceFactory).getOptionsFromFile(file),
       ));
-      final config = ConfigBuilder.getConfig(options);
-      final lintConfig = ConfigBuilder.getLintConfig(
+      final config = ConfigBuilder.getLintConfigFromOptions(options);
+      final lintConfig = ConfigBuilder.getLintAnalysisConfig(
         config,
         rootPath,
         classMetrics: const [],

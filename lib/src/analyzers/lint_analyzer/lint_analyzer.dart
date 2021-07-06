@@ -5,14 +5,15 @@ import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/file_system/physical_file_system.dart';
-import 'package:file/local.dart';
-import 'package:glob/glob.dart';
 import 'package:path/path.dart';
 
-import '../../config_builder/models/config.dart';
+import '../../config_builder/config_builder.dart';
+import '../../config_builder/models/analysis_options.dart';
 import '../../reporters/models/reporter.dart';
 import '../../utils/exclude_utils.dart';
+import '../../utils/file_utils.dart';
 import '../../utils/node_utils.dart';
+import 'lint_analysis_config.dart';
 import 'lint_config.dart';
 import 'metrics/halstead_volume_ast_visitor.dart';
 import 'metrics/metric_utils.dart';
@@ -38,7 +39,7 @@ class LintAnalyzer {
   const LintAnalyzer();
 
   Reporter? getReporter({
-    required Config config,
+    required LintConfig config,
     required String name,
     required IOSink output,
     required String reportFolder,
@@ -52,7 +53,7 @@ class LintAnalyzer {
 
   LintFileReport? runPluginAnalysis(
     ResolvedUnitResult result,
-    LintConfig config,
+    LintAnalysisConfig config,
     String rootFolder,
   ) {
     if (!isExcluded(result.path, config.globalExcludes)) {
@@ -78,24 +79,23 @@ class LintAnalyzer {
       resourceProvider: PhysicalResourceProvider.INSTANCE,
     );
 
-    final filePaths = folders
-        .expand((directory) => Glob('$directory/**.dart')
-            .listFileSystemSync(
-              const LocalFileSystem(),
-              root: rootFolder,
-              followLinks: false,
-            )
-            .whereType<File>()
-            .where((entity) => !isExcluded(
-                  relative(entity.path, from: rootFolder),
-                  config.globalExcludes,
-                ))
-            .map((entity) => entity.path))
-        .toSet();
-
     final analyzerResult = <LintFileReport>[];
 
     for (final context in collection.contexts) {
+      final analysisOptions = await analysisOptionsFromContext(context) ??
+          await analysisOptionsFromFilePath(rootFolder);
+
+      final contextConfig =
+          ConfigBuilder.getLintConfigFromOptions(analysisOptions).merge(config);
+      final lintAnalysisConfig =
+          ConfigBuilder.getLintAnalysisConfig(contextConfig, rootFolder);
+
+      final filePaths = extractDartFilesFromFolders(
+        folders,
+        rootFolder,
+        lintAnalysisConfig.globalExcludes,
+      );
+
       final analyzedFiles =
           filePaths.intersection(context.contextRoot.analyzedFiles().toSet());
 
@@ -104,7 +104,7 @@ class LintAnalyzer {
         if (unit is ResolvedUnitResult) {
           final result = _runAnalysisForFile(
             unit,
-            config,
+            lintAnalysisConfig,
             rootFolder,
             filePath: filePath,
           );
@@ -121,7 +121,7 @@ class LintAnalyzer {
 
   LintFileReport? _runAnalysisForFile(
     ResolvedUnitResult result,
-    LintConfig config,
+    LintAnalysisConfig config,
     String rootFolder, {
     String? filePath,
   }) {
@@ -215,7 +215,7 @@ class LintAnalyzer {
   Iterable<Issue> _checkOnCodeIssues(
     Suppression ignores,
     InternalResolvedUnitResult source,
-    LintConfig config,
+    LintAnalysisConfig config,
     String filePath,
     String? rootFolder,
   ) =>
@@ -240,7 +240,7 @@ class LintAnalyzer {
     Suppression ignores,
     InternalResolvedUnitResult source,
     Iterable<ScopedFunctionDeclaration> functions,
-    LintConfig config,
+    LintAnalysisConfig config,
   ) =>
       config.antiPatterns
           .where((pattern) => !ignores.isSuppressed(pattern.id))
@@ -255,7 +255,7 @@ class LintAnalyzer {
   Map<ScopedClassDeclaration, Report> _checkClassMetrics(
     ScopeVisitor visitor,
     InternalResolvedUnitResult source,
-    LintConfig config,
+    LintAnalysisConfig config,
   ) {
     final classRecords = <ScopedClassDeclaration, Report>{};
 
@@ -292,7 +292,7 @@ class LintAnalyzer {
   Map<ScopedFunctionDeclaration, Report> _checkFunctionMetrics(
     ScopeVisitor visitor,
     InternalResolvedUnitResult source,
-    LintConfig config,
+    LintAnalysisConfig config,
   ) {
     final functionRecords = <ScopedFunctionDeclaration, Report>{};
 

@@ -1,18 +1,8 @@
+// ignore_for_file: prefer_const_declarations
 class ExcludeExample {
   void test() {
-    print(
-        '$_getString() $_getString() $_getString() $_getString() $_getString() $_getString() $_getString() $_getString()');
-    print(
-        '$_getString() $_getString() $_getString() $_getString() $_getString() $_getString() $_getString() $_getString()');
-    print(
-        '$_getString() $_getString() $_getString() $_getString() $_getString() $_getString() $_getString() $_getString()');
-    print(
-        '$_getString() $_getString() $_getString() $_getString() $_getString() $_getString() $_getString() $_getString()');
-    print(
-        '$_getString() $_getString() $_getString() $_getString() $_getString() $_getString() $_getString() $_getString()');
-    print(
-        '$_getString() $_getString() $_getString() $_getString() $_getString() $_getString() $_getString() $_getString()');
-  }
+    late final value = '123';
 
-  String _getString() => 'test_string';
+    print(value);
+  }
 }
