@@ -11,10 +11,10 @@ dart_code_metrics:
     metric-id3: 4
   rules:
     rule-id3:
-        alphabetize: true
-        order:
-          - first
-          - third
-          - second
-    rule-id4 : true
-    rule-id5 : false
+      alphabetize: true
+      order:
+        - first
+        - third
+        - second
+    rule-id4: true
+    rule-id5: false

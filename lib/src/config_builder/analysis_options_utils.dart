@@ -23,13 +23,17 @@ Map<String, Object> mergeMaps({
   return Map.unmodifiable(merged);
 }
 
+bool _isCapableToTransformToMap(Object? object) =>
+    object is Iterable<Object> &&
+    object.every((node) => node is String || node is Map<String, Object>);
+
 Object _merge(Object? defaults, Object overrides) {
   var o1 = defaults;
   var o2 = overrides;
 
-  if (isIterableOfStrings(o1) && o2 is Map<String, Object>) {
+  if (_isCapableToTransformToMap(o1) && o2 is Map<String, Object>) {
     o1 = _iterableToMap(o1 as Iterable<Object>);
-  } else if (o1 is Map<String, Object> && isIterableOfStrings(o2)) {
+  } else if (o1 is Map<String, Object> && _isCapableToTransformToMap(o2)) {
     o2 = _iterableToMap(o2 as Iterable<Object>);
   }
 
@@ -48,7 +52,9 @@ List<Object> _mergeIterable(
 ) =>
     List.unmodifiable(<Object>{...defaults, ...overrides});
 
-Map<String, bool> _iterableToMap(Iterable<Object> list) =>
-    Map.unmodifiable(Map<String, bool>.fromEntries(
-      list.map((key) => MapEntry(key.toString(), true)),
-    ));
+Map<String, Object> _iterableToMap(Iterable<Object> list) => Map.unmodifiable(
+      <String, Object>{
+        for (final key in list)
+          if (key is Map<String, Object>) ...key else key.toString(): true,
+      },
+    );
