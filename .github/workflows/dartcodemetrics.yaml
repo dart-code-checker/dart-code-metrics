@@ -1,4 +1,4 @@
-name: dart-code-metrics-action
+name: Dart Code Metrics
 
 on:
   push:
