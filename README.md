@@ -219,11 +219,11 @@ To enable a rule add its id to the `rules` entry. All rules have severity which 
 ```yaml
 dart_code_metrics:
   rules:
-    - newline-before-return
-        severity: info
+    - newline-before-return:
+        severity: style
 ```
 
-will set severity to `info`. Available severity values: none, style, performance, warning, error.
+will set severity to `style`. Available severity values: none, style, performance, warning, error.
 
 Rules with a `configurable` badge have additional configuration, check out their docs for more information.
 
