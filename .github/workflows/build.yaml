@@ -104,15 +104,3 @@ jobs:
       - uses: axel-op/dart-package-analyzer@v3
         with:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
-
-  self-scan:
-    name: Analyze by latest stable version
-
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-      - uses: dart-code-checker/dart-code-metrics-action@v1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          folders: "bin, example, lib, test"
