@@ -92,7 +92,7 @@ class LintAnalyzer {
 
       final contextFolders = folders
           .where((path) => normalize(join(rootFolder, path))
-              .contains(context.contextRoot.root.path))
+              .startsWith(context.contextRoot.root.path))
           .toList();
 
       final filePaths = extractDartFilesFromFolders(
