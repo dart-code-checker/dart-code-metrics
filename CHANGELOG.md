@@ -4,6 +4,7 @@
 
 * Add better monorepos support for CLI
 * Add support merge analysis options with detail rule config.
+* Add static code diagnostics `prefer-single-widget-per-file`.
 
 ## 4.0.2-dev.1
 
