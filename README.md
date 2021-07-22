@@ -129,6 +129,20 @@ flutter pub global activate dart_code_metrics
 flutter pub global run dart_code_metrics:metrics lib
 ```
 
+#### Multi-package repositories usage
+
+[Melos](https://pub.dev/packages/melos) configuration example
+
+```yaml
+metrics:
+  run: |
+    melos exec -c 1 --ignore="*example*" -- \
+      flutter pub run dart_code_metrics:metrics lib
+  description: |
+    Run `dart_code_metrics` in all packages.
+     - Note: you can also rely on your IDEs Dart Analysis / Issues window.
+```
+
 #### Options
 
 ```text
