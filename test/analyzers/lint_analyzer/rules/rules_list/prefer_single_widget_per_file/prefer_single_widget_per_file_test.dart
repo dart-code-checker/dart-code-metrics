@@ -5,15 +5,19 @@ import 'package:test/test.dart';
 
 import '../../../../../helpers/rule_test_helper.dart';
 
-const _correctExamplePath =
-    'prefer_single_widget_per_file/examples/correct_example.dart';
+const _correctStatefullWidgetExamplePath =
+    'prefer_single_widget_per_file/examples/correct_statefull_widget_example.dart';
+const _correctStatelessWidgetExamplePath =
+    'prefer_single_widget_per_file/examples/correct_stateless_widget_example.dart';
 const _incorrectExamplePath =
     'prefer_single_widget_per_file/examples/incorrect_example.dart';
 
 void main() {
   group('PreferSingleWidgetPerFileRule', () {
     test('initialization', () async {
-      final unit = await RuleTestHelper.resolveFromFile(_correctExamplePath);
+      final unit = await RuleTestHelper.resolveFromFile(
+        _correctStatefullWidgetExamplePath,
+      );
       final issues = PreferSingleWidgetPerFileRule().check(unit);
 
       RuleTestHelper.verifyInitialization(
@@ -34,18 +38,32 @@ void main() {
         startColumns: [1, 1, 1],
         endOffsets: [265, 390, 535],
         messages: [
-          'A maximum of widget per file is allowed.',
-          'A maximum of widget per file is allowed.',
-          'A maximum of widget per file is allowed.',
+          'Only a single widget per file is allowed.',
+          'Only a single widget per file is allowed.',
+          'Only a single widget per file is allowed.',
         ],
       );
     });
 
-    test('with default config reports no issues', () async {
-      final unit = await RuleTestHelper.resolveFromFile(_correctExamplePath);
-      final issues = PreferSingleWidgetPerFileRule().check(unit);
+    group('with default config reports no issues for', () {
+      test('single statefull widget', () async {
+        final statefullWidgetUnit = await RuleTestHelper.resolveFromFile(
+          _correctStatefullWidgetExamplePath,
+        );
+        final issues =
+            PreferSingleWidgetPerFileRule().check(statefullWidgetUnit);
 
-      RuleTestHelper.verifyNoIssues(issues);
+        RuleTestHelper.verifyNoIssues(issues);
+      });
+      test('single stateless widget', () async {
+        final statelessWidgetUnit = await RuleTestHelper.resolveFromFile(
+          _correctStatelessWidgetExamplePath,
+        );
+        final issues =
+            PreferSingleWidgetPerFileRule().check(statelessWidgetUnit);
+
+        RuleTestHelper.verifyNoIssues(issues);
+      });
     });
   });
 }

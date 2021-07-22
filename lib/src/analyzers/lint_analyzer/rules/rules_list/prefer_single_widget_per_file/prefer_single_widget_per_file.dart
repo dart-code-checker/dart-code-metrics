@@ -15,14 +15,14 @@ part 'visitor.dart';
 class PreferSingleWidgetPerFileRule extends Rule {
   static const String ruleId = 'prefer-single-widget-per-file';
 
-  static const _warningMessage = 'A maximum of widget per file is allowed.';
+  static const _warningMessage = 'Only a single widget per file is allowed.';
 
   PreferSingleWidgetPerFileRule([Map<String, Object> config = const {}])
       : super(
           id: ruleId,
           documentation: const RuleDocumentation(
-            name: 'Prefer single widget per file',
-            brief: 'A file may not contain more than one widget.',
+            name: 'Prefer a single widget per file',
+            brief: 'Warns when a file contains more than a single widget.',
           ),
           severity: readSeverity(config, Severity.style),
           excludes: readExcludes(config),
@@ -34,20 +34,17 @@ class PreferSingleWidgetPerFileRule extends Rule {
 
     source.unit.visitChildren(visitor);
 
-    return visitor.nodes.length > 1
-        ? visitor.nodes
-            .skip(1)
-            .map(
-              (node) => createIssue(
-                rule: this,
-                location: nodeLocation(
-                  node: node,
-                  source: source,
-                ),
-                message: _warningMessage,
-              ),
-            )
-            .toList(growable: false)
-        : [];
+    return visitor.nodes
+        .map(
+          (node) => createIssue(
+            rule: this,
+            location: nodeLocation(
+              node: node,
+              source: source,
+            ),
+            message: _warningMessage,
+          ),
+        )
+        .toList(growable: false);
   }
 }

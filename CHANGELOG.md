@@ -1,10 +1,13 @@
 # Changelog
 
+## Unresolved
+
+* Add static code diagnostic `prefer-single-widget-per-file`.
+
 ## 4.1.0
 
 * Add better monorepos support for CLI
 * Add support merge analysis options with detail rule config.
-* Add static code diagnostics `prefer-single-widget-per-file`.
 
 ## 4.0.2-dev.1
 

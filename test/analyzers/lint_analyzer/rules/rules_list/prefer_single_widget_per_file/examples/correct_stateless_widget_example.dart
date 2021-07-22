@@ -1,6 +1,6 @@
 import 'flutter_defines.dart';
 
-class someWidget extends StatelessWidget {
+class SomeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 //    ...

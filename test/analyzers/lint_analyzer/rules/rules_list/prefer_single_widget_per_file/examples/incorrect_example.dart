@@ -1,6 +1,6 @@
 import 'flutter_defines.dart';
 
-class someWidget extends StatelessWidget {
+class SomeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 //    ...
@@ -8,7 +8,7 @@ class someWidget extends StatelessWidget {
 }
 
 // LINT
-class someOtherWidget extends StatelessWidget {
+class SomeOtherWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 //    ...
@@ -16,7 +16,7 @@ class someOtherWidget extends StatelessWidget {
 }
 
 // LINT
-class _someOtherWidget extends StatelessWidget {
+class _SomeOtherWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 //    ...
@@ -24,12 +24,12 @@ class _someOtherWidget extends StatelessWidget {
 }
 
 // LINT
-class someStatefulWidget extends StatefulWidget {
+class SomeStatefulWidget extends StatefulWidget {
   @override
   _someStatefulWidgetState createState() => _someStatefulWidgetState();
 }
 
-class _someStatefulWidgetState extends State<InspirationCard> {
+class _SomeStatefulWidgetState extends State<InspirationCard> {
   @override
   Widget build(BuildContext context) {
 //    ...
