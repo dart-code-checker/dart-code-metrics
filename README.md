@@ -131,7 +131,7 @@ flutter pub global run dart_code_metrics:metrics lib
 
 #### Multi-package repositories usage
 
-[Melos](https://pub.dev/packages/melos) configuration example
+If you use [Melos](https://pub.dev/packages/melos), you can add custom command to `melos.yaml`.
 
 ```yaml
 metrics:
