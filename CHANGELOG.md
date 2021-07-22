@@ -1,7 +1,8 @@
 # Changelog
 
-## Unreleased
+## 4.1.0
 
+* Add better monorepos support for CLI
 * Add support merge analysis options with detail rule config.
 
 ## 4.0.2-dev.1
