@@ -6,9 +6,9 @@ import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/file_system/physical_file_system.dart';
 import 'package:path/path.dart';
 
-import '../../../reporters.dart';
 import '../../config_builder/config_builder.dart';
 import '../../config_builder/models/analysis_options.dart';
+import '../../reporters/models/reporter.dart';
 import '../../utils/file_utils.dart';
 import 'models/unused_files_file_report.dart';
 import 'reporters/reporter_factory.dart';
