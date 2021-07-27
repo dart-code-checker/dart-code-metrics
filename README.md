@@ -14,10 +14,10 @@
 [Anti-patterns](#anti-patterns)
 
 <img
-  src="https://raw.githubusercontent.com/dart-code-checker/dart-code-metrics/master/doc/.assets/logo.svg"
-  alt="Dart Code Metrics logo"
-  height="120" width="120"
-  align="right">
+src="https://raw.githubusercontent.com/dart-code-checker/dart-code-metrics/master/doc/.assets/logo.svg"
+alt="Dart Code Metrics logo"
+height="120" width="120"
+align="right">
 
 Dart Code Metrics is a static analysis tool that helps you analyse and improve your code quality.
 
@@ -47,16 +47,16 @@ A plugin for the Dart `analyzer` [package](https://pub.dev/packages/analyzer) pr
     $ flutter pub add --dev dart_code_metrics
     ```
 
-    **OR**
+   **OR**
 
-    add it manually to `pubspec.yaml`
+   add it manually to `pubspec.yaml`
 
     ```yaml
     dev_dependencies:
       dart_code_metrics: ^4.0.2-dev.1
     ```
 
-    and then run
+   and then run
 
     ```sh
     $ dart pub get
@@ -179,7 +179,7 @@ dart_code_metrics:
   anti-patterns:
     - ... # add this entry to configure the list of anti-patterns
   metrics:
-      ... # add this entry to configure the list of reported metrics
+    ... # add this entry to configure the list of reported metrics
   metrics-exclude:
     - ... # add this entry to configure the list of files that should be ignored by metrics
   rules:
@@ -219,11 +219,11 @@ To enable a rule add its id to the `rules` entry. All rules have severity which 
 ```yaml
 dart_code_metrics:
   rules:
-    - newline-before-return:
-        severity: style
+    - newline-before-return
+      severity: info
 ```
 
-will set severity to `style`. Available severity values: none, style, performance, warning, error.
+will set severity to `info`. Available severity values: none, style, performance, warning, error.
 
 Rules with a `configurable` badge have additional configuration, check out their docs for more information.
 
