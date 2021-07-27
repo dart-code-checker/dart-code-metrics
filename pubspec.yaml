@@ -1,7 +1,7 @@
 name: dart_code_metrics
-version: 4.0.2-dev.1
+version: 4.1.0
 description: Software analytics tool that helps developers analyse and improve software quality.
-homepage: https://github.com/dart-code-checker/dart-code-metrics
+homepage: https://dartcodemetrics.dev
 repository: https://github.com/dart-code-checker/dart-code-metrics
 issue_tracker: https://github.com/dart-code-checker/dart-code-metrics/issues
 

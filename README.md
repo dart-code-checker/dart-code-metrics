@@ -53,7 +53,7 @@ A plugin for the Dart `analyzer` [package](https://pub.dev/packages/analyzer) pr
 
     ```yaml
     dev_dependencies:
-      dart_code_metrics: ^4.0.2-dev.1
+      dart_code_metrics: ^4.1.0
     ```
 
    and then run
@@ -127,6 +127,20 @@ dart pub global run dart_code_metrics:metrics lib
 # or for a Flutter package
 flutter pub global activate dart_code_metrics
 flutter pub global run dart_code_metrics:metrics lib
+```
+
+#### Multi-package repositories usage
+
+If you use [Melos](https://pub.dev/packages/melos), you can add custom command to `melos.yaml`.
+
+```yaml
+metrics:
+  run: |
+    melos exec -c 1 --ignore="*example*" -- \
+      flutter pub run dart_code_metrics:metrics lib
+  description: |
+    Run `dart_code_metrics` in all packages.
+     - Note: you can also rely on your IDEs Dart Analysis / Issues window.
 ```
 
 #### Options
@@ -219,11 +233,11 @@ To enable a rule add its id to the `rules` entry. All rules have severity which 
 ```yaml
 dart_code_metrics:
   rules:
-    - newline-before-return
-      severity: info
+    - newline-before-return:
+        severity: style
 ```
 
-will set severity to `info`. Available severity values: none, style, performance, warning, error.
+will set severity to `style`. Available severity values: none, style, performance, warning, error.
 
 Rules with a `configurable` badge have additional configuration, check out their docs for more information.
 
