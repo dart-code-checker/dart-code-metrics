@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.2.0-dev.2
+
+* Changed the supported `analyzer` version to `^2.0.0`.
+* Changed the supported `analyzer_plugin` version to `^0.7.0`.
+
 ## 4.2.0-dev.1
 
 * Add static code diagnostics `prefer-match-file-name`, `prefer-single-widget-per-file`.
