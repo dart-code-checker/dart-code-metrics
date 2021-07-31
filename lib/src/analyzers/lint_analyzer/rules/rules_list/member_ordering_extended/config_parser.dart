@@ -1,6 +1,5 @@
 part of 'member_ordering_extended.dart';
 
-// ignore: avoid_classes_with_only_static_members
 class _ConfigParser {
   static const _defaultOrderList = [
     'public-fields',
