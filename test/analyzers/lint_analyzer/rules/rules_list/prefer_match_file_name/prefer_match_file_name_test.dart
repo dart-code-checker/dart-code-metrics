@@ -6,6 +6,8 @@ import 'package:test/test.dart';
 import '../../../../../helpers/rule_test_helper.dart';
 
 const _examplePath = 'prefer_match_file_name/examples/example.dart';
+const _exampleWithStatePath =
+    'prefer_match_file_name/examples/example_with_state.dart';
 const _exampleWithIssue =
     'prefer_match_file_name/examples/example_with_issue.dart';
 
@@ -31,6 +33,14 @@ void main() {
 
       test('reports about found issues', () async {
         final unit = await RuleTestHelper.resolveFromFile(_exampleWithIssue);
+        final issues = PreferMatchFileName().check(unit);
+
+        RuleTestHelper.verifyIssues(issues: issues);
+      });
+
+      test('not found issue', () async {
+        final unit =
+            await RuleTestHelper.resolveFromFile(_exampleWithStatePath);
         final issues = PreferMatchFileName().check(unit);
 
         RuleTestHelper.verifyIssues(issues: issues);
