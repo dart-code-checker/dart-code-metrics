@@ -11,4 +11,3 @@ class _ExampleWithStateState extends State<ExampleWithState> {
     return Container();
   }
 }
-

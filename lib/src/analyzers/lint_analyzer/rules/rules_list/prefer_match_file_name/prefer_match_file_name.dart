@@ -1,6 +1,7 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:meta/meta.dart';
+import 'package:path/path.dart';
 
 import '../../../../../utils/node_utils.dart';
 import '../../../models/internal_resolved_unit_result.dart';

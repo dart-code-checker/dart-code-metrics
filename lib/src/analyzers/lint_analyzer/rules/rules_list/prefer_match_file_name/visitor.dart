@@ -11,7 +11,8 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
   @override
   void visitClassDeclaration(ClassDeclaration node) {
-    if (getFileName(pathToFile) != _formatClassName(node.name.name)) {
+    if (basenameWithoutExtension(pathToFile) !=
+        _formatClassName(node.name.name)) {
       _declarations.add(_NotMatchFileNameIssue(
         node.name.name,
         pathToFile,
@@ -27,9 +28,6 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
     return result;
   }
-
-  String getFileName(String filePath) =>
-      filePath.split('/').last.split('.').first;
 }
 
 @immutable
