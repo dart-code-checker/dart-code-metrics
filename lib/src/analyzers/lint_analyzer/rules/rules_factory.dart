@@ -1,3 +1,5 @@
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/prefer_match_file_name/prefer_match_file_name.dart';
+
 import 'models/rule.dart';
 import 'rules_list/always_remove_listener/always_remove_listener.dart';
 import 'rules_list/avoid_late_keyword/avoid_late_keyword.dart';
@@ -67,6 +69,7 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   PreferTrailingCommaRule.ruleId: (config) => PreferTrailingCommaRule(config),
   ProvideCorrectIntlArgsRule.ruleId: (config) =>
       ProvideCorrectIntlArgsRule(config),
+  PreferMatchFileName.ruleId: (config) => PreferMatchFileName(config),
 };
 
 Iterable<Rule> get allRules =>
