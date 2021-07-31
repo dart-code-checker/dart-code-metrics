@@ -10,6 +10,7 @@ import '../../models/rule.dart';
 import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
 
+part 'config_parser.dart';
 part 'visitor.dart';
 
 class PreferSingleWidgetPerFileRule extends Rule {
@@ -17,8 +18,11 @@ class PreferSingleWidgetPerFileRule extends Rule {
 
   static const _warningMessage = 'Only a single widget per file is allowed.';
 
+  final bool _ignorePrivateWidgets;
+
   PreferSingleWidgetPerFileRule([Map<String, Object> config = const {}])
-      : super(
+      : _ignorePrivateWidgets = _ConfigParser.parseIgnorePrivateWidgets(config),
+        super(
           id: ruleId,
           documentation: const RuleDocumentation(
             name: 'Prefer a single widget per file',
@@ -30,7 +34,7 @@ class PreferSingleWidgetPerFileRule extends Rule {
 
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
-    final visitor = _Visitor();
+    final visitor = _Visitor(ignorePrivateWidgets: _ignorePrivateWidgets);
 
     source.unit.visitChildren(visitor);
 

@@ -11,6 +11,8 @@ const _correctStatelessWidgetExamplePath =
     'prefer_single_widget_per_file/examples/correct_stateless_widget_example.dart';
 const _incorrectExamplePath =
     'prefer_single_widget_per_file/examples/incorrect_example.dart';
+const _multiWidgetsExamplePath =
+    'prefer_single_widget_per_file/examples/multi_widgets_example.dart';
 
 void main() {
   group('PreferSingleWidgetPerFileRule', () {
@@ -61,6 +63,38 @@ void main() {
         );
         final issues =
             PreferSingleWidgetPerFileRule().check(statelessWidgetUnit);
+
+        RuleTestHelper.verifyNoIssues(issues);
+      });
+    });
+
+    group('analyze multi widget file', () {
+      test('with default config', () async {
+        final multiWidgetsUnit = await RuleTestHelper.resolveFromFile(
+          _multiWidgetsExamplePath,
+        );
+        final issues = PreferSingleWidgetPerFileRule().check(multiWidgetsUnit);
+
+        RuleTestHelper.verifyIssues(
+          issues: issues,
+          startOffsets: [146, 261],
+          startLines: [10, 17],
+          startColumns: [1, 1],
+          endOffsets: [259, 399],
+          messages: [
+            'Only a single widget per file is allowed.',
+            'Only a single widget per file is allowed.',
+          ],
+        );
+      });
+
+      test('with custom config', () async {
+        final multiWidgetsUnit = await RuleTestHelper.resolveFromFile(
+          _multiWidgetsExamplePath,
+        );
+        final issues =
+            PreferSingleWidgetPerFileRule({'ignore-private-widgets': true})
+                .check(multiWidgetsUnit);
 
         RuleTestHelper.verifyNoIssues(issues);
       });
