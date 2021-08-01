@@ -7,16 +7,16 @@ class ExampleWidget extends StatelessWidget {
   }
 }
 
-class _privateWidget extends StatelessWidget {
+class _PrivateWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 //    ...
   }
 }
 
-class _anotherPrivateWidget extends StatefulWidget {
+class _AnotherPrivateWidget extends StatefulWidget {
   @override
-  _someStatefulWidgetState createState() => _someStatefulWidgetState();
+  _SomeStatefulWidgetState createState() => _SomeStatefulWidgetState();
 }
 
 class _SomeStatefulWidgetState extends State<InspirationCard> {
