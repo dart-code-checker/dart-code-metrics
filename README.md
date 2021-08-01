@@ -14,10 +14,10 @@
 [Anti-patterns](#anti-patterns)
 
 <img
-src="https://raw.githubusercontent.com/dart-code-checker/dart-code-metrics/master/doc/.assets/logo.svg"
-alt="Dart Code Metrics logo"
-height="120" width="120"
-align="right">
+  src="https://raw.githubusercontent.com/dart-code-checker/dart-code-metrics/master/doc/.assets/logo.svg"
+  alt="Dart Code Metrics logo"
+  height="120" width="120"
+  align="right">
 
 Dart Code Metrics is a static analysis tool that helps you analyse and improve your code quality.
 
