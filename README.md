@@ -53,10 +53,10 @@ A plugin for the Dart `analyzer` [package](https://pub.dev/packages/analyzer) pr
 
     ```yaml
     dev_dependencies:
-      dart_code_metrics: ^4.1.2
+      dart_code_metrics: ^4.1.0
     ```
 
-and then run
+    and then run
 
     ```sh
     $ dart pub get
