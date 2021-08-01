@@ -21,7 +21,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
       _declarations.add(_NotMatchFileNameIssue(
         node.name.name,
         pathToFile,
-        node,
+        node.name,
       ));
     }
 
