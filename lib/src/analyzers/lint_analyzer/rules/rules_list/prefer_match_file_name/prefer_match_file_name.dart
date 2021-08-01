@@ -7,7 +7,6 @@ import '../../../../../utils/node_utils.dart';
 import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
 import '../../../models/severity.dart';
-import '../../base_visitors/intl_base_visitor.dart';
 import '../../models/rule.dart';
 import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
@@ -30,18 +29,34 @@ class PreferMatchFileName extends Rule {
 
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
-    final visitor = _Visitor(pathToFile: source.path);
-
+    final visitor = _Visitor();
     source.unit.visitChildren(visitor);
 
-    return visitor._declarations.map((issue) => createIssue(
-          rule: this,
-          location: nodeLocation(
-            node: issue.node,
-            source: source,
-            withCommentOrMetadata: true,
-          ),
-          message: _NotMatchFileNameIssue.getMessage(),
-        ));
+    final className = _formatClassName(visitor._declarations.first.name.name);
+    final fileName = basenameWithoutExtension(source.path);
+
+    if (fileName != className) {
+      final issue = createIssue(
+        rule: this,
+        location: nodeLocation(
+          node: visitor._declarations.first.name,
+          source: source,
+          withCommentOrMetadata: true,
+        ),
+        message: _NotMatchFileNameIssue.getMessage(),
+      );
+
+      return [issue];
+    }
+
+    return [];
   }
+}
+
+String _formatClassName(String className) {
+  final exp = RegExp('(?<=[a-z])[A-Z]');
+  final result =
+      className.replaceAllMapped(exp, (m) => '_${m.group(0)!}').toLowerCase();
+
+  return result;
 }

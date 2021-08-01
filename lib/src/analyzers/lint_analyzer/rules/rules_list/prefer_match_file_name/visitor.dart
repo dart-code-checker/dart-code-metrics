@@ -1,39 +1,15 @@
 part of 'prefer_match_file_name.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
-  /// Path to checked file
-  final String pathToFile;
+  /// Collect all class declarations in file
+  final _declarations = <ClassDeclaration>[];
 
-  final _declarations = <_NotMatchFileNameIssue>[];
-
-  /// Indicate that the class is declared first in the file
-  bool _isFirstClassInFile = true;
-
-  Iterable<_NotMatchFileNameIssue> get declarations => _declarations;
-
-  _Visitor({required this.pathToFile}) : super();
+  Iterable<ClassDeclaration> get declaration =>
+      _declarations..sort((a, b) => a.name.offset.compareTo(b.name.offset));
 
   @override
   void visitClassDeclaration(ClassDeclaration node) {
-    if (_isFirstClassInFile &&
-        basenameWithoutExtension(pathToFile) !=
-            _formatClassName(node.name.name)) {
-      _declarations.add(_NotMatchFileNameIssue(
-        node.name.name,
-        pathToFile,
-        node.name,
-      ));
-    }
-
-    _isFirstClassInFile = false;
-  }
-
-  String _formatClassName(String className) {
-    final exp = RegExp('(?<=[a-z])[A-Z]');
-    final result =
-        className.replaceAllMapped(exp, (m) => '_${m.group(0)!}').toLowerCase();
-
-    return result;
+    _declarations.add(node);
   }
 }
 
