@@ -1,5 +1,9 @@
 # Changelog
 
+## Unresolved
+
+* Add static code diagnostic `prefer-single-widget-per-file`.
+
 ## 4.1.0
 
 * Add better monorepos support for CLI
