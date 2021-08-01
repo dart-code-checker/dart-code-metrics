@@ -1,5 +1,3 @@
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/prefer_match_file_name/prefer_match_file_name.dart';
-
 import 'models/rule.dart';
 import 'rules_list/always_remove_listener/always_remove_listener.dart';
 import 'rules_list/avoid_late_keyword/avoid_late_keyword.dart';
@@ -24,6 +22,7 @@ import 'rules_list/no_object_declaration/no_object_declaration.dart';
 import 'rules_list/prefer_conditional_expressions/prefer_conditional_expressions.dart';
 import 'rules_list/prefer_extracting_callbacks/prefer_extracting_callbacks.dart';
 import 'rules_list/prefer_intl_name/prefer_intl_name.dart';
+import 'rules_list/prefer_match_file_name/prefer_match_file_name.dart';
 import 'rules_list/prefer_on_push_cd_strategy/prefer_on_push_cd_strategy.dart';
 import 'rules_list/prefer_trailing_comma/prefer_trailing_comma.dart';
 import 'rules_list/provide_correct_intl_args/provide_correct_intl_args.dart';
