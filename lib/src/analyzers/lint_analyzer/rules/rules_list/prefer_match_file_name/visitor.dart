@@ -1,9 +1,13 @@
 part of 'prefer_match_file_name.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
+  /// Path to checked file
   final String pathToFile;
 
   final _declarations = <_NotMatchFileNameIssue>[];
+
+  /// Indicate that the class is declared first in the file
+  bool _isFirstClassInFile = true;
 
   Iterable<_NotMatchFileNameIssue> get declarations => _declarations;
 
@@ -11,14 +15,17 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
   @override
   void visitClassDeclaration(ClassDeclaration node) {
-    if (basenameWithoutExtension(pathToFile) !=
-        _formatClassName(node.name.name)) {
+    if (_isFirstClassInFile &&
+        basenameWithoutExtension(pathToFile) !=
+            _formatClassName(node.name.name)) {
       _declarations.add(_NotMatchFileNameIssue(
         node.name.name,
         pathToFile,
         node,
       ));
     }
+
+    _isFirstClassInFile = false;
   }
 
   String _formatClassName(String className) {

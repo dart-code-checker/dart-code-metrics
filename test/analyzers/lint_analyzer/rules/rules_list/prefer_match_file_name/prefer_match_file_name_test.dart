@@ -28,7 +28,7 @@ void main() {
         final unit = await RuleTestHelper.resolveFromFile(_examplePath);
         final issues = PreferMatchFileName().check(unit);
 
-        RuleTestHelper.verifyIssues(issues: issues);
+        RuleTestHelper.verifyNoIssues(issues);
       });
 
       test('reports about found issues', () async {
@@ -43,7 +43,7 @@ void main() {
             await RuleTestHelper.resolveFromFile(_exampleWithStatePath);
         final issues = PreferMatchFileName().check(unit);
 
-        RuleTestHelper.verifyIssues(issues: issues);
+        RuleTestHelper.verifyNoIssues(issues);
       });
     });
   });
