@@ -63,12 +63,12 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   PreferExtractingCallbacksRule.ruleId: (config) =>
       PreferExtractingCallbacksRule(config),
   PreferIntlNameRule.ruleId: (config) => PreferIntlNameRule(config),
+  PreferMatchFileName.ruleId: (config) => PreferMatchFileName(config),
   PreferOnPushCdStrategyRule.ruleId: (config) =>
       PreferOnPushCdStrategyRule(config),
   PreferTrailingCommaRule.ruleId: (config) => PreferTrailingCommaRule(config),
   ProvideCorrectIntlArgsRule.ruleId: (config) =>
       ProvideCorrectIntlArgsRule(config),
-  PreferMatchFileName.ruleId: (config) => PreferMatchFileName(config),
 };
 
 Iterable<Rule> get allRules =>
