@@ -12,18 +12,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
   Iterable<Issue> getIssueList(InternalResolvedUnitResult source) {
     final _issue = <Issue>[];
-    final declaration = _declarations
-      ..sort((a, b) {
-        final isAPrivate = Identifier.isPrivateName(a.name);
-        final isBPrivate = Identifier.isPrivateName(b.name);
-        if (!isAPrivate && isBPrivate) {
-          return -1;
-        } else if (isAPrivate && !isBPrivate) {
-          return 1;
-        } else {
-          return a.offset.compareTo(b.offset);
-        }
-      });
+    final declaration = _declarations..sort(_compareByPrivateType);
 
     if (declaration.isNotEmpty &&
         !_hasMatchName(source.path, declaration.first.name)) {
@@ -48,5 +37,17 @@ class _Visitor extends RecursiveAstVisitor<void> {
         className.replaceFirst('_', '').camelCaseToSnakeCase();
 
     return classNameFormatted == basenameWithoutExtension(path);
+  }
+
+  int _compareByPrivateType(SimpleIdentifier a, SimpleIdentifier b) {
+    final isAPrivate = Identifier.isPrivateName(a.name);
+    final isBPrivate = Identifier.isPrivateName(b.name);
+    if (!isAPrivate && isBPrivate) {
+      return -1;
+    } else if (isAPrivate && !isBPrivate) {
+      return 1;
+    } else {
+      return a.offset.compareTo(b.offset);
+    }
   }
 }
