@@ -2,15 +2,14 @@ part of 'prefer_match_file_name.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
   /// Collect all class declarations in file
-  final _declarations = <ClassDeclaration>[];
+  final _declarations = <SimpleIdentifier>[];
 
-  Iterable<ClassDeclaration> get declaration =>
-      _declarations..sort((a, b) => a.name.offset.compareTo(b.name.offset));
+  Iterable<SimpleIdentifier> get declaration =>
+      _declarations..sort((a, b) => a.offset.compareTo(b.offset));
 
   @override
   void visitClassDeclaration(ClassDeclaration node) {
-    _declarations.add(node);
+    super.visitClassDeclaration(node);
+    _declarations.add(node.name);
   }
 }
-
-
