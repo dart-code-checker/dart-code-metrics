@@ -3,6 +3,7 @@ import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:path/path.dart';
 
 import '../../../../../utils/node_utils.dart';
+import '../../../../../utils/string_extension.dart';
 import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
 import '../../../models/severity.dart';
@@ -12,7 +13,7 @@ import '../../rule_utils.dart';
 
 part 'visitor.dart';
 
-const _issueMessage = 'File name does not match the class name';
+const _issueMessage = 'File name does not match with first class name';
 
 class PreferMatchFileName extends Rule {
   static const String ruleId = 'prefer_match_file_name';
@@ -33,32 +34,6 @@ class PreferMatchFileName extends Rule {
     final visitor = _Visitor();
     source.unit.visitChildren(visitor);
 
-    if (visitor.declaration.isNotEmpty &&
-        !_hasMatchName(source.path, visitor.declaration.first.name)) {
-      final issue = createIssue(
-        rule: this,
-        location: nodeLocation(
-          node: visitor.declaration.first,
-          source: source,
-          withCommentOrMetadata: true,
-        ),
-        message: _issueMessage,
-      );
-
-      return [issue];
-    }
-
-    return [];
+    return visitor.getIssueList(source);
   }
-}
-
-bool _hasMatchName(String path, String className) =>
-    _formatClassName(className) == basenameWithoutExtension(path);
-
-String _formatClassName(String className) {
-  final exp = RegExp('(?<=[a-z])[A-Z]');
-  final result =
-      className.replaceAllMapped(exp, (m) => '_${m.group(0)!}').toLowerCase();
-
-  return result;
 }

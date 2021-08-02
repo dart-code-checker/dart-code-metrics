@@ -10,6 +10,8 @@ const _withSingleClass = '$_examplePath/example.dart';
 const _withStateFullWidget = '$_examplePath/example_with_state.dart';
 const _withIssue = '$_examplePath/example_with_issue.dart';
 const _emptyFile = '$_examplePath/empty_file.dart';
+const _privateClass = '$_examplePath/private_class.dart';
+const _multiClass = '$_examplePath/multiple_classes_example.dart';
 
 void main() {
   group('PreferMatchFileName', () {
@@ -23,15 +25,15 @@ void main() {
         severity: Severity.style,
       );
     });
-    group('test rule', () {
-      test('not found issue', () async {
+    group('Checking on various types of files', () {
+      test('Checking a file that contains one class', () async {
         final unit = await RuleTestHelper.resolveFromFile(_withSingleClass);
         final issues = PreferMatchFileName().check(unit);
 
         RuleTestHelper.verifyNoIssues(issues);
       });
 
-      test('reports about found issues', () async {
+      test('Checking file with wrong class name', () async {
         final unit = await RuleTestHelper.resolveFromFile(_withIssue);
         final issues = PreferMatchFileName().check(unit);
 
@@ -47,6 +49,20 @@ void main() {
 
       test('Checking an empty file. The error must not be found.', () async {
         final unit = await RuleTestHelper.resolveFromFile(_emptyFile);
+        final issues = PreferMatchFileName().check(unit);
+
+        RuleTestHelper.verifyNoIssues(issues);
+      });
+
+      test('Checking file with private class.', () async {
+        final unit = await RuleTestHelper.resolveFromFile(_privateClass);
+        final issues = PreferMatchFileName().check(unit);
+
+        RuleTestHelper.verifyNoIssues(issues);
+      });
+
+      test('Checking file with many classes.', () async {
+        final unit = await RuleTestHelper.resolveFromFile(_multiClass);
         final issues = PreferMatchFileName().check(unit);
 
         RuleTestHelper.verifyNoIssues(issues);

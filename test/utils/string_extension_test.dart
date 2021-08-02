@@ -27,7 +27,13 @@ void main() {
     });
 
     test('camelCaseToSnakeCase change a camel case string', () {
-      expect('camelCase'.camelCaseToSnakeCase(), equals('camel_case'));
+      expect('CamelCase'.camelCaseToSnakeCase(), equals('camel_case'));
+      expect('_CamelCase'.camelCaseToSnakeCase(), equals('__camel_case'));
+      expect('_CamelCase_'.camelCaseToSnakeCase(), equals('__camel_case_'));
+      expect('_CamelCaseLongTest_'.camelCaseToSnakeCase(),
+          equals('__camel_case_long_test_'));
+      expect('_CamelCaseLongTest_'.camelCaseToSnakeCase(),
+          equals('__camel_case_long_test_'));
     });
 
     test('camelCaseToSnakeCase doesn`t change a kebab-case string', () {
