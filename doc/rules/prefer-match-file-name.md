@@ -1,17 +1,16 @@
 # Prefer match file name
 
-![Configurable](https://img.shields.io/badge/-configurable-informational)
-
 ## Rule id
 
 prefer-match-file-name
 
 ## Description
 
-Warn when file name does not match class name
+Warn if the file name does not match the name of the first public class in the file or a private class if there are no public classes
 
 ### Example
 
+####Example 1 One class in the file
 Bad:
 
 File name: **some_widget.dart**
@@ -30,6 +29,48 @@ Good:
 File name: **some_widget.dart**
 
 ```dart
+class SomeWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    //...
+  }
+}
+```
+
+
+####Example 2 Multiple class in the file
+Bad:
+
+File name: **some_other_widget.dart**
+
+```dart
+class _SomeOtherWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    //...
+  }
+}
+
+class SomeWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    //...
+  }
+}
+```
+
+Good:
+
+File name: **some_widget.dart**
+
+```dart
+class _SomeOtherWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    //...
+  }
+}
+
 class SomeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
