@@ -25,5 +25,13 @@ void main() {
     test('snakeCaseToKebab doesn`t change a kebab-case string', () {
       expect('kebab-case'.snakeCaseToKebab(), equals('kebab-case'));
     });
+
+    test('camelCaseToSnakeCase change a camel case string', () {
+      expect('camelCase'.camelCaseToSnakeCase(), equals('camel_case'));
+    });
+
+    test('camelCaseToSnakeCase doesn`t change a kebab-case string', () {
+      expect('kebab-case'.camelCaseToSnakeCase(), equals('kebab-case'));
+    });
   });
 }
