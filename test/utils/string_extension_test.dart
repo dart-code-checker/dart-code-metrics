@@ -32,7 +32,9 @@ void main() {
       expect('CamelCase'.camelCaseToSnakeCase(), equals('camel_case'));
       expect('Camel Case'.camelCaseToSnakeCase(), equals('camel_case'));
       expect(
-          'Camel Case Test'.camelCaseToSnakeCase(), equals('camel_case_test'));
+        'Camel Case Test'.camelCaseToSnakeCase(),
+        equals('camel_case_test'),
+      );
       expect(
         'CamelCaseLongTest'.camelCaseToSnakeCase(),
         equals('camel_case_long_test'),
