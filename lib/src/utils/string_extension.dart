@@ -20,5 +20,6 @@ extension StringExtensions on String {
   /// Returns a string in snake case
   ///
   /// Example: print('camelCase'.camelCaseToSnakeCase()); => 'camel_case'
-  String camelCaseToSnakeCase() => split(_camelRegExp).map((e) => e.trim()).join('_').toLowerCase();
+  String camelCaseToSnakeCase() =>
+      split(_camelRegExp).map((e) => e.trim()).join('_').toLowerCase();
 }

@@ -3,7 +3,8 @@ part of 'prefer_match_file_name.dart';
 class _Visitor extends RecursiveAstVisitor<void> {
   final _declarations = <SimpleIdentifier>[];
 
-  Iterable<SimpleIdentifier> get declaration => _declarations..sort(_compareByPrivateType);
+  Iterable<SimpleIdentifier> get declaration =>
+      _declarations..sort(_compareByPrivateType);
 
   @override
   void visitClassDeclaration(ClassDeclaration node) {
