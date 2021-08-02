@@ -31,7 +31,7 @@ class PreferMatchFileName extends Rule {
 
   bool _hasMatchName(String path, String className) {
     final classNameFormatted =
-        className.replaceFirst('_', '').camelCaseToSnakeCase();
+        className.replaceFirst('_', ' ').trim().camelCaseToSnakeCase();
 
     return classNameFormatted == basenameWithoutExtension(path);
   }
