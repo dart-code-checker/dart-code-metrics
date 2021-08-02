@@ -29,11 +29,35 @@ class PreferMatchFileName extends Rule {
           excludes: readExcludes(config),
         );
 
+  bool _hasMatchName(String path, String className) {
+    final classNameFormatted =
+        className.replaceFirst('_', '').camelCaseToSnakeCase();
+
+    return classNameFormatted == basenameWithoutExtension(path);
+  }
+
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
     final visitor = _Visitor();
     source.unit.visitChildren(visitor);
 
-    return visitor.getIssueList(source);
+    final _issue = <Issue>[];
+
+    if (visitor.declaration.isNotEmpty &&
+        !_hasMatchName(source.path, visitor.declaration.first.name)) {
+      final issue = createIssue(
+        rule: PreferMatchFileName(),
+        location: nodeLocation(
+          node: visitor.declaration.first,
+          source: source,
+          withCommentOrMetadata: true,
+        ),
+        message: _issueMessage,
+      );
+
+      _issue.add(issue);
+    }
+
+    return _issue;
   }
 }
