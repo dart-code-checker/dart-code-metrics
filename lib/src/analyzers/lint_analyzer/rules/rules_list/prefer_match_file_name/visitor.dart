@@ -10,6 +10,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
   @override
   void visitClassDeclaration(ClassDeclaration node) {
     super.visitClassDeclaration(node);
+
     _declarations.add(node.name);
   }
 }

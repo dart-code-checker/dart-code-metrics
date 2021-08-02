@@ -33,12 +33,12 @@ class PreferMatchFileName extends Rule {
     final visitor = _Visitor();
     source.unit.visitChildren(visitor);
 
-    if (visitor._declarations.isNotEmpty &&
-        !_hasMatchName(source.path, visitor._declarations.first.name)) {
+    if (visitor.declaration.isNotEmpty &&
+        !_hasMatchName(source.path, visitor.declaration.first.name)) {
       final issue = createIssue(
         rule: this,
         location: nodeLocation(
-          node: visitor._declarations.first,
+          node: visitor.declaration.first,
           source: source,
           withCommentOrMetadata: true,
         ),
