@@ -1,6 +1,5 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
-import 'package:meta/meta.dart';
 import 'package:path/path.dart';
 
 import '../../../../../utils/node_utils.dart';
@@ -12,6 +11,8 @@ import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
 
 part 'visitor.dart';
+
+const _issueMessage = 'File name does not match the class name';
 
 class PreferMatchFileName extends Rule {
   static const String ruleId = 'prefer_match_file_name';
@@ -32,10 +33,8 @@ class PreferMatchFileName extends Rule {
     final visitor = _Visitor();
     source.unit.visitChildren(visitor);
 
-    final className = _formatClassName(visitor._declarations.first.name.name);
-    final fileName = basenameWithoutExtension(source.path);
-
-    if (fileName != className) {
+    if (visitor._declarations.isNotEmpty &&
+        !_hasMatchName(source.path, visitor._declarations.first.name.name)) {
       final issue = createIssue(
         rule: this,
         location: nodeLocation(
@@ -43,7 +42,7 @@ class PreferMatchFileName extends Rule {
           source: source,
           withCommentOrMetadata: true,
         ),
-        message: _NotMatchFileNameIssue.getMessage(),
+        message: _issueMessage,
       );
 
       return [issue];
@@ -52,6 +51,9 @@ class PreferMatchFileName extends Rule {
     return [];
   }
 }
+
+bool _hasMatchName(String path, String className) =>
+    _formatClassName(className) == basenameWithoutExtension(path);
 
 String _formatClassName(String className) {
   final exp = RegExp('(?<=[a-z])[A-Z]');
