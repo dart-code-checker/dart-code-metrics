@@ -28,16 +28,18 @@ void main() {
 
     test('camelCaseToSnakeCase change a camel case string', () {
       expect('CamelCase'.camelCaseToSnakeCase(), equals('camel_case'));
-      expect('_CamelCase'.camelCaseToSnakeCase(), equals('__camel_case'));
-      expect('_CamelCase_'.camelCaseToSnakeCase(), equals('__camel_case_'));
-      expect('_Camel Case'.camelCaseToSnakeCase(), equals('__camel_case'));
+      expect('CamelCase'.camelCaseToSnakeCase(), equals('camel_case'));
+      expect('CamelCase'.camelCaseToSnakeCase(), equals('camel_case'));
+      expect('Camel Case'.camelCaseToSnakeCase(), equals('camel_case'));
       expect(
-        '_CamelCaseLongTest_'.camelCaseToSnakeCase(),
-        equals('__camel_case_long_test_'),
+          'Camel Case Test'.camelCaseToSnakeCase(), equals('camel_case_test'));
+      expect(
+        'CamelCaseLongTest'.camelCaseToSnakeCase(),
+        equals('camel_case_long_test'),
       );
       expect(
-        '_CamelCaseLongTest_'.camelCaseToSnakeCase(),
-        equals('__camel_case_long_test_'),
+        'CamelCaseLongTest'.camelCaseToSnakeCase(),
+        equals('camel_case_long_test'),
       );
     });
 
