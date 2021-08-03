@@ -3,7 +3,6 @@ import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:path/path.dart';
 
 import '../../../../../utils/node_utils.dart';
-import '../../../../../utils/string_extension.dart';
 import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
 import '../../../models/severity.dart';
@@ -14,6 +13,8 @@ import '../../rule_utils.dart';
 part 'visitor.dart';
 
 const _issueMessage = 'File name does not match with first class name';
+
+final onlySymbolsRegex = RegExp('[^a-zA-Z0-9]');
 
 class PreferMatchFileName extends Rule {
   static const String ruleId = 'prefer_match_file_name';
@@ -31,9 +32,12 @@ class PreferMatchFileName extends Rule {
 
   bool _hasMatchName(String path, String className) {
     final classNameFormatted =
-        className.replaceFirst('_', ' ').trim().camelCaseToSnakeCase();
+        className.replaceAll(onlySymbolsRegex, '').toLowerCase();
 
-    return classNameFormatted == basenameWithoutExtension(path);
+    return classNameFormatted ==
+        basenameWithoutExtension(path)
+            .replaceAll(onlySymbolsRegex, '')
+            .toLowerCase();
   }
 
   @override
