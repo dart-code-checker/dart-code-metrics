@@ -8,7 +8,7 @@ prefer-match-file-name
 
 Warn if the file name does not match the name of the first public class in the file or a private class if there are no public classes
 
-### Example s
+### Example
 
 ####Example 1 One class in the file
 Bad:
