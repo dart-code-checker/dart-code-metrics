@@ -22,6 +22,7 @@ import 'rules_list/no_object_declaration/no_object_declaration.dart';
 import 'rules_list/prefer_conditional_expressions/prefer_conditional_expressions.dart';
 import 'rules_list/prefer_extracting_callbacks/prefer_extracting_callbacks.dart';
 import 'rules_list/prefer_intl_name/prefer_intl_name.dart';
+import 'rules_list/prefer_match_file_name/prefer_match_file_name.dart';
 import 'rules_list/prefer_on_push_cd_strategy/prefer_on_push_cd_strategy.dart';
 import 'rules_list/prefer_single_widget_per_file/prefer_single_widget_per_file.dart';
 import 'rules_list/prefer_trailing_comma/prefer_trailing_comma.dart';
@@ -63,6 +64,7 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   PreferExtractingCallbacksRule.ruleId: (config) =>
       PreferExtractingCallbacksRule(config),
   PreferIntlNameRule.ruleId: (config) => PreferIntlNameRule(config),
+  PreferMatchFileName.ruleId: (config) => PreferMatchFileName(config),
   PreferOnPushCdStrategyRule.ruleId: (config) =>
       PreferOnPushCdStrategyRule(config),
   PreferSingleWidgetPerFileRule.ruleId: (config) =>

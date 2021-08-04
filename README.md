@@ -349,6 +349,7 @@ Rules configuration is [described here](#configuring-a-rules-entry).
 - [no-magic-number](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/no-magic-number.md) &nbsp; [![Configurable](https://img.shields.io/badge/-configurable-informational)](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/no-magic-number.md#config-example)
 - [no-object-declaration](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/no-object-declaration.md)
 - [prefer-conditional-expressions](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/prefer-conditional-expressions.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
+- [prefer-match-file-name](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/prefer-match-file-name.md)
 - [prefer-trailing-comma](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/prefer-trailing-comma.md) &nbsp; [![Configurable](https://img.shields.io/badge/-configurable-informational)](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/prefer-trailing-comma.md#config-example) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 
 ### Flutter specific
