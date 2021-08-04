@@ -10,7 +10,8 @@ Warns if the file name does not match the name of the first public class in the 
 public classes.
 
 ### Config example
-We recommend skipping the test folder
+
+We recommend exclude the `test` folder.
 
 ```yaml
 dart_code_metrics:
