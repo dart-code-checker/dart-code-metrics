@@ -17,7 +17,7 @@ const _issueMessage = 'File name does not match with first class name';
 final onlySymbolsRegex = RegExp('[^a-zA-Z0-9]');
 
 class PreferMatchFileName extends Rule {
-  static const String ruleId = 'prefer_match_file_name';
+  static const String ruleId = 'prefer-match-file-name';
 
   PreferMatchFileName([Map<String, Object> config = const {}])
       : super(

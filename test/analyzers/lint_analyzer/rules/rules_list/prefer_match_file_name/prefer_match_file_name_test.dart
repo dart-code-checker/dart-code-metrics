@@ -21,7 +21,7 @@ void main() {
 
       RuleTestHelper.verifyInitialization(
         issues: issues,
-        ruleId: 'prefer_match_file_name',
+        ruleId: 'prefer-match-file-name',
         severity: Severity.style,
       );
     });
