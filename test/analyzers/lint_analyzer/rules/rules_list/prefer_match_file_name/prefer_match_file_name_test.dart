@@ -37,7 +37,15 @@ void main() {
       final unit = await RuleTestHelper.resolveFromFile(_withIssue);
       final issues = PreferMatchFileName().check(unit);
 
-      RuleTestHelper.verifyIssues(issues: issues);
+      RuleTestHelper.verifyIssues(
+        issues: issues,
+        startOffsets: [6],
+        startLines: [1],
+        startColumns: [7],
+        endOffsets: [13],
+        messages: ['File name does not match with first class name'],
+        locationTexts: ['Example'],
+      );
     });
 
     test('reports no issues for statefull widget class', () async {
