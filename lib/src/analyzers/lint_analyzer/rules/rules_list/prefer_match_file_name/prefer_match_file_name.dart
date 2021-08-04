@@ -6,13 +6,13 @@ import '../../../../../utils/node_utils.dart';
 import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
 import '../../../models/severity.dart';
-import '../../models/rule.dart';
+import '../../models/common_rule.dart';
 import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
 
 part 'visitor.dart';
 
-class PreferMatchFileName extends Rule {
+class PreferMatchFileName extends CommonRule {
   static const String ruleId = 'prefer-match-file-name';
   static const _notMatchNameFailure =
       'File name does not match with first class name';

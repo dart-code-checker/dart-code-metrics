@@ -1,8 +1,8 @@
 # Changelog
 
-## Unresolved
+## Unreleased
 
-* Add static code diagnostic `prefer-single-widget-per-file`.
+* Add static code diagnostics `prefer-match-file-name`, `prefer-single-widget-per-file`.
 
 ## 4.1.0
 
