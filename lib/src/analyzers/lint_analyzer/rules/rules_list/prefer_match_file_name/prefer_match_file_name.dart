@@ -22,7 +22,7 @@ class PreferMatchFileName extends Rule {
           id: ruleId,
           documentation: const RuleDocumentation(
             name: 'Prefer match file name',
-            brief: 'Warn when file name does not match class name',
+            brief: 'Warns when file name does not match class name.',
           ),
           severity: readSeverity(config, Severity.warning),
           excludes: readExcludes(config),
@@ -48,7 +48,7 @@ class PreferMatchFileName extends Rule {
     if (visitor.declaration.isNotEmpty &&
         !_hasMatchName(source.path, visitor.declaration.first.name)) {
       final issue = createIssue(
-        rule: PreferMatchFileName(),
+        rule: this,
         location: nodeLocation(
           node: visitor.declaration.first,
           source: source,

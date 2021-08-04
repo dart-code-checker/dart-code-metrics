@@ -25,48 +25,47 @@ void main() {
         severity: Severity.style,
       );
     });
-    group('Checking on various types of files', () {
-      test('Checking a file that contains one class', () async {
-        final unit = await RuleTestHelper.resolveFromFile(_withSingleClass);
-        final issues = PreferMatchFileName().check(unit);
 
-        RuleTestHelper.verifyNoIssues(issues);
-      });
+    test('reports no issues', () async {
+      final unit = await RuleTestHelper.resolveFromFile(_withSingleClass);
+      final issues = PreferMatchFileName().check(unit);
 
-      test('Checking file with wrong class name', () async {
-        final unit = await RuleTestHelper.resolveFromFile(_withIssue);
-        final issues = PreferMatchFileName().check(unit);
+      RuleTestHelper.verifyNoIssues(issues);
+    });
 
-        RuleTestHelper.verifyIssues(issues: issues);
-      });
+    test('reports about found issues for incorrect class name', () async {
+      final unit = await RuleTestHelper.resolveFromFile(_withIssue);
+      final issues = PreferMatchFileName().check(unit);
 
-      test('Checking a class with a stateful widget.', () async {
-        final unit = await RuleTestHelper.resolveFromFile(_withStateFullWidget);
-        final issues = PreferMatchFileName().check(unit);
+      RuleTestHelper.verifyIssues(issues: issues);
+    });
 
-        RuleTestHelper.verifyNoIssues(issues);
-      });
+    test('reports no issues for statefull widget class', () async {
+      final unit = await RuleTestHelper.resolveFromFile(_withStateFullWidget);
+      final issues = PreferMatchFileName().check(unit);
 
-      test('Checking an empty file. The error must not be found.', () async {
-        final unit = await RuleTestHelper.resolveFromFile(_emptyFile);
-        final issues = PreferMatchFileName().check(unit);
+      RuleTestHelper.verifyNoIssues(issues);
+    });
 
-        RuleTestHelper.verifyNoIssues(issues);
-      });
+    test('reports no issues for empty file', () async {
+      final unit = await RuleTestHelper.resolveFromFile(_emptyFile);
+      final issues = PreferMatchFileName().check(unit);
 
-      test('Checking file with private class.', () async {
-        final unit = await RuleTestHelper.resolveFromFile(_privateClass);
-        final issues = PreferMatchFileName().check(unit);
+      RuleTestHelper.verifyNoIssues(issues);
+    });
 
-        RuleTestHelper.verifyNoIssues(issues);
-      });
+    test('reports no issues for file with only private class', () async {
+      final unit = await RuleTestHelper.resolveFromFile(_privateClass);
+      final issues = PreferMatchFileName().check(unit);
 
-      test('Checking file with many classes.', () async {
-        final unit = await RuleTestHelper.resolveFromFile(_multiClass);
-        final issues = PreferMatchFileName().check(unit);
+      RuleTestHelper.verifyNoIssues(issues);
+    });
 
-        RuleTestHelper.verifyNoIssues(issues);
-      });
+    test('reports no issues for file multiples file', () async {
+      final unit = await RuleTestHelper.resolveFromFile(_multiClass);
+      final issues = PreferMatchFileName().check(unit);
+
+      RuleTestHelper.verifyNoIssues(issues);
     });
   });
 }
