@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 4.2.0-dev.1
 
 * Add static code diagnostics `prefer-match-file-name`, `prefer-single-widget-per-file`.
 
