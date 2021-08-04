@@ -6,8 +6,8 @@ prefer-match-file-name
 
 ## Description
 
-Warn if the file name does not match the name of the first public class in the file or a private class if there are no
-public classes
+Warns if the file name does not match the name of the first public class in the file or a private class if there are no
+public classes.
 
 ### Config example
 We recommend skipping the test folder
