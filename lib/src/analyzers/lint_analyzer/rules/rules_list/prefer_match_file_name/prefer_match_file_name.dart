@@ -12,12 +12,10 @@ import '../../rule_utils.dart';
 
 part 'visitor.dart';
 
-const _issueMessage = 'File name does not match with first class name';
-
-final onlySymbolsRegex = RegExp('[^a-zA-Z0-9]');
-
 class PreferMatchFileName extends Rule {
   static const String ruleId = 'prefer-match-file-name';
+  static const _notMatchNameFailure = 'File name does not match with first class name';
+  static final _onlySymbolsRegex = RegExp('[^a-zA-Z0-9]');
 
   PreferMatchFileName([Map<String, Object> config = const {}])
       : super(
@@ -32,11 +30,11 @@ class PreferMatchFileName extends Rule {
 
   bool _hasMatchName(String path, String className) {
     final classNameFormatted =
-        className.replaceAll(onlySymbolsRegex, '').toLowerCase();
+        className.replaceAll(_onlySymbolsRegex, '').toLowerCase();
 
     return classNameFormatted ==
         basenameWithoutExtension(path)
-            .replaceAll(onlySymbolsRegex, '')
+            .replaceAll(_onlySymbolsRegex, '')
             .toLowerCase();
   }
 
@@ -56,7 +54,7 @@ class PreferMatchFileName extends Rule {
           source: source,
           withCommentOrMetadata: true,
         ),
-        message: _issueMessage,
+        message: _notMatchNameFailure,
       );
 
       _issue.add(issue);
