@@ -28,15 +28,12 @@ Issue createIssue({
 /// Returns a url of a page containing documentation associated with [rule]
 Uri documentation(Rule rule) => Uri(
       scheme: 'https',
-      host: 'github.com',
+      host: 'dartcodemetrics.dev',
       pathSegments: [
-        'dart-code-checker',
-        'dart-code-metrics',
-        'blob',
-        'master',
-        'doc',
+        'docs',
         'rules',
-        '${rule.id}.md',
+        rule.type.value,
+        rule.id,
       ],
     );
 
