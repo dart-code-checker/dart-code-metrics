@@ -9,13 +9,13 @@ import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
 import '../../../models/severity.dart';
 import '../../flutter_rule_utils.dart';
-import '../../models/rule.dart';
+import '../../models/flutter_rule.dart';
 import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
 
 part 'visitor.dart';
 
-class AlwaysRemoveListenerRule extends Rule {
+class AlwaysRemoveListenerRule extends FlutterRule {
   static const String ruleId = 'always-remove-listener';
 
   static const _warningMessage =

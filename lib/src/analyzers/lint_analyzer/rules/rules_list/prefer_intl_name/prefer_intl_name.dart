@@ -9,13 +9,13 @@ import '../../../models/issue.dart';
 import '../../../models/replacement.dart';
 import '../../../models/severity.dart';
 import '../../base_visitors/intl_base_visitor.dart';
-import '../../models/rule.dart';
+import '../../models/intl_rule.dart';
 import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
 
 part 'visitor.dart';
 
-class PreferIntlNameRule extends Rule {
+class PreferIntlNameRule extends IntlRule {
   static const String ruleId = 'prefer-intl-name';
 
   static const _intlPackageUrl = 'package:intl/intl.dart';

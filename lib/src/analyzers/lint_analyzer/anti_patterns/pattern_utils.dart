@@ -24,15 +24,11 @@ Issue createIssue({
 /// Returns a url of a page containing documentation associated with [pattern]
 Uri documentation(Pattern pattern) => Uri(
       scheme: 'https',
-      host: 'github.com',
+      host: 'dartcodemetrics.dev',
       pathSegments: [
-        'dart-code-checker',
-        'dart-code-metrics',
-        'blob',
-        'master',
-        'doc',
+        'docs',
         'anti-patterns',
-        '${pattern.id}.md',
+        pattern.id,
       ],
     );
 

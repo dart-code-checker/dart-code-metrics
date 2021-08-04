@@ -7,13 +7,13 @@ import '../../../../../utils/node_utils.dart';
 import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
 import '../../../models/severity.dart';
-import '../../models/rule.dart';
+import '../../models/angular_rule.dart';
 import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
 
 part 'visitor.dart';
 
-class PreferOnPushCdStrategyRule extends Rule {
+class PreferOnPushCdStrategyRule extends AngularRule {
   static const String ruleId = 'prefer-on-push-cd-strategy';
 
   static const _failure = 'Prefer using onPush change detection strategy.';

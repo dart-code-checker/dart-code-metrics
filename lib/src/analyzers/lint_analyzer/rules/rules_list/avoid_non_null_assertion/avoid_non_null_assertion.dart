@@ -6,13 +6,13 @@ import '../../../../../utils/node_utils.dart';
 import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
 import '../../../models/severity.dart';
-import '../../models/rule.dart';
+import '../../models/common_rule.dart';
 import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
 
 part 'visitor.dart';
 
-class AvoidNonNullAssertionRule extends Rule {
+class AvoidNonNullAssertionRule extends CommonRule {
   static const String ruleId = 'avoid-non-null-assertion';
 
   static const _warning = 'Avoid using non null assertion.';

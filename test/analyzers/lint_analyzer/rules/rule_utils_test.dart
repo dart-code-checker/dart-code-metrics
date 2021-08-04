@@ -2,6 +2,7 @@
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/replacement.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/models/rule.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/models/rule_type.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rule_utils.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:source_span/source_span.dart';
@@ -16,7 +17,7 @@ void main() {
       () {
         const id = 'rule-id';
         final documentationUrl = Uri.parse(
-          'https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/rule-id.md',
+          'https://dartcodemetrics.dev/docs/rules/flutter/rule-id',
         );
         const severity = Severity.none;
 
@@ -37,6 +38,7 @@ void main() {
         final rule = RuleMock();
         when(() => rule.id).thenReturn(id);
         when(() => rule.severity).thenReturn(severity);
+        when(() => rule.type).thenReturn(RuleType.flutter);
 
         final issue = createIssue(
           rule: rule,
@@ -62,20 +64,22 @@ void main() {
 
       final rule1 = RuleMock();
       when(() => rule1.id).thenReturn(ruleId1);
+      when(() => rule1.type).thenReturn(RuleType.flutter);
 
       final rule2 = RuleMock();
       when(() => rule2.id).thenReturn(ruleId2);
+      when(() => rule2.type).thenReturn(RuleType.angular);
 
       expect(
         documentation(rule1).toString(),
         equals(
-          'https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/rules/$ruleId1.md',
+          'https://dartcodemetrics.dev/docs/rules/flutter/$ruleId1',
         ),
       );
-      expect(
-        documentation(rule2).pathSegments.last,
-        equals('$ruleId2.md'),
-      );
+
+      final doc2 = [...documentation(rule2).pathSegments];
+      expect(doc2.removeLast(), equals(ruleId2));
+      expect(doc2.removeLast(), equals(RuleType.angular.value));
     });
 
     test('readSeverity returns a Severity from Map based config', () {

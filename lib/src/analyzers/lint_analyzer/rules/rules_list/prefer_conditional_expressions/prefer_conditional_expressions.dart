@@ -7,7 +7,7 @@ import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
 import '../../../models/replacement.dart';
 import '../../../models/severity.dart';
-import '../../models/rule.dart';
+import '../../models/common_rule.dart';
 import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
 
@@ -15,7 +15,7 @@ part 'visitor.dart';
 
 // Inspired by TSLint (https://palantir.github.io/tslint/rules/prefer-conditional-expression/)
 
-class PreferConditionalExpressionsRule extends Rule {
+class PreferConditionalExpressionsRule extends CommonRule {
   static const String ruleId = 'prefer-conditional-expressions';
 
   static const _warningMessage = 'Prefer conditional expression';
