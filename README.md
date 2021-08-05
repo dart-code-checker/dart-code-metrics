@@ -8,10 +8,12 @@
 
 # Dart Code Metrics
 
-[Configuration](#configuration) |
-[Rules](#rules) |
-[Metrics](#metrics) |
-[Anti-patterns](#anti-patterns)
+> <span style="font-size:1.5em;">[Read the full documentation on the website](https://dartcodemetrics.dev/docs/getting-started/introduction)</span>
+
+[Configuration](https://dartcodemetrics.dev/docs/getting-started/configuration) |
+[Rules](https://dartcodemetrics.dev/docs/rules/overview) |
+[Metrics](https://dartcodemetrics.dev/docs/metrics/overview) |
+[Anti-patterns](https://dartcodemetrics.dev/docs/anti-patterns/overivew)
 
 <img
   src="https://raw.githubusercontent.com/dart-code-checker/dart-code-metrics/master/doc/.assets/logo.svg"
@@ -21,10 +23,11 @@
 
 Dart Code Metrics is a static analysis tool that helps you analyse and improve your code quality.
 
-- Reports [code metrics](#metrics)
-- Provides [additional rules](#rules) for the dart analyzer
-- Checks for [anti-patterns](#anti-patterns)
-- Can be used as [CLI](#cli), [analyzer plugin](#analyzer-plugin) or [library](#library)
+- Reports [code metrics](https://dartcodemetrics.dev/docs/metrics/overview)
+- Provides [additional rules](https://dartcodemetrics.dev/docs/rules/overview) for the dart analyzer
+- Checks for [anti-patterns](https://dartcodemetrics.dev/docs/anti-patterns/overivew)
+- Checks [unused `*.dart` files](https://dartcodemetrics.dev/docs/cli/check-unused-files)
+- Can be used as [CLI](https://dartcodemetrics.dev/docs/cli/overview), [analyzer plugin](https://dartcodemetrics.dev/docs/analyzer-plugin) or [library](https://dartcodemetrics.dev/docs/getting-started/installation#library)
 
 ## Links
 
@@ -32,7 +35,7 @@ Dart Code Metrics is a static analysis tool that helps you analyse and improve y
 - To contribute, please read [CONTRIBUTING.md](./CONTRIBUTING.md) first.
 - Please [open an issue](https://github.com/dart-code-checker/dart-code-metrics/issues/new?assignees=dkrutskikh&labels=question&template=question.md&title=%5BQuestion%5D+) if anything is missing or unclear in this documentation.
 
-## Usage
+## Quick start
 
 ### Analyzer plugin
 
@@ -99,34 +102,23 @@ A plugin for the Dart `analyzer` [package](https://pub.dev/packages/analyzer) pr
 The package can be used as a command-line tool.
 It will produce a result in one of the supported formats:
 
-- Plain terminal
-- [GitHub](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/reporters/github-reporter.md)
+- Console
+- GitHub
 - Codeclimate
 - HTML
-- [JSON](./doc/reporters/json.md)
+- JSON
 
-#### Basic usage
+#### Usage
 
 Install the package as listed in the [Analyzer plugin usage example](#analyzer-plugin).
 
-If you want the command-line tool to check rules, you [should configure](#configuring-a-rules-entry) `rules` entry in the `analysis_options.yaml` first.
+If you want the command-line tool to check rules, you [should configure](https://dartcodemetrics.dev/docs/getting-started/configuration#configuring-a-rules-entry) `rules` entry in the `analysis_options.yaml` first.
 
 ```sh
 dart pub run dart_code_metrics:metrics lib
 
 # or for a Flutter package
 flutter pub run dart_code_metrics:metrics lib
-```
-
-#### Global usage
-
-```sh
-dart pub global activate dart_code_metrics
-dart pub global run dart_code_metrics:metrics lib
-
-# or for a Flutter package
-flutter pub global activate dart_code_metrics
-flutter pub global run dart_code_metrics:metrics lib
 ```
 
 #### Multi-package repositories usage
@@ -176,6 +168,7 @@ Usage: metrics [arguments...] <directories>
                                                   [noted, warning, alarm]
 ```
 
+<<<<<<< Updated upstream
 ### Library
 
 [See `example/example.dart`](https://github.com/dart-code-checker/dart-code-metrics/blob/master/example/example.dart).
@@ -377,6 +370,8 @@ Like rules, anti-patterns display issues in IDE, except that their configuration
 - [long-method](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/anti-patterns/long-method.md)
 - [long-parameter-list](https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/anti-patterns/long-parameter-list.md)
 
+=======
+>>>>>>> Stashed changes
 ## Troubleshooting
 
 Please read [the following guide](./TROUBLESHOOTING.md) if the plugin is not working as you'd expect it to work.
