@@ -18,6 +18,7 @@ const _documentation = MetricDocumentation(
   brief:
       'The approximate number of source code lines in a method, blank lines and comments are not counted.',
   measuredType: EntityType.methodEntity,
+  recomendedThreshold: 50,
   examples: [],
 );
 
@@ -56,17 +57,18 @@ class SourceLinesOfCodeMetric extends FunctionMetric<int> {
   }
 
   @override
-  String commentMessage(String nodeType, int value, int threshold) {
-    final exceeds =
-        value > threshold ? ', exceeds the maximum of $threshold allowed' : '';
+  String commentMessage(String nodeType, int value, int? threshold) {
+    final exceeds = threshold != null && value > threshold
+        ? ', exceeds the maximum of $threshold allowed'
+        : '';
     final lines = '$value source ${value == 1 ? 'line' : 'lines'} of code';
 
     return 'This $nodeType has $lines$exceeds.';
   }
 
   @override
-  String? recommendationMessage(String nodeType, int value, int threshold) =>
-      (value > threshold)
+  String? recommendationMessage(String nodeType, int value, int? threshold) =>
+      (threshold != null && value > threshold)
           ? 'Consider breaking this $nodeType up into smaller parts.'
           : null;
 

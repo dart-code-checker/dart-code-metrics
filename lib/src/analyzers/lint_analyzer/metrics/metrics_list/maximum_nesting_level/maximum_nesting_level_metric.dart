@@ -18,6 +18,7 @@ const _documentation = MetricDocumentation(
   shortName: 'MAXNESTING',
   brief: 'The maximum nesting level of control structures within a method',
   measuredType: EntityType.methodEntity,
+  recomendedThreshold: 5,
   examples: [],
 );
 
@@ -55,8 +56,8 @@ class MaximumNestingLevelMetric extends FunctionMetric<int> {
   }
 
   @override
-  String commentMessage(String nodeType, int value, int threshold) {
-    final exceeds = value > threshold
+  String commentMessage(String nodeType, int value, int? threshold) {
+    final exceeds = threshold != null && value > threshold
         ? ', which exceeds the maximum of $threshold allowed'
         : '';
 

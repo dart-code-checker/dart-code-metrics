@@ -20,6 +20,7 @@ const _documentation = MetricDocumentation(
   shortName: 'CYCLO',
   brief: 'The number of linearly-independent paths through a code block',
   measuredType: EntityType.methodEntity,
+  recomendedThreshold: 20,
   examples: [],
 );
 
@@ -56,8 +57,8 @@ class CyclomaticComplexityMetric extends FunctionMetric<int> {
   }
 
   @override
-  String commentMessage(String nodeType, int value, int threshold) {
-    final exceeds = value > threshold
+  String commentMessage(String nodeType, int value, int? threshold) {
+    final exceeds = threshold != null && value > threshold
         ? ', which exceeds the maximum of $threshold allowed'
         : '';
 

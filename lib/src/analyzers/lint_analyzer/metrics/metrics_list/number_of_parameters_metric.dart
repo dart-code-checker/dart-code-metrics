@@ -14,6 +14,7 @@ const _documentation = MetricDocumentation(
   shortName: 'NOP',
   brief: 'Number of parameters received by a method',
   measuredType: EntityType.methodEntity,
+  recomendedThreshold: 4,
   examples: [],
 );
 
@@ -50,9 +51,10 @@ class NumberOfParametersMetric extends FunctionMetric<int> {
   }
 
   @override
-  String commentMessage(String nodeType, int value, int threshold) {
-    final exceeds =
-        value > threshold ? ', exceeds the maximum of $threshold allowed' : '';
+  String commentMessage(String nodeType, int value, int? threshold) {
+    final exceeds = threshold != null && value > threshold
+        ? ', exceeds the maximum of $threshold allowed'
+        : '';
     final parameters = '$value ${value == 1 ? 'parameter' : 'parameters'}';
 
     return 'This $nodeType has $parameters$exceeds.';
