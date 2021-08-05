@@ -7,7 +7,7 @@ To create a new rule:
 1. Choose a rule name according to our naming guide or take it from existing issue for the rule.
 2. Add an `.md` file with the rule documentation to `doc/rules`. If the rule supports configuration add ![Configurable](https://img.shields.io/badge/-configurable-informational) badge, if it has auto-fixes add ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success) badge
 3. Create a rule `.dart` file under `lib/src/analyzers/lint_analyzer/rules/rules_list`.
-4. Create a class that extends `Rule`. Add a public field with rule id, documentation url.
+4. Create a class that extends an abstract rule class depending on your rule type. Available classes: `FlutterRule`, `CommonRule`, `IntlRule`, `AngularRule`. Add a public field with rule id, documentation url.
 
     The class constructor should take `Map<String, Object> config` parameter which represents config that is passed to the rule from the `analysis_options.yaml`. Example:
 
