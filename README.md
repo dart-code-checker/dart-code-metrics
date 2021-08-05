@@ -8,7 +8,7 @@
 
 # Dart Code Metrics
 
-> <span style="font-size:1.5em;">[Read the full documentation on the website](https://dartcodemetrics.dev/docs/getting-started/introduction)</span>
+> <span style="font-size:2.5em;">[Read the full documentation on the website](https://dartcodemetrics.dev/docs/getting-started/introduction)</span>
 
 [Configuration](https://dartcodemetrics.dev/docs/getting-started/configuration) |
 [Rules](https://dartcodemetrics.dev/docs/rules/overview) |
