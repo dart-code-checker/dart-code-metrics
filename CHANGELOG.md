@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.2.0-dev.1
+
+* Add static code diagnostics `prefer-match-file-name`, `prefer-single-widget-per-file`.
+
 ## 4.1.0
 
 * Add better monorepos support for CLI

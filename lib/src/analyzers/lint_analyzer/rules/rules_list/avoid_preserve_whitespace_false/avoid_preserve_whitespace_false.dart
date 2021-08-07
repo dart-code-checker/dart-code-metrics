@@ -7,13 +7,13 @@ import '../../../../../utils/node_utils.dart';
 import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
 import '../../../models/severity.dart';
-import '../../models/rule.dart';
+import '../../models/angular_rule.dart';
 import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
 
 part 'visitor.dart';
 
-class AvoidPreserveWhitespaceFalseRule extends Rule {
+class AvoidPreserveWhitespaceFalseRule extends AngularRule {
   static const String ruleId = 'avoid-preserve-whitespace-false';
 
   static const _warning = 'Avoid using preserveWhitespace: false.';

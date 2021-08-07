@@ -5,14 +5,14 @@ import '../../../../../utils/node_utils.dart';
 import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
 import '../../../models/severity.dart';
-import '../../models/rule.dart';
+import '../../models/common_rule.dart';
 import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
 
 part 'config_parser.dart';
 part 'visitor.dart';
 
-class NoEqualArgumentsRule extends Rule {
+class NoEqualArgumentsRule extends CommonRule {
   static const String ruleId = 'no-equal-arguments';
 
   static const _warningMessage = 'The argument has already been passed.';

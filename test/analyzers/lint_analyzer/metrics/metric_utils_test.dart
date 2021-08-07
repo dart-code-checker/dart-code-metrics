@@ -14,12 +14,12 @@ void main() {
       expect(
         documentation(metricId1).toString(),
         equals(
-          'https://github.com/dart-code-checker/dart-code-metrics/blob/master/doc/metrics/metric-id-1.md',
+          'https://dartcodemetrics.dev/docs/metrics/metric-id-1',
         ),
       );
       expect(
         documentation(metricId2).pathSegments.last,
-        equals('$metricId2.md'),
+        equals(metricId2),
       );
     });
 

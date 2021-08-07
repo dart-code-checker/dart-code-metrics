@@ -3,15 +3,11 @@ import 'models/metric_value_level.dart';
 /// Returns the url of a page containing documentation associated with [metricId]
 Uri documentation(String metricId) => Uri(
       scheme: 'https',
-      host: 'github.com',
+      host: 'dartcodemetrics.dev',
       pathSegments: [
-        'dart-code-checker',
-        'dart-code-metrics',
-        'blob',
-        'master',
-        'doc',
+        'docs',
         'metrics',
-        '$metricId.md',
+        metricId,
       ],
     );
 

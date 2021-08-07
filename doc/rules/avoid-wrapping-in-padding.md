@@ -6,7 +6,7 @@ avoid-wrapping-in-padding
 
 ## Description
 
-Warns when a widget is wrapped in a Padding widget but has a padding settings by itself.
+Warns when a widget is wrapped in a `Padding(...)` widget but has a padding settings by itself.
 
 ### Example
 

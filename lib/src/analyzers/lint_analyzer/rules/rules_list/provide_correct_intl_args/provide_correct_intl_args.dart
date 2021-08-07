@@ -8,13 +8,13 @@ import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
 import '../../../models/severity.dart';
 import '../../base_visitors/intl_base_visitor.dart';
-import '../../models/rule.dart';
+import '../../models/intl_rule.dart';
 import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
 
 part 'visitor.dart';
 
-class ProvideCorrectIntlArgsRule extends Rule {
+class ProvideCorrectIntlArgsRule extends IntlRule {
   static const String ruleId = 'provide-correct-intl-args';
 
   static const _intlPackageUrl = 'package:intl/intl.dart';
