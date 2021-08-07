@@ -8,8 +8,8 @@
 
 # Dart Code Metrics
 
-> ### Read [the full documentation on the website](https://dartcodemetrics.dev/docs/getting-started/introduction)
-\
+**Note: you can find [the full documentation on the website](https://dartcodemetrics.dev/docs/getting-started/introduction)**
+
 [Configuration](https://dartcodemetrics.dev/docs/getting-started/configuration) |
 [Rules](https://dartcodemetrics.dev/docs/rules/overview) |
 [Metrics](https://dartcodemetrics.dev/docs/metrics/overview) |
