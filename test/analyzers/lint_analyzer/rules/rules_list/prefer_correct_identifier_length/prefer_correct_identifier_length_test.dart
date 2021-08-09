@@ -5,9 +5,10 @@ import 'package:test/test.dart';
 
 import '../../../../../helpers/rule_test_helper.dart';
 
-const _example = 'prefer_correct_identifier_length/example.dart';
-const _exampleWithoutIssue =
-    'prefer_correct_identifier_length/example_without_issue.dart';
+const _examplePath = 'prefer_correct_identifier_length/examples';
+const _example = '$_examplePath/example.dart';
+const _exampleWithoutIssue = '$_examplePath/example_without_issue.dart';
+const _exampleVariable = '$_examplePath/example_variable.dart';
 
 void main() {
   group('PreferCorrectIdentifierLength', () {
@@ -81,6 +82,27 @@ void main() {
           'Too short identifier length.',
           'Too short identifier length.',
           'Too long identifier length.',
+        ],
+      );
+    });
+
+    test('reports about found global and local variable', () async {
+      final unit = await RuleTestHelper.resolveFromFile(_exampleVariable);
+      final issues =
+          PreferCorrectIdentifierLength({'max-identifier-length': 15})
+              .check(unit);
+
+      RuleTestHelper.verifyIssues(
+        issues: issues,
+        startOffsets: [6, 53, 80],
+        startLines: [1, 3, 4],
+        startColumns: [7, 9, 9],
+        endOffsets: [25, 54, 81],
+        locationTexts: ['_someGlobalConstant', 'a', 'b'],
+        messages: [
+          'Too long identifier length.',
+          'Too short identifier length.',
+          'Too short identifier length.',
         ],
       );
     });
