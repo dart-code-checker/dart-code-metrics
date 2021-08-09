@@ -14,13 +14,13 @@ part 'config_parser.dart';
 part 'visitor.dart';
 
 const _defaultMinIdentifier = 3;
-const _defaultMaxIdentifier = 32;
+const _defaultMaxIdentifier = 30;
 
 class PreferCorrectIdentifierLength extends CommonRule {
   static const String ruleId = 'prefer-correct-identifier-length';
 
-  static const _tooShortIdentifierLength = 'Too short identifier length';
-  static const _tooLongIdentifierLength = 'Too long identifier length';
+  static const _tooShortIdentifierLength = 'Too short identifier length.';
+  static const _tooLongIdentifierLength = 'Too long identifier length.';
 
   final int? _minLength;
   final int? _maxLength;
