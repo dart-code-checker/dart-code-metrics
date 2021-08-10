@@ -1,5 +1,19 @@
 # Contribution guide
 
+## Opening a Pull Request
+
+Our team uses [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) when coding and creating PRs. This standard makes it easy for our team to review and identify commits in our repo quickly.
+
+PR titles should follow the format below:
+
+```jsx
+<type>(optional scope): <description>
+```
+
+1. **fix:** a commit of the *type* `fix` patches a bug in the codebase.
+2. **feat:** a commit of the *type* `feat` introduces a new feature to the codebase.
+3. *types* other than `fix:` and `feat:` are allowed, for example **[@commitlint/config-conventional](https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-conventional)** (based on the **[the Angular convention](https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#-commit-message-guidelines)**) recommends `build:`, `chore:`, `ci:`, `docs:`, `style:`, `refactor:`, `perf:`, `test:`, and others.
+
 ## Creating new lint rule
 
 To create a new rule:
