@@ -38,14 +38,16 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [24, 39],
-        startLines: [2, 3],
-        startColumns: [9, 9],
-        endOffsets: [25, 40],
-        locationTexts: ['x', 'y'],
+        startOffsets: [169, 154, 24, 39],
+        startLines: [11, 9, 2, 3],
+        startColumns: [7, 6, 9, 9],
+        endOffsets: [170, 156, 25, 40],
+        locationTexts: ['A', 'so', 'x', 'y'],
         messages: [
-          'Too short identifier length.',
-          'Too short identifier length.',
+          'Too short class name length.',
+          'Too short function name length.',
+          'Too short variable name length.',
+          'Too short variable name length.',
         ],
       );
     });
@@ -63,7 +65,7 @@ void main() {
         startColumns: [9],
         endOffsets: [140],
         locationTexts: ['multiplatformConfigurationPoint'],
-        messages: ['Too long identifier length.'],
+        messages: ['Too long variable name length.'],
       );
     });
 
@@ -73,15 +75,23 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [24, 39, 109],
-        startLines: [2, 3, 6],
-        startColumns: [9, 9, 9],
-        endOffsets: [25, 40, 140],
-        locationTexts: ['x', 'y', 'multiplatformConfigurationPoint'],
+        startOffsets: [169, 154, 24, 39, 109],
+        startLines: [11, 9, 2, 3, 6],
+        startColumns: [7, 6, 9, 9, 9],
+        endOffsets: [170, 156, 25, 40, 140],
+        locationTexts: [
+          'A',
+          'so',
+          'x',
+          'y',
+          'multiplatformConfigurationPoint',
+        ],
         messages: [
-          'Too short identifier length.',
-          'Too short identifier length.',
-          'Too long identifier length.',
+          'Too short class name length.',
+          'Too short function name length.',
+          'Too short variable name length.',
+          'Too short variable name length.',
+          'Too long variable name length.',
         ],
       );
     });
@@ -94,17 +104,29 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [6, 53, 80],
-        startLines: [1, 3, 4],
-        startColumns: [7, 9, 9],
-        endOffsets: [25, 54, 81],
-        locationTexts: ['_someGlobalConstant', 'a', 'b'],
+        startOffsets: [113, 6, 53, 80],
+        startLines: [6, 1, 3, 4],
+        startColumns: [10, 7, 9, 9],
+        endOffsets: [114, 25, 54, 81],
+        locationTexts: ['m', '_someGlobalConstant', 'a', 'b'],
         messages: [
-          'Too long identifier length.',
-          'Too short identifier length.',
-          'Too short identifier length.',
+          'Too short function name length.',
+          'Too long variable name length.',
+          'Too short variable name length.',
+          'Too short variable name length.',
         ],
       );
+    });
+
+    test('reports no issue configure rule', () async {
+      final unit = await RuleTestHelper.resolveFromFile(_example);
+      final issues = PreferCorrectIdentifierLength({
+        'check-variable-name': false,
+        'check-class-name': false,
+        'check-function-name': false,
+      }).check(unit);
+
+      RuleTestHelper.verifyNoIssues(issues);
     });
   });
 }

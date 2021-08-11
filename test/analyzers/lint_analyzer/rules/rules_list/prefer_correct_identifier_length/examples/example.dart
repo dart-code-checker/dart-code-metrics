@@ -5,3 +5,7 @@ class Example {
   final multiplatformConfig = 0;
   final multiplatformConfigurationPoint = 0;
 }
+
+bool so() {}
+
+class A {}

@@ -23,6 +23,9 @@ dart_code_metrics:
     - prefer-correct-identifier-length:
       max-identifier-length: 40
       min-identifier-length: 4
+      check-variable-name: false
+      check-function-name: false
+      check-class-name: false
 ```
 
 ### Example
