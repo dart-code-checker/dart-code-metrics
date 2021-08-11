@@ -333,7 +333,6 @@ class LintAnalyzer {
           readThreshold<int>(
             config.metricsConfig,
             SourceLinesOfCodeMetric.metricId,
-            50,
           ),
         ),
         comment: '',

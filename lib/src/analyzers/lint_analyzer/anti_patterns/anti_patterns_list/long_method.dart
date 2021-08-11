@@ -35,7 +35,8 @@ class LongMethod extends ObsoletePattern {
     Map<String, Object> metricsConfig,
   ) {
     final threshold =
-        readThreshold<int>(metricsConfig, SourceLinesOfCodeMetric.metricId, 50);
+        readThreshold<int>(metricsConfig, SourceLinesOfCodeMetric.metricId) ??
+            50;
 
     return functions
         .where((function) => !_isExcluded(function))

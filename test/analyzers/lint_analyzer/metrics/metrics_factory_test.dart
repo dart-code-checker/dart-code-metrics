@@ -13,7 +13,7 @@ void main() {
             .where((metric) => metric.id == MaximumNestingLevelMetric.metricId)
             .single
             .threshold,
-        equals(5),
+        isNull,
       );
       expect(
         getMetrics(config: {MaximumNestingLevelMetric.metricId: '10'})

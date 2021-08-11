@@ -32,7 +32,7 @@ class NumberOfMethodsMetric extends ClassMetric<int> {
       : super(
           id: metricId,
           documentation: _documentation,
-          threshold: readThreshold<int>(config, metricId, 10),
+          threshold: readThreshold<int>(config, metricId),
           levelComputer: valueLevel,
         );
 

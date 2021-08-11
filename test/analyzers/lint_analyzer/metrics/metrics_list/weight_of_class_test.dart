@@ -10,7 +10,8 @@ const _examplePath = './test/resources/weight_of_class_example.dart';
 
 void main() {
   test('WeightOfClassMetric computes weight of the example class', () async {
-    final metric = WeightOfClassMetric();
+    final metric =
+        WeightOfClassMetric(config: {WeightOfClassMetric.metricId: '0.33'});
 
     final visitor = ScopeVisitor();
 

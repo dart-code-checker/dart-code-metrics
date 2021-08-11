@@ -29,7 +29,7 @@ class NumberOfParametersMetric extends FunctionMetric<int> {
       : super(
           id: metricId,
           documentation: _documentation,
-          threshold: readThreshold<int>(config, metricId, 4),
+          threshold: readThreshold<int>(config, metricId),
           levelComputer: valueLevel,
         );
 

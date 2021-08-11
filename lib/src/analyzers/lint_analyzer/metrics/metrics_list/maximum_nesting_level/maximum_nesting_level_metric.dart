@@ -35,7 +35,7 @@ class MaximumNestingLevelMetric extends FunctionMetric<int> {
       : super(
           id: metricId,
           documentation: _documentation,
-          threshold: readThreshold<int>(config, metricId, 5),
+          threshold: readThreshold<int>(config, metricId),
           levelComputer: valueLevel,
         );
 

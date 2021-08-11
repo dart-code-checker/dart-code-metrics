@@ -36,7 +36,7 @@ class SourceLinesOfCodeMetric extends FunctionMetric<int> {
       : super(
           id: metricId,
           documentation: _documentation,
-          threshold: readThreshold<int>(config, metricId, 50),
+          threshold: readThreshold<int>(config, metricId),
           levelComputer: valueLevel,
         );
 
