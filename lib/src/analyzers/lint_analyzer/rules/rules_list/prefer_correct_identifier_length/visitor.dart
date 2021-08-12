@@ -3,7 +3,6 @@ part of 'prefer_correct_identifier_length.dart';
 class _Visitor extends ScopeVisitor {
   final _variableDeclaration = <VariableDeclaration>[];
   final _functionDeclaration = <FunctionDeclaration>[];
-  final _methodDeclaration = <MethodDeclaration>[];
   final _classDeclaration = <ClassDeclaration>[];
 
   Iterable<VariableDeclaration> get variablesNode => _variableDeclaration;
@@ -21,13 +20,6 @@ class _Visitor extends ScopeVisitor {
 
   @override
   void visitFunctionDeclaration(FunctionDeclaration node) {
-    super.visitFunctionDeclaration(node);
-
-    _functionDeclaration.add(node);
-  }
-
-  @override
-  void visitEnum(FunctionDeclaration node) {
     super.visitFunctionDeclaration(node);
 
     _functionDeclaration.add(node);
