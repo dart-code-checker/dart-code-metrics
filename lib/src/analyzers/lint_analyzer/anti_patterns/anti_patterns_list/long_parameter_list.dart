@@ -34,9 +34,7 @@ class LongParameterList extends ObsoletePattern {
         readThreshold<int>(metricsConfig, NumberOfParametersMetric.metricId, 4);
 
     return functions
-        .where(
-          (function) => getArgumentsCount(function) > threshold,
-        )
+        .where((function) => getArgumentsCount(function) > threshold)
         .map((function) => createIssue(
               pattern: this,
               location: nodeLocation(
