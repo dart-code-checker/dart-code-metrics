@@ -8,33 +8,24 @@ class _ConfigParser {
   static const _checkClassName = 'check-class-name';
   static const _checkIdentifierName = 'check-variable-name';
 
-  static int? parseMinIdentifierLength(Map<String, Object> config) {
-    final minLength = config[_minIdentifierLength];
+  static int? parseMinIdentifierLength(Map<String, Object> config) =>
+      _parseIntConfig(config[_minIdentifierLength]);
 
-    return minLength != null ? int.tryParse(minLength.toString()) : null;
-  }
+  static int? parseMaxIdentifierLength(Map<String, Object> config) =>
+      _parseIntConfig(config[_maxIdentifierLength]);
 
-  static int? parseMaxIdentifierLength(Map<String, Object> config) {
-    final maxLength = config[_maxIdentifierLength];
+  static bool? parseCheckFunctionName(Map<String, Object> config) =>
+      _parseBoolConfig(config[_checkFunctionName]);
 
-    return maxLength != null ? int.tryParse(maxLength.toString()) : null;
-  }
+  static bool? parseCheckClassName(Map<String, Object> config) =>
+      _parseBoolConfig(config[_checkClassName]);
 
-  static bool? parseCheckFunctionName(Map<String, Object> config) {
-    final value = config[_checkFunctionName];
+  static bool? parseCheckIdentifier(Map<String, Object> config) =>
+      _parseBoolConfig(config[_checkIdentifierName]);
 
-    return value == null ? null : value.toString().toLowerCase() == 'true';
-  }
+  static bool? _parseBoolConfig(Object? value) =>
+      value == null ? null : value.toString().toLowerCase() == 'true';
 
-  static bool? parseCheckClassName(Map<String, Object> config) {
-    final value = config[_checkClassName];
-
-    return value == null ? null : value.toString().toLowerCase() == 'true';
-  }
-
-  static bool? parseCheckIdentifier(Map<String, Object> config) {
-    final value = config[_checkIdentifierName];
-
-    return value == null ? null : value.toString().toLowerCase() == 'true';
-  }
+  static int? _parseIntConfig(Object? value) =>
+      value != null ? int.tryParse(value.toString()) : null;
 }
