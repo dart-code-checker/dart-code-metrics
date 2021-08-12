@@ -34,7 +34,7 @@ class WeightOfClassMetric extends ClassMetric<double> {
       : super(
           id: metricId,
           documentation: _documentation,
-          threshold: readThreshold<double>(config, metricId),
+          threshold: readNullableThreshold<double>(config, metricId),
           levelComputer: invertValueLevel,
         );
 

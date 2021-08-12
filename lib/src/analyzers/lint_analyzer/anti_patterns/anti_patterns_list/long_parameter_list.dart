@@ -31,8 +31,7 @@ class LongParameterList extends ObsoletePattern {
     Map<String, Object> metricsConfig,
   ) {
     final threshold =
-        readThreshold<int>(metricsConfig, NumberOfParametersMetric.metricId) ??
-            4;
+        readThreshold<int>(metricsConfig, NumberOfParametersMetric.metricId, 4);
 
     return functions
         .where(

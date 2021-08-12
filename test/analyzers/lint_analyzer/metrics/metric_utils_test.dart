@@ -38,11 +38,32 @@ void main() {
         metricId4: null,
       };
 
-      expect(readThreshold<int>(_config, metricId1), equals(metricId1Value));
-      expect(readThreshold<double>(_config, metricId2), equals(metricId2Value));
-      expect(readThreshold<int>(_config, metricId3), isNull);
-      expect(readThreshold<double>(_config, metricId4), isNull);
-      expect(readThreshold<int>(_config, metricId5), isNull);
+      expect(
+        readNullableThreshold<int>(_config, metricId1),
+        equals(metricId1Value),
+      );
+      expect(
+        readThreshold<int>(_config, metricId1, 15),
+        equals(metricId1Value),
+      );
+
+      expect(
+        readNullableThreshold<double>(_config, metricId2),
+        equals(metricId2Value),
+      );
+      expect(
+        readThreshold<double>(_config, metricId2, 15),
+        equals(metricId2Value),
+      );
+
+      expect(readNullableThreshold<int>(_config, metricId3), isNull);
+      expect(readThreshold<int>(_config, metricId3, 15), equals(15));
+
+      expect(readNullableThreshold<double>(_config, metricId4), isNull);
+      expect(readThreshold<double>(_config, metricId4, 15), equals(15));
+
+      expect(readNullableThreshold<int>(_config, metricId5), isNull);
+      expect(readThreshold<int>(_config, metricId5, 15), equals(15));
     });
 
     test('valueLevel returns a level of passed value', () {

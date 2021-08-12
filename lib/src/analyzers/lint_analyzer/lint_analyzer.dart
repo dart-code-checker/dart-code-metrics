@@ -330,7 +330,7 @@ class LintAnalyzer {
         value: sourceLinesOfCodeVisitor.linesWithCode.length,
         level: valueLevel(
           sourceLinesOfCodeVisitor.linesWithCode.length,
-          readThreshold<int>(
+          readNullableThreshold<int>(
             config.metricsConfig,
             SourceLinesOfCodeMetric.metricId,
           ),

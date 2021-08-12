@@ -53,7 +53,7 @@ class LintCodeClimateReporter extends CodeClimateReporter<LintFileReport> {
               report.methodsCount.value,
               record.relativePath,
               key,
-              readThreshold<int>(metrics, NumberOfMethodsMetric.metricId) ?? 10,
+              readThreshold<int>(metrics, NumberOfMethodsMetric.metricId, 10),
             ),
         ];
       }),
@@ -80,8 +80,7 @@ class LintCodeClimateReporter extends CodeClimateReporter<LintFileReport> {
           report.cyclomaticComplexity.value,
           record.relativePath,
           key,
-          readThreshold<int>(metrics, CyclomaticComplexityMetric.metricId) ??
-              20,
+          readThreshold<int>(metrics, CyclomaticComplexityMetric.metricId, 20),
         ));
       }
 
@@ -100,7 +99,7 @@ class LintCodeClimateReporter extends CodeClimateReporter<LintFileReport> {
           report.maximumNestingLevel.value,
           record.relativePath,
           key,
-          readThreshold<int>(metrics, MaximumNestingLevelMetric.metricId) ?? 5,
+          readThreshold<int>(metrics, MaximumNestingLevelMetric.metricId, 5),
         ));
       }
     }
