@@ -230,6 +230,7 @@ MetricValue<T> _buildMetricValueStub<T>({
         shortName: id.toUpperCase(),
         brief: 'brief $id',
         measuredType: type,
+        recomendedThreshold: 0,
         examples: const [],
       ),
       value: value,

@@ -13,8 +13,8 @@ abstract class FunctionMetric<T extends num> extends Metric<T> {
   const FunctionMetric({
     required String id,
     required MetricDocumentation documentation,
-    required T threshold,
-    required MetricValueLevel Function(T, T) levelComputer,
+    required T? threshold,
+    required MetricValueLevel Function(T, T?) levelComputer,
   }) : super(
           id: id,
           documentation: documentation,

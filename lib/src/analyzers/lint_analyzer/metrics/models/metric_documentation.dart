@@ -18,6 +18,9 @@ class MetricDocumentation {
   /// The type of entities which will be measured by the metric.
   final EntityType measuredType;
 
+  /// The recomended threshold value for this metric
+  final num recomendedThreshold;
+
   /// The code snippet that is used for the metric documentation generating.
   final Iterable<SourceSpan> examples;
 
@@ -29,6 +32,7 @@ class MetricDocumentation {
     required this.shortName,
     required this.brief,
     required this.measuredType,
+    required this.recomendedThreshold,
     required this.examples,
   });
 }

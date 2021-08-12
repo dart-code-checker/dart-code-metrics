@@ -127,7 +127,7 @@ class AnalyzeCommand extends BaseCommand {
       argParser.addOption(
         metric.id,
         help: '${metric.documentation.name} threshold$deprecationMessage.',
-        valueHelp: '${metric.threshold}',
+        valueHelp: '${metric.documentation.recomendedThreshold}',
         callback: (i) {
           if (i != null && int.tryParse(i) == null) {
             print(

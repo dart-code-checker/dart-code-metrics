@@ -15,6 +15,7 @@ const _documentation = MetricDocumentation(
   brief:
       'The number of physical lines of code of a method, including blank lines and comments',
   measuredType: EntityType.methodEntity,
+  recomendedThreshold: 100,
   examples: [],
 );
 
@@ -30,7 +31,7 @@ class LinesOfCodeMetric extends FunctionMetric<int> {
       : super(
           id: metricId,
           documentation: _documentation,
-          threshold: readThreshold<int>(config, metricId, 100),
+          threshold: readNullableThreshold<int>(config, metricId),
           levelComputer: valueLevel,
         );
 
@@ -48,17 +49,18 @@ class LinesOfCodeMetric extends FunctionMetric<int> {
       );
 
   @override
-  String commentMessage(String nodeType, int value, int threshold) {
-    final exceeds =
-        value > threshold ? ', exceeds the maximum of $threshold allowed' : '';
+  String commentMessage(String nodeType, int value, int? threshold) {
+    final exceeds = threshold != null && value > threshold
+        ? ', exceeds the maximum of $threshold allowed'
+        : '';
     final lines = '$value ${value == 1 ? 'line' : 'lines'} of code';
 
     return 'This $nodeType has $lines$exceeds.';
   }
 
   @override
-  String? recommendationMessage(String nodeType, int value, int threshold) =>
-      (value > threshold)
+  String? recommendationMessage(String nodeType, int value, int? threshold) =>
+      (threshold != null && value > threshold)
           ? 'Consider breaking this $nodeType up into smaller parts.'
           : null;
 }

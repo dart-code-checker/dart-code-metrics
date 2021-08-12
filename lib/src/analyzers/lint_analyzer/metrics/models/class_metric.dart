@@ -13,8 +13,8 @@ abstract class ClassMetric<T extends num> extends Metric<T> {
   const ClassMetric({
     required String id,
     required MetricDocumentation documentation,
-    required T threshold,
-    required MetricValueLevel Function(T, T) levelComputer,
+    required T? threshold,
+    required MetricValueLevel Function(T, T?) levelComputer,
   }) : super(
           id: id,
           documentation: documentation,

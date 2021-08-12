@@ -56,6 +56,7 @@ void main() {
                 shortName: '',
                 brief: '',
                 measuredType: EntityType.classEntity,
+                recomendedThreshold: 0,
                 examples: [],
               ),
               value: 10,

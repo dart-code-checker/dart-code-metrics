@@ -324,15 +324,15 @@ class LintAnalyzer {
           shortName: '',
           brief: '',
           measuredType: EntityType.methodEntity,
+          recomendedThreshold: 0,
           examples: [],
         ),
         value: sourceLinesOfCodeVisitor.linesWithCode.length,
         level: valueLevel(
           sourceLinesOfCodeVisitor.linesWithCode.length,
-          readThreshold<int>(
+          readNullableThreshold<int>(
             config.metricsConfig,
             SourceLinesOfCodeMetric.metricId,
-            50,
           ),
         ),
         comment: '',
@@ -407,6 +407,7 @@ class LintAnalyzer {
               shortName: '',
               brief: '',
               measuredType: EntityType.classEntity,
+              recomendedThreshold: 0,
               examples: [],
             ),
             value: maintainabilityIndex,
