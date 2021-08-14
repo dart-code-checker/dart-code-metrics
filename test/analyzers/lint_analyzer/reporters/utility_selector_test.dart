@@ -227,18 +227,6 @@ void main() {
     });
 
     test(
-      'classMetricViolationLevel returns aggregated violation level for component',
-      () {
-        expect(
-          UtilitySelector.classMetricViolationLevel(buildClassMetricsReportStub(
-            methodsCountViolationLevel: MetricValueLevel.warning,
-          )),
-          MetricValueLevel.warning,
-        );
-      },
-    );
-
-    test(
       'functionViolationLevel returns aggregated violation level for function',
       () {
         expect(

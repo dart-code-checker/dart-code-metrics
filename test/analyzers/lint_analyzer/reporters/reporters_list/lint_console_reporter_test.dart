@@ -57,20 +57,11 @@ void main() {
             path: fullPath,
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{
-              'class': buildRecordStub(metrics: const [
-                MetricValue<int>(
-                  metricsId: NumberOfMethodsMetric.metricId,
-                  documentation: MetricDocumentation(
-                    name: '',
-                    shortName: '',
-                    brief: '',
-                    measuredType: EntityType.classEntity,
-                    recomendedThreshold: 0,
-                    examples: [],
-                  ),
+              'class': buildRecordStub(metrics: [
+                buildMetricValueStub<int>(
+                  id: NumberOfMethodsMetric.metricId,
                   value: 0,
                   level: MetricValueLevel.none,
-                  comment: '',
                 ),
               ]),
             }),
@@ -90,7 +81,7 @@ void main() {
         expect(verboseReport, hasLength(3));
         expect(
           verboseReport[1],
-          contains('number of methods: \x1B[38;5;7m0\x1B[0m'),
+          contains('number-of-methods: \x1B[38;5;7m0\x1B[0m'),
         );
       });
 
@@ -100,20 +91,11 @@ void main() {
             path: fullPath,
             relativePath: 'example.dart',
             classes: Map.unmodifiable(<String, Report>{
-              'class': buildRecordStub(metrics: const [
-                MetricValue<int>(
-                  metricsId: NumberOfMethodsMetric.metricId,
-                  documentation: MetricDocumentation(
-                    name: '',
-                    shortName: '',
-                    brief: '',
-                    measuredType: EntityType.classEntity,
-                    recomendedThreshold: 0,
-                    examples: [],
-                  ),
+              'class': buildRecordStub(metrics: [
+                buildMetricValueStub<int>(
+                  id: NumberOfMethodsMetric.metricId,
                   value: 20,
                   level: MetricValueLevel.warning,
-                  comment: '',
                 ),
               ]),
             }),
@@ -128,7 +110,7 @@ void main() {
         final report =
             verify(() => output.writeln(captureAny())).captured.cast<String>();
         expect(report, hasLength(3));
-        expect(report[1], contains('number of methods: \x1B[38;5;3m20\x1B[0m'));
+        expect(report[1], contains('number-of-methods: \x1B[38;5;3m20\x1B[0m'));
       });
     });
 
@@ -162,7 +144,7 @@ void main() {
         expect(report, hasLength(3));
         expect(
           report[1],
-          contains('source lines of code: \x1B[38;5;1m150\x1B[0m'),
+          contains('source-lines-of-code: \x1B[38;5;1m150\x1B[0m'),
         );
       });
 
@@ -198,7 +180,7 @@ void main() {
         expect(verboseReport, hasLength(3));
         expect(
           verboseReport[1],
-          contains('source lines of code: \x1B[38;5;7m5\x1B[0m'),
+          contains('source-lines-of-code: \x1B[38;5;7m5\x1B[0m'),
         );
       });
 
@@ -234,7 +216,7 @@ void main() {
         expect(verboseReport, hasLength(3));
         expect(
           verboseReport[1],
-          contains('number of arguments: \x1B[38;5;7m0\x1B[0m'),
+          contains('number-of-parameters: \x1B[38;5;7m0\x1B[0m'),
         );
       });
 
@@ -267,7 +249,7 @@ void main() {
         expect(report, hasLength(3));
         expect(
           report[1],
-          contains('number of arguments: \x1B[38;5;1m10\x1B[0m'),
+          contains('number-of-parameters: \x1B[38;5;1m10\x1B[0m'),
         );
       });
 
@@ -283,7 +265,7 @@ void main() {
                   MetricValue<int>(
                     metricsId: MaximumNestingLevelMetric.metricId,
                     documentation: MetricDocumentation(
-                      name: '',
+                      name: 'nesting level',
                       shortName: '',
                       brief: '',
                       measuredType: EntityType.classEntity,
@@ -325,20 +307,11 @@ void main() {
             classes: Map.unmodifiable(<String, Report>{}),
             functions: Map.unmodifiable(<String, Report>{
               'function': buildFunctionRecordStub(
-                metrics: const [
-                  MetricValue<int>(
-                    metricsId: MaximumNestingLevelMetric.metricId,
-                    documentation: MetricDocumentation(
-                      name: '',
-                      shortName: '',
-                      brief: '',
-                      measuredType: EntityType.classEntity,
-                      recomendedThreshold: 0,
-                      examples: [],
-                    ),
+                metrics: [
+                  buildMetricValueStub<int>(
+                    id: MaximumNestingLevelMetric.metricId,
                     value: 7,
                     level: MetricValueLevel.warning,
-                    comment: '',
                   ),
                 ],
               ),
@@ -353,7 +326,10 @@ void main() {
         final report =
             verify(() => output.writeln(captureAny())).captured.cast<String>();
         expect(report, hasLength(3));
-        expect(report[1], contains('nesting level: \x1B[38;5;3m7\x1B[0m'));
+        expect(
+          report[1],
+          contains('maximum-nesting-level: \x1B[38;5;3m7\x1B[0m'),
+        );
       });
     });
 

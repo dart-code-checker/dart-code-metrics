@@ -14,13 +14,6 @@ class LintConsoleReporterHelper {
     MetricValueLevel.none: AnsiPen()..white(),
   };
 
-  static const _humanReadableLabel = {
-    MetricValueLevel.alarm: 'ALARM',
-    MetricValueLevel.warning: 'WARNING',
-    MetricValueLevel.noted: 'NOTED',
-    MetricValueLevel.none: '',
-  };
-
   final _severityPens = {
     Severity.error: AnsiPen()..red(bold: true),
     Severity.warning: AnsiPen()..yellow(bold: true),
@@ -37,30 +30,32 @@ class LintConsoleReporterHelper {
     return '$severity${[issue.message, location, issue.ruleId].join(' : ')}';
   }
 
-  String getMetricReport(MetricValue<num> metric, String humanReadableName) {
-    final color = _colorPens[metric.level];
-
-    if (color != null) {
-      final value = metric.value.toInt();
-
-      return '$humanReadableName: ${color('$value')}';
-    }
-
-    throw StateError('Unexpected violation level.');
-  }
-
   String getMetricMessage(
     MetricValueLevel violationLevel,
     String source,
     Iterable<String> violations,
   ) {
     final color = _colorPens[violationLevel];
-    final label = _humanReadableLabel[violationLevel];
-
-    if (color != null && label != null) {
-      final normalizedLabel = _normalize(label);
+    if (color != null) {
+      final normalizedLabel = _normalize(
+        violationLevel != MetricValueLevel.none
+            ? violationLevel.toString().capitalize()
+            : '',
+      );
 
       return '${color(normalizedLabel)}$source - ${violations.join(', ')}';
+    }
+
+    throw StateError('Unexpected violation level.');
+  }
+
+  String getMetricReport(MetricValue<num> metric) {
+    final color = _colorPens[metric.level];
+
+    if (color != null) {
+      final value = metric.value.toInt();
+
+      return '${metric.documentation.name.toLowerCase()}: ${color('$value')}';
     }
 
     throw StateError('Unexpected violation level.');
