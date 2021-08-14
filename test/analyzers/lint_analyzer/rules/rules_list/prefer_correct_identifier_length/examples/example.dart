@@ -8,4 +8,14 @@ class Example {
 
 bool so() {}
 
-class A {}
+class A {
+  A.m();
+
+  A.b();
+
+  bool get o => false;
+
+  bool set p() => true;
+
+  void te(String y) {}
+}

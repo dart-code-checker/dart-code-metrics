@@ -19,19 +19,31 @@ const _defaultMaxIdentifier = 30;
 class PreferCorrectIdentifierLength extends CommonRule {
   static const String ruleId = 'prefer-correct-identifier-length';
 
-  final int? _minLength;
-  final int? _maxLength;
+  final int _minLength;
+  final int _maxLength;
 
-  final bool? _isCheckFunction;
-  final bool? _isCheckClass;
-  final bool? _isCheckIdentifier;
+  final bool _checkFunctions;
+  final bool _checkClassName;
+  final bool _checkIdentifiers;
+  final bool _checkArguments;
+  final bool _checkConstructor;
+  final bool _isCheckMethod;
+  final bool _isCheckGetters;
+  final bool _isCheckSetters;
 
   PreferCorrectIdentifierLength([Map<String, Object> config = const {}])
-      : _minLength = _ConfigParser.parseMinIdentifierLength(config),
-        _maxLength = _ConfigParser.parseMaxIdentifierLength(config),
-        _isCheckFunction = _ConfigParser.parseCheckFunctionName(config),
-        _isCheckClass = _ConfigParser.parseCheckClassName(config),
-        _isCheckIdentifier = _ConfigParser.parseCheckIdentifier(config),
+      : _minLength = _ConfigParser.parseMinIdentifierLength(config) ??
+            _defaultMinIdentifier,
+        _maxLength = _ConfigParser.parseMaxIdentifierLength(config) ??
+            _defaultMaxIdentifier,
+        _checkFunctions = _ConfigParser.parseCheckFunctionName(config) ?? true,
+        _isCheckMethod = _ConfigParser.parseCheckMethodName(config) ?? true,
+        _checkClassName = _ConfigParser.parseCheckClassName(config) ?? true,
+        _isCheckGetters = _ConfigParser.parseCheckGetters(config) ?? true,
+        _isCheckSetters = _ConfigParser.parseCheckSetters(config) ?? true,
+        _checkIdentifiers = _ConfigParser.parseCheckIdentifier(config) ?? true,
+        _checkArguments = _ConfigParser.checkArguments(config) ?? true,
+        _checkConstructor = _ConfigParser.checkConstructorName(config) ?? true,
         super(
           id: ruleId,
           documentation: const RuleDocumentation(
@@ -47,34 +59,18 @@ class PreferCorrectIdentifierLength extends CommonRule {
     final visitor = _Visitor();
     source.unit.visitChildren(visitor);
 
-    final _issue = <Issue>[];
-
-    if (_isCheckClass ?? true) {
-      visitor.classNode.map((element) {
-        final message = _getNodeErrorMessage(element.name.name, 'class');
-        if (message != null) {
-          _issue.add(_createIssueWithMessage(element.name, source, message));
-        }
-      }).toList();
-    }
-
-    if (_isCheckFunction ?? true) {
-      visitor.functionNode.map((element) {
-        final message = _getNodeErrorMessage(element.name.name, 'function');
-        if (message != null) {
-          _issue.add(_createIssueWithMessage(element.name, source, message));
-        }
-      }).toList();
-    }
-
-    if (_isCheckIdentifier ?? true) {
-      visitor.variablesNode.map((element) {
-        final message = _getNodeErrorMessage(element.name.name, 'variable');
-        if (message != null) {
-          _issue.add(_createIssueWithMessage(element.name, source, message));
-        }
-      }).toList();
-    }
+    final _issue = <Issue>[
+      if (_checkArguments) ..._addArguments(source, visitor.argumentNode),
+      if (_checkClassName) ..._addClassIssue(source, visitor.classNode),
+      if (_checkFunctions) ..._addFunctionIssue(source, visitor.functionNode),
+      if (_isCheckGetters) ..._addFunctionIssue(source, visitor.getters),
+      if (_isCheckSetters) ..._addFunctionIssue(source, visitor.setters),
+      if (_isCheckMethod) ..._addMethodIssue(source, visitor.methodNode),
+      if (_checkConstructor)
+        ..._addConstructors(source, visitor.constructorNode),
+      if (_checkIdentifiers)
+        ..._addIdentifierIssue(source, visitor.variablesNode),
+    ];
 
     return _issue;
   }
@@ -94,9 +90,63 @@ class PreferCorrectIdentifierLength extends CommonRule {
         message: message,
       );
 
+  List<Issue> _addArguments(
+    InternalResolvedUnitResult source,
+    Iterable<FormalParameter> argumentsNode,
+  ) {
+    final issue = <Issue>[];
+    argumentsNode.map((element) {
+      final message = _getNodeErrorMessage(
+        element.declaredElement?.name ?? '',
+        'function argument',
+      );
+      if (message != null) {
+        issue.add(_createIssueWithMessage(
+          element.identifier!,
+          source,
+          message,
+        ));
+      }
+    }).toList();
+
+    return issue;
+  }
+
+  List<Issue> _addClassIssue(
+    InternalResolvedUnitResult source,
+    Iterable<ClassDeclaration> classNode,
+  ) {
+    final issue = <Issue>[];
+
+    classNode.map((element) {
+      final message = _getNodeErrorMessage(element.name.name, 'class');
+      if (message != null) {
+        issue.add(_createIssueWithMessage(element.name, source, message));
+      }
+    }).toList();
+
+    return issue;
+  }
+
+  List<Issue> _addFunctionIssue(
+    InternalResolvedUnitResult source,
+    Iterable<FunctionDeclaration> functionNode,
+  ) {
+    final issue = <Issue>[];
+
+    functionNode.map((element) {
+      final message = _getNodeErrorMessage(element.name.name, 'function');
+      if (message != null) {
+        issue.add(_createIssueWithMessage(element.name, source, message));
+      }
+    }).toList();
+
+    return issue;
+  }
+
   String? _getNodeErrorMessage(String name, String type) {
-    final isShort = name.length < (_minLength ?? _defaultMinIdentifier);
-    final isLong = name.length > (_maxLength ?? _defaultMaxIdentifier);
+    final isShort = name.length < _minLength;
+    final isLong = name.length > _maxLength;
 
     if (isShort) {
       return 'Too short $type name length.';
@@ -106,5 +156,66 @@ class PreferCorrectIdentifierLength extends CommonRule {
     }
 
     return null;
+  }
+
+  List<Issue> _addIdentifierIssue(
+    InternalResolvedUnitResult source,
+    Iterable<VariableDeclaration> variablesNode,
+  ) {
+    final issue = <Issue>[];
+
+    variablesNode.map((element) {
+      final message = _getNodeErrorMessage(element.name.name, 'variable');
+      if (message != null) {
+        issue.add(_createIssueWithMessage(
+          element.name,
+          source,
+          message,
+        ));
+      }
+    }).toList();
+
+    return issue;
+  }
+
+  List<Issue> _addMethodIssue(
+    InternalResolvedUnitResult source,
+    Iterable<MethodDeclaration> methodNode,
+  ) {
+    final issue = <Issue>[];
+
+    methodNode.map((element) {
+      final message = _getNodeErrorMessage(element.name.name, 'method');
+      if (message != null) {
+        issue.add(_createIssueWithMessage(
+          element.name,
+          source,
+          message,
+        ));
+      }
+    }).toList();
+
+    return issue;
+  }
+
+  List<Issue> _addConstructors(
+    InternalResolvedUnitResult source,
+    Iterable<ConstructorDeclaration> constructorNode,
+  ) {
+    final issue = <Issue>[];
+
+    constructorNode.map((element) {
+      final message =
+          _getNodeErrorMessage(element.name?.name ?? '', 'constructor');
+      if (message != null && message.isNotEmpty) {
+        issue.add(_createIssueWithMessage(
+          element.name!,
+          source,
+          message,
+        ));
+      }
+    }).toList();
+
+    return issue;
   }
 }

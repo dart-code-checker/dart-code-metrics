@@ -8,10 +8,28 @@ prefer-correct-identifier-length
 
 ## Description
 
-Very short identifier names or very long can make code harder to read and potentially less maintainable. To prevent this, one may enforce a minimum and/or maximum identifier length.
+Правило проверяет длинну имен переменных, функций классов.
 
+Правило можно сконфигурировать при помощи полей `max-identifier-length` и `min-identifier-length`, если хотите
+переопределить стандартные значения. По умолчанию `max-identifier-length = 30` и `min-identifier-length = 3`
+Также можно конфигурировать какие идентификаторы стоит сканировать, а какие нет. По умолчанию все включено. Вот варианты
+настроек:
 
-Use `max-identifier-length` and `min-identifier-length` configuration, if you want to override the default value. Default value for `max-identifier-length = 30` and `min-identifier-length = 3` 
+`check-function-name` - имена функций;
+
+`check-getters-name` - getters класса;
+
+`check-setters-name` - setters класса;
+
+`check-class-name` - имена класса;
+
+`check-method-name` - имена методов;
+
+`check-named-constructor-name` - именованные конструкторы;
+
+`check-variable-name` - переменные;
+
+`check-function-argument-name` - аргументы функций;
 
 ### Config example
 
@@ -19,13 +37,13 @@ Use `max-identifier-length` and `min-identifier-length` configuration, if you wa
 dart_code_metrics:
   ...
   rules:
-    ...
-    - prefer-correct-identifier-length:
-      max-identifier-length: 40
-      min-identifier-length: 4
-      check-variable-name: false
-      check-function-name: false
-      check-class-name: false
+      ...
+        - prefer-correct-identifier-length:
+        max-identifier-length: 40
+        min-identifier-length: 4
+        check-variable-name: false
+        check-function-name: false
+        check-class-name: false
 ```
 
 ### Example
@@ -33,6 +51,7 @@ dart_code_metrics:
 Bad:
 
 ```dart
+
 var x = 0; //length 1
 var multiplatformConfigurationPoint = 0; //length 31
 ```
@@ -40,6 +59,7 @@ var multiplatformConfigurationPoint = 0; //length 31
 Good:
 
 ```dart
+
 var property = 0; //length 8
 var multiplatformConfiguration = 0; //length 26
 ```
