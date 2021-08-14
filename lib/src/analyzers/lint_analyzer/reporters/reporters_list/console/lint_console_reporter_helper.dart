@@ -1,5 +1,4 @@
 import 'package:ansicolor/ansicolor.dart';
-import 'package:source_span/source_span.dart';
 
 import '../../../../../utils/string_extension.dart';
 import '../../../metrics/models/metric_value.dart';
@@ -22,34 +21,21 @@ class LintConsoleReporterHelper {
     MetricValueLevel.none: '',
   };
 
-  static final _severityColors = {
-    Severity.error: AnsiPen()..red(),
-    Severity.warning: AnsiPen()..yellow(),
+  final _severityPens = {
+    Severity.error: AnsiPen()..red(bold: true),
+    Severity.warning: AnsiPen()..yellow(bold: true),
+    Severity.performance: AnsiPen()..cyan(),
     Severity.style: AnsiPen()..blue(),
+    Severity.none: AnsiPen()..white(),
   };
 
-  static final _designIssuesColor = AnsiPen()..yellow();
-  static const _designIssues = 'Design';
+  String getIssueMessage(Issue issue) {
+    final severity = _getSeverity(issue.severity);
+    final location =
+        '${issue.location.start.line}:${issue.location.start.column}';
 
-  String getIssueMessage(Issue issue, String severity) {
-    final position = _getPosition(issue.location);
-    final rule = [issue.ruleId, issue.documentation].join(' ');
-
-    return '$severity${[issue.message, position, rule].join(' : ')}';
+    return '$severity${[issue.message, location, issue.ruleId].join(' : ')}';
   }
-
-  String getSeverity(Severity severity) {
-    final color = _severityColors[severity];
-
-    if (color != null) {
-      return color(_normalize(severity.toString().capitalize()));
-    }
-
-    throw StateError('Unexpected severity.');
-  }
-
-  String getSeverityForAntiPattern() =>
-      _designIssuesColor(_normalize(_designIssues));
 
   String getMetricReport(MetricValue<num> metric, String humanReadableName) {
     final color = _colorPens[metric.level];
@@ -80,8 +66,17 @@ class LintConsoleReporterHelper {
     throw StateError('Unexpected violation level.');
   }
 
-  String _getPosition(SourceSpan location) =>
-      '${location.start.line}:${location.start.column}';
+  String _getSeverity(Severity severity) {
+    final color = _severityPens[severity];
+
+    if (color != null) {
+      return color(_normalize(
+        severity != Severity.none ? severity.toString().capitalize() : '',
+      ));
+    }
+
+    throw StateError('Unexpected severity.');
+  }
 
   String _normalize(String s) => s.padRight(8);
 }

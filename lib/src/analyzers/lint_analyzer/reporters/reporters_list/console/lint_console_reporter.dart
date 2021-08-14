@@ -4,6 +4,7 @@ import '../../../../../reporters/models/console_reporter.dart';
 import '../../../metrics/metric_utils.dart';
 import '../../../metrics/models/metric_value.dart';
 import '../../../metrics/models/metric_value_level.dart';
+import '../../../models/issue.dart';
 import '../../../models/lint_file_report.dart';
 import '../../utility_selector.dart';
 import 'lint_console_reporter_helper.dart';
@@ -22,31 +23,25 @@ class LintConsoleReporter extends ConsoleReporter<LintFileReport> {
       return;
     }
 
-    for (final analysisRecord in records) {
+    for (final file in records) {
       final lines = [
-        ..._reportClassMetrics(analysisRecord),
-        ..._reportFunctionMetrics(analysisRecord),
+        ..._reportIssues([...file.issues, ...file.antiPatternCases]),
+        ..._reportClassMetrics(file),
+        ..._reportFunctionMetrics(file),
       ];
 
-      for (final antiPattern in analysisRecord.antiPatternCases) {
-        final severity = _helper.getSeverityForAntiPattern();
-
-        lines.add(_helper.getIssueMessage(antiPattern, severity));
-      }
-
-      for (final issue in analysisRecord.issues) {
-        final severity = _helper.getSeverity(issue.severity);
-
-        lines.add(_helper.getIssueMessage(issue, severity));
-      }
-
       if (lines.isNotEmpty) {
-        output.writeln('${analysisRecord.relativePath}:');
+        output.writeln('${file.relativePath}:');
         lines.forEach(output.writeln);
         output.writeln('');
       }
     }
   }
+
+  Iterable<String> _reportIssues(Iterable<Issue> issues) => (issues.toList()
+        ..sort((a, b) =>
+            a.location.start.offset.compareTo(b.location.start.offset)))
+      .map(_helper.getIssueMessage);
 
   Iterable<String> _reportClassMetrics(LintFileReport record) {
     final lines = <String>[];
