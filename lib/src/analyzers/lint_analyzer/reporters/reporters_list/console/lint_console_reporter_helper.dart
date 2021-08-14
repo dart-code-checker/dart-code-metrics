@@ -1,6 +1,7 @@
 import 'package:ansicolor/ansicolor.dart';
 import 'package:source_span/source_span.dart';
 
+import '../../../../../utils/string_extension.dart';
 import '../../../metrics/models/metric_value.dart';
 import '../../../metrics/models/metric_value_level.dart';
 import '../../../models/issue.dart';
@@ -41,10 +42,7 @@ class LintConsoleReporterHelper {
     final color = _severityColors[severity];
 
     if (color != null) {
-      final leftSide = severity.toString().substring(0, 1).toUpperCase();
-      final rightSide = severity.toString().substring(1);
-
-      return color(_normalize(leftSide + rightSide));
+      return color(_normalize(severity.toString().capitalize()));
     }
 
     throw StateError('Unexpected severity.');
