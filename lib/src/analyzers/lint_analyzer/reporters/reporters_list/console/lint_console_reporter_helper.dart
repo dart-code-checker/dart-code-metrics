@@ -8,8 +8,8 @@ import '../../../models/severity.dart';
 
 class LintConsoleReporterHelper {
   static final _colorPens = {
-    MetricValueLevel.alarm: AnsiPen()..red(),
-    MetricValueLevel.warning: AnsiPen()..yellow(),
+    MetricValueLevel.alarm: AnsiPen()..red(bold: true),
+    MetricValueLevel.warning: AnsiPen()..yellow(bold: true),
     MetricValueLevel.noted: AnsiPen()..blue(),
     MetricValueLevel.none: AnsiPen()..white(),
   };
