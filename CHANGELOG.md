@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* Add static code diagnostic `avoid-ignoring-return-values`.
+
 ## 4.2.0-dev.2
 
 * Changed the supported `analyzer` version to `^2.0.0`.
