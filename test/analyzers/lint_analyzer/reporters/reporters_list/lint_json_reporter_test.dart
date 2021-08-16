@@ -55,6 +55,27 @@ void main() {
             'severity': 'warning',
             'message': 'simple message',
             'verboseMessage': 'verbose message',
+            'suggestion': {
+              'comment': 'replacement comment',
+              'replacement': 'function body',
+            },
+          },
+        ]),
+      );
+      expect(
+        recordLast['antiPatternCases'],
+        equals([
+          {
+            'ruleId': 'designId',
+            'documentation': 'https://documentation.com',
+            'codeSpan': {
+              'start': {'offset': 0, 'line': 0, 'column': 0},
+              'end': {'offset': 20, 'line': 0, 'column': 20},
+              'text': 'simple function body',
+            },
+            'severity': 'style',
+            'message': 'simple design message',
+            'verboseMessage': 'verbose design message',
           },
         ]),
       );

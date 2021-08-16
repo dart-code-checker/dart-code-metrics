@@ -157,11 +157,6 @@ class UtilitySelector {
     );
   }
 
-  static MetricValueLevel classMetricViolationLevel(
-    ClassMetricsReport report,
-  ) =>
-      report.methodsCount.level;
-
   static MetricValueLevel functionMetricViolationLevel(
     FunctionMetricsReport report,
   ) =>

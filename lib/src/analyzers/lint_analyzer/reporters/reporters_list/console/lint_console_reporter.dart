@@ -4,8 +4,9 @@ import '../../../../../reporters/models/console_reporter.dart';
 import '../../../metrics/metric_utils.dart';
 import '../../../metrics/models/metric_value.dart';
 import '../../../metrics/models/metric_value_level.dart';
+import '../../../models/issue.dart';
 import '../../../models/lint_file_report.dart';
-import '../../utility_selector.dart';
+import '../../../models/report.dart';
 import 'lint_console_reporter_helper.dart';
 
 class LintConsoleReporter extends ConsoleReporter<LintFileReport> {
@@ -22,96 +23,49 @@ class LintConsoleReporter extends ConsoleReporter<LintFileReport> {
       return;
     }
 
-    for (final analysisRecord in records) {
+    for (final file in records) {
       final lines = [
-        ..._reportClassMetrics(analysisRecord),
-        ..._reportFunctionMetrics(analysisRecord),
+        ..._reportIssues([...file.issues, ...file.antiPatternCases]),
+        ..._reportMetrics({...file.classes, ...file.functions}),
       ];
 
-      for (final antiPattern in analysisRecord.antiPatternCases) {
-        final severity = _helper.getSeverityForAntiPattern();
-
-        lines.add(_helper.getIssueMessage(antiPattern, severity));
-      }
-
-      for (final issue in analysisRecord.issues) {
-        final severity = _helper.getSeverity(issue.severity);
-
-        lines.add(_helper.getIssueMessage(issue, severity));
-      }
-
       if (lines.isNotEmpty) {
-        output.writeln('${analysisRecord.relativePath}:');
+        output.writeln('${file.relativePath}:');
         lines.forEach(output.writeln);
         output.writeln('');
       }
     }
   }
 
-  Iterable<String> _reportClassMetrics(LintFileReport record) {
-    final lines = <String>[];
+  Iterable<String> _reportIssues(Iterable<Issue> issues) => (issues.toList()
+        ..sort((a, b) =>
+            a.location.start.offset.compareTo(b.location.start.offset)))
+      .map(_helper.getIssueMessage);
 
-    record.classes.forEach((source, classMetricReport) {
-      final report = UtilitySelector.classMetricsReport(classMetricReport);
-      final violationLevel = UtilitySelector.classMetricViolationLevel(report);
+  Iterable<String> _reportMetrics(Map<String, Report> reports) =>
+      (reports.entries.toList()
+            ..sort((a, b) => a.value.location.start.offset
+                .compareTo(b.value.location.start.offset)))
+          .expand((entry) {
+        final source = entry.key;
+        final report = entry.value;
 
-      if (reportAll || isReportLevel(violationLevel)) {
-        final violations = [
-          if (reportAll || _isNeedToReport(report.methodsCount))
-            _helper.getMetricReport(report.methodsCount, 'number of methods'),
-        ];
+        final reportLevel = report.metricsLevel;
+        if (reportAll || isReportLevel(reportLevel)) {
+          final violations = [
+            for (final metric in report.metrics)
+              if (reportAll || _isNeedToReport(metric))
+                _helper.getMetricReport(metric),
+          ];
 
-        lines.add(_helper.getMetricMessage(violationLevel, source, violations));
-      }
-    });
+          return [
+            _helper.getMetricMessage(reportLevel, source, violations),
+          ];
+        }
 
-    return lines;
-  }
-
-  Iterable<String> _reportFunctionMetrics(LintFileReport record) {
-    final lines = <String>[];
-
-    record.functions.forEach((source, functionReport) {
-      final report = UtilitySelector.functionMetricsReport(functionReport);
-      final violationLevel =
-          UtilitySelector.functionMetricViolationLevel(report);
-
-      if (reportAll || isReportLevel(violationLevel)) {
-        final violations = [
-          if (reportAll || _isNeedToReport(report.cyclomaticComplexity))
-            _helper.getMetricReport(
-              report.cyclomaticComplexity,
-              'cyclomatic complexity',
-            ),
-          if (reportAll || _isNeedToReport(report.sourceLinesOfCode))
-            _helper.getMetricReport(
-              report.sourceLinesOfCode,
-              'source lines of code',
-            ),
-          if (reportAll || _isNeedToReport(report.maintainabilityIndex))
-            _helper.getMetricReport(
-              report.maintainabilityIndex,
-              'maintainability index',
-            ),
-          if (reportAll || _isNeedToReport(report.argumentsCount))
-            _helper.getMetricReport(
-              report.argumentsCount,
-              'number of arguments',
-            ),
-          if (reportAll || _isNeedToReport(report.maximumNestingLevel))
-            _helper.getMetricReport(
-              report.maximumNestingLevel,
-              'nesting level',
-            ),
-        ];
-
-        lines.add(_helper.getMetricMessage(violationLevel, source, violations));
-      }
-    });
-
-    return lines;
-  }
+        return [];
+      });
 
   bool _isNeedToReport(MetricValue metric) =>
-      metric.level != MetricValueLevel.none;
+      metric.level > MetricValueLevel.none;
 }

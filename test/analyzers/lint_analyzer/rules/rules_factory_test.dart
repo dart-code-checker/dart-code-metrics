@@ -7,6 +7,7 @@ void main() {
     expect(getRulesById({}), isEmpty);
     expect(
       getRulesById({
+        'prefer-match-file-name': <String, Object>{},
         'provide-correct-intl-args': <String, Object>{},
         'no-empty-block': <String, Object>{},
         'binary-expression-operand-order': <String, Object>{},
@@ -34,6 +35,7 @@ void main() {
         'always-remove-listener': <String, Object>{},
         'avoid-wrapping-in-padding': <String, Object>{},
         'prefer-extracting-callbacks': <String, Object>{},
+        'prefer-single-widget-per-file': <String, Object>{},
       }).map((rule) => rule.id),
       equals([
         'always-remove-listener',
@@ -59,7 +61,9 @@ void main() {
         'prefer-conditional-expressions',
         'prefer-extracting-callbacks',
         'prefer-intl-name',
+        'prefer-match-file-name',
         'prefer-on-push-cd-strategy',
+        'prefer-single-widget-per-file',
         'prefer-trailing-comma',
         'provide-correct-intl-args',
       ]),
