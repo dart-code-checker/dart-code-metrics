@@ -10,7 +10,7 @@ jobs:
   main:
     runs-on: ubuntu-latest
     steps:
-      - uses: amannn/action-semantic-pull-request@v3.4.1
+      - uses: amannn/action-semantic-pull-request@v3.4.2
         with: 
           requireScope: false
         env:
