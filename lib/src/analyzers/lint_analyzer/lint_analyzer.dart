@@ -39,13 +39,11 @@ class LintAnalyzer {
   const LintAnalyzer();
 
   Reporter? getReporter({
-    required LintConfig config,
     required String name,
     required IOSink output,
     required String reportFolder,
   }) =>
       reporter(
-        config: config,
         name: name,
         output: output,
         reportFolder: reportFolder,

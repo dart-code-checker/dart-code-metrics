@@ -106,58 +106,6 @@ void main() {
       );
       expect(report.averageArgumentsCount, 5);
       expect(report.argumentsCountViolations, 2);
-      expect(report.averageMethodsCount, 13);
-      expect(report.methodsCountViolations, 2);
-    });
-
-    group('classMetricsReport calculates report for function', () {
-      test('without methods', () {
-        final record = buildRecordStub(metrics: const [
-          MetricValue<int>(
-            metricsId: NumberOfMethodsMetric.metricId,
-            documentation: MetricDocumentation(
-              name: '',
-              shortName: '',
-              brief: '',
-              measuredType: EntityType.classEntity,
-              recomendedThreshold: 0,
-              examples: [],
-            ),
-            value: 0,
-            level: MetricValueLevel.none,
-            comment: '',
-          ),
-        ]);
-        final report = UtilitySelector.classMetricsReport(record);
-
-        expect(report.methodsCount.value, 0);
-        expect(report.methodsCount.level, MetricValueLevel.none);
-      });
-
-      test('with a lot of methods', () {
-        const methodsCount = 30;
-
-        final record = buildRecordStub(metrics: const [
-          MetricValue<int>(
-            metricsId: NumberOfMethodsMetric.metricId,
-            documentation: MetricDocumentation(
-              name: '',
-              shortName: '',
-              brief: '',
-              measuredType: EntityType.classEntity,
-              recomendedThreshold: 0,
-              examples: [],
-            ),
-            value: methodsCount,
-            level: MetricValueLevel.alarm,
-            comment: '',
-          ),
-        ]);
-        final report = UtilitySelector.classMetricsReport(record);
-
-        expect(report.methodsCount.value, methodsCount);
-        expect(report.methodsCount.level, MetricValueLevel.alarm);
-      });
     });
 
     group('functionMetricsReport calculates report for function', () {
