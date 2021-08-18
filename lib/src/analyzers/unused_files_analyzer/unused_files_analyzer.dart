@@ -31,7 +31,7 @@ class UnusedFilesAnalyzer {
     String rootFolder,
     UnusedFilesConfig config,
   ) async {
-    final collection = createCollection(folders, rootFolder);
+    final collection = createAnalysisContextCollection(folders, rootFolder);
 
     final unusedFiles = <String>{};
 

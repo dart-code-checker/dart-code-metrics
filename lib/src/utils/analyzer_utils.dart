@@ -6,7 +6,7 @@ import 'package:analyzer/src/dart/analysis/byte_store.dart';
 import 'package:analyzer/src/dart/analysis/file_byte_store.dart';
 import 'package:path/path.dart';
 
-AnalysisContextCollection createCollection(
+AnalysisContextCollection createAnalysisContextCollection(
   Iterable<String> folders,
   String rootFolder,
 ) {

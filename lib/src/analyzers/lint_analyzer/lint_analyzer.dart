@@ -72,7 +72,7 @@ class LintAnalyzer {
     String rootFolder,
     LintConfig config,
   ) async {
-    final collection = createCollection(folders, rootFolder);
+    final collection = createAnalysisContextCollection(folders, rootFolder);
 
     final analyzerResult = <LintFileReport>[];
 
