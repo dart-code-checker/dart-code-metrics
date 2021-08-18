@@ -43,7 +43,7 @@ class LintAnalyzer {
     required IOSink output,
     required String reportFolder,
     @Deprecated('Unused argument. Will be removed soon.') // ignore: avoid-unused-parameters
-    LintConfig? config,
+        LintConfig? config,
   }) =>
       reporter(
         name: name,
