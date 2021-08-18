@@ -1,23 +1,22 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:crypto/crypto.dart';
+
 import '../../../../../reporters/models/code_climate_reporter.dart';
 import '../../../metrics/metric_utils.dart';
-import '../../../metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
-import '../../../metrics/metrics_list/maximum_nesting_level/maximum_nesting_level_metric.dart';
-import '../../../metrics/metrics_list/number_of_methods_metric.dart';
+import '../../../models/issue.dart';
 import '../../../models/lint_file_report.dart';
-import '../../utility_selector.dart';
-import 'code_climate_issue.dart';
+import '../../../models/report.dart';
+import '../../../models/severity.dart';
+import 'models/code_climate_issue.dart';
+import 'models/code_climate_issue_category.dart';
+import 'models/code_climate_issue_location.dart';
+import 'models/code_climate_issue_severity.dart';
 
 class LintCodeClimateReporter extends CodeClimateReporter<LintFileReport> {
-  final Map<String, Object> metrics;
-
-  LintCodeClimateReporter(
-    IOSink output, {
-    required this.metrics,
-    bool gitlabCompatible = false,
-  }) : super(
+  LintCodeClimateReporter(IOSink output, {bool gitlabCompatible = false})
+      : super(
           output,
           gitlabCompatible: gitlabCompatible,
         );
@@ -28,7 +27,8 @@ class LintCodeClimateReporter extends CodeClimateReporter<LintFileReport> {
       return;
     }
 
-    final codeClimateRecords = records.map(_toIssues).expand((r) => r);
+    final codeClimateRecords =
+        records.map(_lintFileReportToCodeClimate).expand((r) => r);
 
     if (gitlabCompatible) {
       output.writeln(json.encode(codeClimateRecords.toList()));
@@ -39,71 +39,73 @@ class LintCodeClimateReporter extends CodeClimateReporter<LintFileReport> {
     }
   }
 
-  Iterable<CodeClimateIssue> _toIssues(LintFileReport record) {
-    final result = <CodeClimateIssue>[
-      ...record.classes.keys.expand((key) {
-        final component = record.classes[key]!;
-        final report = UtilitySelector.classMetricsReport(component);
-
-        return [
-          if (isReportLevel(report.methodsCount.level))
-            CodeClimateIssue.numberOfMethods(
-              component.location.start.line,
-              component.location.end.line,
-              report.methodsCount.value,
-              record.relativePath,
-              key,
-              readThreshold<int>(metrics, NumberOfMethodsMetric.metricId, 10),
-            ),
-        ];
-      }),
-    ];
-
-    return result
-      ..addAll(_functionMetrics(record))
-      ..addAll(record.issues.map((issue) =>
-          CodeClimateIssue.fromCodeIssue(issue, record.relativePath)))
-      ..addAll(record.antiPatternCases.map((antiPattern) =>
-          CodeClimateIssue.fromDesignIssue(antiPattern, record.relativePath)));
-  }
-
-  Iterable<CodeClimateIssue> _functionMetrics(LintFileReport record) {
-    final issues = <CodeClimateIssue>[];
-
-    for (final key in record.functions.keys) {
-      final func = record.functions[key]!;
-      final report = UtilitySelector.functionMetricsReport(func);
-
-      if (isReportLevel(report.cyclomaticComplexity.level)) {
-        issues.add(CodeClimateIssue.cyclomaticComplexity(
-          func,
-          report.cyclomaticComplexity.value,
+  Iterable<CodeClimateIssue> _lintFileReportToCodeClimate(
+    LintFileReport record,
+  ) =>
+      [
+        ..._issuesToCodeClimate(
+          [...record.issues, ...record.antiPatternCases],
           record.relativePath,
-          key,
-          readThreshold<int>(metrics, CyclomaticComplexityMetric.metricId, 20),
-        ));
-      }
-
-      if (isReportLevel(report.maintainabilityIndex.level)) {
-        issues.add(CodeClimateIssue.maintainabilityIndex(
-          func,
-          report.maintainabilityIndex.value.toInt(),
+        ),
+        ..._reportsToCodeClimate(
+          [...record.functions.values, ...record.classes.values],
           record.relativePath,
-          key,
-        ));
-      }
+        ),
+      ];
 
-      if (isReportLevel(report.maximumNestingLevel.level)) {
-        issues.add(CodeClimateIssue.maximumNestingLevel(
-          func,
-          report.maximumNestingLevel.value,
-          record.relativePath,
-          key,
-          readThreshold<int>(metrics, MaximumNestingLevelMetric.metricId, 5),
-        ));
-      }
-    }
+  Iterable<CodeClimateIssue> _issuesToCodeClimate(
+    Iterable<Issue> issues,
+    String relativePath,
+  ) =>
+      issues.map((issue) => CodeClimateIssue(
+            checkName: issue.ruleId,
+            description: issue.message,
+            categories: _severityToIssueCategory[issue.severity]!,
+            location: CodeClimateIssueLocation(relativePath, issue.location),
+            severity: _severityToIssueSeverity[issue.severity]!,
+            fingerprint: md5
+                .convert(utf8.encode(
+                  '${issue.ruleId} ${issue.message} $relativePath ${issue.location.text}',
+                ))
+                .toString(),
+          ));
 
-    return issues;
-  }
+  Iterable<CodeClimateIssue> _reportsToCodeClimate(
+    Iterable<Report> reports,
+    String relativePath,
+  ) =>
+      [
+        for (final report in reports)
+          for (final value in report.metrics)
+            if (isReportLevel(value.level))
+              CodeClimateIssue(
+                checkName: value.metricsId,
+                description: value.comment,
+                categories: const [CodeClimateIssueCategory.complexity],
+                location:
+                    CodeClimateIssueLocation(relativePath, report.location),
+                severity: CodeClimateIssueSeverity.info,
+                fingerprint: md5
+                    .convert(utf8.encode(
+                      '${value.metricsId} ${value.comment} $relativePath ${report.location.text}',
+                    ))
+                    .toString(),
+              ),
+      ];
 }
+
+const _severityToIssueCategory = {
+  Severity.error: [CodeClimateIssueCategory.bugRisk],
+  Severity.warning: [CodeClimateIssueCategory.bugRisk],
+  Severity.style: [CodeClimateIssueCategory.style],
+  Severity.performance: [CodeClimateIssueCategory.performance],
+  Severity.none: <CodeClimateIssueCategory>[],
+};
+
+const _severityToIssueSeverity = {
+  Severity.error: CodeClimateIssueSeverity.blocker,
+  Severity.warning: CodeClimateIssueSeverity.critical,
+  Severity.style: CodeClimateIssueSeverity.minor,
+  Severity.performance: CodeClimateIssueSeverity.major,
+  Severity.none: CodeClimateIssueSeverity.info,
+};

@@ -39,13 +39,13 @@ class LintAnalyzer {
   const LintAnalyzer();
 
   Reporter? getReporter({
-    required LintConfig config,
     required String name,
     required IOSink output,
     required String reportFolder,
+    @Deprecated('Unused argument. Will be removed in 5.0.0.') // ignore: avoid-unused-parameters
+        LintConfig? config,
   }) =>
       reporter(
-        config: config,
         name: name,
         output: output,
         reportFolder: reportFolder,
