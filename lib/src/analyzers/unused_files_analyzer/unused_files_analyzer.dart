@@ -1,14 +1,13 @@
 import 'dart:io';
 
-import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
-import 'package:analyzer/file_system/physical_file_system.dart';
 import 'package:path/path.dart';
 
 import '../../config_builder/config_builder.dart';
 import '../../config_builder/models/analysis_options.dart';
 import '../../reporters/models/reporter.dart';
+import '../../utils/analyzer_utils.dart';
 import '../../utils/file_utils.dart';
 import 'models/unused_files_file_report.dart';
 import 'reporters/reporter_factory.dart';
@@ -32,11 +31,7 @@ class UnusedFilesAnalyzer {
     String rootFolder,
     UnusedFilesConfig config,
   ) async {
-    final collection = AnalysisContextCollection(
-      includedPaths:
-          folders.map((path) => normalize(join(rootFolder, path))).toList(),
-      resourceProvider: PhysicalResourceProvider.INSTANCE,
-    );
+    final collection = createAnalysisContextCollection(folders, rootFolder);
 
     final unusedFiles = <String>{};
 

@@ -1,15 +1,14 @@
 import 'dart:io';
 import 'dart:math';
 
-import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
-import 'package:analyzer/file_system/physical_file_system.dart';
 import 'package:path/path.dart';
 
 import '../../config_builder/config_builder.dart';
 import '../../config_builder/models/analysis_options.dart';
 import '../../reporters/models/reporter.dart';
+import '../../utils/analyzer_utils.dart';
 import '../../utils/exclude_utils.dart';
 import '../../utils/file_utils.dart';
 import '../../utils/node_utils.dart';
@@ -73,11 +72,7 @@ class LintAnalyzer {
     String rootFolder,
     LintConfig config,
   ) async {
-    final collection = AnalysisContextCollection(
-      includedPaths:
-          folders.map((path) => normalize(join(rootFolder, path))).toList(),
-      resourceProvider: PhysicalResourceProvider.INSTANCE,
-    );
+    final collection = createAnalysisContextCollection(folders, rootFolder);
 
     final analyzerResult = <LintFileReport>[];
 
