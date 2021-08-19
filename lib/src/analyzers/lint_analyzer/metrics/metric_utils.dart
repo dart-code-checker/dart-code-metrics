@@ -11,22 +11,29 @@ Uri documentation(String metricId) => Uri(
       ],
     );
 
-/// Returns a threshold from [Map] based [config] for metrics with [metricId] otherwise [defaultValue]
-T readThreshold<T extends num>(
+/// Returns a nullable threshold from [config] for metric with [metricId]
+T? readNullableThreshold<T extends num>(
   Map<String, Object?> config,
   String metricId,
-  T defaultValue,
 ) {
   final configValue = config[metricId]?.toString();
 
   if (configValue != null && T == int) {
-    return int.tryParse(configValue) as T? ?? defaultValue;
+    return int.tryParse(configValue) as T?;
   } else if (configValue != null && T == double) {
-    return double.tryParse(configValue) as T? ?? defaultValue;
+    return double.tryParse(configValue) as T?;
   }
 
-  return defaultValue;
+  return null;
 }
+
+/// Returns a threshold from [config] for metric with [metricId] otherwise [defaultValue]
+T readThreshold<T extends num>(
+  Map<String, Object?> config,
+  String metricId,
+  T defaultValue,
+) =>
+    readNullableThreshold(config, metricId) ?? defaultValue;
 
 /// Returns calculated [MetricValueLevel] based on the [value] to [warningLevel] ratio
 MetricValueLevel valueLevel(num? value, num? warningLevel) {

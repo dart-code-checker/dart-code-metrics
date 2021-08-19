@@ -10,7 +10,6 @@ import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/met
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value_level.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/entity_type.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/report.dart';
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/models/class_metrics_report.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/models/function_metrics_report.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:source_span/source_span.dart';
@@ -30,6 +29,7 @@ MetricValue<T> buildMetricValueStub<T>({
         shortName: id.toUpperCase(),
         brief: 'brief $id',
         measuredType: type,
+        recomendedThreshold: 0,
         examples: const [],
       ),
       value: value,
@@ -49,6 +49,7 @@ Report buildRecordStub({
         shortName: 'MTR1',
         brief: '',
         measuredType: EntityType.classEntity,
+        recomendedThreshold: 0,
         examples: [],
       ),
       value: 0,
@@ -62,6 +63,7 @@ Report buildRecordStub({
         shortName: 'MTR2',
         brief: '',
         measuredType: EntityType.methodEntity,
+        recomendedThreshold: 0,
         examples: [],
       ),
       value: 1,
@@ -101,41 +103,6 @@ Report buildFunctionRecordStub({
   );
 }
 
-ClassMetricsReport buildClassMetricsReportStub({
-  int methodsCount = 0,
-  MetricValueLevel methodsCountViolationLevel = MetricValueLevel.none,
-  double weightOfClass = 1,
-  MetricValueLevel weightOfClassViolationLevel = MetricValueLevel.none,
-}) =>
-    ClassMetricsReport(
-      methodsCount: MetricValue<int>(
-        metricsId: '',
-        documentation: const MetricDocumentation(
-          name: 'metric1',
-          shortName: 'MTR1',
-          brief: '',
-          measuredType: EntityType.classEntity,
-          examples: [],
-        ),
-        value: methodsCount,
-        level: methodsCountViolationLevel,
-        comment: '',
-      ),
-      weightOfClass: MetricValue<double>(
-        metricsId: '',
-        documentation: const MetricDocumentation(
-          name: 'metric2',
-          shortName: 'MTR2',
-          brief: '',
-          measuredType: EntityType.classEntity,
-          examples: [],
-        ),
-        value: weightOfClass,
-        level: weightOfClassViolationLevel,
-        comment: '',
-      ),
-    );
-
 FunctionMetricsReport buildFunctionMetricsReportStub({
   int cyclomaticComplexity = 0,
   MetricValueLevel cyclomaticComplexityViolationLevel = MetricValueLevel.none,
@@ -156,6 +123,7 @@ FunctionMetricsReport buildFunctionMetricsReportStub({
           shortName: '',
           brief: '',
           measuredType: EntityType.classEntity,
+          recomendedThreshold: 0,
           examples: [],
         ),
         value: cyclomaticComplexity,
@@ -169,6 +137,7 @@ FunctionMetricsReport buildFunctionMetricsReportStub({
           shortName: '',
           brief: '',
           measuredType: EntityType.classEntity,
+          recomendedThreshold: 0,
           examples: [],
         ),
         value: sourceLinesOfCode,
@@ -182,6 +151,7 @@ FunctionMetricsReport buildFunctionMetricsReportStub({
           shortName: '',
           brief: '',
           measuredType: EntityType.classEntity,
+          recomendedThreshold: 0,
           examples: [],
         ),
         value: maintainabilityIndex,
@@ -195,6 +165,7 @@ FunctionMetricsReport buildFunctionMetricsReportStub({
           shortName: '',
           brief: '',
           measuredType: EntityType.classEntity,
+          recomendedThreshold: 0,
           examples: [],
         ),
         value: argumentsCount,
@@ -208,6 +179,7 @@ FunctionMetricsReport buildFunctionMetricsReportStub({
           shortName: '',
           brief: '',
           measuredType: EntityType.classEntity,
+          recomendedThreshold: 0,
           examples: [],
         ),
         value: maximumNestingLevel,

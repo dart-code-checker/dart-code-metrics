@@ -19,6 +19,7 @@ const _documentation = MetricDocumentation(
   brief:
       'The number of "functional" public methods divided by the total number of public members',
   measuredType: EntityType.classEntity,
+  recomendedThreshold: 0.33,
   examples: [],
 );
 
@@ -33,7 +34,7 @@ class WeightOfClassMetric extends ClassMetric<double> {
       : super(
           id: metricId,
           documentation: _documentation,
-          threshold: readThreshold<double>(config, metricId, 0.33),
+          threshold: readNullableThreshold<double>(config, metricId),
           levelComputer: invertValueLevel,
         );
 
@@ -70,8 +71,8 @@ class WeightOfClassMetric extends ClassMetric<double> {
   }
 
   @override
-  String commentMessage(String nodeType, double value, double threshold) {
-    final exceeds = value < threshold
+  String commentMessage(String nodeType, double value, double? threshold) {
+    final exceeds = threshold != null && value < threshold
         ? ', which is lower then the threshold of $threshold allowed'
         : '';
 

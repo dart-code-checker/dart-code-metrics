@@ -1,15 +1,14 @@
 import 'dart:io';
 import 'dart:math';
 
-import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
-import 'package:analyzer/file_system/physical_file_system.dart';
 import 'package:path/path.dart';
 
 import '../../config_builder/config_builder.dart';
 import '../../config_builder/models/analysis_options.dart';
 import '../../reporters/models/reporter.dart';
+import '../../utils/analyzer_utils.dart';
 import '../../utils/exclude_utils.dart';
 import '../../utils/file_utils.dart';
 import '../../utils/node_utils.dart';
@@ -39,13 +38,13 @@ class LintAnalyzer {
   const LintAnalyzer();
 
   Reporter? getReporter({
-    required LintConfig config,
     required String name,
     required IOSink output,
     required String reportFolder,
+    @Deprecated('Unused argument. Will be removed in 5.0.0.') // ignore: avoid-unused-parameters
+        LintConfig? config,
   }) =>
       reporter(
-        config: config,
         name: name,
         output: output,
         reportFolder: reportFolder,
@@ -73,11 +72,7 @@ class LintAnalyzer {
     String rootFolder,
     LintConfig config,
   ) async {
-    final collection = AnalysisContextCollection(
-      includedPaths:
-          folders.map((path) => normalize(join(rootFolder, path))).toList(),
-      resourceProvider: PhysicalResourceProvider.INSTANCE,
-    );
+    final collection = createAnalysisContextCollection(folders, rootFolder);
 
     final analyzerResult = <LintFileReport>[];
 
@@ -105,7 +100,7 @@ class LintAnalyzer {
           filePaths.intersection(context.contextRoot.analyzedFiles().toSet());
 
       for (final filePath in analyzedFiles) {
-        final unit = await context.currentSession.getResolvedUnit2(filePath);
+        final unit = await context.currentSession.getResolvedUnit(filePath);
         if (unit is ResolvedUnitResult) {
           final result = _runAnalysisForFile(
             unit,
@@ -130,19 +125,14 @@ class LintAnalyzer {
     String rootFolder, {
     String? filePath,
   }) {
-    final unit = result.unit;
-    final content = result.content;
-
-    if (unit != null &&
-        content != null &&
-        result.state == ResultState.VALID &&
+    if (result.state == ResultState.VALID &&
         filePath != null &&
         _isSupported(result)) {
-      final ignores = Suppression(content, result.lineInfo);
+      final ignores = Suppression(result.content, result.lineInfo);
       final internalResult = InternalResolvedUnitResult(
         filePath,
-        content,
-        unit,
+        result.content,
+        result.unit,
         result.lineInfo,
       );
       final relativePath = relative(filePath, from: rootFolder);
@@ -324,15 +314,15 @@ class LintAnalyzer {
           shortName: '',
           brief: '',
           measuredType: EntityType.methodEntity,
+          recomendedThreshold: 0,
           examples: [],
         ),
         value: sourceLinesOfCodeVisitor.linesWithCode.length,
         level: valueLevel(
           sourceLinesOfCodeVisitor.linesWithCode.length,
-          readThreshold<int>(
+          readNullableThreshold<int>(
             config.metricsConfig,
             SourceLinesOfCodeMetric.metricId,
-            50,
           ),
         ),
         comment: '',
@@ -407,6 +397,7 @@ class LintAnalyzer {
               shortName: '',
               brief: '',
               measuredType: EntityType.classEntity,
+              recomendedThreshold: 0,
               examples: [],
             ),
             value: maintainabilityIndex,
@@ -437,7 +428,5 @@ class LintAnalyzer {
   }
 
   bool _isSupported(AnalysisResult result) =>
-      result.path != null &&
-      result.path!.endsWith('.dart') &&
-      !result.path!.endsWith('.g.dart');
+      result.path.endsWith('.dart') && !result.path.endsWith('.g.dart');
 }

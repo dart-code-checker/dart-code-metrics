@@ -1,7 +1,6 @@
 @TestOn('vm')
 import 'dart:io';
 
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/lint_config.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporter_factory.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/code_climate/lint_code_climate_reporter.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/console/lint_console_reporter.dart';
@@ -12,79 +11,36 @@ import 'package:test/test.dart';
 
 void main() {
   test('reporter returns only required reporter', () {
-    const config = LintConfig(
-      excludePatterns: [],
-      excludeForMetricsPatterns: [],
-      metrics: {},
-      rules: {},
-      antiPatterns: {},
-    );
-
     expect(
-      reporter(name: '', output: stdout, config: config, reportFolder: ''),
+      reporter(name: '', output: stdout, reportFolder: ''),
       isNull,
     );
     expect(
-      reporter(
-        name: 'console',
-        output: stdout,
-        config: config,
-        reportFolder: '',
-      ),
+      reporter(name: 'console', output: stdout, reportFolder: ''),
       isA<LintConsoleReporter>(),
     );
     expect(
-      reporter(
-        name: 'console-verbose',
-        output: stdout,
-        config: config,
-        reportFolder: '',
-      ),
+      reporter(name: 'console-verbose', output: stdout, reportFolder: ''),
       isA<LintConsoleReporter>(),
     );
     expect(
-      reporter(
-        name: 'codeclimate',
-        output: stdout,
-        config: config,
-        reportFolder: '',
-      ),
+      reporter(name: 'codeclimate', output: stdout, reportFolder: ''),
       isA<LintCodeClimateReporter>(),
     );
     expect(
-      reporter(
-        name: 'html',
-        output: stdout,
-        config: config,
-        reportFolder: '',
-      ),
+      reporter(name: 'html', output: stdout, reportFolder: ''),
       isA<LintHtmlReporter>(),
     );
     expect(
-      reporter(
-        name: 'json',
-        output: stdout,
-        config: config,
-        reportFolder: '',
-      ),
+      reporter(name: 'json', output: stdout, reportFolder: ''),
       isA<LintJsonReporter>(),
     );
     expect(
-      reporter(
-        name: 'github',
-        output: stdout,
-        config: config,
-        reportFolder: '',
-      ),
+      reporter(name: 'github', output: stdout, reportFolder: ''),
       isA<LintGitHubReporter>(),
     );
     expect(
-      reporter(
-        name: 'gitlab',
-        output: stdout,
-        config: config,
-        reportFolder: '',
-      ),
+      reporter(name: 'gitlab', output: stdout, reportFolder: ''),
       isA<LintCodeClimateReporter>(),
     );
   });

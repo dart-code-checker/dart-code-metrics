@@ -17,6 +17,7 @@ const _documentation = MetricDocumentation(
   shortName: 'NOM',
   brief: 'The number of methods of a class.',
   measuredType: EntityType.classEntity,
+  recomendedThreshold: 10,
   examples: [],
 );
 
@@ -31,7 +32,7 @@ class NumberOfMethodsMetric extends ClassMetric<int> {
       : super(
           id: metricId,
           documentation: _documentation,
-          threshold: readThreshold<int>(config, metricId, 10),
+          threshold: readNullableThreshold<int>(config, metricId),
           levelComputer: valueLevel,
         );
 
@@ -51,9 +52,9 @@ class NumberOfMethodsMetric extends ClassMetric<int> {
   }
 
   @override
-  String commentMessage(String nodeType, int value, int threshold) {
+  String commentMessage(String nodeType, int value, int? threshold) {
     final methods = '$value ${value == 1 ? 'method' : 'methods'}';
-    final exceeds = value > threshold
+    final exceeds = threshold != null && value > threshold
         ? ', which exceeds the maximum of $threshold allowed'
         : '';
 
@@ -61,8 +62,8 @@ class NumberOfMethodsMetric extends ClassMetric<int> {
   }
 
   @override
-  String? recommendationMessage(String nodeType, int value, int threshold) =>
-      (value > threshold)
+  String? recommendationMessage(String nodeType, int value, int? threshold) =>
+      (threshold != null && value > threshold)
           ? 'Consider breaking this $nodeType up into smaller parts.'
           : null;
 

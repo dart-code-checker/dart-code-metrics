@@ -1,4 +1,5 @@
 import 'package:analyzer/dart/ast/ast.dart';
+import 'package:dart_code_metrics/lint_analyzer.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_documentation.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value_level.dart';
@@ -27,6 +28,7 @@ final _class1Report = Report(
         shortName: 'MTR1',
         brief: '',
         measuredType: EntityType.classEntity,
+        recomendedThreshold: 0,
         examples: [],
       ),
       value: 0,
@@ -48,6 +50,7 @@ final _function1Report = Report(
         shortName: 'MTR2',
         brief: '',
         measuredType: EntityType.methodEntity,
+        recomendedThreshold: 0,
         examples: [],
       ),
       value: 10,
@@ -69,6 +72,7 @@ final _function2Report = Report(
         shortName: 'MTR3',
         brief: '',
         measuredType: EntityType.methodEntity,
+        recomendedThreshold: 0,
         examples: [],
       ),
       value: 1,
@@ -96,6 +100,7 @@ final _function3Report = Report(
         shortName: 'MTR4',
         brief: '',
         measuredType: EntityType.methodEntity,
+        recomendedThreshold: 0,
         examples: [],
       ),
       value: 5,
@@ -105,7 +110,7 @@ final _function3Report = Report(
   ],
 );
 
-final _issueReport = Issue(
+final _issueReport1 = Issue(
   ruleId: 'id',
   documentation: Uri.parse('https://documentation.com'),
   location:
@@ -113,6 +118,20 @@ final _issueReport = Issue(
   severity: Severity.warning,
   message: 'simple message',
   verboseMessage: 'verbose message',
+  suggestion: const Replacement(
+    comment: 'replacement comment',
+    replacement: 'function body',
+  ),
+);
+
+final _issueReport2 = Issue(
+  ruleId: 'designId',
+  documentation: Uri.parse('https://documentation.com'),
+  location:
+      SourceSpan(SourceLocation(0), SourceLocation(20), 'simple function body'),
+  severity: Severity.style,
+  message: 'simple design message',
+  verboseMessage: 'verbose design message',
 );
 
 final Iterable<LintFileReport> testReport = [
@@ -132,7 +151,7 @@ final Iterable<LintFileReport> testReport = [
     relativePath: src2Path,
     classes: const {},
     functions: {'function': _function3Report},
-    issues: [_issueReport],
-    antiPatternCases: const [],
+    issues: [_issueReport1],
+    antiPatternCases: [_issueReport2],
   ),
 ];
