@@ -35,29 +35,29 @@ class LintJsonReporter extends JsonReporter<LintFileReport> {
     final encodedReport = json.encode({
       'formatVersion': formatVersion,
       'timestamp': reportTime.toString(),
-      'records': records.map(_analysisRecordToJson).toList(),
+      'records': records.map(_lintFileReportToJson).toList(),
     });
 
     output.write(encodedReport);
   }
 
-  Map<String, Object> _analysisRecordToJson(LintFileReport report) => {
+  Map<String, Object> _lintFileReportToJson(LintFileReport report) => {
         'path': report.relativePath,
-        'classes': _reportReports(report.classes),
-        'functions': _reportReports(report.functions),
-        'issues': _reportIssues(report.issues),
-        'antiPatternCases': _reportIssues(report.antiPatternCases),
+        'classes': _reportToJson(report.classes),
+        'functions': _reportToJson(report.functions),
+        'issues': _issueToJson(report.issues),
+        'antiPatternCases': _issueToJson(report.antiPatternCases),
       };
 
-  Map<String, Map<String, Object>> _reportReports(
+  Map<String, Map<String, Object>> _reportToJson(
     Map<String, Report> reports,
   ) =>
       reports.map((key, value) => MapEntry(key, {
-            'codeSpan': _reportSourceSpan(value.location),
-            'metrics': _reportMetrics(value.metrics),
+            'codeSpan': _sourceSpanToJson(value.location),
+            'metrics': _metricValuesToJson(value.metrics),
           }));
 
-  List<Map<String, Object>> _reportIssues(Iterable<Issue> issues) =>
+  List<Map<String, Object>> _issueToJson(Iterable<Issue> issues) =>
       issues.map((issue) {
         final suggestion = issue.suggestion;
         final verboseMessage = issue.verboseMessage;
@@ -65,7 +65,7 @@ class LintJsonReporter extends JsonReporter<LintFileReport> {
         return {
           'ruleId': issue.ruleId,
           'documentation': issue.documentation.toString(),
-          'codeSpan': _reportSourceSpan(issue.location),
+          'codeSpan': _sourceSpanToJson(issue.location),
           'severity': issue.severity.toString(),
           'message': issue.message,
           if (verboseMessage != null && verboseMessage.isNotEmpty)
@@ -74,13 +74,13 @@ class LintJsonReporter extends JsonReporter<LintFileReport> {
         };
       }).toList();
 
-  Map<String, Object> _reportSourceSpan(SourceSpan location) => {
-        'start': _reportSourceLocation(location.start),
-        'end': _reportSourceLocation(location.end),
+  Map<String, Object> _sourceSpanToJson(SourceSpan location) => {
+        'start': _sourceLocationToJson(location.start),
+        'end': _sourceLocationToJson(location.end),
         'text': location.text,
       };
 
-  List<Map<String, Object>> _reportMetrics(
+  List<Map<String, Object>> _metricValuesToJson(
     Iterable<MetricValue<num>> metrics,
   ) =>
       metrics.map((metric) {
@@ -92,23 +92,23 @@ class LintJsonReporter extends JsonReporter<LintFileReport> {
           'level': metric.level.toString(),
           'comment': metric.comment,
           if (recommendation != null) 'recommendation': recommendation,
-          'context': _reportContextMessages(metric.context),
+          'context': _contextMessagesToJson(metric.context),
         };
       }).toList();
 
-  Map<String, Object> _reportSourceLocation(SourceLocation location) => {
+  Map<String, Object> _sourceLocationToJson(SourceLocation location) => {
         'offset': location.offset,
         'line': location.line,
         'column': location.column,
       };
 
-  List<Map<String, Object>> _reportContextMessages(
+  List<Map<String, Object>> _contextMessagesToJson(
     Iterable<ContextMessage> messages,
   ) =>
       messages
           .map((message) => {
                 'message': message.message,
-                'codeSpan': _reportSourceSpan(message.location),
+                'codeSpan': _sourceSpanToJson(message.location),
               })
           .toList();
 

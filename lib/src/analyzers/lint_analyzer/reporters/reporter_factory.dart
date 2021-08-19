@@ -6,38 +6,31 @@ import '../../../reporters/models/github_reporter.dart';
 import '../../../reporters/models/html_reporter.dart';
 import '../../../reporters/models/json_reporter.dart';
 import '../../../reporters/models/reporter.dart';
-import '../lint_config.dart';
 import 'reporters_list/code_climate/lint_code_climate_reporter.dart';
 import 'reporters_list/console/lint_console_reporter.dart';
 import 'reporters_list/github/lint_github_reporter.dart';
 import 'reporters_list/html/lint_html_reporter.dart';
 import 'reporters_list/json/lint_json_reporter.dart';
 
-final _implementedReports = <String,
-    Reporter Function(IOSink output, LintConfig config, String reportFolder)>{
-  ConsoleReporter.id: (output, _, __) => LintConsoleReporter(output),
-  ConsoleReporter.verboseId: (output, _, __) =>
+final _implementedReports =
+    <String, Reporter Function(IOSink output, String reportFolder)>{
+  ConsoleReporter.id: (output, _) => LintConsoleReporter(output),
+  ConsoleReporter.verboseId: (output, _) =>
       LintConsoleReporter(output, reportAll: true),
-  CodeClimateReporter.id: (output, config, _) =>
-      LintCodeClimateReporter(output, metrics: config.metrics),
-  HtmlReporter.id: (_, __, reportFolder) => LintHtmlReporter(reportFolder),
-  JsonReporter.id: (output, _, __) => LintJsonReporter(output),
-  GitHubReporter.id: (output, _, __) => LintGitHubReporter(output),
-  CodeClimateReporter.alternativeId: (output, config, _) =>
-      LintCodeClimateReporter(
-        output,
-        metrics: config.metrics,
-        gitlabCompatible: true,
-      ),
+  CodeClimateReporter.id: (output, _) => LintCodeClimateReporter(output),
+  HtmlReporter.id: (_, reportFolder) => LintHtmlReporter(reportFolder),
+  JsonReporter.id: (output, _) => LintJsonReporter(output),
+  GitHubReporter.id: (output, _) => LintGitHubReporter(output),
+  CodeClimateReporter.alternativeId: (output, _) =>
+      LintCodeClimateReporter(output, gitlabCompatible: true),
 };
 
 Reporter? reporter({
   required String name,
   required IOSink output,
-  required LintConfig config,
   required String reportFolder,
 }) {
   final constructor = _implementedReports[name];
 
-  return constructor != null ? constructor(output, config, reportFolder) : null;
+  return constructor != null ? constructor(output, reportFolder) : null;
 }

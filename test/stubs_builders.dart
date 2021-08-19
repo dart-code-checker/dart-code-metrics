@@ -10,7 +10,6 @@ import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/met
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value_level.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/entity_type.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/report.dart';
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/models/class_metrics_report.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/models/function_metrics_report.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:source_span/source_span.dart';
@@ -103,43 +102,6 @@ Report buildFunctionRecordStub({
     metrics: [...metrics, ...defaultMetricValues],
   );
 }
-
-ClassMetricsReport buildClassMetricsReportStub({
-  int methodsCount = 0,
-  MetricValueLevel methodsCountViolationLevel = MetricValueLevel.none,
-  double weightOfClass = 1,
-  MetricValueLevel weightOfClassViolationLevel = MetricValueLevel.none,
-}) =>
-    ClassMetricsReport(
-      methodsCount: MetricValue<int>(
-        metricsId: '',
-        documentation: const MetricDocumentation(
-          name: 'metric1',
-          shortName: 'MTR1',
-          brief: '',
-          measuredType: EntityType.classEntity,
-          recomendedThreshold: 0,
-          examples: [],
-        ),
-        value: methodsCount,
-        level: methodsCountViolationLevel,
-        comment: '',
-      ),
-      weightOfClass: MetricValue<double>(
-        metricsId: '',
-        documentation: const MetricDocumentation(
-          name: 'metric2',
-          shortName: 'MTR2',
-          brief: '',
-          measuredType: EntityType.classEntity,
-          recomendedThreshold: 0,
-          examples: [],
-        ),
-        value: weightOfClass,
-        level: weightOfClassViolationLevel,
-        comment: '',
-      ),
-    );
 
 FunctionMetricsReport buildFunctionMetricsReportStub({
   int cyclomaticComplexity = 0,

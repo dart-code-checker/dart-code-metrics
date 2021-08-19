@@ -4,6 +4,10 @@
 
 * Improve cli performance.
 
+## 4.2.0-dev.3
+
+* Changed the supported `analyzer` version to `^2.1.0`.
+
 ## 4.2.0-dev.2
 
 * Changed the supported `analyzer` version to `^2.0.0`.

@@ -34,12 +34,7 @@ Future<void> main() async {
 
   // Now pass collected analysis reports from runner to reporter and that's it
   await analyzer
-      .getReporter(
-        name: 'console',
-        output: stdout,
-        config: config,
-        reportFolder: '.',
-      )
+      .getReporter(name: 'console', output: stdout, reportFolder: '.')
       ?.report(result);
 
   // There is also JsonReporter for making machine-readable reports

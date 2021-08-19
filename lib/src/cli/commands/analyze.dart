@@ -66,7 +66,6 @@ class AnalyzeCommand extends BaseCommand {
         .getReporter(
           name: parsedArgs.reporterName,
           output: stdout,
-          config: config,
           reportFolder: parsedArgs.reportFolder,
         )
         ?.report(lintAnalyserResult);

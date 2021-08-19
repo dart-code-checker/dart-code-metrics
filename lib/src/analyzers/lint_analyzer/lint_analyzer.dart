@@ -38,13 +38,13 @@ class LintAnalyzer {
   const LintAnalyzer();
 
   Reporter? getReporter({
-    required LintConfig config,
     required String name,
     required IOSink output,
     required String reportFolder,
+    @Deprecated('Unused argument. Will be removed in 5.0.0.') // ignore: avoid-unused-parameters
+        LintConfig? config,
   }) =>
       reporter(
-        config: config,
         name: name,
         output: output,
         reportFolder: reportFolder,
@@ -100,7 +100,7 @@ class LintAnalyzer {
           filePaths.intersection(context.contextRoot.analyzedFiles().toSet());
 
       for (final filePath in analyzedFiles) {
-        final unit = await context.currentSession.getResolvedUnit2(filePath);
+        final unit = await context.currentSession.getResolvedUnit(filePath);
         if (unit is ResolvedUnitResult) {
           final result = _runAnalysisForFile(
             unit,
@@ -125,19 +125,14 @@ class LintAnalyzer {
     String rootFolder, {
     String? filePath,
   }) {
-    final unit = result.unit;
-    final content = result.content;
-
-    if (unit != null &&
-        content != null &&
-        result.state == ResultState.VALID &&
+    if (result.state == ResultState.VALID &&
         filePath != null &&
         _isSupported(result)) {
-      final ignores = Suppression(content, result.lineInfo);
+      final ignores = Suppression(result.content, result.lineInfo);
       final internalResult = InternalResolvedUnitResult(
         filePath,
-        content,
-        unit,
+        result.content,
+        result.unit,
         result.lineInfo,
       );
       final relativePath = relative(filePath, from: rootFolder);
@@ -433,7 +428,5 @@ class LintAnalyzer {
   }
 
   bool _isSupported(AnalysisResult result) =>
-      result.path != null &&
-      result.path!.endsWith('.dart') &&
-      !result.path!.endsWith('.g.dart');
+      result.path.endsWith('.dart') && !result.path.endsWith('.g.dart');
 }
