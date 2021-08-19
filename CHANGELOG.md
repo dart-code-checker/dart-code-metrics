@@ -2,7 +2,12 @@
 
 ## Unreleased
 
+* Improve cli performance.
 * Add static code diagnostic `avoid-ignoring-return-values`.
+
+## 4.2.0-dev.3
+
+* Changed the supported `analyzer` version to `^2.1.0`.
 
 ## 4.2.0-dev.2
 

@@ -8,9 +8,6 @@ class FileMetricsReport {
   final double averageMaintainabilityIndex;
   final int maintainabilityIndexViolations;
 
-  final int averageMethodsCount;
-  final int methodsCountViolations;
-
   final int totalCyclomaticComplexity;
   final int cyclomaticComplexityViolations;
 
@@ -25,8 +22,6 @@ class FileMetricsReport {
     required this.argumentsCountViolations,
     required this.averageMaintainabilityIndex,
     required this.maintainabilityIndexViolations,
-    required this.averageMethodsCount,
-    required this.methodsCountViolations,
     required this.totalCyclomaticComplexity,
     required this.cyclomaticComplexityViolations,
     required this.totalSourceLinesOfCode,

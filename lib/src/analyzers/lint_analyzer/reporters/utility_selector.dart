@@ -5,17 +5,14 @@ import 'package:quiver/iterables.dart' as quiver;
 import '../metrics/metric_utils.dart';
 import '../metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import '../metrics/metrics_list/maximum_nesting_level/maximum_nesting_level_metric.dart';
-import '../metrics/metrics_list/number_of_methods_metric.dart';
 import '../metrics/metrics_list/number_of_parameters_metric.dart';
 import '../metrics/metrics_list/source_lines_of_code/source_lines_of_code_metric.dart';
-import '../metrics/metrics_list/weight_of_class_metric.dart';
 import '../metrics/models/metric_documentation.dart';
 import '../metrics/models/metric_value.dart';
 import '../metrics/models/metric_value_level.dart';
 import '../models/entity_type.dart';
 import '../models/lint_file_report.dart';
 import '../models/report.dart';
-import 'models/class_metrics_report.dart';
 import 'models/file_metrics_report.dart';
 import 'models/function_metrics_report.dart';
 
@@ -32,7 +29,6 @@ class UtilitySelector {
       records.map(fileReport).reduce(mergeFileReports);
 
   static FileMetricsReport fileReport(LintFileReport record) {
-    final classMetricsReports = record.classes.values.map(classMetricsReport);
     final functionMetricsReports =
         record.functions.values.map(functionMetricsReport);
 
@@ -46,12 +42,6 @@ class UtilitySelector {
         avg(functionMetricsReports.map((r) => r.maintainabilityIndex.value));
     final totalMaintainabilityIndexViolations = functionMetricsReports
         .where((r) => isReportLevel(r.maintainabilityIndex.level))
-        .length;
-
-    final averageMethodsCount =
-        avg(classMetricsReports.map((r) => r.methodsCount.value));
-    final totalMethodsCountViolations = classMetricsReports
-        .where((r) => isReportLevel(r.methodsCount.level))
         .length;
 
     final totalCyclomaticComplexity =
@@ -78,37 +68,12 @@ class UtilitySelector {
       argumentsCountViolations: totalArgumentsCountViolations,
       averageMaintainabilityIndex: averageMaintainabilityIndex,
       maintainabilityIndexViolations: totalMaintainabilityIndexViolations,
-      averageMethodsCount: averageMethodsCount.round(),
-      methodsCountViolations: totalMethodsCountViolations,
       totalCyclomaticComplexity: totalCyclomaticComplexity.round(),
       cyclomaticComplexityViolations: totalCyclomaticComplexityViolations,
       totalSourceLinesOfCode: totalSourceLinesOfCode.round(),
       sourceLinesOfCodeViolations: totalSourceLinesOfCodeViolations,
       averageMaximumNestingLevel: averageMaximumNestingLevel,
       maximumNestingLevelViolations: totalMaximumNestingLevelViolations,
-    );
-  }
-
-  static ClassMetricsReport classMetricsReport(Report component) {
-    final numberOfMethodsMetric =
-        component.metric(NumberOfMethodsMetric.metricId) ??
-            _buildMetricValueStub<int>(
-              id: NumberOfMethodsMetric.metricId,
-              value: 0,
-              type: EntityType.classEntity,
-            );
-
-    final weightOfClassMetric =
-        component.metric(WeightOfClassMetric.metricId) ??
-            _buildMetricValueStub<double>(
-              id: NumberOfMethodsMetric.metricId,
-              value: 0,
-              type: EntityType.classEntity,
-            );
-
-    return ClassMetricsReport(
-      methodsCount: numberOfMethodsMetric as MetricValue<int>,
-      weightOfClass: weightOfClassMetric as MetricValue<double>,
     );
   }
 
@@ -157,11 +122,6 @@ class UtilitySelector {
     );
   }
 
-  static MetricValueLevel classMetricViolationLevel(
-    ClassMetricsReport report,
-  ) =>
-      report.methodsCount.level;
-
   static MetricValueLevel functionMetricViolationLevel(
     FunctionMetricsReport report,
   ) =>
@@ -196,10 +156,6 @@ class UtilitySelector {
             2,
         maintainabilityIndexViolations: lhs.maintainabilityIndexViolations +
             rhs.maintainabilityIndexViolations,
-        averageMethodsCount:
-            ((lhs.averageMethodsCount + rhs.averageMethodsCount) / 2).round(),
-        methodsCountViolations:
-            lhs.methodsCountViolations + rhs.methodsCountViolations,
         totalCyclomaticComplexity:
             lhs.totalCyclomaticComplexity + rhs.totalCyclomaticComplexity,
         cyclomaticComplexityViolations: lhs.cyclomaticComplexityViolations +
