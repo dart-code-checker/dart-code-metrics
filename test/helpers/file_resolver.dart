@@ -28,8 +28,8 @@ class FileResolver {
 
     return InternalResolvedUnitResult(
       path,
-      parseResult.content!,
-      parseResult.unit!,
+      parseResult.content,
+      parseResult.unit,
       parseResult.lineInfo,
     );
   }

@@ -97,7 +97,9 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     runZonedGuarded(
       () {
         dartDriver.results.listen((analysisResult) {
-          _processResult(dartDriver, analysisResult);
+          if (analysisResult is ResolvedUnitResult) {
+            _processResult(dartDriver, analysisResult);
+          }
         });
       },
       (e, stackTrace) {
@@ -169,22 +171,19 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
     ResolvedUnitResult analysisResult,
   ) {
     try {
-      final path = analysisResult.path;
-      if (analysisResult.unit != null &&
-          path != null &&
-          (driver.analysisContext?.contextRoot.isAnalyzed(path) ?? false)) {
+      if (driver.analysisContext?.contextRoot.isAnalyzed(analysisResult.path) ??
+          false) {
         final fixes = _check(driver, analysisResult);
 
         channel.sendNotification(
           plugin.AnalysisErrorsParams(
-            path,
+            analysisResult.path,
             fixes.map((fix) => fix.error).toList(),
           ).toNotification(),
         );
       } else {
         channel.sendNotification(
-          plugin.AnalysisErrorsParams(analysisResult.path!, [])
-              .toNotification(),
+          plugin.AnalysisErrorsParams(analysisResult.path, []).toNotification(),
         );
       }
     } on Exception catch (e, stackTrace) {
