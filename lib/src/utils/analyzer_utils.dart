@@ -9,10 +9,12 @@ import 'package:path/path.dart';
 AnalysisContextCollection createAnalysisContextCollection(
   Iterable<String> folders,
   String rootFolder,
+  String? sdkPath,
 ) {
   final resourceProvider = PhysicalResourceProvider.INSTANCE;
 
   return AnalysisContextCollectionImpl(
+    sdkPath: sdkPath,
     includedPaths:
         folders.map((path) => normalize(join(rootFolder, path))).toList(),
     resourceProvider: resourceProvider,
