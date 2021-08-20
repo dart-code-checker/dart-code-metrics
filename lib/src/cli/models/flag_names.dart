@@ -9,6 +9,7 @@ class FlagNames {
   static const reporter = 'reporter';
   static const exclude = 'exclude';
   static const rootFolder = 'root-folder';
+  static const sdkPath = 'sdk-path';
 
   static const consoleReporter = ConsoleReporter.id;
   static const consoleVerboseReporter = ConsoleReporter.verboseId;

@@ -36,6 +36,7 @@ class AnalyzeCommand extends BaseCommand {
   @override
   void validateCommand() {
     validateRootFolderExist();
+    validateSdkPath();
     validateTargetDirectories();
   }
 
@@ -56,6 +57,7 @@ class AnalyzeCommand extends BaseCommand {
       argResults.rest,
       argResults[FlagNames.rootFolder] as String,
       config,
+      findSdkPath(),
     );
 
     await _analyzer
@@ -97,6 +99,7 @@ class AnalyzeCommand extends BaseCommand {
     _usesReporterOption();
     _usesMetricsThresholdOptions();
     usesRootFolderOption();
+    usesSdkPathOption();
     usesExcludeOption();
     _usesExitOption();
   }

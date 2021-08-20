@@ -43,6 +43,15 @@ abstract class BaseCommand extends Command<void> {
       );
   }
 
+  void usesSdkPathOption() {
+    argParser.addOption(
+      FlagNames.sdkPath,
+      help:
+          'Dart SDK directory path. Should be provided only when you run the application as compiled Windows executable and automatic Dart SDK path detection fails.',
+      valueHelp: 'directory-path',
+    );
+  }
+
   void usesExcludeOption() {
     argParser.addOption(
       FlagNames.exclude,
@@ -57,6 +66,16 @@ abstract class BaseCommand extends Command<void> {
     if (!Directory(rootFolderPath).existsSync()) {
       final _exceptionMessage =
           'Root folder $rootFolderPath does not exist or not a directory.';
+
+      throw InvalidArgumentException(_exceptionMessage);
+    }
+  }
+
+  void validateSdkPath() {
+    final sdkPath = argResults[FlagNames.sdkPath] as String?;
+    if (sdkPath != null && !Directory(sdkPath).existsSync()) {
+      final _exceptionMessage =
+          'Dart SDK path $sdkPath does not exist or not a directory.';
 
       throw InvalidArgumentException(_exceptionMessage);
     }
@@ -81,6 +100,35 @@ abstract class BaseCommand extends Command<void> {
         throw InvalidArgumentException(_exceptionMessage);
       }
     }
+  }
+
+  String? findSdkPath() {
+    var sdkPath = argResults[FlagNames.sdkPath] as String?;
+
+    // When running as compiled Windows executable (built with `dart compile exe`) we must
+    // pass Dart SDK path when we create analysis context. So we try to detect Dart SDK path
+    // from system %PATH% environment variable.
+    //
+    // See
+    // https://github.com/dart-code-checker/dart-code-metrics/issues/385
+    // https://github.com/dart-code-checker/dart-code-metrics/pull/430
+    const dartExeFileName = 'dart.exe';
+
+    if (sdkPath == null &&
+        Platform.isWindows &&
+        !Platform.executable.toLowerCase().endsWith(dartExeFileName)) {
+      final paths = Platform.environment['PATH']?.split(';') ?? [];
+      final dartExePath = paths.firstWhere(
+        (pathEntry) => File(join(pathEntry, dartExeFileName)).existsSync(),
+        orElse: () => '',
+      );
+      if (dartExePath.isNotEmpty) {
+        // dart.exe usually is located in %SDK_PATH%\bin directory so let's use parent directory name.
+        sdkPath = dirname(dartExePath);
+      }
+    }
+
+    return sdkPath;
   }
 
   Future<void> _verifyThenRunCommand() async {
