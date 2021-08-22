@@ -393,7 +393,7 @@ class LintAnalyzer {
           MetricValue<double>(
             metricsId: 'maintainability-index',
             documentation: const MetricDocumentation(
-              name: '',
+              name: 'Maintainability index',
               shortName: '',
               brief: '',
               measuredType: EntityType.classEntity,

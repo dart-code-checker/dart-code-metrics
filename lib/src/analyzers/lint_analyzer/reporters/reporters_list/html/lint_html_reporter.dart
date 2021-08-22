@@ -10,8 +10,8 @@ import '../../../../../reporters/models/html_reporter.dart';
 import '../../../metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import '../../../metrics/models/metric_value_level.dart';
 import '../../../models/lint_file_report.dart';
-import '../../models/file_metrics_report.dart';
 import '../../utility_selector.dart';
+import 'models/file_metrics_report.dart';
 import 'utility_functions.dart';
 
 const _violationLevelFunctionStyle = {
@@ -342,44 +342,9 @@ class LintHtmlReporter extends HtmlReporter<LintFileReport> {
 
       var line = ' ';
       if (functionReport != null) {
-        final report = UtilitySelector.functionMetricsReport(functionReport);
-
         if (functionReport.location.start.line == i) {
-          final complexityTooltip = Element.tag('div')
-            ..classes.add('metrics-source-code__tooltip')
-            ..append(Element.tag('div')
-              ..classes.add('metrics-source-code__tooltip-title')
-              ..text = 'Function stats:')
-            ..append(Element.tag('p')
-              ..classes.add('metrics-source-code__tooltip-text')
-              ..append(renderFunctionMetric(
-                _cyclomaticComplexity,
-                report.cyclomaticComplexity,
-              )))
-            ..append(Element.tag('p')
-              ..classes.add('metrics-source-code__tooltip-text')
-              ..append(renderFunctionMetric(
-                _sourceLinesOfCode,
-                report.sourceLinesOfCode,
-              )))
-            ..append(Element.tag('p')
-              ..classes.add('metrics-source-code__tooltip-text')
-              ..append(renderFunctionMetric(
-                _maintainabilityIndex,
-                report.maintainabilityIndex,
-              )))
-            ..append(Element.tag('p')
-              ..classes.add('metrics-source-code__tooltip-text')
-              ..append(renderFunctionMetric(
-                _numberOfArguments,
-                report.argumentsCount,
-              )))
-            ..append(Element.tag('p')
-              ..classes.add('metrics-source-code__tooltip-text')
-              ..append(renderFunctionMetric(
-                _maximumNesting,
-                report.maximumNestingLevel,
-              )));
+          final complexityTooltip =
+              renderFunctionDetailsTooltip(functionReport);
 
           final complexityIcon = Element.tag('div')
             ..classes.addAll([
@@ -419,8 +384,8 @@ class LintHtmlReporter extends HtmlReporter<LintFileReport> {
           line += ' c';
         }
 */
-        final functionViolationLevel =
-            UtilitySelector.functionMetricViolationLevel(report);
+
+        final functionViolationLevel = functionReport.metricsLevel;
 
         final lineViolationStyle = lineWithComplexityIncrement > 0
             ? _violationLevelLineStyle[functionViolationLevel]

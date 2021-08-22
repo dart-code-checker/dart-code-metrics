@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../../metrics/models/metric_value.dart';
+import '../../../../metrics/models/metric_value.dart';
 
 @immutable
 class FunctionMetricsReport {

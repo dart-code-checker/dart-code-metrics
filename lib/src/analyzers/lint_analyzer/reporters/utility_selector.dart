@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:quiver/iterables.dart' as quiver;
+import 'package:collection/collection.dart';
 
 import '../metrics/metric_utils.dart';
 import '../metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
@@ -13,8 +13,8 @@ import '../metrics/models/metric_value_level.dart';
 import '../models/entity_type.dart';
 import '../models/lint_file_report.dart';
 import '../models/report.dart';
-import 'models/file_metrics_report.dart';
-import 'models/function_metrics_report.dart';
+import 'reporters_list/html/models/file_metrics_report.dart';
+import 'reporters_list/html/models/function_metrics_report.dart';
 
 double log2(num a) => log(a) / ln2;
 
@@ -30,7 +30,7 @@ class UtilitySelector {
 
   static FileMetricsReport fileReport(LintFileReport record) {
     final functionMetricsReports =
-        record.functions.values.map(functionMetricsReport);
+        record.functions.values.map(_functionMetricsReport);
 
     final averageArgumentCount =
         avg(functionMetricsReports.map((r) => r.argumentsCount.value));
@@ -77,69 +77,15 @@ class UtilitySelector {
     );
   }
 
-  static FunctionMetricsReport functionMetricsReport(Report function) {
-    final cyclomaticComplexityMetric =
-        function.metric(CyclomaticComplexityMetric.metricId) ??
-            _buildMetricValueStub<int>(
-              id: CyclomaticComplexityMetric.metricId,
-              value: 0,
-            );
-
-    final sourceLinesOfCodeMetric =
-        function.metric(SourceLinesOfCodeMetric.metricId) ??
-            _buildMetricValueStub<int>(
-              id: SourceLinesOfCodeMetric.metricId,
-              value: 0,
-            );
-
-    final maintainabilityIndexMetric =
-        function.metric('maintainability-index') ??
-            _buildMetricValueStub<double>(
-              id: 'maintainability-index',
-              value: 100,
-            );
-
-    final numberOfParametersMetric =
-        function.metric(NumberOfParametersMetric.metricId) ??
-            _buildMetricValueStub<int>(
-              id: NumberOfParametersMetric.metricId,
-              value: 0,
-            );
-
-    final maximumNestingLevelMetric =
-        function.metric(MaximumNestingLevelMetric.metricId) ??
-            _buildMetricValueStub<int>(
-              id: MaximumNestingLevelMetric.metricId,
-              value: 0,
-            );
-
-    return FunctionMetricsReport(
-      cyclomaticComplexity: cyclomaticComplexityMetric as MetricValue<int>,
-      sourceLinesOfCode: sourceLinesOfCodeMetric as MetricValue<int>,
-      maintainabilityIndex: maintainabilityIndexMetric as MetricValue<double>,
-      argumentsCount: numberOfParametersMetric as MetricValue<int>,
-      maximumNestingLevel: maximumNestingLevelMetric as MetricValue<int>,
-    );
-  }
-
-  static MetricValueLevel functionMetricViolationLevel(
-    FunctionMetricsReport report,
-  ) =>
-      quiver.max([
-        report.cyclomaticComplexity.level,
-        report.sourceLinesOfCode.level,
-        report.maintainabilityIndex.level,
-        report.argumentsCount.level,
-        report.maximumNestingLevel.level,
-      ])!;
-
   static MetricValueLevel maxViolationLevel(Iterable<LintFileReport> records) =>
-      quiver.max(records
-          .expand(
-            (fileRecord) =>
-                fileRecord.functions.values.map(functionMetricsReport),
-          )
-          .map(functionMetricViolationLevel))!;
+      records
+          .expand((fileRecord) => [
+                ...fileRecord.classes.values
+                    .map((report) => report.metricsLevel),
+                ...fileRecord.functions.values
+                    .map((report) => report.metricsLevel),
+              ])
+          .max;
 
   static FileMetricsReport mergeFileReports(
     FileMetricsReport lhs,
@@ -193,3 +139,47 @@ MetricValue<T> _buildMetricValueStub<T>({
       level: level,
       comment: '',
     );
+
+FunctionMetricsReport _functionMetricsReport(Report function) {
+  final cyclomaticComplexityMetric =
+      function.metric(CyclomaticComplexityMetric.metricId) ??
+          _buildMetricValueStub<int>(
+            id: CyclomaticComplexityMetric.metricId,
+            value: 0,
+          );
+
+  final sourceLinesOfCodeMetric =
+      function.metric(SourceLinesOfCodeMetric.metricId) ??
+          _buildMetricValueStub<int>(
+            id: SourceLinesOfCodeMetric.metricId,
+            value: 0,
+          );
+
+  final maintainabilityIndexMetric = function.metric('maintainability-index') ??
+      _buildMetricValueStub<double>(
+        id: 'maintainability-index',
+        value: 100,
+      );
+
+  final numberOfParametersMetric =
+      function.metric(NumberOfParametersMetric.metricId) ??
+          _buildMetricValueStub<int>(
+            id: NumberOfParametersMetric.metricId,
+            value: 0,
+          );
+
+  final maximumNestingLevelMetric =
+      function.metric(MaximumNestingLevelMetric.metricId) ??
+          _buildMetricValueStub<int>(
+            id: MaximumNestingLevelMetric.metricId,
+            value: 0,
+          );
+
+  return FunctionMetricsReport(
+    cyclomaticComplexity: cyclomaticComplexityMetric as MetricValue<int>,
+    sourceLinesOfCode: sourceLinesOfCodeMetric as MetricValue<int>,
+    maintainabilityIndex: maintainabilityIndexMetric as MetricValue<double>,
+    argumentsCount: numberOfParametersMetric as MetricValue<int>,
+    maximumNestingLevel: maximumNestingLevelMetric as MetricValue<int>,
+  );
+}
