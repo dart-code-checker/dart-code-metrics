@@ -1,5 +1,6 @@
 import 'models/rule.dart';
 import 'rules_list/always_remove_listener/always_remove_listener.dart';
+import 'rules_list/avoid_ignoring_return_values/avoid_ignoring_return_values.dart';
 import 'rules_list/avoid_late_keyword/avoid_late_keyword.dart';
 import 'rules_list/avoid_non_null_assertion/avoid_non_null_assertion.dart';
 import 'rules_list/avoid_preserve_whitespace_false/avoid_preserve_whitespace_false.dart';
@@ -30,6 +31,8 @@ import 'rules_list/provide_correct_intl_args/provide_correct_intl_args.dart';
 
 final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   AlwaysRemoveListenerRule.ruleId: (config) => AlwaysRemoveListenerRule(config),
+  AvoidIgnoringReturnValuesRule.ruleId: (config) =>
+      AvoidIgnoringReturnValuesRule(config),
   AvoidLateKeywordRule.ruleId: (config) => AvoidLateKeywordRule(config),
   AvoidNonNullAssertionRule.ruleId: (config) =>
       AvoidNonNullAssertionRule(config),

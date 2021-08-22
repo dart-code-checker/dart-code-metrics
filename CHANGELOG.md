@@ -1,8 +1,9 @@
 # Changelog
 
-## Unpublished
+## Unreleased
 
 * Improve cli performance.
+* Add static code diagnostic `avoid-ignoring-return-values`.
 
 ## 4.2.0-dev.3
 
