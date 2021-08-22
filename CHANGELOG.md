@@ -1,9 +1,11 @@
 # Changelog
 
-## Unreleased
+## 4.2.0
 
+* Add static code diagnostics `avoid-ignoring-return-values`, `prefer-match-file-name`, `prefer-single-widget-per-file`.
+* Changed the supported `analyzer` version to `^2.1.0`.
+* Changed the supported `analyzer_plugin` version to `^0.7.0`.
 * Improve cli performance.
-* Add static code diagnostic `avoid-ignoring-return-values`.
 
 ## 4.2.0-dev.3
 
