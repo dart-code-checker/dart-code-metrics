@@ -9,7 +9,7 @@ Element renderDetailsTooltip(Report entityReport, String entityType) {
     ..classes.add('metrics-source-code__tooltip')
     ..append(Element.tag('div')
       ..classes.add('metrics-source-code__tooltip-title')
-      ..text = '$entityType stats:');
+      ..text = '$entityType&nbsp;stats:');
 
   final metrics = entityReport.metrics.toList()
     ..sort((a, b) => a.documentation.name.compareTo(b.documentation.name));

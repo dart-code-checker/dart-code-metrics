@@ -12,7 +12,6 @@ import '../../../metrics/models/metric_value_level.dart';
 import '../../../models/lint_file_report.dart';
 import '../../utility_selector.dart';
 import 'components/icon.dart';
-import 'components/report_details_tooltip.dart';
 import 'models/file_metrics_report.dart';
 import 'utility_functions.dart';
 
@@ -333,34 +332,35 @@ class LintHtmlReporter extends HtmlReporter<LintFileReport> {
     final cyclomaticValues = Element.tag('td')
       ..classes.add('metrics-source-code__complexity');
     for (var i = 1; i <= sourceFileLines.length; ++i) {
-      final functionReport = record.functions.values.firstWhereOrNull(
-        (functionReport) =>
-            functionReport.location.start.line <= i &&
-            functionReport.location.end.line >= i,
-      );
-
       final complexityValueElement = Element.tag('div')
         ..classes.add('metrics-source-code__text');
 
+      final classReport = record.classes.entries.firstWhereOrNull((report) =>
+          report.value.location.start.line <= i &&
+          report.value.location.end.line >= i);
+      if (classReport != null && classReport.value.location.start.line == i) {
+        complexityValueElement
+          ..classes.add('metrics-source-code__text--with-icon')
+          ..append(renderComplexityIcon(classReport.value, classReport.key));
+      }
+
+      final functionReport = record.functions.entries.firstWhereOrNull(
+        (report) =>
+            report.value.location.start.line <= i &&
+            report.value.location.end.line >= i,
+      );
+
       var line = ' ';
       if (functionReport != null) {
-        if (functionReport.location.start.line == i) {
-          final complexityIcon = Element.tag('div')
-            ..classes.addAll([
-              'metrics-source-code__icon',
-              'metrics-source-code__icon--complexity',
-            ])
-            ..append(renderIcon(IconType.complexity))
-            ..append(renderDetailsTooltip(functionReport, 'Function'));
-
+        if (functionReport.value.location.start.line == i) {
           complexityValueElement
-            ..attributes['class'] =
-                '${complexityValueElement.attributes['class']} metrics-source-code__text--with-icon'
-                    .trim()
-            ..append(complexityIcon);
+            ..classes.add('metrics-source-code__text--with-icon')
+            ..append(
+              renderComplexityIcon(functionReport.value, functionReport.key),
+            );
         }
 
-        final lineWithComplexityIncrement = functionReport
+        final lineWithComplexityIncrement = functionReport.value
                 .metric(CyclomaticComplexityMetric.metricId)
                 ?.context
                 .where((element) => element.location.start.line == i)
@@ -379,7 +379,7 @@ class LintHtmlReporter extends HtmlReporter<LintFileReport> {
         }
 */
 
-        final functionViolationLevel = functionReport.metricsLevel;
+        final functionViolationLevel = functionReport.value.metricsLevel;
 
         final lineViolationStyle = lineWithComplexityIncrement > 0
             ? _violationLevelLineStyle[functionViolationLevel]

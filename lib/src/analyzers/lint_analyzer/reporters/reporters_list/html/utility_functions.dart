@@ -1,9 +1,20 @@
 import 'package:html/dom.dart';
 
 import '../../../models/report.dart';
+import 'components/icon.dart';
+import 'components/report_details_tooltip.dart';
 import 'lint_html_reporter.dart';
 
 const _violations = 'violations';
+
+Element renderComplexityIcon(Report entityReport, String entityType) =>
+    Element.tag('div')
+      ..classes.addAll([
+        'metrics-source-code__icon',
+        'metrics-source-code__icon--complexity',
+      ])
+      ..append(renderIcon(IconType.complexity))
+      ..append(renderDetailsTooltip(entityReport, entityType));
 
 Element renderSummaryMetric(
   String name,
