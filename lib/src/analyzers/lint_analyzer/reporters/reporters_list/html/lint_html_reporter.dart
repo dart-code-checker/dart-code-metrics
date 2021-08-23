@@ -12,6 +12,7 @@ import '../../../metrics/models/metric_value_level.dart';
 import '../../../models/lint_file_report.dart';
 import '../../utility_selector.dart';
 import 'components/icon.dart';
+import 'components/report_details_tooltip.dart';
 import 'models/file_metrics_report.dart';
 import 'utility_functions.dart';
 
@@ -344,16 +345,13 @@ class LintHtmlReporter extends HtmlReporter<LintFileReport> {
       var line = ' ';
       if (functionReport != null) {
         if (functionReport.location.start.line == i) {
-          final complexityTooltip =
-              renderFunctionDetailsTooltip(functionReport);
-
           final complexityIcon = Element.tag('div')
             ..classes.addAll([
               'metrics-source-code__icon',
               'metrics-source-code__icon--complexity',
             ])
             ..append(renderIcon(IconType.complexity))
-            ..append(complexityTooltip);
+            ..append(renderDetailsTooltip(functionReport, 'Function'));
 
           complexityValueElement
             ..attributes['class'] =
