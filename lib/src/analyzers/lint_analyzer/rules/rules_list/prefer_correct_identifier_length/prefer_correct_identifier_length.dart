@@ -31,7 +31,6 @@ class PreferCorrectIdentifierLength extends CommonRule {
   final bool _checkGetters;
   final bool _checkSetters;
 
-  //Мы сделали проверку длинны финкций, классов, аргументы,
   PreferCorrectIdentifierLength([Map<String, Object> config = const {}])
       : _minLength = _ConfigParser.parseMinIdentifierLength(config) ??
             _defaultMinIdentifier,
@@ -60,7 +59,7 @@ class PreferCorrectIdentifierLength extends CommonRule {
     final visitor = _Visitor();
     source.unit.visitChildren(visitor);
 
-    final _issue = <Issue>[
+    final _issues = <Issue>[
       if (_checkArguments) ..._addArgumentIssues(source, visitor.argumentNode),
       if (_checkClassNames) ..._addClassIssues(source, visitor.classNode),
       if (_checkFunctions) ..._addFunctionIssues(source, visitor.functionNode),
@@ -73,7 +72,7 @@ class PreferCorrectIdentifierLength extends CommonRule {
         ..._addIdentifierIssues(source, visitor.variablesNode),
     ];
 
-    return _issue;
+    return _issues;
   }
 
   Issue _createIssueWithMessage(
