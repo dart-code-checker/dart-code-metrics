@@ -96,7 +96,8 @@ class PreferCorrectIdentifierLength extends CommonRule {
     Iterable<FormalParameter> argumentsNode,
   ) {
     final issue = <Issue>[];
-    argumentsNode.map((element) {
+
+    for (final element in argumentsNode) {
       final message = _getNodeErrorMessage(
         element.declaredElement?.name ?? '',
         'function argument',
@@ -108,7 +109,7 @@ class PreferCorrectIdentifierLength extends CommonRule {
           message,
         ));
       }
-    }).toList();
+    }
 
     return issue;
   }
@@ -119,12 +120,12 @@ class PreferCorrectIdentifierLength extends CommonRule {
   ) {
     final issue = <Issue>[];
 
-    classNode.map((element) {
+    for (final element in classNode) {
       final message = _getNodeErrorMessage(element.name.name, 'class');
       if (message != null) {
         issue.add(_createIssueWithMessage(element.name, source, message));
       }
-    }).toList();
+    }
 
     return issue;
   }
@@ -135,12 +136,12 @@ class PreferCorrectIdentifierLength extends CommonRule {
   ) {
     final issue = <Issue>[];
 
-    functionNode.map((element) {
+    for (final element in functionNode) {
       final message = _getNodeErrorMessage(element.name.name, 'function');
       if (message != null) {
         issue.add(_createIssueWithMessage(element.name, source, message));
       }
-    }).toList();
+    }
 
     return issue;
   }
@@ -165,7 +166,7 @@ class PreferCorrectIdentifierLength extends CommonRule {
   ) {
     final issue = <Issue>[];
 
-    variablesNode.map((element) {
+    for (final element in variablesNode) {
       final message = _getNodeErrorMessage(element.name.name, 'variable');
       if (message != null) {
         issue.add(_createIssueWithMessage(
@@ -174,7 +175,7 @@ class PreferCorrectIdentifierLength extends CommonRule {
           message,
         ));
       }
-    }).toList();
+    }
 
     return issue;
   }
@@ -185,7 +186,7 @@ class PreferCorrectIdentifierLength extends CommonRule {
   ) {
     final issue = <Issue>[];
 
-    methodNode.map((element) {
+    for (final element in methodNode) {
       final message = _getNodeErrorMessage(element.name.name, 'method');
       if (message != null) {
         issue.add(_createIssueWithMessage(
@@ -194,7 +195,7 @@ class PreferCorrectIdentifierLength extends CommonRule {
           message,
         ));
       }
-    }).toList();
+    }
 
     return issue;
   }
@@ -205,7 +206,7 @@ class PreferCorrectIdentifierLength extends CommonRule {
   ) {
     final issue = <Issue>[];
 
-    constructorNode.map((element) {
+    for (final element in constructorNode) {
       final message =
           _getNodeErrorMessage(element.name?.name ?? '', 'constructor');
       if (message != null && message.isNotEmpty) {
@@ -215,7 +216,7 @@ class PreferCorrectIdentifierLength extends CommonRule {
           message,
         ));
       }
-    }).toList();
+    }
 
     return issue;
   }
