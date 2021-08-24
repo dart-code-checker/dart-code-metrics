@@ -29,7 +29,7 @@ prefer-correct-identifier-length
 
 `check-variable-name` - переменные;
 
-`check-function-argument-name` - аргументы функций;
+`check-argument-name` - аргументы функций;
 
 ### Config example
 

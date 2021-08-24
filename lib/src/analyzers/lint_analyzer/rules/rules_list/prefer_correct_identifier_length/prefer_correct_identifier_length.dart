@@ -27,22 +27,23 @@ class PreferCorrectIdentifierLength extends CommonRule {
   final bool _checkIdentifiers;
   final bool _checkArguments;
   final bool _checkConstructor;
-  final bool _isCheckMethod;
-  final bool _isCheckGetters;
-  final bool _isCheckSetters;
+  final bool _checkMethod;
+  final bool _checkGetters;
+  final bool _checkSetters;
 
+  //Мы сделали проверку длинны финкций, классов, аргументы,
   PreferCorrectIdentifierLength([Map<String, Object> config = const {}])
       : _minLength = _ConfigParser.parseMinIdentifierLength(config) ??
             _defaultMinIdentifier,
         _maxLength = _ConfigParser.parseMaxIdentifierLength(config) ??
             _defaultMaxIdentifier,
         _checkFunctions = _ConfigParser.parseCheckFunctionName(config) ?? true,
-        _isCheckMethod = _ConfigParser.parseCheckMethodName(config) ?? true,
+        _checkMethod = _ConfigParser.parseCheckMethodName(config) ?? true,
         _checkClassName = _ConfigParser.parseCheckClassName(config) ?? true,
-        _isCheckGetters = _ConfigParser.parseCheckGetters(config) ?? true,
-        _isCheckSetters = _ConfigParser.parseCheckSetters(config) ?? true,
+        _checkGetters = _ConfigParser.parseCheckGetters(config) ?? true,
+        _checkSetters = _ConfigParser.parseCheckSetters(config) ?? true,
         _checkIdentifiers = _ConfigParser.parseCheckIdentifier(config) ?? true,
-        _checkArguments = _ConfigParser.checkArguments(config) ?? true,
+        _checkArguments = _ConfigParser.checkArgumentsName(config) ?? true,
         _checkConstructor = _ConfigParser.checkConstructorName(config) ?? true,
         super(
           id: ruleId,
@@ -63,9 +64,9 @@ class PreferCorrectIdentifierLength extends CommonRule {
       if (_checkArguments) ..._addArguments(source, visitor.argumentNode),
       if (_checkClassName) ..._addClassIssue(source, visitor.classNode),
       if (_checkFunctions) ..._addFunctionIssue(source, visitor.functionNode),
-      if (_isCheckGetters) ..._addFunctionIssue(source, visitor.getters),
-      if (_isCheckSetters) ..._addFunctionIssue(source, visitor.setters),
-      if (_isCheckMethod) ..._addMethodIssue(source, visitor.methodNode),
+      if (_checkGetters) ..._addFunctionIssue(source, visitor.getters),
+      if (_checkSetters) ..._addFunctionIssue(source, visitor.setters),
+      if (_checkMethod) ..._addMethodIssue(source, visitor.methodNode),
       if (_checkConstructor)
         ..._addConstructors(source, visitor.constructorNode),
       if (_checkIdentifiers)

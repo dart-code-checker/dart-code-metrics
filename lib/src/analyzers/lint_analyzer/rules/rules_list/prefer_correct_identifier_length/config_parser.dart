@@ -11,7 +11,7 @@ class _ConfigParser {
   static const _checkMethodName = 'check-method-name';
   static const _checkNamedConstructor = 'check-named-constructor-name';
   static const _checkIdentifierName = 'check-variable-name';
-  static const _checkFunctionArgumentName = 'check-function-argument-name';
+  static const _checkArgumentName = 'check-argument-name';
 
   //min-identifier-length
   static int? parseMinIdentifierLength(Map<String, Object> config) =>
@@ -50,8 +50,8 @@ class _ConfigParser {
       _parseBoolConfig(config[_checkIdentifierName]);
 
   //check-function-argument-name
-  static bool? checkArguments(Map<String, Object> config) =>
-      _parseBoolConfig(config[_checkFunctionArgumentName]);
+  static bool? checkArgumentsName(Map<String, Object> config) =>
+      _parseBoolConfig(config[_checkArgumentName]);
 
   static bool? _parseBoolConfig(Object? value) =>
       value == null ? null : value.toString().toLowerCase() == 'true';
