@@ -60,16 +60,16 @@ class PreferCorrectIdentifierLength extends CommonRule {
     source.unit.visitChildren(visitor);
 
     final _issues = <Issue>[
-      if (_checkArguments) ..._addArgumentIssues(source, visitor.argumentsNode),
-      if (_checkClassNames) ..._addClassIssues(source, visitor.classesNode),
-      if (_checkFunctions) ..._addFunctionIssues(source, visitor.functionsNode),
-      if (_checkGetters) ..._addFunctionIssues(source, visitor.gettersNode),
-      if (_checkSetters) ..._addFunctionIssues(source, visitor.settersNode),
-      if (_checkMethods) ..._addMethodIssues(source, visitor.methodsNode),
+      if (_checkArguments) ..._addArgumentIssues(source, visitor.argumentNodes),
+      if (_checkClassNames) ..._addClassIssues(source, visitor.classNodes),
+      if (_checkFunctions) ..._addFunctionIssues(source, visitor.functionNodes),
+      if (_checkGetters) ..._addFunctionIssues(source, visitor.getterNodes),
+      if (_checkSetters) ..._addFunctionIssues(source, visitor.setterNodes),
+      if (_checkMethods) ..._addMethodIssues(source, visitor.methodNodes),
       if (_checkConstructors)
-        ..._addConstructorIssues(source, visitor.constructorsNode),
+        ..._addConstructorIssues(source, visitor.constructorNodes),
       if (_checkIdentifiers)
-        ..._addIdentifierIssues(source, visitor.variablesNode),
+        ..._addIdentifierIssues(source, visitor.variableNodes),
     ];
 
     return _issues;
