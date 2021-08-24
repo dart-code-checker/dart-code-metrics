@@ -181,7 +181,7 @@ void main() {
         'check-setters-name': false,
         'check-method-name': false,
         'check-named-constructor-name': false,
-        'check-function-argument-name': false,
+        'check-argument-name': false,
       }).check(unit);
 
       RuleTestHelper.verifyNoIssues(issues);

@@ -49,7 +49,7 @@ class _ConfigParser {
   static bool? parseCheckIdentifier(Map<String, Object> config) =>
       _parseBoolConfig(config[_checkIdentifierName]);
 
-  //check-function-argument-name
+  //check-argument-name
   static bool? checkArgumentsName(Map<String, Object> config) =>
       _parseBoolConfig(config[_checkArgumentName]);
 
