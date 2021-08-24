@@ -23,11 +23,11 @@ class PreferCorrectIdentifierLength extends CommonRule {
   final int _maxLength;
 
   final bool _checkFunctions;
-  final bool _checkClassName;
+  final bool _checkClassNames;
   final bool _checkIdentifiers;
   final bool _checkArguments;
-  final bool _checkConstructor;
-  final bool _checkMethod;
+  final bool _checkConstructors;
+  final bool _checkMethods;
   final bool _checkGetters;
   final bool _checkSetters;
 
@@ -38,13 +38,13 @@ class PreferCorrectIdentifierLength extends CommonRule {
         _maxLength = _ConfigParser.parseMaxIdentifierLength(config) ??
             _defaultMaxIdentifier,
         _checkFunctions = _ConfigParser.parseCheckFunctionName(config) ?? true,
-        _checkMethod = _ConfigParser.parseCheckMethodName(config) ?? true,
-        _checkClassName = _ConfigParser.parseCheckClassName(config) ?? true,
+        _checkMethods = _ConfigParser.parseCheckMethodName(config) ?? true,
+        _checkClassNames = _ConfigParser.parseCheckClassName(config) ?? true,
         _checkGetters = _ConfigParser.parseCheckGetters(config) ?? true,
         _checkSetters = _ConfigParser.parseCheckSetters(config) ?? true,
         _checkIdentifiers = _ConfigParser.parseCheckIdentifier(config) ?? true,
         _checkArguments = _ConfigParser.checkArgumentsName(config) ?? true,
-        _checkConstructor = _ConfigParser.checkConstructorName(config) ?? true,
+        _checkConstructors = _ConfigParser.checkConstructorName(config) ?? true,
         super(
           id: ruleId,
           documentation: const RuleDocumentation(
@@ -61,16 +61,16 @@ class PreferCorrectIdentifierLength extends CommonRule {
     source.unit.visitChildren(visitor);
 
     final _issue = <Issue>[
-      if (_checkArguments) ..._addArguments(source, visitor.argumentNode),
-      if (_checkClassName) ..._addClassIssue(source, visitor.classNode),
-      if (_checkFunctions) ..._addFunctionIssue(source, visitor.functionNode),
-      if (_checkGetters) ..._addFunctionIssue(source, visitor.getters),
-      if (_checkSetters) ..._addFunctionIssue(source, visitor.setters),
-      if (_checkMethod) ..._addMethodIssue(source, visitor.methodNode),
-      if (_checkConstructor)
-        ..._addConstructors(source, visitor.constructorNode),
+      if (_checkArguments) ..._addArgumentIssues(source, visitor.argumentNode),
+      if (_checkClassNames) ..._addClassIssues(source, visitor.classNode),
+      if (_checkFunctions) ..._addFunctionIssues(source, visitor.functionNode),
+      if (_checkGetters) ..._addFunctionIssues(source, visitor.getters),
+      if (_checkSetters) ..._addFunctionIssues(source, visitor.setters),
+      if (_checkMethods) ..._addMethodIssues(source, visitor.methodNode),
+      if (_checkConstructors)
+        ..._addConstructorIssues(source, visitor.constructorNode),
       if (_checkIdentifiers)
-        ..._addIdentifierIssue(source, visitor.variablesNode),
+        ..._addIdentifierIssues(source, visitor.variablesNode),
     ];
 
     return _issue;
@@ -91,7 +91,7 @@ class PreferCorrectIdentifierLength extends CommonRule {
         message: message,
       );
 
-  List<Issue> _addArguments(
+  List<Issue> _addArgumentIssues(
     InternalResolvedUnitResult source,
     Iterable<FormalParameter> argumentsNode,
   ) {
@@ -114,7 +114,7 @@ class PreferCorrectIdentifierLength extends CommonRule {
     return issue;
   }
 
-  List<Issue> _addClassIssue(
+  List<Issue> _addClassIssues(
     InternalResolvedUnitResult source,
     Iterable<ClassDeclaration> classNode,
   ) {
@@ -130,7 +130,7 @@ class PreferCorrectIdentifierLength extends CommonRule {
     return issue;
   }
 
-  List<Issue> _addFunctionIssue(
+  List<Issue> _addFunctionIssues(
     InternalResolvedUnitResult source,
     Iterable<FunctionDeclaration> functionNode,
   ) {
@@ -146,21 +146,7 @@ class PreferCorrectIdentifierLength extends CommonRule {
     return issue;
   }
 
-  String? _getNodeErrorMessage(String name, String type) {
-    final isShort = name.length < _minLength;
-    final isLong = name.length > _maxLength;
-
-    if (isShort) {
-      return 'Too short $type name length.';
-    }
-    if (isLong) {
-      return 'Too long $type name length.';
-    }
-
-    return null;
-  }
-
-  List<Issue> _addIdentifierIssue(
+  List<Issue> _addIdentifierIssues(
     InternalResolvedUnitResult source,
     Iterable<VariableDeclaration> variablesNode,
   ) {
@@ -180,7 +166,7 @@ class PreferCorrectIdentifierLength extends CommonRule {
     return issue;
   }
 
-  List<Issue> _addMethodIssue(
+  List<Issue> _addMethodIssues(
     InternalResolvedUnitResult source,
     Iterable<MethodDeclaration> methodNode,
   ) {
@@ -200,7 +186,7 @@ class PreferCorrectIdentifierLength extends CommonRule {
     return issue;
   }
 
-  List<Issue> _addConstructors(
+  List<Issue> _addConstructorIssues(
     InternalResolvedUnitResult source,
     Iterable<ConstructorDeclaration> constructorNode,
   ) {
@@ -219,5 +205,19 @@ class PreferCorrectIdentifierLength extends CommonRule {
     }
 
     return issue;
+  }
+
+  String? _getNodeErrorMessage(String name, String type) {
+    final isShort = name.length < _minLength;
+    final isLong = name.length > _maxLength;
+
+    if (isShort) {
+      return 'Too short $type name length.';
+    }
+    if (isLong) {
+      return 'Too long $type name length.';
+    }
+
+    return null;
   }
 }
