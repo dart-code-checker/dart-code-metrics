@@ -3,8 +3,8 @@ import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/met
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value_level.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/entity_type.dart';
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/models/file_metrics_report.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/html/lint_html_reporter.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/html/models/file_metrics_report.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/html/utility_functions.dart';
 import 'package:test/test.dart';
 
@@ -44,15 +44,14 @@ void main() {
     });
 
     test(
-      'renderFunctionMetric returns dom elements for function metric in tooltip',
+      'renderFunctionDetailsTooltipMetric returns dom elements for function metric in tooltip',
       () {
         expect(
-          renderFunctionMetric(
-            metricName,
+          renderFunctionDetailsTooltipMetric(
             const MetricValue(
               metricsId: '',
               documentation: MetricDocumentation(
-                name: '',
+                name: metricName,
                 shortName: '',
                 brief: '',
                 measuredType: EntityType.classEntity,

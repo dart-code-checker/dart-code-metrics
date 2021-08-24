@@ -1,6 +1,7 @@
 import 'package:html/dom.dart';
 
 import '../../../metrics/models/metric_value.dart';
+import '../../../models/report.dart';
 import 'lint_html_reporter.dart';
 
 const _violations = 'violations';
@@ -28,8 +29,27 @@ Element renderSummaryMetric(
       ..text = value);
 }
 
-Element renderFunctionMetric(String name, MetricValue<num> metric) {
-  final metricName = name.toLowerCase();
+Element renderFunctionDetailsTooltip(Report report) {
+  final tooltip = Element.tag('div')
+    ..classes.add('metrics-source-code__tooltip')
+    ..append(Element.tag('div')
+      ..classes.add('metrics-source-code__tooltip-title')
+      ..text = 'Function stats:');
+
+  final metrics = report.metrics.toList()
+    ..sort((a, b) => a.documentation.name.compareTo(b.documentation.name));
+
+  for (final metric in metrics) {
+    tooltip.append(Element.tag('p')
+      ..classes.add('metrics-source-code__tooltip-text')
+      ..append(renderFunctionDetailsTooltipMetric(metric)));
+  }
+
+  return tooltip;
+}
+
+Element renderFunctionDetailsTooltipMetric(MetricValue<num> metric) {
+  final metricName = metric.documentation.name.toLowerCase();
   final violationLevel = metric.level.toString();
 
   return Element.tag('div')
