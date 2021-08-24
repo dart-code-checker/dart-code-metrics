@@ -49,7 +49,7 @@ class PreferCorrectIdentifierLength extends CommonRule {
           id: ruleId,
           documentation: const RuleDocumentation(
             name: 'Prefer correct identifier length',
-            brief: 'Warns when identifier name length very short.',
+            brief: 'Warns when identifier name length very short or long.',
           ),
           severity: readSeverity(config, Severity.warning),
           excludes: readExcludes(config),
