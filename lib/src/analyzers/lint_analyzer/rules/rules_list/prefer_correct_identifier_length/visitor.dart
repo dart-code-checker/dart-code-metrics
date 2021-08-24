@@ -12,19 +12,19 @@ class _Visitor extends ScopeVisitor {
 
   Iterable<VariableDeclaration> get variablesNode => _identifiers;
 
-  Iterable<FunctionDeclaration> get functionNode => _functionNames;
+  Iterable<FunctionDeclaration> get functionsNode => _functionNames;
 
-  Iterable<FunctionDeclaration> get getters => _getters;
+  Iterable<FunctionDeclaration> get gettersNode => _getters;
 
-  Iterable<FunctionDeclaration> get setters => _setters;
+  Iterable<FunctionDeclaration> get settersNode => _setters;
 
-  Iterable<ClassDeclaration> get classNode => _classNames;
+  Iterable<ClassDeclaration> get classesNode => _classNames;
 
-  Iterable<MethodDeclaration> get methodNode => _methods;
+  Iterable<MethodDeclaration> get methodsNode => _methods;
 
-  Iterable<ConstructorDeclaration> get constructorNode => _constructors;
+  Iterable<ConstructorDeclaration> get constructorsNode => _constructors;
 
-  Iterable<FormalParameter> get argumentNode => _parameters;
+  Iterable<FormalParameter> get argumentsNode => _parameters;
 
   @override
   void visitVariableDeclaration(VariableDeclaration node) {
