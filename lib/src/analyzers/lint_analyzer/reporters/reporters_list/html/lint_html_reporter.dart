@@ -12,6 +12,7 @@ import '../../../metrics/models/metric_value_level.dart';
 import '../../../models/lint_file_report.dart';
 import '../../utility_selector.dart';
 import 'components/icon.dart';
+import 'components/issue_details_tooltip.dart';
 import 'models/file_metrics_report.dart';
 import 'utility_functions.dart';
 
@@ -392,31 +393,12 @@ class LintHtmlReporter extends HtmlReporter<LintFileReport> {
           .firstWhereOrNull((element) => element.location.start.line == i);
 
       if (architecturalIssues != null) {
-        final issueTooltip = Element.tag('div')
-          ..classes.add('metrics-source-code__tooltip')
-          ..append(Element.tag('div')
-            ..classes.add('metrics-source-code__tooltip-title')
-            ..text = architecturalIssues.ruleId)
-          ..append(Element.tag('p')
-            ..classes.add('metrics-source-code__tooltip-section')
-            ..text = architecturalIssues.message)
-          ..append(Element.tag('p')
-            ..classes.add('metrics-source-code__tooltip-section')
-            ..text = architecturalIssues.verboseMessage)
-          ..append(Element.tag('a')
-            ..classes.add('metrics-source-code__tooltip-link')
-            ..attributes['href'] = architecturalIssues.documentation.toString()
-            ..attributes['target'] = '_blank'
-            ..attributes['rel'] = 'noopener noreferrer'
-            ..attributes['title'] = 'Open documentation'
-            ..text = 'Open documentation');
-
         final issueIcon = Element.tag('div')
           ..classes.addAll(
             ['metrics-source-code__icon', 'metrics-source-code__icon--issue'],
           )
           ..append(renderIcon(IconType.issue))
-          ..append(issueTooltip);
+          ..append(renderIssueDetailsTooltip(architecturalIssues));
 
         complexityValueElement.append(issueIcon);
       }
