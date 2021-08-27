@@ -80,12 +80,14 @@ class LintAnalyzer {
       final analysisOptions = await analysisOptionsFromContext(context) ??
           await analysisOptionsFromFilePath(rootFolder);
 
-      final excludeRootFolder = analysisOptions.folderPath ?? rootFolder;
+      final excludesRootFolder = analysisOptions.folderPath ?? rootFolder;
 
       final contextConfig =
           ConfigBuilder.getLintConfigFromOptions(analysisOptions).merge(config);
-      final lintAnalysisConfig =
-          ConfigBuilder.getLintAnalysisConfig(contextConfig, excludeRootFolder);
+      final lintAnalysisConfig = ConfigBuilder.getLintAnalysisConfig(
+        contextConfig,
+        excludesRootFolder,
+      );
 
       final contextFolders = folders
           .where((path) => normalize(join(rootFolder, path))
@@ -219,7 +221,7 @@ class LintAnalyzer {
               !ignores.isSuppressed(rule.id) &&
               !isExcluded(
                 filePath,
-                prepareExcludes(rule.excludes, config.excludeRootFolder),
+                prepareExcludes(rule.excludes, config.excludesRootFolder),
               ))
           .expand(
             (rule) =>

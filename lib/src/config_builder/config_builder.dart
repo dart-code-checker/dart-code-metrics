@@ -20,12 +20,12 @@ class ConfigBuilder {
 
   static LintAnalysisConfig getLintAnalysisConfig(
     LintConfig config,
-    String rootPath, {
+    String excludesRootFolder, {
     Iterable<Metric<num>>? classMetrics,
     Iterable<Metric<num>>? functionMetrics,
   }) =>
       LintAnalysisConfig(
-        prepareExcludes(config.excludePatterns, rootPath),
+        prepareExcludes(config.excludePatterns, excludesRootFolder),
         getRulesById(config.rules),
         getPatternsById(config.antiPatterns),
         classMetrics ??
@@ -38,9 +38,9 @@ class ConfigBuilder {
               config: config.metrics,
               measuredType: EntityType.methodEntity,
             ),
-        prepareExcludes(config.excludeForMetricsPatterns, rootPath),
+        prepareExcludes(config.excludeForMetricsPatterns, excludesRootFolder),
         config.metrics,
-        rootPath,
+        excludesRootFolder,
       );
 
   static UnusedFilesConfig getUnusedFilesConfigFromArgs(
