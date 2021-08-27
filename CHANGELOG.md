@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* Fix rule and metrics excludes for monorepos.
+
 ## 4.2.0
 
 * Add static code diagnostics `avoid-ignoring-return-values`, `prefer-match-file-name`, `prefer-single-widget-per-file`.

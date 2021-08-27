@@ -3,7 +3,7 @@ import 'package:dart_code_metrics/src/analyzers/lint_analyzer/lint_config.dart';
 import 'package:dart_code_metrics/src/config_builder/models/analysis_options.dart';
 import 'package:test/test.dart';
 
-const _options = AnalysisOptions({
+const _options = AnalysisOptions('path', {
   'include': 'package:pedantic/analysis_options.yaml',
   'analyzer': {
     'exclude': ['test/resources/**'],
@@ -91,7 +91,7 @@ void main() {
     group('fromAnalysisOptions constructs instance from passed', () {
       test('empty options', () {
         final config =
-            LintConfig.fromAnalysisOptions(const AnalysisOptions({}));
+            LintConfig.fromAnalysisOptions(const AnalysisOptions(null, {}));
 
         expect(config.excludePatterns, isEmpty);
         expect(config.excludeForMetricsPatterns, isEmpty);

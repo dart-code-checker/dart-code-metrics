@@ -40,6 +40,7 @@ class ConfigBuilder {
             ),
         prepareExcludes(config.excludeForMetricsPatterns, rootPath),
         config.metrics,
+        rootPath,
       );
 
   static UnusedFilesConfig getUnusedFilesConfigFromArgs(
