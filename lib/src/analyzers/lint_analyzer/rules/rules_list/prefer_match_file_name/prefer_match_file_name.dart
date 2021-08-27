@@ -34,7 +34,9 @@ class PreferMatchFileName extends CommonRule {
         className.replaceAll(_onlySymbolsRegex, '').toLowerCase();
 
     return classNameFormatted ==
-        basename(path).split('.').first
+        basename(path)
+            .split('.')
+            .first
             .replaceAll(_onlySymbolsRegex, '')
             .toLowerCase();
   }
