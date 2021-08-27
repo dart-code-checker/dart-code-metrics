@@ -16,7 +16,6 @@ const _documentation = MetricDocumentation(
       'The number of physical lines of code of a method, including blank lines and comments',
   measuredType: EntityType.methodEntity,
   recomendedThreshold: 100,
-  examples: [],
 );
 
 /// Lines of Code (LOC)

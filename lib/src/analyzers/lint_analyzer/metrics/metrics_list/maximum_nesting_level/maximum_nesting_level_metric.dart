@@ -19,7 +19,6 @@ const _documentation = MetricDocumentation(
   brief: 'The maximum nesting level of control structures within a method',
   measuredType: EntityType.methodEntity,
   recomendedThreshold: 5,
-  examples: [],
 );
 
 /// Maximum Nesting Level (MAXNESTING)

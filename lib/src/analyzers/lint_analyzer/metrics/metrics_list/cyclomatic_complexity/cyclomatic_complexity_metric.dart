@@ -21,7 +21,6 @@ const _documentation = MetricDocumentation(
   brief: 'The number of linearly-independent paths through a code block',
   measuredType: EntityType.methodEntity,
   recomendedThreshold: 20,
-  examples: [],
 );
 
 /// Cyclomatic Complexity (CYCLO)

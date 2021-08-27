@@ -399,7 +399,6 @@ class LintAnalyzer {
               brief: '',
               measuredType: EntityType.classEntity,
               recomendedThreshold: 0,
-              examples: [],
             ),
             value: maintainabilityIndex,
             level: _maintainabilityIndexViolationLevel(

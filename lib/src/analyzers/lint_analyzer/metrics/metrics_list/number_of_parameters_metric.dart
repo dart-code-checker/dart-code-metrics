@@ -15,7 +15,6 @@ const _documentation = MetricDocumentation(
   brief: 'Number of parameters received by a method',
   measuredType: EntityType.methodEntity,
   recomendedThreshold: 4,
-  examples: [],
 );
 
 /// Number of Parameters (NOP)

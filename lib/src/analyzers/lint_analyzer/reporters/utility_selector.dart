@@ -133,7 +133,6 @@ MetricValue<T> _buildMetricValueStub<T>({
         brief: 'brief $id',
         measuredType: type,
         recomendedThreshold: 0,
-        examples: const [],
       ),
       value: value,
       level: level,
