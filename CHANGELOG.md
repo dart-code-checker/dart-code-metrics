@@ -3,6 +3,7 @@
 ## Unreleased
 
 * Fix rule and metrics excludes for monorepos.
+* Improve static code diagnostics `avoid-unused-parameters`, `prefer-match-file-name`.
 
 ## 4.2.0
 
