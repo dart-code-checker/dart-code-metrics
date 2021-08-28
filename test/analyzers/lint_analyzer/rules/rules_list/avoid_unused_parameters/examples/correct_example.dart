@@ -71,3 +71,15 @@ void sixthFunction(TestClass object) {
   final func = (TestClass object) => object.value;
   object.firstMethod('');
 }
+
+mixin AbstractMixin {
+  AbstractMixin copyWithLegs(List<Leg> legs);
+
+  String secondMethod(String string) {
+    return string;
+  }
+}
+
+class FavsListener extends Mock {
+  void call(Iterable<FavoriteStop> value);
+}

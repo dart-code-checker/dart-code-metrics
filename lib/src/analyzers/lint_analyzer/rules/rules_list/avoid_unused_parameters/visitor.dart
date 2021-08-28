@@ -13,6 +13,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
     final parameters = node.parameters;
 
     if (parent is ClassDeclaration && parent.isAbstract ||
+        node.isAbstract ||
         node.externalKeyword != null ||
         (parameters == null || parameters.parameters.isEmpty)) {
       return;
