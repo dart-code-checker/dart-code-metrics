@@ -102,7 +102,7 @@ void main() {
 
   group('AnalysisOptions', () {
     test('readIterableOfString returns iterables with data or not', () {
-      const options = AnalysisOptions(_options);
+      const options = AnalysisOptions(null, _options);
 
       expect(options.readIterableOfString([]), isEmpty);
       expect(options.readIterableOfString(['key']), isEmpty);
@@ -121,7 +121,7 @@ void main() {
     });
 
     test('readMap returns map with data or not', () {
-      const options = AnalysisOptions(_options);
+      const options = AnalysisOptions(null, _options);
 
       expect(options.readMap([]), equals(_options));
       expect(options.readMap(['include']), isEmpty);
@@ -140,7 +140,7 @@ void main() {
     });
 
     test('readMapOfMap returns map with data or not', () async {
-      const options = AnalysisOptions({
+      const options = AnalysisOptions(null, {
         'dart_code_metrics': {
           'metrics': {'metric-id1': 10},
           'metrics-exclude': ['documentation/**'],
