@@ -67,7 +67,7 @@ class UnusedFilesAnalyzer {
           filePaths.intersection(context.contextRoot.analyzedFiles().toSet());
 
       for (final filePath in analyzedFiles) {
-        final unit = await context.currentSession.getResolvedUnit(filePath);
+        final unit = await context.currentSession.getResolvedUnit2(filePath);
         unusedFiles.removeAll(_analyzeFile(filePath, unit));
       }
 
@@ -95,7 +95,7 @@ class UnusedFilesAnalyzer {
   Iterable<String> _analyzeFile(String filePath, SomeResolvedUnitResult unit) {
     if (unit is ResolvedUnitResult) {
       final visitor = UnusedFilesVisitor(filePath);
-      unit.unit.visitChildren(visitor);
+      unit.unit?.visitChildren(visitor);
 
       return visitor.paths;
     }
