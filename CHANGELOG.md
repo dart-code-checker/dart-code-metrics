@@ -3,6 +3,8 @@
 ## 4.2.0-dev.4
 
 * Revert: Changed the supported `analyzer` version to `^2.1.0`.
+* Revert: Changed the supported `analyzer` version to `^2.0.0`.
+* Revert: Changed the supported `analyzer_plugin` version to `^0.7.0`.
 
 ## 4.2.0-dev.3
 

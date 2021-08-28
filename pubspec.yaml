@@ -9,8 +9,8 @@ environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
-  analyzer: 2.0.0
-  analyzer_plugin: ^0.7.0
+  analyzer: ^1.7.0
+  analyzer_plugin: ^0.6.0
   ansicolor: ^2.0.1
   args: ^2.0.0
   collection: ^1.15.0
