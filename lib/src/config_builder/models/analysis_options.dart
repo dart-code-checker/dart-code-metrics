@@ -16,7 +16,11 @@ const _analysisOptionsFileName = 'analysis_options.yaml';
 class AnalysisOptions {
   final Map<String, Object> options;
 
-  const AnalysisOptions(this.options);
+  final String? _path;
+
+  const AnalysisOptions(this._path, this.options);
+
+  String? get folderPath => _path?.split('/$_analysisOptionsFileName').first;
 
   Iterable<String> readIterableOfString(Iterable<String> pathSegments) {
     Object? data = options;
@@ -107,8 +111,8 @@ Future<AnalysisOptions> analysisOptionsFromFilePath(String path) {
 
 Future<AnalysisOptions> analysisOptionsFromFile(File? options) async =>
     options != null && options.existsSync()
-        ? AnalysisOptions(await _loadConfigFromYamlFile(options))
-        : const AnalysisOptions({});
+        ? AnalysisOptions(options.path, await _loadConfigFromYamlFile(options))
+        : const AnalysisOptions(null, {});
 
 Future<Map<String, Object>> _loadConfigFromYamlFile(File options) async {
   try {

@@ -239,13 +239,17 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
   LintAnalysisConfig? _createConfig(AnalysisDriver driver, String rootPath) {
     final file = driver.analysisContext?.contextRoot.optionsFile;
     if (file != null && file.exists) {
-      final options = AnalysisOptions(yamlMapToDartMap(
-        AnalysisOptionsProvider(driver.sourceFactory).getOptionsFromFile(file),
-      ));
+      final options = AnalysisOptions(
+        file.path,
+        yamlMapToDartMap(
+          AnalysisOptionsProvider(driver.sourceFactory)
+              .getOptionsFromFile(file),
+        ),
+      );
       final config = ConfigBuilder.getLintConfigFromOptions(options);
       final lintConfig = ConfigBuilder.getLintAnalysisConfig(
         config,
-        rootPath,
+        options.folderPath ?? rootPath,
         classMetrics: const [],
         functionMetrics: [
           CyclomaticComplexityMetric(config: config.metrics),
