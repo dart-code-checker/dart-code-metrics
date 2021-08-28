@@ -3,6 +3,7 @@
 ## 4.2.0-dev.4
 
 * Fix rule and metrics excludes for monorepos.
+* Improve static code diagnostics `avoid-unused-parameters`, `prefer-match-file-name`.
 * Revert: Changed the supported `analyzer` version to `^2.1.0`.
 * Revert: Changed the supported `analyzer` version to `^2.0.0`.
 * Revert: Changed the supported `analyzer_plugin` version to `^0.7.0`.
