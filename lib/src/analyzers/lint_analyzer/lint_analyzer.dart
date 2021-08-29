@@ -15,8 +15,8 @@ import '../../utils/file_utils.dart';
 import '../../utils/node_utils.dart';
 import 'lint_analysis_config.dart';
 import 'lint_config.dart';
-import 'metrics/halstead_volume_ast_visitor.dart';
 import 'metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
+import 'metrics/metrics_list/halstead_volume/halstead_volume_ast_visitor.dart';
 import 'metrics/metrics_list/source_lines_of_code/source_lines_of_code_metric.dart';
 import 'metrics/models/metric_documentation.dart';
 import 'metrics/models/metric_value.dart';
@@ -323,19 +323,19 @@ class LintAnalyzer {
 
         // Total number of occurrences of operators.
         final totalNumberOfOccurrencesOfOperators =
-            sum(halsteadVolumeAstVisitor.operators.values);
+            halsteadVolumeAstVisitor.operators;
 
         // Total number of occurrences of operands
         final totalNumberOfOccurrencesOfOperands =
-            sum(halsteadVolumeAstVisitor.operands.values);
+            halsteadVolumeAstVisitor.operands;
 
         // Number of distinct operators.
         final numberOfDistinctOperators =
-            halsteadVolumeAstVisitor.operators.keys.length;
+            halsteadVolumeAstVisitor.uniqueOperators;
 
         // Number of distinct operands.
         final numberOfDistinctOperands =
-            halsteadVolumeAstVisitor.operands.keys.length;
+            halsteadVolumeAstVisitor.uniqueOperands;
 
         // Halstead Program Length – The total number of operator occurrences and the total number of operand occurrences.
         final halsteadProgramLength = totalNumberOfOccurrencesOfOperators +

@@ -1,13 +1,23 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
+import 'package:collection/collection.dart';
 
 class HalsteadVolumeAstVisitor extends RecursiveAstVisitor<void> {
   final _operators = <String, int>{};
   final _operands = <String, int>{};
 
-  Map<String, int> get operators => _operators;
-  Map<String, int> get operands => _operands;
+  /// the number of operators
+  int get operators => _operators.values.sum;
+
+  /// the number of unique operators
+  int get uniqueOperators => _operators.keys.length;
+
+  /// the number of operands
+  int get operands => _operands.values.sum;
+
+  /// the number of unique operands
+  int get uniqueOperands => _operands.keys.length;
 
   @override
   void visitBlockFunctionBody(BlockFunctionBody node) {
@@ -15,6 +25,7 @@ class HalsteadVolumeAstVisitor extends RecursiveAstVisitor<void> {
       node.block.leftBracket.next,
       node.block.rightBracket,
     );
+
     super.visitBlockFunctionBody(node);
   }
 
@@ -24,7 +35,8 @@ class HalsteadVolumeAstVisitor extends RecursiveAstVisitor<void> {
       node.expression.beginToken.previous,
       node.expression.endToken.next,
     );
-    node.visitChildren(this);
+
+    super.visitExpressionFunctionBody(node);
   }
 
   void _analyzeFunctionBodyData(Token? firstToken, Token? lastToken) {
@@ -33,9 +45,11 @@ class HalsteadVolumeAstVisitor extends RecursiveAstVisitor<void> {
       if (token.isOperator) {
         _operators[token.type.name] = (_operators[token.type.name] ?? 0) + 1;
       }
+
       if (token.isIdentifier) {
         _operands[token.lexeme] = (_operands[token.lexeme] ?? 0) + 1;
       }
+
       token = token.next;
     }
   }
