@@ -150,6 +150,7 @@ Usage: metrics [arguments...] <directories>
 
 
     --cyclomatic-complexity=<20>                  Cyclomatic Complexity threshold
+    --halstead-volume=<150>                       Halstead Volume threshold
     --lines-of-code=<100>                         Lines of Code threshold
     --maximum-nesting-level=<5>                   Maximum Nesting Level threshold
     --number-of-methods=<10>                      Number of Methods threshold
