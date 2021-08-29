@@ -16,7 +16,7 @@ import '../../utils/node_utils.dart';
 import 'lint_analysis_config.dart';
 import 'lint_config.dart';
 import 'metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
-import 'metrics/metrics_list/halstead_volume/halstead_volume_ast_visitor.dart';
+import 'metrics/metrics_list/halstead_volume/halstead_volume_metric.dart';
 import 'metrics/metrics_list/source_lines_of_code/source_lines_of_code_metric.dart';
 import 'metrics/models/metric_documentation.dart';
 import 'metrics/models/metric_value.dart';
@@ -31,7 +31,6 @@ import 'models/scoped_class_declaration.dart';
 import 'models/scoped_function_declaration.dart';
 import 'models/suppression.dart';
 import 'reporters/reporter_factory.dart';
-import 'reporters/utility_selector.dart';
 
 class LintAnalyzer {
   const LintAnalyzer();
@@ -312,47 +311,21 @@ class LintAnalyzer {
         (value) => value.metricsId == CyclomaticComplexityMetric.metricId,
       );
 
+      final halsteadVolume = metrics.firstWhereOrNull(
+        (value) => value.metricsId == HalsteadVolumeMetric.metricId,
+      );
+
       final sourceLinesOfCode = metrics.firstWhereOrNull(
         (value) => value.metricsId == SourceLinesOfCodeMetric.metricId,
       );
 
-      if (cyclomatic != null && sourceLinesOfCode != null) {
-        final halsteadVolumeAstVisitor = HalsteadVolumeAstVisitor();
-
-        function.declaration.visitChildren(halsteadVolumeAstVisitor);
-
-        // Total number of occurrences of operators.
-        final totalNumberOfOccurrencesOfOperators =
-            halsteadVolumeAstVisitor.operators;
-
-        // Total number of occurrences of operands
-        final totalNumberOfOccurrencesOfOperands =
-            halsteadVolumeAstVisitor.operands;
-
-        // Number of distinct operators.
-        final numberOfDistinctOperators =
-            halsteadVolumeAstVisitor.uniqueOperators;
-
-        // Number of distinct operands.
-        final numberOfDistinctOperands =
-            halsteadVolumeAstVisitor.uniqueOperands;
-
-        // Halstead Program Length – The total number of operator occurrences and the total number of operand occurrences.
-        final halsteadProgramLength = totalNumberOfOccurrencesOfOperators +
-            totalNumberOfOccurrencesOfOperands;
-
-        // Halstead Vocabulary – The total number of unique operator and unique operand occurrences.
-        final halsteadVocabulary =
-            numberOfDistinctOperators + numberOfDistinctOperands;
-
-        // Program Volume – Proportional to program size, represents the size, in bits, of space necessary for storing the program. This parameter is dependent on specific algorithm implementation.
-        final halsteadVolume =
-            halsteadProgramLength * log2(max(1, halsteadVocabulary));
-
+      if (cyclomatic != null &&
+          halsteadVolume != null &&
+          sourceLinesOfCode != null) {
         final maintainabilityIndex = max(
           0,
           (171 -
-                  5.2 * log(max(1, halsteadVolume)) -
+                  5.2 * log(max(1, halsteadVolume.value)) -
                   cyclomatic.value * 0.23 -
                   16.2 * log(max(1, sourceLinesOfCode.value))) *
               100 /
