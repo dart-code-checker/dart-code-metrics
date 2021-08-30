@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* Add `Halstead Volume` metric.
+
 ## 4.2.1
 
 * Fix rule and metrics excludes for monorepos.
