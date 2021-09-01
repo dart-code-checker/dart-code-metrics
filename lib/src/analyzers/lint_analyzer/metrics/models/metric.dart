@@ -42,6 +42,9 @@ abstract class Metric<T extends num> {
   ) =>
       true;
 
+  /// Returns true if the metric depend on [otherMetric] result.
+  bool isDependOn(Metric otherMetric) => false;
+
   /// Returns the computed [MetricValue] for the given [node].
   MetricValue<T> compute(
     Declaration node,
