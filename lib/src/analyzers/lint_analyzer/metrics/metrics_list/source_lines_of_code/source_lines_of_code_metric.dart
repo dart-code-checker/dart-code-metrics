@@ -19,7 +19,6 @@ const _documentation = MetricDocumentation(
       'The approximate number of source code lines in a method, blank lines and comments are not counted.',
   measuredType: EntityType.methodEntity,
   recomendedThreshold: 50,
-  examples: [],
 );
 
 /// Source lines of Code (SLOC)

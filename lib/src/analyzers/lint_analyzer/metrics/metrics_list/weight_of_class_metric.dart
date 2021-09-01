@@ -20,7 +20,6 @@ const _documentation = MetricDocumentation(
       'The number of "functional" public methods divided by the total number of public members',
   measuredType: EntityType.classEntity,
   recomendedThreshold: 0.33,
-  examples: [],
 );
 
 /// Weight Of a Class (WOC)

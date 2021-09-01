@@ -62,6 +62,7 @@ void main() {
 
         expect(metrics, {
           'cyclomatic-complexity': MetricValueLevel.none,
+          'halstead-volume': MetricValueLevel.none,
           'lines-of-code': MetricValueLevel.none,
           'maximum-nesting-level': MetricValueLevel.none,
           'number-of-parameters': MetricValueLevel.none,
@@ -88,6 +89,7 @@ void main() {
 
         expect(metrics, {
           'cyclomatic-complexity': MetricValueLevel.none,
+          'halstead-volume': MetricValueLevel.none,
           'lines-of-code': MetricValueLevel.none,
           'maximum-nesting-level': MetricValueLevel.none,
           'number-of-parameters': MetricValueLevel.none,

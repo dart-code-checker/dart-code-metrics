@@ -1,5 +1,6 @@
 import '../models/entity_type.dart';
 import 'metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
+import 'metrics_list/halstead_volume/halstead_volume_metric.dart';
 import 'metrics_list/lines_of_code_metric.dart';
 import 'metrics_list/maximum_nesting_level/maximum_nesting_level_metric.dart';
 import 'metrics_list/number_of_methods_metric.dart';
@@ -11,6 +12,8 @@ import 'models/metric.dart';
 final _implementedMetrics = <String, Metric Function(Map<String, Object>)>{
   CyclomaticComplexityMetric.metricId: (config) =>
       CyclomaticComplexityMetric(config: config),
+  HalsteadVolumeMetric.metricId: (config) =>
+      HalsteadVolumeMetric(config: config),
   LinesOfCodeMetric.metricId: (config) => LinesOfCodeMetric(config: config),
   MaximumNestingLevelMetric.metricId: (config) =>
       MaximumNestingLevelMetric(config: config),

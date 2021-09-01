@@ -18,9 +18,7 @@ import 'reporters_list/html/models/function_metrics_report.dart';
 
 double log2(num a) => log(a) / ln2;
 
-num sum(Iterable<num> it) => it.fold(0, (a, b) => a + b);
-
-double avg(Iterable<num> it) => it.isNotEmpty ? sum(it) / it.length : 0;
+double avg(Iterable<num> it) => it.isNotEmpty ? it.sum / it.length : 0;
 
 class UtilitySelector {
   static FileMetricsReport analysisReportForRecords(
@@ -45,13 +43,13 @@ class UtilitySelector {
         .length;
 
     final totalCyclomaticComplexity =
-        sum(functionMetricsReports.map((r) => r.cyclomaticComplexity.value));
+        functionMetricsReports.map((r) => r.cyclomaticComplexity.value).sum;
     final totalCyclomaticComplexityViolations = functionMetricsReports
         .where((r) => isReportLevel(r.cyclomaticComplexity.level))
         .length;
 
     final totalSourceLinesOfCode =
-        sum(functionMetricsReports.map((r) => r.sourceLinesOfCode.value));
+        functionMetricsReports.map((r) => r.sourceLinesOfCode.value).sum;
     final totalSourceLinesOfCodeViolations = functionMetricsReports
         .where((r) => isReportLevel(r.sourceLinesOfCode.level))
         .length;
@@ -133,7 +131,6 @@ MetricValue<T> _buildMetricValueStub<T>({
         brief: 'brief $id',
         measuredType: type,
         recomendedThreshold: 0,
-        examples: const [],
       ),
       value: value,
       level: level,

@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
+import 'package:collection/collection.dart';
 import 'package:path/path.dart';
 
 import '../../config_builder/config_builder.dart';
@@ -14,10 +15,8 @@ import '../../utils/file_utils.dart';
 import '../../utils/node_utils.dart';
 import 'lint_analysis_config.dart';
 import 'lint_config.dart';
-import 'metrics/halstead_volume_ast_visitor.dart';
-import 'metrics/metric_utils.dart';
 import 'metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
-import 'metrics/metrics_list/source_lines_of_code/source_code_visitor.dart';
+import 'metrics/metrics_list/halstead_volume/halstead_volume_metric.dart';
 import 'metrics/metrics_list/source_lines_of_code/source_lines_of_code_metric.dart';
 import 'metrics/models/metric_documentation.dart';
 import 'metrics/models/metric_value.dart';
@@ -32,7 +31,6 @@ import 'models/scoped_class_declaration.dart';
 import 'models/scoped_function_declaration.dart';
 import 'models/suppression.dart';
 import 'reporters/reporter_factory.dart';
-import 'reporters/utility_selector.dart';
 
 class LintAnalyzer {
   const LintAnalyzer();
@@ -298,104 +296,48 @@ class LintAnalyzer {
     final functionRecords = <ScopedFunctionDeclaration, Report>{};
 
     for (final function in visitor.functions) {
-      final cyclomatic = config.methodsMetrics
-          .firstWhere(
-            (metric) => metric.id == CyclomaticComplexityMetric.metricId,
-          )
-          .compute(
+      final metrics = [
+        for (final metric in config.methodsMetrics)
+          if (metric.supports(
             function.declaration,
             visitor.classes,
             visitor.functions,
             source,
-          );
-
-      final sourceLinesOfCodeVisitor = SourceCodeVisitor(source.lineInfo);
-
-      function.declaration.visitChildren(sourceLinesOfCodeVisitor);
-
-      final sourceLinesOfCode = MetricValue<int>(
-        metricsId: SourceLinesOfCodeMetric.metricId,
-        documentation: const MetricDocumentation(
-          name: '',
-          shortName: '',
-          brief: '',
-          measuredType: EntityType.methodEntity,
-          recomendedThreshold: 0,
-          examples: [],
-        ),
-        value: sourceLinesOfCodeVisitor.linesWithCode.length,
-        level: valueLevel(
-          sourceLinesOfCodeVisitor.linesWithCode.length,
-          readNullableThreshold<int>(
-            config.metricsConfig,
-            SourceLinesOfCodeMetric.metricId,
-          ),
-        ),
-        comment: '',
-      );
-
-      final halsteadVolumeAstVisitor = HalsteadVolumeAstVisitor();
-
-      function.declaration.visitChildren(halsteadVolumeAstVisitor);
-
-      // Total number of occurrences of operators.
-      final totalNumberOfOccurrencesOfOperators =
-          sum(halsteadVolumeAstVisitor.operators.values);
-
-      // Total number of occurrences of operands
-      final totalNumberOfOccurrencesOfOperands =
-          sum(halsteadVolumeAstVisitor.operands.values);
-
-      // Number of distinct operators.
-      final numberOfDistinctOperators =
-          halsteadVolumeAstVisitor.operators.keys.length;
-
-      // Number of distinct operands.
-      final numberOfDistinctOperands =
-          halsteadVolumeAstVisitor.operands.keys.length;
-
-      // Halstead Program Length – The total number of operator occurrences and the total number of operand occurrences.
-      final halsteadProgramLength = totalNumberOfOccurrencesOfOperators +
-          totalNumberOfOccurrencesOfOperands;
-
-      // Halstead Vocabulary – The total number of unique operator and unique operand occurrences.
-      final halsteadVocabulary =
-          numberOfDistinctOperators + numberOfDistinctOperands;
-
-      // Program Volume – Proportional to program size, represents the size, in bits, of space necessary for storing the program. This parameter is dependent on specific algorithm implementation.
-      final halsteadVolume =
-          halsteadProgramLength * log2(max(1, halsteadVocabulary));
-
-      final maintainabilityIndex = max(
-        0,
-        (171 -
-                5.2 * log(max(1, halsteadVolume)) -
-                cyclomatic.value * 0.23 -
-                16.2 * log(max(1, sourceLinesOfCode.value))) *
-            100 /
-            171,
-      ).toDouble();
-
-      final report = Report(
-        location: nodeLocation(
-          node: function.declaration,
-          source: source,
-        ),
-        declaration: function.declaration,
-        metrics: [
-          for (final metric in config.methodsMetrics)
-            if (metric.supports(
+          ))
+            metric.compute(
               function.declaration,
               visitor.classes,
               visitor.functions,
               source,
-            ))
-              metric.compute(
-                function.declaration,
-                visitor.classes,
-                visitor.functions,
-                source,
-              ),
+            ),
+      ];
+
+      final cyclomatic = metrics.firstWhereOrNull(
+        (value) => value.metricsId == CyclomaticComplexityMetric.metricId,
+      );
+
+      final halsteadVolume = metrics.firstWhereOrNull(
+        (value) => value.metricsId == HalsteadVolumeMetric.metricId,
+      );
+
+      final sourceLinesOfCode = metrics.firstWhereOrNull(
+        (value) => value.metricsId == SourceLinesOfCodeMetric.metricId,
+      );
+
+      if (cyclomatic != null &&
+          halsteadVolume != null &&
+          sourceLinesOfCode != null) {
+        final maintainabilityIndex = max(
+          0,
+          (171 -
+                  5.2 * log(max(1, halsteadVolume.value)) -
+                  cyclomatic.value * 0.23 -
+                  16.2 * log(max(1, sourceLinesOfCode.value))) *
+              100 /
+              171,
+        ).toDouble();
+
+        metrics.add(
           MetricValue<double>(
             metricsId: 'maintainability-index',
             documentation: const MetricDocumentation(
@@ -404,7 +346,6 @@ class LintAnalyzer {
               brief: '',
               measuredType: EntityType.classEntity,
               recomendedThreshold: 0,
-              examples: [],
             ),
             value: maintainabilityIndex,
             level: _maintainabilityIndexViolationLevel(
@@ -412,10 +353,14 @@ class LintAnalyzer {
             ),
             comment: '',
           ),
-        ],
-      );
+        );
+      }
 
-      functionRecords[function] = report;
+      functionRecords[function] = Report(
+        location: nodeLocation(node: function.declaration, source: source),
+        declaration: function.declaration,
+        metrics: metrics,
+      );
     }
 
     return functionRecords;
