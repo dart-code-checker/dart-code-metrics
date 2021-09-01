@@ -132,6 +132,23 @@ void main() {
 
         expect(ids, List.filled(1, 'avoid-late-keyword'));
       });
+
+      test('should not report rules', () async {
+        final config = _createConfig(
+          rules: {'avoid-late-keyword': {}},
+          excludeForRulesPatterns: ['test/**'],
+        );
+
+        final result = await analyzer.runCliAnalysis(
+          folders,
+          rootDirectory,
+          config,
+        );
+
+        final report =
+            reportForFile(result, 'lint_analyzer_exclude_example.dart').issues;
+        expect(report, isEmpty);
+      });
     },
     testOn: 'posix',
   );
@@ -143,6 +160,7 @@ LintConfig _createConfig({
   Map<String, Object> metrics = const {},
   Iterable<String> excludeForMetricsPatterns = const [],
   Map<String, Map<String, Object>> rules = const {},
+  Iterable<String> excludeForRulesPatterns = const [],
 }) =>
     LintConfig(
       antiPatterns: antiPatterns,
@@ -150,6 +168,7 @@ LintConfig _createConfig({
       metrics: metrics,
       excludeForMetricsPatterns: excludeForMetricsPatterns,
       rules: rules,
+      excludeForRulesPatterns: excludeForRulesPatterns,
     );
 
 LintFileReport reportForFile(

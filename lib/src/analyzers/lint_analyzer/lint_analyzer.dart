@@ -139,12 +139,17 @@ class LintAnalyzer {
       );
       final relativePath = relative(filePath, from: rootFolder);
 
-      final issues = _checkOnCodeIssues(
-        ignores,
-        internalResult,
-        config,
-        filePath,
-      );
+      final issues = <Issue>[];
+      if (!isExcluded(filePath, config.rulesExcludes)) {
+        issues.addAll(
+          _checkOnCodeIssues(
+            ignores,
+            internalResult,
+            config,
+            filePath,
+          ),
+        );
+      }
 
       if (!isExcluded(filePath, config.metricsExcludes)) {
         final visitor = ScopeVisitor();

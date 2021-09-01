@@ -11,6 +11,7 @@ import 'rules/models/rule.dart';
 class LintAnalysisConfig {
   final Iterable<Glob> globalExcludes;
   final Iterable<Rule> codeRules;
+  final Iterable<Glob> rulesExcludes;
   final Iterable<ObsoletePattern> antiPatterns;
   final Iterable<Metric> classesMetrics;
   final Iterable<Metric> methodsMetrics;
@@ -21,6 +22,7 @@ class LintAnalysisConfig {
   const LintAnalysisConfig(
     this.globalExcludes,
     this.codeRules,
+    this.rulesExcludes,
     this.antiPatterns,
     this.classesMetrics,
     this.methodsMetrics,

@@ -27,6 +27,7 @@ class ConfigBuilder {
       LintAnalysisConfig(
         prepareExcludes(config.excludePatterns, excludesRootFolder),
         getRulesById(config.rules),
+        prepareExcludes(config.excludeForRulesPatterns, excludesRootFolder),
         getPatternsById(config.antiPatterns),
         classMetrics ??
             getMetrics(
