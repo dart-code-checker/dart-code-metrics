@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* Add support for global rules-exclude
+
 ## 4.2.1
 
 * Fix rule and metrics excludes for monorepos.
