@@ -17,6 +17,7 @@ Future<void> main() async {
       'maximum-nesting-level': '5',
       'number-of-methods': '10',
     },
+    excludeForRulesPatterns: ['test/**'],
     rules: {
       'double-literal-format': {},
       'newline-before-return': {'severity': 'info'},

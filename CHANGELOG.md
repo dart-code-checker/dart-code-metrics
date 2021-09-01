@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.2.0-dev.5
+
+* Add support for global rules-exclude
+
 ## 4.2.0-dev.4
 
 * Fix rule and metrics excludes for monorepos.
