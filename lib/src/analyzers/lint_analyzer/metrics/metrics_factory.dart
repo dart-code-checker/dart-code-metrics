@@ -33,13 +33,36 @@ Iterable<Metric> getMetrics({
   required Map<String, Object> config,
   EntityType? measuredType,
 }) {
-  final _metrics =
+  var metrics =
       _implementedMetrics.keys.map((id) => _implementedMetrics[id]!(config));
 
-  return (measuredType != null
-          ? _metrics.where(
-              (metric) => metric.documentation.measuredType == measuredType)
-          : _metrics)
-      .toList()
-        ..sort((a, b) => a.isDependOn(b) ? 1 : 0);
+  if (measuredType != null) {
+    metrics = metrics
+        .where((metric) => metric.documentation.measuredType == measuredType);
+  }
+
+  return _sortMetrics(metrics);
+}
+
+Iterable<Metric> _sortMetrics(Iterable<Metric> metrics) {
+  final unsortedMetrics = metrics.toList();
+  final sortedMetrics = <Metric>[];
+
+  while (unsortedMetrics.isNotEmpty) {
+    final currentMetric = unsortedMetrics.iterator;
+    var notDependency = false;
+    while (!notDependency && currentMetric.moveNext()) {
+      notDependency = unsortedMetrics
+          .every((metric) => !currentMetric.current.isDependOn(metric));
+    }
+
+    if (notDependency) {
+      sortedMetrics.add(currentMetric.current);
+      unsortedMetrics.remove(currentMetric.current);
+    } else {
+      throw Exception('Invalid metrics dependencies');
+    }
+  }
+
+  return sortedMetrics;
 }
