@@ -35,6 +35,7 @@ void main() {
 
         final pattern = PatternMock();
         when(() => pattern.id).thenReturn(id);
+        when(() => pattern.severity).thenReturn(severity);
 
         final issue = createIssue(
           pattern: pattern,

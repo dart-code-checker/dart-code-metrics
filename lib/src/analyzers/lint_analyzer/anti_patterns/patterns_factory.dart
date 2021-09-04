@@ -4,8 +4,8 @@ import 'models/obsolete_pattern.dart';
 
 final _implementedPatterns =
     <String, ObsoletePattern Function(Map<String, Object>)>{
-  LongMethod.patternId: (config) => LongMethod(),
-  LongParameterList.patternId: (config) => LongParameterList(),
+  LongMethod.patternId: (config) => LongMethod(config),
+  LongParameterList.patternId: (config) => LongParameterList(config),
 };
 
 Iterable<ObsoletePattern> get allPatterns =>

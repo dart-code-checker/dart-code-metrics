@@ -4,6 +4,7 @@
 
 * Add support for global rules-exclude
 * Add `Halstead Volume` metric.
+* Add ability to configure anti-pattern severity
 
 ## 4.2.1
 

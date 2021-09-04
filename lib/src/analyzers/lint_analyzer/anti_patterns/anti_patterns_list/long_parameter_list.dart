@@ -1,4 +1,5 @@
 import '../../../../utils/node_utils.dart';
+import '../../lint_utils.dart';
 import '../../metrics/metric_utils.dart';
 import '../../metrics/metrics_list/number_of_parameters_metric.dart';
 import '../../models/entity_type.dart';
@@ -6,6 +7,7 @@ import '../../models/function_type.dart';
 import '../../models/internal_resolved_unit_result.dart';
 import '../../models/issue.dart';
 import '../../models/scoped_function_declaration.dart';
+import '../../models/severity.dart';
 import '../models/obsolete_pattern.dart';
 import '../models/pattern_documentation.dart';
 import '../pattern_utils.dart';
@@ -13,7 +15,7 @@ import '../pattern_utils.dart';
 class LongParameterList extends ObsoletePattern {
   static const String patternId = 'long-parameter-list';
 
-  LongParameterList()
+  LongParameterList([Map<String, Object> config = const {}])
       : super(
           id: patternId,
           documentation: const PatternDocumentation(
@@ -22,6 +24,7 @@ class LongParameterList extends ObsoletePattern {
                 'Long parameter lists are difficult to understand and use. Wrapping them into an object allows grouping parameters and change transferred data only by the object modification.',
             supportedType: EntityType.methodEntity,
           ),
+          severity: readSeverity(config, Severity.none),
         );
 
   @override

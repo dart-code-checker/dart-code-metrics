@@ -2,6 +2,7 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/element/type.dart';
 
 import '../../../../utils/node_utils.dart';
+import '../../lint_utils.dart';
 import '../../metrics/metric_utils.dart';
 import '../../metrics/metrics_list/source_lines_of_code/source_code_visitor.dart';
 import '../../metrics/metrics_list/source_lines_of_code/source_lines_of_code_metric.dart';
@@ -9,6 +10,7 @@ import '../../models/entity_type.dart';
 import '../../models/internal_resolved_unit_result.dart';
 import '../../models/issue.dart';
 import '../../models/scoped_function_declaration.dart';
+import '../../models/severity.dart';
 import '../../rules/flutter_rule_utils.dart';
 import '../models/obsolete_pattern.dart';
 import '../models/pattern_documentation.dart';
@@ -17,7 +19,7 @@ import '../pattern_utils.dart';
 class LongMethod extends ObsoletePattern {
   static const String patternId = 'long-method';
 
-  LongMethod()
+  LongMethod([Map<String, Object> config = const {}])
       : super(
           id: patternId,
           documentation: const PatternDocumentation(
@@ -26,6 +28,7 @@ class LongMethod extends ObsoletePattern {
                 'Long blocks of code are difficult to reuse and understand because they are usually responsible for more than one thing. Separating those to several short ones with proper names helps you reuse your code and understand it better without reading methods body.',
             supportedType: EntityType.methodEntity,
           ),
+          severity: readSeverity(config, Severity.none),
         );
 
   @override

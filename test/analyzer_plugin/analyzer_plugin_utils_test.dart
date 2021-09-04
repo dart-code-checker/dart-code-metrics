@@ -66,51 +66,6 @@ void main() {
   );
 
   test(
-    'designIssueToAnalysisErrorFixes constructs AnalysisErrorFixes',
-    () {
-      const end = offset + length;
-      const patternId = 'pattern id';
-      const patternDocumentationUrl = 'https://www.example.com';
-      const issueMessage = 'diagnostic message';
-      const issueRecommendationMessage = 'diagnostic recommendation message';
-
-      final fixes = designIssueToAnalysisErrorFixes(Issue(
-        ruleId: patternId,
-        documentation: Uri.parse(patternDocumentationUrl),
-        location: SourceSpanBase(
-          SourceLocation(
-            offset,
-            sourceUrl: Uri.file(sourcePath),
-            line: line,
-            column: column,
-          ),
-          SourceLocation(end, sourceUrl: Uri.file(sourcePath)),
-          'abcd',
-        ),
-        severity: Severity.none,
-        message: issueMessage,
-        verboseMessage: issueRecommendationMessage,
-      ));
-
-      expect(fixes.error.severity, equals(AnalysisErrorSeverity.INFO));
-      expect(fixes.error.type, equals(AnalysisErrorType.HINT));
-      expect(fixes.error.location.file, equals(sourcePath));
-      expect(fixes.error.location.offset, equals(offset));
-      expect(fixes.error.location, hasLength(length));
-      expect(fixes.error.location.startLine, equals(line));
-      expect(fixes.error.location.startColumn, equals(column));
-      expect(fixes.error.message, equals(issueMessage));
-      expect(fixes.error.code, equals(patternId));
-      expect(fixes.error.correction, equals(issueRecommendationMessage));
-      expect(fixes.error.url, equals(patternDocumentationUrl));
-      expect(fixes.error.contextMessages, isNull);
-      expect(fixes.error.hasFix, isFalse);
-      expect(fixes.fixes, isEmpty);
-    },
-    testOn: 'posix',
-  );
-
-  test(
     'metricReportToAnalysisErrorFixes constructs AnalysisErrorFixes from metric report',
     () {
       const metricMessage = 'diagnostic message';
