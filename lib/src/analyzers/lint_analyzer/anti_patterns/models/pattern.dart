@@ -1,6 +1,7 @@
 import '../../models/internal_resolved_unit_result.dart';
 import '../../models/issue.dart';
 import '../../models/report.dart';
+import '../../models/severity.dart';
 import 'pattern_documentation.dart';
 
 /// An interface to communicate with a patterns
@@ -13,9 +14,13 @@ abstract class Pattern {
   /// The documentation associated with the pattern
   final PatternDocumentation documentation;
 
+  /// The severity of issues emitted by the pattern
+  final Severity severity;
+
   const Pattern({
     required this.id,
     required this.documentation,
+    required this.severity,
   });
 
   /// Returns [Iterable] with [Issue]'s detected while check the passed [source]

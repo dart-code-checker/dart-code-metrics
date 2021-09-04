@@ -6,6 +6,7 @@ import '../../models/function_type.dart';
 import '../../models/internal_resolved_unit_result.dart';
 import '../../models/issue.dart';
 import '../../models/scoped_function_declaration.dart';
+import '../../models/severity.dart';
 import '../models/obsolete_pattern.dart';
 import '../models/pattern_documentation.dart';
 import '../pattern_utils.dart';
@@ -22,6 +23,7 @@ class LongParameterList extends ObsoletePattern {
                 'Long parameter lists are difficult to understand and use. Wrapping them into an object allows grouping parameters and change transferred data only by the object modification.',
             supportedType: EntityType.methodEntity,
           ),
+          severity: Severity.none,
         );
 
   @override

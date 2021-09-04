@@ -9,6 +9,7 @@ import '../../models/entity_type.dart';
 import '../../models/internal_resolved_unit_result.dart';
 import '../../models/issue.dart';
 import '../../models/scoped_function_declaration.dart';
+import '../../models/severity.dart';
 import '../../rules/flutter_rule_utils.dart';
 import '../models/obsolete_pattern.dart';
 import '../models/pattern_documentation.dart';
@@ -26,6 +27,7 @@ class LongMethod extends ObsoletePattern {
                 'Long blocks of code are difficult to reuse and understand because they are usually responsible for more than one thing. Separating those to several short ones with proper names helps you reuse your code and understand it better without reading methods body.',
             supportedType: EntityType.methodEntity,
           ),
+          severity: Severity.none,
         );
 
   @override

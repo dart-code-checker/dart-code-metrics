@@ -60,7 +60,7 @@ plugin.AnalysisErrorFixes codeIssueToAnalysisErrorFixes(
 
 plugin.AnalysisErrorFixes designIssueToAnalysisErrorFixes(Issue issue) =>
     plugin.AnalysisErrorFixes(plugin.AnalysisError(
-      plugin.AnalysisErrorSeverity.INFO,
+      _severityMapping[issue.severity]!,
       plugin.AnalysisErrorType.HINT,
       plugin.Location(
         uriToPath(issue.location.sourceUrl) ?? '',
