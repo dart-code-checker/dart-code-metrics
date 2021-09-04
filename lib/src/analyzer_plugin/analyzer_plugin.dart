@@ -208,14 +208,9 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
 
       if (report != null) {
         result.addAll([
-          ...report.issues
-              .map((issue) =>
-                  codeIssueToAnalysisErrorFixes(issue, analysisResult))
-              .toList(),
-          ...report.antiPatternCases
-              .map(designIssueToAnalysisErrorFixes)
-              .toList(),
-        ]);
+          ...report.issues,
+          ...report.antiPatternCases,
+        ].map((issue) => codeIssueToAnalysisErrorFixes(issue, analysisResult)));
       }
 
       // Temporary disable deprecation check
