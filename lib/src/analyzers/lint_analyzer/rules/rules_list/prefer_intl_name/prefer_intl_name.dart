@@ -4,6 +4,7 @@ import 'package:meta/meta.dart';
 
 import '../../../../../utils/node_utils.dart';
 import '../../../../../utils/object_extensions.dart';
+import '../../../lint_utils.dart';
 import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
 import '../../../models/replacement.dart';
