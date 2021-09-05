@@ -5,7 +5,8 @@ import 'package:collection/collection.dart';
 import '../../analyzers/lint_analyzer/lint_analyzer.dart';
 import '../../analyzers/lint_analyzer/metrics/metrics_factory.dart';
 import '../../analyzers/lint_analyzer/metrics/models/metric_value_level.dart';
-import '../../analyzers/lint_analyzer/reporters/utility_selector.dart';
+import '../../analyzers/lint_analyzer/models/severity.dart';
+import '../../analyzers/lint_analyzer/utils/report_utils.dart';
 import '../../config_builder/config_builder.dart';
 import '../../config_builder/models/deprecated_option.dart';
 import '../models/flag_names.dart';
@@ -70,10 +71,24 @@ class AnalyzeCommand extends BaseCommand {
         )
         ?.report(lintAnalyserResult);
 
+    if (hasIssueWithSevetiry(lintAnalyserResult, Severity.error)) {
+      exit(3);
+    } else if ((argResults[FlagNames.fatalWarnings] as bool) &&
+        hasIssueWithSevetiry(lintAnalyserResult, Severity.warning)) {
+      exit(2);
+    }
+
     if (parsedArgs.maximumAllowedLevel != null &&
-        UtilitySelector.maxViolationLevel(lintAnalyserResult) >=
+        maxMetricViolationLevel(lintAnalyserResult) >=
             parsedArgs.maximumAllowedLevel!) {
       exit(2);
+    }
+
+    if (((argResults[FlagNames.fatalPerformance] as bool) &&
+            hasIssueWithSevetiry(lintAnalyserResult, Severity.performance)) ||
+        ((argResults[FlagNames.fatalStyle] as bool) &&
+            hasIssueWithSevetiry(lintAnalyserResult, Severity.style))) {
+      exit(1);
     }
   }
 
@@ -147,6 +162,20 @@ class AnalyzeCommand extends BaseCommand {
         valueHelp: 'warning',
         help:
             'Set exit code 2 if code violations same or higher level than selected are detected.',
+      )
+      ..addFlag(
+        FlagNames.fatalStyle,
+        help: 'Treat style level issues as fatal.',
+      )
+      ..addFlag(
+        FlagNames.fatalPerformance,
+        help: 'Treat performance level issues as fatal.',
+      )
+      ..addFlag(
+        FlagNames.fatalWarnings,
+        help: 'Treat warning level issues as fatal.',
+// TODO(dkrutrkikh): activate on next major version
+//        defaultsTo: true,
       );
   }
 }

@@ -149,14 +149,14 @@ Usage: metrics [arguments...] <directories>
                                                   (defaults to "metrics")
 
 
-    --cyclomatic-complexity=<20>                  Cyclomatic Complexity threshold
-    --halstead-volume=<150>                       Halstead Volume threshold
-    --lines-of-code=<100>                         Lines of Code threshold
-    --maximum-nesting-level=<5>                   Maximum Nesting Level threshold
-    --number-of-methods=<10>                      Number of Methods threshold
-    --number-of-parameters=<4>                    Number of Parameters threshold
-    --source-lines-of-code=<50>                   Source lines of Code threshold
-    --weight-of-class=<0.33>                      Weight Of a Class threshold
+    --cyclomatic-complexity=<20>                  Cyclomatic Complexity threshold.
+    --halstead-volume=<150>                       Halstead Volume threshold.
+    --lines-of-code=<100>                         Lines of Code threshold.
+    --maximum-nesting-level=<5>                   Maximum Nesting Level threshold.
+    --number-of-methods=<10>                      Number of Methods threshold.
+    --number-of-parameters=<4>                    Number of Parameters threshold.
+    --source-lines-of-code=<50>                   Source lines of Code threshold.
+    --weight-of-class=<0.33>                      Weight Of a Class threshold.
 
 
     --root-folder=<./>                            Root folder
@@ -167,6 +167,9 @@ Usage: metrics [arguments...] <directories>
 
     --set-exit-on-violation-level=<warning>       Set exit code 2 if code violations same or higher level than selected are detected
                                                   [noted, warning, alarm]
+    --[no-]fatal-style                            Treat style level issues as fatal.
+    --[no-]fatal-performance                      Treat performance level issues as fatal.
+    --[no-]fatal-warnings                         Treat warning level issues as fatal.
 ```
 
 ## Troubleshooting

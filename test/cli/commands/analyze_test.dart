@@ -33,6 +33,9 @@ const _usage = 'Collect code metrics, rules and anti-patterns violations.\n'
     '\n'
     '    --set-exit-on-violation-level=<warning>       Set exit code 2 if code violations same or higher level than selected are detected.\n'
     '                                                  [noted, warning, alarm]\n'
+    '    --[no-]fatal-style                            Treat style level issues as fatal.\n'
+    '    --[no-]fatal-performance                      Treat performance level issues as fatal.\n'
+    '    --[no-]fatal-warnings                         Treat warning level issues as fatal.\n'
     '\n'
     'Run "metrics help" to see global options.';
 

@@ -1,0 +1,108 @@
+@TestOn('vm')
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/metrics_list/source_lines_of_code/source_lines_of_code_metric.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value_level.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/issue.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/lint_file_report.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/report.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/utils/report_utils.dart';
+import 'package:source_span/source_span.dart';
+import 'package:test/test.dart';
+
+import '../../../stubs_builders.dart';
+
+void main() {
+  group('Report util', () {
+    const fullPathStub = '~/lib/src/foo.dart';
+    const relativePathStub = 'lib/src/foo.dart';
+    final fileRecords = [
+      LintFileReport(
+        path: fullPathStub,
+        relativePath: relativePathStub,
+        classes: Map.unmodifiable(<String, Report>{}),
+        functions: Map.unmodifiable(<String, Report>{
+          'a': buildFunctionRecordStub(
+            metrics: [
+              buildMetricValueStub<int>(
+                id: SourceLinesOfCodeMetric.metricId,
+                value: 10,
+              ),
+            ],
+          ),
+        }),
+        issues: [
+          Issue(
+            ruleId: 'rule',
+            documentation: Uri.parse('http://documentation.org'),
+            location: SourceSpan(SourceLocation(0), SourceLocation(0), ''),
+            severity: Severity.error,
+            message: 'issue message',
+          ),
+        ],
+        antiPatternCases: const [],
+      ),
+      LintFileReport(
+        path: fullPathStub,
+        relativePath: relativePathStub,
+        classes: Map.unmodifiable(<String, Report>{}),
+        functions: Map.unmodifiable(<String, Report>{
+          'a': buildFunctionRecordStub(
+            metrics: [
+              buildMetricValueStub<int>(
+                id: SourceLinesOfCodeMetric.metricId,
+                value: 20,
+                level: MetricValueLevel.noted,
+              ),
+            ],
+          ),
+        }),
+        issues: const [],
+        antiPatternCases: const [],
+      ),
+      LintFileReport(
+        path: fullPathStub,
+        relativePath: relativePathStub,
+        classes: Map.unmodifiable(<String, Report>{}),
+        functions: Map.unmodifiable(<String, Report>{
+          'a': buildFunctionRecordStub(
+            metrics: [
+              buildMetricValueStub<int>(
+                id: SourceLinesOfCodeMetric.metricId,
+                value: 30,
+                level: MetricValueLevel.warning,
+              ),
+            ],
+          ),
+        }),
+        issues: const [],
+        antiPatternCases: [
+          Issue(
+            ruleId: 'pattern',
+            documentation: Uri.parse('http://documentation.org'),
+            location: SourceSpan(SourceLocation(1), SourceLocation(1), ''),
+            severity: Severity.style,
+            message: 'issue message',
+          ),
+        ],
+      ),
+    ];
+
+    test('maxMetricViolationLevel returns violation level', () {
+      expect(maxMetricViolationLevel(fileRecords), MetricValueLevel.warning);
+    });
+
+    test(
+      'hasIssueWithSevetiry returns true if found issue with required severity',
+      () {
+        expect(hasIssueWithSevetiry(fileRecords, Severity.error), isTrue);
+        expect(hasIssueWithSevetiry(fileRecords, Severity.warning), isFalse);
+        expect(
+          hasIssueWithSevetiry(fileRecords, Severity.performance),
+          isFalse,
+        );
+        expect(hasIssueWithSevetiry(fileRecords, Severity.style), isTrue);
+        expect(hasIssueWithSevetiry(fileRecords, Severity.none), isFalse);
+      },
+    );
+  });
+}
