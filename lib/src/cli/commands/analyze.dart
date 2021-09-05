@@ -40,13 +40,6 @@ class AnalyzeCommand extends BaseCommand {
   @override
   Future<void> runCommand() async {
     final parsedArgs = ParsedArguments(
-      rootFolder: argResults[FlagNames.rootFolder] as String,
-      reporterName: argResults[FlagNames.reporter] as String,
-      reportFolder: argResults[FlagNames.reportFolder] as String,
-      maximumAllowedLevel: MetricValueLevel.fromString(
-        argResults[FlagNames.setExitOnViolationLevel] as String?,
-      ),
-      folders: argResults.rest,
       excludePath: argResults[FlagNames.exclude] as String,
       metricsConfig: {
         for (final metric in getMetrics(config: {}))
@@ -58,16 +51,16 @@ class AnalyzeCommand extends BaseCommand {
     final config = ConfigBuilder.getLintConfigFromArgs(parsedArgs);
 
     final lintAnalyserResult = await _analyzer.runCliAnalysis(
-      parsedArgs.folders,
-      parsedArgs.rootFolder,
+      argResults.rest,
+      argResults[FlagNames.rootFolder] as String,
       config,
     );
 
     await _analyzer
         .getReporter(
-          name: parsedArgs.reporterName,
+          name: argResults[FlagNames.reporter] as String,
           output: stdout,
-          reportFolder: parsedArgs.reportFolder,
+          reportFolder: argResults[FlagNames.reportFolder] as String,
         )
         ?.report(lintAnalyserResult);
 
@@ -78,9 +71,12 @@ class AnalyzeCommand extends BaseCommand {
       exit(2);
     }
 
-    if (parsedArgs.maximumAllowedLevel != null &&
-        maxMetricViolationLevel(lintAnalyserResult) >=
-            parsedArgs.maximumAllowedLevel!) {
+    final maximumAllowedLevel = MetricValueLevel.fromString(
+      argResults[FlagNames.setExitOnViolationLevel] as String?,
+    );
+
+    if (maximumAllowedLevel != null &&
+        maxMetricViolationLevel(lintAnalyserResult) >= maximumAllowedLevel) {
       exit(2);
     }
 

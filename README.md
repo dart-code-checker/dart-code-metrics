@@ -143,9 +143,9 @@ Usage: metrics [arguments...] <directories>
 -h, --help                                        Print this usage information.
 
 
--r, --reporter=<console>                          The format of the output of the analysis
+-r, --reporter=<console>                          The format of the output of the analysis.
                                                   [console (default), console-verbose, codeclimate, github, gitlab, html, json]
--o, --output-directory=<OUTPUT>                   Write HTML output to OUTPUT
+-o, --output-directory=<OUTPUT>                   Write HTML output to OUTPUT.
                                                   (defaults to "metrics")
 
 
@@ -159,13 +159,13 @@ Usage: metrics [arguments...] <directories>
     --weight-of-class=<0.33>                      Weight Of a Class threshold.
 
 
-    --root-folder=<./>                            Root folder
+    --root-folder=<./>                            Root folder.
                                                   (defaults to current directory)
-    --exclude=<{/**.g.dart,/**.template.dart}>    File paths in Glob syntax to be exclude
+    --exclude=<{/**.g.dart,/**.template.dart}>    File paths in Glob syntax to be exclude.
                                                   (defaults to "{/**.g.dart,/**.template.dart}")
 
 
-    --set-exit-on-violation-level=<warning>       Set exit code 2 if code violations same or higher level than selected are detected
+    --set-exit-on-violation-level=<warning>       Set exit code 2 if code violations same or higher level than selected are detected.
                                                   [noted, warning, alarm]
     --[no-]fatal-style                            Treat style level issues as fatal.
     --[no-]fatal-performance                      Treat performance level issues as fatal.
