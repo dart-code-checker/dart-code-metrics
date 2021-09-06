@@ -7,3 +7,5 @@ export 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/issue.dart'
 export 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/lint_file_report.dart';
 export 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/replacement.dart';
 export 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
+
+export 'package:dart_code_metrics/src/analyzers/lint_analyzer/utils/report_utils.dart';

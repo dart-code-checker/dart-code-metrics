@@ -5,6 +5,7 @@
 * Add support for global rules-exclude
 * Add `Halstead Volume` metric.
 * Add ability to configure anti-pattern severity
+* Add `--fatal-warnings`, `--fatal-performance`, `--fatal-style` cli arguments.
 
 ## 4.2.1
 

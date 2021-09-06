@@ -5,7 +5,8 @@ import 'package:collection/collection.dart';
 import '../../analyzers/lint_analyzer/lint_analyzer.dart';
 import '../../analyzers/lint_analyzer/metrics/metrics_factory.dart';
 import '../../analyzers/lint_analyzer/metrics/models/metric_value_level.dart';
-import '../../analyzers/lint_analyzer/reporters/utility_selector.dart';
+import '../../analyzers/lint_analyzer/models/severity.dart';
+import '../../analyzers/lint_analyzer/utils/report_utils.dart';
 import '../../config_builder/config_builder.dart';
 import '../../config_builder/models/deprecated_option.dart';
 import '../models/flag_names.dart';
@@ -39,13 +40,6 @@ class AnalyzeCommand extends BaseCommand {
   @override
   Future<void> runCommand() async {
     final parsedArgs = ParsedArguments(
-      rootFolder: argResults[FlagNames.rootFolder] as String,
-      reporterName: argResults[FlagNames.reporter] as String,
-      reportFolder: argResults[FlagNames.reportFolder] as String,
-      maximumAllowedLevel: MetricValueLevel.fromString(
-        argResults[FlagNames.setExitOnViolationLevel] as String?,
-      ),
-      folders: argResults.rest,
       excludePath: argResults[FlagNames.exclude] as String,
       metricsConfig: {
         for (final metric in getMetrics(config: {}))
@@ -57,23 +51,40 @@ class AnalyzeCommand extends BaseCommand {
     final config = ConfigBuilder.getLintConfigFromArgs(parsedArgs);
 
     final lintAnalyserResult = await _analyzer.runCliAnalysis(
-      parsedArgs.folders,
-      parsedArgs.rootFolder,
+      argResults.rest,
+      argResults[FlagNames.rootFolder] as String,
       config,
     );
 
     await _analyzer
         .getReporter(
-          name: parsedArgs.reporterName,
+          name: argResults[FlagNames.reporter] as String,
           output: stdout,
-          reportFolder: parsedArgs.reportFolder,
+          reportFolder: argResults[FlagNames.reportFolder] as String,
         )
         ?.report(lintAnalyserResult);
 
-    if (parsedArgs.maximumAllowedLevel != null &&
-        UtilitySelector.maxViolationLevel(lintAnalyserResult) >=
-            parsedArgs.maximumAllowedLevel!) {
+    if (hasIssueWithSevetiry(lintAnalyserResult, Severity.error)) {
+      exit(3);
+    } else if ((argResults[FlagNames.fatalWarnings] as bool) &&
+        hasIssueWithSevetiry(lintAnalyserResult, Severity.warning)) {
       exit(2);
+    }
+
+    final maximumAllowedLevel = MetricValueLevel.fromString(
+      argResults[FlagNames.setExitOnViolationLevel] as String?,
+    );
+
+    if (maximumAllowedLevel != null &&
+        maxMetricViolationLevel(lintAnalyserResult) >= maximumAllowedLevel) {
+      exit(2);
+    }
+
+    if (((argResults[FlagNames.fatalPerformance] as bool) &&
+            hasIssueWithSevetiry(lintAnalyserResult, Severity.performance)) ||
+        ((argResults[FlagNames.fatalStyle] as bool) &&
+            hasIssueWithSevetiry(lintAnalyserResult, Severity.style))) {
+      exit(1);
     }
   }
 
@@ -147,6 +158,20 @@ class AnalyzeCommand extends BaseCommand {
         valueHelp: 'warning',
         help:
             'Set exit code 2 if code violations same or higher level than selected are detected.',
+      )
+      ..addFlag(
+        FlagNames.fatalStyle,
+        help: 'Treat style level issues as fatal.',
+      )
+      ..addFlag(
+        FlagNames.fatalPerformance,
+        help: 'Treat performance level issues as fatal.',
+      )
+      ..addFlag(
+        FlagNames.fatalWarnings,
+        help: 'Treat warning level issues as fatal.',
+// TODO(dkrutrkikh): activate on next major version
+//        defaultsTo: true,
       );
   }
 }

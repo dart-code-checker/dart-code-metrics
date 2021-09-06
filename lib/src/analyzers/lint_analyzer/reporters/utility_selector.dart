@@ -75,16 +75,6 @@ class UtilitySelector {
     );
   }
 
-  static MetricValueLevel maxViolationLevel(Iterable<LintFileReport> records) =>
-      records
-          .expand((fileRecord) => [
-                ...fileRecord.classes.values
-                    .map((report) => report.metricsLevel),
-                ...fileRecord.functions.values
-                    .map((report) => report.metricsLevel),
-              ])
-          .max;
-
   static FileMetricsReport mergeFileReports(
     FileMetricsReport lhs,
     FileMetricsReport rhs,
