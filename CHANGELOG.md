@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 4.3.0-dev.1
 
 * Add support for global rules-exclude
 * Add `Halstead Volume` metric.
