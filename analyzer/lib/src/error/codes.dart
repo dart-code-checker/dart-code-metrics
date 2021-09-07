@@ -1518,6 +1518,43 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
 
   /**
    * Parameters:
+   * 0: the name of the member
+   */
+  static const CompileTimeErrorCode
+      CLASS_INSTANTIATION_ACCESS_TO_INSTANCE_MEMBER = CompileTimeErrorCode(
+          'CLASS_INSTANTIATION_ACCESS_TO_MEMBER',
+          "The instance member '{0}' can't be accessed on a class "
+              "instantiation.",
+          correction:
+              "Try changing the member name to the name of a constructor.",
+          uniqueName: 'CLASS_INSTANTIATION_ACCESS_TO_INSTANCE_MEMBER');
+
+  /**
+   * Parameters:
+   * 0: the name of the member
+   */
+  static const CompileTimeErrorCode
+      CLASS_INSTANTIATION_ACCESS_TO_STATIC_MEMBER = CompileTimeErrorCode(
+          'CLASS_INSTANTIATION_ACCESS_TO_MEMBER',
+          "The static member '{0}' can't be accessed on a class instantiation.",
+          correction: "Try removing the type arguments from the class name, or "
+              "changing the member name to the name of a constructor.",
+          uniqueName: 'CLASS_INSTANTIATION_ACCESS_TO_STATIC_MEMBER');
+
+  /**
+   * Parameters:
+   * 0: the name of the member
+   */
+  static const CompileTimeErrorCode
+      CLASS_INSTANTIATION_ACCESS_TO_UNKNOWN_MEMBER = CompileTimeErrorCode(
+          'CLASS_INSTANTIATION_ACCESS_TO_MEMBER',
+          "The class '{0} doesn't have a constructor named '{1}.",
+          correction: "Try invoking a different constructor, or defining a "
+              "constructor named '{1}'.",
+          uniqueName: 'CLASS_INSTANTIATION_ACCESS_TO_UNKNOWN_MEMBER');
+
+  /**
+   * Parameters:
    * 0: the name of the abstract method
    * 1: the name of the enclosing class
    */
@@ -2261,23 +2298,6 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
           'CONST_EVAL_THROWS_IDBZE',
           "Evaluation of this constant expression throws an "
               "IntegerDivisionByZeroException.");
-
-  /**
-   * A constructor cannot be torn off without the 'constructor-tearoffs'
-   * language feature.
-   *
-   * There is also a [ParserError.EXPERIMENT_NOT_ENABLED] code which catches
-   * some cases of constructor tearoff features (like `List<int>.filled;`).
-   * Other constructor tearoff cases are not realized until resolution
-   * (like `List.filled;`).
-   */
-  static const CompileTimeErrorCode CONSTRUCTOR_TEAROFFS_NOT_ENABLED =
-      CompileTimeErrorCode(
-          'CONSTRUCTOR_TEAROFFS_NOT_ENABLED',
-          "Tearing off a constructor requires the 'constructor-tearoffs' "
-              "language feature.",
-          correction: "Try updating your pubspec.yaml to set the minimum SDK "
-              "constraint to 2.14 or higher, and running 'pub get'.");
 
   /**
    * 16.12.2 Const: An expression of one of the forms !e, e1 && e2 or e1 || e2,
@@ -7559,8 +7579,10 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
   // }
   // ```
   static const CompileTimeErrorCode LATE_FINAL_FIELD_WITH_CONST_CONSTRUCTOR =
-      CompileTimeErrorCode('LATE_FINAL_FIELD_WITH_CONST_CONSTRUCTOR',
-          "Can't have a late final field in a class with a const constructor.",
+      CompileTimeErrorCode(
+          'LATE_FINAL_FIELD_WITH_CONST_CONSTRUCTOR',
+          "Can't have a late final field in a class with a generative "
+              "const constructor.",
           correction: "Try removing the 'late' modifier, or don't declare "
               "'const' constructors.",
           hasPublishedDocs: true);
@@ -7666,6 +7688,15 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
       CompileTimeErrorCode('LIST_ELEMENT_TYPE_NOT_ASSIGNABLE',
           "The element type '{0}' can't be assigned to the list type '{1}'.",
           hasPublishedDocs: true);
+
+  /**
+   * Parameters:
+   * 0: the name of the macro
+   * 1: the message
+   */
+  static const CompileTimeErrorCode MACRO_EXECUTION_ERROR =
+      CompileTimeErrorCode(
+          'MACRO_EXECUTION_ERROR', "Exception thrown by macro {0}: {1}");
 
   /**
    * No parameters.
@@ -12028,8 +12059,7 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
           hasPublishedDocs: true);
 
   /**
-   * Parameters:
-   * 0: the modifier that makes the function a generator
+   * No parameters.
    */
   // #### Description
   //
@@ -12070,10 +12100,13 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
   // ```
   static const CompileTimeErrorCode RETURN_IN_GENERATOR = CompileTimeErrorCode(
       'RETURN_IN_GENERATOR',
-      "Can't return a value from a generator function (using the '{0}' "
-          "modifier).",
-      correction: "Try removing the value, replacing 'return' with 'yield' or "
-          "changing the method body modifier.",
+      "Can't return a value from a generator function that uses the 'async*' "
+          "or 'sync*' modifier.",
+      // TODO(srawlins): Splitting this code into two cases, one for block-
+      // bodied, and one for expression-bodied, would improve each correction
+      // message. This split would have to be done in the parser.
+      correction: "Try replacing 'return' with 'yield', using a block function "
+          "body, or changing the method body modifier.",
       hasPublishedDocs: true);
 
   /**
@@ -12565,6 +12598,17 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
           "Type '{0}' of the switch expression isn't assignable to "
               "the type '{1}' of case expressions.",
           hasPublishedDocs: true);
+
+  /**
+   * No parameters.
+   */
+  static const CompileTimeErrorCode
+      TEAROFF_OF_GENERATIVE_CONSTRUCTOR_OF_ABSTRACT_CLASS =
+      CompileTimeErrorCode(
+          'TEAROFF_OF_GENERATIVE_CONSTRUCTOR_OF_ABSTRACT_CLASS',
+          "A generative constructor of an abstract class can't be torn off",
+          correction: "Try tearing off a constructor of a concrete class, or a "
+              "non-generative constructor.");
 
   /**
    * Parameters:

@@ -282,18 +282,14 @@ class ResolverVisitor extends ResolverBase with ErrorDetectionHelpers {
   /// always safe to use `.last` to examine the top of the stack.
   final List<Expression?> _unfinishedNullShorts = [null];
 
-  /// During resolution we clone annotation ASTs into the element model.
-  /// But we should not do this during linking element models, moreover
-  /// currently by doing this we will lose elements for parameters of
-  /// generic function types.
-  /// TODO(scheglov) Stop cloning altogether.
-  bool shouldCloneAnnotations = true;
-
   late final FunctionReferenceResolver _functionReferenceResolver;
 
   late final InstanceCreationExpressionResolver
       _instanceCreationExpressionResolver =
       InstanceCreationExpressionResolver(this);
+
+  late final SimpleIdentifierResolver _simpleIdentifierResolver =
+      SimpleIdentifierResolver(this, flowAnalysis);
 
   /// Initialize a newly created visitor to resolve the nodes in an AST node.
   ///
@@ -1701,9 +1697,9 @@ class ResolverVisitor extends ResolverBase with ErrorDetectionHelpers {
 
     var functionRewrite = MethodInvocationResolver.getRewriteResult(node);
     if (functionRewrite != null) {
-      nullShortingTermination(node, discardType: true);
       _resolveRewrittenFunctionExpressionInvocation(
           functionRewrite, whyNotPromotedList);
+      nullShortingTermination(node, discardType: true);
     } else {
       nullShortingTermination(node);
     }
@@ -1857,7 +1853,7 @@ class ResolverVisitor extends ResolverBase with ErrorDetectionHelpers {
 
   @override
   void visitSimpleIdentifier(covariant SimpleIdentifierImpl node) {
-    SimpleIdentifierResolver(this, flowAnalysis).resolve(node);
+    _simpleIdentifierResolver.resolve(node);
   }
 
   @override
@@ -2018,17 +2014,11 @@ class ResolverVisitor extends ResolverBase with ErrorDetectionHelpers {
     var declaredType = parent.type;
     if (initializer != null) {
       var initializerStaticType = initializer.typeOrThrow;
-      if (declaredType == null) {
-        if (_isNonNullableByDefault &&
-            initializerStaticType is TypeParameterType) {
-          flowAnalysis.flow?.promote(
-              declaredElement as PromotableElement, initializerStaticType);
-        }
-      } else {
-        flowAnalysis.flow?.initialize(declaredElement as PromotableElement,
-            initializerStaticType, initializer,
-            isFinal: parent.isFinal, isLate: parent.isLate);
-      }
+      flowAnalysis.flow?.initialize(declaredElement as PromotableElement,
+          initializerStaticType, initializer,
+          isFinal: parent.isFinal,
+          isLate: parent.isLate,
+          isImplicitlyTyped: declaredType == null);
     }
   }
 
@@ -2256,7 +2246,7 @@ class ResolverVisitorForMigration extends ResolverVisitor {
             errorListener,
             featureSet,
             FlowAnalysisHelperForMigration(
-                typeSystem, migrationResolutionHooks, true),
+                typeSystem, migrationResolutionHooks, featureSet),
             migrationResolutionHooks,
             migrationResolutionHooks);
 

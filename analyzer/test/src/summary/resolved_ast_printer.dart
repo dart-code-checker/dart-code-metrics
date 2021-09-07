@@ -693,6 +693,19 @@ class ResolvedAstPrinter extends ThrowingAstVisitor<void> {
   }
 
   @override
+  void visitFunctionReference(FunctionReference node) {
+    _writeln('FunctionReference');
+    _withIndent(() {
+      var properties = _Properties();
+      properties.addNode('function', node.function);
+      properties.addNode('typeArguments', node.typeArguments);
+      properties.addTypeList('typeArgumentTypes', node.typeArgumentTypes!);
+      _addExpression(properties, node);
+      _writeProperties(properties);
+    });
+  }
+
+  @override
   void visitFunctionTypeAlias(FunctionTypeAlias node) {
     _writeNextCodeLine(node);
     _writeln('FunctionTypeAlias');
@@ -1399,6 +1412,17 @@ class ResolvedAstPrinter extends ThrowingAstVisitor<void> {
       properties.addNodeList('arguments', node.arguments);
       properties.addToken('rightBracket', node.rightBracket);
       _addAstNode(properties, node);
+      _writeProperties(properties);
+    });
+  }
+
+  @override
+  void visitTypeLiteral(TypeLiteral node) {
+    _writeln('TypeLiteral');
+    _withIndent(() {
+      var properties = _Properties();
+      properties.addNode('typeName', node.typeName);
+      _addExpression(properties, node);
       _writeProperties(properties);
     });
   }

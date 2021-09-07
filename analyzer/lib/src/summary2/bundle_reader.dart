@@ -18,6 +18,7 @@ import 'package:analyzer/src/dart/element/type_algebra.dart';
 import 'package:analyzer/src/dart/resolver/variance.dart';
 import 'package:analyzer/src/generated/source.dart';
 import 'package:analyzer/src/generated/utilities_dart.dart';
+import 'package:analyzer/src/macro/impl/error.dart' as macro;
 import 'package:analyzer/src/summary2/ast_binary_reader.dart';
 import 'package:analyzer/src/summary2/ast_binary_tag.dart';
 import 'package:analyzer/src/summary2/data_reader.dart';
@@ -528,6 +529,10 @@ class LibraryReader {
     element.setLinkedData(reference, linkedData);
     ClassElementFlags.read(_reader, element);
 
+    element.macroExecutionErrors = _reader.readTypedList(
+      _readMacroExecutionError,
+    );
+
     element.typeParameters = _readTypeParameters();
 
     if (!element.isMixinApplication) {
@@ -760,6 +765,9 @@ class LibraryReader {
 
     FieldElementFlags.read(_reader, element);
     element.typeInferenceError = _readTopLevelInferenceError();
+    element.macroExecutionErrors = _reader.readTypedList(
+      _readMacroExecutionError,
+    );
     element.createImplicitAccessors(classReference, name);
 
     return element;
@@ -858,12 +866,20 @@ class LibraryReader {
       hasMacro.macro = data;
       InformativeDataApplier(
         _elementFactory,
-        baseOffset: data.offset,
+        baseOffset: data.codeOffset,
       ).applyToDeclaration(
         element,
         data.informative,
       );
     }
+  }
+
+  macro.MacroExecutionError _readMacroExecutionError() {
+    return macro.MacroExecutionError(
+      annotationIndex: _reader.readUInt30(),
+      macroName: _reader.readStringReference(),
+      message: _reader.readStringReference(),
+    );
   }
 
   List<MethodElementImpl> _readMethods(
@@ -971,20 +987,35 @@ class LibraryReader {
       ParameterElementImpl element;
       if (kind.isRequiredPositional) {
         if (isInitializingFormal) {
-          element = FieldFormalParameterElementImpl(name, -1);
+          element = FieldFormalParameterElementImpl(
+            name: name,
+            nameOffset: -1,
+            parameterKind: kind,
+          );
         } else {
-          element = ParameterElementImpl(name, -1);
+          element = ParameterElementImpl(
+            name: name,
+            nameOffset: -1,
+            parameterKind: kind,
+          );
         }
       } else {
         if (isInitializingFormal) {
-          element = DefaultFieldFormalParameterElementImpl(name, -1);
+          element = DefaultFieldFormalParameterElementImpl(
+            name: name,
+            nameOffset: -1,
+            parameterKind: kind,
+          );
         } else {
-          element = DefaultParameterElementImpl(name, -1);
+          element = DefaultParameterElementImpl(
+            name: name,
+            nameOffset: -1,
+            parameterKind: kind,
+          );
         }
         element.reference = reference;
         reference.element = element;
       }
-      element.parameterKind = kind;
       ParameterElementFlags.read(_reader, element);
       element.typeParameters = _readTypeParameters();
       element.parameters = _readParameters(element, reference);
@@ -1640,13 +1671,17 @@ class ResolutionReader {
       if (kind.isRequiredPositional) {
         ParameterElementImpl element;
         if (isInitializingFormal) {
-          element = FieldFormalParameterElementImpl(name, -1)
-            ..parameterKind = kind
-            ..type = type;
+          element = FieldFormalParameterElementImpl(
+            name: name,
+            nameOffset: -1,
+            parameterKind: kind,
+          )..type = type;
         } else {
-          element = ParameterElementImpl(name, -1)
-            ..parameterKind = kind
-            ..type = type;
+          element = ParameterElementImpl(
+            name: name,
+            nameOffset: -1,
+            parameterKind: kind,
+          )..type = type;
         }
         element.hasImplicitType = hasImplicitType;
         element.typeParameters = typeParameters;
@@ -1658,9 +1693,11 @@ class ResolutionReader {
         }
         return element;
       } else {
-        var element = DefaultParameterElementImpl(name, -1)
-          ..parameterKind = kind
-          ..type = type;
+        var element = DefaultParameterElementImpl(
+          name: name,
+          nameOffset: -1,
+          parameterKind: kind,
+        )..type = type;
         element.hasImplicitType = hasImplicitType;
         element.typeParameters = typeParameters;
         element.parameters = _readFormalParameters(unitElement);

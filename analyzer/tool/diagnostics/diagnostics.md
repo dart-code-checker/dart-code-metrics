@@ -7438,7 +7438,7 @@ void f() {
 
 ### late_final_field_with_const_constructor
 
-_Can't have a late final field in a class with a const constructor._
+_Can't have a late final field in a class with a generative const constructor._
 
 #### Description
 
@@ -11393,7 +11393,8 @@ class C {
 
 ### return_in_generator
 
-_Can't return a value from a generator function (using the '{0}' modifier)._
+_Can't return a value from a generator function that uses the 'async*' or
+'sync*' modifier._
 
 #### Description
 

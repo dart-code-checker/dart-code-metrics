@@ -15,9 +15,8 @@ main() async {
   );
 
   var session = collection.contextFor(analyzer).currentSession;
-  var unitResult =
-      await session.getResolvedUnit('$analyzer/lib/dart/ast/ast.dart')
-          as ResolvedUnitResult;
+  var unitResult = await session
+      .getResolvedUnit('$analyzer/lib/dart/ast/ast.dart') as ResolvedUnitResult;
   unitResult.unit.accept(_MyVisitor());
 
   // var nodeType = unitResult!.element.getType('AstNode')!.instantiate(

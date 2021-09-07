@@ -38,8 +38,8 @@ class AstResolver {
     _errorListener,
     nameScope: _nameScope,
   );
-  late final _flowAnalysis = FlowAnalysisHelper(_unitElement.library.typeSystem,
-      false, _unitElement.library.isNonNullableByDefault);
+  late final _flowAnalysis =
+      FlowAnalysisHelper(_unitElement.library.typeSystem, false, _featureSet);
   late final _resolverVisitor = ResolverVisitor(
     _linker.inheritance,
     _unitElement.library,
@@ -55,7 +55,6 @@ class AstResolver {
       : _featureSet = node.thisOrAncestorOfType<CompilationUnit>()!.featureSet;
 
   void resolveAnnotation(AnnotationImpl node) {
-    _resolverVisitor.shouldCloneAnnotations = false;
     node.accept(_resolutionVisitor);
     node.accept(_scopeResolverVisitor);
     _prepareEnclosingDeclarations();

@@ -57,6 +57,8 @@ import 'case_expression_type_implements_equals_test.dart'
 import 'case_expression_type_is_not_switch_expression_subtype_test.dart'
     as case_expression_type_is_not_switch_expression_subtype;
 import 'cast_to_non_type_test.dart' as cast_to_non_type;
+import 'class_instantiation_access_to_member_test.dart'
+    as class_instantiation_access_to_member;
 import 'concrete_class_with_abstract_member_test.dart'
     as concrete_class_with_abstract_member;
 import 'conflicting_generic_interfaces_test.dart'
@@ -628,6 +630,8 @@ import 'switch_case_completes_normally_test.dart'
     as switch_case_completes_normally;
 import 'switch_expression_not_assignable_test.dart'
     as switch_expression_not_assignable;
+import 'tearoff_of_generative_constructor_of_abstract_class_test.dart'
+    as tearoff_of_generative_constructor_of_abstract_class;
 import 'throw_of_invalid_type_test.dart' as throw_of_invalid_type;
 import 'todo_test.dart' as todo_test;
 import 'top_level_cycle_test.dart' as top_level_cycle;
@@ -756,6 +760,7 @@ main() {
     case_expression_type_implements_equals.main();
     case_expression_type_is_not_switch_expression_subtype.main();
     cast_to_non_type.main();
+    class_instantiation_access_to_member.main();
     concrete_class_with_abstract_member.main();
     conflicting_generic_interfaces.main();
     conflicting_static_and_instance.main();
@@ -1129,6 +1134,7 @@ main() {
     super_initializer_in_object.main();
     switch_case_completes_normally.main();
     switch_expression_not_assignable.main();
+    tearoff_of_generative_constructor_of_abstract_class.main();
     throw_of_invalid_type.main();
     todo_test.main();
     top_level_cycle.main();

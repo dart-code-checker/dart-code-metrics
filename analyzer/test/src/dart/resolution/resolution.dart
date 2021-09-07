@@ -166,7 +166,7 @@ mixin ResolutionTest implements ResourceProviderMixin {
     Object? expectedConstructorElement,
     ClassElement expectedClassElement,
     String expectedType, {
-    required String expectedTypeNameType,
+    required String? expectedTypeNameType,
     PrefixElement? expectedPrefix,
     Element? expectedTypeNameElement,
   }) {
@@ -364,7 +364,7 @@ mixin ResolutionTest implements ResourceProviderMixin {
   }
 
   void assertFunctionReference(
-      FunctionReference node, Element expectedElement, String expectedType) {
+      FunctionReference node, Element? expectedElement, String expectedType) {
     assertElement(node, expectedElement);
     assertType(node, expectedType);
   }
@@ -814,7 +814,7 @@ mixin ResolutionTest implements ResourceProviderMixin {
   }
 
   void assertTypeName(
-      TypeName node, Element? expectedElement, String expectedType,
+      TypeName node, Element? expectedElement, String? expectedType,
       {Element? expectedPrefix}) {
     assertType(node, expectedType);
 
@@ -893,13 +893,15 @@ mixin ResolutionTest implements ResourceProviderMixin {
     } else if (node is FunctionExpressionInvocation) {
       return node.staticElement;
     } else if (node is FunctionReference) {
-      var function = node.function;
+      var function = node.function.unParenthesized;
       if (function is Identifier) {
         return function.staticElement;
       } else if (function is PropertyAccess) {
         return function.propertyName.staticElement;
+      } else if (function is ConstructorReference) {
+        return function.constructorName.staticElement;
       } else {
-        fail('Unsupported node: (${node.runtimeType}) $node');
+        fail('Unsupported node: (${function.runtimeType}) $function');
       }
     } else if (node is Identifier) {
       return node.staticElement;

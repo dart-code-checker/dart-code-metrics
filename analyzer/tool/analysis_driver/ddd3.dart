@@ -53,8 +53,6 @@ main() async {
 class A extends GeneralizingAstVisitor<void> {
   @override
   void visitNode(AstNode node) {
-
-
     var begin = node.beginToken;
     if (begin is CommentToken) {
       begin = (begin as CommentToken).parent;

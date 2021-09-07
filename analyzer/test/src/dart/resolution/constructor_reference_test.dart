@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:analyzer/dart/ast/ast.dart';
+import 'package:analyzer/src/dart/error/syntactic_errors.dart';
 import 'package:analyzer/src/error/codes.dart';
 import 'package:test_reflective_loader/test_reflective_loader.dart';
 
@@ -20,6 +20,28 @@ main() {
 @reflectiveTest
 class ConstructorReferenceResolution_TypeArgsTest
     extends PubPackageResolutionTest {
+  test_alias_generic_const() async {
+    await assertNoErrorsInCode('''
+class A<T, U> {
+  A.foo();
+}
+typedef TA<T, U> = A<U, T>;
+
+const a = TA<int, String>.foo;
+''');
+
+    var classElement = findElement.class_('A');
+    assertConstructorReference(
+      findNode.constructorReference('TA<int, String>.foo;'),
+      elementMatcher(classElement.getNamedConstructor('foo')!,
+          substitution: {'T': 'String', 'U': 'int'}),
+      classElement,
+      'A<String, int> Function()',
+      expectedTypeNameType: 'A<String, int>',
+      expectedTypeNameElement: findElement.typeAlias('TA'),
+    );
+  }
+
   test_alias_generic_named() async {
     await assertNoErrorsInCode('''
 class A<T, U> {
@@ -118,6 +140,26 @@ void bar() {
     );
   }
 
+  test_class_generic_const() async {
+    await assertNoErrorsInCode('''
+class A<T> {
+  const A();
+}
+
+const a = A<int>.new;
+''');
+
+    var classElement = findElement.class_('A');
+    assertConstructorReference(
+      findNode.constructorReference('A<int>.new;'),
+      elementMatcher(classElement.unnamedConstructor,
+          substitution: {'T': 'int'}),
+      classElement,
+      'A<int> Function()',
+      expectedTypeNameType: 'A<int>',
+    );
+  }
+
   test_class_generic_named() async {
     await assertNoErrorsInCode('''
 class A<T> {
@@ -150,19 +192,17 @@ void bar() {
   A<int>..foo;
 }
 ''', [
-      error(CompileTimeErrorCode.UNDEFINED_GETTER, 50, 3),
+      error(CompileTimeErrorCode.UNDEFINED_OPERATOR, 43, 1),
+      error(ParserErrorCode.EQUALITY_CANNOT_BE_EQUALITY_OPERAND, 47, 1),
+      error(ParserErrorCode.MISSING_IDENTIFIER, 48, 2),
     ]);
-
-    // The nodes are not rewritten into a [ConstructorReference].
-    var cascade = findNode.cascade('A<int>..foo;');
-    assertType(cascade, 'Type');
-    var section = cascade.cascadeSections.first as PropertyAccess;
-    assertType(section, 'dynamic');
-    assertType(section.propertyName, 'dynamic');
+    // The parser produces nonsense here because the `<` disambiguates as a
+    // relational operator, so no need to assert anything about analysis
+    // results.
   }
 
   test_class_generic_named_nullAware() async {
-    await assertNoErrorsInCode('''
+    await assertErrorsInCode('''
 class A<T> {
   A.foo();
 }
@@ -170,17 +210,14 @@ class A<T> {
 void bar() {
   A<int>?.foo;
 }
-''');
-
-    var classElement = findElement.class_('A');
-    assertConstructorReference(
-      findNode.constructorReference('A<int>?.foo;'),
-      elementMatcher(classElement.getNamedConstructor('foo')!,
-          substitution: {'T': 'int'}),
-      classElement,
-      'A<int> Function()',
-      expectedTypeNameType: 'A<int>',
-    );
+''', [
+      error(CompileTimeErrorCode.UNDEFINED_OPERATOR, 43, 1),
+      error(ParserErrorCode.EQUALITY_CANNOT_BE_EQUALITY_OPERAND, 47, 1),
+      error(ParserErrorCode.MISSING_IDENTIFIER, 48, 2),
+    ]);
+    // The parser produces nonsense here because the `<` disambiguates as a
+    // relational operator, so no need to assert anything about analysis
+    // results.
   }
 
   test_class_generic_named_typeArgs() async {
@@ -193,14 +230,7 @@ void bar() {
   A<int>.foo<int>;
 }
 ''', [
-      error(CompileTimeErrorCode.DISALLOWED_TYPE_INSTANTIATION_EXPRESSION, 42,
-          10),
-      // TODO(srawlins): Stop reporting the error below; the code is not
-      // precise, and it is duplicate with the code above.
-      error(
-          CompileTimeErrorCode
-              .WRONG_NUMBER_OF_TYPE_ARGUMENTS_ANONYMOUS_FUNCTION,
-          52,
+      error(CompileTimeErrorCode.WRONG_NUMBER_OF_TYPE_ARGUMENTS_CONSTRUCTOR, 52,
           5),
     ]);
 
@@ -211,6 +241,30 @@ void bar() {
           substitution: {'T': 'int'}),
       classElement,
       'A<int> Function()',
+      expectedTypeNameType: 'A<int>',
+    );
+  }
+
+  test_class_generic_nonConstructor() async {
+    await assertErrorsInCode('''
+class A<T> {
+  static int i = 1;
+}
+
+void bar() {
+  A<int>.i;
+}
+''', [
+      error(CompileTimeErrorCode.CLASS_INSTANTIATION_ACCESS_TO_STATIC_MEMBER,
+          51, 8),
+    ]);
+
+    var classElement = findElement.class_('A');
+    assertConstructorReference(
+      findNode.constructorReference('A<int>.i;'),
+      null,
+      classElement,
+      'dynamic',
       expectedTypeNameType: 'A<int>',
     );
   }
@@ -360,6 +414,35 @@ void bar() {
     );
   }
 
+  test_prefixedClass_generic_targetOfFunctionCall() async {
+    newFile('$testPackageLibPath/a.dart', content: '''
+class A<T> {
+  A();
+}
+''');
+    await assertNoErrorsInCode('''
+import 'a.dart' as a;
+extension on Function {
+  void m() {}
+}
+void bar() {
+  a.A<int>.new.m();
+}
+''');
+
+    var classElement =
+        findElement.importFind('package:test/a.dart').class_('A');
+    assertConstructorReference(
+      findNode.constructorReference('a.A<int>.new'),
+      elementMatcher(classElement.unnamedConstructor,
+          substitution: {'T': 'int'}),
+      classElement,
+      'A<int> Function()',
+      expectedTypeNameType: 'A<int>',
+      expectedPrefix: findElement.import('package:test/a.dart').prefix,
+    );
+  }
+
   test_prefixedClass_generic_unnamed() async {
     newFile('$testPackageLibPath/a.dart', content: '''
 class A<T> {
@@ -389,6 +472,85 @@ void bar() {
 
 @reflectiveTest
 class ConstructorReferenceResolutionTest extends PubPackageResolutionTest {
+  test_abstractClass_factory() async {
+    await assertNoErrorsInCode('''
+abstract class A {
+  factory A() => A2();
+}
+
+class A2 implements A {}
+
+foo() {
+  A.new;
+}
+''');
+
+    var classElement = findElement.class_('A');
+    assertConstructorReference(
+      findNode.constructorReference('A.new;'),
+      classElement.unnamedConstructor,
+      classElement,
+      'A Function()',
+      expectedTypeNameType: 'A',
+    );
+  }
+
+  test_abstractClass_generative() async {
+    await assertErrorsInCode('''
+abstract class A {
+  A();
+}
+
+foo() {
+  A.new;
+}
+''', [
+      error(
+          CompileTimeErrorCode
+              .TEAROFF_OF_GENERATIVE_CONSTRUCTOR_OF_ABSTRACT_CLASS,
+          39,
+          5),
+    ]);
+
+    var classElement = findElement.class_('A');
+    assertConstructorReference(
+      findNode.constructorReference('A.new;'),
+      classElement.unnamedConstructor,
+      classElement,
+      'A Function()',
+      expectedTypeNameType: 'A',
+    );
+  }
+
+  test_abstractClass_redirecting() async {
+    await assertErrorsInCode('''
+abstract class A {
+  A(): this.two();
+
+  A.two();
+}
+
+foo() {
+  A.new;
+}
+''', [
+      error(
+          CompileTimeErrorCode
+              .TEAROFF_OF_GENERATIVE_CONSTRUCTOR_OF_ABSTRACT_CLASS,
+          63,
+          5),
+    ]);
+
+    var classElement = findElement.class_('A');
+    assertConstructorReference(
+      findNode.constructorReference('A.new;'),
+      classElement.unnamedConstructor,
+      classElement,
+      'A Function()',
+      expectedTypeNameType: 'A',
+    );
+  }
+
   test_class_generic_inferFromContext_badTypeArgument() async {
     await assertErrorsInCode('''
 class A<T extends num> {
@@ -406,7 +568,7 @@ A<String> Function() bar() {
     var constructorElement = classElement.getNamedConstructor('foo')!;
     assertConstructorReference(
       findNode.constructorReference('A.foo;'),
-      elementMatcher(constructorElement, substitution: {'T': 'Never'}),
+      constructorElement,
       classElement,
       'A<Never> Function()',
       expectedTypeNameType: 'A<Never>',
@@ -428,7 +590,7 @@ A<int> Function() bar() {
     var constructorElement = classElement.getNamedConstructor('foo')!;
     assertConstructorReference(
       findNode.constructorReference('A.foo;'),
-      elementMatcher(constructorElement, substitution: {'T': 'int'}),
+      constructorElement,
       classElement,
       'A<int> Function()',
       expectedTypeNameType: 'A<int>',
@@ -450,10 +612,10 @@ void bar() {
     var constructorElement = classElement.getNamedConstructor('foo')!;
     assertConstructorReference(
       findNode.constructorReference('A.foo;'),
-      elementMatcher(constructorElement, substitution: {'T': 'T'}),
+      constructorElement,
       classElement,
       'A<T> Function<T>()',
-      expectedTypeNameType: 'A<T>',
+      expectedTypeNameType: null,
     );
   }
 
@@ -472,10 +634,29 @@ void bar() {
     var constructorElement = classElement.getNamedConstructor('foo')!;
     assertConstructorReference(
       findNode.constructorReference('A.foo;'),
-      elementMatcher(constructorElement, substitution: {'T': 'T'}),
+      constructorElement,
       classElement,
       'A<T> Function<T extends num>()',
-      expectedTypeNameType: 'A<T>',
+      expectedTypeNameType: null,
+    );
+  }
+
+  test_class_nonGeneric_const() async {
+    await assertNoErrorsInCode('''
+class A {
+  const A();
+}
+
+const a1 = A.new;
+''');
+
+    var classElement = findElement.class_('A');
+    assertConstructorReference(
+      findNode.constructorReference('A.new;'),
+      classElement.unnamedConstructor,
+      classElement,
+      'A Function()',
+      expectedTypeNameType: 'A',
     );
   }
 
@@ -521,6 +702,28 @@ bar() {
     );
   }
 
+  test_typeAlias_generic_const() async {
+    await assertNoErrorsInCode('''
+class A<T> {
+  const A();
+}
+typedef TA<T> = A<T>;
+
+const a = TA.new;
+''');
+
+    var classElement = findElement.class_('A');
+    var constructorElement = classElement.unnamedConstructor!;
+    assertConstructorReference(
+      findNode.constructorReference('TA.new;'),
+      constructorElement,
+      classElement,
+      'A<T> Function<T>()',
+      expectedTypeNameType: null,
+      expectedTypeNameElement: findElement.typeAlias('TA'),
+    );
+  }
+
   test_typeAlias_generic_named_uninstantiated() async {
     await assertNoErrorsInCode('''
 class A<T, U> {
@@ -537,11 +740,32 @@ bar() {
     var constructorElement = classElement.getNamedConstructor('foo')!;
     assertConstructorReference(
       findNode.constructorReference('TA.foo;'),
-      elementMatcher(constructorElement,
-          substitution: {'T': 'String', 'U': 'U'}),
+      constructorElement,
       findElement.class_('A'),
       'A<String, U> Function<U>()',
-      expectedTypeNameType: 'A<String, U>',
+      expectedTypeNameType: null,
+      expectedTypeNameElement: findElement.typeAlias('TA'),
+    );
+  }
+
+  test_typeAlias_instantiated_const() async {
+    await assertNoErrorsInCode('''
+class A<T> {
+  const A();
+}
+typedef TA = A<int>;
+
+const a = TA.new;
+''');
+
+    var classElement = findElement.class_('A');
+    var constructorElement = classElement.unnamedConstructor!;
+    assertConstructorReference(
+      findNode.constructorReference('TA.new;'),
+      elementMatcher(constructorElement, substitution: {'T': 'int'}),
+      classElement,
+      'A<int> Function()',
+      expectedTypeNameType: 'A<int>',
       expectedTypeNameElement: findElement.typeAlias('TA'),
     );
   }
@@ -574,6 +798,29 @@ bar() {
 @reflectiveTest
 class ConstructorReferenceResolutionWithoutConstructorTearoffsTest
     extends PubPackageResolutionTest with WithoutConstructorTearoffsMixin {
+  test_class_generic_nonConstructor() async {
+    await assertErrorsInCode('''
+class A<T> {
+  static int i = 1;
+}
+
+void bar() {
+  A<int>.i;
+}
+''', [
+      error(ParserErrorCode.EXPERIMENT_NOT_ENABLED, 52, 5),
+    ]);
+
+    var classElement = findElement.class_('A');
+    assertConstructorReference(
+      findNode.constructorReference('A<int>.i;'),
+      null,
+      classElement,
+      'dynamic',
+      expectedTypeNameType: 'A<int>',
+    );
+  }
+
   test_constructorTearoff() async {
     await assertErrorsInCode('''
 class A {
@@ -584,7 +831,7 @@ void bar() {
   A.foo;
 }
 ''', [
-      error(CompileTimeErrorCode.CONSTRUCTOR_TEAROFFS_NOT_ENABLED, 39, 5),
+      error(HintCode.SDK_VERSION_CONSTRUCTOR_TEAROFFS, 39, 5),
     ]);
 
     var classElement = findElement.class_('A');

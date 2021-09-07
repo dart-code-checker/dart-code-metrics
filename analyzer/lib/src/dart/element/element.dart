@@ -43,6 +43,7 @@ import 'package:analyzer/src/generated/source.dart';
 import 'package:analyzer/src/generated/utilities_collection.dart';
 import 'package:analyzer/src/generated/utilities_dart.dart';
 import 'package:analyzer/src/generated/utilities_general.dart';
+import 'package:analyzer/src/macro/impl/error.dart' as macro;
 import 'package:analyzer/src/summary2/ast_binary_tokens.dart';
 import 'package:analyzer/src/summary2/bundle_reader.dart';
 import 'package:analyzer/src/summary2/reference.dart';
@@ -416,7 +417,7 @@ abstract class AbstractClassElementImpl extends _ExistingElementImpl
 
 /// An [AbstractClassElementImpl] which is a class.
 class ClassElementImpl extends AbstractClassElementImpl
-    with TypeParameterizedElementMixin {
+    with TypeParameterizedElementMixin, HasMacroExecutionErrors {
   /// The superclass of the class, or `null` for [Object].
   InterfaceType? _supertype;
 
@@ -898,16 +899,22 @@ class ClassElementImpl extends AbstractClassElementImpl
           ParameterElementImpl implicitParameter;
           if (superParameter is ConstVariableElement) {
             var constVariable = superParameter as ConstVariableElement;
-            implicitParameter =
-                DefaultParameterElementImpl(superParameter.name, -1)
-                  ..constantInitializer = constVariable.constantInitializer;
+            implicitParameter = DefaultParameterElementImpl(
+              name: superParameter.name,
+              nameOffset: -1,
+              // ignore: deprecated_member_use_from_same_package
+              parameterKind: superParameter.parameterKind,
+            )..constantInitializer = constVariable.constantInitializer;
           } else {
-            implicitParameter = ParameterElementImpl(superParameter.name, -1);
+            implicitParameter = ParameterElementImpl(
+              name: superParameter.name,
+              nameOffset: -1,
+              // ignore: deprecated_member_use_from_same_package
+              parameterKind: superParameter.parameterKind,
+            );
           }
           implicitParameter.isConst = superParameter.isConst;
           implicitParameter.isFinal = superParameter.isFinal;
-          // ignore: deprecated_member_use_from_same_package
-          implicitParameter.parameterKind = superParameter.parameterKind;
           implicitParameter.isSynthetic = true;
           implicitParameter.type =
               substitution.substituteType(superParameter.type);
@@ -1671,8 +1678,15 @@ class DefaultFieldFormalParameterElementImpl
     extends FieldFormalParameterElementImpl with ConstVariableElement {
   /// Initialize a newly created parameter element to have the given [name] and
   /// [nameOffset].
-  DefaultFieldFormalParameterElementImpl(String name, int nameOffset)
-      : super(name, nameOffset);
+  DefaultFieldFormalParameterElementImpl({
+    required String name,
+    required int nameOffset,
+    required ParameterKind parameterKind,
+  }) : super(
+          name: name,
+          nameOffset: nameOffset,
+          parameterKind: parameterKind,
+        );
 
   @override
   String? get defaultValueCode {
@@ -1685,8 +1699,15 @@ class DefaultParameterElementImpl extends ParameterElementImpl
     with ConstVariableElement {
   /// Initialize a newly created parameter element to have the given [name] and
   /// [nameOffset].
-  DefaultParameterElementImpl(String? name, int nameOffset)
-      : super(name, nameOffset);
+  DefaultParameterElementImpl({
+    required String? name,
+    required int nameOffset,
+    required ParameterKind parameterKind,
+  }) : super(
+          name: name,
+          nameOffset: nameOffset,
+          parameterKind: parameterKind,
+        );
 
   @override
   String? get defaultValueCode {
@@ -2383,6 +2404,11 @@ abstract class ElementImpl implements Element {
   /// children of this element's parent.
   String get identifier => name!;
 
+  /// The informative data, or `null` if the element is synthetic, or if the
+  /// informative data is not available in this environment (e.g. semantics
+  /// only summaries in Bazel).
+  ElementInformativeDataSetImpl? get informative => null;
+
   bool get isNonFunctionTypeAliasesEnabled {
     return library!.featureSet.isEnabled(Feature.nonfunction_type_aliases);
   }
@@ -2597,6 +2623,51 @@ abstract class ElementImplWithFunctionType implements Element {
   ///
   /// In most cases, the element's `type` getter should be used instead.
   FunctionType get typeInternal;
+}
+
+/// Informative data about an [ElementImpl].
+class ElementInformativeDataImpl {
+  /// The offset of the beginning of the element's code in the file.
+  final int codeOffset;
+
+  /// The length of the element's code in the file.
+  final int codeLength;
+
+  /// The documentation comment for this element.
+  final String? docComment;
+
+  /// The offset of the name of this element in the file that contains the
+  /// declaration of this element.
+  final int nameOffset;
+
+  ElementInformativeDataImpl({
+    required this.codeOffset,
+    required this.codeLength,
+    required this.docComment,
+    required this.nameOffset,
+  });
+}
+
+/// The set of informative data about an [ElementImpl].
+class ElementInformativeDataSetImpl {
+  /// Informative data in the user-written file.
+  ///
+  /// This property is `null` if the element was macro-generated.
+  final ElementInformativeDataImpl? written;
+
+  /// Informative data in the combined file, which is the user-written file
+  /// augmented with macro-generated declarations.
+  ///
+  /// This property cannot be `null`, because each element is either declared
+  /// by the user directly (so has [written] which is then transformed), or
+  /// is macro-generated, or is synthetic (so we don't have this object
+  /// at all).
+  final ElementInformativeDataImpl combined;
+
+  ElementInformativeDataSetImpl({
+    required this.written,
+    required this.combined,
+  });
 }
 
 /// A concrete implementation of an [ElementLocation].
@@ -3245,6 +3316,7 @@ class ExtensionElementImpl extends _ExistingElementImpl
 
 /// A concrete implementation of a [FieldElement].
 class FieldElementImpl extends PropertyInducingElementImpl
+    with HasMacroExecutionErrors
     implements FieldElement {
   /// True if this field inherits from a covariant parameter. This happens
   /// when it overrides a field in a supertype that is covariant.
@@ -3315,8 +3387,15 @@ class FieldFormalParameterElementImpl extends ParameterElementImpl
 
   /// Initialize a newly created parameter element to have the given [name] and
   /// [nameOffset].
-  FieldFormalParameterElementImpl(String name, int nameOffset)
-      : super(name, nameOffset);
+  FieldFormalParameterElementImpl({
+    required String name,
+    required int nameOffset,
+    required ParameterKind parameterKind,
+  }) : super(
+          name: name,
+          nameOffset: nameOffset,
+          parameterKind: parameterKind,
+        );
 
   /// Initializing formals are visible only in the "formal parameter
   /// initializer scope", which is the current scope of the initializer list
@@ -3491,6 +3570,12 @@ class GenericFunctionTypeElementImpl extends _ExistingElementImpl
     safelyVisitChildren(typeParameters, visitor);
     safelyVisitChildren(parameters, visitor);
   }
+}
+
+mixin HasMacroExecutionErrors {
+  /// The list of errors recorded during execution of macro builders
+  /// over this element.
+  List<macro.MacroExecutionError> macroExecutionErrors = [];
 }
 
 /// This interface is implemented by [Element]s that can be added by macros.
@@ -4207,7 +4292,15 @@ class MacroGenerationData {
   /// The offset in [CompilationUnitElementImpl.macroGeneratedContent],
   /// where the [code] is located. This offset depends on the informative
   /// data, as any other offset.
-  int offset = 0;
+  late int codeOffset;
+
+  /// Similar to [codeOffset], but the offset of the prefix before [code].
+  late int insertOffset;
+
+  /// The length of the string inserted at [insertOffset]. This string
+  /// consists of the [code] itself, with leading and trailing whitespaces
+  /// and newlines for better formatting.
+  late int insertLength;
 
   MacroGenerationData({
     required this.id,
@@ -4753,8 +4846,8 @@ class ParameterElementImpl extends VariableElementImpl
   /// typed parameter.
   List<TypeParameterElement> _typeParameters = const [];
 
-  /// The kind of this parameter.
-  ParameterKind? _parameterKind;
+  @override
+  final ParameterKind parameterKind;
 
   /// The Dart code of the default value.
   String? _defaultValueCode;
@@ -4766,15 +4859,22 @@ class ParameterElementImpl extends VariableElementImpl
 
   /// Initialize a newly created parameter element to have the given [name] and
   /// [nameOffset].
-  ParameterElementImpl(String? name, int nameOffset) : super(name, nameOffset);
+  ParameterElementImpl({
+    required String? name,
+    required int nameOffset,
+    required this.parameterKind,
+  }) : super(name, nameOffset);
 
-  /// Creates a synthetic parameter with [name], [type] and [kind].
+  /// Creates a synthetic parameter with [name], [type] and [parameterKind].
   factory ParameterElementImpl.synthetic(
-      String? name, DartType type, ParameterKind kind) {
-    ParameterElementImpl element = ParameterElementImpl(name, -1);
+      String? name, DartType type, ParameterKind parameterKind) {
+    var element = ParameterElementImpl(
+      name: name,
+      nameOffset: -1,
+      parameterKind: parameterKind,
+    );
     element.type = type;
     element.isSynthetic = true;
-    element.parameterKind = kind;
     return element;
   }
 
@@ -4827,18 +4927,6 @@ class ParameterElementImpl extends VariableElementImpl
   ElementKind get kind => ElementKind.PARAMETER;
 
   @override
-  ParameterKind get parameterKind {
-    if (_parameterKind != null) return _parameterKind!;
-
-    // TODO(migration): Make it impossible by construction.
-    throw StateError('The kind must set.');
-  }
-
-  set parameterKind(ParameterKind parameterKind) {
-    _parameterKind = parameterKind;
-  }
-
-  @override
   List<ParameterElement> get parameters {
     return _parameters;
   }
@@ -4889,10 +4977,13 @@ class ParameterElementImpl_ofImplicitSetter extends ParameterElementImpl {
   ParameterElementImpl_ofImplicitSetter(
       PropertyAccessorElementImpl_ImplicitSetter setter)
       : setter = setter,
-        super('_${setter.variable.name}', -1) {
+        super(
+          name: '_${setter.variable.name}',
+          nameOffset: -1,
+          parameterKind: ParameterKind.REQUIRED,
+        ) {
     enclosingElement = setter;
     isSynthetic = true;
-    parameterKind = ParameterKind.REQUIRED;
   }
 
   @override
