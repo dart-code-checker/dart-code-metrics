@@ -81,14 +81,17 @@ linter:
     #    - cast_nullable_to_non_nullable
     - close_sinks
     - comment_references
+    - depend_on_referenced_packages
     - deprecated_consistency
     - diagnostic_describe_all_properties
     - directives_ordering
     - do_not_use_environment
+    - eol_at_end_of_file
     - flutter_style_todos
     - invariant_booleans
     - join_return_with_assignment
     - leading_newlines_in_multiline_strings
+    - library_private_types_in_public_api
     #    - lines_longer_than_80_chars
     - literal_only_boolean_expressions
     - missing_whitespace_between_adjacent_strings
@@ -114,15 +117,19 @@ linter:
     - prefer_expression_function_bodies
     - prefer_final_in_for_each
     - prefer_final_locals
+    #    - prefer_final_parameters
     - prefer_foreach
     - prefer_if_elements_to_conditional_expressions
     - prefer_int_literals
     - prefer_interpolation_to_compose_strings
     - prefer_mixin
+    - prefer_null_aware_method_calls
     - prefer_relative_imports
     - prefer_single_quotes
     #    - public_member_api_docs
+    #    - require_trailing_commas
     - sized_box_for_whitespace
+    #    - sort_child_properties_last
     #    - sort_constructors_first
     - sort_pub_dependencies
     - sort_unnamed_constructors_first
@@ -142,6 +149,7 @@ linter:
     - unnecessary_statements
     - unsafe_html
     - use_build_context_synchronously
+    #    - use_full_hex_values_for_flutter_colors
     - use_if_null_to_convert_nulls_to_bools
     - use_is_even_rather_than_modulo
     - use_key_in_widget_constructors
@@ -150,4 +158,5 @@ linter:
     - use_raw_strings
     - use_setters_to_change_properties
     - use_string_buffers
+    - use_test_throws_matchers
     - use_to_and_as_if_applicable
