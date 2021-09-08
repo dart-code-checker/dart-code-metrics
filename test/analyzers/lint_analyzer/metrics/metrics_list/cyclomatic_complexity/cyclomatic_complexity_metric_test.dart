@@ -26,6 +26,7 @@ Future<void> main() async {
         scopeVisitor.classes,
         scopeVisitor.functions,
         example,
+        [],
       );
 
       expect(metricValue.metricsId, equals(metric.id));
@@ -65,6 +66,7 @@ Future<void> main() async {
         scopeVisitor.classes,
         scopeVisitor.functions,
         example,
+        [],
       );
 
       expect(metricValue.metricsId, equals(metric.id));
@@ -90,6 +92,7 @@ Future<void> main() async {
         scopeVisitor.classes,
         scopeVisitor.functions,
         example,
+        [],
       );
 
       expect(metricValue.metricsId, equals(metric.id));

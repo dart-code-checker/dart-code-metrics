@@ -54,6 +54,7 @@ void main() {
         visitor.classes,
         visitor.functions,
         result,
+        [],
       );
 
       expect(metricValue.metricsId, equals(metric.id));

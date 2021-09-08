@@ -259,27 +259,33 @@ class LintAnalyzer {
     final classRecords = <ScopedClassDeclaration, Report>{};
 
     for (final classDeclaration in visitor.classes) {
+      final metrics = <MetricValue<num>>[];
+
+      for (final metric in config.classesMetrics) {
+        if (metric.supports(
+          classDeclaration.declaration,
+          visitor.classes,
+          visitor.functions,
+          source,
+          metrics,
+        )) {
+          metrics.add(metric.compute(
+            classDeclaration.declaration,
+            visitor.classes,
+            visitor.functions,
+            source,
+            metrics,
+          ));
+        }
+      }
+
       final report = Report(
         location: nodeLocation(
           node: classDeclaration.declaration,
           source: source,
         ),
         declaration: classDeclaration.declaration,
-        metrics: [
-          for (final metric in config.classesMetrics)
-            if (metric.supports(
-              classDeclaration.declaration,
-              visitor.classes,
-              visitor.functions,
-              source,
-            ))
-              metric.compute(
-                classDeclaration.declaration,
-                visitor.classes,
-                visitor.functions,
-                source,
-              ),
-        ],
+        metrics: metrics,
       );
 
       classRecords[classDeclaration] = report;
@@ -296,21 +302,25 @@ class LintAnalyzer {
     final functionRecords = <ScopedFunctionDeclaration, Report>{};
 
     for (final function in visitor.functions) {
-      final metrics = [
-        for (final metric in config.methodsMetrics)
-          if (metric.supports(
+      final metrics = <MetricValue<num>>[];
+
+      for (final metric in config.methodsMetrics) {
+        if (metric.supports(
+          function.declaration,
+          visitor.classes,
+          visitor.functions,
+          source,
+          metrics,
+        )) {
+          metrics.add(metric.compute(
             function.declaration,
             visitor.classes,
             visitor.functions,
             source,
-          ))
-            metric.compute(
-              function.declaration,
-              visitor.classes,
-              visitor.functions,
-              source,
-            ),
-      ];
+            metrics,
+          ));
+        }
+      }
 
       final cyclomatic = metrics.firstWhereOrNull(
         (value) => value.metricsId == CyclomaticComplexityMetric.metricId,

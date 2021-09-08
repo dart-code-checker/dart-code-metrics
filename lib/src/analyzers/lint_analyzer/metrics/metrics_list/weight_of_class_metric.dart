@@ -11,6 +11,7 @@ import '../metric_utils.dart';
 import '../models/class_metric.dart';
 import '../models/metric_computation_result.dart';
 import '../models/metric_documentation.dart';
+import '../models/metric_value.dart';
 import '../scope_utils.dart';
 
 const _documentation = MetricDocumentation(
@@ -43,8 +44,15 @@ class WeightOfClassMetric extends ClassMetric<double> {
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
     InternalResolvedUnitResult source,
+    Iterable<MetricValue<num>> otherMetricsValues,
   ) =>
-      super.supports(node, classDeclarations, functionDeclarations, source) &&
+      super.supports(
+        node,
+        classDeclarations,
+        functionDeclarations,
+        source,
+        otherMetricsValues,
+      ) &&
       classMethods(node, functionDeclarations)
           .where(_isPublicMethod)
           .isNotEmpty;
