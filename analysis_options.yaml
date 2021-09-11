@@ -18,7 +18,7 @@ dart_code_metrics:
   metrics:
     cyclomatic-complexity: 20
     maximum-nesting: 5
-    number-of-parameters: 4
+    number-of-parameters: 5
   metrics-exclude:
     - test/analyzer_plugin/**
     - test/analyzers/**
