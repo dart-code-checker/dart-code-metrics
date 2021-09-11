@@ -88,7 +88,7 @@ Report buildFunctionRecordStub({
     buildMetricValueStub<int>(id: MaximumNestingLevelMetric.metricId, value: 0),
     buildMetricValueStub<int>(id: NumberOfParametersMetric.metricId, value: 0),
     buildMetricValueStub<int>(id: SourceLinesOfCodeMetric.metricId, value: 0),
-    buildMetricValueStub<double>(id: 'maintainability-index', value: 100),
+    buildMetricValueStub<int>(id: 'maintainability-index', value: 100),
   ];
 
   return Report(

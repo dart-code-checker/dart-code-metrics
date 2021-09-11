@@ -4,6 +4,7 @@ import 'package:collection/collection.dart';
 
 import '../metrics/metric_utils.dart';
 import '../metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
+import '../metrics/metrics_list/maintainability_index_metric.dart';
 import '../metrics/metrics_list/maximum_nesting_level/maximum_nesting_level_metric.dart';
 import '../metrics/metrics_list/number_of_parameters_metric.dart';
 import '../metrics/metrics_list/source_lines_of_code/source_lines_of_code_metric.dart';
@@ -143,8 +144,8 @@ FunctionMetricsReport _functionMetricsReport(Report function) {
           );
 
   final maintainabilityIndexMetric = function.metric('maintainability-index') ??
-      _buildMetricValueStub<double>(
-        id: 'maintainability-index',
+      _buildMetricValueStub<int>(
+        id: MaintainabilityIndexMetric.metricId,
         value: 100,
       );
 
@@ -165,7 +166,7 @@ FunctionMetricsReport _functionMetricsReport(Report function) {
   return FunctionMetricsReport(
     cyclomaticComplexity: cyclomaticComplexityMetric as MetricValue<int>,
     sourceLinesOfCode: sourceLinesOfCodeMetric as MetricValue<int>,
-    maintainabilityIndex: maintainabilityIndexMetric as MetricValue<double>,
+    maintainabilityIndex: maintainabilityIndexMetric as MetricValue<int>,
     argumentsCount: numberOfParametersMetric as MetricValue<int>,
     maximumNestingLevel: maximumNestingLevelMetric as MetricValue<int>,
   );
