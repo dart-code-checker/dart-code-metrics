@@ -56,6 +56,7 @@ abstract class Metric<T extends num> {
       classDeclarations,
       functionDeclarations,
       source,
+      otherMetricsValues,
     );
 
     final type = nodeType(node, classDeclarations, functionDeclarations) ?? '';
@@ -78,6 +79,7 @@ abstract class Metric<T extends num> {
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
     InternalResolvedUnitResult source,
+    Iterable<MetricValue<num>> otherMetricsValues,
   );
 
   /// Returns the message for the user containing information about the computed value.

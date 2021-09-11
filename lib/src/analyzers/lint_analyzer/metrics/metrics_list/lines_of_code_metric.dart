@@ -8,6 +8,7 @@ import '../metric_utils.dart';
 import '../models/function_metric.dart';
 import '../models/metric_computation_result.dart';
 import '../models/metric_documentation.dart';
+import '../models/metric_value.dart';
 
 const _documentation = MetricDocumentation(
   name: 'Lines of Code',
@@ -40,6 +41,7 @@ class LinesOfCodeMetric extends FunctionMetric<int> {
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
     InternalResolvedUnitResult source,
+    Iterable<MetricValue<num>> otherMetricsValues,
   ) =>
       MetricComputationResult(
         value: 1 +

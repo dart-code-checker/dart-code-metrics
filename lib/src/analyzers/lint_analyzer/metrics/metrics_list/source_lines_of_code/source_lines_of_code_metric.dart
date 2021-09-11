@@ -10,6 +10,7 @@ import '../../metric_utils.dart';
 import '../../models/function_metric.dart';
 import '../../models/metric_computation_result.dart';
 import '../../models/metric_documentation.dart';
+import '../../models/metric_value.dart';
 import 'source_code_visitor.dart';
 
 const _documentation = MetricDocumentation(
@@ -45,6 +46,7 @@ class SourceLinesOfCodeMetric extends FunctionMetric<int> {
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
     InternalResolvedUnitResult source,
+    Iterable<MetricValue<num>> otherMetricsValues,
   ) {
     final visitor = SourceCodeVisitor(source.lineInfo);
     node.visitChildren(visitor);
