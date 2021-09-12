@@ -10,6 +10,7 @@ import '../../metric_utils.dart';
 import '../../models/function_metric.dart';
 import '../../models/metric_computation_result.dart';
 import '../../models/metric_documentation.dart';
+import '../../models/metric_value.dart';
 import 'halstead_volume_ast_visitor.dart';
 
 const _documentation = MetricDocumentation(
@@ -46,6 +47,7 @@ class HalsteadVolumeMetric extends FunctionMetric<double> {
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
     InternalResolvedUnitResult source,
+    Iterable<MetricValue<num>> otherMetricsValues,
   ) {
     final visitor = HalsteadVolumeAstVisitor();
     node.visitChildren(visitor);

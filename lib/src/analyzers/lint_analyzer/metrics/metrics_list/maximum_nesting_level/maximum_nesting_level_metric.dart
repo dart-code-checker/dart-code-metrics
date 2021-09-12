@@ -11,6 +11,7 @@ import '../../metric_utils.dart';
 import '../../models/function_metric.dart';
 import '../../models/metric_computation_result.dart';
 import '../../models/metric_documentation.dart';
+import '../../models/metric_value.dart';
 import 'nesting_level_visitor.dart';
 
 const _documentation = MetricDocumentation(
@@ -44,6 +45,7 @@ class MaximumNestingLevelMetric extends FunctionMetric<int> {
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
     InternalResolvedUnitResult source,
+    Iterable<MetricValue<num>> otherMetricsValues,
   ) {
     final visitor = NestingLevelVisitor(node);
     node.visitChildren(visitor);

@@ -1,9 +1,7 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
-import 'package:collection/collection.dart';
 import 'package:path/path.dart';
 
 import '../../config_builder/config_builder.dart';
@@ -15,14 +13,8 @@ import '../../utils/file_utils.dart';
 import '../../utils/node_utils.dart';
 import 'lint_analysis_config.dart';
 import 'lint_config.dart';
-import 'metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
-import 'metrics/metrics_list/halstead_volume/halstead_volume_metric.dart';
-import 'metrics/metrics_list/source_lines_of_code/source_lines_of_code_metric.dart';
-import 'metrics/models/metric_documentation.dart';
 import 'metrics/models/metric_value.dart';
-import 'metrics/models/metric_value_level.dart';
 import 'metrics/scope_visitor.dart';
-import 'models/entity_type.dart';
 import 'models/internal_resolved_unit_result.dart';
 import 'models/issue.dart';
 import 'models/lint_file_report.dart';
@@ -322,50 +314,6 @@ class LintAnalyzer {
         }
       }
 
-      final cyclomatic = metrics.firstWhereOrNull(
-        (value) => value.metricsId == CyclomaticComplexityMetric.metricId,
-      );
-
-      final halsteadVolume = metrics.firstWhereOrNull(
-        (value) => value.metricsId == HalsteadVolumeMetric.metricId,
-      );
-
-      final sourceLinesOfCode = metrics.firstWhereOrNull(
-        (value) => value.metricsId == SourceLinesOfCodeMetric.metricId,
-      );
-
-      if (cyclomatic != null &&
-          halsteadVolume != null &&
-          sourceLinesOfCode != null) {
-        final maintainabilityIndex = max(
-          0,
-          (171 -
-                  5.2 * log(max(1, halsteadVolume.value)) -
-                  cyclomatic.value * 0.23 -
-                  16.2 * log(max(1, sourceLinesOfCode.value))) *
-              100 /
-              171,
-        ).toDouble();
-
-        metrics.add(
-          MetricValue<double>(
-            metricsId: 'maintainability-index',
-            documentation: const MetricDocumentation(
-              name: 'Maintainability index',
-              shortName: '',
-              brief: '',
-              measuredType: EntityType.classEntity,
-              recomendedThreshold: 0,
-            ),
-            value: maintainabilityIndex,
-            level: _maintainabilityIndexViolationLevel(
-              maintainabilityIndex,
-            ),
-            comment: '',
-          ),
-        );
-      }
-
       functionRecords[function] = Report(
         location: nodeLocation(node: function.declaration, source: source),
         declaration: function.declaration,
@@ -374,18 +322,6 @@ class LintAnalyzer {
     }
 
     return functionRecords;
-  }
-
-  MetricValueLevel _maintainabilityIndexViolationLevel(double index) {
-    if (index < 10) {
-      return MetricValueLevel.alarm;
-    } else if (index < 20) {
-      return MetricValueLevel.warning;
-    } else if (index < 40) {
-      return MetricValueLevel.noted;
-    }
-
-    return MetricValueLevel.none;
   }
 
   bool _isSupported(AnalysisResult result) =>
