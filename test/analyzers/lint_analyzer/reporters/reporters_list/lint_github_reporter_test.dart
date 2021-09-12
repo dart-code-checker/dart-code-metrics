@@ -64,7 +64,7 @@ void main() {
       expect(
         verify(() => output.writeln(captureAny())).captured.cast<String>(),
         equals([
-          '::warning file=/home/developer/work/project/example.dart,line=2,col=3::first issue message',
+          '::warning file=/home/developer/work/project/example.dart,line=2,col=3::DEPRECATED! This reporter is deprecated and will be removed in 5.0.0. You can migrate on our GitHub Action. first issue message',
         ]),
       );
     });
@@ -127,8 +127,8 @@ void main() {
       expect(
         verify(() => output.writeln(captureAny())).captured.cast<String>(),
         equals([
-          '::warning file=/home/developer/work/project/example.dart,line=2,col=3::first issue message',
-          '::error file=/home/developer/work/project/example.dart,line=4,col=3::second issue message',
+          '::warning file=/home/developer/work/project/example.dart,line=2,col=3::DEPRECATED! This reporter is deprecated and will be removed in 5.0.0. You can migrate on our GitHub Action. first issue message',
+          '::error file=/home/developer/work/project/example.dart,line=4,col=3::DEPRECATED! This reporter is deprecated and will be removed in 5.0.0. You can migrate on our GitHub Action. second issue message',
         ]),
       );
     });
