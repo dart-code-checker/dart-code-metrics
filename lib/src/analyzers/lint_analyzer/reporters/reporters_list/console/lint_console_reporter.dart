@@ -5,11 +5,11 @@ import '../../../metrics/metric_utils.dart';
 import '../../../metrics/models/metric_value.dart';
 import '../../../metrics/models/metric_value_level.dart';
 import '../../../models/issue.dart';
-import '../../../models/lint_file_report.dart';
+import '../../../models/lint_report.dart';
 import '../../../models/report.dart';
 import 'lint_console_reporter_helper.dart';
 
-class LintConsoleReporter extends ConsoleReporter<LintFileReport> {
+class LintConsoleReporter extends ConsoleReporter<LintReport> {
   /// If true will report info about all files even if they're not above warning threshold
   final bool reportAll;
 
@@ -18,12 +18,12 @@ class LintConsoleReporter extends ConsoleReporter<LintFileReport> {
   LintConsoleReporter(IOSink output, {this.reportAll = false}) : super(output);
 
   @override
-  Future<void> report(Iterable<LintFileReport> records) async {
-    if (records.isEmpty) {
+  Future<void> report(LintReport report) async {
+    if (report.files.isEmpty) {
       return;
     }
 
-    for (final file in records) {
+    for (final file in report.files) {
       final lines = [
         ..._reportIssues([...file.issues, ...file.antiPatternCases]),
         ..._reportMetrics({...file.classes, ...file.functions}),

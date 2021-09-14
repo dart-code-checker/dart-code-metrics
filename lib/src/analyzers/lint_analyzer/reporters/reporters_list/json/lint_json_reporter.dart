@@ -9,16 +9,17 @@ import '../../../metrics/models/metric_value.dart';
 import '../../../models/context_message.dart';
 import '../../../models/issue.dart';
 import '../../../models/lint_file_report.dart';
+import '../../../models/lint_report.dart';
 import '../../../models/replacement.dart';
 import '../../../models/report.dart';
 
 @immutable
-class LintJsonReporter extends JsonReporter<LintFileReport> {
+class LintJsonReporter extends JsonReporter<LintReport> {
   const LintJsonReporter(IOSink output) : super(output, 2);
 
   @override
-  Future<void> report(Iterable<LintFileReport> records) async {
-    if (records.isEmpty) {
+  Future<void> report(LintReport report) async {
+    if (report.files.isEmpty) {
       return;
     }
 
@@ -35,7 +36,7 @@ class LintJsonReporter extends JsonReporter<LintFileReport> {
     final encodedReport = json.encode({
       'formatVersion': formatVersion,
       'timestamp': reportTime.toString(),
-      'records': records.map(_lintFileReportToJson).toList(),
+      'records': report.files.map(_lintFileReportToJson).toList(),
     });
 
     output.write(encodedReport);

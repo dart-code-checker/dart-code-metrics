@@ -10,6 +10,7 @@ import '../../../../../reporters/models/html_reporter.dart';
 import '../../../metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import '../../../metrics/models/metric_value_level.dart';
 import '../../../models/lint_file_report.dart';
+import '../../../models/lint_report.dart';
 import '../../utility_selector.dart';
 import 'components/icon.dart';
 import 'components/issue_details_tooltip.dart';
@@ -60,17 +61,22 @@ class ReportTableRecord {
   });
 }
 
-class LintHtmlReporter extends HtmlReporter<LintFileReport> {
+class LintHtmlReporter extends HtmlReporter<LintReport> {
   LintHtmlReporter(String reportFolder) : super(reportFolder);
 
   @override
-  Future<void> report(Iterable<LintFileReport> records) async {
-    await super.report(records);
+  Future<void> report(LintReport report) async {
+    if (report.files.isEmpty) {
+      return;
+    }
 
-    for (final record in records) {
+    createReportDirectory();
+    await copyResources();
+
+    for (final record in report.files) {
       _generateSourceReport(reportFolder, record);
     }
-    _generateFoldersReports(reportFolder, records);
+    _generateFoldersReports(reportFolder, report.files);
   }
 
   Element _generateTable(String title, Iterable<ReportTableRecord> records) {

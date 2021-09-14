@@ -4,28 +4,16 @@ import 'dart:isolate';
 import 'package:meta/meta.dart';
 import 'package:path/path.dart' as p;
 
-import 'file_report.dart';
 import 'reporter.dart';
 
 /// HTML-doc reporter
-abstract class HtmlReporter<T extends FileReport> extends Reporter<T> {
+abstract class HtmlReporter<T> extends Reporter<T> {
   static const String id = 'html';
 
   @protected
   final String reportFolder;
 
   const HtmlReporter(this.reportFolder);
-
-  @mustCallSuper
-  @override
-  Future<void> report(Iterable<T> records) async {
-    if (records.isEmpty) {
-      return;
-    }
-
-    createReportDirectory();
-    await copyResources();
-  }
 
   void createReportDirectory() {
     final reportDirectory = Directory(reportFolder);

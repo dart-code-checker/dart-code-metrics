@@ -2,13 +2,12 @@ import 'dart:io';
 
 import 'package:meta/meta.dart';
 
-import 'file_report.dart';
 import 'reporter.dart';
 
 // Code Climate Engine Specification https://github.com/codeclimate/platform/blob/master/spec/analyzers/SPEC.md
 
 /// Creates reports in Code Climate format widely understood by various CI and analysis tools
-abstract class CodeClimateReporter<T extends FileReport> extends Reporter<T> {
+abstract class CodeClimateReporter<T> extends Reporter<T> {
   static const String id = 'codeclimate';
   static const String alternativeId = 'gitlab';
 

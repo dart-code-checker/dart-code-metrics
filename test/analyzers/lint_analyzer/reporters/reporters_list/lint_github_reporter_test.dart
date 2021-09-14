@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/issue.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/lint_file_report.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/lint_report.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/replacement.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/report.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
@@ -24,7 +25,7 @@ void main() {
     });
 
     test('files without any records', () async {
-      await LintGitHubReporter(output).report([]);
+      await LintGitHubReporter(output).report(const LintReport([]));
 
       verifyNever(() => output.writeln(any()));
     });
@@ -59,7 +60,7 @@ void main() {
         ),
       ];
 
-      await LintGitHubReporter(output).report(records);
+      await LintGitHubReporter(output).report(LintReport(records));
 
       expect(
         verify(() => output.writeln(captureAny())).captured.cast<String>(),
@@ -122,7 +123,7 @@ void main() {
         ),
       ];
 
-      await LintGitHubReporter(output).report(records);
+      await LintGitHubReporter(output).report(LintReport(records));
 
       expect(
         verify(() => output.writeln(captureAny())).captured.cast<String>(),

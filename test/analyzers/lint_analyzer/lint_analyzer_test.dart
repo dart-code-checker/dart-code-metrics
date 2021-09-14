@@ -27,7 +27,7 @@ void main() {
           config,
         );
 
-        expect(result, hasLength(2));
+        expect(result.files, hasLength(2));
       });
 
       test('should analyze only one file', () async {
@@ -41,7 +41,7 @@ void main() {
           config,
         );
 
-        expect(result, hasLength(1));
+        expect(result.files, hasLength(1));
       });
 
       test('should report default code metrics', () async {

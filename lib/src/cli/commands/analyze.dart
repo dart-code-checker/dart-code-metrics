@@ -83,7 +83,9 @@ class AnalyzeCommand extends BaseCommand {
 
     if (((argResults[FlagNames.fatalPerformance] as bool) &&
             hasIssueWithSevetiry(
-                lintAnalyserResult.files, Severity.performance)) ||
+              lintAnalyserResult.files,
+              Severity.performance,
+            )) ||
         ((argResults[FlagNames.fatalStyle] as bool) &&
             hasIssueWithSevetiry(lintAnalyserResult.files, Severity.style))) {
       exit(1);
