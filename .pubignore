@@ -1,7 +1,7 @@
 # See https://dart.dev/tools/pub/publishing#what-files-are-published
 
-coverage/
-doc/
-metrics/
-tool/
-dart_dependency_validator.yaml
+/coverage/*
+/doc/*
+/metrics/*
+/tool/*
+/dart_dependency_validator.yaml
