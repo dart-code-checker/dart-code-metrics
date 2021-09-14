@@ -18,6 +18,7 @@ import 'metrics/scope_visitor.dart';
 import 'models/internal_resolved_unit_result.dart';
 import 'models/issue.dart';
 import 'models/lint_file_report.dart';
+import 'models/lint_report.dart';
 import 'models/report.dart';
 import 'models/scoped_class_declaration.dart';
 import 'models/scoped_function_declaration.dart';
@@ -57,7 +58,7 @@ class LintAnalyzer {
     return null;
   }
 
-  Future<Iterable<LintFileReport>> runCliAnalysis(
+  Future<LintReport> runCliAnalysis(
     Iterable<String> folders,
     String rootFolder,
     LintConfig config,
@@ -110,7 +111,7 @@ class LintAnalyzer {
       }
     }
 
-    return analyzerResult;
+    return LintReport(analyzerResult);
   }
 
   LintFileReport? _runAnalysisForFile(

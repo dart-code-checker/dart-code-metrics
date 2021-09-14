@@ -62,12 +62,12 @@ class AnalyzeCommand extends BaseCommand {
           output: stdout,
           reportFolder: argResults[FlagNames.reportFolder] as String,
         )
-        ?.report(lintAnalyserResult);
+        ?.report(lintAnalyserResult.files);
 
-    if (hasIssueWithSevetiry(lintAnalyserResult, Severity.error)) {
+    if (hasIssueWithSevetiry(lintAnalyserResult.files, Severity.error)) {
       exit(3);
     } else if ((argResults[FlagNames.fatalWarnings] as bool) &&
-        hasIssueWithSevetiry(lintAnalyserResult, Severity.warning)) {
+        hasIssueWithSevetiry(lintAnalyserResult.files, Severity.warning)) {
       exit(2);
     }
 
@@ -76,14 +76,16 @@ class AnalyzeCommand extends BaseCommand {
     );
 
     if (maximumAllowedLevel != null &&
-        maxMetricViolationLevel(lintAnalyserResult) >= maximumAllowedLevel) {
+        maxMetricViolationLevel(lintAnalyserResult.files) >=
+            maximumAllowedLevel) {
       exit(2);
     }
 
     if (((argResults[FlagNames.fatalPerformance] as bool) &&
-            hasIssueWithSevetiry(lintAnalyserResult, Severity.performance)) ||
+            hasIssueWithSevetiry(
+                lintAnalyserResult.files, Severity.performance)) ||
         ((argResults[FlagNames.fatalStyle] as bool) &&
-            hasIssueWithSevetiry(lintAnalyserResult, Severity.style))) {
+            hasIssueWithSevetiry(lintAnalyserResult.files, Severity.style))) {
       exit(1);
     }
   }

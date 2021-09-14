@@ -36,7 +36,7 @@ Future<void> main() async {
   // Now pass collected analysis reports from runner to reporter and that's it
   await analyzer
       .getReporter(name: 'console', output: stdout, reportFolder: '.')
-      ?.report(result);
+      ?.report(result.files);
 
   // There is also JsonReporter for making machine-readable reports
   // HtmlReporter produces fancy html-documents with bells and whistles

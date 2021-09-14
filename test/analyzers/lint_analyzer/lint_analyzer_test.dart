@@ -54,7 +54,7 @@ void main() {
         );
 
         final report =
-            reportForFile(result, 'lint_analyzer_exclude_example.dart')
+            reportForFile(result.files, 'lint_analyzer_exclude_example.dart')
                 .functions
                 .values
                 .first;
@@ -81,7 +81,7 @@ void main() {
         );
 
         final report =
-            reportForFile(result, 'lint_analyzer_exclude_example.dart')
+            reportForFile(result.files, 'lint_analyzer_exclude_example.dart')
                 .functions
                 .values
                 .first;
@@ -110,7 +110,7 @@ void main() {
         );
 
         final report =
-            reportForFile(result, 'lint_analyzer_exclude_example.dart')
+            reportForFile(result.files, 'lint_analyzer_exclude_example.dart')
                 .functions
                 .values;
 
@@ -127,7 +127,8 @@ void main() {
         );
 
         final issues =
-            reportForFile(result, 'lint_analyzer_exclude_example.dart').issues;
+            reportForFile(result.files, 'lint_analyzer_exclude_example.dart')
+                .issues;
         final ids = issues.map((issue) => issue.ruleId);
 
         expect(ids, List.filled(1, 'avoid-late-keyword'));
@@ -146,7 +147,8 @@ void main() {
         );
 
         final report =
-            reportForFile(result, 'lint_analyzer_exclude_example.dart').issues;
+            reportForFile(result.files, 'lint_analyzer_exclude_example.dart')
+                .issues;
         expect(report, isEmpty);
       });
     },
