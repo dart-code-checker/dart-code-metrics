@@ -34,7 +34,7 @@ class AnalyzeCommand extends BaseCommand {
   @override
   void validateCommand() {
     validateRootFolderExist();
-	validateSdkPath();
+    validateSdkPath();
     validateTargetDirectories();
   }
 
