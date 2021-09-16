@@ -95,6 +95,7 @@ class AnalyzeCommand extends BaseCommand {
     _usesMetricsThresholdOptions();
     usesRootFolderOption();
     usesExcludeOption();
+    usesSdkPathOption();
     _usesExitOption();
   }
 

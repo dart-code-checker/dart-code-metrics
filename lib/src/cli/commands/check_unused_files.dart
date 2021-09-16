@@ -57,6 +57,7 @@ class CheckUnusedFilesCommand extends BaseCommand {
     _usesReporterOption();
     usesRootFolderOption();
     usesExcludeOption();
+    usesSdkPathOption();
   }
 
   void _usesReporterOption() {
