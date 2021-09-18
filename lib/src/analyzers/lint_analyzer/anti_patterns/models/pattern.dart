@@ -1,6 +1,8 @@
 import '../../models/internal_resolved_unit_result.dart';
 import '../../models/issue.dart';
 import '../../models/report.dart';
+import '../../models/scoped_class_declaration.dart';
+import '../../models/scoped_function_declaration.dart';
 import '../../models/severity.dart';
 import 'pattern_documentation.dart';
 
@@ -27,5 +29,9 @@ abstract class Pattern {
   });
 
   /// Returns [Iterable] with [Issue]'s detected while check the passed [source].
-  Iterable<Issue> check(InternalResolvedUnitResult source, Report report);
+  Iterable<Issue> check(
+    InternalResolvedUnitResult source,
+    Map<ScopedClassDeclaration, Report> classMetrics,
+    Map<ScopedFunctionDeclaration, Report> functionMetrics,
+  );
 }

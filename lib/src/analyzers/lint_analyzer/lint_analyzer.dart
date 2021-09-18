@@ -160,13 +160,6 @@ class LintAnalyzer {
           return true;
         }).toList();
 
-        final antiPatterns = _checkOnAntiPatterns(
-          ignores,
-          internalResult,
-          functions,
-          config,
-        );
-
         final classMetrics = _checkClassMetrics(
           visitor,
           internalResult,
@@ -177,6 +170,15 @@ class LintAnalyzer {
           visitor,
           internalResult,
           config,
+        );
+
+        final antiPatterns = _checkOnAntiPatterns(
+          ignores,
+          internalResult,
+          functions,
+          config,
+          classMetrics,
+          functionMetrics,
         );
 
         return LintFileReport(
@@ -232,12 +234,15 @@ class LintAnalyzer {
     InternalResolvedUnitResult source,
     Iterable<ScopedFunctionDeclaration> functions,
     LintAnalysisConfig config,
+    Map<ScopedClassDeclaration, Report> classMetrics,
+    Map<ScopedFunctionDeclaration, Report> functionMetrics,
   ) =>
       config.antiPatterns
           .where((pattern) => !ignores.isSuppressed(pattern.id))
-          .expand((pattern) => pattern
-              .legacyCheck(source, functions)
-              .where((issue) => !ignores.isSuppressedAt(
+          .expand((pattern) => [
+                ...pattern.legacyCheck(source, functions),
+                ...pattern.check(source, classMetrics, functionMetrics),
+              ].where((issue) => !ignores.isSuppressedAt(
                     issue.ruleId,
                     issue.location.start.line,
                   )))
