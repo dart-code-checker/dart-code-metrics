@@ -24,9 +24,9 @@ void main() {
         rules: {},
         excludeForRulesPatterns: [],
         antiPatterns: {
-          'long-method': <String, Object>{},
-          'long-parameter-list': <String, Object>{},
-          'sample-pattern': <String, Object>{},
+          'long-method': {},
+          'long-parameter-list': {},
+          'sample-pattern': {},
         },
       )).map((pattern) => pattern.id),
       equals(['long-method', 'long-parameter-list']),

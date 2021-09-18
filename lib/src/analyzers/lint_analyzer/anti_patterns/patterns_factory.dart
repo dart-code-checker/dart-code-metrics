@@ -12,7 +12,9 @@ final _implementedPatterns = <String, CreatePattern>{
   LongMethod.patternId: (settings, tresholds) =>
       LongMethod(patternSettings: settings, metricstTresholds: tresholds),
   LongParameterList.patternId: (settings, tresholds) => LongParameterList(
-      patternSettings: settings, metricstTresholds: tresholds),
+        patternSettings: settings,
+        metricstTresholds: tresholds,
+      ),
 };
 
 Iterable<ObsoletePattern> get allPatterns =>
@@ -23,5 +25,5 @@ Iterable<ObsoletePattern> getPatternsById(LintConfig config) =>
         .where((id) => config.antiPatterns.keys.contains(id))
         .map<ObsoletePattern>((id) => _implementedPatterns[id]!(
               config.antiPatterns[id] as Map<String, Object>,
-              config.metrics[id] as Map<String, Object>,
+              config.metrics,
             )));

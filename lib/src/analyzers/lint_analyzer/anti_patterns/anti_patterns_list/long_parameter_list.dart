@@ -17,10 +17,17 @@ const _dependencies = [NumberOfParametersMetric.metricId];
 class LongParameterList extends ObsoletePattern {
   static const String patternId = 'long-parameter-list';
 
+  final int _numberOfParametersMetricTreshold;
+
   LongParameterList({
     Map<String, Object> patternSettings = const {},
     Map<String, Object> metricstTresholds = const {},
-  }) : super(
+  })  : _numberOfParametersMetricTreshold = readThreshold<int>(
+          metricstTresholds,
+          NumberOfParametersMetric.metricId,
+          4,
+        ),
+        super(
           id: patternId,
           documentation: const PatternDocumentation(
             name: 'Long Parameter List',
@@ -36,30 +43,26 @@ class LongParameterList extends ObsoletePattern {
   Iterable<Issue> legacyCheck(
     InternalResolvedUnitResult source,
     Iterable<ScopedFunctionDeclaration> functions,
-    Map<String, Object> metricsConfig,
-  ) {
-    final threshold =
-        readThreshold<int>(metricsConfig, NumberOfParametersMetric.metricId, 4);
-
-    return functions
-        .where((function) => getArgumentsCount(function) > threshold)
-        .map((function) => createIssue(
-              pattern: this,
-              location: nodeLocation(
-                node: function.declaration,
-                source: source,
-              ),
-              message: _compileMessage(
-                args: getArgumentsCount(function),
-                functionType: function.type,
-              ),
-              verboseMessage: _compileRecommendationMessage(
-                maximumArguments: threshold,
-                functionType: function.type,
-              ),
-            ))
-        .toList();
-  }
+  ) =>
+      functions
+          .where((function) =>
+              getArgumentsCount(function) > _numberOfParametersMetricTreshold)
+          .map((function) => createIssue(
+                pattern: this,
+                location: nodeLocation(
+                  node: function.declaration,
+                  source: source,
+                ),
+                message: _compileMessage(
+                  args: getArgumentsCount(function),
+                  functionType: function.type,
+                ),
+                verboseMessage: _compileRecommendationMessage(
+                  maximumArguments: _numberOfParametersMetricTreshold,
+                  functionType: function.type,
+                ),
+              ))
+          .toList();
 
   String _compileMessage({
     required int args,

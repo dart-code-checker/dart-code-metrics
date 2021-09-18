@@ -19,7 +19,9 @@ void main() {
       final scopeVisitor = ScopeVisitor();
       unit.unit.visitChildren(scopeVisitor);
 
-      final issues = LongMethod().legacyCheck(
+      final issues = LongMethod(
+        metricstTresholds: {SourceLinesOfCodeMetric.metricId: 25},
+      ).legacyCheck(
         unit,
         scopeVisitor.functions.where((function) {
           final declaration = function.declaration;
@@ -33,7 +35,6 @@ void main() {
 
           return true;
         }),
-        {SourceLinesOfCodeMetric.metricId: 25},
       );
 
       AntiPatternTestHelper.verifyInitialization(
@@ -64,7 +65,9 @@ void main() {
       final scopeVisitor = ScopeVisitor();
       unit.unit.visitChildren(scopeVisitor);
 
-      final issues = LongMethod().legacyCheck(
+      final issues = LongMethod(
+        metricstTresholds: {SourceLinesOfCodeMetric.metricId: 25},
+      ).legacyCheck(
         unit,
         scopeVisitor.functions.where((function) {
           final declaration = function.declaration;
@@ -78,7 +81,6 @@ void main() {
 
           return true;
         }),
-        {SourceLinesOfCodeMetric.metricId: 25},
       );
 
       expect(issues, isEmpty);
