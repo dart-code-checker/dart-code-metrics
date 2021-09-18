@@ -17,10 +17,14 @@ abstract class Pattern {
   /// The severity of issues emitted by the pattern
   final Severity severity;
 
+  /// Dependencies metrics ids
+  final Iterable<String> dependencies;
+
   const Pattern({
     required this.id,
     required this.documentation,
     required this.severity,
+    required this.dependencies,
   });
 
   /// Returns [Iterable] with [Issue]'s detected while check the passed [source]
