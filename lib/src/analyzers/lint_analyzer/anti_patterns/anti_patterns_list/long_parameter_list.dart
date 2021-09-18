@@ -17,8 +17,10 @@ const _dependencies = [NumberOfParametersMetric.metricId];
 class LongParameterList extends ObsoletePattern {
   static const String patternId = 'long-parameter-list';
 
-  LongParameterList([Map<String, Object> config = const {}])
-      : super(
+  LongParameterList({
+    Map<String, Object> patternSettings = const {},
+    Map<String, Object> metricstTresholds = const {},
+  }) : super(
           id: patternId,
           documentation: const PatternDocumentation(
             name: 'Long Parameter List',
@@ -26,7 +28,7 @@ class LongParameterList extends ObsoletePattern {
                 'Long parameter lists are difficult to understand and use. Wrapping them into an object allows grouping parameters and change transferred data only by the object modification.',
             supportedType: EntityType.methodEntity,
           ),
-          severity: readSeverity(config, Severity.none),
+          severity: readSeverity(patternSettings, Severity.none),
           dependencies: _dependencies,
         );
 

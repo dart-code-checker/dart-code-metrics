@@ -21,8 +21,10 @@ const _dependencies = [SourceLinesOfCodeMetric.metricId];
 class LongMethod extends ObsoletePattern {
   static const String patternId = 'long-method';
 
-  LongMethod([Map<String, Object> config = const {}])
-      : super(
+  LongMethod({
+    Map<String, Object> patternSettings = const {},
+    Map<String, Object> metricstTresholds = const {},
+  }) : super(
           id: patternId,
           documentation: const PatternDocumentation(
             name: 'Long Method',
@@ -30,7 +32,7 @@ class LongMethod extends ObsoletePattern {
                 'Long blocks of code are difficult to reuse and understand because they are usually responsible for more than one thing. Separating those to several short ones with proper names helps you reuse your code and understand it better without reading methods body.',
             supportedType: EntityType.methodEntity,
           ),
-          severity: readSeverity(config, Severity.none),
+          severity: readSeverity(patternSettings, Severity.none),
           dependencies: _dependencies,
         );
 
