@@ -16,12 +16,13 @@ import '../models/obsolete_pattern.dart';
 import '../models/pattern_documentation.dart';
 import '../pattern_utils.dart';
 
-const _dependencies = [SourceLinesOfCodeMetric.metricId];
-
 class LongMethod extends ObsoletePattern {
   static const String patternId = 'long-method';
 
   final int _sourceLinesOfCodeMetricTreshold;
+
+  @override
+  Iterable<String> get dependentMetricIds => [SourceLinesOfCodeMetric.metricId];
 
   LongMethod({
     Map<String, Object> patternSettings = const {},
@@ -40,7 +41,6 @@ class LongMethod extends ObsoletePattern {
             supportedType: EntityType.methodEntity,
           ),
           severity: readSeverity(patternSettings, Severity.none),
-          dependencies: _dependencies,
         );
 
   @override

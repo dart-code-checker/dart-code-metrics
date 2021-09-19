@@ -11,12 +11,10 @@ abstract class ObsoletePattern extends Pattern {
     required String id,
     required PatternDocumentation documentation,
     required Severity severity,
-    Iterable<String> dependencies = const [],
   }) : super(
           id: id,
           documentation: documentation,
           severity: severity,
-          dependencies: dependencies,
         );
 
   Iterable<Issue> legacyCheck(

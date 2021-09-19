@@ -12,12 +12,14 @@ import '../models/obsolete_pattern.dart';
 import '../models/pattern_documentation.dart';
 import '../pattern_utils.dart';
 
-const _dependencies = [NumberOfParametersMetric.metricId];
-
 class LongParameterList extends ObsoletePattern {
   static const String patternId = 'long-parameter-list';
 
   final int _numberOfParametersMetricTreshold;
+
+  @override
+  Iterable<String> get dependentMetricIds =>
+      [NumberOfParametersMetric.metricId];
 
   LongParameterList({
     Map<String, Object> patternSettings = const {},
@@ -36,7 +38,6 @@ class LongParameterList extends ObsoletePattern {
             supportedType: EntityType.methodEntity,
           ),
           severity: readSeverity(patternSettings, Severity.none),
-          dependencies: _dependencies,
         );
 
   @override
