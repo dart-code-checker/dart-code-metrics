@@ -16,6 +16,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+  # See https://github.com/GetStream/verify-semantic-changelog-update
   semantic_changelog_update:
     needs: conventional_pr_title # Trigger after the [conventional_pr_title] completes
     runs-on: ubuntu-latest
