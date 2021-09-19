@@ -11,11 +11,11 @@ import '../../models/report.dart';
 import '../../models/scoped_class_declaration.dart';
 import '../../models/scoped_function_declaration.dart';
 import '../../models/severity.dart';
-import '../models/obsolete_pattern.dart';
+import '../models/pattern.dart';
 import '../models/pattern_documentation.dart';
 import '../pattern_utils.dart';
 
-class LongParameterList extends ObsoletePattern {
+class LongParameterList extends Pattern {
   static const String patternId = 'long-parameter-list';
 
   final int? _numberOfParametersMetricTreshold;

@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:analyzer/dart/analysis/results.dart';
-import 'package:analyzer/dart/ast/ast.dart';
 import 'package:path/path.dart';
 
 import '../../config_builder/config_builder.dart';
@@ -147,19 +146,6 @@ class LintAnalyzer {
         final visitor = ScopeVisitor();
         internalResult.unit.visitChildren(visitor);
 
-        final functions = visitor.functions.where((function) {
-          final declaration = function.declaration;
-          if (declaration is ConstructorDeclaration &&
-              declaration.body is EmptyFunctionBody) {
-            return false;
-          } else if (declaration is MethodDeclaration &&
-              declaration.body is EmptyFunctionBody) {
-            return false;
-          }
-
-          return true;
-        }).toList();
-
         final classMetrics = _checkClassMetrics(
           visitor,
           internalResult,
@@ -175,7 +161,6 @@ class LintAnalyzer {
         final antiPatterns = _checkOnAntiPatterns(
           ignores,
           internalResult,
-          functions,
           config,
           classMetrics,
           functionMetrics,
@@ -232,17 +217,15 @@ class LintAnalyzer {
   Iterable<Issue> _checkOnAntiPatterns(
     Suppression ignores,
     InternalResolvedUnitResult source,
-    Iterable<ScopedFunctionDeclaration> functions,
     LintAnalysisConfig config,
     Map<ScopedClassDeclaration, Report> classMetrics,
     Map<ScopedFunctionDeclaration, Report> functionMetrics,
   ) =>
       config.antiPatterns
           .where((pattern) => !ignores.isSuppressed(pattern.id))
-          .expand((pattern) => [
-                ...pattern.legacyCheck(source, functions),
-                ...pattern.check(source, classMetrics, functionMetrics),
-              ].where((issue) => !ignores.isSuppressedAt(
+          .expand((pattern) => pattern
+              .check(source, classMetrics, functionMetrics)
+              .where((issue) => !ignores.isSuppressedAt(
                     issue.ruleId,
                     issue.location.start.line,
                   )))

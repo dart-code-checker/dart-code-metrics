@@ -14,11 +14,11 @@ import '../../models/scoped_class_declaration.dart';
 import '../../models/scoped_function_declaration.dart';
 import '../../models/severity.dart';
 import '../../rules/flutter_rule_utils.dart';
-import '../models/obsolete_pattern.dart';
+import '../models/pattern.dart';
 import '../models/pattern_documentation.dart';
 import '../pattern_utils.dart';
 
-class LongMethod extends ObsoletePattern {
+class LongMethod extends Pattern {
   static const String patternId = 'long-method';
 
   final int? _sourceLinesOfCodeMetricTreshold;
