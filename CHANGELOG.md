@@ -1,8 +1,12 @@
 # Changelog
 
+## Unreleased
+
+* Add config presets.
+
 ## 4.3.1
 
-* Update .pubignore
+* Update `.pubignore`.
 
 ## 4.3.0
 
