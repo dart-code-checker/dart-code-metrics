@@ -41,7 +41,7 @@ class UnusedFilesVisitor extends GeneralizingAstVisitor<void> {
   }
 
   /// See https://github.com/dart-lang/sdk/blob/master/runtime/docs/compiler/aot/entry_point_pragma.md
-  bool _hasPragmaAnnotation(NodeList<Annotation> metadata) =>
+  bool _hasPragmaAnnotation(Iterable<Annotation> metadata) =>
       metadata.where((annotation) {
         final arguments = annotation.arguments;
 
