@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-* Add vm:entry-point annotation as an entry point for unused files check
+* Improve unused files check, add support for `vm:entry-point` annotation.
 
 ## 4.3.1
 
