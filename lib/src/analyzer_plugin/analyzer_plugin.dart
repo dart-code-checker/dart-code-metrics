@@ -15,8 +15,8 @@ import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
 
 import '../analyzers/lint_analyzer/lint_analysis_config.dart';
 import '../analyzers/lint_analyzer/lint_analyzer.dart';
-import '../analyzers/lint_analyzer/metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import '../analyzers/lint_analyzer/metrics/metrics_list/number_of_parameters_metric.dart';
+import '../analyzers/lint_analyzer/metrics/metrics_list/source_lines_of_code/source_lines_of_code_metric.dart';
 import '../config_builder/config_builder.dart';
 import '../config_builder/models/analysis_options.dart';
 import '../utils/yaml_utils.dart';
@@ -246,8 +246,8 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
         options.folderPath ?? rootPath,
         classMetrics: const [],
         functionMetrics: [
-          CyclomaticComplexityMetric(config: config.metrics),
           NumberOfParametersMetric(config: config.metrics),
+          SourceLinesOfCodeMetric(config: config.metrics),
         ],
       );
 

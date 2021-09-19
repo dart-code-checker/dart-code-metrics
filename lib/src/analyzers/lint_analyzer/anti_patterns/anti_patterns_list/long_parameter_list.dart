@@ -15,8 +15,21 @@ import '../pattern_utils.dart';
 class LongParameterList extends ObsoletePattern {
   static const String patternId = 'long-parameter-list';
 
-  LongParameterList([Map<String, Object> config = const {}])
-      : super(
+  final int _numberOfParametersMetricTreshold;
+
+  @override
+  Iterable<String> get dependentMetricIds =>
+      [NumberOfParametersMetric.metricId];
+
+  LongParameterList({
+    Map<String, Object> patternSettings = const {},
+    Map<String, Object> metricstTresholds = const {},
+  })  : _numberOfParametersMetricTreshold = readThreshold<int>(
+          metricstTresholds,
+          NumberOfParametersMetric.metricId,
+          4,
+        ),
+        super(
           id: patternId,
           documentation: const PatternDocumentation(
             name: 'Long Parameter List',
@@ -24,37 +37,33 @@ class LongParameterList extends ObsoletePattern {
                 'Long parameter lists are difficult to understand and use. Wrapping them into an object allows grouping parameters and change transferred data only by the object modification.',
             supportedType: EntityType.methodEntity,
           ),
-          severity: readSeverity(config, Severity.none),
+          severity: readSeverity(patternSettings, Severity.none),
         );
 
   @override
   Iterable<Issue> legacyCheck(
     InternalResolvedUnitResult source,
     Iterable<ScopedFunctionDeclaration> functions,
-    Map<String, Object> metricsConfig,
-  ) {
-    final threshold =
-        readThreshold<int>(metricsConfig, NumberOfParametersMetric.metricId, 4);
-
-    return functions
-        .where((function) => getArgumentsCount(function) > threshold)
-        .map((function) => createIssue(
-              pattern: this,
-              location: nodeLocation(
-                node: function.declaration,
-                source: source,
-              ),
-              message: _compileMessage(
-                args: getArgumentsCount(function),
-                functionType: function.type,
-              ),
-              verboseMessage: _compileRecommendationMessage(
-                maximumArguments: threshold,
-                functionType: function.type,
-              ),
-            ))
-        .toList();
-  }
+  ) =>
+      functions
+          .where((function) =>
+              getArgumentsCount(function) > _numberOfParametersMetricTreshold)
+          .map((function) => createIssue(
+                pattern: this,
+                location: nodeLocation(
+                  node: function.declaration,
+                  source: source,
+                ),
+                message: _compileMessage(
+                  args: getArgumentsCount(function),
+                  functionType: function.type,
+                ),
+                verboseMessage: _compileRecommendationMessage(
+                  maximumArguments: _numberOfParametersMetricTreshold,
+                  functionType: function.type,
+                ),
+              ))
+          .toList();
 
   String _compileMessage({
     required int args,

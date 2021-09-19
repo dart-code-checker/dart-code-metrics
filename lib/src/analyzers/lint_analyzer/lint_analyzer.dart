@@ -236,7 +236,7 @@ class LintAnalyzer {
       config.antiPatterns
           .where((pattern) => !ignores.isSuppressed(pattern.id))
           .expand((pattern) => pattern
-              .legacyCheck(source, functions, config.metricsConfig)
+              .legacyCheck(source, functions)
               .where((issue) => !ignores.isSuppressedAt(
                     issue.ruleId,
                     issue.location.start.line,

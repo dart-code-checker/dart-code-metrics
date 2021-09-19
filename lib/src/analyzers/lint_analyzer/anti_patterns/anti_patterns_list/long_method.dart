@@ -19,8 +19,20 @@ import '../pattern_utils.dart';
 class LongMethod extends ObsoletePattern {
   static const String patternId = 'long-method';
 
-  LongMethod([Map<String, Object> config = const {}])
-      : super(
+  final int _sourceLinesOfCodeMetricTreshold;
+
+  @override
+  Iterable<String> get dependentMetricIds => [SourceLinesOfCodeMetric.metricId];
+
+  LongMethod({
+    Map<String, Object> patternSettings = const {},
+    Map<String, Object> metricstTresholds = const {},
+  })  : _sourceLinesOfCodeMetricTreshold = readThreshold<int>(
+          metricstTresholds,
+          SourceLinesOfCodeMetric.metricId,
+          50,
+        ),
+        super(
           id: patternId,
           documentation: const PatternDocumentation(
             name: 'Long Method',
@@ -28,44 +40,39 @@ class LongMethod extends ObsoletePattern {
                 'Long blocks of code are difficult to reuse and understand because they are usually responsible for more than one thing. Separating those to several short ones with proper names helps you reuse your code and understand it better without reading methods body.',
             supportedType: EntityType.methodEntity,
           ),
-          severity: readSeverity(config, Severity.none),
+          severity: readSeverity(patternSettings, Severity.none),
         );
 
   @override
   Iterable<Issue> legacyCheck(
     InternalResolvedUnitResult source,
     Iterable<ScopedFunctionDeclaration> functions,
-    Map<String, Object> metricsConfig,
-  ) {
-    final threshold =
-        readThreshold<int>(metricsConfig, SourceLinesOfCodeMetric.metricId, 50);
+  ) =>
+      functions
+          .where((function) => !_isExcluded(function))
+          .expand<Issue>((function) {
+        final visitor = SourceCodeVisitor(source.lineInfo);
+        function.declaration.visitChildren(visitor);
 
-    return functions
-        .where((function) => !_isExcluded(function))
-        .expand<Issue>((function) {
-      final visitor = SourceCodeVisitor(source.lineInfo);
-      function.declaration.visitChildren(visitor);
-
-      return [
-        if (visitor.linesWithCode.length > threshold)
-          createIssue(
-            pattern: this,
-            location: nodeLocation(
-              node: function.declaration,
-              source: source,
+        return [
+          if (visitor.linesWithCode.length > _sourceLinesOfCodeMetricTreshold)
+            createIssue(
+              pattern: this,
+              location: nodeLocation(
+                node: function.declaration,
+                source: source,
+              ),
+              message: _compileMessage(
+                lines: visitor.linesWithCode.length,
+                functionType: function.type,
+              ),
+              verboseMessage: _compileRecommendationMessage(
+                maximumLines: _sourceLinesOfCodeMetricTreshold,
+                functionType: function.type,
+              ),
             ),
-            message: _compileMessage(
-              lines: visitor.linesWithCode.length,
-              functionType: function.type,
-            ),
-            verboseMessage: _compileRecommendationMessage(
-              maximumLines: threshold,
-              functionType: function.type,
-            ),
-          ),
-      ];
-    }).toList();
-  }
+        ];
+      }).toList();
 
   bool _isExcluded(ScopedFunctionDeclaration function) {
     final declaration = function.declaration;

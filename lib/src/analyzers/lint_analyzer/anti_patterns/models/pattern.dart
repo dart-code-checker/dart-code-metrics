@@ -11,11 +11,14 @@ abstract class Pattern {
   /// The id of the pattern.
   final String id;
 
-  /// The documentation associated with the pattern
+  /// The documentation associated with the pattern.
   final PatternDocumentation documentation;
 
-  /// The severity of issues emitted by the pattern
+  /// The severity of issues emitted by the pattern.
   final Severity severity;
+
+  /// Metric ids which values are used by the anti-pattern to detect a violation.
+  Iterable<String> get dependentMetricIds;
 
   const Pattern({
     required this.id,
@@ -23,6 +26,6 @@ abstract class Pattern {
     required this.severity,
   });
 
-  /// Returns [Iterable] with [Issue]'s detected while check the passed [source]
+  /// Returns [Iterable] with [Issue]'s detected while check the passed [source].
   Iterable<Issue> check(InternalResolvedUnitResult source, Report report);
 }

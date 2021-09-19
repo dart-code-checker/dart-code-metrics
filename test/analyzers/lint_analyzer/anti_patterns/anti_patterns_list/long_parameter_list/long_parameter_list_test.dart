@@ -17,7 +17,9 @@ void main() {
     final scopeVisitor = ScopeVisitor();
     unit.unit.visitChildren(scopeVisitor);
 
-    final issues = LongParameterList().legacyCheck(
+    final issues = LongParameterList(
+      metricstTresholds: {NumberOfParametersMetric.metricId: 4},
+    ).legacyCheck(
       unit,
       scopeVisitor.functions.where((function) {
         final declaration = function.declaration;
@@ -31,7 +33,6 @@ void main() {
 
         return true;
       }),
-      {NumberOfParametersMetric.metricId: 4},
     );
 
     AntiPatternTestHelper.verifyInitialization(

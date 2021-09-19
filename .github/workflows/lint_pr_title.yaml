@@ -8,6 +8,7 @@ on:
 
 jobs:
   conventional_pr_title:
+    name: Conventional PR title
     runs-on: ubuntu-latest
     steps:
       - uses: amannn/action-semantic-pull-request@v3.4.2
@@ -18,6 +19,7 @@ jobs:
 
   # See https://github.com/GetStream/verify-semantic-changelog-update
   semantic_changelog_update:
+    name: Semantic changelog update
     needs: conventional_pr_title # Trigger after the [conventional_pr_title] completes
     runs-on: ubuntu-latest
     steps:

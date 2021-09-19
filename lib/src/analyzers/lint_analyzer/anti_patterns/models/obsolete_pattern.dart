@@ -20,7 +20,6 @@ abstract class ObsoletePattern extends Pattern {
   Iterable<Issue> legacyCheck(
     InternalResolvedUnitResult source,
     Iterable<ScopedFunctionDeclaration> functions,
-    Map<String, Object> metricsConfig,
   );
 
   @override

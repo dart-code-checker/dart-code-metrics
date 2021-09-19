@@ -28,7 +28,7 @@ class ConfigBuilder {
         prepareExcludes(config.excludePatterns, excludesRootFolder),
         getRulesById(config.rules),
         prepareExcludes(config.excludeForRulesPatterns, excludesRootFolder),
-        getPatternsById(config.antiPatterns),
+        getPatternsById(config),
         classMetrics ??
             getMetrics(
               config: config.metrics,
