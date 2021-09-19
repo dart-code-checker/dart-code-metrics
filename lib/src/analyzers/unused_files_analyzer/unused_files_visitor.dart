@@ -35,8 +35,22 @@ class UnusedFilesVisitor extends GeneralizingAstVisitor<void> {
 
   @override
   void visitFunctionDeclaration(FunctionDeclaration node) {
-    if (node.name.name == 'main') {
+    if (node.name.name == 'main' || _hasPragmaAnnotation(node.metadata)) {
       _paths.add(_currentFilePath);
     }
   }
+
+  /// See https://github.com/dart-lang/sdk/blob/master/runtime/docs/compiler/aot/entry_point_pragma.md
+  bool _hasPragmaAnnotation(Iterable<Annotation> metadata) =>
+      metadata.where((annotation) {
+        final arguments = annotation.arguments;
+
+        return annotation.name.name == 'pragma' &&
+            arguments != null &&
+            arguments.arguments
+                .where((argument) =>
+                    argument is SimpleStringLiteral &&
+                    argument.stringValue == 'vm:entry-point')
+                .isNotEmpty;
+      }).isNotEmpty;
 }

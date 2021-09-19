@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* Improve unused files check, add support for `vm:entry-point` annotation.
+
 ## 4.3.1
 
 * Update .pubignore
