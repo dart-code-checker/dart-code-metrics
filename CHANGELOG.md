@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.3.2
+
+* Restrict analyzer version to '>=2.1.0 <2.4.0'
+
 ## 4.3.1
 
 * Update .pubignore
