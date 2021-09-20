@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* Don't trigger prefer-extracting-callbacks on empty function blocks.
 * Improve unused files check, add support for `vm:entry-point` annotation.
 
 ## 4.3.1
