@@ -65,6 +65,23 @@ class MyAnotherWidget extends StatelessWidget {
   void _someMethod() {}
 }
 
+class MyWidgetWithEmptyCallbacks extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final widget = AnotherButton(
+      () {},
+      Container(),
+    );
+
+    return TextButton(
+      onPressed: () {
+        // Just a comment here.
+      },
+      child: Container(),
+    );
+  }
+}
+
 class Widget {}
 
 class StatelessWidget extends Widget {}
