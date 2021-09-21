@@ -1,7 +1,7 @@
 import 'package:glob/glob.dart';
 import 'package:meta/meta.dart';
 
-import 'anti_patterns/models/obsolete_pattern.dart';
+import 'anti_patterns/models/pattern.dart';
 import 'metrics/models/metric.dart';
 import 'rules/models/rule.dart';
 
@@ -12,7 +12,7 @@ class LintAnalysisConfig {
   final Iterable<Glob> globalExcludes;
   final Iterable<Rule> codeRules;
   final Iterable<Glob> rulesExcludes;
-  final Iterable<ObsoletePattern> antiPatterns;
+  final Iterable<Pattern> antiPatterns;
   final Iterable<Metric> classesMetrics;
   final Iterable<Metric> methodsMetrics;
   final Iterable<Glob> metricsExcludes;

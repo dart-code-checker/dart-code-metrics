@@ -55,7 +55,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
   Iterable<FormalParameter> _getUnusedParameters(
     Iterable<SyntacticEntity> children,
-    NodeList<FormalParameter> parameters,
+    Iterable<FormalParameter> parameters,
   ) {
     final result = <FormalParameter>[];
 

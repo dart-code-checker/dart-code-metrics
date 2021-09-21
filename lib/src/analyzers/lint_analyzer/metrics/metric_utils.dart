@@ -27,14 +27,6 @@ T? readNullableThreshold<T extends num>(
   return null;
 }
 
-/// Returns a threshold from [config] for metric with [metricId] otherwise [defaultValue]
-T readThreshold<T extends num>(
-  Map<String, Object?> config,
-  String metricId,
-  T defaultValue,
-) =>
-    readNullableThreshold(config, metricId) ?? defaultValue;
-
 /// Returns calculated [MetricValueLevel] based on the [value] to [warningLevel] ratio
 MetricValueLevel valueLevel(num? value, num? warningLevel) {
   if (value == null || warningLevel == null) {
