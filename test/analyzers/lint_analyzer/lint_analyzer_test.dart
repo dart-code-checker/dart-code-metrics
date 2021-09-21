@@ -71,8 +71,8 @@ void main() {
         });
       });
 
-      test('should exceed source-lines-of-code metric', () async {
-        final config = _createConfig(metrics: {'source-lines-of-code': 1});
+      test('should exceed lines-of-code metric', () async {
+        final config = _createConfig(metrics: {'lines-of-code': 4});
 
         final result = await analyzer.runCliAnalysis(
           folders,
@@ -90,10 +90,10 @@ void main() {
         expect(metrics, {
           'cyclomatic-complexity': MetricValueLevel.none,
           'halstead-volume': MetricValueLevel.none,
-          'lines-of-code': MetricValueLevel.none,
+          'lines-of-code': MetricValueLevel.warning,
           'maximum-nesting-level': MetricValueLevel.none,
           'number-of-parameters': MetricValueLevel.none,
-          'source-lines-of-code': MetricValueLevel.warning,
+          'source-lines-of-code': MetricValueLevel.none,
           'maintainability-index': MetricValueLevel.none,
         });
       });
