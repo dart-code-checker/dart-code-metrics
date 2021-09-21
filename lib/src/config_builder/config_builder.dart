@@ -7,6 +7,8 @@ import '../analyzers/lint_analyzer/models/entity_type.dart';
 import '../analyzers/lint_analyzer/rules/rules_factory.dart';
 import '../analyzers/unused_files_analyzer/unused_files_analysis_config.dart';
 import '../analyzers/unused_files_analyzer/unused_files_config.dart';
+import '../analyzers/unused_localization_analyzer/unused_localization_analysis_config.dart';
+import '../analyzers/unused_localization_analyzer/unused_localization_config.dart';
 import '../cli/models/parsed_arguments.dart';
 import '../utils/exclude_utils.dart';
 import 'models/analysis_options.dart';
@@ -61,5 +63,26 @@ class ConfigBuilder {
       UnusedFilesAnalysisConfig(
         prepareExcludes(config.excludePatterns, rootPath),
         prepareExcludes(config.analyzerExcludePatterns, rootPath),
+      );
+
+  static UnusedLocalizationConfig getUnusedLocalizationConfigFromArgs(
+    Iterable<String> excludePatterns,
+    String classPattern,
+  ) =>
+      UnusedLocalizationConfig.fromArgs(excludePatterns, classPattern);
+
+  static UnusedLocalizationConfig getUnusedLocalizationConfigFromOption(
+    AnalysisOptions options,
+  ) =>
+      UnusedLocalizationConfig.fromAnalysisOptions(options);
+
+  static UnusedLocalizationAnalysisConfig getUnusedLocalizationConfig(
+    UnusedLocalizationConfig config,
+    String rootPath,
+  ) =>
+      UnusedLocalizationAnalysisConfig(
+        prepareExcludes(config.excludePatterns, rootPath),
+        prepareExcludes(config.analyzerExcludePatterns, rootPath),
+        config.classPattern,
       );
 }

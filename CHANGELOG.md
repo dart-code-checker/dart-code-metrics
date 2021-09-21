@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* Introduce `check-unused-l10n` command.
+
 ## 4.3.1
 
 * Update .pubignore

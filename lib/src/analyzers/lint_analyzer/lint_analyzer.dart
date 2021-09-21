@@ -46,7 +46,7 @@ class LintAnalyzer {
     String rootFolder,
   ) {
     if (!isExcluded(result.path, config.globalExcludes)) {
-      return _runAnalysisForFile(
+      return _analyzeFile(
         result,
         config,
         rootFolder,
@@ -96,7 +96,7 @@ class LintAnalyzer {
       for (final filePath in analyzedFiles) {
         final unit = await context.currentSession.getResolvedUnit(filePath);
         if (unit is ResolvedUnitResult) {
-          final result = _runAnalysisForFile(
+          final result = _analyzeFile(
             unit,
             lintAnalysisConfig,
             rootFolder,
@@ -113,7 +113,7 @@ class LintAnalyzer {
     return analyzerResult;
   }
 
-  LintFileReport? _runAnalysisForFile(
+  LintFileReport? _analyzeFile(
     ResolvedUnitResult result,
     LintAnalysisConfig config,
     String rootFolder, {
