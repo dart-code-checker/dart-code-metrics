@@ -9,16 +9,19 @@ const _withSingleClass = '$_examplePath/example.dart';
 void main() {
   test('reports border const', () async {
     final unit = await RuleTestHelper.resolveFromFile(_withSingleClass);
-    final issues = PreferConstBorderRadius().check(unit);
+    final issues = PreferConstBorderRadiusRule().check(unit);
 
     RuleTestHelper.verifyIssues(
       issues: issues,
-      startOffsets: [164],
-      startLines: [7],
-      startColumns: [3],
-      endOffsets: [188],
-      messages: ['Prefer const border radius'],
-      locationTexts: ['BorderRadius.circular();'],
+      startOffsets: [116, 428],
+      startLines: [3, 18],
+      startColumns: [29, 43],
+      endOffsets: [128, 440],
+      messages: [
+        'Prefer use const constructor BorderRadius.all',
+        'Prefer use const constructor BorderRadius.all',
+      ],
+      locationTexts: ['BorderRadius', 'BorderRadius'],
     );
   });
 }
