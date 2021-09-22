@@ -2,11 +2,10 @@ import 'dart:io';
 
 import 'package:meta/meta.dart';
 
-import 'file_report.dart';
 import 'reporter.dart';
 
 /// Plain terminal reporter
-abstract class ConsoleReporter<T extends FileReport> extends Reporter<T> {
+abstract class ConsoleReporter<T> extends Reporter<T> {
   static const String id = 'console';
   static const String verboseId = 'console-verbose';
 

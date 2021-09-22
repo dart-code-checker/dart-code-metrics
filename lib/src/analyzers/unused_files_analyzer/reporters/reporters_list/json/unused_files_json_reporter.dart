@@ -7,12 +7,13 @@ import '../../../../../reporters/models/json_reporter.dart';
 import '../../../models/unused_files_file_report.dart';
 
 @immutable
-class UnusedFilesJsonReporter extends JsonReporter<UnusedFilesFileReport> {
+class UnusedFilesJsonReporter
+    extends JsonReporter<Iterable<UnusedFilesFileReport>> {
   const UnusedFilesJsonReporter(IOSink output) : super(output, 2);
 
   @override
-  Future<void> report(Iterable<UnusedFilesFileReport> records) async {
-    if (records.isEmpty) {
+  Future<void> report(Iterable<UnusedFilesFileReport> report) async {
+    if (report.isEmpty) {
       return;
     }
 
@@ -29,7 +30,7 @@ class UnusedFilesJsonReporter extends JsonReporter<UnusedFilesFileReport> {
     final encodedReport = json.encode({
       'formatVersion': formatVersion,
       'timestamp': reportTime.toString(),
-      'unusedFiles': records.map(_analysisRecordToJson).toList(),
+      'unusedFiles': report.map(_analysisRecordToJson).toList(),
     });
 
     output.write(encodedReport);

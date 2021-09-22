@@ -7,6 +7,7 @@ import '../../../../../reporters/models/code_climate_reporter.dart';
 import '../../../metrics/metric_utils.dart';
 import '../../../models/issue.dart';
 import '../../../models/lint_file_report.dart';
+import '../../../models/lint_report.dart';
 import '../../../models/report.dart';
 import '../../../models/severity.dart';
 import 'models/code_climate_issue.dart';
@@ -14,7 +15,7 @@ import 'models/code_climate_issue_category.dart';
 import 'models/code_climate_issue_location.dart';
 import 'models/code_climate_issue_severity.dart';
 
-class LintCodeClimateReporter extends CodeClimateReporter<LintFileReport> {
+class LintCodeClimateReporter extends CodeClimateReporter<LintReport> {
   LintCodeClimateReporter(IOSink output, {bool gitlabCompatible = false})
       : super(
           output,
@@ -22,13 +23,13 @@ class LintCodeClimateReporter extends CodeClimateReporter<LintFileReport> {
         );
 
   @override
-  Future<void> report(Iterable<LintFileReport> records) async {
-    if (records.isEmpty) {
+  Future<void> report(LintReport report) async {
+    if (report.files.isEmpty) {
       return;
     }
 
     final codeClimateRecords =
-        records.map(_lintFileReportToCodeClimate).expand((r) => r);
+        report.files.map(_lintFileReportToCodeClimate).expand((r) => r);
 
     if (gitlabCompatible) {
       output.writeln(json.encode(codeClimateRecords.toList()));

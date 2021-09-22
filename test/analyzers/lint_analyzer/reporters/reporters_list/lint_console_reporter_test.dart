@@ -2,6 +2,7 @@
 import 'dart:io';
 
 import 'package:ansicolor/ansicolor.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/lint_report.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/console/lint_console_reporter.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
@@ -29,16 +30,16 @@ void main() {
     });
 
     test('empty report', () async {
-      await _reporter.report([]);
-      await _verboseReporter.report([]);
+      await _reporter.report(const LintReport([]));
+      await _verboseReporter.report(const LintReport([]));
 
       verifyNever(() => output.writeln(any()));
       verifyNever(() => verboseOutput.writeln(any()));
     });
 
     test('complex report', () async {
-      await _reporter.report(testReport);
-      await _verboseReporter.report(testReport);
+      await _reporter.report(LintReport(testReport));
+      await _verboseReporter.report(LintReport(testReport));
 
       final captured = verify(
         () => output.writeln(captureAny()),
