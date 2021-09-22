@@ -56,7 +56,10 @@ class MyAnotherWidget extends StatelessWidget {
         return null;
       },
       child: Container(),
-      builder: () {
+      builder: (context) {
+        return null;
+      },
+      anotherBuilder: (context, index) {
         return null;
       },
     );
@@ -86,6 +89,8 @@ class Widget {}
 
 class StatelessWidget extends Widget {}
 
+class BuildContext {}
+
 class Container extends Widget {
   final Widget? child;
 
@@ -95,12 +100,14 @@ class Container extends Widget {
 class TextButton {
   final Widget child;
   final void Function()? onPressed;
-  final void Function()? builder;
+  final Widget Function(BuildContext)? builder;
+  final Widget Function(BuildContext, int)? anotherBuilder;
 
   const TextButton({
     required this.child,
     required this.onPressed,
     this.builder,
+    this.anotherBuilder,
   });
 }
 

@@ -8,7 +8,7 @@ bool hasWidgetType(DartType type) =>
     _isFuture(type);
 
 bool isWidgetOrSubclass(DartType? type) =>
-    _isWidget(type) || _isSubclassOfWidget(type);
+    isWidget(type) || _isSubclassOfWidget(type);
 
 bool isWidgetStateOrSubclass(DartType? type) =>
     _isWidgetState(type) || _isSubclassOfWidgetState(type);
@@ -19,11 +19,14 @@ bool isSubclassOfListenable(DartType? type) =>
 bool isPaddingWidget(DartType? type) =>
     type?.getDisplayString(withNullability: false) == 'Padding';
 
-bool _isWidget(DartType? type) =>
+bool isWidget(DartType? type) =>
     type?.getDisplayString(withNullability: false) == 'Widget';
 
+bool isBuildContext(DartType? type) =>
+    type?.getDisplayString(withNullability: false) == 'BuildContext';
+
 bool _isSubclassOfWidget(DartType? type) =>
-    type is InterfaceType && type.allSupertypes.any(_isWidget);
+    type is InterfaceType && type.allSupertypes.any(isWidget);
 
 bool _isWidgetState(DartType? type) => type?.element?.displayName == 'State';
 
