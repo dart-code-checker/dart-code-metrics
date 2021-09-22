@@ -59,6 +59,9 @@ class MyAnotherWidget extends StatelessWidget {
       builder: () {
         return null;
       },
+      iconBuilder: () {
+        return null;
+      },
     );
   }
 
@@ -96,11 +99,13 @@ class TextButton {
   final Widget child;
   final void Function()? onPressed;
   final void Function()? builder;
+  final void Function()? iconBuilder;
 
   const TextButton({
     required this.child,
     required this.onPressed,
     this.builder,
+    this.iconBuilder,
   });
 }
 

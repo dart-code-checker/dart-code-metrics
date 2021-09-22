@@ -58,5 +58,6 @@ class _InstanceCreationVisitor extends RecursiveAstVisitor<void> {
   bool _isNotIgnored(Expression argument) =>
       argument is! NamedExpression ||
       (argument.name.label.name != 'builder' &&
+          !argument.name.label.name.endsWith('Builder') &&
           !_ignoredArguments.contains(argument.name.label.name));
 }

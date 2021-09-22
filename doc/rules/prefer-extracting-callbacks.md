@@ -14,7 +14,7 @@ Warns about inline callbacks in a widget tree and suggests to extract them to wi
  - arrow functions like `onPressed: () => _handler(...)` in order to cover cases when a callback needs a variable from the outside;
  - empty blocks.
 
-Use `ignored-named-arguments` configuration, if you want to ignore specific named parameters (`builder` argument is ignored by default).
+Use `ignored-named-arguments` configuration, if you want to ignore specific named parameters. Arguments having name `builder` and arguments having name ending with `Builder` are ignored by default.
 
 ### Config example
 
