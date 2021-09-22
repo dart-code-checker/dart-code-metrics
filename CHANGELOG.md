@@ -4,6 +4,7 @@
 
 * Don't trigger prefer-extracting-callbacks on empty function blocks.
 * Improve unused files check, add support for `vm:entry-point` annotation.
+* CLI now can be compiled to and used as Windows executable.
 
 ## 4.3.1
 

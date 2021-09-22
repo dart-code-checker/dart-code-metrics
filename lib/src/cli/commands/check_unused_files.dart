@@ -25,6 +25,7 @@ class CheckUnusedFilesCommand extends BaseCommand {
   @override
   void validateCommand() {
     validateRootFolderExist();
+    validateSdkPath();
     validateTargetDirectories();
   }
 
@@ -41,6 +42,7 @@ class CheckUnusedFilesCommand extends BaseCommand {
       folders,
       rootFolder,
       config,
+      findSdkPath(),
     );
 
     await _analyzer
@@ -54,6 +56,7 @@ class CheckUnusedFilesCommand extends BaseCommand {
   void _addFlags() {
     _usesReporterOption();
     usesRootFolderOption();
+    usesSdkPathOption();
     usesExcludeOption();
   }
 
