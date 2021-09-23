@@ -50,28 +50,30 @@ class LongParameterList extends Pattern {
   ) =>
       functionMetrics.entries
           .expand((entry) => [
-                ...entry.value.metrics
-                    .where((metricValue) =>
-                        metricValue.metricsId ==
-                            NumberOfParametersMetric.metricId &&
-                        metricValue.level >= MetricValueLevel.warning)
-                    .map(
-                      (metricValue) => createIssue(
-                        pattern: this,
-                        location: nodeLocation(
-                          node: entry.key.declaration,
-                          source: source,
-                        ),
-                        message: _compileMessage(
-                          args: metricValue.value,
-                          functionType: entry.key.type,
-                        ),
-                        verboseMessage: _compileRecommendationMessage(
-                          maximumArguments: _numberOfParametersMetricTreshold,
-                          functionType: entry.key.type,
+                if (_numberOfParametersMetricTreshold != null)
+                  ...entry.value.metrics
+                      .where((metricValue) =>
+                          metricValue.metricsId ==
+                              NumberOfParametersMetric.metricId &&
+                          metricValue.value >
+                              _numberOfParametersMetricTreshold!)
+                      .map(
+                        (metricValue) => createIssue(
+                          pattern: this,
+                          location: nodeLocation(
+                            node: entry.key.declaration,
+                            source: source,
+                          ),
+                          message: _compileMessage(
+                            args: metricValue.value,
+                            functionType: entry.key.type,
+                          ),
+                          verboseMessage: _compileRecommendationMessage(
+                            maximumArguments: _numberOfParametersMetricTreshold,
+                            functionType: entry.key.type,
+                          ),
                         ),
                       ),
-                    ),
                 if (_numberOfParametersMetricTreshold == null)
                   // ignore: deprecated_member_use_from_same_package
                   ..._legacyBehaviour(source, entry),

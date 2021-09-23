@@ -53,28 +53,29 @@ class LongMethod extends Pattern {
       functionMetrics.entries
           .where((entry) => !_isExcluded(entry.key))
           .expand((entry) => [
-                ...entry.value.metrics
-                    .where((metricValue) =>
-                        metricValue.metricsId ==
-                            SourceLinesOfCodeMetric.metricId &&
-                        metricValue.level >= MetricValueLevel.warning)
-                    .map(
-                      (metricValue) => createIssue(
-                        pattern: this,
-                        location: nodeLocation(
-                          node: entry.key.declaration,
-                          source: source,
-                        ),
-                        message: _compileMessage(
-                          lines: metricValue.value,
-                          functionType: entry.key.type,
-                        ),
-                        verboseMessage: _compileRecommendationMessage(
-                          maximumLines: _sourceLinesOfCodeMetricTreshold,
-                          functionType: entry.key.type,
+                if (_sourceLinesOfCodeMetricTreshold != null)
+                  ...entry.value.metrics
+                      .where((metricValue) =>
+                          metricValue.metricsId ==
+                              SourceLinesOfCodeMetric.metricId &&
+                          metricValue.value > _sourceLinesOfCodeMetricTreshold!)
+                      .map(
+                        (metricValue) => createIssue(
+                          pattern: this,
+                          location: nodeLocation(
+                            node: entry.key.declaration,
+                            source: source,
+                          ),
+                          message: _compileMessage(
+                            lines: metricValue.value,
+                            functionType: entry.key.type,
+                          ),
+                          verboseMessage: _compileRecommendationMessage(
+                            maximumLines: _sourceLinesOfCodeMetricTreshold,
+                            functionType: entry.key.type,
+                          ),
                         ),
                       ),
-                    ),
                 if (_sourceLinesOfCodeMetricTreshold == null)
                   // ignore: deprecated_member_use_from_same_package
                   ..._legacyBehaviour(source, entry),
