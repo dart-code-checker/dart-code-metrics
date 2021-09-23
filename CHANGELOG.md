@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 4.3.3
 
 * Fix unhandled exception while parsing `analysis_options.yaml`
 
