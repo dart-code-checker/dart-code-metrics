@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* Fix unhandled exception while parsing `analysis_options.yaml`
+
 ## 4.3.2
 
 * Restrict analyzer version to '>=2.1.0 <2.4.0'
