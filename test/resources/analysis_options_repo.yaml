@@ -1,5 +1,9 @@
 include: ./analysis_options_common.yaml
 
+linter:
+  # rules:
+    # avoid_print: true
+
 analyzer:
   plugins:
     - code_checker

@@ -8,7 +8,7 @@ List<Object> yamlListToDartList(YamlList list) =>
 Map<String, Object> yamlMapToDartMap(YamlMap map) =>
     Map.unmodifiable(Map<String, Object>.fromEntries(map.nodes.keys
         .whereType<YamlScalar>()
-        .where((key) => key.value is String)
+        .where((key) => key.value is String && map.nodes[key]?.value != null)
         .map((key) => MapEntry(
               key.value as String,
               yamlNodeToDartObject(map.nodes[key]),
