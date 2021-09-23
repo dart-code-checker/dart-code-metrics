@@ -4,6 +4,7 @@
 
 * Don't trigger prefer-extracting-callbacks on empty function blocks.
 * Improve unused files check, add support for `vm:entry-point` annotation.
+* Fix unhandled exception while parsing `analysis_options.yaml`
 
 ## 4.3.1
 
