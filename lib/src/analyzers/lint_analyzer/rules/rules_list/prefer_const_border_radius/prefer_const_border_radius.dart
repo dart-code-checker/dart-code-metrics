@@ -46,15 +46,24 @@ class PreferConstBorderRadiusRule extends FlutterRule {
     final issue = <Issue>[];
 
     for (final element in classNode) {
-      if (_isNonConstantBorderRadius(element)) {
+      final borderRadius = _getBorderRadiusElementDeclaration(element);
+      if (borderRadius != null) {
+        final value = _getValueFromAstNode(borderRadius);
+
         issue.add(createIssue(
           rule: this,
           location: nodeLocation(
-            node: element,
+            node: borderRadius,
             source: source,
             withCommentOrMetadata: true,
           ),
           message: _preferConstBorderRadius,
+          replacement: value != null
+              ? Replacement(
+                  comment: 'Replace with const constructor',
+                  replacement: 'BorderRadius.all(Radius.circular($value))',
+                )
+              : null,
         ));
       }
     }
@@ -62,7 +71,24 @@ class PreferConstBorderRadiusRule extends FlutterRule {
     return issue;
   }
 
-  bool _isNonConstantBorderRadius(TypeName element) =>
-      element.parent?.beginToken.lexeme == 'BorderRadius' &&
-      element.parent?.endToken.lexeme == 'circular';
+  AstNode? _getBorderRadiusElementDeclaration(TypeName element) {
+    final isBorderRadius =
+        element.parent?.beginToken.lexeme == 'BorderRadius' &&
+            element.parent?.endToken.lexeme == 'circular';
+
+    return isBorderRadius ? element.parent!.parent : null;
+  }
+
+  String? _getValueFromAstNode(AstNode borderRadius) {
+    final paramsList = borderRadius.childEntities;
+
+    return paramsList.isNotEmpty
+        ? _getValueFromString(paramsList.last.toString())
+        : null;
+  }
+
+  String? _getValueFromString(String value) =>
+      value.length >= 3 && value.startsWith('(') && value.endsWith(')')
+          ? value.substring(1, value.length - 1)
+          : null;
 }

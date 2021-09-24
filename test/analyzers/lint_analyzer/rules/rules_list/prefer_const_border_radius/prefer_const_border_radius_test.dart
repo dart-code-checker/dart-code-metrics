@@ -16,12 +16,12 @@ void main() {
       startOffsets: [116, 428],
       startLines: [3, 18],
       startColumns: [29, 43],
-      endOffsets: [128, 440],
+      endOffsets: [140, 453],
       messages: [
         'Prefer use const constructor BorderRadius.all',
         'Prefer use const constructor BorderRadius.all',
       ],
-      locationTexts: ['BorderRadius', 'BorderRadius'],
+      locationTexts: ['BorderRadius.circular(8)', 'BorderRadius.circular(32)'],
     );
   });
 }
