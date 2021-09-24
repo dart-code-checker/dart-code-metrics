@@ -4,6 +4,7 @@
 
 * Improve static code diagnostic `prefer-extracting-callbacks`, don't trigger on empty function blocks.
 * Improve unused files check, add support for `vm:entry-point` annotation.
+* Don't trigger `prefer-extracting-callbacks` on arguments ending with "Builder".
 
 ## 4.3.3
 
