@@ -14,9 +14,9 @@ import '../../rule_utils.dart';
 part 'visitor.dart';
 
 class PreferConstBorderRadiusRule extends FlutterRule {
-  static const String ruleId = 'prefer_const_border_radius';
-  static const _preferConstBorderRadius =
-      'Prefer use const constructor BorderRadius.all';
+  static const ruleId = 'prefer_const_border_radius';
+  static const _issueMessage = 'Prefer use const constructor BorderRadius.all';
+  static const _replacementComment = 'Replace with const constructor';
 
   PreferConstBorderRadiusRule([Map<String, Object> config = const {}])
       : super(
@@ -34,50 +34,41 @@ class PreferConstBorderRadiusRule extends FlutterRule {
     final visitor = _Visitor();
     source.unit.visitChildren(visitor);
 
-    final _issue = _addIssues(source, visitor.borderRadiusNodes);
-
-    return _issue;
+    return visitor.declarations
+        .map((declaration) => createIssue(
+              rule: this,
+              location: nodeLocation(
+                node: declaration,
+                source: source,
+                withCommentOrMetadata: true,
+              ),
+              message: _issueMessage,
+              replacement: _getValueFromAstNode(declaration) != null
+                  ? Replacement(
+                      comment: _replacementComment,
+                      replacement: _getReplacementValue(declaration),
+                    )
+                  : null,
+            ))
+        .toList(growable: false);
   }
 
-  List<Issue> _addIssues(
-    InternalResolvedUnitResult source,
-    Iterable<AstNode> classNode,
-  ) {
-    final issue = <Issue>[];
+  String _getReplacementValue(AstNode declaration) {
+    final value = _getValueFromAstNode(declaration);
 
-    for (final element in classNode) {
-      final value = _getValueFromAstNode(element);
-
-      issue.add(createIssue(
-        rule: this,
-        location: nodeLocation(
-          node: element,
-          source: source,
-          withCommentOrMetadata: true,
-        ),
-        message: _preferConstBorderRadius,
-        replacement: value != null
-            ? Replacement(
-                comment: 'Replace with const constructor',
-                replacement: 'BorderRadius.all(Radius.circular($value))',
-              )
-            : null,
-      ));
-    }
-
-    return issue;
+    return 'BorderRadius.all(Radius.circular($value))';
   }
-
-  String? _getValueFromAstNode(AstNode borderRadius) {
-    final paramsList = borderRadius.childEntities;
-
-    return paramsList.isNotEmpty
-        ? _getValueFromString(paramsList.last.toString())
-        : null;
-  }
-
-  String? _getValueFromString(String value) =>
-      value.length >= 3 && value.startsWith('(') && value.endsWith(')')
-          ? value.substring(1, value.length - 1)
-          : null;
 }
+
+String? _getValueFromAstNode(AstNode borderRadius) {
+  final paramsList = borderRadius.childEntities;
+
+  return paramsList.isNotEmpty
+      ? _getValueFromString(paramsList.last.toString())
+      : null;
+}
+
+String? _getValueFromString(String value) =>
+    value.length >= 3 && value.startsWith('(') && value.endsWith(')')
+        ? value.substring(1, value.length - 1)
+        : null;
