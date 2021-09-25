@@ -5,6 +5,7 @@ import 'package:meta/meta.dart';
 
 import '../../../../../reporters/models/json_reporter.dart';
 import '../../../models/unused_l10n_file_report.dart';
+import '../../../models/unused_l10n_issue.dart';
 
 @immutable
 class UnusedL10nJsonReporter extends JsonReporter<UnusedL10nFileReport> {
@@ -29,8 +30,25 @@ class UnusedL10nJsonReporter extends JsonReporter<UnusedL10nFileReport> {
     final encodedReport = json.encode({
       'formatVersion': formatVersion,
       'timestamp': reportTime.toString(),
+      'unusedLocalizations': records.map(_unusedL10nFileReportToJson).toList(),
     });
 
     output.write(encodedReport);
   }
+
+  Map<String, Object> _unusedL10nFileReportToJson(
+    UnusedL10nFileReport report,
+  ) =>
+      {
+        'path': report.relativePath,
+        'className': report.className,
+        'issues': report.issues.map(_issueToJson).toList(),
+      };
+
+  Map<String, Object> _issueToJson(UnusedL10nIssue issue) => {
+        'memberName': issue.memberName,
+        'column': issue.location.column,
+        'line': issue.location.line,
+        'offset': issue.location.offset,
+      };
 }

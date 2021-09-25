@@ -17,7 +17,7 @@ class UnusedL10nVisitor extends RecursiveAstVisitor<void> {
 
     final target = node.target;
 
-    if (target is SimpleIdentifier && target.name.endsWith('I18n')) {
+    if (target is SimpleIdentifier && _classPattern.hasMatch(target.name)) {
       final staticElement = target.staticElement;
       final name = node.methodName.name;
 

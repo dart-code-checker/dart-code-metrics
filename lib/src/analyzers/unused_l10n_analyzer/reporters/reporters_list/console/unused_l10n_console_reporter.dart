@@ -22,13 +22,16 @@ class UnusedL10nConsoleReporter extends ConsoleReporter<UnusedL10nFileReport> {
     var warnings = 0;
 
     for (final analysisRecord in sortedRecords) {
-      output.writeln(
-          'class ${analysisRecord.className}: ${analysisRecord.relativePath}');
+      output.writeln('class ${analysisRecord.className}');
 
-      for (final issues in analysisRecord.issues) {
-        output.writeln(
-            '⚠ unused ${issues.memberName}: ${analysisRecord.relativePath}:${issues.location.line}:${issues.location.column}'
-                .padRight(8));
+      for (final issue in analysisRecord.issues) {
+        final line = issue.location.line;
+        final column = issue.location.column;
+        final path = analysisRecord.relativePath;
+
+        output
+          ..writeln('⚠ unused ${issue.memberName}'.padRight(8))
+          ..writeln('at $path:$line:$column'.padRight(11));
       }
 
       warnings += analysisRecord.issues.length;

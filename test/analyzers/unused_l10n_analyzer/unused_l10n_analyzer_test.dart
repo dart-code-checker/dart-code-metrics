@@ -34,9 +34,27 @@ void main() {
         );
 
         final report = result.single;
+        final issue = report.issues.single;
 
         expect(report.className, 'TestI18n');
-        expect(report.issues, hasLength(1));
+        expect(issue.memberName, 'getter');
+        expect(issue.location.line, 4);
+        expect(issue.location.column, 3);
+      });
+
+      test('should report no issues for a custom class name pattern', () async {
+        final config = _createConfig(
+          analyzerExcludePatterns: analyzerExcludes,
+          classPattern: 'SomeClass',
+        );
+
+        final result = await analyzer.runCliAnalysis(
+          folders,
+          rootDirectory,
+          config,
+        );
+
+        expect(result, isEmpty);
       });
 
       test('should return a reporter', () {
