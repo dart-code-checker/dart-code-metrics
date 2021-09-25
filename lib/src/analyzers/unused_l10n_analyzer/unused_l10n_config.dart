@@ -4,39 +4,38 @@ import '../../config_builder/models/analysis_options.dart';
 
 /// Represents raw unused files config which can be merged with other raw configs.
 @immutable
-class UnusedLocalizationConfig {
+class UnusedL10nConfig {
   final Iterable<String> excludePatterns;
   final Iterable<String> analyzerExcludePatterns;
   final String? classPattern;
 
-  const UnusedLocalizationConfig({
+  const UnusedL10nConfig({
     required this.excludePatterns,
     required this.analyzerExcludePatterns,
     required this.classPattern,
   });
 
-  factory UnusedLocalizationConfig.fromAnalysisOptions(
+  factory UnusedL10nConfig.fromAnalysisOptions(
     AnalysisOptions options,
   ) =>
-      UnusedLocalizationConfig(
+      UnusedL10nConfig(
         excludePatterns: const [],
         analyzerExcludePatterns:
             options.readIterableOfString(['analyzer', 'exclude']),
         classPattern: null,
       );
 
-  factory UnusedLocalizationConfig.fromArgs(
+  factory UnusedL10nConfig.fromArgs(
     Iterable<String> excludePatterns,
     String classPattern,
   ) =>
-      UnusedLocalizationConfig(
+      UnusedL10nConfig(
         excludePatterns: excludePatterns,
         analyzerExcludePatterns: const [],
         classPattern: classPattern,
       );
 
-  UnusedLocalizationConfig merge(UnusedLocalizationConfig overrides) =>
-      UnusedLocalizationConfig(
+  UnusedL10nConfig merge(UnusedL10nConfig overrides) => UnusedL10nConfig(
         excludePatterns: {...excludePatterns, ...overrides.excludePatterns},
         analyzerExcludePatterns: {
           ...analyzerExcludePatterns,

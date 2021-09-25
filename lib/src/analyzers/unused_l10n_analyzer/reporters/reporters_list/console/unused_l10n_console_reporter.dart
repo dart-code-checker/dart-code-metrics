@@ -3,14 +3,13 @@ import 'dart:io';
 import 'package:ansicolor/ansicolor.dart';
 
 import '../../../../../reporters/models/console_reporter.dart';
-import '../../../models/unused_localization_file_report.dart';
+import '../../../models/unused_l10n_file_report.dart';
 
-class UnusedLocalizationConsoleReporter
-    extends ConsoleReporter<UnusedLocalizationFileReport> {
-  UnusedLocalizationConsoleReporter(IOSink output) : super(output);
+class UnusedL10nConsoleReporter extends ConsoleReporter<UnusedL10nFileReport> {
+  UnusedL10nConsoleReporter(IOSink output) : super(output);
 
   @override
-  Future<void> report(Iterable<UnusedLocalizationFileReport> records) async {
+  Future<void> report(Iterable<UnusedL10nFileReport> records) async {
     if (records.isEmpty) {
       output.writeln('✔ no unused localization found!');
 
@@ -26,13 +25,13 @@ class UnusedLocalizationConsoleReporter
       output.writeln(
           'class ${analysisRecord.className}: ${analysisRecord.relativePath}');
 
-      for (final sourceSpan in analysisRecord.unusedMembersLocation) {
+      for (final issues in analysisRecord.issues) {
         output.writeln(
-            '⚠ unused ${sourceSpan.text}: ${analysisRecord.relativePath}:${sourceSpan.start.line}:${sourceSpan.start.column}'
+            '⚠ unused ${issues.memberName}: ${analysisRecord.relativePath}:${issues.location.line}:${issues.location.column}'
                 .padRight(8));
       }
 
-      warnings += analysisRecord.unusedMembersLocation.length;
+      warnings += analysisRecord.issues.length;
 
       output.writeln('');
     }

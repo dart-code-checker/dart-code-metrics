@@ -2,14 +2,14 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/dart/element/element.dart';
 
-class UnusedLocalizationVisitor extends RecursiveAstVisitor<void> {
-  final RegExp classPattern;
+class UnusedL10nVisitor extends RecursiveAstVisitor<void> {
+  final RegExp _classPattern;
 
   final _invocations = <ClassElement, Set<String>>{};
 
   Map<ClassElement, Set<String>> get invocations => _invocations;
 
-  UnusedLocalizationVisitor(this.classPattern);
+  UnusedL10nVisitor(this._classPattern);
 
   @override
   void visitMethodInvocation(MethodInvocation node) {
@@ -37,7 +37,7 @@ class UnusedLocalizationVisitor extends RecursiveAstVisitor<void> {
 
     final prefix = node.prefix;
 
-    if (classPattern.hasMatch(prefix.name)) {
+    if (_classPattern.hasMatch(prefix.name)) {
       final staticElement = prefix.staticElement;
       final name = node.identifier.name;
 

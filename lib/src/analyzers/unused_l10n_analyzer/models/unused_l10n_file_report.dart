@@ -1,8 +1,7 @@
-import 'package:source_span/source_span.dart';
-
 import '../../../reporters/models/file_report.dart';
+import 'unused_l10n_issue.dart';
 
-class UnusedLocalizationFileReport implements FileReport {
+class UnusedL10nFileReport implements FileReport {
   /// The path to the target file.
   @override
   final String path;
@@ -11,14 +10,16 @@ class UnusedLocalizationFileReport implements FileReport {
   @override
   final String relativePath;
 
-  final Iterable<SourceSpan> unusedMembersLocation;
+  /// The issues detected in the target file.
+  final Iterable<UnusedL10nIssue> issues;
 
+  /// The name of a class with issues.
   final String className;
 
-  const UnusedLocalizationFileReport({
+  const UnusedL10nFileReport({
     required this.path,
     required this.relativePath,
-    required this.unusedMembersLocation,
+    required this.issues,
     required this.className,
   });
 }

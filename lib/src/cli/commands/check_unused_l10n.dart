@@ -1,12 +1,12 @@
 import 'dart:io';
 
-import '../../analyzers/unused_localization_analyzer/unused_localization_analyzer.dart';
+import '../../analyzers/unused_l10n_analyzer/unused_l10n_analyzer.dart';
 import '../../config_builder/config_builder.dart';
 import '../models/flag_names.dart';
 import 'base_command.dart';
 
 class CheckUnusedL10nCommand extends BaseCommand {
-  static const _analyzer = UnusedLocalizationAnalyzer();
+  static const _analyzer = UnusedL10nAnalyzer();
 
   @override
   String get name => 'check-unused-l10n';
@@ -37,12 +37,12 @@ class CheckUnusedL10nCommand extends BaseCommand {
 
     final folders = argResults.rest;
 
-    final config = ConfigBuilder.getUnusedLocalizationConfigFromArgs(
+    final config = ConfigBuilder.getUnusedL10nConfigFromArgs(
       [excludePath],
       classPattern,
     );
 
-    final unusedLocalizationResult = await _analyzer.runCliAnalysis(
+    final unusedL10nResult = await _analyzer.runCliAnalysis(
       folders,
       rootFolder,
       config,
@@ -53,7 +53,7 @@ class CheckUnusedL10nCommand extends BaseCommand {
           name: reporterName,
           output: stdout,
         )
-        ?.report(unusedLocalizationResult);
+        ?.report(unusedL10nResult);
   }
 
   void _addFlags() {

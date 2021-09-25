@@ -1,18 +1,17 @@
 @TestOn('vm')
 import 'dart:io';
 
-import 'package:dart_code_metrics/src/analyzers/unused_files_analyzer/reporters/reporters_list/console/unused_files_console_reporter.dart';
-import 'package:dart_code_metrics/src/analyzers/unused_localization_analyzer/reporters/reporters_list/console/unused_localization_console_reporter.dart';
-import 'package:dart_code_metrics/src/analyzers/unused_localization_analyzer/unused_localization_analyzer.dart';
-import 'package:dart_code_metrics/src/analyzers/unused_localization_analyzer/unused_localization_config.dart';
+import 'package:dart_code_metrics/src/analyzers/unused_l10n_analyzer/reporters/reporters_list/console/unused_l10n_console_reporter.dart';
+import 'package:dart_code_metrics/src/analyzers/unused_l10n_analyzer/unused_l10n_analyzer.dart';
+import 'package:dart_code_metrics/src/analyzers/unused_l10n_analyzer/unused_l10n_config.dart';
 import 'package:path/path.dart';
 import 'package:test/test.dart';
 
 void main() {
   group(
-    'UnusedLocalizationAnalyzer',
+    'UnusedL10nAnalyzer',
     () {
-      const analyzer = UnusedLocalizationAnalyzer();
+      const analyzer = UnusedL10nAnalyzer();
       const rootDirectory = '';
       const analyzerExcludes = <String>[
         'test/resources/**',
@@ -21,7 +20,7 @@ void main() {
       ];
       final folders = [
         normalize(
-          File('test/resources/unused_localization_analyzer').absolute.path,
+          File('test/resources/unused_l10n_analyzer').absolute.path,
         ),
       ];
 
@@ -37,24 +36,24 @@ void main() {
         final report = result.single;
 
         expect(report.className, 'TestI18n');
-        expect(report.unusedMembersLocation, hasLength(1));
+        expect(report.issues, hasLength(1));
       });
 
       test('should return a reporter', () {
         final reporter = analyzer.getReporter(name: 'console', output: stdout);
 
-        expect(reporter, isA<UnusedLocalizationConsoleReporter>());
+        expect(reporter, isA<UnusedL10nConsoleReporter>());
       });
     },
     testOn: 'posix',
   );
 }
 
-UnusedLocalizationConfig _createConfig({
+UnusedL10nConfig _createConfig({
   Iterable<String> analyzerExcludePatterns = const [],
   String classPattern = r'I18n$',
 }) =>
-    UnusedLocalizationConfig(
+    UnusedL10nConfig(
       excludePatterns: const [],
       analyzerExcludePatterns: analyzerExcludePatterns,
       classPattern: classPattern,

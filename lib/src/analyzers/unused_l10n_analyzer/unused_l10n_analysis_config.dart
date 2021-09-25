@@ -1,12 +1,13 @@
 import 'package:glob/glob.dart';
 
-/// Represents converted unused files config which contains parsed entities.
-class UnusedLocalizationAnalysisConfig {
+/// Represents converted unused localization config,
+/// which contains parsed entities.
+class UnusedL10nAnalysisConfig {
   final Iterable<Glob> globalExcludes;
   final Iterable<Glob> analyzerExcludedPatterns;
   final RegExp classPattern;
 
-  UnusedLocalizationAnalysisConfig(
+  UnusedL10nAnalysisConfig(
     this.globalExcludes,
     this.analyzerExcludedPatterns,
     String? classPattern,

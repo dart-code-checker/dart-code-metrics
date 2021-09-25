@@ -7,8 +7,8 @@ import '../analyzers/lint_analyzer/models/entity_type.dart';
 import '../analyzers/lint_analyzer/rules/rules_factory.dart';
 import '../analyzers/unused_files_analyzer/unused_files_analysis_config.dart';
 import '../analyzers/unused_files_analyzer/unused_files_config.dart';
-import '../analyzers/unused_localization_analyzer/unused_localization_analysis_config.dart';
-import '../analyzers/unused_localization_analyzer/unused_localization_config.dart';
+import '../analyzers/unused_l10n_analyzer/unused_l10n_analysis_config.dart';
+import '../analyzers/unused_l10n_analyzer/unused_l10n_config.dart';
 import '../cli/models/parsed_arguments.dart';
 import '../utils/exclude_utils.dart';
 import 'models/analysis_options.dart';
@@ -65,22 +65,22 @@ class ConfigBuilder {
         prepareExcludes(config.analyzerExcludePatterns, rootPath),
       );
 
-  static UnusedLocalizationConfig getUnusedLocalizationConfigFromArgs(
+  static UnusedL10nConfig getUnusedL10nConfigFromArgs(
     Iterable<String> excludePatterns,
     String classPattern,
   ) =>
-      UnusedLocalizationConfig.fromArgs(excludePatterns, classPattern);
+      UnusedL10nConfig.fromArgs(excludePatterns, classPattern);
 
-  static UnusedLocalizationConfig getUnusedLocalizationConfigFromOption(
+  static UnusedL10nConfig getUnusedL10nConfigFromOption(
     AnalysisOptions options,
   ) =>
-      UnusedLocalizationConfig.fromAnalysisOptions(options);
+      UnusedL10nConfig.fromAnalysisOptions(options);
 
-  static UnusedLocalizationAnalysisConfig getUnusedLocalizationConfig(
-    UnusedLocalizationConfig config,
+  static UnusedL10nAnalysisConfig getUnusedL10nConfig(
+    UnusedL10nConfig config,
     String rootPath,
   ) =>
-      UnusedLocalizationAnalysisConfig(
+      UnusedL10nAnalysisConfig(
         prepareExcludes(config.excludePatterns, rootPath),
         prepareExcludes(config.analyzerExcludePatterns, rootPath),
         config.classPattern,

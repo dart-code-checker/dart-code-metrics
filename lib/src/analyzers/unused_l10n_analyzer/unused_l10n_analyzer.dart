@@ -13,13 +13,14 @@ import '../../config_builder/models/analysis_options.dart';
 import '../../reporters/models/reporter.dart';
 import '../../utils/analyzer_utils.dart';
 import '../../utils/file_utils.dart';
-import 'models/unused_localization_file_report.dart';
+import 'models/unused_l10n_file_report.dart';
+import 'models/unused_l10n_issue.dart';
 import 'reporters/reporter_factory.dart';
-import 'unused_localization_config.dart';
-import 'unused_localization_visitor.dart';
+import 'unused_l10n_config.dart';
+import 'unused_l10n_visitor.dart';
 
-class UnusedLocalizationAnalyzer {
-  const UnusedLocalizationAnalyzer();
+class UnusedL10nAnalyzer {
+  const UnusedL10nAnalyzer();
 
   Reporter? getReporter({
     required String name,
@@ -30,10 +31,10 @@ class UnusedLocalizationAnalyzer {
         output: output,
       );
 
-  Future<Iterable<UnusedLocalizationFileReport>> runCliAnalysis(
+  Future<Iterable<UnusedL10nFileReport>> runCliAnalysis(
     Iterable<String> folders,
     String rootFolder,
-    UnusedLocalizationConfig config,
+    UnusedL10nConfig config,
   ) async {
     final collection = createAnalysisContextCollection(folders, rootFolder);
 
@@ -44,10 +45,10 @@ class UnusedLocalizationAnalyzer {
           await analysisOptionsFromFilePath(rootFolder);
 
       final contextConfig =
-          ConfigBuilder.getUnusedLocalizationConfigFromOption(analysisOptions)
+          ConfigBuilder.getUnusedL10nConfigFromOption(analysisOptions)
               .merge(config);
       final unusedLocalizationAnalysisConfig =
-          ConfigBuilder.getUnusedLocalizationConfig(contextConfig, rootFolder);
+          ConfigBuilder.getUnusedL10nConfig(contextConfig, rootFolder);
 
       final contextFolders = folders
           .where((path) => normalize(join(rootFolder, path))
@@ -103,7 +104,7 @@ class UnusedLocalizationAnalyzer {
     RegExp classPattern,
   ) {
     if (unit is ResolvedUnitResult) {
-      final visitor = UnusedLocalizationVisitor(classPattern);
+      final visitor = UnusedL10nVisitor(classPattern);
       unit.unit.visitChildren(visitor);
 
       return visitor.invocations;
@@ -112,11 +113,11 @@ class UnusedLocalizationAnalyzer {
     return {};
   }
 
-  Iterable<UnusedLocalizationFileReport> _checkUnusedL10n(
+  Iterable<UnusedL10nFileReport> _checkUnusedL10n(
     Map<ClassElement, Set<String>> localizationUsages,
     String rootFolder,
   ) {
-    final unusedLocalizationIssues = <UnusedLocalizationFileReport>[];
+    final unusedLocalizationIssues = <UnusedL10nFileReport>[];
 
     localizationUsages.forEach((classElement, usages) {
       final unit =
@@ -133,11 +134,11 @@ class UnusedLocalizationAnalyzer {
           final relativePath = relative(filePath, from: rootFolder);
 
           unusedLocalizationIssues.add(
-            UnusedLocalizationFileReport(
+            UnusedL10nFileReport(
               path: filePath,
               relativePath: relativePath,
               className: classElement.name,
-              unusedMembersLocation: [
+              issues: [
                 ...accessorSourceSpans,
                 ...methodSourceSpans,
               ],
@@ -150,7 +151,7 @@ class UnusedLocalizationAnalyzer {
     return unusedLocalizationIssues;
   }
 
-  Iterable<SourceSpan> _getUnusedAccessors(
+  Iterable<UnusedL10nIssue> _getUnusedAccessors(
     ClassElement classElement,
     Set<String> usages,
     CompilationUnitElementImpl unit,
@@ -160,11 +161,11 @@ class UnusedLocalizationAnalyzer {
         .toList();
 
     return unusedAccessors
-        .map((accessor) => _createSourceSpan(accessor as ElementImpl, unit))
+        .map((accessor) => _createL10nIssues(accessor as ElementImpl, unit))
         .toList();
   }
 
-  Iterable<SourceSpan> _getUnusedMethods(
+  Iterable<UnusedL10nIssue> _getUnusedMethods(
     ClassElement classElement,
     Set<String> usages,
     CompilationUnitElementImpl unit,
@@ -176,37 +177,29 @@ class UnusedLocalizationAnalyzer {
         .toList();
 
     return unusedMethods
-        .map((method) => _createSourceSpan(method as ElementImpl, unit))
+        .map((method) => _createL10nIssues(method as ElementImpl, unit))
         .toList();
   }
 
-  SourceSpan _createSourceSpan(
+  UnusedL10nIssue _createL10nIssues(
     ElementImpl element,
     CompilationUnitElementImpl unit,
   ) {
     final offset = element.codeOffset!;
-    final end = offset + element.codeLength!;
 
     final lineInfo = unit.lineInfo!;
     final offsetLocation = lineInfo.getLocation(offset);
-    final endLocation = lineInfo.getLocation(end);
 
     final sourceUrl = element.source!.uri;
 
-    return SourceSpan(
-      SourceLocation(
+    return UnusedL10nIssue(
+      memberName: element.displayName,
+      location: SourceLocation(
         offset,
         sourceUrl: sourceUrl,
         line: offsetLocation.lineNumber,
         column: offsetLocation.columnNumber,
       ),
-      SourceLocation(
-        end,
-        sourceUrl: sourceUrl,
-        line: endLocation.lineNumber,
-        column: endLocation.columnNumber,
-      ),
-      unit.sourceContent!.substring(offset, end),
     );
   }
 }

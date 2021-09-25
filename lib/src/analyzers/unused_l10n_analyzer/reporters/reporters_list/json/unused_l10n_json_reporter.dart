@@ -4,15 +4,14 @@ import 'dart:io';
 import 'package:meta/meta.dart';
 
 import '../../../../../reporters/models/json_reporter.dart';
-import '../../../models/unused_localization_file_report.dart';
+import '../../../models/unused_l10n_file_report.dart';
 
 @immutable
-class UnusedLocalizationJsonReporter
-    extends JsonReporter<UnusedLocalizationFileReport> {
-  const UnusedLocalizationJsonReporter(IOSink output) : super(output, 2);
+class UnusedL10nJsonReporter extends JsonReporter<UnusedL10nFileReport> {
+  const UnusedL10nJsonReporter(IOSink output) : super(output, 2);
 
   @override
-  Future<void> report(Iterable<UnusedLocalizationFileReport> records) async {
+  Future<void> report(Iterable<UnusedL10nFileReport> records) async {
     if (records.isEmpty) {
       return;
     }
