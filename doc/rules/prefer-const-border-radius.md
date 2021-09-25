@@ -6,8 +6,8 @@ prefer-const-border-radius
 
 ## Description
 
-BorderRadius.circular constructor calls const BorderRadius.all constructor under the hood.
-This rule allows to replace BorderRadius.circular(radius) with const BorderRadius.all(Radius.circular(radius)) if radius is a constant value.
+BorderRadius.circular constructor calls const BorderRadius.all constructor under the hood. This rule allows to replace
+BorderRadius.circular(radius) with const BorderRadius.all(Radius.circular(radius)) if radius is a constant value.
 
 ### Example
 
@@ -15,7 +15,7 @@ Bad:
 
 ```dart
 
-final _defaultFinalRadius = BorderRadius.circular(8); // Bad
+final _defaultFinalRadius = BorderRadius.circular(8); // LINT
 
 class RoundedWidget extends StatelessWidget {
   final BorderRadius borderRadius;
@@ -41,7 +41,7 @@ Good:
 
 ```dart
 
-const _defaultRadius = BorderRadius.all(Radius.circular(8)); // Good
+const _defaultRadius = BorderRadius.all(Radius.circular(8));
 
 class RoundedWidget extends StatelessWidget {
   final BorderRadius borderRadius;

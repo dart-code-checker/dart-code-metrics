@@ -34,49 +34,38 @@ class PreferConstBorderRadiusRule extends FlutterRule {
     final visitor = _Visitor();
     source.unit.visitChildren(visitor);
 
-    final _issue = _addIssues(source, visitor.constructorNodes);
+    final _issue = _addIssues(source, visitor.borderRadiusNodes);
 
     return _issue;
   }
 
   List<Issue> _addIssues(
     InternalResolvedUnitResult source,
-    Iterable<TypeName> classNode,
+    Iterable<AstNode> classNode,
   ) {
     final issue = <Issue>[];
 
     for (final element in classNode) {
-      final borderRadius = _getBorderRadiusElementDeclaration(element);
-      if (borderRadius != null) {
-        final value = _getValueFromAstNode(borderRadius);
+      final value = _getValueFromAstNode(element);
 
-        issue.add(createIssue(
-          rule: this,
-          location: nodeLocation(
-            node: borderRadius,
-            source: source,
-            withCommentOrMetadata: true,
-          ),
-          message: _preferConstBorderRadius,
-          replacement: value != null
-              ? Replacement(
-                  comment: 'Replace with const constructor',
-                  replacement: 'BorderRadius.all(Radius.circular($value))',
-                )
-              : null,
-        ));
-      }
+      issue.add(createIssue(
+        rule: this,
+        location: nodeLocation(
+          node: element,
+          source: source,
+          withCommentOrMetadata: true,
+        ),
+        message: _preferConstBorderRadius,
+        replacement: value != null
+            ? Replacement(
+                comment: 'Replace with const constructor',
+                replacement: 'BorderRadius.all(Radius.circular($value))',
+              )
+            : null,
+      ));
     }
 
     return issue;
-  }
-
-  AstNode? _getBorderRadiusElementDeclaration(TypeName element) {
-    final isBorderRadius =
-        element.parent?.beginToken.lexeme == 'BorderRadius' &&
-            element.parent?.endToken.lexeme == 'circular';
-
-    return isBorderRadius ? element.parent!.parent : null;
   }
 
   String? _getValueFromAstNode(AstNode borderRadius) {

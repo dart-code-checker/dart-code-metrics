@@ -1,14 +1,25 @@
 part of 'prefer_const_border_radius.dart';
 
 class _Visitor extends RecursiveAstVisitor<dynamic> {
-  final _constructors = <TypeName>[];
+  final _borderRadiusNodes = <AstNode>[];
 
-  Iterable<TypeName> get constructorNodes => _constructors;
+  Iterable<AstNode> get borderRadiusNodes => _borderRadiusNodes;
 
   @override
   void visitTypeName(TypeName node) {
     super.visitTypeName(node);
 
-    _constructors.add(node);
+    final borderRadiusNode = _getBorderRadiusElementDeclaration(node);
+    if (borderRadiusNode != null) {
+      _borderRadiusNodes.add(borderRadiusNode);
+    }
+  }
+
+  AstNode? _getBorderRadiusElementDeclaration(TypeName element) {
+    final isBorderRadius =
+        element.parent?.beginToken.lexeme == 'BorderRadius' &&
+            element.parent?.endToken.lexeme == 'circular';
+
+    return isBorderRadius ? element.parent!.parent : null;
   }
 }
