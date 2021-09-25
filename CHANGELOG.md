@@ -1,5 +1,18 @@
 # Changelog
 
+## Unreleased
+
+* Improve static code diagnostic `prefer-extracting-callbacks`, don't trigger on empty function blocks.
+* Improve unused files check, add support for `vm:entry-point` annotation.
+
+## 4.3.3
+
+* Fix unhandled exception while parsing `analysis_options.yaml`
+
+## 4.3.2
+
+* Restrict analyzer version to '>=2.1.0 <2.4.0'
+
 ## 4.3.1
 
 * Update .pubignore

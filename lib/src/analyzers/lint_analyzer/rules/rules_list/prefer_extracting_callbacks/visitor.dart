@@ -40,10 +40,19 @@ class _InstanceCreationVisitor extends RecursiveAstVisitor<void> {
 
       if (_isNotIgnored(argument) &&
           expression is FunctionExpression &&
-          expression.body is BlockFunctionBody) {
+          _hasNotEmptyBlockBody(expression)) {
         _expressions.add(argument);
       }
     }
+  }
+
+  bool _hasNotEmptyBlockBody(FunctionExpression expression) {
+    final body = expression.body;
+    if (body is! BlockFunctionBody) {
+      return false;
+    }
+
+    return body.block.statements.isNotEmpty;
   }
 
   bool _isNotIgnored(Expression argument) =>

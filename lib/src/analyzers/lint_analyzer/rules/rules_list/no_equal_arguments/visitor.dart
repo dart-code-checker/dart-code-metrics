@@ -30,7 +30,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
     _visitArguments(node.argumentList.arguments);
   }
 
-  void _visitArguments(NodeList<Expression> arguments) {
+  void _visitArguments(Iterable<Expression> arguments) {
     final notIgnoredArguments = arguments.where(_isNotIgnored).toList();
 
     for (final argument in notIgnoredArguments) {
