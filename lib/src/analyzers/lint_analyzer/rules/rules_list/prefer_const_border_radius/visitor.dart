@@ -1,6 +1,6 @@
 part of 'prefer_const_border_radius.dart';
 
-class _Visitor extends RecursiveAstVisitor<dynamic> {
+class _Visitor extends RecursiveAstVisitor<void> {
   final _declarations = <AstNode>[];
 
   Iterable<AstNode> get declarations => _declarations;
