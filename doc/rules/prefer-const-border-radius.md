@@ -14,7 +14,6 @@ BorderRadius.circular(radius) with const BorderRadius.all(Radius.circular(radius
 Bad:
 
 ```dart
-
 final _defaultFinalRadius = BorderRadius.circular(8); // LINT
 
 class RoundedWidget extends StatelessWidget {
@@ -40,7 +39,6 @@ class RoundedWidget extends StatelessWidget {
 Good:
 
 ```dart
-
 const _defaultRadius = BorderRadius.all(Radius.circular(8));
 
 class RoundedWidget extends StatelessWidget {
