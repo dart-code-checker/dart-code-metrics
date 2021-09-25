@@ -15,15 +15,15 @@ part 'visitor.dart';
 
 class PreferConstBorderRadiusRule extends FlutterRule {
   static const ruleId = 'prefer-const-border-radius';
-  static const _issueMessage = 'Prefer use const constructor BorderRadius.all';
-  static const _replaceComment = 'Replace with const BorderRadius constructor';
+  static const _issueMessage = 'Prefer use const constructor BorderRadius.all.';
+  static const _replaceComment = 'Replace with const BorderRadius constructor.';
 
   PreferConstBorderRadiusRule([Map<String, Object> config = const {}])
       : super(
           id: ruleId,
           documentation: const RuleDocumentation(
             name: 'Prefer const border radius',
-            brief: 'Warns when used non const border radius',
+            brief: 'Warns when used non const border radius.',
           ),
           severity: readSeverity(config, Severity.performance),
           excludes: readExcludes(config),
