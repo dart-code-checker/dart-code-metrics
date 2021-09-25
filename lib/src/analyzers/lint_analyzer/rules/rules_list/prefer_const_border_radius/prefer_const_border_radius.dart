@@ -14,7 +14,7 @@ import '../../rule_utils.dart';
 part 'visitor.dart';
 
 class PreferConstBorderRadiusRule extends FlutterRule {
-  static const ruleId = 'prefer_const_border_radius';
+  static const ruleId = 'prefer-const-border-radius';
   static const _issueMessage = 'Prefer use const constructor BorderRadius.all';
   static const _replaceComment = 'Replace with const BorderRadius constructor';
 
