@@ -3,7 +3,6 @@
 ## Unreleased
 
 * Introduce `check-unused-l10n` command.
-* Don't trigger prefer-extracting-callbacks on empty function blocks.
 * Improve static code diagnostic `prefer-extracting-callbacks`, don't trigger on empty function blocks.
 * Improve unused files check, add support for `vm:entry-point` annotation.
 
