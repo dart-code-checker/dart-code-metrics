@@ -13,23 +13,34 @@ void main() {
 
     RuleTestHelper.verifyIssues(
       issues: issues,
-      startOffsets: [108, 421],
-      startLines: [3, 18],
-      startColumns: [29, 43],
-      endOffsets: [132, 446],
+      startOffsets: [64, 170, 261, 401],
+      startLines: [2, 5, 8, 12],
+      startColumns: [22, 31, 31, 31],
+      endOffsets: [88, 195, 287, 426],
       messages: [
-        'Prefer use const constructor BorderRadius.all',
-        'Prefer use const constructor BorderRadius.all',
+        'Prefer use const constructor BorderRadius.all.',
+        'Prefer use const constructor BorderRadius.all.',
+        'Prefer use const constructor BorderRadius.all.',
+        'Prefer use const constructor BorderRadius.all.',
       ],
       replacementComments: [
-        'Replace with const BorderRadius constructor',
-        'Replace with const BorderRadius constructor',
+        'Replace with const BorderRadius constructor.',
+        'Replace with const BorderRadius constructor.',
+        'Replace with const BorderRadius constructor.',
+        'Replace with const BorderRadius constructor.',
       ],
       replacements: [
         'BorderRadius.all(Radius.circular(8))',
         'BorderRadius.all(Radius.circular(32))',
+        'BorderRadius.all(Radius.circular(230))',
+        'BorderRadius.all(Radius.circular(32))',
       ],
-      locationTexts: ['BorderRadius.circular(8)', 'BorderRadius.circular(32)'],
+      locationTexts: [
+        'BorderRadius.circular(8)',
+        'BorderRadius.circular(32)',
+        'BorderRadius.circular(230)',
+        'BorderRadius.circular(32)',
+      ],
     );
   });
 }

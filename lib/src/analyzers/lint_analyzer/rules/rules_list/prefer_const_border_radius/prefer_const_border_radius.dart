@@ -34,7 +34,7 @@ class PreferConstBorderRadiusRule extends FlutterRule {
     final visitor = _Visitor();
     source.unit.visitChildren(visitor);
 
-    return visitor.declarations
+    return visitor.nodes
         .map((declaration) => createIssue(
               rule: this,
               location: nodeLocation(

@@ -1,9 +1,9 @@
 part of 'prefer_const_border_radius.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
-  final _declarations = <AstNode>[];
+  final _nodes = <AstNode>[];
 
-  Iterable<AstNode> get declarations => _declarations;
+  Iterable<AstNode> get nodes => _nodes;
 
   @override
   void visitTypeName(TypeName node) {
@@ -11,7 +11,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
     final borderRadiusNode = _getBorderRadiusElementDeclaration(node);
     if (borderRadiusNode != null) {
-      _declarations.add(borderRadiusNode);
+      _nodes.add(borderRadiusNode);
     }
   }
 
