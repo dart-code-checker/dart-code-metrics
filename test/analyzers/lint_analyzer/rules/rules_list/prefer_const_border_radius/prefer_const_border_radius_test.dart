@@ -4,19 +4,19 @@ import 'package:test/test.dart';
 import '../../../../../helpers/rule_test_helper.dart';
 
 const _examplePath = 'prefer_const_border_radius/example';
-const _withSingleClass = '$_examplePath/example.dart';
+const _exampleClass = '$_examplePath/example.dart';
 
 void main() {
   test('reports border const', () async {
-    final unit = await RuleTestHelper.resolveFromFile(_withSingleClass);
+    final unit = await RuleTestHelper.resolveFromFile(_exampleClass);
     final issues = PreferConstBorderRadiusRule().check(unit);
 
     RuleTestHelper.verifyIssues(
       issues: issues,
-      startOffsets: [116, 428],
+      startOffsets: [108, 421],
       startLines: [3, 18],
       startColumns: [29, 43],
-      endOffsets: [140, 453],
+      endOffsets: [132, 446],
       messages: [
         'Prefer use const constructor BorderRadius.all',
         'Prefer use const constructor BorderRadius.all',
