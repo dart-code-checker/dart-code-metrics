@@ -1,7 +1,7 @@
 @TestOn('vm')
 import 'dart:io';
 
-import 'package:dart_code_metrics/src/analyzers/unused_files_analyzer/reporters/reporter_factory.dart';
+import 'package:dart_code_metrics/src/analyzers/unused_l10n_analyzer/reporters/reporter_factory.dart';
 import 'package:dart_code_metrics/src/analyzers/unused_l10n_analyzer/reporters/reporters_list/console/unused_l10n_console_reporter.dart';
 import 'package:dart_code_metrics/src/analyzers/unused_l10n_analyzer/reporters/reporters_list/json/unused_l10n_json_reporter.dart';
 import 'package:test/test.dart';

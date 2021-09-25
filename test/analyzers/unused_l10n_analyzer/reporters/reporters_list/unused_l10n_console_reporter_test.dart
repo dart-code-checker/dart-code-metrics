@@ -30,7 +30,11 @@ void main() {
     test('empty report', () async {
       await _reporter.report([]);
 
-      verifyNever(() => output.writeln(any()));
+      final captured = verify(
+        () => output.writeln(captureAny()),
+      ).captured.cast<String>();
+
+      expect(captured, ['✔ no unused localization found!']);
     });
 
     test('complex report', () async {
