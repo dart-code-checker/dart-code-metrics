@@ -21,6 +21,14 @@ void main() {
         'Prefer use const constructor BorderRadius.all',
         'Prefer use const constructor BorderRadius.all',
       ],
+      replacementComments: [
+        'Replace with const BorderRadius constructor',
+        'Replace with const BorderRadius constructor',
+      ],
+      replacements: [
+        'BorderRadius.all(Radius.circular(8))',
+        'BorderRadius.all(Radius.circular(32))',
+      ],
       locationTexts: ['BorderRadius.circular(8)', 'BorderRadius.circular(32)'],
     );
   });
