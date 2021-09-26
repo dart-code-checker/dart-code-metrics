@@ -2,14 +2,14 @@ const _constRadius = BorderRadius.all(16);
 final _finalRadius = BorderRadius.circular(8); // LINT
 
 class MyWidget extends StatelessWidget {
-  static final staticRadius = BorderRadius.circular(32);
+  static final staticRadius = BorderRadius.circular(32); // LINT
 
   Widget build(BuildContext _) {
-    final buildMethodRadius = BorderRadius.circular(230);
+    final buildMethodRadius = BorderRadius.circular(230); // LINT
 
     return Column(children: [
       const Container(borderRadius: _constRadius),
-      Container(borderRadius: BorderRadius.circular(32)),
+      Container(borderRadius: BorderRadius.circular(32)), // LINT
       Container(borderRadius: staticRadius),
       Container(borderRadius: buildMethodRadius),
       Container(borderRadius: _finalRadius),
