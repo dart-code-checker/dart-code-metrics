@@ -34,41 +34,34 @@ class PreferConstBorderRadiusRule extends FlutterRule {
     final visitor = _Visitor();
     source.unit.visitChildren(visitor);
 
-    return visitor.nodes
-        .map((declaration) => createIssue(
+    return visitor.expressions
+        .map((expression) => createIssue(
               rule: this,
               location: nodeLocation(
-                node: declaration,
+                node: expression,
                 source: source,
                 withCommentOrMetadata: true,
               ),
               message: _issueMessage,
-              replacement: _getValueFromAstNode(declaration) != null
-                  ? Replacement(
-                      comment: _replaceComment,
-                      replacement: _getReplacementValue(declaration),
-                    )
-                  : null,
+              replacement: _createReplacement(expression),
             ))
         .toList(growable: false);
   }
 
-  String _getReplacementValue(AstNode declaration) {
-    final value = _getValueFromAstNode(declaration);
+  Replacement? _createReplacement(InstanceCreationExpression expression) {
+    final value = _getConstructorArgumentValue(expression);
 
-    return 'BorderRadius.all(Radius.circular($value))';
+    return value != null
+        ? Replacement(
+            comment: _replaceComment,
+            replacement: 'BorderRadius.all(Radius.circular($value))',
+          )
+        : null;
+  }
+
+  String? _getConstructorArgumentValue(InstanceCreationExpression expression) {
+    final arguments = expression.argumentList.arguments;
+
+    return arguments.isNotEmpty ? arguments.first.toString() : null;
   }
 }
-
-String? _getValueFromAstNode(AstNode borderRadius) {
-  final paramsList = borderRadius.childEntities;
-
-  return paramsList.isNotEmpty
-      ? _getValueFromString(paramsList.last.toString())
-      : null;
-}
-
-String? _getValueFromString(String value) =>
-    value.length >= 3 && value.startsWith('(') && value.endsWith(')')
-        ? value.substring(1, value.length - 1)
-        : null;
