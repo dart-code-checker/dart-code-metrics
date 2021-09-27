@@ -22,3 +22,36 @@ class MyWidget extends StatelessWidget {
     ]);
   }
 }
+      Container(borderRadius: _finalRadius),
+    ]);
+  }
+}
+
+class BorderRadius {
+  final double borderRadius;
+
+  const BorderRadius.all(this.borderRadius);
+
+  BorderRadius.circular(this.borderRadius);
+}
+
+class Container extends Widget {
+  final Widget? child;
+  final BorderRadius? borderRadius;
+
+  const Container({this.child, this.borderRadius});
+}
+
+class Column extends Widget {
+  final List<Widget> children;
+
+  Column({required this.children});
+}
+
+class StatelessWidget extends Widget {}
+
+class Widget {
+  const Widget();
+}
+
+class BuildContext {}
