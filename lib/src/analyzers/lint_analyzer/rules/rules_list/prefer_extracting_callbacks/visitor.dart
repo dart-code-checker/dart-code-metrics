@@ -57,7 +57,7 @@ class _InstanceCreationVisitor extends RecursiveAstVisitor<void> {
   }
 
   bool _isFlutterBuilder(FunctionExpression expression) {
-    if (!isWidget(expression.declaredElement?.returnType)) {
+    if (!isWidgetOrSubclass(expression.declaredElement?.returnType)) {
       return false;
     }
 

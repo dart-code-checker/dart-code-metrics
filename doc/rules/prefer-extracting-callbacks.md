@@ -13,7 +13,7 @@ Warns about inline callbacks in a widget tree and suggests to extract them to wi
 **NOTE** the rule will not trigger on: 
  - arrow functions like `onPressed: () => _handler(...)` in order to cover cases when a callback needs a variable from the outside;
  - empty blocks.
- - Flutter specific: arguments with functions having return type named `Widget` and with first parameter of type named `BuildContext`. "Builder" functions is a common pattern in Flutter, for example, [IndexedWidgetBuilder typedef](https://api.flutter.dev/flutter/widgets/IndexedWidgetBuilder.html) is used in [ListView.builder](https://api.flutter.dev/flutter/widgets/ListView/ListView.builder.html).
+ - Flutter specific: arguments with functions returning `Widget` type (or its subclass) and with first parameter of type `BuildContext`. "Builder" functions is a common pattern in Flutter, for example, [IndexedWidgetBuilder typedef](https://api.flutter.dev/flutter/widgets/IndexedWidgetBuilder.html) is used in [ListView.builder](https://api.flutter.dev/flutter/widgets/ListView/ListView.builder.html).
 
 Use `ignored-named-arguments` configuration, if you want to ignore specific named parameters.
 

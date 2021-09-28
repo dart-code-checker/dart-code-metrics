@@ -62,6 +62,9 @@ class MyAnotherWidget extends StatelessWidget {
       anotherBuilder: (context, index) {
         return null;
       },
+      myOtherWidgetBuilder: (context) {
+        return null;
+      },
     );
   }
 
@@ -102,12 +105,14 @@ class TextButton {
   final void Function()? onPressed;
   final Widget Function(BuildContext)? builder;
   final Widget Function(BuildContext, int)? anotherBuilder;
+  final MyOtherWidget Function(BuildContext, int)? myOtherWidgetBuilder;
 
   const TextButton({
     required this.child,
     required this.onPressed,
     this.builder,
     this.anotherBuilder,
+    this.myOtherWidgetBuilder,
   });
 }
 
