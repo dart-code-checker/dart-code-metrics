@@ -6,8 +6,9 @@ prefer-const-border-radius
 
 ## Description
 
-BorderRadius.circular constructor calls const BorderRadius.all constructor under the hood. This rule allows to replace
-BorderRadius.circular(radius) with const BorderRadius.all(Radius.circular(radius)) if radius is a constant value.
+[BorderRadius.circular constructor](https://github.com/flutter/flutter/blob/master/packages/flutter/lib/src/painting/border_radius.dart#L292-L295) calls `const BorderRadius.all` constructor under the hood.
+This rule allows to replace `BorderRadius.circular(radius)` with `const BorderRadius.all(Radius.circular(radius))` if `radius` is a constant value.
+With such replacement, you can pass default `BorderRadius` value into your widget constructor.
 
 ### Example
 
