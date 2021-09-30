@@ -4,7 +4,6 @@ const _constRadius = BorderRadius.all(Radius.circular(0.0));
 final _finalRadius = BorderRadius.circular(1.0); // LINT
 const _constValue = 10.0;
 final _finalValue = 15.0;
-var _varValues = 20.0;
 
 class MyWidget extends StatelessWidget {
   static final staticRadius = BorderRadius.circular(2.0); // LINT
