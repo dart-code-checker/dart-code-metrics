@@ -20,7 +20,9 @@ class MyWidget extends StatelessWidget {
       ClipRRect(borderRadius: buildMethodRadiusVar),
       ClipRRect(borderRadius: BorderRadius.circular(_finalValue)),
       ClipRRect(borderRadius: BorderRadius.circular(_constValue)), // LINT
-      ClipRRect(borderRadius: BorderRadius.circular(_constValue - _constValue)), // LINT
+      ClipRRect(
+          borderRadius:
+              BorderRadius.circular(_constValue - _constValue)), // LINT
       ClipRRect(borderRadius: BorderRadius.circular(_constValue - _finalValue)),
     ]);
   }
