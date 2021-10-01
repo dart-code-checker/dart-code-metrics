@@ -25,8 +25,6 @@ class _Visitor extends RecursiveAstVisitor<void> {
         if (element is PropertyAccessorElement && element.variable.isConst) {
           _expressions.add(expression);
         }
-      } else if (arg is BinaryExpression) {
-        // TODO(grafov): check result of binary expression
       }
     }
   }
