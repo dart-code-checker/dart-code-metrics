@@ -4,10 +4,8 @@
 
 import 'dart:async';
 import 'dart:collection';
-import 'dart:core';
 
 import 'package:analyzer/file_system/file_system.dart';
-import 'package:analyzer/src/dart/analysis/experiments.dart';
 import 'package:analyzer/src/generated/sdk.dart';
 import 'package:analyzer/src/generated/source.dart';
 import 'package:analyzer/src/generated/source_io.dart';
@@ -188,6 +186,9 @@ class BazelWorkspace extends Workspace
   @override
   final String root;
 
+  /// Either `blaze` or `bazel`.
+  final String symlinkPrefix;
+
   /// The absolute path to the optional read only workspace root, in the
   /// `READONLY` folder if a git-based workspace, or `null`.
   final String? readonly;
@@ -215,6 +216,7 @@ class BazelWorkspace extends Workspace
   BazelWorkspace._(
     this.provider,
     this.root,
+    this.symlinkPrefix,
     this.readonly,
     this.binPaths,
     this.genfiles, {
@@ -261,9 +263,14 @@ class BazelWorkspace extends Workspace
       if (relative == '.') {
         return null;
       }
-      // First check genfiles and bin directories
-      var generatedCandidates = <String>[genfiles, ...binPaths]
-          .map((prefix) => context.join(prefix, relative));
+      // First check genfiles and bin directories. Note that we always use the
+      // symlinks and not the [binPaths] or [genfiles] to make sure we use the
+      // files corresponding to the most recent build configuration and get
+      // consistent view of all the generated files.
+      var generatedCandidates = [
+        '$symlinkPrefix-genfiles',
+        '$symlinkPrefix-bin'
+      ].map((prefix) => context.join(root, context.join(prefix, relative)));
       for (var path in generatedCandidates) {
         File file = provider.getFile(path);
         if (file.exists) {
@@ -454,9 +461,9 @@ class BazelWorkspace extends Workspace
           var binPaths = _findBinFolderPaths(folder);
           String symlinkPrefix =
               _findSymlinkPrefix(provider, root, binPaths: binPaths);
-          binPaths ??= [context.join(root, '$symlinkPrefix-bin')];
-          return BazelWorkspace._(provider, root, readonlyRoot, binPaths,
-              context.join(root, '$symlinkPrefix-genfiles'),
+          binPaths = binPaths..add(context.join(root, '$symlinkPrefix-bin'));
+          return BazelWorkspace._(provider, root, symlinkPrefix, readonlyRoot,
+              binPaths, context.join(root, '$symlinkPrefix-genfiles'),
               lookForBuildFileSubstitutes: lookForBuildFileSubstitutes);
         }
       }
@@ -467,8 +474,13 @@ class BazelWorkspace extends Workspace
         var binPaths = _findBinFolderPaths(parent);
         String symlinkPrefix =
             _findSymlinkPrefix(provider, root, binPaths: binPaths);
-        binPaths ??= [context.join(root, '$symlinkPrefix-bin')];
-        return BazelWorkspace._(provider, root, null /* readonly */, binPaths,
+        binPaths = binPaths..add(context.join(root, '$symlinkPrefix-bin'));
+        return BazelWorkspace._(
+            provider,
+            root,
+            symlinkPrefix,
+            null /* readonly */,
+            binPaths,
             context.join(root, '$symlinkPrefix-genfiles'),
             lookForBuildFileSubstitutes: lookForBuildFileSubstitutes);
       }
@@ -479,8 +491,13 @@ class BazelWorkspace extends Workspace
         var binPaths = _findBinFolderPaths(folder);
         String symlinkPrefix =
             _findSymlinkPrefix(provider, root, binPaths: binPaths);
-        binPaths ??= [context.join(root, '$symlinkPrefix-bin')];
-        return BazelWorkspace._(provider, root, null /* readonly */, binPaths,
+        binPaths = binPaths..add(context.join(root, '$symlinkPrefix-bin'));
+        return BazelWorkspace._(
+            provider,
+            root,
+            symlinkPrefix,
+            null /* readonly */,
+            binPaths,
             context.join(root, '$symlinkPrefix-genfiles'),
             lookForBuildFileSubstitutes: lookForBuildFileSubstitutes);
       }
@@ -499,11 +516,12 @@ class BazelWorkspace extends Workspace
   /// the immediate folders found in `$root/blaze-out/` and `$root/bazel-out/`
   /// for folders named "bin".
   ///
-  /// If no "bin" folder is found in any of those locations, `null` is returned.
-  static List<String>? _findBinFolderPaths(Folder root) {
+  /// If no "bin" folder is found in any of those locations, empty list is
+  /// returned.
+  static List<String> _findBinFolderPaths(Folder root) {
     var out = _firstExistingFolder(root, ['blaze-out', 'bazel-out']);
     if (out == null) {
-      return null;
+      return [];
     }
 
     List<String> binPaths = [];
@@ -515,7 +533,7 @@ class BazelWorkspace extends Workspace
         binPaths.add(possibleBin.path);
       }
     }
-    return binPaths.isEmpty ? null : binPaths;
+    return binPaths;
   }
 
   /// Return the symlink prefix, _X_, for folders `X-bin` or `X-genfiles`.
@@ -656,7 +674,7 @@ class BazelWorkspacePackage extends WorkspacePackage {
           .join()
           .contains('dart_package(null_safety=True');
       if (hasNonNullableFlag) {
-        _enabledExperiments = [EnableString.non_nullable];
+        // Enabled by default.
       } else {
         _languageVersion = Version.parse('2.9.0');
       }

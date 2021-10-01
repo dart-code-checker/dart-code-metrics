@@ -264,11 +264,12 @@ class ToSourceVisitor implements AstVisitor<void> {
   @override
   void visitDefaultFormalParameter(DefaultFormalParameter node) {
     _visitNode(node.parameter);
-    if (node.separator != null) {
-      if (node.separator!.lexeme != ':') {
+    var separator = node.separator;
+    if (separator != null) {
+      if (separator.lexeme != ':') {
         sink.write(' ');
       }
-      sink.write(node.separator!.lexeme);
+      sink.write(separator.lexeme);
       _visitNode(node.defaultValue, prefix: ' ');
     }
   }
@@ -368,6 +369,8 @@ class ToSourceVisitor implements AstVisitor<void> {
     _visitToken(node.onKeyword);
     sink.write(' ');
     _visitNode(node.extendedType, suffix: ' ');
+    _visitNode(node.showClause, suffix: ' ');
+    _visitNode(node.hideClause, suffix: ' ');
     _visitToken(node.leftBracket);
     _visitNodeList(node.members, separator: ' ');
     _visitToken(node.rightBracket);
@@ -565,6 +568,12 @@ class ToSourceVisitor implements AstVisitor<void> {
   }
 
   @override
+  void visitHideClause(HideClause node) {
+    sink.write('hide ');
+    _visitNodeList(node.elements, separator: ', ');
+  }
+
+  @override
   void visitHideCombinator(HideCombinator node) {
     sink.write('hide ');
     _visitNodeList(node.hiddenNames, separator: ', ');
@@ -720,14 +729,8 @@ class ToSourceVisitor implements AstVisitor<void> {
 
   @override
   void visitMethodInvocation(MethodInvocation node) {
-    if (node.isCascaded) {
-      sink.write(node.operator!.lexeme);
-    } else {
-      if (node.target != null) {
-        node.target!.accept(this);
-        sink.write(node.operator!.lexeme);
-      }
-    }
+    _visitNode(node.target);
+    _visitToken(node.operator);
     _visitNode(node.methodName);
     _visitNode(node.typeArguments);
     _visitNode(node.argumentList);
@@ -870,9 +873,21 @@ class ToSourceVisitor implements AstVisitor<void> {
   }
 
   @override
+  void visitShowClause(ShowClause node) {
+    sink.write('show ');
+    _visitNodeList(node.elements, separator: ', ');
+  }
+
+  @override
   void visitShowCombinator(ShowCombinator node) {
     sink.write('show ');
     _visitNodeList(node.shownNames, separator: ', ');
+  }
+
+  @override
+  void visitShowHideElement(ShowHideElement node) {
+    _visitToken(node.modifier, suffix: ' ');
+    _visitNode(node.name);
   }
 
   @override

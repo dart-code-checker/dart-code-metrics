@@ -60,25 +60,52 @@ var x = A.foo<int>;
         findElement.constructor('foo'), 'dynamic');
   }
 
+  test_dynamicTyped() async {
+    await assertErrorsInCode('''
+dynamic i = 1;
+
+void bar() {
+  i<int>;
+}
+''', [
+      error(
+          CompileTimeErrorCode.DISALLOWED_TYPE_INSTANTIATION_EXPRESSION, 31, 1),
+    ]);
+
+    assertFunctionReference(findNode.functionReference('i<int>;'),
+        findElement.topGet('i'), 'dynamic');
+  }
+
+  test_dynamicTyped_targetOfMethodCall() async {
+    await assertErrorsInCode('''
+dynamic i = 1;
+
+void bar() {
+  i<int>.foo();
+}
+''', [
+      error(
+          CompileTimeErrorCode.DISALLOWED_TYPE_INSTANTIATION_EXPRESSION, 31, 1),
+    ]);
+
+    assertFunctionReference(findNode.functionReference('i<int>.foo();'),
+        findElement.topGet('i'), 'dynamic');
+  }
+
   test_explicitReceiver_dynamicTyped() async {
     await assertErrorsInCode('''
-dynamic f(dynamic x) => x;
+dynamic f() => 1;
 
-class C {
-  T instanceMethod<T>(T t) => t;
-}
-
-main() {
-  C c = new C();
-  f(c).instanceMethod<int>;
+foo() {
+  f().instanceMethod<int>;
 }
 ''', [
       error(CompileTimeErrorCode.GENERIC_METHOD_TYPE_INSTANTIATION_ON_DYNAMIC,
-          102, 24),
+          29, 23),
     ]);
 
     assertFunctionReference(
-        findNode.functionReference('f(c).instanceMethod<int>;'),
+        findNode.functionReference('f().instanceMethod<int>;'),
         null,
         'dynamic');
   }
@@ -107,6 +134,50 @@ bar() {
 
     assertFunctionReference(
         findNode.functionReference('foo<int>;'), null, 'dynamic');
+  }
+
+  test_extension() async {
+    await assertErrorsInCode('''
+extension E<T> on String {}
+
+void foo() {
+  E<int>;
+}
+''', [
+      error(
+          CompileTimeErrorCode.DISALLOWED_TYPE_INSTANTIATION_EXPRESSION, 44, 1),
+    ]);
+
+    var reference = findNode.functionReference('E<int>;');
+    assertFunctionReference(
+      reference,
+      findElement.extension_('E'),
+      'dynamic',
+    );
+  }
+
+  test_extension_prefixed() async {
+    newFile('$testPackageLibPath/a.dart', content: '''
+extension E<T> on String {}
+''');
+    await assertErrorsInCode('''
+import 'a.dart' as a;
+
+void foo() {
+  a.E<int>;
+}
+''', [
+      error(
+          CompileTimeErrorCode.DISALLOWED_TYPE_INSTANTIATION_EXPRESSION, 38, 3),
+    ]);
+
+    assertImportPrefix(findNode.simple('a.E'), findElement.prefix('a'));
+    var reference = findNode.functionReference('E<int>;');
+    assertFunctionReference(
+      reference,
+      findElement.importFind('package:test/a.dart').extension_('E'),
+      'dynamic',
+    );
   }
 
   test_extensionGetter_extensionOverride() async {
@@ -656,6 +727,22 @@ void bar<T>(T foo) {
 
     var reference = findNode.functionReference('foo<int>;');
     assertFunctionReference(reference, findElement.parameter('foo'), 'dynamic');
+  }
+
+  test_neverTyped() async {
+    await assertErrorsInCode('''
+external Never get i;
+
+void bar() {
+  i<int>;
+}
+''', [
+      error(
+          CompileTimeErrorCode.DISALLOWED_TYPE_INSTANTIATION_EXPRESSION, 38, 1),
+    ]);
+
+    assertFunctionReference(findNode.functionReference('i<int>;'),
+        findElement.topGet('i'), 'dynamic');
   }
 
   test_nonGenericFunction() async {

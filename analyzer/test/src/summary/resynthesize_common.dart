@@ -2004,6 +2004,29 @@ library
 ''');
   }
 
+  test_class_field_static_final_hasConstConstructor() async {
+    var library = await checkLibrary('''
+class C {
+  static final f = 0;
+  const C();
+}
+''');
+    checkElementText(library, r'''
+library
+  definingUnit
+    classes
+      class C @6
+        fields
+          static final f @25
+            type: int
+        constructors
+          const @40
+        accessors
+          synthetic static get f @-1
+            returnType: int
+''');
+  }
+
   test_class_field_static_late() async {
     var library = await checkLibrary('class C { static late int i; }');
     checkElementText(library, r'''
@@ -2132,6 +2155,85 @@ library
         accessors
           synthetic get foo @-1
             returnType: int
+''');
+  }
+
+  test_class_fields_late_inference_usingSuper_methodInvocation() async {
+    var library = await checkLibrary('''
+class A {
+  int foo() => 0;
+}
+
+class B extends A {
+  late var f = super.foo();
+}
+''');
+    checkElementText(library, r'''
+library
+  definingUnit
+    classes
+      class A @6
+        constructors
+          synthetic @-1
+        methods
+          foo @16
+            returnType: int
+      class B @37
+        supertype: A
+        fields
+          late f @62
+            type: int
+        constructors
+          synthetic @-1
+        accessors
+          synthetic get f @-1
+            returnType: int
+          synthetic set f @-1
+            parameters
+              requiredPositional _f @-1
+                type: int
+            returnType: void
+''');
+  }
+
+  test_class_fields_late_inference_usingSuper_propertyAccess() async {
+    var library = await checkLibrary('''
+class A {
+  int get foo => 0;
+}
+
+class B extends A {
+  late var f = super.foo;
+}
+''');
+    checkElementText(library, r'''
+library
+  definingUnit
+    classes
+      class A @6
+        fields
+          synthetic foo @-1
+            type: int
+        constructors
+          synthetic @-1
+        accessors
+          get foo @20
+            returnType: int
+      class B @39
+        supertype: A
+        fields
+          late f @64
+            type: int
+        constructors
+          synthetic @-1
+        accessors
+          synthetic get f @-1
+            returnType: int
+          synthetic set f @-1
+            parameters
+              requiredPositional _f @-1
+                type: int
+            returnType: void
 ''');
   }
 
@@ -6332,7 +6434,7 @@ library
                   staticElement: self::@class::A
                   staticType: null
                   token: A @35
-                type: A
+                type: null
             staticType: A Function()
     accessors
       synthetic static get v @-1
@@ -10903,6 +11005,91 @@ library
         returnType: String
       synthetic static get vSymbol @-1
         returnType: Symbol
+''');
+  }
+
+  test_const_topLevel_methodInvocation_questionPeriod() async {
+    var library = await checkLibrary(r'''
+const int? a = 0;
+const b = a?.toString();
+''');
+    checkElementText(library, r'''
+library
+  definingUnit
+    topLevelVariables
+      static const a @11
+        type: int?
+        constantInitializer
+          IntegerLiteral
+            literal: 0 @15
+            staticType: int
+      static const b @24
+        type: String?
+        constantInitializer
+          MethodInvocation
+            argumentList: ArgumentList
+              leftParenthesis: ( @39
+              rightParenthesis: ) @40
+            methodName: SimpleIdentifier
+              staticElement: dart:core::@class::int::@method::toString
+              staticType: String Function()
+              token: toString @31
+            operator: ?. @29
+            staticInvokeType: String Function()
+            staticType: String?
+            target: SimpleIdentifier
+              staticElement: self::@getter::a
+              staticType: int?
+              token: a @28
+    accessors
+      synthetic static get a @-1
+        returnType: int?
+      synthetic static get b @-1
+        returnType: String?
+''');
+  }
+
+  test_const_topLevel_methodInvocation_questionPeriodPeriod() async {
+    var library = await checkLibrary(r'''
+const int? a = 0;
+const b = a?..toString();
+''');
+    checkElementText(library, r'''
+library
+  definingUnit
+    topLevelVariables
+      static const a @11
+        type: int?
+        constantInitializer
+          IntegerLiteral
+            literal: 0 @15
+            staticType: int
+      static const b @24
+        type: int?
+        constantInitializer
+          CascadeExpression
+            cascadeSections
+              MethodInvocation
+                argumentList: ArgumentList
+                  leftParenthesis: ( @40
+                  rightParenthesis: ) @41
+                methodName: SimpleIdentifier
+                  staticElement: dart:core::@class::int::@method::toString
+                  staticType: String Function()
+                  token: toString @32
+                operator: ?.. @29
+                staticInvokeType: String Function()
+                staticType: String
+            staticType: int?
+            target: SimpleIdentifier
+              staticElement: self::@getter::a
+              staticType: int?
+              token: a @28
+    accessors
+      synthetic static get a @-1
+        returnType: int?
+      synthetic static get b @-1
+        returnType: int?
 ''');
   }
 

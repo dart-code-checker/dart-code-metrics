@@ -1043,7 +1043,8 @@ class ConstantVisitor extends UnifyingAstVisitor<DartObjectImpl> {
     } else if (operatorType == TokenType.TILDE_SLASH) {
       return _dartObjectComputer.integerDivide(node, leftResult, rightResult);
     } else {
-      // TODO(brianwilkerson) Figure out which error to report.
+      // TODO(https://github.com/dart-lang/sdk/issues/47061): Use a specific
+      // error code.
       _error(node, null);
       return null;
     }
@@ -1092,7 +1093,41 @@ class ConstantVisitor extends UnifyingAstVisitor<DartObjectImpl> {
 
   @override
   DartObjectImpl? visitConstructorReference(ConstructorReference node) {
-    return _getConstantValue(node, node.constructorName.staticElement);
+    var constructorTearoffResult = DartObjectImpl(
+      typeSystem,
+      node.typeOrThrow,
+      FunctionState(node.constructorName.staticElement),
+    );
+    var typeArgumentList = node.constructorName.type.typeArguments;
+    if (typeArgumentList == null) {
+      return constructorTearoffResult;
+    } else {
+      var typeArguments = <DartType>[];
+      var typeArgumentObjects = <DartObjectImpl>[];
+      for (var typeArgument in typeArgumentList.arguments) {
+        var object = typeArgument.accept(this);
+        if (object == null) {
+          return null;
+        }
+        var typeArgumentType = object.toTypeValue();
+        if (typeArgumentType == null) {
+          return null;
+        }
+        // TODO(srawlins): Test type alias types (`typedef i = int`) used as
+        // type arguments. Possibly change implementation based on
+        // canonicalization rules.
+        typeArguments.add(typeArgumentType);
+        typeArgumentObjects.add(object);
+      }
+      // The result is already instantiated during resolution;
+      // [_dartObjectComputer.typeInstantiate] is unnecessary.
+      return DartObjectImpl(
+        typeSystem,
+        node.typeOrThrow,
+        FunctionState(node.constructorName.staticElement,
+            typeArguments: typeArgumentObjects),
+      );
+    }
   }
 
   @override
@@ -1105,10 +1140,52 @@ class ConstantVisitor extends UnifyingAstVisitor<DartObjectImpl> {
   }
 
   @override
+  DartObjectImpl? visitFunctionReference(FunctionReference node) {
+    var functionResult = node.function.accept(this);
+    if (functionResult == null) {
+      return functionResult;
+    }
+    var typeArgumentList = node.typeArguments;
+    if (typeArgumentList == null) {
+      return functionResult;
+    } else {
+      var typeArguments = <DartType>[];
+      var typeArgumentObjects = <DartObjectImpl>[];
+      for (var typeArgument in typeArgumentList.arguments) {
+        var object = typeArgument.accept(this);
+        if (object == null) {
+          return null;
+        }
+        var typeArgumentType = object.toTypeValue();
+        if (typeArgumentType == null) {
+          return null;
+        }
+        // TODO(srawlins): Test type alias types (`typedef i = int`) used as
+        // type arguments. Possibly change implementation based on
+        // canonicalization rules.
+        typeArguments.add(typeArgumentType);
+        typeArgumentObjects.add(object);
+      }
+      return _dartObjectComputer.typeInstantiate(
+          functionResult, typeArguments, typeArgumentObjects);
+    }
+  }
+
+  @override
+  DartObjectImpl visitGenericFunctionType(GenericFunctionType node) {
+    return DartObjectImpl(
+      typeSystem,
+      _typeProvider.typeType,
+      TypeState(node.type),
+    );
+  }
+
+  @override
   DartObjectImpl? visitInstanceCreationExpression(
       InstanceCreationExpression node) {
     if (!node.isConst) {
-      // TODO(brianwilkerson) Figure out which error to report.
+      // TODO(https://github.com/dart-lang/sdk/issues/47061): Use a specific
+      // error code.
       _error(node, null);
       return null;
     }
@@ -1209,7 +1286,8 @@ class ConstantVisitor extends UnifyingAstVisitor<DartObjectImpl> {
         }
       }
     }
-    // TODO(brianwilkerson) Figure out which error to report.
+    // TODO(https://github.com/dart-lang/sdk/issues/47061): Use a specific
+    // error code.
     _error(node, null);
     return null;
   }
@@ -1220,7 +1298,8 @@ class ConstantVisitor extends UnifyingAstVisitor<DartObjectImpl> {
 
   @override
   DartObjectImpl? visitNode(AstNode node) {
-    // TODO(brianwilkerson) Figure out which error to report.
+    // TODO(https://github.com/dart-lang/sdk/issues/47061): Use a specific
+    // error code.
     _error(node, null);
     return null;
   }
@@ -1274,7 +1353,8 @@ class ConstantVisitor extends UnifyingAstVisitor<DartObjectImpl> {
     } else if (node.operator.type == TokenType.MINUS) {
       return _dartObjectComputer.negated(node, operand);
     } else {
-      // TODO(brianwilkerson) Figure out which error to report.
+      // TODO(https://github.com/dart-lang/sdk/issues/47061): Use a specific
+      // error code.
       _error(node, null);
       return null;
     }
@@ -1655,7 +1735,8 @@ class ConstantVisitor extends UnifyingAstVisitor<DartObjectImpl> {
       // Constants may not refer to type parameters.
     }
 
-    // TODO(brianwilkerson) Figure out which error to report.
+    // TODO(https://github.com/dart-lang/sdk/issues/47061): Use a specific
+    // error code.
     _error(node, null);
     return null;
   }
@@ -2095,6 +2176,23 @@ class DartObjectComputer {
       }
     }
     return null;
+  }
+
+  DartObjectImpl? typeInstantiate(
+    DartObjectImpl function,
+    List<DartType> typeArguments,
+    List<DartObjectImpl> typeArgumentObjects,
+  ) {
+    var rawType = function.type;
+    if (rawType is FunctionType) {
+      if (typeArguments.length != rawType.typeFormals.length) {
+        return null;
+      }
+      var type = rawType.instantiate(typeArguments);
+      return function.typeInstantiate(_typeSystem, type, typeArgumentObjects);
+    } else {
+      return null;
+    }
   }
 
   DartObjectImpl? typeTest(

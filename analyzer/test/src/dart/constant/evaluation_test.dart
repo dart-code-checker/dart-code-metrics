@@ -24,6 +24,102 @@ main() {
 @reflectiveTest
 class ConstantVisitorTest extends ConstantVisitorTestSupport
     with ConstantVisitorTestCases {
+  test_identical_constructorReference_explicitTypeArgs_differentClasses() async {
+    await resolveTestCode('''
+class C<T> {}
+class D<T> {}
+const a = identical(C<int>.new, D<int>.new);
+''');
+    expect(
+      _evaluateConstant('a'),
+      _boolValue(false),
+    );
+  }
+
+  test_identical_constructorReference_explicitTypeArgs_differentConstructors() async {
+    await resolveTestCode('''
+class C<T> {
+  C();
+  C.named();
+}
+const a = identical(C<int>.new, C<int>.named);
+''');
+    expect(
+      _evaluateConstant('a'),
+      _boolValue(false),
+    );
+  }
+
+  test_identical_constructorReference_explicitTypeArgs_differentTypeArgs() async {
+    await resolveTestCode('''
+class C<T> {}
+const a = identical(C<int>.new, C<String>.new);
+''');
+    expect(
+      _evaluateConstant('a'),
+      _boolValue(false),
+    );
+  }
+
+  test_identical_constructorReference_explicitTypeArgs_sameElement() async {
+    await resolveTestCode('''
+class C<T> {}
+const a = identical(C<int>.new, C<int>.new);
+''');
+    expect(
+      _evaluateConstant('a'),
+      _boolValue(true),
+    );
+  }
+
+  test_identical_constructorReference_notInstantiated_differentClasses() async {
+    await resolveTestCode('''
+class C<T> {}
+class D<T> {}
+const a = identical(C.new, D.new);
+''');
+    expect(
+      _evaluateConstant('a'),
+      _boolValue(false),
+    );
+  }
+
+  test_identical_constructorReference_notInstantiated_differentConstructors() async {
+    await resolveTestCode('''
+class C<T> {
+  C();
+  C.named();
+}
+const a = identical(C.new, C.named);
+''');
+    expect(
+      _evaluateConstant('a'),
+      _boolValue(false),
+    );
+  }
+
+  test_identical_constructorReference_notInstantiated_sameElement() async {
+    await resolveTestCode('''
+class C<T> {}
+const a = identical(C.new, C.new);
+''');
+    expect(
+      _evaluateConstant('a'),
+      _boolValue(true),
+    );
+  }
+
+  test_identical_constructorReference_onlyOneHasTypeArgs() async {
+    await resolveTestCode('''
+class C<T> {}
+const a = identical(C<int>.new, C.new);
+''');
+    expect(
+      _evaluateConstant('a'),
+      _boolValue(false),
+    );
+  }
+
   test_visitAsExpression_potentialConstType() async {
     await assertNoErrorsInCode('''
 const num three = 3;
@@ -918,6 +1014,35 @@ const double d = 3;
     DartObjectImpl result = _evaluateConstant('d');
     expect(result.type, typeProvider.doubleType);
     expect(result.toDoubleValue(), 3.0);
+  }
+
+  test_visitIsExpression_is_functionType_badTypes() async {
+    await resolveTestCode('''
+void foo(int a) {}
+const c = foo is void Function(String);
+''');
+    DartObjectImpl result = _evaluateConstant('c');
+    expect(result.type, typeProvider.boolType);
+    expect(result.toBoolValue(), false);
+  }
+
+  test_visitIsExpression_is_functionType_correctTypes() async {
+    await resolveTestCode('''
+void foo(int a) {}
+const c = foo is void Function(int);
+''');
+    DartObjectImpl result = _evaluateConstant('c');
+    expect(result.type, typeProvider.boolType);
+    expect(result.toBoolValue(), true);
+  }
+
+  test_visitIsExpression_is_functionType_nonFunction() async {
+    await resolveTestCode('''
+const c = false is void Function();
+''');
+    DartObjectImpl result = _evaluateConstant('c');
+    expect(result.type, typeProvider.boolType);
+    expect(result.toBoolValue(), false);
   }
 
   test_visitIsExpression_is_instanceOfSameClass() async {
