@@ -6,6 +6,7 @@
 * Improve static code diagnostic `prefer-extracting-callbacks`, don't trigger on empty function blocks.
 * Improve unused files check, add support for `vm:entry-point` annotation.
 * feat: ignore Flutter builder functions in `prefer-extracting-callbacks` rule.
+* chore: restrict analyzer version to '>=2.1.0 <2.5.0'
 
 ## 4.3.3
 
