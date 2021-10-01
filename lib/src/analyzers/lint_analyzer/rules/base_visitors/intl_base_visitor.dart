@@ -33,7 +33,7 @@ abstract class IntlBaseVisitor extends GeneralizingAstVisitor<void> {
 
   @override
   void visitFieldDeclaration(FieldDeclaration node) {
-    if (node.fields.type?.as<TypeName>()?.name.name != 'String') {
+    if (node.fields.type?.as<NamedType>()?.name.name != 'String') {
       return;
     }
 

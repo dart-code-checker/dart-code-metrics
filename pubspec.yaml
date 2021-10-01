@@ -7,11 +7,11 @@ issue_tracker: https://github.com/dart-code-checker/dart-code-metrics/issues
 documentation: https://dartcodemetrics.dev/docs/getting-started/introduction
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.14.0 <3.0.0"
 
 dependencies:
-  analyzer: '>=2.1.0 <2.4.0'
-  analyzer_plugin: ^0.7.0
+  analyzer: '>=2.4.0 <2.5.0'
+  analyzer_plugin: ^0.8.0
   ansicolor: ^2.0.1
   args: ^2.0.0
   collection: ^1.15.0
