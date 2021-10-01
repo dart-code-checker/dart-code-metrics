@@ -197,6 +197,19 @@ class PropertyElementResolver {
     required bool hasRead,
     required bool hasWrite,
   }) {
+    var ancestorCascade = node.ancestorCascade;
+    if (ancestorCascade != null) {
+      return _resolve(
+        node: node,
+        target: ancestorCascade.target,
+        isCascaded: true,
+        isNullAware: ancestorCascade.isNullAware,
+        propertyName: node,
+        hasRead: hasRead,
+        hasWrite: hasWrite,
+      );
+    }
+
     Element? readElementRequested;
     Element? readElementRecovery;
     if (hasRead) {
@@ -350,7 +363,8 @@ class PropertyElementResolver {
 
     var targetType = target.typeOrThrow;
 
-    if (targetType is FunctionType && propertyName.name == 'call') {
+    if (targetType is FunctionType &&
+        propertyName.name == FunctionElement.CALL_METHOD_NAME) {
       return PropertyElementResolverResult(
         functionTypeCallType: targetType,
       );
@@ -368,7 +382,7 @@ class PropertyElementResolver {
       targetType = _typeSystem.promoteToNonNull(targetType);
     }
 
-    if (target is TypeLiteral && target.typeName.type is FunctionType) {
+    if (target is TypeLiteral && target.type.type is FunctionType) {
       // There is no possible resolution for a property access of a function
       // type literal (which can only be a type instantiation of a type alias
       // of a function type).
@@ -376,13 +390,13 @@ class PropertyElementResolver {
         _errorReporter.reportErrorForNode(
           CompileTimeErrorCode.UNDEFINED_GETTER_ON_FUNCTION_TYPE,
           propertyName,
-          [propertyName.name, target.typeName.name.name],
+          [propertyName.name, target.type.name.name],
         );
       } else {
         _errorReporter.reportErrorForNode(
           CompileTimeErrorCode.UNDEFINED_SETTER_ON_FUNCTION_TYPE,
           propertyName,
-          [propertyName.name, target.typeName.name.name],
+          [propertyName.name, target.type.name.name],
         );
       }
       return PropertyElementResolverResult();
@@ -478,7 +492,7 @@ class PropertyElementResolver {
           _errorReporter.reportErrorForNode(
             CompileTimeErrorCode.PRIVATE_SETTER,
             propertyName,
-            [propertyName.name, typeReference.name],
+            [propertyName.name],
           );
         }
         _checkForStaticAccessToInstanceMember(propertyName, writeElement);

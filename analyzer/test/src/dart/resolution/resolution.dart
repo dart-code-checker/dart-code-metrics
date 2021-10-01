@@ -181,9 +181,9 @@ mixin ResolutionTest implements ResourceProviderMixin {
     assertElement(node, expectedConstructorElement);
     assertType(node, expectedType);
 
-    var typeName = node.constructorName.type;
+    var namedType = node.constructorName.type2;
     expectedTypeNameElement ??= expectedClassElement;
-    assertTypeName(typeName, expectedTypeNameElement, null,
+    assertNamedType(namedType, expectedTypeNameElement, null,
         expectedPrefix: expectedPrefix);
   }
 
@@ -461,9 +461,9 @@ mixin ResolutionTest implements ResourceProviderMixin {
 
     assertType(creation, expectedType);
 
-    var typeName = creation.constructorName.type;
+    var namedType = creation.constructorName.type2;
     expectedTypeNameElement ??= expectedClassElement;
-    assertTypeName(typeName, expectedTypeNameElement, expectedType,
+    assertNamedType(namedType, expectedTypeNameElement, expectedType,
         expectedPrefix: expectedPrefix);
   }
 
@@ -570,6 +570,29 @@ mixin ResolutionTest implements ResourceProviderMixin {
     var ref = findNode.simple(search);
     assertElement(ref, findElement.parameter(name));
     assertTypeNull(ref);
+  }
+
+  void assertNamedType(
+      NamedType node, Element? expectedElement, String? expectedType,
+      {Element? expectedPrefix}) {
+    assertType(node, expectedType);
+
+    if (expectedPrefix == null) {
+      var name = node.name as SimpleIdentifier;
+      assertElement(name, expectedElement);
+      // TODO(scheglov) Should this be null?
+//      assertType(name, expectedType);
+    } else {
+      var name = node.name as PrefixedIdentifier;
+      assertImportPrefix(name.prefix, expectedPrefix);
+      assertElement(name.identifier, expectedElement);
+
+      // TODO(scheglov) This should be null, but it is not.
+      // ResolverVisitor sets the tpe for `Bar` in `new foo.Bar()`. This is
+      // probably wrong. It is fine for the TypeName `foo.Bar` to have a type,
+      // and for `foo.Bar()` to have a type. But not a name of a type? No.
+//      expect(name.identifier.staticType, isNull);
+    }
   }
 
   void assertNamespaceDirectiveSelected(
@@ -740,7 +763,7 @@ mixin ResolutionTest implements ResourceProviderMixin {
       actual = typeOrNode.staticType;
     } else if (typeOrNode is GenericFunctionType) {
       actual = typeOrNode.type;
-    } else if (typeOrNode is TypeName) {
+    } else if (typeOrNode is NamedType) {
       actual = typeOrNode.type;
     } else {
       fail('Unsupported node: (${typeOrNode.runtimeType}) $typeOrNode');
@@ -805,31 +828,8 @@ mixin ResolutionTest implements ResourceProviderMixin {
       TypeLiteral node, Element? expectedElement, String expectedType,
       {Element? expectedPrefix}) {
     assertType(node, 'Type');
-    assertTypeName(node.typeName, expectedElement, expectedType,
+    assertNamedType(node.type, expectedElement, expectedType,
         expectedPrefix: expectedPrefix);
-  }
-
-  void assertTypeName(
-      TypeName node, Element? expectedElement, String? expectedType,
-      {Element? expectedPrefix}) {
-    assertType(node, expectedType);
-
-    if (expectedPrefix == null) {
-      var name = node.name as SimpleIdentifier;
-      assertElement(name, expectedElement);
-      // TODO(scheglov) Should this be null?
-//      assertType(name, expectedType);
-    } else {
-      var name = node.name as PrefixedIdentifier;
-      assertImportPrefix(name.prefix, expectedPrefix);
-      assertElement(name.identifier, expectedElement);
-
-      // TODO(scheglov) This should be null, but it is not.
-      // ResolverVisitor sets the tpe for `Bar` in `new foo.Bar()`. This is
-      // probably wrong. It is fine for the TypeName `foo.Bar` to have a type,
-      // and for `foo.Bar()` to have a type. But not a name of a type? No.
-//      expect(name.identifier.staticType, isNull);
-    }
   }
 
   void assertTypeNull(Expression node) {
@@ -913,7 +913,7 @@ mixin ResolutionTest implements ResourceProviderMixin {
       return node.staticElement;
     } else if (node is PropertyAccess) {
       return node.propertyName.staticElement;
-    } else if (node is TypeName) {
+    } else if (node is NamedType) {
       return node.name.staticElement;
     } else {
       fail('Unsupported node: (${node.runtimeType}) $node');

@@ -80,7 +80,7 @@ import 'package:meta/meta.dart';
 /// TODO(scheglov) Clean up the list of implicitly analyzed files.
 class AnalysisDriver implements AnalysisDriverGeneric {
   /// The version of data format, should be incremented on every format change.
-  static const int DATA_VERSION = 178;
+  static const int DATA_VERSION = 182;
 
   /// The number of exception contexts allowed to write. Once this field is
   /// zero, we stop writing any new exception contexts in this process.
@@ -222,7 +222,7 @@ class AnalysisDriver implements AnalysisDriverGeneric {
   final bool enableIndex;
 
   /// The current analysis session.
-  late AnalysisSessionImpl _currentSession;
+  late final AnalysisSessionImpl _currentSession = AnalysisSessionImpl(this);
 
   /// The current library context, consistent with the [_currentSession].
   ///
@@ -231,11 +231,6 @@ class AnalysisDriver implements AnalysisDriverGeneric {
 
   /// Whether `dart:core` has been transitively discovered.
   bool _hasDartCoreDiscovered = false;
-
-  /// This function is invoked when the current session is about to be discarded.
-  /// The argument represents the path of the resource causing the session
-  /// to be discarded or `null` if there are multiple or this is unknown.
-  void Function(String?)? onCurrentSessionAboutToBeDiscarded;
 
   /// If testing data is being retained, a pointer to the object that is
   /// retaining the testing data.  Otherwise `null`.
@@ -304,7 +299,6 @@ class AnalysisDriver implements AnalysisDriverGeneric {
         _sourceFactory = sourceFactory,
         _externalSummaries = externalSummaries,
         testingData = retainDataForTesting ? TestingData() : null {
-    _createNewSession(null);
     _onResults = _resultController.stream.asBroadcastStream();
     _testView = AnalysisDriverTestView(this);
     _createFileTracker();
@@ -466,14 +460,10 @@ class AnalysisDriver implements AnalysisDriverGeneric {
       return;
     }
     if (file_paths.isDart(resourceProvider.pathContext, path)) {
+      _priorityResults.clear();
+      _removePotentiallyAffectedLibraries(path);
       _fileTracker.addFile(path);
-      // If the file is known, it has already been read, even if it did not
-      // exist. Now we are notified that the file exists, so we need to
-      // re-read it and make sure that we invalidate signature of the files
-      // that reference it.
-      if (_fsState.knownFilePaths.contains(path)) {
-        _changeFile(path);
-      }
+      _scheduler.notify(this);
     }
   }
 
@@ -495,7 +485,15 @@ class AnalysisDriver implements AnalysisDriverGeneric {
   /// [changeFile] invocation.
   void changeFile(String path) {
     _throwIfNotAbsolutePath(path);
-    _changeFile(path);
+    if (!_fsState.hasUri(path)) {
+      return;
+    }
+    if (file_paths.isDart(resourceProvider.pathContext, path)) {
+      _priorityResults.clear();
+      _removePotentiallyAffectedLibraries(path);
+      _fileTracker.changeFile(path);
+      _scheduler.notify(this);
+    }
   }
 
   /// Clear the library context and any related data structures. Mostly we do
@@ -505,6 +503,7 @@ class AnalysisDriver implements AnalysisDriverGeneric {
   /// periodically.
   @visibleForTesting
   void clearLibraryContext() {
+    _libraryContext?.invalidAllLibraries();
     _libraryContext = null;
     _currentSession.clearHierarchies();
   }
@@ -533,9 +532,15 @@ class AnalysisDriver implements AnalysisDriverGeneric {
     if (sourceFactory != null) {
       _sourceFactory = sourceFactory;
     }
+
+    _priorityResults.clear();
+    clearLibraryContext();
+
     Iterable<String> addedFiles = _fileTracker.addedFiles;
     _createFileTracker();
     _fileTracker.addFiles(addedFiles);
+
+    _scheduler.notify(this);
   }
 
   /// Return a [Future] that completes when discovery of all files that are
@@ -945,7 +950,7 @@ class AnalysisDriver implements AnalysisDriverGeneric {
 
     FileState file = _fileTracker.getFile(path);
     RecordingErrorListener listener = RecordingErrorListener();
-    CompilationUnit unit = file.parse(errorListener: listener);
+    CompilationUnit unit = file.parse(listener);
     return ParsedUnitResultImpl(currentSession, file.path, file.uri,
         file.content, file.lineInfo, file.isPart, unit, listener.errors);
   }
@@ -1202,17 +1207,25 @@ class AnalysisDriver implements AnalysisDriverGeneric {
   /// but does not guarantee this.
   void removeFile(String path) {
     _throwIfNotAbsolutePath(path);
-    _fileTracker.removeFile(path);
-    clearLibraryContext();
-    _priorityResults.clear();
+    if (!_fsState.hasUri(path)) {
+      return;
+    }
+    if (file_paths.isDart(resourceProvider.pathContext, path)) {
+      _priorityResults.clear();
+      _removePotentiallyAffectedLibraries(path);
+      _fileTracker.removeFile(path);
+      _scheduler.notify(this);
+    }
   }
 
   /// Reset URI resolution, read again all files, build files graph, and ensure
   /// that for all added files new results are reported.
   void resetUriResolution() {
+    _priorityResults.clear();
+    clearLibraryContext();
     _fsState.resetUriResolution();
     _fileTracker.scheduleAllAddedFiles();
-    _changeHook(null);
+    _scheduler.notify(this);
   }
 
   void _addDeclaredVariablesToSignature(ApiSignature buffer) {
@@ -1224,22 +1237,6 @@ class AnalysisDriver implements AnalysisDriverGeneric {
       buffer.addString(name);
       buffer.addString(value!);
     }
-  }
-
-  /// Implementation for [changeFile].
-  void _changeFile(String path) {
-    _fileTracker.changeFile(path);
-    clearLibraryContext();
-    _priorityResults.clear();
-  }
-
-  /// Handles a notification from the [FileTracker] that there has been a change
-  /// of state.
-  void _changeHook(String? path) {
-    _createNewSession(path);
-    clearLibraryContext();
-    _priorityResults.clear();
-    _scheduler.notify(this);
   }
 
   /// There was an exception during a file analysis, we don't know why.
@@ -1488,7 +1485,7 @@ class AnalysisDriver implements AnalysisDriverGeneric {
       externalSummaries: _externalSummaries,
       fileContentCache: _fileContentCache,
     );
-    _fileTracker = FileTracker(_logger, _fsState, _changeHook);
+    _fileTracker = FileTracker(_logger, _fsState);
   }
 
   /// Return the context in which the [library] should be analyzed.
@@ -1504,7 +1501,7 @@ class AnalysisDriver implements AnalysisDriverGeneric {
 
     var libraryContext = _libraryContext;
     libraryContext ??= _libraryContext = LibraryContext(
-      testView: _testView.libraryContext,
+      testView: _testView.libraryContextTestView,
       session: currentSession,
       logger: _logger,
       byteStore: _byteStore,
@@ -1519,14 +1516,6 @@ class AnalysisDriver implements AnalysisDriverGeneric {
     }
 
     return libraryContext;
-  }
-
-  /// Create a new analysis session, so invalidating the current one.
-  void _createNewSession(String? path) {
-    if (onCurrentSessionAboutToBeDiscarded != null) {
-      onCurrentSessionAboutToBeDiscarded!(path);
-    }
-    _currentSession = AnalysisSessionImpl(this);
   }
 
   /// If this has not been done yet, schedule discovery of all files that are
@@ -1688,6 +1677,18 @@ class AnalysisDriver implements AnalysisDriverGeneric {
     );
     return AnalysisResult.errors(
         'missing', errorsResult, AnalysisDriverUnitIndexBuilder());
+  }
+
+  void _removePotentiallyAffectedLibraries(String path) {
+    _logger.run('Invalidate affected by $path.', () {
+      _logger.writeln('Work in $name');
+      var affected = <FileState>{};
+      _fsState.collectAffected(path, affected);
+      _logger.writeln('Remove ${affected.length} libraries.');
+      _libraryContext?.elementFactory.removeLibraries(
+        affected.map((e) => e.uriStr).toSet(),
+      );
+    });
   }
 
   void _reportException(String path, Object exception, StackTrace stackTrace) {
@@ -2053,13 +2054,16 @@ class AnalysisDriverScheduler {
 @visibleForTesting
 class AnalysisDriverTestView {
   final AnalysisDriver driver;
-  final LibraryContextTestView libraryContext = LibraryContextTestView();
+  final LibraryContextTestView libraryContextTestView =
+      LibraryContextTestView();
 
   int numOfAnalyzedLibraries = 0;
 
   AnalysisDriverTestView(this.driver);
 
   FileTracker get fileTracker => driver._fileTracker;
+
+  LibraryContext? get libraryContext => driver._libraryContext;
 
   Map<String, ResolvedUnitResult> get priorityResults {
     return driver._priorityResults;

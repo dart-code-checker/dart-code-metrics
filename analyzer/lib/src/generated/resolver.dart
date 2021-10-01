@@ -580,8 +580,12 @@ class ResolverVisitor extends ResolverBase with ErrorDetectionHelpers {
                   computeMemberId(whyNotPromotedVisitor.propertyReference!);
               args.add('target: $id');
             }
-            if (whyNotPromotedVisitor.propertyType != null) {
-              args.add('type: ${whyNotPromotedVisitor.propertyType}');
+            var propertyType = whyNotPromotedVisitor.propertyType;
+            if (propertyType != null) {
+              var propertyTypeStr = propertyType.getDisplayString(
+                withNullability: true,
+              );
+              args.add('type: $propertyTypeStr');
             }
             if (args.isNotEmpty) {
               nonPromotionReasonText += '(${args.join(', ')})';
@@ -1238,7 +1242,7 @@ class ResolverVisitor extends ResolverBase with ErrorDetectionHelpers {
 
   @override
   void visitConstructorName(ConstructorName node) {
-    node.type.accept(this);
+    node.type2.accept(this);
     node.accept(elementResolver);
   }
 
@@ -1733,6 +1737,15 @@ class ResolverVisitor extends ResolverBase with ErrorDetectionHelpers {
   }
 
   @override
+  void visitNamedType(NamedType node) {
+    // All TypeName(s) are already resolved, so we don't resolve it here.
+    // But there might be type arguments with Expression(s), such as default
+    // values for formal parameters of GenericFunctionType(s). These are
+    // invalid, but if they exist, they should be resolved.
+    node.typeArguments?.accept(this);
+  }
+
+  @override
   void visitNode(AstNode node) {
     checkUnreachableNode(node);
     node.visitChildren(this);
@@ -1996,15 +2009,6 @@ class ResolverVisitor extends ResolverBase with ErrorDetectionHelpers {
       finallyBlock.accept(this);
       flow.tryFinallyStatement_end();
     }
-  }
-
-  @override
-  void visitTypeName(TypeName node) {
-    // All TypeName(s) are already resolved, so we don't resolve it here.
-    // But there might be type arguments with Expression(s), such as default
-    // values for formal parameters of GenericFunctionType(s). These are
-    // invalid, but if they exist, they should be resolved.
-    node.typeArguments?.accept(this);
   }
 
   @override
@@ -2448,7 +2452,7 @@ class ScopeResolverVisitor extends ResolverBase {
     node.documentationComment?.accept(this);
     node.name.accept(this);
     node.typeParameters?.accept(this);
-    node.superclass.accept(this);
+    node.superclass2.accept(this);
     node.withClause.accept(this);
     node.implementsClause?.accept(this);
   }
@@ -2928,6 +2932,14 @@ class ScopeResolverVisitor extends ResolverBase {
   }
 
   @override
+  void visitNamedType(NamedType node) {
+    // All TypeName(s) are already resolved, so we don't resolve it here.
+    // But there might be type arguments with Expression(s), such as
+    // annotations on formal parameters of GenericFunctionType(s).
+    node.typeArguments?.accept(this);
+  }
+
+  @override
   void visitPrefixedIdentifier(PrefixedIdentifier node) {
     // Do not visit the identifier after the `.`, since it is not meant to be
     // looked up in the current scope.
@@ -3046,9 +3058,6 @@ class ScopeResolverVisitor extends ResolverBase {
   void visitSwitchStatementInScope(SwitchStatement node) {
     super.visitSwitchStatement(node);
   }
-
-  @override
-  void visitTypeName(TypeName node) {}
 
   @override
   void visitVariableDeclaration(VariableDeclaration node) {

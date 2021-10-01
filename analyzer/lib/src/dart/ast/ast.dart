@@ -1709,12 +1709,16 @@ class ClassTypeAliasImpl extends TypeAliasImpl implements ClassTypeAlias {
   @override
   bool get isAbstract => abstractKeyword != null;
 
+  @Deprecated('Use superclass2 instead')
   @override
   TypeNameImpl get superclass => _superclass;
 
-  set superclass(TypeName superclass) {
+  set superclass(NamedType superclass) {
     _superclass = _becomeParentOf(superclass as TypeNameImpl);
   }
+
+  @override
+  TypeNameImpl get superclass2 => _superclass;
 
   @override
   TypeParameterListImpl? get typeParameters => _typeParameters;
@@ -2638,12 +2642,16 @@ class ConstructorNameImpl extends AstNodeImpl implements ConstructorName {
     _name = _becomeParentOf(name as SimpleIdentifierImpl?);
   }
 
+  @Deprecated('Use type2 instead')
   @override
   TypeNameImpl get type => _type;
 
-  set type(TypeName type) {
+  set type(NamedType type) {
     _type = _becomeParentOf(type as TypeNameImpl);
   }
+
+  @override
+  TypeNameImpl get type2 => _type;
 
   @override
   E? accept<E>(AstVisitor<E> visitor) => visitor.visitConstructorName(this);
@@ -3648,12 +3656,16 @@ class ExtendsClauseImpl extends AstNodeImpl implements ExtendsClause {
   @override
   Token get endToken => _superclass.endToken;
 
+  @Deprecated('Use superclass2 instead')
   @override
   TypeNameImpl get superclass => _superclass;
 
-  set superclass(TypeName name) {
+  set superclass(NamedType name) {
     _superclass = _becomeParentOf(name as TypeNameImpl);
   }
+
+  @override
+  TypeNameImpl get superclass2 => _superclass;
 
   @override
   E? accept<E>(AstVisitor<E> visitor) => visitor.visitExtendsClause(this);
@@ -5756,10 +5768,10 @@ class ImplementsClauseImpl extends AstNodeImpl implements ImplementsClause {
   Token implementsKeyword;
 
   /// The interfaces that are being implemented.
-  final NodeListImpl<TypeName> _interfaces = NodeListImpl._();
+  final NodeListImpl<NamedType> _interfaces = NodeListImpl._();
 
   /// Initialize a newly created implements clause.
-  ImplementsClauseImpl(this.implementsKeyword, List<TypeName> interfaces) {
+  ImplementsClauseImpl(this.implementsKeyword, List<NamedType> interfaces) {
     _interfaces._initialize(this, interfaces);
   }
 
@@ -5770,13 +5782,17 @@ class ImplementsClauseImpl extends AstNodeImpl implements ImplementsClause {
   // TODO(paulberry): add commas.
   Iterable<SyntacticEntity> get childEntities => ChildEntities()
     ..add(implementsKeyword)
-    ..addAll(interfaces);
+    ..addAll(interfaces2);
 
   @override
   Token get endToken => _interfaces.endToken!;
 
+  @Deprecated('Use interfaces2 instead')
   @override
-  NodeListImpl<TypeName> get interfaces => _interfaces;
+  NodeList<TypeName> get interfaces => _DelegatingTypeNameList(_interfaces);
+
+  @override
+  NodeListImpl<NamedType> get interfaces2 => _interfaces;
 
   @override
   E? accept<E>(AstVisitor<E> visitor) => visitor.visitImplementsClause(this);
@@ -7822,10 +7838,10 @@ class OnClauseImpl extends AstNodeImpl implements OnClause {
   Token onKeyword;
 
   /// The classes are super-class constraints for the mixin.
-  final NodeListImpl<TypeName> _superclassConstraints = NodeListImpl._();
+  final NodeListImpl<NamedType> _superclassConstraints = NodeListImpl._();
 
   /// Initialize a newly created on clause.
-  OnClauseImpl(this.onKeyword, List<TypeName> superclassConstraints) {
+  OnClauseImpl(this.onKeyword, List<NamedType> superclassConstraints) {
     _superclassConstraints._initialize(this, superclassConstraints);
   }
 
@@ -7836,13 +7852,18 @@ class OnClauseImpl extends AstNodeImpl implements OnClause {
   // TODO(paulberry): add commas.
   Iterable<SyntacticEntity> get childEntities => ChildEntities()
     ..add(onKeyword)
-    ..addAll(superclassConstraints);
+    ..addAll(superclassConstraints2);
 
   @override
   Token get endToken => _superclassConstraints.endToken!;
 
+  @Deprecated('Use superclassConstraints2 instead')
   @override
-  NodeListImpl<TypeName> get superclassConstraints => _superclassConstraints;
+  NodeList<TypeName> get superclassConstraints =>
+      _DelegatingTypeNameList(_superclassConstraints);
+
+  @override
+  NodeListImpl<NamedType> get superclassConstraints2 => _superclassConstraints;
 
   @override
   E? accept<E>(AstVisitor<E> visitor) => visitor.visitOnClause(this);
@@ -8922,6 +8943,16 @@ class SimpleIdentifierImpl extends IdentifierImpl implements SimpleIdentifier {
   /// Initialize a newly created identifier.
   SimpleIdentifierImpl(this.token);
 
+  /// Return the cascade that contains this [SimpleIdentifier].
+  CascadeExpressionImpl? get ancestorCascade {
+    var operatorType = token.previous?.type;
+    if (operatorType == TokenType.PERIOD_PERIOD ||
+        operatorType == TokenType.QUESTION_PERIOD_PERIOD) {
+      return thisOrAncestorOfType<CascadeExpressionImpl>();
+    }
+    return null;
+  }
+
   @override
   Token get beginToken => token;
 
@@ -8960,7 +8991,7 @@ class SimpleIdentifierImpl extends IdentifierImpl implements SimpleIdentifier {
   /// This element is set when this identifier is used not as an expression,
   /// but just to reference some element.
   ///
-  /// Examples are the name of the type in a [TypeName], the name of the method
+  /// Examples are the name of the type in a [NamedType], the name of the method
   /// in a [MethodInvocation], the name of the constructor in a
   /// [ConstructorName], the name of the property in a [PropertyAccess], the
   /// prefix and the identifier in a [PrefixedIdentifier] (which then can be
@@ -10191,19 +10222,24 @@ class TypeLiteralImpl extends ExpressionImpl implements TypeLiteral {
   }
 
   @override
-  Token get beginToken => typeName.beginToken;
+  Token get beginToken => _typeName.beginToken;
 
   @override
-  Iterable<SyntacticEntity> get childEntities => ChildEntities()..add(typeName);
+  Iterable<SyntacticEntity> get childEntities =>
+      ChildEntities()..add(_typeName);
 
   @override
-  Token get endToken => typeName.endToken;
+  Token get endToken => _typeName.endToken;
 
   @override
-  Precedence get precedence => typeName.typeArguments == null
-      ? typeName.name.precedence
+  Precedence get precedence => _typeName.typeArguments == null
+      ? _typeName.name.precedence
       : Precedence.postfix;
 
+  @override
+  TypeNameImpl get type => _typeName;
+
+  @Deprecated('Use namedType instead')
   @override
   TypeNameImpl get typeName => _typeName;
 
@@ -10216,7 +10252,7 @@ class TypeLiteralImpl extends ExpressionImpl implements TypeLiteral {
 
   @override
   void visitChildren(AstVisitor visitor) {
-    typeName.accept(visitor);
+    _typeName.accept(visitor);
   }
 }
 
@@ -10224,6 +10260,7 @@ class TypeLiteralImpl extends ExpressionImpl implements TypeLiteral {
 ///
 ///    typeName ::=
 ///        [Identifier] typeArguments? '?'?
+/// ignore: deprecated_member_use_from_same_package
 class TypeNameImpl extends TypeAnnotationImpl implements TypeName {
   /// The name of the type.
   IdentifierImpl _name;
@@ -10286,7 +10323,7 @@ class TypeNameImpl extends TypeAnnotationImpl implements TypeName {
   }
 
   @override
-  E? accept<E>(AstVisitor<E> visitor) => visitor.visitTypeName(this);
+  E? accept<E>(AstVisitor<E> visitor) => visitor.visitNamedType(this);
 
   @override
   void visitChildren(AstVisitor visitor) {
@@ -10853,10 +10890,10 @@ class WithClauseImpl extends AstNodeImpl implements WithClause {
   Token withKeyword;
 
   /// The names of the mixins that were specified.
-  final NodeListImpl<TypeName> _mixinTypes = NodeListImpl._();
+  final NodeListImpl<NamedType> _mixinTypes = NodeListImpl._();
 
   /// Initialize a newly created with clause.
-  WithClauseImpl(this.withKeyword, List<TypeName> mixinTypes) {
+  WithClauseImpl(this.withKeyword, List<NamedType> mixinTypes) {
     _mixinTypes._initialize(this, mixinTypes);
   }
 
@@ -10872,8 +10909,12 @@ class WithClauseImpl extends AstNodeImpl implements WithClause {
   @override
   Token get endToken => _mixinTypes.endToken!;
 
+  @Deprecated('Use mixinTypes2 instead')
   @override
-  NodeListImpl<TypeName> get mixinTypes => _mixinTypes;
+  NodeList<TypeName> get mixinTypes => _DelegatingTypeNameList(_mixinTypes);
+
+  @override
+  NodeListImpl<NamedType> get mixinTypes2 => _mixinTypes;
 
   @override
   E? accept<E>(AstVisitor<E> visitor) => visitor.visitWithClause(this);
@@ -10941,6 +10982,77 @@ class YieldStatementImpl extends StatementImpl implements YieldStatement {
   @override
   void visitChildren(AstVisitor visitor) {
     _expression.accept(visitor);
+  }
+}
+
+/// Implementation of `NodeList<TypeName>` that delegates.
+@Deprecated('Use NamedType instead')
+class _DelegatingTypeNameList
+    with ListMixin<TypeName>
+    implements NodeList<TypeName> {
+  final NodeListImpl<NamedType> _delegate;
+
+  _DelegatingTypeNameList(this._delegate);
+
+  @override
+  Token? get beginToken {
+    return _delegate.beginToken;
+  }
+
+  @override
+  Token? get endToken {
+    return _delegate.endToken;
+  }
+
+  @override
+  int get length => _delegate.length;
+
+  @override
+  set length(int newLength) {
+    _delegate.length = newLength;
+  }
+
+  @override
+  AstNodeImpl get owner => _delegate.owner;
+
+  @override
+  TypeName operator [](int index) {
+    return _delegate[index] as TypeName;
+  }
+
+  @override
+  void operator []=(int index, TypeName node) {
+    _delegate[index] = node;
+  }
+
+  @override
+  void accept(AstVisitor visitor) {
+    _delegate.accept(visitor);
+  }
+
+  @override
+  void add(NamedType node) {
+    _delegate.add(node);
+  }
+
+  @override
+  void addAll(Iterable<TypeName> nodes) {
+    _delegate.addAll(nodes);
+  }
+
+  @override
+  void clear() {
+    _delegate.clear();
+  }
+
+  @override
+  void insert(int index, TypeName node) {
+    _delegate.insert(index, node);
+  }
+
+  @override
+  TypeName removeAt(int index) {
+    return _delegate.removeAt(index) as TypeName;
   }
 }
 

@@ -201,19 +201,13 @@ class FileState {
 
   /// The list of files this file exports.
   List<FileState?> get exportedFiles {
-    if (_exportedFiles == null) {
-      _exportedFiles = <FileState?>[];
-      for (var directive in _unlinked2!.exports) {
-        var uri = _selectRelativeUri(directive);
-        _fileForRelativeUri(uri).map(
-          (file) {
-            _exportedFiles!.add(file);
-          },
-          (_) {},
-        );
-      }
-    }
-    return _exportedFiles!;
+    return _exportedFiles ??= _unlinked2!.exports.map((directive) {
+      var uri = _selectRelativeUri(directive);
+      return _fileForRelativeUri(uri).map(
+        (file) => file,
+        (_) => null,
+      );
+    }).toList();
   }
 
   @override
@@ -221,19 +215,13 @@ class FileState {
 
   /// The list of files this file imports.
   List<FileState?> get importedFiles {
-    if (_importedFiles == null) {
-      _importedFiles = <FileState?>[];
-      for (var directive in _unlinked2!.imports) {
-        var uri = _selectRelativeUri(directive);
-        _fileForRelativeUri(uri).map(
-          (file) {
-            _importedFiles!.add(file);
-          },
-          (_) {},
-        );
-      }
-    }
-    return _importedFiles!;
+    return _importedFiles ??= _unlinked2!.imports.map((directive) {
+      var uri = _selectRelativeUri(directive);
+      return _fileForRelativeUri(uri).map(
+        (file) => file,
+        (_) => null,
+      );
+    }).toList();
   }
 
   LibraryCycle? get internal_libraryCycle => _libraryCycle;
@@ -271,13 +259,6 @@ class FileState {
   /// Return the [LibraryCycle] this file belongs to, even if it consists of
   /// just this file.  If the library cycle is not known yet, compute it.
   LibraryCycle get libraryCycle {
-    if (isPart) {
-      final library = this.library;
-      if (library != null && !identical(library, this)) {
-        return library.libraryCycle;
-      }
-    }
-
     if (_libraryCycle == null) {
       computeLibraryCycle(_fsState._saltForElements, this);
     }
@@ -299,23 +280,19 @@ class FileState {
 
   /// The list of files this library file references as parts.
   List<FileState?> get partedFiles {
-    if (_partedFiles == null) {
-      _partedFiles = <FileState?>[];
-      for (var uri in _unlinked2!.parts) {
-        _fileForRelativeUri(uri).map(
-          (file) {
-            _partedFiles!.add(file);
-            if (file != null) {
-              _fsState._partToLibraries
-                  .putIfAbsent(file, () => <FileState>[])
-                  .add(this);
-            }
-          },
-          (_) {},
-        );
-      }
-    }
-    return _partedFiles!;
+    return _partedFiles ??= _unlinked2!.parts.map((uri) {
+      return _fileForRelativeUri(uri).map(
+        (file) {
+          if (file != null) {
+            _fsState._partToLibraries
+                .putIfAbsent(file, () => <FileState>[])
+                .add(this);
+          }
+          return file;
+        },
+        (_) => null,
+      );
+    }).toList();
   }
 
   /// The external names referenced by the file.
@@ -391,21 +368,10 @@ class FileState {
   }
 
   /// Return a new parsed unresolved [CompilationUnit].
-  ///
-  /// If [content] is provided, then it is parsed instead, for example because
-  /// it contains macro-generated declarations, and we want to resolve the
-  /// unit with these declarations.
-  CompilationUnitImpl parse({
-    String? content,
-    AnalysisErrorListener? errorListener,
-  }) {
-    content ??= this.content;
+  CompilationUnitImpl parse([AnalysisErrorListener? errorListener]) {
     errorListener ??= AnalysisErrorListener.NULL_LISTENER;
     try {
-      return _parse(
-        content: content,
-        errorListener: errorListener,
-      );
+      return _parse(errorListener);
     } catch (exception, stackTrace) {
       throw CaughtExceptionWithFiles(
         exception,
@@ -583,10 +549,7 @@ class FileState {
     }
   }
 
-  CompilationUnitImpl _parse({
-    required String content,
-    required AnalysisErrorListener errorListener,
-  }) {
+  CompilationUnitImpl _parse(AnalysisErrorListener errorListener) {
     CharSequenceReader reader = CharSequenceReader(content);
     Scanner scanner = Scanner(source, reader, errorListener)
       ..configureFeatures(
@@ -803,6 +766,35 @@ class FileSystemState {
 
   @visibleForTesting
   FileSystemStateTestView get test => _testView;
+
+  /// Collected files that transitively reference a file with the [path].
+  /// These files are potentially affected by the change.
+  void collectAffected(String path, Set<FileState> affected) {
+    final knownFiles = this.knownFiles.toList();
+
+    final fileToReferences = <FileState, List<FileState>>{};
+    for (var file in knownFiles) {
+      for (var referenced in file.directReferencedFiles) {
+        var references = fileToReferences[referenced] ??= [];
+        references.add(file);
+      }
+    }
+
+    collectAffected(FileState file) {
+      if (affected.add(file)) {
+        var references = fileToReferences[file];
+        if (references != null) {
+          for (var other in references) {
+            collectAffected(other);
+          }
+        }
+      }
+    }
+
+    for (var file in _pathToFiles[path] ?? <FileState>[]) {
+      collectAffected(file);
+    }
+  }
 
   FeatureSet contextFeatureSet(
     String path,

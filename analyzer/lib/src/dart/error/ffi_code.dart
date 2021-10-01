@@ -252,7 +252,7 @@ class FfiCode extends AnalyzerErrorCode {
    * No parameters.
    */
   static const FfiCode NON_POSITIVE_ARRAY_DIMENSION = FfiCode(
-      name: 'NON_POSITIVE_INPUT_ON_ARRAY',
+      name: 'NON_POSITIVE_ARRAY_DIMENSION',
       message: "Array dimensions must be positive numbers.",
       correction: "Try changing the input to a positive number.");
 
@@ -383,9 +383,6 @@ class FfiCode extends AnalyzerErrorCode {
     uniqueName: 'SUBTYPE_OF_STRUCT_CLASS_IN_WITH',
   );
 
-  @override
-  final ErrorType type;
-
   /// Initialize a newly created error code to have the given [name]. If
   /// [uniqueName] is provided, then it will be used to construct the unique
   /// name for the code, otherwise the name will be used to construct the unique
@@ -401,17 +398,18 @@ class FfiCode extends AnalyzerErrorCode {
     bool hasPublishedDocs = false,
     required String message,
     required String name,
-    ErrorType type = ErrorType.COMPILE_TIME_ERROR,
     String? uniqueName,
-  })  : type = type,
-        super(
+  }) : super(
           correction: correction,
           hasPublishedDocs: hasPublishedDocs,
           message: message,
           name: name,
-          uniqueName: uniqueName ?? 'FfiCode.$name',
+          uniqueName: 'FfiCode.${uniqueName ?? name}',
         );
 
   @override
   ErrorSeverity get errorSeverity => type.severity;
+
+  @override
+  ErrorType get type => ErrorType.COMPILE_TIME_ERROR;
 }

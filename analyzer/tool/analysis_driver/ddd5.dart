@@ -4,7 +4,8 @@ import 'package:analyzer/src/dart/analysis/analysis_context_collection.dart';
 
 main() async {
   ResourceProvider resourceProvider = PhysicalResourceProvider.INSTANCE;
-  var analyzer = '/Users/scheglov/Source/Dart/sdk.git/sdk/pkg/analyzer';
+  // var analyzer = '/Users/scheglov/Source/Dart/sdk.git/sdk/pkg/analyzer';
+  var analyzer = '/Users/scheglov/Source/flutter/examples/hello_world';
   var collection = AnalysisContextCollectionImpl(
     includedPaths: [analyzer],
     resourceProvider: resourceProvider,
@@ -13,7 +14,9 @@ main() async {
 
   var analysisContext = collection.contextFor(analyzer);
 
-  var filePath = '$analyzer/lib/src/dart/element/class_hierarchy.dart';
+  // var filePath = '$analyzer/lib/src/dart/element/class_hierarchy.dart';
+  // var filePath = '$analyzer/lib/src/dart/analysis/testing_data.dart';
+  var filePath = '$analyzer/lib/test.dart';
   for (var i = 0; i < 1000000; i++) {
     var timer = Stopwatch()..start();
     for (var i = 0; i < 100; i++) {

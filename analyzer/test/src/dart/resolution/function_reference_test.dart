@@ -129,6 +129,10 @@ bar() {
   a.b.foo<int>;
 }
 ''', [
+      // TODO(srawlins): Get the information to [FunctionReferenceResolve] that
+      //  [PropertyElementResolver] encountered an error, to avoid double reporting.
+      error(CompileTimeErrorCode.GENERIC_METHOD_TYPE_INSTANTIATION_ON_DYNAMIC,
+          10, 12),
       error(CompileTimeErrorCode.UNDEFINED_IDENTIFIER, 10, 1),
     ]);
 
@@ -334,8 +338,173 @@ extension E on A {
         reference, findElement.method('foo'), 'void Function(int)');
   }
 
-  test_instanceGetter_explicitReceiver() async {
+  test_function_call() async {
+    await assertNoErrorsInCode('''
+void foo<T>(T a) {}
+
+void bar() {
+  foo.call<int>;
+}
+''');
+
+    assertFunctionReference(findNode.functionReference('foo.call<int>;'), null,
+        'void Function(int)');
+  }
+
+  test_function_call_tooFewTypeArgs() async {
     await assertErrorsInCode('''
+void foo<T, U>(T a, U b) {}
+
+void bar() {
+  foo.call<int>;
+}
+''', [
+      error(
+          CompileTimeErrorCode.WRONG_NUMBER_OF_TYPE_ARGUMENTS_FUNCTION, 52, 5),
+    ]);
+
+    assertFunctionReference(findNode.functionReference('foo.call<int>;'), null,
+        'void Function(dynamic, dynamic)');
+  }
+
+  test_function_call_tooManyTypeArgs() async {
+    await assertErrorsInCode('''
+void foo(String a) {}
+
+void bar() {
+  foo.call<int>;
+}
+''', [
+      error(
+          CompileTimeErrorCode.WRONG_NUMBER_OF_TYPE_ARGUMENTS_FUNCTION, 46, 5),
+    ]);
+
+    assertFunctionReference(findNode.functionReference('foo.call<int>;'), null,
+        'void Function(String)');
+  }
+
+  test_function_call_typeArgNotMatchingBound() async {
+    await assertNoErrorsInCode('''
+void foo<T extends num>(T a) {}
+
+void bar() {
+  foo.call<String>;
+}
+''');
+
+    assertFunctionReference(findNode.functionReference('foo.call<String>;'),
+        null, 'void Function(String)');
+  }
+
+  test_function_extensionOnFunction() async {
+    // TODO(srawlins): Test extension on function type, like
+    // `extension on void Function<T>(T)`.
+    await assertNoErrorsInCode('''
+void foo<T>(T a) {}
+
+void bar() {
+  foo.m<int>;
+}
+
+extension on Function {
+  void m<T>(T t) {}
+}
+''');
+
+    assertFunctionReference(findNode.functionReference('foo.m<int>;'),
+        findElement.method('m'), 'void Function(int)');
+  }
+
+  test_function_extensionOnFunction_static() async {
+    await assertErrorsInCode('''
+void foo<T>(T a) {}
+
+void bar() {
+  foo.m<int>;
+}
+
+extension on Function {
+  static void m<T>(T t) {}
+}
+''', [
+      error(CompileTimeErrorCode.INSTANCE_ACCESS_TO_STATIC_MEMBER, 40, 1),
+    ]);
+
+    assertFunctionReference(findNode.functionReference('foo.m<int>;'),
+        findElement.method('m'), 'void Function(int)');
+  }
+
+  test_implicitCallTearoff() async {
+    await assertNoErrorsInCode('''
+class C {
+  T call<T>(T t) => t;
+}
+
+foo() {
+  C()<int>;
+}
+''');
+
+    // TODO(srawlins): An arbitrary expression with a static type which is
+    // callable does not necessarily have an element. However, if we implement
+    // some "implicit call tearoff" node, it would have an element referring to
+    // the `call` method.
+    var functionReference = findNode.functionReference('C()<int>;');
+    assertType(functionReference, 'int Function(int)');
+  }
+
+  test_implicitCallTearoff_tooFewTypeArguments() async {
+    await assertErrorsInCode('''
+class C {
+  void call<T, U>(T t, U u) {}
+}
+
+foo() {
+  C()<int>;
+}
+''', [
+      error(
+          CompileTimeErrorCode
+              .WRONG_NUMBER_OF_TYPE_ARGUMENTS_ANONYMOUS_FUNCTION,
+          57,
+          5),
+    ]);
+
+    // TODO(srawlins): An arbitrary expression with a static type which is
+    // callable does not necessarily have an element. However, if we implement
+    // some "implicit call tearoff" node, it would have an element referring to
+    // the `call` method.
+    var functionReference = findNode.functionReference('C()<int>;');
+    assertType(functionReference, 'void Function(dynamic, dynamic)');
+  }
+
+  test_implicitCallTearoff_tooManyTypeArguments() async {
+    await assertErrorsInCode('''
+class C {
+  int call(int t) => t;
+}
+
+foo() {
+  C()<int>;
+}
+''', [
+      error(
+          CompileTimeErrorCode
+              .WRONG_NUMBER_OF_TYPE_ARGUMENTS_ANONYMOUS_FUNCTION,
+          50,
+          5),
+    ]);
+
+    // TODO(srawlins): An arbitrary expression with a static type which is
+    // callable does not necessarily have an element. However, if we implement
+    // some "implicit call tearoff" node, it would have an element referring to
+    // the `call` method.
+    var functionReference = findNode.functionReference('C()<int>;');
+    assertType(functionReference, 'int Function(int)');
+  }
+
+  test_instanceGetter_explicitReceiver() async {
+    await assertNoErrorsInCode('''
 class A {
   late void Function<T>(T) foo;
 }
@@ -343,10 +512,7 @@ class A {
 bar(A a) {
   a.foo<int>;
 }
-''', [
-      error(
-          CompileTimeErrorCode.DISALLOWED_TYPE_INSTANTIATION_EXPRESSION, 58, 5),
-    ]);
+''');
 
     assertFunctionReference(findNode.functionReference('foo<int>;'),
         findElement.getter('foo'), 'void Function(int)');
@@ -384,6 +550,42 @@ class A {
         reference, findElement.method('foo'), 'void Function(int)');
   }
 
+  test_instanceMethod_call() async {
+    await assertNoErrorsInCode('''
+class C {
+  void foo<T>(T a) {}
+
+  void bar() {
+    foo.call<int>;
+  }
+}
+''');
+
+    var reference = findNode.functionReference('foo.call<int>;');
+    // TODO(srawlins): PropertyElementResolver does not return an element for
+    // `.call`. If we want `findElement.method('foo')` here, we must change the
+    // policy over there.
+    assertFunctionReference(reference, null, 'void Function(int)');
+  }
+
+  test_instanceMethod_explicitReceiver_call() async {
+    await assertNoErrorsInCode('''
+class C {
+  void foo<T>(T a) {}
+}
+
+void bar(C c) {
+  c.foo.call<int>;
+}
+''');
+
+    var reference = findNode.functionReference('foo.call<int>;');
+    // TODO(srawlins): PropertyElementResolver does not return an element for
+    // `.call`. If we want `findElement.method('foo')` here, we must change the
+    // policy over there.
+    assertFunctionReference(reference, null, 'void Function(int)');
+  }
+
   test_instanceMethod_explicitReceiver_field() async {
     await assertNoErrorsInCode('''
 class A {
@@ -417,6 +619,22 @@ void f(A? a, A b) {
 
     assertFunctionReference(findNode.functionReference('(a ?? b).foo<int>;'),
         findElement.method('foo'), 'void Function(int)');
+  }
+
+  test_instanceMethod_explicitReceiver_receiverIsNotIdentifier_call() async {
+    await assertNoErrorsInCode('''
+extension on List<Object?> {
+  void foo<T>(T a) {}
+}
+
+var a = [].foo.call<int>;
+''');
+
+    var reference = findNode.functionReference('foo.call<int>;');
+    // TODO(srawlins): PropertyElementResolver does not return an element for
+    // `.call`. If we want `findElement.method('foo')` here, we must change the
+    // policy over there.
+    assertFunctionReference(reference, null, 'void Function(int)');
   }
 
   test_instanceMethod_explicitReceiver_super() async {
@@ -687,6 +905,43 @@ void bar(void Function<T>(T a) foo) {
     var reference = findNode.functionReference('foo<int>;');
     assertFunctionReference(
         reference, findElement.parameter('foo'), 'void Function(int)');
+  }
+
+  test_localVariable_call() async {
+    await assertNoErrorsInCode('''
+void foo<T>(T a) {}
+
+void bar() {
+  var fn = foo;
+  fn.call<int>;
+}
+''');
+
+    var reference = findNode.functionReference('fn.call<int>;');
+    // TODO(srawlins): PropertyElementResolver does not return an element for
+    // `.call`. If we want `findElement.method('foo')` here, we must change the
+    // policy over there.
+    assertFunctionReference(reference, null, 'void Function(int)');
+  }
+
+  test_localVariable_call_tooManyTypeArgs() async {
+    await assertErrorsInCode('''
+void foo<T>(T a) {}
+
+void bar() {
+  void Function(int) fn = foo;
+  fn.call<int>;
+}
+''', [
+      error(
+          CompileTimeErrorCode.WRONG_NUMBER_OF_TYPE_ARGUMENTS_FUNCTION, 74, 5),
+    ]);
+
+    var reference = findNode.functionReference('fn.call<int>;');
+    // TODO(srawlins): PropertyElementResolver does not return an element for
+    // `.call`. If we want `findElement.method('fn')` here, we must change the
+    // policy over there.
+    assertFunctionReference(reference, null, 'void Function(int)');
   }
 
   test_localVariable_typeVariable_boundToFunction() async {
@@ -1040,6 +1295,21 @@ bar() {
         findNode.functionReference('foo<int>;'), null, 'dynamic');
   }
 
+  test_topLevelFunction_targetOfCall() async {
+    await assertNoErrorsInCode('''
+void foo<T>(T a) {}
+
+void bar() {
+  foo<int>.call;
+}
+''');
+
+    assertFunctionReference(findNode.functionReference('foo<int>.call;'),
+        findElement.topFunction('foo'), 'void Function(int)');
+    assertSimpleIdentifier(findNode.simple('call;'),
+        element: null, type: 'void Function(int)');
+  }
+
   test_topLevelFunction_targetOfFunctionCall() async {
     await assertNoErrorsInCode('''
 void foo<T>(T arg) {}
@@ -1065,6 +1335,8 @@ bar() {
   prefix.a.foo<int>;
 }
 ''', [
+      error(CompileTimeErrorCode.GENERIC_METHOD_TYPE_INSTANTIATION_ON_DYNAMIC,
+          38, 17),
       error(CompileTimeErrorCode.UNDEFINED_PREFIXED_NAME, 45, 1),
     ]);
 

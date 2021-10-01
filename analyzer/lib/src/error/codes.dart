@@ -2899,6 +2899,18 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
           hasPublishedDocs: true);
 
   /**
+   * No parameters.
+   */
+  static const CompileTimeErrorCode
+      CONST_WITH_TYPE_PARAMETERS_FUNCTION_TEAROFF = CompileTimeErrorCode(
+          'CONST_WITH_TYPE_PARAMETERS',
+          "A constant function tearoff can't use a type parameter as a type "
+              "argument.",
+          correction: "Try replacing the type parameter with a different type.",
+          uniqueName: 'CONST_WITH_TYPE_PARAMETERS_FUNCTION_TEAROFF',
+          hasPublishedDocs: true);
+
+  /**
    * 16.12.2 Const: It is a compile-time error if <i>T.id</i> is not the name of
    * a constant constructor declared by the type <i>T</i>.
    *
@@ -3037,7 +3049,7 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
   /**
    * No parameters.
    */
-  /* #### Description
+  // #### Description
   //
   // The analyzer produces this diagnostic when a named parameter has both the
   // `required` modifier and a default value. If the parameter is required, then
@@ -3065,7 +3077,7 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
   //
   // ```dart
   // void log({String message = 'no message'}) {}
-  // ``` */
+  // ```
   static const CompileTimeErrorCode DEFAULT_VALUE_ON_REQUIRED_PARAMETER =
       CompileTimeErrorCode('DEFAULT_VALUE_ON_REQUIRED_PARAMETER',
           "Required named parameters can't have a default value.",
@@ -5076,7 +5088,7 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
         "others aren't.",
     correction: "Try adding initializers for the fields.",
     hasPublishedDocs: true,
-    uniqueName: 'FINAL_NOT_INITIALIZED_CONSTRUCTOR_3',
+    uniqueName: 'FINAL_NOT_INITIALIZED_CONSTRUCTOR_3_PLUS',
   );
 
   /**
@@ -5242,21 +5254,55 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
   /**
    * No parameters.
    */
+  // #### Description
+  //
+  // The analyzer produces this diagnostic when an instance method is being torn
+  // off from a receiver whose type is `dynamic`, and the tear-off includes type
+  // arguments. Because the analyzer can't know how many type parameters the
+  // method has, or whether it has any type parameters, there's no way it can
+  // validate that the type arguments are correct. As a result, the type
+  // arguments aren't allowed.
+  //
+  // #### Example
+  //
+  // The following code produces this diagnostic because the type of `p` is
+  // `dynamic` and the tear-off of `m` has type arguments:
+  //
+  // ```dart
+  // void f(dynamic list) {
+  //   [!list.fold!]<int>;
+  // }
+  // ```
+  //
+  // #### Common fixes
+  //
+  // If you can use a more specific type than `dynamic`, then change the type of
+  // the receiver:
+  //
+  // ```dart
+  // void f(List<Object> list) {
+  //   list.fold<int>;
+  // }
+  // ```
+  //
+  // If you can't use a more specific type, then remove the type arguments:
+  //
+  // ```dart
+  // void f(dynamic list) {
+  //   list.cast;
+  // }
+  // ```
   static const CompileTimeErrorCode
       GENERIC_METHOD_TYPE_INSTANTIATION_ON_DYNAMIC = CompileTimeErrorCode(
     'GENERIC_METHOD_TYPE_INSTANTIATION_ON_DYNAMIC',
-    "A method tearoff on a target whose type is 'dynamic' can't have type "
+    "A method tear-off on a receiver whose type is 'dynamic' can't have type "
         "arguments.",
     correction:
-        "Specify the type of the target, or remove the type arguments from the "
-        "method tearoff.",
+        "Specify the type of the receiver, or remove the type arguments from "
+        "the method tear-off.",
   );
 
   /**
-   * 10.3 Setters: It is a compile-time error if a class has a setter named
-   * `v=` with argument type `T` and a getter named `v` with return type `S`,
-   * and `S` may not be assigned to `T`.
-   *
    * Parameters:
    * 0: the name of the getter
    * 1: the type of the getter
@@ -6250,11 +6296,45 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
       hasPublishedDocs: true);
 
   /**
-   * It is a compile-time error for an instance creation `C<T1, .. Tk>(...)` or
-   * `C<T1, .. Tk>.name()` (where `k` may be zero, which means that the type
-   * argument list is absent) if `C` denotes a type alias that expands to a
-   * type variable.
+   * No parameters.
    */
+  // #### Description
+  //
+  // The analyzer produces this diagnostic when a constructor invocation is
+  // found where the type being instantiated is a type alias for one of the type
+  // parameters of the type alias. This isn’t allowed because the value of the
+  // type parameter is a type rather than a class.
+  //
+  // #### Example
+  //
+  // The following code produces this diagnostic because it creates an instance
+  // of `A`, even though `A` is a type alias that is defined to be equivalent to
+  // a type parameter:
+  //
+  // ```dart
+  // typedef A<T> = T;
+  //
+  // void f() {
+  //   const [!A!]<int>();
+  // }
+  // ```
+  //
+  // #### Common fixes
+  //
+  // Use either a class name or a type alias defined to be a class, rather than
+  // a type alias defined to be a type parameter:
+  //
+  // ```dart
+  // typedef A<T> = C<T>;
+  //
+  // void f() {
+  //   const A<int>();
+  // }
+  //
+  // class C<T> {
+  //   const C();
+  // }
+  // ```
   static const CompileTimeErrorCode
       INSTANTIATE_TYPE_ALIAS_EXPANDS_TO_TYPE_PARAMETER = CompileTimeErrorCode(
           'INSTANTIATE_TYPE_ALIAS_EXPANDS_TO_TYPE_PARAMETER',
@@ -6417,6 +6497,55 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
           "constructor invocation.",
       hasPublishedDocs: true);
 
+  /**
+   * No parameters.
+   */
+  // #### Description
+  //
+  // The analyzer produces this diagnostic when a constant defined in a library
+  // that is imported as a deferred library is referenced in the argument list
+  // of an annotation. Annotations are evaluated at compile time, and values
+  // from deferred libraries aren't available at compile time.
+  //
+  // For more information, see the language tour's coverage of
+  // [deferred loading](https://dart.dev/guides/language/language-tour#lazily-loading-a-library).
+  //
+  // #### Example
+  //
+  // The following code produces this diagnostic because the constant `pi` is
+  // being referenced in the argument list of an annotation, even though the
+  // library that defines it is being imported as a deferred library:
+  //
+  // ```dart
+  // import 'dart:math' deferred as math;
+  //
+  // class C {
+  //   const C(double d);
+  // }
+  //
+  // @C([!math.pi!])
+  // void f () {}
+  // ```
+  //
+  // #### Common fixes
+  //
+  // If you need to reference the imported constant, then remove the `deferred`
+  // keyword:
+  //
+  // ```dart
+  // import 'dart:math' as math;
+  //
+  // class C {
+  //   const C(double d);
+  // }
+  //
+  // @C(math.pi)
+  // void f () {}
+  // ```
+  //
+  // If the import is required to be deferred and there's another constant that
+  // is appropriate, then use that constant in place of the constant from the
+  // deferred library.
   static const CompileTimeErrorCode
       INVALID_ANNOTATION_CONSTANT_VALUE_FROM_DEFERRED_LIBRARY =
       CompileTimeErrorCode(
@@ -6978,7 +7107,7 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
   // ```
   static const CompileTimeErrorCode INVALID_MODIFIER_ON_SETTER =
       CompileTimeErrorCode('INVALID_MODIFIER_ON_SETTER',
-          "The modifier '{0}' can't be applied to the body of a setter.",
+          "Setters can't use 'async', 'async*', or 'sync*'.",
           correction: "Try removing the modifier.", hasPublishedDocs: true);
 
   /**
@@ -7702,15 +7831,6 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
           hasPublishedDocs: true);
 
   /**
-   * Parameters:
-   * 0: the name of the macro
-   * 1: the message
-   */
-  static const CompileTimeErrorCode MACRO_EXECUTION_ERROR =
-      CompileTimeErrorCode(
-          'MACRO_EXECUTION_ERROR', "Exception thrown by macro {0}: {1}");
-
-  /**
    * No parameters.
    */
   // #### Description
@@ -8339,7 +8459,7 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
   // #### Example
   //
   // The following code produces this diagnostic because the mixin `M` requires
-  //that the class to which it's applied be a subclass of `A`, but `Object`
+  // that the class to which it's applied be a subclass of `A`, but `Object`
   // isn't a subclass of `A`:
   //
   // ```dart
@@ -9057,7 +9177,7 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
    */
   static const CompileTimeErrorCode NO_GENERATIVE_CONSTRUCTORS_IN_SUPERCLASS =
       CompileTimeErrorCode(
-          'NO_GENERATIVE_CONSTRUCTOR_IN_SUPERCLASS',
+          'NO_GENERATIVE_CONSTRUCTORS_IN_SUPERCLASS',
           "The class '{0}' cannot extend '{1}' because '{1}' only has factory "
               "constructors (no generative constructors), and '{0}' has at "
               "least one generative constructor.",
@@ -10393,6 +10513,27 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
    * Parameters:
    * 0: the name of the operator that is not a binary operator.
    */
+  // #### Description
+  //
+  // The analyzer produces this diagnostic when an operator that can only be
+  // used as a unary operator is used as a binary operator.
+  //
+  // #### Example
+  //
+  // The following code produces this diagnostic because the operator `~` can
+  // only be used as a unary operator:
+  //
+  // ```dart
+  // var a = 5 [!~!] 3;
+  // ```
+  //
+  // #### Common fixes
+  //
+  // Replace the operator with the correct binary operator:
+  //
+  // ```dart
+  // var a = 5 - 3;
+  // ```
   static const CompileTimeErrorCode NOT_BINARY_OPERATOR = CompileTimeErrorCode(
       'NOT_BINARY_OPERATOR', "'{0}' isn't a binary operator.");
 
@@ -11892,16 +12033,48 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
           hasPublishedDocs: true);
 
   /**
-   * It is a compile-time error for a redirecting factory constructor to have
-   * a body which is a type alias that expands to a type variable, or a body
-   * which is a parameterized type of the form `F<T1, .. Tk>`, where `F` is
-   * a type alias that expands to a type variable.
+   * No parameters.
    */
+  // #### Description
+  //
+  // The analyzer produces this diagnostic when a redirecting factory
+  // constructor redirects to a type alias, and the type alias expands to one of
+  // the type parameters of the type alias. This isn’t allowed because the value
+  // of the type parameter is a type rather than a class.
+  //
+  // #### Example
+  //
+  // The following code produces this diagnostic because the redirect to `B<A>`
+  // is to a type alias whose value is `T`, even though it looks like the value
+  // should be `A`:
+  //
+  // ```dart
+  // class A implements C {}
+  //
+  // typedef B<T> = T;
+  //
+  // abstract class C {
+  //   factory C() = [!B!]<A>;
+  // }
+  // ```
+  //
+  // #### Common fixes
+  //
+  // Use either a class name or a type alias that is defined to be a class
+  // rather than a type alias defined to be a type parameter:
+  //
+  // ```dart
+  // class A implements C {}
+  //
+  // abstract class C {
+  //   factory C() = A;
+  // }
+  // ```
   static const CompileTimeErrorCode
       REDIRECT_TO_TYPE_ALIAS_EXPANDS_TO_TYPE_PARAMETER = CompileTimeErrorCode(
           'REDIRECT_TO_TYPE_ALIAS_EXPANDS_TO_TYPE_PARAMETER',
-          "Redirecting constructor can't redirect to a type alias "
-              "that expands to a type parameter.",
+          "A redirecting constructor can't redirect to a type alias that "
+              "expands to a type parameter.",
           correction: "Try replacing it with a class.");
 
   /**
@@ -12076,9 +12249,9 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
   // #### Description
   //
   // The analyzer produces this diagnostic when a generator function (one whose
-  // body is marked with either `async*` or `sync*`) uses a `return` statement
-  // to return a value. In both cases, they should use `yield` instead of
-  // `return`.
+  // body is marked with either `async*` or `sync*`) uses either a `return`
+  // statement to return a value or implicitly returns a value because of using
+  // `=>`. In any of these cases, they should use `yield` instead of `return`.
   //
   // #### Example
   //
@@ -12091,7 +12264,23 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
   // }
   // ```
   //
+  // The following code produces this diagnostic because the function `f` is a
+  // generator and is implicitly returning a value:
+  //
+  // ```dart
+  // Stream<int> f() async* [!=>!] 3;
+  // ```
+  //
   // #### Common fixes
+  //
+  // If the function is using `=>` for the body of the function, then convert it
+  // to a block function body, and use `yield` to return a value:
+  //
+  // ```dart
+  // Stream<int> f() async* {
+  //   yield 3;
+  // }
+  // ```
   //
   // If the method is intended to be a generator, then use `yield` to return a
   // value:
@@ -12614,11 +12803,36 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
   /**
    * No parameters.
    */
+  // #### Description
+  //
+  // The analyzer produces this diagnostic when a generative constructor from an
+  // abstract class is being torn off. This isn't allowed because it isn't valid
+  // to create an instance of an abstract class, which means that there isn't
+  // any valid use for the torn off constructor.
+  //
+  // #### Example
+  //
+  // The following code produces this diagnostic because the constructor `C.new`
+  // is being torn off and the class `C` is an abstract class:
+  //
+  // ```dart
+  // abstract class C {
+  //   C();
+  // }
+  //
+  // void f() {
+  //   [!C.new!];
+  // }
+  // ```
+  //
+  // #### Common fixes
+  //
+  // Tear off the constructor of a concrete class.
   static const CompileTimeErrorCode
       TEAROFF_OF_GENERATIVE_CONSTRUCTOR_OF_ABSTRACT_CLASS =
       CompileTimeErrorCode(
           'TEAROFF_OF_GENERATIVE_CONSTRUCTOR_OF_ABSTRACT_CLASS',
-          "A generative constructor of an abstract class can't be torn off",
+          "A generative constructor of an abstract class can't be torn off.",
           correction: "Try tearing off a constructor of a concrete class, or a "
               "non-generative constructor.");
 
@@ -14793,7 +15007,6 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
           correction:
               "Try adjusting the number of type arguments to match the number "
               "of type parameters.",
-          hasPublishedDocs: true,
           uniqueName: 'WRONG_NUMBER_OF_TYPE_ARGUMENTS_ANONYMOUS_FUNCTION');
 
   /**
@@ -14912,8 +15125,7 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
               "but {2} type arguments were given.",
           correction:
               "Try adjusting the number of type arguments to match the number "
-              "of type parameters.",
-          hasPublishedDocs: true);
+              "of type parameters.");
 
   /**
    * Parameters:
@@ -15066,7 +15278,7 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
   /**
    * ?? Yield: It is a compile-time error if a yield statement appears in a
    * function that is not a generator function.
-   * 
+   *
    * No parameters.
    */
   static const CompileTimeErrorCode YIELD_IN_NON_GENERATOR =
@@ -15340,7 +15552,7 @@ class StaticWarningCode extends AnalyzerErrorCode {
   // #### Description
   //
   // The analyzer produces this diagnostic when a null-aware operator (`?.`,
-  // `?..`, `?[`, `?..[`, or `...?`) is used on a target that's known to be
+  // `?..`, `?[`, `?..[`, or `...?`) is used on a receiver that's known to be
   // non-nullable.
   //
   // #### Example

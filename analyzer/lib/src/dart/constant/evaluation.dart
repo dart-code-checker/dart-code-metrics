@@ -1098,7 +1098,7 @@ class ConstantVisitor extends UnifyingAstVisitor<DartObjectImpl> {
       node.typeOrThrow,
       FunctionState(node.constructorName.staticElement),
     );
-    var typeArgumentList = node.constructorName.type.typeArguments;
+    var typeArgumentList = node.constructorName.type2.typeArguments;
     if (typeArgumentList == null) {
       return constructorTearoffResult;
     } else {
@@ -1297,6 +1297,29 @@ class ConstantVisitor extends UnifyingAstVisitor<DartObjectImpl> {
       node.expression.accept(this);
 
   @override
+  DartObjectImpl? visitNamedType(NamedType node) {
+    var type = node.type;
+
+    if (type == null) {
+      return null;
+    }
+
+    if (!_isNonNullableByDefault && hasTypeParameterReference(type)) {
+      return super.visitNamedType(node);
+    }
+
+    if (_substitution != null) {
+      type = _substitution!.substituteType(type);
+    }
+
+    return DartObjectImpl(
+      typeSystem,
+      _typeProvider.typeType,
+      TypeState(type),
+    );
+  }
+
+  @override
   DartObjectImpl? visitNode(AstNode node) {
     // TODO(https://github.com/dart-lang/sdk/issues/47061): Use a specific
     // error code.
@@ -1485,26 +1508,8 @@ class ConstantVisitor extends UnifyingAstVisitor<DartObjectImpl> {
   }
 
   @override
-  DartObjectImpl? visitTypeName(TypeName node) {
-    var type = node.type;
-
-    if (type == null) {
-      return null;
-    }
-
-    if (!_isNonNullableByDefault && hasTypeParameterReference(type)) {
-      return super.visitTypeName(node);
-    }
-
-    if (_substitution != null) {
-      type = _substitution!.substituteType(type);
-    }
-
-    return DartObjectImpl(
-      typeSystem,
-      _typeProvider.typeType,
-      TypeState(type),
-    );
+  DartObjectImpl? visitTypeLiteral(TypeLiteral node) {
+    return node.type.accept(this);
   }
 
   /// Add the entries produced by evaluating the given collection [element] to
@@ -1716,7 +1721,7 @@ class ConstantVisitor extends UnifyingAstVisitor<DartObjectImpl> {
     } else if (variableElement is TypeAliasElement) {
       var type = variableElement.instantiate(
         typeArguments: variableElement.typeParameters
-            .map((t) => _typeProvider.dynamicType)
+            .map((t) => t.bound ?? _typeProvider.dynamicType)
             .toList(),
         nullabilitySuffix: NullabilitySuffix.star,
       );

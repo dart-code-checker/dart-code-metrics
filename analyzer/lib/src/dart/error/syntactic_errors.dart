@@ -114,6 +114,9 @@ class ParserErrorCode extends ErrorCode {
   static const ParserErrorCode CONSTRUCTOR_WITH_RETURN_TYPE =
       _CONSTRUCTOR_WITH_RETURN_TYPE;
 
+  static const ParserErrorCode CONSTRUCTOR_WITH_TYPE_ARGUMENTS =
+      _CONSTRUCTOR_WITH_TYPE_ARGUMENTS;
+
   static const ParserErrorCode CONTINUE_OUTSIDE_OF_LOOP =
       _CONTINUE_OUTSIDE_OF_LOOP;
 
@@ -866,7 +869,7 @@ class ParserErrorCode extends ErrorCode {
    * operator.
    */
   static const ParserErrorCode TYPE_PARAMETER_ON_OPERATOR = ParserErrorCode(
-      'TYPE_PARAMETERS_ON_OPERATOR',
+      'TYPE_PARAMETER_ON_OPERATOR',
       "Types parameters aren't allowed when defining an operator.",
       correction: "Try removing the type parameters.");
 

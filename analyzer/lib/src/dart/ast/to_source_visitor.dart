@@ -172,7 +172,7 @@ class ToSourceVisitor implements AstVisitor<void> {
     _visitNode(node.name);
     _visitNode(node.typeParameters);
     sink.write(' = ');
-    _visitNode(node.superclass);
+    _visitNode(node.superclass2);
     _visitNode(node.withClause, prefix: ' ');
     _visitNode(node.implementsClause, prefix: ' ');
     sink.write(';');
@@ -237,7 +237,7 @@ class ToSourceVisitor implements AstVisitor<void> {
 
   @override
   void visitConstructorName(ConstructorName node) {
-    _visitNode(node.type);
+    _visitNode(node.type2);
     _visitNode(node.name, prefix: '.');
   }
 
@@ -355,7 +355,7 @@ class ToSourceVisitor implements AstVisitor<void> {
   @override
   void visitExtendsClause(ExtendsClause node) {
     sink.write('extends ');
-    _visitNode(node.superclass);
+    _visitNode(node.superclass2);
   }
 
   @override
@@ -600,7 +600,7 @@ class ToSourceVisitor implements AstVisitor<void> {
   @override
   void visitImplementsClause(ImplementsClause node) {
     sink.write('implements ');
-    _visitNodeList(node.interfaces, separator: ', ');
+    _visitNodeList(node.interfaces2, separator: ', ');
   }
 
   @override
@@ -756,6 +756,15 @@ class ToSourceVisitor implements AstVisitor<void> {
   }
 
   @override
+  void visitNamedType(NamedType node) {
+    _visitNode(node.name);
+    _visitNode(node.typeArguments);
+    if (node.question != null) {
+      sink.write('?');
+    }
+  }
+
+  @override
   void visitNativeClause(NativeClause node) {
     sink.write('native ');
     _visitNode(node.name);
@@ -776,7 +785,7 @@ class ToSourceVisitor implements AstVisitor<void> {
   @override
   void visitOnClause(OnClause node) {
     sink.write('on ');
-    _visitNodeList(node.superclassConstraints, separator: ', ');
+    _visitNodeList(node.superclassConstraints2, separator: ', ');
   }
 
   @override
@@ -1007,16 +1016,13 @@ class ToSourceVisitor implements AstVisitor<void> {
 
   @override
   void visitTypeLiteral(TypeLiteral node) {
-    _visitNode(node.typeName);
+    _visitNode(node.type);
   }
 
+  @Deprecated('Override visitNamedType instead')
   @override
   void visitTypeName(TypeName node) {
-    _visitNode(node.name);
-    _visitNode(node.typeArguments);
-    if (node.question != null) {
-      sink.write('?');
-    }
+    throw StateError('Should not be invoked');
   }
 
   @override
@@ -1072,7 +1078,7 @@ class ToSourceVisitor implements AstVisitor<void> {
   @override
   void visitWithClause(WithClause node) {
     sink.write('with ');
-    _visitNodeList(node.mixinTypes, separator: ', ');
+    _visitNodeList(node.mixinTypes2, separator: ', ');
   }
 
   @override

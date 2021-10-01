@@ -93,8 +93,8 @@ class A extends Object with M {} // A
     var aElement = findElement.class_('A');
     assertElementTypes(aElement.mixins, ['M']);
 
-    var mRef = findNode.typeName('M {} // A');
-    assertTypeName(mRef, mElement, 'M');
+    var mRef = findNode.namedType('M {} // A');
+    assertNamedType(mRef, mElement, 'M');
   }
 
   test_classTypeAlias_with() async {
@@ -108,8 +108,8 @@ class A = Object with M;
     var aElement = findElement.class_('A');
     assertElementTypes(aElement.mixins, ['M']);
 
-    var mRef = findNode.typeName('M;');
-    assertTypeName(mRef, mElement, 'M');
+    var mRef = findNode.namedType('M;');
+    assertNamedType(mRef, mElement, 'M');
   }
 
   test_commentReference() async {
@@ -308,8 +308,8 @@ mixin M implements math.Random {}
     var element = findElement.mixin('M');
     assertElementTypes(element.interfaces, ['Random']);
 
-    var typeRef = findNode.typeName('Random {}');
-    assertTypeName(typeRef, randomElement, 'Random',
+    var typeRef = findNode.namedType('Random {}');
+    assertNamedType(typeRef, randomElement, 'Random',
         expectedPrefix: mathImport.prefix);
   }
 
@@ -323,8 +323,8 @@ mixin M implements int {}
     var element = findElement.mixin('M');
     assertElementTypes(element.interfaces, ['int']);
 
-    var typeRef = findNode.typeName('int {}');
-    assertTypeName(typeRef, intElement, 'int');
+    var typeRef = findNode.namedType('int {}');
+    assertNamedType(typeRef, intElement, 'int');
   }
 
   test_error_implementsClause_nonClass_void() async {
@@ -338,8 +338,8 @@ mixin M implements void {}
     var element = findElement.mixin('M');
     assertElementTypes(element.interfaces, []);
 
-    var typeRef = findNode.typeName('void {}');
-    assertTypeName(typeRef, null, 'void');
+    var typeRef = findNode.namedType('void {}');
+    assertNamedType(typeRef, null, 'void');
   }
 
   test_error_memberWithClassName_getter() async {
@@ -814,7 +814,7 @@ main() {
 
     var creation = findNode.instanceCreation('M.named();');
     var m = findElement.mixin('M');
-    assertElement(creation.constructorName.type.name, m);
+    assertElement(creation.constructorName.type2.name, m);
   }
 
   test_error_onClause_deferredClass() async {
@@ -831,8 +831,8 @@ mixin M on math.Random {}
     var element = findElement.mixin('M');
     assertElementTypes(element.superclassConstraints, ['Random']);
 
-    var typeRef = findNode.typeName('Random {}');
-    assertTypeName(typeRef, randomElement, 'Random',
+    var typeRef = findNode.namedType('Random {}');
+    assertNamedType(typeRef, randomElement, 'Random',
         expectedPrefix: mathImport.prefix);
   }
 
@@ -847,8 +847,8 @@ mixin M on int {}
     var element = findElement.mixin('M');
     assertElementTypes(element.superclassConstraints, ['int']);
 
-    var typeRef = findNode.typeName('int {}');
-    assertTypeName(typeRef, intElement, 'int');
+    var typeRef = findNode.namedType('int {}');
+    assertNamedType(typeRef, intElement, 'int');
   }
 
   test_error_onClause_nonInterface_dynamic() async {
@@ -862,8 +862,8 @@ mixin M on dynamic {}
     var element = findElement.mixin('M');
     assertElementTypes(element.superclassConstraints, ['Object']);
 
-    var typeRef = findNode.typeName('dynamic {}');
-    assertTypeName(typeRef, dynamicElement, 'dynamic');
+    var typeRef = findNode.namedType('dynamic {}');
+    assertNamedType(typeRef, dynamicElement, 'dynamic');
   }
 
   test_error_onClause_nonInterface_enum() async {
@@ -878,8 +878,8 @@ mixin M on E {}
     var element = findElement.mixin('M');
     assertElementTypes(element.superclassConstraints, ['Object']);
 
-    var typeRef = findNode.typeName('E {}');
-    assertTypeName(typeRef, findElement.enum_('E'), 'E');
+    var typeRef = findNode.namedType('E {}');
+    assertNamedType(typeRef, findElement.enum_('E'), 'E');
   }
 
   test_error_onClause_nonInterface_void() async {
@@ -894,8 +894,8 @@ mixin M on void {}
     var element = findElement.mixin('M');
     assertElementTypes(element.superclassConstraints, ['Object']);
 
-    var typeRef = findNode.typeName('void {}');
-    assertTypeName(typeRef, null, 'void');
+    var typeRef = findNode.namedType('void {}');
+    assertNamedType(typeRef, null, 'void');
   }
 
   test_error_onClause_OK_mixin() async {
@@ -956,7 +956,7 @@ mixin M<T> {
     var fNode = findNode.variableDeclaration('f;');
     assertElement(fNode.name, fElement);
 
-    assertTypeName(findNode.typeName('T f'), tElement, 'T');
+    assertNamedType(findNode.namedType('T f'), tElement, 'T');
 
     var accessors = element.accessors;
     expect(accessors, hasLength(2));
@@ -975,11 +975,11 @@ mixin M implements A, B {} // M
     var element = findElement.mixin('M');
     assertElementTypes(element.interfaces, ['A', 'B']);
 
-    var aRef = findNode.typeName('A, ');
-    assertTypeName(aRef, findElement.class_('A'), 'A');
+    var aRef = findNode.namedType('A, ');
+    assertNamedType(aRef, findElement.class_('A'), 'A');
 
-    var bRef = findNode.typeName('B {} // M');
-    assertTypeName(bRef, findElement.class_('B'), 'B');
+    var bRef = findNode.namedType('B {} // M');
+    assertNamedType(bRef, findElement.class_('B'), 'B');
   }
 
   test_invalid_unresolved_before_mixin() async {
@@ -1063,11 +1063,11 @@ mixin M on A, B {} // M
     var element = findElement.mixin('M');
     assertElementTypes(element.superclassConstraints, ['A', 'B']);
 
-    var aRef = findNode.typeName('A, ');
-    assertTypeName(aRef, findElement.class_('A'), 'A');
+    var aRef = findNode.namedType('A, ');
+    assertNamedType(aRef, findElement.class_('A'), 'A');
 
-    var bRef = findNode.typeName('B {} // M');
-    assertTypeName(bRef, findElement.class_('B'), 'B');
+    var bRef = findNode.namedType('B {} // M');
+    assertNamedType(bRef, findElement.class_('B'), 'B');
   }
 
   test_recursiveInterfaceInheritance_implements() async {

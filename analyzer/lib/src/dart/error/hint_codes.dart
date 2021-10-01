@@ -399,7 +399,7 @@ class HintCode extends AnalyzerErrorCode {
     correction: "Try replacing the use of the deprecated member with the "
         "replacement.",
     hasPublishedDocs: true,
-    uniqueName: 'HintCode.DEPRECATED_MEMBER_USE_FROM_SAME_PACKAGE_WITH_MESSAGE',
+    uniqueName: 'DEPRECATED_MEMBER_USE_FROM_SAME_PACKAGE_WITH_MESSAGE',
   );
 
   /**
@@ -413,7 +413,7 @@ class HintCode extends AnalyzerErrorCode {
     correction: "Try replacing the use of the deprecated member with the "
         "replacement.",
     hasPublishedDocs: true,
-    uniqueName: 'HintCode.DEPRECATED_MEMBER_USE_WITH_MESSAGE',
+    uniqueName: 'DEPRECATED_MEMBER_USE_WITH_MESSAGE',
   );
 
   /**
@@ -992,7 +992,7 @@ class HintCode extends AnalyzerErrorCode {
     "The Dart language version override number must begin with '@dart'",
     correction: "Specify a Dart language version override with a comment "
         "like '// @dart = 2.0'.",
-    uniqueName: 'HintCode.INVALID_LANGUAGE_VERSION_OVERRIDE_AT_SIGN',
+    uniqueName: 'INVALID_LANGUAGE_VERSION_OVERRIDE_AT_SIGN',
   );
 
   /// Invalid Dart language version comments don't follow the specification [1].
@@ -1011,7 +1011,7 @@ class HintCode extends AnalyzerErrorCode {
         "an '=' character",
     correction: "Specify a Dart language version override with a comment "
         "like '// @dart = 2.0'.",
-    uniqueName: 'HintCode.INVALID_LANGUAGE_VERSION_OVERRIDE_EQUALS',
+    uniqueName: 'INVALID_LANGUAGE_VERSION_OVERRIDE_EQUALS',
   );
 
   static const HintCode INVALID_LANGUAGE_VERSION_OVERRIDE_GREATER = HintCode(
@@ -1047,7 +1047,7 @@ class HintCode extends AnalyzerErrorCode {
         "the word 'dart' in all lower case",
     correction: "Specify a Dart language version override with a comment "
         "like '// @dart = 2.0'.",
-    uniqueName: 'HintCode.INVALID_LANGUAGE_VERSION_OVERRIDE_LOWER_CASE',
+    uniqueName: 'INVALID_LANGUAGE_VERSION_OVERRIDE_LOWER_CASE',
   );
 
   /// Invalid Dart language version comments don't follow the specification [1].
@@ -1066,7 +1066,7 @@ class HintCode extends AnalyzerErrorCode {
         "version number, like '2.0', after the '=' character.",
     correction: "Specify a Dart language version override with a comment "
         "like '// @dart = 2.0'.",
-    uniqueName: 'HintCode.INVALID_LANGUAGE_VERSION_OVERRIDE_NUMBER',
+    uniqueName: 'INVALID_LANGUAGE_VERSION_OVERRIDE_NUMBER',
   );
 
   /// Invalid Dart language version comments don't follow the specification [1].
@@ -1085,7 +1085,7 @@ class HintCode extends AnalyzerErrorCode {
         "a letter",
     correction: "Specify a Dart language version override with a comment "
         "like '// @dart = 2.0'.",
-    uniqueName: 'HintCode.INVALID_LANGUAGE_VERSION_OVERRIDE_PREFIX',
+    uniqueName: 'INVALID_LANGUAGE_VERSION_OVERRIDE_PREFIX',
   );
 
   /// Invalid Dart language version comments don't follow the specification [1].
@@ -1105,8 +1105,7 @@ class HintCode extends AnalyzerErrorCode {
         "any non-whitespace characters",
     correction: "Specify a Dart language version override with a comment "
         "like '// @dart = 2.0'.",
-    uniqueName:
-        'HintCode.INVALID_LANGUAGE_VERSION_OVERRIDE_TRAILING_CHARACTERS',
+    uniqueName: 'INVALID_LANGUAGE_VERSION_OVERRIDE_TRAILING_CHARACTERS',
   );
 
   /// Invalid Dart language version comments don't follow the specification [1].
@@ -1126,7 +1125,7 @@ class HintCode extends AnalyzerErrorCode {
         'exactly two slashes.',
     correction: "Specify a Dart language version override with a comment "
         "like '// @dart = 2.0'.",
-    uniqueName: 'HintCode.INVALID_LANGUAGE_VERSION_OVERRIDE_TWO_SLASHES',
+    uniqueName: 'INVALID_LANGUAGE_VERSION_OVERRIDE_TWO_SLASHES',
   );
 
   /**
@@ -1311,12 +1310,46 @@ class HintCode extends AnalyzerErrorCode {
           "of '{1}'.");
 
   /**
-   * This hint is generated anywhere where a member annotated with
-   * `@visibleForOverriding` is used for another purpose than overriding it.
-   *
    * Parameters:
    * 0: the name of the member
    */
+  // #### Description
+  //
+  // The analyzer produces this diagnostic when an instance member that is
+  // annotated with `visibleForOverriding` is referenced outside the library in
+  // which it's declared for any reason other than to override it.
+  //
+  // #### Example
+  //
+  // Given a file named `a.dart` containing the following declaration:
+  //
+  // ```dart
+  // %uri="lib/a.dart"
+  // import 'package:meta/meta.dart';
+  //
+  // class A {
+  //   @visibleForOverriding
+  //   void a() {}
+  // }
+  // ```
+  //
+  // The following code produces this diagnostic because the method `m` is being
+  // invoked even though the only reason it's public is to allow it to be
+  // overridden:
+  //
+  // ```dart
+  // import 'a.dart';
+  //
+  // class B extends A {
+  //   void b() {
+  //     [!a!]();
+  //   }
+  // }
+  // ```
+  //
+  // #### Common fixes
+  //
+  // Remove the invalid use of the member.
   static const HintCode INVALID_USE_OF_VISIBLE_FOR_OVERRIDING_MEMBER = HintCode(
       'INVALID_USE_OF_VISIBLE_FOR_OVERRIDING_MEMBER',
       "The member '{0}' can only be used for overriding.");
@@ -1399,13 +1432,40 @@ class HintCode extends AnalyzerErrorCode {
           "meaningful on declarations of public members.",
       hasPublishedDocs: true);
 
-  /// Hint when an `@visibleForOverriding` annotation is used on something that
-  /// isn't an interface member.
+  /**
+   * No parameters.
+   */
+  // #### Description
+  //
+  // The analyzer produces this diagnostic when anything other than a public
+  // instance member of a class is annotated with `visibleForOverriding`.
+  // Because only public instance members can be overridden outside the defining
+  // library, there's no value to annotating any other declarations.
+  //
+  // #### Example
+  //
+  // The following code produces this diagnostic because the annotation is on a
+  // class, and classes can't be overridden:
+  //
+  // ```dart
+  // import 'package:meta/meta.dart';
+  //
+  // [!@visibleForOverriding!]
+  // class C {}
+  // ```
+  //
+  // #### Common fixes
+  //
+  // Remove the annotation:
+  //
+  // ```dart
+  // class C {}
+  // ```
   static const HintCode INVALID_VISIBLE_FOR_OVERRIDING_ANNOTATION = HintCode(
     'INVALID_VISIBLE_FOR_OVERRIDING_ANNOTATION',
-    "The declaration '{0}' is annotated with 'visibleForOverriding'. As '{0}' "
-        "is not an interface member that could be overriden, the annotation is "
-        'meaningless.',
+    "The declaration '{0}' is annotated with 'visibleForOverriding'. Because "
+        "'{0}' isn't an interface member that could be overridden, the "
+        "annotation is meaningless.",
   );
 
   /**
@@ -1477,7 +1537,7 @@ class HintCode extends AnalyzerErrorCode {
     'MISSING_REQUIRED_PARAM',
     "The parameter '{0}' is required. {1}.",
     hasPublishedDocs: true,
-    uniqueName: 'HintCode.MISSING_REQUIRED_PARAM_WITH_DETAILS',
+    uniqueName: 'MISSING_REQUIRED_PARAM_WITH_DETAILS',
   );
 
   /**
@@ -1746,17 +1806,47 @@ class HintCode extends AnalyzerErrorCode {
         "is marked as '@literal'.",
     correction: "Try replacing the 'new' keyword with 'const'.",
     hasPublishedDocs: true,
-    uniqueName: 'HintCode.NON_CONST_CALL_TO_LITERAL_CONSTRUCTOR_USING_NEW',
+    uniqueName: 'NON_CONST_CALL_TO_LITERAL_CONSTRUCTOR_USING_NEW',
   );
 
   /**
-   * Users should not use `Future.value` or `Completer.complete` with a null
-   * argument if the type argument is non-nullable.
+   * Parameters:
+   * 0: the name of the method being invoked
+   * 1: the type argument associated with the method
    */
+  // #### Description
+  //
+  // The analyzer produces this diagnostic when `null` is passed to either the
+  // constructor `Future.value` or the method `Completer.complete` when the type
+  // argument used to create the instance was non-nullable. Even though the type
+  // system can't express this restriction, passing in a `null` results in a
+  // runtime exception.
+  //
+  // #### Example
+  //
+  // The following code produces this diagnostic because `null` is being passed
+  // to the constructor `Future.value` even though the type argument is the
+  // non-nullable type `String`:
+  //
+  // ```dart
+  // Future<String> f() {
+  //   return Future.value([!null!]);
+  // }
+  // ```
+  //
+  // #### Common fixes
+  //
+  // Pass in a non-null value:
+  //
+  // ```dart
+  // Future<String> f() {
+  //   return Future.value('');
+  // }
+  // ```
   static const HintCode NULL_ARGUMENT_TO_NON_NULL_TYPE = HintCode(
       'NULL_ARGUMENT_TO_NON_NULL_TYPE',
-      "'{0}' should not be called with a null argument for the non-nullable "
-          "type argument '{1}'",
+      "'{0}' shouldn't be called with a null argument for the non-nullable "
+          "type argument '{1}'.",
       correction: 'Try adding a non-null argument.');
 
   /**
@@ -1851,7 +1941,7 @@ class HintCode extends AnalyzerErrorCode {
     correction: "Try updating this class to match the superclass, or "
         "removing the override annotation.",
     hasPublishedDocs: true,
-    uniqueName: 'HintCode.OVERRIDE_ON_NON_OVERRIDING_FIELD',
+    uniqueName: 'OVERRIDE_ON_NON_OVERRIDING_FIELD',
   );
 
   /**
@@ -1865,7 +1955,7 @@ class HintCode extends AnalyzerErrorCode {
     correction: "Try updating this class to match the superclass, or "
         "removing the override annotation.",
     hasPublishedDocs: true,
-    uniqueName: 'HintCode.OVERRIDE_ON_NON_OVERRIDING_GETTER',
+    uniqueName: 'OVERRIDE_ON_NON_OVERRIDING_GETTER',
   );
 
   /**
@@ -1913,7 +2003,7 @@ class HintCode extends AnalyzerErrorCode {
     correction: "Try updating this class to match the superclass, or "
         "removing the override annotation.",
     hasPublishedDocs: true,
-    uniqueName: 'HintCode.OVERRIDE_ON_NON_OVERRIDING_METHOD',
+    uniqueName: 'OVERRIDE_ON_NON_OVERRIDING_METHOD',
   );
 
   /**
@@ -1927,7 +2017,7 @@ class HintCode extends AnalyzerErrorCode {
     correction: "Try updating this class to match the superclass, or "
         "removing the override annotation.",
     hasPublishedDocs: true,
-    uniqueName: 'HintCode.OVERRIDE_ON_NON_OVERRIDING_SETTER',
+    uniqueName: 'OVERRIDE_ON_NON_OVERRIDING_SETTER',
   );
 
   /**
@@ -2214,23 +2304,62 @@ class HintCode extends AnalyzerErrorCode {
       hasPublishedDocs: true);
 
   /**
-   * A constructor cannot be torn off without the 'constructor-tearoffs'
-   * language feature.
+   * No parameters.
    *
    * There is also a [ParserError.EXPERIMENT_NOT_ENABLED] code which catches
    * some cases of constructor tearoff features (like `List<int>.filled;`).
    * Other constructor tearoff cases are not realized until resolution
    * (like `List.filled;`).
    */
+  // #### Description
+  //
+  // The analyzer produces this diagnostic when a constructor tear-off is found
+  // in code that has an SDK constraint whose lower bound is less than 2.15.
+  // Constructor tear-offs weren't supported in earlier versions, so this code
+  // won't be able to run against earlier versions of the SDK.
+  //
+  // #### Example
+  //
+  // Here's an example of a pubspec that defines an SDK constraint with a lower
+  // bound of less than 2.15:
+  //
+  // ```yaml
+  // %uri="pubspec.yaml"
+  // environment:
+  //   sdk: '>=2.9.0 <2.15.0'
+  // ```
+  //
+  // In the package that has that pubspec, code like the following produces this
+  // diagnostic:
+  //
+  // ```dart
+  // %language=2.14
+  // var setConstructor = [!Set.identity!];
+  // ```
+  //
+  // #### Common fixes
+  //
+  // If you don't need to support older versions of the SDK, then you can
+  // increase the SDK constraint to allow the operator to be used:
+  //
+  // ```yaml
+  // environment:
+  //   sdk: '>=2.15.0 <2.16.0'
+  // ```
+  //
+  // If you need to support older versions of the SDK, then rewrite the code to
+  // not use constructor tear-offs:
+  //
+  // ```dart
+  // %language=2.14
+  // var setConstructor = () => Set.identity();
+  // ```
   static const HintCode SDK_VERSION_CONSTRUCTOR_TEAROFFS = HintCode(
       'SDK_VERSION_CONSTRUCTOR_TEAROFFS',
       "Tearing off a constructor requires the 'constructor-tearoffs' "
           "language feature.",
-      // TODO(srawlins): Update this text to something like "Try updating
-      // your pubspec.yaml to set the minimum SDK constraint to 2.14 or
-      // higher, and running 'pub get'."
-      correction: "Try enabling the experiment by including "
-          "'--enable-experiment=constructor-tearoffs' in the 'dart' command.");
+      correction: "Try updating your pubspec.yaml to set the minimum SDK "
+          "constraint to 2.15 or higher, and running 'pub get'.");
 
   /**
    * No parameters.
@@ -2357,22 +2486,22 @@ class HintCode extends AnalyzerErrorCode {
   /**
    * No parameters.
    */
-  /* // #### Description
+  // #### Description
   //
   // The analyzer produces this diagnostic when the operator `>>>` is used in
-  // code that has an SDK constraint whose lower bound is less than 2.X.0. This
+  // code that has an SDK constraint whose lower bound is less than 2.14.0. This
   // operator wasn't supported in earlier versions, so this code won't be able
   // to run against earlier versions of the SDK.
   //
   // #### Examples
   //
   // Here's an example of a pubspec that defines an SDK constraint with a lower
-  // bound of less than 2.X.0:
+  // bound of less than 2.14.0:
   //
   // ```yaml
   // %uri="pubspec.yaml"
   // environment:
-  //  sdk: '>=2.0.0 <2.4.0'
+  //  sdk: '>=2.0.0 <2.15.0'
   // ```
   //
   // In the package that has that pubspec, code like the following produces this
@@ -2389,7 +2518,7 @@ class HintCode extends AnalyzerErrorCode {
   //
   // ```yaml
   // environment:
-  //   sdk: '>=2.3.2 <2.4.0'
+  //   sdk: '>=2.14.0 <2.15.0'
   // ```
   //
   // If you need to support older versions of the SDK, then rewrite the code to
@@ -2405,10 +2534,10 @@ class HintCode extends AnalyzerErrorCode {
   //   }
   //   return leftOperand ~/ divisor;
   // }
-  // ``` */
+  // ```
   static const HintCode SDK_VERSION_GT_GT_GT_OPERATOR = HintCode(
       'SDK_VERSION_GT_GT_GT_OPERATOR',
-      "The operator '>>>' wasn't supported until version 2.3.2, but this code "
+      "The operator '>>>' wasn't supported until version 2.14.0, but this code "
           "is required to be able to run on earlier versions.",
       correction: "Try updating the SDK constraints.");
 
@@ -2866,13 +2995,39 @@ class HintCode extends AnalyzerErrorCode {
       hasPublishedDocs: true);
 
   /**
-   * This hint is generated when an `@UnusedResult.unless` annotation
-   * references an undefined parameter.
-   *
    * Parameters:
    * 0: the name of the undefined parameter
    * 1: the name of the targeted member
    */
+  // #### Description
+  //
+  // The analyzer produces this diagnostic when an annotation of the form
+  // `@UnusedResult.unless(parameterDefined: parameterName)` specifies a
+  // parameter name that isn't defined by the annotated function.
+  //
+  // #### Example
+  //
+  // The following code produces this diagnostic because the function `f`
+  // doesn't have a parameter named `b`:
+  //
+  // ```dart
+  // import 'package:meta/meta.dart';
+  //
+  // @UseResult.unless(parameterDefined: [!'b'!])
+  // int f([int? a]) => a ?? 0;
+  // ```
+  //
+  // #### Common fixes
+  //
+  // Change the argument named `parameterDefined` to match the name of one of
+  // the parameters to the function:
+  //
+  // ```dart
+  // import 'package:meta/meta.dart';
+  //
+  // @UseResult.unless(parameterDefined: 'a')
+  // int f([int? a]) => a ?? 0;
+  // ```
   static const HintCode UNDEFINED_REFERENCED_PARAMETER = HintCode(
       'UNDEFINED_REFERENCED_PARAMETER',
       "The parameter '{0}' is not defined by '{1}'.");
@@ -2971,10 +3126,57 @@ class HintCode extends AnalyzerErrorCode {
           "Try removing the name from the list, or removing the whole comment "
           "if this is the only name in the list.");
 
+  /**
+   * Parameters:
+   * 0: the uri that is not necessary
+   * 1: the uri that makes it unnecessary
+   */
+  // #### Description
+  //
+  // The analyzer produces this diagnostic when an import isn't needed because
+  // all of the names that are imported and referenced within the importing
+  // library are also visible through another import.
+  //
+  // #### Example
+  //
+  // Given a file named `a.dart` that contains the following:
+  //
+  // ```dart
+  // %uri="lib/a.dart"
+  // class A {}
+  // ```
+  //
+  // And, given a file named `b.dart` that contains the following:
+  //
+  // ```dart
+  // %uri="lib/b.dart"
+  // export 'a.dart';
+  //
+  // class B {}
+  // ```
+  //
+  // The following code produces this diagnostic because the class `A`, which is
+  // imported from `a.dart`, is also imported from `b.dart`. Removing the import
+  // of `a.dart` leaves the semantics unchanged:
+  //
+  // ```dart
+  // import [!'a.dart'!];
+  // import 'b.dart';
+  //
+  // void f(A a, B b) {}
+  // ```
+  //
+  // #### Common fixes
+  //
+  // If the import isn't needed, then remove it.
+  //
+  // If some of the names imported by this import are intended to be used but
+  // aren't yet, and if those names aren't imported by other imports, then add
+  // the missing references to those names.
   static const HintCode UNNECESSARY_IMPORT = HintCode(
       'UNNECESSARY_IMPORT',
-      "The import of '{0}' is unnecessary as all of the used elements are also "
-          "provided by the import of '{1}'.",
+      "The import of '{0}' is unnecessary because all of the used elements are "
+          "also provided by the import of '{1}'.",
       correction: 'Try removing the import directive.');
 
   /**
@@ -3106,6 +3308,28 @@ class HintCode extends AnalyzerErrorCode {
    * Parameters:
    * 0: the name of the type
    */
+  // #### Description
+  //
+  // The analyzer produces this diagnostic when either the type `dynamic` or the
+  // type `Null` is followed by a question mark. Both of these types are
+  // inherently nullable so the question mark doesn't change the semantics.
+  //
+  // #### Example
+  //
+  // The following code produces this diagnostic because the question mark
+  // following `dynamic` isn't necessary:
+  //
+  // ```dart
+  // dynamic[!?!] x;
+  // ```
+  //
+  // #### Common fixes
+  //
+  // Remove the unneeded question mark:
+  //
+  // ```dart
+  // dynamic x;
+  // ```
   static const HintCode UNNECESSARY_QUESTION_MARK = HintCode(
       'UNNECESSARY_QUESTION_MARK',
       "The '?' is unnecessary because '{0}' is nullable without it.");
@@ -3314,7 +3538,7 @@ class HintCode extends AnalyzerErrorCode {
     "A value for optional parameter '{0}' isn't ever given.",
     correction: "Try removing the unused parameter.",
     hasPublishedDocs: true,
-    uniqueName: 'HintCode.UNUSED_ELEMENT_PARAMETER',
+    uniqueName: 'UNUSED_ELEMENT_PARAMETER',
   );
 
   /**
@@ -3328,15 +3552,23 @@ class HintCode extends AnalyzerErrorCode {
   //
   // #### Examples
   //
-  // The following code produces this diagnostic because `_x` isn't referenced
-  // anywhere in the library:
+  // The following code produces this diagnostic because the field
+  // `_originalValue` isn't read anywhere in the library:
   //
   // ```dart
-  // %language=2.9
-  // class Point {
-  //   int [!_x!];
+  // class C {
+  //   final String [!_originalValue!];
+  //   final String _currentValue;
+  //
+  //   C(this._originalValue) : _currentValue = _originalValue;
+  //
+  //   String get value => _currentValue;
   // }
   // ```
+  //
+  // It might appear that the field `_originalValue` is being read in the
+  // initializer (`_currentValue = _originalValue`), but that is actually a
+  // reference to the parameter of the same name, not a reference to the field.
   //
   // #### Common fixes
   //
@@ -3462,16 +3694,78 @@ class HintCode extends AnalyzerErrorCode {
       hasPublishedDocs: true);
 
   /**
-   * The result of invoking a method, property, or function annotated with
-   * `@useResult` must be used (assigned, passed to a function as an argument,
-   * or returned by a function).
-   *
    * Parameters:
    * 0: the name of the annotated method, property or function
    */
+  // #### Description
+  //
+  // The analyzer produces this diagnostic when a function annotated with
+  // `useResult` is invoked, and the value returned by that function isn't used.
+  // The value is considered to be used if a member of the value is invoked, if
+  // the value is passed to another function, or if the value is assigned to a
+  // variable or field.
+  //
+  // #### Example
+  //
+  // The following code produces this diagnostic because the invocation of
+  // `c.a()` isn't used, even though the method `a` is annotated with
+  // `useResult`:
+  //
+  // ```dart
+  // import 'package:meta/meta.dart';
+  //
+  // class C {
+  //   @useResult
+  //   int a() => 0;
+  //
+  //   int b() => 0;
+  // }
+  //
+  // void f(C c) {
+  //   c.[!a!]();
+  // }
+  // ```
+  //
+  // #### Common fixes
+  //
+  // If you intended to invoke the annotated function, then use the value that
+  // was returned:
+  //
+  // ```dart
+  // import 'package:meta/meta.dart';
+  //
+  // class C {
+  //   @useResult
+  //   int a() => 0;
+  //
+  //   int b() => 0;
+  // }
+  //
+  // void f(C c) {
+  //   print(c.a());
+  // }
+  // ```
+  //
+  // If you intended to invoke a different function, then correct the name of
+  // the function being invoked:
+  //
+  // ```dart
+  // import 'package:meta/meta.dart';
+  //
+  // class C {
+  //   @useResult
+  //   int a() => 0;
+  //
+  //   int b() => 0;
+  // }
+  //
+  // void f(C c) {
+  //   c.b();
+  // }
+  // ```
   static const HintCode UNUSED_RESULT = HintCode(
     'UNUSED_RESULT',
-    "'{0}' should be used.",
+    "The value of '{0}' should be used.",
     correction: "Try using the result by invoking a member, passing it to a "
         "function, or returning it from this function.",
     hasPublishedDocs: false,
@@ -3495,7 +3789,7 @@ class HintCode extends AnalyzerErrorCode {
         "Try using the result by invoking a member, passing it to a function, "
         "or returning it from this function.",
     hasPublishedDocs: false,
-    uniqueName: 'HintCode.UNUSED_RESULT_WITH_MESSAGE',
+    uniqueName: 'UNUSED_RESULT_WITH_MESSAGE',
   );
 
   /**
@@ -3534,12 +3828,30 @@ class HintCode extends AnalyzerErrorCode {
       hasPublishedDocs: true);
 
   /**
-   * Users should not import or export Dart native extensions via 'dart-ext:'.
+   * No parameters.
    */
+  // #### Description
+  //
+  // The analyzer produces this diagnostic when a library is imported using the
+  // `dart-ext` scheme.
+  //
+  // #### Example
+  //
+  // The following code produces this diagnostic because the native library `x`
+  // is being imported using a scheme of `dart-ext`:
+  //
+  // ```dart
+  // [!import 'dart-ext:x';!]
+  // int f() native 'string';
+  // ```
+  //
+  // #### Common fixes
+  //
+  // Rewrite the code to use `dart:ffi` as a way of invoking the contents of the
+  // native library.
   static const HintCode USE_OF_NATIVE_EXTENSION = HintCode(
       'USE_OF_NATIVE_EXTENSION',
-      "Dart native extensions are deprecated and will not be available in Dart "
-          "2.15",
+      "Dart native extensions are deprecated and aren’t available in Dart 2.15.",
       correction: "Try using dart:ffi for C interop.");
 
   /**
@@ -3559,7 +3871,7 @@ class HintCode extends AnalyzerErrorCode {
           hasPublishedDocs: hasPublishedDocs,
           message: message,
           name: name,
-          uniqueName: uniqueName ?? 'HintCode.$name',
+          uniqueName: 'HintCode.${uniqueName ?? name}',
         );
 
   @override
