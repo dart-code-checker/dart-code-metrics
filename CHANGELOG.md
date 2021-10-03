@@ -6,6 +6,7 @@
 * Improve static code diagnostic `prefer-extracting-callbacks`, don't trigger on empty function blocks.
 * Improve unused files check, add support for `vm:entry-point` annotation.
 * feat: ignore Flutter builder functions in `prefer-extracting-callbacks` rule.
+* fix: compute NumberOfParametersMetric only for functions and methods
 
 ## 4.3.3
 
