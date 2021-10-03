@@ -33,14 +33,10 @@ final _implementedMetrics = <String, Metric Function(Map<String, Object>)>{
 
 Iterable<Metric> getMetrics({
   required Map<String, Object> config,
-  Iterable<String> patternsDependencies = const [],
   EntityType? measuredType,
 }) {
-  final _metrics = _implementedMetrics.keys.map(
-    (id) => _implementedMetrics[id]!(
-      !patternsDependencies.contains(id) ? config : {},
-    ),
-  );
+  final _metrics =
+      _implementedMetrics.keys.map((id) => _implementedMetrics[id]!(config));
 
   return measuredType != null
       ? _metrics

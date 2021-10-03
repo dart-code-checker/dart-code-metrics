@@ -25,35 +25,26 @@ class ConfigBuilder {
     String excludesRootFolder, {
     Iterable<Metric<num>>? classMetrics,
     Iterable<Metric<num>>? functionMetrics,
-  }) {
-    final patterns = getPatternsById(config);
-    final patternsDependencies = patterns
-        .map((pattern) => pattern.dependentMetricIds)
-        .expand((e) => e)
-        .toSet();
-
-    return LintAnalysisConfig(
-      prepareExcludes(config.excludePatterns, excludesRootFolder),
-      getRulesById(config.rules),
-      prepareExcludes(config.excludeForRulesPatterns, excludesRootFolder),
-      patterns,
-      classMetrics ??
-          getMetrics(
-            config: config.metrics,
-            patternsDependencies: patternsDependencies,
-            measuredType: EntityType.classEntity,
-          ),
-      functionMetrics ??
-          getMetrics(
-            config: config.metrics,
-            patternsDependencies: patternsDependencies,
-            measuredType: EntityType.methodEntity,
-          ),
-      prepareExcludes(config.excludeForMetricsPatterns, excludesRootFolder),
-      config.metrics,
-      excludesRootFolder,
-    );
-  }
+  }) =>
+      LintAnalysisConfig(
+        prepareExcludes(config.excludePatterns, excludesRootFolder),
+        getRulesById(config.rules),
+        prepareExcludes(config.excludeForRulesPatterns, excludesRootFolder),
+        getPatternsById(config),
+        classMetrics ??
+            getMetrics(
+              config: config.metrics,
+              measuredType: EntityType.classEntity,
+            ),
+        functionMetrics ??
+            getMetrics(
+              config: config.metrics,
+              measuredType: EntityType.methodEntity,
+            ),
+        prepareExcludes(config.excludeForMetricsPatterns, excludesRootFolder),
+        config.metrics,
+        excludesRootFolder,
+      );
 
   static UnusedFilesConfig getUnusedFilesConfigFromArgs(
     Iterable<String> excludePatterns,
