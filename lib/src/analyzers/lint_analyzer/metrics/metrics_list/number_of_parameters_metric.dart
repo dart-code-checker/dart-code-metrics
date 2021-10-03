@@ -1,4 +1,5 @@
 import 'package:analyzer/dart/ast/ast.dart';
+import 'package:collection/collection.dart';
 
 import '../../models/entity_type.dart';
 import '../../models/internal_resolved_unit_result.dart';
@@ -40,8 +41,23 @@ class NumberOfParametersMetric extends FunctionMetric<int> {
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
     InternalResolvedUnitResult source,
     Iterable<MetricValue<num>> otherMetricsValues,
-  ) =>
-      node is FunctionDeclaration || node is MethodDeclaration;
+  ) {
+    if (node is FunctionDeclaration) {
+      return true;
+    } else if (node is MethodDeclaration) {
+      final className = functionDeclarations
+          .firstWhereOrNull((declaration) => declaration.declaration == node)
+          ?.enclosingDeclaration
+          ?.name;
+
+      return node.name.name != 'copyWith' ||
+          className == null ||
+          className !=
+              node.returnType?.type?.getDisplayString(withNullability: true);
+    }
+
+    return false;
+  }
 
   @override
   MetricComputationResult<int> computeImplementation(

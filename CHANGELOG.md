@@ -6,9 +6,10 @@
 * feat: add static code diagnostic `prefer-const-border-radius`.
 * feat: improve static code diagnostic `prefer-extracting-callbacks`: don't trigger on empty function blocks and ignore Flutter builder functions.
 * feat: improve unused files check, add support for `vm:entry-point` annotation.
-* fix: compute NumberOfParametersMetric only for functions and methods.
-* fix: skip synthetic tokens while compute 'Source lines of Code'.
-* fix: update 'Maintainability Index' metric comment message.
+* fix: compute `Number of Parameters` only for functions and methods.
+* fix: `Number of Parameters` skip copyWith methods.
+* fix: skip synthetic tokens while compute `Source lines of Code`.
+* fix: update `Maintainability Index` metric comment message.
 
 ## 4.3.3
 
