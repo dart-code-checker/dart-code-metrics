@@ -1,12 +1,16 @@
 @TestOn('vm')
 import 'package:dart_code_metrics/src/cli/cli_runner.dart';
-import 'package:dart_code_metrics/src/cli/commands/check_unused_files.dart';
+import 'package:dart_code_metrics/src/cli/commands/check_unused_l10n.dart';
 import 'package:test/test.dart';
 
-const _usage = 'Check unused *.dart files.\n'
+const _usage = 'Check unused localization in *.dart files.\n'
     '\n'
-    'Usage: metrics check-unused-files [arguments] <directories>\n'
+    'Usage: metrics check-unused-l10n [arguments] <directories>\n'
     '-h, --help                                        Print this usage information.\n'
+    '\n'
+    '\n'
+    '-p, --class-pattern=<I18n\$>                       The pattern to detect classes providing localization\n'
+    '                                                  (defaults to "I18n\$")\n'
     '\n'
     '\n'
     '-r, --reporter=<console>                          The format of the output of the analysis.\n'
@@ -21,26 +25,26 @@ const _usage = 'Check unused *.dart files.\n'
     'Run "metrics help" to see global options.';
 
 void main() {
-  group('CheckUnusedFilesCommand', () {
+  group('CheckUnusedL10nCommand', () {
     final runner = CliRunner();
     final command =
-        runner.commands['check-unused-files'] as CheckUnusedFilesCommand;
+        runner.commands['check-unused-l10n'] as CheckUnusedL10nCommand;
 
     test('should have correct name', () {
-      expect(command.name, 'check-unused-files');
+      expect(command.name, 'check-unused-l10n');
     });
 
     test('should have correct description', () {
       expect(
         command.description,
-        'Check unused *.dart files.',
+        'Check unused localization in *.dart files.',
       );
     });
 
     test('should have correct invocation', () {
       expect(
         command.invocation,
-        'metrics check-unused-files [arguments] <directories>',
+        'metrics check-unused-l10n [arguments] <directories>',
       );
     });
 

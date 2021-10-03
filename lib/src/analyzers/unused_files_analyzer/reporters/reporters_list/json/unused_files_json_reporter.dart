@@ -16,19 +16,9 @@ class UnusedFilesJsonReporter extends JsonReporter<UnusedFilesFileReport> {
       return;
     }
 
-    final nowTime = DateTime.now();
-    final reportTime = DateTime(
-      nowTime.year,
-      nowTime.month,
-      nowTime.day,
-      nowTime.hour,
-      nowTime.minute,
-      nowTime.second,
-    );
-
     final encodedReport = json.encode({
       'formatVersion': formatVersion,
-      'timestamp': reportTime.toString(),
+      'timestamp': getTimestamp(),
       'unusedFiles': records.map(_analysisRecordToJson).toList(),
     });
 
