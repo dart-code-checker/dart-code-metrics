@@ -34,6 +34,16 @@ class NumberOfParametersMetric extends FunctionMetric<int> {
         );
 
   @override
+  bool supports(
+    Declaration node,
+    Iterable<ScopedClassDeclaration> classDeclarations,
+    Iterable<ScopedFunctionDeclaration> functionDeclarations,
+    InternalResolvedUnitResult source,
+    Iterable<MetricValue<num>> otherMetricsValues,
+  ) =>
+      node is FunctionDeclaration || node is MethodDeclaration;
+
+  @override
   MetricComputationResult<int> computeImplementation(
     Declaration node,
     Iterable<ScopedClassDeclaration> classDeclarations,
@@ -42,6 +52,7 @@ class NumberOfParametersMetric extends FunctionMetric<int> {
     Iterable<MetricValue<num>> otherMetricsValues,
   ) {
     int? parametersCount;
+
     if (node is FunctionDeclaration) {
       parametersCount = node.functionExpression.parameters?.parameters.length;
     } else if (node is MethodDeclaration) {
