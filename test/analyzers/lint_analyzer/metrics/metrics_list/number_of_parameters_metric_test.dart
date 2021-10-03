@@ -131,7 +131,17 @@ Future<void> main() async {
     });
 
     test('supports returns only for functions and methods', () {
-      const supports = [true, true, true, true, false, true, true];
+      const supports = [
+        true,
+        true,
+        true,
+        true,
+        false,
+        true,
+        true,
+        false,
+        false,
+      ];
 
       assert(
         scopeVisitor.functions.length == supports.length,
