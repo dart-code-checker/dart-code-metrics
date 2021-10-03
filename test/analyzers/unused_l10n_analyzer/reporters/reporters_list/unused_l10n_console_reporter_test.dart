@@ -34,7 +34,7 @@ void main() {
         () => output.writeln(captureAny()),
       ).captured.cast<String>();
 
-      expect(captured, ['✔ no unused localization found!']);
+      expect(captured, ['\x1B[38;5;2m✔\x1B[0m no unused localization found!']);
     });
 
     test('complex report', () async {
@@ -63,10 +63,10 @@ void main() {
         equals(
           [
             'class SomeClass',
-            '⚠ unused someMethod()',
-            'at example.dart:5:3',
+            '    \x1B[38;5;11m⚠\x1B[0m unused someMethod()',
+            '      at /home/developer/work/project/example.dart:5:3',
             '',
-            '✖ total unused localization usages - \x1B[38;5;3m1\x1B[0m',
+            '\x1B[38;5;9m✖\x1B[0m total unused localization class fields, getters and methods - \x1B[38;5;9m1\x1B[0m',
           ],
         ),
       );

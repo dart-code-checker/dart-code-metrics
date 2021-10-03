@@ -4,4 +4,7 @@ class TestI18n {
   static String get getter => 'getter'; // LINT
 
   static String method(String value) => value;
+
+  static String secondMethod(String value, num number) =>
+      value + number.toString();
 }

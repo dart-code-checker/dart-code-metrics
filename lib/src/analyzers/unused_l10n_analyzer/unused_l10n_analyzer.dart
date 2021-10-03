@@ -114,14 +114,13 @@ class UnusedL10nAnalyzer {
   }
 
   Iterable<UnusedL10nFileReport> _checkUnusedL10n(
-    Map<ClassElement, Set<String>> localizationUsages,
+    Map<ClassElement, Iterable<String>> localizationUsages,
     String rootFolder,
   ) {
     final unusedLocalizationIssues = <UnusedL10nFileReport>[];
 
     localizationUsages.forEach((classElement, usages) {
-      final unit =
-          classElement.thisOrAncestorOfType<CompilationUnitElementImpl>();
+      final unit = classElement.thisOrAncestorOfType<CompilationUnitElement>();
       if (unit != null) {
         final lineInfo = unit.lineInfo;
         if (lineInfo != null) {
@@ -130,20 +129,24 @@ class UnusedL10nAnalyzer {
           final methodSourceSpans =
               _getUnusedMethods(classElement, usages, unit);
 
-          final filePath = unit.source.uri.path;
+          final filePath = unit.source.toString();
           final relativePath = relative(filePath, from: rootFolder);
 
-          unusedLocalizationIssues.add(
-            UnusedL10nFileReport(
-              path: filePath,
-              relativePath: relativePath,
-              className: classElement.name,
-              issues: [
-                ...accessorSourceSpans,
-                ...methodSourceSpans,
-              ],
-            ),
-          );
+          final issues = [
+            ...accessorSourceSpans,
+            ...methodSourceSpans,
+          ];
+
+          if (issues.isNotEmpty) {
+            unusedLocalizationIssues.add(
+              UnusedL10nFileReport(
+                path: filePath,
+                relativePath: relativePath,
+                className: classElement.name,
+                issues: issues,
+              ),
+            );
+          }
         }
       }
     });
@@ -153,8 +156,8 @@ class UnusedL10nAnalyzer {
 
   Iterable<UnusedL10nIssue> _getUnusedAccessors(
     ClassElement classElement,
-    Set<String> usages,
-    CompilationUnitElementImpl unit,
+    Iterable<String> usages,
+    CompilationUnitElement unit,
   ) {
     final unusedAccessors = classElement.accessors
         .where((field) => !usages.contains(field.name) && !field.isSynthetic)
@@ -167,8 +170,8 @@ class UnusedL10nAnalyzer {
 
   Iterable<UnusedL10nIssue> _getUnusedMethods(
     ClassElement classElement,
-    Set<String> usages,
-    CompilationUnitElementImpl unit,
+    Iterable<String> usages,
+    CompilationUnitElement unit,
   ) {
     final unusedMethods = classElement.methods
         .where(
@@ -183,7 +186,7 @@ class UnusedL10nAnalyzer {
 
   UnusedL10nIssue _createL10nIssues(
     ElementImpl element,
-    CompilationUnitElementImpl unit,
+    CompilationUnitElement unit,
   ) {
     final offset = element.codeOffset!;
 
@@ -192,8 +195,12 @@ class UnusedL10nAnalyzer {
 
     final sourceUrl = element.source!.uri;
 
+    final name = element is MethodElement
+        ? '${element.displayName}(${(element as MethodElement).parameters.join(', ')})'
+        : element.displayName;
+
     return UnusedL10nIssue(
-      memberName: element.displayName,
+      memberName: name,
       location: SourceLocation(
         offset,
         sourceUrl: sourceUrl,

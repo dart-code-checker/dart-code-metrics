@@ -34,12 +34,20 @@ void main() {
         );
 
         final report = result.single;
-        final issue = report.issues.single;
-
         expect(report.className, 'TestI18n');
-        expect(issue.memberName, 'getter');
-        expect(issue.location.line, 4);
-        expect(issue.location.column, 3);
+
+        final firstIssue = report.issues.first;
+        expect(firstIssue.memberName, 'getter');
+        expect(firstIssue.location.line, 4);
+        expect(firstIssue.location.column, 3);
+
+        final secondIssues = report.issues.last;
+        expect(
+          secondIssues.memberName,
+          'secondMethod(String value, num number)',
+        );
+        expect(secondIssues.location.line, 8);
+        expect(secondIssues.location.column, 3);
       });
 
       test('should report no issues for a custom class name pattern', () async {

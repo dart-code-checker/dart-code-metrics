@@ -17,19 +17,9 @@ class UnusedL10nJsonReporter extends JsonReporter<UnusedL10nFileReport> {
       return;
     }
 
-    final nowTime = DateTime.now();
-    final reportTime = DateTime(
-      nowTime.year,
-      nowTime.month,
-      nowTime.day,
-      nowTime.hour,
-      nowTime.minute,
-      nowTime.second,
-    );
-
     final encodedReport = json.encode({
       'formatVersion': formatVersion,
-      'timestamp': reportTime.toString(),
+      'timestamp': getTimestamp(),
       'unusedLocalizations': records.map(_unusedL10nFileReportToJson).toList(),
     });
 
