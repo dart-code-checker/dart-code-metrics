@@ -8,6 +8,7 @@
 * feat: improve unused files check, add support for `vm:entry-point` annotation.
 * fix: compute NumberOfParametersMetric only for functions and methods.
 * fix: skip synthetic tokens while compute 'Source lines of Code'.
+* fix: update 'Maintainability Index' metric comment message.
 
 ## 4.3.3
 
