@@ -64,7 +64,7 @@ void main() {
           [
             'class SomeClass',
             '    \x1B[38;5;11m⚠\x1B[0m unused someMethod()',
-            '      at /home/developer/work/project/example.dart:5:3',
+            '      at example.dart:5:3',
             '',
             '\x1B[38;5;9m✖\x1B[0m total unused localization class fields, getters and methods - \x1B[38;5;9m1\x1B[0m',
           ],
