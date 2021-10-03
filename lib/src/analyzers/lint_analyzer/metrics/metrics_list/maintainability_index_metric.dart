@@ -95,10 +95,10 @@ class MaintainabilityIndexMetric extends FunctionMetric<int> {
 
   @override
   String commentMessage(String nodeType, int value, int? threshold) {
-    final exceeds = threshold != null && value > threshold
-        ? ', exceeds the minimum of $threshold allowed'
+    final exceeds = threshold != null && value < threshold
+        ? ', below the minimum of $threshold allowed'
         : '';
-    final index = '$value maintability index';
+    final index = '$value maintainability index';
 
     return 'This $nodeType has $index$exceeds.';
   }

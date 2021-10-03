@@ -51,7 +51,9 @@ Future<void> main() async {
       expect(metricValue.level, equals(MetricValueLevel.warning));
       expect(
         metricValue.comment,
-        equals('This method has 46 maintability index.'),
+        equals(
+          'This method has 46 maintainability index, below the minimum of 50 allowed.',
+        ),
       );
       expect(metricValue.recommendation, isNull);
       expect(metricValue.context, isEmpty);
