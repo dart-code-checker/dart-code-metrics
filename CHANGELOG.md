@@ -2,11 +2,10 @@
 
 ## Unreleased
 
-* Introduce `check-unused-l10n` command.
-* feat: Add static code diagnostic `prefer-const-border-radius`.
-* Improve static code diagnostic `prefer-extracting-callbacks`, don't trigger on empty function blocks.
-* Improve unused files check, add support for `vm:entry-point` annotation.
-* feat: ignore Flutter builder functions in `prefer-extracting-callbacks` rule.
+* feat: introduce `check-unused-l10n` command.
+* feat: add static code diagnostic `prefer-const-border-radius`.
+* feat: improve static code diagnostic `prefer-extracting-callbacks`: don't trigger on empty function blocks and ignore Flutter builder functions.
+* feat: improve unused files check, add support for `vm:entry-point` annotation.
 
 ## 4.3.3
 
