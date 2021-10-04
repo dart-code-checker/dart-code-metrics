@@ -27,17 +27,17 @@ void main() {
 
         RuleTestHelper.verifyIssues(
           issues: issues,
-          startOffsets: [113, 273, 373, 440, 588, 870],
-          startLines: [4, 9, 12, 13, 17, 22],
+          startOffsets: [82, 242, 342, 409, 557, 839],
+          startLines: [2, 7, 10, 11, 15, 20],
           startColumns: [22, 31, 31, 32, 31, 31],
-          endOffsets: [139, 299, 399, 466, 614, 904],
+          endOffsets: [108, 268, 368, 435, 583, 873],
           messages: [
-            'Prefer to use const constructor BorderRadius.all.',
-            'Prefer to use const constructor BorderRadius.all.',
-            'Prefer to use const constructor BorderRadius.all.',
-            'Prefer to use const constructor BorderRadius.all.',
-            'Prefer to use const constructor BorderRadius.all.',
-            'Prefer to use const constructor BorderRadius.all.',
+            'Prefer using const constructor BorderRadius.all',
+            'Prefer using const constructor BorderRadius.all',
+            'Prefer using const constructor BorderRadius.all',
+            'Prefer using const constructor BorderRadius.all',
+            'Prefer using const constructor BorderRadius.all',
+            'Prefer using const constructor BorderRadius.all',
           ],
           replacementComments: [
             'Replace with const BorderRadius constructor.',
