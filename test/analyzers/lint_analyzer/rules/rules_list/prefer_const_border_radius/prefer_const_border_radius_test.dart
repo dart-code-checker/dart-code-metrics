@@ -48,12 +48,12 @@ void main() {
             'Replace with const BorderRadius constructor.',
           ],
           replacements: [
-            'BorderRadius.all(Radius.circular(1.0))',
-            'BorderRadius.all(Radius.circular(2.0))',
-            'BorderRadius.all(Radius.circular(3.0))',
-            'BorderRadius.all(Radius.circular(4.0))',
-            'BorderRadius.all(Radius.circular(5.0))',
-            'BorderRadius.all(Radius.circular(_constValue))',
+            'const BorderRadius.all(Radius.circular(1.0))',
+            'const BorderRadius.all(Radius.circular(2.0))',
+            'const BorderRadius.all(Radius.circular(3.0))',
+            'const BorderRadius.all(Radius.circular(4.0))',
+            'const BorderRadius.all(Radius.circular(5.0))',
+            'const BorderRadius.all(Radius.circular(_constValue))',
           ],
           locationTexts: [
             'BorderRadius.circular(1.0)',
