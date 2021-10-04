@@ -56,7 +56,7 @@ class PreferConstBorderRadiusRule extends FlutterRule {
     return value != null
         ? Replacement(
             comment: _replaceComment,
-            replacement: 'BorderRadius.all(Radius.circular($value))',
+            replacement: 'const BorderRadius.all(Radius.circular($value))',
           )
         : null;
   }
