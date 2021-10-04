@@ -1,7 +1,7 @@
 part of 'prefer_const_border_radius.dart';
 
-const borderRadiusClassName = 'BorderRadius';
-const borderRadiusConstructorName = 'circular';
+const _borderRadiusClassName = 'BorderRadius';
+const _borderRadiusConstructorName = 'circular';
 
 class _Visitor extends RecursiveAstVisitor<void> {
   final _expressions = <InstanceCreationExpression>[];
@@ -13,8 +13,8 @@ class _Visitor extends RecursiveAstVisitor<void> {
     super.visitInstanceCreationExpression(expression);
 
     if (expression.staticType?.getDisplayString(withNullability: true) ==
-            borderRadiusClassName &&
-        expression.constructorName.name?.name == borderRadiusConstructorName &&
+            _borderRadiusClassName &&
+        expression.constructorName.name?.name == _borderRadiusConstructorName &&
         expression.argumentList.arguments.length == 1) {
       final arg = expression.argumentList.arguments.first;
 
