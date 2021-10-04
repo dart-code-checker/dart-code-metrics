@@ -1,5 +1,6 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
+import 'package:analyzer/dart/element/element.dart';
 
 import '../../../../../utils/node_utils.dart';
 import '../../../lint_utils.dart';
@@ -15,7 +16,8 @@ part 'visitor.dart';
 
 class PreferConstBorderRadiusRule extends FlutterRule {
   static const ruleId = 'prefer-const-border-radius';
-  static const _issueMessage = 'Prefer use const constructor BorderRadius.all.';
+  static const _issueMessage =
+      'Prefer using const constructor BorderRadius.all';
   static const _replaceComment = 'Replace with const BorderRadius constructor.';
 
   PreferConstBorderRadiusRule([Map<String, Object> config = const {}])
