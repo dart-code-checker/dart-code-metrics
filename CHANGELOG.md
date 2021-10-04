@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 4.4.0
 
 * feat: introduce `check-unused-l10n` command.
 * feat: add static code diagnostic `prefer-const-border-radius`.
