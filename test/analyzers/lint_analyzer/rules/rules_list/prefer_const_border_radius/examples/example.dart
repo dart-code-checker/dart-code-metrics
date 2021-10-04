@@ -6,6 +6,8 @@ final _finalValue = 15.0;
 class MyWidget extends StatelessWidget {
   static final staticRadius = BorderRadius.circular(2.0); // LINT
 
+  double foo() => 20.0;
+
   Widget build(BuildContext _) {
     final buildMethodRadius = BorderRadius.circular(3.0); // LINT
     var buildMethodRadiusVar = BorderRadius.circular(4.0); // LINT
@@ -18,6 +20,12 @@ class MyWidget extends StatelessWidget {
       ClipRRect(borderRadius: buildMethodRadiusVar),
       ClipRRect(borderRadius: BorderRadius.circular(_finalValue)),
       ClipRRect(borderRadius: BorderRadius.circular(_constValue)), // LINT
+      ClipRRect(borderRadius: BorderRadius.circular(foo())),
+      ClipRRect(
+        borderRadius: BorderRadius.circular(
+          _constValue == 10.0 ? 25.0 : 30.0,
+        ),
+      ),
     ]);
   }
 }
