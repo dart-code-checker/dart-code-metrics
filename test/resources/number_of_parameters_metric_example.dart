@@ -1,11 +1,10 @@
-// ignore_for_file: no-empty-block
-
-import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
-import 'package:dart_code_metrics/src/metrics/function_metric.dart';
-import 'package:dart_code_metrics/src/metrics/metric_computation_result.dart';
-import 'package:dart_code_metrics/src/models/scoped_class_declaration.dart';
-import 'package:dart_code_metrics/src/models/scoped_function_declaration.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/function_metric.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_computation_result.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/internal_resolved_unit_result.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/scoped_class_declaration.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/scoped_function_declaration.dart';
 
 void simpleFunction() {
   // simple comment
@@ -23,8 +22,10 @@ set simpleSetter(num value) {}
 String get simpleGetter => '';
 
 class NumberOfParametersMetric extends FunctionMetric<int> {
+  NumberOfParametersMetric();
+
   @override
-  String commentMessage(String nodeType, int value, int threshold) => '';
+  String commentMessage(String nodeType, int value, int? threshold) => '';
 
   @override
   MetricComputationResult<int> computeImplementation(
@@ -32,14 +33,39 @@ class NumberOfParametersMetric extends FunctionMetric<int> {
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
     InternalResolvedUnitResult source,
+    Iterable<MetricValue<num>> otherMetricsValues,
   ) {
-    int argumentsCount;
+    int? parametersCount;
     if (node is FunctionDeclaration) {
-      argumentsCount = node.functionExpression?.parameters?.parameters?.length;
+      parametersCount = node.functionExpression.parameters?.parameters.length;
     } else if (node is MethodDeclaration) {
-      argumentsCount = node?.parameters?.parameters?.length;
+      parametersCount = node.parameters?.parameters.length;
     }
 
-    return MetricComputationResult(value: argumentsCount ?? 0);
+    return MetricComputationResult(value: parametersCount ?? 0);
   }
+}
+
+class Foo {
+  final String a;
+  final String b;
+  final String c;
+  final String d;
+  final String e;
+
+  const Foo({
+    required this.a,
+    required this.b,
+    required this.c,
+    required this.d,
+    required this.e,
+  });
+
+  Foo copyWith({String a, String b, String c, String d, String e}) => Foo(
+        a: a ?? this.a,
+        b: b ?? this.b,
+        c: c ?? this.c,
+        d: d ?? this.d,
+        e: e ?? this.e,
+      );
 }

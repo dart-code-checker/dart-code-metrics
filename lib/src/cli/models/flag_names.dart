@@ -19,4 +19,9 @@ class FlagNames {
 
   static const reportFolder = 'output-directory';
   static const setExitOnViolationLevel = 'set-exit-on-violation-level';
+  static const fatalStyle = 'fatal-style';
+  static const fatalPerformance = 'fatal-performance';
+  static const fatalWarnings = 'fatal-warnings';
+
+  static const l10nClassPattern = 'class-pattern';
 }

@@ -4,6 +4,7 @@ import 'package:collection/collection.dart';
 
 import '../metrics/metric_utils.dart';
 import '../metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
+import '../metrics/metrics_list/maintainability_index_metric.dart';
 import '../metrics/metrics_list/maximum_nesting_level/maximum_nesting_level_metric.dart';
 import '../metrics/metrics_list/number_of_parameters_metric.dart';
 import '../metrics/metrics_list/source_lines_of_code/source_lines_of_code_metric.dart';
@@ -18,9 +19,7 @@ import 'reporters_list/html/models/function_metrics_report.dart';
 
 double log2(num a) => log(a) / ln2;
 
-num sum(Iterable<num> it) => it.fold(0, (a, b) => a + b);
-
-double avg(Iterable<num> it) => it.isNotEmpty ? sum(it) / it.length : 0;
+double avg(Iterable<num> it) => it.isNotEmpty ? it.sum / it.length : 0;
 
 class UtilitySelector {
   static FileMetricsReport analysisReportForRecords(
@@ -45,13 +44,13 @@ class UtilitySelector {
         .length;
 
     final totalCyclomaticComplexity =
-        sum(functionMetricsReports.map((r) => r.cyclomaticComplexity.value));
+        functionMetricsReports.map((r) => r.cyclomaticComplexity.value).sum;
     final totalCyclomaticComplexityViolations = functionMetricsReports
         .where((r) => isReportLevel(r.cyclomaticComplexity.level))
         .length;
 
     final totalSourceLinesOfCode =
-        sum(functionMetricsReports.map((r) => r.sourceLinesOfCode.value));
+        functionMetricsReports.map((r) => r.sourceLinesOfCode.value).sum;
     final totalSourceLinesOfCodeViolations = functionMetricsReports
         .where((r) => isReportLevel(r.sourceLinesOfCode.level))
         .length;
@@ -68,24 +67,14 @@ class UtilitySelector {
       argumentsCountViolations: totalArgumentsCountViolations,
       averageMaintainabilityIndex: averageMaintainabilityIndex,
       maintainabilityIndexViolations: totalMaintainabilityIndexViolations,
-      totalCyclomaticComplexity: totalCyclomaticComplexity.round(),
+      totalCyclomaticComplexity: totalCyclomaticComplexity,
       cyclomaticComplexityViolations: totalCyclomaticComplexityViolations,
-      totalSourceLinesOfCode: totalSourceLinesOfCode.round(),
+      totalSourceLinesOfCode: totalSourceLinesOfCode,
       sourceLinesOfCodeViolations: totalSourceLinesOfCodeViolations,
       averageMaximumNestingLevel: averageMaximumNestingLevel,
       maximumNestingLevelViolations: totalMaximumNestingLevelViolations,
     );
   }
-
-  static MetricValueLevel maxViolationLevel(Iterable<LintFileReport> records) =>
-      records
-          .expand((fileRecord) => [
-                ...fileRecord.classes.values
-                    .map((report) => report.metricsLevel),
-                ...fileRecord.functions.values
-                    .map((report) => report.metricsLevel),
-              ])
-          .max;
 
   static FileMetricsReport mergeFileReports(
     FileMetricsReport lhs,
@@ -133,7 +122,6 @@ MetricValue<T> _buildMetricValueStub<T>({
         brief: 'brief $id',
         measuredType: type,
         recomendedThreshold: 0,
-        examples: const [],
       ),
       value: value,
       level: level,
@@ -156,8 +144,8 @@ FunctionMetricsReport _functionMetricsReport(Report function) {
           );
 
   final maintainabilityIndexMetric = function.metric('maintainability-index') ??
-      _buildMetricValueStub<double>(
-        id: 'maintainability-index',
+      _buildMetricValueStub<int>(
+        id: MaintainabilityIndexMetric.metricId,
         value: 100,
       );
 
@@ -178,7 +166,7 @@ FunctionMetricsReport _functionMetricsReport(Report function) {
   return FunctionMetricsReport(
     cyclomaticComplexity: cyclomaticComplexityMetric as MetricValue<int>,
     sourceLinesOfCode: sourceLinesOfCodeMetric as MetricValue<int>,
-    maintainabilityIndex: maintainabilityIndexMetric as MetricValue<double>,
+    maintainabilityIndex: maintainabilityIndexMetric as MetricValue<int>,
     argumentsCount: numberOfParametersMetric as MetricValue<int>,
     maximumNestingLevel: maximumNestingLevelMetric as MetricValue<int>,
   );

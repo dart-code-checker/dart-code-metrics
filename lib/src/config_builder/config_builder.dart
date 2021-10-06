@@ -7,6 +7,8 @@ import '../analyzers/lint_analyzer/models/entity_type.dart';
 import '../analyzers/lint_analyzer/rules/rules_factory.dart';
 import '../analyzers/unused_files_analyzer/unused_files_analysis_config.dart';
 import '../analyzers/unused_files_analyzer/unused_files_config.dart';
+import '../analyzers/unused_l10n_analyzer/unused_l10n_analysis_config.dart';
+import '../analyzers/unused_l10n_analyzer/unused_l10n_config.dart';
 import '../cli/models/parsed_arguments.dart';
 import '../utils/exclude_utils.dart';
 import 'models/analysis_options.dart';
@@ -20,27 +22,38 @@ class ConfigBuilder {
 
   static LintAnalysisConfig getLintAnalysisConfig(
     LintConfig config,
-    String rootPath, {
+    String excludesRootFolder, {
     Iterable<Metric<num>>? classMetrics,
     Iterable<Metric<num>>? functionMetrics,
-  }) =>
-      LintAnalysisConfig(
-        prepareExcludes(config.excludePatterns, rootPath),
-        getRulesById(config.rules),
-        getPatternsById(config.antiPatterns),
-        classMetrics ??
-            getMetrics(
-              config: config.metrics,
-              measuredType: EntityType.classEntity,
-            ),
-        functionMetrics ??
-            getMetrics(
-              config: config.metrics,
-              measuredType: EntityType.methodEntity,
-            ),
-        prepareExcludes(config.excludeForMetricsPatterns, rootPath),
-        config.metrics,
-      );
+  }) {
+    final patterns = getPatternsById(config);
+    final patternsDependencies = patterns
+        .map((pattern) => pattern.dependentMetricIds)
+        .expand((e) => e)
+        .toSet();
+
+    return LintAnalysisConfig(
+      prepareExcludes(config.excludePatterns, excludesRootFolder),
+      getRulesById(config.rules),
+      prepareExcludes(config.excludeForRulesPatterns, excludesRootFolder),
+      patterns,
+      classMetrics ??
+          getMetrics(
+            config: config.metrics,
+            patternsDependencies: patternsDependencies,
+            measuredType: EntityType.classEntity,
+          ),
+      functionMetrics ??
+          getMetrics(
+            config: config.metrics,
+            patternsDependencies: patternsDependencies,
+            measuredType: EntityType.methodEntity,
+          ),
+      prepareExcludes(config.excludeForMetricsPatterns, excludesRootFolder),
+      config.metrics,
+      excludesRootFolder,
+    );
+  }
 
   static UnusedFilesConfig getUnusedFilesConfigFromArgs(
     Iterable<String> excludePatterns,
@@ -59,5 +72,26 @@ class ConfigBuilder {
       UnusedFilesAnalysisConfig(
         prepareExcludes(config.excludePatterns, rootPath),
         prepareExcludes(config.analyzerExcludePatterns, rootPath),
+      );
+
+  static UnusedL10nConfig getUnusedL10nConfigFromArgs(
+    Iterable<String> excludePatterns,
+    String classPattern,
+  ) =>
+      UnusedL10nConfig.fromArgs(excludePatterns, classPattern);
+
+  static UnusedL10nConfig getUnusedL10nConfigFromOption(
+    AnalysisOptions options,
+  ) =>
+      UnusedL10nConfig.fromAnalysisOptions(options);
+
+  static UnusedL10nAnalysisConfig getUnusedL10nConfig(
+    UnusedL10nConfig config,
+    String rootPath,
+  ) =>
+      UnusedL10nAnalysisConfig(
+        prepareExcludes(config.excludePatterns, rootPath),
+        prepareExcludes(config.analyzerExcludePatterns, rootPath),
+        config.classPattern,
       );
 }

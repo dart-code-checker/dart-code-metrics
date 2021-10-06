@@ -6,7 +6,7 @@ import '../../../../metrics/models/metric_value.dart';
 class FunctionMetricsReport {
   final MetricValue<int> cyclomaticComplexity;
   final MetricValue<int> sourceLinesOfCode;
-  final MetricValue<double> maintainabilityIndex;
+  final MetricValue<int> maintainabilityIndex;
   final MetricValue<int> argumentsCount;
   final MetricValue<int> maximumNestingLevel;
 

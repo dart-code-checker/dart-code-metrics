@@ -3,7 +3,6 @@ import 'package:source_span/source_span.dart';
 
 import '../models/issue.dart';
 import '../models/scoped_function_declaration.dart';
-import '../models/severity.dart';
 import 'models/pattern.dart';
 
 Issue createIssue({
@@ -16,7 +15,7 @@ Issue createIssue({
       ruleId: pattern.id,
       documentation: documentation(pattern),
       location: location,
-      severity: Severity.none,
+      severity: pattern.severity,
       message: message,
       verboseMessage: verboseMessage,
     );

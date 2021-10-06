@@ -2,7 +2,6 @@ import 'package:source_span/source_span.dart';
 
 import '../models/issue.dart';
 import '../models/replacement.dart';
-import '../models/severity.dart';
 import 'models/rule.dart';
 
 /// Creates a new [Issue] found by [rule] in the [location] with [message] or
@@ -36,10 +35,6 @@ Uri documentation(Rule rule) => Uri(
         rule.id,
       ],
     );
-
-/// Returns a [Severity] from map based [config] otherwise [defaultValue]
-Severity readSeverity(Map<String, Object?> config, Severity defaultValue) =>
-    Severity.fromString(config['severity'] as String?) ?? defaultValue;
 
 /// Returns a list of excludes from the given [config]
 Iterable<String> readExcludes(Map<String, Object> config) {

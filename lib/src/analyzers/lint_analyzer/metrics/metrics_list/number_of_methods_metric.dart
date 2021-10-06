@@ -10,6 +10,7 @@ import '../metric_utils.dart';
 import '../models/class_metric.dart';
 import '../models/metric_computation_result.dart';
 import '../models/metric_documentation.dart';
+import '../models/metric_value.dart';
 import '../scope_utils.dart';
 
 const _documentation = MetricDocumentation(
@@ -18,7 +19,6 @@ const _documentation = MetricDocumentation(
   brief: 'The number of methods of a class.',
   measuredType: EntityType.classEntity,
   recomendedThreshold: 10,
-  examples: [],
 );
 
 /// Number of Methods (NOM)
@@ -42,6 +42,7 @@ class NumberOfMethodsMetric extends ClassMetric<int> {
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
     InternalResolvedUnitResult source,
+    Iterable<MetricValue<num>> otherMetricsValues,
   ) {
     final methods = classMethods(node, functionDeclarations);
 

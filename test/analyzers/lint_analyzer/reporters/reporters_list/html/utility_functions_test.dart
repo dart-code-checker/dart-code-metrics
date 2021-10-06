@@ -1,8 +1,4 @@
 @TestOn('vm')
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_documentation.dart';
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value.dart';
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value_level.dart';
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/entity_type.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/html/lint_html_reporter.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/html/models/file_metrics_report.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/html/utility_functions.dart';
@@ -42,33 +38,6 @@ void main() {
         );
       });
     });
-
-    test(
-      'renderFunctionDetailsTooltipMetric returns dom elements for function metric in tooltip',
-      () {
-        expect(
-          renderFunctionDetailsTooltipMetric(
-            const MetricValue(
-              metricsId: '',
-              documentation: MetricDocumentation(
-                name: metricName,
-                shortName: '',
-                brief: '',
-                measuredType: EntityType.classEntity,
-                recomendedThreshold: 0,
-                examples: [],
-              ),
-              value: 10,
-              level: MetricValueLevel.warning,
-              comment: '',
-            ),
-          ).outerHtml,
-          equals(
-            '<div class="metrics-source-code__tooltip-section"><p class="metrics-source-code__tooltip-text"><span class="metrics-source-code__tooltip-label">metricname:&amp;nbsp;</span><span>10</span></p><p class="metrics-source-code__tooltip-text"><span class="metrics-source-code__tooltip-label">metricname violation level:&amp;nbsp;</span><span class="metrics-source-code__tooltip-level metrics-source-code__tooltip-level--warning">warning</span></p></div>',
-          ),
-        );
-      },
-    );
 
     test('renderTableRecord returns dom elements for report table record', () {
       expect(

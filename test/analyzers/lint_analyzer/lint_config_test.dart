@@ -3,7 +3,7 @@ import 'package:dart_code_metrics/src/analyzers/lint_analyzer/lint_config.dart';
 import 'package:dart_code_metrics/src/config_builder/models/analysis_options.dart';
 import 'package:test/test.dart';
 
-const _options = AnalysisOptions({
+const _options = AnalysisOptions('path', {
   'include': 'package:pedantic/analysis_options.yaml',
   'analyzer': {
     'exclude': ['test/resources/**'],
@@ -24,6 +24,7 @@ const _options = AnalysisOptions({
     },
     'metrics-exclude': ['test/**', 'examples/**'],
     'rules': {'rule-id1': false, 'rule-id2': true, 'rule-id3': true},
+    'rules-exclude': ['test/**', 'examples/**'],
   },
 });
 
@@ -35,6 +36,7 @@ const _defaults = LintConfig(
     'metric-id2': '10',
     'metric-id3': '5',
   },
+  excludeForRulesPatterns: ['test/**'],
   rules: {
     'rule-id1': {},
     'rule-id2': {'severity': 'info'},
@@ -48,6 +50,7 @@ const _empty = LintConfig(
   excludePatterns: [],
   excludeForMetricsPatterns: [],
   metrics: {},
+  excludeForRulesPatterns: [],
   rules: {},
   antiPatterns: {},
 );
@@ -61,6 +64,7 @@ const _merged = LintConfig(
     'metric-id3': '5',
     'metric-id4': '0',
   },
+  excludeForRulesPatterns: ['test/**', 'examples/**'],
   rules: {
     'rule-id1': {},
     'rule-id2': {'severity': 'warning'},
@@ -78,6 +82,7 @@ const _overrides = LintConfig(
     'metric-id1': '5',
     'metric-id4': '0',
   },
+  excludeForRulesPatterns: ['examples/**'],
   rules: {
     'rule-id2': {'severity': 'warning'},
   },
@@ -91,11 +96,12 @@ void main() {
     group('fromAnalysisOptions constructs instance from passed', () {
       test('empty options', () {
         final config =
-            LintConfig.fromAnalysisOptions(const AnalysisOptions({}));
+            LintConfig.fromAnalysisOptions(const AnalysisOptions(null, {}));
 
         expect(config.excludePatterns, isEmpty);
         expect(config.excludeForMetricsPatterns, isEmpty);
         expect(config.metrics, isEmpty);
+        expect(config.excludeForRulesPatterns, isEmpty);
         expect(config.rules, isEmpty);
       });
 
@@ -117,6 +123,10 @@ void main() {
           }),
         );
         expect(
+          config.excludeForRulesPatterns,
+          equals(['test/**', 'examples/**']),
+        );
+        expect(
           config.rules,
           equals({
             'rule-id2': <String, Object>{},
@@ -136,6 +146,10 @@ void main() {
           equals(_defaults.excludeForMetricsPatterns),
         );
         expect(result.metrics, equals(_defaults.metrics));
+        expect(
+          result.excludeForRulesPatterns,
+          equals(_defaults.excludeForRulesPatterns),
+        );
         expect(result.rules, equals(_defaults.rules));
       });
       test('empty and overrides configs', () {
@@ -147,6 +161,10 @@ void main() {
           equals(_overrides.excludeForMetricsPatterns),
         );
         expect(result.metrics, equals(_overrides.metrics));
+        expect(
+          result.excludeForRulesPatterns,
+          equals(_overrides.excludeForRulesPatterns),
+        );
         expect(result.rules, equals(_overrides.rules));
       });
       test('defaults and overrides configs', () {
@@ -158,6 +176,10 @@ void main() {
           equals(_merged.excludeForMetricsPatterns),
         );
         expect(result.metrics, equals(_merged.metrics));
+        expect(
+          result.excludeForRulesPatterns,
+          equals(_merged.excludeForRulesPatterns),
+        );
         expect(result.rules, equals(_merged.rules));
       });
     });

@@ -177,7 +177,7 @@ pre.prettyprint.prettyprint {
   position: absolute; /* containing block: .metrics-source-code__icon */
   left: 0;
   bottom: var(--dart-code-metrics-source-code-tooltip-bottom);
-  width: var(--dart-code-metrics-source-code-tooltip-width);
+  min-width: var(--dart-code-metrics-source-code-tooltip-width);
   padding:
     calc(var(--dart-code-metrics-source-code-tooltip-padding) / 2)
     var(--dart-code-metrics-source-code-tooltip-padding);

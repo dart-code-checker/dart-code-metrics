@@ -40,14 +40,35 @@ class _InstanceCreationVisitor extends RecursiveAstVisitor<void> {
 
       if (_isNotIgnored(argument) &&
           expression is FunctionExpression &&
-          expression.body is BlockFunctionBody) {
+          _hasNotEmptyBlockBody(expression) &&
+          !_isFlutterBuilder(expression)) {
         _expressions.add(argument);
       }
     }
   }
 
+  bool _hasNotEmptyBlockBody(FunctionExpression expression) {
+    final body = expression.body;
+    if (body is! BlockFunctionBody) {
+      return false;
+    }
+
+    return body.block.statements.isNotEmpty;
+  }
+
+  bool _isFlutterBuilder(FunctionExpression expression) {
+    if (!isWidgetOrSubclass(expression.declaredElement?.returnType)) {
+      return false;
+    }
+
+    final formalParameters = expression.parameters?.parameters;
+
+    return formalParameters == null ||
+        formalParameters.isNotEmpty &&
+            isBuildContext(formalParameters.first.declaredElement?.type);
+  }
+
   bool _isNotIgnored(Expression argument) =>
       argument is! NamedExpression ||
-      (argument.name.label.name != 'builder' &&
-          !_ignoredArguments.contains(argument.name.label.name));
+      !_ignoredArguments.contains(argument.name.label.name);
 }

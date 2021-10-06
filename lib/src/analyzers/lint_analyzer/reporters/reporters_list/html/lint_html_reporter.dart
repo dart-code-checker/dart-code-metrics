@@ -11,6 +11,8 @@ import '../../../metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexit
 import '../../../metrics/models/metric_value_level.dart';
 import '../../../models/lint_file_report.dart';
 import '../../utility_selector.dart';
+import 'components/icon.dart';
+import 'components/issue_details_tooltip.dart';
 import 'models/file_metrics_report.dart';
 import 'utility_functions.dart';
 
@@ -331,42 +333,35 @@ class LintHtmlReporter extends HtmlReporter<LintFileReport> {
     final cyclomaticValues = Element.tag('td')
       ..classes.add('metrics-source-code__complexity');
     for (var i = 1; i <= sourceFileLines.length; ++i) {
-      final functionReport = record.functions.values.firstWhereOrNull(
-        (functionReport) =>
-            functionReport.location.start.line <= i &&
-            functionReport.location.end.line >= i,
-      );
-
       final complexityValueElement = Element.tag('div')
         ..classes.add('metrics-source-code__text');
 
+      final classReport = record.classes.entries.firstWhereOrNull((report) =>
+          report.value.location.start.line <= i &&
+          report.value.location.end.line >= i);
+      if (classReport != null && classReport.value.location.start.line == i) {
+        complexityValueElement
+          ..classes.add('metrics-source-code__text--with-icon')
+          ..append(renderComplexityIcon(classReport.value, classReport.key));
+      }
+
+      final functionReport = record.functions.entries.firstWhereOrNull(
+        (report) =>
+            report.value.location.start.line <= i &&
+            report.value.location.end.line >= i,
+      );
+
       var line = ' ';
       if (functionReport != null) {
-        if (functionReport.location.start.line == i) {
-          final complexityTooltip =
-              renderFunctionDetailsTooltip(functionReport);
-
-          final complexityIcon = Element.tag('div')
-            ..classes.addAll([
-              'metrics-source-code__icon',
-              'metrics-source-code__icon--complexity',
-            ])
-            ..append(Element.tag('svg')
-              ..attributes['xmlns'] = 'http://www.w3.org/2000/svg'
-              ..attributes['viewBox'] = '0 0 32 32'
-              ..append(Element.tag('path')
-                ..attributes['d'] =
-                    'M16 3C8.832 3 3 8.832 3 16s5.832 13 13 13 13-5.832 13-13S23.168 3 16 3zm0 2c6.086 0 11 4.914 11 11s-4.914 11-11 11S5 22.086 5 16 9.914 5 16 5zm-1 5v2h2v-2zm0 4v8h2v-8z'))
-            ..append(complexityTooltip);
-
+        if (functionReport.value.location.start.line == i) {
           complexityValueElement
-            ..attributes['class'] =
-                '${complexityValueElement.attributes['class']} metrics-source-code__text--with-icon'
-                    .trim()
-            ..append(complexityIcon);
+            ..classes.add('metrics-source-code__text--with-icon')
+            ..append(
+              renderComplexityIcon(functionReport.value, functionReport.key),
+            );
         }
 
-        final lineWithComplexityIncrement = functionReport
+        final lineWithComplexityIncrement = functionReport.value
                 .metric(CyclomaticComplexityMetric.metricId)
                 ?.context
                 .where((element) => element.location.start.line == i)
@@ -385,7 +380,7 @@ class LintHtmlReporter extends HtmlReporter<LintFileReport> {
         }
 */
 
-        final functionViolationLevel = functionReport.metricsLevel;
+        final functionViolationLevel = functionReport.value.metricsLevel;
 
         final lineViolationStyle = lineWithComplexityIncrement > 0
             ? _violationLevelLineStyle[functionViolationLevel]
@@ -398,36 +393,12 @@ class LintHtmlReporter extends HtmlReporter<LintFileReport> {
           .firstWhereOrNull((element) => element.location.start.line == i);
 
       if (architecturalIssues != null) {
-        final issueTooltip = Element.tag('div')
-          ..classes.add('metrics-source-code__tooltip')
-          ..append(Element.tag('div')
-            ..classes.add('metrics-source-code__tooltip-title')
-            ..text = architecturalIssues.ruleId)
-          ..append(Element.tag('p')
-            ..classes.add('metrics-source-code__tooltip-section')
-            ..text = architecturalIssues.message)
-          ..append(Element.tag('p')
-            ..classes.add('metrics-source-code__tooltip-section')
-            ..text = architecturalIssues.verboseMessage)
-          ..append(Element.tag('a')
-            ..classes.add('metrics-source-code__tooltip-link')
-            ..attributes['href'] = architecturalIssues.documentation.toString()
-            ..attributes['target'] = '_blank'
-            ..attributes['rel'] = 'noopener noreferrer'
-            ..attributes['title'] = 'Open documentation'
-            ..text = 'Open documentation');
-
         final issueIcon = Element.tag('div')
           ..classes.addAll(
             ['metrics-source-code__icon', 'metrics-source-code__icon--issue'],
           )
-          ..append(Element.tag('svg')
-            ..attributes['xmlns'] = 'http://www.w3.org/2000/svg'
-            ..attributes['viewBox'] = '0 0 24 24'
-            ..append(Element.tag('path')
-              ..attributes['d'] =
-                  'M12 1.016c-.393 0-.786.143-1.072.43l-9.483 9.482a1.517 1.517 0 000 2.144l9.483 9.485c.286.286.667.443 1.072.443s.785-.157 1.072-.443l9.485-9.485a1.517 1.517 0 000-2.144l-9.485-9.483A1.513 1.513 0 0012 1.015zm0 2.183L20.8 12 12 20.8 3.2 12 12 3.2zM11 7v6h2V7h-2zm0 8v2h2v-2h-2z'))
-          ..append(issueTooltip);
+          ..append(renderIcon(IconType.issue))
+          ..append(renderIssueDetailsTooltip(architecturalIssues));
 
         complexityValueElement.append(issueIcon);
       }

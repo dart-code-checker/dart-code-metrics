@@ -1,5 +1,48 @@
 # Changelog
 
+## 4.4.0
+
+* feat: introduce `check-unused-l10n` command.
+* feat: add static code diagnostic `prefer-const-border-radius`.
+* feat: improve static code diagnostic `prefer-extracting-callbacks`: don't trigger on empty function blocks and ignore Flutter builder functions.
+* feat: improve unused files check, add support for `vm:entry-point` annotation.
+* fix: compute `Number of Parameters` only for functions and methods.
+* fix: `Number of Parameters` skip copyWith methods.
+* fix: skip synthetic tokens while compute `Source lines of Code`.
+* fix: update `Maintainability Index` metric comment message.
+
+## 4.3.3
+
+* Fix unhandled exception while parsing `analysis_options.yaml`
+
+## 4.3.2
+
+* Restrict analyzer version to '>=2.1.0 <2.4.0'
+
+## 4.3.1
+
+* Update .pubignore
+
+## 4.3.0
+
+* Add support for global rules-exclude.
+* Add `Halstead Volume` metric.
+* Add ability to configure anti-pattern severity.
+* Add `--fatal-warnings`, `--fatal-performance`, `--fatal-style` cli arguments.
+* Deprecated GitHub reporter.
+
+## 4.3.0-dev.1
+
+* Add support for global rules-exclude.
+* Add `Halstead Volume` metric.
+* Add ability to configure anti-pattern severity.
+* Add `--fatal-warnings`, `--fatal-performance`, `--fatal-style` cli arguments.
+
+## 4.2.1
+
+* Fix rule and metrics excludes for monorepos.
+* Improve static code diagnostics `avoid-unused-parameters`, `prefer-match-file-name`.
+
 ## 4.2.0
 
 * Add static code diagnostics `avoid-ignoring-return-values`, `prefer-match-file-name`, `prefer-single-widget-per-file`.

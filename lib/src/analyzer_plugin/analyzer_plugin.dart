@@ -15,8 +15,8 @@ import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
 
 import '../analyzers/lint_analyzer/lint_analysis_config.dart';
 import '../analyzers/lint_analyzer/lint_analyzer.dart';
-import '../analyzers/lint_analyzer/metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import '../analyzers/lint_analyzer/metrics/metrics_list/number_of_parameters_metric.dart';
+import '../analyzers/lint_analyzer/metrics/metrics_list/source_lines_of_code/source_lines_of_code_metric.dart';
 import '../config_builder/config_builder.dart';
 import '../config_builder/models/analysis_options.dart';
 import '../utils/yaml_utils.dart';
@@ -208,14 +208,9 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
 
       if (report != null) {
         result.addAll([
-          ...report.issues
-              .map((issue) =>
-                  codeIssueToAnalysisErrorFixes(issue, analysisResult))
-              .toList(),
-          ...report.antiPatternCases
-              .map(designIssueToAnalysisErrorFixes)
-              .toList(),
-        ]);
+          ...report.issues,
+          ...report.antiPatternCases,
+        ].map((issue) => codeIssueToAnalysisErrorFixes(issue, analysisResult)));
       }
 
       // Temporary disable deprecation check
@@ -238,17 +233,21 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
   LintAnalysisConfig? _createConfig(AnalysisDriver driver, String rootPath) {
     final file = driver.analysisContext?.contextRoot.optionsFile;
     if (file != null && file.exists) {
-      final options = AnalysisOptions(yamlMapToDartMap(
-        AnalysisOptionsProvider(driver.sourceFactory).getOptionsFromFile(file),
-      ));
+      final options = AnalysisOptions(
+        file.path,
+        yamlMapToDartMap(
+          AnalysisOptionsProvider(driver.sourceFactory)
+              .getOptionsFromFile(file),
+        ),
+      );
       final config = ConfigBuilder.getLintConfigFromOptions(options);
       final lintConfig = ConfigBuilder.getLintAnalysisConfig(
         config,
-        rootPath,
+        options.folderPath ?? rootPath,
         classMetrics: const [],
         functionMetrics: [
-          CyclomaticComplexityMetric(config: config.metrics),
           NumberOfParametersMetric(config: config.metrics),
+          SourceLinesOfCodeMetric(config: config.metrics),
         ],
       );
 

@@ -11,6 +11,7 @@ import '../metric_utils.dart';
 import '../models/class_metric.dart';
 import '../models/metric_computation_result.dart';
 import '../models/metric_documentation.dart';
+import '../models/metric_value.dart';
 import '../scope_utils.dart';
 
 const _documentation = MetricDocumentation(
@@ -20,7 +21,6 @@ const _documentation = MetricDocumentation(
       'The number of "functional" public methods divided by the total number of public members',
   measuredType: EntityType.classEntity,
   recomendedThreshold: 0.33,
-  examples: [],
 );
 
 /// Weight Of a Class (WOC)
@@ -44,8 +44,15 @@ class WeightOfClassMetric extends ClassMetric<double> {
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
     InternalResolvedUnitResult source,
+    Iterable<MetricValue<num>> otherMetricsValues,
   ) =>
-      super.supports(node, classDeclarations, functionDeclarations, source) &&
+      super.supports(
+        node,
+        classDeclarations,
+        functionDeclarations,
+        source,
+        otherMetricsValues,
+      ) &&
       classMethods(node, functionDeclarations)
           .where(_isPublicMethod)
           .isNotEmpty;
@@ -56,6 +63,7 @@ class WeightOfClassMetric extends ClassMetric<double> {
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
     InternalResolvedUnitResult source,
+    Iterable<MetricValue<num>> otherMetricsValues,
   ) {
     final totalPublicMethods = classMethods(node, functionDeclarations)
         .where(_isPublicMethod)

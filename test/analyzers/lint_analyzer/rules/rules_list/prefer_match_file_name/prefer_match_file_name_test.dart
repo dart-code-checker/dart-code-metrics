@@ -12,6 +12,7 @@ const _withIssue = '$_examplePath/example_with_issue.dart';
 const _emptyFile = '$_examplePath/empty_file.dart';
 const _privateClass = '$_examplePath/private_class.dart';
 const _multiClass = '$_examplePath/multiple_classes_example.dart';
+const _codegenFile = '$_examplePath/some_widget.codegen.dart';
 
 void main() {
   group('PreferMatchFileName', () {
@@ -71,6 +72,13 @@ void main() {
 
     test('reports no issues for file multiples file', () async {
       final unit = await RuleTestHelper.resolveFromFile(_multiClass);
+      final issues = PreferMatchFileName().check(unit);
+
+      RuleTestHelper.verifyNoIssues(issues);
+    });
+
+    test('reports no issues for codegen file', () async {
+      final unit = await RuleTestHelper.resolveFromFile(_codegenFile);
       final issues = PreferMatchFileName().check(unit);
 
       RuleTestHelper.verifyNoIssues(issues);

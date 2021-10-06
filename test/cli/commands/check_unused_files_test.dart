@@ -1,6 +1,5 @@
 @TestOn('vm')
 import 'package:dart_code_metrics/src/cli/cli_runner.dart';
-
 import 'package:dart_code_metrics/src/cli/commands/check_unused_files.dart';
 import 'package:test/test.dart';
 

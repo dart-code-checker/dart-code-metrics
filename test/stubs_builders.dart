@@ -10,7 +10,6 @@ import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/met
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value_level.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/entity_type.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/report.dart';
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/html/models/function_metrics_report.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:source_span/source_span.dart';
 
@@ -30,7 +29,6 @@ MetricValue<T> buildMetricValueStub<T>({
         brief: 'brief $id',
         measuredType: type,
         recomendedThreshold: 0,
-        examples: const [],
       ),
       value: value,
       level: level,
@@ -50,7 +48,6 @@ Report buildRecordStub({
         brief: '',
         measuredType: EntityType.classEntity,
         recomendedThreshold: 0,
-        examples: [],
       ),
       value: 0,
       level: MetricValueLevel.none,
@@ -64,7 +61,6 @@ Report buildRecordStub({
         brief: '',
         measuredType: EntityType.methodEntity,
         recomendedThreshold: 0,
-        examples: [],
       ),
       value: 1,
       level: MetricValueLevel.none,
@@ -92,7 +88,7 @@ Report buildFunctionRecordStub({
     buildMetricValueStub<int>(id: MaximumNestingLevelMetric.metricId, value: 0),
     buildMetricValueStub<int>(id: NumberOfParametersMetric.metricId, value: 0),
     buildMetricValueStub<int>(id: SourceLinesOfCodeMetric.metricId, value: 0),
-    buildMetricValueStub<double>(id: 'maintainability-index', value: 100),
+    buildMetricValueStub<int>(id: 'maintainability-index', value: 100),
   ];
 
   return Report(
@@ -102,88 +98,3 @@ Report buildFunctionRecordStub({
     metrics: [...metrics, ...defaultMetricValues],
   );
 }
-
-FunctionMetricsReport buildFunctionMetricsReportStub({
-  int cyclomaticComplexity = 0,
-  MetricValueLevel cyclomaticComplexityViolationLevel = MetricValueLevel.none,
-  int sourceLinesOfCode = 0,
-  MetricValueLevel sourceLinesOfCodeViolationLevel = MetricValueLevel.none,
-  double maintainabilityIndex = 0,
-  MetricValueLevel maintainabilityIndexViolationLevel = MetricValueLevel.none,
-  int argumentsCount = 0,
-  MetricValueLevel argumentsCountViolationLevel = MetricValueLevel.none,
-  int maximumNestingLevel = 0,
-  MetricValueLevel maximumNestingLevelViolationLevel = MetricValueLevel.none,
-}) =>
-    FunctionMetricsReport(
-      cyclomaticComplexity: MetricValue<int>(
-        metricsId: '',
-        documentation: const MetricDocumentation(
-          name: '',
-          shortName: '',
-          brief: '',
-          measuredType: EntityType.classEntity,
-          recomendedThreshold: 0,
-          examples: [],
-        ),
-        value: cyclomaticComplexity,
-        level: cyclomaticComplexityViolationLevel,
-        comment: '',
-      ),
-      sourceLinesOfCode: MetricValue<int>(
-        metricsId: '',
-        documentation: const MetricDocumentation(
-          name: '',
-          shortName: '',
-          brief: '',
-          measuredType: EntityType.classEntity,
-          recomendedThreshold: 0,
-          examples: [],
-        ),
-        value: sourceLinesOfCode,
-        level: sourceLinesOfCodeViolationLevel,
-        comment: '',
-      ),
-      maintainabilityIndex: MetricValue<double>(
-        metricsId: '',
-        documentation: const MetricDocumentation(
-          name: '',
-          shortName: '',
-          brief: '',
-          measuredType: EntityType.classEntity,
-          recomendedThreshold: 0,
-          examples: [],
-        ),
-        value: maintainabilityIndex,
-        level: maintainabilityIndexViolationLevel,
-        comment: '',
-      ),
-      argumentsCount: MetricValue<int>(
-        metricsId: '',
-        documentation: const MetricDocumentation(
-          name: '',
-          shortName: '',
-          brief: '',
-          measuredType: EntityType.classEntity,
-          recomendedThreshold: 0,
-          examples: [],
-        ),
-        value: argumentsCount,
-        level: argumentsCountViolationLevel,
-        comment: '',
-      ),
-      maximumNestingLevel: MetricValue<int>(
-        metricsId: '',
-        documentation: const MetricDocumentation(
-          name: '',
-          shortName: '',
-          brief: '',
-          measuredType: EntityType.classEntity,
-          recomendedThreshold: 0,
-          examples: [],
-        ),
-        value: maximumNestingLevel,
-        level: maximumNestingLevelViolationLevel,
-        comment: '',
-      ),
-    );

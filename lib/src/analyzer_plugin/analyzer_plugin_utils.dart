@@ -58,26 +58,6 @@ plugin.AnalysisErrorFixes codeIssueToAnalysisErrorFixes(
   );
 }
 
-plugin.AnalysisErrorFixes designIssueToAnalysisErrorFixes(Issue issue) =>
-    plugin.AnalysisErrorFixes(plugin.AnalysisError(
-      plugin.AnalysisErrorSeverity.INFO,
-      plugin.AnalysisErrorType.HINT,
-      plugin.Location(
-        uriToPath(issue.location.sourceUrl) ?? '',
-        issue.location.start.offset,
-        issue.location.length,
-        issue.location.start.line,
-        issue.location.start.column,
-        endLine: issue.location.end.line,
-        endColumn: issue.location.end.column,
-      ),
-      issue.message,
-      issue.ruleId,
-      correction: issue.verboseMessage,
-      url: issue.documentation.toString(),
-      hasFix: false,
-    ));
-
 plugin.AnalysisErrorFixes metricReportToAnalysisErrorFixes(
   SourceLocation startLocation,
   int length,

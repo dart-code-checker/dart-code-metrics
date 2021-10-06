@@ -3,6 +3,7 @@ import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:path/path.dart';
 
 import '../../../../../utils/node_utils.dart';
+import '../../../lint_utils.dart';
 import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
 import '../../../models/severity.dart';
@@ -34,7 +35,9 @@ class PreferMatchFileName extends CommonRule {
         className.replaceAll(_onlySymbolsRegex, '').toLowerCase();
 
     return classNameFormatted ==
-        basenameWithoutExtension(path)
+        basename(path)
+            .split('.')
+            .first
             .replaceAll(_onlySymbolsRegex, '')
             .toLowerCase();
   }

@@ -23,6 +23,7 @@ void main() {
       visitor.classes,
       visitor.functions,
       result,
+      [],
     );
 
     final firstClassValue = metric.compute(
@@ -30,6 +31,7 @@ void main() {
       visitor.classes,
       visitor.functions,
       result,
+      [],
     );
 
     expect(firstClassSupport, isTrue);
@@ -49,6 +51,7 @@ void main() {
       visitor.classes,
       visitor.functions,
       result,
+      [],
     );
 
     final secondClassValue = metric.compute(
@@ -56,6 +59,7 @@ void main() {
       visitor.classes,
       visitor.functions,
       result,
+      [],
     );
 
     expect(secondClassSupport, isTrue);
@@ -75,6 +79,7 @@ void main() {
       visitor.classes,
       visitor.functions,
       result,
+      [],
     );
 
     expect(lastClassSupport, isFalse);

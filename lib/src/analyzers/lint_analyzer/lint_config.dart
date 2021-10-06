@@ -12,6 +12,7 @@ class LintConfig {
   final Iterable<String> excludeForMetricsPatterns;
   final Map<String, Object> metrics;
   final Map<String, Map<String, Object>> rules;
+  final Iterable<String> excludeForRulesPatterns;
   final Map<String, Map<String, Object>> antiPatterns;
 
   const LintConfig({
@@ -19,6 +20,7 @@ class LintConfig {
     required this.excludeForMetricsPatterns,
     required this.metrics,
     required this.rules,
+    required this.excludeForRulesPatterns,
     required this.antiPatterns,
   });
 
@@ -31,6 +33,8 @@ class LintConfig {
           options.readIterableOfString([_rootKey, 'metrics-exclude']),
       metrics: options.readMap([_rootKey, 'metrics']),
       rules: options.readMapOfMap([_rootKey, 'rules']),
+      excludeForRulesPatterns:
+          options.readIterableOfString([_rootKey, 'rules-exclude']),
       antiPatterns: options.readMapOfMap([_rootKey, 'anti-patterns']),
     );
   }
@@ -44,6 +48,7 @@ class LintConfig {
               metric.id: arguments.metricsConfig[metric.id]!,
         },
         rules: const {},
+        excludeForRulesPatterns: const [],
         antiPatterns: const {},
       );
 
@@ -56,6 +61,10 @@ class LintConfig {
         metrics: mergeMaps(defaults: metrics, overrides: overrides.metrics),
         rules: mergeMaps(defaults: rules, overrides: overrides.rules)
             .cast<String, Map<String, Object>>(),
+        excludeForRulesPatterns: {
+          ...excludeForRulesPatterns,
+          ...overrides.excludeForRulesPatterns,
+        },
         antiPatterns:
             mergeMaps(defaults: antiPatterns, overrides: overrides.antiPatterns)
                 .cast<String, Map<String, Object>>(),

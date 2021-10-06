@@ -16,4 +16,17 @@ abstract class JsonReporter<T extends FileReport> extends Reporter<T> {
   final int formatVersion;
 
   const JsonReporter(this.output, this.formatVersion);
+
+  String getTimestamp() {
+    final nowTime = DateTime.now();
+
+    return DateTime(
+      nowTime.year,
+      nowTime.month,
+      nowTime.day,
+      nowTime.hour,
+      nowTime.minute,
+      nowTime.second,
+    ).toString();
+  }
 }

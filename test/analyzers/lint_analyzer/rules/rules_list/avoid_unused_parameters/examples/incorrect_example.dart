@@ -41,3 +41,10 @@ void fifthFunction(TestClass object, String string) {
 void sixthFunction(TestClass object) {
   final func = (TestClass object) => object.value;
 }
+
+mixin AbstractMixin {
+  // LINT
+  String secondMethod(String string) {
+    return 'string';
+  }
+}

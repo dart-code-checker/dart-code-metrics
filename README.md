@@ -56,7 +56,7 @@ A plugin for the Dart `analyzer` [package](https://pub.dev/packages/analyzer) pr
 
     ```yaml
     dev_dependencies:
-      dart_code_metrics: ^4.2.0
+      dart_code_metrics: ^4.4.0
     ```
 
     and then run
@@ -143,29 +143,34 @@ Usage: metrics [arguments...] <directories>
 -h, --help                                        Print this usage information.
 
 
--r, --reporter=<console>                          The format of the output of the analysis
+-r, --reporter=<console>                          The format of the output of the analysis.
                                                   [console (default), console-verbose, codeclimate, github, gitlab, html, json]
--o, --output-directory=<OUTPUT>                   Write HTML output to OUTPUT
+-o, --output-directory=<OUTPUT>                   Write HTML output to OUTPUT.
                                                   (defaults to "metrics")
 
 
-    --cyclomatic-complexity=<20>                  Cyclomatic Complexity threshold
-    --lines-of-code=<100>                         Lines of Code threshold
-    --maximum-nesting-level=<5>                   Maximum Nesting Level threshold
-    --number-of-methods=<10>                      Number of Methods threshold
-    --number-of-parameters=<4>                    Number of Parameters threshold
-    --source-lines-of-code=<50>                   Source lines of Code threshold
-    --weight-of-class=<0.33>                      Weight Of a Class threshold
+    --cyclomatic-complexity=<20>                  Cyclomatic Complexity threshold.
+    --halstead-volume=<150>                       Halstead Volume threshold.
+    --lines-of-code=<100>                         Lines of Code threshold.
+    --maximum-nesting-level=<5>                   Maximum Nesting Level threshold.
+    --number-of-methods=<10>                      Number of Methods threshold.
+    --number-of-parameters=<4>                    Number of Parameters threshold.
+    --source-lines-of-code=<50>                   Source lines of Code threshold.
+    --weight-of-class=<0.33>                      Weight Of a Class threshold.
+    --maintainability-index=<50>                  Maintainability Index threshold.
 
 
-    --root-folder=<./>                            Root folder
+    --root-folder=<./>                            Root folder.
                                                   (defaults to current directory)
-    --exclude=<{/**.g.dart,/**.template.dart}>    File paths in Glob syntax to be exclude
+    --exclude=<{/**.g.dart,/**.template.dart}>    File paths in Glob syntax to be exclude.
                                                   (defaults to "{/**.g.dart,/**.template.dart}")
 
 
-    --set-exit-on-violation-level=<warning>       Set exit code 2 if code violations same or higher level than selected are detected
+    --set-exit-on-violation-level=<warning>       Set exit code 2 if code violations same or higher level than selected are detected.
                                                   [noted, warning, alarm]
+    --[no-]fatal-style                            Treat style level issues as fatal.
+    --[no-]fatal-performance                      Treat performance level issues as fatal.
+    --[no-]fatal-warnings                         Treat warning level issues as fatal.
 ```
 
 ## Troubleshooting

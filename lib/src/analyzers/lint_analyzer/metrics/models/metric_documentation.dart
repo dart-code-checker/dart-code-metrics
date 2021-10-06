@@ -1,5 +1,4 @@
 import 'package:meta/meta.dart';
-import 'package:source_span/source_span.dart';
 
 import '../../models/entity_type.dart';
 
@@ -21,9 +20,6 @@ class MetricDocumentation {
   /// The recomended threshold value for this metric
   final num recomendedThreshold;
 
-  /// The code snippet that is used for the metric documentation generating.
-  final Iterable<SourceSpan> examples;
-
   /// Initialize a newly created [MetricDocumentation].
   ///
   /// This data object is used for a documentation generating from a source code.
@@ -33,6 +29,5 @@ class MetricDocumentation {
     required this.brief,
     required this.measuredType,
     required this.recomendedThreshold,
-    required this.examples,
   });
 }

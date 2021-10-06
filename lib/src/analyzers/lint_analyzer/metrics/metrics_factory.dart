@@ -1,6 +1,8 @@
 import '../models/entity_type.dart';
 import 'metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
+import 'metrics_list/halstead_volume/halstead_volume_metric.dart';
 import 'metrics_list/lines_of_code_metric.dart';
+import 'metrics_list/maintainability_index_metric.dart';
 import 'metrics_list/maximum_nesting_level/maximum_nesting_level_metric.dart';
 import 'metrics_list/number_of_methods_metric.dart';
 import 'metrics_list/number_of_parameters_metric.dart';
@@ -11,6 +13,8 @@ import 'models/metric.dart';
 final _implementedMetrics = <String, Metric Function(Map<String, Object>)>{
   CyclomaticComplexityMetric.metricId: (config) =>
       CyclomaticComplexityMetric(config: config),
+  HalsteadVolumeMetric.metricId: (config) =>
+      HalsteadVolumeMetric(config: config),
   LinesOfCodeMetric.metricId: (config) => LinesOfCodeMetric(config: config),
   MaximumNestingLevelMetric.metricId: (config) =>
       MaximumNestingLevelMetric(config: config),
@@ -21,14 +25,22 @@ final _implementedMetrics = <String, Metric Function(Map<String, Object>)>{
   SourceLinesOfCodeMetric.metricId: (config) =>
       SourceLinesOfCodeMetric(config: config),
   WeightOfClassMetric.metricId: (config) => WeightOfClassMetric(config: config),
+  // Complex metrics:
+  // Depend on CyclomaticComplexityMetric, HalsteadVolumeMetric and SourceLinesOfCodeMetric metrics
+  MaintainabilityIndexMetric.metricId: (config) =>
+      MaintainabilityIndexMetric(config: config),
 };
 
 Iterable<Metric> getMetrics({
   required Map<String, Object> config,
+  Iterable<String> patternsDependencies = const [],
   EntityType? measuredType,
 }) {
-  final _metrics =
-      _implementedMetrics.keys.map((id) => _implementedMetrics[id]!(config));
+  final _metrics = _implementedMetrics.keys.map(
+    (id) => _implementedMetrics[id]!(
+      !patternsDependencies.contains(id) ? config : {},
+    ),
+  );
 
   return measuredType != null
       ? _metrics
