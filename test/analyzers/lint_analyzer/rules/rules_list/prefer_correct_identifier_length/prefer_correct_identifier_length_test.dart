@@ -9,7 +9,6 @@ const _example = '$_examplePath/example.dart';
 
 void main() {
   group('PreferCorrectIdentifierLength', () {
-
     test('initialization', () async {
       final unit = await RuleTestHelper.resolveFromFile(_example);
       final issues = PreferCorrectIdentifierLength().check(unit);
@@ -20,7 +19,6 @@ void main() {
         severity: Severity.style,
       );
     });
-
 
     test('reports about found all issues', () async {
       final unit = await RuleTestHelper.resolveFromFile(_example);
