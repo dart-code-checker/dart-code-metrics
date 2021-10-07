@@ -11,8 +11,8 @@ import '../../rule_utils.dart';
 
 part 'utils/config_parser.dart';
 
-part 'visitor.dart';
 part 'validator.dart';
+part 'visitor.dart';
 
 class PreferCorrectIdentifierLength extends CommonRule {
   static const String ruleId = 'prefer-correct-identifier-length';
