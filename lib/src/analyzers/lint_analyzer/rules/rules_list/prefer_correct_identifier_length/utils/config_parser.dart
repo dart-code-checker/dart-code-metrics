@@ -1,7 +1,7 @@
 part of '../prefer_correct_identifier_length.dart';
 
 const _defaultMinIdentifier = 3;
-const _defaultMaxIdentifier = 30;
+const _defaultMaxIdentifier = 300;
 const _defaultExceptions = <String>[];
 
 const _minIdentifierLengthLabel = 'min-identifier-length';

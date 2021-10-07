@@ -11,16 +11,12 @@ import '../../rule_utils.dart';
 import 'utils/correct_identifier_length_validator.dart';
 
 part 'utils/config_parser.dart';
-
 part 'visitor.dart';
 
 class PreferCorrectIdentifierLength extends CommonRule {
   static const String ruleId = 'prefer-correct-identifier-length';
-
   final int _minLength;
-
   final int _maxLength;
-
   final Iterable<String> _exceptions;
 
   PreferCorrectIdentifierLength([Map<String, Object> config = const {}])
@@ -33,37 +29,38 @@ class PreferCorrectIdentifierLength extends CommonRule {
             name: 'Prefer correct identifier length',
             brief: 'Warns when identifier name length very short or long.',
           ),
-          severity: readSeverity(config, Severity.warning),
+          severity: readSeverity(config, Severity.style),
           excludes: readExcludes(config),
         );
 
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
     final issues = <Issue>[];
-    final visitor = _Visitor();
-    final validator = CorrectIdentifierLengthValidator(
+    final visitor = _Visitor(CorrectIdentifierLengthValidator(
       _maxLength,
       _minLength,
       _exceptions,
-    );
+    ));
 
     source.unit.visitChildren(visitor);
 
     for (final element in visitor.node) {
-      final message = validator.getMessage<VariableDeclaration>(element);
-      if (message != null) {
-        issues.add(createIssue(
-          rule: this,
-          location: nodeLocation(
-            node: element.name,
-            source: source,
-            withCommentOrMetadata: true,
-          ),
-          message: message,
-        ));
-      }
+      issues.add(createIssue(
+        rule: this,
+        location: nodeLocation(
+          node: element.name,
+          source: source,
+          withCommentOrMetadata: true,
+        ),
+        message: createErrorMessage('variable', element.name.name),
+      ));
     }
 
     return issues;
   }
+
+  String createErrorMessage(String type, String name) =>
+      name.length > _maxLength
+          ? 'Too long $type name length.'
+          : 'Too short $type name length.';
 }

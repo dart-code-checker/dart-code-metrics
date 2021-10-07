@@ -1,3 +1,4 @@
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/prefer_correct_identifier_length/prefer_correct_identifier_length.dart';
 import 'package:test/test.dart';
 
@@ -8,6 +9,19 @@ const _example = '$_examplePath/example.dart';
 
 void main() {
   group('PreferCorrectIdentifierLength', () {
+
+    test('initialization', () async {
+      final unit = await RuleTestHelper.resolveFromFile(_example);
+      final issues = PreferCorrectIdentifierLength().check(unit);
+
+      RuleTestHelper.verifyInitialization(
+        issues: issues,
+        ruleId: 'prefer-correct-identifier-length',
+        severity: Severity.style,
+      );
+    });
+
+
     test('reports about found all issues', () async {
       final unit = await RuleTestHelper.resolveFromFile(_example);
       final issues = PreferCorrectIdentifierLength({
@@ -16,19 +30,14 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [24, 39, 124],
-        startLines: [2, 3, 7],
-        startColumns: [9, 9, 9],
-        endOffsets: [25, 40, 155],
-        locationTexts: [
-          'x',
-          'y',
-          'multiplatformConfigurationPoint',
-        ],
+        startOffsets: [24, 39],
+        startLines: [2, 3],
+        startColumns: [9, 9],
+        endOffsets: [25, 40],
+        locationTexts: ['x', 'y'],
         messages: [
           'Too short variable name length.',
           'Too short variable name length.',
-          'Too long variable name length.',
         ],
       );
     });

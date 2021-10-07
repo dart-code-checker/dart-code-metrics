@@ -11,21 +11,21 @@ class CorrectIdentifierLengthValidator {
     this.exception,
   );
 
-  String? getMessage<T>(T element) {
+  bool isValid<T>(T element) {
     if (element is VariableDeclaration) {
-      return _validate('variable', element.name.name);
+      return _validate(element.name.name);
     }
 
-    return null;
+    return true;
   }
 
-  String? _validate(String type, String name) {
+  bool _validate(String name) {
     if (!exception.contains(name) && name.length < minLength) {
-      return 'Too short $type name length.';
+      return false;
     } else if (name.length > maxLength) {
-      return 'Too long $type name length.';
+      return false;
     } else {
-      return null;
+      return true;
     }
   }
 }
