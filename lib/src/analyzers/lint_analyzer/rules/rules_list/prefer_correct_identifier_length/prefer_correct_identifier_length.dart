@@ -8,18 +8,18 @@ import '../../../models/internal_resolved_unit_result.dart';
 import '../../models/common_rule.dart';
 import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
-import 'utils/correct_identifier_length_validator.dart';
 
 part 'utils/config_parser.dart';
 
 part 'visitor.dart';
+part 'validator.dart';
 
 class PreferCorrectIdentifierLength extends CommonRule {
   static const String ruleId = 'prefer-correct-identifier-length';
-  final CorrectIdentifierLengthValidator _validator;
+  final _Validator _validator;
 
   PreferCorrectIdentifierLength([Map<String, Object> config = const {}])
-      : _validator = CorrectIdentifierLengthValidator(
+      : _validator = _Validator(
           _ConfigParser.readMaxIdentifierLength(config),
           _ConfigParser.readMinIdentifierLength(config),
           _ConfigParser.readExceptions(config),
