@@ -1,8 +1,9 @@
 class Example {
-  final x = 0;
-  final y = 0;
+  final x = 0; // LINT
+  final y = 0; // LINT
   final z = 0;
+  final zyt = 0;
   final property = 0;
-  final multiplatformConfig = 0;
-  final multiplatformConfigurationPoint = 0;
+  final multiplatformConfig = 0; // LINT
+  final multiplatformConfigurationPoint = 0; // LINT
 }
