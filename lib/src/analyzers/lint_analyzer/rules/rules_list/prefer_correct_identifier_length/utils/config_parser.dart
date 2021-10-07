@@ -13,12 +13,12 @@ class _ConfigParser {
   /// Read min identifier length from config
   static int readMinIdentifierLength(Map<String, Object> config) =>
       _parseIntConfig(config[_minIdentifierLengthLabel]) ??
-      _defaultMinIdentifier;
+      _defaultMinIdentifierLength;
 
   /// Read max identifier length from config
   static int readMaxIdentifierLength(Map<String, Object> config) =>
       _parseIntConfig(config[_maxIdentifierLengthLabel]) ??
-      _defaultMaxIdentifier;
+      _defaultMaxIdentifierLength;
 
   /// Read exceptions list from config
   static Iterable<String> readExceptions(Map<String, Object> config) =>
