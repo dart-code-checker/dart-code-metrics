@@ -6,7 +6,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
   _Visitor(this.validator);
 
-  Iterable<VariableDeclaration> get node => _variableDeclarationNode;
+  Iterable<VariableDeclaration> get nodes => _variableDeclarationNode;
 
   @override
   void visitVariableDeclaration(VariableDeclaration node) {

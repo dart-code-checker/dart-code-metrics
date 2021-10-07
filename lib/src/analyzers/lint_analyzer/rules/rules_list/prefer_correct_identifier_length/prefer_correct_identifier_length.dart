@@ -11,18 +11,19 @@ import '../../rule_utils.dart';
 import 'utils/correct_identifier_length_validator.dart';
 
 part 'utils/config_parser.dart';
+
 part 'visitor.dart';
 
 class PreferCorrectIdentifierLength extends CommonRule {
   static const String ruleId = 'prefer-correct-identifier-length';
-  final int _minLength;
-  final int _maxLength;
-  final Iterable<String> _exceptions;
+  final CorrectIdentifierLengthValidator _validator;
 
   PreferCorrectIdentifierLength([Map<String, Object> config = const {}])
-      : _minLength = _ConfigParser.readMinIdentifierLength(config),
-        _maxLength = _ConfigParser.readMaxIdentifierLength(config),
-        _exceptions = _ConfigParser.readExceptions(config),
+      : _validator = CorrectIdentifierLengthValidator(
+          _ConfigParser.readMaxIdentifierLength(config),
+          _ConfigParser.readMinIdentifierLength(config),
+          _ConfigParser.readExceptions(config),
+        ),
         super(
           id: ruleId,
           documentation: const RuleDocumentation(
@@ -35,32 +36,23 @@ class PreferCorrectIdentifierLength extends CommonRule {
 
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
-    final issues = <Issue>[];
-    final visitor = _Visitor(CorrectIdentifierLengthValidator(
-      _maxLength,
-      _minLength,
-      _exceptions,
-    ));
+    final visitor = _Visitor(_validator);
 
     source.unit.visitChildren(visitor);
 
-    for (final element in visitor.node) {
-      issues.add(createIssue(
-        rule: this,
-        location: nodeLocation(
-          node: element.name,
-          source: source,
-          withCommentOrMetadata: true,
-        ),
-        message: createErrorMessage('variable', element.name.name),
-      ));
-    }
-
-    return issues;
+    return visitor.nodes
+        .map(
+          (node) => createIssue(
+            rule: this,
+            location: nodeLocation(node: node.name, source: source),
+            message: createErrorMessage('variable', node.name.name),
+          ),
+        )
+        .toList(growable: false);
   }
 
   String createErrorMessage(String type, String name) =>
-      name.length > _maxLength
+      name.length > _validator.maxLength
           ? 'Too long $type name length.'
           : 'Too short $type name length.';
 }
