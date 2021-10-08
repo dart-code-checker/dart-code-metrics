@@ -1,6 +1,6 @@
 # Changelog
 
-## 4.4.1
+## Unreleased
 
 * Add static code diagnostics `prefer-correct-identifier-length`.
 
