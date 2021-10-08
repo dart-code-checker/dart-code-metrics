@@ -30,10 +30,10 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [24, 47, 124, 165, 222, 254, 299, 323],
-        startLines: [2, 3, 7, 8, 10, 12, 16, 17],
-        startColumns: [9, 9, 9, 9, 12, 12, 9, 9],
-        endOffsets: [25, 48, 143, 196, 223, 255, 301, 326],
+        startOffsets: [24, 47, 124, 165, 222, 254, 299, 323, 341, 362],
+        startLines: [2, 3, 7, 8, 10, 12, 16, 17, 20, 21],
+        startColumns: [9, 9, 9, 9, 12, 12, 9, 9, 7, 7],
+        endOffsets: [25, 48, 143, 196, 223, 255, 301, 326, 342, 363],
         locationTexts: [
           'x',
           'y',
@@ -43,6 +43,8 @@ void main() {
           'p',
           'zy',
           '_ze',
+          'u',
+          'i',
         ],
         messages: [
           "The x identifier is 1 characters long. It's recommended to increase it up to 3 chars long.",
@@ -53,6 +55,8 @@ void main() {
           "The p identifier is 1 characters long. It's recommended to increase it up to 3 chars long.",
           "The zy identifier is 2 characters long. It's recommended to increase it up to 3 chars long.",
           "The _ze identifier is 3 characters long. It's recommended to increase it up to 3 chars long.",
+          "The u identifier is 1 characters long. It's recommended to increase it up to 3 chars long.",
+          "The i identifier is 1 characters long. It's recommended to increase it up to 3 chars long.",
         ],
       );
     });
