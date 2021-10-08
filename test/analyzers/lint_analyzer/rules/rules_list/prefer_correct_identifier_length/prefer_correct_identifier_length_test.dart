@@ -47,8 +47,8 @@ void main() {
         messages: [
           "The identifier x is 1 characters long. It\'s recommended to increase it up to 3 chars long.",
           "The identifier y is 1 characters long. It\'s recommended to increase it up to 3 chars long.",
-          "The identifier multiplatformConfig is 19 characters long. It\'s recommended to reduce it up to 10 chars long.",
-          "The identifier multiplatformConfigurationPoint is 31 characters long. It\'s recommended to reduce it up to 10 chars long.",
+          "The identifier multiplatformConfig is 19 characters long. It\'s recommended to decrease it up to 10 chars long.",
+          "The identifier multiplatformConfigurationPoint is 31 characters long. It\'s recommended to decrease it up to 10 chars long.",
           "The identifier o is 1 characters long. It\'s recommended to increase it up to 3 chars long.",
           "The identifier p is 1 characters long. It\'s recommended to increase it up to 3 chars long.",
           "The identifier zy is 2 characters long. It\'s recommended to increase it up to 3 chars long.",
