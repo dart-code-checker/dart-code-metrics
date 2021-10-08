@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.4.1
+
+* Add static code diagnostics `prefer-correct-identifier-length`.
+
 ## 4.4.0
 
 * feat: introduce `check-unused-l10n` command.
