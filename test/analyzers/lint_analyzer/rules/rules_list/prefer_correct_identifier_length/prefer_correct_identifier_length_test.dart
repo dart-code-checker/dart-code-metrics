@@ -30,21 +30,29 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [24, 47, 124, 165],
-        startLines: [2, 3, 7, 8],
-        startColumns: [9, 9, 9, 9],
-        endOffsets: [25, 48, 143, 196],
+        startOffsets: [24, 47, 124, 165, 222, 254, 299,323],
+        startLines: [2, 3, 7, 8, 10, 12, 16,17],
+        startColumns: [9, 9, 9, 9, 12, 12, 9,9],
+        endOffsets: [25, 48, 143, 196, 223, 255, 301,326],
         locationTexts: [
           'x',
           'y',
           'multiplatformConfig',
           'multiplatformConfigurationPoint',
+          'o',
+          'p',
+          'zy',
+          '_ze',
         ],
         messages: [
-          'Too short variable name length.',
-          'Too short variable name length.',
-          'Too long variable name length.',
-          'Too long variable name length.',
+          'Too short identifier name length.',
+          'Too short identifier name length.',
+          'Too long identifier name length.',
+          'Too long identifier name length.',
+          'Too short identifier name length.',
+          'Too short identifier name length.',
+          'Too short identifier name length.',
+          'Too short identifier name length.',
         ],
       );
     });

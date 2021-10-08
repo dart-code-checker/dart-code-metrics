@@ -1,19 +1,28 @@
 part of 'prefer_correct_identifier_length.dart';
 
-class _Visitor extends RecursiveAstVisitor<void> {
-  final _variableDeclarationNode = <VariableDeclaration>[];
+class _Visitor extends ScopeVisitor {
+  final _declarationNodes = <SimpleIdentifier>[];
   final _Validator validator;
 
   _Visitor(this.validator);
 
-  Iterable<VariableDeclaration> get nodes => _variableDeclarationNode;
+  Iterable<SimpleIdentifier> get nodes => _declarationNodes;
+
+  @override
+  void visitMethodDeclaration(MethodDeclaration node) {
+    super.visitMethodDeclaration(node);
+
+    if (node.isGetter || node.isSetter && !validator.isValid(node.name)) {
+      _declarationNodes.add(node.name);
+    }
+  }
 
   @override
   void visitVariableDeclaration(VariableDeclaration node) {
     super.visitVariableDeclaration(node);
 
     if (!validator.isValid(node.name)) {
-      _variableDeclarationNode.add(node);
+      _declarationNodes.add(node.name);
     }
   }
 }

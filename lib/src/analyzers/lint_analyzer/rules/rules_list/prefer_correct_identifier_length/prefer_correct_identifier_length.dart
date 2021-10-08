@@ -1,5 +1,6 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/scope_visitor.dart';
 
 import '../../../../../utils/node_utils.dart';
 import '../../../lint_utils.dart';
@@ -46,15 +47,14 @@ class PreferCorrectIdentifierLength extends CommonRule {
         .map(
           (node) => createIssue(
             rule: this,
-            location: nodeLocation(node: node.name, source: source),
-            message: createErrorMessage('variable', node.name.name),
+            location: nodeLocation(node: node, source: source),
+            message: createErrorMessage(node.name),
           ),
         )
         .toList(growable: false);
   }
 
-  String createErrorMessage(String type, String name) =>
-      name.length > _validator.maxLength
-          ? 'Too long $type name length.'
-          : 'Too short $type name length.';
+  String createErrorMessage(String name) => name.length > _validator.maxLength
+      ? 'Too long identifier name length.'
+      : 'Too short identifier name length.';
 }

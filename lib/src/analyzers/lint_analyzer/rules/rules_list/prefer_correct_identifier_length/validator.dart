@@ -7,9 +7,13 @@ class _Validator {
 
   _Validator(this.maxLength, this.minLength, this.exceptions);
 
-  bool isValid(SimpleIdentifier identifier) => _validate(identifier.name);
+  bool isValid(SimpleIdentifier identifier) =>
+      _validate(_getNameWithoutUnderscore(identifier.name));
 
   bool _validate(String name) =>
       exceptions.contains(name) ||
       (name.length >= minLength && name.length <= maxLength);
+
+  String _getNameWithoutUnderscore(String name) =>
+      name.startsWith('_') ? name.replaceFirst('_', '') : name;
 }
