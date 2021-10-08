@@ -45,14 +45,14 @@ void main() {
           '_ze',
         ],
         messages: [
-          "The identifier x is 1 characters long. It's recommended to increase it up to 3 chars long.",
-          "The identifier y is 1 characters long. It's recommended to increase it up to 3 chars long.",
-          "The identifier multiplatformConfig is 19 characters long. It's recommended decrease up to 10 chars long.",
-          "The identifier multiplatformConfigurationPoint is 31 characters long. It's recommended decrease up to 10 chars long.",
-          "The identifier o is 1 characters long. It's recommended to increase it up to 3 chars long.",
-          "The identifier p is 1 characters long. It's recommended to increase it up to 3 chars long.",
-          "The identifier zy is 2 characters long. It's recommended to increase it up to 3 chars long.",
-          "The identifier _ze is 3 characters long. It's recommended to increase it up to 3 chars long.",
+          "The x identifier is 1 characters long. It's recommended to increase it up to 3 chars long.",
+          "The y identifier is 1 characters long. It's recommended to increase it up to 3 chars long.",
+          "The multiplatformConfig identifier is 19 characters long. It's recommended to decrease it to 10 chars long.",
+          "The multiplatformConfigurationPoint identifier is 31 characters long. It's recommended to decrease it to 10 chars long.",
+          "The o identifier is 1 characters long. It's recommended to increase it up to 3 chars long.",
+          "The p identifier is 1 characters long. It's recommended to increase it up to 3 chars long.",
+          "The zy identifier is 2 characters long. It's recommended to increase it up to 3 chars long.",
+          "The _ze identifier is 3 characters long. It's recommended to increase it up to 3 chars long.",
         ],
       );
     });

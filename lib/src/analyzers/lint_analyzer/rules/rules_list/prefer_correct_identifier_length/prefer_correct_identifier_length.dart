@@ -54,6 +54,6 @@ class PreferCorrectIdentifierLength extends CommonRule {
   }
 
   String createErrorMessage(String name) => name.length > _validator.maxLength
-      ? "The identifier $name is ${name.length} characters long. It's recommended decrease up to ${_validator.maxLength} chars long."
-      : "The identifier $name is ${name.length} characters long. It's recommended to increase it up to ${_validator.minLength} chars long.";
+      ? "The $name identifier is ${name.length} characters long. It's recommended to decrease it to ${_validator.maxLength} chars long."
+      : "The $name identifier is ${name.length} characters long. It's recommended to increase it up to ${_validator.minLength} chars long.";
 }
