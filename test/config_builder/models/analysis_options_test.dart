@@ -52,7 +52,7 @@ void main() {
       expect(
         (options.options['linter'] as Map<String, Object>)['rules'],
         containsAll(
-          <String>['always_declare_return_types', 'type_init_formals'],
+          <String>['avoid_empty_else', 'type_init_formals'],
         ),
       );
 
