@@ -12,7 +12,7 @@ class _Visitor extends ScopeVisitor {
   void visitMethodDeclaration(MethodDeclaration node) {
     super.visitMethodDeclaration(node);
 
-    if (node.isGetter || node.isSetter && !validator.isValid(node.name)) {
+    if ((node.isGetter || node.isSetter) && !validator.isValid(node.name)) {
       _declarationNodes.add(node.name);
     }
   }
@@ -22,7 +22,9 @@ class _Visitor extends ScopeVisitor {
     super.visitEnumDeclaration(node);
 
     for (final node in node.constants) {
-      _declarationNodes.add(node.name);
+      if (!validator.isValid(node.name)) {
+        _declarationNodes.add(node.name);
+      }
     }
   }
 
