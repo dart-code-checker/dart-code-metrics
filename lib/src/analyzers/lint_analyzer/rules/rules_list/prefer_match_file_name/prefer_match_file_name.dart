@@ -16,7 +16,7 @@ part 'visitor.dart';
 class PreferMatchFileName extends CommonRule {
   static const String ruleId = 'prefer-match-file-name';
   static const _notMatchNameFailure =
-      'File name does not match with first class name';
+      'File name does not match with first class name.';
   static final _onlySymbolsRegex = RegExp('[^a-zA-Z0-9]');
 
   PreferMatchFileName([Map<String, Object> config = const {}])

@@ -44,7 +44,7 @@ void main() {
         startLines: [1],
         startColumns: [7],
         endOffsets: [13],
-        messages: ['File name does not match with first class name'],
+        messages: ['File name does not match with first class name.'],
         locationTexts: ['Example'],
       );
     });
