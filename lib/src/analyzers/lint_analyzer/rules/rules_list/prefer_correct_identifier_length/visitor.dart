@@ -18,6 +18,15 @@ class _Visitor extends ScopeVisitor {
   }
 
   @override
+  void visitEnumDeclaration(EnumDeclaration node) {
+    super.visitEnumDeclaration(node);
+
+    for (final node in node.constants) {
+      _declarationNodes.add(node.name);
+    }
+  }
+
+  @override
   void visitVariableDeclaration(VariableDeclaration node) {
     super.visitVariableDeclaration(node);
 

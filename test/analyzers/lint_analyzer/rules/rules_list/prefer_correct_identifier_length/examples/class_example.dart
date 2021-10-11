@@ -7,15 +7,22 @@ class Example {
   final multiplatformConfig = 0; // LINT
   final multiplatformConfigurationPoint = 0; // LINT
 
+  Example.todo() {
+    final u = 1; // LINT
+    const i = 1; // LINT
+  }
+
+  Example._() {
+    final u = 1; // LINT
+    const i = 1; // LINT
+  }
+
   bool get o => false; // LINT
 
   bool set p() => true; // LINT
-}
 
-void test() {
-  final zy = 0; // LINT
-  final _ze = 1;
+  void test() {
+    final u = 1; // LINT
+    const i = 1; // LINT
+  }
 }
-
-final u = 1; // LINT
-const i = 1; // LINT
