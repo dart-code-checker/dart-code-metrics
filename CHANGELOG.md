@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 4.5.0-dev.1
 
 * chore: changed min `SDK` version to `2.14.0`.
 * chore: restrict `analyzer` version to `>=2.4.0 <2.6.0`.
