@@ -128,10 +128,10 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [14, 19],
+        startOffsets: [14, 27],
         startLines: [2, 3],
         startColumns: [3, 3],
-        endOffsets: [15, 20],
+        endOffsets: [15, 28],
         locationTexts: ['u', 'i'],
         messages: [
           "The u identifier is 1 characters long. It's recommended to increase it up to 3 chars long.",

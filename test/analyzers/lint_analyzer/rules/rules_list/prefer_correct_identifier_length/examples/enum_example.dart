@@ -1,4 +1,4 @@
 enum Enum {
-  u,
-  i,
+  u, // LINT
+  i, // LINT
 }
