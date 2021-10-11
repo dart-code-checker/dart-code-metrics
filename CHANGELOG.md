@@ -5,7 +5,7 @@
 * chore: changed min `SDK` version to `2.14.0`.
 * chore: restrict `analyzer` version to `>=2.4.0 <2.6.0`.
 * chore: changed the supported `analyzer_plugin` version to `^0.8.0`.
-* feat: add static code diagnostic `prefer-correct-identifier-length`.
+* feat: add static code diagnostic `prefer-correct-identifier-length`, `prefer-first`.
 
 ## 4.4.0
 

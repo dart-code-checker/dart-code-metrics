@@ -19,8 +19,8 @@ part 'visitor.dart';
 class PreferConditionalExpressionsRule extends CommonRule {
   static const String ruleId = 'prefer-conditional-expressions';
 
-  static const _warningMessage = 'Prefer conditional expression';
-  static const _correctionMessage = 'Convert to conditional expression';
+  static const _warningMessage = 'Prefer conditional expression.';
+  static const _correctionMessage = 'Convert to conditional expression.';
 
   PreferConditionalExpressionsRule([Map<String, Object> config = const {}])
       : super(

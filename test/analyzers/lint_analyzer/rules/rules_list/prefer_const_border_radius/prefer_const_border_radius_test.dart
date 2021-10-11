@@ -32,12 +32,12 @@ void main() {
           startColumns: [22, 31, 31, 32, 31, 31],
           endOffsets: [108, 268, 393, 460, 608, 898],
           messages: [
-            'Prefer using const constructor BorderRadius.all',
-            'Prefer using const constructor BorderRadius.all',
-            'Prefer using const constructor BorderRadius.all',
-            'Prefer using const constructor BorderRadius.all',
-            'Prefer using const constructor BorderRadius.all',
-            'Prefer using const constructor BorderRadius.all',
+            'Prefer using const constructor BorderRadius.all.',
+            'Prefer using const constructor BorderRadius.all.',
+            'Prefer using const constructor BorderRadius.all.',
+            'Prefer using const constructor BorderRadius.all.',
+            'Prefer using const constructor BorderRadius.all.',
+            'Prefer using const constructor BorderRadius.all.',
           ],
           replacementComments: [
             'Replace with const BorderRadius constructor.',

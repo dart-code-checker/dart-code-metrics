@@ -22,7 +22,7 @@ class PreferIntlNameRule extends IntlRule {
   static const _intlPackageUrl = 'package:intl/intl.dart';
   static const _notCorrectNameFailure = 'Incorrect Intl name, should be';
   static const _notCorrectNameCorrectionComment = 'Rename';
-  static const _notExistsNameFailure = 'Argument `name` does not exists';
+  static const _notExistsNameFailure = 'Argument `name` does not exists.';
 
   PreferIntlNameRule([Map<String, Object> config = const {}])
       : super(
@@ -61,7 +61,7 @@ class PreferIntlNameRule extends IntlRule {
             source: source,
             withCommentOrMetadata: true,
           ),
-          message: '$_notCorrectNameFailure $correction',
+          message: '$_notCorrectNameFailure $correction.',
           replacement: Replacement(
             comment: _notCorrectNameCorrectionComment,
             replacement: correction,
