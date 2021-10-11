@@ -12,7 +12,7 @@ class Example {
   bool set p() => true; // LINT
 }
 
-fun test() {
+void test() {
   final zy = 0; // LINT
   final _ze = 1;
 }
