@@ -1,5 +1,7 @@
 # Avoid wrapping in padding
 
+> **DEPRECATED!** Information on this page is out of date. You can find the up to date version on our [official site](https://dartcodemetrics.dev/docs/rules/flutter/avoid-wrapping-in-padding).
+
 ## Rule id
 
 avoid-wrapping-in-padding

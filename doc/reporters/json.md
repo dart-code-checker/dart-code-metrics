@@ -1,5 +1,7 @@
 # JSON reporter
 
+> **DEPRECATED!** Information on this page is out of date. You can find the up to date version on our [official site](https://dartcodemetrics.dev/docs/cli/analyze#json).
+
 Dart Code Metrics can generate a report in JSON format. Use `--reporter=json` to enable this format. The reporter prints a single JSON object containing meta information and the violations grouped by a file. A sample command to analyze a package:
 
 ```sh

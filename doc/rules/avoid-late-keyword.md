@@ -1,5 +1,7 @@
 # Avoid late keyword
 
+> **DEPRECATED!** Information on this page is out of date. You can find the up to date version on our [official site](https://dartcodemetrics.dev/docs/rules/common/avoid-late-keyword).
+
 ## Rule id
 
 avoid-late-keyword

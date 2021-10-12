@@ -1,5 +1,7 @@
 # Always remove listener
 
+> **DEPRECATED!** Information on this page is out of date. You can find the up to date version on our [official site](https://dartcodemetrics.dev/docs/rules/flutter/always-remove-listener).
+
 ## Rule id
 
 always-remove-listener

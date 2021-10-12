@@ -1,5 +1,7 @@
 # Avoid unnecessary setState
 
+> **DEPRECATED!** Information on this page is out of date. You can find the up to date version on our [official site](https://dartcodemetrics.dev/docs/rules/flutter/avoid-unnecessary-setstate).
+
 ## Rule id
 
 avoid-unnecessary-setstate

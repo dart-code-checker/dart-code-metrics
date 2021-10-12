@@ -1,5 +1,7 @@
 # Maximum Nesting
 
+> **DEPRECATED!** Information on this page is out of date. You can find the up to date version on our [official site](https://dartcodemetrics.dev/docs/metrics/maximum-nesting-level).
+
 **Maximum Nesting Level** this is the maximum level of nesting blocks / control structures that are present in a method (or _function_). Code with deep nesting level are often complex and tough to maintain.
 
 Generally the blocks with `if`, `else`, `else if`, `do`, `while`, `for`, `switch`, `catch`, etc statements are the part of nested loops.
