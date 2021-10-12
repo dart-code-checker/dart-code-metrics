@@ -1,5 +1,7 @@
 # Prefer using onPush change detection strategy
 
+> **DEPRECATED!** Information on this page is out of date. You can find the up to date version on our [official site](https://dartcodemetrics.dev/docs/rules/angular/prefer-on-push-cd-strategy).
+
 ## Rule id
 
 prefer-on-push-cd-strategy

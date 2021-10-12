@@ -1,5 +1,7 @@
 # Provide correct intl args
 
+> **DEPRECATED!** Information on this page is out of date. You can find the up to date version on our [official site](https://dartcodemetrics.dev/docs/rules/intl/provide-correct-intl-args).
+
 ## Rule id
 
 provide-correct-intl-args

@@ -2,6 +2,8 @@
 
 ![Configurable](https://img.shields.io/badge/-configurable-informational)
 
+> **DEPRECATED!** Information on this page is out of date. You can find the up to date version on our [official site](https://dartcodemetrics.dev/docs/rules/common/no-magic-number).
+
 ## Rule id
 
 no-magic-number

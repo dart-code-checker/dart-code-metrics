@@ -1,5 +1,7 @@
 # Avoid non null assertion
 
+> **DEPRECATED!** Information on this page is out of date. You can find the up to date version on our [official site](https://dartcodemetrics.dev/docs/rules/common/avoid-non-null-assertion).
+
 ## Rule id
 
 avoid-non-null-assertion

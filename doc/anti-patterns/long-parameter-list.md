@@ -1,5 +1,7 @@
 # Long Parameter List
 
+> **DEPRECATED!** Information on this page is out of date. You can find the up to date version on our [official site](https://dartcodemetrics.dev/docs/anti-patterns/long-parameter-list).
+
 Long parameter lists are difficult to understand and use. Wrapping them into an object allows grouping parameters and change transferred data only by the object modification. When you're working with objects, you should pass just enough so that the method can get the data it needs.
 
 * Use **Replace Parameter with Method** when you can obtain data by calling a method of an object.

@@ -1,5 +1,7 @@
 # Prefer match file name
 
+> **DEPRECATED!** Information on this page is out of date. You can find the up to date version on our [official site](https://dartcodemetrics.dev/docs/rules/common/prefer-match-file-name).
+
 ## Rule id
 
 prefer-match-file-name

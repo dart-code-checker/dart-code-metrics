@@ -1,5 +1,7 @@
 # Cyclomatic Complexity
 
+> **DEPRECATED!** Information on this page is out of date. You can find the up to date version on our [official site](https://dartcodemetrics.dev/docs/metrics/cyclomatic-complexity).
+
 Number of linearly independent paths through a block of code. Conditional operators or loops increases the number of paths in a code. The more paths, the higher the number of test cases that need to be implemented. The metric complies with McCabe's original definition:
 
 * Methods have a base complexity of 1.

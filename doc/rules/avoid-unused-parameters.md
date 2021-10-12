@@ -1,5 +1,7 @@
 # Avoid unused parameters
 
+> **DEPRECATED!** Information on this page is out of date. You can find the up to date version on our [official site](https://dartcodemetrics.dev/docs/rules/common/avoid-unused-parameters).
+
 ## Rule id
 
 avoid-unused-parameters

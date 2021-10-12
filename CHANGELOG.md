@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* chore: deprecate documentation in Github repo.
+
 ## 4.5.0-dev.1
 
 * chore: changed min `SDK` version to `2.14.0`.

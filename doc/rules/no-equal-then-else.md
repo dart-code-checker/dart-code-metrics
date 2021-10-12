@@ -1,5 +1,7 @@
 # No equal then else
 
+> **DEPRECATED!** Information on this page is out of date. You can find the up to date version on our [official site](https://dartcodemetrics.dev/docs/rules/common/no-equal-then-else).
+
 ## Rule id
 
 no-equal-then-else
