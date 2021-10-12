@@ -313,6 +313,17 @@ class FileResolver {
     });
   }
 
+  /// Return files that have a top-level declaration with the [name].
+  List<FileWithTopLevelDeclaration> getFilesWithTopLevelDeclarations(
+    String name,
+  ) {
+    final fsState = this.fsState;
+    if (fsState == null) {
+      return const [];
+    }
+    return fsState.getFilesWithTopLevelDeclarations(name);
+  }
+
   LibraryElement getLibraryByUri({
     required String uriStr,
     OperationPerformanceImpl? performance,
@@ -526,7 +537,7 @@ class FileResolver {
 
         try {
           results = performance!.run('analyze', (performance) {
-            return libraryAnalyzer.analyzeSync(
+            return libraryAnalyzer.analyze(
               completionPath: completionOffset != null ? completionPath : null,
               completionOffset: completionOffset,
               performance: performance,

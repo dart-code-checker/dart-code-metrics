@@ -4,6 +4,23 @@
 
 import 'dart:convert';
 
+/// Decodes a YAML object (obtained from `pkg/analyzer/messages.yaml`) into a
+/// two-level map of [ErrorCodeInfo], indexed first by class name and then by
+/// error name.
+Map<String, Map<String, ErrorCodeInfo>> decodeAnalyzerMessagesYaml(
+    Map<Object?, Object?> yaml) {
+  var result = <String, Map<String, ErrorCodeInfo>>{};
+  for (var classEntry in yaml.entries) {
+    var className = classEntry.key as String;
+    for (var errorEntry
+        in (classEntry.value as Map<Object?, Object?>).entries) {
+      (result[className] ??= {})[errorEntry.key as String] =
+          ErrorCodeInfo.fromYaml(errorEntry.value as Map<Object?, Object?>);
+    }
+  }
+  return result;
+}
+
 /// Decodes a YAML object (obtained from `pkg/front_end/messages.yaml`) into a
 /// map from error name to [ErrorCodeInfo].
 Map<String, ErrorCodeInfo> decodeCfeMessagesYaml(Map<Object?, Object?> yaml) {
@@ -93,8 +110,9 @@ pkg/front_end/tool/fasta generate-messages
   }
 }
 
-/// In-memory representation of error code information obtained from a
-/// `messages.yaml` file.
+/// In-memory representation of error code information obtained from either a
+/// `messages.yaml` file.  Supports both the analyzer and front_end message file
+/// formats.
 class ErrorCodeInfo {
   /// Pattern used by the front end to identify placeholders in error message
   /// strings.  TODO(paulberry): share this regexp (and the code for interpreting
@@ -106,6 +124,17 @@ class ErrorCodeInfo {
   /// error codes that corresponds to this error code, if any.
   final List<String> analyzerCode;
 
+  /// If present, a documentation comment that should be associated with the
+  /// error in code generated output.
+  final String? comment;
+
+  /// If the error code has an associated correctionMessage, the template for
+  /// it.
+  final String? correctionMessage;
+
+  /// If present, user-facing documentation for the error.
+  final String? documentation;
+
   /// `true` if diagnostics with this code have documentation for them that has
   /// been published.
   final bool hasPublishedDocs;
@@ -114,28 +143,41 @@ class ErrorCodeInfo {
   /// in the analyzer's `fastaAnalyzerErrorCodes` table.
   final int? index;
 
-  /// The template for the error message.
-  final String template;
+  /// Indicates whether this error is caused by an unresolved identifier.
+  final bool isUnresolvedIdentifier;
 
-  /// If the error code has an associated tip/correction message, the template
-  /// for it.
-  final String? tip;
+  /// The problemMessage for the error code.
+  final String problemMessage;
+
+  /// If present, indicates that this error code has a special name for
+  /// presentation to the user, that is potentially shared with other error
+  /// codes.
+  final String? sharedName;
 
   ErrorCodeInfo(
       {this.analyzerCode = const [],
+      this.comment,
+      this.documentation,
       this.hasPublishedDocs = false,
       this.index,
-      required this.template,
-      this.tip});
+      this.isUnresolvedIdentifier = false,
+      this.sharedName,
+      required this.problemMessage,
+      this.correctionMessage});
 
   /// Decodes an [ErrorCodeInfo] object from its YAML representation.
   ErrorCodeInfo.fromYaml(Map<Object?, Object?> yaml)
       : this(
             analyzerCode: _decodeAnalyzerCode(yaml['analyzerCode']),
+            comment: yaml['comment'] as String?,
+            correctionMessage: yaml['correctionMessage'] as String?,
+            documentation: yaml['documentation'] as String?,
             hasPublishedDocs: yaml['hasPublishedDocs'] as bool? ?? false,
             index: yaml['index'] as int?,
-            template: yaml['template'] as String,
-            tip: yaml['tip'] as String?);
+            isUnresolvedIdentifier:
+                yaml['isUnresolvedIdentifier'] as bool? ?? false,
+            problemMessage: yaml['problemMessage'] as String,
+            sharedName: yaml['sharedName'] as String?);
 
   /// Generates a dart declaration for this error code, suitable for inclusion
   /// in the error class [className].  [errorCode] is the name of the error code
@@ -143,26 +185,69 @@ class ErrorCodeInfo {
   String toAnalyzerCode(String className, String errorCode) {
     var out = StringBuffer();
     out.writeln('$className(');
-    out.writeln("'$errorCode',");
+    out.writeln("'${sharedName ?? errorCode}',");
     final placeholderToIndexMap = _computePlaceholderToIndexMap();
-    out.writeln(json.encode(_convertTemplate(placeholderToIndexMap, template)));
-    final tip = this.tip;
-    if (tip is String) {
-      out.write(',correction: ');
-      out.writeln(json.encode(_convertTemplate(placeholderToIndexMap, tip)));
+    out.writeln(
+        json.encode(_convertTemplate(placeholderToIndexMap, problemMessage)) +
+            ',');
+    final correctionMessage = this.correctionMessage;
+    if (correctionMessage is String) {
+      out.write('correctionMessage: ');
+      out.writeln(json.encode(
+              _convertTemplate(placeholderToIndexMap, correctionMessage)) +
+          ',');
     }
     if (hasPublishedDocs) {
-      out.writeln(',hasPublishedDocs:true');
+      out.writeln('hasPublishedDocs:true,');
+    }
+    if (isUnresolvedIdentifier) {
+      out.writeln('isUnresolvedIdentifier:true,');
+    }
+    if (sharedName != null) {
+      out.writeln("uniqueName: '$errorCode',");
     }
     out.write(');');
     return out.toString();
   }
 
+  /// Generates dart comments for this error code.
+  String toAnalyzerComments({String indent = ''}) {
+    var out = StringBuffer();
+    var comment = this.comment;
+    if (comment != null) {
+      out.writeln('$indent/**');
+      for (var line in comment.split('\n')) {
+        out.writeln('$indent *${line.isEmpty ? '' : ' '}$line');
+      }
+      out.writeln('$indent */');
+    }
+    var documentation = this.documentation;
+    if (documentation != null) {
+      for (var line in documentation.split('\n')) {
+        out.writeln('$indent//${line.isEmpty ? '' : ' '}$line');
+      }
+    }
+    return out.toString();
+  }
+
+  /// Encodes this object into a YAML representation.
+  Map<Object?, Object?> toYaml() => {
+        if (sharedName != null) 'sharedName': sharedName,
+        if (analyzerCode.isNotEmpty)
+          'analyzerCode': _encodeAnalyzerCode(analyzerCode),
+        'problemMessage': problemMessage,
+        if (correctionMessage != null) 'correctionMessage': correctionMessage,
+        if (isUnresolvedIdentifier) 'isUnresolvedIdentifier': true,
+        if (hasPublishedDocs) 'hasPublishedDocs': true,
+        if (comment != null) 'comment': comment,
+        if (documentation != null) 'documentation': documentation,
+      };
+
   /// Given a messages.yaml entry, come up with a mapping from placeholder
-  /// patterns in its message and tip strings to their corresponding indices.
+  /// patterns in its message strings to their corresponding indices.
   Map<String, int> _computePlaceholderToIndexMap() {
     var mapping = <String, int>{};
-    for (var value in [template, tip]) {
+    for (var value in [problemMessage, correctionMessage]) {
       if (value is! String) continue;
       for (Match match in _placeholderPattern.allMatches(value)) {
         // CFE supports a bunch of formatting options that we don't; make sure
@@ -195,6 +280,14 @@ class ErrorCodeInfo {
       return [for (var s in value) s as String];
     } else {
       throw 'Unrecognized analyzer code: $value';
+    }
+  }
+
+  static Object _encodeAnalyzerCode(List<String> analyzerCode) {
+    if (analyzerCode.length == 1) {
+      return analyzerCode.single;
+    } else {
+      return analyzerCode;
     }
   }
 }
