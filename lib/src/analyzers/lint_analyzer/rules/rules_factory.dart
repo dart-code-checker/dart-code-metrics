@@ -23,6 +23,7 @@ import 'rules_list/no_object_declaration/no_object_declaration.dart';
 import 'rules_list/prefer_conditional_expressions/prefer_conditional_expressions.dart';
 import 'rules_list/prefer_const_border_radius/prefer_const_border_radius.dart';
 import 'rules_list/prefer_correct_identifier_length/prefer_correct_identifier_length.dart';
+import 'rules_list/prefer_correct_type_name/prefer_correct_type_name.dart';
 import 'rules_list/prefer_extracting_callbacks/prefer_extracting_callbacks.dart';
 import 'rules_list/prefer_first/prefer_first.dart';
 import 'rules_list/prefer_intl_name/prefer_intl_name.dart';
@@ -71,6 +72,7 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
       PreferConstBorderRadiusRule(config),
   PreferCorrectIdentifierLength.ruleId: (config) =>
       PreferCorrectIdentifierLength(config),
+  PreferCorrectTypeName.ruleId: (config) => PreferCorrectTypeName(config),
   PreferExtractingCallbacksRule.ruleId: (config) =>
       PreferExtractingCallbacksRule(config),
   PreferFirstRule.ruleId: (config) => PreferFirstRule(config),
