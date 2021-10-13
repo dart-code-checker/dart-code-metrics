@@ -118,9 +118,7 @@ class LintAnalyzer {
     String rootFolder, {
     String? filePath,
   }) {
-    if (result.state == ResultState.VALID &&
-        filePath != null &&
-        _isSupported(result)) {
+    if (filePath != null && _isSupported(result)) {
       final ignores = Suppression(result.content, result.lineInfo);
       final internalResult = InternalResolvedUnitResult(
         filePath,
