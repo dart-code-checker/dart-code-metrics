@@ -46,12 +46,14 @@ class FfiCode extends AnalyzerErrorCode {
 
   /**
    * Parameters:
-   * 0: the name of the struct class
+   * 0: the name of the subclass
+   * 1: the name of the superclass
    */
   static const FfiCode EMPTY_STRUCT = FfiCode(
     'EMPTY_STRUCT',
-    "Struct '{0}' is empty. Empty structs are undefined behavior.",
-    correctionMessage: "Try adding a field to '{0}' or use a different Struct.",
+    "The class '{0}' can’t be empty because it's a subclass of '{1}'.",
+    correctionMessage:
+        "Try adding a field to '{0}' or use a different superclass.",
   );
 
   /**
@@ -75,10 +77,45 @@ class FfiCode extends AnalyzerErrorCode {
   /**
    * No parameters.
    */
-  static const FfiCode FFI_NATIVE_ONLY_STATIC = FfiCode(
-    'FFI_NATIVE_ONLY_STATIC',
-    "FfiNative annotations can only be used on static functions.",
-    correctionMessage: "Change the method to static.",
+  static const FfiCode FFI_NATIVE_MUST_BE_EXTERNAL = FfiCode(
+    'FFI_NATIVE_MUST_BE_EXTERNAL',
+    "FfiNative functions must be declared external.",
+    correctionMessage: "Add the `external` keyword to the function.",
+  );
+
+  /**
+   * No parameters.
+   */
+  static const FfiCode
+      FFI_NATIVE_ONLY_CLASSES_EXTENDING_NATIVEFIELDWRAPPERCLASS1_CAN_BE_POINTER =
+      FfiCode(
+    'FFI_NATIVE_ONLY_CLASSES_EXTENDING_NATIVEFIELDWRAPPERCLASS1_CAN_BE_POINTER',
+    "Only classes extending NativeFieldWrapperClass1 can be passed as Pointer.",
+    correctionMessage: "Pass as Handle instead.",
+  );
+
+  /**
+   * Parameters:
+   * 0: the expected number of parameters
+   * 1: the actual number of parameters
+   */
+  static const FfiCode FFI_NATIVE_UNEXPECTED_NUMBER_OF_PARAMETERS = FfiCode(
+    'FFI_NATIVE_UNEXPECTED_NUMBER_OF_PARAMETERS',
+    "Unexpected number of FfiNative annotation parameters. Expected {0} but has {1}.",
+    correctionMessage: "Make sure parameters match the function annotated.",
+  );
+
+  /**
+   * Parameters:
+   * 0: the expected number of parameters
+   * 1: the actual number of parameters
+   */
+  static const FfiCode
+      FFI_NATIVE_UNEXPECTED_NUMBER_OF_PARAMETERS_WITH_RECEIVER = FfiCode(
+    'FFI_NATIVE_UNEXPECTED_NUMBER_OF_PARAMETERS_WITH_RECEIVER',
+    "Unexpected number of FfiNative annotation parameters. Expected {0} but has {1}. FfiNative instance method annotation must have receiver as first argument.",
+    correctionMessage:
+        "Make sure parameters match the function annotated, including an extra first parameter for the receiver.",
   );
 
   /**

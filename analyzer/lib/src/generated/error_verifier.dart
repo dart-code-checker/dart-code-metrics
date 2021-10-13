@@ -208,10 +208,6 @@ class ErrorVerifier extends RecursiveAstVisitor<void>
   /// A flag indicating whether the visitor is currently within code in the SDK.
   bool _isInSystemLibrary = false;
 
-  /// A flag indicating whether the current library contains at least one import
-  /// directive with a URI that uses the "dart-ext" scheme.
-  bool _hasExtUri = false;
-
   /// The class containing the AST nodes being visited, or `null` if we are not
   /// in the scope of a class.
   ClassElementImpl? _enclosingClass;
@@ -265,7 +261,6 @@ class ErrorVerifier extends RecursiveAstVisitor<void>
         _duplicateDefinitionVerifier =
             DuplicateDefinitionVerifier(_currentLibrary, errorReporter) {
     _isInSystemLibrary = _currentLibrary.source.isInSystemLibrary;
-    _hasExtUri = _currentLibrary.hasExtUri;
     _isInCatchClause = false;
     _isInStaticVariableDeclaration = false;
     _isInConstructorInitializer = false;
@@ -332,7 +327,6 @@ class ErrorVerifier extends RecursiveAstVisitor<void>
   @override
   void visitAnnotation(Annotation node) {
     _checkForInvalidAnnotationFromDeferredLibrary(node);
-    _checkForMissingJSLibAnnotation(node);
     super.visitAnnotation(node);
   }
 
@@ -2275,10 +2269,14 @@ class ErrorVerifier extends RecursiveAstVisitor<void>
       return;
     }
 
+    // It is safe to assume that `directive.uri.stringValue` is non-`null`,
+    // because the only time it is `null` is if the URI contains a string
+    // interpolation, in which case the export would never have resolved in the
+    // first place.
     errorReporter.reportErrorForNode(
         CompileTimeErrorCode.EXPORT_INTERNAL_LIBRARY,
         directive,
-        [directive.uri]);
+        [directive.uri.stringValue!]);
   }
 
   /// See [CompileTimeErrorCode.EXPORT_LEGACY_SYMBOL].
@@ -3022,15 +3020,6 @@ class ErrorVerifier extends RecursiveAstVisitor<void>
     }
   }
 
-  void _checkForMissingJSLibAnnotation(Annotation node) {
-    if (node.elementAnnotation?.isJS ?? false) {
-      if (_currentLibrary.hasJS != true) {
-        errorReporter.reportErrorForNode(
-            HintCode.MISSING_JS_LIB_ANNOTATION, node);
-      }
-    }
-  }
-
   /// Verify that the given mixin does not have an explicitly declared
   /// constructor. The [mixinName] is the node to report problem on. The
   /// [mixinElement] is the mixing to evaluate.
@@ -3257,7 +3246,7 @@ class ErrorVerifier extends RecursiveAstVisitor<void>
   ///
   /// See [ParserErrorCode.NATIVE_FUNCTION_BODY_IN_NON_SDK_CODE].
   void _checkForNativeFunctionBodyInNonSdkCode(NativeFunctionBody body) {
-    if (!_isInSystemLibrary && !_hasExtUri) {
+    if (!_isInSystemLibrary) {
       errorReporter.reportErrorForNode(
           ParserErrorCode.NATIVE_FUNCTION_BODY_IN_NON_SDK_CODE, body);
     }

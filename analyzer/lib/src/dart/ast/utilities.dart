@@ -723,6 +723,13 @@ class AstComparator implements AstVisitor<bool> {
   }
 
   @override
+  bool visitImplicitCallReference(ImplicitCallReference node) {
+    ImplicitCallReference other = _other as ImplicitCallReference;
+    return isEqualNodes(node.expression, other.expression) &&
+        isEqualNodes(node.typeArguments, other.typeArguments);
+  }
+
+  @override
   bool visitImportDirective(ImportDirective node) {
     ImportDirective other = _other as ImportDirective;
     return isEqualNodes(
@@ -2345,6 +2352,18 @@ class NodeReplacer implements AstVisitor<bool> {
   }
 
   @override
+  bool visitImplicitCallReference(covariant ImplicitCallReferenceImpl node) {
+    if (identical(node.expression, _oldNode)) {
+      node.expression = _newNode as ExpressionImpl;
+      return true;
+    } else if (identical(node.typeArguments, _oldNode)) {
+      node.typeArguments = _newNode as TypeArgumentListImpl;
+      return true;
+    }
+    return visitNode(node);
+  }
+
+  @override
   bool visitImportDirective(covariant ImportDirectiveImpl node) {
     if (identical(node.prefix, _oldNode)) {
       node.prefix = _newNode as SimpleIdentifier;
@@ -2534,7 +2553,7 @@ class NodeReplacer implements AstVisitor<bool> {
   }
 
   @override
-  bool? visitNamedType(covariant TypeNameImpl node) {
+  bool? visitNamedType(covariant NamedTypeImpl node) {
     if (identical(node.name, _oldNode)) {
       node.name = _newNode as Identifier;
       return true;
@@ -2864,14 +2883,14 @@ class NodeReplacer implements AstVisitor<bool> {
   @override
   bool visitTypeLiteral(covariant TypeLiteralImpl node) {
     if (identical(node.type, _oldNode)) {
-      node.typeName = _newNode as TypeNameImpl;
+      node.typeName = _newNode as NamedTypeImpl;
       return true;
     }
     return visitNode(node);
   }
 
   @override
-  bool visitTypeName(covariant TypeNameImpl node) {
+  bool visitTypeName(covariant NamedTypeImpl node) {
     throw StateError('Should not be invoked');
   }
 

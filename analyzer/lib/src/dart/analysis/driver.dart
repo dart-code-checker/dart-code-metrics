@@ -80,7 +80,7 @@ import 'package:meta/meta.dart';
 /// TODO(scheglov) Clean up the list of implicitly analyzed files.
 class AnalysisDriver implements AnalysisDriverGeneric {
   /// The version of data format, should be incremented on every format change.
-  static const int DATA_VERSION = 183;
+  static const int DATA_VERSION = 186;
 
   /// The number of exception contexts allowed to write. Once this field is
   /// zero, we stop writing any new exception contexts in this process.
@@ -1218,16 +1218,6 @@ class AnalysisDriver implements AnalysisDriverGeneric {
     }
   }
 
-  /// Reset URI resolution, read again all files, build files graph, and ensure
-  /// that for all added files new results are reported.
-  void resetUriResolution() {
-    _priorityResults.clear();
-    clearLibraryContext();
-    _fsState.resetUriResolution();
-    _fileTracker.scheduleAllAddedFiles();
-    _scheduler.notify(this);
-  }
-
   void _addDeclaredVariablesToSignature(ApiSignature buffer) {
     var variableNames = declaredVariables.variableNames;
     buffer.addInt(variableNames.length);
@@ -1328,7 +1318,7 @@ class AnalysisDriver implements AnalysisDriverGeneric {
         late CompilationUnit resolvedUnit;
         for (FileState unitFile in results.keys) {
           UnitAnalysisResult unitResult = results[unitFile]!;
-          List<int> unitBytes =
+          var unitBytes =
               _serializeResolvedUnit(unitResult.unit, unitResult.errors);
           String unitSignature = _getResolvedUnitSignature(library, unitFile);
           String unitKey = _getResolvedUnitKey(unitSignature);
@@ -1732,7 +1722,7 @@ class AnalysisDriver implements AnalysisDriverGeneric {
   }
 
   /// Serialize the given [resolvedUnit] errors and index into bytes.
-  List<int> _serializeResolvedUnit(
+  Uint8List _serializeResolvedUnit(
       CompilationUnit resolvedUnit, List<AnalysisError> errors) {
     AnalysisDriverUnitIndexBuilder index = enableIndex
         ? indexUnit(resolvedUnit)
@@ -1765,7 +1755,7 @@ class AnalysisDriver implements AnalysisDriverGeneric {
               exception: exception.toString(),
               stackTrace: stackTrace.toString(),
               files: contextFiles);
-      List<int> bytes = contextBuilder.toBuffer();
+      var bytes = contextBuilder.toBuffer();
 
       String _twoDigits(int n) {
         if (n >= 10) return '$n';

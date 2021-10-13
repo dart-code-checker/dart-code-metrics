@@ -1644,7 +1644,7 @@ class ClassTypeAliasImpl extends TypeAliasImpl implements ClassTypeAlias {
   Token? abstractKeyword;
 
   /// The name of the superclass of the class being declared.
-  TypeNameImpl _superclass;
+  NamedTypeImpl _superclass;
 
   /// The with clause for this class.
   WithClauseImpl _withClause;
@@ -1711,14 +1711,14 @@ class ClassTypeAliasImpl extends TypeAliasImpl implements ClassTypeAlias {
 
   @Deprecated('Use superclass2 instead')
   @override
-  TypeNameImpl get superclass => _superclass;
+  NamedTypeImpl get superclass => _superclass;
 
   set superclass(NamedType superclass) {
-    _superclass = _becomeParentOf(superclass as TypeNameImpl);
+    _superclass = _becomeParentOf(superclass as NamedTypeImpl);
   }
 
   @override
-  TypeNameImpl get superclass2 => _superclass;
+  NamedTypeImpl get superclass2 => _superclass;
 
   @override
   TypeParameterListImpl? get typeParameters => _typeParameters;
@@ -2594,7 +2594,7 @@ abstract class ConstructorInitializerImpl extends AstNodeImpl
 ///        type ('.' identifier)?
 class ConstructorNameImpl extends AstNodeImpl implements ConstructorName {
   /// The name of the type defining the constructor.
-  TypeNameImpl _type;
+  NamedTypeImpl _type;
 
   /// The token for the period before the constructor name, or `null` if the
   /// specified constructor is the unnamed constructor.
@@ -2644,14 +2644,14 @@ class ConstructorNameImpl extends AstNodeImpl implements ConstructorName {
 
   @Deprecated('Use type2 instead')
   @override
-  TypeNameImpl get type => _type;
+  NamedTypeImpl get type => _type;
 
   set type(NamedType type) {
-    _type = _becomeParentOf(type as TypeNameImpl);
+    _type = _becomeParentOf(type as NamedTypeImpl);
   }
 
   @override
-  TypeNameImpl get type2 => _type;
+  NamedTypeImpl get type2 => _type;
 
   @override
   E? accept<E>(AstVisitor<E> visitor) => visitor.visitConstructorName(this);
@@ -3638,7 +3638,7 @@ class ExtendsClauseImpl extends AstNodeImpl implements ExtendsClause {
   Token extendsKeyword;
 
   /// The name of the class that is being extended.
-  TypeNameImpl _superclass;
+  NamedTypeImpl _superclass;
 
   /// Initialize a newly created extends clause.
   ExtendsClauseImpl(this.extendsKeyword, this._superclass) {
@@ -3658,14 +3658,14 @@ class ExtendsClauseImpl extends AstNodeImpl implements ExtendsClause {
 
   @Deprecated('Use superclass2 instead')
   @override
-  TypeNameImpl get superclass => _superclass;
+  NamedTypeImpl get superclass => _superclass;
 
   set superclass(NamedType name) {
-    _superclass = _becomeParentOf(name as TypeNameImpl);
+    _superclass = _becomeParentOf(name as NamedTypeImpl);
   }
 
   @override
-  TypeNameImpl get superclass2 => _superclass;
+  NamedTypeImpl get superclass2 => _superclass;
 
   @override
   E? accept<E>(AstVisitor<E> visitor) => visitor.visitExtendsClause(this);
@@ -5803,6 +5803,69 @@ class ImplementsClauseImpl extends AstNodeImpl implements ImplementsClause {
   }
 }
 
+class ImplicitCallReferenceImpl extends ExpressionImpl
+    implements ImplicitCallReference {
+  ExpressionImpl _expression;
+
+  TypeArgumentListImpl? _typeArguments;
+
+  @override
+  List<DartType> typeArgumentTypes;
+
+  @override
+  MethodElement staticElement;
+
+  ImplicitCallReferenceImpl(
+    this._expression, {
+    required this.staticElement,
+    required TypeArgumentListImpl? typeArguments,
+    required this.typeArgumentTypes,
+  }) : _typeArguments = typeArguments {
+    _becomeParentOf(_expression);
+    _becomeParentOf(_typeArguments);
+  }
+
+  @override
+  Token get beginToken => expression.beginToken;
+
+  @override
+  Iterable<SyntacticEntity> get childEntities => ChildEntities()
+    ..add(expression)
+    ..add(typeArguments);
+
+  @override
+  Token get endToken => typeArguments?.endToken ?? expression.endToken;
+
+  @override
+  ExpressionImpl get expression => _expression;
+
+  set expression(ExpressionImpl value) {
+    _expression = _becomeParentOf(value);
+  }
+
+  @override
+  Precedence get precedence =>
+      typeArguments == null ? expression.precedence : Precedence.postfix;
+
+  @override
+  TypeArgumentListImpl? get typeArguments => _typeArguments;
+
+  set typeArguments(TypeArgumentListImpl? value) {
+    _typeArguments = _becomeParentOf(value);
+  }
+
+  @override
+  E? accept<E>(AstVisitor<E> visitor) {
+    return visitor.visitImplicitCallReference(this);
+  }
+
+  @override
+  void visitChildren(AstVisitor visitor) {
+    expression.accept(visitor);
+    typeArguments?.accept(visitor);
+  }
+}
+
 /// An import directive.
 ///
 ///    importDirective ::=
@@ -7375,6 +7438,82 @@ class NamedExpressionImpl extends ExpressionImpl implements NamedExpression {
   void visitChildren(AstVisitor visitor) {
     _name.accept(visitor);
     _expression.accept(visitor);
+  }
+}
+
+/// The name of a type, which can optionally include type arguments.
+///
+///    typeName ::=
+///        [Identifier] typeArguments? '?'?
+/// ignore: deprecated_member_use_from_same_package
+class NamedTypeImpl extends TypeAnnotationImpl implements TypeName {
+  /// The name of the type.
+  IdentifierImpl _name;
+
+  /// The type arguments associated with the type, or `null` if there are no
+  /// type arguments.
+  TypeArgumentListImpl? _typeArguments;
+
+  @override
+  Token? question;
+
+  /// The type being named, or `null` if the AST structure has not been
+  /// resolved, or if this is part of a [ConstructorReference].
+  @override
+  DartType? type;
+
+  /// Initialize a newly created type name. The [typeArguments] can be `null` if
+  /// there are no type arguments.
+  NamedTypeImpl(this._name, this._typeArguments, {this.question}) {
+    _becomeParentOf(_name);
+    _becomeParentOf(_typeArguments);
+  }
+
+  @override
+  Token get beginToken => _name.beginToken;
+
+  @override
+  Iterable<SyntacticEntity> get childEntities => ChildEntities()
+    ..add(_name)
+    ..add(_typeArguments)
+    ..add(question);
+
+  @override
+  Token get endToken => question ?? _typeArguments?.endToken ?? _name.endToken;
+
+  @override
+  bool get isDeferred {
+    Identifier identifier = name;
+    if (identifier is! PrefixedIdentifier) {
+      return false;
+    }
+    return identifier.isDeferred;
+  }
+
+  @override
+  bool get isSynthetic => _name.isSynthetic && _typeArguments == null;
+
+  @override
+  IdentifierImpl get name => _name;
+
+  set name(Identifier identifier) {
+    _name = _becomeParentOf(identifier as IdentifierImpl);
+  }
+
+  @override
+  TypeArgumentListImpl? get typeArguments => _typeArguments;
+
+  set typeArguments(TypeArgumentList? typeArguments) {
+    _typeArguments = _becomeParentOf(typeArguments as TypeArgumentListImpl?);
+  }
+
+  @override
+  E? accept<E>(AstVisitor<E> visitor) => visitor.visitNamedType(this);
+
+  @override
+  void visitChildren(AstVisitor visitor) {
+    _name.accept(visitor);
+    _typeArguments?.accept(visitor);
   }
 }
 
@@ -10215,7 +10354,7 @@ abstract class TypedLiteralImpl extends LiteralImpl implements TypedLiteral {
 /// always be the type `Type`).  To see the type represented by the type literal
 /// use `.typeName.type`.
 class TypeLiteralImpl extends ExpressionImpl implements TypeLiteral {
-  TypeNameImpl _typeName;
+  NamedTypeImpl _typeName;
 
   TypeLiteralImpl(this._typeName) {
     _becomeParentOf(_typeName);
@@ -10237,13 +10376,13 @@ class TypeLiteralImpl extends ExpressionImpl implements TypeLiteral {
       : Precedence.postfix;
 
   @override
-  TypeNameImpl get type => _typeName;
+  NamedTypeImpl get type => _typeName;
 
   @Deprecated('Use namedType instead')
   @override
-  TypeNameImpl get typeName => _typeName;
+  NamedTypeImpl get typeName => _typeName;
 
-  set typeName(TypeNameImpl value) {
+  set typeName(NamedTypeImpl value) {
     _typeName = _becomeParentOf(value);
   }
 
@@ -10253,82 +10392,6 @@ class TypeLiteralImpl extends ExpressionImpl implements TypeLiteral {
   @override
   void visitChildren(AstVisitor visitor) {
     _typeName.accept(visitor);
-  }
-}
-
-/// The name of a type, which can optionally include type arguments.
-///
-///    typeName ::=
-///        [Identifier] typeArguments? '?'?
-/// ignore: deprecated_member_use_from_same_package
-class TypeNameImpl extends TypeAnnotationImpl implements TypeName {
-  /// The name of the type.
-  IdentifierImpl _name;
-
-  /// The type arguments associated with the type, or `null` if there are no
-  /// type arguments.
-  TypeArgumentListImpl? _typeArguments;
-
-  @override
-  Token? question;
-
-  /// The type being named, or `null` if the AST structure has not been
-  /// resolved, or if this is part of a [ConstructorReference].
-  @override
-  DartType? type;
-
-  /// Initialize a newly created type name. The [typeArguments] can be `null` if
-  /// there are no type arguments.
-  TypeNameImpl(this._name, this._typeArguments, {this.question}) {
-    _becomeParentOf(_name);
-    _becomeParentOf(_typeArguments);
-  }
-
-  @override
-  Token get beginToken => _name.beginToken;
-
-  @override
-  Iterable<SyntacticEntity> get childEntities => ChildEntities()
-    ..add(_name)
-    ..add(_typeArguments)
-    ..add(question);
-
-  @override
-  Token get endToken => question ?? _typeArguments?.endToken ?? _name.endToken;
-
-  @override
-  bool get isDeferred {
-    Identifier identifier = name;
-    if (identifier is! PrefixedIdentifier) {
-      return false;
-    }
-    return identifier.isDeferred;
-  }
-
-  @override
-  bool get isSynthetic => _name.isSynthetic && _typeArguments == null;
-
-  @override
-  IdentifierImpl get name => _name;
-
-  set name(Identifier identifier) {
-    _name = _becomeParentOf(identifier as IdentifierImpl);
-  }
-
-  @override
-  TypeArgumentListImpl? get typeArguments => _typeArguments;
-
-  set typeArguments(TypeArgumentList? typeArguments) {
-    _typeArguments = _becomeParentOf(typeArguments as TypeArgumentListImpl?);
-  }
-
-  @override
-  E? accept<E>(AstVisitor<E> visitor) => visitor.visitNamedType(this);
-
-  @override
-  void visitChildren(AstVisitor visitor) {
-    _name.accept(visitor);
-    _typeArguments?.accept(visitor);
   }
 }
 
@@ -10466,10 +10529,6 @@ class TypeParameterListImpl extends AstNodeImpl implements TypeParameterList {
 ///      | [PartDirective]
 abstract class UriBasedDirectiveImpl extends DirectiveImpl
     implements UriBasedDirective {
-  /// The prefix of a URI using the `dart-ext` scheme to reference a native code
-  /// library.
-  static const String _DART_EXT_SCHEME = "dart-ext:";
-
   /// The URI referenced by this directive.
   StringLiteralImpl _uri;
 
@@ -10518,9 +10577,6 @@ abstract class UriBasedDirectiveImpl extends DirectiveImpl
     if (uriContent.isEmpty) {
       return null;
     }
-    if (isImport && uriContent.startsWith(_DART_EXT_SCHEME)) {
-      return UriValidationCode.URI_WITH_DART_EXT_SCHEME;
-    }
     Uri uri;
     try {
       uri = Uri.parse(Uri.encodeFull(uriContent));
@@ -10540,9 +10596,6 @@ class UriValidationCode {
 
   static const UriValidationCode URI_WITH_INTERPOLATION =
       UriValidationCode('URI_WITH_INTERPOLATION');
-
-  static const UriValidationCode URI_WITH_DART_EXT_SCHEME =
-      UriValidationCode('URI_WITH_DART_EXT_SCHEME');
 
   /// The name of the validation code.
   final String name;

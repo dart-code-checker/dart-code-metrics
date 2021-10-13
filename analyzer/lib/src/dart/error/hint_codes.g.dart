@@ -1375,6 +1375,7 @@ class HintCode extends AnalyzerErrorCode {
   static const HintCode INVALID_USE_OF_VISIBLE_FOR_OVERRIDING_MEMBER = HintCode(
     'INVALID_USE_OF_VISIBLE_FOR_OVERRIDING_MEMBER',
     "The member '{0}' can only be used for overriding.",
+    hasPublishedDocs: true,
   );
 
   /**
@@ -1488,16 +1489,7 @@ class HintCode extends AnalyzerErrorCode {
   static const HintCode INVALID_VISIBLE_FOR_OVERRIDING_ANNOTATION = HintCode(
     'INVALID_VISIBLE_FOR_OVERRIDING_ANNOTATION',
     "The declaration '{0}' is annotated with 'visibleForOverriding'. Because '{0}' isn't an interface member that could be overridden, the annotation is meaningless.",
-  );
-
-  /**
-   * Generate a hint for an element that is annotated with `@JS(...)` whose
-   * library declaration is not similarly annotated.
-   */
-  static const HintCode MISSING_JS_LIB_ANNOTATION = HintCode(
-    'MISSING_JS_LIB_ANNOTATION',
-    "The @JS() annotation can only be used if it is also declared on the library directive.",
-    correctionMessage: "Try adding the annotation to the library directive.",
+    hasPublishedDocs: true,
   );
 
   /**
@@ -1910,6 +1902,7 @@ class HintCode extends AnalyzerErrorCode {
     'NULL_ARGUMENT_TO_NON_NULL_TYPE',
     "'{0}' shouldn't be called with a null argument for the non-nullable type argument '{1}'.",
     correctionMessage: "Try adding a non-null argument.",
+    hasPublishedDocs: true,
   );
 
   /**
@@ -2379,6 +2372,7 @@ class HintCode extends AnalyzerErrorCode {
     "Tearing off a constructor requires the 'constructor-tearoffs' language feature.",
     correctionMessage:
         "Try updating your pubspec.yaml to set the minimum SDK constraint to 2.15 or higher, and running 'pub get'.",
+    hasPublishedDocs: true,
   );
 
   /**
@@ -2558,6 +2552,7 @@ class HintCode extends AnalyzerErrorCode {
     'SDK_VERSION_GT_GT_GT_OPERATOR',
     "The operator '>>>' wasn't supported until version 2.14.0, but this code is required to be able to run on earlier versions.",
     correctionMessage: "Try updating the SDK constraints.",
+    hasPublishedDocs: true,
   );
 
   /**
@@ -3053,6 +3048,7 @@ class HintCode extends AnalyzerErrorCode {
   static const HintCode UNDEFINED_REFERENCED_PARAMETER = HintCode(
     'UNDEFINED_REFERENCED_PARAMETER',
     "The parameter '{0}' is not defined by '{1}'.",
+    hasPublishedDocs: true,
   );
 
   /**
@@ -3205,6 +3201,7 @@ class HintCode extends AnalyzerErrorCode {
     'UNNECESSARY_IMPORT',
     "The import of '{0}' is unnecessary because all of the used elements are also provided by the import of '{1}'.",
     correctionMessage: "Try removing the import directive.",
+    hasPublishedDocs: true,
   );
 
   /**
@@ -3363,6 +3360,7 @@ class HintCode extends AnalyzerErrorCode {
   static const HintCode UNNECESSARY_QUESTION_MARK = HintCode(
     'UNNECESSARY_QUESTION_MARK',
     "The '?' is unnecessary because '{0}' is nullable without it.",
+    hasPublishedDocs: true,
   );
 
   /**
@@ -3810,6 +3808,7 @@ class HintCode extends AnalyzerErrorCode {
     "The value of '{0}' should be used.",
     correctionMessage:
         "Try using the result by invoking a member, passing it to a function, or returning it from this function.",
+    hasPublishedDocs: true,
   );
 
   /**
@@ -3826,6 +3825,7 @@ class HintCode extends AnalyzerErrorCode {
     "'{0}' should be used. {1}.",
     correctionMessage:
         "Try using the result by invoking a member, passing it to a function, or returning it from this function.",
+    hasPublishedDocs: true,
     uniqueName: 'UNUSED_RESULT_WITH_MESSAGE',
   );
 
@@ -3864,34 +3864,6 @@ class HintCode extends AnalyzerErrorCode {
     "The name {0} is shown, but isn’t used.",
     correctionMessage: "Try removing the name from the list of shown members.",
     hasPublishedDocs: true,
-  );
-
-  /**
-   * No parameters.
-   */
-  // #### Description
-  //
-  // The analyzer produces this diagnostic when a library is imported using the
-  // `dart-ext` scheme.
-  //
-  // #### Example
-  //
-  // The following code produces this diagnostic because the native library `x`
-  // is being imported using a scheme of `dart-ext`:
-  //
-  // ```dart
-  // [!import 'dart-ext:x';!]
-  // int f() native 'string';
-  // ```
-  //
-  // #### Common fixes
-  //
-  // Rewrite the code to use `dart:ffi` as a way of invoking the contents of the
-  // native library.
-  static const HintCode USE_OF_NATIVE_EXTENSION = HintCode(
-    'USE_OF_NATIVE_EXTENSION',
-    "Dart native extensions are deprecated and aren’t available in Dart 2.15.",
-    correctionMessage: "Try using dart:ffi for C interop.",
   );
 
   /// Initialize a newly created error code to have the given [name].

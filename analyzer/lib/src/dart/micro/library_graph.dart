@@ -19,7 +19,6 @@ import 'package:analyzer/src/dart/ast/ast.dart';
 import 'package:analyzer/src/dart/micro/cider_byte_store.dart';
 import 'package:analyzer/src/dart/scanner/reader.dart';
 import 'package:analyzer/src/dart/scanner/scanner.dart';
-import 'package:analyzer/src/generated/engine.dart';
 import 'package:analyzer/src/generated/parser.dart';
 import 'package:analyzer/src/generated/source.dart';
 import 'package:analyzer/src/generated/utilities_dart.dart';
@@ -84,7 +83,7 @@ class FileState {
   final List<FileState> libraryFiles = [];
   FileState? partOfLibrary;
 
-  late List<int> _digest;
+  late Uint8List _digest;
   late bool _exists;
   late List<int> _apiSignature;
   late UnlinkedUnit2 unlinked2;
@@ -227,7 +226,7 @@ class FileState {
     performance.getDataInt('count').increment();
 
     performance.run('digest', (_) {
-      _digest = utf8.encode(_fsState.getFileDigest(path));
+      _digest = utf8.encode(_fsState.getFileDigest(path)) as Uint8List;
       _exists = _digest.isNotEmpty;
     });
 
@@ -236,8 +235,8 @@ class FileState {
 
     // Prepare bytes of the unlinked bundle - existing or new.
     // TODO(migration): should not be nullable
-    List<int>? unlinkedBytes;
-    List<int>? informativeBytes;
+    Uint8List? unlinkedBytes;
+    Uint8List? informativeBytes;
     {
       var unlinkedData = _fsState._byteStore.get(unlinkedKey, _digest);
       var informativeData = _fsState._byteStore.get(informativeKey, _digest);
@@ -603,8 +602,6 @@ class FileSystemState {
     this._byteStore,
     this._sourceFactory,
     this._workspace,
-    @Deprecated('No longer used; will be removed')
-        AnalysisOptions analysisOptions,
     this._linkedSalt,
     this.featureSetProvider,
     this.getFileDigest,
@@ -899,7 +896,7 @@ class LibraryCycle {
   /// the signatures of the cycles that the [libraries] reference
   /// directly.  So, indirectly it is based on the transitive closure of all
   /// files that [libraries] reference (but we don't compute these files).
-  late List<int> signature;
+  late Uint8List signature;
 
   /// The hash of all the paths of the files in this cycle.
   late String cyclePathsHash;

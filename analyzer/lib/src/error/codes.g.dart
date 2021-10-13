@@ -3137,6 +3137,7 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
     "Required named parameters can't have a default value.",
     correctionMessage:
         "Try removing either the default value or the 'required' modifier.",
+    hasPublishedDocs: true,
   );
 
   /**
@@ -5411,6 +5412,7 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
     "A method tear-off on a receiver whose type is 'dynamic' can't have type arguments.",
     correctionMessage:
         "Specify the type of the receiver, or remove the type arguments from the method tear-off.",
+    hasPublishedDocs: true,
   );
 
   /**
@@ -6478,6 +6480,7 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
     'INSTANTIATE_TYPE_ALIAS_EXPANDS_TO_TYPE_PARAMETER',
     "Type aliases that expand to a type parameter can't be instantiated.",
     correctionMessage: "Try replacing it with a class.",
+    hasPublishedDocs: true,
   );
 
   /**
@@ -6690,6 +6693,7 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
     "Constant values from a deferred library can't be used in annotations.",
     correctionMessage:
         "Try moving the constant from the deferred library, or removing 'deferred' from the import.",
+    hasPublishedDocs: true,
   );
 
   /**
@@ -10588,6 +10592,7 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
   static const CompileTimeErrorCode NOT_BINARY_OPERATOR = CompileTimeErrorCode(
     'NOT_BINARY_OPERATOR',
     "'{0}' isn't a binary operator.",
+    hasPublishedDocs: true,
   );
 
   /**
@@ -12313,6 +12318,7 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
     'REDIRECT_TO_TYPE_ALIAS_EXPANDS_TO_TYPE_PARAMETER',
     "A redirecting constructor can't redirect to a type alias that expands to a type parameter.",
     correctionMessage: "Try replacing it with a class.",
+    hasPublishedDocs: true,
   );
 
   /**
@@ -13084,6 +13090,7 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
     "A generative constructor of an abstract class can't be torn off.",
     correctionMessage:
         "Try tearing off a constructor of a concrete class, or a non-generative constructor.",
+    hasPublishedDocs: true,
   );
 
   /**
@@ -15013,6 +15020,35 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
       CompileTimeErrorCode(
     'URI_WITH_INTERPOLATION',
     "URIs can't use string interpolation.",
+    hasPublishedDocs: true,
+  );
+
+  /**
+   * No parameters.
+   */
+  // #### Description
+  //
+  // The analyzer produces this diagnostic when a library is imported using the
+  // `dart-ext` scheme.
+  //
+  // #### Example
+  //
+  // The following code produces this diagnostic because the native library `x`
+  // is being imported using a scheme of `dart-ext`:
+  //
+  // ```dart
+  // import [!'dart-ext:x'!];
+  // ```
+  //
+  // #### Common fixes
+  //
+  // Rewrite the code to use `dart:ffi` as a way of invoking the contents of the
+  // native library.
+  static const CompileTimeErrorCode USE_OF_NATIVE_EXTENSION =
+      CompileTimeErrorCode(
+    'USE_OF_NATIVE_EXTENSION',
+    "Dart native extensions are deprecated and aren’t available in Dart 2.15.",
+    correctionMessage: "Try using dart:ffi for C interop.",
     hasPublishedDocs: true,
   );
 

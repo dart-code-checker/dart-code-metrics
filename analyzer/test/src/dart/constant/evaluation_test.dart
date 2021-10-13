@@ -4,6 +4,7 @@
 
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/ast/ast.dart';
+import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/error/error.dart';
 import 'package:analyzer/error/listener.dart';
 import 'package:analyzer/src/dart/element/element.dart';
@@ -317,6 +318,137 @@ const c = identical(int, int);
     );
   }
 
+  test_instanceCreationExpression_redirecting_typeParameter() async {
+    await resolveTestCode('''
+class A<T> {
+  final Object f;
+  const A(): this.named(T);
+  const A.named(Object t): f = t;
+}
+const a = const A<int>();
+''');
+    var result = _evaluateConstant('a');
+    expect(result, isNotNull);
+  }
+
+  test_instanceCreationExpression_typeParameter() async {
+    await resolveTestCode('''
+class A<T> {
+  final Object f;
+  const A(): f = T;
+}
+const a = const A<int>();
+''');
+    var result = _evaluateConstant('a');
+    var aElement = findElement.class_('A');
+    var expectedType = aElement.instantiate(
+        typeArguments: [typeProvider.intType],
+        nullabilitySuffix: NullabilitySuffix.none);
+    expect(result.type, expectedType);
+  }
+
+  test_instanceCreationExpression_typeParameter_implicitTypeArgs() async {
+    await resolveTestCode('''
+class A<T> {
+  final Object f;
+  const A(): f = T;
+}
+const a = const A();
+''');
+    var result = _evaluateConstant('a');
+    var aElement = findElement.class_('A');
+    var expectedType = aElement.instantiate(
+        typeArguments: [typeProvider.dynamicType],
+        nullabilitySuffix: NullabilitySuffix.none);
+    expect(result.type, expectedType);
+  }
+
+  test_instanceCreationExpression_typeParameter_super() async {
+    await resolveTestCode('''
+class A<T> {
+  final Object f;
+  const A(Object t): f = t;
+}
+class B<T> extends A<T> {
+  const B(): super(T);
+}
+const a = const B<int>();
+''');
+    var result = _evaluateConstant('a');
+    var bElement = findElement.class_('B');
+    var expectedType = bElement.instantiate(
+        typeArguments: [typeProvider.intType],
+        nullabilitySuffix: NullabilitySuffix.none);
+    expect(result.type, expectedType);
+  }
+
+  test_instanceCreationExpression_typeParameter_superNonGeneric() async {
+    await resolveTestCode('''
+class A {
+  final Object f;
+  const A(Object t): f = t;
+}
+class B<T> extends A {
+  const B(): super(T);
+}
+const a = const B<int>();
+''');
+    var result = _evaluateConstant('a');
+    expect(result, isNotNull);
+  }
+
+  test_instanceCreationExpression_typeParameter_typeAlias() async {
+    await resolveTestCode('''
+class A<T, U> {
+  final Object f, g;
+  const A(): f = T, g = U;
+}
+typedef B<S> = A<int, S>;
+const a = const B<String>();
+''');
+    var result = _evaluateConstant('a');
+    var aElement = findElement.class_('A');
+    var expectedType = aElement.instantiate(
+        typeArguments: [typeProvider.intType, typeProvider.stringType],
+        nullabilitySuffix: NullabilitySuffix.none);
+    expect(result.type, expectedType);
+  }
+
+  test_instanceCreationExpression_typeParameter_withoutConstructorTearoffs() async {
+    await resolveTestCode('''
+// @dart=2.12
+class A<T> {
+  final Object f;
+  const A(): f = T;
+}
+const a = const A<int>();
+''');
+    var result = _evaluateConstant('a', errorCodes: [
+      CompileTimeErrorCode.CONST_EVAL_THROWS_EXCEPTION,
+      CompileTimeErrorCode.CONST_EVAL_THROWS_EXCEPTION,
+    ]);
+    var aElement = findElement.class_('A');
+    var expectedType = aElement.instantiate(
+        typeArguments: [typeProvider.intType],
+        nullabilitySuffix: NullabilitySuffix.none);
+    expect(result.type, expectedType);
+  }
+
+  test_typeParameter() async {
+    await resolveTestCode('''
+class A<X> {
+  const A();
+  void m() {
+    const x = X;
+  }
+}
+''');
+    var result = _evaluateConstantLocal('x', errorCodes: [
+      CompileTimeErrorCode.INVALID_CONSTANT,
+    ]);
+    expect(result, isNull);
+  }
+
   test_visitAsExpression_potentialConstType() async {
     await assertNoErrorsInCode('''
 const num three = 3;
@@ -566,7 +698,48 @@ const void Function(int) g = self.f;
     var result = _evaluateConstant('g');
     assertType(result.type, 'void Function(int)');
     assertElement(result.toFunctionValue(), findElement.topFunction('f'));
-    _assertTypeArguments(result, null);
+    _assertTypeArguments(result, ['int']);
+  }
+
+  test_visitPrefixedIdentifier_genericFunction_instantiatedNonIdentifier() async {
+    await resolveTestCode('''
+void f<T>(T a) {}
+const b = false;
+const g1 = f;
+const g2 = f;
+const void Function(int) h = b ? g1 : g2;
+''');
+    var result = _evaluateConstant('h');
+    assertType(result.type, 'void Function(int)');
+    assertElement(result.toFunctionValue(), findElement.topFunction('f'));
+    _assertTypeArguments(result, ['int']);
+  }
+
+  test_visitPrefixedIdentifier_genericFunction_instantiatedPrefixed() async {
+    await resolveTestCode('''
+import '' as self;
+void f<T>(T a) {}
+const g = f;
+const void Function(int) h = self.g;
+''');
+    var result = _evaluateConstant('h');
+    assertType(result.type, 'void Function(int)');
+    assertElement(result.toFunctionValue(), findElement.topFunction('f'));
+    _assertTypeArguments(result, ['int']);
+  }
+
+  test_visitPropertyAccess_genericFunction_instantiated() async {
+    await resolveTestCode('''
+import '' as self;
+class C {
+  static void f<T>(T a) {}
+}
+const void Function(int) g = self.C.f;
+''');
+    var result = _evaluateConstant('g');
+    assertType(result.type, 'void Function(int)');
+    assertElement(result.toFunctionValue(), findElement.method('f'));
+    _assertTypeArguments(result, ['int']);
   }
 
   test_visitSimpleIdentifier_className() async {
@@ -582,6 +755,17 @@ class C {}
   test_visitSimpleIdentifier_genericFunction_instantiated() async {
     await resolveTestCode('''
 void f<T>(T a) {}
+const void Function(int) g = f;
+''');
+    var result = _evaluateConstant('g');
+    assertType(result.type, 'void Function(int)');
+    assertElement(result.toFunctionValue(), findElement.topFunction('f'));
+    _assertTypeArguments(result, ['int']);
+  }
+
+  test_visitSimpleIdentifier_genericFunction_nonGeneric() async {
+    await resolveTestCode('''
+void f(int a) {}
 const void Function(int) g = f;
 ''');
     var result = _evaluateConstant('g');
