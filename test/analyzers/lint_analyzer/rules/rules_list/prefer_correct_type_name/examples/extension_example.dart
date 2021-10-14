@@ -21,3 +21,6 @@ extension _exampleExclude on String {}
 
 // Check regular extension without error
 extension Example on String {}
+
+// Check private enum without error
+extension _Example on String {}

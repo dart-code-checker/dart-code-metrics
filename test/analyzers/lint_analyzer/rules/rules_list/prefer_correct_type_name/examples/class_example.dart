@@ -35,3 +35,6 @@ class _exampleExclude {
 
 // Check regular class without error
 class Example {}
+
+// Check private class without error
+class _Example {}

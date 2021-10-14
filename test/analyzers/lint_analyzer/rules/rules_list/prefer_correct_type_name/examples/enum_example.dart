@@ -45,3 +45,9 @@ enum Example {
   param1,
   param2,
 }
+
+// Check private enum without error
+enum _Example {
+  param1,
+  param2,
+}

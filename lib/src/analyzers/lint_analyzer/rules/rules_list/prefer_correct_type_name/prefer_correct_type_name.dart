@@ -31,7 +31,7 @@ class PreferCorrectTypeName extends CommonRule {
           documentation: const RuleDocumentation(
             name: 'Prefer correct type name',
             brief:
-                'Type name should only contain alphanumeric characters, start with an uppercase character and span between 3 and 40 characters in length.',
+                'Type name should only contain alphanumeric characters, start with an uppercase character and span between min-length and max-length characters in length.',
           ),
           severity: readSeverity(config, Severity.style),
           excludes: readExcludes(config),

@@ -21,3 +21,6 @@ mixin _exampleExclude {}
 
 // Check regular mixin without error
 mixin Example {}
+
+// Check private mixin without error
+mixin _Example {}
