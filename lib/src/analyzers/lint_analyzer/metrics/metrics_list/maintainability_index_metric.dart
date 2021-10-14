@@ -41,7 +41,7 @@ class MaintainabilityIndexMetric extends FunctionMetric<int> {
 
   @override
   bool supports(
-    Declaration node,
+    AstNode node,
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
     InternalResolvedUnitResult source,
@@ -63,7 +63,7 @@ class MaintainabilityIndexMetric extends FunctionMetric<int> {
 
   @override
   MetricComputationResult<int> computeImplementation(
-    Declaration node,
+    AstNode node,
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
     InternalResolvedUnitResult source,

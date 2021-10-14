@@ -24,7 +24,7 @@ abstract class FunctionMetric<T extends num> extends Metric<T> {
 
   @override
   String? nodeType(
-    Declaration node,
+    AstNode node,
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
   ) =>

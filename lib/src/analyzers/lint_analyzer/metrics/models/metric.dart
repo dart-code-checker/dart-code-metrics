@@ -35,7 +35,7 @@ abstract class Metric<T extends num> {
 
   /// Returns true if the metric can be computed on this [node].
   bool supports(
-    Declaration node,
+    AstNode node,
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
     InternalResolvedUnitResult source,
@@ -45,7 +45,7 @@ abstract class Metric<T extends num> {
 
   /// Returns the computed [MetricValue] for the given [node].
   MetricValue<T> compute(
-    Declaration node,
+    AstNode node,
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
     InternalResolvedUnitResult source,
@@ -75,7 +75,7 @@ abstract class Metric<T extends num> {
   /// Returns the internal metric model [MetricComputationResult] for the given [node].
   @protected
   MetricComputationResult<T> computeImplementation(
-    Declaration node,
+    AstNode node,
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
     InternalResolvedUnitResult source,
@@ -94,7 +94,7 @@ abstract class Metric<T extends num> {
   /// Returns human readable type of [node]
   @protected
   String? nodeType(
-    Declaration node,
+    AstNode node,
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
   );
