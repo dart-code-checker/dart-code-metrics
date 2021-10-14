@@ -144,17 +144,11 @@ class LintAnalyzer {
         final visitor = ScopeVisitor();
         internalResult.unit.visitChildren(visitor);
 
-        final classMetrics = _checkClassMetrics(
-          visitor,
-          internalResult,
-          config,
-        );
+        final classMetrics =
+            _checkClassMetrics(visitor, internalResult, config);
 
-        final functionMetrics = _checkFunctionMetrics(
-          visitor,
-          internalResult,
-          config,
-        );
+        final functionMetrics =
+            _checkFunctionMetrics(visitor, internalResult, config);
 
         final antiPatterns = _checkOnAntiPatterns(
           ignores,

@@ -13,7 +13,7 @@ class Report {
   final SourceSpan location;
 
   /// The node that represents a dart code snippet in the AST structure.
-  final Declaration declaration;
+  final AstNode declaration;
 
   /// Target entity metrics.
   final Iterable<MetricValue<num>> metrics;
