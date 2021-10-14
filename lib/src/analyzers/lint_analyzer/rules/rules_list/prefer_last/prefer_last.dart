@@ -1,4 +1,5 @@
 import 'package:analyzer/dart/ast/ast.dart';
+import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 
 import '../../../../../utils/node_utils.dart';
@@ -14,18 +15,18 @@ import '../../rule_utils.dart';
 
 part 'visitor.dart';
 
-class PreferFirstRule extends CommonRule {
-  static const ruleId = 'prefer-first';
+class PreferLastRule extends CommonRule {
+  static const ruleId = 'prefer-last';
   static const _warningMessage =
-      'Use first instead of accessing the element at zero index.';
-  static const _replaceComment = "Replace with 'first'.";
+      'Use last instead of accessing the last element by index.';
+  static const _replaceComment = "Replace with 'last'.";
 
-  PreferFirstRule([Map<String, Object> config = const {}])
+  PreferLastRule([Map<String, Object> config = const {}])
       : super(
           id: ruleId,
           documentation: const RuleDocumentation(
-            name: 'Prefer first',
-            brief: 'Use `first` to gets the first element',
+            name: 'Prefer last',
+            brief: 'Use `last` to gets the lat element',
           ),
           severity: readSeverity(config, Severity.style),
           excludes: readExcludes(config),
@@ -34,6 +35,7 @@ class PreferFirstRule extends CommonRule {
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
     final visitor = _Visitor();
+
     source.unit.visitChildren(visitor);
 
     return visitor.expressions
@@ -54,15 +56,13 @@ class PreferFirstRule extends CommonRule {
     String replacement;
 
     if (expression is MethodInvocation) {
-      replacement = expression.isCascaded
-          ? '..first'
-          : '${expression.target ?? ''}.first';
+      replacement =
+          expression.isCascaded ? '..last' : '${expression.target ?? ''}.last';
     } else if (expression is IndexExpression) {
-      replacement = expression.isCascaded
-          ? '..first'
-          : '${expression.target ?? ''}.first';
+      replacement =
+          expression.isCascaded ? '..last' : '${expression.target ?? ''}.last';
     } else {
-      replacement = '.first';
+      replacement = '.last';
     }
 
     return Replacement(
