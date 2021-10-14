@@ -8,11 +8,14 @@ import '../../../models/unused_l10n_file_report.dart';
 import '../../../models/unused_l10n_issue.dart';
 
 @immutable
-class UnusedL10nJsonReporter extends JsonReporter<UnusedL10nFileReport> {
+class UnusedL10nJsonReporter extends JsonReporter<UnusedL10nFileReport, void> {
   const UnusedL10nJsonReporter(IOSink output) : super(output, 2);
 
   @override
-  Future<void> report(Iterable<UnusedL10nFileReport> records) async {
+  Future<void> report(
+    Iterable<UnusedL10nFileReport> records, {
+    Iterable<void> summary = const [],
+  }) async {
     if (records.isEmpty) {
       return;
     }

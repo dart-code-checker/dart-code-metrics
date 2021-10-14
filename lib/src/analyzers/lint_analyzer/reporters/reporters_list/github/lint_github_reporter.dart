@@ -3,15 +3,20 @@ import 'dart:io';
 import '../../../../../reporters/models/github_reporter.dart';
 import '../../../models/lint_file_report.dart';
 import '../../../models/severity.dart';
+import '../../../models/summary_lint_report_record.dart';
 
 const _deprecationMessage =
     'DEPRECATED! This reporter is deprecated and will be removed in 5.0.0. You can migrate on our GitHub Action.';
 
-class LintGitHubReporter extends GitHubReporter<LintFileReport> {
+class LintGitHubReporter
+    extends GitHubReporter<LintFileReport, SummaryLintReportRecord> {
   const LintGitHubReporter(IOSink output) : super(output);
 
   @override
-  Future<void> report(Iterable<LintFileReport> records) async {
+  Future<void> report(
+    Iterable<LintFileReport> records, {
+    Iterable<SummaryLintReportRecord> summary = const [],
+  }) async {
     if (records.isEmpty) {
       return;
     }

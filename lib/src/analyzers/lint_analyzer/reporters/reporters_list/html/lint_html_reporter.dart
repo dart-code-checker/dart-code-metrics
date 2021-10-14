@@ -10,6 +10,7 @@ import '../../../../../reporters/models/html_reporter.dart';
 import '../../../metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import '../../../metrics/models/metric_value_level.dart';
 import '../../../models/lint_file_report.dart';
+import '../../../models/summary_lint_report_record.dart';
 import '../../utility_selector.dart';
 import 'components/icon.dart';
 import 'components/issue_details_tooltip.dart';
@@ -60,11 +61,15 @@ class ReportTableRecord {
   });
 }
 
-class LintHtmlReporter extends HtmlReporter<LintFileReport> {
+class LintHtmlReporter
+    extends HtmlReporter<LintFileReport, SummaryLintReportRecord> {
   LintHtmlReporter(String reportFolder) : super(reportFolder);
 
   @override
-  Future<void> report(Iterable<LintFileReport> records) async {
+  Future<void> report(
+    Iterable<LintFileReport> records, {
+    Iterable<SummaryLintReportRecord> summary = const [],
+  }) async {
     await super.report(records);
 
     for (final record in records) {

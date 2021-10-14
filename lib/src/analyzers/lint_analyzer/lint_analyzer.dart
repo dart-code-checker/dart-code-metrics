@@ -20,6 +20,7 @@ import 'models/lint_file_report.dart';
 import 'models/report.dart';
 import 'models/scoped_class_declaration.dart';
 import 'models/scoped_function_declaration.dart';
+import 'models/summary_lint_report_record.dart';
 import 'models/suppression.dart';
 import 'reporters/reporter_factory.dart';
 
@@ -111,6 +112,8 @@ class LintAnalyzer {
 
     return analyzerResult;
   }
+
+  Iterable<SummaryLintReportRecord> summary(Iterable<LintFileReport> _) => [];
 
   LintFileReport? _analyzeFile(
     ResolvedUnitResult result,

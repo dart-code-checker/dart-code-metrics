@@ -5,7 +5,8 @@ import 'package:ansicolor/ansicolor.dart';
 import '../../../../../reporters/models/console_reporter.dart';
 import '../../../models/unused_l10n_file_report.dart';
 
-class UnusedL10nConsoleReporter extends ConsoleReporter<UnusedL10nFileReport> {
+class UnusedL10nConsoleReporter
+    extends ConsoleReporter<UnusedL10nFileReport, void> {
   final _errorColor = AnsiPen()..red(bold: true);
   final _warningColor = AnsiPen()..yellow(bold: true);
   final _successColor = AnsiPen()..green();
@@ -13,7 +14,10 @@ class UnusedL10nConsoleReporter extends ConsoleReporter<UnusedL10nFileReport> {
   UnusedL10nConsoleReporter(IOSink output) : super(output);
 
   @override
-  Future<void> report(Iterable<UnusedL10nFileReport> records) async {
+  Future<void> report(
+    Iterable<UnusedL10nFileReport> records, {
+    Iterable<void> summary = const [],
+  }) async {
     if (records.isEmpty) {
       output.writeln('${_successColor('✔')} no unused localization found!');
 

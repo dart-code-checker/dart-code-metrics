@@ -5,7 +5,8 @@ import 'package:dart_code_metrics/src/analyzers/lint_analyzer/lint_analyzer.dart
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/lint_config.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value_level.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/lint_file_report.dart';
-import 'package:path/path.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/report.dart';
+import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
 void main() {
@@ -15,7 +16,7 @@ void main() {
       const analyzer = LintAnalyzer();
       const rootDirectory = '';
       final folders = [
-        normalize(File('test/resources/lint_analyzer').absolute.path),
+        p.normalize(File('test/resources/lint_analyzer').absolute.path),
       ];
 
       test('should analyze files', () async {
@@ -148,6 +149,50 @@ void main() {
         final report =
             reportForFile(result, 'lint_analyzer_exclude_example.dart').issues;
         expect(report, isEmpty);
+      });
+
+      test('collect summary for passed empty report', () {
+        final result = analyzer.summary([]);
+
+        expect(
+          result.firstWhere((r) => r.title == 'Scanned folders').value,
+          isEmpty,
+        );
+
+        expect(
+          result.firstWhere((r) => r.title == 'Total scanned files').value,
+          isZero,
+        );
+      });
+
+      test('collect summary for passed report', () {
+        final result = analyzer.summary([
+          LintFileReport(
+            path: '/home/dev/project/bin/example.dart',
+            relativePath: 'bin/example.dart',
+            classes: Map.unmodifiable(<String, Report>{}),
+            functions: Map.unmodifiable(<String, Report>{}),
+            issues: const [],
+            antiPatternCases: const [],
+          ),
+          LintFileReport(
+            path: '/home/dev/project/lib/example.dart',
+            relativePath: 'lib/example.dart',
+            classes: Map.unmodifiable(<String, Report>{}),
+            functions: Map.unmodifiable(<String, Report>{}),
+            issues: const [],
+            antiPatternCases: const [],
+          ),
+        ]);
+
+        expect(
+          result.firstWhere((r) => r.title == 'Scanned folders').value,
+          containsAll(<String>['bin', 'lib']),
+        );
+        expect(
+          result.firstWhere((r) => r.title == 'Total scanned files').value,
+          equals(2),
+        );
       });
     },
     testOn: 'posix',

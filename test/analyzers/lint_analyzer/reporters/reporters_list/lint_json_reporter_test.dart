@@ -26,7 +26,7 @@ void main() {
     });
 
     test('complex report', () {
-      LintJsonReporter(output).report(testReport);
+      LintJsonReporter(output).report(testReport, summary: testSummary);
 
       final captured = verify(
         () => output.write(captureAny()),
@@ -78,6 +78,28 @@ void main() {
             'verboseMessage': 'verbose design message',
           },
         ]),
+      );
+
+      expect(report, contains('summary'));
+      expect(report['summary'] as Iterable, hasLength(3));
+
+      expect(
+        (report['summary'] as Iterable).first as Map,
+        equals({
+          'status': 'none',
+          'title': 'Scanned package folders',
+          'value': ['bin', 'example', 'lib', 'test'],
+        }),
+      );
+
+      expect(
+        (report['summary'] as Iterable).last as Map,
+        equals({
+          'status': 'warning',
+          'title': 'Average Source Lines of Code per method',
+          'value': 30,
+          'overflows': 2,
+        }),
       );
     });
   });

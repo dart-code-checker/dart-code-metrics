@@ -11,13 +11,18 @@ import '../../../models/issue.dart';
 import '../../../models/lint_file_report.dart';
 import '../../../models/replacement.dart';
 import '../../../models/report.dart';
+import '../../../models/summary_lint_report_record.dart';
 
 @immutable
-class LintJsonReporter extends JsonReporter<LintFileReport> {
+class LintJsonReporter
+    extends JsonReporter<LintFileReport, SummaryLintReportRecord> {
   const LintJsonReporter(IOSink output) : super(output, 2);
 
   @override
-  Future<void> report(Iterable<LintFileReport> records) async {
+  Future<void> report(
+    Iterable<LintFileReport> records, {
+    Iterable<SummaryLintReportRecord> summary = const [],
+  }) async {
     if (records.isEmpty) {
       return;
     }
@@ -26,6 +31,12 @@ class LintJsonReporter extends JsonReporter<LintFileReport> {
       'formatVersion': formatVersion,
       'timestamp': getTimestamp(),
       'records': records.map(_lintFileReportToJson).toList(),
+      if (summary.isNotEmpty)
+        'summary': summary
+            .map((record) => _summaryLintReportRecordToJson(
+                  record as SummaryLintReportRecord<Object>,
+                ))
+            .toList(),
     });
 
     output.write(encodedReport);
@@ -39,9 +50,24 @@ class LintJsonReporter extends JsonReporter<LintFileReport> {
         'antiPatternCases': _issueToJson(report.antiPatternCases),
       };
 
-  Map<String, Map<String, Object>> _reportToJson(
-    Map<String, Report> reports,
-  ) =>
+  Map<String, Object> _summaryLintReportRecordToJson(
+    SummaryLintReportRecord<Object> record,
+  ) {
+    final recordValue = record.value;
+    final recordOverflows = record.overflows;
+
+    return {
+      'status': record.status.toString(),
+      'title': record.title,
+      'value': recordValue is Iterable ? recordValue.toList() : recordValue,
+      if (recordOverflows != null)
+        'overflows': recordOverflows is Iterable
+            ? recordOverflows.toList()
+            : recordOverflows,
+    };
+  }
+
+  Map<String, Map<String, Object>> _reportToJson(Map<String, Report> reports) =>
       reports.map((key, value) => MapEntry(key, {
             'codeSpan': _sourceSpanToJson(value.location),
             'metrics': _metricValuesToJson(value.metrics),
