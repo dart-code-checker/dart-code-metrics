@@ -26,7 +26,7 @@ class AvoidNestedConditionalExpressionsRule extends CommonRule {
           id: ruleId,
           documentation: const RuleDocumentation(
             name: 'Avoid nested conditional expressions',
-            brief: '',
+            brief: 'Warns about nested conditional expressions.',
           ),
           severity: readSeverity(config, Severity.style),
           excludes: readExcludes(config),
