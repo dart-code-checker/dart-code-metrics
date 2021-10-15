@@ -1,24 +1,22 @@
 part of '../prefer_correct_type_name.dart';
 
-const _defaultMinIdentifierLength = 3;
-const _defaultMaxIdentifierLength = 40;
+const _defaultMinTypeLength = 3;
+const _defaultMaxTypeLength = 40;
 const _defaultExclude = <String>[];
 
-const _minIdentifierLengthLabel = 'min-length';
-const _maxIdentifierLengthLabel = 'max-length';
+const _minTypeLengthLabel = 'min-length';
+const _maxTypeLengthLabel = 'max-length';
 const _excludeLabel = 'excluded';
 
 /// Parser for rule configuration
 class _ConfigParser {
-  /// Read min identifier length from config
-  static int readMinIdentifierLength(Map<String, Object> config) =>
-      _parseIntConfig(config[_minIdentifierLengthLabel]) ??
-      _defaultMinIdentifierLength;
+  /// Read min type length from config
+  static int readMinTypeLength(Map<String, Object> config) =>
+      _parseIntConfig(config[_minTypeLengthLabel]) ?? _defaultMinTypeLength;
 
-  /// Read max identifier length from config
-  static int readMaxIdentifierLength(Map<String, Object> config) =>
-      _parseIntConfig(config[_maxIdentifierLengthLabel]) ??
-      _defaultMaxIdentifierLength;
+  /// Read max type length from config
+  static int readMaxTypeLength(Map<String, Object> config) =>
+      _parseIntConfig(config[_maxTypeLengthLabel]) ?? _defaultMaxTypeLength;
 
   /// Read excludes list from config
   static Iterable<String> readExcludes(Map<String, Object> config) =>

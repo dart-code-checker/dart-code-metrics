@@ -79,7 +79,7 @@ class SourceLinesOfCodeMetric extends FunctionMetric<int> {
   ) =>
       linesWithCode.map((lineIndex) {
         final lineStartLocation = SourceLocation(
-          source.lineInfo.getOffsetOfLine(lineIndex),
+          source.lineInfo.getOffsetOfLine(lineIndex - 1),
           sourceUrl: source.path,
           line: lineIndex,
           column: 0,

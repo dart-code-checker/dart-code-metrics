@@ -5,7 +5,11 @@ class _Validator {
   final int minLength;
   final Iterable<String> exceptions;
 
-  _Validator(this.maxLength, this.minLength, this.exceptions);
+  _Validator({
+    required this.maxLength,
+    required this.minLength,
+    required this.exceptions,
+  });
 
   bool isValid(String name) =>
       exceptions.contains(name) ||
@@ -15,6 +19,7 @@ class _Validator {
 
   bool isUpperCase(String name) {
     final className = withoutUnderscore(name);
+
     return className[0] == className[0].toUpperCase();
   }
 

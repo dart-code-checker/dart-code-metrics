@@ -11,9 +11,7 @@ import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
 
 part 'utils/config_parser.dart';
-
 part 'validator.dart';
-
 part 'visitor.dart';
 
 class PreferCorrectIdentifierLength extends CommonRule {
@@ -22,9 +20,9 @@ class PreferCorrectIdentifierLength extends CommonRule {
 
   PreferCorrectIdentifierLength([Map<String, Object> config = const {}])
       : _validator = _Validator(
-          _ConfigParser.readMaxIdentifierLength(config),
-          _ConfigParser.readMinIdentifierLength(config),
-          _ConfigParser.readExceptions(config),
+          maxLength: _ConfigParser.readMaxIdentifierLength(config),
+          minLength: _ConfigParser.readMinIdentifierLength(config),
+          exceptions: _ConfigParser.readExceptions(config),
         ),
         super(
           id: ruleId,
