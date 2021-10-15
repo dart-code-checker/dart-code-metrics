@@ -21,9 +21,11 @@ class _Visitor extends ScopeVisitor {
   void visitEnumDeclaration(EnumDeclaration node) {
     super.visitEnumDeclaration(node);
 
-    _declarationNodes.addAll(node.constants
-        .where((node) => !validator.isValid(node.name))
-        .map((node) => node.name));
+    for (final node in node.constants) {
+      if (!validator.isValid(node.name)) {
+        _declarationNodes.add(node.name);
+      }
+    }
   }
 
   @override
