@@ -1,5 +1,7 @@
 # Lines of Code
 
+> **DEPRECATED!** Information on this page is out of date. You can find the up to date version on our [official site](https://dartcodemetrics.dev/docs/metrics/lines-of-code).
+
 The lines of code are the total number of lines in a method (or _function_). The comment lines, and the blank lines are also counted. A longer method is often difficult to maintain, tend to do a lot of things and can make it hard following what's going on.
 
 ## Config example

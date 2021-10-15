@@ -1,5 +1,7 @@
 # No object declaration
 
+> **DEPRECATED!** Information on this page is out of date. You can find the up to date version on our [official site](https://dartcodemetrics.dev/docs/rules/common/no-object-declaration).
+
 ## Rule id
 
 no-object-declaration

@@ -2,6 +2,8 @@
 
 ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 
+> **DEPRECATED!** Information on this page is out of date. You can find the up to date version on our [official site](https://dartcodemetrics.dev/docs/rules/common/no-boolean-literal-compare).
+
 ## Rule id
 
 no-boolean-literal-compare

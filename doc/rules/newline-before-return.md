@@ -1,5 +1,7 @@
 # New line before return
 
+> **DEPRECATED!** Information on this page is out of date. You can find the up to date version on our [official site](https://dartcodemetrics.dev/docs/rules/common/newline-before-return).
+
 ## Rule id
 
 newline-before-return

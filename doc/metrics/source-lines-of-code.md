@@ -1,5 +1,7 @@
 # Source lines of Code
 
+> **DEPRECATED!** Information on this page is out of date. You can find the up to date version on our [official site](https://dartcodemetrics.dev/docs/metrics/source-lines-of-code).
+
 **Source lines of Code** is an approximate number of source code lines in a function or method. Blank or comment lines are not counted.
 
 This metric is used to measure the size of a computer program by counting the number of lines in the text of the program's source code. **SLOC** is typically used to predict the amount of effort that will be required to develop a program, as well as to estimate programming productivity or maintainability once the software is produced.

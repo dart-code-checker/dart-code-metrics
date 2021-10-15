@@ -1,5 +1,7 @@
 # Weight Of a Class
 
+> **DEPRECATED!** Information on this page is out of date. You can find the up to date version on our [official site](https://dartcodemetrics.dev/docs/metrics/weight-of-class).
+
 Number of **functional** public methods divided by the total number of public methods.
 
 This metric tries to quantify whether the measured class (or _mixin_, or _extension_) interface reveals more data than behavior. Low values indicate that the class reveals much more data than behavior, which is a sign of poor encapsulation.

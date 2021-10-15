@@ -1,5 +1,7 @@
 # Prefer const border radius
 
+> **DEPRECATED!** Information on this page is out of date. You can find the up to date version on our [official site](https://dartcodemetrics.dev/docs/rules/flutter/prefer-const-border-radius).
+
 ## Rule id
 
 prefer-const-border-radius

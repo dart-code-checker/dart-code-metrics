@@ -1,5 +1,7 @@
 # Number of Parameters
 
+> **DEPRECATED!** Information on this page is out of date. You can find the up to date version on our [official site](https://dartcodemetrics.dev/docs/metrics/number-of-parameters).
+
 The number of parameters is the number of parameters received by a method (or _function_). If a method receive too many parameters, it is difficult to call and also difficult to change if it's called from many places.
 
 ## Config example

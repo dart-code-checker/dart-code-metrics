@@ -1,5 +1,7 @@
 # Avoid ignoring return values
 
+> **DEPRECATED!** Information on this page is out of date. You can find the up to date version on our [official site](https://dartcodemetrics.dev/docs/rules/common/avoid-ignoring-return-values).
+
 ## Rule id
 
 avoid-ignoring-return-values

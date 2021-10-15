@@ -238,7 +238,7 @@ void main() {
           "'methodExpression'",
         ],
         messages: issues.map((issue) =>
-            'Incorrect Intl name, should be ${issue.suggestion!.replacement}'),
+            'Incorrect Intl name, should be ${issue.suggestion!.replacement}.'),
         replacements: [
           "'SomeButtonClassI18n_staticFinalFieldInClassTitle'",
           "'SomeButtonClassI18n_staticFieldInClassTitle'",
@@ -443,7 +443,7 @@ void main() {
           4749,
         ],
         locationTexts: issues.map((_) => 'message'),
-        messages: issues.map((_) => 'Argument `name` does not exists'),
+        messages: issues.map((_) => 'Argument `name` does not exists.'),
       );
     });
   });

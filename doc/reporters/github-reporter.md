@@ -1,5 +1,7 @@
 # GitHub reporter
 
+> **DEPRECATED!** Information on this page is out of date. You can find the up to date version on our [official site](https://dartcodemetrics.dev/docs/cli/analyze#github).
+
 Reports about design and static code diagnostics issues in pull requests based on GitHub Actions Workflow commands.
 
 * Install dart/flutter and get packages:
