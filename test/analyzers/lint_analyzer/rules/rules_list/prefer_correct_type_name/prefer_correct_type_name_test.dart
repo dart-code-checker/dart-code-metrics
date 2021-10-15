@@ -23,7 +23,7 @@ void main() {
       );
     });
 
-    test('reports about found all issues in class_example.dart', () async {
+    test('reports about all found issues in class_example.dart', () async {
       final unit = await RuleTestHelper.resolveFromFile(_classExample);
       final issues = PreferCorrectTypeName({
         'max-length': 15,
@@ -56,7 +56,7 @@ void main() {
       );
     });
 
-    test('reports about found all issues in enum_example.dart', () async {
+    test('reports about all found issues in enum_example.dart', () async {
       final unit = await RuleTestHelper.resolveFromFile(_enumExample);
       final issues = PreferCorrectTypeName({
         'max-length': 15,
@@ -89,7 +89,7 @@ void main() {
       );
     });
 
-    test('reports about found all issues in extension_example.dart', () async {
+    test('reports about all found issues in extension_example.dart', () async {
       final unit = await RuleTestHelper.resolveFromFile(_extensionExample);
       final issues = PreferCorrectTypeName({
         'max-length': 15,
@@ -122,7 +122,7 @@ void main() {
       );
     });
 
-    test('reports about found all issues in mixin_example.dart', () async {
+    test('reports about all found issues in mixin_example.dart', () async {
       final unit = await RuleTestHelper.resolveFromFile(_mixinExample);
       final issues = PreferCorrectTypeName({
         'max-length': 15,
