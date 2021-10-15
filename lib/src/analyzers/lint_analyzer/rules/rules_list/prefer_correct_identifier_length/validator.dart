@@ -5,7 +5,11 @@ class _Validator {
   final int minLength;
   final Iterable<String> exceptions;
 
-  _Validator(this.maxLength, this.minLength, this.exceptions);
+  _Validator({
+    required this.maxLength,
+    required this.minLength,
+    required this.exceptions,
+  });
 
   bool isValid(SimpleIdentifier identifier) =>
       _validate(_getNameWithoutUnderscore(identifier.name));

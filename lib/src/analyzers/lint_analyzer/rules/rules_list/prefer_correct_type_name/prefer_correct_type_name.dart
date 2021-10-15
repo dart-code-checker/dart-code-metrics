@@ -11,9 +11,7 @@ import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
 
 part 'utils/config_parser.dart';
-
 part 'validator.dart';
-
 part 'visitor.dart';
 
 class PreferCorrectTypeName extends CommonRule {
@@ -22,9 +20,9 @@ class PreferCorrectTypeName extends CommonRule {
 
   PreferCorrectTypeName([Map<String, Object> config = const {}])
       : _validator = _Validator(
-          _ConfigParser.readMaxIdentifierLength(config),
-          _ConfigParser.readMinIdentifierLength(config),
-          _ConfigParser.readExcludes(config),
+          maxLength: _ConfigParser.readMaxTypeLength(config),
+          minLength: _ConfigParser.readMinTypeLength(config),
+          exceptions: _ConfigParser.readExcludes(config),
         ),
         super(
           id: ruleId,
