@@ -2,6 +2,7 @@ import 'models/rule.dart';
 import 'rules_list/always_remove_listener/always_remove_listener.dart';
 import 'rules_list/avoid_ignoring_return_values/avoid_ignoring_return_values.dart';
 import 'rules_list/avoid_late_keyword/avoid_late_keyword.dart';
+import 'rules_list/avoid_nested_conditional_expressions/avoid_nested_conditional_expressions.dart';
 import 'rules_list/avoid_non_null_assertion/avoid_non_null_assertion.dart';
 import 'rules_list/avoid_preserve_whitespace_false/avoid_preserve_whitespace_false.dart';
 import 'rules_list/avoid_returning_widgets/avoid_returning_widgets.dart';
@@ -38,6 +39,8 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   AvoidIgnoringReturnValuesRule.ruleId: (config) =>
       AvoidIgnoringReturnValuesRule(config),
   AvoidLateKeywordRule.ruleId: (config) => AvoidLateKeywordRule(config),
+  AvoidNestedConditionalExpressionsRule.ruleId: (config) =>
+      AvoidNestedConditionalExpressionsRule(config),
   AvoidNonNullAssertionRule.ruleId: (config) =>
       AvoidNonNullAssertionRule(config),
   AvoidPreserveWhitespaceFalseRule.ruleId: (config) =>
