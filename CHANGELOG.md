@@ -2,7 +2,6 @@
 
 ## Unreleased
 
-* fix: add validation in enum `prefer-correct-identifier-length`.
 * chore: deprecate documentation in Github repo.
 * chore: restrict `analyzer` version to `>=2.4.0 <2.7.0`.
 
