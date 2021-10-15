@@ -1,7 +1,7 @@
 [![Build Status](https://shields.io/github/workflow/status/dart-code-checker/dart-code-metrics/build?logo=github&logoColor=white)](https://github.com/dart-code-checker/dart-code-metrics/)
 [![Coverage Status](https://img.shields.io/codecov/c/github/dart-code-checker/dart-code-metrics?logo=codecov&logoColor=white)](https://codecov.io/gh/dart-code-checker/dart-code-metrics/)
 [![Pub Version](https://img.shields.io/pub/v/dart_code_metrics?logo=dart&logoColor=white)](https://pub.dev/packages/dart_code_metrics/)
-[![Pub Version](https://img.shields.io/pub/v/dart_code_metrics?include_prereleases&logo=dart&logoColor=white)](https://pub.dev/packages/dart_code_metrics/versions#prerelease)
+[![Pub Beta Version](https://img.shields.io/pub/v/dart_code_metrics?include_prereleases&logo=dart&label=pub%20beta&logoColor=white)](https://pub.dev/packages/dart_code_metrics/versions#prerelease)
 [![Dart SDK Version](https://badgen.net/pub/sdk-version/dart_code_metrics)](https://pub.dev/packages/dart_code_metrics/)
 [![License](https://img.shields.io/github/license/dart-code-checker/dart-code-metrics)](https://github.com/dart-code-checker/dart-code-metrics/blob/master/LICENSE)
 [![Pub popularity](https://badgen.net/pub/popularity/dart_code_metrics)](https://pub.dev/packages/dart_code_metrics/score)
@@ -28,6 +28,7 @@ Dart Code Metrics is a static analysis tool that helps you analyse and improve y
 - Provides [additional rules](https://dartcodemetrics.dev/docs/rules/overview) for the dart analyzer
 - Checks for [anti-patterns](https://dartcodemetrics.dev/docs/anti-patterns/overivew)
 - Checks [unused `*.dart` files](https://dartcodemetrics.dev/docs/cli/check-unused-files)
+- Checks [unused l10n](https://dartcodemetrics.dev/docs/cli/check-unused-l10n)
 - Can be used as [CLI](https://dartcodemetrics.dev/docs/cli/overview), [analyzer plugin](https://dartcodemetrics.dev/docs/analyzer-plugin) or [library](https://dartcodemetrics.dev/docs/getting-started/installation#library)
 
 ## Links

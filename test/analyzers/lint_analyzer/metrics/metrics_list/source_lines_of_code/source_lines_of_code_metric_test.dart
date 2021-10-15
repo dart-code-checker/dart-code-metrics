@@ -41,8 +41,8 @@ Future<void> main() async {
         metricValue.context.single.message,
         equals('line contains source code'),
       );
-      expect(metricValue.context.single.location.start.offset, equals(476));
-      expect(metricValue.context.single.location.end.offset, equals(476));
+      expect(metricValue.context.single.location.start.offset, equals(450));
+      expect(metricValue.context.single.location.end.offset, equals(450));
     });
 
     test('class method', () {

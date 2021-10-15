@@ -14,21 +14,22 @@ part 'utils/config_parser.dart';
 part 'validator.dart';
 part 'visitor.dart';
 
-class PreferCorrectIdentifierLength extends CommonRule {
-  static const String ruleId = 'prefer-correct-identifier-length';
+class PreferCorrectTypeName extends CommonRule {
+  static const String ruleId = 'prefer-correct-type-name';
   final _Validator _validator;
 
-  PreferCorrectIdentifierLength([Map<String, Object> config = const {}])
+  PreferCorrectTypeName([Map<String, Object> config = const {}])
       : _validator = _Validator(
-          maxLength: _ConfigParser.readMaxIdentifierLength(config),
-          minLength: _ConfigParser.readMinIdentifierLength(config),
-          exceptions: _ConfigParser.readExceptions(config),
+          maxLength: _ConfigParser.readMaxTypeLength(config),
+          minLength: _ConfigParser.readMinTypeLength(config),
+          exceptions: _ConfigParser.readExcludes(config),
         ),
         super(
           id: ruleId,
           documentation: const RuleDocumentation(
-            name: 'Prefer correct identifier length',
-            brief: 'Warns when identifier name length very short or long.',
+            name: 'Prefer correct type name',
+            brief:
+                'Type name should only contain alphanumeric characters, start with an uppercase character and span between min-length and max-length characters in length.',
           ),
           severity: readSeverity(config, Severity.style),
           excludes: readExcludes(config),
@@ -45,13 +46,10 @@ class PreferCorrectIdentifierLength extends CommonRule {
           (node) => createIssue(
             rule: this,
             location: nodeLocation(node: node, source: source),
-            message: createErrorMessage(node.name),
+            message:
+                "The '$node' name should only contain alphanumeric characters, start with an uppercase character and span between ${_validator.minLength} and ${_validator.maxLength} characters in length",
           ),
         )
         .toList(growable: false);
   }
-
-  String createErrorMessage(String name) => name.length > _validator.maxLength
-      ? "The $name identifier is ${name.length} characters long. It's recommended to decrease it to ${_validator.maxLength} chars long."
-      : "The $name identifier is ${name.length} characters long. It's recommended to increase it up to ${_validator.minLength} chars long.";
 }
