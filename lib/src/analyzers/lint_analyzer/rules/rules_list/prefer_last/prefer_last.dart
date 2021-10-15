@@ -26,7 +26,7 @@ class PreferLastRule extends CommonRule {
           id: ruleId,
           documentation: const RuleDocumentation(
             name: 'Prefer last',
-            brief: 'Use `last` to gets the lat element',
+            brief: 'Use `last` to gets the last element',
           ),
           severity: readSeverity(config, Severity.style),
           excludes: readExcludes(config),
