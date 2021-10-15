@@ -10,6 +10,7 @@ const _commonExample = '$_path/common_example.dart';
 const _enumExample = '$_path/enum_example.dart';
 const _mixinExample = '$_path/mixin_example.dart';
 const _extensionExample = '$_path/extension_example.dart';
+const _withoutErrorExample = '$_path/without_error_example.dart';
 
 void main() {
   group('PreferCorrectIdentifierLength', () {
@@ -22,6 +23,13 @@ void main() {
         ruleId: 'prefer-correct-identifier-length',
         severity: Severity.style,
       );
+    });
+
+    test('reports no issues', () async {
+      final unit = await RuleTestHelper.resolveFromFile(_withoutErrorExample);
+      final issues = PreferCorrectIdentifierLength().check(unit);
+
+      RuleTestHelper.verifyNoIssues(issues);
     });
 
     test('reports about found all issues in class_example.dart', () async {
@@ -97,11 +105,7 @@ void main() {
 
     test('reports about found all issues in common_example.dart', () async {
       final unit = await RuleTestHelper.resolveFromFile(_commonExample);
-      final issues = PreferCorrectIdentifierLength({
-        'max-identifier-length': 10,
-        'min-identifier-length': 3,
-        'exceptions': ['z'],
-      }).check(unit);
+      final issues = PreferCorrectIdentifierLength().check(unit);
 
       RuleTestHelper.verifyIssues(
         issues: issues,
