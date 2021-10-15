@@ -28,6 +28,7 @@ Dart Code Metrics is a static analysis tool that helps you analyse and improve y
 - Provides [additional rules](https://dartcodemetrics.dev/docs/rules/overview) for the dart analyzer
 - Checks for [anti-patterns](https://dartcodemetrics.dev/docs/anti-patterns/overivew)
 - Checks [unused `*.dart` files](https://dartcodemetrics.dev/docs/cli/check-unused-files)
+- Checks [unused l10n](https://dartcodemetrics.dev/docs/cli/check-unused-l10n)
 - Can be used as [CLI](https://dartcodemetrics.dev/docs/cli/overview), [analyzer plugin](https://dartcodemetrics.dev/docs/analyzer-plugin) or [library](https://dartcodemetrics.dev/docs/getting-started/installation#library)
 
 ## Links
