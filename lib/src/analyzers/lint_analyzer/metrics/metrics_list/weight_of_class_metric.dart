@@ -40,7 +40,7 @@ class WeightOfClassMetric extends ClassMetric<double> {
 
   @override
   bool supports(
-    Declaration node,
+    AstNode node,
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
     InternalResolvedUnitResult source,
@@ -59,7 +59,7 @@ class WeightOfClassMetric extends ClassMetric<double> {
 
   @override
   MetricComputationResult<double> computeImplementation(
-    Declaration node,
+    AstNode node,
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
     InternalResolvedUnitResult source,

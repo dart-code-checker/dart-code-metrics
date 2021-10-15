@@ -23,9 +23,11 @@ import 'rules_list/no_object_declaration/no_object_declaration.dart';
 import 'rules_list/prefer_conditional_expressions/prefer_conditional_expressions.dart';
 import 'rules_list/prefer_const_border_radius/prefer_const_border_radius.dart';
 import 'rules_list/prefer_correct_identifier_length/prefer_correct_identifier_length.dart';
+import 'rules_list/prefer_correct_type_name/prefer_correct_type_name.dart';
 import 'rules_list/prefer_extracting_callbacks/prefer_extracting_callbacks.dart';
 import 'rules_list/prefer_first/prefer_first.dart';
 import 'rules_list/prefer_intl_name/prefer_intl_name.dart';
+import 'rules_list/prefer_last/prefer_last.dart';
 import 'rules_list/prefer_match_file_name/prefer_match_file_name.dart';
 import 'rules_list/prefer_on_push_cd_strategy/prefer_on_push_cd_strategy.dart';
 import 'rules_list/prefer_single_widget_per_file/prefer_single_widget_per_file.dart';
@@ -71,10 +73,12 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
       PreferConstBorderRadiusRule(config),
   PreferCorrectIdentifierLength.ruleId: (config) =>
       PreferCorrectIdentifierLength(config),
+  PreferCorrectTypeName.ruleId: (config) => PreferCorrectTypeName(config),
   PreferExtractingCallbacksRule.ruleId: (config) =>
       PreferExtractingCallbacksRule(config),
   PreferFirstRule.ruleId: (config) => PreferFirstRule(config),
   PreferIntlNameRule.ruleId: (config) => PreferIntlNameRule(config),
+  PreferLastRule.ruleId: (config) => PreferLastRule(config),
   PreferMatchFileName.ruleId: (config) => PreferMatchFileName(config),
   PreferOnPushCdStrategyRule.ruleId: (config) =>
       PreferOnPushCdStrategyRule(config),

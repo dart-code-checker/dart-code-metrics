@@ -43,7 +43,7 @@ class HalsteadVolumeMetric extends FunctionMetric<double> {
 
   @override
   MetricComputationResult<double> computeImplementation(
-    Declaration node,
+    AstNode node,
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
     InternalResolvedUnitResult source,

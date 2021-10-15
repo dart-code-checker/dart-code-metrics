@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* feat: add static code diagnostics `prefer-correct-type-name`, `prefer-last`.
 * chore: deprecate documentation in Github repo.
 * chore: restrict `analyzer` version to `>=2.4.0 <2.7.0`.
 
