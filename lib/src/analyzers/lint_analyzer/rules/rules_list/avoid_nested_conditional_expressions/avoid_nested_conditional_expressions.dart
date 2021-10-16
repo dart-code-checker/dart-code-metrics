@@ -21,7 +21,7 @@ class AvoidNestedConditionalExpressionsRule extends CommonRule {
   final int _acceptableLevel;
 
   AvoidNestedConditionalExpressionsRule([Map<String, Object> config = const {}])
-      : _acceptableLevel = _ConfigParser.getAcceptableLevel(config),
+      : _acceptableLevel = _ConfigParser.parseAcceptableLevel(config),
         super(
           id: ruleId,
           documentation: const RuleDocumentation(

@@ -14,11 +14,9 @@ class _Visitor extends RecursiveAstVisitor<void> {
   @override
   void visitConditionalExpression(ConditionalExpression node) {
     final parent = _getParentConditionalExpression(node);
-    if (_nestingLevels.containsKey(parent)) {
-      _nestingLevels[node] = _nestingLevels[parent]! + 1;
-    } else {
-      _nestingLevels[node] = 1;
-    }
+
+    final level = (_nestingLevels[parent] ?? 0) + 1;
+    _nestingLevels[node] = level;
 
     super.visitConditionalExpression(node);
   }

@@ -5,12 +5,12 @@ class _ConfigParser {
 
   static const _defaultAcceptableLevel = 1;
 
-  static int getAcceptableLevel(Map<String, Object> config) {
-    final level = _getInt(config, _acceptableLevelConfig);
+  static int parseAcceptableLevel(Map<String, Object> config) {
+    final level = _parseIntConfig(config, _acceptableLevelConfig);
 
     return level != null && level > 0 ? level : _defaultAcceptableLevel;
   }
 
-  static int? _getInt(Map<String, Object> config, String name) =>
-      config[name] is int ? config[name] as int : null;
+  static int? _parseIntConfig(Map<String, Object> config, String name) =>
+      config[name] != null ? int.tryParse(config[name].toString()) : null;
 }
