@@ -1,4 +1,5 @@
 @TestOn('vm')
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/metrics_list/source_lines_of_code/source_lines_of_code_metric.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value_level.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/issue.dart';
@@ -15,6 +16,11 @@ void main() {
   group('Report util', () {
     const fullPathStub = '~/lib/src/foo.dart';
     const relativePathStub = 'lib/src/foo.dart';
+    const fullPathStub2 = '~/test/src/foo.dart';
+    const relativePathStub2 = 'test/src/foo.dart';
+    const fullPathStub3 = '~/lib/src/bar.dart';
+    const relativePathStub3 = 'lib/src/bar.dart';
+
     final fileRecords = [
       LintFileReport(
         path: fullPathStub,
@@ -23,6 +29,11 @@ void main() {
         functions: Map.unmodifiable(<String, Report>{
           'a': buildFunctionRecordStub(
             metrics: [
+              buildMetricValueStub<int>(
+                id: CyclomaticComplexityMetric.metricId,
+                value: 5,
+                level: MetricValueLevel.none,
+              ),
               buildMetricValueStub<int>(
                 id: SourceLinesOfCodeMetric.metricId,
                 value: 10,
@@ -42,12 +53,17 @@ void main() {
         antiPatternCases: const [],
       ),
       LintFileReport(
-        path: fullPathStub,
-        relativePath: relativePathStub,
+        path: fullPathStub2,
+        relativePath: relativePathStub2,
         classes: Map.unmodifiable(<String, Report>{}),
         functions: Map.unmodifiable(<String, Report>{
           'a': buildFunctionRecordStub(
             metrics: [
+              buildMetricValueStub<int>(
+                id: CyclomaticComplexityMetric.metricId,
+                value: 45,
+                level: MetricValueLevel.warning,
+              ),
               buildMetricValueStub<int>(
                 id: SourceLinesOfCodeMetric.metricId,
                 value: 20,
@@ -60,12 +76,17 @@ void main() {
         antiPatternCases: const [],
       ),
       LintFileReport(
-        path: fullPathStub,
-        relativePath: relativePathStub,
+        path: fullPathStub3,
+        relativePath: relativePathStub3,
         classes: Map.unmodifiable(<String, Report>{}),
         functions: Map.unmodifiable(<String, Report>{
           'a': buildFunctionRecordStub(
             metrics: [
+              buildMetricValueStub<int>(
+                id: CyclomaticComplexityMetric.metricId,
+                value: 15,
+                level: MetricValueLevel.none,
+              ),
               buildMetricValueStub<int>(
                 id: SourceLinesOfCodeMetric.metricId,
                 value: 30,
@@ -102,6 +123,38 @@ void main() {
         );
         expect(hasIssueWithSevetiry(fileRecords, Severity.style), isTrue);
         expect(hasIssueWithSevetiry(fileRecords, Severity.none), isFalse);
+      },
+    );
+
+    test(
+      'scannedFolders returns array with top level folders with source code',
+      () {
+        expect(scannedFolders(fileRecords), equals(['lib', 'test']));
+      },
+    );
+
+    test('totalFiles returns count of reported files', () {
+      expect(totalFiles(fileRecords), equals(3));
+    });
+
+    test('totalSLOC returns total numbers of scanned source lines of code', () {
+      expect(totalSLOC(fileRecords), equals(60));
+    });
+
+    test('totalClasses returns total numbers of scanned classes', () {
+      expect(totalClasses(fileRecords), isZero);
+    });
+
+    test(
+      'averageCYCLO returns average numbers of cyclomatic complexity per source lines of code',
+      () {
+        expect(averageCYCLO(fileRecords), closeTo(1.08, 0.01));
+      },
+    );
+    test(
+      'averageSLOC returns average numbers of scanned source lines of code per function/method',
+      () {
+        expect(averageSLOC(fileRecords), equals(20));
       },
     );
   });
