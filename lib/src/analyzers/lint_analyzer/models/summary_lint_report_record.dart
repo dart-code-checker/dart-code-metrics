@@ -9,12 +9,12 @@ class SummaryLintReportRecord<T> {
   final String title;
 
   final T value;
-  final T? overflows;
+  final T? violations;
 
   const SummaryLintReportRecord({
     this.status = SummaryLintReportRecordStatus.none,
     required this.title,
     required this.value,
-    this.overflows,
+    this.violations,
   });
 }

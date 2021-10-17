@@ -139,13 +139,14 @@ class LintAnalyzer {
         SummaryLintReportRecord<num>(
           title: 'Average Cyclomatic Number per line of code',
           value: averageCYCLO(records),
-          overflows:
-              metricOverflows(records, CyclomaticComplexityMetric.metricId),
+          violations:
+              metricViolations(records, CyclomaticComplexityMetric.metricId),
         ),
         SummaryLintReportRecord<int>(
           title: 'Average Source Lines of Code per method',
           value: averageSLOC(records),
-          overflows: metricOverflows(records, SourceLinesOfCodeMetric.metricId),
+          violations:
+              metricViolations(records, SourceLinesOfCodeMetric.metricId),
         ),
       ];
 

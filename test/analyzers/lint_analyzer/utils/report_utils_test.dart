@@ -156,13 +156,13 @@ void main() {
       },
     );
 
-    test('metricOverflows returns total count of metric overlow', () {
+    test('metricViolations returns total count of metric overlow', () {
       expect(
-        metricOverflows(fileRecords, CyclomaticComplexityMetric.metricId),
+        metricViolations(fileRecords, CyclomaticComplexityMetric.metricId),
         equals(1),
       );
       expect(
-        metricOverflows(fileRecords, SourceLinesOfCodeMetric.metricId),
+        metricViolations(fileRecords, SourceLinesOfCodeMetric.metricId),
         equals(2),
       );
     });

@@ -78,7 +78,7 @@ int averageSLOC(Iterable<LintFileReport> records) {
   return functionsCount > 0 ? totalSLOC(records) ~/ functionsCount : 0;
 }
 
-int metricOverflows(Iterable<LintFileReport> records, String metricId) =>
+int metricViolations(Iterable<LintFileReport> records, String metricId) =>
     records.fold<int>(
       0,
       (prevValue, fileReport) =>

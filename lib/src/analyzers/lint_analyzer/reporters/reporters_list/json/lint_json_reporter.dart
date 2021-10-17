@@ -54,16 +54,16 @@ class LintJsonReporter
     SummaryLintReportRecord<Object> record,
   ) {
     final recordValue = record.value;
-    final recordOverflows = record.overflows;
+    final recordViolations = record.violations;
 
     return {
       'status': record.status.toString(),
       'title': record.title,
       'value': recordValue is Iterable ? recordValue.toList() : recordValue,
-      if (recordOverflows != null)
-        'overflows': recordOverflows is Iterable
-            ? recordOverflows.toList()
-            : recordOverflows,
+      if (recordViolations != null)
+        'violations': recordViolations is Iterable
+            ? recordViolations.toList()
+            : recordViolations,
     };
   }
 
