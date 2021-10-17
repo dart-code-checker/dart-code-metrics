@@ -156,7 +156,7 @@ void main() {
       },
     );
 
-    test('metricViolations returns total count of metric overlow', () {
+    test('metricViolations returns total count of metric violations', () {
       expect(
         metricViolations(fileRecords, CyclomaticComplexityMetric.metricId),
         equals(1),
