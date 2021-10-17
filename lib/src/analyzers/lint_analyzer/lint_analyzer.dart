@@ -12,6 +12,8 @@ import '../../utils/file_utils.dart';
 import '../../utils/node_utils.dart';
 import 'lint_analysis_config.dart';
 import 'lint_config.dart';
+import 'metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
+import 'metrics/metrics_list/source_lines_of_code/source_lines_of_code_metric.dart';
 import 'metrics/models/metric_value.dart';
 import 'metrics/scope_visitor.dart';
 import 'models/internal_resolved_unit_result.dart';
@@ -114,7 +116,9 @@ class LintAnalyzer {
     return analyzerResult;
   }
 
-  Iterable<SummaryLintReportRecord> summary(Iterable<LintFileReport> records) =>
+  Iterable<SummaryLintReportRecord> getSummary(
+    Iterable<LintFileReport> records,
+  ) =>
       [
         SummaryLintReportRecord<Iterable<String>>(
           title: 'Scanned folders',
@@ -132,13 +136,16 @@ class LintAnalyzer {
           title: 'Total classes',
           value: totalClasses(records),
         ),
-        SummaryLintReportRecord<double>(
+        SummaryLintReportRecord<num>(
           title: 'Average Cyclomatic Number per line of code',
           value: averageCYCLO(records),
+          overflows:
+              metricOverflows(records, CyclomaticComplexityMetric.metricId),
         ),
         SummaryLintReportRecord<int>(
           title: 'Average Source Lines of Code per method',
           value: averageSLOC(records),
+          overflows: metricOverflows(records, SourceLinesOfCodeMetric.metricId),
         ),
       ];
 

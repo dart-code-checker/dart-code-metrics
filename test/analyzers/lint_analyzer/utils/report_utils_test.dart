@@ -32,7 +32,6 @@ void main() {
               buildMetricValueStub<int>(
                 id: CyclomaticComplexityMetric.metricId,
                 value: 5,
-                level: MetricValueLevel.none,
               ),
               buildMetricValueStub<int>(
                 id: SourceLinesOfCodeMetric.metricId,
@@ -67,7 +66,7 @@ void main() {
               buildMetricValueStub<int>(
                 id: SourceLinesOfCodeMetric.metricId,
                 value: 20,
-                level: MetricValueLevel.noted,
+                level: MetricValueLevel.warning,
               ),
             ],
           ),
@@ -85,7 +84,6 @@ void main() {
               buildMetricValueStub<int>(
                 id: CyclomaticComplexityMetric.metricId,
                 value: 15,
-                level: MetricValueLevel.none,
               ),
               buildMetricValueStub<int>(
                 id: SourceLinesOfCodeMetric.metricId,
@@ -157,5 +155,16 @@ void main() {
         expect(averageSLOC(fileRecords), equals(20));
       },
     );
+
+    test('metricOverflows returns total count of metric overlow', () {
+      expect(
+        metricOverflows(fileRecords, CyclomaticComplexityMetric.metricId),
+        equals(1),
+      );
+      expect(
+        metricOverflows(fileRecords, SourceLinesOfCodeMetric.metricId),
+        equals(2),
+      );
+    });
   });
 }

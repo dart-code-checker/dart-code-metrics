@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:path/path.dart' as p;
 
+import '../metrics/metric_utils.dart';
 import '../metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import '../metrics/metrics_list/source_lines_of_code/source_lines_of_code_metric.dart';
 import '../metrics/models/metric_value_level.dart';
@@ -76,3 +77,19 @@ int averageSLOC(Iterable<LintFileReport> records) {
 
   return functionsCount > 0 ? totalSLOC(records) ~/ functionsCount : 0;
 }
+
+int metricOverflows(Iterable<LintFileReport> records, String metricId) =>
+    records.fold<int>(
+      0,
+      (prevValue, fileReport) =>
+          prevValue +
+          fileReport.functions.values.fold(
+            0,
+            (prevValue, functionReport) =>
+                prevValue +
+                (isReportLevel(functionReport.metric(metricId)?.level ??
+                        MetricValueLevel.none)
+                    ? 1
+                    : 0),
+          ),
+    );

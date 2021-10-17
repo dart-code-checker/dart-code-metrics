@@ -64,7 +64,7 @@ class AnalyzeCommand extends BaseCommand {
         )
         ?.report(
           lintAnalyserResult,
-          summary: _analyzer.summary(lintAnalyserResult),
+          summary: _analyzer.getSummary(lintAnalyserResult),
         );
 
     if (hasIssueWithSevetiry(lintAnalyserResult, Severity.error)) {
