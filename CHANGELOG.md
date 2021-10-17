@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 4.5.0-dev.2
 
 * feat: add static code diagnostics `prefer-correct-type-name`, `prefer-last`, `avoid-nested-conditional-expressions`.
 * feat: introduce summary report.
