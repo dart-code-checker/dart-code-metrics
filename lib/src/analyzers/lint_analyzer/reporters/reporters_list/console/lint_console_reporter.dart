@@ -7,9 +7,11 @@ import '../../../metrics/models/metric_value_level.dart';
 import '../../../models/issue.dart';
 import '../../../models/lint_file_report.dart';
 import '../../../models/report.dart';
+import '../../../models/summary_lint_report_record.dart';
 import 'lint_console_reporter_helper.dart';
 
-class LintConsoleReporter extends ConsoleReporter<LintFileReport> {
+class LintConsoleReporter
+    extends ConsoleReporter<LintFileReport, SummaryLintReportRecord> {
   /// If true will report info about all files even if they're not above warning threshold
   final bool reportAll;
 
@@ -18,7 +20,10 @@ class LintConsoleReporter extends ConsoleReporter<LintFileReport> {
   LintConsoleReporter(IOSink output, {this.reportAll = false}) : super(output);
 
   @override
-  Future<void> report(Iterable<LintFileReport> records) async {
+  Future<void> report(
+    Iterable<LintFileReport> records, {
+    Iterable<SummaryLintReportRecord> summary = const [],
+  }) async {
     if (records.isEmpty) {
       return;
     }

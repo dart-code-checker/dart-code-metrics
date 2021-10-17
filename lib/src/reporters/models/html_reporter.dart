@@ -8,7 +8,7 @@ import 'file_report.dart';
 import 'reporter.dart';
 
 /// HTML-doc reporter
-abstract class HtmlReporter<T extends FileReport> extends Reporter<T> {
+abstract class HtmlReporter<T extends FileReport, S> extends Reporter<T, S> {
   static const String id = 'html';
 
   @protected
@@ -18,7 +18,10 @@ abstract class HtmlReporter<T extends FileReport> extends Reporter<T> {
 
   @mustCallSuper
   @override
-  Future<void> report(Iterable<T> records) async {
+  Future<void> report(
+    Iterable<T> records, {
+    Iterable<S> summary = const [],
+  }) async {
     if (records.isEmpty) {
       return;
     }

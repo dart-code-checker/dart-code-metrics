@@ -12,6 +12,8 @@ import '../../utils/file_utils.dart';
 import '../../utils/node_utils.dart';
 import 'lint_analysis_config.dart';
 import 'lint_config.dart';
+import 'metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
+import 'metrics/metrics_list/source_lines_of_code/source_lines_of_code_metric.dart';
 import 'metrics/models/metric_value.dart';
 import 'metrics/scope_visitor.dart';
 import 'models/internal_resolved_unit_result.dart';
@@ -20,8 +22,10 @@ import 'models/lint_file_report.dart';
 import 'models/report.dart';
 import 'models/scoped_class_declaration.dart';
 import 'models/scoped_function_declaration.dart';
+import 'models/summary_lint_report_record.dart';
 import 'models/suppression.dart';
 import 'reporters/reporter_factory.dart';
+import 'utils/report_utils.dart';
 
 class LintAnalyzer {
   const LintAnalyzer();
@@ -111,6 +115,40 @@ class LintAnalyzer {
 
     return analyzerResult;
   }
+
+  Iterable<SummaryLintReportRecord> getSummary(
+    Iterable<LintFileReport> records,
+  ) =>
+      [
+        SummaryLintReportRecord<Iterable<String>>(
+          title: 'Scanned folders',
+          value: scannedFolders(records),
+        ),
+        SummaryLintReportRecord<int>(
+          title: 'Total scanned files',
+          value: totalFiles(records),
+        ),
+        SummaryLintReportRecord<int>(
+          title: 'Total lines of source code',
+          value: totalSLOC(records),
+        ),
+        SummaryLintReportRecord<int>(
+          title: 'Total classes',
+          value: totalClasses(records),
+        ),
+        SummaryLintReportRecord<num>(
+          title: 'Average Cyclomatic Number per line of code',
+          value: averageCYCLO(records),
+          violations:
+              metricViolations(records, CyclomaticComplexityMetric.metricId),
+        ),
+        SummaryLintReportRecord<int>(
+          title: 'Average Source Lines of Code per method',
+          value: averageSLOC(records),
+          violations:
+              metricViolations(records, SourceLinesOfCodeMetric.metricId),
+        ),
+      ];
 
   LintFileReport? _analyzeFile(
     ResolvedUnitResult result,

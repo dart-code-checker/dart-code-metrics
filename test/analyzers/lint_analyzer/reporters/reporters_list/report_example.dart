@@ -9,6 +9,8 @@ import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/lint_file_r
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/replacement.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/report.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/summary_lint_report_record.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/summary_lint_report_record_status.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:source_span/source_span.dart';
 
@@ -149,5 +151,24 @@ final Iterable<LintFileReport> testReport = [
     functions: {'function': _function3Report},
     issues: [_issueReport1],
     antiPatternCases: [_issueReport2],
+  ),
+];
+
+const Iterable<SummaryLintReportRecord> testSummary = [
+  SummaryLintReportRecord<Iterable<String>>(
+    status: SummaryLintReportRecordStatus.none,
+    title: 'Scanned package folders',
+    value: ['bin', 'example', 'lib', 'test'],
+  ),
+  SummaryLintReportRecord<int>(
+    status: SummaryLintReportRecordStatus.warning,
+    title: 'Found issues',
+    value: 5,
+  ),
+  SummaryLintReportRecord<int>(
+    status: SummaryLintReportRecordStatus.warning,
+    title: 'Average Source Lines of Code per method',
+    value: 30,
+    violations: 2,
   ),
 ];

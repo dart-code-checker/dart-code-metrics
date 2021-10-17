@@ -6,11 +6,14 @@ import '../../../../../reporters/models/console_reporter.dart';
 import '../../../models/unused_files_file_report.dart';
 
 class UnusedFilesConsoleReporter
-    extends ConsoleReporter<UnusedFilesFileReport> {
+    extends ConsoleReporter<UnusedFilesFileReport, void> {
   UnusedFilesConsoleReporter(IOSink output) : super(output);
 
   @override
-  Future<void> report(Iterable<UnusedFilesFileReport> records) async {
+  Future<void> report(
+    Iterable<UnusedFilesFileReport> records, {
+    Iterable<void> summary = const [],
+  }) async {
     if (records.isEmpty) {
       output.writeln('No unused files found!');
 
