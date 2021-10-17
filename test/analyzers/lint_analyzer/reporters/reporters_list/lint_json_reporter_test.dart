@@ -98,7 +98,7 @@ void main() {
           'status': 'warning',
           'title': 'Average Source Lines of Code per method',
           'value': 30,
-          'overflows': 2,
+          'violations': 2,
         }),
       );
     });
