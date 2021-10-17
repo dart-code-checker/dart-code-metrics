@@ -152,7 +152,7 @@ void main() {
       });
 
       test('collect summary for passed empty report', () {
-        final result = analyzer.summary([]);
+        final result = analyzer.getSummary([]);
 
         expect(
           result.firstWhere((r) => r.title == 'Scanned folders').value,
@@ -166,7 +166,7 @@ void main() {
       });
 
       test('collect summary for passed report', () {
-        final result = analyzer.summary([
+        final result = analyzer.getSummary([
           LintFileReport(
             path: '/home/dev/project/bin/example.dart',
             relativePath: 'bin/example.dart',
