@@ -77,11 +77,6 @@ class TestCommand extends BaseCommand {
   String get description => 'empty';
 
   @override
-  void validateCommand() {
-    throw UnimplementedError();
-  }
-
-  @override
   Future<void> runCommand() {
     throw UnimplementedError();
   }
