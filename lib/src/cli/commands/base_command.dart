@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:args/command_runner.dart';
+import 'package:dart_code_metrics/src/cli/utils/detect_sdk_path.dart';
 import 'package:meta/meta.dart';
 import 'package:path/path.dart';
 
@@ -102,34 +103,13 @@ abstract class BaseCommand extends Command<void> {
     }
   }
 
-  String? findSdkPath() {
-    var sdkPath = argResults[FlagNames.sdkPath] as String?;
-
-    // When running as compiled Windows executable (built with `dart compile exe`) we must
-    // pass Dart SDK path when we create analysis context. So we try to detect Dart SDK path
-    // from system %PATH% environment variable.
-    //
-    // See
-    // https://github.com/dart-code-checker/dart-code-metrics/issues/385
-    // https://github.com/dart-code-checker/dart-code-metrics/pull/430
-    const dartExeFileName = 'dart.exe';
-
-    if (sdkPath == null &&
-        Platform.isWindows &&
-        !Platform.executable.toLowerCase().endsWith(dartExeFileName)) {
-      final paths = Platform.environment['PATH']?.split(';') ?? [];
-      final dartExePath = paths.firstWhere(
-        (pathEntry) => File(join(pathEntry, dartExeFileName)).existsSync(),
-        orElse: () => '',
+  String? findSdkPath() =>
+      argResults[FlagNames.sdkPath] as String? ??
+      detectSdkPath(
+        Platform.executable,
+        Platform.environment,
+        platformIsWindows: Platform.isWindows,
       );
-      if (dartExePath.isNotEmpty) {
-        // dart.exe usually is located in %SDK_PATH%\bin directory so let's use parent directory name.
-        sdkPath = dirname(dartExePath);
-      }
-    }
-
-    return sdkPath;
-  }
 
   Future<void> _verifyThenRunCommand() async {
     try {

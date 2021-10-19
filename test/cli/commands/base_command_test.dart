@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:args/args.dart';
 import 'package:dart_code_metrics/src/cli/commands/base_command.dart';
 import 'package:dart_code_metrics/src/cli/exceptions/arguments_validation_exceptions.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
+
+class DirectoryMock extends Mock implements Directory {}
 
 void main() {
   group('BaseCommand', () {
@@ -34,6 +38,25 @@ void main() {
         )),
       );
     });
+
+    test(
+      "should throw if 'sdk-path' directory is specified but doesn't exist",
+      () {
+        final directory = DirectoryMock();
+        when(() => result['sdk-path'] as String).thenReturn('SDK_PATH');
+        when(directory.existsSync).thenReturn(false);
+
+        expect(
+          command.validateSdkPath,
+          throwsA(predicate(
+            (e) =>
+                e is InvalidArgumentException &&
+                e.message ==
+                    'Dart SDK path SDK_PATH does not exist or not a directory.',
+          )),
+        );
+      },
+    );
   });
 }
 
