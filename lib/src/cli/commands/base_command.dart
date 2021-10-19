@@ -28,9 +28,6 @@ abstract class BaseCommand extends Command<void> {
   Future<void> run() => _verifyThenRunCommand();
 
   @protected
-  void validateCommand();
-
-  @protected
   Future<void> runCommand();
 
   void usesRootFolderOption() {
@@ -103,6 +100,12 @@ abstract class BaseCommand extends Command<void> {
     }
   }
 
+  void addCommonFlags() {
+    usesRootFolderOption();
+    usesSdkPathOption();
+    usesExcludeOption();
+  }
+
   String? findSdkPath() =>
       argResults[FlagNames.sdkPath] as String? ??
       detectSdkPath(
@@ -113,7 +116,9 @@ abstract class BaseCommand extends Command<void> {
 
   Future<void> _verifyThenRunCommand() async {
     try {
-      validateCommand();
+      validateRootFolderExist();
+      validateSdkPath();
+      validateTargetDirectories();
     } on InvalidArgumentException catch (e) {
       usageException(e.message);
     }

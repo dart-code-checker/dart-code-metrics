@@ -25,13 +25,6 @@ class CheckUnusedL10nCommand extends BaseCommand {
   }
 
   @override
-  void validateCommand() {
-    validateRootFolderExist();
-    validateSdkPath();
-    validateTargetDirectories();
-  }
-
-  @override
   Future<void> runCommand() async {
     final rootFolder = argResults[FlagNames.rootFolder] as String;
     final classPattern = argResults[FlagNames.l10nClassPattern] as String;
@@ -63,9 +56,7 @@ class CheckUnusedL10nCommand extends BaseCommand {
   void _addFlags() {
     _usesL10nClassPatternOption();
     _usesReporterOption();
-    usesRootFolderOption();
-    usesSdkPathOption();
-    usesExcludeOption();
+    addCommonFlags();
   }
 
   void _usesReporterOption() {
