@@ -27,6 +27,7 @@ class CheckUnusedL10nCommand extends BaseCommand {
   @override
   void validateCommand() {
     validateRootFolderExist();
+    validateSdkPath();
     validateTargetDirectories();
   }
 
@@ -62,6 +63,7 @@ class CheckUnusedL10nCommand extends BaseCommand {
     _usesL10nClassPatternOption();
     _usesReporterOption();
     usesRootFolderOption();
+    usesSdkPathOption();
     usesExcludeOption();
   }
 
