@@ -4,12 +4,12 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:args/command_runner.dart';
-import 'package:dart_code_metrics/src/cli/utils/detect_sdk_path.dart';
 import 'package:meta/meta.dart';
 import 'package:path/path.dart';
 
 import '../exceptions/arguments_validation_exceptions.dart';
 import '../models/flag_names.dart';
+import '../utils/detect_sdk_path.dart';
 
 abstract class BaseCommand extends Command<void> {
   @override
