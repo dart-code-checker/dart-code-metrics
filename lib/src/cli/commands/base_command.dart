@@ -47,7 +47,7 @@ abstract class BaseCommand extends Command<void> {
     argParser.addOption(
       FlagNames.sdkPath,
       help:
-          'Dart SDK directory path. Should be provided only when you run the application as compiled Windows executable and automatic Dart SDK path detection fails.',
+          'Dart SDK directory path. Should be provided only when you run the application as compiled Windows executable(https://dart.dev/tools/dart-compile#exe) and automatic Dart SDK path detection fails.',
       valueHelp: 'directory-path',
     );
   }
