@@ -16,7 +16,11 @@ T? readNullableThreshold<T extends num>(
   Map<String, Object?> config,
   String metricId,
 ) {
-  final configValue = config[metricId]?.toString();
+  final metricConfig = config[metricId];
+
+  final configValue = metricConfig is Map<String, Object?>
+      ? metricConfig['threshold']?.toString()
+      : metricConfig?.toString();
 
   if (configValue != null && T == int) {
     return int.tryParse(configValue) as T?;

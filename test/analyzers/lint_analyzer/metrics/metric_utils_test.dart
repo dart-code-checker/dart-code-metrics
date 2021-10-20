@@ -33,7 +33,7 @@ void main() {
 
       const _config = {
         metricId1: '$metricId1Value',
-        metricId2: '$metricId2Value',
+        metricId2: {'threshold': '$metricId2Value'},
         metricId3: '',
         metricId4: null,
       };
