@@ -1,0 +1,140 @@
+[
+  {
+    "ruleId": "binary-expression-operand-order",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/binary-expression-operand-order",
+    "location": {
+      "start": {
+        "offset": "28",
+        "line": "3",
+        "column": "14"
+      },
+      "end": {
+        "offset": "33",
+        "line": "3",
+        "column": "19"
+      }
+    },
+    "severity": "style",
+    "message": "Prefer literals at RHS in binary expressions.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Fix operator order.",
+      "replacement": "c + 1"
+    }
+  },
+  {
+    "ruleId": "binary-expression-operand-order",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/binary-expression-operand-order",
+    "location": {
+      "start": {
+        "offset": "61",
+        "line": "4",
+        "column": "19"
+      },
+      "end": {
+        "offset": "66",
+        "line": "4",
+        "column": "24"
+      }
+    },
+    "severity": "style",
+    "message": "Prefer literals at RHS in binary expressions.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Fix operator order.",
+      "replacement": "c + 1"
+    }
+  },
+  {
+    "ruleId": "binary-expression-operand-order",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/binary-expression-operand-order",
+    "location": {
+      "start": {
+        "offset": "95",
+        "line": "5",
+        "column": "19"
+      },
+      "end": {
+        "offset": "104",
+        "line": "5",
+        "column": "28"
+      }
+    },
+    "severity": "style",
+    "message": "Prefer literals at RHS in binary expressions.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Fix operator order.",
+      "replacement": "c * 12.44"
+    }
+  },
+  {
+    "ruleId": "binary-expression-operand-order",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/binary-expression-operand-order",
+    "location": {
+      "start": {
+        "offset": "128",
+        "line": "6",
+        "column": "14"
+      },
+      "end": {
+        "offset": "133",
+        "line": "6",
+        "column": "19"
+      }
+    },
+    "severity": "style",
+    "message": "Prefer literals at RHS in binary expressions.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Fix operator order.",
+      "replacement": "c & 1"
+    }
+  },
+  {
+    "ruleId": "binary-expression-operand-order",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/binary-expression-operand-order",
+    "location": {
+      "start": {
+        "offset": "156",
+        "line": "7",
+        "column": "14"
+      },
+      "end": {
+        "offset": "161",
+        "line": "7",
+        "column": "19"
+      }
+    },
+    "severity": "style",
+    "message": "Prefer literals at RHS in binary expressions.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Fix operator order.",
+      "replacement": "c | 2"
+    }
+  },
+  {
+    "ruleId": "binary-expression-operand-order",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/binary-expression-operand-order",
+    "location": {
+      "start": {
+        "offset": "184",
+        "line": "8",
+        "column": "14"
+      },
+      "end": {
+        "offset": "189",
+        "line": "8",
+        "column": "19"
+      }
+    },
+    "severity": "style",
+    "message": "Prefer literals at RHS in binary expressions.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Fix operator order.",
+      "replacement": "c ^ 4"
+    }
+  }
+]

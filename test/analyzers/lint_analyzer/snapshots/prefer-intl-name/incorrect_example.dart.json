@@ -1,0 +1,876 @@
+[
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "187",
+        "line": "8",
+        "column": "11"
+      },
+      "end": {
+        "offset": "232",
+        "line": "8",
+        "column": "56"
+      }
+    },
+    "severity": "warning",
+    "message": "Incorrect Intl name, should be 'SomeButtonClassI18n_staticFinalFieldInClassTitle'.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Rename",
+      "replacement": "'SomeButtonClassI18n_staticFinalFieldInClassTitle'"
+    }
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "365",
+        "line": "14",
+        "column": "11"
+      },
+      "end": {
+        "offset": "405",
+        "line": "14",
+        "column": "51"
+      }
+    },
+    "severity": "warning",
+    "message": "Incorrect Intl name, should be 'SomeButtonClassI18n_staticFieldInClassTitle'.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Rename",
+      "replacement": "'SomeButtonClassI18n_staticFieldInClassTitle'"
+    }
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "581",
+        "line": "21",
+        "column": "13"
+      },
+      "end": {
+        "offset": "632",
+        "line": "21",
+        "column": "64"
+      }
+    },
+    "severity": "warning",
+    "message": "Incorrect Intl name, should be 'SomeButtonClassI18n_staticPropertyWithBodyInClassTitle'.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Rename",
+      "replacement": "'SomeButtonClassI18n_staticPropertyWithBodyInClassTitle'"
+    }
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "798",
+        "line": "27",
+        "column": "15"
+      },
+      "end": {
+        "offset": "855",
+        "line": "27",
+        "column": "72"
+      }
+    },
+    "severity": "warning",
+    "message": "Incorrect Intl name, should be 'SomeButtonClassI18n_staticPropertyWithExpressionInClassTitle'.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Rename",
+      "replacement": "'SomeButtonClassI18n_staticPropertyWithExpressionInClassTitle'"
+    }
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "1003",
+        "line": "33",
+        "column": "13"
+      },
+      "end": {
+        "offset": "1048",
+        "line": "33",
+        "column": "58"
+      }
+    },
+    "severity": "warning",
+    "message": "Incorrect Intl name, should be 'SomeButtonClassI18n_staticMethodBodyInClassTitle'.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Rename",
+      "replacement": "'SomeButtonClassI18n_staticMethodBodyInClassTitle'"
+    }
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "1204",
+        "line": "39",
+        "column": "15"
+      },
+      "end": {
+        "offset": "1255",
+        "line": "39",
+        "column": "66"
+      }
+    },
+    "severity": "warning",
+    "message": "Incorrect Intl name, should be 'SomeButtonClassI18n_staticMethodExpressionInClassTitle'.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Rename",
+      "replacement": "'SomeButtonClassI18n_staticMethodExpressionInClassTitle'"
+    }
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "1382",
+        "line": "46",
+        "column": "11"
+      },
+      "end": {
+        "offset": "1421",
+        "line": "46",
+        "column": "50"
+      }
+    },
+    "severity": "warning",
+    "message": "Incorrect Intl name, should be 'SomeButtonClassI18n_finalFieldInClassTitle'.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Rename",
+      "replacement": "'SomeButtonClassI18n_finalFieldInClassTitle'"
+    }
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "1556",
+        "line": "53",
+        "column": "11"
+      },
+      "end": {
+        "offset": "1590",
+        "line": "53",
+        "column": "45"
+      }
+    },
+    "severity": "warning",
+    "message": "Incorrect Intl name, should be 'SomeButtonClassI18n_fieldInClassTitle'.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Rename",
+      "replacement": "'SomeButtonClassI18n_fieldInClassTitle'"
+    }
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "1724",
+        "line": "59",
+        "column": "13"
+      },
+      "end": {
+        "offset": "1769",
+        "line": "59",
+        "column": "58"
+      }
+    },
+    "severity": "warning",
+    "message": "Incorrect Intl name, should be 'SomeButtonClassI18n_propertyWithBodyInClassTitle'.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Rename",
+      "replacement": "'SomeButtonClassI18n_propertyWithBodyInClassTitle'"
+    }
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "1915",
+        "line": "65",
+        "column": "15"
+      },
+      "end": {
+        "offset": "1966",
+        "line": "65",
+        "column": "66"
+      }
+    },
+    "severity": "warning",
+    "message": "Incorrect Intl name, should be 'SomeButtonClassI18n_propertyWithExpressionInClassTitle'.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Rename",
+      "replacement": "'SomeButtonClassI18n_propertyWithExpressionInClassTitle'"
+    }
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "2094",
+        "line": "71",
+        "column": "13"
+      },
+      "end": {
+        "offset": "2133",
+        "line": "71",
+        "column": "52"
+      }
+    },
+    "severity": "warning",
+    "message": "Incorrect Intl name, should be 'SomeButtonClassI18n_methodBodyInClassTitle'.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Rename",
+      "replacement": "'SomeButtonClassI18n_methodBodyInClassTitle'"
+    }
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "2269",
+        "line": "77",
+        "column": "15"
+      },
+      "end": {
+        "offset": "2314",
+        "line": "77",
+        "column": "60"
+      }
+    },
+    "severity": "warning",
+    "message": "Incorrect Intl name, should be 'SomeButtonClassI18n_methodExpressionInClassTitle'.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Rename",
+      "replacement": "'SomeButtonClassI18n_methodExpressionInClassTitle'"
+    }
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "2511",
+        "line": "87",
+        "column": "11"
+      },
+      "end": {
+        "offset": "2556",
+        "line": "87",
+        "column": "56"
+      }
+    },
+    "severity": "warning",
+    "message": "Incorrect Intl name, should be 'SomeButtonMixinI18n_staticFinalFieldInMixinTitle'.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Rename",
+      "replacement": "'SomeButtonMixinI18n_staticFinalFieldInMixinTitle'"
+    }
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "2689",
+        "line": "93",
+        "column": "11"
+      },
+      "end": {
+        "offset": "2729",
+        "line": "93",
+        "column": "51"
+      }
+    },
+    "severity": "warning",
+    "message": "Incorrect Intl name, should be 'SomeButtonMixinI18n_staticFieldInMixinTitle'.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Rename",
+      "replacement": "'SomeButtonMixinI18n_staticFieldInMixinTitle'"
+    }
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "2883",
+        "line": "99",
+        "column": "13"
+      },
+      "end": {
+        "offset": "2934",
+        "line": "99",
+        "column": "64"
+      }
+    },
+    "severity": "warning",
+    "message": "Incorrect Intl name, should be 'SomeButtonMixinI18n_staticPropertyWithBodyInMixinTitle'.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Rename",
+      "replacement": "'SomeButtonMixinI18n_staticPropertyWithBodyInMixinTitle'"
+    }
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "3100",
+        "line": "105",
+        "column": "15"
+      },
+      "end": {
+        "offset": "3157",
+        "line": "105",
+        "column": "72"
+      }
+    },
+    "severity": "warning",
+    "message": "Incorrect Intl name, should be 'SomeButtonMixinI18n_staticPropertyWithExpressionInMixinTitle'.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Rename",
+      "replacement": "'SomeButtonMixinI18n_staticPropertyWithExpressionInMixinTitle'"
+    }
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "3305",
+        "line": "111",
+        "column": "13"
+      },
+      "end": {
+        "offset": "3350",
+        "line": "111",
+        "column": "58"
+      }
+    },
+    "severity": "warning",
+    "message": "Incorrect Intl name, should be 'SomeButtonMixinI18n_staticMethodBodyInMixinTitle'.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Rename",
+      "replacement": "'SomeButtonMixinI18n_staticMethodBodyInMixinTitle'"
+    }
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "3506",
+        "line": "117",
+        "column": "15"
+      },
+      "end": {
+        "offset": "3557",
+        "line": "117",
+        "column": "66"
+      }
+    },
+    "severity": "warning",
+    "message": "Incorrect Intl name, should be 'SomeButtonMixinI18n_staticMethodExpressionInMixinTitle'.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Rename",
+      "replacement": "'SomeButtonMixinI18n_staticMethodExpressionInMixinTitle'"
+    }
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "3706",
+        "line": "125",
+        "column": "11"
+      },
+      "end": {
+        "offset": "3745",
+        "line": "125",
+        "column": "50"
+      }
+    },
+    "severity": "warning",
+    "message": "Incorrect Intl name, should be 'SomeButtonMixinI18n_finalFieldInMixinTitle'.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Rename",
+      "replacement": "'SomeButtonMixinI18n_finalFieldInMixinTitle'"
+    }
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "3858",
+        "line": "131",
+        "column": "11"
+      },
+      "end": {
+        "offset": "3892",
+        "line": "131",
+        "column": "45"
+      }
+    },
+    "severity": "warning",
+    "message": "Incorrect Intl name, should be 'SomeButtonMixinI18n_fieldInMixinTitle'.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Rename",
+      "replacement": "'SomeButtonMixinI18n_fieldInMixinTitle'"
+    }
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "4026",
+        "line": "137",
+        "column": "13"
+      },
+      "end": {
+        "offset": "4071",
+        "line": "137",
+        "column": "58"
+      }
+    },
+    "severity": "warning",
+    "message": "Incorrect Intl name, should be 'SomeButtonMixinI18n_propertyWithBodyInMixinTitle'.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Rename",
+      "replacement": "'SomeButtonMixinI18n_propertyWithBodyInMixinTitle'"
+    }
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "4217",
+        "line": "143",
+        "column": "15"
+      },
+      "end": {
+        "offset": "4268",
+        "line": "143",
+        "column": "66"
+      }
+    },
+    "severity": "warning",
+    "message": "Incorrect Intl name, should be 'SomeButtonMixinI18n_propertyWithExpressionInMixinTitle'.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Rename",
+      "replacement": "'SomeButtonMixinI18n_propertyWithExpressionInMixinTitle'"
+    }
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "4396",
+        "line": "149",
+        "column": "13"
+      },
+      "end": {
+        "offset": "4435",
+        "line": "149",
+        "column": "52"
+      }
+    },
+    "severity": "warning",
+    "message": "Incorrect Intl name, should be 'SomeButtonMixinI18n_methodBodyInMixinTitle'.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Rename",
+      "replacement": "'SomeButtonMixinI18n_methodBodyInMixinTitle'"
+    }
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "4571",
+        "line": "155",
+        "column": "15"
+      },
+      "end": {
+        "offset": "4616",
+        "line": "155",
+        "column": "60"
+      }
+    },
+    "severity": "warning",
+    "message": "Incorrect Intl name, should be 'SomeButtonMixinI18n_methodExpressionInMixinTitle'.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Rename",
+      "replacement": "'SomeButtonMixinI18n_methodExpressionInMixinTitle'"
+    }
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "4837",
+        "line": "165",
+        "column": "13"
+      },
+      "end": {
+        "offset": "4890",
+        "line": "165",
+        "column": "66"
+      }
+    },
+    "severity": "warning",
+    "message": "Incorrect Intl name, should be 'ObjectExtensions_staticPropertyWithBodyInExtensionsTitle'.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Rename",
+      "replacement": "'ObjectExtensions_staticPropertyWithBodyInExtensionsTitle'"
+    }
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "5083",
+        "line": "173",
+        "column": "13"
+      },
+      "end": {
+        "offset": "5142",
+        "line": "173",
+        "column": "72"
+      }
+    },
+    "severity": "warning",
+    "message": "Incorrect Intl name, should be 'ObjectExtensions_staticPropertyWithExpressionInExtensionsTitle'.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Rename",
+      "replacement": "'ObjectExtensions_staticPropertyWithExpressionInExtensionsTitle'"
+    }
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "5299",
+        "line": "179",
+        "column": "13"
+      },
+      "end": {
+        "offset": "5346",
+        "line": "179",
+        "column": "60"
+      }
+    },
+    "severity": "warning",
+    "message": "Incorrect Intl name, should be 'ObjectExtensions_staticMethodBodyInExtensionsTitle'.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Rename",
+      "replacement": "'ObjectExtensions_staticMethodBodyInExtensionsTitle'"
+    }
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "5511",
+        "line": "185",
+        "column": "15"
+      },
+      "end": {
+        "offset": "5564",
+        "line": "185",
+        "column": "68"
+      }
+    },
+    "severity": "warning",
+    "message": "Incorrect Intl name, should be 'ObjectExtensions_staticMethodExpressionInExtensionsTitle'.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Rename",
+      "replacement": "'ObjectExtensions_staticMethodExpressionInExtensionsTitle'"
+    }
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "5726",
+        "line": "193",
+        "column": "13"
+      },
+      "end": {
+        "offset": "5773",
+        "line": "193",
+        "column": "60"
+      }
+    },
+    "severity": "warning",
+    "message": "Incorrect Intl name, should be 'ObjectExtensions_propertyWithBodyInExtensionsTitle'.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Rename",
+      "replacement": "'ObjectExtensions_propertyWithBodyInExtensionsTitle'"
+    }
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "5928",
+        "line": "199",
+        "column": "15"
+      },
+      "end": {
+        "offset": "5981",
+        "line": "199",
+        "column": "68"
+      }
+    },
+    "severity": "warning",
+    "message": "Incorrect Intl name, should be 'ObjectExtensions_propertyWithExpressionInExtensionsTitle'.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Rename",
+      "replacement": "'ObjectExtensions_propertyWithExpressionInExtensionsTitle'"
+    }
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "6118",
+        "line": "205",
+        "column": "13"
+      },
+      "end": {
+        "offset": "6159",
+        "line": "205",
+        "column": "54"
+      }
+    },
+    "severity": "warning",
+    "message": "Incorrect Intl name, should be 'ObjectExtensions_methodBodyInExtensionsTitle'.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Rename",
+      "replacement": "'ObjectExtensions_methodBodyInExtensionsTitle'"
+    }
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "6304",
+        "line": "211",
+        "column": "15"
+      },
+      "end": {
+        "offset": "6351",
+        "line": "211",
+        "column": "62"
+      }
+    },
+    "severity": "warning",
+    "message": "Incorrect Intl name, should be 'ObjectExtensions_methodExpressionInExtensionsTitle'.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Rename",
+      "replacement": "'ObjectExtensions_methodExpressionInExtensionsTitle'"
+    }
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "6463",
+        "line": "218",
+        "column": "9"
+      },
+      "end": {
+        "offset": "6475",
+        "line": "218",
+        "column": "21"
+      }
+    },
+    "severity": "warning",
+    "message": "Incorrect Intl name, should be 'finalFieldTitle'.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Rename",
+      "replacement": "'finalFieldTitle'"
+    }
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "6562",
+        "line": "224",
+        "column": "9"
+      },
+      "end": {
+        "offset": "6569",
+        "line": "224",
+        "column": "16"
+      }
+    },
+    "severity": "warning",
+    "message": "Incorrect Intl name, should be 'fieldTitle'.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Rename",
+      "replacement": "'fieldTitle'"
+    }
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "6677",
+        "line": "230",
+        "column": "11"
+      },
+      "end": {
+        "offset": "6695",
+        "line": "230",
+        "column": "29"
+      }
+    },
+    "severity": "warning",
+    "message": "Incorrect Intl name, should be 'propertyWithBodyTitle'.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Rename",
+      "replacement": "'propertyWithBodyTitle'"
+    }
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "6815",
+        "line": "236",
+        "column": "13"
+      },
+      "end": {
+        "offset": "6839",
+        "line": "236",
+        "column": "37"
+      }
+    },
+    "severity": "warning",
+    "message": "Incorrect Intl name, should be 'propertyWithExpressionTitle'.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Rename",
+      "replacement": "'propertyWithExpressionTitle'"
+    }
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "6941",
+        "line": "242",
+        "column": "11"
+      },
+      "end": {
+        "offset": "6953",
+        "line": "242",
+        "column": "23"
+      }
+    },
+    "severity": "warning",
+    "message": "Incorrect Intl name, should be 'methodBodyTitle'.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Rename",
+      "replacement": "'methodBodyTitle'"
+    }
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "7063",
+        "line": "248",
+        "column": "13"
+      },
+      "end": {
+        "offset": "7081",
+        "line": "248",
+        "column": "31"
+      }
+    },
+    "severity": "warning",
+    "message": "Incorrect Intl name, should be 'methodExpressionTitle'.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Rename",
+      "replacement": "'methodExpressionTitle'"
+    }
+  }
+]

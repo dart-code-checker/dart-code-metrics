@@ -1,0 +1,62 @@
+[
+  {
+    "ruleId": "prefer-single-widget-per-file",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/flutter/prefer-single-widget-per-file",
+    "location": {
+      "start": {
+        "offset": "151",
+        "line": "11",
+        "column": "1"
+      },
+      "end": {
+        "offset": "265",
+        "line": "16",
+        "column": "2"
+      }
+    },
+    "severity": "style",
+    "message": "Only a single widget per file is allowed.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-single-widget-per-file",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/flutter/prefer-single-widget-per-file",
+    "location": {
+      "start": {
+        "offset": "275",
+        "line": "19",
+        "column": "1"
+      },
+      "end": {
+        "offset": "390",
+        "line": "24",
+        "column": "2"
+      }
+    },
+    "severity": "style",
+    "message": "Only a single widget per file is allowed.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-single-widget-per-file",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/flutter/prefer-single-widget-per-file",
+    "location": {
+      "start": {
+        "offset": "400",
+        "line": "27",
+        "column": "1"
+      },
+      "end": {
+        "offset": "535",
+        "line": "30",
+        "column": "2"
+      }
+    },
+    "severity": "style",
+    "message": "Only a single widget per file is allowed.",
+    "verboseMessage": "null",
+    "suggestion": null
+  }
+]

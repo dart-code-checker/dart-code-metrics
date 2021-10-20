@@ -1,0 +1,142 @@
+[
+  {
+    "ruleId": "no-equal-arguments",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/no-equal-arguments",
+    "location": {
+      "start": {
+        "offset": "328",
+        "line": "17",
+        "column": "5"
+      },
+      "end": {
+        "offset": "337",
+        "line": "17",
+        "column": "14"
+      }
+    },
+    "severity": "warning",
+    "message": "The argument has already been passed.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "no-equal-arguments",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/no-equal-arguments",
+    "location": {
+      "start": {
+        "offset": "669",
+        "line": "32",
+        "column": "5"
+      },
+      "end": {
+        "offset": "683",
+        "line": "32",
+        "column": "19"
+      }
+    },
+    "severity": "warning",
+    "message": "The argument has already been passed.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "no-equal-arguments",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/no-equal-arguments",
+    "location": {
+      "start": {
+        "offset": "753",
+        "line": "37",
+        "column": "5"
+      },
+      "end": {
+        "offset": "765",
+        "line": "37",
+        "column": "17"
+      }
+    },
+    "severity": "warning",
+    "message": "The argument has already been passed.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "no-equal-arguments",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/no-equal-arguments",
+    "location": {
+      "start": {
+        "offset": "842",
+        "line": "42",
+        "column": "5"
+      },
+      "end": {
+        "offset": "861",
+        "line": "42",
+        "column": "24"
+      }
+    },
+    "severity": "warning",
+    "message": "The argument has already been passed.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "no-equal-arguments",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/no-equal-arguments",
+    "location": {
+      "start": {
+        "offset": "942",
+        "line": "47",
+        "column": "5"
+      },
+      "end": {
+        "offset": "965",
+        "line": "47",
+        "column": "28"
+      }
+    },
+    "severity": "warning",
+    "message": "The argument has already been passed.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "no-equal-arguments",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/no-equal-arguments",
+    "location": {
+      "start": {
+        "offset": "1068",
+        "line": "54",
+        "column": "5"
+      },
+      "end": {
+        "offset": "1089",
+        "line": "54",
+        "column": "26"
+      }
+    },
+    "severity": "warning",
+    "message": "The argument has already been passed.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "no-equal-arguments",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/no-equal-arguments",
+    "location": {
+      "start": {
+        "offset": "1170",
+        "line": "59",
+        "column": "5"
+      },
+      "end": {
+        "offset": "1194",
+        "line": "59",
+        "column": "29"
+      }
+    },
+    "severity": "warning",
+    "message": "The argument has already been passed.",
+    "verboseMessage": "null",
+    "suggestion": null
+  }
+]

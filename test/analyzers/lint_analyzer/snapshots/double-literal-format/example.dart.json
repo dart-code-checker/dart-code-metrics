@@ -1,0 +1,278 @@
+[
+  {
+    "ruleId": "double-literal-format",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/double-literal-format",
+    "location": {
+      "start": {
+        "offset": "97",
+        "line": "4",
+        "column": "5"
+      },
+      "end": {
+        "offset": "102",
+        "line": "4",
+        "column": "10"
+      }
+    },
+    "severity": "style",
+    "message": "Double literal shouldn't have redundant leading '0'.",
+    "verboseMessage": "Remove redundant leading '0'.",
+    "suggestion": {
+      "comment": "Remove redundant leading '0'.",
+      "replacement": "5.23"
+    }
+  },
+  {
+    "ruleId": "double-literal-format",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/double-literal-format",
+    "location": {
+      "start": {
+        "offset": "126",
+        "line": "6",
+        "column": "5"
+      },
+      "end": {
+        "offset": "134",
+        "line": "6",
+        "column": "13"
+      }
+    },
+    "severity": "style",
+    "message": "Double literal shouldn't have redundant leading '0'.",
+    "verboseMessage": "Remove redundant leading '0'.",
+    "suggestion": {
+      "comment": "Remove redundant leading '0'.",
+      "replacement": "3.6e+5"
+    }
+  },
+  {
+    "ruleId": "double-literal-format",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/double-literal-format",
+    "location": {
+      "start": {
+        "offset": "161",
+        "line": "8",
+        "column": "6"
+      },
+      "end": {
+        "offset": "166",
+        "line": "8",
+        "column": "11"
+      }
+    },
+    "severity": "style",
+    "message": "Double literal shouldn't have redundant leading '0'.",
+    "verboseMessage": "Remove redundant leading '0'.",
+    "suggestion": {
+      "comment": "Remove redundant leading '0'.",
+      "replacement": "12.2"
+    }
+  },
+  {
+    "ruleId": "double-literal-format",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/double-literal-format",
+    "location": {
+      "start": {
+        "offset": "192",
+        "line": "10",
+        "column": "6"
+      },
+      "end": {
+        "offset": "200",
+        "line": "10",
+        "column": "14"
+      }
+    },
+    "severity": "style",
+    "message": "Double literal shouldn't have redundant leading '0'.",
+    "verboseMessage": "Remove redundant leading '0'.",
+    "suggestion": {
+      "comment": "Remove redundant leading '0'.",
+      "replacement": "1.1e-1"
+    }
+  },
+  {
+    "ruleId": "double-literal-format",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/double-literal-format",
+    "location": {
+      "start": {
+        "offset": "247",
+        "line": "15",
+        "column": "5"
+      },
+      "end": {
+        "offset": "251",
+        "line": "15",
+        "column": "9"
+      }
+    },
+    "severity": "style",
+    "message": "Double literal shouldn't begin with '.'.",
+    "verboseMessage": "Add missing leading '0'.",
+    "suggestion": {
+      "comment": "Add missing leading '0'.",
+      "replacement": "0.257"
+    }
+  },
+  {
+    "ruleId": "double-literal-format",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/double-literal-format",
+    "location": {
+      "start": {
+        "offset": "276",
+        "line": "17",
+        "column": "5"
+      },
+      "end": {
+        "offset": "282",
+        "line": "17",
+        "column": "11"
+      }
+    },
+    "severity": "style",
+    "message": "Double literal shouldn't begin with '.'.",
+    "verboseMessage": "Add missing leading '0'.",
+    "suggestion": {
+      "comment": "Add missing leading '0'.",
+      "replacement": "0.16e+5"
+    }
+  },
+  {
+    "ruleId": "double-literal-format",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/double-literal-format",
+    "location": {
+      "start": {
+        "offset": "310",
+        "line": "19",
+        "column": "6"
+      },
+      "end": {
+        "offset": "314",
+        "line": "19",
+        "column": "10"
+      }
+    },
+    "severity": "style",
+    "message": "Double literal shouldn't begin with '.'.",
+    "verboseMessage": "Add missing leading '0'.",
+    "suggestion": {
+      "comment": "Add missing leading '0'.",
+      "replacement": "0.259"
+    }
+  },
+  {
+    "ruleId": "double-literal-format",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/double-literal-format",
+    "location": {
+      "start": {
+        "offset": "341",
+        "line": "21",
+        "column": "6"
+      },
+      "end": {
+        "offset": "347",
+        "line": "21",
+        "column": "12"
+      }
+    },
+    "severity": "style",
+    "message": "Double literal shouldn't begin with '.'.",
+    "verboseMessage": "Add missing leading '0'.",
+    "suggestion": {
+      "comment": "Add missing leading '0'.",
+      "replacement": "0.14e-5"
+    }
+  },
+  {
+    "ruleId": "double-literal-format",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/double-literal-format",
+    "location": {
+      "start": {
+        "offset": "395",
+        "line": "26",
+        "column": "5"
+      },
+      "end": {
+        "offset": "401",
+        "line": "26",
+        "column": "11"
+      }
+    },
+    "severity": "style",
+    "message": "Double literal shouldn't have a trailing '0'.",
+    "verboseMessage": "Remove redundant trailing '0'.",
+    "suggestion": {
+      "comment": "Remove redundant trailing '0'.",
+      "replacement": "0.21"
+    }
+  },
+  {
+    "ruleId": "double-literal-format",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/double-literal-format",
+    "location": {
+      "start": {
+        "offset": "425",
+        "line": "28",
+        "column": "5"
+      },
+      "end": {
+        "offset": "433",
+        "line": "28",
+        "column": "13"
+      }
+    },
+    "severity": "style",
+    "message": "Double literal shouldn't have a trailing '0'.",
+    "verboseMessage": "Remove redundant trailing '0'.",
+    "suggestion": {
+      "comment": "Remove redundant trailing '0'.",
+      "replacement": "0.1e+5"
+    }
+  },
+  {
+    "ruleId": "double-literal-format",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/double-literal-format",
+    "location": {
+      "start": {
+        "offset": "460",
+        "line": "30",
+        "column": "6"
+      },
+      "end": {
+        "offset": "466",
+        "line": "30",
+        "column": "12"
+      }
+    },
+    "severity": "style",
+    "message": "Double literal shouldn't have a trailing '0'.",
+    "verboseMessage": "Remove redundant trailing '0'.",
+    "suggestion": {
+      "comment": "Remove redundant trailing '0'.",
+      "replacement": "0.25"
+    }
+  },
+  {
+    "ruleId": "double-literal-format",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/double-literal-format",
+    "location": {
+      "start": {
+        "offset": "492",
+        "line": "32",
+        "column": "6"
+      },
+      "end": {
+        "offset": "500",
+        "line": "32",
+        "column": "14"
+      }
+    },
+    "severity": "style",
+    "message": "Double literal shouldn't have a trailing '0'.",
+    "verboseMessage": "Remove redundant trailing '0'.",
+    "suggestion": {
+      "comment": "Remove redundant trailing '0'.",
+      "replacement": "0.4e-5"
+    }
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "ruleId": "no-object-declaration",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/no-object-declaration",
+    "location": {
+      "start": {
+        "offset": "15",
+        "line": "2",
+        "column": "3"
+      },
+      "end": {
+        "offset": "31",
+        "line": "2",
+        "column": "19"
+      }
+    },
+    "severity": "style",
+    "message": "Avoid Object type declaration in class member.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "no-object-declaration",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/no-object-declaration",
+    "location": {
+      "start": {
+        "offset": "43",
+        "line": "4",
+        "column": "3"
+      },
+      "end": {
+        "offset": "66",
+        "line": "4",
+        "column": "26"
+      }
+    },
+    "severity": "style",
+    "message": "Avoid Object type declaration in class member.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "no-object-declaration",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/no-object-declaration",
+    "location": {
+      "start": {
+        "offset": "88",
+        "line": "7",
+        "column": "3"
+      },
+      "end": {
+        "offset": "126",
+        "line": "9",
+        "column": "4"
+      }
+    },
+    "severity": "style",
+    "message": "Avoid Object type declaration in class member.",
+    "verboseMessage": "null",
+    "suggestion": null
+  }
+]

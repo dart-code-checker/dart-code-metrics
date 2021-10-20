@@ -1,0 +1,722 @@
+[
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "152",
+        "line": "8",
+        "column": "59"
+      },
+      "end": {
+        "offset": "159",
+        "line": "8",
+        "column": "66"
+      }
+    },
+    "severity": "warning",
+    "message": "Argument `name` does not exists.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "281",
+        "line": "14",
+        "column": "48"
+      },
+      "end": {
+        "offset": "288",
+        "line": "14",
+        "column": "55"
+      }
+    },
+    "severity": "warning",
+    "message": "Argument `name` does not exists.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "432",
+        "line": "21",
+        "column": "17"
+      },
+      "end": {
+        "offset": "439",
+        "line": "21",
+        "column": "24"
+      }
+    },
+    "severity": "warning",
+    "message": "Argument `name` does not exists.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "576",
+        "line": "27",
+        "column": "70"
+      },
+      "end": {
+        "offset": "583",
+        "line": "27",
+        "column": "77"
+      }
+    },
+    "severity": "warning",
+    "message": "Argument `name` does not exists.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "724",
+        "line": "33",
+        "column": "17"
+      },
+      "end": {
+        "offset": "731",
+        "line": "33",
+        "column": "24"
+      }
+    },
+    "severity": "warning",
+    "message": "Argument `name` does not exists.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "858",
+        "line": "39",
+        "column": "62"
+      },
+      "end": {
+        "offset": "865",
+        "line": "39",
+        "column": "69"
+      }
+    },
+    "severity": "warning",
+    "message": "Argument `name` does not exists.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "997",
+        "line": "46",
+        "column": "46"
+      },
+      "end": {
+        "offset": "1004",
+        "line": "46",
+        "column": "53"
+      }
+    },
+    "severity": "warning",
+    "message": "Argument `name` does not exists.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "1106",
+        "line": "52",
+        "column": "35"
+      },
+      "end": {
+        "offset": "1113",
+        "line": "52",
+        "column": "42"
+      }
+    },
+    "severity": "warning",
+    "message": "Argument `name` does not exists.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "1237",
+        "line": "59",
+        "column": "17"
+      },
+      "end": {
+        "offset": "1244",
+        "line": "59",
+        "column": "24"
+      }
+    },
+    "severity": "warning",
+    "message": "Argument `name` does not exists.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "1361",
+        "line": "65",
+        "column": "57"
+      },
+      "end": {
+        "offset": "1368",
+        "line": "65",
+        "column": "64"
+      }
+    },
+    "severity": "warning",
+    "message": "Argument `name` does not exists.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "1489",
+        "line": "71",
+        "column": "17"
+      },
+      "end": {
+        "offset": "1496",
+        "line": "71",
+        "column": "24"
+      }
+    },
+    "severity": "warning",
+    "message": "Argument `name` does not exists.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "1603",
+        "line": "77",
+        "column": "49"
+      },
+      "end": {
+        "offset": "1610",
+        "line": "77",
+        "column": "56"
+      }
+    },
+    "severity": "warning",
+    "message": "Argument `name` does not exists.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "1776",
+        "line": "86",
+        "column": "59"
+      },
+      "end": {
+        "offset": "1783",
+        "line": "86",
+        "column": "66"
+      }
+    },
+    "severity": "warning",
+    "message": "Argument `name` does not exists.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "1905",
+        "line": "92",
+        "column": "48"
+      },
+      "end": {
+        "offset": "1912",
+        "line": "92",
+        "column": "55"
+      }
+    },
+    "severity": "warning",
+    "message": "Argument `name` does not exists.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "2056",
+        "line": "99",
+        "column": "17"
+      },
+      "end": {
+        "offset": "2063",
+        "line": "99",
+        "column": "24"
+      }
+    },
+    "severity": "warning",
+    "message": "Argument `name` does not exists.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "2200",
+        "line": "105",
+        "column": "70"
+      },
+      "end": {
+        "offset": "2207",
+        "line": "105",
+        "column": "77"
+      }
+    },
+    "severity": "warning",
+    "message": "Argument `name` does not exists.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "2348",
+        "line": "111",
+        "column": "17"
+      },
+      "end": {
+        "offset": "2355",
+        "line": "111",
+        "column": "24"
+      }
+    },
+    "severity": "warning",
+    "message": "Argument `name` does not exists.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "2482",
+        "line": "117",
+        "column": "62"
+      },
+      "end": {
+        "offset": "2489",
+        "line": "117",
+        "column": "69"
+      }
+    },
+    "severity": "warning",
+    "message": "Argument `name` does not exists.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "2621",
+        "line": "124",
+        "column": "46"
+      },
+      "end": {
+        "offset": "2628",
+        "line": "124",
+        "column": "53"
+      }
+    },
+    "severity": "warning",
+    "message": "Argument `name` does not exists.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "2730",
+        "line": "130",
+        "column": "35"
+      },
+      "end": {
+        "offset": "2737",
+        "line": "130",
+        "column": "42"
+      }
+    },
+    "severity": "warning",
+    "message": "Argument `name` does not exists.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "2861",
+        "line": "137",
+        "column": "17"
+      },
+      "end": {
+        "offset": "2868",
+        "line": "137",
+        "column": "24"
+      }
+    },
+    "severity": "warning",
+    "message": "Argument `name` does not exists.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "2985",
+        "line": "143",
+        "column": "57"
+      },
+      "end": {
+        "offset": "2992",
+        "line": "143",
+        "column": "64"
+      }
+    },
+    "severity": "warning",
+    "message": "Argument `name` does not exists.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "3113",
+        "line": "149",
+        "column": "17"
+      },
+      "end": {
+        "offset": "3120",
+        "line": "149",
+        "column": "24"
+      }
+    },
+    "severity": "warning",
+    "message": "Argument `name` does not exists.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "3227",
+        "line": "155",
+        "column": "49"
+      },
+      "end": {
+        "offset": "3234",
+        "line": "155",
+        "column": "56"
+      }
+    },
+    "severity": "warning",
+    "message": "Argument `name` does not exists.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "3437",
+        "line": "165",
+        "column": "12"
+      },
+      "end": {
+        "offset": "3444",
+        "line": "165",
+        "column": "19"
+      }
+    },
+    "severity": "warning",
+    "message": "Argument `name` does not exists.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "3594",
+        "line": "171",
+        "column": "17"
+      },
+      "end": {
+        "offset": "3601",
+        "line": "171",
+        "column": "24"
+      }
+    },
+    "severity": "warning",
+    "message": "Argument `name` does not exists.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "3737",
+        "line": "177",
+        "column": "67"
+      },
+      "end": {
+        "offset": "3744",
+        "line": "177",
+        "column": "74"
+      }
+    },
+    "severity": "warning",
+    "message": "Argument `name` does not exists.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "3896",
+        "line": "184",
+        "column": "62"
+      },
+      "end": {
+        "offset": "3903",
+        "line": "184",
+        "column": "69"
+      }
+    },
+    "severity": "warning",
+    "message": "Argument `name` does not exists.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "4033",
+        "line": "190",
+        "column": "17"
+      },
+      "end": {
+        "offset": "4040",
+        "line": "190",
+        "column": "24"
+      }
+    },
+    "severity": "warning",
+    "message": "Argument `name` does not exists.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "4156",
+        "line": "196",
+        "column": "54"
+      },
+      "end": {
+        "offset": "4163",
+        "line": "196",
+        "column": "61"
+      }
+    },
+    "severity": "warning",
+    "message": "Argument `name` does not exists.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "4268",
+        "line": "202",
+        "column": "37"
+      },
+      "end": {
+        "offset": "4275",
+        "line": "202",
+        "column": "44"
+      }
+    },
+    "severity": "warning",
+    "message": "Argument `name` does not exists.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "4351",
+        "line": "208",
+        "column": "26"
+      },
+      "end": {
+        "offset": "4358",
+        "line": "208",
+        "column": "33"
+      }
+    },
+    "severity": "warning",
+    "message": "Argument `name` does not exists.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "4454",
+        "line": "215",
+        "column": "15"
+      },
+      "end": {
+        "offset": "4461",
+        "line": "215",
+        "column": "22"
+      }
+    },
+    "severity": "warning",
+    "message": "Argument `name` does not exists.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "4552",
+        "line": "221",
+        "column": "48"
+      },
+      "end": {
+        "offset": "4559",
+        "line": "221",
+        "column": "55"
+      }
+    },
+    "severity": "warning",
+    "message": "Argument `name` does not exists.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "4654",
+        "line": "227",
+        "column": "15"
+      },
+      "end": {
+        "offset": "4661",
+        "line": "227",
+        "column": "22"
+      }
+    },
+    "severity": "warning",
+    "message": "Argument `name` does not exists.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-intl-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/prefer-intl-name",
+    "location": {
+      "start": {
+        "offset": "4742",
+        "line": "233",
+        "column": "40"
+      },
+      "end": {
+        "offset": "4749",
+        "line": "233",
+        "column": "47"
+      }
+    },
+    "severity": "warning",
+    "message": "Argument `name` does not exists.",
+    "verboseMessage": "null",
+    "suggestion": null
+  }
+]

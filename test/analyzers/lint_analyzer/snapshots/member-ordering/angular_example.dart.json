@@ -1,0 +1,22 @@
+[
+  {
+    "ruleId": "member-ordering",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/member-ordering",
+    "location": {
+      "start": {
+        "offset": "231",
+        "line": "16",
+        "column": "3"
+      },
+      "end": {
+        "offset": "255",
+        "line": "17",
+        "column": "16"
+      }
+    },
+    "severity": "style",
+    "message": "angular-inputs should be before angular-content-children.",
+    "verboseMessage": "null",
+    "suggestion": null
+  }
+]

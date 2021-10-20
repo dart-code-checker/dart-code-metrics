@@ -1,0 +1,102 @@
+[
+  {
+    "ruleId": "prefer-correct-type-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-correct-type-name",
+    "location": {
+      "start": {
+        "offset": "56",
+        "line": "2",
+        "column": "11"
+      },
+      "end": {
+        "offset": "63",
+        "line": "2",
+        "column": "18"
+      }
+    },
+    "severity": "style",
+    "message": "The 'example' name should only contain alphanumeric characters, start with an uppercase character and span between 3 and 40 characters in length",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-correct-type-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-correct-type-name",
+    "location": {
+      "start": {
+        "offset": "132",
+        "line": "5",
+        "column": "11"
+      },
+      "end": {
+        "offset": "140",
+        "line": "5",
+        "column": "19"
+      }
+    },
+    "severity": "style",
+    "message": "The '_example' name should only contain alphanumeric characters, start with an uppercase character and span between 3 and 40 characters in length",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-correct-type-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-correct-type-name",
+    "location": {
+      "start": {
+        "offset": "207",
+        "line": "8",
+        "column": "11"
+      },
+      "end": {
+        "offset": "210",
+        "line": "8",
+        "column": "14"
+      }
+    },
+    "severity": "style",
+    "message": "The '_ex' name should only contain alphanumeric characters, start with an uppercase character and span between 3 and 40 characters in length",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-correct-type-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-correct-type-name",
+    "location": {
+      "start": {
+        "offset": "269",
+        "line": "11",
+        "column": "11"
+      },
+      "end": {
+        "offset": "271",
+        "line": "11",
+        "column": "13"
+      }
+    },
+    "severity": "style",
+    "message": "The 'ex' name should only contain alphanumeric characters, start with an uppercase character and span between 3 and 40 characters in length",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-correct-type-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-correct-type-name",
+    "location": {
+      "start": {
+        "offset": "524",
+        "line": "20",
+        "column": "11"
+      },
+      "end": {
+        "offset": "539",
+        "line": "20",
+        "column": "26"
+      }
+    },
+    "severity": "style",
+    "message": "The '_exampleExclude' name should only contain alphanumeric characters, start with an uppercase character and span between 3 and 40 characters in length",
+    "verboseMessage": "null",
+    "suggestion": null
+  }
+]

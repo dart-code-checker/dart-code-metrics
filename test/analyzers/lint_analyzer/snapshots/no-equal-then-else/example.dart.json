@@ -1,0 +1,102 @@
+[
+  {
+    "ruleId": "no-equal-then-else",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/no-equal-then-else",
+    "location": {
+      "start": {
+        "offset": "66",
+        "line": "6",
+        "column": "3"
+      },
+      "end": {
+        "offset": "137",
+        "line": "10",
+        "column": "4"
+      }
+    },
+    "severity": "warning",
+    "message": "Then and else branches are equal.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "no-equal-then-else",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/no-equal-then-else",
+    "location": {
+      "start": {
+        "offset": "271",
+        "line": "23",
+        "column": "3"
+      },
+      "end": {
+        "offset": "336",
+        "line": "27",
+        "column": "4"
+      }
+    },
+    "severity": "warning",
+    "message": "Then and else branches are equal.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "no-equal-then-else",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/no-equal-then-else",
+    "location": {
+      "start": {
+        "offset": "350",
+        "line": "30",
+        "column": "3"
+      },
+      "end": {
+        "offset": "405",
+        "line": "33",
+        "column": "16"
+      }
+    },
+    "severity": "warning",
+    "message": "Then and else branches are equal.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "no-equal-then-else",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/no-equal-then-else",
+    "location": {
+      "start": {
+        "offset": "551",
+        "line": "44",
+        "column": "10"
+      },
+      "end": {
+        "offset": "616",
+        "line": "48",
+        "column": "4"
+      }
+    },
+    "severity": "warning",
+    "message": "Then and else branches are equal.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "no-equal-then-else",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/no-equal-then-else",
+    "location": {
+      "start": {
+        "offset": "735",
+        "line": "58",
+        "column": "12"
+      },
+      "end": {
+        "offset": "765",
+        "line": "58",
+        "column": "42"
+      }
+    },
+    "severity": "warning",
+    "message": "Then and else branches are equal.",
+    "verboseMessage": "null",
+    "suggestion": null
+  }
+]

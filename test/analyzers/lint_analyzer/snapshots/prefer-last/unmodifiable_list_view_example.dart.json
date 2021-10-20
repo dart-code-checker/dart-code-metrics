@@ -1,0 +1,140 @@
+[
+  {
+    "ruleId": "prefer-last",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-last",
+    "location": {
+      "start": {
+        "offset": "323",
+        "line": "11",
+        "column": "3"
+      },
+      "end": {
+        "offset": "386",
+        "line": "11",
+        "column": "66"
+      }
+    },
+    "severity": "style",
+    "message": "Use last instead of accessing the last element by index.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with 'last'.",
+      "replacement": "unmodifiableListView.last"
+    }
+  },
+  {
+    "ruleId": "prefer-last",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-last",
+    "location": {
+      "start": {
+        "offset": "633",
+        "line": "16",
+        "column": "3"
+      },
+      "end": {
+        "offset": "686",
+        "line": "16",
+        "column": "56"
+      }
+    },
+    "severity": "style",
+    "message": "Use last instead of accessing the last element by index.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with 'last'.",
+      "replacement": "unmodifiableListView.last"
+    }
+  },
+  {
+    "ruleId": "prefer-last",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-last",
+    "location": {
+      "start": {
+        "offset": "781",
+        "line": "20",
+        "column": "5"
+      },
+      "end": {
+        "offset": "825",
+        "line": "20",
+        "column": "49"
+      }
+    },
+    "severity": "style",
+    "message": "Use last instead of accessing the last element by index.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with 'last'.",
+      "replacement": "..last"
+    }
+  },
+  {
+    "ruleId": "prefer-last",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-last",
+    "location": {
+      "start": {
+        "offset": "1001",
+        "line": "25",
+        "column": "5"
+      },
+      "end": {
+        "offset": "1036",
+        "line": "25",
+        "column": "40"
+      }
+    },
+    "severity": "style",
+    "message": "Use last instead of accessing the last element by index.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with 'last'.",
+      "replacement": "..last"
+    }
+  },
+  {
+    "ruleId": "prefer-last",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-last",
+    "location": {
+      "start": {
+        "offset": "1163",
+        "line": "30",
+        "column": "9"
+      },
+      "end": {
+        "offset": "1198",
+        "line": "30",
+        "column": "44"
+      }
+    },
+    "severity": "style",
+    "message": "Use last instead of accessing the last element by index.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with 'last'.",
+      "replacement": "..last"
+    }
+  },
+  {
+    "ruleId": "prefer-last",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-last",
+    "location": {
+      "start": {
+        "offset": "1302",
+        "line": "35",
+        "column": "5"
+      },
+      "end": {
+        "offset": "1337",
+        "line": "35",
+        "column": "40"
+      }
+    },
+    "severity": "style",
+    "message": "Use last instead of accessing the last element by index.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with 'last'.",
+      "replacement": "..last"
+    }
+  }
+]

@@ -1,0 +1,162 @@
+[
+  {
+    "ruleId": "avoid-unused-parameters",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/avoid-unused-parameters",
+    "location": {
+      "start": {
+        "offset": "142",
+        "line": "8",
+        "column": "20"
+      },
+      "end": {
+        "offset": "155",
+        "line": "8",
+        "column": "33"
+      }
+    },
+    "severity": "warning",
+    "message": "Parameter is unused.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "avoid-unused-parameters",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/avoid-unused-parameters",
+    "location": {
+      "start": {
+        "offset": "210",
+        "line": "11",
+        "column": "40"
+      },
+      "end": {
+        "offset": "229",
+        "line": "11",
+        "column": "59"
+      }
+    },
+    "severity": "warning",
+    "message": "Parameter is unused.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "avoid-unused-parameters",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/avoid-unused-parameters",
+    "location": {
+      "start": {
+        "offset": "369",
+        "line": "21",
+        "column": "20"
+      },
+      "end": {
+        "offset": "382",
+        "line": "21",
+        "column": "33"
+      }
+    },
+    "severity": "warning",
+    "message": "Parameter is unused.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "avoid-unused-parameters",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/avoid-unused-parameters",
+    "location": {
+      "start": {
+        "offset": "415",
+        "line": "24",
+        "column": "20"
+      },
+      "end": {
+        "offset": "433",
+        "line": "24",
+        "column": "38"
+      }
+    },
+    "severity": "warning",
+    "message": "Parameter is unused.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "avoid-unused-parameters",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/avoid-unused-parameters",
+    "location": {
+      "start": {
+        "offset": "661",
+        "line": "35",
+        "column": "28"
+      },
+      "end": {
+        "offset": "677",
+        "line": "35",
+        "column": "44"
+      }
+    },
+    "severity": "warning",
+    "message": "Parameter is unused.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "avoid-unused-parameters",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/avoid-unused-parameters",
+    "location": {
+      "start": {
+        "offset": "537",
+        "line": "29",
+        "column": "38"
+      },
+      "end": {
+        "offset": "550",
+        "line": "29",
+        "column": "51"
+      }
+    },
+    "severity": "warning",
+    "message": "Parameter is unused.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "avoid-unused-parameters",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/avoid-unused-parameters",
+    "location": {
+      "start": {
+        "offset": "739",
+        "line": "41",
+        "column": "20"
+      },
+      "end": {
+        "offset": "755",
+        "line": "41",
+        "column": "36"
+      }
+    },
+    "severity": "warning",
+    "message": "Parameter is unused.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "avoid-unused-parameters",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/avoid-unused-parameters",
+    "location": {
+      "start": {
+        "offset": "867",
+        "line": "47",
+        "column": "23"
+      },
+      "end": {
+        "offset": "880",
+        "line": "47",
+        "column": "36"
+      }
+    },
+    "severity": "warning",
+    "message": "Parameter is unused.",
+    "verboseMessage": "null",
+    "suggestion": null
+  }
+]

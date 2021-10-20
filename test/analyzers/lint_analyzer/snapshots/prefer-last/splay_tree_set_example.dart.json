@@ -1,0 +1,48 @@
+[
+  {
+    "ruleId": "prefer-last",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-last",
+    "location": {
+      "start": {
+        "offset": "265",
+        "line": "11",
+        "column": "3"
+      },
+      "end": {
+        "offset": "312",
+        "line": "11",
+        "column": "50"
+      }
+    },
+    "severity": "style",
+    "message": "Use last instead of accessing the last element by index.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with 'last'.",
+      "replacement": "splayTreeSet.last"
+    }
+  },
+  {
+    "ruleId": "prefer-last",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-last",
+    "location": {
+      "start": {
+        "offset": "521",
+        "line": "18",
+        "column": "5"
+      },
+      "end": {
+        "offset": "557",
+        "line": "18",
+        "column": "41"
+      }
+    },
+    "severity": "style",
+    "message": "Use last instead of accessing the last element by index.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with 'last'.",
+      "replacement": "..last"
+    }
+  }
+]

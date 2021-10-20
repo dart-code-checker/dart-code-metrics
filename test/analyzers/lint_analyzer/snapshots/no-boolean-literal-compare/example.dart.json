@@ -1,0 +1,255 @@
+[
+  {
+    "ruleId": "no-boolean-literal-compare",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/no-boolean-literal-compare",
+    "location": {
+      "start": {
+        "offset": "74",
+        "line": "6",
+        "column": "11"
+      },
+      "end": {
+        "offset": "83",
+        "line": "6",
+        "column": "20"
+      }
+    },
+    "severity": "style",
+    "message": "Comparing boolean values to boolean literals is unnecessary, as those expressions will result in booleans too. Just use the boolean values directly or negate them.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "This expression is unnecessarily compared to a boolean. Just use it directly.",
+      "replacement": "a"
+    }
+  },
+  {
+    "ruleId": "no-boolean-literal-compare",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/no-boolean-literal-compare",
+    "location": {
+      "start": {
+        "offset": "104",
+        "line": "8",
+        "column": "11"
+      },
+      "end": {
+        "offset": "113",
+        "line": "8",
+        "column": "20"
+      }
+    },
+    "severity": "style",
+    "message": "Comparing boolean values to boolean literals is unnecessary, as those expressions will result in booleans too. Just use the boolean values directly or negate them.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "This expression is unnecessarily compared to a boolean. Just negate it.",
+      "replacement": "!b"
+    }
+  },
+  {
+    "ruleId": "no-boolean-literal-compare",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/no-boolean-literal-compare",
+    "location": {
+      "start": {
+        "offset": "134",
+        "line": "10",
+        "column": "11"
+      },
+      "end": {
+        "offset": "143",
+        "line": "10",
+        "column": "20"
+      }
+    },
+    "severity": "style",
+    "message": "Comparing boolean values to boolean literals is unnecessary, as those expressions will result in booleans too. Just use the boolean values directly or negate them.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "This expression is unnecessarily compared to a boolean. Just use it directly.",
+      "replacement": "c"
+    }
+  },
+  {
+    "ruleId": "no-boolean-literal-compare",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/no-boolean-literal-compare",
+    "location": {
+      "start": {
+        "offset": "164",
+        "line": "12",
+        "column": "11"
+      },
+      "end": {
+        "offset": "174",
+        "line": "12",
+        "column": "21"
+      }
+    },
+    "severity": "style",
+    "message": "Comparing boolean values to boolean literals is unnecessary, as those expressions will result in booleans too. Just use the boolean values directly or negate them.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "This expression is unnecessarily compared to a boolean. Just use it directly.",
+      "replacement": "c"
+    }
+  },
+  {
+    "ruleId": "no-boolean-literal-compare",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/no-boolean-literal-compare",
+    "location": {
+      "start": {
+        "offset": "191",
+        "line": "14",
+        "column": "7"
+      },
+      "end": {
+        "offset": "200",
+        "line": "14",
+        "column": "16"
+      }
+    },
+    "severity": "style",
+    "message": "Comparing boolean values to boolean literals is unnecessary, as those expressions will result in booleans too. Just use the boolean values directly or negate them.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "This expression is unnecessarily compared to a boolean. Just use it directly.",
+      "replacement": "e"
+    }
+  },
+  {
+    "ruleId": "no-boolean-literal-compare",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/no-boolean-literal-compare",
+    "location": {
+      "start": {
+        "offset": "220",
+        "line": "16",
+        "column": "7"
+      },
+      "end": {
+        "offset": "230",
+        "line": "16",
+        "column": "17"
+      }
+    },
+    "severity": "style",
+    "message": "Comparing boolean values to boolean literals is unnecessary, as those expressions will result in booleans too. Just use the boolean values directly or negate them.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "This expression is unnecessarily compared to a boolean. Just use it directly.",
+      "replacement": "e"
+    }
+  },
+  {
+    "ruleId": "no-boolean-literal-compare",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/no-boolean-literal-compare",
+    "location": {
+      "start": {
+        "offset": "340",
+        "line": "22",
+        "column": "11"
+      },
+      "end": {
+        "offset": "369",
+        "line": "22",
+        "column": "40"
+      }
+    },
+    "severity": "style",
+    "message": "Comparing boolean values to boolean literals is unnecessary, as those expressions will result in booleans too. Just use the boolean values directly or negate them.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "This expression is unnecessarily compared to a boolean. Just use it directly.",
+      "replacement": "exampleString.isEmpty"
+    }
+  },
+  {
+    "ruleId": "no-boolean-literal-compare",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/no-boolean-literal-compare",
+    "location": {
+      "start": {
+        "offset": "390",
+        "line": "24",
+        "column": "11"
+      },
+      "end": {
+        "offset": "419",
+        "line": "24",
+        "column": "40"
+      }
+    },
+    "severity": "style",
+    "message": "Comparing boolean values to boolean literals is unnecessary, as those expressions will result in booleans too. Just use the boolean values directly or negate them.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "This expression is unnecessarily compared to a boolean. Just use it directly.",
+      "replacement": "exampleString.isEmpty"
+    }
+  },
+  {
+    "ruleId": "no-boolean-literal-compare",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/no-boolean-literal-compare",
+    "location": {
+      "start": {
+        "offset": "470",
+        "line": "27",
+        "column": "25"
+      },
+      "end": {
+        "offset": "484",
+        "line": "27",
+        "column": "39"
+      }
+    },
+    "severity": "style",
+    "message": "Comparing boolean values to boolean literals is unnecessary, as those expressions will result in booleans too. Just use the boolean values directly or negate them.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "This expression is unnecessarily compared to a boolean. Just negate it.",
+      "replacement": "!value"
+    }
+  },
+  {
+    "ruleId": "no-boolean-literal-compare",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/no-boolean-literal-compare",
+    "location": {
+      "start": {
+        "offset": "518",
+        "line": "28",
+        "column": "25"
+      },
+      "end": {
+        "offset": "532",
+        "line": "28",
+        "column": "39"
+      }
+    },
+    "severity": "style",
+    "message": "Comparing boolean values to boolean literals is unnecessary, as those expressions will result in booleans too. Just use the boolean values directly or negate them.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "This expression is unnecessarily compared to a boolean. Just use it directly.",
+      "replacement": "value"
+    }
+  },
+  {
+    "ruleId": "no-boolean-literal-compare",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/no-boolean-literal-compare",
+    "location": {
+      "start": {
+        "offset": "660",
+        "line": "38",
+        "column": "34"
+      },
+      "end": {
+        "offset": "673",
+        "line": "38",
+        "column": "47"
+      }
+    },
+    "severity": "style",
+    "message": "Comparing boolean values to boolean literals is unnecessary, as those expressions will result in booleans too. Just use the boolean values directly or negate them.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "This expression is unnecessarily compared to a boolean. Just use it directly.",
+      "replacement": "value"
+    }
+  }
+]

@@ -1,0 +1,42 @@
+[
+  {
+    "ruleId": "member-ordering",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/member-ordering",
+    "location": {
+      "start": {
+        "offset": "80",
+        "line": "8",
+        "column": "3"
+      },
+      "end": {
+        "offset": "95",
+        "line": "8",
+        "column": "18"
+      }
+    },
+    "severity": "style",
+    "message": "public-fields should be before public-methods.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "member-ordering",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/member-ordering",
+    "location": {
+      "start": {
+        "offset": "177",
+        "line": "16",
+        "column": "3"
+      },
+      "end": {
+        "offset": "204",
+        "line": "16",
+        "column": "30"
+      }
+    },
+    "severity": "style",
+    "message": "public-getters should be before private-methods.",
+    "verboseMessage": "null",
+    "suggestion": null
+  }
+]

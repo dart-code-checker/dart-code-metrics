@@ -1,0 +1,22 @@
+[
+  {
+    "ruleId": "prefer-on-push-cd-strategy",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/angular/prefer-on-push-cd-strategy",
+    "location": {
+      "start": {
+        "offset": "8",
+        "line": "2",
+        "column": "1"
+      },
+      "end": {
+        "offset": "55",
+        "line": "4",
+        "column": "2"
+      }
+    },
+    "severity": "warning",
+    "message": "Prefer using onPush change detection strategy.",
+    "verboseMessage": "null",
+    "suggestion": null
+  }
+]

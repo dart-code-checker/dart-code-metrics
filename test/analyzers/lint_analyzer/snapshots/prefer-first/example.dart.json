@@ -1,0 +1,646 @@
+[
+  {
+    "ruleId": "prefer-first",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-first",
+    "location": {
+      "start": {
+        "offset": "267",
+        "line": "11",
+        "column": "34"
+      },
+      "end": {
+        "offset": "288",
+        "line": "11",
+        "column": "55"
+      }
+    },
+    "severity": "style",
+    "message": "Use first instead of accessing the element at zero index.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with 'first'.",
+      "replacement": "iterable.first"
+    }
+  },
+  {
+    "ruleId": "prefer-first",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-first",
+    "location": {
+      "start": {
+        "offset": "390",
+        "line": "16",
+        "column": "5"
+      },
+      "end": {
+        "offset": "404",
+        "line": "16",
+        "column": "19"
+      }
+    },
+    "severity": "style",
+    "message": "Use first instead of accessing the element at zero index.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with 'first'.",
+      "replacement": "..first"
+    }
+  },
+  {
+    "ruleId": "prefer-first",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-first",
+    "location": {
+      "start": {
+        "offset": "604",
+        "line": "24",
+        "column": "31"
+      },
+      "end": {
+        "offset": "621",
+        "line": "24",
+        "column": "48"
+      }
+    },
+    "severity": "style",
+    "message": "Use first instead of accessing the element at zero index.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with 'first'.",
+      "replacement": "list.first"
+    }
+  },
+  {
+    "ruleId": "prefer-first",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-first",
+    "location": {
+      "start": {
+        "offset": "661",
+        "line": "25",
+        "column": "31"
+      },
+      "end": {
+        "offset": "668",
+        "line": "25",
+        "column": "38"
+      }
+    },
+    "severity": "style",
+    "message": "Use first instead of accessing the element at zero index.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with 'first'.",
+      "replacement": "list.first"
+    }
+  },
+  {
+    "ruleId": "prefer-first",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-first",
+    "location": {
+      "start": {
+        "offset": "799",
+        "line": "31",
+        "column": "5"
+      },
+      "end": {
+        "offset": "813",
+        "line": "31",
+        "column": "19"
+      }
+    },
+    "severity": "style",
+    "message": "Use first instead of accessing the element at zero index.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with 'first'.",
+      "replacement": "..first"
+    }
+  },
+  {
+    "ruleId": "prefer-first",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-first",
+    "location": {
+      "start": {
+        "offset": "855",
+        "line": "34",
+        "column": "5"
+      },
+      "end": {
+        "offset": "860",
+        "line": "34",
+        "column": "10"
+      }
+    },
+    "severity": "style",
+    "message": "Use first instead of accessing the element at zero index.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with 'first'.",
+      "replacement": "..first"
+    }
+  },
+  {
+    "ruleId": "prefer-first",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-first",
+    "location": {
+      "start": {
+        "offset": "911",
+        "line": "39",
+        "column": "9"
+      },
+      "end": {
+        "offset": "916",
+        "line": "39",
+        "column": "14"
+      }
+    },
+    "severity": "style",
+    "message": "Use first instead of accessing the element at zero index.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with 'first'.",
+      "replacement": "..first"
+    }
+  },
+  {
+    "ruleId": "prefer-first",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-first",
+    "location": {
+      "start": {
+        "offset": "974",
+        "line": "44",
+        "column": "5"
+      },
+      "end": {
+        "offset": "979",
+        "line": "44",
+        "column": "10"
+      }
+    },
+    "severity": "style",
+    "message": "Use first instead of accessing the element at zero index.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with 'first'.",
+      "replacement": "..first"
+    }
+  },
+  {
+    "ruleId": "prefer-first",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-first",
+    "location": {
+      "start": {
+        "offset": "1174",
+        "line": "51",
+        "column": "29"
+      },
+      "end": {
+        "offset": "1190",
+        "line": "51",
+        "column": "45"
+      }
+    },
+    "severity": "style",
+    "message": "Use first instead of accessing the element at zero index.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with 'first'.",
+      "replacement": "set.first"
+    }
+  },
+  {
+    "ruleId": "prefer-first",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-first",
+    "location": {
+      "start": {
+        "offset": "1277",
+        "line": "56",
+        "column": "5"
+      },
+      "end": {
+        "offset": "1291",
+        "line": "56",
+        "column": "19"
+      }
+    },
+    "severity": "style",
+    "message": "Use first instead of accessing the element at zero index.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with 'first'.",
+      "replacement": "..first"
+    }
+  },
+  {
+    "ruleId": "prefer-first",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-first",
+    "location": {
+      "start": {
+        "offset": "1570",
+        "line": "65",
+        "column": "7"
+      },
+      "end": {
+        "offset": "1600",
+        "line": "65",
+        "column": "37"
+      }
+    },
+    "severity": "style",
+    "message": "Use first instead of accessing the element at zero index.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with 'first'.",
+      "replacement": "doubleLinkedQueue.first"
+    }
+  },
+  {
+    "ruleId": "prefer-first",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-first",
+    "location": {
+      "start": {
+        "offset": "1729",
+        "line": "70",
+        "column": "5"
+      },
+      "end": {
+        "offset": "1743",
+        "line": "70",
+        "column": "19"
+      }
+    },
+    "severity": "style",
+    "message": "Use first instead of accessing the element at zero index.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with 'first'.",
+      "replacement": "..first"
+    }
+  },
+  {
+    "ruleId": "prefer-first",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-first",
+    "location": {
+      "start": {
+        "offset": "1966",
+        "line": "78",
+        "column": "33"
+      },
+      "end": {
+        "offset": "1986",
+        "line": "78",
+        "column": "53"
+      }
+    },
+    "severity": "style",
+    "message": "Use first instead of accessing the element at zero index.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with 'first'.",
+      "replacement": "hashSet.first"
+    }
+  },
+  {
+    "ruleId": "prefer-first",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-first",
+    "location": {
+      "start": {
+        "offset": "2085",
+        "line": "83",
+        "column": "5"
+      },
+      "end": {
+        "offset": "2099",
+        "line": "83",
+        "column": "19"
+      }
+    },
+    "severity": "style",
+    "message": "Use first instead of accessing the element at zero index.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with 'first'.",
+      "replacement": "..first"
+    }
+  },
+  {
+    "ruleId": "prefer-first",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-first",
+    "location": {
+      "start": {
+        "offset": "2352",
+        "line": "91",
+        "column": "39"
+      },
+      "end": {
+        "offset": "2378",
+        "line": "91",
+        "column": "65"
+      }
+    },
+    "severity": "style",
+    "message": "Use first instead of accessing the element at zero index.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with 'first'.",
+      "replacement": "linkedHashSet.first"
+    }
+  },
+  {
+    "ruleId": "prefer-first",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-first",
+    "location": {
+      "start": {
+        "offset": "2495",
+        "line": "96",
+        "column": "5"
+      },
+      "end": {
+        "offset": "2509",
+        "line": "96",
+        "column": "19"
+      }
+    },
+    "severity": "style",
+    "message": "Use first instead of accessing the element at zero index.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with 'first'.",
+      "replacement": "..first"
+    }
+  },
+  {
+    "ruleId": "prefer-first",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-first",
+    "location": {
+      "start": {
+        "offset": "2742",
+        "line": "104",
+        "column": "35"
+      },
+      "end": {
+        "offset": "2764",
+        "line": "104",
+        "column": "57"
+      }
+    },
+    "severity": "style",
+    "message": "Use first instead of accessing the element at zero index.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with 'first'.",
+      "replacement": "listQueue.first"
+    }
+  },
+  {
+    "ruleId": "prefer-first",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-first",
+    "location": {
+      "start": {
+        "offset": "2869",
+        "line": "109",
+        "column": "5"
+      },
+      "end": {
+        "offset": "2883",
+        "line": "109",
+        "column": "19"
+      }
+    },
+    "severity": "style",
+    "message": "Use first instead of accessing the element at zero index.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with 'first'.",
+      "replacement": "..first"
+    }
+  },
+  {
+    "ruleId": "prefer-first",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-first",
+    "location": {
+      "start": {
+        "offset": "3096",
+        "line": "117",
+        "column": "31"
+      },
+      "end": {
+        "offset": "3114",
+        "line": "117",
+        "column": "49"
+      }
+    },
+    "severity": "style",
+    "message": "Use first instead of accessing the element at zero index.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with 'first'.",
+      "replacement": "queue.first"
+    }
+  },
+  {
+    "ruleId": "prefer-first",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-first",
+    "location": {
+      "start": {
+        "offset": "3207",
+        "line": "122",
+        "column": "5"
+      },
+      "end": {
+        "offset": "3221",
+        "line": "122",
+        "column": "19"
+      }
+    },
+    "severity": "style",
+    "message": "Use first instead of accessing the element at zero index.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with 'first'.",
+      "replacement": "..first"
+    }
+  },
+  {
+    "ruleId": "prefer-first",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-first",
+    "location": {
+      "start": {
+        "offset": "3469",
+        "line": "130",
+        "column": "38"
+      },
+      "end": {
+        "offset": "3494",
+        "line": "130",
+        "column": "63"
+      }
+    },
+    "severity": "style",
+    "message": "Use first instead of accessing the element at zero index.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with 'first'.",
+      "replacement": "splayTreeSet.first"
+    }
+  },
+  {
+    "ruleId": "prefer-first",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-first",
+    "location": {
+      "start": {
+        "offset": "3608",
+        "line": "135",
+        "column": "5"
+      },
+      "end": {
+        "offset": "3622",
+        "line": "135",
+        "column": "19"
+      }
+    },
+    "severity": "style",
+    "message": "Use first instead of accessing the element at zero index.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with 'first'.",
+      "replacement": "..first"
+    }
+  },
+  {
+    "ruleId": "prefer-first",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-first",
+    "location": {
+      "start": {
+        "offset": "3919",
+        "line": "144",
+        "column": "7"
+      },
+      "end": {
+        "offset": "3952",
+        "line": "144",
+        "column": "40"
+      }
+    },
+    "severity": "style",
+    "message": "Use first instead of accessing the element at zero index.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with 'first'.",
+      "replacement": "unmodifiableListView.first"
+    }
+  },
+  {
+    "ruleId": "prefer-first",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-first",
+    "location": {
+      "start": {
+        "offset": "4008",
+        "line": "145",
+        "column": "47"
+      },
+      "end": {
+        "offset": "4031",
+        "line": "145",
+        "column": "70"
+      }
+    },
+    "severity": "style",
+    "message": "Use first instead of accessing the element at zero index.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with 'first'.",
+      "replacement": "unmodifiableListView.first"
+    }
+  },
+  {
+    "ruleId": "prefer-first",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-first",
+    "location": {
+      "start": {
+        "offset": "4248",
+        "line": "152",
+        "column": "5"
+      },
+      "end": {
+        "offset": "4262",
+        "line": "152",
+        "column": "19"
+      }
+    },
+    "severity": "style",
+    "message": "Use first instead of accessing the element at zero index.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with 'first'.",
+      "replacement": "..first"
+    }
+  },
+  {
+    "ruleId": "prefer-first",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-first",
+    "location": {
+      "start": {
+        "offset": "4304",
+        "line": "155",
+        "column": "5"
+      },
+      "end": {
+        "offset": "4309",
+        "line": "155",
+        "column": "10"
+      }
+    },
+    "severity": "style",
+    "message": "Use first instead of accessing the element at zero index.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with 'first'.",
+      "replacement": "..first"
+    }
+  },
+  {
+    "ruleId": "prefer-first",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-first",
+    "location": {
+      "start": {
+        "offset": "4599",
+        "line": "164",
+        "column": "7"
+      },
+      "end": {
+        "offset": "4631",
+        "line": "164",
+        "column": "39"
+      }
+    },
+    "severity": "style",
+    "message": "Use first instead of accessing the element at zero index.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with 'first'.",
+      "replacement": "unmodifiableSetView.first"
+    }
+  },
+  {
+    "ruleId": "prefer-first",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-first",
+    "location": {
+      "start": {
+        "offset": "4766",
+        "line": "169",
+        "column": "5"
+      },
+      "end": {
+        "offset": "4780",
+        "line": "169",
+        "column": "19"
+      }
+    },
+    "severity": "style",
+    "message": "Use first instead of accessing the element at zero index.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with 'first'.",
+      "replacement": "..first"
+    }
+  }
+]

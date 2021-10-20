@@ -1,0 +1,82 @@
+[
+  {
+    "ruleId": "no-magic-number",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/no-magic-number",
+    "location": {
+      "start": {
+        "offset": "25",
+        "line": "1",
+        "column": "26"
+      },
+      "end": {
+        "offset": "27",
+        "line": "1",
+        "column": "28"
+      }
+    },
+    "severity": "warning",
+    "message": "Avoid using magic numbers. Extract them to named constants or variables.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "no-magic-number",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/no-magic-number",
+    "location": {
+      "start": {
+        "offset": "64",
+        "line": "2",
+        "column": "28"
+      },
+      "end": {
+        "offset": "66",
+        "line": "2",
+        "column": "30"
+      }
+    },
+    "severity": "warning",
+    "message": "Avoid using magic numbers. Extract them to named constants or variables.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "no-magic-number",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/no-magic-number",
+    "location": {
+      "start": {
+        "offset": "102",
+        "line": "3",
+        "column": "27"
+      },
+      "end": {
+        "offset": "106",
+        "line": "3",
+        "column": "31"
+      }
+    },
+    "severity": "warning",
+    "message": "Avoid using magic numbers. Extract them to named constants or variables.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "no-magic-number",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/no-magic-number",
+    "location": {
+      "start": {
+        "offset": "140",
+        "line": "4",
+        "column": "25"
+      },
+      "end": {
+        "offset": "142",
+        "line": "4",
+        "column": "27"
+      }
+    },
+    "severity": "warning",
+    "message": "Avoid using magic numbers. Extract them to named constants or variables.",
+    "verboseMessage": "null",
+    "suggestion": null
+  }
+]

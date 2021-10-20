@@ -1,0 +1,22 @@
+[
+  {
+    "ruleId": "prefer-match-file-name",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-match-file-name",
+    "location": {
+      "start": {
+        "offset": "6",
+        "line": "1",
+        "column": "7"
+      },
+      "end": {
+        "offset": "13",
+        "line": "1",
+        "column": "14"
+      }
+    },
+    "severity": "warning",
+    "message": "File name does not match with first class name.",
+    "verboseMessage": "null",
+    "suggestion": null
+  }
+]

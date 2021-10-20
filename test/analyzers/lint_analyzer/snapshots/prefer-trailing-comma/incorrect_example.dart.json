@@ -1,0 +1,255 @@
+[
+  {
+    "ruleId": "prefer-trailing-comma",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-trailing-comma",
+    "location": {
+      "start": {
+        "offset": "77",
+        "line": "3",
+        "column": "50"
+      },
+      "end": {
+        "offset": "97",
+        "line": "3",
+        "column": "70"
+      }
+    },
+    "severity": "warning",
+    "message": "Prefer trailing comma.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Add trailing comma.",
+      "replacement": "String thirdArgument,"
+    }
+  },
+  {
+    "ruleId": "prefer-trailing-comma",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-trailing-comma",
+    "location": {
+      "start": {
+        "offset": "196",
+        "line": "9",
+        "column": "7"
+      },
+      "end": {
+        "offset": "234",
+        "line": "9",
+        "column": "45"
+      }
+    },
+    "severity": "warning",
+    "message": "Prefer trailing comma.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Add trailing comma.",
+      "replacement": "'and another string for length exceed',"
+    }
+  },
+  {
+    "ruleId": "prefer-trailing-comma",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-trailing-comma",
+    "location": {
+      "start": {
+        "offset": "333",
+        "line": "13",
+        "column": "5"
+      },
+      "end": {
+        "offset": "344",
+        "line": "13",
+        "column": "16"
+      }
+    },
+    "severity": "warning",
+    "message": "Prefer trailing comma.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Add trailing comma.",
+      "replacement": "String arg3,"
+    }
+  },
+  {
+    "ruleId": "prefer-trailing-comma",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-trailing-comma",
+    "location": {
+      "start": {
+        "offset": "457",
+        "line": "18",
+        "column": "52"
+      },
+      "end": {
+        "offset": "477",
+        "line": "18",
+        "column": "72"
+      }
+    },
+    "severity": "warning",
+    "message": "Prefer trailing comma.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Add trailing comma.",
+      "replacement": "String thirdArgument,"
+    }
+  },
+  {
+    "ruleId": "prefer-trailing-comma",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-trailing-comma",
+    "location": {
+      "start": {
+        "offset": "582",
+        "line": "24",
+        "column": "9"
+      },
+      "end": {
+        "offset": "620",
+        "line": "24",
+        "column": "47"
+      }
+    },
+    "severity": "warning",
+    "message": "Prefer trailing comma.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Add trailing comma.",
+      "replacement": "'and another string for length exceed',"
+    }
+  },
+  {
+    "ruleId": "prefer-trailing-comma",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-trailing-comma",
+    "location": {
+      "start": {
+        "offset": "691",
+        "line": "28",
+        "column": "8"
+      },
+      "end": {
+        "offset": "710",
+        "line": "28",
+        "column": "27"
+      }
+    },
+    "severity": "warning",
+    "message": "Prefer trailing comma.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Add trailing comma.",
+      "replacement": "'some other string',"
+    }
+  },
+  {
+    "ruleId": "prefer-trailing-comma",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-trailing-comma",
+    "location": {
+      "start": {
+        "offset": "813",
+        "line": "38",
+        "column": "3"
+      },
+      "end": {
+        "offset": "822",
+        "line": "38",
+        "column": "12"
+      }
+    },
+    "severity": "warning",
+    "message": "Prefer trailing comma.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Add trailing comma.",
+      "replacement": "sixthItem,"
+    }
+  },
+  {
+    "ruleId": "prefer-trailing-comma",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-trailing-comma",
+    "location": {
+      "start": {
+        "offset": "1039",
+        "line": "49",
+        "column": "59"
+      },
+      "end": {
+        "offset": "1054",
+        "line": "49",
+        "column": "74"
+      }
+    },
+    "severity": "warning",
+    "message": "Prefer trailing comma.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Add trailing comma.",
+      "replacement": "this.forthField,"
+    }
+  },
+  {
+    "ruleId": "prefer-trailing-comma",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-trailing-comma",
+    "location": {
+      "start": {
+        "offset": "1218",
+        "line": "58",
+        "column": "3"
+      },
+      "end": {
+        "offset": "1256",
+        "line": "58",
+        "column": "41"
+      }
+    },
+    "severity": "warning",
+    "message": "Prefer trailing comma.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Add trailing comma.",
+      "replacement": "'and another string for length exceed',"
+    }
+  },
+  {
+    "ruleId": "prefer-trailing-comma",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-trailing-comma",
+    "location": {
+      "start": {
+        "offset": "1331",
+        "line": "64",
+        "column": "3"
+      },
+      "end": {
+        "offset": "1369",
+        "line": "64",
+        "column": "41"
+      }
+    },
+    "severity": "warning",
+    "message": "Prefer trailing comma.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Add trailing comma.",
+      "replacement": "'and another string for length exceed',"
+    }
+  },
+  {
+    "ruleId": "prefer-trailing-comma",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-trailing-comma",
+    "location": {
+      "start": {
+        "offset": "1471",
+        "line": "70",
+        "column": "3"
+      },
+      "end": {
+        "offset": "1549",
+        "line": "70",
+        "column": "81"
+      }
+    },
+    "severity": "warning",
+    "message": "Prefer trailing comma.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Add trailing comma.",
+      "replacement": "'and another string for length exceed': 'and another string for length exceed',"
+    }
+  }
+]

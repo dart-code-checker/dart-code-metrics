@@ -1,0 +1,22 @@
+[
+  {
+    "ruleId": "component-annotation-arguments-ordering",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/angular/component-annotation-arguments-ordering",
+    "location": {
+      "start": {
+        "offset": "126",
+        "line": "5",
+        "column": "3"
+      },
+      "end": {
+        "offset": "139",
+        "line": "5",
+        "column": "16"
+      }
+    },
+    "severity": "style",
+    "message": "Arguments group styles should be before change-detection.",
+    "verboseMessage": "null",
+    "suggestion": null
+  }
+]

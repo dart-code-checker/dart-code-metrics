@@ -1,0 +1,122 @@
+[
+  {
+    "ruleId": "avoid-nested-conditional-expressions",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/avoid-nested-conditional-expressions",
+    "location": {
+      "start": {
+        "offset": "126",
+        "line": "7",
+        "column": "9"
+      },
+      "end": {
+        "offset": "185",
+        "line": "9",
+        "column": "20"
+      }
+    },
+    "severity": "style",
+    "message": "Avoid nested conditional expressions.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "avoid-nested-conditional-expressions",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/avoid-nested-conditional-expressions",
+    "location": {
+      "start": {
+        "offset": "245",
+        "line": "13",
+        "column": "9"
+      },
+      "end": {
+        "offset": "360",
+        "line": "17",
+        "column": "19"
+      }
+    },
+    "severity": "style",
+    "message": "Avoid nested conditional expressions.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "avoid-nested-conditional-expressions",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/avoid-nested-conditional-expressions",
+    "location": {
+      "start": {
+        "offset": "277",
+        "line": "14",
+        "column": "13"
+      },
+      "end": {
+        "offset": "341",
+        "line": "16",
+        "column": "24"
+      }
+    },
+    "severity": "style",
+    "message": "Avoid nested conditional expressions.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "avoid-nested-conditional-expressions",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/avoid-nested-conditional-expressions",
+    "location": {
+      "start": {
+        "offset": "419",
+        "line": "21",
+        "column": "9"
+      },
+      "end": {
+        "offset": "601",
+        "line": "27",
+        "column": "19"
+      }
+    },
+    "severity": "style",
+    "message": "Avoid nested conditional expressions.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "avoid-nested-conditional-expressions",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/avoid-nested-conditional-expressions",
+    "location": {
+      "start": {
+        "offset": "451",
+        "line": "22",
+        "column": "13"
+      },
+      "end": {
+        "offset": "582",
+        "line": "26",
+        "column": "23"
+      }
+    },
+    "severity": "style",
+    "message": "Avoid nested conditional expressions.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "avoid-nested-conditional-expressions",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/avoid-nested-conditional-expressions",
+    "location": {
+      "start": {
+        "offset": "487",
+        "line": "23",
+        "column": "17"
+      },
+      "end": {
+        "offset": "559",
+        "line": "25",
+        "column": "28"
+      }
+    },
+    "severity": "style",
+    "message": "Avoid nested conditional expressions.",
+    "verboseMessage": "null",
+    "suggestion": null
+  }
+]

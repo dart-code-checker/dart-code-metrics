@@ -1,0 +1,22 @@
+[
+  {
+    "ruleId": "member-ordering-extended",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/member-ordering-extended",
+    "location": {
+      "start": {
+        "offset": "154",
+        "line": "8",
+        "column": "3"
+      },
+      "end": {
+        "offset": "182",
+        "line": "8",
+        "column": "31"
+      }
+    },
+    "severity": "style",
+    "message": "private-fields should be before public-setters.",
+    "verboseMessage": "null",
+    "suggestion": null
+  }
+]

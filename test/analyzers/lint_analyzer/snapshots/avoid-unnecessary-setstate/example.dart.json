@@ -1,0 +1,142 @@
+[
+  {
+    "ruleId": "avoid-unnecessary-setstate",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/flutter/avoid-unnecessary-setstate",
+    "location": {
+      "start": {
+        "offset": "302",
+        "line": "16",
+        "column": "5"
+      },
+      "end": {
+        "offset": "348",
+        "line": "18",
+        "column": "7"
+      }
+    },
+    "severity": "warning",
+    "message": "Avoid calling unnecessary setState. Consider changing the state directly.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "avoid-unnecessary-setstate",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/flutter/avoid-unnecessary-setstate",
+    "location": {
+      "start": {
+        "offset": "392",
+        "line": "22",
+        "column": "7"
+      },
+      "end": {
+        "offset": "442",
+        "line": "24",
+        "column": "9"
+      }
+    },
+    "severity": "warning",
+    "message": "Avoid calling unnecessary setState. Consider changing the state directly.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "avoid-unnecessary-setstate",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/flutter/avoid-unnecessary-setstate",
+    "location": {
+      "start": {
+        "offset": "606",
+        "line": "35",
+        "column": "5"
+      },
+      "end": {
+        "offset": "652",
+        "line": "37",
+        "column": "7"
+      }
+    },
+    "severity": "warning",
+    "message": "Avoid calling unnecessary setState. Consider changing the state directly.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "avoid-unnecessary-setstate",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/flutter/avoid-unnecessary-setstate",
+    "location": {
+      "start": {
+        "offset": "941",
+        "line": "57",
+        "column": "5"
+      },
+      "end": {
+        "offset": "987",
+        "line": "59",
+        "column": "7"
+      }
+    },
+    "severity": "warning",
+    "message": "Avoid calling unnecessary setState. Consider changing the state directly.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "avoid-unnecessary-setstate",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/flutter/avoid-unnecessary-setstate",
+    "location": {
+      "start": {
+        "offset": "1031",
+        "line": "63",
+        "column": "7"
+      },
+      "end": {
+        "offset": "1081",
+        "line": "65",
+        "column": "9"
+      }
+    },
+    "severity": "warning",
+    "message": "Avoid calling unnecessary setState. Consider changing the state directly.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "avoid-unnecessary-setstate",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/flutter/avoid-unnecessary-setstate",
+    "location": {
+      "start": {
+        "offset": "455",
+        "line": "27",
+        "column": "5"
+      },
+      "end": {
+        "offset": "465",
+        "line": "27",
+        "column": "15"
+      }
+    },
+    "severity": "warning",
+    "message": "Avoid calling a sync method with setState.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "avoid-unnecessary-setstate",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/flutter/avoid-unnecessary-setstate",
+    "location": {
+      "start": {
+        "offset": "1294",
+        "line": "78",
+        "column": "5"
+      },
+      "end": {
+        "offset": "1304",
+        "line": "78",
+        "column": "15"
+      }
+    },
+    "severity": "warning",
+    "message": "Avoid calling a sync method with setState.",
+    "verboseMessage": "null",
+    "suggestion": null
+  }
+]

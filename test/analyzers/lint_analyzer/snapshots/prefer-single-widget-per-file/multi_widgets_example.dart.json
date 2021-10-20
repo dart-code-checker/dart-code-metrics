@@ -1,0 +1,42 @@
+[
+  {
+    "ruleId": "prefer-single-widget-per-file",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/flutter/prefer-single-widget-per-file",
+    "location": {
+      "start": {
+        "offset": "146",
+        "line": "10",
+        "column": "1"
+      },
+      "end": {
+        "offset": "259",
+        "line": "15",
+        "column": "2"
+      }
+    },
+    "severity": "style",
+    "message": "Only a single widget per file is allowed.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-single-widget-per-file",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/flutter/prefer-single-widget-per-file",
+    "location": {
+      "start": {
+        "offset": "261",
+        "line": "17",
+        "column": "1"
+      },
+      "end": {
+        "offset": "399",
+        "line": "20",
+        "column": "2"
+      }
+    },
+    "severity": "style",
+    "message": "Only a single widget per file is allowed.",
+    "verboseMessage": "null",
+    "suggestion": null
+  }
+]

@@ -1,0 +1,22 @@
+[
+  {
+    "ruleId": "no-equal-arguments",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/no-equal-arguments",
+    "location": {
+      "start": {
+        "offset": "201",
+        "line": "9",
+        "column": "3"
+      },
+      "end": {
+        "offset": "220",
+        "line": "9",
+        "column": "22"
+      }
+    },
+    "severity": "warning",
+    "message": "The argument has already been passed.",
+    "verboseMessage": "null",
+    "suggestion": null
+  }
+]

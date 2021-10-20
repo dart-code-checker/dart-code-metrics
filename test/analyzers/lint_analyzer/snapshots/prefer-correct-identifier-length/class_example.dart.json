@@ -1,0 +1,222 @@
+[
+  {
+    "ruleId": "prefer-correct-identifier-length",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-correct-identifier-length",
+    "location": {
+      "start": {
+        "offset": "24",
+        "line": "2",
+        "column": "9"
+      },
+      "end": {
+        "offset": "25",
+        "line": "2",
+        "column": "10"
+      }
+    },
+    "severity": "style",
+    "message": "The x identifier is 1 characters long. It's recommended to increase it up to 3 chars long.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-correct-identifier-length",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-correct-identifier-length",
+    "location": {
+      "start": {
+        "offset": "47",
+        "line": "3",
+        "column": "9"
+      },
+      "end": {
+        "offset": "48",
+        "line": "3",
+        "column": "10"
+      }
+    },
+    "severity": "style",
+    "message": "The y identifier is 1 characters long. It's recommended to increase it up to 3 chars long.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-correct-identifier-length",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-correct-identifier-length",
+    "location": {
+      "start": {
+        "offset": "70",
+        "line": "4",
+        "column": "9"
+      },
+      "end": {
+        "offset": "71",
+        "line": "4",
+        "column": "10"
+      }
+    },
+    "severity": "style",
+    "message": "The z identifier is 1 characters long. It's recommended to increase it up to 3 chars long.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-correct-identifier-length",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-correct-identifier-length",
+    "location": {
+      "start": {
+        "offset": "240",
+        "line": "11",
+        "column": "11"
+      },
+      "end": {
+        "offset": "241",
+        "line": "11",
+        "column": "12"
+      }
+    },
+    "severity": "style",
+    "message": "The u identifier is 1 characters long. It's recommended to increase it up to 3 chars long.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-correct-identifier-length",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-correct-identifier-length",
+    "location": {
+      "start": {
+        "offset": "265",
+        "line": "12",
+        "column": "11"
+      },
+      "end": {
+        "offset": "266",
+        "line": "12",
+        "column": "12"
+      }
+    },
+    "severity": "style",
+    "message": "The i identifier is 1 characters long. It's recommended to increase it up to 3 chars long.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-correct-identifier-length",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-correct-identifier-length",
+    "location": {
+      "start": {
+        "offset": "311",
+        "line": "16",
+        "column": "11"
+      },
+      "end": {
+        "offset": "312",
+        "line": "16",
+        "column": "12"
+      }
+    },
+    "severity": "style",
+    "message": "The u identifier is 1 characters long. It's recommended to increase it up to 3 chars long.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-correct-identifier-length",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-correct-identifier-length",
+    "location": {
+      "start": {
+        "offset": "336",
+        "line": "17",
+        "column": "11"
+      },
+      "end": {
+        "offset": "337",
+        "line": "17",
+        "column": "12"
+      }
+    },
+    "severity": "style",
+    "message": "The i identifier is 1 characters long. It's recommended to increase it up to 3 chars long.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-correct-identifier-length",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-correct-identifier-length",
+    "location": {
+      "start": {
+        "offset": "367",
+        "line": "20",
+        "column": "12"
+      },
+      "end": {
+        "offset": "368",
+        "line": "20",
+        "column": "13"
+      }
+    },
+    "severity": "style",
+    "message": "The o identifier is 1 characters long. It's recommended to increase it up to 3 chars long.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-correct-identifier-length",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-correct-identifier-length",
+    "location": {
+      "start": {
+        "offset": "399",
+        "line": "22",
+        "column": "12"
+      },
+      "end": {
+        "offset": "400",
+        "line": "22",
+        "column": "13"
+      }
+    },
+    "severity": "style",
+    "message": "The p identifier is 1 characters long. It's recommended to increase it up to 3 chars long.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-correct-identifier-length",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-correct-identifier-length",
+    "location": {
+      "start": {
+        "offset": "447",
+        "line": "25",
+        "column": "11"
+      },
+      "end": {
+        "offset": "448",
+        "line": "25",
+        "column": "12"
+      }
+    },
+    "severity": "style",
+    "message": "The u identifier is 1 characters long. It's recommended to increase it up to 3 chars long.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-correct-identifier-length",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-correct-identifier-length",
+    "location": {
+      "start": {
+        "offset": "472",
+        "line": "26",
+        "column": "11"
+      },
+      "end": {
+        "offset": "473",
+        "line": "26",
+        "column": "12"
+      }
+    },
+    "severity": "style",
+    "message": "The i identifier is 1 characters long. It's recommended to increase it up to 3 chars long.",
+    "verboseMessage": "null",
+    "suggestion": null
+  }
+]

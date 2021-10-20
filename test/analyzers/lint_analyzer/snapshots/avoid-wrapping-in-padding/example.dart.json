@@ -1,0 +1,22 @@
+[
+  {
+    "ruleId": "avoid-wrapping-in-padding",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/flutter/avoid-wrapping-in-padding",
+    "location": {
+      "start": {
+        "offset": "61",
+        "line": "4",
+        "column": "12"
+      },
+      "end": {
+        "offset": "101",
+        "line": "6",
+        "column": "6"
+      }
+    },
+    "severity": "warning",
+    "message": "Avoid wrapping a widget with padding settings in a Padding widget.",
+    "verboseMessage": "null",
+    "suggestion": null
+  }
+]

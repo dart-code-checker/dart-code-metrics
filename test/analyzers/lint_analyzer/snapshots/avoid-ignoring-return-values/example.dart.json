@@ -1,0 +1,222 @@
+[
+  {
+    "ruleId": "avoid-ignoring-return-values",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/avoid-ignoring-return-values",
+    "location": {
+      "start": {
+        "offset": "256",
+        "line": "20",
+        "column": "5"
+      },
+      "end": {
+        "offset": "271",
+        "line": "20",
+        "column": "20"
+      }
+    },
+    "severity": "warning",
+    "message": "Avoid ignoring return values.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "avoid-ignoring-return-values",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/avoid-ignoring-return-values",
+    "location": {
+      "start": {
+        "offset": "386",
+        "line": "28",
+        "column": "5"
+      },
+      "end": {
+        "offset": "413",
+        "line": "28",
+        "column": "32"
+      }
+    },
+    "severity": "warning",
+    "message": "Avoid ignoring return values.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "avoid-ignoring-return-values",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/avoid-ignoring-return-values",
+    "location": {
+      "start": {
+        "offset": "427",
+        "line": "30",
+        "column": "5"
+      },
+      "end": {
+        "offset": "442",
+        "line": "30",
+        "column": "20"
+      }
+    },
+    "severity": "warning",
+    "message": "Avoid ignoring return values.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "avoid-ignoring-return-values",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/avoid-ignoring-return-values",
+    "location": {
+      "start": {
+        "offset": "480",
+        "line": "33",
+        "column": "5"
+      },
+      "end": {
+        "offset": "501",
+        "line": "33",
+        "column": "26"
+      }
+    },
+    "severity": "warning",
+    "message": "Avoid ignoring return values.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "avoid-ignoring-return-values",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/avoid-ignoring-return-values",
+    "location": {
+      "start": {
+        "offset": "593",
+        "line": "38",
+        "column": "5"
+      },
+      "end": {
+        "offset": "610",
+        "line": "38",
+        "column": "22"
+      }
+    },
+    "severity": "warning",
+    "message": "Avoid ignoring return values.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "avoid-ignoring-return-values",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/avoid-ignoring-return-values",
+    "location": {
+      "start": {
+        "offset": "650",
+        "line": "41",
+        "column": "5"
+      },
+      "end": {
+        "offset": "673",
+        "line": "41",
+        "column": "28"
+      }
+    },
+    "severity": "warning",
+    "message": "Avoid ignoring return values.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "avoid-ignoring-return-values",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/avoid-ignoring-return-values",
+    "location": {
+      "start": {
+        "offset": "922",
+        "line": "54",
+        "column": "5"
+      },
+      "end": {
+        "offset": "933",
+        "line": "54",
+        "column": "16"
+      }
+    },
+    "severity": "warning",
+    "message": "Avoid ignoring return values.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "avoid-ignoring-return-values",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/avoid-ignoring-return-values",
+    "location": {
+      "start": {
+        "offset": "946",
+        "line": "55",
+        "column": "5"
+      },
+      "end": {
+        "offset": "957",
+        "line": "55",
+        "column": "16"
+      }
+    },
+    "severity": "warning",
+    "message": "Avoid ignoring return values.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "avoid-ignoring-return-values",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/avoid-ignoring-return-values",
+    "location": {
+      "start": {
+        "offset": "1010",
+        "line": "61",
+        "column": "5"
+      },
+      "end": {
+        "offset": "1022",
+        "line": "61",
+        "column": "17"
+      }
+    },
+    "severity": "warning",
+    "message": "Avoid ignoring return values.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "avoid-ignoring-return-values",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/avoid-ignoring-return-values",
+    "location": {
+      "start": {
+        "offset": "1541",
+        "line": "101",
+        "column": "3"
+      },
+      "end": {
+        "offset": "1552",
+        "line": "101",
+        "column": "14"
+      }
+    },
+    "severity": "warning",
+    "message": "Avoid ignoring return values.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "avoid-ignoring-return-values",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/avoid-ignoring-return-values",
+    "location": {
+      "start": {
+        "offset": "1598",
+        "line": "104",
+        "column": "3"
+      },
+      "end": {
+        "offset": "1625",
+        "line": "104",
+        "column": "30"
+      }
+    },
+    "severity": "warning",
+    "message": "Avoid ignoring return values.",
+    "verboseMessage": "null",
+    "suggestion": null
+  }
+]

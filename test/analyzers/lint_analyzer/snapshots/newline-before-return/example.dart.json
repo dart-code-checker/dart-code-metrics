@@ -1,0 +1,62 @@
+[
+  {
+    "ruleId": "newline-before-return",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/newline-before-return",
+    "location": {
+      "start": {
+        "offset": "256",
+        "line": "13",
+        "column": "5"
+      },
+      "end": {
+        "offset": "269",
+        "line": "13",
+        "column": "18"
+      }
+    },
+    "severity": "style",
+    "message": "Missing blank line before return.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "newline-before-return",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/newline-before-return",
+    "location": {
+      "start": {
+        "offset": "977",
+        "line": "58",
+        "column": "5"
+      },
+      "end": {
+        "offset": "990",
+        "line": "58",
+        "column": "18"
+      }
+    },
+    "severity": "style",
+    "message": "Missing blank line before return.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "newline-before-return",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/newline-before-return",
+    "location": {
+      "start": {
+        "offset": "1139",
+        "line": "70",
+        "column": "5"
+      },
+      "end": {
+        "offset": "1152",
+        "line": "70",
+        "column": "18"
+      }
+    },
+    "severity": "style",
+    "message": "Missing blank line before return.",
+    "verboseMessage": "null",
+    "suggestion": null
+  }
+]

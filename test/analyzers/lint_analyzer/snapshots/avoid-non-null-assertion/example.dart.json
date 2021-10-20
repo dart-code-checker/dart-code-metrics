@@ -1,0 +1,82 @@
+[
+  {
+    "ruleId": "avoid-non-null-assertion",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/avoid-non-null-assertion",
+    "location": {
+      "start": {
+        "offset": "70",
+        "line": "7",
+        "column": "5"
+      },
+      "end": {
+        "offset": "76",
+        "line": "7",
+        "column": "11"
+      }
+    },
+    "severity": "warning",
+    "message": "Avoid using non null assertion.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "avoid-non-null-assertion",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/avoid-non-null-assertion",
+    "location": {
+      "start": {
+        "offset": "208",
+        "line": "15",
+        "column": "5"
+      },
+      "end": {
+        "offset": "215",
+        "line": "15",
+        "column": "12"
+      }
+    },
+    "severity": "warning",
+    "message": "Avoid using non null assertion.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "avoid-non-null-assertion",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/avoid-non-null-assertion",
+    "location": {
+      "start": {
+        "offset": "208",
+        "line": "15",
+        "column": "5"
+      },
+      "end": {
+        "offset": "222",
+        "line": "15",
+        "column": "19"
+      }
+    },
+    "severity": "warning",
+    "message": "Avoid using non null assertion.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "avoid-non-null-assertion",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/avoid-non-null-assertion",
+    "location": {
+      "start": {
+        "offset": "460",
+        "line": "27",
+        "column": "5"
+      },
+      "end": {
+        "offset": "467",
+        "line": "27",
+        "column": "12"
+      }
+    },
+    "severity": "warning",
+    "message": "Avoid using non null assertion.",
+    "verboseMessage": "null",
+    "suggestion": null
+  }
+]

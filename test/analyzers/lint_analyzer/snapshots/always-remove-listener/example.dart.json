@@ -1,0 +1,122 @@
+[
+  {
+    "ruleId": "always-remove-listener",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/flutter/always-remove-listener",
+    "location": {
+      "start": {
+        "offset": "445",
+        "line": "21",
+        "column": "5"
+      },
+      "end": {
+        "offset": "483",
+        "line": "21",
+        "column": "43"
+      }
+    },
+    "severity": "warning",
+    "message": "Listener is not removed. This might lead to a memory leak.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "always-remove-listener",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/flutter/always-remove-listener",
+    "location": {
+      "start": {
+        "offset": "497",
+        "line": "22",
+        "column": "5"
+      },
+      "end": {
+        "offset": "533",
+        "line": "22",
+        "column": "41"
+      }
+    },
+    "severity": "warning",
+    "message": "Listener is not removed. This might lead to a memory leak.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "always-remove-listener",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/flutter/always-remove-listener",
+    "location": {
+      "start": {
+        "offset": "593",
+        "line": "25",
+        "column": "5"
+      },
+      "end": {
+        "offset": "634",
+        "line": "25",
+        "column": "46"
+      }
+    },
+    "severity": "warning",
+    "message": "Listener is not removed. This might lead to a memory leak.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "always-remove-listener",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/flutter/always-remove-listener",
+    "location": {
+      "start": {
+        "offset": "738",
+        "line": "30",
+        "column": "7"
+      },
+      "end": {
+        "offset": "758",
+        "line": "30",
+        "column": "27"
+      }
+    },
+    "severity": "warning",
+    "message": "Listener is not removed. This might lead to a memory leak.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "always-remove-listener",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/flutter/always-remove-listener",
+    "location": {
+      "start": {
+        "offset": "933",
+        "line": "38",
+        "column": "5"
+      },
+      "end": {
+        "offset": "977",
+        "line": "38",
+        "column": "49"
+      }
+    },
+    "severity": "warning",
+    "message": "Listener is not removed. This might lead to a memory leak.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "always-remove-listener",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/flutter/always-remove-listener",
+    "location": {
+      "start": {
+        "offset": "992",
+        "line": "40",
+        "column": "5"
+      },
+      "end": {
+        "offset": "1027",
+        "line": "40",
+        "column": "40"
+      }
+    },
+    "severity": "warning",
+    "message": "Listener is not removed. This might lead to a memory leak.",
+    "verboseMessage": "null",
+    "suggestion": null
+  }
+]

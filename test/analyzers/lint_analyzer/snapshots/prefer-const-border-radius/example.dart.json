@@ -1,0 +1,140 @@
+[
+  {
+    "ruleId": "prefer-const-border-radius",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/flutter/prefer-const-border-radius",
+    "location": {
+      "start": {
+        "offset": "82",
+        "line": "2",
+        "column": "22"
+      },
+      "end": {
+        "offset": "108",
+        "line": "2",
+        "column": "48"
+      }
+    },
+    "severity": "performance",
+    "message": "Prefer using const constructor BorderRadius.all.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with const BorderRadius constructor.",
+      "replacement": "const BorderRadius.all(Radius.circular(1.0))"
+    }
+  },
+  {
+    "ruleId": "prefer-const-border-radius",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/flutter/prefer-const-border-radius",
+    "location": {
+      "start": {
+        "offset": "242",
+        "line": "7",
+        "column": "31"
+      },
+      "end": {
+        "offset": "268",
+        "line": "7",
+        "column": "57"
+      }
+    },
+    "severity": "performance",
+    "message": "Prefer using const constructor BorderRadius.all.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with const BorderRadius constructor.",
+      "replacement": "const BorderRadius.all(Radius.circular(2.0))"
+    }
+  },
+  {
+    "ruleId": "prefer-const-border-radius",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/flutter/prefer-const-border-radius",
+    "location": {
+      "start": {
+        "offset": "367",
+        "line": "12",
+        "column": "31"
+      },
+      "end": {
+        "offset": "393",
+        "line": "12",
+        "column": "57"
+      }
+    },
+    "severity": "performance",
+    "message": "Prefer using const constructor BorderRadius.all.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with const BorderRadius constructor.",
+      "replacement": "const BorderRadius.all(Radius.circular(3.0))"
+    }
+  },
+  {
+    "ruleId": "prefer-const-border-radius",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/flutter/prefer-const-border-radius",
+    "location": {
+      "start": {
+        "offset": "434",
+        "line": "13",
+        "column": "32"
+      },
+      "end": {
+        "offset": "460",
+        "line": "13",
+        "column": "58"
+      }
+    },
+    "severity": "performance",
+    "message": "Prefer using const constructor BorderRadius.all.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with const BorderRadius constructor.",
+      "replacement": "const BorderRadius.all(Radius.circular(4.0))"
+    }
+  },
+  {
+    "ruleId": "prefer-const-border-radius",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/flutter/prefer-const-border-radius",
+    "location": {
+      "start": {
+        "offset": "582",
+        "line": "17",
+        "column": "31"
+      },
+      "end": {
+        "offset": "608",
+        "line": "17",
+        "column": "57"
+      }
+    },
+    "severity": "performance",
+    "message": "Prefer using const constructor BorderRadius.all.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with const BorderRadius constructor.",
+      "replacement": "const BorderRadius.all(Radius.circular(5.0))"
+    }
+  },
+  {
+    "ruleId": "prefer-const-border-radius",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/flutter/prefer-const-border-radius",
+    "location": {
+      "start": {
+        "offset": "864",
+        "line": "22",
+        "column": "31"
+      },
+      "end": {
+        "offset": "898",
+        "line": "22",
+        "column": "65"
+      }
+    },
+    "severity": "performance",
+    "message": "Prefer using const constructor BorderRadius.all.",
+    "verboseMessage": "null",
+    "suggestion": {
+      "comment": "Replace with const BorderRadius constructor.",
+      "replacement": "const BorderRadius.all(Radius.circular(_constValue))"
+    }
+  }
+]

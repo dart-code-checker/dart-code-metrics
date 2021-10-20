@@ -1,0 +1,82 @@
+[
+  {
+    "ruleId": "no-empty-block",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/no-empty-block",
+    "location": {
+      "start": {
+        "offset": "29",
+        "line": "2",
+        "column": "7"
+      },
+      "end": {
+        "offset": "31",
+        "line": "2",
+        "column": "9"
+      }
+    },
+    "severity": "style",
+    "message": "Block is empty. Empty blocks are often indicators of missing code.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "no-empty-block",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/no-empty-block",
+    "location": {
+      "start": {
+        "offset": "92",
+        "line": "7",
+        "column": "15"
+      },
+      "end": {
+        "offset": "97",
+        "line": "8",
+        "column": "4"
+      }
+    },
+    "severity": "style",
+    "message": "Block is empty. Empty blocks are often indicators of missing code.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "no-empty-block",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/no-empty-block",
+    "location": {
+      "start": {
+        "offset": "240",
+        "line": "16",
+        "column": "30"
+      },
+      "end": {
+        "offset": "242",
+        "line": "16",
+        "column": "32"
+      }
+    },
+    "severity": "style",
+    "message": "Block is empty. Empty blocks are often indicators of missing code.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "no-empty-block",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/no-empty-block",
+    "location": {
+      "start": {
+        "offset": "375",
+        "line": "26",
+        "column": "22"
+      },
+      "end": {
+        "offset": "377",
+        "line": "26",
+        "column": "24"
+      }
+    },
+    "severity": "style",
+    "message": "Block is empty. Empty blocks are often indicators of missing code.",
+    "verboseMessage": "null",
+    "suggestion": null
+  }
+]

@@ -1,0 +1,42 @@
+[
+  {
+    "ruleId": "prefer-correct-identifier-length",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-correct-identifier-length",
+    "location": {
+      "start": {
+        "offset": "14",
+        "line": "2",
+        "column": "3"
+      },
+      "end": {
+        "offset": "15",
+        "line": "2",
+        "column": "4"
+      }
+    },
+    "severity": "style",
+    "message": "The u identifier is 1 characters long. It's recommended to increase it up to 3 chars long.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-correct-identifier-length",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/prefer-correct-identifier-length",
+    "location": {
+      "start": {
+        "offset": "27",
+        "line": "3",
+        "column": "3"
+      },
+      "end": {
+        "offset": "28",
+        "line": "3",
+        "column": "4"
+      }
+    },
+    "severity": "style",
+    "message": "The i identifier is 1 characters long. It's recommended to increase it up to 3 chars long.",
+    "verboseMessage": "null",
+    "suggestion": null
+  }
+]

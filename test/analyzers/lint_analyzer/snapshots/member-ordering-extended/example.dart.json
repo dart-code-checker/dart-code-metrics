@@ -1,0 +1,122 @@
+[
+  {
+    "ruleId": "member-ordering-extended",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/member-ordering-extended",
+    "location": {
+      "start": {
+        "offset": "33",
+        "line": "4",
+        "column": "3"
+      },
+      "end": {
+        "offset": "68",
+        "line": "4",
+        "column": "38"
+      }
+    },
+    "severity": "style",
+    "message": "public-fields should be before private-fields.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "member-ordering-extended",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/member-ordering-extended",
+    "location": {
+      "start": {
+        "offset": "80",
+        "line": "6",
+        "column": "3"
+      },
+      "end": {
+        "offset": "112",
+        "line": "6",
+        "column": "35"
+      }
+    },
+    "severity": "style",
+    "message": "public-fields should be before private-fields.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "member-ordering-extended",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/member-ordering-extended",
+    "location": {
+      "start": {
+        "offset": "124",
+        "line": "8",
+        "column": "3"
+      },
+      "end": {
+        "offset": "146",
+        "line": "8",
+        "column": "25"
+      }
+    },
+    "severity": "style",
+    "message": "public-fields should be before private-fields.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "member-ordering-extended",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/member-ordering-extended",
+    "location": {
+      "start": {
+        "offset": "158",
+        "line": "10",
+        "column": "3"
+      },
+      "end": {
+        "offset": "189",
+        "line": "10",
+        "column": "34"
+      }
+    },
+    "severity": "style",
+    "message": "public-fields should be before private-fields.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "member-ordering-extended",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/member-ordering-extended",
+    "location": {
+      "start": {
+        "offset": "248",
+        "line": "16",
+        "column": "3"
+      },
+      "end": {
+        "offset": "263",
+        "line": "16",
+        "column": "18"
+      }
+    },
+    "severity": "style",
+    "message": "public-fields should be before public-methods.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "member-ordering-extended",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/member-ordering-extended",
+    "location": {
+      "start": {
+        "offset": "398",
+        "line": "28",
+        "column": "3"
+      },
+      "end": {
+        "offset": "425",
+        "line": "28",
+        "column": "30"
+      }
+    },
+    "severity": "style",
+    "message": "public-getters should be before private-methods.",
+    "verboseMessage": "null",
+    "suggestion": null
+  }
+]

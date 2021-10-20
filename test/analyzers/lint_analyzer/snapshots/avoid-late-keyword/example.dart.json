@@ -1,0 +1,122 @@
+[
+  {
+    "ruleId": "avoid-late-keyword",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/avoid-late-keyword",
+    "location": {
+      "start": {
+        "offset": "15",
+        "line": "2",
+        "column": "3"
+      },
+      "end": {
+        "offset": "42",
+        "line": "2",
+        "column": "30"
+      }
+    },
+    "severity": "warning",
+    "message": "Avoid using 'late' keyword.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "avoid-late-keyword",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/avoid-late-keyword",
+    "location": {
+      "start": {
+        "offset": "116",
+        "line": "8",
+        "column": "3"
+      },
+      "end": {
+        "offset": "146",
+        "line": "8",
+        "column": "33"
+      }
+    },
+    "severity": "warning",
+    "message": "Avoid using 'late' keyword.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "avoid-late-keyword",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/avoid-late-keyword",
+    "location": {
+      "start": {
+        "offset": "179",
+        "line": "11",
+        "column": "5"
+      },
+      "end": {
+        "offset": "209",
+        "line": "11",
+        "column": "35"
+      }
+    },
+    "severity": "warning",
+    "message": "Avoid using 'late' keyword.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "avoid-late-keyword",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/avoid-late-keyword",
+    "location": {
+      "start": {
+        "offset": "288",
+        "line": "17",
+        "column": "5"
+      },
+      "end": {
+        "offset": "321",
+        "line": "17",
+        "column": "38"
+      }
+    },
+    "severity": "warning",
+    "message": "Avoid using 'late' keyword.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "avoid-late-keyword",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/avoid-late-keyword",
+    "location": {
+      "start": {
+        "offset": "338",
+        "line": "21",
+        "column": "1"
+      },
+      "end": {
+        "offset": "376",
+        "line": "21",
+        "column": "39"
+      }
+    },
+    "severity": "warning",
+    "message": "Avoid using 'late' keyword.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "avoid-late-keyword",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/common/avoid-late-keyword",
+    "location": {
+      "start": {
+        "offset": "387",
+        "line": "23",
+        "column": "1"
+      },
+      "end": {
+        "offset": "428",
+        "line": "23",
+        "column": "42"
+      }
+    },
+    "severity": "warning",
+    "message": "Avoid using 'late' keyword.",
+    "verboseMessage": "null",
+    "suggestion": null
+  }
+]

@@ -1,0 +1,42 @@
+[
+  {
+    "ruleId": "prefer-extracting-callbacks",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/flutter/prefer-extracting-callbacks",
+    "location": {
+      "start": {
+        "offset": "229",
+        "line": "11",
+        "column": "7"
+      },
+      "end": {
+        "offset": "273",
+        "line": "13",
+        "column": "8"
+      }
+    },
+    "severity": "style",
+    "message": "Prefer extracting the callback to a separate widget method.",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "prefer-extracting-callbacks",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/flutter/prefer-extracting-callbacks",
+    "location": {
+      "start": {
+        "offset": "1004",
+        "line": "55",
+        "column": "7"
+      },
+      "end": {
+        "offset": "1048",
+        "line": "57",
+        "column": "8"
+      }
+    },
+    "severity": "style",
+    "message": "Prefer extracting the callback to a separate widget method.",
+    "verboseMessage": "null",
+    "suggestion": null
+  }
+]

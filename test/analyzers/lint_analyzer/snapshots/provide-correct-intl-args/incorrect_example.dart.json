@@ -1,0 +1,442 @@
+[
+  {
+    "ruleId": "provide-correct-intl-args",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/provide-correct-intl-args",
+    "location": {
+      "start": {
+        "offset": "184",
+        "line": "8",
+        "column": "45"
+      },
+      "end": {
+        "offset": "197",
+        "line": "8",
+        "column": "58"
+      }
+    },
+    "severity": "warning",
+    "message": "Parameter \"args\" should be added",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "provide-correct-intl-args",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/provide-correct-intl-args",
+    "location": {
+      "start": {
+        "offset": "192",
+        "line": "8",
+        "column": "53"
+      },
+      "end": {
+        "offset": "196",
+        "line": "8",
+        "column": "57"
+      }
+    },
+    "severity": "warning",
+    "message": "Parameter should be added to args",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "provide-correct-intl-args",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/provide-correct-intl-args",
+    "location": {
+      "start": {
+        "offset": "192",
+        "line": "8",
+        "column": "53"
+      },
+      "end": {
+        "offset": "196",
+        "line": "8",
+        "column": "57"
+      }
+    },
+    "severity": "warning",
+    "message": "Parameter is unused and should be removed",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "provide-correct-intl-args",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/provide-correct-intl-args",
+    "location": {
+      "start": {
+        "offset": "192",
+        "line": "8",
+        "column": "53"
+      },
+      "end": {
+        "offset": "196",
+        "line": "8",
+        "column": "57"
+      }
+    },
+    "severity": "warning",
+    "message": "Item is unused and should be removed",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "provide-correct-intl-args",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/provide-correct-intl-args",
+    "location": {
+      "start": {
+        "offset": "504",
+        "line": "18",
+        "column": "15"
+      },
+      "end": {
+        "offset": "510",
+        "line": "18",
+        "column": "21"
+      }
+    },
+    "severity": "warning",
+    "message": "Parameter \"args\" should be removed",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "provide-correct-intl-args",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/provide-correct-intl-args",
+    "location": {
+      "start": {
+        "offset": "505",
+        "line": "18",
+        "column": "16"
+      },
+      "end": {
+        "offset": "509",
+        "line": "18",
+        "column": "20"
+      }
+    },
+    "severity": "warning",
+    "message": "Args item should be added to parameters",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "provide-correct-intl-args",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/provide-correct-intl-args",
+    "location": {
+      "start": {
+        "offset": "403",
+        "line": "16",
+        "column": "33"
+      },
+      "end": {
+        "offset": "407",
+        "line": "16",
+        "column": "37"
+      }
+    },
+    "severity": "warning",
+    "message": "Interpolation expression should be added to parameters",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "provide-correct-intl-args",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/provide-correct-intl-args",
+    "location": {
+      "start": {
+        "offset": "700",
+        "line": "24",
+        "column": "15"
+      },
+      "end": {
+        "offset": "706",
+        "line": "24",
+        "column": "21"
+      }
+    },
+    "severity": "warning",
+    "message": "Parameter \"args\" should be removed",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "provide-correct-intl-args",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/provide-correct-intl-args",
+    "location": {
+      "start": {
+        "offset": "701",
+        "line": "24",
+        "column": "16"
+      },
+      "end": {
+        "offset": "705",
+        "line": "24",
+        "column": "20"
+      }
+    },
+    "severity": "warning",
+    "message": "Args item should be added to parameters",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "provide-correct-intl-args",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/provide-correct-intl-args",
+    "location": {
+      "start": {
+        "offset": "916",
+        "line": "30",
+        "column": "23"
+      },
+      "end": {
+        "offset": "920",
+        "line": "30",
+        "column": "27"
+      }
+    },
+    "severity": "warning",
+    "message": "Args item should be added to parameters",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "provide-correct-intl-args",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/provide-correct-intl-args",
+    "location": {
+      "start": {
+        "offset": "1256",
+        "line": "40",
+        "column": "34"
+      },
+      "end": {
+        "offset": "1265",
+        "line": "40",
+        "column": "43"
+      }
+    },
+    "severity": "warning",
+    "message": "Item should be simple identifier",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "provide-correct-intl-args",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/provide-correct-intl-args",
+    "location": {
+      "start": {
+        "offset": "1587",
+        "line": "49",
+        "column": "16"
+      },
+      "end": {
+        "offset": "1596",
+        "line": "49",
+        "column": "25"
+      }
+    },
+    "severity": "warning",
+    "message": "Item should be simple identifier",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "provide-correct-intl-args",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/provide-correct-intl-args",
+    "location": {
+      "start": {
+        "offset": "1443",
+        "line": "46",
+        "column": "56"
+      },
+      "end": {
+        "offset": "1448",
+        "line": "46",
+        "column": "61"
+      }
+    },
+    "severity": "warning",
+    "message": "Parameter should be added to args",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "provide-correct-intl-args",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/provide-correct-intl-args",
+    "location": {
+      "start": {
+        "offset": "1484",
+        "line": "47",
+        "column": "33"
+      },
+      "end": {
+        "offset": "1489",
+        "line": "47",
+        "column": "38"
+      }
+    },
+    "severity": "warning",
+    "message": "Interpolation expression should be added to args",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "provide-correct-intl-args",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/provide-correct-intl-args",
+    "location": {
+      "start": {
+        "offset": "1690",
+        "line": "53",
+        "column": "68"
+      },
+      "end": {
+        "offset": "1694",
+        "line": "53",
+        "column": "72"
+      }
+    },
+    "severity": "warning",
+    "message": "Parameter should be added to args",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "provide-correct-intl-args",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/provide-correct-intl-args",
+    "location": {
+      "start": {
+        "offset": "1744",
+        "line": "54",
+        "column": "47"
+      },
+      "end": {
+        "offset": "1748",
+        "line": "54",
+        "column": "51"
+      }
+    },
+    "severity": "warning",
+    "message": "Interpolation expression should be added to args",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "provide-correct-intl-args",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/provide-correct-intl-args",
+    "location": {
+      "start": {
+        "offset": "2073",
+        "line": "62",
+        "column": "23"
+      },
+      "end": {
+        "offset": "2077",
+        "line": "62",
+        "column": "27"
+      }
+    },
+    "severity": "warning",
+    "message": "Args item should be added to parameters",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "provide-correct-intl-args",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/provide-correct-intl-args",
+    "location": {
+      "start": {
+        "offset": "1966",
+        "line": "60",
+        "column": "47"
+      },
+      "end": {
+        "offset": "1970",
+        "line": "60",
+        "column": "51"
+      }
+    },
+    "severity": "warning",
+    "message": "Interpolation expression should be added to parameters",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "provide-correct-intl-args",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/provide-correct-intl-args",
+    "location": {
+      "start": {
+        "offset": "2175",
+        "line": "66",
+        "column": "72"
+      },
+      "end": {
+        "offset": "2179",
+        "line": "66",
+        "column": "76"
+      }
+    },
+    "severity": "warning",
+    "message": "Parameter should be added to args",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "provide-correct-intl-args",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/provide-correct-intl-args",
+    "location": {
+      "start": {
+        "offset": "2229",
+        "line": "67",
+        "column": "47"
+      },
+      "end": {
+        "offset": "2233",
+        "line": "67",
+        "column": "51"
+      }
+    },
+    "severity": "warning",
+    "message": "Interpolation expression should be added to args",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "provide-correct-intl-args",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/provide-correct-intl-args",
+    "location": {
+      "start": {
+        "offset": "2580",
+        "line": "75",
+        "column": "23"
+      },
+      "end": {
+        "offset": "2584",
+        "line": "75",
+        "column": "27"
+      }
+    },
+    "severity": "warning",
+    "message": "Args item should be added to parameters",
+    "verboseMessage": "null",
+    "suggestion": null
+  },
+  {
+    "ruleId": "provide-correct-intl-args",
+    "documentation": "https://dartcodemetrics.dev/docs/rules/intl/provide-correct-intl-args",
+    "location": {
+      "start": {
+        "offset": "2464",
+        "line": "73",
+        "column": "47"
+      },
+      "end": {
+        "offset": "2468",
+        "line": "73",
+        "column": "51"
+      }
+    },
+    "severity": "warning",
+    "message": "Interpolation expression should be added to parameters",
+    "verboseMessage": "null",
+    "suggestion": null
+  }
+]
