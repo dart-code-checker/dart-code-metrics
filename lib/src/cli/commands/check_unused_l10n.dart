@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 import 'dart:io';
 
 import '../../analyzers/unused_l10n_analyzer/unused_l10n_analyzer.dart';

@@ -17,6 +17,7 @@ abstract class JsonReporter<T extends FileReport, S> extends Reporter<T, S> {
 
   const JsonReporter(this.output, this.formatVersion);
 
+  /// Returns a string representation of a timestamp.
   String getTimestamp() {
     final nowTime = DateTime.now();
 

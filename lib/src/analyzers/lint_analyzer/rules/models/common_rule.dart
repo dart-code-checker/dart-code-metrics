@@ -3,6 +3,7 @@ import 'rule.dart';
 import 'rule_documentation.dart';
 import 'rule_type.dart';
 
+/// Represents a base class for common rules.
 abstract class CommonRule extends Rule {
   const CommonRule({
     required String id,

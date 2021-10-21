@@ -6,6 +6,7 @@ import '../../../metrics/models/metric_value_level.dart';
 import '../../../models/issue.dart';
 import '../../../models/severity.dart';
 
+/// Helper for building lint console reports
 class LintConsoleReporterHelper {
   static final _colorPens = {
     MetricValueLevel.alarm: AnsiPen()..red(bold: true),
@@ -22,6 +23,7 @@ class LintConsoleReporterHelper {
     Severity.none: AnsiPen()..white(),
   };
 
+  /// Converts an [issue] to the issue message string.
   String getIssueMessage(Issue issue) {
     final severity = _getSeverity(issue.severity);
     final location =
@@ -30,6 +32,7 @@ class LintConsoleReporterHelper {
     return '$severity${[issue.message, location, issue.ruleId].join(' : ')}';
   }
 
+  /// Creates a message for [violations] based on given [violationLevel].
   String getMetricMessage(
     MetricValueLevel violationLevel,
     String source,
@@ -49,6 +52,7 @@ class LintConsoleReporterHelper {
     throw StateError('Unexpected violation level.');
   }
 
+  /// Converts a [metric] to the metric message string.
   String getMetricReport(MetricValue<num> metric) {
     final color = _colorPens[metric.level];
 

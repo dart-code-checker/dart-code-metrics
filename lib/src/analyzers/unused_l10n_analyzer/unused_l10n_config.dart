@@ -15,6 +15,7 @@ class UnusedL10nConfig {
     required this.classPattern,
   });
 
+  /// Creates the config from analysis [options].
   factory UnusedL10nConfig.fromAnalysisOptions(
     AnalysisOptions options,
   ) =>
@@ -25,6 +26,7 @@ class UnusedL10nConfig {
         classPattern: null,
       );
 
+  /// Creates the config from cli args.
   factory UnusedL10nConfig.fromArgs(
     Iterable<String> excludePatterns,
     String classPattern,
@@ -35,6 +37,10 @@ class UnusedL10nConfig {
         classPattern: classPattern,
       );
 
+  /// Merges two configs into a single one.
+  ///
+  /// Config coming from [overrides] has a higher priority
+  /// and overrides conflicting entries.
   UnusedL10nConfig merge(UnusedL10nConfig overrides) => UnusedL10nConfig(
         excludePatterns: {...excludePatterns, ...overrides.excludePatterns},
         analyzerExcludePatterns: {

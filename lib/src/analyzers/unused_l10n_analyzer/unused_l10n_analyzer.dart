@@ -19,9 +19,12 @@ import 'reporters/reporter_factory.dart';
 import 'unused_l10n_config.dart';
 import 'unused_l10n_visitor.dart';
 
+/// The analyzer responsible for collecting unused localization reports.
 class UnusedL10nAnalyzer {
   const UnusedL10nAnalyzer();
 
+  /// Returns a reporter for the given [name]. Use the reporter
+  /// to convert analysis reports to console, JSON or other supported format.
   Reporter? getReporter({
     required String name,
     required IOSink output,
@@ -31,6 +34,9 @@ class UnusedL10nAnalyzer {
         output: output,
       );
 
+  /// Returns a list of unused localization reports
+  /// for analyzing all files in the given [folders].
+  /// The analysis is configured with the [config].
   Future<Iterable<UnusedL10nFileReport>> runCliAnalysis(
     Iterable<String> folders,
     String rootFolder,

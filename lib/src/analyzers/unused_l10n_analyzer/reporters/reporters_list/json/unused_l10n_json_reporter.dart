@@ -7,6 +7,9 @@ import '../../../../../reporters/models/json_reporter.dart';
 import '../../../models/unused_l10n_file_report.dart';
 import '../../../models/unused_l10n_issue.dart';
 
+/// Unused localization JSON reporter.
+///
+/// Use it to create reports in JSON format.
 @immutable
 class UnusedL10nJsonReporter extends JsonReporter<UnusedL10nFileReport, void> {
   const UnusedL10nJsonReporter(IOSink output) : super(output, 2);

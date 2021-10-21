@@ -13,6 +13,7 @@ class UnusedFilesConfig {
     required this.analyzerExcludePatterns,
   });
 
+  /// Creates the config from analysis [options].
   factory UnusedFilesConfig.fromAnalysisOptions(AnalysisOptions options) =>
       UnusedFilesConfig(
         excludePatterns: const [],
@@ -20,12 +21,17 @@ class UnusedFilesConfig {
             options.readIterableOfString(['analyzer', 'exclude']),
       );
 
+  /// Creates the config from cli args.
   factory UnusedFilesConfig.fromArgs(Iterable<String> excludePatterns) =>
       UnusedFilesConfig(
         excludePatterns: excludePatterns,
         analyzerExcludePatterns: const [],
       );
 
+  /// Merges two configs into a single one.
+  ///
+  /// Config coming from [overrides] has a higher priority
+  /// and overrides conflicting entries.
   UnusedFilesConfig merge(UnusedFilesConfig overrides) => UnusedFilesConfig(
         excludePatterns: {...excludePatterns, ...overrides.excludePatterns},
         analyzerExcludePatterns: {

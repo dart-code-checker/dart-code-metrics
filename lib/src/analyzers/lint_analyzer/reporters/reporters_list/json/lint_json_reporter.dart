@@ -13,6 +13,9 @@ import '../../../models/replacement.dart';
 import '../../../models/report.dart';
 import '../../../models/summary_lint_report_record.dart';
 
+/// Lint JSON reporter.
+///
+/// Use it to create reports in JSON format.
 @immutable
 class LintJsonReporter
     extends JsonReporter<LintFileReport, SummaryLintReportRecord> {

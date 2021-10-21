@@ -30,6 +30,8 @@ abstract class HtmlReporter<T extends FileReport, S> extends Reporter<T, S> {
     await copyResources();
   }
 
+  /// Creates a report directory.
+  /// If the directory already exists, it'll be deleted first.
   void createReportDirectory() {
     final reportDirectory = Directory(reportFolder);
     if (reportDirectory.existsSync()) {
@@ -38,6 +40,7 @@ abstract class HtmlReporter<T extends FileReport, S> extends Reporter<T, S> {
     reportDirectory.createSync(recursive: true);
   }
 
+  /// Copies resources for styling the HTML report.
   Future<void> copyResources() async {
     const resources = [
       'package:dart_code_metrics/src/reporters/resources/variables.css',

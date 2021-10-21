@@ -47,6 +47,7 @@ const _maximumNestingWithViolations = '$_maximumNesting / violations';
 const _codeIssues = 'Issues';
 const _designIssues = 'Design issues';
 
+/// A table record used by [LintHtmlReporter]
 @immutable
 class ReportTableRecord {
   final String title;
@@ -61,6 +62,9 @@ class ReportTableRecord {
   });
 }
 
+/// Lint HTML reporter.
+///
+/// Use it to create reports in HTML format.
 class LintHtmlReporter
     extends HtmlReporter<LintFileReport, SummaryLintReportRecord> {
   LintHtmlReporter(String reportFolder) : super(reportFolder);
