@@ -50,6 +50,43 @@ void main() {
         expect(secondIssues.location.column, 3);
       });
 
+      test('should analyze files with custom class pattern', () async {
+        final config = _createConfig(
+          analyzerExcludePatterns: analyzerExcludes,
+          classPattern: r'^S$',
+        );
+
+        final result = await analyzer.runCliAnalysis(
+          folders,
+          rootDirectory,
+          config,
+        );
+
+        final report = result.single;
+        expect(report.className, 'S');
+
+        final firstIssue = report.issues.elementAt(0);
+        expect(firstIssue.memberName, 'field');
+        expect(firstIssue.location.line, 13);
+        expect(firstIssue.location.column, 3);
+
+        final secondIssues = report.issues.elementAt(1);
+        expect(
+          secondIssues.memberName,
+          'method(String value)',
+        );
+        expect(secondIssues.location.line, 17);
+        expect(secondIssues.location.column, 3);
+
+        final thirdIssues = report.issues.elementAt(2);
+        expect(
+          thirdIssues.memberName,
+          'secondMethod(String value, num number)',
+        );
+        expect(thirdIssues.location.line, 19);
+        expect(thirdIssues.location.column, 3);
+      });
+
       test('should report no issues for a custom class name pattern', () async {
         final config = _createConfig(
           analyzerExcludePatterns: analyzerExcludes,

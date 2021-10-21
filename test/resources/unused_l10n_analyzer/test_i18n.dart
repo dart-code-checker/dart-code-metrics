@@ -8,3 +8,14 @@ class TestI18n {
   static String secondMethod(String value, num number) =>
       value + number.toString();
 }
+
+class S {
+  static const String field = 'field'; // LINT
+
+  static String get getter => 'getter';
+
+  static String method(String value) => value; // LINT
+
+  static String secondMethod(String value, num number) => // LINT
+      value + number.toString();
+}
