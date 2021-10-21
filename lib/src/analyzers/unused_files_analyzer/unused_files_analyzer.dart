@@ -14,9 +14,12 @@ import 'reporters/reporter_factory.dart';
 import 'unused_files_config.dart';
 import 'unused_files_visitor.dart';
 
+/// The analyzer responsible for collecting unused files reports.
 class UnusedFilesAnalyzer {
   const UnusedFilesAnalyzer();
 
+  /// Returns a reporter for the given [name]. Use the reporter
+  /// to convert analysis reports to console, JSON or other supported format.
   Reporter? getReporter({
     required String name,
     required IOSink output,
@@ -26,6 +29,9 @@ class UnusedFilesAnalyzer {
         output: output,
       );
 
+  /// Returns a list of unused files reports
+  /// for analyzing all files in the given [folders].
+  /// The analysis is configured with the [config].
   Future<Iterable<UnusedFilesFileReport>> runCliAnalysis(
     Iterable<String> folders,
     String rootFolder,

@@ -6,6 +6,9 @@ import 'package:meta/meta.dart';
 import '../../../../../reporters/models/json_reporter.dart';
 import '../../../models/unused_files_file_report.dart';
 
+/// Unused files JSON reporter.
+///
+/// Use it to create reports in JSON format.
 @immutable
 class UnusedFilesJsonReporter
     extends JsonReporter<UnusedFilesFileReport, void> {

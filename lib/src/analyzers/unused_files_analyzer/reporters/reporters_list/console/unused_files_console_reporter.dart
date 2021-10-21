@@ -5,6 +5,9 @@ import 'package:ansicolor/ansicolor.dart';
 import '../../../../../reporters/models/console_reporter.dart';
 import '../../../models/unused_files_file_report.dart';
 
+/// Unused files console reporter.
+///
+/// Use it to create reports in console format.
 class UnusedFilesConsoleReporter
     extends ConsoleReporter<UnusedFilesFileReport, void> {
   UnusedFilesConsoleReporter(IOSink output) : super(output);

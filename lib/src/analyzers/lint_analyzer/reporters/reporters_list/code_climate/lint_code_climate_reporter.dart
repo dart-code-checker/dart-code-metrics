@@ -15,6 +15,9 @@ import 'models/code_climate_issue_category.dart';
 import 'models/code_climate_issue_location.dart';
 import 'models/code_climate_issue_severity.dart';
 
+/// Lint Code Climate reporter.
+///
+/// Use it to create reports in Code Climate format.
 class LintCodeClimateReporter
     extends CodeClimateReporter<LintFileReport, SummaryLintReportRecord> {
   LintCodeClimateReporter(IOSink output, {bool gitlabCompatible = false})

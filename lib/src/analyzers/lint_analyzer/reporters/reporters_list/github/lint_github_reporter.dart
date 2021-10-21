@@ -8,6 +8,12 @@ import '../../../models/summary_lint_report_record.dart';
 const _deprecationMessage =
     'DEPRECATED! This reporter is deprecated and will be removed in 5.0.0. You can migrate on our GitHub Action.';
 
+/// Lint GitHub reporter.
+///
+/// Use it to create reports in GitHub format.
+///
+/// **Note:** this reporter is deprecated and should not be used.
+/// Consider using Dart Code Metrics GitHub Action instead.
 class LintGitHubReporter
     extends GitHubReporter<LintFileReport, SummaryLintReportRecord> {
   const LintGitHubReporter(IOSink output) : super(output);

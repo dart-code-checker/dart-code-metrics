@@ -13,13 +13,17 @@ import '../cli/models/parsed_arguments.dart';
 import '../utils/exclude_utils.dart';
 import 'models/analysis_options.dart';
 
+/// Builder for creating a config for all available commands.
 class ConfigBuilder {
+  /// Creates a raw lint config from given [options].
   static LintConfig getLintConfigFromOptions(AnalysisOptions options) =>
       LintConfig.fromAnalysisOptions(options);
 
+  /// Creates a raw lint config from given parsed [arguments].
   static LintConfig getLintConfigFromArgs(ParsedArguments arguments) =>
       LintConfig.fromArgs(arguments);
 
+  /// Creates a lint config from given raw config.
   static LintAnalysisConfig getLintAnalysisConfig(
     LintConfig config,
     String excludesRootFolder, {
@@ -55,16 +59,19 @@ class ConfigBuilder {
     );
   }
 
+  /// Creates a raw unused files config from given [excludePatterns].
   static UnusedFilesConfig getUnusedFilesConfigFromArgs(
     Iterable<String> excludePatterns,
   ) =>
       UnusedFilesConfig.fromArgs(excludePatterns);
 
+  /// Creates a raw unused files config from given [options].
   static UnusedFilesConfig getUnusedFilesConfigFromOption(
     AnalysisOptions options,
   ) =>
       UnusedFilesConfig.fromAnalysisOptions(options);
 
+  /// Creates an unused files config from given raw [config].
   static UnusedFilesAnalysisConfig getUnusedFilesConfig(
     UnusedFilesConfig config,
     String rootPath,
@@ -74,17 +81,20 @@ class ConfigBuilder {
         prepareExcludes(config.analyzerExcludePatterns, rootPath),
       );
 
+  /// Creates a raw unused localization config from given [excludePatterns] and [classPattern].
   static UnusedL10nConfig getUnusedL10nConfigFromArgs(
     Iterable<String> excludePatterns,
     String classPattern,
   ) =>
       UnusedL10nConfig.fromArgs(excludePatterns, classPattern);
 
+  /// Creates a raw unused localization config from given [options].
   static UnusedL10nConfig getUnusedL10nConfigFromOption(
     AnalysisOptions options,
   ) =>
       UnusedL10nConfig.fromAnalysisOptions(options);
 
+  /// Creates an unused localization config from given raw [config].
   static UnusedL10nAnalysisConfig getUnusedL10nConfig(
     UnusedL10nConfig config,
     String rootPath,
