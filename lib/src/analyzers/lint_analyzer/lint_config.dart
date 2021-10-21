@@ -24,6 +24,7 @@ class LintConfig {
     required this.antiPatterns,
   });
 
+  /// Creates the config from analysis [options].
   factory LintConfig.fromAnalysisOptions(AnalysisOptions options) {
     const _rootKey = 'dart_code_metrics';
 
@@ -39,6 +40,7 @@ class LintConfig {
     );
   }
 
+  /// Creates the config from cli [arguments].
   factory LintConfig.fromArgs(ParsedArguments arguments) => LintConfig(
         excludePatterns: [arguments.excludePath],
         excludeForMetricsPatterns: const [],
@@ -52,6 +54,10 @@ class LintConfig {
         antiPatterns: const {},
       );
 
+  /// Merges two configs into a single one
+  ///
+  /// Config coming from [overrides] has a higher priority
+  /// and overrides conflicting entries.
   LintConfig merge(LintConfig overrides) => LintConfig(
         excludePatterns: {...excludePatterns, ...overrides.excludePatterns},
         excludeForMetricsPatterns: {

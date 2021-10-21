@@ -6,6 +6,8 @@ import 'commands/analyze.dart';
 import 'commands/check_unused_files.dart';
 import 'commands/check_unused_l10n.dart';
 
+/// Represents a cli runner responsible
+/// for running a command based on raw cli call data.
 class CliRunner extends CommandRunner<void> {
   static final _commands = [
     AnalyzeCommand(),
@@ -21,9 +23,11 @@ class CliRunner extends CommandRunner<void> {
     _commands.forEach(addCommand);
   }
 
+  /// Represents the invocation string message
   @override
   String get invocation => '${super.invocation} <directories>';
 
+  /// Main entry point for running a command
   @override
   Future<void> run(Iterable<String> args) async {
     try {

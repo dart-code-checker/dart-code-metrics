@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:source_span/source_span.dart';
 
 // https://docs.github.com/en/actions/reference/workflow-commands-for-github-actions#setting-a-warning-message

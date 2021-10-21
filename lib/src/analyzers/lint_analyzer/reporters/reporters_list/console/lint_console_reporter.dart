@@ -10,6 +10,9 @@ import '../../../models/report.dart';
 import '../../../models/summary_lint_report_record.dart';
 import 'lint_console_reporter_helper.dart';
 
+/// Lint console reporter.
+///
+/// Use it to create reports in console format.
 class LintConsoleReporter
     extends ConsoleReporter<LintFileReport, SummaryLintReportRecord> {
   /// If true will report info about all files even if they're not above warning threshold

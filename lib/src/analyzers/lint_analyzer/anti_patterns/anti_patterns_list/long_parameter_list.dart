@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 import '../../../../utils/node_utils.dart';
 import '../../lint_utils.dart';
 import '../../metrics/metric_utils.dart';

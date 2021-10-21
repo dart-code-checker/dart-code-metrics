@@ -4,6 +4,7 @@ import 'code_climate_issue_category.dart';
 import 'code_climate_issue_location.dart';
 import 'code_climate_issue_severity.dart';
 
+/// Represents a Code Climate issue.
 @immutable
 class CodeClimateIssue {
   static const String type = 'issue';
@@ -24,6 +25,7 @@ class CodeClimateIssue {
     required this.fingerprint,
   });
 
+  /// Converts the issue to JSON format.
   Map<String, Object> toJson() => {
         'type': type,
         'check_name': checkName,

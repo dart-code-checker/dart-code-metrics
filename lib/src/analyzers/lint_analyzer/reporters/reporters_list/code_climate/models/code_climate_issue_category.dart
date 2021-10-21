@@ -1,3 +1,4 @@
+/// Represents a Code Climate issue category.
 class CodeClimateIssueCategory {
   static const bugRisk = CodeClimateIssueCategory._('Bug Risk');
   static const clarity = CodeClimateIssueCategory._('Clarity');

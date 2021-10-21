@@ -27,9 +27,12 @@ import 'models/suppression.dart';
 import 'reporters/reporter_factory.dart';
 import 'utils/report_utils.dart';
 
+/// The analyzer responsible for collecting lint reports.
 class LintAnalyzer {
   const LintAnalyzer();
 
+  /// Returns a reporter for the given [name]. Use the reporter
+  /// to convert analysis reports to console, JSON or other supported format.
   Reporter? getReporter({
     required String name,
     required IOSink output,
@@ -43,6 +46,8 @@ class LintAnalyzer {
         reportFolder: reportFolder,
       );
 
+  /// Returns a lint report for analyzing given [result].
+  /// The analysis is configured with the [config].
   LintFileReport? runPluginAnalysis(
     ResolvedUnitResult result,
     LintAnalysisConfig config,
@@ -60,6 +65,8 @@ class LintAnalyzer {
     return null;
   }
 
+  /// Returns a list of lint reports for analyzing all files in the given [folders].
+  /// The analysis is configured with the [config].
   Future<Iterable<LintFileReport>> runCliAnalysis(
     Iterable<String> folders,
     String rootFolder,

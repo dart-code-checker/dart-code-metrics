@@ -1,5 +1,6 @@
 import '../../../reporters/models/file_report.dart';
 
+/// Represents the unused files report collected for a file.
 class UnusedFilesFileReport implements FileReport {
   /// The path to the target file.
   @override

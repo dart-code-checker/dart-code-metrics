@@ -5,6 +5,9 @@ import 'package:ansicolor/ansicolor.dart';
 import '../../../../../reporters/models/console_reporter.dart';
 import '../../../models/unused_l10n_file_report.dart';
 
+/// Unused localization console reporter.
+///
+/// Use it to create reports in console format.
 class UnusedL10nConsoleReporter
     extends ConsoleReporter<UnusedL10nFileReport, void> {
   final _errorColor = AnsiPen()..red(bold: true);

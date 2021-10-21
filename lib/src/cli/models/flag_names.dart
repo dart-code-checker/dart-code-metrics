@@ -4,6 +4,7 @@ import '../../reporters/models/github_reporter.dart';
 import '../../reporters/models/html_reporter.dart';
 import '../../reporters/models/json_reporter.dart';
 
+/// Represents all flag names used by the CLI.
 class FlagNames {
   static const reporter = 'reporter';
   static const exclude = 'exclude';

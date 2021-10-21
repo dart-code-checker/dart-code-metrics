@@ -1,3 +1,4 @@
+/// Represents a Code Climate issue severity.
 class CodeClimateIssueSeverity {
   static const blocker = CodeClimateIssueSeverity._('blocker');
   static const critical = CodeClimateIssueSeverity._('critical');
