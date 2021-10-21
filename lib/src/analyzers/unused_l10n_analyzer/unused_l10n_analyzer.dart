@@ -161,8 +161,7 @@ class UnusedL10nAnalyzer {
   ) {
     final unusedAccessors = classElement.accessors
         .where((field) => !usages.contains(field.name))
-        .map((field) => field.isSynthetic ? field.nonSynthetic : field)
-        .toList();
+        .map((field) => field.isSynthetic ? field.nonSynthetic : field);
 
     return unusedAccessors
         .map((accessor) => _createL10nIssues(accessor as ElementImpl, unit))
@@ -176,8 +175,7 @@ class UnusedL10nAnalyzer {
   ) {
     final unusedMethods = classElement.methods
         .where((method) => !usages.contains(method.name))
-        .map((method) => method.isSynthetic ? method.nonSynthetic : method)
-        .toList();
+        .map((method) => method.isSynthetic ? method.nonSynthetic : method);
 
     return unusedMethods
         .map((method) => _createL10nIssues(method as ElementImpl, unit))
