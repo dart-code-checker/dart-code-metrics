@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 4.5.0-dev.3
 
 * fix: make check-unused-l10n report class fields.
 
