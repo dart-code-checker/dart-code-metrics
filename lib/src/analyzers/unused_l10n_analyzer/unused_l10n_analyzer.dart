@@ -160,7 +160,8 @@ class UnusedL10nAnalyzer {
     CompilationUnitElement unit,
   ) {
     final unusedAccessors = classElement.accessors
-        .where((field) => !usages.contains(field.name) && !field.isSynthetic)
+        .where((field) => !usages.contains(field.name))
+        .map((field) => field.isSynthetic ? field.nonSynthetic : field)
         .toList();
 
     return unusedAccessors
@@ -174,9 +175,8 @@ class UnusedL10nAnalyzer {
     CompilationUnitElement unit,
   ) {
     final unusedMethods = classElement.methods
-        .where(
-          (method) => !usages.contains(method.name) && !method.isSynthetic,
-        )
+        .where((method) => !usages.contains(method.name))
+        .map((method) => method.isSynthetic ? method.nonSynthetic : method)
         .toList();
 
     return unusedMethods
