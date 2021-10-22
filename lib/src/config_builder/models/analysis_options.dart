@@ -20,7 +20,11 @@ class AnalysisOptions {
 
   const AnalysisOptions(this._path, this.options);
 
-  String? get folderPath => _path?.split('/$_analysisOptionsFileName').first;
+  String? get folderPath {
+    final finalPath = _path;
+
+    return finalPath == null ? null : p.dirname(finalPath);
+  }
 
   Iterable<String> readIterableOfString(Iterable<String> pathSegments) {
     Object? data = options;
