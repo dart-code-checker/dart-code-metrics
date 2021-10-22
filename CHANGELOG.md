@@ -3,6 +3,7 @@
 ## 4.5.0-dev.3
 
 * fix: make check-unused-l10n report class fields.
+* chore: restrict `analyzer` version to `>=2.4.0 <2.8.0`.
 
 ## 4.5.0-dev.2
 
