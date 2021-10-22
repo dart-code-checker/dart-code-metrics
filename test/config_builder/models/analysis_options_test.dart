@@ -187,5 +187,19 @@ void main() {
 
       expect(options.readMapOfMap(['dart_code_metrics', 'rules4']), isEmpty);
     });
+
+    test('returns correct "folderPath" on *nix', () async {
+      const options =
+          AnalysisOptions('./unix/folder/analysis_options.yaml', {});
+
+      expect(options.folderPath, './unix/folder');
+    });
+
+    test('returns correct "folderPath" on Windows', () async {
+      const options =
+          AnalysisOptions(r'C:\windows\folder\analysis_options.yaml', {});
+
+      expect(options.folderPath, r'C:\windows\folder');
+    });
   });
 }
