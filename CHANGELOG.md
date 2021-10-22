@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* fix: rule-specific excludes not working on Windows.
+
 ## 4.5.0-dev.3
 
 * fix: make check-unused-l10n report class fields.
