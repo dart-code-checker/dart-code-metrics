@@ -194,7 +194,7 @@ void main() {
 
       expect(options.folderPath, './unix/folder');
     }, onPlatform: <String, dynamic>{
-      'windows': const Skip('Tested code must work only on posix platforms.')
+      'windows': const Skip('Test should work only on posix platforms.')
     });
 
     test('returns correct "folderPath" on windows platforms', () async {
@@ -203,7 +203,7 @@ void main() {
 
       expect(options.folderPath, r'C:\windows\folder');
     }, onPlatform: <String, dynamic>{
-      'posix': const Skip('This should work only on windows platforms.')
+      'posix': const Skip('Test should work only on windows platforms.')
     });
   });
 }
