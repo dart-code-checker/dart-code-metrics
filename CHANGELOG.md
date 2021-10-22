@@ -1,8 +1,15 @@
 # Changelog
 
-## Unreleased
+## 4.5.0
 
+* feat: add static code diagnostics `avoid-nested-conditional-expressions`, `prefer-correct-identifier-length`, `prefer-correct-type-name`, `prefer-first`, `prefer-last`.
+* feat: introduce summary report.
 * fix: rule-specific excludes not working on Windows.
+* fix: make check-unused-l10n report class fields.
+* chore: changed min `SDK` version to `2.14.0`.
+* chore: changed the supported `analyzer_plugin` version to `^0.8.0`.
+* chore: deprecate documentation in Github repo.
+* chore: restrict `analyzer` version to `>=2.4.0 <2.8.0`.
 
 ## 4.5.0-dev.3
 
