@@ -188,18 +188,22 @@ void main() {
       expect(options.readMapOfMap(['dart_code_metrics', 'rules4']), isEmpty);
     });
 
-    test('returns correct "folderPath" on *nix', () async {
+    test('returns correct "folderPath" on posix platforms', () async {
       const options =
           AnalysisOptions('./unix/folder/analysis_options.yaml', {});
 
       expect(options.folderPath, './unix/folder');
+    }, onPlatform: <String, dynamic>{
+      'windows': const Skip('Tested code must work only on posix platforms.')
     });
 
-    test('returns correct "folderPath" on Windows', () async {
+    test('returns correct "folderPath" on windows platforms', () async {
       const options =
           AnalysisOptions(r'C:\windows\folder\analysis_options.yaml', {});
 
       expect(options.folderPath, r'C:\windows\folder');
+    }, onPlatform: <String, dynamic>{
+      'posix': const Skip('This should work only on windows platforms.')
     });
   });
 }

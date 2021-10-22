@@ -22,6 +22,7 @@ class AnalysisOptions {
 
   String? get folderPath {
     final finalPath = _path;
+
     return finalPath == null ? null : p.dirname(finalPath);
   }
 
