@@ -41,5 +41,29 @@ void main() {
         },
       );
     });
+
+    test(
+      'should return null if sdk path is not found inside environment PATH variable',
+      () {
+        IOOverrides.runZoned(
+          () {
+            expect(
+              detectSdkPath(
+                'metrics.exe',
+                {'PATH': '/some/path;/another/path;/other/path'},
+                platformIsWindows: true,
+              ),
+              null,
+            );
+          },
+          createFile: (path) {
+            final file = FileMock();
+            when(file.existsSync).thenReturn(false);
+
+            return file;
+          },
+        );
+      },
+    );
   });
 }
