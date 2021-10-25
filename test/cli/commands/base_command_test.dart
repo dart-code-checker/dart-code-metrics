@@ -42,18 +42,25 @@ void main() {
     test(
       "should throw if 'sdk-path' directory is specified but doesn't exist",
       () {
-        final directory = DirectoryMock();
         when(() => result['sdk-path'] as String).thenReturn('SDK_PATH');
-        when(directory.existsSync).thenReturn(false);
+        IOOverrides.runZoned(
+          () {
+            expect(
+              command.validateSdkPath,
+              throwsA(predicate(
+                (e) =>
+                    e is InvalidArgumentException &&
+                    e.message ==
+                        'Dart SDK path SDK_PATH does not exist or not a directory.',
+              )),
+            );
+          },
+          createDirectory: (path) {
+            final directory = DirectoryMock();
+            when(directory.existsSync).thenReturn(false);
 
-        expect(
-          command.validateSdkPath,
-          throwsA(predicate(
-            (e) =>
-                e is InvalidArgumentException &&
-                e.message ==
-                    'Dart SDK path SDK_PATH does not exist or not a directory.',
-          )),
+            return directory;
+          },
         );
       },
     );
@@ -64,6 +71,27 @@ void main() {
         when(() => result['sdk-path'] as String).thenReturn('SDK_PATH');
 
         expect(command.findSdkPath(), 'SDK_PATH');
+      },
+    );
+
+    test(
+      "should not throw on 'validateCommand' call if correct options passed",
+      () {
+        when(() => result['root-folder'] as String).thenReturn('');
+        when(() => result['sdk-path'] as String).thenReturn('');
+        when(() => result.rest).thenReturn(['']);
+
+        IOOverrides.runZoned(
+          () {
+            expect(command.validateCommand, returnsNormally);
+          },
+          createDirectory: (path) {
+            final directory = DirectoryMock();
+            when(directory.existsSync).thenReturn(true);
+
+            return directory;
+          },
+        );
       },
     );
   });
