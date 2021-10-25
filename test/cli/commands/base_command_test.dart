@@ -57,6 +57,15 @@ void main() {
         );
       },
     );
+
+    test(
+      "should not detect sdk path if 'sdk-path' option is specified",
+      () {
+        when(() => result['sdk-path'] as String).thenReturn('SDK_PATH');
+
+        expect(command.findSdkPath(), 'SDK_PATH');
+      },
+    );
   });
 }
 
