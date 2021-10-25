@@ -70,9 +70,9 @@ class LintAnalyzer {
   Future<Iterable<LintFileReport>> runCliAnalysis(
     Iterable<String> folders,
     String rootFolder,
-    LintConfig config, [
+    LintConfig config, {
     String? sdkPath,
-  ]) async {
+  }) async {
     final collection =
         createAnalysisContextCollection(folders, rootFolder, sdkPath);
 

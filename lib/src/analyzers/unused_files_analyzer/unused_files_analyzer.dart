@@ -35,9 +35,9 @@ class UnusedFilesAnalyzer {
   Future<Iterable<UnusedFilesFileReport>> runCliAnalysis(
     Iterable<String> folders,
     String rootFolder,
-    UnusedFilesConfig config, [
+    UnusedFilesConfig config, {
     String? sdkPath,
-  ]) async {
+  }) async {
     final collection =
         createAnalysisContextCollection(folders, rootFolder, sdkPath);
 

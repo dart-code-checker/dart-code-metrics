@@ -40,9 +40,9 @@ class UnusedL10nAnalyzer {
   Future<Iterable<UnusedL10nFileReport>> runCliAnalysis(
     Iterable<String> folders,
     String rootFolder,
-    UnusedL10nConfig config, [
+    UnusedL10nConfig config, {
     String? sdkPath,
-  ]) async {
+  }) async {
     final collection =
         createAnalysisContextCollection(folders, rootFolder, sdkPath);
 

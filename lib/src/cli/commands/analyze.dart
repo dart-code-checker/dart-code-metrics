@@ -50,7 +50,7 @@ class AnalyzeCommand extends BaseCommand {
       argResults.rest,
       argResults[FlagNames.rootFolder] as String,
       config,
-      findSdkPath(),
+      sdkPath: findSdkPath(),
     );
 
     await _analyzer

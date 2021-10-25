@@ -37,7 +37,7 @@ class CheckUnusedFilesCommand extends BaseCommand {
       folders,
       rootFolder,
       config,
-      findSdkPath(),
+      sdkPath: findSdkPath(),
     );
 
     await _analyzer

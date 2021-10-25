@@ -42,7 +42,7 @@ class CheckUnusedL10nCommand extends BaseCommand {
       folders,
       rootFolder,
       config,
-      findSdkPath(),
+      sdkPath: findSdkPath(),
     );
 
     return _analyzer
