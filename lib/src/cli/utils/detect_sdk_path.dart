@@ -8,7 +8,7 @@ String? detectSdkPath(
   required bool platformIsWindows,
 }) {
   String? sdkPath;
-  // When running as compiled Windows executable (built with `dart compile exe`) we must
+  // When running as compiled executable (built with `dart compile exe`) we must
   // pass Dart SDK path when we create analysis context. So we try to detect Dart SDK path
   // from system %PATH% environment variable.
   //
