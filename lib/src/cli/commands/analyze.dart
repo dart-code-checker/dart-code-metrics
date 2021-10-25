@@ -34,12 +34,6 @@ class AnalyzeCommand extends BaseCommand {
   }
 
   @override
-  void validateCommand() {
-    validateRootFolderExist();
-    validateTargetDirectories();
-  }
-
-  @override
   Future<void> runCommand() async {
     final parsedArgs = ParsedArguments(
       excludePath: argResults[FlagNames.exclude] as String,
@@ -56,6 +50,7 @@ class AnalyzeCommand extends BaseCommand {
       argResults.rest,
       argResults[FlagNames.rootFolder] as String,
       config,
+      sdkPath: findSdkPath(),
     );
 
     await _analyzer
@@ -96,8 +91,7 @@ class AnalyzeCommand extends BaseCommand {
   void _addFlags() {
     _usesReporterOption();
     _usesMetricsThresholdOptions();
-    usesRootFolderOption();
-    usesExcludeOption();
+    addCommonFlags();
     _usesExitOption();
   }
 

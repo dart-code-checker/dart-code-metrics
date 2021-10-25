@@ -25,12 +25,6 @@ class CheckUnusedFilesCommand extends BaseCommand {
   }
 
   @override
-  void validateCommand() {
-    validateRootFolderExist();
-    validateTargetDirectories();
-  }
-
-  @override
   Future<void> runCommand() async {
     final rootFolder = argResults[FlagNames.rootFolder] as String;
     final folders = argResults.rest;
@@ -43,6 +37,7 @@ class CheckUnusedFilesCommand extends BaseCommand {
       folders,
       rootFolder,
       config,
+      sdkPath: findSdkPath(),
     );
 
     await _analyzer
@@ -55,8 +50,7 @@ class CheckUnusedFilesCommand extends BaseCommand {
 
   void _addFlags() {
     _usesReporterOption();
-    usesRootFolderOption();
-    usesExcludeOption();
+    addCommonFlags();
   }
 
   void _usesReporterOption() {

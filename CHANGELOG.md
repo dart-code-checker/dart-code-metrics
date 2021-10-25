@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* CLI now can be compiled to and used as compiled executable.
+
 ## 4.5.0
 
 * feat: add static code diagnostics `avoid-nested-conditional-expressions`, `prefer-correct-identifier-length`, `prefer-correct-type-name`, `prefer-first`, `prefer-last`.

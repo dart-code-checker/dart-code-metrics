@@ -9,6 +9,7 @@ import 'package:path/path.dart';
 
 import '../exceptions/arguments_validation_exceptions.dart';
 import '../models/flag_names.dart';
+import '../utils/detect_sdk_path.dart';
 
 abstract class BaseCommand extends Command<void> {
   @override
@@ -27,10 +28,13 @@ abstract class BaseCommand extends Command<void> {
   Future<void> run() => _verifyThenRunCommand();
 
   @protected
-  void validateCommand();
-
-  @protected
   Future<void> runCommand();
+
+  void validateCommand() {
+    validateRootFolderExist();
+    validateSdkPath();
+    validateTargetDirectories();
+  }
 
   void usesRootFolderOption() {
     argParser
@@ -41,6 +45,15 @@ abstract class BaseCommand extends Command<void> {
         valueHelp: './',
         defaultsTo: Directory.current.path,
       );
+  }
+
+  void usesSdkPathOption() {
+    argParser.addOption(
+      FlagNames.sdkPath,
+      help:
+          'Dart SDK directory path. Should be provided only when you run the application as compiled executable(https://dart.dev/tools/dart-compile#exe) and automatic Dart SDK path detection fails.',
+      valueHelp: 'directory-path',
+    );
   }
 
   void usesExcludeOption() {
@@ -57,6 +70,16 @@ abstract class BaseCommand extends Command<void> {
     if (!Directory(rootFolderPath).existsSync()) {
       final _exceptionMessage =
           'Root folder $rootFolderPath does not exist or not a directory.';
+
+      throw InvalidArgumentException(_exceptionMessage);
+    }
+  }
+
+  void validateSdkPath() {
+    final sdkPath = argResults[FlagNames.sdkPath] as String?;
+    if (sdkPath != null && !Directory(sdkPath).existsSync()) {
+      final _exceptionMessage =
+          'Dart SDK path $sdkPath does not exist or not a directory.';
 
       throw InvalidArgumentException(_exceptionMessage);
     }
@@ -82,6 +105,20 @@ abstract class BaseCommand extends Command<void> {
       }
     }
   }
+
+  void addCommonFlags() {
+    usesRootFolderOption();
+    usesSdkPathOption();
+    usesExcludeOption();
+  }
+
+  String? findSdkPath() =>
+      argResults[FlagNames.sdkPath] as String? ??
+      detectSdkPath(
+        Platform.executable,
+        Platform.environment,
+        platformIsWindows: Platform.isWindows,
+      );
 
   Future<void> _verifyThenRunCommand() async {
     try {

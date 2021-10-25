@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:args/args.dart';
 import 'package:dart_code_metrics/src/cli/commands/base_command.dart';
 import 'package:dart_code_metrics/src/cli/exceptions/arguments_validation_exceptions.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
+
+class DirectoryMock extends Mock implements Directory {}
 
 void main() {
   group('BaseCommand', () {
@@ -34,6 +38,62 @@ void main() {
         )),
       );
     });
+
+    test(
+      "should throw if 'sdk-path' directory is specified but doesn't exist",
+      () {
+        when(() => result['sdk-path'] as String).thenReturn('SDK_PATH');
+        IOOverrides.runZoned(
+          () {
+            expect(
+              command.validateSdkPath,
+              throwsA(predicate(
+                (e) =>
+                    e is InvalidArgumentException &&
+                    e.message ==
+                        'Dart SDK path SDK_PATH does not exist or not a directory.',
+              )),
+            );
+          },
+          createDirectory: (path) {
+            final directory = DirectoryMock();
+            when(directory.existsSync).thenReturn(false);
+
+            return directory;
+          },
+        );
+      },
+    );
+
+    test(
+      "should not detect sdk path if 'sdk-path' option is specified",
+      () {
+        when(() => result['sdk-path'] as String).thenReturn('SDK_PATH');
+
+        expect(command.findSdkPath(), 'SDK_PATH');
+      },
+    );
+
+    test(
+      "should not throw on 'validateCommand' call if correct options passed",
+      () {
+        when(() => result['root-folder'] as String).thenReturn('');
+        when(() => result['sdk-path'] as String).thenReturn('');
+        when(() => result.rest).thenReturn(['']);
+
+        IOOverrides.runZoned(
+          () {
+            expect(command.validateCommand, returnsNormally);
+          },
+          createDirectory: (path) {
+            final directory = DirectoryMock();
+            when(directory.existsSync).thenReturn(true);
+
+            return directory;
+          },
+        );
+      },
+    );
   });
 }
 
@@ -52,11 +112,6 @@ class TestCommand extends BaseCommand {
 
   @override
   String get description => 'empty';
-
-  @override
-  void validateCommand() {
-    throw UnimplementedError();
-  }
 
   @override
   Future<void> runCommand() {
