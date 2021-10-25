@@ -30,6 +30,12 @@ abstract class BaseCommand extends Command<void> {
   @protected
   Future<void> runCommand();
 
+  void validateCommand() {
+    validateRootFolderExist();
+    validateSdkPath();
+    validateTargetDirectories();
+  }
+
   void usesRootFolderOption() {
     argParser
       ..addSeparator('')
@@ -116,9 +122,7 @@ abstract class BaseCommand extends Command<void> {
 
   Future<void> _verifyThenRunCommand() async {
     try {
-      validateRootFolderExist();
-      validateSdkPath();
-      validateTargetDirectories();
+      validateCommand();
     } on InvalidArgumentException catch (e) {
       usageException(e.message);
     }
