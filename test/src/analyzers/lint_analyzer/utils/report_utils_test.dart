@@ -10,7 +10,7 @@ import 'package:dart_code_metrics/src/analyzers/lint_analyzer/utils/report_utils
 import 'package:source_span/source_span.dart';
 import 'package:test/test.dart';
 
-import '../../../stubs_builders.dart';
+import '../../../../stubs_builders.dart';
 
 void main() {
   group('Report util', () {

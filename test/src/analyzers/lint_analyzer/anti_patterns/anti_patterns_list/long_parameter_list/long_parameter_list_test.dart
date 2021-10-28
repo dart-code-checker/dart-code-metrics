@@ -9,8 +9,8 @@ import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.da
 import 'package:dart_code_metrics/src/utils/node_utils.dart';
 import 'package:test/test.dart';
 
+import '../../../../../../stubs_builders.dart';
 import '../../../../../helpers/anti_patterns_test_helper.dart';
-import '../../../../../stubs_builders.dart';
 
 const _examplePath = 'long_parameter_list/examples/example.dart';
 
