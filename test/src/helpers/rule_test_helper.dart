@@ -5,22 +5,22 @@ import 'package:test/test.dart';
 
 import 'file_resolver.dart';
 
-class AntiPatternTestHelper {
+class RuleTestHelper {
   static Future<InternalResolvedUnitResult> resolveFromFile(
     String filePath,
   ) async {
     final fullPath =
-        'test/analyzers/lint_analyzer/anti_patterns/anti_patterns_list/$filePath';
+        'test/src/analyzers/lint_analyzer/rules/rules_list/$filePath';
 
     return FileResolver.resolve(fullPath);
   }
 
   static void verifyInitialization({
     required Iterable<Issue> issues,
-    required String antiPatternId,
+    required String ruleId,
     required Severity severity,
   }) {
-    expect(issues.every((issue) => issue.ruleId == antiPatternId), isTrue);
+    expect(issues.every((issue) => issue.ruleId == ruleId), isTrue);
     expect(issues.every((issue) => issue.severity == severity), isTrue);
   }
 
@@ -30,8 +30,10 @@ class AntiPatternTestHelper {
     Iterable<int>? startLines,
     Iterable<int>? startColumns,
     Iterable<int>? endOffsets,
+    Iterable<String>? locationTexts,
     Iterable<String>? messages,
-    Iterable<String>? verboseMessage,
+    Iterable<String>? replacements,
+    Iterable<String>? replacementComments,
   }) {
     if (startOffsets != null) {
       expect(
@@ -65,6 +67,14 @@ class AntiPatternTestHelper {
       );
     }
 
+    if (locationTexts != null) {
+      expect(
+        issues.map((issue) => issue.location.text),
+        equals(locationTexts),
+        reason: 'incorrect location text',
+      );
+    }
+
     if (messages != null) {
       expect(
         issues.map((issue) => issue.message),
@@ -73,12 +83,24 @@ class AntiPatternTestHelper {
       );
     }
 
-    if (verboseMessage != null) {
+    if (replacements != null) {
       expect(
-        issues.map((issue) => issue.verboseMessage),
-        equals(verboseMessage),
-        reason: 'incorrect verbose message',
+        issues.map((issue) => issue.suggestion!.replacement),
+        equals(replacements),
+        reason: 'incorrect replacement',
       );
     }
+
+    if (replacementComments != null) {
+      expect(
+        issues.map((issue) => issue.suggestion!.comment),
+        equals(replacementComments),
+        reason: 'incorrect replacement comment',
+      );
+    }
+  }
+
+  static void verifyNoIssues(Iterable<Issue> issues) {
+    expect(issues.isEmpty, isTrue);
   }
 }

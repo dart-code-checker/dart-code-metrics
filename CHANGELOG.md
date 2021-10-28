@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-* CLI now can be compiled to and used as compiled executable.
+* feat: CLI now can be compiled to and used as compiled executable.
 
 ## 4.5.0
 

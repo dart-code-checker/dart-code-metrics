@@ -7,8 +7,8 @@ import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/met
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/scope_visitor.dart';
 import 'package:test/test.dart';
 
+import '../../../../../stubs_builders.dart';
 import '../../../../helpers/file_resolver.dart';
-import '../../../../stubs_builders.dart';
 
 const _examplePath = './test/resources/maintability_index_metric_example.dart';
 

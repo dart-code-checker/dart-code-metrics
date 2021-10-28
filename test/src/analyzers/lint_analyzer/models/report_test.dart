@@ -6,7 +6,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:source_span/source_span.dart';
 import 'package:test/test.dart';
 
-import '../../../stubs_builders.dart';
+import '../../../../stubs_builders.dart';
 
 const metric1Id = 'metric-id1';
 const metric2Id = 'metric-id2';
