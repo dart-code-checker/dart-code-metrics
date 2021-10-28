@@ -9,7 +9,8 @@ class RuleTestHelper {
   static Future<InternalResolvedUnitResult> resolveFromFile(
     String filePath,
   ) async {
-    final fullPath = 'test/analyzers/lint_analyzer/rules/rules_list/$filePath';
+    final fullPath =
+        'test/src/analyzers/lint_analyzer/rules/rules_list/$filePath';
 
     return FileResolver.resolve(fullPath);
   }

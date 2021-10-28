@@ -10,7 +10,7 @@ class AntiPatternTestHelper {
     String filePath,
   ) async {
     final fullPath =
-        'test/analyzers/lint_analyzer/anti_patterns/anti_patterns_list/$filePath';
+        'test/src/analyzers/lint_analyzer/anti_patterns/anti_patterns_list/$filePath';
 
     return FileResolver.resolve(fullPath);
   }
