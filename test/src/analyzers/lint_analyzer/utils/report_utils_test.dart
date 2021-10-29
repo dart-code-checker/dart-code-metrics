@@ -21,6 +21,17 @@ void main() {
     const fullPathStub3 = '~/lib/src/bar.dart';
     const relativePathStub3 = 'lib/src/bar.dart';
 
+    final emptyRecord = [
+      LintFileReport(
+        path: fullPathStub,
+        relativePath: relativePathStub,
+        classes: const {},
+        functions: {'a': buildFunctionRecordStub(metrics: [])},
+        issues: const [],
+        antiPatternCases: const [],
+      ),
+    ];
+
     final fileRecords = [
       LintFileReport(
         path: fullPathStub,
@@ -146,6 +157,7 @@ void main() {
     test(
       'averageCYCLO returns average numbers of cyclomatic complexity per source lines of code',
       () {
+        expect(averageCYCLO(emptyRecord), closeTo(0.0, 0.01));
         expect(averageCYCLO(fileRecords), closeTo(1.08, 0.01));
       },
     );

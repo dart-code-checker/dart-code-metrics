@@ -52,22 +52,27 @@ int totalClasses(Iterable<LintFileReport> records) => records.fold(
       (prevValue, fileReport) => prevValue + fileReport.classes.keys.length,
     );
 
-double averageCYCLO(Iterable<LintFileReport> records) =>
-    records.fold<num>(
-      0,
-      (prevValue, fileReport) =>
-          prevValue +
-          fileReport.functions.values.fold(
+double averageCYCLO(Iterable<LintFileReport> records) {
+  final totalSloc = totalSLOC(records);
+
+  return totalSloc > 0
+      ? records.fold<num>(
             0,
-            (prevValue, functionReport) =>
+            (prevValue, fileReport) =>
                 prevValue +
-                (functionReport
-                        .metric(CyclomaticComplexityMetric.metricId)
-                        ?.value ??
-                    0),
-          ),
-    ) /
-    totalSLOC(records);
+                fileReport.functions.values.fold(
+                  0,
+                  (prevValue, functionReport) =>
+                      prevValue +
+                      (functionReport
+                              .metric(CyclomaticComplexityMetric.metricId)
+                              ?.value ??
+                          0),
+                ),
+          ) /
+          totalSloc
+      : 0;
+}
 
 int averageSLOC(Iterable<LintFileReport> records) {
   final functionsCount = records.fold<int>(
