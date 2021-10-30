@@ -1,12 +1,58 @@
-name: build
+name: "Analyze package"
 
 on:
-  push:
-    branches: [master]
   pull_request:
-    branches: [master]
+    branches:
+      - master
+  push:
+    branches:
+      - master
+    paths:
+      - "bin/**"
+      - "example/**"
+      - "lib/**"
+      - "tool/**"
+      - "tools/**"
+      - ".github/workflows/package_analyze.yaml"
 
 jobs:
+  analysis:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Validate semantic changelog update
+        uses: GetStream/verify-semantic-changelog-update@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install Stable Dart
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: "stable"
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: dart pub get
+
+      - name: Run dependency validator
+        run: |
+          dart pub global activate dependency_validator
+          dart pub global run dependency_validator:dependency_validator
+
+      - name: Analyze project
+        run: dart analyze --fatal-warnings --fatal-infos .
+
+      - name: Analyze by Dart Code Metrics
+        uses: dart-code-checker/dart-code-metrics-action@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          folders: "bin, example, lib, test"
+
+      - name: Verify formatting
+        run: dart format --set-exit-if-changed .
+
   stable-dart:
     name: Build on stable dart
 
@@ -17,20 +63,6 @@ jobs:
         shell: bash
 
     steps:
-      - uses: dart-lang/setup-dart@v1
-        with:
-          sdk: "stable"
-      - uses: actions/checkout@v2
-      - name: Install dependencies
-        run: dart pub get
-      - name: Run dependency validator
-        run: |
-          dart pub global activate dependency_validator
-          dart pub global run dependency_validator:dependency_validator
-      - name: Analyze project
-        run: dart analyze --fatal-warnings --fatal-infos .
-      - name: Verify formatting
-        run: dart format --set-exit-if-changed .
       - name: Run tests
         env:
           CODECOV_TOKEN: ${{secrets.CODECOV_TOKEN}}
