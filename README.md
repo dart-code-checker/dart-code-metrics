@@ -51,7 +51,7 @@ add it manually to `pubspec.yaml`
 
 ```yaml
 dev_dependencies:
-  dart_code_metrics: ^4.5.0
+  dart_code_metrics: ^4.6.0
 ```
 
 and then run
@@ -210,6 +210,6 @@ If you are interested in contributing, please check out the [contribution guidel
 
 Please feel free to ask any questions about this tool. Join our community [chat on Telegram](https://t.me/DartCodeMetrics). We speak both English and Russian.
 
-## LICENCE
+## LICENSE
 
 [MIT](./LICENSE)
