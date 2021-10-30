@@ -8,7 +8,7 @@ module.exports = {
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
   organizationName: 'dart-code-checker',
-  projectName: 'website',
+  projectName: 'dart-code-metrics',
   trailingSlash: false,
   themeConfig: {
     gtag: {

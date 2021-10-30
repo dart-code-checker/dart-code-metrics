@@ -48,6 +48,8 @@ Usage: metrics check-unused-l10n [arguments] <directories>
 
     --root-folder=<./>                            Root folder.
                                                   (defaults to current directory)
+    --sdk-path=<directory-path>                   Dart SDK directory path. 
+                                                  Should be provided only when you run the application as compiled executable(https://dart.dev/tools/dart-compile#exe) and automatic Dart SDK path detection fails.
     --exclude=<{/**.g.dart,/**.template.dart}>    File paths in Glob syntax to be exclude.
                                                   (defaults to "{/**.g.dart,/**.template.dart}")
 
