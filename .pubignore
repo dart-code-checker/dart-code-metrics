@@ -4,4 +4,5 @@
 /doc/*
 /metrics/*
 /tool/*
+/website/*
 /dart_dependency_validator.yaml
