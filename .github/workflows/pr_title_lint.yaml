@@ -1,4 +1,4 @@
-name: "Lint Pull Request title"
+name: "Lint PullRequest title"
 
 on:
   pull_request:

@@ -1,0 +1,154 @@
+name: "Analyze package"
+
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+    paths:
+      - "bin/**"
+      - "example/**"
+      - "lib/**"
+      - "tool/**"
+      - "tools/**"
+      - ".github/workflows/package_analyze.yaml"
+
+jobs:
+  analysis:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Validate semantic changelog update
+        uses: GetStream/verify-semantic-changelog-update@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install Stable Dart
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: "stable"
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: dart pub get
+
+      - name: Run dependency validator
+        run: |
+          dart pub global activate dependency_validator
+          dart pub global run dependency_validator:dependency_validator
+
+      - name: Analyze project
+        run: dart analyze --fatal-warnings --fatal-infos .
+
+      - name: Analyze by Dart Code Metrics
+        uses: dart-code-checker/dart-code-metrics-action@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          folders: "bin, example, lib, test"
+
+      - name: Verify formatting
+        run: dart format --set-exit-if-changed .
+
+      - name: Compute the package score on pub.dev site
+        uses: axel-op/dart-package-analyzer@v3
+        with:
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+
+  testing:
+    needs: analysis
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Install Stable Dart
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: "stable"
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: dart pub get
+
+      - name: Run tests
+        env:
+          CODECOV_TOKEN: ${{secrets.CODECOV_TOKEN}}
+        if: success()
+        run: |
+          dart test --coverage=coverage
+          dart run coverage:format_coverage --packages=.packages -i coverage -o coverage/coverage.lcov --lcov --report-on=lib
+          dart run tool/uncovered_coverage.dart
+          dart test test/fake_test.dart --coverage=coverage
+          dart run coverage:format_coverage --packages=.packages -i coverage -o coverage/coverage.lcov --lcov --report-on=lib
+          bash <(curl -s https://codecov.io/bash) -f coverage/coverage.lcov
+
+  check-minimal-supported-dart-compatibility:
+    needs: analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install Dart 2.14.0
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: "2.14.0"
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: dart pub downgrade
+
+      - name: Check compatibility
+        run: |
+          dart analyze --fatal-warnings --fatal-infos .
+          dart test
+
+  check-beta-dart-compatibility:
+    needs: analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install Dart beta
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: "beta"
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: dart pub upgrade
+
+      - name: Check compatibility
+        run: |
+          dart analyze --fatal-warnings --fatal-infos .
+          dart test
+
+  check-windows-compatibility:
+    needs: analysis
+    runs-on: windows-latest
+
+    steps:
+      - name: Install Stable Dart
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: "stable"
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: dart pub get
+
+      - name: Check compatibility
+        run: |
+          dart analyze --fatal-warnings --fatal-infos .
+          dart test
