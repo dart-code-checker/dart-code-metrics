@@ -4,6 +4,13 @@ on:
   pull_request:
     branches:
       - master
+    paths:
+      - "bin/**"
+      - "example/**"
+      - "lib/**"
+      - "tool/**"
+      - "tools/**"
+      - ".github/workflows/package_analyze.yaml"
   push:
     branches:
       - master
@@ -21,7 +28,8 @@ jobs:
 
     steps:
       - name: Validate semantic changelog update
-        uses: GetStream/verify-semantic-changelog-update@main
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: GetStream/verify-semantic-changelog-update@v1.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
