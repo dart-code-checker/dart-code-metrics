@@ -1,28 +1,19 @@
-name: 'Lint PR title'
+name: "Lint Pull Request title"
+
 on:
-  pull_request_target:
+  pull_request:
     types:
       - opened
       - edited
       - synchronize
 
 jobs:
-  conventional_pr_title:
+  lint:
     name: Conventional PR title
     runs-on: ubuntu-latest
     steps:
       - uses: amannn/action-semantic-pull-request@v3.4.5
-        with: 
+        with:
           requireScope: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  # See https://github.com/GetStream/verify-semantic-changelog-update
-  semantic_changelog_update:
-    name: Semantic changelog update
-    needs: conventional_pr_title # Trigger after the [conventional_pr_title] completes
-    runs-on: ubuntu-latest
-    steps:
-      - uses: GetStream/verify-semantic-changelog-update@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
