@@ -5,7 +5,14 @@
 
 version: 2
 updates:
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: "npm"
+    directory: "website"
     schedule:
       interval: "daily"
+    assignees:
+      - "octocat"
+    reviewers:
+      - "incendial"
+      - "dkrutskikh"
+    commit-message:
+      prefix: "chore: "
