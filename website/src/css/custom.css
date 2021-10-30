@@ -1,0 +1,84 @@
+/* stylelint-disable docusaurus/copyright-header */
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* You can override the default Infima variables here. */
+:root {
+  --ifm-color-primary: #0058a1;
+  --ifm-color-primary-dark: #004f91;
+  --ifm-color-primary-darker: #004b89;
+  --ifm-color-primary-darkest: #003e71;
+  --ifm-color-primary-light: #0061b1;
+  --ifm-color-primary-lighter: #0065b9;
+  --ifm-color-primary-lightest: #0072d1;
+
+  --ifm-code-font-size: 95%;
+
+  --ifm-footer-link-hover-color: #00c6ff;
+  --ifm-hero-background-color: transparent;
+}
+
+html[data-theme='dark'] {
+  --ifm-color-primary: #00c6ff;
+  --ifm-color-primary-dark: #00b2e6;
+  --ifm-color-primary-darker: #00a8d9;
+  --ifm-color-primary-darkest: #008bb3;
+  --ifm-color-primary-light: #1accff;
+  --ifm-color-primary-lighter: #26cfff;
+  --ifm-color-primary-lightest: #4dd7ff;
+}
+
+.docusaurus-highlight-code-line {
+  background-color: rgb(72, 77, 91);
+  display: block;
+  margin: 0 calc(-1 * var(--ifm-pre-padding));
+  padding: 0 var(--ifm-pre-padding);
+}
+
+.navbar__logo {
+  width: 32px;
+  heigth: 32px;
+}
+
+footer .container {
+  max-width: 700px;
+}
+
+.footer__copyright {
+  margin-top: 3rem;
+}
+
+.footer__copyright > a {
+  color: #00c6ff;
+}
+
+@media (max-width: 799px) {
+  .footer__links {
+    text-align: center;
+  }
+}
+
+@media (min-width: 401px) {
+  footer .row.footer__links .col.footer__col {
+    --ifm-col-width: 100%;
+    flex: 50%;
+    margin-left: 0;
+    max-width: 100%;
+    padding: 0 var(--ifm-spacing-horizontal);
+    width: 100%;
+  }
+}
+
+@media (min-width: 800px) {
+  footer .row.footer__links .col.footer__col {
+    --ifm-col-width: 100%;
+    flex: 1 0;
+    margin-left: 0;
+    max-width: 100%;
+    padding: 0 var(--ifm-spacing-horizontal);
+    width: 100%;
+  }
+}
