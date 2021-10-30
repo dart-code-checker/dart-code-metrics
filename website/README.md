@@ -36,4 +36,4 @@ GIT_USER=<Your GitHub username> USE_SSH=true npm run deploy
 
 ## Contributing
 
-If you have any ideas on how to improve the docs, please [open an issue](https://github.com/dart-code-checker/website/issues/new).
+If you have any ideas on how to improve the docs, please [open an issue](https://github.com/dart-code-checker/dart-code-metrics/issues/new).
