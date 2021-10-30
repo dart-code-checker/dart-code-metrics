@@ -16,7 +16,7 @@
 [Anti-patterns](https://dartcodemetrics.dev/docs/anti-patterns/overivew)
 
 <img
-  src="https://raw.githubusercontent.com/dart-code-checker/dart-code-metrics/master/doc/.assets/logo.svg"
+  src="https://raw.githubusercontent.com/dart-code-checker/dart-code-metrics/master/assets/logo.svg"
   alt="Dart Code Metrics logo"
   height="120" width="120"
   align="right">
@@ -36,72 +36,100 @@ Dart Code Metrics is a static analysis tool that helps you analyse and improve y
 - To contribute, please read [CONTRIBUTING.md](./CONTRIBUTING.md) first.
 - Please [open an issue](https://github.com/dart-code-checker/dart-code-metrics/issues/new?assignees=dkrutskikh&labels=question&template=question.md&title=%5BQuestion%5D+) if anything is missing or unclear in this documentation.
 
-## Quick start
+## Installation
+
+```sh
+$ dart pub add --dev dart_code_metrics
+
+# or for a Flutter package
+$ flutter pub add --dev dart_code_metrics
+```
+
+**OR**
+
+add it manually to `pubspec.yaml`
+
+```yaml
+dev_dependencies:
+  dart_code_metrics: ^4.5.0
+```
+
+and then run
+
+```sh
+$ dart pub get
+
+# or for a Flutter package
+$ flutter pub get
+```
+
+## Basic configuration
+
+Add configuration to `analysis_options.yaml`
+
+```yaml
+dart_code_metrics:
+  anti-patterns:
+    - long-method
+    - long-parameter-list
+  metrics:
+    cyclomatic-complexity: 20
+    maximum-nesting-level: 5
+    number-of-parameters: 4
+    source-lines-of-code: 50
+  metrics-exclude:
+    - test/**
+  rules:
+    - newline-before-return
+    - no-boolean-literal-compare
+    - no-empty-block
+    - prefer-trailing-comma
+    - prefer-conditional-expressions
+    - no-equal-then-else
+```
+
+Reload IDE to allow the analyzer to discover the plugin config.
+
+You can read more about the configuration [on the website](https://dartcodemetrics.dev/docs/getting-started/configuration).
+
+## Usage
 
 ### Analyzer plugin
 
-A plugin for the Dart `analyzer` [package](https://pub.dev/packages/analyzer) providing additional rules from Dart Code Metrics. All issues produced by rules or anti-patterns will be highlighted in IDE.
+Dart Code Metrics can be used as a plugin for the Dart `analyzer` [package](https://pub.dev/packages/analyzer) providing additional rules. All issues produced by rules or anti-patterns will be highlighted in IDE.
 
-1. Install package as a dev dependency
+![Highlighted issue example](https://raw.githubusercontent.com/dart-code-checker/dart-code-metrics/master/assets/plugin-example.png)
 
-    ```sh
-    $ dart pub add --dev dart_code_metrics
-    
-    # or for a Flutter package
-    $ flutter pub add --dev dart_code_metrics
-    ```
+Rules that marked with a `has auto-fix` badge have auto-fixes available through the IDE context menu. VS Code example:
 
-    **OR**
-
-    add it manually to `pubspec.yaml`
-
-    ```yaml
-    dev_dependencies:
-      dart_code_metrics: ^4.5.0
-    ```
-
-    and then run
-
-    ```sh
-    $ dart pub get
-    
-    # or for a Flutter package
-    $ flutter pub get
-    ```
-
-2. Add configuration to `analysis_options.yaml`
-
-    ```yaml
-    analyzer:
-      plugins:
-        - dart_code_metrics
-
-    dart_code_metrics:
-      anti-patterns:
-        - long-method
-        - long-parameter-list
-      metrics:
-        cyclomatic-complexity: 20
-        maximum-nesting-level: 5
-        number-of-parameters: 4
-        source-lines-of-code: 50
-      metrics-exclude:
-        - test/**
-      rules:
-        - newline-before-return
-        - no-boolean-literal-compare
-        - no-empty-block
-        - prefer-trailing-comma
-        - prefer-conditional-expressions
-        - no-equal-then-else
-    ```
-
-3. Reload IDE to allow the analyzer to discover the plugin
+![VS Code example](https://raw.githubusercontent.com/dart-code-checker/dart-code-metrics/master/assets/quick-fix.gif)
 
 ### CLI
 
-The package can be used as a command-line tool.
-It will produce a result in one of the supported formats:
+The package can be used as CLI and supports multiple commands:
+
+| Command            | Example of use                                            | Short description                                         |
+| ------------------ | --------------------------------------------------------- | --------------------------------------------------------- |
+| analyze            | dart run dart_code_metrics:metrics analyze lib            | Reports code metrics, rules and anti-patterns violations. |
+| check-unused-files | dart run dart_code_metrics:metrics check-unused-files lib | Checks unused \*.dart files. |
+| check-unused-l10n  | dart run dart_code_metrics:metrics check-unused-l10n lib | Check unused localization in *.dart files. |
+
+For additional help on any of the commands, enter `dart run dart_code_metrics:metrics help <command>`
+
+**Note:** if you're setting up Dart Code Metrics for multi-package repository, check out [this website section](https://dartcodemetrics.dev/docs/cli/overview#multi-package-repositories-usage).
+
+#### Analyze
+
+Reports code metrics, rules and anti-patterns violations. To execute the command, run
+
+```sh
+$ dart run dart_code_metrics:metrics analyze lib
+
+# or for a Flutter package
+$ flutter pub run dart_code_metrics:metrics analyze lib
+```
+
+It will produce a result in one of the format:
 
 - Console
 - GitHub
@@ -109,71 +137,66 @@ It will produce a result in one of the supported formats:
 - HTML
 - JSON
 
-#### Usage
+Console report example:
 
-Install the package as listed in the [Analyzer plugin usage example](#analyzer-plugin).
+![Console report example](https://raw.githubusercontent.com/dart-code-checker/dart-code-metrics/master/assets/analyze-console-report.png)
 
-If you want the command-line tool to check rules, you [should configure](https://dartcodemetrics.dev/docs/getting-started/configuration#configuring-a-rules-entry) `rules` entry in the `analysis_options.yaml` first.
+#### Check unused files
+
+Checks unused `*.dart` files. To execute the command, run
 
 ```sh
-dart pub run dart_code_metrics:metrics lib
+$ dart run dart_code_metrics:metrics check-unused-files lib
 
 # or for a Flutter package
-flutter pub run dart_code_metrics:metrics lib
+$ flutter pub run dart_code_metrics:metrics check-unused-files lib
 ```
 
-#### Multi-package repositories usage
+It will produce a result in one of the format:
 
-If you use [Melos](https://pub.dev/packages/melos), you can add custom command to `melos.yaml`.
+- Console
+- JSON
 
-```yaml
-metrics:
-  run: |
-    melos exec -c 1 --ignore="*example*" -- \
-      flutter pub run dart_code_metrics:metrics lib
-  description: |
-    Run `dart_code_metrics` in all packages.
-     - Note: you can also rely on your IDEs Dart Analysis / Issues window.
+Console report example:
+
+![Console report example](https://raw.githubusercontent.com/dart-code-checker/dart-code-metrics/master/assets/unused-files-console-report.png)
+
+#### Check unused localization
+
+Checks unused Dart class members, that encapsulates the app’s localized values.
+
+An example of such class:
+
+```dart
+class ClassWithLocalization {
+  String get title {
+    return Intl.message(
+      'Hello World',
+      name: 'title',
+      desc: 'Title for the Demo application',
+      locale: localeName,
+    );
+  }
+}
 ```
 
-#### Options
+To execute the command, run
 
-```text
-Usage: metrics [arguments...] <directories>
+```sh
+$ dart run dart_code_metrics:metrics check-unused-l10n lib
 
--h, --help                                        Print this usage information.
-
-
--r, --reporter=<console>                          The format of the output of the analysis.
-                                                  [console (default), console-verbose, codeclimate, github, gitlab, html, json]
--o, --output-directory=<OUTPUT>                   Write HTML output to OUTPUT.
-                                                  (defaults to "metrics")
-
-
-    --cyclomatic-complexity=<20>                  Cyclomatic Complexity threshold.
-    --halstead-volume=<150>                       Halstead Volume threshold.
-    --lines-of-code=<100>                         Lines of Code threshold.
-    --maximum-nesting-level=<5>                   Maximum Nesting Level threshold.
-    --number-of-methods=<10>                      Number of Methods threshold.
-    --number-of-parameters=<4>                    Number of Parameters threshold.
-    --source-lines-of-code=<50>                   Source lines of Code threshold.
-    --weight-of-class=<0.33>                      Weight Of a Class threshold.
-    --maintainability-index=<50>                  Maintainability Index threshold.
-
-
-    --root-folder=<./>                            Root folder.
-                                                  (defaults to current directory)
-    --sdk-path=<directory-path>                   Dart SDK directory path. Should be provided only when you run the application as compiled executable(https://dart.dev/tools/dart-compile#exe) and automatic Dart SDK path detection fails.
-    --exclude=<{/**.g.dart,/**.template.dart}>    File paths in Glob syntax to be exclude.
-                                                  (defaults to "{/**.g.dart,/**.template.dart}")
-
-
-    --set-exit-on-violation-level=<warning>       Set exit code 2 if code violations same or higher level than selected are detected.
-                                                  [noted, warning, alarm]
-    --[no-]fatal-style                            Treat style level issues as fatal.
-    --[no-]fatal-performance                      Treat performance level issues as fatal.
-    --[no-]fatal-warnings                         Treat warning level issues as fatal.
+# or for a Flutter package
+$ flutter pub run dart_code_metrics:metrics check-unused-l10n lib
 ```
+
+It will produce a result in one of the format:
+
+- Console
+- JSON
+
+Console report example:
+
+![Console report example](https://raw.githubusercontent.com/dart-code-checker/dart-code-metrics/master/assets/unused-l10n-console-report.png)
 
 ## Troubleshooting
 
