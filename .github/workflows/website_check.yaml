@@ -1,0 +1,28 @@
+name: "Check website"
+
+on:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - "website/**"
+      - ".github/workflows/website_check.yaml"
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+      - name: Test Build
+        working-directory: "website"
+        run: |
+          if [ -e package-lock.json ]; then
+          npm ci
+          else
+          npm i
+          fi
+          npm run build

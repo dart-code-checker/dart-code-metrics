@@ -1,0 +1,39 @@
+name: "Deploy website"
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "website/**"
+      - ".github/workflows/website_deploy.yaml"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+      - name: Deploy to GitHub Pages
+        working-directory: "website"
+        run: |
+          if [ -e package-lock.json ]; then
+          npm ci
+          else
+          npm i
+          fi
+          # Extract GitHub org/user
+          REPO="${{ github.repository }}"
+          GIT_USERNAME=${REPO%/*}
+          # Configure git client
+          echo "Git repo - $REPO"
+          echo "Git user - $GIT_USERNAME"
+          echo "Event name - ${{ github.event_name }}"
+          git config --global user.email "$GIT_USERNAME@users.noreply.github.com"
+          git config --global user.name "$GIT_USERNAME"
+          echo "machine github.com login $GIT_USERNAME password ${{ secrets.GITHUB_TOKEN }}" > ~/.netrc
+          # Run docusaurus-deploy
+          GIT_USER=$GIT_USERNAME npm run deploy
