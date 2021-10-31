@@ -5,8 +5,8 @@ on:
     types:
       - created
   schedule:
-    # Schedule for five minutes after the hour, every hour
-    - cron: "5 * * * *"
+    # Scheduled at 15 minutes after midnight UTC every day
+    - cron: "15 0 * * *"
 
 jobs:
   no_response:
