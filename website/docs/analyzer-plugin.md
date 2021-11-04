@@ -22,7 +22,7 @@ Plugin integration supports all IDE that are supported by the analyzer itself.
 
 Rules that marked with a `has auto-fix` badge have auto-fixes available through the IDE context menu. VS Code example:
 
-![VS Code example](../static/img/quick-fix.gif)
+![VS Code example](../static/img/quick-fixx.gif)
 
 ## Troubleshooting the plugin integration {#troubleshooting-the-plugin-integration}
 

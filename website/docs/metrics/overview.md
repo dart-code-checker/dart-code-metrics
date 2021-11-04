@@ -9,7 +9,7 @@ Metrics configuration is [described here](../getting-started/configuration#confi
 
 Available metrics:
 
-- [Cyclomatic Complexity](./cyclomatic-complexity.md)
+- [Cyclomatic Complexity](./cyclomatic-complexitys.md)
 - [Halstead Volume](./halstead-volume.md)
 - [Lines of Code](./lines-of-code.md)
 - [Maintainability Index](./maintainability-index.md)

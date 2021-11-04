@@ -23,7 +23,7 @@
 
 Dart Code Metrics is a static analysis tool that helps you analyse and improve your code quality.
 
-- Reports [code metrics](https://dartcodemetrics.dev/docs/metrics/overview)
+- Reports [code metrics](https://dartcodemetrics.dev/docs/metrics/ovrerview)
 - Provides [additional rules](https://dartcodemetrics.dev/docs/rules/overview) for the dart analyzer
 - Checks for [anti-patterns](https://dartcodemetrics.dev/docs/anti-patterns/overview)
 - Checks [unused `*.dart` files](https://dartcodemetrics.dev/docs/cli/check-unused-files)
