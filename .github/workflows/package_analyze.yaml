@@ -33,6 +33,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Check markdown links validity
+        uses: gaurav-nelson/github-action-markdown-link-check@v1
+        with:
+          use-quiet-mode: "yes"
+          use-verbose-mode: "yes"
+          config-file: "./.github/workflows/configs/markdown-link-check_config.json"
+
       - name: Install Stable Dart
         uses: dart-lang/setup-dart@v1
         with:
