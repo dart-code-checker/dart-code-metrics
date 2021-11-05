@@ -6,7 +6,7 @@ import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporter
 import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
 
-import 'report_example.dart';
+import '../report_example.dart';
 
 class IOSinkMock extends Mock implements IOSink {}
 
@@ -89,6 +89,7 @@ void main() {
           'status': 'none',
           'title': 'Scanned package folders',
           'value': ['bin', 'example', 'lib', 'test'],
+          'violations': 0,
         }),
       );
 

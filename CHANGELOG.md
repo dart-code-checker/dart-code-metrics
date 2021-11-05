@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* refactor: make violations field of summary lint report record as integer
+
 ## 4.6.0
 
 * feat: CLI now can be compiled to and used as compiled executable.
