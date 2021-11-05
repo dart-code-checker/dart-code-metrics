@@ -7,3 +7,6 @@ environment:
 
 dependencies:
   dart_code_metrics: ^4.6.0
+
+dev_dependencies:
+  lints: ^1.0.1
