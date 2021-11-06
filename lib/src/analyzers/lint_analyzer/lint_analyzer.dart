@@ -208,6 +208,12 @@ class LintAnalyzer {
         return LintFileReport(
           path: filePath,
           relativePath: relativePath,
+          file: Report(
+            location:
+                nodeLocation(node: internalResult.unit, source: internalResult),
+            metrics: const [],
+            declaration: internalResult.unit,
+          ),
           classes: Map.unmodifiable(classMetrics
               .map<String, Report>((key, value) => MapEntry(key.name, value))),
           functions: Map.unmodifiable(functionMetrics.map<String, Report>(
@@ -221,6 +227,12 @@ class LintAnalyzer {
       return LintFileReport(
         path: filePath,
         relativePath: relativePath,
+        file: Report(
+          location:
+              nodeLocation(node: internalResult.unit, source: internalResult),
+          metrics: const [],
+          declaration: internalResult.unit,
+        ),
         classes: const {},
         functions: const {},
         issues: issues,

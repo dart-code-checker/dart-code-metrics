@@ -19,6 +19,7 @@ void main() {
         LintFileReport(
           path: '/home/developer/work/project/example.dart',
           relativePath: 'example.dart',
+          file: buildReportStub(),
           classes: Map.unmodifiable(<String, Report>{
             'class': buildReportStub(metrics: const [
               MetricValue<int>(

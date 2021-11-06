@@ -14,6 +14,8 @@ import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/summary_lin
 import 'package:mocktail/mocktail.dart';
 import 'package:source_span/source_span.dart';
 
+import '../../../../../stubs_builders.dart';
+
 const src1Path = 'test/resources/abstract_class.dart';
 const src2Path = 'test/resources/class_with_factory_constructors.dart';
 
@@ -136,6 +138,7 @@ final Iterable<LintFileReport> testReport = [
   LintFileReport(
     path: src1Path,
     relativePath: src1Path,
+    file: buildReportStub(),
     classes: {'class': _class1Report},
     functions: {
       'class.constructor': _function1Report,
@@ -147,6 +150,7 @@ final Iterable<LintFileReport> testReport = [
   LintFileReport(
     path: src2Path,
     relativePath: src2Path,
+    file: buildReportStub(),
     classes: const {},
     functions: {'function': _function3Report},
     issues: [_issueReport1],
