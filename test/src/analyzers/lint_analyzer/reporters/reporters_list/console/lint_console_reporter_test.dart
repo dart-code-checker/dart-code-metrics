@@ -6,7 +6,7 @@ import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporter
 import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
 
-import 'report_example.dart';
+import '../report_example.dart';
 
 class IOSinkMock extends Mock implements IOSink {}
 
@@ -52,6 +52,7 @@ void main() {
         equals(
           [
             'test/resources/abstract_class.dart:',
+            '\x1B[38;5;11mWarning \x1B[0mmetric1: \x1B[38;5;11m100\x1B[0m',
             '\x1B[38;5;9mAlarm   \x1B[0mclass.constructor - metric2: \x1B[38;5;9m10\x1B[0m',
             '',
             'test/resources/class_with_factory_constructors.dart:',
@@ -67,11 +68,13 @@ void main() {
         equals(
           [
             'test/resources/abstract_class.dart:',
+            '\x1B[38;5;11mWarning \x1B[0mmetric1: \x1B[38;5;11m100\x1B[0m',
             '\x1B[38;5;7m        \x1B[0mclass - metric1: \x1B[38;5;7m0\x1B[0m',
             '\x1B[38;5;9mAlarm   \x1B[0mclass.constructor - metric2: \x1B[38;5;9m10\x1B[0m',
             '\x1B[38;5;7m        \x1B[0mclass.method - metric3: \x1B[38;5;7m1\x1B[0m',
             '',
             'test/resources/class_with_factory_constructors.dart:',
+            '\x1B[38;5;7m        \x1B[0mmetric1: \x1B[38;5;7m0\x1B[0m, metric2: \x1B[38;5;7m1\x1B[0m',
             '\x1B[38;5;11mWarning \x1B[0msimple message : 0:0 : id',
             '\x1B[38;5;4mStyle   \x1B[0msimple design message : 0:0 : designId',
             '\x1B[38;5;11mWarning \x1B[0mfunction - metric4: \x1B[38;5;11m5\x1B[0m',

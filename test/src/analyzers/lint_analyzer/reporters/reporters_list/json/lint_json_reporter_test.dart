@@ -38,6 +38,18 @@ void main() {
 
       final recordFirst = (report['records'] as Iterable).first as Map;
       expect(recordFirst, containsPair('path', src1Path));
+      expect(
+        recordFirst['fileMetrics'],
+        equals([
+          {
+            'metricsId': 'file-metric-id',
+            'value': 100,
+            'level': 'warning',
+            'comment': 'metric comment',
+            'context': <String>[],
+          },
+        ]),
+      );
 
       final recordLast = (report['records'] as Iterable).last as Map;
       expect(recordLast, containsPair('path', src2Path));

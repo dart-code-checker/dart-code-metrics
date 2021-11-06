@@ -21,6 +21,26 @@ const src2Path = 'test/resources/class_with_factory_constructors.dart';
 
 class _DeclarationMock extends Mock implements Declaration {}
 
+final _file1Report = Report(
+  location: SourceSpan(SourceLocation(0), SourceLocation(12), 'file content'),
+  declaration: _DeclarationMock(),
+  metrics: const [
+    MetricValue<int>(
+      metricsId: 'file-metric-id',
+      documentation: MetricDocumentation(
+        name: 'metric1',
+        shortName: 'MTR1',
+        brief: '',
+        measuredType: EntityType.fileEntity,
+        recomendedThreshold: 0,
+      ),
+      value: 100,
+      level: MetricValueLevel.warning,
+      comment: 'metric comment',
+    ),
+  ],
+);
+
 final _class1Report = Report(
   location: SourceSpan(SourceLocation(0), SourceLocation(10), 'class body'),
   declaration: _DeclarationMock(),
@@ -138,7 +158,7 @@ final Iterable<LintFileReport> testReport = [
   LintFileReport(
     path: src1Path,
     relativePath: src1Path,
-    file: buildReportStub(),
+    file: _file1Report,
     classes: {'class': _class1Report},
     functions: {
       'class.constructor': _function1Report,

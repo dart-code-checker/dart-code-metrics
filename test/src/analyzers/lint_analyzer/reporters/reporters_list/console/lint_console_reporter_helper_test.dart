@@ -7,7 +7,7 @@ import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporter
 import 'package:source_span/source_span.dart';
 import 'package:test/test.dart';
 
-import '../../../../../stubs_builders.dart';
+import '../../../../../../stubs_builders.dart';
 
 void main() {
   group('LintConsoleReporterHelper', () {

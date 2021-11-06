@@ -33,8 +33,9 @@ class LintConsoleReporter
 
     for (final file in records) {
       final lines = [
+        ..._reportMetrics('', file.file),
         ..._reportIssues([...file.issues, ...file.antiPatternCases]),
-        ..._reportMetrics({...file.classes, ...file.functions}),
+        ..._reportEntityMetrics({...file.classes, ...file.functions}),
       ];
 
       if (lines.isNotEmpty) {
@@ -50,29 +51,28 @@ class LintConsoleReporter
             a.location.start.offset.compareTo(b.location.start.offset)))
       .map(_helper.getIssueMessage);
 
-  Iterable<String> _reportMetrics(Map<String, Report> reports) =>
+  Iterable<String> _reportEntityMetrics(Map<String, Report> reports) =>
       (reports.entries.toList()
             ..sort((a, b) => a.value.location.start.offset
                 .compareTo(b.value.location.start.offset)))
-          .expand((entry) {
-        final source = entry.key;
-        final report = entry.value;
+          .expand((entry) => _reportMetrics(entry.key, entry.value));
 
-        final reportLevel = report.metricsLevel;
-        if (reportAll || isReportLevel(reportLevel)) {
-          final violations = [
-            for (final metric in report.metrics)
-              if (reportAll || _isNeedToReport(metric))
-                _helper.getMetricReport(metric),
-          ];
+  Iterable<String> _reportMetrics(String source, Report report) {
+    final reportLevel = report.metricsLevel;
+    if (reportAll || isReportLevel(reportLevel)) {
+      final violations = [
+        for (final metric in report.metrics)
+          if (reportAll || _isNeedToReport(metric))
+            _helper.getMetricReport(metric),
+      ];
 
-          return [
-            _helper.getMetricMessage(reportLevel, source, violations),
-          ];
-        }
+      return [
+        _helper.getMetricMessage(reportLevel, source, violations),
+      ];
+    }
 
-        return [];
-      });
+    return [];
+  }
 
   bool _isNeedToReport(MetricValue metric) =>
       metric.level > MetricValueLevel.none;
