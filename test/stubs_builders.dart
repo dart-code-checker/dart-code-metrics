@@ -35,7 +35,7 @@ MetricValue<T> buildMetricValueStub<T>({
       comment: '',
     );
 
-Report buildRecordStub({
+Report buildReportStub({
   SourceSpanBase? location,
   Iterable<MetricValue<num>> metrics = const [],
 }) {

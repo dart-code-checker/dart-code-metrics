@@ -19,7 +19,7 @@ void main() {
     late Report report;
 
     setUp(() {
-      report = buildRecordStub(metrics: [
+      report = buildReportStub(metrics: [
         buildMetricValueStub<int>(
           id: metric1Id,
           value: 10,
