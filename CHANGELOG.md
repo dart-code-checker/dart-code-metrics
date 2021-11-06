@@ -3,6 +3,7 @@
 ## Unreleased
 
 * refactor: make violations field of summary lint report record as integer
+* feat: introduce file metrics
 
 ## 4.6.0
 
