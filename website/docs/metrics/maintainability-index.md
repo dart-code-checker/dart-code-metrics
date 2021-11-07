@@ -21,7 +21,8 @@ dart_code_metrics:
   ...
   metrics:
     ...
-    - maintainability-index: 50
+    maintainability-index: 50
+    ...
 ```
 
 ## Example {#example}

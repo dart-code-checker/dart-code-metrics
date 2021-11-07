@@ -9,7 +9,8 @@ dart_code_metrics:
   ...
   metrics:
     ...
-    - lines-of-code: 100
+    lines-of-code: 100
+    ...
 ```
 
 ## Example {#example}

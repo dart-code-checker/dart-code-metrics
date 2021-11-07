@@ -11,7 +11,8 @@ dart_code_metrics:
   ...
   metrics:
     ...
-    - maximum-nesting-level: 5
+    maximum-nesting-level: 5
+    ...
 ```
 
 ## Example {#example}

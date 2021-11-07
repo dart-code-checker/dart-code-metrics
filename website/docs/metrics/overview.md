@@ -48,3 +48,9 @@ Metrics configuration is [described here](../getting-started/configuration#confi
 - [Weight of a Class](./weight-of-class.md)
 
     The number of "functional" public methods divided by the total number of public members.
+
+## File specific metrics {#file-specific-metrics}
+
+- [Technical Debt](./technical_debt.md)
+
+    The cost of additional rework caused by choosing an easy (limited) solution now instead of using a better approach that would take longer.

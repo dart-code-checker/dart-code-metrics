@@ -14,7 +14,8 @@ dart_code_metrics:
   ...
   metrics:
     ...
-    - cyclomatic-complexity: 20
+    cyclomatic-complexity: 20
+    ...
 ```
 
 ## Example {#example}
