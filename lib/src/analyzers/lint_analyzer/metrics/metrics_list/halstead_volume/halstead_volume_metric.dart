@@ -16,8 +16,6 @@ import 'halstead_volume_ast_visitor.dart';
 const _documentation = MetricDocumentation(
   name: 'Halstead Volume',
   shortName: 'HALVOL',
-  brief:
-      'The Halstead Volume is based on the Length and the Vocabulary. You can view this as the "bulk" of the code – how much information does the reader of the code have to absorb to understand its meaning. The biggest influence on the Volume metric is the Halstead length which causes a linear increase in the Volume i.e doubling the Length will double the Volume. In the case of the Vocabulary the increase is logarithmic.',
   measuredType: EntityType.methodEntity,
   recomendedThreshold: 150,
 );

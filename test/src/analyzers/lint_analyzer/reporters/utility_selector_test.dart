@@ -27,7 +27,6 @@ void main() {
                 documentation: MetricDocumentation(
                   name: '',
                   shortName: '',
-                  brief: '',
                   measuredType: EntityType.classEntity,
                   recomendedThreshold: 0,
                 ),
@@ -42,7 +41,6 @@ void main() {
                 documentation: MetricDocumentation(
                   name: '',
                   shortName: '',
-                  brief: '',
                   measuredType: EntityType.classEntity,
                   recomendedThreshold: 0,
                 ),
@@ -57,7 +55,6 @@ void main() {
                 documentation: MetricDocumentation(
                   name: '',
                   shortName: '',
-                  brief: '',
                   measuredType: EntityType.classEntity,
                   recomendedThreshold: 0,
                 ),

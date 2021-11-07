@@ -17,7 +17,6 @@ import 'nesting_level_visitor.dart';
 const _documentation = MetricDocumentation(
   name: 'Maximum Nesting Level',
   shortName: 'MAXNESTING',
-  brief: 'The maximum nesting level of control structures within a method',
   measuredType: EntityType.methodEntity,
   recomendedThreshold: 5,
 );

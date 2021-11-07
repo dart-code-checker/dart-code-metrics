@@ -26,7 +26,6 @@ MetricValue<T> buildMetricValueStub<T>({
       documentation: MetricDocumentation(
         name: id,
         shortName: id.toUpperCase(),
-        brief: 'brief $id',
         measuredType: type,
         recomendedThreshold: 0,
       ),
@@ -45,7 +44,6 @@ Report buildReportStub({
       documentation: MetricDocumentation(
         name: 'metric1',
         shortName: 'MTR1',
-        brief: '',
         measuredType: EntityType.classEntity,
         recomendedThreshold: 0,
       ),
@@ -58,7 +56,6 @@ Report buildReportStub({
       documentation: MetricDocumentation(
         name: 'metric2',
         shortName: 'MTR2',
-        brief: '',
         measuredType: EntityType.methodEntity,
         recomendedThreshold: 0,
       ),

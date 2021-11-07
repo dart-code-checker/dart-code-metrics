@@ -14,7 +14,6 @@ import '../models/metric_value.dart';
 const _documentation = MetricDocumentation(
   name: 'Number of Parameters',
   shortName: 'NOP',
-  brief: 'Number of parameters received by a method',
   measuredType: EntityType.methodEntity,
   recomendedThreshold: 4,
 );

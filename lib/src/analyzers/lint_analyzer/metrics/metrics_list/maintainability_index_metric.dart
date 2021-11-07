@@ -18,8 +18,6 @@ import 'source_lines_of_code/source_lines_of_code_metric.dart';
 const _documentation = MetricDocumentation(
   name: 'Maintainability Index',
   shortName: 'MI',
-  brief:
-      'Maintainability Index is a software metric which measures how maintainable (easy to support and change) the source code is.',
   measuredType: EntityType.methodEntity,
   recomendedThreshold: 50,
 );
