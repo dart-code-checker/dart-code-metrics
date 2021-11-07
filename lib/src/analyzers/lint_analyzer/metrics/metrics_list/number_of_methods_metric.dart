@@ -16,7 +16,6 @@ import '../scope_utils.dart';
 const _documentation = MetricDocumentation(
   name: 'Number of Methods',
   shortName: 'NOM',
-  brief: 'The number of methods of a class.',
   measuredType: EntityType.classEntity,
   recomendedThreshold: 10,
 );

@@ -39,5 +39,5 @@ abstract class FileMetric<T extends num> extends Metric<T> {
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
   ) =>
-      null;
+      'compilation unit';
 }

@@ -19,7 +19,6 @@ import 'cyclomatic_complexity_flow_visitor.dart';
 const _documentation = MetricDocumentation(
   name: 'Cyclomatic Complexity',
   shortName: 'CYCLO',
-  brief: 'The number of linearly-independent paths through a code block',
   measuredType: EntityType.methodEntity,
   recomendedThreshold: 20,
 );

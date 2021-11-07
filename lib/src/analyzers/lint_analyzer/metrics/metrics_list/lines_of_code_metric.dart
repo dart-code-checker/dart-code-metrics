@@ -13,8 +13,6 @@ import '../models/metric_value.dart';
 const _documentation = MetricDocumentation(
   name: 'Lines of Code',
   shortName: 'LOC',
-  brief:
-      'The number of physical lines of code of a method, including blank lines and comments',
   measuredType: EntityType.methodEntity,
   recomendedThreshold: 100,
 );

@@ -30,7 +30,6 @@ final _file1Report = Report(
       documentation: MetricDocumentation(
         name: 'metric1',
         shortName: 'MTR1',
-        brief: '',
         measuredType: EntityType.fileEntity,
         recomendedThreshold: 0,
       ),
@@ -50,7 +49,6 @@ final _class1Report = Report(
       documentation: MetricDocumentation(
         name: 'metric1',
         shortName: 'MTR1',
-        brief: '',
         measuredType: EntityType.classEntity,
         recomendedThreshold: 0,
       ),
@@ -71,7 +69,6 @@ final _function1Report = Report(
       documentation: MetricDocumentation(
         name: 'metric2',
         shortName: 'MTR2',
-        brief: '',
         measuredType: EntityType.methodEntity,
         recomendedThreshold: 0,
       ),
@@ -92,7 +89,6 @@ final _function2Report = Report(
       documentation: const MetricDocumentation(
         name: 'metric3',
         shortName: 'MTR3',
-        brief: '',
         measuredType: EntityType.methodEntity,
         recomendedThreshold: 0,
       ),
@@ -119,7 +115,6 @@ final _function3Report = Report(
       documentation: MetricDocumentation(
         name: 'metric4',
         shortName: 'MTR4',
-        brief: '',
         measuredType: EntityType.methodEntity,
         recomendedThreshold: 0,
       ),

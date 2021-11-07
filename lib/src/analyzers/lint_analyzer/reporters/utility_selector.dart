@@ -119,7 +119,6 @@ MetricValue<T> _buildMetricValueStub<T>({
       documentation: MetricDocumentation(
         name: id,
         shortName: id.toUpperCase(),
-        brief: 'brief $id',
         measuredType: type,
         recomendedThreshold: 0,
       ),
