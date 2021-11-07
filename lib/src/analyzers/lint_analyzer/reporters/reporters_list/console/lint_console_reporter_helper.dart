@@ -40,13 +40,13 @@ class LintConsoleReporterHelper {
   ) {
     final color = _colorPens[violationLevel];
     if (color != null) {
-      final normalizedLabel = _normalize(
+      final normalizedLabel = color(_normalize(
         violationLevel != MetricValueLevel.none
             ? violationLevel.toString().capitalize()
             : '',
-      );
+      ));
 
-      return '${color(normalizedLabel)}$source - ${violations.join(', ')}';
+      return '$normalizedLabel${source.isNotEmpty ? '$source - ' : ''}${violations.join(', ')}';
     }
 
     throw StateError('Unexpected violation level.');

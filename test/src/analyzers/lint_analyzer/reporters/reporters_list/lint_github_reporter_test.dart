@@ -11,6 +11,8 @@ import 'package:mocktail/mocktail.dart';
 import 'package:source_span/source_span.dart';
 import 'package:test/test.dart';
 
+import '../../../../../stubs_builders.dart';
+
 class IOSinkMock extends Mock implements IOSink {}
 
 void main() {
@@ -34,6 +36,7 @@ void main() {
         LintFileReport(
           path: fullPath,
           relativePath: 'example.dart',
+          file: buildReportStub(),
           classes: Map.unmodifiable(<String, Report>{}),
           functions: Map.unmodifiable(<String, Report>{}),
           issues: const [],
@@ -74,6 +77,7 @@ void main() {
         LintFileReport(
           path: fullPath,
           relativePath: 'example.dart',
+          file: buildReportStub(),
           classes: Map.unmodifiable(<String, Report>{}),
           functions: Map.unmodifiable(<String, Report>{}),
           issues: [

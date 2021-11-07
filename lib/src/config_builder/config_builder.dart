@@ -28,6 +28,7 @@ class ConfigBuilder {
     LintConfig config,
     String excludesRootFolder, {
     Iterable<Metric<num>>? classMetrics,
+    Iterable<Metric<num>>? fileMetrics,
     Iterable<Metric<num>>? functionMetrics,
   }) {
     final patterns = getPatternsById(config);
@@ -46,6 +47,12 @@ class ConfigBuilder {
             config: config.metrics,
             patternsDependencies: patternsDependencies,
             measuredType: EntityType.classEntity,
+          ),
+      fileMetrics ??
+          getMetrics(
+            config: config.metrics,
+            patternsDependencies: patternsDependencies,
+            measuredType: EntityType.fileEntity,
           ),
       functionMetrics ??
           getMetrics(

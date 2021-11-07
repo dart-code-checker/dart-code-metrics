@@ -19,8 +19,9 @@ void main() {
         LintFileReport(
           path: '/home/developer/work/project/example.dart',
           relativePath: 'example.dart',
+          file: buildReportStub(),
           classes: Map.unmodifiable(<String, Report>{
-            'class': buildRecordStub(metrics: const [
+            'class': buildReportStub(metrics: const [
               MetricValue<int>(
                 metricsId: NumberOfMethodsMetric.metricId,
                 documentation: MetricDocumentation(
@@ -35,7 +36,7 @@ void main() {
                 comment: '',
               ),
             ]),
-            'mixin': buildRecordStub(metrics: const [
+            'mixin': buildReportStub(metrics: const [
               MetricValue<int>(
                 metricsId: NumberOfMethodsMetric.metricId,
                 documentation: MetricDocumentation(
@@ -50,7 +51,7 @@ void main() {
                 comment: '',
               ),
             ]),
-            'extension': buildRecordStub(metrics: const [
+            'extension': buildReportStub(metrics: const [
               MetricValue<int>(
                 metricsId: NumberOfMethodsMetric.metricId,
                 documentation: MetricDocumentation(

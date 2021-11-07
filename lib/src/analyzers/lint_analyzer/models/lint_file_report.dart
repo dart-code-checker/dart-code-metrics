@@ -15,6 +15,9 @@ class LintFileReport implements FileReport {
   @override
   final String relativePath;
 
+  /// The metrics report about the target file.
+  final Report file;
+
   /// The all classes reports in the target file.
   final Map<String, Report> classes;
 
@@ -30,6 +33,7 @@ class LintFileReport implements FileReport {
   const LintFileReport({
     required this.path,
     required this.relativePath,
+    required this.file,
     required this.classes,
     required this.functions,
     required this.issues,

@@ -37,11 +37,13 @@ void main() {
         'prefer-extracting-callbacks': <String, Object>{},
         'prefer-single-widget-per-file': <String, Object>{},
         'avoid-ignoring-return-values': <String, Object>{},
+        'avoid-nested-conditional-expressions': <String, Object>{},
       }).map((rule) => rule.id),
       equals([
         'always-remove-listener',
         'avoid-ignoring-return-values',
         'avoid-late-keyword',
+        'avoid-nested-conditional-expressions',
         'avoid-non-null-assertion',
         'avoid-preserve-whitespace-false',
         'avoid-returning-widgets',

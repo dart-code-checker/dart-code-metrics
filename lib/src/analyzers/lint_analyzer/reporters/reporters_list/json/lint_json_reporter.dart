@@ -47,6 +47,7 @@ class LintJsonReporter
 
   Map<String, Object> _lintFileReportToJson(LintFileReport report) => {
         'path': report.relativePath,
+        'fileMetrics': _metricValuesToJson(report.file.metrics),
         'classes': _reportToJson(report.classes),
         'functions': _reportToJson(report.functions),
         'issues': _issueToJson(report.issues),

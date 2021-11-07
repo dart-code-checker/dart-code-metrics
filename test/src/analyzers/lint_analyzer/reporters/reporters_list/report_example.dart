@@ -14,10 +14,32 @@ import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/summary_lin
 import 'package:mocktail/mocktail.dart';
 import 'package:source_span/source_span.dart';
 
+import '../../../../../stubs_builders.dart';
+
 const src1Path = 'test/resources/abstract_class.dart';
 const src2Path = 'test/resources/class_with_factory_constructors.dart';
 
 class _DeclarationMock extends Mock implements Declaration {}
+
+final _file1Report = Report(
+  location: SourceSpan(SourceLocation(0), SourceLocation(12), 'file content'),
+  declaration: _DeclarationMock(),
+  metrics: const [
+    MetricValue<int>(
+      metricsId: 'file-metric-id',
+      documentation: MetricDocumentation(
+        name: 'metric1',
+        shortName: 'MTR1',
+        brief: '',
+        measuredType: EntityType.fileEntity,
+        recomendedThreshold: 0,
+      ),
+      value: 100,
+      level: MetricValueLevel.warning,
+      comment: 'metric comment',
+    ),
+  ],
+);
 
 final _class1Report = Report(
   location: SourceSpan(SourceLocation(0), SourceLocation(10), 'class body'),
@@ -136,6 +158,7 @@ final Iterable<LintFileReport> testReport = [
   LintFileReport(
     path: src1Path,
     relativePath: src1Path,
+    file: _file1Report,
     classes: {'class': _class1Report},
     functions: {
       'class.constructor': _function1Report,
@@ -147,6 +170,7 @@ final Iterable<LintFileReport> testReport = [
   LintFileReport(
     path: src2Path,
     relativePath: src2Path,
+    file: buildReportStub(),
     classes: const {},
     functions: {'function': _function3Report},
     issues: [_issueReport1],

@@ -56,7 +56,7 @@ class LintCodeClimateReporter
           record.relativePath,
         ),
         ..._reportsToCodeClimate(
-          [...record.functions.values, ...record.classes.values],
+          [record.file, ...record.classes.values, ...record.functions.values],
           record.relativePath,
         ),
       ];
