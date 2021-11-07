@@ -37,8 +37,6 @@ class LongParameterList extends Pattern {
           id: patternId,
           documentation: const PatternDocumentation(
             name: 'Long Parameter List',
-            brief:
-                'Long parameter lists are difficult to understand and use. Wrapping them into an object allows grouping parameters and change transferred data only by the object modification.',
             supportedType: EntityType.methodEntity,
           ),
           severity: readSeverity(patternSettings, Severity.none),

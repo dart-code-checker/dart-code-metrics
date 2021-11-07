@@ -12,30 +12,39 @@ Metrics configuration is [described here](../getting-started/configuration#confi
 ## Function specific metrics {#function-specific-metrics}
 
 - [Cyclomatic Complexity](./cyclomatic-complexity.md)
+  
     The number of linearly-independent paths through a method.
 
 - [Halstead Volume](./halstead-volume.md)
+
     The method size, based on the numbers of operators and operands.
 
 - [Lines of Code](./lines-of-code.md)
+
     The number of physical lines of code of a method, including blank lines and comments.
 
 - [Maintainability Index](./maintainability-index.md)
+
     The indicator which mean how maintainable the source code is.
 
 - [Maximum Nesting](./maximum-nesting-level.md)
+
     The maximum nesting level of control structures within a method.
 
 - [Number of Parameters](./number-of-parameters.md)
+
     The number of parameters received by a method.
 
 - [Source lines of Code](./source-lines-of-code.md)
+
     The approximate number of source code lines in a method, blank lines and comments are not counted.
 
 ## Class specific metrics {#class-specific-metrics}
 
 - [Number of Methods](./number-of-methods.md)
+
     The number of methods of a class.
 
 - [Weight of a Class](./weight-of-class.md)
+
     The number of "functional" public methods divided by the total number of public members.
