@@ -194,6 +194,8 @@ class LintAnalyzer {
         final classMetrics =
             _checkClassMetrics(visitor, internalResult, config);
 
+        final fileMetrics = _checkFileMetrics(internalResult);
+
         final functionMetrics =
             _checkFunctionMetrics(visitor, internalResult, config);
 
@@ -208,12 +210,7 @@ class LintAnalyzer {
         return LintFileReport(
           path: filePath,
           relativePath: relativePath,
-          file: Report(
-            location:
-                nodeLocation(node: internalResult.unit, source: internalResult),
-            metrics: const [],
-            declaration: internalResult.unit,
-          ),
+          file: fileMetrics,
           classes: Map.unmodifiable(classMetrics
               .map<String, Report>((key, value) => MapEntry(key.name, value))),
           functions: Map.unmodifiable(functionMetrics.map<String, Report>(
@@ -323,6 +320,16 @@ class LintAnalyzer {
     }
 
     return classRecords;
+  }
+
+  Report _checkFileMetrics(InternalResolvedUnitResult source) {
+    final metrics = <MetricValue<num>>[];
+
+    return Report(
+      location: nodeLocation(node: source.unit, source: source),
+      declaration: source.unit,
+      metrics: metrics,
+    );
   }
 
   Map<ScopedFunctionDeclaration, Report> _checkFunctionMetrics(
