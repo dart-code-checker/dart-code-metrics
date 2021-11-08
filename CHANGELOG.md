@@ -3,7 +3,7 @@
 ## Unreleased
 
 * feat: introduce file metrics
-* refactor: cleanup metric documentation
+* refactor: cleanup anti-patterns, metrics documentation
 
 ## 4.6.0
 

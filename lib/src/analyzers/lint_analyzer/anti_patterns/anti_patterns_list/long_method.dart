@@ -39,8 +39,6 @@ class LongMethod extends Pattern {
           id: patternId,
           documentation: const PatternDocumentation(
             name: 'Long Method',
-            brief:
-                'Long blocks of code are difficult to reuse and understand because they are usually responsible for more than one thing. Separating those to several short ones with proper names helps you reuse your code and understand it better without reading methods body.',
             supportedType: EntityType.methodEntity,
           ),
           severity: readSeverity(patternSettings, Severity.none),
