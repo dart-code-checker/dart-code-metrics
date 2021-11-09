@@ -79,8 +79,7 @@ class NoMagicNumberRule extends CommonRule {
       ) ==
       null;
 
-  bool _isNotInsideCollectionLiteral(Literal l) =>
-      l.thisOrAncestorMatching((ancestor) => ancestor is TypedLiteral) == null;
+  bool _isNotInsideCollectionLiteral(Literal l) => !(l.parent is TypedLiteral);
 
   bool _isNotInsideConstConstructor(Literal l) =>
       l.thisOrAncestorMatching((ancestor) =>
