@@ -104,7 +104,7 @@ void main() {
         issues: issues,
         startOffsets: [121, 235, 279, 454, 486, 514, 566],
         startLines: [10, 16, 19, 26, 27, 28, 29],
-        startColumns: [14, 14,  5, 5, 5, 5, 21],
+        startColumns: [14, 14, 5, 5, 5, 5, 21],
         endOffsets: [127, 253, 310, 473, 508, 537, 578],
         locationTexts: [
           'b is A',

@@ -30,6 +30,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
       }
     }
   }
+
   @override
   void visitIsExpression(IsExpression node) {
     final objectType = node.expression.staticType;
