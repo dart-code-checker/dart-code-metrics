@@ -4,10 +4,12 @@
 
 * feat: introduce file metrics
 * refactor: cleanup anti-patterns, metrics documentation
+* feat: add static code diagnostics `avoid-unnecessary-type-assertions`
 
 ## 4.6.0
 
 * feat: CLI now can be compiled to and used as compiled executable.
+* feat: add static code diagnostics `avoid-useless-type-manipulations`
 
 ## 4.5.0
 
