@@ -13,7 +13,6 @@ import '../../../models/issue.dart';
 import '../../../models/replacement.dart';
 import '../../../models/severity.dart';
 import '../../models/common_rule.dart';
-import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
 
 part 'config_parser.dart';
@@ -31,11 +30,6 @@ class PreferTrailingCommaRule extends CommonRule {
       : _itemsBreakpoint = _ConfigParser.parseBreakpoint(config),
         super(
           id: ruleId,
-          documentation: const RuleDocumentation(
-            name: 'Prefer trailing comma',
-            brief:
-                'Check for trailing comma for arguments, parameters, enum values and collections.',
-          ),
           severity: readSeverity(config, Severity.warning),
           excludes: readExcludes(config),
         );

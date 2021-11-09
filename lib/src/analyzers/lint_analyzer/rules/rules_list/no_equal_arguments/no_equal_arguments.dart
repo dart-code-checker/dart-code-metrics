@@ -9,7 +9,6 @@ import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
 import '../../../models/severity.dart';
 import '../../models/common_rule.dart';
-import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
 
 part 'config_parser.dart';
@@ -26,11 +25,6 @@ class NoEqualArgumentsRule extends CommonRule {
       : _ignoredParameters = _ConfigParser.parseIgnoredParameters(config),
         super(
           id: ruleId,
-          documentation: const RuleDocumentation(
-            name: 'No equal arguments',
-            brief:
-                'Warns when equal arguments passed to a function or method invocation.',
-          ),
           severity: readSeverity(config, Severity.warning),
           excludes: readExcludes(config),
         );

@@ -10,7 +10,6 @@ import '../../../models/issue.dart';
 import '../../../models/replacement.dart';
 import '../../../models/severity.dart';
 import '../../models/common_rule.dart';
-import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
 
 part 'visitor.dart';
@@ -36,11 +35,6 @@ class DoubleLiteralFormatRule extends CommonRule {
   DoubleLiteralFormatRule([Map<String, Object> config = const {}])
       : super(
           id: ruleId,
-          documentation: const RuleDocumentation(
-            name: 'Double Literal Format',
-            brief:
-                "Checks that double literals should begin with '0.' instead of just '.', and should not end with a trailing '0'",
-          ),
           severity: readSeverity(config, Severity.style),
           excludes: readExcludes(config),
         );

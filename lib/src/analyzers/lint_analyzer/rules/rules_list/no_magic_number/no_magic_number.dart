@@ -9,7 +9,6 @@ import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
 import '../../../models/severity.dart';
 import '../../models/common_rule.dart';
-import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
 
 part 'config_parser.dart';
@@ -27,11 +26,6 @@ class NoMagicNumberRule extends CommonRule {
       : _allowedMagicNumbers = _ConfigParser.parseAllowedNumbers(config),
         super(
           id: ruleId,
-          documentation: const RuleDocumentation(
-            name: 'No magic number',
-            brief:
-                'Warns against using number literals outside of named constants or variables.',
-          ),
           severity: readSeverity(config, Severity.warning),
           excludes: readExcludes(config),
         );

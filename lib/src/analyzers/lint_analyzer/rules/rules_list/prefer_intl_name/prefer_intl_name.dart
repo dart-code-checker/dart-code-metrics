@@ -13,7 +13,6 @@ import '../../../models/replacement.dart';
 import '../../../models/severity.dart';
 import '../../base_visitors/intl_base_visitor.dart';
 import '../../models/intl_rule.dart';
-import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
 
 part 'visitor.dart';
@@ -29,11 +28,6 @@ class PreferIntlNameRule extends IntlRule {
   PreferIntlNameRule([Map<String, Object> config = const {}])
       : super(
           id: ruleId,
-          documentation: const RuleDocumentation(
-            name: 'Prefer intl name',
-            brief:
-                'Recommends to use ClassName_ClassMemberName pattern for Intl methods name argument',
-          ),
           severity: readSeverity(config, Severity.warning),
           excludes: readExcludes(config),
         );

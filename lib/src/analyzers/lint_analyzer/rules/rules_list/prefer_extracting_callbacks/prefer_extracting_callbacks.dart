@@ -10,7 +10,6 @@ import '../../../models/issue.dart';
 import '../../../models/severity.dart';
 import '../../flutter_rule_utils.dart';
 import '../../models/flutter_rule.dart';
-import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
 
 part 'config_parser.dart';
@@ -28,11 +27,6 @@ class PreferExtractingCallbacksRule extends FlutterRule {
       : _ignoredArguments = _ConfigParser.parseIgnoredArguments(config),
         super(
           id: ruleId,
-          documentation: const RuleDocumentation(
-            name: 'Prefer extracting callbacks',
-            brief:
-                'Warns about inline callbacks in a widget tree and suggest to extract them to a widget method.',
-          ),
           severity: readSeverity(config, Severity.style),
           excludes: readExcludes(config),
         );
