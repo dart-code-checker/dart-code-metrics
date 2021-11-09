@@ -16,7 +16,6 @@ Rules configuration is [described here](../getting-started/configuration#configu
 - [avoid-nested-conditional-expressions](./common/avoid-nested-conditional-expressions.md) &nbsp; [![Configurable](https://img.shields.io/badge/-configurable-informational)](./common/member-ordering.md#config-example)
 - [avoid-non-null-assertion](./common/avoid-non-null-assertion.md)
 - [avoid-unused-parameters](./common/avoid-unused-parameters.md)
-- [avoid-unnecessary-type-casts](./common/avoid-unnecessary-type-casts.md)
 - [avoid-unnecessary-type-assertions](./common/avoid-unnecessary-type-assertions.md)
 - [binary-expression-operand-order](./common/binary-expression-operand-order.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 - [double-literal-format](./common/double-literal-format.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
