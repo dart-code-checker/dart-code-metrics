@@ -12,7 +12,6 @@ import '../../../models/issue.dart';
 import '../../../models/severity.dart';
 import '../../flutter_rule_utils.dart';
 import '../../models/flutter_rule.dart';
-import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
 
 part 'visitor.dart';
@@ -26,11 +25,6 @@ class AvoidWrappingInPaddingRule extends FlutterRule {
   AvoidWrappingInPaddingRule([Map<String, Object> config = const {}])
       : super(
           id: ruleId,
-          documentation: const RuleDocumentation(
-            name: 'Avoid wrapping in padding',
-            brief:
-                'Warns when a widget is wrapped in a Padding widget but has a padding settings by itself.',
-          ),
           severity: readSeverity(config, Severity.warning),
           excludes: readExcludes(config),
         );

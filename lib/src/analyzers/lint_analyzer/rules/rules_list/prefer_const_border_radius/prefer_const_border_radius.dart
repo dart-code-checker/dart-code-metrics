@@ -11,7 +11,6 @@ import '../../../models/issue.dart';
 import '../../../models/replacement.dart';
 import '../../../models/severity.dart';
 import '../../models/flutter_rule.dart';
-import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
 
 part 'visitor.dart';
@@ -25,10 +24,6 @@ class PreferConstBorderRadiusRule extends FlutterRule {
   PreferConstBorderRadiusRule([Map<String, Object> config = const {}])
       : super(
           id: ruleId,
-          documentation: const RuleDocumentation(
-            name: 'Prefer const border radius',
-            brief: 'Warns when used non const border radius.',
-          ),
           severity: readSeverity(config, Severity.performance),
           excludes: readExcludes(config),
         );

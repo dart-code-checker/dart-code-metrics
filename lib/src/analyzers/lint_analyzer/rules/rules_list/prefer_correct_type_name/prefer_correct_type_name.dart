@@ -9,7 +9,6 @@ import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
 import '../../../models/severity.dart';
 import '../../models/common_rule.dart';
-import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
 
 part 'utils/config_parser.dart';
@@ -28,11 +27,6 @@ class PreferCorrectTypeName extends CommonRule {
         ),
         super(
           id: ruleId,
-          documentation: const RuleDocumentation(
-            name: 'Prefer correct type name',
-            brief:
-                'Type name should only contain alphanumeric characters, start with an uppercase character and span between min-length and max-length characters in length.',
-          ),
           severity: readSeverity(config, Severity.style),
           excludes: readExcludes(config),
         );

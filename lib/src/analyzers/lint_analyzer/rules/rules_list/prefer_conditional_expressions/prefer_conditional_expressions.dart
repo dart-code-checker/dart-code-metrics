@@ -11,7 +11,6 @@ import '../../../models/issue.dart';
 import '../../../models/replacement.dart';
 import '../../../models/severity.dart';
 import '../../models/common_rule.dart';
-import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
 
 part 'visitor.dart';
@@ -27,11 +26,6 @@ class PreferConditionalExpressionsRule extends CommonRule {
   PreferConditionalExpressionsRule([Map<String, Object> config = const {}])
       : super(
           id: ruleId,
-          documentation: const RuleDocumentation(
-            name: 'Prefer conditional expressions',
-            brief:
-                'Recommends to use a conditional expression instead of assigning to the same thing or return statement in each branch of an if statement.',
-          ),
           severity: readSeverity(config, Severity.style),
           excludes: readExcludes(config),
         );

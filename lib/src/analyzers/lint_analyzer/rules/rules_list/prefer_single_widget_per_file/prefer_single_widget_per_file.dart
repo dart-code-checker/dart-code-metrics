@@ -10,7 +10,6 @@ import '../../../models/issue.dart';
 import '../../../models/severity.dart';
 import '../../flutter_rule_utils.dart';
 import '../../models/flutter_rule.dart';
-import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
 
 part 'config_parser.dart';
@@ -27,10 +26,6 @@ class PreferSingleWidgetPerFileRule extends FlutterRule {
       : _ignorePrivateWidgets = _ConfigParser.parseIgnorePrivateWidgets(config),
         super(
           id: ruleId,
-          documentation: const RuleDocumentation(
-            name: 'Prefer a single widget per file',
-            brief: 'Warns when a file contains more than a single widget.',
-          ),
           severity: readSeverity(config, Severity.style),
           excludes: readExcludes(config),
         );

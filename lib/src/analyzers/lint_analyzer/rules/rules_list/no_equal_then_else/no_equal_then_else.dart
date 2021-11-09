@@ -9,7 +9,6 @@ import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
 import '../../../models/severity.dart';
 import '../../models/common_rule.dart';
-import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
 
 part 'visitor.dart';
@@ -24,11 +23,6 @@ class NoEqualThenElseRule extends CommonRule {
   NoEqualThenElseRule([Map<String, Object> config = const {}])
       : super(
           id: ruleId,
-          documentation: const RuleDocumentation(
-            name: 'No equal then else',
-            brief:
-                'Warns when if statement has equal then and else statements or conditional expression has equal then and else expressions.',
-          ),
           severity: readSeverity(config, Severity.warning),
           excludes: readExcludes(config),
         );
