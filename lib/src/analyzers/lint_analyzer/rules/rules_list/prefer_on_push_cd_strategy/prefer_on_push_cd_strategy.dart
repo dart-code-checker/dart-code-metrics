@@ -11,7 +11,6 @@ import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
 import '../../../models/severity.dart';
 import '../../models/angular_rule.dart';
-import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
 
 part 'visitor.dart';
@@ -24,11 +23,6 @@ class PreferOnPushCdStrategyRule extends AngularRule {
   PreferOnPushCdStrategyRule([Map<String, Object> config = const {}])
       : super(
           id: ruleId,
-          documentation: const RuleDocumentation(
-            name: 'Prefer on push change detection strategy',
-            brief:
-                'Prefer setting changeDetection: ChangeDetectionStrategy.OnPush in Angular @Component annotations.',
-          ),
           severity: readSeverity(config, Severity.warning),
           excludes: readExcludes(config),
         );

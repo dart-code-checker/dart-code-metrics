@@ -9,7 +9,6 @@ import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
 import '../../../models/severity.dart';
 import '../../models/common_rule.dart';
-import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
 
 part 'visitor.dart';
@@ -22,11 +21,6 @@ class AvoidLateKeywordRule extends CommonRule {
   AvoidLateKeywordRule([Map<String, Object> config = const {}])
       : super(
           id: ruleId,
-          documentation: const RuleDocumentation(
-            name: "Avoid 'late' keyword",
-            brief:
-                'Warns when a field or variable is declared with a `late` keyword.',
-          ),
           severity: readSeverity(config, Severity.warning),
           excludes: readExcludes(config),
         );

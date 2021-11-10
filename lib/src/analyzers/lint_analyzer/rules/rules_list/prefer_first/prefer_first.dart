@@ -11,7 +11,6 @@ import '../../../models/replacement.dart';
 import '../../../models/severity.dart';
 import '../../dart_rule_utils.dart';
 import '../../models/common_rule.dart';
-import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
 
 part 'visitor.dart';
@@ -25,10 +24,6 @@ class PreferFirstRule extends CommonRule {
   PreferFirstRule([Map<String, Object> config = const {}])
       : super(
           id: ruleId,
-          documentation: const RuleDocumentation(
-            name: 'Prefer first',
-            brief: 'Use `first` to gets the first element',
-          ),
           severity: readSeverity(config, Severity.style),
           excludes: readExcludes(config),
         );

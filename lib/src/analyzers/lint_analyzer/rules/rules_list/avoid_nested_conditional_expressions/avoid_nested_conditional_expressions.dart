@@ -9,7 +9,6 @@ import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
 import '../../../models/severity.dart';
 import '../../models/common_rule.dart';
-import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
 
 part 'config_parser.dart';
@@ -26,10 +25,6 @@ class AvoidNestedConditionalExpressionsRule extends CommonRule {
       : _acceptableLevel = _ConfigParser.parseAcceptableLevel(config),
         super(
           id: ruleId,
-          documentation: const RuleDocumentation(
-            name: 'Avoid nested conditional expressions',
-            brief: 'Warns about nested conditional expressions.',
-          ),
           severity: readSeverity(config, Severity.style),
           excludes: readExcludes(config),
         );

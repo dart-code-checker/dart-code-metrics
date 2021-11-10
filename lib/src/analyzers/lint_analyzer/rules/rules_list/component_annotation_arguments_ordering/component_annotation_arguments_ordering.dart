@@ -13,7 +13,6 @@ import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
 import '../../../models/severity.dart';
 import '../../models/angular_rule.dart';
-import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
 
 part 'config_parser.dart';
@@ -31,10 +30,6 @@ class ComponentAnnotationArgumentsOrderingRule extends AngularRule {
   ])  : _groupsOrder = _ConfigParser.parseOrder(config),
         super(
           id: ruleId,
-          documentation: const RuleDocumentation(
-            name: 'Component annotation arguments ordering',
-            brief: 'Enforces Angular @Component annotation arguments ordering.',
-          ),
           severity: readSeverity(config, Severity.style),
           excludes: readExcludes(config),
         );

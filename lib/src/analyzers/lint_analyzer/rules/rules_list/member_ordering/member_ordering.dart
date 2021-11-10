@@ -12,7 +12,6 @@ import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
 import '../../../models/severity.dart';
 import '../../models/common_rule.dart';
-import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
 
 part 'config_parser.dart';
@@ -34,10 +33,6 @@ class MemberOrderingRule extends CommonRule {
         _alphabetize = _ConfigParser.parseAlphabetize(config),
         super(
           id: ruleId,
-          documentation: const RuleDocumentation(
-            name: 'Member ordering',
-            brief: 'Enforces ordering for a class members.',
-          ),
           severity: readSeverity(config, Severity.style),
           excludes: readExcludes(config),
         );

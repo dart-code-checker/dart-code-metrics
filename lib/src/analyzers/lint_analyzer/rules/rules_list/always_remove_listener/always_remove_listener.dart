@@ -13,7 +13,6 @@ import '../../../models/issue.dart';
 import '../../../models/severity.dart';
 import '../../flutter_rule_utils.dart';
 import '../../models/flutter_rule.dart';
-import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
 
 part 'visitor.dart';
@@ -27,10 +26,6 @@ class AlwaysRemoveListenerRule extends FlutterRule {
   AlwaysRemoveListenerRule([Map<String, Object> config = const {}])
       : super(
           id: ruleId,
-          documentation: const RuleDocumentation(
-            name: 'Always remove listener',
-            brief: 'Warns when an event listener is added but never removed.',
-          ),
           severity: readSeverity(config, Severity.warning),
           excludes: readExcludes(config),
         );
