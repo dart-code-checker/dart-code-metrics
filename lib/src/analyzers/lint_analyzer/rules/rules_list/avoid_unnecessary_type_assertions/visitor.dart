@@ -42,16 +42,12 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
   bool _isUselessTypeCheck(
     DartType? objectType,
-    DartType? castedType, {
-    bool isAsOperator = false,
-  }) {
+    DartType? castedType,
+  ) {
     if (objectType == null || castedType == null) {
       return false;
     }
-    // Skip dynamic type
-    if (isAsOperator && castedType is DynamicType) {
-      return false;
-    }
+
     // Checked type name
     final typeName = objectType.getDisplayString(withNullability: true);
     // Casted type name with nullability
