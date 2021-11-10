@@ -9,7 +9,6 @@ import '../../../models/issue.dart';
 import '../../../models/severity.dart';
 import '../../dart_rule_utils.dart';
 import '../../models/common_rule.dart';
-import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
 
 part 'visitor.dart';
@@ -20,10 +19,6 @@ class AvoidUnnecessaryTypeAssertions extends CommonRule {
   AvoidUnnecessaryTypeAssertions([Map<String, Object> config = const {}])
       : super(
           id: ruleId,
-          documentation: const RuleDocumentation(
-            name: 'AvoidUnnecessaryTypeAssertions',
-            brief: 'Avoid unnecessary type assertions',
-          ),
           severity: readSeverity(config, Severity.style),
           excludes: readExcludes(config),
         );
