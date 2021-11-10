@@ -9,21 +9,20 @@ class _Visitor extends RecursiveAstVisitor<void> {
   void visitAsExpression(AsExpression node) {
     final objectType = node.expression.staticType;
     final castedType = node.type.type;
-    if (_isUselessTypeCheck(objectType, castedType, isAsOperator: true)) {
+    if (_isUselessTypeCheck(objectType, castedType)) {
       _expressions[node] = 'as';
     }
   }
 
   bool _isUselessTypeCheck(
     DartType? objectType,
-    DartType? castedType, {
-    bool isAsOperator = false,
-  }) {
+    DartType? castedType,
+  ) {
     if (objectType == null || castedType == null) {
       return false;
     }
     // Skip dynamic type
-    if (isAsOperator && castedType is DynamicType) {
+    if (castedType is DynamicType) {
       return false;
     }
     // Checked type name
