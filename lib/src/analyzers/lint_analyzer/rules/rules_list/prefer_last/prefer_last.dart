@@ -12,7 +12,6 @@ import '../../../models/replacement.dart';
 import '../../../models/severity.dart';
 import '../../dart_rule_utils.dart';
 import '../../models/common_rule.dart';
-import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
 
 part 'visitor.dart';
@@ -26,10 +25,6 @@ class PreferLastRule extends CommonRule {
   PreferLastRule([Map<String, Object> config = const {}])
       : super(
           id: ruleId,
-          documentation: const RuleDocumentation(
-            name: 'Prefer last',
-            brief: 'Use `last` to gets the last element',
-          ),
           severity: readSeverity(config, Severity.style),
           excludes: readExcludes(config),
         );

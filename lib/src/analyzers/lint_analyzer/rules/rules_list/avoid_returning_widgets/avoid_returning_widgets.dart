@@ -11,7 +11,6 @@ import '../../../models/issue.dart';
 import '../../../models/severity.dart';
 import '../../flutter_rule_utils.dart';
 import '../../models/flutter_rule.dart';
-import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
 
 part 'config_parser.dart';
@@ -34,11 +33,6 @@ class AvoidReturningWidgetsRule extends FlutterRule {
         _ignoredAnnotations = _ConfigParser.getIgnoredAnnotations(config),
         super(
           id: ruleId,
-          documentation: const RuleDocumentation(
-            name: 'Avoid returning widgets',
-            brief:
-                'Warns when a method or function returns a Widget or subclass of a Widget.',
-          ),
           severity: readSeverity(config, Severity.warning),
           excludes: readExcludes(config),
         );

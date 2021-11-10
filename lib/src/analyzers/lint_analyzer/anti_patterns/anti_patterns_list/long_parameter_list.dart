@@ -14,7 +14,6 @@ import '../../models/scoped_class_declaration.dart';
 import '../../models/scoped_function_declaration.dart';
 import '../../models/severity.dart';
 import '../models/pattern.dart';
-import '../models/pattern_documentation.dart';
 import '../pattern_utils.dart';
 
 class LongParameterList extends Pattern {
@@ -35,10 +34,7 @@ class LongParameterList extends Pattern {
         ),
         super(
           id: patternId,
-          documentation: const PatternDocumentation(
-            name: 'Long Parameter List',
-            supportedType: EntityType.methodEntity,
-          ),
+          supportedType: EntityType.methodEntity,
           severity: readSeverity(patternSettings, Severity.none),
         );
 

@@ -11,7 +11,6 @@ import '../../../models/issue.dart';
 import '../../../models/replacement.dart';
 import '../../../models/severity.dart';
 import '../../models/common_rule.dart';
-import '../../models/rule_documentation.dart';
 import '../../rule_utils.dart';
 
 part 'visitor.dart';
@@ -26,11 +25,6 @@ class BinaryExpressionOperandOrderRule extends CommonRule {
   BinaryExpressionOperandOrderRule([Map<String, Object> config = const {}])
       : super(
           id: ruleId,
-          documentation: const RuleDocumentation(
-            name: 'Binary expression operand order',
-            brief:
-                'Warns when a literal value is on the left hand side in a binary expressions.',
-          ),
           severity: readSeverity(config, Severity.style),
           excludes: readExcludes(config),
         );

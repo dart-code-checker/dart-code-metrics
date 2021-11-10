@@ -38,6 +38,8 @@ void main() {
         'prefer-single-widget-per-file': <String, Object>{},
         'avoid-ignoring-return-values': <String, Object>{},
         'avoid-nested-conditional-expressions': <String, Object>{},
+        'prefer-const-border-radius': <String, Object>{},
+        'prefer-correct-identifier-length': <String, Object>{},
       }).map((rule) => rule.id),
       equals([
         'always-remove-listener',
@@ -63,6 +65,8 @@ void main() {
         'no-magic-number',
         'no-object-declaration',
         'prefer-conditional-expressions',
+        'prefer-const-border-radius',
+        'prefer-correct-identifier-length',
         'prefer-extracting-callbacks',
         'prefer-intl-name',
         'prefer-match-file-name',
