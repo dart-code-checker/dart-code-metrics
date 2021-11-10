@@ -3,7 +3,6 @@
 ## Unreleased
 
 * feat: introduce file metrics
-* refactor: cleanup anti-patterns, metrics documentation
 * feat: add static code diagnostics `avoid-unnecessary-type-assertions`
 * refactor: cleanup anti-patterns, metrics and rules documentation
 
