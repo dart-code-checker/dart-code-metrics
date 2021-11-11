@@ -1,4 +1,4 @@
-part of 'prefer_const_border_radius.dart';
+part of 'prefer_const_border_radius_rule.dart';
 
 const _borderRadiusClassName = 'BorderRadius';
 const _borderRadiusConstructorName = 'circular';

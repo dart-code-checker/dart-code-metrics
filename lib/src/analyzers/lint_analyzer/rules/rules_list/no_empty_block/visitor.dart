@@ -1,4 +1,4 @@
-part of 'no_empty_block.dart';
+part of 'no_empty_block_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
   final _emptyBlocks = <Block>[];

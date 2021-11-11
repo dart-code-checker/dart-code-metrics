@@ -3,8 +3,9 @@
 ## Unreleased
 
 * feat: introduce file metrics
+* feat: add static code diagnostics `avoid-unnecessary-type-assertions`
 * refactor: cleanup anti-patterns, metrics and rules documentation
-* feat: add static code diagnostics `avoid-unnecessary-type-casts`
+* chore: activate self implemented rules: avoid-unnecessary-type-assertions, prefer-first, prefer-last, prefer-match-file-name
 
 ## 4.6.0
 

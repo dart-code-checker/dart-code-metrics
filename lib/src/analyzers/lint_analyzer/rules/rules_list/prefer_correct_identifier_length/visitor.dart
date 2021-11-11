@@ -1,4 +1,4 @@
-part of 'prefer_correct_identifier_length.dart';
+part of 'prefer_correct_identifier_length_rule.dart';
 
 class _Visitor extends ScopeVisitor {
   final _declarationNodes = <SimpleIdentifier>[];

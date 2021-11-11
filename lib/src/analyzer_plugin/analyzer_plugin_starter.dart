@@ -6,6 +6,6 @@ import 'package:analyzer_plugin/starter.dart';
 import 'analyzer_plugin.dart';
 
 void start(Iterable<String> _, SendPort sendPort) {
-  ServerPluginStarter(MetricsAnalyzerPlugin(PhysicalResourceProvider.INSTANCE))
+  ServerPluginStarter(AnalyzerPlugin(PhysicalResourceProvider.INSTANCE))
       .start(sendPort);
 }

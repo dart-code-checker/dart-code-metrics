@@ -1,4 +1,4 @@
-part of 'no_object_declaration.dart';
+part of 'no_object_declaration_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
   final _members = <ClassMember>[];

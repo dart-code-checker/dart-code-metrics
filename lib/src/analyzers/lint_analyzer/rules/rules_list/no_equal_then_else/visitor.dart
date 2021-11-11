@@ -1,4 +1,4 @@
-part of 'no_equal_then_else.dart';
+part of 'no_equal_then_else_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
   final _nodes = <AstNode>[];

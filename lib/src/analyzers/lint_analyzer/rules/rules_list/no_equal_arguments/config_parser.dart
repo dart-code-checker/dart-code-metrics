@@ -1,4 +1,4 @@
-part of 'no_equal_arguments.dart';
+part of 'no_equal_arguments_rule.dart';
 
 class _ConfigParser {
   static const _ignoredParametersConfig = 'ignored-parameters';

@@ -65,7 +65,7 @@ void main() {
         final report = result.single;
         expect(report.className, 'S');
 
-        final firstIssue = report.issues.elementAt(0);
+        final firstIssue = report.issues.first;
         expect(firstIssue.memberName, 'field');
         expect(firstIssue.location.line, 13);
         expect(firstIssue.location.column, 3);
