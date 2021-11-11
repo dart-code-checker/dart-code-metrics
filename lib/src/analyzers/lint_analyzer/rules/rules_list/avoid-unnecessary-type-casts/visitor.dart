@@ -32,7 +32,9 @@ class _Visitor extends RecursiveAstVisitor<void> {
     // Casted type name without nullability
     final castedName = castedType.getDisplayString(withNullability: false);
     // Validation checks
-    final isTypeSame = '$typeName?' == castedNameNull || typeName == castedName;
+    final isTypeSame = '$typeName?' == castedNameNull ||
+        typeName == castedName ||
+        typeName == castedNameNull;
     final isTypeInheritor = _isInheritorType(objectType, castedNameNull);
 
     final isTypeWithGeneric = objectType is InterfaceType &&
