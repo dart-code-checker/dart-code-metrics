@@ -29,7 +29,7 @@ Rules configuration is [described here](../getting-started/configuration#configu
 
 - [avoid-unused-parameters](./common/avoid-unused-parameters.md)
   
-    Checks for unused parameters inside a function or method body.  
+    Checks for unused parameters inside a function or method body.
 
 - [avoid-unnecessary-type-assertions](./common/avoid-unnecessary-type-assertions.md)
   
