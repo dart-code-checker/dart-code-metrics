@@ -33,7 +33,7 @@ class AvoidUnnecessaryTypeCasts extends CommonRule {
           (node) => createIssue(
             rule: this,
             location: nodeLocation(node: node.key, source: source),
-            message: 'Avoid redundant "${node.value}" type cast.',
+            message: 'Avoid unnecessary "${node.value}" type cast.',
           ),
         )
         .toList(growable: false);
