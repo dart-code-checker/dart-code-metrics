@@ -29,7 +29,7 @@ Rules configuration is [described here](../getting-started/configuration#configu
 
 - [avoid-unnecessary-type-casts](./common/avoid-unnecessary-type-casts.md)
 
-    Warns about of unnecessary use of casting operators.
+    Warns about unnecessary usage of 'as' operators.
 
 - [avoid-unused-parameters](./common/avoid-unused-parameters.md)
 
