@@ -12,20 +12,20 @@ class _Visitor extends RecursiveAstVisitor<void> {
     const methodName = 'whereType';
 
     final isWhereTypeFunction = node.methodName.name == methodName;
-    if (isIterableOrSubclass(node.realTarget?.staticType) &&
-        isWhereTypeFunction &&
-        node.target?.staticType is InterfaceType) {
-      final interfaceType = node.target?.staticType as InterfaceType;
-      final isTypeHasGeneric = interfaceType.typeArguments.isNotEmpty;
+    final isInterfaceType = node.target?.staticType is InterfaceType;
+    final isIterableSub = isIterableOrSubclass(node.realTarget?.staticType);
 
-      final isCastedHasGeneric =
-          node.typeArguments?.arguments.isNotEmpty ?? false;
-      if (isTypeHasGeneric &&
-          isCastedHasGeneric &&
-          _isUselessTypeCheck(
-            interfaceType.typeArguments.first,
-            node.typeArguments?.arguments.first.type,
-          )) {
+    if (isIterableSub && isWhereTypeFunction && isInterfaceType) {
+      final interfaceType = node.target?.staticType as InterfaceType;
+
+      final isTypeHasGeneric = interfaceType.typeArguments.isNotEmpty;
+      final isHasGeneric = node.typeArguments?.arguments.isNotEmpty ?? false;
+      final isUselessTypeCheck = _isUselessTypeCheck(
+        interfaceType.typeArguments.first,
+        node.typeArguments?.arguments.first.type,
+      );
+
+      if (isTypeHasGeneric && isHasGeneric && isUselessTypeCheck) {
         _expressions[node] = methodName;
       }
     }
@@ -55,7 +55,10 @@ class _Visitor extends RecursiveAstVisitor<void> {
     // Casted type name without nullability
     final castedName = castedType.getDisplayString(withNullability: false);
     // Validation checks
-    final isTypeSame = '$typeName?' == castedNameNull || typeName == castedName;
+    final isTypeSame = '$typeName?' == castedNameNull ||
+        typeName == castedName ||
+        typeName == castedNameNull;
+
     final isTypeInheritor = _isInheritorType(objectType, castedNameNull);
 
     final isTypeWithGeneric = objectType is InterfaceType &&

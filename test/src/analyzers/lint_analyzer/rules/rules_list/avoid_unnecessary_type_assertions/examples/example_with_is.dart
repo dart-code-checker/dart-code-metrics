@@ -36,8 +36,6 @@ class Example3 {
 
   void main() {
     final result = myList is List<int>; // LINT
-    myList.whereType<int>();
-    myList.whereType<double>(); // LINT
   }
 }
 

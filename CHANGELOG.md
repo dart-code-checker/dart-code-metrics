@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* fix: fixed issue with type check in `avoid-unnecessary-type-assertions`
 * feat: introduce file metrics
 * feat: add static code diagnostics `avoid-unnecessary-type-assertions`
 * refactor: cleanup anti-patterns, metrics and rules documentation
