@@ -1,4 +1,4 @@
-part of 'prefer_match_file_name.dart';
+part of 'prefer_match_file_name_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
   final _declarations = <SimpleIdentifier>[];

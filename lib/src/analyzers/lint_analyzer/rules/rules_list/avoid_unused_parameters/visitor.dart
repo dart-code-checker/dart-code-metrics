@@ -1,4 +1,4 @@
-part of 'avoid_unused_parameters.dart';
+part of 'avoid_unused_parameters_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
   final _unusedParameters = <FormalParameter>[];

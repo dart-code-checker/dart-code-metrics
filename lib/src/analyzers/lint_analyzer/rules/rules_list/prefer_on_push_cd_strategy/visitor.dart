@@ -1,4 +1,4 @@
-part of 'prefer_on_push_cd_strategy.dart';
+part of 'prefer_on_push_cd_strategy_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
   final _expression = <AstNode>[];

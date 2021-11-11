@@ -1,4 +1,4 @@
-part of 'always_remove_listener.dart';
+part of 'always_remove_listener_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
   final _missingInvocations = <MethodInvocation>[];

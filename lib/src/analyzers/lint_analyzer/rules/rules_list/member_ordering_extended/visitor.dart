@@ -1,4 +1,4 @@
-part of 'member_ordering_extended.dart';
+part of 'member_ordering_extended_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
   final List<_MemberGroup> _groupsOrder;

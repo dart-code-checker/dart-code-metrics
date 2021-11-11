@@ -1,4 +1,4 @@
-part of 'no_magic_number.dart';
+part of 'no_magic_number_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
   final _literals = <Literal>[];

@@ -1,4 +1,4 @@
-part of 'avoid_nested_conditional_expressions.dart';
+part of 'avoid_nested_conditional_expressions_rule.dart';
 
 class _ConfigParser {
   static const _acceptableLevelConfig = 'acceptable-level';

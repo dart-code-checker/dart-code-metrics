@@ -1,4 +1,4 @@
-part of 'member_ordering.dart';
+part of 'member_ordering_rule.dart';
 
 class _ConfigParser {
   static const _orderConfig = 'order';

@@ -1,4 +1,4 @@
-part of 'provide_correct_intl_args.dart';
+part of 'provide_correct_intl_args_rule.dart';
 
 class _Visitor extends IntlBaseVisitor {
   @override

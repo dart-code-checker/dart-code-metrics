@@ -1,4 +1,4 @@
-part of 'prefer_extracting_callbacks.dart';
+part of 'prefer_extracting_callbacks_rule.dart';
 
 class _Visitor extends SimpleAstVisitor<void> {
   final _expressions = <Expression>[];

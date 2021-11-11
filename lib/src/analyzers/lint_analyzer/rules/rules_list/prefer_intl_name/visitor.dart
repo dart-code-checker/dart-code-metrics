@@ -1,4 +1,4 @@
-part of 'prefer_intl_name.dart';
+part of 'prefer_intl_name_rule.dart';
 
 class _Visitor extends IntlBaseVisitor {
   @override

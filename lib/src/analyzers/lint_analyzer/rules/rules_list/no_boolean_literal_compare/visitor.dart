@@ -1,4 +1,4 @@
-part of 'no_boolean_literal_compare.dart';
+part of 'no_boolean_literal_compare_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
   static const _scannedTokenTypes = {TokenType.EQ_EQ, TokenType.BANG_EQ};
