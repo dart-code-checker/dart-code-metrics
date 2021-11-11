@@ -27,8 +27,8 @@ Rules configuration is [described here](../getting-started/configuration#configu
 
     Warns when non null assertion operator (or “bang” operator) is used for a property access or method invocation. The operator check works at runtime and it may fail and throw a runtime exception.
 
-- [avoid-unused-parameters](./common/avoid-unused-parameters.md)
-  
+- [avoid-unused-parameters](./common/avoid-unused-parameters.md) 
+
     Checks for unused parameters inside a function or method body.
 
 - [avoid-unnecessary-type-assertions](./common/avoid-unnecessary-type-assertions.md)
