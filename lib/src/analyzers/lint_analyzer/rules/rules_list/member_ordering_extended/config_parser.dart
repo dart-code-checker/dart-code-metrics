@@ -1,4 +1,4 @@
-part of 'member_ordering_extended.dart';
+part of 'member_ordering_extended_rule.dart';
 
 class _ConfigParser {
   static const _defaultOrderList = [

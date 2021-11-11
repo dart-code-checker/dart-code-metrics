@@ -1,4 +1,4 @@
-part of 'avoid_unnecessary_type_assertions.dart';
+part of 'avoid_unnecessary_type_assertions_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
   final _expressions = <Expression, String>{};

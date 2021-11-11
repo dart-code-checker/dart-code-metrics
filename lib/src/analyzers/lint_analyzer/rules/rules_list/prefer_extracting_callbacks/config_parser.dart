@@ -1,4 +1,4 @@
-part of 'prefer_extracting_callbacks.dart';
+part of 'prefer_extracting_callbacks_rule.dart';
 
 class _ConfigParser {
   static const _ignoredArgumentsConfig = 'ignored-named-arguments';

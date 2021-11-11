@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:collection/collection.dart';
 import 'package:html/dom.dart';
-import 'package:meta/meta.dart';
 import 'package:path/path.dart' as p;
 
 import '../../../../../reporters/models/html_reporter.dart';
@@ -14,7 +13,7 @@ import '../../../models/summary_lint_report_record.dart';
 import '../../utility_selector.dart';
 import 'components/icon.dart';
 import 'components/issue_details_tooltip.dart';
-import 'models/file_metrics_report.dart';
+import 'models/report_table_record.dart';
 import 'utility_functions.dart';
 
 const _violationLevelFunctionStyle = {
@@ -46,21 +45,6 @@ const _maximumNestingWithViolations = '$_maximumNesting / violations';
 
 const _codeIssues = 'Issues';
 const _designIssues = 'Design issues';
-
-/// A table record used by [LintHtmlReporter]
-@immutable
-class ReportTableRecord {
-  final String title;
-  final String link;
-
-  final FileMetricsReport report;
-
-  const ReportTableRecord({
-    required this.title,
-    required this.link,
-    required this.report,
-  });
-}
 
 /// Lint HTML reporter.
 ///

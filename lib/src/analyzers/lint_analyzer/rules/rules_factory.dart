@@ -1,40 +1,40 @@
 import 'models/rule.dart';
-import 'rules_list/always_remove_listener/always_remove_listener.dart';
-import 'rules_list/avoid_ignoring_return_values/avoid_ignoring_return_values.dart';
-import 'rules_list/avoid_late_keyword/avoid_late_keyword.dart';
-import 'rules_list/avoid_nested_conditional_expressions/avoid_nested_conditional_expressions.dart';
-import 'rules_list/avoid_non_null_assertion/avoid_non_null_assertion.dart';
-import 'rules_list/avoid_preserve_whitespace_false/avoid_preserve_whitespace_false.dart';
-import 'rules_list/avoid_returning_widgets/avoid_returning_widgets.dart';
-import 'rules_list/avoid_unnecessary_setstate/avoid_unnecessary_setstate.dart';
-import 'rules_list/avoid_unnecessary_type_assertions/avoid_unnecessary_type_assertions.dart';
-import 'rules_list/avoid_unused_parameters/avoid_unused_parameters.dart';
-import 'rules_list/avoid_wrapping_in_padding/avoid_wrapping_in_padding.dart';
-import 'rules_list/binary_expression_operand_order/binary_expression_operand_order.dart';
-import 'rules_list/component_annotation_arguments_ordering/component_annotation_arguments_ordering.dart';
-import 'rules_list/double_literal_format/double_literal_format.dart';
-import 'rules_list/member_ordering/member_ordering.dart';
-import 'rules_list/member_ordering_extended/member_ordering_extended.dart';
-import 'rules_list/newline_before_return/newline_before_return.dart';
-import 'rules_list/no_boolean_literal_compare/no_boolean_literal_compare.dart';
-import 'rules_list/no_empty_block/no_empty_block.dart';
-import 'rules_list/no_equal_arguments/no_equal_arguments.dart';
-import 'rules_list/no_equal_then_else/no_equal_then_else.dart';
-import 'rules_list/no_magic_number/no_magic_number.dart';
-import 'rules_list/no_object_declaration/no_object_declaration.dart';
-import 'rules_list/prefer_conditional_expressions/prefer_conditional_expressions.dart';
-import 'rules_list/prefer_const_border_radius/prefer_const_border_radius.dart';
-import 'rules_list/prefer_correct_identifier_length/prefer_correct_identifier_length.dart';
-import 'rules_list/prefer_correct_type_name/prefer_correct_type_name.dart';
-import 'rules_list/prefer_extracting_callbacks/prefer_extracting_callbacks.dart';
-import 'rules_list/prefer_first/prefer_first.dart';
-import 'rules_list/prefer_intl_name/prefer_intl_name.dart';
-import 'rules_list/prefer_last/prefer_last.dart';
-import 'rules_list/prefer_match_file_name/prefer_match_file_name.dart';
-import 'rules_list/prefer_on_push_cd_strategy/prefer_on_push_cd_strategy.dart';
-import 'rules_list/prefer_single_widget_per_file/prefer_single_widget_per_file.dart';
-import 'rules_list/prefer_trailing_comma/prefer_trailing_comma.dart';
-import 'rules_list/provide_correct_intl_args/provide_correct_intl_args.dart';
+import 'rules_list/always_remove_listener/always_remove_listener_rule.dart';
+import 'rules_list/avoid_ignoring_return_values/avoid_ignoring_return_values_rule.dart';
+import 'rules_list/avoid_late_keyword/avoid_late_keyword_rule.dart';
+import 'rules_list/avoid_nested_conditional_expressions/avoid_nested_conditional_expressions_rule.dart';
+import 'rules_list/avoid_non_null_assertion/avoid_non_null_assertion_rule.dart';
+import 'rules_list/avoid_preserve_whitespace_false/avoid_preserve_whitespace_false_rule.dart';
+import 'rules_list/avoid_returning_widgets/avoid_returning_widgets_rule.dart';
+import 'rules_list/avoid_unnecessary_setstate/avoid_unnecessary_setstate_rule.dart';
+import 'rules_list/avoid_unnecessary_type_assertions/avoid_unnecessary_type_assertions_rule.dart';
+import 'rules_list/avoid_unused_parameters/avoid_unused_parameters_rule.dart';
+import 'rules_list/avoid_wrapping_in_padding/avoid_wrapping_in_padding_rule.dart';
+import 'rules_list/binary_expression_operand_order/binary_expression_operand_order_rule.dart';
+import 'rules_list/component_annotation_arguments_ordering/component_annotation_arguments_ordering_rule.dart';
+import 'rules_list/double_literal_format/double_literal_format_rule.dart';
+import 'rules_list/member_ordering/member_ordering_rule.dart';
+import 'rules_list/member_ordering_extended/member_ordering_extended_rule.dart';
+import 'rules_list/newline_before_return/newline_before_return_rule.dart';
+import 'rules_list/no_boolean_literal_compare/no_boolean_literal_compare_rule.dart';
+import 'rules_list/no_empty_block/no_empty_block_rule.dart';
+import 'rules_list/no_equal_arguments/no_equal_arguments_rule.dart';
+import 'rules_list/no_equal_then_else/no_equal_then_else_rule.dart';
+import 'rules_list/no_magic_number/no_magic_number_rule.dart';
+import 'rules_list/no_object_declaration/no_object_declaration_rule.dart';
+import 'rules_list/prefer_conditional_expressions/prefer_conditional_expressions_rule.dart';
+import 'rules_list/prefer_const_border_radius/prefer_const_border_radius_rule.dart';
+import 'rules_list/prefer_correct_identifier_length/prefer_correct_identifier_length_rule.dart';
+import 'rules_list/prefer_correct_type_name/prefer_correct_type_name_rule.dart';
+import 'rules_list/prefer_extracting_callbacks/prefer_extracting_callbacks_rule.dart';
+import 'rules_list/prefer_first/prefer_first_rule.dart';
+import 'rules_list/prefer_intl_name/prefer_intl_name_rule.dart';
+import 'rules_list/prefer_last/prefer_last_rule.dart';
+import 'rules_list/prefer_match_file_name/prefer_match_file_name_rule.dart';
+import 'rules_list/prefer_on_push_cd_strategy/prefer_on_push_cd_strategy_rule.dart';
+import 'rules_list/prefer_single_widget_per_file/prefer_single_widget_per_file_rule.dart';
+import 'rules_list/prefer_trailing_comma/prefer_trailing_comma_rule.dart';
+import 'rules_list/provide_correct_intl_args/provide_correct_intl_args_rule.dart';
 
 final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   AlwaysRemoveListenerRule.ruleId: (config) => AlwaysRemoveListenerRule(config),
@@ -51,8 +51,8 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
       AvoidReturningWidgetsRule(config),
   AvoidUnnecessarySetStateRule.ruleId: (config) =>
       AvoidUnnecessarySetStateRule(config),
-  AvoidUnnecessaryTypeAssertions.ruleId: (config) =>
-      AvoidUnnecessaryTypeAssertions(config),
+  AvoidUnnecessaryTypeAssertionsRule.ruleId: (config) =>
+      AvoidUnnecessaryTypeAssertionsRule(config),
   AvoidUnusedParametersRule.ruleId: (config) =>
       AvoidUnusedParametersRule(config),
   AvoidWrappingInPaddingRule.ruleId: (config) =>
@@ -77,15 +77,16 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
       PreferConditionalExpressionsRule(config),
   PreferConstBorderRadiusRule.ruleId: (config) =>
       PreferConstBorderRadiusRule(config),
-  PreferCorrectIdentifierLength.ruleId: (config) =>
-      PreferCorrectIdentifierLength(config),
-  PreferCorrectTypeName.ruleId: (config) => PreferCorrectTypeName(config),
+  PreferCorrectIdentifierLengthRule.ruleId: (config) =>
+      PreferCorrectIdentifierLengthRule(config),
+  PreferCorrectTypeNameRule.ruleId: (config) =>
+      PreferCorrectTypeNameRule(config),
   PreferExtractingCallbacksRule.ruleId: (config) =>
       PreferExtractingCallbacksRule(config),
   PreferFirstRule.ruleId: (config) => PreferFirstRule(config),
   PreferIntlNameRule.ruleId: (config) => PreferIntlNameRule(config),
   PreferLastRule.ruleId: (config) => PreferLastRule(config),
-  PreferMatchFileName.ruleId: (config) => PreferMatchFileName(config),
+  PreferMatchFileNameRule.ruleId: (config) => PreferMatchFileNameRule(config),
   PreferOnPushCdStrategyRule.ruleId: (config) =>
       PreferOnPushCdStrategyRule(config),
   PreferSingleWidgetPerFileRule.ruleId: (config) =>

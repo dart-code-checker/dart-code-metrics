@@ -1,4 +1,4 @@
-part of 'avoid_preserve_whitespace_false.dart';
+part of 'avoid_preserve_whitespace_false_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
   final _expression = <NamedExpression>[];

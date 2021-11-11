@@ -1,6 +1,6 @@
 @TestOn('vm')
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/html/lint_html_reporter.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/html/models/file_metrics_report.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/html/models/report_table_record.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/html/utility_functions.dart';
 import 'package:test/test.dart';
 

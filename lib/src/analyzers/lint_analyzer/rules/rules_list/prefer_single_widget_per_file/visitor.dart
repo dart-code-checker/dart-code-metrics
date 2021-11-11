@@ -1,4 +1,4 @@
-part of 'prefer_single_widget_per_file.dart';
+part of 'prefer_single_widget_per_file_rule.dart';
 
 class _Visitor extends SimpleAstVisitor<void> {
   final bool _ignorePrivateWidgets;

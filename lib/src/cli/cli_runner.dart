@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:args/command_runner.dart';
 
-import 'commands/analyze.dart';
-import 'commands/check_unused_files.dart';
-import 'commands/check_unused_l10n.dart';
+import 'commands/analyze_command.dart';
+import 'commands/check_unused_files_command.dart';
+import 'commands/check_unused_l10n_command.dart';
 
 /// Represents a cli runner responsible
 /// for running a command based on raw cli call data.

@@ -1,4 +1,4 @@
-part of '../prefer_correct_identifier_length.dart';
+part of '../prefer_correct_identifier_length_rule.dart';
 
 const _defaultMinIdentifierLength = 3;
 const _defaultMaxIdentifierLength = 300;
