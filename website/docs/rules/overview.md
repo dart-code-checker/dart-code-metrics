@@ -32,8 +32,8 @@ Rules configuration is [described here](../getting-started/configuration#configu
     Checks for unused parameters inside a function or method body.
 
 - [avoid-unnecessary-type-assertions](./common/avoid-unnecessary-type-assertions.md)
-  
-    Warns about of unnecessary use of comparison operators 'is' and 'whereType'.
+
+    Warns about unnecessary usage of 'is' and 'whereType' operators.
 
 - [binary-expression-operand-order](./common/binary-expression-operand-order.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 
