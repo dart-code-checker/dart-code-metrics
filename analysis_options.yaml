@@ -41,6 +41,7 @@ dart_code_metrics:
     - no-equal-then-else
     - no-object-declaration
     - prefer-conditional-expressions
+    - prefer-first
     - prefer-trailing-comma
 
 linter:

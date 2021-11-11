@@ -39,7 +39,7 @@ void main() {
           verify(() => _output.writeln(captureAny())).captured.cast<String>();
 
       expect(
-        report[0],
+        report.first,
         contains('Unused file: example.dart'),
       );
     });
