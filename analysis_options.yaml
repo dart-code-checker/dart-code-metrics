@@ -42,6 +42,7 @@ dart_code_metrics:
     - no-object-declaration
     - prefer-conditional-expressions
     - prefer-first
+    - prefer-last
     - prefer-match-file-name:
         exclude:
           - test/**
