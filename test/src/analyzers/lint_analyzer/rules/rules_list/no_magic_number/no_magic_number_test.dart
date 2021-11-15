@@ -9,6 +9,7 @@ const _examplePath = 'no_magic_number/examples/example.dart';
 const _incorrectExamplePath = 'no_magic_number/examples/incorrect_example.dart';
 const _exceptionsExamplePath =
     'no_magic_number/examples/exceptions_example.dart';
+const _arrayExamplePath = 'no_magic_number/examples/array_example.dart';
 
 void main() {
   group('NoMagicNumberRule', () {
@@ -60,6 +61,21 @@ void main() {
       final issues = NoMagicNumberRule(config).check(unit);
 
       RuleTestHelper.verifyNoIssues(issues);
+    });
+
+    test("reports magic numbers in objects in widget array structures",
+        () async {
+      final unit = await RuleTestHelper.resolveFromFile(_arrayExamplePath);
+      final issues = NoMagicNumberRule().check(unit);
+
+      RuleTestHelper.verifyIssues(
+        issues: issues,
+        startOffsets: [202, 267],
+        startLines: [8, 11],
+        startColumns: [15, 19],
+        endOffsets: [204, 269],
+        locationTexts: ['83', '83'],
+      );
     });
   });
 }
