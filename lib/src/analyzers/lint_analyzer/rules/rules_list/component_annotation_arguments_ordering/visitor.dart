@@ -1,4 +1,4 @@
-part of 'component_annotation_arguments_ordering.dart';
+part of 'component_annotation_arguments_ordering_rule.dart';
 
 class _Visitor extends SimpleAstVisitor<List<_ArgumentInfo>> {
   final List<_ArgumentGroup> _groupsOrder;

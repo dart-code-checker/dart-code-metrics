@@ -1,4 +1,4 @@
-part of 'prefer_correct_type_name.dart';
+part of 'prefer_correct_type_name_rule.dart';
 
 class _Visitor extends ScopeVisitor {
   final _nodes = <SimpleIdentifier>[];

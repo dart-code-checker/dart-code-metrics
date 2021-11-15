@@ -1,4 +1,4 @@
-part of 'prefer_trailing_comma.dart';
+part of 'prefer_trailing_comma_rule.dart';
 
 class _ConfigParser {
   static const _breakOnConfigName = 'break-on';

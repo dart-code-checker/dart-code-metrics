@@ -7,7 +7,7 @@ import 'package:args/command_runner.dart';
 import 'package:meta/meta.dart';
 import 'package:path/path.dart';
 
-import '../exceptions/arguments_validation_exceptions.dart';
+import '../exceptions/invalid_argument_exception.dart';
 import '../models/flag_names.dart';
 import '../utils/detect_sdk_path.dart';
 

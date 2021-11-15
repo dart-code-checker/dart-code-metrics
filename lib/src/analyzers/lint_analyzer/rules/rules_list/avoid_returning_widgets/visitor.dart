@@ -1,4 +1,4 @@
-part of 'avoid_returning_widgets.dart';
+part of 'avoid_returning_widgets_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
   final _invocations = <InvocationExpression>[];

@@ -1,4 +1,4 @@
-part of 'binary_expression_operand_order.dart';
+part of 'binary_expression_operand_order_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
   final _binaryExpressions = <BinaryExpression>[];

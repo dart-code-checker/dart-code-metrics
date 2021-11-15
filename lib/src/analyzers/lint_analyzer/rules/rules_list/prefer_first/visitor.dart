@@ -1,4 +1,4 @@
-part of 'prefer_first.dart';
+part of 'prefer_first_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
   final _expressions = <Expression>[];

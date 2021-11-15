@@ -1,4 +1,4 @@
-part of 'prefer_trailing_comma.dart';
+part of 'prefer_trailing_comma_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
   final LineInfo _lineInfo;
