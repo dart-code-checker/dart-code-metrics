@@ -36,8 +36,6 @@ class Example3 {
 
   void main() {
     final result = myList is List<int>; // LINT
-    myList.whereType<int>();
-    myList.whereType<double>(); // LINT
   }
 }
 
@@ -48,3 +46,41 @@ class HomeAnimal extends Animal {}
 class Dog extends HomeAnimal {}
 
 class Cat extends HomeAnimal {}
+
+// new cases
+
+void checkNullability() {
+  final Cat nonNullableCat = Cat();
+  final Cat? nullableCat = Cat();
+
+  final nonNullableCats = <Cat>[];
+  final nullableCats = <Cat?>[];
+
+  final check1 = nonNullableCat is Cat; // Lint
+  final check2 = nonNullableCat is Cat?; // Lint
+  final check3 = nullableCat is Cat;
+  final check4 = nullableCat is Cat?; // Lint
+
+  final check5 = nonNullableCats.whereType<Cat>().isEmpty; // Lint
+  final check6 = nonNullableCats.whereType<Cat?>().isEmpty; // Lint
+  final check7 = nullableCats.whereType<Cat>().isEmpty;
+  final check8 = nullableCats.whereType<Cat?>().isEmpty; // Lint
+}
+
+void checkSameOrInheritor() {
+  final cat = Cat();
+  final homeAnimal = HomeAnimal();
+
+  final dogs = <Dog>[];
+  final animals = <Animal>[];
+
+  final check1 = cat is Cat?; // Lint
+  final check2 = cat is Dog;
+  final check3 = cat is Animal; // Lint
+  final check4 = homeAnimal is Dog?;
+
+  final check5 = dogs.whereType<Dog?>().isEmpty; // Lint
+  final check6 = dogs.whereType<Cat>().isEmpty;
+  final check7 = dogs.whereType<Animal>().isEmpty; // Lint
+  final check8 = animals.whereType<Animal?>().isEmpty; // Lint
+}

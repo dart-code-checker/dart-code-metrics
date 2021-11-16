@@ -63,19 +63,21 @@ void main() {
       RuleTestHelper.verifyNoIssues(issues);
     });
 
-    test('reports magic numbers in objects in widget array structures',
-        () async {
-      final unit = await RuleTestHelper.resolveFromFile(_arrayExamplePath);
-      final issues = NoMagicNumberRule().check(unit);
+    test(
+      'reports magic numbers in objects in widget array structures',
+      () async {
+        final unit = await RuleTestHelper.resolveFromFile(_arrayExamplePath);
+        final issues = NoMagicNumberRule().check(unit);
 
-      RuleTestHelper.verifyIssues(
-        issues: issues,
-        startOffsets: [202, 275],
-        startLines: [8, 11],
-        startColumns: [15, 19],
-        endOffsets: [204, 277],
-        locationTexts: ['83', '83'],
-      );
-    });
+        RuleTestHelper.verifyIssues(
+          issues: issues,
+          startOffsets: [202, 275],
+          startLines: [8, 11],
+          startColumns: [15, 19],
+          endOffsets: [204, 277],
+          locationTexts: ['83', '83'],
+        );
+      },
+    );
   });
 }

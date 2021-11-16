@@ -11,19 +11,21 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
     const methodName = 'whereType';
 
-    final isWhereTypeFunction = node.methodName.name == methodName;
-    if (isIterableOrSubclass(node.realTarget?.staticType) &&
-        isWhereTypeFunction &&
-        node.target?.staticType is InterfaceType) {
-      final interfaceType = node.target?.staticType as InterfaceType;
-      final isTypeHasGeneric = interfaceType.typeArguments.isNotEmpty;
+    final isTargetIterable = isIterableOrSubclass(node.realTarget?.staticType);
+    final isWhereTypeInvocation = node.methodName.name == methodName;
+    final targetType = node.target?.staticType;
 
-      final isCastedHasGeneric =
+    if (isTargetIterable &&
+        isWhereTypeInvocation &&
+        targetType is ParameterizedType) {
+      final isTargetTypeHasGeneric = targetType.typeArguments.isNotEmpty;
+      final isWhereTypeHasGeneric =
           node.typeArguments?.arguments.isNotEmpty ?? false;
-      if (isTypeHasGeneric &&
-          isCastedHasGeneric &&
+
+      if (isTargetTypeHasGeneric &&
+          isWhereTypeHasGeneric &&
           _isUselessTypeCheck(
-            interfaceType.typeArguments.first,
+            targetType.typeArguments.first,
             node.typeArguments?.arguments.first.type,
           )) {
         _expressions[node] = methodName;
@@ -40,61 +42,74 @@ class _Visitor extends RecursiveAstVisitor<void> {
     }
   }
 
-  bool _isUselessTypeCheck(
-    DartType? objectType,
-    DartType? castedType,
-  ) {
+  bool _isUselessTypeCheck(DartType? objectType, DartType? castedType) {
     if (objectType == null || castedType == null) {
       return false;
     }
 
-    // Checked type name
-    final typeName = objectType.getDisplayString(withNullability: true);
-    // Casted type name with nullability
-    final castedNameNull = castedType.getDisplayString(withNullability: true);
-    // Casted type name without nullability
-    final castedName = castedType.getDisplayString(withNullability: false);
-    // Validation checks
-    final isTypeSame = '$typeName?' == castedNameNull || typeName == castedName;
-    final isTypeInheritor = _isInheritorType(objectType, castedNameNull);
+    if (_checkNullableCompatibility(objectType, castedType)) {
+      return false;
+    }
 
-    final isTypeWithGeneric = objectType is InterfaceType &&
-        castedType is InterfaceType &&
-        _isTypeWithGeneric(objectType, castedType);
+    final objectCastedType =
+        _foundCastedTypeInObjectTypeHierarchy(objectType, castedType);
+    if (objectCastedType == null) {
+      return false;
+    }
 
-    return isTypeSame || isTypeInheritor || isTypeWithGeneric;
+    if (!_checkGenerics(objectCastedType, castedType)) {
+      return false;
+    }
+
+    return true;
   }
 
-  bool _isTypeWithGeneric(InterfaceType objectType, InterfaceType castedType) {
-    final objectTypeArguments = objectType.typeArguments;
-    final castedTypeArguments = castedType.typeArguments;
-    final isHasGeneric = objectTypeArguments.isNotEmpty;
-    final isCount = objectTypeArguments.length == castedTypeArguments.length;
+  bool _checkNullableCompatibility(DartType objectType, DartType castedType) {
+    final isObjectTypeNullable =
+        objectType.nullabilitySuffix != NullabilitySuffix.none;
+    final isCastedTypeNullable =
+        castedType.nullabilitySuffix != NullabilitySuffix.none;
 
-    if (isHasGeneric && isCount) {
-      if (castedType.element.name == objectType.element.name) {
-        for (var i = 0; i < objectTypeArguments.length; i++) {
-          final isCheckUseless = _isUselessTypeCheck(
-            objectTypeArguments[i],
-            castedTypeArguments[i],
-          );
-          if (!isCheckUseless) {
-            return false;
-          }
-        }
+    // Only one case `Type? is Type` always valid assertion case
+    return isObjectTypeNullable && !isCastedTypeNullable;
+  }
 
-        return true;
+  DartType? _foundCastedTypeInObjectTypeHierarchy(
+    DartType objectType,
+    DartType castedType,
+  ) {
+    if (objectType.element == castedType.element) {
+      return objectType;
+    }
+
+    if (objectType is InterfaceType) {
+      return objectType.allSupertypes
+          .firstWhereOrNull((value) => value.element == castedType.element);
+    }
+
+    return null;
+  }
+
+  bool _checkGenerics(DartType objectType, DartType castedType) {
+    if (objectType is! ParameterizedType || castedType is! ParameterizedType) {
+      return false;
+    }
+
+    if (objectType.typeArguments.length != castedType.typeArguments.length) {
+      return false;
+    }
+
+    for (var argumentIndex = 0;
+        argumentIndex < objectType.typeArguments.length;
+        argumentIndex++) {
+      if (!_isUselessTypeCheck(
+        objectType.typeArguments[argumentIndex],
+        castedType.typeArguments[argumentIndex],
+      )) {
+        return false;
       }
     }
 
-    return false;
+    return true;
   }
-
-  bool _isInheritorType(DartType objectType, String castedNameNull) =>
-      objectType is InterfaceType &&
-      objectType.allSupertypes
-          .any((value) => _isInheritor(value, castedNameNull));
-
-  bool _isInheritor(DartType? type, String typeName) =>
-      type?.getDisplayString(withNullability: false) == typeName;
 }
