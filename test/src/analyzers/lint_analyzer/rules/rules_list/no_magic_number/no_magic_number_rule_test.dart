@@ -70,10 +70,10 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [202, 267],
+        startOffsets: [202, 275],
         startLines: [8, 11],
         startColumns: [15, 19],
-        endOffsets: [204, 269],
+        endOffsets: [204, 277],
         locationTexts: ['83', '83'],
       );
     });
