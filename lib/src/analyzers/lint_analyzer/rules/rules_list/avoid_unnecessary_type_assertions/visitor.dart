@@ -101,7 +101,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
     for (var argumentIndex = 0;
         argumentIndex < objectType.typeArguments.length;
-        ++argumentIndex) {
+        argumentIndex++) {
       if (!_isUselessTypeCheck(
         objectType.typeArguments[argumentIndex],
         castedType.typeArguments[argumentIndex],
