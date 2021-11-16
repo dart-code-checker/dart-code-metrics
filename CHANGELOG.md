@@ -3,10 +3,12 @@
 ## Unreleased
 
 * feat: add static code diagnostics `avoid-unnecessary-type-casts`
+* fix: fixed issue with type check in `avoid-unnecessary-type-assertions`
 * feat: introduce file metrics
 * feat: add static code diagnostics `avoid-unnecessary-type-assertions`
 * refactor: cleanup anti-patterns, metrics and rules documentation
 * chore: activate self implemented rules: avoid-unnecessary-type-assertions, prefer-first, prefer-last, prefer-match-file-name
+* fix: no-magic-number not working in array of widgets
 
 ## 4.6.0
 
