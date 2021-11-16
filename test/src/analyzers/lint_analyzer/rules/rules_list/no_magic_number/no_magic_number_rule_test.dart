@@ -63,7 +63,7 @@ void main() {
       RuleTestHelper.verifyNoIssues(issues);
     });
 
-    test("reports magic numbers in objects in widget array structures",
+    test('reports magic numbers in objects in widget array structures',
         () async {
       final unit = await RuleTestHelper.resolveFromFile(_arrayExamplePath);
       final issues = NoMagicNumberRule().check(unit);
