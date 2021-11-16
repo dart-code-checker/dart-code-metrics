@@ -11,21 +11,23 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
     const methodName = 'whereType';
 
-    final isIterableSub = isIterableOrSubclass(node.realTarget?.staticType);
-    final isWhereTypeFunction = node.methodName.name == methodName;
-    final isInterfaceType = node.target?.staticType is InterfaceType;
+    final isTargetIterable = isIterableOrSubclass(node.realTarget?.staticType);
+    final isWhereTypeInvocation = node.methodName.name == methodName;
+    final targetType = node.target?.staticType;
 
-    if (isIterableSub && isWhereTypeFunction && isInterfaceType) {
-      final interfaceType = node.target?.staticType as InterfaceType;
+    if (isTargetIterable &&
+        isWhereTypeInvocation &&
+        targetType is ParameterizedType) {
+      final isTargetTypeHasGeneric = targetType.typeArguments.isNotEmpty;
+      final isWhereTypeHasGeneric =
+          node.typeArguments?.arguments.isNotEmpty ?? false;
 
-      final isTypeHasGeneric = interfaceType.typeArguments.isNotEmpty;
-      final isHasGeneric = node.typeArguments?.arguments.isNotEmpty ?? false;
-      final isUselessTypeCheck = _isUselessTypeCheck(
-        interfaceType.typeArguments.first,
-        node.typeArguments?.arguments.first.type,
-      );
-
-      if (isTypeHasGeneric && isHasGeneric && isUselessTypeCheck) {
+      if (isTargetTypeHasGeneric &&
+          isWhereTypeHasGeneric &&
+          _isUselessTypeCheck(
+            targetType.typeArguments.first,
+            node.typeArguments?.arguments.first.type,
+          )) {
         _expressions[node] = methodName;
       }
     }
