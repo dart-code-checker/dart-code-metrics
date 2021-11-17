@@ -14,10 +14,10 @@ import '../../rule_utils.dart';
 
 part 'visitor.dart';
 
-class AvoidUnnecessaryTypeCasts extends CommonRule {
+class AvoidUnnecessaryTypeCastsRule extends CommonRule {
   static const String ruleId = 'avoid-unnecessary-type-casts';
 
-  AvoidUnnecessaryTypeCasts([Map<String, Object> config = const {}])
+  AvoidUnnecessaryTypeCastsRule([Map<String, Object> config = const {}])
       : super(
           id: ruleId,
           severity: readSeverity(config, Severity.style),

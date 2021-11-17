@@ -1,5 +1,5 @@
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/avoid-unnecessary-type-casts/avoid_unnecessary_type_casts.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/avoid-unnecessary-type-casts/avoid_unnecessary_type_casts_rule.dart';
 import 'package:test/test.dart';
 
 import '../../../../../helpers/rule_test_helper.dart';
@@ -7,10 +7,10 @@ import '../../../../../helpers/rule_test_helper.dart';
 const _path = 'avoid_unnecessary_type_casts/examples/example.dart';
 
 void main() {
-  group('AvoidUnnecessaryTypeCasts', () {
+  group('AvoidUnnecessaryTypeCastsRule', () {
     test('initialization', () async {
       final unit = await RuleTestHelper.resolveFromFile(_path);
-      final issues = AvoidUnnecessaryTypeCasts().check(unit);
+      final issues = AvoidUnnecessaryTypeCastsRule().check(unit);
 
       RuleTestHelper.verifyInitialization(
         issues: issues,
@@ -21,7 +21,7 @@ void main() {
 
     test('reports about found all issues in example.dart', () async {
       final unit = await RuleTestHelper.resolveFromFile(_path);
-      final issues = AvoidUnnecessaryTypeCasts().check(unit);
+      final issues = AvoidUnnecessaryTypeCastsRule().check(unit);
 
       RuleTestHelper.verifyIssues(
         issues: issues,
