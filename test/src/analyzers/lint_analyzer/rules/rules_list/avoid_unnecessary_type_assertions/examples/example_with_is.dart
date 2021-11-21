@@ -75,9 +75,13 @@ void checkSameOrInheritor() {
   final animals = <Animal>[];
 
   final check1 = cat is Cat?; // Lint
+  final check1Not = cat is! Cat?; // Lint
   final check2 = cat is Dog;
+  final check2Not = cat is! Dog;
   final check3 = cat is Animal; // Lint
+  final check3Not = cat is! Animal; // Lint
   final check4 = homeAnimal is Dog?;
+  final check4Not = homeAnimal is! Dog?;
 
   final check5 = dogs.whereType<Dog?>().isEmpty; // Lint
   final check6 = dogs.whereType<Cat>().isEmpty;

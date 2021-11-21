@@ -36,7 +36,9 @@ class AvoidUnnecessaryTypeAssertionsRule extends CommonRule {
           (node) => createIssue(
             rule: this,
             location: nodeLocation(node: node.key, source: source),
-            message: 'Avoid unnecessary "${node.value}" assertion.',
+            message: node.key is IsExpression
+                ? 'Avoid unnecessary "${node.value}" assertion. The result is always "${node.value == 'is'}".'
+                : 'Avoid unnecessary "${node.value}" assertion.',
           ),
         )
         .toList(growable: false);

@@ -28,7 +28,8 @@ class _Visitor extends RecursiveAstVisitor<void> {
             targetType.typeArguments.first,
             node.typeArguments?.arguments.first.type,
           )) {
-        _expressions[node] = methodName;
+        _expressions[node] =
+            '${node.methodName}${node.typeArguments ?? ''}${node.argumentList}';
       }
     }
   }
@@ -38,7 +39,8 @@ class _Visitor extends RecursiveAstVisitor<void> {
     final objectType = node.expression.staticType;
     final castedType = node.type.type;
     if (_isUselessTypeCheck(objectType, castedType)) {
-      _expressions[node] = 'is';
+      _expressions[node] =
+          '${node.isOperator.keyword?.lexeme ?? ''}${node.notOperator ?? ''}';
     }
   }
 
