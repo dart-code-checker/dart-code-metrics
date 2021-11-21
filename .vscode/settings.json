@@ -4,6 +4,7 @@
     "cSpell.words": [
         "ansicolor",
         "Backport",
+        "bools",
         "codeclimate",
         "codecov",
         "cyclomatic",
@@ -14,6 +15,7 @@
         "Gitlab",
         "Halstead",
         "incendial",
+        "ints",
         "lcov",
         "McCabe's",
         "mocktail",
@@ -23,6 +25,7 @@
         "semver",
         "setstate",
         "SLOC",
+        "todos",
         "unawaited"
     ]
 }
