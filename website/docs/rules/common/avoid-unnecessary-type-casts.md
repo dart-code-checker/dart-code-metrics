@@ -5,6 +5,7 @@
 avoid-unnecessary-type-casts
 
 ## Description
+
 Warns about of unnecessary use of casting operators.
 
 ### Example
