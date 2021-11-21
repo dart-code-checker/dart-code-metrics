@@ -5,6 +5,7 @@
 avoid-unnecessary-type-assertions
 
 ## Description
+
 Warns about unnecessary usage of 'is' and 'whereType' operators.
 
 ### Example

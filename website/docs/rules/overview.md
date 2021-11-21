@@ -27,6 +27,10 @@ Rules configuration is [described here](../getting-started/configuration#configu
 
     Warns when non null assertion operator (or “bang” operator) is used for a property access or method invocation. The operator check works at runtime and it may fail and throw a runtime exception.
 
+- [avoid-throw-in-catch-block](./common/avoid-throw-in-catch-block.md)
+
+    Warns when call `throw` in a catch block.
+
 - [avoid-unnecessary-type-casts](./common/avoid-unnecessary-type-casts.md)
 
     Warns about unnecessary usage of 'as' operators.

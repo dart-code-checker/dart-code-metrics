@@ -7,6 +7,7 @@ import 'rules_list/avoid_nested_conditional_expressions/avoid_nested_conditional
 import 'rules_list/avoid_non_null_assertion/avoid_non_null_assertion_rule.dart';
 import 'rules_list/avoid_preserve_whitespace_false/avoid_preserve_whitespace_false_rule.dart';
 import 'rules_list/avoid_returning_widgets/avoid_returning_widgets_rule.dart';
+import 'rules_list/avoid_throw_in_catch_block/avoid_throw_in_catch_block_rule.dart';
 import 'rules_list/avoid_unnecessary_setstate/avoid_unnecessary_setstate_rule.dart';
 import 'rules_list/avoid_unnecessary_type_assertions/avoid_unnecessary_type_assertions_rule.dart';
 import 'rules_list/avoid_unused_parameters/avoid_unused_parameters_rule.dart';
@@ -52,6 +53,8 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
       AvoidPreserveWhitespaceFalseRule(config),
   AvoidReturningWidgetsRule.ruleId: (config) =>
       AvoidReturningWidgetsRule(config),
+  AvoidThrowInCatchBlockRule.ruleId: (config) =>
+      AvoidThrowInCatchBlockRule(config),
   AvoidUnnecessarySetStateRule.ruleId: (config) =>
       AvoidUnnecessarySetStateRule(config),
   AvoidUnnecessaryTypeAssertionsRule.ruleId: (config) =>
