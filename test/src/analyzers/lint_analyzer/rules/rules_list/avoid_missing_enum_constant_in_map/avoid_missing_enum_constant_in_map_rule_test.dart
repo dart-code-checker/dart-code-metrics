@@ -40,7 +40,7 @@ void main() {
               '  }',
           '_title = <CountyCode, String>{\n'
               "    CountyCode.russia: 'Россия',\n"
-              '  }'
+              '  }',
         ],
         messages: [
           'Missing map entry for kazachstan',
