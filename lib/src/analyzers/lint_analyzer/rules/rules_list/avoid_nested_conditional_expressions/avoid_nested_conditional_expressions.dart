@@ -25,14 +25,13 @@ class AvoidNestedConditionalExpressionsRule extends CommonRule {
   AvoidNestedConditionalExpressionsRule([Map<String, Object> config = const {}])
       : _acceptableLevel = _ConfigParser.parseAcceptableLevel(config),
         super(
-          id: ruleId,
-          documentation: const RuleDocumentation(
-            name: 'Avoid nested conditional expressions',
-            brief: 'Warns about nested conditional expressions.',
-          ),
-          severity: readSeverity(config, Severity.style),
-          excludes: readExcludes(config),
-        );
+            id: ruleId,
+            documentation: const RuleDocumentation(
+              name: 'Avoid nested conditional expressions',
+              brief: 'Warns about nested conditional expressions.',
+            ),
+            severity: readSeverity(config, Severity.style),
+            excludes: readExcludes(config));
 
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {

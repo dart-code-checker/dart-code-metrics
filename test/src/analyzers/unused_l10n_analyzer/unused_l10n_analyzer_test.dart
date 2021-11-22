@@ -36,18 +36,23 @@ void main() {
         final report = result.single;
         expect(report.className, 'TestI18n');
 
-        final firstIssue = report.issues.first;
+        final firstIssue = report.issues.elementAt(0);
         expect(firstIssue.memberName, 'getter');
         expect(firstIssue.location.line, 4);
         expect(firstIssue.location.column, 3);
 
-        final secondIssues = report.issues.last;
+        final secondIssue = report.issues.elementAt(1);
+        expect(secondIssue.memberName, 'regularGetter');
+        expect(secondIssue.location.line, 13);
+        expect(secondIssue.location.column, 3);
+
+        final thirdIssue = report.issues.elementAt(2);
         expect(
-          secondIssues.memberName,
+          thirdIssue.memberName,
           'secondMethod(String value, num number)',
         );
-        expect(secondIssues.location.line, 8);
-        expect(secondIssues.location.column, 3);
+        expect(thirdIssue.location.line, 8);
+        expect(thirdIssue.location.column, 3);
       });
 
       test('should analyze files with custom class pattern', () async {
@@ -67,24 +72,26 @@ void main() {
 
         final firstIssue = report.issues.elementAt(0);
         expect(firstIssue.memberName, 'field');
-        expect(firstIssue.location.line, 13);
+        expect(firstIssue.location.line, 23);
         expect(firstIssue.location.column, 3);
 
-        final secondIssues = report.issues.elementAt(1);
-        expect(
-          secondIssues.memberName,
-          'method(String value)',
-        );
-        expect(secondIssues.location.line, 17);
-        expect(secondIssues.location.column, 3);
+        final secondIssue = report.issues.elementAt(1);
+        expect(secondIssue.memberName, 'regularField');
+        expect(secondIssue.location.line, 36);
+        expect(secondIssue.location.column, 3);
 
-        final thirdIssues = report.issues.elementAt(2);
+        final thirdIssue = report.issues.elementAt(2);
+        expect(thirdIssue.memberName, 'method(String value)');
+        expect(thirdIssue.location.line, 27);
+        expect(thirdIssue.location.column, 3);
+
+        final forthIssue = report.issues.elementAt(3);
         expect(
-          thirdIssues.memberName,
+          forthIssue.memberName,
           'secondMethod(String value, num number)',
         );
-        expect(thirdIssues.location.line, 19);
-        expect(thirdIssues.location.column, 3);
+        expect(forthIssue.location.line, 29);
+        expect(forthIssue.location.column, 3);
       });
 
       test('should report no issues for a custom class name pattern', () async {
