@@ -1,4 +1,4 @@
-# Avoid late keyword
+# Avoid missing enum constant in map
 
 ## Rule id {#rule-id}
 
