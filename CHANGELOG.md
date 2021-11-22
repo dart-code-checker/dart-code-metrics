@@ -7,6 +7,7 @@
 * chore: activate self implemented rules: `avoid-unnecessary-type-assertions`, `avoid-unnecessary-type-casts`, `prefer-first`, `prefer-last`, `prefer-match-file-name`
 * refactor: cleanup anti-patterns, metrics and rules documentation
 * fix: `no-magic-number` not working in array of widgets
+* feat: improve check unused l10n
 
 ## 4.6.0
 
