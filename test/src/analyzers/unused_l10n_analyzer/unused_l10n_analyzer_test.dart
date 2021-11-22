@@ -36,7 +36,7 @@ void main() {
         final report = result.single;
         expect(report.className, 'TestI18n');
 
-        final firstIssue = report.issues.elementAt(0);
+        final firstIssue = report.issues.first;
         expect(firstIssue.memberName, 'getter');
         expect(firstIssue.location.line, 4);
         expect(firstIssue.location.column, 3);
