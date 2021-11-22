@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+* feat: add static code diagnostics `avoid-throw-in-catch-block`, `avoid-unnecessary-type-assertions`, `avoid-unnecessary-type-casts`
+* feat: introduce file metrics
+* chore: activate self implemented rules: `avoid-unnecessary-type-assertions`, `avoid-unnecessary-type-casts`, `prefer-first`, `prefer-last`, `prefer-match-file-name`
+* refactor: cleanup anti-patterns, metrics and rules documentation
+* fix: `no-magic-number` not working in array of widgets
+
 ## 4.6.0
 
 * feat: CLI now can be compiled to and used as compiled executable.

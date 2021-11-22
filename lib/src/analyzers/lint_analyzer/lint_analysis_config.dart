@@ -14,6 +14,7 @@ class LintAnalysisConfig {
   final Iterable<Glob> rulesExcludes;
   final Iterable<Pattern> antiPatterns;
   final Iterable<Metric> classesMetrics;
+  final Iterable<Metric> fileMetrics;
   final Iterable<Metric> methodsMetrics;
   final Iterable<Glob> metricsExcludes;
   final Map<String, Object> metricsConfig;
@@ -25,6 +26,7 @@ class LintAnalysisConfig {
     this.rulesExcludes,
     this.antiPatterns,
     this.classesMetrics,
+    this.fileMetrics,
     this.methodsMetrics,
     this.metricsExcludes,
     this.metricsConfig,

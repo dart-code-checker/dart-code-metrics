@@ -10,6 +10,13 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    assignees:
+      - "dependabot"
+    reviewers:
+      - "incendial"
+      - "dkrutskikh"
+    commit-message:
+      prefix: "chore: "
 
   # Maintain dependencies for npm
   - package-ecosystem: "npm"
@@ -17,7 +24,7 @@ updates:
     schedule:
       interval: "daily"
     assignees:
-      - "octocat"
+      - "dependabot"
     reviewers:
       - "incendial"
       - "dkrutskikh"

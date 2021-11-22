@@ -1,4 +1,4 @@
-part of '../member_ordering_extended.dart';
+part of '../member_ordering_extended_rule.dart';
 
 @immutable
 class _Annotation {

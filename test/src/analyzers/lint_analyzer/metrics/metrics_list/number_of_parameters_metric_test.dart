@@ -24,7 +24,7 @@ Future<void> main() async {
     group('computes parameters received by the', () {
       test('simple function', () {
         final metricValue = metric.compute(
-          scopeVisitor.functions.toList()[0].declaration,
+          scopeVisitor.functions.toList().first.declaration,
           scopeVisitor.classes,
           scopeVisitor.functions,
           example,

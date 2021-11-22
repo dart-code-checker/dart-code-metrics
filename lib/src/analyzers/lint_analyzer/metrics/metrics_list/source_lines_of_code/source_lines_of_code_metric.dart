@@ -16,8 +16,6 @@ import 'source_code_visitor.dart';
 const _documentation = MetricDocumentation(
   name: 'Source lines of Code',
   shortName: 'SLOC',
-  brief:
-      'The approximate number of source code lines in a method, blank lines and comments are not counted.',
   measuredType: EntityType.methodEntity,
   recomendedThreshold: 50,
 );

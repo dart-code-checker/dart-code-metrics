@@ -1,4 +1,4 @@
-part of 'newline_before_return.dart';
+part of 'newline_before_return_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
   final _statements = <ReturnStatement>[];

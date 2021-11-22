@@ -24,7 +24,7 @@ import '../config_builder/models/analysis_options.dart';
 import '../utils/yaml_utils.dart';
 import 'analyzer_plugin_utils.dart';
 
-class MetricsAnalyzerPlugin extends ServerPlugin {
+class AnalyzerPlugin extends ServerPlugin {
   static const _analyzer = LintAnalyzer();
 
   final _configs = <AnalysisDriverGeneric, LintAnalysisConfig>{};
@@ -44,7 +44,7 @@ class MetricsAnalyzerPlugin extends ServerPlugin {
   @override
   String get version => '1.0.0-alpha.0';
 
-  MetricsAnalyzerPlugin(ResourceProvider provider) : super(provider);
+  AnalyzerPlugin(ResourceProvider provider) : super(provider);
 
   @override
   void contentChanged(String path) {

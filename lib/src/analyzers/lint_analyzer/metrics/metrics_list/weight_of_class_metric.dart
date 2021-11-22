@@ -17,8 +17,6 @@ import '../scope_utils.dart';
 const _documentation = MetricDocumentation(
   name: 'Weight Of a Class',
   shortName: 'WOC',
-  brief:
-      'The number of "functional" public methods divided by the total number of public members',
   measuredType: EntityType.classEntity,
   recomendedThreshold: 0.33,
 );
@@ -44,7 +42,7 @@ class WeightOfClassMetric extends ClassMetric<double> {
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
     InternalResolvedUnitResult source,
-    Iterable<MetricValue<num>> otherMetricsValues,
+    Iterable<MetricValue> otherMetricsValues,
   ) =>
       super.supports(
         node,

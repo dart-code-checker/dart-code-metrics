@@ -114,6 +114,7 @@ The reporter prints a single JSON object containing meta information and the vio
 #### The **record** object fields are {#the-record-object-fields-are}
 
 - `path` - a relative path to the target file
+- `fileMetrics` - an array with target file [metrics](#the-metric-value-object-fields-are)
 - `classes` - a map with **class name** as the **key** and **[class report](#the-report-object-fields-are)** as the **value**
 - `functions` - a map with **function name** as the **key** and **[function report](#the-report-object-fields-are)** as the **value**
 - `issues` - an array of [issues](#the-issue-object-fields-are) detected in the target file
@@ -142,7 +143,7 @@ The reporter prints a single JSON object containing meta information and the vio
 - `status` - a status of information in this record
 - `title` - a message with information about the record
 - `value` - an actual value of this record (can be an array or a single value)
-- `violations` - a value of a violations of a metric associated with this record (can be an array or a single value) _(optional)_
+- `violations` - a value of a violations count of a metric associated with this record
 
 ```JSON
 {

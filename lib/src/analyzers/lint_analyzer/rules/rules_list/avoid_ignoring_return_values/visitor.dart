@@ -1,4 +1,4 @@
-part of 'avoid_ignoring_return_values.dart';
+part of 'avoid_ignoring_return_values_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
   final _statements = <ExpressionStatement>[];

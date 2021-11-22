@@ -25,6 +25,7 @@ void main() {
       LintFileReport(
         path: fullPathStub,
         relativePath: relativePathStub,
+        file: buildReportStub(),
         classes: const {},
         functions: {'a': buildFunctionRecordStub(metrics: [])},
         issues: const [],
@@ -36,6 +37,7 @@ void main() {
       LintFileReport(
         path: fullPathStub,
         relativePath: relativePathStub,
+        file: buildReportStub(),
         classes: Map.unmodifiable(<String, Report>{}),
         functions: Map.unmodifiable(<String, Report>{
           'a': buildFunctionRecordStub(
@@ -65,6 +67,7 @@ void main() {
       LintFileReport(
         path: fullPathStub2,
         relativePath: relativePathStub2,
+        file: buildReportStub(),
         classes: Map.unmodifiable(<String, Report>{}),
         functions: Map.unmodifiable(<String, Report>{
           'a': buildFunctionRecordStub(
@@ -88,6 +91,7 @@ void main() {
       LintFileReport(
         path: fullPathStub3,
         relativePath: relativePathStub3,
+        file: buildReportStub(),
         classes: Map.unmodifiable(<String, Report>{}),
         functions: Map.unmodifiable(<String, Report>{
           'a': buildFunctionRecordStub(

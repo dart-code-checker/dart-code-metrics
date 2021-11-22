@@ -14,7 +14,6 @@ import '../models/metric_value.dart';
 const _documentation = MetricDocumentation(
   name: 'Number of Parameters',
   shortName: 'NOP',
-  brief: 'Number of parameters received by a method',
   measuredType: EntityType.methodEntity,
   recomendedThreshold: 4,
 );
@@ -40,7 +39,7 @@ class NumberOfParametersMetric extends FunctionMetric<int> {
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
     InternalResolvedUnitResult source,
-    Iterable<MetricValue<num>> otherMetricsValues,
+    Iterable<MetricValue> otherMetricsValues,
   ) {
     if (node is FunctionDeclaration) {
       return true;

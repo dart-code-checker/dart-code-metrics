@@ -9,6 +9,8 @@ import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/report.dart
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
+import '../../../stubs_builders.dart';
+
 void main() {
   group(
     'LintAnalyzer',
@@ -170,6 +172,7 @@ void main() {
           LintFileReport(
             path: '/home/dev/project/bin/example.dart',
             relativePath: 'bin/example.dart',
+            file: buildReportStub(),
             classes: Map.unmodifiable(<String, Report>{}),
             functions: Map.unmodifiable(<String, Report>{}),
             issues: const [],
@@ -178,6 +181,7 @@ void main() {
           LintFileReport(
             path: '/home/dev/project/lib/example.dart',
             relativePath: 'lib/example.dart',
+            file: buildReportStub(),
             classes: Map.unmodifiable(<String, Report>{}),
             functions: Map.unmodifiable(<String, Report>{}),
             issues: const [],

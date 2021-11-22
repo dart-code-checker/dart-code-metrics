@@ -12,7 +12,7 @@ void main() {
       () {
         expect(
           renderDetailsTooltip(
-            buildRecordStub(
+            buildReportStub(
               metrics: [
                 buildMetricValueStub(
                   id: 'metric',

@@ -2,12 +2,9 @@
     "files.eol": "\n",
     "files.insertFinalNewline": true,
     "cSpell.words": [
-        "Backport",
-        "Gitlab",
-        "Halstead",
-        "McCabe's",
-        "SLOC",
         "ansicolor",
+        "Backport",
+        "bools",
         "codeclimate",
         "codecov",
         "cyclomatic",
@@ -15,12 +12,20 @@
         "dartdocs",
         "dependabot",
         "dkrutskikh",
+        "Gitlab",
+        "Halstead",
         "incendial",
+        "ints",
         "lcov",
+        "McCabe's",
         "mocktail",
         "nullsafety",
+        "pubignore",
         "pubspec",
         "semver",
-        "setstate"
+        "setstate",
+        "SLOC",
+        "todos",
+        "unawaited"
     ]
 }

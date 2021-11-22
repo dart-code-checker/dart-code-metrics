@@ -33,6 +33,8 @@ dart_code_metrics:
     - test/*
   rules:
     - avoid-unused-parameters
+    - avoid-unnecessary-type-assertions
+    - avoid-unnecessary-type-casts
     - binary-expression-operand-order
     - double-literal-format
     - newline-before-return
@@ -41,6 +43,11 @@ dart_code_metrics:
     - no-equal-then-else
     - no-object-declaration
     - prefer-conditional-expressions
+    - prefer-first
+    - prefer-last
+    - prefer-match-file-name:
+        exclude:
+          - test/**
     - prefer-trailing-comma
 
 linter:

@@ -17,7 +17,6 @@ import '../../models/scoped_function_declaration.dart';
 import '../../models/severity.dart';
 import '../../rules/flutter_rule_utils.dart';
 import '../models/pattern.dart';
-import '../models/pattern_documentation.dart';
 import '../pattern_utils.dart';
 
 class LongMethod extends Pattern {
@@ -37,12 +36,7 @@ class LongMethod extends Pattern {
         ),
         super(
           id: patternId,
-          documentation: const PatternDocumentation(
-            name: 'Long Method',
-            brief:
-                'Long blocks of code are difficult to reuse and understand because they are usually responsible for more than one thing. Separating those to several short ones with proper names helps you reuse your code and understand it better without reading methods body.',
-            supportedType: EntityType.methodEntity,
-          ),
+          supportedType: EntityType.methodEntity,
           severity: readSeverity(patternSettings, Severity.none),
         );
 
