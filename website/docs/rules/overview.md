@@ -19,6 +19,10 @@ Rules configuration is [described here](../getting-started/configuration#configu
 
     Warns when a field or variable is declared with a `late` keyword.
 
+- [avoid-missing-enum-constant-in-map](./common/avoid-missing-enum-constant-in-map.md)
+
+    Warns when a enum constant is missing in a map declaration.
+
 - [avoid-nested-conditional-expressions](./common/avoid-nested-conditional-expressions.md) &nbsp; [![Configurable](https://img.shields.io/badge/-configurable-informational)](./common/member-ordering.md#config-example)
 
     Warns about nested conditional expressions.
