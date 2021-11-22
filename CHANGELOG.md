@@ -2,7 +2,8 @@
 
 ## Unreleased
 
-* feat: add static code diagnostics `avoid-throw-in-catch-block`, `avoid-unnecessary-type-assertions`, `avoid-unnecessary-type-casts`
+* feat: add static code diagnostics `avoid-throw-in-catch-block`, `avoid-unnecessary-type-assertions`, `avoid-unnecessary-type-casts`,
+`avoid-missing-enum-constant-in-map`
 * feat: introduce file metrics
 * chore: activate self implemented rules: `avoid-unnecessary-type-assertions`, `avoid-unnecessary-type-casts`, `prefer-first`, `prefer-last`, `prefer-match-file-name`
 * refactor: cleanup anti-patterns, metrics and rules documentation
