@@ -51,7 +51,7 @@ add it manually to `pubspec.yaml`
 
 ```yaml
 dev_dependencies:
-  dart_code_metrics: ^4.6.0
+  dart_code_metrics: ^4.7.0
 ```
 
 and then run
