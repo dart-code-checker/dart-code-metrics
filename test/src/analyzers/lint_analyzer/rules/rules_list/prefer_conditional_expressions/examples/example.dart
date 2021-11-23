@@ -140,3 +140,27 @@ int anotherTestFunction() {
     a = 6;
   }
 }
+
+int newCase() {
+  final cond = false;
+  final delta = 1;
+  final value = 9;
+  // LINT
+  if (cond) {
+    value += delta;
+  } else {
+    value -= delta;
+  }
+  // LINT
+  if (cond) {
+    value -= delta;
+  } else {
+    value += delta;
+  }
+  //LINT
+  if (cond) {
+    value -= 2;
+  } else {
+    value += 5;
+  }
+}

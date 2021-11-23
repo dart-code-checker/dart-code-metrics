@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* fix: prefer conditional expressions rule breaks code with increment / decrement operators
+
 ## 4.7.0
 
 * feat: add static code diagnostics `avoid-throw-in-catch-block`, `avoid-unnecessary-type-assertions`, `avoid-unnecessary-type-casts`, `avoid-missing-enum-constant-in-map`

@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:analyzer/dart/ast/ast.dart';
+import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:meta/meta.dart';
 
@@ -72,7 +73,15 @@ class PreferConditionalExpressionsRule extends CommonRule {
       final firstExpression = thenStatement.rightHandSide;
       final secondExpression = elseStatement.rightHandSide;
 
-      return '$target = $condition ? $firstExpression : $secondExpression;';
+      final thenStatementOperator = thenStatement.operator.type.stringValue;
+      final elseStatementOperator = elseStatement.operator.type.stringValue;
+
+      return _isIncrementDecrementOperation(
+        thenStatementOperator,
+        elseStatementOperator,
+      )
+          ? '$condition ? ${thenStatement.leftHandSide} $thenStatementOperator $firstExpression : ${thenStatement.leftHandSide} $elseStatementOperator $secondExpression;'
+          : '$target = $condition ? $firstExpression : $secondExpression;';
     }
 
     if (thenStatement is ReturnStatement && elseStatement is ReturnStatement) {
@@ -84,4 +93,14 @@ class PreferConditionalExpressionsRule extends CommonRule {
 
     return null;
   }
+
+  bool _isIncrementDecrementOperation(
+    String? thenStatementOperator,
+    String? elseStatementOperator,
+  ) =>
+      thenStatementOperator != elseStatementOperator &&
+      (thenStatementOperator == TokenType.PLUS_EQ.stringValue ||
+          thenStatementOperator == TokenType.MINUS_EQ.stringValue) &&
+      (elseStatementOperator == TokenType.PLUS_EQ.stringValue ||
+          elseStatementOperator == TokenType.MINUS_EQ.stringValue);
 }
