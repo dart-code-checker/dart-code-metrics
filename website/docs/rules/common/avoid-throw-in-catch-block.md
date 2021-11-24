@@ -8,7 +8,7 @@ avoid-throw-in-catch-block
 
 Call throw in a catch block loses the original stack trace and the original exception.
 
-Sine 2.16 version you can use [Error.throwWithStackTrace](https://api.dart.dev/dev/2.16.0-9.0.dev/dart-core/Error/throwWithStackTrace.html).
+Since 2.16 version you can use [Error.throwWithStackTrace](https://api.dart.dev/dev/2.16.0-9.0.dev/dart-core/Error/throwWithStackTrace.html).
 
 ### Example
 
