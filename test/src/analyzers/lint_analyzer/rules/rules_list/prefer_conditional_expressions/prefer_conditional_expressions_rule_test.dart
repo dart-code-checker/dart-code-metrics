@@ -38,6 +38,7 @@ void main() {
           1496,
           1575,
           1653,
+          1723,
         ],
         startLines: [
           11,
@@ -51,8 +52,9 @@ void main() {
           149,
           155,
           161,
+          167,
         ],
-        startColumns: [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+        startColumns: [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,3],
         endOffsets: [
           161,
           345,
@@ -65,6 +67,7 @@ void main() {
           1562,
           1641,
           1711,
+          1781,
         ],
         locationTexts: [
           'if (a == 3) {\n'
@@ -118,8 +121,14 @@ void main() {
               '  } else {\n'
               '    value += 5;\n'
               '  }',
+          'if (cond) {\n'
+              '    value *= 2;\n'
+              '  } else {\n'
+              '    value /= 5;\n'
+              '  }',
         ],
         messages: [
+          'Prefer conditional expression.',
           'Prefer conditional expression.',
           'Prefer conditional expression.',
           'Prefer conditional expression.',
@@ -144,8 +153,10 @@ void main() {
           'cond ? value += delta : value -= delta;',
           'cond ? value -= delta : value += delta;',
           'cond ? value -= 2 : value += 5;',
+          'cond ? value *= 2 : value /= 5;',
         ],
         replacementComments: [
+          'Convert to conditional expression.',
           'Convert to conditional expression.',
           'Convert to conditional expression.',
           'Convert to conditional expression.',

@@ -163,4 +163,10 @@ int newCase() {
   } else {
     value += 5;
   }
+  //LINT
+  if (cond) {
+    value *= 2;
+  } else {
+    value /= 5;
+  }
 }

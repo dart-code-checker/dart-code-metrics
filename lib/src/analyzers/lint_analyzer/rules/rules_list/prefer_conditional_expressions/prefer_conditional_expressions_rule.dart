@@ -97,10 +97,22 @@ class PreferConditionalExpressionsRule extends CommonRule {
   bool _isIncrementDecrementOperation(
     String? thenStatementOperator,
     String? elseStatementOperator,
-  ) =>
-      thenStatementOperator != elseStatementOperator &&
-      (thenStatementOperator == TokenType.PLUS_EQ.stringValue ||
-          thenStatementOperator == TokenType.MINUS_EQ.stringValue) &&
-      (elseStatementOperator == TokenType.PLUS_EQ.stringValue ||
-          elseStatementOperator == TokenType.MINUS_EQ.stringValue);
+  ) {
+    final supportedSymbols = [
+      TokenType.SLASH_EQ.stringValue, // /=
+      TokenType.STAR_EQ.stringValue, //	*=
+      TokenType.PERCENT_EQ.stringValue, // %=
+      TokenType.GT_GT_GT_EQ.stringValue, // >>>=
+      TokenType.CARET_EQ.stringValue, // ^=
+      TokenType.PLUS_EQ.stringValue, // +=
+      TokenType.LT_LT_EQ.stringValue, // <<=
+      TokenType.MINUS_EQ.stringValue, // -=
+      TokenType.GT_GT_EQ.stringValue, // >>=
+      TokenType.BAR_EQ.stringValue, // |=
+      TokenType.TILDE_SLASH_EQ.stringValue, // ~/=
+    ];
+
+    return supportedSymbols.contains(thenStatementOperator) &&
+        supportedSymbols.contains(elseStatementOperator);
+  }
 }
