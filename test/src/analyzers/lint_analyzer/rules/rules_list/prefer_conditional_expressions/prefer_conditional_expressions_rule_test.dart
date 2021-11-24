@@ -54,7 +54,7 @@ void main() {
           161,
           167,
         ],
-        startColumns: [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,3],
+        startColumns: [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
         endOffsets: [
           161,
           345,
