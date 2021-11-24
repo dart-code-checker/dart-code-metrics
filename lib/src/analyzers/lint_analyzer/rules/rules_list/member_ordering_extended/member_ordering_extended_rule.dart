@@ -27,13 +27,17 @@ class MemberOrderingExtendedRule extends CommonRule {
 
   static const _warningMessage = 'should be before';
   static const _warningAlphabeticalMessage = 'should be alphabetically before';
+  static const _warningTypeAlphabeticalMessage =
+      'type name should be alphabetically before';
 
   final List<_MemberGroup> _groupsOrder;
   final bool _alphabetize;
+  final bool _alphabetizeByType;
 
   MemberOrderingExtendedRule([Map<String, Object> config = const {}])
       : _groupsOrder = _ConfigParser.parseOrder(config),
         _alphabetize = _ConfigParser.parseAlphabetize(config),
+        _alphabetizeByType = _ConfigParser.parseAlphabetizeByType(config),
         super(
           id: ruleId,
           severity: readSeverity(config, Severity.style),
@@ -75,6 +79,19 @@ class MemberOrderingExtendedRule extends CommonRule {
                 ),
                 message:
                     '${info.memberOrder.memberNames.currentName} $_warningAlphabeticalMessage ${info.memberOrder.memberNames.previousName}.',
+              ),
+            ),
+      if (!_alphabetize && _alphabetizeByType)
+        ...membersInfo.where((info) => info.memberOrder.isByTypeWrong).map(
+              (info) => createIssue(
+                rule: this,
+                location: nodeLocation(
+                  node: info.classMember,
+                  source: source,
+                  withCommentOrMetadata: true,
+                ),
+                message:
+                    '${info.memberOrder.memberNames.currentName} $_warningTypeAlphabeticalMessage ${info.memberOrder.memberNames.previousName}.',
               ),
             ),
     ];
