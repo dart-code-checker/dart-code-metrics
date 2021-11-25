@@ -73,14 +73,14 @@ class PreferConditionalExpressionsRule extends CommonRule {
       final firstExpression = thenStatement.rightHandSide;
       final secondExpression = elseStatement.rightHandSide;
 
-      final thenStatementOperator = thenStatement.operator.type.stringValue;
-      final elseStatementOperator = elseStatement.operator.type.stringValue;
+      final thenStatementOperator = thenStatement.operator.type;
+      final elseStatementOperator = elseStatement.operator.type;
 
       return _isIncrementDecrementOperation(
         thenStatementOperator,
         elseStatementOperator,
       )
-          ? '$condition ? ${thenStatement.leftHandSide} $thenStatementOperator $firstExpression : ${thenStatement.leftHandSide} $elseStatementOperator $secondExpression;'
+          ? '$condition ? ${thenStatement.leftHandSide} ${thenStatementOperator.stringValue} $firstExpression : ${thenStatement.leftHandSide} ${elseStatementOperator.stringValue} $secondExpression;'
           : '$target = $condition ? $firstExpression : $secondExpression;';
     }
 
@@ -95,21 +95,21 @@ class PreferConditionalExpressionsRule extends CommonRule {
   }
 
   bool _isIncrementDecrementOperation(
-    String? thenStatementOperator,
-    String? elseStatementOperator,
+    TokenType? thenStatementOperator,
+    TokenType? elseStatementOperator,
   ) {
     final supportedSymbols = [
-      TokenType.SLASH_EQ.stringValue, // /=
-      TokenType.STAR_EQ.stringValue, //	*=
-      TokenType.PERCENT_EQ.stringValue, // %=
-      TokenType.GT_GT_GT_EQ.stringValue, // >>>=
-      TokenType.CARET_EQ.stringValue, // ^=
-      TokenType.PLUS_EQ.stringValue, // +=
-      TokenType.LT_LT_EQ.stringValue, // <<=
-      TokenType.MINUS_EQ.stringValue, // -=
-      TokenType.GT_GT_EQ.stringValue, // >>=
-      TokenType.BAR_EQ.stringValue, // |=
-      TokenType.TILDE_SLASH_EQ.stringValue, // ~/=
+      TokenType.SLASH_EQ, // /=
+      TokenType.STAR_EQ, //	*=
+      TokenType.PERCENT_EQ, // %=
+      TokenType.GT_GT_GT_EQ, // >>>=
+      TokenType.CARET_EQ, // ^=
+      TokenType.PLUS_EQ, // +=
+      TokenType.LT_LT_EQ, // <<=
+      TokenType.MINUS_EQ, // -=
+      TokenType.GT_GT_EQ, // >>=
+      TokenType.BAR_EQ, // |=
+      TokenType.TILDE_SLASH_EQ, // ~/=
     ];
 
     return supportedSymbols.contains(thenStatementOperator) &&
