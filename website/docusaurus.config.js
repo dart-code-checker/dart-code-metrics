@@ -137,7 +137,7 @@ module.exports = {
       {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
-          editUrl: 'https://github.com/dart-code-checker/website/blob/main/',
+          editUrl: 'https://github.com/dart-code-checker/dart-code-metrics/tree/master/website/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
