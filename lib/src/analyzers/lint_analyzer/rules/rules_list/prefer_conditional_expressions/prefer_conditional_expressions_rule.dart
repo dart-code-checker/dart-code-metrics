@@ -76,10 +76,8 @@ class PreferConditionalExpressionsRule extends CommonRule {
       final thenStatementOperator = thenStatement.operator.type;
       final elseStatementOperator = elseStatement.operator.type;
 
-      return (thenStatementOperator.isAssignmentOperator &&
-                  thenStatementOperator != TokenType.EQ) &&
-              (thenStatementOperator != TokenType.EQ &&
-                  elseStatementOperator.isAssignmentOperator)
+      return _isAssignmentOperatorNotEq(thenStatementOperator) &&
+              _isAssignmentOperatorNotEq(elseStatementOperator)
           ? '$condition ? ${thenStatement.leftHandSide} ${thenStatementOperator.stringValue} $firstExpression : ${thenStatement.leftHandSide} ${elseStatementOperator.stringValue} $secondExpression;'
           : '$target = $condition ? $firstExpression : $secondExpression;';
     }
@@ -93,4 +91,7 @@ class PreferConditionalExpressionsRule extends CommonRule {
 
     return null;
   }
+
+  bool _isAssignmentOperatorNotEq(TokenType token) =>
+      token.isAssignmentOperator && token != TokenType.EQ;
 }
