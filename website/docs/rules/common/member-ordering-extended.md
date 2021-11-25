@@ -63,6 +63,10 @@ The default config is:
 
 The `alphabetize` option will enforce that members within the same category should be alphabetically sorted by name.
 
+The `alphabetize-by-type` option will enforce that members within the same category should be alphabetically sorted by theirs type name.
+
+Only one alphabetize option could be applied at the same time.
+
 ### Config example {#config-example}
 
 With the default config:

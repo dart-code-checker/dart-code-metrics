@@ -12,6 +12,8 @@ const _alphabeticalExamplePath =
     'member_ordering_extended/examples/alphabetical_example.dart';
 const _alphabeticalCorrectExamplePath =
     'member_ordering_extended/examples/alphabetical_correct_example.dart';
+const _typeAlphabeticalExamplePath =
+    'member_ordering_extended/examples/type_alphabetical_example.dart';
 
 void main() {
   group('MemberOrderingExtendedRule', () {
@@ -273,6 +275,47 @@ void main() {
           final issues = MemberOrderingExtendedRule(config).check(unit);
 
           RuleTestHelper.verifyNoIssues(issues);
+        });
+      });
+
+      group('and type alphabetical order', () {
+        test('reports about found issues', () async {
+          final unit = await RuleTestHelper.resolveFromFile(
+            _typeAlphabeticalExamplePath,
+          );
+          final config = {
+            'alphabetize-by-type': true,
+            'order': [
+              'public-methods',
+              'public-fields',
+            ],
+          };
+
+          final issues = MemberOrderingExtendedRule(config).check(unit);
+
+          RuleTestHelper.verifyIssues(
+            issues: issues,
+            startOffsets: [115, 153, 188, 61, 153],
+            startLines: [15, 19, 21, 8, 19],
+            startColumns: [3, 3, 3, 3, 3],
+            endOffsets: [149, 176, 202, 70, 176],
+            locationTexts: [
+              'String work() {\n'
+                  "    return '';\n"
+                  '  }',
+              'bool create() => false;',
+              'void init() {}',
+              'double f;',
+              'bool create() => false;',
+            ],
+            messages: [
+              'public-methods should be before public-fields.',
+              'public-methods should be before public-fields.',
+              'public-methods should be before public-fields.',
+              'f type name should be alphabetically before z.',
+              'create type name should be alphabetically before work.',
+            ],
+          );
         });
       });
     });
