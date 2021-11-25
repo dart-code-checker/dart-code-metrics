@@ -157,13 +157,13 @@ int newCase() {
   } else {
     value += delta;
   }
-  //LINT
+  // LINT
   if (cond) {
     value -= 2;
   } else {
     value += 5;
   }
-  //LINT
+  // LINT
   if (cond) {
     value *= 2;
   } else {
