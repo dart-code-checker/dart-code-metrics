@@ -76,10 +76,10 @@ class PreferConditionalExpressionsRule extends CommonRule {
       final thenStatementOperator = thenStatement.operator.type;
       final elseStatementOperator = elseStatement.operator.type;
 
-      return _isIncrementDecrementOperation(
-        thenStatementOperator,
-        elseStatementOperator,
-      )
+      return (thenStatementOperator.isAssignmentOperator &&
+                  thenStatementOperator != TokenType.EQ) &&
+              (thenStatementOperator != TokenType.EQ &&
+                  elseStatementOperator.isAssignmentOperator)
           ? '$condition ? ${thenStatement.leftHandSide} ${thenStatementOperator.stringValue} $firstExpression : ${thenStatement.leftHandSide} ${elseStatementOperator.stringValue} $secondExpression;'
           : '$target = $condition ? $firstExpression : $secondExpression;';
     }
@@ -92,27 +92,5 @@ class PreferConditionalExpressionsRule extends CommonRule {
     }
 
     return null;
-  }
-
-  bool _isIncrementDecrementOperation(
-    TokenType? thenStatementOperator,
-    TokenType? elseStatementOperator,
-  ) {
-    final supportedSymbols = [
-      TokenType.SLASH_EQ, // /=
-      TokenType.STAR_EQ, //	*=
-      TokenType.PERCENT_EQ, // %=
-      TokenType.GT_GT_GT_EQ, // >>>=
-      TokenType.CARET_EQ, // ^=
-      TokenType.PLUS_EQ, // +=
-      TokenType.LT_LT_EQ, // <<=
-      TokenType.MINUS_EQ, // -=
-      TokenType.GT_GT_EQ, // >>=
-      TokenType.BAR_EQ, // |=
-      TokenType.TILDE_SLASH_EQ, // ~/=
-    ];
-
-    return supportedSymbols.contains(thenStatementOperator) &&
-        supportedSymbols.contains(elseStatementOperator);
   }
 }
