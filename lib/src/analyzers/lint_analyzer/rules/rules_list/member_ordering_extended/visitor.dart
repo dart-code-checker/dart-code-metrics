@@ -36,6 +36,9 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
         memberOrder: _getOrder(
           closestGroup,
           declaration.fields.variables.first.name.name,
+          declaration.fields.type?.type
+                  ?.getDisplayString(withNullability: false) ??
+              '_',
         ),
       ));
     }
@@ -48,7 +51,11 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
     if (closestGroup != null) {
       _membersInfo.add(_MemberInfo(
         classMember: declaration,
-        memberOrder: _getOrder(closestGroup, declaration.name?.name ?? ''),
+        memberOrder: _getOrder(
+          closestGroup,
+          declaration.name?.name ?? '',
+          declaration.returnType.name,
+        ),
       ));
     }
   }
@@ -61,7 +68,13 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
       if (closestGroup != null) {
         _membersInfo.add(_MemberInfo(
           classMember: declaration,
-          memberOrder: _getOrder(closestGroup, declaration.name.name),
+          memberOrder: _getOrder(
+            closestGroup,
+            declaration.name.name,
+            declaration.returnType?.type
+                    ?.getDisplayString(withNullability: false) ??
+                '_',
+          ),
         ));
       }
     } else {
@@ -71,7 +84,13 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
       if (closestGroup != null) {
         _membersInfo.add(_MemberInfo(
           classMember: declaration,
-          memberOrder: _getOrder(closestGroup, declaration.name.name),
+          memberOrder: _getOrder(
+            closestGroup,
+            declaration.name.name,
+            declaration.returnType?.type
+                    ?.getDisplayString(withNullability: false) ??
+                '_',
+          ),
         ));
       }
     }
@@ -93,7 +112,11 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
     return closestGroups.firstOrNull;
   }
 
-  _MemberOrder _getOrder(_MemberGroup memberGroup, String memberName) {
+  _MemberOrder _getOrder(
+    _MemberGroup memberGroup,
+    String memberName,
+    String typeName,
+  ) {
     if (_membersInfo.isNotEmpty) {
       final lastMemberOrder = _membersInfo.last.memberOrder;
       final hasSameGroup = lastMemberOrder.memberGroup == memberGroup;
@@ -106,12 +129,19 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
       final memberNames = _MemberNames(
         currentName: memberName,
         previousName: lastMemberOrder.memberNames.currentName,
+        currentTypeName: typeName,
+        previousTypeName: lastMemberOrder.memberNames.currentTypeName,
       );
 
       return _MemberOrder(
         memberNames: memberNames,
         isAlphabeticallyWrong: hasSameGroup &&
             memberNames.currentName.compareTo(memberNames.previousName!) < 0,
+        isByTypeWrong: hasSameGroup &&
+            memberNames.currentTypeName
+                    .toLowerCase()
+                    .compareTo(memberNames.previousTypeName!.toLowerCase()) <
+                0,
         memberGroup: memberGroup,
         previousMemberGroup: previousMemberGroup,
         isWrong: (hasSameGroup && lastMemberOrder.isWrong) ||
@@ -120,8 +150,10 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
     }
 
     return _MemberOrder(
-      memberNames: _MemberNames(currentName: memberName),
+      memberNames:
+          _MemberNames(currentName: memberName, currentTypeName: typeName),
       isAlphabeticallyWrong: false,
+      isByTypeWrong: false,
       memberGroup: memberGroup,
       isWrong: false,
     );
@@ -196,6 +228,7 @@ class _MemberInfo {
 class _MemberOrder {
   final bool isWrong;
   final bool isAlphabeticallyWrong;
+  final bool isByTypeWrong;
   final _MemberNames memberNames;
   final _MemberGroup memberGroup;
   final _MemberGroup? previousMemberGroup;
@@ -203,6 +236,7 @@ class _MemberOrder {
   const _MemberOrder({
     required this.isWrong,
     required this.isAlphabeticallyWrong,
+    required this.isByTypeWrong,
     required this.memberNames,
     required this.memberGroup,
     this.previousMemberGroup,
@@ -213,9 +247,13 @@ class _MemberOrder {
 class _MemberNames {
   final String currentName;
   final String? previousName;
+  final String currentTypeName;
+  final String? previousTypeName;
 
   const _MemberNames({
     required this.currentName,
+    required this.currentTypeName,
     this.previousName,
+    this.previousTypeName,
   });
 }

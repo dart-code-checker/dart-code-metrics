@@ -26,10 +26,49 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [111, 289, 426, 490, 557, 616, 889, 1040],
-        startLines: [11, 30, 45, 51, 58, 64, 93, 109],
-        startColumns: [3, 3, 3, 3, 3, 3, 3, 3],
-        endOffsets: [161, 345, 476, 543, 602, 663, 930, 1087],
+        startOffsets: [
+          111,
+          289,
+          426,
+          490,
+          557,
+          616,
+          889,
+          1040,
+          1497,
+          1577,
+          1657,
+          1729,
+        ],
+        startLines: [
+          11,
+          30,
+          45,
+          51,
+          58,
+          64,
+          93,
+          109,
+          150,
+          157,
+          164,
+          171,
+        ],
+        startColumns: [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+        endOffsets: [
+          161,
+          345,
+          476,
+          543,
+          602,
+          663,
+          930,
+          1087,
+          1563,
+          1643,
+          1715,
+          1787,
+        ],
         locationTexts: [
           'if (a == 3) {\n'
               '    a = 2;\n'
@@ -67,8 +106,32 @@ void main() {
               '    return 2;\n'
               '  else\n'
               '    return a;',
+          'if (cond) {\n'
+              '    value += delta;\n'
+              '  } else {\n'
+              '    value -= delta;\n'
+              '  }',
+          'if (cond) {\n'
+              '    value -= delta;\n'
+              '  } else {\n'
+              '    value += delta;\n'
+              '  }',
+          'if (cond) {\n'
+              '    value -= 2;\n'
+              '  } else {\n'
+              '    value += 5;\n'
+              '  }',
+          'if (cond) {\n'
+              '    value *= 2;\n'
+              '  } else {\n'
+              '    value /= 5;\n'
+              '  }',
         ],
         messages: [
+          'Prefer conditional expression.',
+          'Prefer conditional expression.',
+          'Prefer conditional expression.',
+          'Prefer conditional expression.',
           'Prefer conditional expression.',
           'Prefer conditional expression.',
           'Prefer conditional expression.',
@@ -87,8 +150,16 @@ void main() {
           'a = a == 12 ? 2 : 3;',
           'a = a == 17 ? 2 : 3;',
           'return a == 20 ? 2 : a;',
+          'cond ? value += delta : value -= delta;',
+          'cond ? value -= delta : value += delta;',
+          'cond ? value -= 2 : value += 5;',
+          'cond ? value *= 2 : value /= 5;',
         ],
         replacementComments: [
+          'Convert to conditional expression.',
+          'Convert to conditional expression.',
+          'Convert to conditional expression.',
+          'Convert to conditional expression.',
           'Convert to conditional expression.',
           'Convert to conditional expression.',
           'Convert to conditional expression.',

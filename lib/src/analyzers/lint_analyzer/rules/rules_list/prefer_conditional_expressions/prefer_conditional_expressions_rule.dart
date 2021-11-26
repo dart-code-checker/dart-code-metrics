@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:analyzer/dart/ast/ast.dart';
+import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:meta/meta.dart';
 
@@ -72,7 +73,13 @@ class PreferConditionalExpressionsRule extends CommonRule {
       final firstExpression = thenStatement.rightHandSide;
       final secondExpression = elseStatement.rightHandSide;
 
-      return '$target = $condition ? $firstExpression : $secondExpression;';
+      final thenStatementOperator = thenStatement.operator.type;
+      final elseStatementOperator = elseStatement.operator.type;
+
+      return _isAssignmentOperatorNotEq(thenStatementOperator) &&
+              _isAssignmentOperatorNotEq(elseStatementOperator)
+          ? '$condition ? ${thenStatement.leftHandSide} ${thenStatementOperator.stringValue} $firstExpression : ${thenStatement.leftHandSide} ${elseStatementOperator.stringValue} $secondExpression;'
+          : '$target = $condition ? $firstExpression : $secondExpression;';
     }
 
     if (thenStatement is ReturnStatement && elseStatement is ReturnStatement) {
@@ -84,4 +91,7 @@ class PreferConditionalExpressionsRule extends CommonRule {
 
     return null;
   }
+
+  bool _isAssignmentOperatorNotEq(TokenType token) =>
+      token.isAssignmentOperator && token != TokenType.EQ;
 }
