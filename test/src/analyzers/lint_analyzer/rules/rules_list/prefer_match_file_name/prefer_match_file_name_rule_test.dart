@@ -12,6 +12,9 @@ const _withIssue = '$_examplePath/example_with_issue.dart';
 const _emptyFile = '$_examplePath/empty_file.dart';
 const _privateClass = '$_examplePath/private_class.dart';
 const _multiClass = '$_examplePath/multiple_classes_example.dart';
+const _multipleEnums = '$_examplePath/multiple_enums.dart';
+const _multipleExtensions = '$_examplePath/multiple_extensions.dart';
+const _multipleMixins = '$_examplePath/multiple_mixins.dart';
 const _codegenFile = '$_examplePath/some_widget.codegen.dart';
 
 void main() {
@@ -76,6 +79,60 @@ void main() {
 
       RuleTestHelper.verifyNoIssues(issues);
     });
+
+    test(
+      'reports about found issue about incorrect file name with enums',
+      () async {
+        final unit = await RuleTestHelper.resolveFromFile(_multipleEnums);
+        final issues = PreferMatchFileNameRule().check(unit);
+
+        RuleTestHelper.verifyIssues(
+          issues: issues,
+          startOffsets: [34],
+          startLines: [3],
+          startColumns: [6],
+          endOffsets: [53],
+          messages: ['File name does not match with first enum name.'],
+          locationTexts: ['MultipleEnumExample'],
+        );
+      },
+    );
+
+    test(
+      'reports about found issue about incorrect file name with extensions',
+      () async {
+        final unit = await RuleTestHelper.resolveFromFile(_multipleExtensions);
+        final issues = PreferMatchFileNameRule().check(unit);
+
+        RuleTestHelper.verifyIssues(
+          issues: issues,
+          startOffsets: [50],
+          startLines: [3],
+          startColumns: [11],
+          endOffsets: [74],
+          messages: ['File name does not match with first extension name.'],
+          locationTexts: ['MultipleExtensionExample'],
+        );
+      },
+    );
+
+    test(
+      'reports about found issue about incorrect file name with mixins',
+      () async {
+        final unit = await RuleTestHelper.resolveFromFile(_multipleMixins);
+        final issues = PreferMatchFileNameRule().check(unit);
+
+        RuleTestHelper.verifyIssues(
+          issues: issues,
+          startOffsets: [28],
+          startLines: [3],
+          startColumns: [7],
+          endOffsets: [48],
+          messages: ['File name does not match with first mixin name.'],
+          locationTexts: ['MultipleMixinExample'],
+        );
+      },
+    );
 
     test('reports no issues for codegen file', () async {
       final unit = await RuleTestHelper.resolveFromFile(_codegenFile);

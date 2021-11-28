@@ -10,8 +10,7 @@ Warning
 
 ## Description {#description}
 
-Warns if the file name does not match the name of the first public class in the file or a private class if there are no
-public classes.
+Warns if the file name does not match the name of the first public class / mixin / extension / enum in the file or a private one if there are no public entries.
 
 ### Config example {#config-example}
 
