@@ -13,6 +13,30 @@ class _Visitor extends RecursiveAstVisitor<void> {
     _declarations.add(node.name);
   }
 
+  @override
+  void visitExtensionDeclaration(ExtensionDeclaration node) {
+    super.visitExtensionDeclaration(node);
+
+    final name = node.name;
+    if (name != null) {
+      _declarations.add(name);
+    }
+  }
+
+  @override
+  void visitMixinDeclaration(MixinDeclaration node) {
+    super.visitMixinDeclaration(node);
+
+    _declarations.add(node.name);
+  }
+
+  @override
+  void visitEnumDeclaration(EnumDeclaration node) {
+    super.visitEnumDeclaration(node);
+
+    _declarations.add(node.name);
+  }
+
   int _compareByPrivateType(SimpleIdentifier a, SimpleIdentifier b) {
     final isAPrivate = Identifier.isPrivateName(a.name);
     final isBPrivate = Identifier.isPrivateName(b.name);
