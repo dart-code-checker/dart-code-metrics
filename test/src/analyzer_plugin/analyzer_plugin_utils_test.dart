@@ -47,6 +47,7 @@ void main() {
         when(() => libraryElement.source).thenReturn(source);
         when(() => resolvedUnitResult.libraryElement)
             .thenReturn(libraryElement);
+        // ignore: deprecated_member_use
         when(() => source.modificationStamp).thenReturn(modificationStamp);
 
         final fixes = codeIssueToAnalysisErrorFixes(

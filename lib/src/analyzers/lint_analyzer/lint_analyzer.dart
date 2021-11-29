@@ -370,6 +370,6 @@ class LintAnalyzer {
     return functionRecords;
   }
 
-  bool _isSupported(AnalysisResult result) =>
+  bool _isSupported(FileResult result) =>
       result.path.endsWith('.dart') && !result.path.endsWith('.g.dart');
 }
