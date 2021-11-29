@@ -7,6 +7,8 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
   @override
   void visitAsExpression(AsExpression node) {
+    super.visitAsExpression(node);
+
     final objectType = node.expression.staticType;
     final castedType = node.type.type;
     if (_isUselessTypeCheck(objectType, castedType)) {

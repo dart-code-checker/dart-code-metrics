@@ -36,6 +36,8 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
   @override
   void visitIsExpression(IsExpression node) {
+    super.visitIsExpression(node);
+
     final objectType = node.expression.staticType;
     final castedType = node.type.type;
     if (_isUselessTypeCheck(objectType, castedType)) {
