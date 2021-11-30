@@ -12,8 +12,6 @@ class AnnotatedNodeMock extends Mock implements AnnotatedNode {}
 
 class CompilationUnitMock extends Mock implements CompilationUnit {}
 
-class CharacterLocationMock extends Mock implements CharacterLocation {}
-
 class LineInfoMock extends Mock implements LineInfo {}
 
 class TokenMock extends Mock implements Token {}

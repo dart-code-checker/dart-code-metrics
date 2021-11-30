@@ -142,6 +142,7 @@ class AnalyzerPlugin extends ServerPlugin {
   ) async {
     try {
       final driver = driverForPath(parameters.file) as AnalysisDriver;
+      // ignore: deprecated_member_use
       final analysisResult = await driver.getResult2(parameters.file);
 
       if (analysisResult is! ResolvedUnitResult) {

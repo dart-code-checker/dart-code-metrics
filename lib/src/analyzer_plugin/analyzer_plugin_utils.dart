@@ -43,6 +43,7 @@ plugin.AnalysisErrorFixes codeIssueToAnalysisErrorFixes(
           plugin.SourceChange(issue.suggestion!.comment, edits: [
             plugin.SourceFileEdit(
               fileWithIssue,
+              // ignore: deprecated_member_use
               unitResult.libraryElement.source.modificationStamp,
               edits: [
                 plugin.SourceEdit(
