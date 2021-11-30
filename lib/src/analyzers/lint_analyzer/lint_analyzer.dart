@@ -194,7 +194,7 @@ class LintAnalyzer {
         final classMetrics =
             _checkClassMetrics(visitor, internalResult, config);
 
-        final fileMetrics = _checkFileMetrics(internalResult);
+        final fileMetrics = _checkFileMetrics(visitor, internalResult, config);
 
         final functionMetrics =
             _checkFunctionMetrics(visitor, internalResult, config);
@@ -322,8 +322,30 @@ class LintAnalyzer {
     return classRecords;
   }
 
-  Report _checkFileMetrics(InternalResolvedUnitResult source) {
+  Report _checkFileMetrics(
+    ScopeVisitor visitor,
+    InternalResolvedUnitResult source,
+    LintAnalysisConfig config,
+  ) {
     final metrics = <MetricValue<num>>[];
+
+    for (final metric in config.fileMetrics) {
+      if (metric.supports(
+        source.unit,
+        visitor.classes,
+        visitor.functions,
+        source,
+        metrics,
+      )) {
+        metrics.add(metric.compute(
+          source.unit,
+          visitor.classes,
+          visitor.functions,
+          source,
+          metrics,
+        ));
+      }
+    }
 
     return Report(
       location: nodeLocation(node: source.unit, source: source),
