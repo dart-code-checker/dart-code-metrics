@@ -55,6 +55,32 @@ void main() {
       expect(readNullableThreshold<int>(_config, metricId5), isNull);
     });
 
+    test('readConfigValue returns a value from Map based config', () {
+      const metricId3 = 'metric-id-3';
+      const metricId4 = 'metric-id-4';
+      const metricId5 = 'metric-id-5';
+
+      const metricId1Value = 10;
+      const metricId2Value = 0.5;
+
+      const _config = {
+        metricId1: '$metricId1Value',
+        metricId2: {'value': '$metricId1Value'},
+        metricId3: {'value': '$metricId2Value'},
+        metricId4: null,
+      };
+
+      expect(readConfigValue<int>(_config, metricId1, 'value'), isNull);
+
+      expect(readConfigValue<int>(_config, metricId2, 'value'), equals(10));
+
+      expect(readConfigValue<double>(_config, metricId3, 'value'), equals(0.5));
+
+      expect(readConfigValue<double>(_config, metricId4, 'value'), isNull);
+
+      expect(readConfigValue<int>(_config, metricId5, 'value'), isNull);
+    });
+
     test('valueLevel returns a level of passed value', () {
       expect(valueLevel(null, 10), equals(MetricValueLevel.none));
       expect(valueLevel(30, null), equals(MetricValueLevel.none));
