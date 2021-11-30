@@ -5,6 +5,7 @@
 * feat: add alphabetical sorting by type for `member-ordering-extended` rule.
 * feat: add support mixins, extensions and enums for `prefer-match-file-name` rule.
 * fix: prefer conditional expressions rule breaks code with increment / decrement operators
+* chore: tune GitHub workflows
 
 ## 4.7.0
 
