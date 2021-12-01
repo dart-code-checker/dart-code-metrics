@@ -62,4 +62,7 @@ class LinesOfCodeMetric extends FunctionMetric<int> {
       (threshold != null && value > threshold)
           ? 'Consider breaking this $nodeType up into smaller parts.'
           : null;
+
+  @override
+  String? unitType(int value) => value == 1 ? 'line' : 'lines';
 }

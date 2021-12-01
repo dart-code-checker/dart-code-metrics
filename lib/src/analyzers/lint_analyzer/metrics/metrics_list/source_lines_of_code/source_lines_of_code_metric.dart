@@ -71,6 +71,9 @@ class SourceLinesOfCodeMetric extends FunctionMetric<int> {
           ? 'Consider breaking this $nodeType up into smaller parts.'
           : null;
 
+  @override
+  String? unitType(int value) => value == 1 ? 'line' : 'lines';
+
   Iterable<ContextMessage> _context(
     Iterable<int> linesWithCode,
     InternalResolvedUnitResult source,

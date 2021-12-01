@@ -18,6 +18,7 @@ class _DeclarationMock extends Mock implements Declaration {}
 MetricValue<T> buildMetricValueStub<T>({
   required String id,
   required T value,
+  String? unitType,
   EntityType type = EntityType.methodEntity,
   MetricValueLevel level = MetricValueLevel.none,
 }) =>
@@ -30,6 +31,7 @@ MetricValue<T> buildMetricValueStub<T>({
         recomendedThreshold: 0,
       ),
       value: value,
+      unitType: unitType,
       level: level,
       comment: '',
     );

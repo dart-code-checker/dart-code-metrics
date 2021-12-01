@@ -81,8 +81,12 @@ void main() {
 
     test('getMetricReport returns formatted message', () {
       expect(
-        helper.getMetricReport(buildMetricValueStub(id: 'metricId', value: 12)),
-        equals('metricid: \x1B[38;5;7m12\x1B[0m'),
+        helper.getMetricReport(buildMetricValueStub(
+          id: 'metricId',
+          value: 12,
+          unitType: 'units',
+        )),
+        equals('metricid: \x1B[38;5;7m12 units\x1B[0m'),
       );
     });
   });

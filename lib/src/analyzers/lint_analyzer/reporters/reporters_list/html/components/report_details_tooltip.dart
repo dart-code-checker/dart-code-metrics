@@ -38,7 +38,8 @@ Element renderDetailsTooltipMetric(MetricValue<num> metric) {
         ..attributes['rel'] = 'noopener noreferrer'
         ..attributes['title'] = metricName
         ..text = '$metricName:&nbsp;')
-      ..append(Element.tag('span')..text = metric.value.round().toString()))
+      ..append(Element.tag('span')
+        ..text = '${metric.value.round()} ${metric.unitType ?? ''}'.trim()))
     ..append(Element.tag('p')
       ..classes.add('metrics-source-code__tooltip-text')
       ..append(Element.tag('span')
