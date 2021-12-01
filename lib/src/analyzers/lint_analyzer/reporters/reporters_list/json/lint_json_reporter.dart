@@ -100,11 +100,13 @@ class LintJsonReporter
     Iterable<MetricValue<num>> metrics,
   ) =>
       metrics.map((metric) {
+        final unitType = metric.unitType;
         final recommendation = metric.recommendation;
 
         return {
           'metricsId': metric.metricsId,
           'value': metric.value,
+          if (unitType != null) 'unitType': unitType,
           'level': metric.level.toString(),
           'comment': metric.comment,
           if (recommendation != null) 'recommendation': recommendation,

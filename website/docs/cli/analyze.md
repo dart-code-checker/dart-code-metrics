@@ -206,6 +206,7 @@ The reporter prints a single JSON object containing meta information and the vio
 
 - `metricsId` - an id of the computed metric
 - `value` - an actual value computed by the metric
+- `unitType` - a human readable unit type _(optional)_
 - `level` - a level of the value computed by the metric
 - `comment` - a message with information about the value
 - `recommendation` - a message with information about how the user can improve the value _(optional)_
@@ -215,6 +216,7 @@ The reporter prints a single JSON object containing meta information and the vio
 {
   "metricsId": "number-of-methods",
   "value": 14,
+  "unitType": "methods",
   "level": "warning",
   "comment": "This class has 14 methods, which exceeds the maximum of 10 allowed.",
   "recommendation": "Consider breaking this class up into smaller parts.",

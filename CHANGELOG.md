@@ -6,6 +6,7 @@
 * feat: add support mixins, extensions and enums for `prefer-match-file-name` rule.
 * fix: prefer conditional expressions rule breaks code with increment / decrement operators.
 * fix: improve file metrics.
+* feat: add metric value unit type.
 * chore: restrict `analyzer` version to `>=2.4.0 <2.9.0`.
 * chore: tune GitHub workflows.
 

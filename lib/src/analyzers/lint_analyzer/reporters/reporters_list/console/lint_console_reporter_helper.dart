@@ -57,9 +57,9 @@ class LintConsoleReporterHelper {
     final color = _colorPens[metric.level];
 
     if (color != null) {
-      final value = metric.value.toInt();
+      final value = '${metric.value.toInt()} ${metric.unitType ?? ''}'.trim();
 
-      return '${metric.documentation.name.toLowerCase()}: ${color('$value')}';
+      return '${metric.documentation.name.toLowerCase()}: ${color(value)}';
     }
 
     throw StateError('Unexpected violation level.');

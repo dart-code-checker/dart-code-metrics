@@ -77,4 +77,7 @@ class NumberOfMethodsMetric extends ClassMetric<int> {
                 location: nodeLocation(node: func.declaration, source: source),
               ))
           .toList(growable: false);
+
+  @override
+  String? unitType(int value) => value == 1 ? 'method' : 'methods';
 }

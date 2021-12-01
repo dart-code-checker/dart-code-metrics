@@ -31,6 +31,7 @@ Future<void> main() async {
 
       expect(metricValue.metricsId, equals(metric.id));
       expect(metricValue.value, equals(1));
+      expect(metricValue.unitType, equals('line'));
       expect(metricValue.level, equals(MetricValueLevel.none));
       expect(
         metricValue.comment,
@@ -56,6 +57,7 @@ Future<void> main() async {
 
       expect(metricValue.metricsId, equals(metric.id));
       expect(metricValue.value, equals(6));
+      expect(metricValue.unitType, equals('lines'));
       expect(metricValue.level, equals(MetricValueLevel.warning));
       expect(
         metricValue.comment,
@@ -81,6 +83,7 @@ Future<void> main() async {
 
       expect(metricValue.metricsId, equals(metric.id));
       expect(metricValue.value, equals(4));
+      expect(metricValue.unitType, equals('lines'));
       expect(metricValue.level, equals(MetricValueLevel.none));
       expect(
         metricValue.comment,

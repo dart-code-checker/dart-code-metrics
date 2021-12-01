@@ -44,6 +44,7 @@ void main() {
           {
             'metricsId': 'file-metric-id',
             'value': 100,
+            'unitType': 'units',
             'level': 'warning',
             'comment': 'metric comment',
             'context': <String>[],

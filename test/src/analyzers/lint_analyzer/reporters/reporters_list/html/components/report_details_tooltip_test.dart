@@ -50,6 +50,20 @@ void main() {
             '<div class="metrics-source-code__tooltip-section"><p class="metrics-source-code__tooltip-text"><a class="metrics-source-code__tooltip-link" href="https://dartcodemetrics.dev/docs/metrics/metric" target="_blank" rel="noopener noreferrer" title="metric">metric:&amp;nbsp;</a><span>10</span></p><p class="metrics-source-code__tooltip-text"><span class="metrics-source-code__tooltip-label">metric violation level:&amp;nbsp;</span><span class="metrics-source-code__tooltip-level metrics-source-code__tooltip-level--warning">warning</span></p></div>',
           ),
         );
+
+        expect(
+          renderDetailsTooltipMetric(
+            buildMetricValueStub(
+              id: 'metric',
+              value: 10,
+              unitType: 'units',
+              level: MetricValueLevel.warning,
+            ),
+          ).outerHtml,
+          equals(
+            '<div class="metrics-source-code__tooltip-section"><p class="metrics-source-code__tooltip-text"><a class="metrics-source-code__tooltip-link" href="https://dartcodemetrics.dev/docs/metrics/metric" target="_blank" rel="noopener noreferrer" title="metric">metric:&amp;nbsp;</a><span>10 units</span></p><p class="metrics-source-code__tooltip-text"><span class="metrics-source-code__tooltip-label">metric violation level:&amp;nbsp;</span><span class="metrics-source-code__tooltip-level metrics-source-code__tooltip-level--warning">warning</span></p></div>',
+          ),
+        );
       },
     );
   });

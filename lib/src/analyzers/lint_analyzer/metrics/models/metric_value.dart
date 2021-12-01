@@ -16,6 +16,9 @@ class MetricValue<T> {
   /// The actual value computed by the metric.
   final T value;
 
+  /// The human readable unit type.
+  final String? unitType;
+
   /// The level of this value computed by the metric.
   final MetricValueLevel level;
 
@@ -41,6 +44,7 @@ class MetricValue<T> {
     required this.metricsId,
     required this.documentation,
     required this.value,
+    this.unitType,
     required this.level,
     required this.comment,
     this.recommendation,
