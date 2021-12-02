@@ -7,6 +7,7 @@ import 'package:path/path.dart' as p;
 
 import '../../../../../reporters/models/html_reporter.dart';
 import '../../../metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
+import '../../../metrics/metrics_list/technical_debt/technical_debt_metric.dart';
 import '../../../metrics/models/metric_value_level.dart';
 import '../../../models/lint_file_report.dart';
 import '../../../models/summary_lint_report_record.dart';
@@ -42,6 +43,7 @@ const _numberOfArguments = 'Number of Arguments';
 const _numberOfArgumentsWithViolations = '$_numberOfArguments / violations';
 const _maximumNesting = 'Maximum Nesting';
 const _maximumNestingWithViolations = '$_maximumNesting / violations';
+const _technicalDebt = 'Technical Debt';
 
 const _codeIssues = 'Issues';
 const _designIssues = 'Design issues';
@@ -128,6 +130,14 @@ class LintHtmlReporter
       (prevValue, record) =>
           prevValue + record.report.maximumNestingLevelViolations,
     );
+    final technicalDebt = sortedRecords.fold<double>(
+      0,
+      (prevValue, record) => prevValue + record.report.technicalDebt,
+    );
+    final technicalDebtViolations = sortedRecords.fold<int>(
+      0,
+      (prevValue, record) => prevValue + record.report.technicalDebtViolations,
+    );
 
     final withCyclomaticComplexityViolations = complexityViolations > 0;
     final withSourceLinesOfCodeViolations = sourceLinesOfCodeViolations > 0;
@@ -161,7 +171,8 @@ class LintHtmlReporter
           ..append(Element.tag('th')..text = sourceLinesOfCodeTitle)
           ..append(Element.tag('th')..text = maintainabilityIndexTitle)
           ..append(Element.tag('th')..text = argumentsCountTitle)
-          ..append(Element.tag('th')..text = maximumNestingTitle)))
+          ..append(Element.tag('th')..text = maximumNestingTitle)
+          ..append(Element.tag('th')..text = _technicalDebt)))
       ..append(tableContent);
 
     return Element.tag('div')
@@ -193,6 +204,12 @@ class LintHtmlReporter
           _maximumNesting,
           averageMaximumNesting,
           violations: maximumNestingViolations,
+        ))
+        ..append(renderSummaryMetric(
+          _technicalDebt,
+          technicalDebt.toInt(),
+          unitType: sortedRecords.firstOrNull?.report.technicalDebtUnitType,
+          forceViolations: technicalDebtViolations > 0,
         )));
   }
 
@@ -344,7 +361,7 @@ class LintHtmlReporter
             report.value.location.end.line >= i,
       );
 
-      var line = ' ';
+      var line = '';
       if (functionReport != null) {
         if (functionReport.value.location.start.line == i) {
           complexityValueElement
@@ -362,8 +379,7 @@ class LintHtmlReporter
             0;
 
         if (lineWithComplexityIncrement > 0) {
-          line = '$line +$lineWithComplexityIncrement'.trim();
-          complexityValueElement.text = line.replaceAll(' ', '&nbsp;');
+          line += '+$lineWithComplexityIncrement cyclo';
         }
 
 /*      uncomment this block if you need check lines with code
@@ -372,7 +388,6 @@ class LintHtmlReporter
           line += ' c';
         }
 */
-
         final functionViolationLevel = functionReport.value.metricsLevel;
 
         final lineViolationStyle = lineWithComplexityIncrement > 0
@@ -380,6 +395,20 @@ class LintHtmlReporter
             : _violationLevelFunctionStyle[functionViolationLevel];
 
         complexityValueElement.classes.add(lineViolationStyle ?? '');
+      }
+
+      final debt = record.file
+          .metric(TechnicalDebtMetric.metricId)
+          ?.context
+          .firstWhereOrNull((context) => context.location.start.line == i)
+          ?.message;
+      if (debt != null) {
+        line += debt;
+      }
+
+      line = line.trim();
+      if (line.isNotEmpty) {
+        complexityValueElement.text = line.replaceAll(' ', '&nbsp;');
       }
 
       final architecturalIssues = record.antiPatternCases
@@ -429,8 +458,7 @@ class LintHtmlReporter
               ..append(Element.tag('td')
                 ..classes.add('metrics-source-code__number-lines'))
               ..append(Element.tag('td')
-                ..classes.add('metrics-source-code__complexity')
-                ..text = 'Complexity')
+                ..classes.add('metrics-source-code__complexity'))
               ..append(Element.tag('td')
                 ..classes.add('metrics-source-code__code')
                 ..text = 'Source code')))
@@ -513,6 +541,13 @@ class LintHtmlReporter
           report.averageMaximumNestingLevel,
           violations: report.maximumNestingLevelViolations,
         ),
+        if (report.technicalDebt > 0)
+          renderSummaryMetric(
+            _technicalDebt,
+            report.technicalDebt.toInt(),
+            unitType: report.technicalDebtUnitType,
+            forceViolations: report.technicalDebtViolations > 0,
+          ),
         if (record.issues.isNotEmpty)
           renderSummaryMetric(
             _codeIssues,

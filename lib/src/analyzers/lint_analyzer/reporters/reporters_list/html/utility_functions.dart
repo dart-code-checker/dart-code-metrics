@@ -19,12 +19,14 @@ Element renderComplexityIcon(Report entityReport, String entityType) =>
 Element renderSummaryMetric(
   String name,
   int metricValue, {
+  String? unitType,
   int violations = 0,
   bool forceViolations = false,
 }) {
   final withViolation = violations > 0;
+  final value = '$metricValue ${unitType ?? ''}'.trim();
   final title = withViolation ? '$name / $_violations' : name;
-  final value = withViolation ? '$metricValue / $violations' : '$metricValue';
+  final fullValue = withViolation ? '$value / $violations' : value;
 
   return Element.tag('div')
     ..classes.addAll([
@@ -36,7 +38,7 @@ Element renderSummaryMetric(
       ..text = '$title : ')
     ..append(Element.tag('span')
       ..classes.add('metrics-total__count')
-      ..text = value);
+      ..text = fullValue);
 }
 
 Element renderTableRecord(ReportTableRecord record) {
@@ -50,6 +52,8 @@ Element renderTableRecord(ReportTableRecord record) {
       record.report.argumentsCountViolations > 0;
   final recordHaveMaximumNestingLevelViolations =
       record.report.maximumNestingLevelViolations > 0;
+  final recordHaveTechDebtViolations =
+      record.report.technicalDebtViolations > 0;
 
   return Element.tag('tr')
     ..append(Element.tag('td')
@@ -89,5 +93,10 @@ Element renderTableRecord(ReportTableRecord record) {
           : '${record.report.averageMaximumNestingLevel}'
       ..classes.add(
         recordHaveMaximumNestingLevelViolations ? 'with-violations' : '',
+      ))
+    ..append(Element.tag('td')
+      ..text = '${record.report.technicalDebt}'
+      ..classes.add(
+        recordHaveTechDebtViolations ? 'with-violations' : '',
       ));
 }

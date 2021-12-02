@@ -8,6 +8,7 @@ import '../metrics/metrics_list/maintainability_index_metric.dart';
 import '../metrics/metrics_list/maximum_nesting_level/maximum_nesting_level_metric.dart';
 import '../metrics/metrics_list/number_of_parameters_metric.dart';
 import '../metrics/metrics_list/source_lines_of_code/source_lines_of_code_metric.dart';
+import '../metrics/metrics_list/technical_debt/technical_debt_metric.dart';
 import '../metrics/models/metric_documentation.dart';
 import '../metrics/models/metric_value.dart';
 import '../metrics/models/metric_value_level.dart';
@@ -62,6 +63,17 @@ class UtilitySelector {
         .where((r) => isReportLevel(r.maximumNestingLevel.level))
         .length;
 
+    final technicalDebt =
+        record.file.metric(TechnicalDebtMetric.metricId)?.value.toDouble() ??
+            0.0;
+    final technicalDebtViolations = record.file.metrics
+        .where((value) =>
+            value.metricsId == TechnicalDebtMetric.metricId &&
+            isReportLevel(value.level))
+        .length;
+    final technicalDebtUnitType =
+        record.file.metric(TechnicalDebtMetric.metricId)?.unitType;
+
     return FileMetricsReport(
       averageArgumentsCount: averageArgumentCount.round(),
       argumentsCountViolations: totalArgumentsCountViolations,
@@ -73,6 +85,9 @@ class UtilitySelector {
       sourceLinesOfCodeViolations: totalSourceLinesOfCodeViolations,
       averageMaximumNestingLevel: averageMaximumNestingLevel,
       maximumNestingLevelViolations: totalMaximumNestingLevelViolations,
+      technicalDebt: technicalDebt,
+      technicalDebtViolations: technicalDebtViolations,
+      technicalDebtUnitType: technicalDebtUnitType,
     );
   }
 
@@ -105,6 +120,11 @@ class UtilitySelector {
                 .round(),
         maximumNestingLevelViolations: lhs.maximumNestingLevelViolations +
             rhs.maximumNestingLevelViolations,
+        technicalDebt: lhs.technicalDebt + rhs.technicalDebt,
+        technicalDebtViolations:
+            lhs.technicalDebtViolations + rhs.technicalDebtViolations,
+        technicalDebtUnitType:
+            lhs.technicalDebtUnitType ?? rhs.technicalDebtUnitType,
       );
 }
 
