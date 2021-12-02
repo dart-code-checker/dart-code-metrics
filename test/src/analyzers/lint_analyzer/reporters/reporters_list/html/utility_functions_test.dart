@@ -63,7 +63,7 @@ void main() {
           ),
         ).outerHtml,
         equals(
-          '<tr><td><a href="fileLink">fileName</a></td><td class="with-violations">4 / 4</td><td class="">5</td><td class="with-violations">2 / 2</td><td class="">1</td><td class="with-violations">6 / 6</td></tr>',
+          '<tr><td><a href="fileLink">fileName</a></td><td class="with-violations">4 / 4</td><td class="">5</td><td class="with-violations">2 / 2</td><td class="">1</td><td class="with-violations">6 / 6</td><td class="">0.0</td></tr>',
         ),
       );
     });
