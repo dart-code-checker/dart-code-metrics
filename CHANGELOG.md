@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* chore: migrate from deprecated api
+
 ## 4.8.0
 
 * feat: add alphabetical sorting by type for `member-ordering-extended` rule.

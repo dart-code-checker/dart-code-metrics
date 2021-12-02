@@ -43,8 +43,8 @@ plugin.AnalysisErrorFixes codeIssueToAnalysisErrorFixes(
           plugin.SourceChange(issue.suggestion!.comment, edits: [
             plugin.SourceFileEdit(
               fileWithIssue,
-              // ignore: deprecated_member_use
-              unitResult.libraryElement.source.modificationStamp,
+              // based on discussion https://groups.google.com/a/dartlang.org/g/analyzer-discuss/c/lfRzX0yw3ZU
+              unitResult.exists ? 0 : -1,
               edits: [
                 plugin.SourceEdit(
                   issue.location.start.offset,

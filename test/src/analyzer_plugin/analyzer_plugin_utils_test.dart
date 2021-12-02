@@ -1,7 +1,5 @@
 @TestOn('vm')
 import 'package:analyzer/dart/analysis/results.dart';
-import 'package:analyzer/dart/element/element.dart';
-import 'package:analyzer/src/generated/source.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart';
 import 'package:dart_code_metrics/src/analyzer_plugin/analyzer_plugin_utils.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/issue.dart';
@@ -13,11 +11,7 @@ import 'package:test/test.dart';
 
 class AnalysisResultMock extends Mock implements AnalysisResult {}
 
-class LibraryElementMock extends Mock implements LibraryElement {}
-
 class ResolvedUnitResultMock extends Mock implements ResolvedUnitResult {}
-
-class SourceMock extends Mock implements Source {}
 
 void main() {
   const sourcePath = '/project/source_file.dart';
@@ -38,17 +32,10 @@ void main() {
         const issueRecommendationMessage = 'recommendation message';
         const suggestionMessage = 'suggestion message';
         const suggestionCode = '12345';
-        const modificationStamp = 123456;
 
-        final libraryElement = LibraryElementMock();
         final resolvedUnitResult = ResolvedUnitResultMock();
-        final source = SourceMock();
 
-        when(() => libraryElement.source).thenReturn(source);
-        when(() => resolvedUnitResult.libraryElement)
-            .thenReturn(libraryElement);
-        // ignore: deprecated_member_use
-        when(() => source.modificationStamp).thenReturn(modificationStamp);
+        when(() => resolvedUnitResult.exists).thenReturn(true);
 
         final fixes = codeIssueToAnalysisErrorFixes(
           Issue(
@@ -91,10 +78,7 @@ void main() {
         expect(fixes.fixes.single.priority, equals(1));
         expect(fixes.fixes.single.change.message, equals(suggestionMessage));
         expect(fixes.fixes.single.change.edits.single.file, equals(sourcePath));
-        expect(
-          fixes.fixes.single.change.edits.single.fileStamp,
-          equals(modificationStamp),
-        );
+        expect(fixes.fixes.single.change.edits.single.fileStamp, equals(0));
         expect(
           fixes.fixes.single.change.edits.single.edits.single.offset,
           equals(offset),
