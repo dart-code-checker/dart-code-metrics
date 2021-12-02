@@ -15,7 +15,8 @@ dart_code_metrics:
   ...
   metrics:
     ...
-    - source-lines-of-code: 50
+    source-lines-of-code: 50
+    ...
 ```
 
 ## Example {#example}

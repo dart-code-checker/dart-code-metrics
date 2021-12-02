@@ -35,6 +35,8 @@ T? readConfigValue<T extends Object>(
     return int.tryParse(configValue) as T?;
   } else if (configValue != null && T == double) {
     return double.tryParse(configValue) as T?;
+  } else if (configValue != null && T == String) {
+    return configValue as T?;
   }
 
   return null;

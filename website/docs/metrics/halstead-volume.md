@@ -26,7 +26,8 @@ dart_code_metrics:
   ...
   metrics:
     ...
-    - halstead-volume: 150
+    halstead-volume: 150
+    ...
 ```
 
 ## Example {#example}

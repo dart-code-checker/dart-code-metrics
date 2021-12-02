@@ -9,7 +9,8 @@ dart_code_metrics:
   ...
   metrics:
     ...
-    - number-of-parameters: 4
+    number-of-parameters: 4
+    ...
 ```
 
 ## Example {#example}

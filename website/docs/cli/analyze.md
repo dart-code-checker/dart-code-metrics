@@ -31,6 +31,7 @@ Usage: metrics analyze [arguments...] <directories>
     --number-of-methods=<10>                      Number of Methods threshold.
     --number-of-parameters=<4>                    Number of Parameters threshold.
     --source-lines-of-code=<50>                   Source lines of Code threshold.
+    --technical-debt=<0>                          Technical Debt threshold.
     --weight-of-class=<0.33>                      Weight Of a Class threshold.
     --maintainability-index=<50>                  Maintainability Index threshold.
 
