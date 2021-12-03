@@ -1,6 +1,6 @@
 import 'package:html/dom.dart';
 
-import '../../../../../../utils/string_extension.dart';
+import '../../../../../../utils/string_extensions.dart';
 import '../../../../models/issue.dart';
 import '../../../../models/severity.dart';
 

@@ -54,13 +54,13 @@ class TechnicalDebtMetric extends FileMetric<double> {
         _deprecatedAnnotationsCost = readConfigValue<double>(
               config,
               metricId,
-              'deprecated-annotations',
+              'deprecated-annotations-cost',
             ) ??
             0.0,
         _fileNullSafetyMigrationCost = readConfigValue<double>(
               config,
               metricId,
-              'file-nullsafety-migration',
+              'file-nullsafety-migration-cost',
             ) ??
             0.0,
         _unitType = readConfigValue<String>(config, metricId, 'unit-type'),

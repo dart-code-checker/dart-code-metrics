@@ -62,8 +62,8 @@ dart_code_metrics:
       ignore-cost: 320
       ignore-for-file-cost: 396
       as-dynamic-cost: 322
-      deprecated-annotations: 37
-      file-nullsafety-migration: 41
+      deprecated-annotations-cost: 37
+      file-nullsafety-migration-cost: 41
       unit-type: "USD"
     ...
 ```

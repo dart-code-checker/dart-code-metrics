@@ -23,13 +23,13 @@ dart_code_metrics:
     source-lines-of-code: 50
     technical-debt:
       threshold: 1
-      todo-cost: 161
-      ignore-cost: 320
-      ignore-for-file-cost: 396
-      as-dynamic-cost: 322
-      deprecated-annotations: 37
-      file-nullsafety-migration: 41
-      unit-type: "USD"
+      todo-cost: 4
+      ignore-cost: 8
+      ignore-for-file-cost: 16
+      as-dynamic-cost: 16
+      deprecated-annotations-cost: 2
+      file-nullsafety-migration-cost: 2
+      unit-type: "hours"
   metrics-exclude:
     - test/src/analyzer_plugin/**
     - test/src/analyzers/**

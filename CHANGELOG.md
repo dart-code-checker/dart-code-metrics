@@ -3,6 +3,7 @@
 ## Unreleased
 
 * chore: migrate from deprecated api
+* fix: fixed issue with type check in prefer-match-file-name
 
 ## 4.8.0
 

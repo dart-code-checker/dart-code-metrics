@@ -14,6 +14,7 @@ import '../../../models/summary_lint_report_record.dart';
 import '../../utility_selector.dart';
 import 'components/icon.dart';
 import 'components/issue_details_tooltip.dart';
+import 'models/icon_type.dart';
 import 'models/report_table_record.dart';
 import 'utility_functions.dart';
 
