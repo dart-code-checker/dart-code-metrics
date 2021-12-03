@@ -3,7 +3,7 @@ import 'package:analyzer/dart/ast/syntactic_entity.dart';
 import 'package:analyzer/dart/ast/token.dart';
 
 import '../../../../../utils/node_utils.dart';
-import '../../../../../utils/string_extension.dart';
+import '../../../../../utils/string_extensions.dart';
 import '../../../models/context_message.dart';
 import '../../../models/entity_type.dart';
 import '../../../models/internal_resolved_unit_result.dart';

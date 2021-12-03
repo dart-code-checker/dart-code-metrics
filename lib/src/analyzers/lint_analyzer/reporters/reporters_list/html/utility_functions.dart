@@ -3,6 +3,7 @@ import 'package:html/dom.dart';
 import '../../../models/report.dart';
 import 'components/icon.dart';
 import 'components/report_details_tooltip.dart';
+import 'models/icon_type.dart';
 import 'models/report_table_record.dart';
 
 const _violations = 'violations';

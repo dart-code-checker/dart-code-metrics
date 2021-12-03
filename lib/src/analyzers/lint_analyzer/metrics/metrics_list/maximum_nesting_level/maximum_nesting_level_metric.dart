@@ -1,7 +1,7 @@
 import 'package:analyzer/dart/ast/ast.dart';
 
 import '../../../../../utils/node_utils.dart';
-import '../../../../../utils/string_extension.dart';
+import '../../../../../utils/string_extensions.dart';
 import '../../../models/context_message.dart';
 import '../../../models/entity_type.dart';
 import '../../../models/internal_resolved_unit_result.dart';

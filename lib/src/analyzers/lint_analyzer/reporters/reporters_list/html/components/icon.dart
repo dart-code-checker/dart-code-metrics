@@ -1,9 +1,6 @@
 import 'package:html/dom.dart';
 
-enum IconType {
-  complexity,
-  issue,
-}
+import '../models/icon_type.dart';
 
 Element renderIcon(IconType type) {
   switch (type) {

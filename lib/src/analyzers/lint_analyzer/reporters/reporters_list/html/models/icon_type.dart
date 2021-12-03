@@ -1,0 +1,4 @@
+enum IconType {
+  complexity,
+  issue,
+}

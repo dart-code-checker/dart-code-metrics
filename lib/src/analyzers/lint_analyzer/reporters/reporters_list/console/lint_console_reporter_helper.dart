@@ -1,6 +1,6 @@
 import 'package:ansicolor/ansicolor.dart';
 
-import '../../../../../utils/string_extension.dart';
+import '../../../../../utils/string_extensions.dart';
 import '../../../metrics/models/metric_value.dart';
 import '../../../metrics/models/metric_value_level.dart';
 import '../../../models/issue.dart';
