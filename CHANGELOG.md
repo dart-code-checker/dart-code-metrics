@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 4.8.1
 
 * feat: add cli options for fatal exit if unused files or l10n are found
 
