@@ -157,6 +157,10 @@ class LintAnalyzer {
           violations:
               metricViolations(records, SourceLinesOfCodeMetric.metricId),
         ),
+        SummaryLintReportRecord<String>(
+          title: 'Total tech debt',
+          value: totalTechDebt(records),
+        ),
       ];
 
   LintFileReport? _analyzeFile(

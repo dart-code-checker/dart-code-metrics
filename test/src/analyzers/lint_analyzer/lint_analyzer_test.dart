@@ -165,6 +165,11 @@ void main() {
           result.firstWhere((r) => r.title == 'Total scanned files').value,
           isZero,
         );
+
+        expect(
+          result.firstWhere((r) => r.title == 'Total tech debt').value,
+          equals('not found'),
+        );
       });
 
       test('collect summary for passed report', () {
@@ -172,7 +177,13 @@ void main() {
           LintFileReport(
             path: '/home/dev/project/bin/example.dart',
             relativePath: 'bin/example.dart',
-            file: buildReportStub(),
+            file: buildReportStub(metrics: [
+              buildMetricValueStub(
+                id: 'technical-debt',
+                value: 10,
+                unitType: 'USD',
+              ),
+            ]),
             classes: Map.unmodifiable(<String, Report>{}),
             functions: Map.unmodifiable(<String, Report>{}),
             issues: const [],
@@ -196,6 +207,10 @@ void main() {
         expect(
           result.firstWhere((r) => r.title == 'Total scanned files').value,
           equals(2),
+        );
+        expect(
+          result.firstWhere((r) => r.title == 'Total tech debt').value,
+          equals('10 USD'),
         );
       });
     },
