@@ -46,11 +46,17 @@ class CheckUnusedFilesCommand extends BaseCommand {
           output: stdout,
         )
         ?.report(unusedFilesResult);
+
+    if (unusedFilesResult.isNotEmpty &&
+        (argResults[FlagNames.fatalOnUnused] as bool)) {
+      exit(1);
+    }
   }
 
   void _addFlags() {
     _usesReporterOption();
     addCommonFlags();
+    _usesExitOption();
   }
 
   void _usesReporterOption() {
@@ -66,6 +72,17 @@ class CheckUnusedFilesCommand extends BaseCommand {
           FlagNames.jsonReporter,
         ],
         defaultsTo: FlagNames.consoleReporter,
+      );
+  }
+
+  void _usesExitOption() {
+    argParser
+      ..addSeparator('')
+      ..addFlag(
+        FlagNames.fatalOnUnused,
+        help: 'Treat find unused file as fatal.',
+// TODO(dkrutrkikh): activate on next major version
+//        defaultsTo: true,
       );
   }
 }
