@@ -53,6 +53,8 @@ Usage: metrics check-unused-l10n [arguments] <directories>
     --exclude=<{/**.g.dart,/**.template.dart}>    File paths in Glob syntax to be exclude.
                                                   (defaults to "{/**.g.dart,/**.template.dart}")
 
+
+    --[no-]fatal-unused                           Treat find unused l10n as fatal.
 ```
 
 ## Output example {#output-example}
