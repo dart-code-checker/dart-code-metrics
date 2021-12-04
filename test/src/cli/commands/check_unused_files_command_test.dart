@@ -19,6 +19,9 @@ const _usage = 'Check unused *.dart files.\n'
     '    --exclude=<{/**.g.dart,/**.template.dart}>    File paths in Glob syntax to be exclude.\n'
     '                                                  (defaults to "{/**.g.dart,/**.template.dart}")\n'
     '\n'
+    '\n'
+    '    --[no-]fatal-unused                           Treat find unused file as fatal.\n'
+    '\n'
     'Run "metrics help" to see global options.';
 
 void main() {

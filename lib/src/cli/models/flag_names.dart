@@ -26,4 +26,6 @@ class FlagNames {
   static const fatalWarnings = 'fatal-warnings';
 
   static const l10nClassPattern = 'class-pattern';
+
+  static const fatalOnUnused = 'fatal-unused';
 }

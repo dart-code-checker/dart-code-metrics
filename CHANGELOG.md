@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* feat: add cli options for fatal exit if unused files or l10n are found
+
 ## 4.8.0
 
 * feat: add alphabetical sorting by type for `member-ordering-extended` rule.

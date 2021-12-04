@@ -4,6 +4,7 @@ import 'package:path/path.dart' as p;
 import '../metrics/metric_utils.dart';
 import '../metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import '../metrics/metrics_list/source_lines_of_code/source_lines_of_code_metric.dart';
+import '../metrics/metrics_list/technical_debt/technical_debt_metric.dart';
 import '../metrics/models/metric_value_level.dart';
 import '../models/lint_file_report.dart';
 import '../models/severity.dart';
@@ -46,6 +47,27 @@ int totalSLOC(Iterable<LintFileReport> records) => records.fold(
                     0),
           ),
     );
+
+String totalTechDebt(Iterable<LintFileReport> records) {
+  final debtValue = records.fold<num>(
+    0,
+    (prevValue, fileReport) =>
+        prevValue +
+        (fileReport.file.metric(TechnicalDebtMetric.metricId)?.value ?? 0),
+  );
+
+  final debtUnitType = records
+          .firstWhereOrNull(
+            (record) =>
+                record.file.metric(TechnicalDebtMetric.metricId) != null,
+          )
+          ?.file
+          .metric(TechnicalDebtMetric.metricId)
+          ?.unitType ??
+      '';
+
+  return debtValue > 0 ? '$debtValue $debtUnitType'.trim() : 'not found';
+}
 
 int totalClasses(Iterable<LintFileReport> records) => records.fold(
       0,

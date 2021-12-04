@@ -45,18 +45,24 @@ class CheckUnusedL10nCommand extends BaseCommand {
       sdkPath: findSdkPath(),
     );
 
-    return _analyzer
+    await _analyzer
         .getReporter(
           name: reporterName,
           output: stdout,
         )
         ?.report(unusedL10nResult);
+
+    if (unusedL10nResult.isNotEmpty &&
+        (argResults[FlagNames.fatalOnUnused] as bool)) {
+      exit(1);
+    }
   }
 
   void _addFlags() {
     _usesL10nClassPatternOption();
     _usesReporterOption();
     addCommonFlags();
+    _usesExitOption();
   }
 
   void _usesReporterOption() {
@@ -84,6 +90,17 @@ class CheckUnusedL10nCommand extends BaseCommand {
         help: 'The pattern to detect classes providing localization',
         valueHelp: r'I18n$',
         defaultsTo: r'I18n$',
+      );
+  }
+
+  void _usesExitOption() {
+    argParser
+      ..addSeparator('')
+      ..addFlag(
+        FlagNames.fatalOnUnused,
+        help: 'Treat find unused l10n as fatal.',
+// TODO(dkrutrkikh): activate on next major version
+//        defaultsTo: true,
       );
   }
 }
