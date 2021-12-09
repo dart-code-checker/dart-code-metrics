@@ -30,6 +30,14 @@ Dart Code Metrics is a static analysis tool that helps you analyse and improve y
 - Checks [unused l10n](https://dartcodemetrics.dev/docs/cli/check-unused-l10n)
 - Can be used as [CLI](https://dartcodemetrics.dev/docs/cli/overview), [analyzer plugin](https://dartcodemetrics.dev/docs/analyzer-plugin) or [library](https://dartcodemetrics.dev/docs/getting-started/installation#library)
 
+<a href="https://flutter.dev/docs/development/packages-and-plugins/favorites">
+<img
+  src="https://raw.githubusercontent.com/dart-code-checker/dart-code-metrics/master/assets/flutter-favorite-badge-1200px.png"
+  alt="Flutter Favorite Badge"
+  height="110" width="110"
+  align="right">
+</a>
+
 ## Links
 
 - See [CHANGELOG.md](./CHANGELOG.md) for major/breaking updates, and [releases](https://github.com/dart-code-checker/dart-code-metrics/releases) for a detailed version history.
