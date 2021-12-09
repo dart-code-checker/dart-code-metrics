@@ -4,6 +4,7 @@
 
 * chore: migrate from deprecated api
 * fix: fixed issue with type check in prefer-match-file-name
+* doc: add flutter favorite badge
 
 ## 4.8.1
 
