@@ -6,6 +6,12 @@
 [![Pub popularity](https://badgen.net/pub/popularity/dart_code_metrics)](https://pub.dev/packages/dart_code_metrics/score)
 [![GitHub popularity](https://img.shields.io/github/stars/dart-code-checker/dart-code-metrics?logo=github&logoColor=white)](https://github.com/dart-code-checker/dart-code-metrics/stargazers)
 
+<img
+  src="https://raw.githubusercontent.com/dart-code-checker/dart-code-metrics/master/assets/logo.svg"
+  alt="Dart Code Metrics logo"
+  height="150" width="150"
+  align="right">
+
 # Dart Code Metrics
 
 **Note: you can find [the full documentation on the website](https://dartcodemetrics.dev/docs/getting-started/introduction)**
@@ -15,11 +21,13 @@
 [Metrics](https://dartcodemetrics.dev/docs/metrics/overview) |
 [Anti-patterns](https://dartcodemetrics.dev/docs/anti-patterns/overivew)
 
+<a href="https://flutter.dev/docs/development/packages-and-plugins/favorites">
 <img
-  src="https://raw.githubusercontent.com/dart-code-checker/dart-code-metrics/master/assets/logo.svg"
-  alt="Dart Code Metrics logo"
-  height="120" width="120"
+  src="https://raw.githubusercontent.com/dart-code-checker/dart-code-metrics/master/assets/flutter-favorite-badge-1200px.png"
+  alt="Flutter Favorite Badge"
+  height="140" width="140"
   align="right">
+</a>
 
 Dart Code Metrics is a static analysis tool that helps you analyse and improve your code quality.
 
@@ -29,14 +37,6 @@ Dart Code Metrics is a static analysis tool that helps you analyse and improve y
 - Checks [unused `*.dart` files](https://dartcodemetrics.dev/docs/cli/check-unused-files)
 - Checks [unused l10n](https://dartcodemetrics.dev/docs/cli/check-unused-l10n)
 - Can be used as [CLI](https://dartcodemetrics.dev/docs/cli/overview), [analyzer plugin](https://dartcodemetrics.dev/docs/analyzer-plugin) or [library](https://dartcodemetrics.dev/docs/getting-started/installation#library)
-
-<a href="https://flutter.dev/docs/development/packages-and-plugins/favorites">
-<img
-  src="https://raw.githubusercontent.com/dart-code-checker/dart-code-metrics/master/assets/flutter-favorite-badge-1200px.png"
-  alt="Flutter Favorite Badge"
-  height="110" width="110"
-  align="right">
-</a>
 
 ## Links
 
