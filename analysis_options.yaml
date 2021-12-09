@@ -157,6 +157,7 @@ linter:
     - type_annotate_public_apis
     - unawaited_futures
     - unnecessary_await_in_return
+    - unnecessary_constructor_name
     #    - unnecessary_final
     - unnecessary_lambdas
     - unnecessary_null_aware_assignments
