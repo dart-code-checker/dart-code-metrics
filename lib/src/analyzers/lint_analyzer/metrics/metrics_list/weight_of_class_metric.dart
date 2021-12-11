@@ -42,7 +42,7 @@ class WeightOfClassMetric extends ClassMetric<double> {
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
     InternalResolvedUnitResult source,
-    Iterable<MetricValue> otherMetricsValues,
+    Iterable<MetricValue<Object>> otherMetricsValues,
   ) =>
       super.supports(
         node,

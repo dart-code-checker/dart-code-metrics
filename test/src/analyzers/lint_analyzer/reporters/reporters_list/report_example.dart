@@ -175,7 +175,7 @@ final Iterable<LintFileReport> testReport = [
   ),
 ];
 
-const Iterable<SummaryLintReportRecord> testSummary = [
+const Iterable<SummaryLintReportRecord<Object>> testSummary = [
   SummaryLintReportRecord<Iterable<String>>(
     status: SummaryLintReportRecordStatus.none,
     title: 'Scanned package folders',

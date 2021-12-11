@@ -15,13 +15,13 @@ const _deprecationMessage =
 /// **Note:** this reporter is deprecated and should not be used.
 /// Consider using Dart Code Metrics GitHub Action instead.
 class LintGitHubReporter
-    extends GitHubReporter<LintFileReport, SummaryLintReportRecord> {
+    extends GitHubReporter<LintFileReport, SummaryLintReportRecord<Object>> {
   const LintGitHubReporter(IOSink output) : super(output);
 
   @override
   Future<void> report(
     Iterable<LintFileReport> records, {
-    Iterable<SummaryLintReportRecord> summary = const [],
+    Iterable<SummaryLintReportRecord<Object>> summary = const [],
   }) async {
     if (records.isEmpty) {
       return;

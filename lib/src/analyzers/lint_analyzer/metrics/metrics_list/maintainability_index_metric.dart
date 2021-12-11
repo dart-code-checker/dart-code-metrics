@@ -43,7 +43,7 @@ class MaintainabilityIndexMetric extends FunctionMetric<int> {
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
     InternalResolvedUnitResult source,
-    Iterable<MetricValue> otherMetricsValues,
+    Iterable<MetricValue<Object>> otherMetricsValues,
   ) =>
       super.supports(
         node,

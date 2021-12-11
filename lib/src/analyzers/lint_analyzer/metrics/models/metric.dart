@@ -39,7 +39,7 @@ abstract class Metric<T extends num> {
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
     InternalResolvedUnitResult source,
-    Iterable<MetricValue> otherMetricsValues,
+    Iterable<MetricValue<Object>> otherMetricsValues,
   ) =>
       true;
 

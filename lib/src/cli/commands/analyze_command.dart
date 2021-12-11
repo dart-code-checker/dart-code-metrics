@@ -27,7 +27,7 @@ class AnalyzeCommand extends BaseCommand {
 
   @override
   String get invocation =>
-      '${runner.executableName} $name [arguments] <directories>';
+      '${runner?.executableName} $name [arguments] <directories>';
 
   AnalyzeCommand() {
     _addFlags();
