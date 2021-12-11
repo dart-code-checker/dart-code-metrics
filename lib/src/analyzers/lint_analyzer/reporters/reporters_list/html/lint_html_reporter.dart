@@ -53,13 +53,13 @@ const _designIssues = 'Design issues';
 ///
 /// Use it to create reports in HTML format.
 class LintHtmlReporter
-    extends HtmlReporter<LintFileReport, SummaryLintReportRecord> {
+    extends HtmlReporter<LintFileReport, SummaryLintReportRecord<Object>> {
   LintHtmlReporter(String reportFolder) : super(reportFolder);
 
   @override
   Future<void> report(
     Iterable<LintFileReport> records, {
-    Iterable<SummaryLintReportRecord> summary = const [],
+    Iterable<SummaryLintReportRecord<Object>> summary = const [],
   }) async {
     await super.report(records);
 

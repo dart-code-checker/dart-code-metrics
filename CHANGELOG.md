@@ -6,6 +6,7 @@
 * fix: fixed issue with type check in prefer-match-file-name
 * doc: add flutter favorite badge
 * chore: disable github_checks annotations from codecov
+* chore: activate language strict rules
 
 ## 4.8.1
 

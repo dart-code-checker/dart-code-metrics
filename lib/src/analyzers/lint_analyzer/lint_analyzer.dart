@@ -5,6 +5,7 @@ import 'package:path/path.dart';
 
 import '../../config_builder/config_builder.dart';
 import '../../config_builder/models/analysis_options.dart';
+import '../../reporters/models/file_report.dart';
 import '../../reporters/models/reporter.dart';
 import '../../utils/analyzer_utils.dart';
 import '../../utils/exclude_utils.dart';
@@ -33,7 +34,7 @@ class LintAnalyzer {
 
   /// Returns a reporter for the given [name]. Use the reporter
   /// to convert analysis reports to console, JSON or other supported format.
-  Reporter? getReporter({
+  Reporter<FileReport, Object>? getReporter({
     required String name,
     required IOSink output,
     required String reportFolder,
@@ -125,7 +126,7 @@ class LintAnalyzer {
     return analyzerResult;
   }
 
-  Iterable<SummaryLintReportRecord> getSummary(
+  Iterable<SummaryLintReportRecord<Object>> getSummary(
     Iterable<LintFileReport> records,
   ) =>
       [

@@ -20,7 +20,7 @@ class UnusedFilesAnalyzer {
 
   /// Returns a reporter for the given [name]. Use the reporter
   /// to convert analysis reports to console, JSON or other supported format.
-  Reporter? getReporter({
+  Reporter<UnusedFilesFileReport, void>? getReporter({
     required String name,
     required IOSink output,
   }) =>

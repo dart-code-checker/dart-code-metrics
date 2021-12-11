@@ -18,7 +18,7 @@ class CheckUnusedFilesCommand extends BaseCommand {
 
   @override
   String get invocation =>
-      '${runner.executableName} $name [arguments] <directories>';
+      '${runner?.executableName} $name [arguments] <directories>';
 
   CheckUnusedFilesCommand() {
     _addFlags();

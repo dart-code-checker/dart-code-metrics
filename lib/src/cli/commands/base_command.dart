@@ -22,9 +22,6 @@ abstract class BaseCommand extends Command<void> {
   }
 
   @override
-  CommandRunner get runner => super.runner as CommandRunner;
-
-  @override
   Future<void> run() => _verifyThenRunCommand();
 
   @protected

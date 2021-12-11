@@ -5,6 +5,9 @@ analyzer:
     - test/resources/*
     - test/resources/unused_files_analyzer/**
     - test/**/examples/**
+  language:
+    strict-inference: true
+    strict-raw-types: true
   plugins:
     - dart_code_metrics
   strong-mode:

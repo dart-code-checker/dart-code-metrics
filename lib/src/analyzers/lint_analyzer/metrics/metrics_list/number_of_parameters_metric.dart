@@ -39,7 +39,7 @@ class NumberOfParametersMetric extends FunctionMetric<int> {
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
     InternalResolvedUnitResult source,
-    Iterable<MetricValue> otherMetricsValues,
+    Iterable<MetricValue<Object>> otherMetricsValues,
   ) {
     if (node is FunctionDeclaration) {
       return true;

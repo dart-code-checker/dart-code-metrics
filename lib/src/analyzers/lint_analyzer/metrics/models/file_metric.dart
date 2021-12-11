@@ -29,7 +29,7 @@ abstract class FileMetric<T extends num> extends Metric<T> {
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
     InternalResolvedUnitResult source,
-    Iterable<MetricValue> otherMetricsValues,
+    Iterable<MetricValue<Object>> otherMetricsValues,
   ) =>
       node is CompilationUnit;
 
