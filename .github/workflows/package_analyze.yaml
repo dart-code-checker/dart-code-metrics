@@ -11,6 +11,9 @@ on:
       - "tool/**"
       - "tools/**"
       - ".github/workflows/package_analyze.yaml"
+      - "analysis_options.yaml"
+      - "dart_dependency_validator.yaml"
+      - "pubspec.yaml"
   push:
     branches:
       - master
@@ -21,6 +24,9 @@ on:
       - "tool/**"
       - "tools/**"
       - ".github/workflows/package_analyze.yaml"
+      - "analysis_options.yaml"
+      - "dart_dependency_validator.yaml"
+      - "pubspec.yaml"
 
 jobs:
   analysis:
@@ -113,6 +119,10 @@ jobs:
 
       - name: Install dependencies
         run: dart pub downgrade
+
+      - name: Disable unsupported rules
+        run: |
+          sed -i'.original' 's/- unnecessary_constructor_name/#    - unnecessary_constructor_name/g' analysis_options.yaml
 
       - name: Check compatibility
         run: |
