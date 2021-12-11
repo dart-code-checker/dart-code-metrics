@@ -214,15 +214,16 @@ Please read [the following guide](./TROUBLESHOOTING.md) if the plugin is not wor
 
 If you are interested in contributing, please check out the [contribution guidelines](https://github.com/dart-code-checker/dart-code-metrics/blob/master/CONTRIBUTING.md). Feedback and contributions are welcome!
 
-## Written Resources
+## Articles
 
-###En
+### En
 
 - [Finding Unused Files With Dart Code Metrics](https://medium.com/wriketechclub/finding-unused-files-with-dart-code-metrics-b9aba48ad7ca) - This article considers one of the first commands, checking unused Dart files, by [Dmitry Zhifarsky](https://github.com/incendial)
 - [Improving Code Quality With Dart Code Metrics](https://medium.com/wriketechclub/improving-code-quality-with-dart-code-metrics-430a5e3e316d) -  Advantages of using Dart Code Metrics, by [Dmitry Zhifarsky](https://github.com/incendial)
 - [Creating a Custom Plugin for Dart Analyzer](https://medium.com/wriketechclub/creating-a-custom-plugin-for-dart-analyzer-48b76d81a239) -  How to develop a custom Dart code analyzer plugin, by [Dmitry Zhifarsky](https://github.com/incendial)
+- [Flutter Static Analysis, Dart Code Metrics](https://fredgrott.medium.com/flutter-static-analysis-dart-code-metrics-c9ec484f4e0f) -  How to install the dart_code-metrics plugin and effectively use it to analyze dart code, by [Fred Grott](https://github.com/fredgrott)
 
-###Ru
+### Ru
 
 - [Повышаем качество кода с Dart Code Metrics](https://habr.com/ru/company/wrike/blog/552012/) -  Преимущества использования Dart Code Metrics, от [Dmitry Zhifarsky](https://github.com/incendial)
 - [Как создать кастомный плагин для Dart-анализатора](https://habr.com/ru/company/wrike/blog/541672/) -  Описан процесс создания плагина для анализатора кода, от [Dmitry Zhifarsky](https://github.com/incendial)
