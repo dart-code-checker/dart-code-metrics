@@ -17,7 +17,7 @@ void main() {
       RuleTestHelper.verifyInitialization(
         issues: issues,
         ruleId: 'avoid-unnecessary-type-assertions',
-        severity: Severity.style,
+        severity: Severity.warning,
       );
     });
 

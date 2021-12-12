@@ -1,6 +1,5 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
-import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:collection/collection.dart';
 
@@ -9,16 +8,15 @@ import '../../../lint_utils.dart';
 import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
 import '../../../models/severity.dart';
-import '../../dart_rule_utils.dart';
 import '../../models/common_rule.dart';
 import '../../rule_utils.dart';
 
 part 'visitor.dart';
 
-class AvoidUnnecessaryTypeAssertionsRule extends CommonRule {
-  static const String ruleId = 'avoid-unnecessary-type-assertions';
+class AvoidUnrelatedTypeAssertionsRule extends CommonRule {
+  static const String ruleId = 'avoid-unrelated-type-assertions';
 
-  AvoidUnnecessaryTypeAssertionsRule([Map<String, Object> config = const {}])
+  AvoidUnrelatedTypeAssertionsRule([Map<String, Object> config = const {}])
       : super(
           id: ruleId,
           severity: readSeverity(config, Severity.warning),
@@ -36,9 +34,8 @@ class AvoidUnnecessaryTypeAssertionsRule extends CommonRule {
           (node) => createIssue(
             rule: this,
             location: nodeLocation(node: node.key, source: source),
-            message: node.key is IsExpression
-                ? 'Avoid unnecessary "${node.value}" assertion. The result is always "${node.value == 'is'}".'
-                : 'Avoid unnecessary "${node.value}" assertion.',
+            message:
+                'Avoid unrelated "is" assertion. The result is always "false".',
           ),
         )
         .toList(growable: false);

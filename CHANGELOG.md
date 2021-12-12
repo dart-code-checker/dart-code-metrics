@@ -2,15 +2,16 @@
 
 ## Unreleased
 
-* chore: migrate from deprecated api
-* fix: fixed issue with type check in prefer-match-file-name
-* doc: add flutter favorite badge
-* chore: disable github_checks annotations from codecov
-* chore: activate language strict rules
+* chore: migrate from deprecated api.
+* fix: fixed issue with type check in prefer-match-file-name.
+* doc: add flutter favorite badge.
+* chore: disable github_checks annotations from codecov.
+* chore: activate language strict rules.
+* feat: add static code diagnostic `avoid-unrelated-type-assertions`.
 
 ## 4.8.1
 
-* feat: add cli options for fatal exit if unused files or l10n are found
+* feat: add cli options for fatal exit if unused files or l10n are found.
 
 ## 4.8.0
 
