@@ -25,7 +25,7 @@ import '../utils/yaml_utils.dart';
 import 'analyzer_plugin_utils.dart';
 
 class AnalyzerPlugin extends ServerPlugin {
-  static const _analyzer = LintAnalyzer();
+//  static const _analyzer = LintAnalyzer();
 
   final _configs = <AnalysisDriverGeneric, LintAnalysisConfig>{};
 
@@ -203,7 +203,7 @@ class AnalyzerPlugin extends ServerPlugin {
   ) {
     final result = <plugin.AnalysisErrorFixes>[];
     final config = _configs[driver];
-
+/*
     if (config != null) {
       final root = driver.analysisContext?.contextRoot.root.path;
 
@@ -229,7 +229,7 @@ class AnalyzerPlugin extends ServerPlugin {
       //   result.addAll(deprecations);
       // }
     }
-
+*/
     return result;
   }
 
