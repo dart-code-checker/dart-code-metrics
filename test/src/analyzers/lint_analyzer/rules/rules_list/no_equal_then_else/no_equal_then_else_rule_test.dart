@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/no_equal_then_else/no_equal_then_else_rule.dart';
 import 'package:test/test.dart';
@@ -26,10 +25,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [66, 271, 350, 551, 735],
         startLines: [6, 23, 30, 44, 58],
         startColumns: [3, 3, 3, 10, 12],
-        endOffsets: [137, 336, 405, 616, 765],
         locationTexts: [
           'if (value1 == 1) {\n'
               '    return value1;\n'

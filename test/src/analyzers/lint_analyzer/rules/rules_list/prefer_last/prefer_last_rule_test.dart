@@ -42,10 +42,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [300, 606],
         startLines: [11, 18],
         startColumns: [3, 5],
-        endOffsets: [357, 647],
         locationTexts: [
           'doubleLinkedQueue.elementAt(doubleLinkedQueue.length - 1)',
           '..elementAt(doubleLinkedQueue.length - 1)',
@@ -71,10 +69,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [230, 436],
         startLines: [11, 18],
         startColumns: [3, 5],
-        endOffsets: [267, 467],
         locationTexts: [
           'hashSet.elementAt(hashSet.length - 1)',
           '..elementAt(hashSet.length - 1)',
@@ -100,10 +96,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [241, 457],
         startLines: [11, 18],
         startColumns: [3, 5],
-        endOffsets: [280, 489],
         locationTexts: [
           'iterable.elementAt(iterable.length - 1)',
           '..elementAt(iterable.length - 1)',
@@ -130,10 +124,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [272, 538],
         startLines: [11, 18],
         startColumns: [3, 5],
-        endOffsets: [321, 575],
         locationTexts: [
           'linkedHashSet.elementAt(linkedHashSet.length - 1)',
           '..elementAt(linkedHashSet.length - 1)',
@@ -159,10 +151,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [173, 339, 407, 563, 661, 752],
         startLines: [9, 14, 18, 23, 28, 33],
         startColumns: [3, 3, 5, 5, 9, 5],
-        endOffsets: [204, 360, 435, 582, 680, 771],
         locationTexts: [
           'list.elementAt(list.length - 1)',
           'list[list.length - 1]',
@@ -204,10 +194,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [244, 470],
         startLines: [11, 18],
         startColumns: [3, 5],
-        endOffsets: [285, 503],
         locationTexts: [
           'listQueue.elementAt(listQueue.length - 1)',
           '..elementAt(listQueue.length - 1)',
@@ -233,10 +221,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [216, 402],
         startLines: [11, 18],
         startColumns: [3, 5],
-        endOffsets: [249, 431],
         locationTexts: [
           'queue.elementAt(queue.length - 1)',
           '..elementAt(queue.length - 1)',
@@ -262,10 +248,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [175, 341],
         startLines: [9, 16],
         startColumns: [3, 5],
-        endOffsets: [204, 368],
         locationTexts: [
           'set.elementAt(set.length - 1)',
           '..elementAt(set.length - 1)',
@@ -292,10 +276,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [265, 521],
         startLines: [11, 18],
         startColumns: [3, 5],
-        endOffsets: [312, 557],
         locationTexts: [
           'splayTreeSet.elementAt(splayTreeSet.length - 1)',
           '..elementAt(splayTreeSet.length - 1)',
@@ -323,10 +305,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [323, 633, 781, 1001, 1163, 1302],
         startLines: [11, 16, 20, 25, 30, 35],
         startColumns: [3, 3, 5, 5, 9, 5],
-        endOffsets: [386, 686, 825, 1036, 1198, 1337],
         locationTexts: [
           'unmodifiableListView.elementAt(unmodifiableListView.length - 1)',
           'unmodifiableListView[unmodifiableListView.length - 1]',
@@ -369,10 +349,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [324, 650],
         startLines: [11, 18],
         startColumns: [3, 5],
-        endOffsets: [385, 693],
         locationTexts: [
           'unmodifiableSetView.elementAt(unmodifiableSetView.length - 1)',
           '..elementAt(unmodifiableSetView.length - 1)',

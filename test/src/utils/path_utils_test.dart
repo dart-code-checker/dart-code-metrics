@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'package:dart_code_metrics/src/utils/path_utils.dart';
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';

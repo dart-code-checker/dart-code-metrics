@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/no_empty_block/no_empty_block_rule.dart';
 import 'package:test/test.dart';
@@ -26,10 +25,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [29, 92, 240, 375],
         startLines: [2, 7, 16, 26],
         startColumns: [7, 15, 30, 22],
-        endOffsets: [31, 97, 242, 377],
         locationTexts: [
           '{}',
           '{\n  }',

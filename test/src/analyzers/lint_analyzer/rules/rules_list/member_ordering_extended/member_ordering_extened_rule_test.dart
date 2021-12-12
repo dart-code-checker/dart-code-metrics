@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/member_ordering_extended/member_ordering_extended_rule.dart';
 import 'package:test/test.dart';
@@ -35,10 +34,8 @@ void main() {
 
         RuleTestHelper.verifyIssues(
           issues: issues,
-          startOffsets: [33, 80, 124, 158, 248, 398],
           startLines: [4, 6, 8, 10, 16, 28],
           startColumns: [3, 3, 3, 3, 3, 3],
-          endOffsets: [68, 112, 146, 189, 263, 425],
           locationTexts: [
             "static const staticConstField = '';",
             'late final staticLateFinalField;',
@@ -83,10 +80,8 @@ void main() {
 
         RuleTestHelper.verifyIssues(
           issues: issues,
-          startOffsets: [275, 286, 321, 437],
           startLines: [18, 20, 22, 30],
           startColumns: [3, 3, 3, 3],
-          endOffsets: [282, 317, 335, 475],
           locationTexts: [
             'Test();',
             'factory Test.empty() => Test();',
@@ -117,10 +112,8 @@ void main() {
 
         RuleTestHelper.verifyIssues(
           issues: issues,
-          startOffsets: [248, 275, 286, 321, 398, 437],
           startLines: [16, 18, 20, 22, 28, 30],
           startColumns: [3, 3, 3, 3, 3, 3],
-          endOffsets: [263, 282, 317, 335, 425, 475],
           locationTexts: [
             'final data = 1;',
             'Test();',
@@ -159,10 +152,8 @@ void main() {
 
           RuleTestHelper.verifyIssues(
             issues: issues,
-            startOffsets: [248, 275, 321, 398, 437],
             startLines: [16, 18, 22, 28, 30],
             startColumns: [3, 3, 3, 3, 3],
-            endOffsets: [263, 282, 335, 425, 475],
             locationTexts: [
               'final data = 1;',
               'Test();',
@@ -201,10 +192,8 @@ void main() {
 
           RuleTestHelper.verifyIssues(
             issues: issues,
-            startOffsets: [33, 158, 248],
             startLines: [4, 10, 16],
             startColumns: [3, 3, 3],
-            endOffsets: [68, 189, 263],
             locationTexts: [
               "static const staticConstField = '';",
               'late String? lateNullableField;',
@@ -235,10 +224,8 @@ void main() {
 
           RuleTestHelper.verifyIssues(
             issues: issues,
-            startOffsets: [94, 120, 148, 35, 62, 120],
             startLines: [8, 10, 12, 4, 6, 10],
             startColumns: [3, 3, 3, 3, 3, 3],
-            endOffsets: [108, 136, 162, 50, 82, 136],
             locationTexts: [
               'void work() {}',
               'void create() {}',
@@ -295,10 +282,8 @@ void main() {
 
           RuleTestHelper.verifyIssues(
             issues: issues,
-            startOffsets: [115, 153, 188, 61, 153],
             startLines: [15, 19, 21, 8, 19],
             startColumns: [3, 3, 3, 3, 3],
-            endOffsets: [149, 176, 202, 70, 176],
             locationTexts: [
               'String work() {\n'
                   "    return '';\n"

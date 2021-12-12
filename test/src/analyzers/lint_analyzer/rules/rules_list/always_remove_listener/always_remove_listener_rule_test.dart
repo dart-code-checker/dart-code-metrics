@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/always_remove_listener/always_remove_listener_rule.dart';
 import 'package:test/test.dart';
@@ -28,10 +27,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [445, 497, 593, 738, 933, 992],
         startLines: [21, 22, 25, 30, 38, 40],
         startColumns: [5, 5, 5, 7, 5, 5],
-        endOffsets: [483, 533, 634, 758, 977, 1027],
         locationTexts: [
           '_anotherListener.addListener(listener)',
           '_thirdListener.addListener(listener)',
