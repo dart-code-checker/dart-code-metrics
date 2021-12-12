@@ -7,6 +7,7 @@
 * doc: add flutter favorite badge
 * chore: disable github_checks annotations from codecov
 * chore: activate language strict rules
+* fix: add missing severity for rules
 
 ## 4.8.1
 

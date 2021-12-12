@@ -4,6 +4,10 @@
 
 avoid-unnecessary-type-assertions
 
+## Severity {#severity}
+
+Warning
+
 ## Description
 
 Warns about unnecessary usage of 'is' and 'whereType' operators.

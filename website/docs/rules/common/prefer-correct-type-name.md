@@ -6,6 +6,10 @@
 
 prefer-correct-type-name
 
+## Severity {#severity}
+
+Style
+
 ## Description
 
 Rule checks that the type name should only contain alphanumeric characters, start with an uppercase character and span between `min-length` and `max-length` characters in length.

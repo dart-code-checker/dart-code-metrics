@@ -4,6 +4,10 @@
 
 avoid-throw-in-catch-block
 
+## Severity {#severity}
+
+Warning
+
 ## Description
 
 Call throw in a catch block loses the original stack trace and the original exception.
