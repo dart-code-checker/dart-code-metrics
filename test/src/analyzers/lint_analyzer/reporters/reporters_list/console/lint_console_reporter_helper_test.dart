@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'package:ansicolor/ansicolor.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value_level.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/issue.dart';

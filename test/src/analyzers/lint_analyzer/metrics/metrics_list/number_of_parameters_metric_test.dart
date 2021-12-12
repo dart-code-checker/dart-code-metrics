@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'package:collection/src/iterable_extensions.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/metrics_list/number_of_parameters_metric.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value_level.dart';

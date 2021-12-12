@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/no_magic_number/no_magic_number_rule.dart';
 import 'package:test/test.dart';
@@ -30,10 +29,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [25, 64, 102, 140],
         startLines: [1, 2, 3, 4],
         startColumns: [26, 28, 27, 25],
-        endOffsets: [27, 66, 106, 142],
         locationTexts: ['42', '12', '3.14', '12'],
       );
     });
@@ -71,10 +68,8 @@ void main() {
 
         RuleTestHelper.verifyIssues(
           issues: issues,
-          startOffsets: [202, 275],
           startLines: [8, 11],
           startColumns: [15, 19],
-          endOffsets: [204, 277],
           locationTexts: ['83', '83'],
         );
       },

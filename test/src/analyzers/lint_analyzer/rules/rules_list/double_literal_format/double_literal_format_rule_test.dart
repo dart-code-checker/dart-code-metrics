@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/double_literal_format/double_literal_format_rule.dart';
 import 'package:test/test.dart';
@@ -26,36 +25,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [
-          97,
-          126,
-          161,
-          192,
-          247,
-          276,
-          310,
-          341,
-          395,
-          425,
-          460,
-          492,
-        ],
         startLines: [4, 6, 8, 10, 15, 17, 19, 21, 26, 28, 30, 32],
         startColumns: [5, 5, 6, 6, 5, 5, 6, 6, 5, 5, 6, 6],
-        endOffsets: [
-          102,
-          134,
-          166,
-          200,
-          251,
-          282,
-          314,
-          347,
-          401,
-          433,
-          466,
-          500,
-        ],
         locationTexts: [
           '05.23',
           '003.6e+5',

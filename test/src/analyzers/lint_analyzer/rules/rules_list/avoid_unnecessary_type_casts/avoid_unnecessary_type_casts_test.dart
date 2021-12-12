@@ -25,18 +25,6 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [
-          120,
-          173,
-          228,
-          539,
-          584,
-          630,
-          672,
-          718,
-          968,
-          1089,
-        ],
         startLines: [
           6,
           7,
@@ -60,18 +48,6 @@ void main() {
           20,
           16,
           20,
-        ],
-        endOffsets: [
-          143,
-          198,
-          252,
-          555,
-          601,
-          643,
-          689,
-          731,
-          986,
-          1108,
         ],
         locationTexts: [
           'regularString as String',
