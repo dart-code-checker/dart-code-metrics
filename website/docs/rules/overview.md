@@ -43,7 +43,7 @@ Rules configuration is [described here](../getting-started/configuration#configu
 
     Warns about unnecessary usage of 'as' operators.
 
-- [avoid-unrelated-type-casts](./common/avoid-unrelated-type-casts.md)
+- [avoid-unrelated-type-assertions](./common/avoid-unrelated-type-assertions.md)
 
     Warns about unrelated usages of 'is' operators.
 
