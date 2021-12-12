@@ -4,6 +4,10 @@
 
 avoid-unnecessary-type-casts
 
+## Severity {#severity}
+
+Warning
+
 ## Description
 
 Warns about of unnecessary use of casting operators.

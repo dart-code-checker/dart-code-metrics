@@ -6,6 +6,10 @@
 
 prefer-correct-identifier-length
 
+## Severity {#severity}
+
+Style
+
 ## Description
 
 The rule checks the length of variable names in classes, functions, extensions, mixins, and also checks the value of enum.
