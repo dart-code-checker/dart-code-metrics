@@ -63,6 +63,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           folders: "bin, example, lib, test"
+          pull_request_comment: true
 
       - name: Verify formatting
         run: dart format --set-exit-if-changed .
