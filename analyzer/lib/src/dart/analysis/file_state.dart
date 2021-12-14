@@ -119,12 +119,8 @@ class FileState {
   String? _content;
   String? _contentHash;
   LineInfo? _lineInfo;
-  Set<String>? _definedClassMemberNames;
-  Set<String>? _definedTopLevelNames;
-  Set<String>? _referencedNames;
   Uint8List? _unlinkedSignature;
   String? _unlinkedKey;
-  String? _informativeKey;
   AnalysisDriverUnlinkedUnit? _driverUnlinkedUnit;
   Uint8List? _apiSignature;
 
@@ -165,14 +161,12 @@ class FileState {
 
   /// The class member names defined by the file.
   Set<String> get definedClassMemberNames {
-    return _definedClassMemberNames ??=
-        _driverUnlinkedUnit!.definedClassMemberNames.toSet();
+    return _driverUnlinkedUnit!.definedClassMemberNames;
   }
 
   /// The top-level names defined by the file.
   Set<String> get definedTopLevelNames {
-    return _definedTopLevelNames ??=
-        _driverUnlinkedUnit!.definedTopLevelNames.toSet();
+    return _driverUnlinkedUnit!.definedTopLevelNames;
   }
 
   /// Return the set of all directly referenced files - imported, exported or
@@ -295,7 +289,7 @@ class FileState {
 
   /// The external names referenced by the file.
   Set<String> get referencedNames {
-    return _referencedNames ??= _driverUnlinkedUnit!.referencedNames.toSet();
+    return _driverUnlinkedUnit!.referencedNames;
   }
 
   @visibleForTesting
@@ -338,16 +332,6 @@ class FileState {
   @override
   bool operator ==(Object other) {
     return other is FileState && other.uri == uri;
-  }
-
-  Uint8List getInformativeBytes({CompilationUnit? unit}) {
-    var bytes = _fsState._byteStore.get(_informativeKey!);
-    if (bytes == null) {
-      unit ??= parse();
-      bytes = writeUnitInformative(unit);
-      _fsState._byteStore.put(_informativeKey!, bytes);
-    }
-    return bytes;
   }
 
   void internal_setLibraryCycle(LibraryCycle? cycle) {
@@ -399,16 +383,12 @@ class FileState {
       signature.addBool(_exists!);
       _unlinkedSignature = signature.toByteList();
       var signatureHex = hex.encode(_unlinkedSignature!);
-      _unlinkedKey = '$signatureHex.unlinked2';
       // TODO(scheglov) Use the path as the key, and store the signature.
-      _informativeKey = '$signatureHex.ast';
+      _unlinkedKey = '$signatureHex.unlinked2';
     }
 
-    // Prepare bytes of the unlinked bundle - existing or new.
-    var bytes = _getUnlinkedBytes();
-
-    // Read the unlinked bundle.
-    _driverUnlinkedUnit = AnalysisDriverUnlinkedUnit.fromBytes(bytes);
+    // Prepare the unlinked unit.
+    _driverUnlinkedUnit = _getUnlinkedUnit();
     _unlinked2 = _driverUnlinkedUnit!.unit;
     _lineInfo = LineInfo(_unlinked2!.lineStarts);
 
@@ -493,11 +473,11 @@ class FileState {
     return _fsState.getFileForUri(absoluteUri);
   }
 
-  /// Return the bytes of the unlinked summary - existing or new.
-  Uint8List _getUnlinkedBytes() {
+  /// Return the unlinked unit, from bytes or new.
+  AnalysisDriverUnlinkedUnit _getUnlinkedUnit() {
     var bytes = _fsState._byteStore.get(_unlinkedKey!);
     if (bytes != null && bytes.isNotEmpty) {
-      return bytes;
+      return AnalysisDriverUnlinkedUnit.fromBytes(bytes);
     }
 
     var unit = parse();
@@ -506,28 +486,24 @@ class FileState {
       var definedNames = computeDefinedNames(unit);
       var referencedNames = computeReferencedNames(unit);
       var subtypedNames = computeSubtypedNames(unit);
-      var bytes = AnalysisDriverUnlinkedUnit(
+      var driverUnlinkedUnit = AnalysisDriverUnlinkedUnit(
         definedTopLevelNames: definedNames.topLevelNames,
         definedClassMemberNames: definedNames.classMemberNames,
         referencedNames: referencedNames,
         subtypedNames: subtypedNames,
         unit: unlinkedUnit,
-      ).toBytes();
+      );
+      var bytes = driverUnlinkedUnit.toBytes();
       _fsState._byteStore.put(_unlinkedKey!, bytes);
       counterUnlinkedBytes += bytes.length;
       counterUnlinkedLinkedBytes += bytes.length;
-      return bytes;
+      return driverUnlinkedUnit;
     });
   }
 
   /// Invalidate any data that depends on the current unlinked data of the file,
   /// because [refresh] is going to recompute the unlinked data.
   void _invalidateCurrentUnresolvedData() {
-    // Invalidate unlinked information.
-    _definedTopLevelNames = null;
-    _definedClassMemberNames = null;
-    _referencedNames = null;
-
     if (_driverUnlinkedUnit != null) {
       for (var name in _driverUnlinkedUnit!.subtypedNames) {
         var files = _fsState._subtypedNameToFiles[name];
@@ -623,6 +599,7 @@ class FileState {
       hasLibraryDirective: hasLibraryDirective,
       hasPartOfDirective: hasPartOfDirective,
       imports: imports,
+      informativeBytes: writeUnitInformative(unit),
       lineStarts: Uint32List.fromList(unit.lineInfo!.lineStarts),
       partOfName: null,
       partOfUri: null,

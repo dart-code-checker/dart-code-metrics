@@ -201,46 +201,40 @@ class BestPracticesVerifier extends RecursiveAstVisitor<void> {
       if (parent is FieldDeclaration) {
         if (parent.isStatic) {
           _errorReporter.reportErrorForNode(
-              HintCode.INVALID_NON_VIRTUAL_ANNOTATION,
-              node,
-              [node.element!.name]);
+              HintCode.INVALID_NON_VIRTUAL_ANNOTATION, node);
         }
       } else if (parent is MethodDeclaration) {
         if (parent.parent is ExtensionDeclaration ||
             parent.isStatic ||
             parent.isAbstract) {
           _errorReporter.reportErrorForNode(
-              HintCode.INVALID_NON_VIRTUAL_ANNOTATION,
-              node,
-              [node.element!.name]);
+              HintCode.INVALID_NON_VIRTUAL_ANNOTATION, node);
         }
       } else {
         _errorReporter.reportErrorForNode(
-            HintCode.INVALID_NON_VIRTUAL_ANNOTATION,
-            node,
-            [node.element!.name]);
+            HintCode.INVALID_NON_VIRTUAL_ANNOTATION, node);
       }
     } else if (element.isSealed == true) {
       if (!(parent is ClassDeclaration || parent is ClassTypeAlias)) {
         _errorReporter.reportErrorForNode(
-            HintCode.INVALID_SEALED_ANNOTATION, node, [node.element!.name]);
+            HintCode.INVALID_SEALED_ANNOTATION, node);
       }
     } else if (element.isVisibleForTemplate == true ||
         element.isVisibleForTesting == true ||
         element.isVisibleForOverriding == true) {
       if (parent is Declaration) {
         void reportInvalidAnnotation(Element declaredElement) {
+          // This method is only called on named elements, so it is safe to
+          // assume that `declaredElement.name` is non-`null`.
           _errorReporter.reportErrorForNode(
               HintCode.INVALID_VISIBILITY_ANNOTATION,
               node,
-              [declaredElement.name, node.name.name]);
+              [declaredElement.name!, node.name.name]);
         }
 
         void reportInvalidVisibleForOverriding(Element declaredElement) {
           _errorReporter.reportErrorForNode(
-              HintCode.INVALID_VISIBLE_FOR_OVERRIDING_ANNOTATION,
-              node,
-              [declaredElement.name]);
+              HintCode.INVALID_VISIBLE_FOR_OVERRIDING_ANNOTATION, node);
         }
 
         if (parent is TopLevelVariableDeclaration) {
@@ -275,7 +269,8 @@ class BestPracticesVerifier extends RecursiveAstVisitor<void> {
             reportInvalidVisibleForOverriding(declaredElement);
           }
 
-          if (Identifier.isPrivateName(declaredElement.name!)) {
+          var name = declaredElement.name;
+          if (name != null && Identifier.isPrivateName(name)) {
             reportInvalidAnnotation(declaredElement);
           }
         }
@@ -325,8 +320,10 @@ class BestPracticesVerifier extends RecursiveAstVisitor<void> {
         var kindNames = kinds.map((kind) => kind.displayString).toList()
           ..sort();
         var validKinds = kindNames.commaSeparatedWithOr;
+        // Annotations always refer to named elements, so we can safely assume
+        // that `name` is non-`null`.
         _errorReporter.reportErrorForNode(
-            HintCode.INVALID_ANNOTATION_TARGET, node.name, [name, validKinds]);
+            HintCode.INVALID_ANNOTATION_TARGET, node.name, [name!, validKinds]);
         return;
       }
     }
@@ -448,7 +445,7 @@ class BestPracticesVerifier extends RecursiveAstVisitor<void> {
         ExecutableElement? getOverriddenPropertyAccessor() {
           final element = field.declaredElement;
           if (element is PropertyAccessorElement || element is FieldElement) {
-            Name name = Name(_currentLibrary.source.uri, element!.name!);
+            Name name = Name(_currentLibrary.source.uri, element!.name);
             Element enclosingElement = element.enclosingElement!;
             if (enclosingElement is ClassElement) {
               var overridden = _inheritanceManager
@@ -469,10 +466,13 @@ class BestPracticesVerifier extends RecursiveAstVisitor<void> {
         final overriddenElement = getOverriddenPropertyAccessor();
         if (overriddenElement != null &&
             _hasNonVirtualAnnotation(overriddenElement)) {
+          // Overridden members are always inside classes or mixins, which are
+          // always named, so we can safely assume
+          // `overriddenElement.enclosingElement.name` is non-`null`.
           _errorReporter.reportErrorForNode(
               HintCode.INVALID_OVERRIDE_OF_NON_VIRTUAL_MEMBER,
               field.name,
-              [field.name, overriddenElement.enclosingElement.name]);
+              [field.name, overriddenElement.enclosingElement.name!]);
         }
         if (!_invalidAccessVerifier._inTestDirectory) {
           _checkForAssignmentOfDoNotStore(field.initializer);
@@ -653,10 +653,13 @@ class BestPracticesVerifier extends RecursiveAstVisitor<void> {
 
       if (overriddenElement != null &&
           _hasNonVirtualAnnotation(overriddenElement)) {
+        // Overridden members are always inside classes or mixins, which are
+        // always named, so we can safely assume
+        // `overriddenElement.enclosingElement.name` is non-`null`.
         _errorReporter.reportErrorForNode(
             HintCode.INVALID_OVERRIDE_OF_NON_VIRTUAL_MEMBER,
             node.name,
-            [node.name, overriddenElement.enclosingElement.name]);
+            [node.name, overriddenElement.enclosingElement.name!]);
       }
 
       super.visitMethodDeclaration(node);
@@ -853,10 +856,13 @@ class BestPracticesVerifier extends RecursiveAstVisitor<void> {
   void _checkForAssignmentOfDoNotStore(Expression? expression) {
     var expressionMap = _getSubExpressionsMarkedDoNotStore(expression);
     for (var entry in expressionMap.entries) {
+      // All the elements returned by [_getSubExpressionsMarkedDoNotStore] are
+      // named elements, so we can safely assume `entry.value.name` is
+      // non-`null`.
       _errorReporter.reportErrorForNode(
         HintCode.ASSIGNMENT_OF_DO_NOT_STORE,
         entry.key,
-        [entry.value.name],
+        [entry.value.name!],
       );
     }
   }
@@ -1385,10 +1391,13 @@ class BestPracticesVerifier extends RecursiveAstVisitor<void> {
         return;
       }
       for (var entry in expressionMap.entries) {
+        // All the elements returned by [_getSubExpressionsMarkedDoNotStore] are
+        // named elements, so we can safely assume `entry.value.name` is
+        // non-`null`.
         _errorReporter.reportErrorForNode(
           HintCode.RETURN_OF_DO_NOT_STORE,
           entry.key,
-          [entry.value.name, parent.declaredElement!.displayName],
+          [entry.value.name!, parent.declaredElement!.displayName],
         );
       }
     }
@@ -1892,8 +1901,12 @@ class _InvalidAccessVerifier {
     var element = node.uriElement;
     if (_hasInternal(element) &&
         !_isLibraryInWorkspacePackage(element!.library)) {
+      // The only way for an import directive's URI to have a `null`
+      // `stringValue` is if its string contains an interpolation, in which case
+      // the element would never have resolved in the first place.  So we can
+      // safely assume `node.uri.stringValue` is non-`null`.
       _errorReporter.reportErrorForNode(HintCode.INVALID_USE_OF_INTERNAL_MEMBER,
-          node, [node.uri.stringValue]);
+          node, [node.uri.stringValue!]);
     }
   }
 

@@ -251,7 +251,7 @@ class InheritanceManager3 {
 
   /// Return the member with the given [name].
   ///
-  /// If [concrete] is `true`, the the concrete implementation is returned,
+  /// If [concrete] is `true`, the concrete implementation is returned,
   /// from the given [element], or its superclass.
   ///
   /// If [forSuper] is `true`, then [concrete] is implied, and only concrete
@@ -884,7 +884,7 @@ class Name {
 
   factory Name(Uri? libraryUri, String name) {
     if (name.startsWith('_')) {
-      var hashCode = Object.hash(libraryUri.hashCode, name.hashCode);
+      var hashCode = Object.hash(libraryUri, name);
       return Name._internal(libraryUri, name, false, hashCode);
     } else {
       return Name._internal(null, name, true, name.hashCode);

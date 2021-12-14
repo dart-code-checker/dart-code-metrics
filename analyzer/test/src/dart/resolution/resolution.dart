@@ -384,6 +384,12 @@ mixin ResolutionTest implements ResourceProviderMixin {
     assertType(ref, type);
   }
 
+  void assertImplicitCallReference(ImplicitCallReference node,
+      Element? expectedElement, String expectedType) {
+    assertElement(node, expectedElement);
+    assertType(node, expectedType);
+  }
+
   /// In valid code [element] must be a [PrefixElement], but for invalid code
   /// like `int.double v;` we want to resolve `int` somehow. Still not type.
   void assertImportPrefix(Expression? identifier, Element? element) {
@@ -850,11 +856,13 @@ mixin ResolutionTest implements ResourceProviderMixin {
   }
 
   ExpectedError error(ErrorCode code, int offset, int length,
-          {String? text,
+          {Pattern? correctionContains,
+          String? text,
           Pattern? messageContains,
           List<ExpectedContextMessage> contextMessages =
               const <ExpectedContextMessage>[]}) =>
       ExpectedError(code, offset, length,
+          correctionContains: correctionContains,
           message: text,
           messageContains: messageContains,
           expectedContextMessages: contextMessages);
@@ -899,6 +907,8 @@ mixin ResolutionTest implements ResourceProviderMixin {
         fail('Unsupported node: (${function.runtimeType}) $function');
       }
     } else if (node is Identifier) {
+      return node.staticElement;
+    } else if (node is ImplicitCallReference) {
       return node.staticElement;
     } else if (node is IndexExpression) {
       return node.staticElement;

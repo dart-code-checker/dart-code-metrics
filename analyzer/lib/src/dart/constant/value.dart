@@ -184,7 +184,7 @@ class DartObjectImpl implements DartObject {
   Map<String, DartObjectImpl>? get fields => _state.fields;
 
   @override
-  int get hashCode => Object.hash(type.hashCode, _state.hashCode);
+  int get hashCode => Object.hash(type, _state);
 
   @override
   bool get hasKnownValue => !_state.isUnknown;
@@ -537,13 +537,12 @@ class DartObjectImpl implements DartObject {
   DartObjectImpl isIdentical2(
       TypeSystemImpl typeSystem, DartObjectImpl rightOperand) {
     // Workaround for Flutter `const kIsWeb = identical(0, 0.0)`.
-    if (type.isDartCoreInt && rightOperand.type.isDartCoreDouble) {
+    if (type.isDartCoreInt && rightOperand.type.isDartCoreDouble ||
+        type.isDartCoreDouble && rightOperand.type.isDartCoreInt) {
       return DartObjectImpl(
         typeSystem,
         typeSystem.typeProvider.boolType,
-        BoolState(
-          toIntValue() == 0 && rightOperand.toDoubleValue() == 0.0,
-        ),
+        BoolState.UNKNOWN_VALUE,
       );
     }
 
@@ -1315,12 +1314,7 @@ class FunctionState extends InstanceState {
 
       var element = _element;
       var otherElement = rightOperand._element;
-      var elementsAreEqual = identical(element, otherElement) ||
-          (element != null &&
-              otherElement != null &&
-              otherElement.kind == element.kind &&
-              otherElement.location == element.location);
-      if (!elementsAreEqual) {
+      if (element?.declaration != otherElement?.declaration) {
         return BoolState.FALSE_STATE;
       }
       var typeArguments = _typeArguments;
@@ -1333,7 +1327,10 @@ class FunctionState extends InstanceState {
         return BoolState.FALSE_STATE;
       }
       for (var i = 0; i < typeArguments.length; i++) {
-        if (typeArguments[i] != otherTypeArguments[i]) {
+        if (!typeSystem.runtimeTypesEqual(
+          typeArguments[i],
+          otherTypeArguments[i],
+        )) {
           return BoolState.FALSE_STATE;
         }
       }

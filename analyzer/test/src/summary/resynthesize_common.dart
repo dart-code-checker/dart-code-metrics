@@ -10,6 +10,7 @@ import 'package:analyzer/dart/element/type.dart';
 import 'package:analyzer/file_system/file_system.dart';
 import 'package:analyzer/src/dart/analysis/experiments.dart';
 import 'package:analyzer/src/dart/element/element.dart';
+import 'package:analyzer/src/dart/sdk/sdk.dart';
 import 'package:analyzer/src/generated/source.dart';
 import 'package:analyzer/src/source/package_map_resolver.dart';
 import 'package:analyzer/src/test_utilities/mock_sdk.dart';
@@ -29,14 +30,19 @@ abstract class AbstractResynthesizeTest with ResourceProviderMixin {
 
   DeclaredVariables declaredVariables = DeclaredVariables();
   late final SourceFactory sourceFactory;
-  late final MockSdk sdk;
+  late final FolderBasedDartSdk sdk;
 
   late String testFile;
   late Source testSource;
   Set<Source> otherLibrarySources = <Source>{};
 
   AbstractResynthesizeTest() {
-    sdk = MockSdk(resourceProvider: resourceProvider);
+    var sdkRoot = newFolder('/sdk');
+    createMockSdk(
+      resourceProvider: resourceProvider,
+      root: sdkRoot,
+    );
+    sdk = FolderBasedDartSdk(resourceProvider, sdkRoot);
 
     sourceFactory = SourceFactory(
       [
@@ -1470,18 +1476,6 @@ library
 ''');
   }
 
-  test_class_constructor_implicit() async {
-    var library = await checkLibrary('class C {}');
-    checkElementText(library, r'''
-library
-  definingUnit
-    classes
-      class C @6
-        constructors
-          synthetic @-1
-''');
-  }
-
   test_class_constructor_implicit_type_params() async {
     var library = await checkLibrary('class C<T, U> {}');
     checkElementText(library, r'''
@@ -1516,21 +1510,84 @@ library
 ''');
   }
 
-  test_class_constructors() async {
-    var library = await checkLibrary('class C { C.foo(); C.bar(); }');
-    checkElementText(library, r'''
+  test_class_constructor_unnamed_implicit() async {
+    var library = await checkLibrary('class C {}');
+    checkElementText(
+        library,
+        r'''
 library
   definingUnit
     classes
       class C @6
         constructors
-          foo @12
-            periodOffset: 11
-            nameEnd: 15
-          bar @21
-            periodOffset: 20
-            nameEnd: 24
+          synthetic @-1
+            displayName: C
+''',
+        withDisplayName: true);
+  }
+
+  test_class_constructors_named() async {
+    var library = await checkLibrary('''
+class C {
+  C.foo();
+}
 ''');
+    checkElementText(
+        library,
+        r'''
+library
+  definingUnit
+    classes
+      class C @6
+        constructors
+          foo @14
+            displayName: C.foo
+            periodOffset: 13
+            nameEnd: 17
+''',
+        withDisplayName: true);
+  }
+
+  test_class_constructors_unnamed() async {
+    var library = await checkLibrary('''
+class C {
+  C();
+}
+''');
+    checkElementText(
+        library,
+        r'''
+library
+  definingUnit
+    classes
+      class C @6
+        constructors
+          @12
+            displayName: C
+''',
+        withDisplayName: true);
+  }
+
+  test_class_constructors_unnamed_new() async {
+    var library = await checkLibrary('''
+class C {
+  C.new();
+}
+''');
+    checkElementText(
+        library,
+        r'''
+library
+  definingUnit
+    classes
+      class C @6
+        constructors
+          @14
+            displayName: C
+            periodOffset: 13
+            nameEnd: 17
+''',
+        withDisplayName: true);
   }
 
   test_class_documented() async {

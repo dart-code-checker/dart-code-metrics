@@ -42,6 +42,8 @@ class FfiVerifier extends RecursiveAstVisitor<void> {
     'Double',
   ];
 
+  static const _primitiveBoolNativeType = 'Bool';
+
   static const _structClassName = 'Struct';
 
   static const _unionClassName = 'Union';
@@ -407,12 +409,32 @@ class FfiVerifier extends RecursiveAstVisitor<void> {
     return false;
   }
 
+  bool _isConst(Expression expr) {
+    if (expr is Literal) {
+      return true;
+    }
+    if (expr is Identifier) {
+      final staticElm = expr.staticElement;
+      if (staticElm is ConstVariableElement) {
+        return true;
+      }
+      if (staticElm is PropertyAccessorElementImpl) {
+        if (staticElm.variable is ConstVariableElement) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   /// Returns `true` if [nativeType] is a C type that has a size.
   bool _isSized(DartType nativeType) {
     switch (_primitiveNativeType(nativeType)) {
       case _PrimitiveDartType.double:
         return true;
       case _PrimitiveDartType.int:
+        return true;
+      case _PrimitiveDartType.bool:
         return true;
       case _PrimitiveDartType.void_:
         return false;
@@ -472,6 +494,7 @@ class FfiVerifier extends RecursiveAstVisitor<void> {
           return allowHandle;
         case _PrimitiveDartType.double:
         case _PrimitiveDartType.int:
+        case _PrimitiveDartType.bool:
           return true;
         case _PrimitiveDartType.none:
           // These are the cases below.
@@ -510,12 +533,13 @@ class FfiVerifier extends RecursiveAstVisitor<void> {
     return false;
   }
 
-  // Get the const bool value of `expr` if it exists.
-  // Return null if it isn't a const bool.
+  /// Get the const bool value of [expr] if it exists.
+  /// Return null if it isn't a const bool.
   bool? _maybeGetBoolConstValue(Expression expr) {
     if (expr is BooleanLiteral) {
       return expr.value;
-    } else if (expr is Identifier) {
+    }
+    if (expr is Identifier) {
       final staticElm = expr.staticElement;
       if (staticElm is ConstVariableElement) {
         return staticElm.computeConstantValue()?.toBoolValue();
@@ -541,6 +565,9 @@ class FfiVerifier extends RecursiveAstVisitor<void> {
         if (_primitiveDoubleNativeTypes.contains(name)) {
           return _PrimitiveDartType.double;
         }
+        if (name == _primitiveBoolNativeType) {
+          return _PrimitiveDartType.bool;
+        }
         if (name == 'Void') {
           return _PrimitiveDartType.void_;
         }
@@ -561,6 +588,8 @@ class FfiVerifier extends RecursiveAstVisitor<void> {
         return _PrimitiveDartType.int;
       } else if (_primitiveDoubleNativeTypes.contains(name)) {
         return _PrimitiveDartType.double;
+      } else if (_primitiveBoolNativeType == name) {
+        return _PrimitiveDartType.bool;
       }
     }
     return _PrimitiveDartType.none;
@@ -632,9 +661,16 @@ class FfiVerifier extends RecursiveAstVisitor<void> {
     var targetType = target.staticType;
     if (targetType is InterfaceType && targetType.isPointer) {
       final DartType T = targetType.typeArguments[0];
-      if (!T.isNativeFunction ||
-          !_isValidFfiNativeFunctionType(
-              (T as InterfaceType).typeArguments.single)) {
+      if (!T.isNativeFunction) {
+        return;
+      }
+      final DartType pointerTypeArg = (T as InterfaceType).typeArguments.single;
+      if (pointerTypeArg is TypeParameterType) {
+        _errorReporter.reportErrorForNode(
+            FfiCode.NON_CONSTANT_TYPE_ARGUMENT, target, ['asFunction']);
+        return;
+      }
+      if (!_isValidFfiNativeFunctionType(pointerTypeArg)) {
         final AstNode errorNode =
             typeArguments != null ? typeArguments[0] : node;
         _errorReporter.reportErrorForNode(
@@ -712,6 +748,8 @@ class FfiVerifier extends RecursiveAstVisitor<void> {
       return dartType.isDartCoreInt;
     } else if (nativeReturnType == _PrimitiveDartType.double) {
       return dartType.isDartCoreDouble;
+    } else if (nativeReturnType == _PrimitiveDartType.bool) {
+      return dartType.isDartCoreBool;
     } else if (nativeReturnType == _PrimitiveDartType.void_) {
       return dartType.isVoid;
     } else if (nativeReturnType == _PrimitiveDartType.handle) {
@@ -801,6 +839,8 @@ class FfiVerifier extends RecursiveAstVisitor<void> {
         _validateAnnotations(fieldType, annotations, _PrimitiveDartType.int);
       } else if (declaredType.isDartCoreDouble) {
         _validateAnnotations(fieldType, annotations, _PrimitiveDartType.double);
+      } else if (declaredType.isDartCoreBool) {
+        _validateAnnotations(fieldType, annotations, _PrimitiveDartType.bool);
       } else if (declaredType.isPointer) {
         _validateNoAnnotations(annotations);
       } else if (declaredType.isArray) {
@@ -878,7 +918,7 @@ class FfiVerifier extends RecursiveAstVisitor<void> {
     DartType FT = f.typeOrThrow;
     if (!_validateCompatibleFunctionTypes(FT, T)) {
       _errorReporter.reportErrorForNode(
-          FfiCode.MUST_BE_A_SUBTYPE, f, [f.staticType, T, 'fromFunction']);
+          FfiCode.MUST_BE_A_SUBTYPE, f, [FT, T, 'fromFunction']);
       return;
     }
 
@@ -897,23 +937,27 @@ class FfiVerifier extends RecursiveAstVisitor<void> {
           FfiCode.MISSING_EXCEPTION_VALUE, node.methodName);
     } else {
       Expression e = node.argumentList.arguments[1];
-      // TODO(brianwilkerson) Validate that `e` is a constant expression.
-      if (!_validateCompatibleNativeType(e.typeOrThrow, R, true)) {
+      var eType = e.typeOrThrow;
+      if (!_validateCompatibleNativeType(eType, R, true)) {
         _errorReporter.reportErrorForNode(
-            FfiCode.MUST_BE_A_SUBTYPE, e, [e.staticType, R, 'fromFunction']);
+            FfiCode.MUST_BE_A_SUBTYPE, e, [eType, R, 'fromFunction']);
+      }
+      if (!_isConst(e)) {
+        _errorReporter.reportErrorForNode(
+            FfiCode.ARGUMENT_MUST_BE_A_CONSTANT, e, ['exceptionalReturn']);
       }
     }
   }
 
+  /// Ensure `isLeaf` is const as we need the value at compile time to know
+  /// which trampoline to generate.
   void _validateIsLeafIsConst(MethodInvocation node) {
-    // Ensure `isLeaf` is const as we need the value at compile time to know
-    // which trampoline to generate.
     final args = node.argumentList.arguments;
     if (args.isNotEmpty) {
       for (final arg in args) {
         if (arg is NamedExpression) {
           if (arg.element?.name == _isLeafParamName) {
-            if (_maybeGetBoolConstValue(arg.expression) == null) {
+            if (!_isConst(arg.expression)) {
               _errorReporter.reportErrorForNode(
                   FfiCode.ARGUMENT_MUST_BE_A_CONSTANT,
                   arg.expression,
@@ -1133,6 +1177,7 @@ class FfiVerifier extends RecursiveAstVisitor<void> {
 enum _PrimitiveDartType {
   double,
   int,
+  bool,
   void_,
   handle,
   none,
@@ -1307,6 +1352,8 @@ extension on ClassElement {
       if (declaredType.isDartCoreInt) {
         return false;
       } else if (declaredType.isDartCoreDouble) {
+        return false;
+      } else if (declaredType.isDartCoreBool) {
         return false;
       } else if (declaredType.isPointer) {
         return false;

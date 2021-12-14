@@ -80,7 +80,7 @@ import 'package:meta/meta.dart';
 /// TODO(scheglov) Clean up the list of implicitly analyzed files.
 class AnalysisDriver implements AnalysisDriverGeneric {
   /// The version of data format, should be incremented on every format change.
-  static const int DATA_VERSION = 186;
+  static const int DATA_VERSION = 190;
 
   /// The number of exception contexts allowed to write. Once this field is
   /// zero, we stop writing any new exception contexts in this process.
@@ -334,6 +334,20 @@ class AnalysisDriver implements AnalysisDriverGeneric {
   /// always include all added files or all implicitly used file. If a file has
   /// not been processed yet, it might be missing.
   Set<String> get knownFiles => _fsState.knownFilePaths;
+
+  /// Return the context in which libraries should be analyzed.
+  LibraryContext get libraryContext {
+    return _libraryContext ??= LibraryContext(
+      testView: _testView.libraryContextTestView,
+      session: currentSession,
+      logger: _logger,
+      byteStore: _byteStore,
+      analysisOptions: _analysisOptions,
+      declaredVariables: declaredVariables,
+      sourceFactory: _sourceFactory,
+      externalSummaries: _externalSummaries,
+    );
+  }
 
   /// Return the path of the folder at the root of the context.
   String get name => analysisContext?.contextRoot.root.path ?? '';
@@ -684,7 +698,6 @@ class AnalysisDriver implements AnalysisDriverGeneric {
         return UnspecifiedInvalidResult();
       },
       (externalLibrary) async {
-        var libraryContext = _createLibraryContext(null);
         var element = libraryContext.getLibraryElement(externalLibrary.uri);
         return LibraryElementResultImpl(element);
       },
@@ -1281,7 +1294,7 @@ class AnalysisDriver implements AnalysisDriverGeneric {
 
     // If we don't need the fully resolved unit, check for the cached result.
     if (!withUnit) {
-      List<int>? bytes = _byteStore.get(key);
+      var bytes = _byteStore.get(key);
       if (bytes != null) {
         return _getAnalysisResultFromBytes(file, signature, bytes);
       }
@@ -1301,7 +1314,7 @@ class AnalysisDriver implements AnalysisDriverGeneric {
           return _newMissingDartLibraryResult(file, 'dart:async');
         }
 
-        var libraryContext = _createLibraryContext(library!);
+        libraryContext.load2(library!);
 
         LibraryAnalyzer analyzer = LibraryAnalyzer(
             analysisOptions as AnalysisOptionsImpl,
@@ -1314,7 +1327,7 @@ class AnalysisDriver implements AnalysisDriverGeneric {
             testingData: testingData);
         Map<FileState, UnitAnalysisResult> results = analyzer.analyze();
 
-        late List<int> bytes;
+        late Uint8List bytes;
         late CompilationUnit resolvedUnit;
         for (FileState unitFile in results.keys) {
           UnitAnalysisResult unitResult = results[unitFile]!;
@@ -1373,7 +1386,7 @@ class AnalysisDriver implements AnalysisDriverGeneric {
 
     return _logger.run('Compute resolved library $path', () {
       _testView.numOfAnalyzedLibraries++;
-      var libraryContext = _createLibraryContext(library);
+      libraryContext.load2(library);
 
       LibraryAnalyzer analyzer = LibraryAnalyzer(
           analysisOptions as AnalysisOptionsImpl,
@@ -1431,7 +1444,7 @@ class AnalysisDriver implements AnalysisDriverGeneric {
 
     return _logger.run('Compute unit element for $path', () {
       _logger.writeln('Work in $name');
-      var libraryContext = _createLibraryContext(library!);
+      libraryContext.load2(library!);
       var element = libraryContext.computeUnitElement(library, file);
       return UnitElementResultImpl(
         currentSession,
@@ -1476,36 +1489,6 @@ class AnalysisDriver implements AnalysisDriverGeneric {
       fileContentCache: _fileContentCache,
     );
     _fileTracker = FileTracker(_logger, _fsState);
-  }
-
-  /// Return the context in which the [library] should be analyzed.
-  LibraryContext _createLibraryContext(FileState? library) {
-    {
-      var libraryContext = _libraryContext;
-      if (libraryContext != null) {
-        if (libraryContext.pack()) {
-          clearLibraryContext();
-        }
-      }
-    }
-
-    var libraryContext = _libraryContext;
-    libraryContext ??= _libraryContext = LibraryContext(
-      testView: _testView.libraryContextTestView,
-      session: currentSession,
-      logger: _logger,
-      byteStore: _byteStore,
-      analysisOptions: _analysisOptions,
-      declaredVariables: declaredVariables,
-      sourceFactory: _sourceFactory,
-      externalSummaries: _externalSummaries,
-    );
-
-    if (library != null) {
-      libraryContext.load2(library);
-    }
-
-    return libraryContext;
   }
 
   /// If this has not been done yet, schedule discovery of all files that are
@@ -1576,7 +1559,7 @@ class AnalysisDriver implements AnalysisDriverGeneric {
   /// Load the [AnalysisResult] for the given [file] from the [bytes]. Set
   /// optional [content] and [resolvedUnit].
   AnalysisResult _getAnalysisResultFromBytes(
-      FileState file, String signature, List<int> bytes,
+      FileState file, String signature, Uint8List bytes,
       {String? content, CompilationUnit? resolvedUnit}) {
     var unit = AnalysisDriverResolvedUnit.fromBuffer(bytes);
     List<AnalysisError> errors = _getErrorsFromSerialized(file, unit.errors);
