@@ -34,9 +34,7 @@ import 'package:analyzer/src/dart/resolver/scope.dart'
     show Namespace, NamespaceBuilder;
 import 'package:analyzer/src/dart/resolver/variance.dart';
 import 'package:analyzer/src/generated/element_type_provider.dart';
-import 'package:analyzer/src/generated/engine.dart'
-    show AnalysisContext, AnalysisOptionsImpl;
-import 'package:analyzer/src/generated/java_engine.dart';
+import 'package:analyzer/src/generated/engine.dart' show AnalysisContext;
 import 'package:analyzer/src/generated/sdk.dart' show DartSdk;
 import 'package:analyzer/src/generated/source.dart';
 import 'package:analyzer/src/generated/utilities_collection.dart';
@@ -391,7 +389,7 @@ abstract class AbstractClassElementImpl extends _ExistingElementImpl
     // TODO (jwren) revisit- should we append '=' here or require clients to
     // include it?
     // Do we need the check for isSetter below?
-    if (!StringUtilities.endsWithChar(setterName, 0x3D)) {
+    if (!setterName.endsWith('=')) {
       setterName += '=';
     }
     for (PropertyAccessorElement accessor in accessors) {
@@ -1298,6 +1296,9 @@ class ConstFieldElementImpl_EnumValue extends ConstFieldElementImpl_ofEnum {
   bool get hasInitializer => false;
 
   @override
+  bool get isEnumConstant => true;
+
+  @override
   Element get nonSynthetic => this;
 
   @override
@@ -1572,9 +1573,8 @@ class ConstructorElementImpl extends ExecutableElementImpl
   /// of formal parameters, are evaluated.
   void computeConstantDependencies() {
     if (!isConstantEvaluated) {
-      var analysisOptions = context.analysisOptions as AnalysisOptionsImpl;
       computeConstants(library.typeProvider, library.typeSystem,
-          context.declaredVariables, [this], analysisOptions.experimentStatus);
+          context.declaredVariables, [this], library.featureSet);
     }
   }
 }
@@ -1650,9 +1650,8 @@ mixin ConstVariableElement implements ElementImpl, ConstantEvaluationTarget {
   /// of this variable could not be computed because of errors.
   DartObject? computeConstantValue() {
     if (evaluationResult == null) {
-      var analysisOptions = context.analysisOptions as AnalysisOptionsImpl;
       computeConstants(library!.typeProvider, library!.typeSystem,
-          context.declaredVariables, [this], analysisOptions.experimentStatus);
+          context.declaredVariables, [this], library!.featureSet);
     }
     return evaluationResult?.value;
   }
@@ -1982,10 +1981,9 @@ class ElementAnnotationImpl implements ElementAnnotation {
   @override
   DartObject? computeConstantValue() {
     if (evaluationResult == null) {
-      var analysisOptions = context.analysisOptions as AnalysisOptionsImpl;
       var library = compilationUnit.library;
       computeConstants(library.typeProvider, library.typeSystem,
-          context.declaredVariables, [this], analysisOptions.experimentStatus);
+          context.declaredVariables, [this], library.featureSet);
     }
     return evaluationResult?.value;
   }
@@ -2086,8 +2084,7 @@ abstract class ElementImpl implements Element {
 
   /// Initialize a newly created element to have the given [name] at the given
   /// [_nameOffset].
-  ElementImpl(String? name, this._nameOffset, {this.reference}) {
-    _name = name != null ? StringUtilities.intern(name) : null;
+  ElementImpl(this._name, this._nameOffset, {this.reference}) {
     reference?.element = this;
   }
 
@@ -2554,7 +2551,9 @@ abstract class ElementImpl implements Element {
   }
 
   @override
-  E thisOrAncestorMatching<E extends Element>(Predicate<Element> predicate) {
+  E thisOrAncestorMatching<E extends Element>(
+    bool Function(Element) predicate,
+  ) {
     Element? element = this;
     while (element != null && !predicate(element)) {
       element = element.enclosingElement;
@@ -2791,10 +2790,7 @@ class EnumElementImpl extends AbstractClassElementImpl {
   bool get hasStaticMember => true;
 
   @override
-  List<InterfaceType> get interfaces {
-    var enumType = library.typeProvider.enumType;
-    return enumType != null ? <InterfaceType>[enumType] : const [];
-  }
+  List<InterfaceType> get interfaces => const [];
 
   @override
   bool get isAbstract => false;
@@ -2835,7 +2831,10 @@ class EnumElementImpl extends AbstractClassElementImpl {
   }
 
   @override
-  InterfaceType get supertype => library.typeProvider.objectType;
+  InterfaceType get supertype {
+    var enumType = library.typeProvider.enumType;
+    return enumType ?? library.typeProvider.objectType;
+  }
 
   @override
   List<TypeParameterElement> get typeParameters =>
@@ -3288,10 +3287,7 @@ class FieldElementImpl extends PropertyInducingElementImpl
   }
 
   @override
-  bool get isEnumConstant =>
-      enclosingElement is ClassElement &&
-      (enclosingElement as ClassElement).isEnum &&
-      !isSynthetic;
+  bool get isEnumConstant => false;
 
   @override
   bool get isExternal {
@@ -4621,8 +4617,11 @@ class MultiplyDefinedElementImpl implements MultiplyDefinedElement {
   }
 
   @override
-  E? thisOrAncestorMatching<E extends Element>(Predicate<Element> predicate) =>
-      null;
+  E? thisOrAncestorMatching<E extends Element>(
+    bool Function(Element) predicate,
+  ) {
+    return null;
+  }
 
   @override
   E? thisOrAncestorOfType<E extends Element>() => null;
@@ -4727,8 +4726,8 @@ class ParameterElementImpl extends VariableElementImpl
   @override
   final ParameterKind parameterKind;
 
-  /// The Dart code of the default value.
-  String? _defaultValueCode;
+  @override
+  String? defaultValueCode;
 
   /// True if this parameter inherits from a covariant parameter. This happens
   /// when it overrides a method in a supertype that has a corresponding
@@ -4758,18 +4757,6 @@ class ParameterElementImpl extends VariableElementImpl
 
   @override
   ParameterElement get declaration => this;
-
-  @override
-  String? get defaultValueCode {
-    return _defaultValueCode;
-  }
-
-  /// Set Dart code of the default value.
-  set defaultValueCode(String? defaultValueCode) {
-    _defaultValueCode = defaultValueCode != null
-        ? StringUtilities.intern(defaultValueCode)
-        : null;
-  }
 
   @override
   bool get hasDefaultValue {

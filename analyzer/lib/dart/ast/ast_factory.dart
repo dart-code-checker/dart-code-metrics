@@ -301,6 +301,7 @@ abstract class AstFactory {
   /// [comment] and [metadata] can be `null` if the declaration does not have
   /// the corresponding attribute. The list of [constants] must contain at least
   /// one value.
+  @Deprecated('Use enumDeclaration2() instead')
   EnumDeclaration enumDeclaration(
       Comment? comment,
       List<Annotation>? metadata,
@@ -309,6 +310,24 @@ abstract class AstFactory {
       Token leftBracket,
       List<EnumConstantDeclaration> constants,
       Token rightBracket);
+
+  /// Returns a newly created enumeration declaration. Either or both of the
+  /// [comment] and [metadata] can be `null` if the declaration does not have
+  /// the corresponding attribute. The list of [constants] must contain at least
+  /// one value.
+  EnumDeclaration enumDeclaration2({
+    required Comment? comment,
+    required List<Annotation>? metadata,
+    required Token enumKeyword,
+    required SimpleIdentifier name,
+    required TypeParameterList? typeParameters,
+    required WithClause? withClause,
+    required ImplementsClause? implementsClause,
+    required Token leftBracket,
+    required List<EnumConstantDeclaration> constants,
+    required List<ClassMember> members,
+    required Token rightBracket,
+  });
 
   /// Returns a newly created export directive. Either or both of the
   /// [comment] and [metadata] can be `null` if the directive does not have the
@@ -948,13 +967,6 @@ abstract class AstFactory {
 
   /// Returns a newly created type literal.
   TypeLiteral typeLiteral({required NamedType typeName});
-
-  /// Returns a newly created type name. The [typeArguments] can be `null` if
-  /// there are no type arguments. The [question] can be `null` if there is no
-  /// question mark.
-  @Deprecated('Use namedType() instead')
-  TypeName typeName(Identifier name, TypeArgumentList? typeArguments,
-      {Token? question});
 
   /// Returns a newly created type parameter. Either or both of the [comment]
   /// and [metadata] can be `null` if the parameter does not have the

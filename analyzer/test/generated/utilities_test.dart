@@ -9,7 +9,6 @@ import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/src/dart/analysis/experiments.dart';
 import 'package:analyzer/src/dart/ast/ast_factory.dart';
 import 'package:analyzer/src/dart/ast/utilities.dart';
-import 'package:analyzer/src/generated/java_engine.dart';
 import 'package:analyzer/src/generated/source.dart';
 import 'package:analyzer/src/generated/testing/ast_test_factory.dart';
 import 'package:analyzer/src/generated/utilities_collection.dart';
@@ -23,7 +22,6 @@ main() {
     defineReflectiveTests(LineInfoTest);
     defineReflectiveTests(NodeReplacerTest);
     defineReflectiveTests(SourceRangeTest);
-    defineReflectiveTests(StringUtilitiesTest);
   });
 }
 
@@ -1045,6 +1043,21 @@ class LineInfoTest {
     }, throwsArgumentError);
   }
 
+  void test_fromContent_n() {
+    var lineInfo = LineInfo.fromContent('a\nbb\nccc');
+    expect(lineInfo.lineStarts, <int>[0, 2, 5]);
+  }
+
+  void test_fromContent_r() {
+    var lineInfo = LineInfo.fromContent('a\rbb\rccc');
+    expect(lineInfo.lineStarts, <int>[0, 2, 5]);
+  }
+
+  void test_fromContent_rn() {
+    var lineInfo = LineInfo.fromContent('a\r\nbb\r\nccc');
+    expect(lineInfo.lineStarts, <int>[0, 3, 7]);
+  }
+
   void test_getLocation_firstLine() {
     LineInfo info = LineInfo(<int>[0, 12, 34]);
     var location = info.getLocation(4);
@@ -1649,12 +1662,44 @@ void f() {
   }
 
   void test_enumDeclaration() {
-    var node = AstTestFactory.enumDeclaration2("E", ["ONE", "TWO"]);
-    node.documentationComment = astFactory.endOfLineComment(EMPTY_TOKEN_LIST);
-    node.metadata
-        .add(AstTestFactory.annotation(AstTestFactory.identifier3("a")));
-    _assertReplace(node, Getter_NodeReplacerTest_test_enumDeclaration());
-    _testAnnotatedNode(node);
+    var findNode = _parseStringToFindNode(r'''
+enum E1<T> with M1 implements I1 {one, two}
+enum E2<U> with M2 implements I2 {one, two}
+''');
+    _assertReplace2<EnumDeclaration>(
+      destination: findNode.enumDeclaration('enum E1'),
+      source: findNode.enumDeclaration('enum E2'),
+      getters: [
+        (node) => node.name,
+        (node) => node.typeParameters!,
+        (node) => node.withClause!,
+        (node) => node.implementsClause!,
+      ],
+    );
+  }
+
+  void test_enumDeclaration_constants() {
+    var findNode = _parseStringToFindNode(r'''
+enum E1 {one}
+enum E2 {two}
+''');
+    _assertReplaceInList(
+      destination: findNode.enumDeclaration('enum E1'),
+      child: findNode.enumConstantDeclaration('one'),
+      replacement: findNode.enumConstantDeclaration('two'),
+    );
+  }
+
+  void test_enumDeclaration_members() {
+    var findNode = _parseStringToFindNode(r'''
+enum E1 {one; void foo() {}}
+enum E2 {two; void bar() {}}
+''');
+    _assertReplaceInList(
+      destination: findNode.enumDeclaration('enum E1'),
+      child: findNode.methodDeclaration('foo'),
+      replacement: findNode.methodDeclaration('bar'),
+    );
   }
 
   void test_exportDirective() {
@@ -2304,12 +2349,24 @@ class B extends A {
     }
   }
 
+  void _assertReplaceInList({
+    required AstNode destination,
+    required AstNode child,
+    required AstNode replacement,
+  }) {
+    expect(child.parent, destination);
+
+    NodeReplacer.replace(child, replacement);
+    expect(replacement.parent, destination);
+  }
+
   FindNode _parseStringToFindNode(String content) {
     var parseResult = parseString(
       content: content,
       featureSet: FeatureSet.fromEnableFlags2(
         sdkLanguageVersion: ExperimentStatus.currentVersion,
         flags: [
+          Feature.enhanced_enums.enableString,
           Feature.super_parameters.enableString,
         ],
       ),
@@ -2514,256 +2571,5 @@ class SourceRangeTest {
   void test_toString() {
     SourceRange r = SourceRange(10, 1);
     expect(r.toString(), "[offset=10, length=1]");
-  }
-}
-
-@reflectiveTest
-class StringUtilitiesTest {
-  void test_computeLineStarts_n() {
-    List<int> starts = StringUtilities.computeLineStarts('a\nbb\nccc');
-    expect(starts, <int>[0, 2, 5]);
-  }
-
-  void test_computeLineStarts_r() {
-    List<int> starts = StringUtilities.computeLineStarts('a\rbb\rccc');
-    expect(starts, <int>[0, 2, 5]);
-  }
-
-  void test_computeLineStarts_rn() {
-    List<int> starts = StringUtilities.computeLineStarts('a\r\nbb\r\nccc');
-    expect(starts, <int>[0, 3, 7]);
-  }
-
-  void test_EMPTY() {
-    expect(StringUtilities.EMPTY, "");
-    expect(StringUtilities.EMPTY.isEmpty, isTrue);
-  }
-
-  void test_EMPTY_ARRAY() {
-    expect(StringUtilities.EMPTY_ARRAY.length, 0);
-  }
-
-  void test_endsWith3() {
-    expect(StringUtilities.endsWith3("abc", 0x61, 0x62, 0x63), isTrue);
-    expect(StringUtilities.endsWith3("abcdefghi", 0x67, 0x68, 0x69), isTrue);
-    expect(StringUtilities.endsWith3("abcdefghi", 0x64, 0x65, 0x61), isFalse);
-    // missing
-  }
-
-  void test_endsWithChar() {
-    expect(StringUtilities.endsWithChar("a", 0x61), isTrue);
-    expect(StringUtilities.endsWithChar("b", 0x61), isFalse);
-    expect(StringUtilities.endsWithChar("", 0x61), isFalse);
-  }
-
-  void test_indexOf1() {
-    expect(StringUtilities.indexOf1("a", 0, 0x61), 0);
-    expect(StringUtilities.indexOf1("abcdef", 0, 0x61), 0);
-    expect(StringUtilities.indexOf1("abcdef", 0, 0x63), 2);
-    expect(StringUtilities.indexOf1("abcdef", 0, 0x66), 5);
-    expect(StringUtilities.indexOf1("abcdef", 0, 0x7A), -1);
-    expect(StringUtilities.indexOf1("abcdef", 1, 0x61), -1);
-    // before start
-  }
-
-  void test_indexOf2() {
-    expect(StringUtilities.indexOf2("ab", 0, 0x61, 0x62), 0);
-    expect(StringUtilities.indexOf2("abcdef", 0, 0x61, 0x62), 0);
-    expect(StringUtilities.indexOf2("abcdef", 0, 0x63, 0x64), 2);
-    expect(StringUtilities.indexOf2("abcdef", 0, 0x65, 0x66), 4);
-    expect(StringUtilities.indexOf2("abcdef", 0, 0x64, 0x61), -1);
-    expect(StringUtilities.indexOf2("abcdef", 1, 0x61, 0x62), -1);
-    // before start
-  }
-
-  void test_indexOf4() {
-    expect(StringUtilities.indexOf4("abcd", 0, 0x61, 0x62, 0x63, 0x64), 0);
-    expect(StringUtilities.indexOf4("abcdefghi", 0, 0x61, 0x62, 0x63, 0x64), 0);
-    expect(StringUtilities.indexOf4("abcdefghi", 0, 0x63, 0x64, 0x65, 0x66), 2);
-    expect(StringUtilities.indexOf4("abcdefghi", 0, 0x66, 0x67, 0x68, 0x69), 5);
-    expect(
-        StringUtilities.indexOf4("abcdefghi", 0, 0x64, 0x65, 0x61, 0x64), -1);
-    expect(
-        StringUtilities.indexOf4("abcdefghi", 1, 0x61, 0x62, 0x63, 0x64), -1);
-    // before start
-  }
-
-  void test_indexOf5() {
-    expect(
-        StringUtilities.indexOf5("abcde", 0, 0x61, 0x62, 0x63, 0x64, 0x65), 0);
-    expect(
-        StringUtilities.indexOf5("abcdefghi", 0, 0x61, 0x62, 0x63, 0x64, 0x65),
-        0);
-    expect(
-        StringUtilities.indexOf5("abcdefghi", 0, 0x63, 0x64, 0x65, 0x66, 0x67),
-        2);
-    expect(
-        StringUtilities.indexOf5("abcdefghi", 0, 0x65, 0x66, 0x67, 0x68, 0x69),
-        4);
-    expect(
-        StringUtilities.indexOf5("abcdefghi", 0, 0x64, 0x65, 0x66, 0x69, 0x6E),
-        -1);
-    expect(
-        StringUtilities.indexOf5("abcdefghi", 1, 0x61, 0x62, 0x63, 0x64, 0x65),
-        -1);
-    // before start
-  }
-
-  void test_isEmpty() {
-    expect(StringUtilities.isEmpty(""), isTrue);
-    expect(StringUtilities.isEmpty(" "), isFalse);
-    expect(StringUtilities.isEmpty("a"), isFalse);
-    expect(StringUtilities.isEmpty(StringUtilities.EMPTY), isTrue);
-  }
-
-  void test_isTagName() {
-    expect(StringUtilities.isTagName(null), isFalse);
-    expect(StringUtilities.isTagName(""), isFalse);
-    expect(StringUtilities.isTagName("-"), isFalse);
-    expect(StringUtilities.isTagName("0"), isFalse);
-    expect(StringUtilities.isTagName("0a"), isFalse);
-    expect(StringUtilities.isTagName("a b"), isFalse);
-    expect(StringUtilities.isTagName("a0"), isTrue);
-    expect(StringUtilities.isTagName("a"), isTrue);
-    expect(StringUtilities.isTagName("ab"), isTrue);
-    expect(StringUtilities.isTagName("a-b"), isTrue);
-  }
-
-  void test_printListOfQuotedNames_empty() {
-    expect(() {
-      StringUtilities.printListOfQuotedNames([]);
-    }, throwsArgumentError);
-  }
-
-  void test_printListOfQuotedNames_five() {
-    expect(
-        StringUtilities.printListOfQuotedNames(
-            <String>["a", "b", "c", "d", "e"]),
-        "'a', 'b', 'c', 'd' and 'e'");
-  }
-
-  void test_printListOfQuotedNames_null() {
-    expect(() {
-      StringUtilities.printListOfQuotedNames(null);
-    }, throwsArgumentError);
-  }
-
-  void test_printListOfQuotedNames_one() {
-    expect(() {
-      StringUtilities.printListOfQuotedNames(<String>["a"]);
-    }, throwsArgumentError);
-  }
-
-  void test_printListOfQuotedNames_three() {
-    expect(StringUtilities.printListOfQuotedNames(<String>["a", "b", "c"]),
-        "'a', 'b' and 'c'");
-  }
-
-  void test_printListOfQuotedNames_two() {
-    expect(StringUtilities.printListOfQuotedNames(<String>["a", "b"]),
-        "'a' and 'b'");
-  }
-
-  void test_startsWith2() {
-    expect(StringUtilities.startsWith2("ab", 0, 0x61, 0x62), isTrue);
-    expect(StringUtilities.startsWith2("abcdefghi", 0, 0x61, 0x62), isTrue);
-    expect(StringUtilities.startsWith2("abcdefghi", 2, 0x63, 0x64), isTrue);
-    expect(StringUtilities.startsWith2("abcdefghi", 5, 0x66, 0x67), isTrue);
-    expect(StringUtilities.startsWith2("abcdefghi", 0, 0x64, 0x64), isFalse);
-    // missing
-  }
-
-  void test_startsWith3() {
-    expect(StringUtilities.startsWith3("abc", 0, 0x61, 0x62, 0x63), isTrue);
-    expect(
-        StringUtilities.startsWith3("abcdefghi", 0, 0x61, 0x62, 0x63), isTrue);
-    expect(
-        StringUtilities.startsWith3("abcdefghi", 2, 0x63, 0x64, 0x65), isTrue);
-    expect(
-        StringUtilities.startsWith3("abcdefghi", 6, 0x67, 0x68, 0x69), isTrue);
-    expect(
-        StringUtilities.startsWith3("abcdefghi", 0, 0x64, 0x65, 0x61), isFalse);
-    // missing
-  }
-
-  void test_startsWith4() {
-    expect(
-        StringUtilities.startsWith4("abcd", 0, 0x61, 0x62, 0x63, 0x64), isTrue);
-    expect(StringUtilities.startsWith4("abcdefghi", 0, 0x61, 0x62, 0x63, 0x64),
-        isTrue);
-    expect(StringUtilities.startsWith4("abcdefghi", 2, 0x63, 0x64, 0x65, 0x66),
-        isTrue);
-    expect(StringUtilities.startsWith4("abcdefghi", 5, 0x66, 0x67, 0x68, 0x69),
-        isTrue);
-    expect(StringUtilities.startsWith4("abcdefghi", 0, 0x64, 0x65, 0x61, 0x64),
-        isFalse);
-    // missing
-  }
-
-  void test_startsWith5() {
-    expect(
-        StringUtilities.startsWith5("abcde", 0, 0x61, 0x62, 0x63, 0x64, 0x65),
-        isTrue);
-    expect(
-        StringUtilities.startsWith5(
-            "abcdefghi", 0, 0x61, 0x62, 0x63, 0x64, 0x65),
-        isTrue);
-    expect(
-        StringUtilities.startsWith5(
-            "abcdefghi", 2, 0x63, 0x64, 0x65, 0x66, 0x67),
-        isTrue);
-    expect(
-        StringUtilities.startsWith5(
-            "abcdefghi", 4, 0x65, 0x66, 0x67, 0x68, 0x69),
-        isTrue);
-    expect(
-        StringUtilities.startsWith5(
-            "abcdefghi", 0, 0x61, 0x62, 0x63, 0x62, 0x61),
-        isFalse);
-    // missing
-  }
-
-  void test_startsWith6() {
-    expect(
-        StringUtilities.startsWith6(
-            "abcdef", 0, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66),
-        isTrue);
-    expect(
-        StringUtilities.startsWith6(
-            "abcdefghi", 0, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66),
-        isTrue);
-    expect(
-        StringUtilities.startsWith6(
-            "abcdefghi", 2, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68),
-        isTrue);
-    expect(
-        StringUtilities.startsWith6(
-            "abcdefghi", 3, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69),
-        isTrue);
-    expect(
-        StringUtilities.startsWith6(
-            "abcdefghi", 0, 0x61, 0x62, 0x63, 0x64, 0x65, 0x67),
-        isFalse);
-    // missing
-  }
-
-  void test_substringBefore() {
-    expect(StringUtilities.substringBefore(null, ""), null);
-    expect(StringUtilities.substringBefore(null, "a"), null);
-    expect(StringUtilities.substringBefore("", "a"), "");
-    expect(StringUtilities.substringBefore("abc", "a"), "");
-    expect(StringUtilities.substringBefore("abcba", "b"), "a");
-    expect(StringUtilities.substringBefore("abc", "c"), "ab");
-    expect(StringUtilities.substringBefore("abc", "d"), "abc");
-    expect(StringUtilities.substringBefore("abc", ""), "");
-    expect(StringUtilities.substringBefore("abc", null), "abc");
-  }
-
-  void test_substringBeforeChar() {
-    expect(StringUtilities.substringBeforeChar("", 0x61), "");
-    expect(StringUtilities.substringBeforeChar("abc", 0x61), "");
-    expect(StringUtilities.substringBeforeChar("abcba", 0x62), "a");
-    expect(StringUtilities.substringBeforeChar("abc", 0x63), "ab");
-    expect(StringUtilities.substringBeforeChar("abc", 0x64), "abc");
   }
 }

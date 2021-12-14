@@ -383,6 +383,7 @@ class AstFactoryImpl extends AstFactory {
       EnumConstantDeclarationImpl(
           comment as CommentImpl?, metadata, name as SimpleIdentifierImpl);
 
+  @Deprecated('Use enumDeclaration2() instead')
   @override
   EnumDeclarationImpl enumDeclaration(
           Comment? comment,
@@ -392,8 +393,47 @@ class AstFactoryImpl extends AstFactory {
           Token leftBracket,
           List<EnumConstantDeclaration> constants,
           Token rightBracket) =>
-      EnumDeclarationImpl(comment as CommentImpl?, metadata, enumKeyword,
-          name as SimpleIdentifierImpl, leftBracket, constants, rightBracket);
+      enumDeclaration2(
+          comment: comment,
+          metadata: metadata,
+          enumKeyword: enumKeyword,
+          name: name,
+          typeParameters: null,
+          withClause: null,
+          implementsClause: null,
+          leftBracket: leftBracket,
+          constants: constants,
+          members: [],
+          rightBracket: rightBracket);
+
+  @override
+  EnumDeclarationImpl enumDeclaration2({
+    required Comment? comment,
+    required List<Annotation>? metadata,
+    required Token enumKeyword,
+    required SimpleIdentifier name,
+    required TypeParameterList? typeParameters,
+    required WithClause? withClause,
+    required ImplementsClause? implementsClause,
+    required Token leftBracket,
+    required List<EnumConstantDeclaration> constants,
+    required List<ClassMember> members,
+    required Token rightBracket,
+  }) {
+    return EnumDeclarationImpl(
+      comment as CommentImpl?,
+      metadata,
+      enumKeyword,
+      name as SimpleIdentifierImpl,
+      typeParameters as TypeParameterListImpl?,
+      withClause as WithClauseImpl?,
+      implementsClause as ImplementsClauseImpl?,
+      leftBracket,
+      constants,
+      members,
+      rightBracket,
+    );
+  }
 
   @override
   ExportDirectiveImpl exportDirective(
@@ -1286,14 +1326,6 @@ class AstFactoryImpl extends AstFactory {
   @override
   TypeLiteralImpl typeLiteral({required NamedType typeName}) =>
       TypeLiteralImpl(typeName as NamedTypeImpl);
-
-  @Deprecated('Use namedType() instead')
-  @override
-  NamedTypeImpl typeName(Identifier name, TypeArgumentList? typeArguments,
-          {Token? question}) =>
-      NamedTypeImpl(
-          name as IdentifierImpl, typeArguments as TypeArgumentListImpl?,
-          question: question);
 
   @override
   TypeParameterImpl typeParameter(

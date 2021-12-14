@@ -9,7 +9,6 @@ import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/exception/exception.dart';
 import 'package:analyzer/src/dart/ast/ast.dart';
-import 'package:analyzer/src/dart/ast/to_source_visitor.dart';
 import 'package:analyzer/src/dart/element/element.dart';
 import 'package:analyzer/src/generated/engine.dart' show AnalysisEngine;
 
@@ -1201,12 +1200,6 @@ class AstComparator implements AstVisitor<bool> {
     return isEqualNodes(node.type, other.type);
   }
 
-  @Deprecated('Override visitNamedType instead')
-  @override
-  bool visitTypeName(TypeName node) {
-    throw StateError('Should not be invoked');
-  }
-
   @override
   bool visitTypeParameter(TypeParameter node) {
     TypeParameter other = _other as TypeParameter;
@@ -2002,7 +1995,18 @@ class NodeReplacer implements AstVisitor<bool> {
     if (identical(node.name, _oldNode)) {
       node.name = _newNode as SimpleIdentifier;
       return true;
+    } else if (identical(node.typeParameters, _oldNode)) {
+      node.typeParameters = _newNode as TypeParameterList;
+      return true;
+    } else if (identical(node.withClause, _oldNode)) {
+      node.withClause = _newNode as WithClause;
+      return true;
+    } else if (identical(node.implementsClause, _oldNode)) {
+      node.implementsClause = _newNode as ImplementsClause;
+      return true;
     } else if (_replaceInList(node.constants)) {
+      return true;
+    } else if (_replaceInList(node.members)) {
       return true;
     }
     return visitAnnotatedNode(node);
@@ -2921,11 +2925,6 @@ class NodeReplacer implements AstVisitor<bool> {
   }
 
   @override
-  bool visitTypeName(covariant NamedTypeImpl node) {
-    throw StateError('Should not be invoked');
-  }
-
-  @override
   bool visitTypeParameter(covariant TypeParameterImpl node) {
     if (identical(node.name, _oldNode)) {
       node.name = _newNode as SimpleIdentifier;
@@ -3216,11 +3215,4 @@ class ScopedNameFinder extends GeneralizingAstVisitor<void> {
     }
     return node.end < _position;
   }
-}
-
-/// A visitor used to write a source representation of a visited AST node (and
-/// all of it's children) to a sink.
-@Deprecated('Use ToSourceVisitor')
-class ToSourceVisitor2 extends ToSourceVisitor {
-  ToSourceVisitor2(StringSink sink) : super(sink);
 }

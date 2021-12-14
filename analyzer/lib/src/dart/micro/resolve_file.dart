@@ -310,9 +310,7 @@ class FileResolver {
   }
 
   /// Return files that have a top-level declaration with the [name].
-  List<FileWithTopLevelDeclaration> getFilesWithTopLevelDeclarations(
-    String name,
-  ) {
+  List<FileState> getFilesWithTopLevelDeclarations(String name) {
     final fsState = this.fsState;
     if (fsState == null) {
       return const [];
@@ -569,7 +567,7 @@ class FileResolver {
 
       var libraryUnit = resolvedUnits.first;
       var result = ResolvedLibraryResultImpl(contextObjects!.analysisSession,
-          path, libraryUnit.uri, libraryUnit.libraryElement, resolvedUnits);
+          libraryUnit.libraryElement, resolvedUnits);
 
       if (completionPath == null) {
         cachedResults[path] = result;
@@ -653,6 +651,7 @@ class FileResolver {
         return file;
       }
     }
+    return null;
   }
 
   /// Return the analysis options.
