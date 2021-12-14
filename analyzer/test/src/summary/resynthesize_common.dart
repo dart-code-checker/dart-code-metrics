@@ -72,8 +72,7 @@ abstract class AbstractResynthesizeTest with ResourceProviderMixin {
 
   Source addSource(String path, String contents) {
     var file = newFile(path, content: contents);
-    var fileSource = file.createSource();
-    var uri = sourceFactory.restoreUri(fileSource)!;
+    var uri = sourceFactory.pathToUri(file.path)!;
     return sourceFactory.forUri2(uri)!;
   }
 
@@ -6187,7 +6186,7 @@ library
               staticType: num
               token: a @27
             staticType: int
-            type: TypeName
+            type: NamedType
               name: SimpleIdentifier
                 staticElement: dart:core::@class::int
                 staticType: null
@@ -6399,7 +6398,7 @@ library
               staticElement: ConstructorMember
                 base: self::@class::C::@constructor::•
                 substitution: {T: int}
-              type: TypeName
+              type: NamedType
                 name: SimpleIdentifier
                   staticElement: self::@class::C
                   staticType: null
@@ -6429,7 +6428,7 @@ library
               staticElement: ConstructorMember
                 base: self::@class::C::@constructor::named
                 substitution: {T: int}
-              type: TypeName
+              type: NamedType
                 name: SimpleIdentifier
                   staticElement: self::@class::C
                   staticType: null
@@ -6486,7 +6485,7 @@ library
                 token: named @37
               period: . @36
               staticElement: self::@class::A::@constructor::named
-              type: TypeName
+              type: NamedType
                 name: SimpleIdentifier
                   staticElement: self::@class::A
                   staticType: null
@@ -6526,6 +6525,41 @@ library
 ''');
   }
 
+  test_const_functionExpression_typeArgumentTypes() async {
+    var library = await checkLibrary('''
+void f<T>(T a) {}
+
+const void Function(int) v = f;
+''');
+    checkElementText(library, '''
+library
+  definingUnit
+    topLevelVariables
+      static const v @44
+        type: void Function(int)
+        constantInitializer
+          FunctionReference
+            function: SimpleIdentifier
+              staticElement: self::@function::f
+              staticType: void Function<T>(T)
+              token: f @48
+            staticType: void Function(int)
+            typeArgumentTypes
+              int
+    accessors
+      synthetic static get v @-1
+        returnType: void Function(int)
+    functions
+      f @5
+        typeParameters
+          covariant T @7
+        parameters
+          requiredPositional a @12
+            type: T
+        returnType: void
+''');
+  }
+
   test_const_functionReference() async {
     var library = await checkLibrary(r'''
 void f<T>(T a) {}
@@ -6548,7 +6582,7 @@ library
               int
             typeArguments: TypeArgumentList
               arguments
-                TypeName
+                NamedType
                   name: SimpleIdentifier
                     staticElement: dart:core::@class::int
                     staticType: null
@@ -6682,7 +6716,7 @@ library
                   staticElement: ConstructorMember
                     base: self::@class::P1::@constructor::•
                     substitution: {T: dynamic}
-                  type: TypeName
+                  type: NamedType
                     name: SimpleIdentifier
                       staticElement: self::@class::P1
                       staticType: null
@@ -6697,7 +6731,7 @@ library
                   staticElement: ConstructorMember
                     base: self::@class::P2::@constructor::•
                     substitution: {T: int}
-                  type: TypeName
+                  type: NamedType
                     name: SimpleIdentifier
                       staticElement: self::@class::P2
                       staticType: null
@@ -6705,7 +6739,7 @@ library
                     type: P2<int>
                     typeArguments: TypeArgumentList
                       arguments
-                        TypeName
+                        NamedType
                           name: SimpleIdentifier
                             staticElement: dart:core::@class::int
                             staticType: null
@@ -6994,7 +7028,7 @@ library
               staticElement: ConstructorMember
                 base: self::@class::C::@constructor::named
                 substitution: {K: int, V: String}
-              type: TypeName
+              type: NamedType
                 name: SimpleIdentifier
                   staticElement: self::@class::C
                   staticType: null
@@ -7002,13 +7036,13 @@ library
                 type: C<int, String>
                 typeArguments: TypeArgumentList
                   arguments
-                    TypeName
+                    NamedType
                       name: SimpleIdentifier
                         staticElement: dart:core::@class::int
                         staticType: null
                         token: int @63
                       type: int
-                    TypeName
+                    NamedType
                       name: SimpleIdentifier
                         staticElement: dart:core::@class::String
                         staticType: null
@@ -7064,7 +7098,7 @@ library
               staticElement: ConstructorMember
                 base: a.dart::@class::C::@constructor::named
                 substitution: {K: int, V: String}
-              type: TypeName
+              type: NamedType
                 name: SimpleIdentifier
                   staticElement: a.dart::@class::C
                   staticType: null
@@ -7072,13 +7106,13 @@ library
                 type: C<int, String>
                 typeArguments: TypeArgumentList
                   arguments
-                    TypeName
+                    NamedType
                       name: SimpleIdentifier
                         staticElement: dart:core::@class::int
                         staticType: null
                         token: int @35
                       type: int
-                    TypeName
+                    NamedType
                       name: SimpleIdentifier
                         staticElement: dart:core::@class::String
                         staticType: null
@@ -7134,7 +7168,7 @@ library
               staticElement: ConstructorMember
                 base: a.dart::@class::C::@constructor::named
                 substitution: {K: int, V: String}
-              type: TypeName
+              type: NamedType
                 name: PrefixedIdentifier
                   identifier: SimpleIdentifier
                     staticElement: a.dart::@class::C
@@ -7150,13 +7184,13 @@ library
                 type: C<int, String>
                 typeArguments: TypeArgumentList
                   arguments
-                    TypeName
+                    NamedType
                       name: SimpleIdentifier
                         staticElement: dart:core::@class::int
                         staticType: null
                         token: int @42
                       type: int
-                    TypeName
+                    NamedType
                       name: SimpleIdentifier
                         staticElement: dart:core::@class::String
                         staticType: null
@@ -7203,7 +7237,7 @@ library
               staticElement: ConstructorMember
                 base: self::@class::C::@constructor::•
                 substitution: {K: dynamic, V: dynamic}
-              type: TypeName
+              type: NamedType
                 name: SimpleIdentifier
                   staticElement: self::@class::C
                   staticType: null
@@ -7248,7 +7282,7 @@ library
               staticElement: ConstructorMember
                 base: self::@class::C::@constructor::•
                 substitution: {K: int, V: String}
-              type: TypeName
+              type: NamedType
                 name: SimpleIdentifier
                   staticElement: self::@class::C
                   staticType: null
@@ -7256,13 +7290,13 @@ library
                 type: C<int, String>
                 typeArguments: TypeArgumentList
                   arguments
-                    TypeName
+                    NamedType
                       name: SimpleIdentifier
                         staticElement: dart:core::@class::int
                         staticType: null
                         token: int @49
                       type: int
-                    TypeName
+                    NamedType
                       name: SimpleIdentifier
                         staticElement: dart:core::@class::String
                         staticType: null
@@ -7305,7 +7339,7 @@ library
               staticElement: ConstructorMember
                 base: a.dart::@class::C::@constructor::•
                 substitution: {K: int, V: String}
-              type: TypeName
+              type: NamedType
                 name: SimpleIdentifier
                   staticElement: a.dart::@class::C
                   staticType: null
@@ -7313,13 +7347,13 @@ library
                 type: C<int, String>
                 typeArguments: TypeArgumentList
                   arguments
-                    TypeName
+                    NamedType
                       name: SimpleIdentifier
                         staticElement: dart:core::@class::int
                         staticType: null
                         token: int @35
                       type: int
-                    TypeName
+                    NamedType
                       name: SimpleIdentifier
                         staticElement: dart:core::@class::String
                         staticType: null
@@ -7362,7 +7396,7 @@ library
               staticElement: ConstructorMember
                 base: a.dart::@class::C::@constructor::•
                 substitution: {K: int, V: String}
-              type: TypeName
+              type: NamedType
                 name: PrefixedIdentifier
                   identifier: SimpleIdentifier
                     staticElement: a.dart::@class::C
@@ -7378,13 +7412,13 @@ library
                 type: C<int, String>
                 typeArguments: TypeArgumentList
                   arguments
-                    TypeName
+                    NamedType
                       name: SimpleIdentifier
                         staticElement: dart:core::@class::int
                         staticType: null
                         token: int @42
                       type: int
-                    TypeName
+                    NamedType
                       name: SimpleIdentifier
                         staticElement: dart:core::@class::String
                         staticType: null
@@ -7469,7 +7503,7 @@ library
                 token: named @91
               period: . @90
               staticElement: self::@class::C::@constructor::named
-              type: TypeName
+              type: NamedType
                 name: SimpleIdentifier
                   staticElement: self::@class::C
                   staticType: null
@@ -7513,7 +7547,7 @@ library
                 token: named @35
               period: . @34
               staticElement: a.dart::@class::C::@constructor::named
-              type: TypeName
+              type: NamedType
                 name: SimpleIdentifier
                   staticElement: a.dart::@class::C
                   staticType: null
@@ -7557,7 +7591,7 @@ library
                 token: named @42
               period: . @41
               staticElement: a.dart::@class::C::@constructor::named
-              type: TypeName
+              type: NamedType
                 name: PrefixedIdentifier
                   identifier: SimpleIdentifier
                     staticElement: a.dart::@class::C
@@ -7606,7 +7640,7 @@ library
                 token: named @29
               period: . @28
               staticElement: <null>
-              type: TypeName
+              type: NamedType
                 name: SimpleIdentifier
                   staticElement: self::@class::C
                   staticType: null
@@ -7637,7 +7671,7 @@ library
               rightParenthesis: ) @24
             constructorName: ConstructorName
               staticElement: <null>
-              type: TypeName
+              type: NamedType
                 name: PrefixedIdentifier
                   identifier: SimpleIdentifier
                     staticElement: <null>
@@ -7688,7 +7722,7 @@ library
                 token: named @42
               period: . @41
               staticElement: <null>
-              type: TypeName
+              type: NamedType
                 name: PrefixedIdentifier
                   identifier: SimpleIdentifier
                     staticElement: a.dart::@class::C
@@ -7736,7 +7770,7 @@ library
                 token: named @42
               period: . @41
               staticElement: <null>
-              type: TypeName
+              type: NamedType
                 name: PrefixedIdentifier
                   identifier: SimpleIdentifier
                     staticElement: <null>
@@ -7780,7 +7814,7 @@ library
                 token: named @20
               period: . @19
               staticElement: <null>
-              type: TypeName
+              type: NamedType
                 name: PrefixedIdentifier
                   identifier: SimpleIdentifier
                     staticElement: <null>
@@ -7832,7 +7866,7 @@ library
                 token: named @32
               period: . @31
               staticElement: <null>
-              type: TypeName
+              type: NamedType
                 name: SimpleIdentifier
                   staticElement: self::@class::C
                   staticType: null
@@ -7870,7 +7904,7 @@ library
               rightParenthesis: ) @43
             constructorName: ConstructorName
               staticElement: self::@class::C::@constructor::•
-              type: TypeName
+              type: NamedType
                 name: SimpleIdentifier
                   staticElement: self::@class::C
                   staticType: null
@@ -7909,7 +7943,7 @@ library
               rightParenthesis: ) @35
             constructorName: ConstructorName
               staticElement: a.dart::@class::C::@constructor::•
-              type: TypeName
+              type: NamedType
                 name: SimpleIdentifier
                   staticElement: a.dart::@class::C
                   staticType: null
@@ -7948,7 +7982,7 @@ library
               rightParenthesis: ) @42
             constructorName: ConstructorName
               staticElement: a.dart::@class::C::@constructor::•
-              type: TypeName
+              type: NamedType
                 name: PrefixedIdentifier
                   identifier: SimpleIdentifier
                     staticElement: a.dart::@class::C
@@ -7987,7 +8021,7 @@ library
               rightParenthesis: ) @18
             constructorName: ConstructorName
               staticElement: <null>
-              type: TypeName
+              type: NamedType
                 name: SimpleIdentifier
                   staticElement: <null>
                   staticType: null
@@ -8022,7 +8056,7 @@ library
               rightParenthesis: ) @42
             constructorName: ConstructorName
               staticElement: <null>
-              type: TypeName
+              type: NamedType
                 name: PrefixedIdentifier
                   identifier: SimpleIdentifier
                     staticElement: <null>
@@ -8061,7 +8095,7 @@ library
               rightParenthesis: ) @20
             constructorName: ConstructorName
               staticElement: <null>
-              type: TypeName
+              type: NamedType
                 name: PrefixedIdentifier
                   identifier: SimpleIdentifier
                     staticElement: <null>
@@ -8108,7 +8142,7 @@ library
               token: a @23
             isOperator: is @25
             staticType: bool
-            type: TypeName
+            type: NamedType
               name: SimpleIdentifier
                 staticElement: dart:core::@class::int
                 staticType: null
@@ -8474,7 +8508,7 @@ library
             staticType: List<int>
             typeArguments: TypeArgumentList
               arguments
-                TypeName
+                NamedType
                   name: SimpleIdentifier
                     staticElement: dart:core::@class::int
                     staticType: null
@@ -8517,7 +8551,7 @@ library
             staticType: List<int>
             typeArguments: TypeArgumentList
               arguments
-                TypeName
+                NamedType
                   name: SimpleIdentifier
                     staticElement: dart:core::@class::int
                     staticType: null
@@ -8585,7 +8619,7 @@ library
                   staticType: List<int>
                   typeArguments: TypeArgumentList
                     arguments
-                      TypeName
+                      NamedType
                         name: SimpleIdentifier
                           staticElement: dart:core::@class::int
                           staticType: null
@@ -8599,7 +8633,7 @@ library
             staticType: List<int>
             typeArguments: TypeArgumentList
               arguments
-                TypeName
+                NamedType
                   name: SimpleIdentifier
                     staticElement: dart:core::@class::int
                     staticType: null
@@ -8638,7 +8672,7 @@ library
                   staticType: List<int>
                   typeArguments: TypeArgumentList
                     arguments
-                      TypeName
+                      NamedType
                         name: SimpleIdentifier
                           staticElement: dart:core::@class::int
                           staticType: null
@@ -8652,7 +8686,7 @@ library
             staticType: List<int>
             typeArguments: TypeArgumentList
               arguments
-                TypeName
+                NamedType
                   name: SimpleIdentifier
                     staticElement: dart:core::@class::int
                     staticType: null
@@ -8697,13 +8731,13 @@ library
             staticType: Map<int, int>
             typeArguments: TypeArgumentList
               arguments
-                TypeName
+                NamedType
                   name: SimpleIdentifier
                     staticElement: dart:core::@class::int
                     staticType: null
                     token: int @24
                   type: int
-                TypeName
+                NamedType
                   name: SimpleIdentifier
                     staticElement: dart:core::@class::int
                     staticType: null
@@ -8793,13 +8827,13 @@ library
                   staticType: Map<int, int>
                   typeArguments: TypeArgumentList
                     arguments
-                      TypeName
+                      NamedType
                         name: SimpleIdentifier
                           staticElement: dart:core::@class::int
                           staticType: null
                           token: int @38
                         type: int
-                      TypeName
+                      NamedType
                         name: SimpleIdentifier
                           staticElement: dart:core::@class::int
                           staticType: null
@@ -8814,13 +8848,13 @@ library
             staticType: Map<int, int>
             typeArguments: TypeArgumentList
               arguments
-                TypeName
+                NamedType
                   name: SimpleIdentifier
                     staticElement: dart:core::@class::int
                     staticType: null
                     token: int @24
                   type: int
-                TypeName
+                NamedType
                   name: SimpleIdentifier
                     staticElement: dart:core::@class::int
                     staticType: null
@@ -8864,13 +8898,13 @@ library
                   staticType: Map<int, int>
                   typeArguments: TypeArgumentList
                     arguments
-                      TypeName
+                      NamedType
                         name: SimpleIdentifier
                           staticElement: dart:core::@class::int
                           staticType: null
                           token: int @39
                         type: int
-                      TypeName
+                      NamedType
                         name: SimpleIdentifier
                           staticElement: dart:core::@class::int
                           staticType: null
@@ -8885,13 +8919,13 @@ library
             staticType: Map<int, int>
             typeArguments: TypeArgumentList
               arguments
-                TypeName
+                NamedType
                   name: SimpleIdentifier
                     staticElement: dart:core::@class::int
                     staticType: null
                     token: int @24
                   type: int
-                TypeName
+                NamedType
                   name: SimpleIdentifier
                     staticElement: dart:core::@class::int
                     staticType: null
@@ -8935,7 +8969,7 @@ library
               int
             typeArguments: TypeArgumentList
               arguments
-                TypeName
+                NamedType
                   name: SimpleIdentifier
                     staticElement: dart:core::@class::int
                     staticType: null
@@ -10310,7 +10344,7 @@ library
             staticType: Set<int>
             typeArguments: TypeArgumentList
               arguments
-                TypeName
+                NamedType
                   name: SimpleIdentifier
                     staticElement: dart:core::@class::int
                     staticType: null
@@ -10391,7 +10425,7 @@ library
                   staticType: Set<int>
                   typeArguments: TypeArgumentList
                     arguments
-                      TypeName
+                      NamedType
                         name: SimpleIdentifier
                           staticElement: dart:core::@class::int
                           staticType: null
@@ -10406,7 +10440,7 @@ library
             staticType: Set<int>
             typeArguments: TypeArgumentList
               arguments
-                TypeName
+                NamedType
                   name: SimpleIdentifier
                     staticElement: dart:core::@class::int
                     staticType: null
@@ -10446,7 +10480,7 @@ library
                   staticType: Set<int>
                   typeArguments: TypeArgumentList
                     arguments
-                      TypeName
+                      NamedType
                         name: SimpleIdentifier
                           staticElement: dart:core::@class::int
                           staticType: null
@@ -10461,7 +10495,7 @@ library
             staticType: Set<int>
             typeArguments: TypeArgumentList
               arguments
-                TypeName
+                NamedType
                   name: SimpleIdentifier
                     staticElement: dart:core::@class::int
                     staticType: null
@@ -10472,39 +10506,6 @@ library
     accessors
       synthetic static get x @-1
         returnType: Object
-''');
-  }
-
-  test_const_simpleIdentifier_tearOffTypeArgumentTypes() async {
-    var library = await checkLibrary(r'''
-void f<T>(T a) {}
-
-const void Function(int) v = f;
-''');
-    checkElementText(library, r'''
-library
-  definingUnit
-    topLevelVariables
-      static const v @44
-        type: void Function(int)
-        constantInitializer
-          SimpleIdentifier
-            staticElement: self::@function::f
-            staticType: void Function(int)
-            tearOffTypeArgumentTypes
-              int
-            token: f @48
-    accessors
-      synthetic static get v @-1
-        returnType: void Function(int)
-    functions
-      f @5
-        typeParameters
-          covariant T @7
-        parameters
-          requiredPositional a @12
-            type: T
-        returnType: void
 ''');
   }
 
@@ -11493,7 +11494,7 @@ library
             staticType: List<Null>
             typeArguments: TypeArgumentList
               arguments
-                TypeName
+                NamedType
                   name: SimpleIdentifier
                     staticElement: dart:core::@class::Null
                     staticType: null
@@ -11521,7 +11522,7 @@ library
             staticType: List<dynamic>
             typeArguments: TypeArgumentList
               arguments
-                TypeName
+                NamedType
                   name: SimpleIdentifier
                     staticElement: dynamic@-1
                     staticType: null
@@ -11549,7 +11550,7 @@ library
             staticType: List<int>
             typeArguments: TypeArgumentList
               arguments
-                TypeName
+                NamedType
                   name: SimpleIdentifier
                     staticElement: dart:core::@class::int
                     staticType: null
@@ -11567,7 +11568,7 @@ library
             staticType: List<List<dynamic>>
             typeArguments: TypeArgumentList
               arguments
-                TypeName
+                NamedType
                   name: SimpleIdentifier
                     staticElement: dart:core::@class::List
                     staticType: null
@@ -11585,7 +11586,7 @@ library
             staticType: List<List<String>>
             typeArguments: TypeArgumentList
               arguments
-                TypeName
+                NamedType
                   name: SimpleIdentifier
                     staticElement: dart:core::@class::List
                     staticType: null
@@ -11593,7 +11594,7 @@ library
                   type: List<String>
                   typeArguments: TypeArgumentList
                     arguments
-                      TypeName
+                      NamedType
                         name: SimpleIdentifier
                           staticElement: dart:core::@class::String
                           staticType: null
@@ -11613,7 +11614,7 @@ library
             staticType: List<Map<int, List<String>>>
             typeArguments: TypeArgumentList
               arguments
-                TypeName
+                NamedType
                   name: SimpleIdentifier
                     staticElement: dart:core::@class::Map
                     staticType: null
@@ -11621,13 +11622,13 @@ library
                   type: Map<int, List<String>>
                   typeArguments: TypeArgumentList
                     arguments
-                      TypeName
+                      NamedType
                         name: SimpleIdentifier
                           staticElement: dart:core::@class::int
                           staticType: null
                           token: int @288
                         type: int
-                      TypeName
+                      NamedType
                         name: SimpleIdentifier
                           staticElement: dart:core::@class::List
                           staticType: null
@@ -11635,7 +11636,7 @@ library
                         type: List<String>
                         typeArguments: TypeArgumentList
                           arguments
-                            TypeName
+                            NamedType
                               name: SimpleIdentifier
                                 staticElement: dart:core::@class::String
                                 staticType: null
@@ -11685,7 +11686,7 @@ library
             staticType: List<C>
             typeArguments: TypeArgumentList
               arguments
-                TypeName
+                NamedType
                   name: SimpleIdentifier
                     staticElement: a.dart::@class::C
                     staticType: null
@@ -11721,7 +11722,7 @@ library
             staticType: List<C>
             typeArguments: TypeArgumentList
               arguments
-                TypeName
+                NamedType
                   name: PrefixedIdentifier
                     identifier: SimpleIdentifier
                       staticElement: a.dart::@class::C
@@ -11770,7 +11771,7 @@ library
             staticType: List<int Function(String)>
             typeArguments: TypeArgumentList
               arguments
-                TypeName
+                NamedType
                   name: SimpleIdentifier
                     staticElement: self::@typeAlias::F
                     staticType: null
@@ -11806,13 +11807,13 @@ library
             staticType: Map<dynamic, int>
             typeArguments: TypeArgumentList
               arguments
-                TypeName
+                NamedType
                   name: SimpleIdentifier
                     staticElement: dynamic@-1
                     staticType: null
                     token: dynamic @25
                   type: dynamic
-                TypeName
+                NamedType
                   name: SimpleIdentifier
                     staticElement: dart:core::@class::int
                     staticType: null
@@ -11831,13 +11832,13 @@ library
             staticType: Map<int, dynamic>
             typeArguments: TypeArgumentList
               arguments
-                TypeName
+                NamedType
                   name: SimpleIdentifier
                     staticElement: dart:core::@class::int
                     staticType: null
                     token: int @67
                   type: int
-                TypeName
+                NamedType
                   name: SimpleIdentifier
                     staticElement: dynamic@-1
                     staticType: null
@@ -11856,13 +11857,13 @@ library
             staticType: Map<int, String>
             typeArguments: TypeArgumentList
               arguments
-                TypeName
+                NamedType
                   name: SimpleIdentifier
                     staticElement: dart:core::@class::int
                     staticType: null
                     token: int @110
                   type: int
-                TypeName
+                NamedType
                   name: SimpleIdentifier
                     staticElement: dart:core::@class::String
                     staticType: null
@@ -11881,13 +11882,13 @@ library
             staticType: Map<int, List<String>>
             typeArguments: TypeArgumentList
               arguments
-                TypeName
+                NamedType
                   name: SimpleIdentifier
                     staticElement: dart:core::@class::int
                     staticType: null
                     token: int @169
                   type: int
-                TypeName
+                NamedType
                   name: SimpleIdentifier
                     staticElement: dart:core::@class::List
                     staticType: null
@@ -11895,7 +11896,7 @@ library
                   type: List<String>
                   typeArguments: TypeArgumentList
                     arguments
-                      TypeName
+                      NamedType
                         name: SimpleIdentifier
                           staticElement: dart:core::@class::String
                           staticType: null
@@ -11938,7 +11939,7 @@ library
             staticType: Set<dynamic>
             typeArguments: TypeArgumentList
               arguments
-                TypeName
+                NamedType
                   name: SimpleIdentifier
                     staticElement: dynamic@-1
                     staticType: null
@@ -11957,7 +11958,7 @@ library
             staticType: Set<int>
             typeArguments: TypeArgumentList
               arguments
-                TypeName
+                NamedType
                   name: SimpleIdentifier
                     staticElement: dart:core::@class::int
                     staticType: null
@@ -11976,7 +11977,7 @@ library
             staticType: Set<List<String>>
             typeArguments: TypeArgumentList
               arguments
-                TypeName
+                NamedType
                   name: SimpleIdentifier
                     staticElement: dart:core::@class::List
                     staticType: null
@@ -11984,7 +11985,7 @@ library
                   type: List<String>
                   typeArguments: TypeArgumentList
                     arguments
-                      TypeName
+                      NamedType
                         name: SimpleIdentifier
                           staticElement: dart:core::@class::String
                           staticType: null
@@ -12124,7 +12125,7 @@ library
         constantInitializer
           TypeLiteral
             staticType: Type
-            typeName: TypeName
+            type: NamedType
               name: SimpleIdentifier
                 staticElement: dart:core::@class::List
                 staticType: List<int>
@@ -12132,7 +12133,7 @@ library
               type: List<int>
               typeArguments: TypeArgumentList
                 arguments
-                  TypeName
+                  NamedType
                     name: SimpleIdentifier
                       staticElement: dart:core::@class::int
                       staticType: null
@@ -12606,7 +12607,7 @@ library
                         staticElement: ConstructorMember
                           base: self::@class::A::@constructor::•
                           substitution: {T: dynamic Function()}
-                        type: TypeName
+                        type: NamedType
                           name: SimpleIdentifier
                             staticElement: self::@class::A
                             staticType: null
@@ -13887,7 +13888,7 @@ library
                     rightParenthesis: ) @47
                   constructorName: ConstructorName
                     staticElement: self::@class::D::@constructor::•
-                    type: TypeName
+                    type: NamedType
                       name: SimpleIdentifier
                         staticElement: self::@class::D
                         staticType: null
@@ -13917,7 +13918,7 @@ library
                     rightParenthesis: ) @99
                   constructorName: ConstructorName
                     staticElement: self::@class::C::@constructor::•
-                    type: TypeName
+                    type: NamedType
                       name: SimpleIdentifier
                         staticElement: self::@class::C
                         staticType: null
@@ -14065,12 +14066,14 @@ library
                   aliasArguments
                     dynamic
                 constantInitializer
-                  SimpleIdentifier
-                    staticElement: self::@function::defaultF
+                  FunctionReference
+                    function: SimpleIdentifier
+                      staticElement: self::@function::defaultF
+                      staticType: void Function<T>(T)
+                      token: defaultF @93
                     staticType: void Function(dynamic)
-                    tearOffTypeArgumentTypes
+                    typeArgumentTypes
                       dynamic
-                    token: defaultF @93
         accessors
           synthetic get f @-1
             returnType: void Function(dynamic)
@@ -14135,7 +14138,7 @@ library
                       staticElement: ConstructorMember
                         base: self::@class::A::@constructor::•
                         substitution: {T: dynamic Function()}
-                      type: TypeName
+                      type: NamedType
                         name: SimpleIdentifier
                           staticElement: self::@class::A
                           staticType: null
@@ -14183,7 +14186,7 @@ library
                       staticType: int
                     isOperator: is @16
                     staticType: bool
-                    type: TypeName
+                    type: NamedType
                       name: SimpleIdentifier
                         staticElement: dart:core::@class::int
                         staticType: null
@@ -14302,7 +14305,7 @@ library
                       staticElement: ConstructorMember
                         base: self::@class::B::@constructor::•
                         substitution: {T1: int, T2: double}
-                      type: TypeName
+                      type: NamedType
                         name: SimpleIdentifier
                           staticElement: self::@class::B
                           staticType: null
@@ -14351,7 +14354,7 @@ library
                       staticElement: ConstructorMember
                         base: self::@class::B::@constructor::•
                         substitution: {T: Never}
-                      type: TypeName
+                      type: NamedType
                         name: SimpleIdentifier
                           staticElement: self::@class::B
                           staticType: null
@@ -14410,7 +14413,7 @@ library
                       staticElement: ConstructorMember
                         base: self::@class::B::@constructor::•
                         substitution: {T: Never}
-                      type: TypeName
+                      type: NamedType
                         name: SimpleIdentifier
                           staticElement: self::@class::B
                           staticType: null
@@ -14470,7 +14473,7 @@ library
                       staticElement: ConstructorMember
                         base: self::@class::B::@constructor::•
                         substitution: {T: Null*}
-                      type: TypeName
+                      type: NamedType
                         name: SimpleIdentifier
                           staticElement: self::@class::B
                           staticType: null
@@ -14519,7 +14522,7 @@ library
                       staticElement: ConstructorMember
                         base: self::@class::B::@constructor::•
                         substitution: {T: Null*}
-                      type: TypeName
+                      type: NamedType
                         name: SimpleIdentifier
                           staticElement: self::@class::B
                           staticType: null
@@ -14563,7 +14566,7 @@ library
                   staticElement: ConstructorMember
                     base: self::@class::B::@constructor::•
                     substitution: {T: Never}
-                  type: TypeName
+                  type: NamedType
                     name: SimpleIdentifier
                       staticElement: self::@class::B
                       staticType: null
@@ -14613,7 +14616,7 @@ library
                       staticElement: ConstructorMember
                         base: self::@class::B::@constructor::•
                         substitution: {T: Never}
-                      type: TypeName
+                      type: NamedType
                         name: SimpleIdentifier
                           staticElement: self::@class::B
                           staticType: null
@@ -14668,7 +14671,7 @@ library
                       staticElement: ConstructorMember
                         base: self::@class::B::@constructor::•
                         substitution: {T1: Never, T2: Never}
-                      type: TypeName
+                      type: NamedType
                         name: SimpleIdentifier
                           staticElement: self::@class::B
                           staticType: null
@@ -14719,7 +14722,7 @@ library
                       staticElement: ConstructorMember
                         base: self::@class::B::@constructor::•
                         substitution: {T: Never}
-                      type: TypeName
+                      type: NamedType
                         name: SimpleIdentifier
                           staticElement: self::@class::B
                           staticType: null
@@ -16131,7 +16134,7 @@ library
                   staticElement: ConstructorMember
                     base: self::@class::A::@constructor::•
                     substitution: {T: int Function(double)}
-                  type: TypeName
+                  type: NamedType
                     name: SimpleIdentifier
                       staticElement: self::@class::A
                       staticType: null
@@ -16158,14 +16161,14 @@ library
                                   staticElement: a@78
                                   staticType: null
                                   token: a @78
-                                type: TypeName
+                                type: NamedType
                                   name: SimpleIdentifier
                                     staticElement: dart:core::@class::double
                                     staticType: null
                                     token: double @71
                                   type: double
                             rightParenthesis: ) @79
-                          returnType: TypeName
+                          returnType: NamedType
                             name: SimpleIdentifier
                               staticElement: dart:core::@class::int
                               staticType: null
@@ -17770,14 +17773,14 @@ library
                           staticElement: a@52
                           staticType: null
                           token: a @52
-                        type: TypeName
+                        type: NamedType
                           name: SimpleIdentifier
                             staticElement: dart:core::@class::String
                             staticType: null
                             token: String @45
                           type: String
                     rightParenthesis: ) @53
-                  returnType: TypeName
+                  returnType: NamedType
                     name: SimpleIdentifier
                       staticElement: dart:core::@class::int
                       staticType: null
@@ -17846,14 +17849,14 @@ library
                           staticElement: a@52
                           staticType: null
                           token: a @52
-                        type: TypeName
+                        type: NamedType
                           name: SimpleIdentifier
                             staticElement: dart:core::@class::String
                             staticType: null
                             token: String @45
                           type: String
                     rightParenthesis: ) @53
-                  returnType: TypeName
+                  returnType: NamedType
                     name: SimpleIdentifier
                       staticElement: dart:core::@class::int
                       staticType: null
@@ -17904,7 +17907,7 @@ library
               staticElement: ConstructorMember
                 base: self::@class::A::@constructor::•
                 substitution: {T: String Function({int? a})}
-              type: TypeName
+              type: NamedType
                 name: SimpleIdentifier
                   staticElement: self::@class::A
                   staticType: null
@@ -17938,14 +17941,14 @@ library
                                 staticElement: a@63
                                 staticType: null
                                 token: a @63
-                              type: TypeName
+                              type: NamedType
                                 name: SimpleIdentifier
                                   staticElement: dart:core::@class::int
                                   staticType: null
                                   token: int @58
                                 type: int?
                         rightParenthesis: ) @65
-                      returnType: TypeName
+                      returnType: NamedType
                         name: SimpleIdentifier
                           staticElement: dart:core::@class::String
                           staticType: null
@@ -17991,7 +17994,7 @@ library
               staticElement: ConstructorMember
                 base: self::@class::A::@constructor::•
                 substitution: {T: String Function([int?])}
-              type: TypeName
+              type: NamedType
                 name: SimpleIdentifier
                   staticElement: self::@class::A
                   staticType: null
@@ -18025,14 +18028,14 @@ library
                                 staticElement: a@63
                                 staticType: null
                                 token: a @63
-                              type: TypeName
+                              type: NamedType
                                 name: SimpleIdentifier
                                   staticElement: dart:core::@class::int
                                   staticType: null
                                   token: int @58
                                 type: int?
                         rightParenthesis: ) @65
-                      returnType: TypeName
+                      returnType: NamedType
                         name: SimpleIdentifier
                           staticElement: dart:core::@class::String
                           staticType: null
@@ -18078,7 +18081,7 @@ library
               staticElement: ConstructorMember
                 base: self::@class::A::@constructor::•
                 substitution: {T: String Function({required int a})}
-              type: TypeName
+              type: NamedType
                 name: SimpleIdentifier
                   staticElement: self::@class::A
                   staticType: null
@@ -18113,14 +18116,14 @@ library
                                 staticType: null
                                 token: a @71
                               requiredKeyword: required @58
-                              type: TypeName
+                              type: NamedType
                                 name: SimpleIdentifier
                                   staticElement: dart:core::@class::int
                                   staticType: null
                                   token: int @67
                                 type: int
                         rightParenthesis: ) @73
-                      returnType: TypeName
+                      returnType: NamedType
                         name: SimpleIdentifier
                           staticElement: dart:core::@class::String
                           staticType: null
@@ -18166,7 +18169,7 @@ library
               staticElement: ConstructorMember
                 base: self::@class::A::@constructor::•
                 substitution: {T: String Function(int)}
-              type: TypeName
+              type: NamedType
                 name: SimpleIdentifier
                   staticElement: self::@class::A
                   staticType: null
@@ -18193,14 +18196,14 @@ library
                               staticElement: a@61
                               staticType: null
                               token: a @61
-                            type: TypeName
+                            type: NamedType
                               name: SimpleIdentifier
                                 staticElement: dart:core::@class::int
                                 staticType: null
                                 token: int @57
                               type: int
                         rightParenthesis: ) @62
-                      returnType: TypeName
+                      returnType: NamedType
                         name: SimpleIdentifier
                           staticElement: dart:core::@class::String
                           staticType: null
@@ -18529,7 +18532,7 @@ library
                 token: named @67
               period: . @66
               staticElement: self::@class::C::@constructor::named
-              type: TypeName
+              type: NamedType
                 name: SimpleIdentifier
                   staticElement: self::@class::C
                   staticType: null
@@ -18932,8 +18935,7 @@ library
   test_import_short_absolute() async {
     testFile = '/my/project/bin/test.dart';
     // Note: "/a.dart" resolves differently on Windows vs. Posix.
-    var destinationPath =
-        resourceProvider.pathContext.fromUri(Uri.parse('/a.dart'));
+    var destinationPath = convertPath('/a.dart');
     addLibrarySource(destinationPath, 'class C {}');
     var library = await checkLibrary('import "/a.dart"; C c;');
     checkElementText(library, r'''
@@ -19104,7 +19106,7 @@ library
               staticElement: ConstructorMember
                 base: self::@class::C::@constructor::•
                 substitution: {V: int}
-              type: TypeName
+              type: NamedType
                 name: SimpleIdentifier
                   staticElement: self::@class::C
                   staticType: null
@@ -19172,7 +19174,7 @@ library
               rightParenthesis: ) @114
             constructorName: ConstructorName
               staticElement: self::@class::C::@constructor::•
-              type: TypeName
+              type: NamedType
                 name: SimpleIdentifier
                   staticElement: self::@class::C
                   staticType: null
@@ -22214,7 +22216,7 @@ library
               token: A @36
             typeArguments: TypeArgumentList
               arguments
-                TypeName
+                NamedType
                   name: SimpleIdentifier
                     staticElement: dart:core::@class::int
                     staticType: null
@@ -22270,7 +22272,7 @@ library
               token: A @36
             typeArguments: TypeArgumentList
               arguments
-                TypeName
+                NamedType
                   name: SimpleIdentifier
                     staticElement: dart:core::@class::int
                     staticType: null
@@ -22437,7 +22439,7 @@ library
               staticType: null
             typeArguments: TypeArgumentList
               arguments
-                TypeName
+                NamedType
                   name: SimpleIdentifier
                     staticElement: dart:core::@class::int
                     staticType: null
@@ -22650,7 +22652,7 @@ library
               token: A @30
             typeArguments: TypeArgumentList
               arguments
-                TypeName
+                NamedType
                   name: SimpleIdentifier
                     staticElement: dart:core::@class::int
                     staticType: null
@@ -22794,7 +22796,7 @@ library
               staticType: null
             typeArguments: TypeArgumentList
               arguments
-                TypeName
+                NamedType
                   name: SimpleIdentifier
                     staticElement: dart:core::@class::int
                     staticType: null
@@ -33879,7 +33881,7 @@ library
               staticElement: ConstructorMember
                 base: self::@class::A::@constructor::•
                 substitution: {T: int}
-              type: TypeName
+              type: NamedType
                 name: SimpleIdentifier
                   staticElement: self::@class::A
                   staticType: null

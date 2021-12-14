@@ -40,7 +40,7 @@ class FunctionReferenceResolver {
 
   ErrorReporter get _errorReporter => _resolver.errorReporter;
 
-  NullabilitySuffix get _nullabilitySuffixForTypeNames =>
+  NullabilitySuffix get _nullabilitySuffix =>
       _isNonNullableByDefault ? NullabilitySuffix.none : NullabilitySuffix.star;
 
   void resolve(FunctionReferenceImpl node) {
@@ -64,7 +64,10 @@ class FunctionReferenceResolver {
         _errorReporter.reportErrorForNode(
           CompileTimeErrorCode.WRONG_NUMBER_OF_TYPE_ARGUMENTS_CONSTRUCTOR,
           typeArguments,
-          [function.constructorName.type2.name, function.constructorName.name!],
+          [
+            function.constructorName.type2.name.toSource(),
+            function.constructorName.name!.name
+          ],
         );
         _resolve(node: node, rawType: function.staticType);
       }
@@ -242,15 +245,21 @@ class FunctionReferenceResolver {
       if (node.function is ConstructorReference) {
         node.staticType = DynamicTypeImpl.instance;
       } else {
-        var typeArguments = _checkTypeArguments(
-          // `node.typeArguments`, coming from the parser, is never null.
-          node.typeArguments!, name, rawType.typeFormals,
-          CompileTimeErrorCode.WRONG_NUMBER_OF_TYPE_ARGUMENTS_FUNCTION,
-        );
+        var typeArguments = node.typeArguments;
+        if (typeArguments == null) {
+          node.staticType = rawType;
+        } else {
+          var typeArgumentTypes = _checkTypeArguments(
+            typeArguments,
+            name,
+            rawType.typeFormals,
+            CompileTimeErrorCode.WRONG_NUMBER_OF_TYPE_ARGUMENTS_FUNCTION,
+          );
 
-        var invokeType = rawType.instantiate(typeArguments);
-        node.typeArgumentTypes = typeArguments;
-        node.staticType = invokeType;
+          var invokeType = rawType.instantiate(typeArgumentTypes);
+          node.typeArgumentTypes = typeArgumentTypes;
+          node.staticType = invokeType;
+        }
       }
     } else {
       if (_resolver.isConstructorTearoffsEnabled) {
@@ -304,7 +313,7 @@ class FunctionReferenceResolver {
     );
     var type = element.instantiate(
       typeArguments: typeArguments,
-      nullabilitySuffix: _nullabilitySuffixForTypeNames,
+      nullabilitySuffix: _nullabilitySuffix,
     );
     _resolveTypeLiteral(node: node, instantiatedType: type, name: name);
   }
@@ -656,6 +665,8 @@ class FunctionReferenceResolver {
         }
 
         if (method is PropertyAccessorElement) {
+          function.staticElement = method;
+          function.staticType = method.returnType;
           _resolve(node: node, rawType: method.variable.type);
           return;
         }
@@ -775,8 +786,9 @@ class FunctionReferenceResolver {
       CompileTimeErrorCode.WRONG_NUMBER_OF_TYPE_ARGUMENTS,
     );
     var type = element.instantiate(
-        typeArguments: typeArguments,
-        nullabilitySuffix: _nullabilitySuffixForTypeNames);
+      typeArguments: typeArguments,
+      nullabilitySuffix: _nullabilitySuffix,
+    );
     _resolveTypeLiteral(node: node, instantiatedType: type, name: typeAlias);
   }
 

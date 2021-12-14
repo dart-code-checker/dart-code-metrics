@@ -158,7 +158,8 @@ abstract class AstFactory {
 
   /// Returns a newly created reference to a Dart element. The [newKeyword]
   /// can be `null` if the reference is not to a constructor.
-  CommentReference commentReference(Token? newKeyword, Identifier identifier);
+  CommentReference commentReference(
+      Token? newKeyword, CommentReferableExpression expression);
 
   /// Returns a newly created compilation unit to have the given directives and
   /// declarations.  The [scriptTag] can be `null` (or omitted) if there is no
@@ -870,6 +871,26 @@ abstract class AstFactory {
 
   /// Returns a newly created super expression.
   SuperExpression superExpression(Token superKeyword);
+
+  /// Returns a newly created super-initializer parameter. Either or both of
+  /// the [comment] and [metadata] can be `null` if the parameter does not have
+  /// the corresponding attribute. The [keyword] can be `null` if there is a
+  /// type. The [type] must be `null` if the keyword is 'var'. The [parameters]
+  /// can be `null` if this is not a function-typed super-initializer
+  /// parameter.
+  SuperFormalParameter superFormalParameter(
+      {Comment? comment,
+      List<Annotation>? metadata,
+      Token? covariantKeyword,
+      Token? requiredKeyword,
+      Token? keyword,
+      TypeAnnotation? type,
+      required Token superKeyword,
+      required Token period,
+      required SimpleIdentifier identifier,
+      TypeParameterList? typeParameters,
+      FormalParameterList? parameters,
+      Token? question});
 
   /// Returns a newly created switch case. The list of [labels] can be `null`
   /// if there are no labels.

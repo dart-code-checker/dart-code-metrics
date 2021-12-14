@@ -256,7 +256,6 @@ const List<ErrorCode> errorCodeValues = [
   CompileTimeErrorCode.INVALID_MODIFIER_ON_SETTER,
   CompileTimeErrorCode.INVALID_OVERRIDE,
   CompileTimeErrorCode.INVALID_REFERENCE_TO_THIS,
-  CompileTimeErrorCode.INVALID_SUPER_INVOCATION,
   CompileTimeErrorCode.INVALID_TYPE_ARGUMENT_IN_CONST_LIST,
   CompileTimeErrorCode.INVALID_TYPE_ARGUMENT_IN_CONST_MAP,
   CompileTimeErrorCode.INVALID_TYPE_ARGUMENT_IN_CONST_SET,
@@ -407,6 +406,7 @@ const List<ErrorCode> errorCodeValues = [
   CompileTimeErrorCode.SUPER_IN_INVALID_CONTEXT,
   CompileTimeErrorCode.SUPER_IN_REDIRECTING_CONSTRUCTOR,
   CompileTimeErrorCode.SUPER_INITIALIZER_IN_OBJECT,
+  CompileTimeErrorCode.SUPER_INVOCATION_NOT_LAST,
   CompileTimeErrorCode.SWITCH_CASE_COMPLETES_NORMALLY,
   CompileTimeErrorCode.SWITCH_EXPRESSION_NOT_ASSIGNABLE,
   CompileTimeErrorCode.TEAROFF_OF_GENERATIVE_CONSTRUCTOR_OF_ABSTRACT_CLASS,
@@ -475,6 +475,7 @@ const List<ErrorCode> errorCodeValues = [
   CompileTimeErrorCode.WRONG_TYPE_PARAMETER_VARIANCE_POSITION,
   CompileTimeErrorCode.YIELD_EACH_IN_NON_GENERATOR,
   CompileTimeErrorCode.YIELD_IN_NON_GENERATOR,
+  CompileTimeErrorCode.YIELD_EACH_OF_INVALID_TYPE,
   CompileTimeErrorCode.YIELD_OF_INVALID_TYPE,
   FfiCode.ANNOTATION_ON_POINTER_FIELD,
   FfiCode.ARGUMENT_MUST_BE_A_CONSTANT,
@@ -530,6 +531,7 @@ const List<ErrorCode> errorCodeValues = [
   HintCode.DEPRECATED_MEMBER_USE_FROM_SAME_PACKAGE_WITH_MESSAGE,
   HintCode.DEPRECATED_MEMBER_USE_WITH_MESSAGE,
   HintCode.DEPRECATED_MIXIN_FUNCTION,
+  HintCode.DEPRECATED_NEW_IN_COMMENT_REFERENCE,
   HintCode.DIVISION_OPTIMIZATION,
   HintCode.DUPLICATE_HIDDEN_NAME,
   HintCode.DUPLICATE_IGNORE,
@@ -631,6 +633,8 @@ const List<ErrorCode> errorCodeValues = [
   HintCode.UNNECESSARY_QUESTION_MARK,
   HintCode.UNNECESSARY_TYPE_CHECK_FALSE,
   HintCode.UNNECESSARY_TYPE_CHECK_TRUE,
+  HintCode.TEXT_DIRECTION_CODE_POINT_IN_COMMENT,
+  HintCode.TEXT_DIRECTION_CODE_POINT_IN_LITERAL,
   HintCode.UNUSED_CATCH_CLAUSE,
   HintCode.UNUSED_CATCH_STACK,
   HintCode.UNUSED_ELEMENT,
@@ -986,6 +990,11 @@ class AnalysisError implements Diagnostic {
       [List<Object?>? arguments,
       List<DiagnosticMessage> contextMessages = const []])
       : _contextMessages = contextMessages {
+    assert(
+        (arguments ?? const []).length == errorCode.numParameters,
+        'Message $errorCode requires ${errorCode.numParameters} '
+        'argument(s), but ${(arguments ?? const []).length} argument(s) were '
+        'provided');
     String problemMessage = formatList(errorCode.problemMessage, arguments);
     String? correctionTemplate = errorCode.correctionMessage;
     if (correctionTemplate != null) {

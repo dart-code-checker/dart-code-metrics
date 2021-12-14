@@ -439,6 +439,15 @@ class HintCode extends AnalyzerErrorCode {
   );
 
   /**
+   * No parameters.
+   */
+  static const HintCode DEPRECATED_NEW_IN_COMMENT_REFERENCE = HintCode(
+    'DEPRECATED_NEW_IN_COMMENT_REFERENCE',
+    "Using the 'new' keyword in a comment reference is deprecated.",
+    correctionMessage: "Try referring to a constructor by its name.",
+  );
+
+  /**
    * Hint to use the ~/ operator.
    */
   static const HintCode DIVISION_OPTIMIZATION = HintCode(
@@ -2905,6 +2914,92 @@ class HintCode extends AnalyzerErrorCode {
   );
 
   /**
+   * Parameters:
+   * 0: the unicode sequence of the code point.
+   */
+  // #### Description
+  //
+  // The analyzer produces this diagnostic when it encounters source that
+  // contains text direction Unicode code points. These code points cause
+  // source code in either a string literal or a comment to be interpreted
+  // and compiled differently than how it appears in editors, leading to
+  // possible security vulnerabilities.
+  //
+  // #### Example
+  //
+  // The following code produces this diagnostic twice because there are
+  // hidden characters at the start and end of the label string:
+  //
+  // ```dart
+  // var label = '[!I!]nteractive text[!'!];
+  // ```
+  //
+  // #### Common fixes
+  //
+  // If the code points are intended to be included in the string literal,
+  // then escape them:
+  //
+  // ```dart
+  // var label = '\u202AInteractive text\u202C';
+  // ```
+  //
+  // If the code points aren't intended to be included in the string literal,
+  // then remove them:
+  //
+  // ```dart
+  // var label = 'Interactive text';
+  // ```
+  static const HintCode TEXT_DIRECTION_CODE_POINT_IN_COMMENT = HintCode(
+    'TEXT_DIRECTION_CODE_POINT_IN_COMMENT',
+    "The Unicode code point 'U+{0}' changes the appearance of text from how it's interpreted by the compiler.",
+    correctionMessage:
+        "Try removing the code point or using the Unicode escape sequence '\\u{0}'.",
+  );
+
+  /**
+   * Parameters:
+   * 0: the unicode sequence of the code point.
+   */
+  // #### Description
+  //
+  // The analyzer produces this diagnostic when it encounters source that
+  // contains text direction Unicode code points. These code points cause
+  // source code in either a string literal or a comment to be interpreted
+  // and compiled differently than how it appears in editors, leading to
+  // possible security vulnerabilities.
+  //
+  // #### Example
+  //
+  // The following code produces this diagnostic twice because there are
+  // hidden characters at the start and end of the label string:
+  //
+  // ```dart
+  // var label = '[!I!]nteractive text[!'!];
+  // ```
+  //
+  // #### Common fixes
+  //
+  // If the code points are intended to be included in the string literal,
+  // then escape them:
+  //
+  // ```dart
+  // var label = '\u202AInteractive text\u202C';
+  // ```
+  //
+  // If the code points aren't intended to be included in the string literal,
+  // then remove them:
+  //
+  // ```dart
+  // var label = 'Interactive text';
+  // ```
+  static const HintCode TEXT_DIRECTION_CODE_POINT_IN_LITERAL = HintCode(
+    'TEXT_DIRECTION_CODE_POINT_IN_LITERAL',
+    "The Unicode code point 'U+{0}' changes the appearance of text from how it's interpreted by the compiler.",
+    correctionMessage:
+        "Try removing the code point or using the Unicode escape sequence '\\u{0}'.",
+  );
+
+  /**
    * No parameters.
    */
   // #### Description
@@ -3045,7 +3140,7 @@ class HintCode extends AnalyzerErrorCode {
   // ```
   static const HintCode UNDEFINED_REFERENCED_PARAMETER = HintCode(
     'UNDEFINED_REFERENCED_PARAMETER',
-    "The parameter '{0}' is not defined by '{1}'.",
+    "The parameter '{0}' isn't defined by '{1}'.",
     hasPublishedDocs: true,
   );
 

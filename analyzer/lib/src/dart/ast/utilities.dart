@@ -272,7 +272,7 @@ class AstComparator implements AstVisitor<bool> {
   bool visitCommentReference(CommentReference node) {
     CommentReference other = _other as CommentReference;
     return isEqualTokens(node.newKeyword, other.newKeyword) &&
-        isEqualNodes(node.identifier, other.identifier);
+        isEqualNodes(node.expression, other.expression);
   }
 
   @override
@@ -1103,6 +1103,19 @@ class AstComparator implements AstVisitor<bool> {
   }
 
   @override
+  bool visitSuperFormalParameter(SuperFormalParameter node) {
+    SuperFormalParameter other = _other as SuperFormalParameter;
+    return isEqualNodes(
+            node.documentationComment, other.documentationComment) &&
+        _isEqualNodeLists(node.metadata, other.metadata) &&
+        isEqualTokens(node.keyword, other.keyword) &&
+        isEqualNodes(node.type, other.type) &&
+        isEqualTokens(node.superKeyword, other.superKeyword) &&
+        isEqualTokens(node.period, other.period) &&
+        isEqualNodes(node.identifier, other.identifier);
+  }
+
+  @override
   bool visitSwitchCase(SwitchCase node) {
     SwitchCase other = _other as SwitchCase;
     return _isEqualNodeLists(node.labels, other.labels) &&
@@ -1735,6 +1748,9 @@ class NodeReplacer implements AstVisitor<bool> {
     } else if (identical(node.stackTraceParameter, _oldNode)) {
       node.stackTraceParameter = _newNode as SimpleIdentifier;
       return true;
+    } else if (identical(node.body, _oldNode)) {
+      node.body = _newNode as Block;
+      return true;
     }
     return visitNode(node);
   }
@@ -1796,8 +1812,8 @@ class NodeReplacer implements AstVisitor<bool> {
 
   @override
   bool visitCommentReference(covariant CommentReferenceImpl node) {
-    if (identical(node.identifier, _oldNode)) {
-      node.identifier = _newNode as Identifier;
+    if (identical(node.expression, _oldNode)) {
+      node.expression = _newNode as Identifier;
       return true;
     }
     return visitNode(node);
@@ -2791,6 +2807,21 @@ class NodeReplacer implements AstVisitor<bool> {
   @override
   bool visitSuperExpression(covariant SuperExpressionImpl node) =>
       visitNode(node);
+
+  @override
+  bool visitSuperFormalParameter(covariant SuperFormalParameterImpl node) {
+    if (identical(node.type, _oldNode)) {
+      node.type = _newNode as TypeAnnotation;
+      return true;
+    } else if (identical(node.typeParameters, _oldNode)) {
+      node.typeParameters = _newNode as TypeParameterList;
+      return true;
+    } else if (identical(node.parameters, _oldNode)) {
+      node.parameters = _newNode as FormalParameterList;
+      return true;
+    }
+    return visitNormalFormalParameter(node);
+  }
 
   @override
   bool visitSwitchCase(covariant SwitchCaseImpl node) {

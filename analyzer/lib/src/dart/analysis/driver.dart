@@ -9,6 +9,7 @@ import 'package:analyzer/dart/analysis/analysis_context.dart' as api;
 import 'package:analyzer/dart/analysis/declared_variables.dart';
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
+import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/error/error.dart';
 import 'package:analyzer/error/listener.dart';
 import 'package:analyzer/exception/exception.dart';
@@ -29,6 +30,7 @@ import 'package:analyzer/src/dart/analysis/search.dart';
 import 'package:analyzer/src/dart/analysis/session.dart';
 import 'package:analyzer/src/dart/analysis/status.dart';
 import 'package:analyzer/src/dart/analysis/testing_data.dart';
+import 'package:analyzer/src/dart/element/element.dart';
 import 'package:analyzer/src/diagnostic/diagnostic.dart';
 import 'package:analyzer/src/error/codes.dart';
 import 'package:analyzer/src/exception/exception.dart';
@@ -42,6 +44,7 @@ import 'package:analyzer/src/summary/idl.dart';
 import 'package:analyzer/src/summary/package_bundle_reader.dart';
 import 'package:analyzer/src/summary2/ast_binary_flags.dart';
 import 'package:analyzer/src/util/file_paths.dart' as file_paths;
+import 'package:analyzer/src/util/performance/operation_performance.dart';
 import 'package:meta/meta.dart';
 
 /// This class computes [AnalysisResult]s for Dart files.
@@ -80,7 +83,7 @@ import 'package:meta/meta.dart';
 /// TODO(scheglov) Clean up the list of implicitly analyzed files.
 class AnalysisDriver implements AnalysisDriverGeneric {
   /// The version of data format, should be incremented on every format change.
-  static const int DATA_VERSION = 190;
+  static const int DATA_VERSION = 191;
 
   /// The number of exception contexts allowed to write. Once this field is
   /// zero, we stop writing any new exception contexts in this process.
@@ -139,11 +142,11 @@ class AnalysisDriver implements AnalysisDriverGeneric {
   final _priorityFiles = <String>{};
 
   /// The mapping from the files for which analysis was requested using
-  /// [getResult2] to the [Completer]s to report the result.
+  /// [getResult] to the [Completer]s to report the result.
   final _requestedFiles = <String, List<Completer<ResolvedUnitResult>>>{};
 
   /// The mapping from the files for which analysis was requested using
-  /// [getResolvedLibrary2] to the [Completer]s to report the result.
+  /// [getResolvedLibrary] to the [Completer]s to report the result.
   final _requestedLibraries =
       <String, List<Completer<ResolvedLibraryResult>>>{};
 
@@ -159,7 +162,7 @@ class AnalysisDriver implements AnalysisDriverGeneric {
   final _referencingNameTasks = <_FilesReferencingNameTask>[];
 
   /// The mapping from the files for which errors were requested using
-  /// [getErrors2] to the [Completer]s to report the result.
+  /// [getErrors] to the [Completer]s to report the result.
   final _errorsRequestedFiles = <String, List<Completer<ErrorsResult>>>{};
 
   /// The requests from [_errorsRequestedFiles] for files which were found to
@@ -172,18 +175,18 @@ class AnalysisDriver implements AnalysisDriverGeneric {
       <String, List<Completer<AnalysisDriverUnitIndex>>>{};
 
   /// The mapping from the files for which the unit element was requested using
-  /// [getUnitElement2] to the [Completer]s to report the result.
+  /// [getUnitElement] to the [Completer]s to report the result.
   final _unitElementRequestedFiles =
       <String, List<Completer<UnitElementResult>>>{};
 
   /// The mapping from the files for which the unit element was requested using
-  /// [getUnitElement2], and which were found to be parts without known
+  /// [getUnitElement], and which were found to be parts without known
   /// libraries, to the [Completer]s to report the result.
   final _unitElementRequestedParts =
       <String, List<Completer<UnitElementResult>>>{};
 
   /// The mapping from the files for which analysis was requested using
-  /// [getResult2], and which were found to be parts without known libraries,
+  /// [getResult], and which were found to be parts without known libraries,
   /// to the [Completer]s to report the result.
   final _requestedParts = <String, List<Completer<ResolvedUnitResult>>>{};
 
@@ -382,7 +385,7 @@ class AnalysisDriver implements AnalysisDriverGeneric {
   /// the analysis state transitions to "idle".
   ///
   /// [ResolvedUnitResult]s are produced for:
-  /// 1. Files requested using [getResult2].
+  /// 1. Files requested using [getResult].
   /// 2. Files passed to [addFile] which are also in [priorityFiles].
   ///
   /// [ErrorsResult]s are produced for:
@@ -398,7 +401,7 @@ class AnalysisDriver implements AnalysisDriverGeneric {
   /// client does not change the state of the files.
   ///
   /// Results might be produced even for files that have never been added
-  /// using [addFile], for example when [getResult2] was called for a file.
+  /// using [addFile], for example when [getResult] was called for a file.
   Stream<Object> get results => _onResults;
 
   /// Return the search support for the driver.
@@ -494,7 +497,7 @@ class AnalysisDriver implements AnalysisDriverGeneric {
   /// transitions to "idle".
   ///
   /// Invocation of this method will not prevent a [Future] returned from
-  /// [getResult2] from completing with a result, but the result is not
+  /// [getResult] from completing with a result, but the result is not
   /// guaranteed to be consistent with the new current file state after this
   /// [changeFile] invocation.
   void changeFile(String path) {
@@ -593,7 +596,7 @@ class AnalysisDriver implements AnalysisDriverGeneric {
   ///
   /// This method does not use analysis priorities, and must not be used in
   /// interactive analysis, such as Analysis Server or its plugins.
-  Future<SomeErrorsResult> getErrors2(String path) async {
+  Future<SomeErrorsResult> getErrors(String path) async {
     if (!_isAbsolutePath(path)) {
       return Future.value(
         InvalidPathResult(),
@@ -612,6 +615,18 @@ class AnalysisDriver implements AnalysisDriverGeneric {
         .add(completer);
     _scheduler.notify(this);
     return completer.future;
+  }
+
+  /// Return a [Future] that completes with the [ErrorsResult] for the Dart
+  /// file with the given [path].
+  ///
+  /// The [path] must be absolute and normalized.
+  ///
+  /// This method does not use analysis priorities, and must not be used in
+  /// interactive analysis, such as Analysis Server or its plugins.
+  @Deprecated('Use getErrors() instead')
+  Future<SomeErrorsResult> getErrors2(String path) async {
+    return getErrors(path);
   }
 
   /// Return a [Future] that completes with the list of added files that
@@ -637,7 +652,7 @@ class AnalysisDriver implements AnalysisDriverGeneric {
   /// Return the [FileResult] for the Dart file with the given [path].
   ///
   /// The [path] must be absolute and normalized.
-  SomeFileResult getFileSync2(String path) {
+  SomeFileResult getFileSync(String path) {
     if (!_isAbsolutePath(path)) {
       return InvalidPathResult();
     }
@@ -645,6 +660,14 @@ class AnalysisDriver implements AnalysisDriverGeneric {
     FileState file = _fileTracker.getFile(path);
     return FileResultImpl(
         _currentSession, path, file.uri, file.lineInfo, file.isPart);
+  }
+
+  /// Return the [FileResult] for the Dart file with the given [path].
+  ///
+  /// The [path] must be absolute and normalized.
+  @Deprecated('Use getFileSync() instead')
+  SomeFileResult getFileSync2(String path) {
+    return getFileSync(path);
   }
 
   /// Return a [Future] that completes with the [AnalysisDriverUnitIndex] for
@@ -666,10 +689,26 @@ class AnalysisDriver implements AnalysisDriverGeneric {
     return completer.future;
   }
 
+  /// Return [LibraryElementResult] for the given [file], or `null` if the
+  /// file is a part.
+  LibraryElement? getLibraryByFile(FileState file) {
+    if (file.isPart) {
+      return null;
+    }
+
+    var element = libraryContext.getLibraryElementIfReady(file.uriStr);
+    if (element != null) {
+      return element;
+    }
+
+    libraryContext.load2(file);
+    return libraryContext.getLibraryElement(file.uri);
+  }
+
   /// Return a [Future] that completes with [LibraryElementResult] for the given
   /// [uri], which is either resynthesized from the provided external summary
   /// store, or built for a file to which the given [uri] is resolved.
-  Future<SomeLibraryElementResult> getLibraryByUri2(String uri) async {
+  Future<SomeLibraryElementResult> getLibraryByUri(String uri) async {
     var uriObj = Uri.parse(uri);
     var fileOr = _fsState.getFileForUri(uriObj);
     return fileOr.map(
@@ -682,7 +721,7 @@ class AnalysisDriver implements AnalysisDriverGeneric {
           return NotLibraryButPartResult();
         }
 
-        var unitResult = await getUnitElement2(file.path);
+        var unitResult = await getUnitElement(file.path);
         if (unitResult is UnitElementResult) {
           return LibraryElementResultImpl(unitResult.element.library);
         }
@@ -704,26 +743,18 @@ class AnalysisDriver implements AnalysisDriverGeneric {
     );
   }
 
-  /// Return a [ParsedLibraryResult] for the library with the given [path].
-  ///
-  /// Throw [ArgumentError] if the given [path] is not the defining compilation
-  /// unit for a library (that is, is a part of a library).
-  ///
-  /// The [path] must be absolute and normalized.
-  ParsedLibraryResult getParsedLibrary(String path) {
-    var result = getParsedLibrary2(path);
-
-    if (result is NotLibraryButPartResult) {
-      throw ArgumentError('Is a part: $path');
-    }
-
-    return result as ParsedLibraryResult;
+  /// Return a [Future] that completes with [LibraryElementResult] for the given
+  /// [uri], which is either resynthesized from the provided external summary
+  /// store, or built for a file to which the given [uri] is resolved.
+  @Deprecated('Use getLibraryByUri() instead')
+  Future<SomeLibraryElementResult> getLibraryByUri2(String uri) async {
+    return getLibraryByUri(uri);
   }
 
   /// Return a [ParsedLibraryResult] for the library with the given [path].
   ///
   /// The [path] must be absolute and normalized.
-  SomeParsedLibraryResult getParsedLibrary2(String path) {
+  SomeParsedLibraryResult getParsedLibrary(String path) {
     if (!_isAbsolutePath(path)) {
       return InvalidPathResult();
     }
@@ -741,7 +772,7 @@ class AnalysisDriver implements AnalysisDriverGeneric {
     var units = <ParsedUnitResult>[];
     for (var unitFile in file.libraryFiles) {
       var unitPath = unitFile.path;
-      var unitResult = parseFileSync2(unitPath);
+      var unitResult = parseFileSync(unitPath);
       if (unitResult is! ParsedUnitResult) {
         return UnspecifiedInvalidResult();
       }
@@ -752,7 +783,7 @@ class AnalysisDriver implements AnalysisDriverGeneric {
   }
 
   /// Return a [ParsedLibraryResult] for the library with the given [uri].
-  SomeParsedLibraryResult getParsedLibraryByUri2(Uri uri) {
+  SomeParsedLibraryResult getParsedLibraryByUri(Uri uri) {
     var fileOr = _fsState.getFileForUri(uri);
     return fileOr.map(
       (file) {
@@ -784,7 +815,7 @@ class AnalysisDriver implements AnalysisDriverGeneric {
   /// state (including new states of the files previously reported using
   /// [changeFile]), prior to the next time the analysis state transitions
   /// to "idle".
-  Future<SomeResolvedLibraryResult> getResolvedLibrary2(String path) {
+  Future<SomeResolvedLibraryResult> getResolvedLibrary(String path) {
     if (!_isAbsolutePath(path)) {
       return Future.value(
         InvalidPathResult(),
@@ -824,7 +855,7 @@ class AnalysisDriver implements AnalysisDriverGeneric {
   /// state (including new states of the files previously reported using
   /// [changeFile]), prior to the next time the analysis state transitions
   /// to "idle".
-  Future<SomeResolvedLibraryResult> getResolvedLibraryByUri2(Uri uri) {
+  Future<SomeResolvedLibraryResult> getResolvedLibraryByUri(Uri uri) {
     var fileOr = _fsState.getFileForUri(uri);
     return fileOr.map(
       (file) async {
@@ -834,7 +865,7 @@ class AnalysisDriver implements AnalysisDriverGeneric {
         if (file.isPart) {
           return NotLibraryButPartResult();
         }
-        return getResolvedLibrary2(file.path);
+        return getResolvedLibrary(file.path);
       },
       (externalLibrary) async {
         return UriOfExternalLibraryResult();
@@ -859,7 +890,7 @@ class AnalysisDriver implements AnalysisDriverGeneric {
   /// it, which is consistent with the current file state (including new states
   /// of the files previously reported using [changeFile]), prior to the next
   /// time the analysis state transitions to "idle".
-  Future<SomeResolvedUnitResult> getResult2(String path,
+  Future<SomeResolvedUnitResult> getResult(String path,
       {bool sendCachedToStream = false}) {
     if (!_isAbsolutePath(path)) {
       return Future.value(
@@ -893,9 +924,32 @@ class AnalysisDriver implements AnalysisDriverGeneric {
     return completer.future;
   }
 
+  /// Return a [Future] that completes with a [SomeResolvedUnitResult] for the
+  /// Dart file with the given [path].  If the file cannot be analyzed,
+  /// the [Future] completes with an [InvalidResult].
+  ///
+  /// The [path] must be absolute and normalized.
+  ///
+  /// The [path] can be any file - explicitly or implicitly analyzed, or neither.
+  ///
+  /// If the driver has the cached analysis result for the file, it is returned.
+  /// If [sendCachedToStream] is `true`, then the result is also reported into
+  /// the [results] stream, just as if it were freshly computed.
+  ///
+  /// Otherwise causes the analysis state to transition to "analyzing" (if it is
+  /// not in that state already), the driver will produce the analysis result for
+  /// it, which is consistent with the current file state (including new states
+  /// of the files previously reported using [changeFile]), prior to the next
+  /// time the analysis state transitions to "idle".
+  @Deprecated('Use getResult() instead')
+  Future<SomeResolvedUnitResult> getResult2(String path,
+      {bool sendCachedToStream = false}) {
+    return getResult(path);
+  }
+
   /// Return a [Future] that completes with the [SomeUnitElementResult]
   /// for the file with the given [path].
-  Future<SomeUnitElementResult> getUnitElement2(String path) {
+  Future<SomeUnitElementResult> getUnitElement(String path) {
     if (!_isAbsolutePath(path)) {
       return Future.value(
         InvalidPathResult(),
@@ -943,6 +997,7 @@ class AnalysisDriver implements AnalysisDriverGeneric {
   /// The parsing is performed in the method itself, and the result is not
   /// produced through the [results] stream (just because it is not a fully
   /// resolved unit).
+  @Deprecated('Use parseFileSync() instead')
   Future<SomeParsedUnitResult> parseFile2(String path) async {
     return parseFileSync2(path);
   }
@@ -956,7 +1011,7 @@ class AnalysisDriver implements AnalysisDriverGeneric {
   /// The parsing is performed in the method itself, and the result is not
   /// produced through the [results] stream (just because it is not a fully
   /// resolved unit).
-  SomeParsedUnitResult parseFileSync2(String path) {
+  SomeParsedUnitResult parseFileSync(String path) {
     if (!_isAbsolutePath(path)) {
       return InvalidPathResult();
     }
@@ -966,6 +1021,20 @@ class AnalysisDriver implements AnalysisDriverGeneric {
     CompilationUnit unit = file.parse(listener);
     return ParsedUnitResultImpl(currentSession, file.path, file.uri,
         file.content, file.lineInfo, file.isPart, unit, listener.errors);
+  }
+
+  /// Return a [ParsedUnitResult] for the file with the given [path].
+  ///
+  /// The [path] must be absolute and normalized.
+  ///
+  /// The [path] can be any file - explicitly or implicitly analyzed, or neither.
+  ///
+  /// The parsing is performed in the method itself, and the result is not
+  /// produced through the [results] stream (just because it is not a fully
+  /// resolved unit).
+  @Deprecated('Use parseFileSync() instead')
+  SomeParsedUnitResult parseFileSync2(String path) {
+    return parseFileSync(path);
   }
 
   @override
@@ -1224,11 +1293,69 @@ class AnalysisDriver implements AnalysisDriverGeneric {
       return;
     }
     if (file_paths.isDart(resourceProvider.pathContext, path)) {
+      _lastProducedSignatures.remove(path);
       _priorityResults.clear();
       _removePotentiallyAffectedLibraries(path);
       _fileTracker.removeFile(path);
       _scheduler.notify(this);
     }
+  }
+
+  ResolvedForCompletionResultImpl? resolveForCompletion({
+    required String path,
+    required int offset,
+    required OperationPerformanceImpl performance,
+  }) {
+    if (!_isAbsolutePath(path)) {
+      return null;
+    }
+
+    if (!_fsState.hasUri(path)) {
+      return null;
+    }
+
+    // Process pending changes.
+    while (_fileTracker.verifyChangedFilesIfNeeded()) {}
+
+    var file = _fsState.getFileForPath(path);
+
+    var library = file.isPart ? file.library : file;
+    if (library == null) {
+      return null;
+    }
+
+    libraryContext.load2(library);
+    var unitElement = libraryContext.computeUnitElement(library, file)
+        as CompilationUnitElementImpl;
+
+    var analyzer = LibraryAnalyzer(
+        analysisOptions as AnalysisOptionsImpl,
+        declaredVariables,
+        sourceFactory,
+        libraryContext.analysisContext,
+        libraryContext.elementFactory.libraryOfUri2(library.uriStr),
+        libraryContext.analysisSession.inheritanceManager,
+        library,
+        testingData: testingData);
+
+    var analysisResult = analyzer.analyzeForCompletion(
+      file: file,
+      offset: offset,
+      unitElement: unitElement,
+      performance: performance,
+    );
+
+    return ResolvedForCompletionResultImpl(
+      analysisSession: currentSession,
+      path: path,
+      uri: file.uri,
+      exists: file.exists,
+      content: file.content,
+      lineInfo: file.lineInfo,
+      parsedUnit: analysisResult.parsedUnit,
+      unitElement: unitElement,
+      resolvedNodes: analysisResult.resolvedNodes,
+    );
   }
 
   void _addDeclaredVariablesToSignature(ApiSignature buffer) {
@@ -1450,6 +1577,8 @@ class AnalysisDriver implements AnalysisDriverGeneric {
         currentSession,
         path,
         file.uri,
+        file.lineInfo,
+        file.isPart,
         library.transitiveSignature,
         element,
       );
@@ -1653,15 +1782,16 @@ class AnalysisDriver implements AnalysisDriverGeneric {
   }
 
   void _removePotentiallyAffectedLibraries(String path) {
-    _logger.run('Invalidate affected by $path.', () {
-      _logger.writeln('Work in $name');
-      var affected = <FileState>{};
-      _fsState.collectAffected(path, affected);
-      _logger.writeln('Remove ${affected.length} libraries.');
-      _libraryContext?.elementFactory.removeLibraries(
-        affected.map((e) => e.uriStr).toSet(),
-      );
-    });
+    var affected = <FileState>{};
+    _fsState.collectAffected(path, affected);
+
+    for (var file in affected) {
+      file.invalidateLibraryCycle();
+    }
+
+    _libraryContext?.elementFactory.removeLibraries(
+      affected.map((e) => e.uriStr).toSet(),
+    );
   }
 
   void _reportException(String path, Object exception, StackTrace stackTrace) {

@@ -85,6 +85,26 @@ void bar() {
     );
   }
 
+  test_alias_generic_uninstantiated_const() async {
+    await assertNoErrorsInCode('''
+class A<T, U> {
+  const A.foo();
+}
+typedef TA<T, U> = A<U, T>;
+
+const a = TA.foo;
+''');
+
+    var classElement = findElement.class_('A');
+    assertConstructorReference(
+      findNode.constructorReference('TA.foo;'),
+      classElement.getNamedConstructor('foo'),
+      classElement,
+      'A<U, T> Function<T, U>()',
+      expectedTypeNameElement: findElement.typeAlias('TA'),
+    );
+  }
+
   test_alias_generic_unnamed() async {
     await assertNoErrorsInCode('''
 class A<T> {
@@ -246,7 +266,7 @@ void bar() {
 ''', [
       error(CompileTimeErrorCode.WRONG_NUMBER_OF_TYPE_ARGUMENTS_CONSTRUCTOR, 52,
           5,
-          messageContains: "The constructor 'A.foo'"),
+          messageContains: ["The constructor 'A.foo'"]),
     ]);
 
     var classElement = findElement.class_('A');
@@ -271,7 +291,7 @@ void bar() {
 ''', [
       error(CompileTimeErrorCode.WRONG_NUMBER_OF_TYPE_ARGUMENTS_CONSTRUCTOR, 52,
           5,
-          messageContains: "The constructor 'A.new'"),
+          messageContains: ["The constructor 'A.new'"]),
     ]);
 
     var classElement = findElement.class_('A');

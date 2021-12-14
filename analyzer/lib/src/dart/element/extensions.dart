@@ -6,6 +6,58 @@ import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:analyzer/src/dart/element/element.dart';
 import 'package:analyzer/src/generated/utilities_dart.dart';
+import 'package:meta/meta_meta.dart';
+
+extension ElementAnnotationExtensions on ElementAnnotation {
+  static final Map<String, TargetKind> _targetKindsByName = {
+    for (final kind in TargetKind.values) kind.toString(): kind,
+  };
+
+  /// Return the target kinds defined for this [ElementAnnotation].
+  Set<TargetKind> get targetKinds {
+    final element = this.element;
+    ClassElement? classElement;
+    if (element is PropertyAccessorElement) {
+      if (element.isGetter) {
+        var type = element.returnType;
+        if (type is InterfaceType) {
+          classElement = type.element;
+        }
+      }
+    } else if (element is ConstructorElement) {
+      classElement = element.enclosingElement;
+    }
+    if (classElement == null) {
+      return const <TargetKind>{};
+    }
+    for (var annotation in classElement.metadata) {
+      if (annotation.isTarget) {
+        var value = annotation.computeConstantValue()!;
+        var kinds = <TargetKind>{};
+
+        for (var kindObject in value.getField('kinds')!.toSetValue()!) {
+          // We can't directly translate the index from the analyzed TargetKind
+          // constant to TargetKinds.values because the analyzer from the SDK
+          // may have been compiled with a different version of pkg:meta.
+          var index = kindObject.getField('index')!.toIntValue()!;
+          var targetKindClass =
+              (kindObject.type as InterfaceType).element as EnumElementImpl;
+          // Instead, map constants to their TargetKind by comparing getter
+          // names.
+          var getter = targetKindClass.constants[index];
+          var name = 'TargetKind.${getter.name}';
+
+          var foundTargetKind = _targetKindsByName[name];
+          if (foundTargetKind != null) {
+            kinds.add(foundTargetKind);
+          }
+        }
+        return kinds;
+      }
+    }
+    return const <TargetKind>{};
+  }
+}
 
 extension ElementExtension on Element {
   /// Return `true` if this element is an instance member of a class or mixin.
@@ -53,12 +105,16 @@ extension ElementExtension on Element {
 
 extension ParameterElementExtensions on ParameterElement {
   /// Return [ParameterElement] with the specified properties replaced.
-  ParameterElement copyWith({DartType? type, ParameterKind? kind}) {
+  ParameterElement copyWith({
+    DartType? type,
+    ParameterKind? kind,
+    bool? isCovariant,
+  }) {
     return ParameterElementImpl.synthetic(
       name,
       type ?? this.type,
       // ignore: deprecated_member_use_from_same_package
       kind ?? parameterKind,
-    )..isExplicitlyCovariant = isCovariant;
+    )..isExplicitlyCovariant = isCovariant ?? this.isCovariant;
   }
 }

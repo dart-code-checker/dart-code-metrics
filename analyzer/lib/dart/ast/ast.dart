@@ -570,6 +570,8 @@ abstract class AstVisitor<R> {
 
   R? visitSuperExpression(SuperExpression node);
 
+  R? visitSuperFormalParameter(SuperFormalParameter node);
+
   R? visitSwitchCase(SwitchCase node);
 
   R? visitSwitchDefault(SwitchDefault node);
@@ -979,14 +981,33 @@ abstract class Comment implements AstNode {
   List<Token> get tokens;
 }
 
+/// An interface for an [Expression] which can make up a [CommentReference].
+///
+///    commentReferableExpression ::=
+///        [ConstructorReference]
+///      | [FunctionReference]
+///      | [PrefixedIdentifier]
+///      | [PropertyAccess]
+///      | [SimpleIdentifier]
+///      | [TypeLiteral]
+///
+/// This interface should align closely with dartdoc's notion of
+/// comment-referable expressions at:
+/// https://github.com/dart-lang/dartdoc/blob/master/lib/src/comment_references/parser.dart
+abstract class CommentReferableExpression implements Expression {}
+
 /// A reference to a Dart element that is found within a documentation comment.
 ///
 ///    commentReference ::=
-///        '[' 'new'? [Identifier] ']'
+///        '[' 'new'? [CommentReferableExpression] ']'
 ///
 /// Clients may not extend, implement or mix-in this class.
 abstract class CommentReference implements AstNode {
+  /// The comment-referable expression being referenced.
+  CommentReferableExpression get expression;
+
   /// Return the identifier being referenced.
+  @Deprecated('Use expression instead')
   Identifier get identifier;
 
   /// Return the token representing the 'new' keyword, or `null` if there was no
@@ -1331,7 +1352,8 @@ abstract class ConstructorName implements AstNode, ConstructorReferenceNode {
 /// produced at resolution time.
 ///
 /// Clients may not extend, implement or mix-in this class.
-abstract class ConstructorReference implements Expression {
+abstract class ConstructorReference
+    implements Expression, CommentReferableExpression {
   /// The constructor being referenced.
   ConstructorName get constructorName;
 }
@@ -2180,6 +2202,7 @@ abstract class ForStatement implements Statement {
 ///        [BlockFunctionBody]
 ///      | [EmptyFunctionBody]
 ///      | [ExpressionFunctionBody]
+///      | [NativeFunctionBody]
 ///
 /// Clients may not extend, implement or mix-in this class.
 abstract class FunctionBody implements AstNode {
@@ -2319,7 +2342,8 @@ abstract class FunctionExpressionInvocation
 /// arguments applied to it, e.g. the expression `print` in `var x = print;`.
 ///
 /// Clients may not extend, implement or mix-in this class.
-abstract class FunctionReference implements Expression {
+abstract class FunctionReference
+    implements Expression, CommentReferableExpression {
   /// The function being referenced.
   ///
   /// In error-free code, this will be either a SimpleIdentifier (indicating a
@@ -2503,7 +2527,7 @@ abstract class HideCombinator implements Combinator {
 ///      | [PrefixedIdentifier]
 ///
 /// Clients may not extend, implement or mix-in this class.
-abstract class Identifier implements Expression {
+abstract class Identifier implements Expression, CommentReferableExpression {
   /// Return the lexical representation of the identifier.
   String get name;
 
@@ -3588,7 +3612,8 @@ abstract class PrefixExpression
 ///        [Expression] '.' [SimpleIdentifier]
 ///
 /// Clients may not extend, implement or mix-in this class.
-abstract class PropertyAccess implements NullShortableExpression {
+abstract class PropertyAccess
+    implements NullShortableExpression, CommentReferableExpression {
   /// Return `true` if this expression is cascaded.
   ///
   /// If it is, then the target of this expression is not stored locally but is
@@ -4036,6 +4061,48 @@ abstract class SuperExpression implements Expression {
   Token get superKeyword;
 }
 
+/// A super-initializer formal parameter.
+///
+///    superFormalParameter ::=
+///        ('final' [TypeAnnotation] | 'const' [TypeAnnotation] | 'var' | [TypeAnnotation])?
+///        'super' '.' [SimpleIdentifier] ([TypeParameterList]? [FormalParameterList])?
+///
+/// Clients may not extend, implement or mix-in this class.
+abstract class SuperFormalParameter implements NormalFormalParameter {
+  @override
+  SimpleIdentifier get identifier;
+
+  /// Return the token representing either the 'final', 'const' or 'var'
+  /// keyword, or `null` if no keyword was used.
+  Token? get keyword;
+
+  /// Return the parameters of the function-typed parameter, or `null` if this
+  /// is not a function-typed field formal parameter.
+  FormalParameterList? get parameters;
+
+  /// Return the token representing the period.
+  Token get period;
+
+  /// If the parameter is function-typed, and has the question mark, then its
+  /// function type is nullable. Having a nullable function type means that the
+  /// parameter can be null.
+  Token? get question;
+
+  /// Return the token representing the 'super' keyword.
+  Token get superKeyword;
+
+  /// Return the declared type of the parameter, or `null` if the parameter does
+  /// not have a declared type.
+  ///
+  /// Note that if this is a function-typed field formal parameter this is the
+  /// return type of the function.
+  TypeAnnotation? get type;
+
+  /// Return the type parameters associated with this method, or `null` if this
+  /// method is not a generic method.
+  TypeParameterList? get typeParameters;
+}
+
 /// A case in a switch statement.
 ///
 ///    switchCase ::=
@@ -4289,7 +4356,7 @@ abstract class TypedLiteral implements Literal {
 /// use `.typeName.type`.
 ///
 /// Clients may not extend, implement or mix-in this class.
-abstract class TypeLiteral implements Expression {
+abstract class TypeLiteral implements Expression, CommentReferableExpression {
   /// The type represented by this literal.
   NamedType get type;
 

@@ -16,9 +16,11 @@ abstract class AnalysisResultImpl implements AnalysisResult {
   @override
   final AnalysisSession session;
 
+  @Deprecated('Use FileResult.path instead')
   @override
   final String path;
 
+  @Deprecated('Use FileResult.uri instead')
   @override
   final Uri uri;
 
@@ -62,9 +64,19 @@ class FileResultImpl extends AnalysisResultImpl implements FileResult {
       AnalysisSession session, String path, Uri uri, this.lineInfo, this.isPart)
       : super(session, path, uri);
 
+  @override
+  // TODO(scheglov) Convert into a field.
+  // ignore: deprecated_member_use_from_same_package, unnecessary_overrides
+  String get path => super.path;
+
   @Deprecated('Check for specific Result subtypes instead')
   @override
   ResultState get state => ResultState.VALID;
+
+  @override
+  // TODO(scheglov) Convert into a field.
+  // ignore: deprecated_member_use_from_same_package, unnecessary_overrides
+  Uri get uri => super.uri;
 }
 
 class LibraryElementResultImpl implements LibraryElementResult {
@@ -153,6 +165,48 @@ class ParseStringResultImpl implements ParseStringResult {
 
   @override
   LineInfo get lineInfo => unit.lineInfo!;
+}
+
+class ResolvedForCompletionResultImpl {
+  final AnalysisSession analysisSession;
+  final String path;
+  final Uri uri;
+  final bool exists;
+  final String content;
+  final LineInfo lineInfo;
+
+  /// The full parsed unit.
+  final CompilationUnit parsedUnit;
+
+  /// The full element for the unit.
+  final CompilationUnitElement unitElement;
+
+  /// Nodes from [parsedUnit] that were resolved to provide enough context
+  /// to perform completion. How much is enough depends on the location
+  /// where resolution for completion was requested, and our knowledge
+  /// how completion contributors work and what information they expect.
+  ///
+  /// This is usually a small subset of the whole unit - a method, a field.
+  /// It could be even empty if the location does not provide any context
+  /// information for any completion contributor, e.g. a type annotation.
+  /// But it could be the whole unit as well, if the location is not something
+  /// we have an optimization for.
+  ///
+  /// If this list is not empty, then the last node contains the requested
+  /// offset. Other nodes are provided mostly FYI.
+  final List<AstNode> resolvedNodes;
+
+  ResolvedForCompletionResultImpl({
+    required this.analysisSession,
+    required this.path,
+    required this.uri,
+    required this.exists,
+    required this.content,
+    required this.lineInfo,
+    required this.parsedUnit,
+    required this.unitElement,
+    required this.resolvedNodes,
+  });
 }
 
 class ResolvedLibraryResultImpl extends AnalysisResultImpl
@@ -249,7 +303,7 @@ class ResolvedUnitResultImpl extends FileResultImpl
   TypeSystemImpl get typeSystem => libraryElement.typeSystem as TypeSystemImpl;
 }
 
-class UnitElementResultImpl extends AnalysisResultImpl
+class UnitElementResultImpl extends FileResultImpl
     implements UnitElementResult {
   @override
   final String signature;
@@ -258,8 +312,8 @@ class UnitElementResultImpl extends AnalysisResultImpl
   final CompilationUnitElement element;
 
   UnitElementResultImpl(AnalysisSession session, String path, Uri uri,
-      this.signature, this.element)
-      : super(session, path, uri);
+      LineInfo lineInfo, bool isPart, this.signature, this.element)
+      : super(session, path, uri, lineInfo, isPart);
 
   @Deprecated('Check for specific Result subtypes instead')
   @override

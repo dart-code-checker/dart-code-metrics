@@ -256,7 +256,7 @@ final MockSdkLibrary _LIB_CORE = MockSdkLibrary(
       '''
 library dart.core;
 
-import 'dart:async'; // ignore: unused_import
+import "dart:_internal" hide Symbol;
 
 export 'dart:async' show Future, Stream;
 
@@ -318,13 +318,6 @@ class pragma {
 }
 
 abstract class double extends num {
-  // TODO: remove these old constants when no tests rely on them.
-  static const double NAN = 0.0 / 0.0;
-  static const double INFINITY = 1.0 / 0.0;
-  static const double NEGATIVE_INFINITY = -INFINITY;
-  static const double MIN_POSITIVE = 5e-324;
-  static const double MAX_FINITE = 1.7976931348623157e+308;
-
   static const double nan = 0.0 / 0.0;
   static const double infinity = 1.0 / 0.0;
   static const double negativeInfinity = -infinity;
@@ -416,7 +409,7 @@ abstract class Iterable<E> {
 
   const Iterable();
 
-  const factory Iterable.empty() => EmptyIterable<E>();
+  const factory Iterable.empty() = EmptyIterable<E>;
 
   bool contains(Object? element);
 

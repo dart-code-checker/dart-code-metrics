@@ -25,7 +25,7 @@ class FfiVerifier extends RecursiveAstVisitor<void> {
   static const _opaqueClassName = 'Opaque';
   static const _ffiNativeName = 'FfiNative';
 
-  static const List<String> _primitiveIntegerNativeTypes = [
+  static const Set<String> _primitiveIntegerNativeTypes = {
     'Int8',
     'Int16',
     'Int32',
@@ -35,12 +35,12 @@ class FfiVerifier extends RecursiveAstVisitor<void> {
     'Uint32',
     'Uint64',
     'IntPtr'
-  ];
+  };
 
-  static const List<String> _primitiveDoubleNativeTypes = [
+  static const Set<String> _primitiveDoubleNativeTypes = {
     'Float',
     'Double',
-  ];
+  };
 
   static const _primitiveBoolNativeType = 'Bool';
 
@@ -108,11 +108,11 @@ class FfiVerifier extends RecursiveAstVisitor<void> {
         return;
       }
       if (typename.ffiClass != null) {
-        _errorReporter.reportErrorForNode(
-            subtypeOfFfiCode, typename, [node.name, typename.name]);
+        _errorReporter.reportErrorForNode(subtypeOfFfiCode, typename,
+            [node.name.name, typename.name.toSource()]);
       } else if (typename.isCompoundSubtype) {
-        _errorReporter.reportErrorForNode(
-            subtypeOfStructCode, typename, [node.name, typename.name]);
+        _errorReporter.reportErrorForNode(subtypeOfStructCode, typename,
+            [node.name.name, typename.name.toSource()]);
       }
     }
 
@@ -133,7 +133,7 @@ class FfiVerifier extends RecursiveAstVisitor<void> {
 
     if (inCompound && node.declaredElement!.typeParameters.isNotEmpty) {
       _errorReporter.reportErrorForNode(
-          FfiCode.GENERIC_STRUCT_SUBCLASS, node.name, [node.name]);
+          FfiCode.GENERIC_STRUCT_SUBCLASS, node.name, [node.name.name]);
     }
     super.visitClassDeclaration(node);
   }
@@ -1516,13 +1516,7 @@ extension on NamedType {
   bool get isCompoundSubtype {
     var element = name.staticElement;
     if (element is ClassElement) {
-      bool isCompound(InterfaceType? type) {
-        return type != null && type.isCompound;
-      }
-
-      return isCompound(element.supertype) ||
-          element.interfaces.any(isCompound) ||
-          element.mixins.any(isCompound);
+      return element.allSupertypes.any((e) => e.isCompound);
     }
     return false;
   }

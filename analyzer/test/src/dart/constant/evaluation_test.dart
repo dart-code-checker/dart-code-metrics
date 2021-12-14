@@ -28,6 +28,150 @@ main() {
 @reflectiveTest
 class ConstantVisitorTest extends ConstantVisitorTestSupport
     with ConstantVisitorTestCases {
+  test_identical_constructorReference_aliasIsNotGeneric() async {
+    await resolveTestCode('''
+class C<T> {}
+typedef MyC = C<int>;
+const a = identical(MyC.new, C<int>.new);
+''');
+    expect(
+      _evaluateConstant('a'),
+      _boolValue(true),
+    );
+  }
+
+  test_identical_constructorReference_aliasIsNotProperRename_differentBound() async {
+    await resolveTestCode('''
+class C<T> {}
+typedef MyC<T extends num> = C<T>;
+const a = identical(MyC.new, C.new);
+''');
+    expect(
+      _evaluateConstant('a'),
+      _boolValue(false),
+    );
+  }
+
+  test_identical_constructorReference_aliasIsNotProperRename_differentCount() async {
+    await resolveTestCode('''
+class C<T, U> {}
+typedef MyC<T> = C<T, int>;
+const a = identical(MyC.new, C.new);
+''');
+    expect(
+      _evaluateConstant('a'),
+      _boolValue(false),
+    );
+  }
+
+  test_identical_constructorReference_aliasIsNotProperRename_differentCount2() async {
+    await resolveTestCode('''
+class C<T, U> {}
+typedef MyC<T> = C;
+const a = identical(MyC.new, C.new);
+''');
+    expect(
+      _evaluateConstant('a'),
+      _boolValue(false),
+    );
+  }
+
+  test_identical_constructorReference_aliasIsNotProperRename_differentOrder() async {
+    await resolveTestCode('''
+class C<T, U> {}
+typedef MyC<T, U> = C<U, T>;
+const a = identical(MyC.new, C.new);
+''');
+    expect(
+      _evaluateConstant('a'),
+      _boolValue(false),
+    );
+  }
+
+  test_identical_constructorReference_aliasIsNotProperRename_instantiated() async {
+    await resolveTestCode('''
+class C<T> {}
+typedef MyC<T extends num> = C<T>;
+const a = identical(MyC<int>.new, C<int>.new);
+''');
+    expect(
+      _evaluateConstant('a'),
+      _boolValue(true),
+    );
+  }
+
+  test_identical_constructorReference_aliasIsNotProperRename_mixedInstantiations() async {
+    await resolveTestCode('''
+class C<T> {}
+typedef MyC<T extends num> = C<T>;
+const a = identical(MyC<int>.new, (MyC.new)<int>);
+''');
+    expect(
+      _evaluateConstant('a'),
+      _boolValue(false),
+    );
+  }
+
+  test_identical_constructorReference_aliasIsProperRename_instantiated() async {
+    await resolveTestCode('''
+class C<T> {}
+typedef MyC<T> = C<T>;
+const a = identical(MyC<int>.new, MyC<int>.new);
+''');
+    expect(
+      _evaluateConstant('a'),
+      _boolValue(true),
+    );
+  }
+
+  test_identical_constructorReference_aliasIsProperRename_mixedInstantiations() async {
+    await resolveTestCode('''
+class C<T> {}
+typedef MyC<T> = C<T>;
+const a = identical(MyC<int>.new, (MyC.new)<int>);
+''');
+    expect(
+      _evaluateConstant('a'),
+      _boolValue(true),
+    );
+  }
+
+  test_identical_constructorReference_aliasIsProperRename_mutualSubtypes_dynamic() async {
+    await resolveTestCode('''
+class C<T> {}
+typedef MyC<T extends Object?> = C<T>;
+const a = identical(MyC<int>.new, MyC<int>.new);
+''');
+    expect(
+      _evaluateConstant('a'),
+      _boolValue(true),
+    );
+  }
+
+  test_identical_constructorReference_aliasIsProperRename_mutualSubtypes_futureOr() async {
+    await resolveTestCode('''
+class C<T extends num> {}
+typedef MyC<T extends FutureOr<num>> = C<T>;
+const a = identical(MyC<int>.new, MyC<int>.new);
+''');
+    expect(
+      _evaluateConstant('a'),
+      _boolValue(true),
+    );
+  }
+
+  test_identical_constructorReference_aliasIsProperRename_uninstantiated() async {
+    await resolveTestCode('''
+class C<T> {}
+typedef MyC<T> = C<T>;
+const a = identical(MyC.new, MyC.new);
+''');
+    expect(
+      _evaluateConstant('a'),
+      _boolValue(true),
+    );
+  }
+
   test_identical_constructorReference_explicitTypeArgs_differentClasses() async {
     await resolveTestCode('''
 class C<T> {}
@@ -69,6 +213,19 @@ const a = identical(C<int>.new, C<String>.new);
     await resolveTestCode('''
 class C<T> {}
 const a = identical(C<int>.new, C<int>.new);
+''');
+    expect(
+      _evaluateConstant('a'),
+      _boolValue(true),
+    );
+  }
+
+  test_identical_constructorReference_inferredTypeArgs_sameElement() async {
+    await resolveTestCode('''
+class C<T> {}
+const C<int> Function() c1 = C.new;
+const c2 = C<int>.new;
+const a = identical(c1, c2);
 ''');
     expect(
       _evaluateConstant('a'),
@@ -555,6 +712,49 @@ const g = f;
     assertType(result.type, 'void Function<T>(T)');
     assertElement(result.toFunctionValue(), findElement.topFunction('f'));
     _assertTypeArguments(result, null);
+  }
+
+  test_visitIsExpression_is_null() async {
+    await resolveTestCode('''
+const a = null;
+const b = a is A;
+class A {}
+''');
+    DartObjectImpl result = _evaluateConstant('b');
+    expect(result.type, typeProvider.boolType);
+    expect(result.toBoolValue(), false);
+  }
+
+  test_visitIsExpression_is_null_nullable() async {
+    await resolveTestCode('''
+const a = null;
+const b = a is A?;
+class A {}
+''');
+    DartObjectImpl result = _evaluateConstant('b');
+    expect(result.type, typeProvider.boolType);
+    expect(result.toBoolValue(), true);
+  }
+
+  test_visitIsExpression_is_null_object() async {
+    await resolveTestCode('''
+const a = null;
+const b = a is Object;
+''');
+    DartObjectImpl result = _evaluateConstant('b');
+    expect(result.type, typeProvider.boolType);
+    expect(result.toBoolValue(), false);
+  }
+
+  test_visitIsExpression_isNot_null() async {
+    await resolveTestCode('''
+const a = null;
+const b = a is! A;
+class A {}
+''');
+    DartObjectImpl result = _evaluateConstant('b');
+    expect(result.type, typeProvider.boolType);
+    expect(result.toBoolValue(), true);
   }
 
   test_visitPrefixedIdentifier_genericFunction_instantiated() async {
@@ -1520,17 +1720,6 @@ class B {
     expect(result.toBoolValue(), false);
   }
 
-  test_visitIsExpression_is_null() async {
-    await resolveTestCode('''
-const a = null;
-const b = a is A;
-class A {}
-''');
-    DartObjectImpl result = _evaluateConstant('b');
-    expect(result.type, typeProvider.boolType);
-    expect(result.toBoolValue(), false);
-  }
-
   test_visitIsExpression_is_null_dynamic() async {
     await resolveTestCode('''
 const a = null;
@@ -1546,17 +1735,6 @@ class A {}
     await resolveTestCode('''
 const a = null;
 const b = a is Null;
-class A {}
-''');
-    DartObjectImpl result = _evaluateConstant('b');
-    expect(result.type, typeProvider.boolType);
-    expect(result.toBoolValue(), true);
-  }
-
-  test_visitIsExpression_is_null_object() async {
-    await resolveTestCode('''
-const a = null;
-const b = a is Object;
 class A {}
 ''');
     DartObjectImpl result = _evaluateConstant('b');
@@ -1619,17 +1797,6 @@ class A {
 class B {
   const B();
 }
-''');
-    DartObjectImpl result = _evaluateConstant('b');
-    expect(result.type, typeProvider.boolType);
-    expect(result.toBoolValue(), true);
-  }
-
-  test_visitIsExpression_isNot_null() async {
-    await resolveTestCode('''
-const a = null;
-const b = a is! A;
-class A {}
 ''');
     DartObjectImpl result = _evaluateConstant('b');
     expect(result.type, typeProvider.boolType);
@@ -1892,11 +2059,81 @@ class A {}
     DartObjectImpl result = _evaluateConstant('b');
     expect(result.type, typeProvider.nullType);
   }
+
+  test_visitIsExpression_is_null() async {
+    await resolveTestCode('''
+const a = null;
+const b = a is A;
+class A {}
+''');
+    DartObjectImpl result = _evaluateConstant('b');
+    expect(result.type, typeProvider.boolType);
+    expect(result.toBoolValue(), true);
+  }
+
+  test_visitIsExpression_is_null_object() async {
+    await resolveTestCode('''
+const a = null;
+const b = a is Object;
+''');
+    DartObjectImpl result = _evaluateConstant('b');
+    expect(result.type, typeProvider.boolType);
+    expect(result.toBoolValue(), true);
+  }
+
+  test_visitIsExpression_isNot_null() async {
+    await resolveTestCode('''
+const a = null;
+const b = a is! A;
+class A {}
+''');
+    DartObjectImpl result = _evaluateConstant('b');
+    expect(result.type, typeProvider.boolType);
+    expect(result.toBoolValue(), false);
+  }
 }
 
 @reflectiveTest
 class InstanceCreationEvaluatorTest extends ConstantVisitorTestSupport
     with InstanceCreationEvaluatorTestCases {
+  test_assertInitializer_assertIsNot_null_nullableType() async {
+    await resolveTestCode('''
+class A<T> {
+  const A() : assert(null is! T);
+}
+
+const a = const A<int?>();
+''');
+
+    _evaluateConstantOrNull(
+      'a',
+      errorCodes: [CompileTimeErrorCode.CONST_EVAL_THROWS_EXCEPTION],
+    );
+  }
+
+  test_fieldInitializer_functionReference_withTypeParameter() async {
+    await resolveTestCode('''
+void g<U>(U a) {}
+class A<T> {
+  final void Function(T) f;
+  const A(): f = g;
+}
+const a = const A<int>();
+''');
+    var result = _evaluateConstant('a');
+    var aElement = findElement.class_('A');
+    var expectedType = aElement.instantiate(
+        typeArguments: [typeProvider.intType],
+        nullabilitySuffix: NullabilitySuffix.none);
+    expect(result.type, expectedType);
+
+    var fField = result.fields!['f']!;
+    var gElement = findElement.topFunction('g');
+    var expectedFunctionType =
+        gElement.type.instantiate([typeProvider.intType]);
+    expect(fField.type, expectedFunctionType);
+  }
+
   test_fieldInitializer_typeParameter() async {
     await resolveTestCode('''
 class A<T> {
@@ -2031,6 +2268,31 @@ const a = const B<int>();
 
 @reflectiveTest
 mixin InstanceCreationEvaluatorTestCases on ConstantVisitorTestSupport {
+  test_assertInitializer_assertIsNot_false() async {
+    await resolveTestCode('''
+class A {
+  const A() : assert(0 is! int);
+}
+
+const a = const A(null);
+''');
+    _evaluateConstantOrNull(
+      'a',
+      errorCodes: [CompileTimeErrorCode.CONST_EVAL_THROWS_EXCEPTION],
+    );
+  }
+
+  test_assertInitializer_assertIsNot_true() async {
+    await resolveTestCode('''
+class A {
+  const A() : assert(0 is! String);
+}
+
+const a = const A(null);
+''');
+    _assertValidConstant('a');
+  }
+
   test_assertInitializer_intInDoubleContext_assertIsDouble_true() async {
     await resolveTestCode('''
 class A {

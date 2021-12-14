@@ -2863,6 +2863,50 @@ void f<T extends A, U extends B>(T a) {
     );
   }
 
+  test_namedArgument_anywhere() async {
+    await assertNoErrorsInCode('''
+class A {}
+class B {}
+class C {}
+class D {}
+
+void foo(A a, B b, {C? c, D? d}) {}
+
+T g1<T>() => throw 0;
+T g2<T>() => throw 0;
+T g3<T>() => throw 0;
+T g4<T>() => throw 0;
+
+void f() {
+  foo(g1(), c: g3(), g2(), d: g4());
+}
+''');
+
+    assertMethodInvocation(
+      findNode.methodInvocation('foo(g'),
+      findElement.topFunction('foo'),
+      'void Function(A, B, {C? c, D? d})',
+    );
+
+    var g1 = findNode.methodInvocation('g1()');
+    assertType(g1, 'A');
+    assertParameterElement(g1, findElement.parameter('a'));
+
+    var g2 = findNode.methodInvocation('g2()');
+    assertType(g2, 'B');
+    assertParameterElement(g2, findElement.parameter('b'));
+
+    var named_g3 = findNode.namedExpression('c: g3()');
+    assertType(named_g3.expression, 'C?');
+    assertParameterElement(named_g3, findElement.parameter('c'));
+    assertNamedParameterRef('c:', 'c');
+
+    var named_g4 = findNode.namedExpression('d: g4()');
+    assertType(named_g4.expression, 'D?');
+    assertParameterElement(named_g4, findElement.parameter('d'));
+    assertNamedParameterRef('d:', 'd');
+  }
+
   test_nullShorting_cascade_firstMethodInvocation() async {
     await assertNoErrorsInCode(r'''
 class A {

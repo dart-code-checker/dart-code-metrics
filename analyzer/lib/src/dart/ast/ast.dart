@@ -1856,6 +1856,9 @@ class CommentImpl extends AstNodeImpl implements Comment {
       CommentImpl(tokens, CommentType.END_OF_LINE, const <CommentReference>[]);
 }
 
+abstract class CommentReferableExpressionImpl extends ExpressionImpl
+    implements CommentReferableExpression {}
+
 /// A reference to a Dart element that is found within a documentation comment.
 ///
 ///    commentReference ::=
@@ -1866,31 +1869,40 @@ class CommentReferenceImpl extends AstNodeImpl implements CommentReference {
   @override
   Token? newKeyword;
 
-  /// The identifier being referenced.
-  IdentifierImpl _identifier;
+  /// The expression being referenced.
+  CommentReferableExpressionImpl _expression;
 
   /// Initialize a newly created reference to a Dart element. The [newKeyword]
   /// can be `null` if the reference is not to a constructor.
-  CommentReferenceImpl(this.newKeyword, this._identifier) {
-    _becomeParentOf(_identifier);
+  CommentReferenceImpl(this.newKeyword, this._expression) {
+    _becomeParentOf(_expression);
   }
 
   @override
-  Token get beginToken => newKeyword ?? _identifier.beginToken;
+  Token get beginToken => newKeyword ?? _expression.beginToken;
 
   @override
   Iterable<SyntacticEntity> get childEntities => ChildEntities()
     ..add(newKeyword)
-    ..add(_identifier);
+    ..add(_expression);
 
   @override
-  Token get endToken => _identifier.endToken;
+  Token get endToken => _expression.endToken;
 
   @override
-  IdentifierImpl get identifier => _identifier;
+  CommentReferableExpression get expression => _expression;
 
+  set expression(CommentReferableExpression expression) {
+    _expression = _becomeParentOf(expression as CommentReferableExpressionImpl);
+  }
+
+  @override
+  @Deprecated('Use expression instead')
+  IdentifierImpl get identifier => _expression as IdentifierImpl;
+
+  @Deprecated('Use expression= instead')
   set identifier(Identifier identifier) {
-    _identifier = _becomeParentOf(identifier as IdentifierImpl);
+    _expression = _becomeParentOf(identifier as CommentReferableExpressionImpl);
   }
 
   @override
@@ -1898,7 +1910,7 @@ class CommentReferenceImpl extends AstNodeImpl implements CommentReference {
 
   @override
   void visitChildren(AstVisitor visitor) {
-    _identifier.accept(visitor);
+    _expression.accept(visitor);
   }
 }
 
@@ -2669,7 +2681,7 @@ class ConstructorNameImpl extends AstNodeImpl implements ConstructorName {
 /// Objects of this type are not produced directly by the parser (because the
 /// parser cannot tell whether an identifier refers to a type); they are
 /// produced at resolution time.
-class ConstructorReferenceImpl extends ExpressionImpl
+class ConstructorReferenceImpl extends CommentReferableExpressionImpl
     implements ConstructorReference {
   ConstructorNameImpl _constructorName;
 
@@ -5038,7 +5050,7 @@ class FunctionExpressionInvocationImpl extends InvocationExpressionImpl
 
 /// An expression representing a reference to a function, possibly with type
 /// arguments applied to it, e.g. the expression `print` in `var x = print;`.
-class FunctionReferenceImpl extends ExpressionImpl
+class FunctionReferenceImpl extends CommentReferableExpressionImpl
     implements FunctionReference {
   ExpressionImpl _function;
 
@@ -5573,7 +5585,8 @@ class HideCombinatorImpl extends CombinatorImpl implements HideCombinator {
 ///    identifier ::=
 ///        [SimpleIdentifier]
 ///      | [PrefixedIdentifier]
-abstract class IdentifierImpl extends ExpressionImpl implements Identifier {
+abstract class IdentifierImpl extends CommentReferableExpressionImpl
+    implements Identifier {
   @override
   bool get isAssignable => true;
 }
@@ -8449,7 +8462,7 @@ class PrefixExpressionImpl extends ExpressionImpl
 ///
 ///    propertyAccess ::=
 ///        [Expression] '.' [SimpleIdentifier]
-class PropertyAccessImpl extends ExpressionImpl
+class PropertyAccessImpl extends CommentReferableExpressionImpl
     with NullShortableExpressionImpl
     implements PropertyAccess {
   /// The expression computing the object defining the property being accessed.
@@ -9738,6 +9751,144 @@ class SuperExpressionImpl extends ExpressionImpl implements SuperExpression {
   }
 }
 
+/// A super-initializer formal parameter.
+///
+///    fieldFormalParameter ::=
+///        ('final' [TypeName] | 'const' [TypeName] | 'var' | [TypeName])?
+///        'super' '.' [SimpleIdentifier]
+///        ([TypeParameterList]? [FormalParameterList])?
+class SuperFormalParameterImpl extends NormalFormalParameterImpl
+    implements SuperFormalParameter {
+  /// The token representing either the 'final', 'const' or 'var' keyword, or
+  /// `null` if no keyword was used.
+  @override
+  Token? keyword;
+
+  /// The name of the declared type of the parameter, or `null` if the parameter
+  /// does not have a declared type.
+  TypeAnnotationImpl? _type;
+
+  /// The token representing the 'super' keyword.
+  @override
+  Token superKeyword;
+
+  /// The token representing the period.
+  @override
+  Token period;
+
+  /// The type parameters associated with the method, or `null` if the method is
+  /// not a generic method.
+  TypeParameterListImpl? _typeParameters;
+
+  /// The parameters of the function-typed parameter, or `null` if this is not a
+  /// function-typed field formal parameter.
+  FormalParameterListImpl? _parameters;
+
+  @override
+  Token? question;
+
+  /// Initialize a newly created formal parameter. Either or both of the
+  /// [comment] and [metadata] can be `null` if the parameter does not have the
+  /// corresponding attribute. The [keyword] can be `null` if there is a type.
+  /// The [type] must be `null` if the keyword is 'var'. The [thisKeyword] and
+  /// [period] can be `null` if the keyword 'this' was not provided.  The
+  /// [parameters] can be `null` if this is not a function-typed field formal
+  /// parameter.
+  SuperFormalParameterImpl(
+      CommentImpl? comment,
+      List<Annotation>? metadata,
+      Token? covariantKeyword,
+      Token? requiredKeyword,
+      this.keyword,
+      this._type,
+      this.superKeyword,
+      this.period,
+      SimpleIdentifierImpl identifier,
+      this._typeParameters,
+      this._parameters,
+      this.question)
+      : super(
+            comment, metadata, covariantKeyword, requiredKeyword, identifier) {
+    _becomeParentOf(_type);
+    _becomeParentOf(_typeParameters);
+    _becomeParentOf(_parameters);
+  }
+
+  @override
+  Token get beginToken {
+    final metadata = this.metadata;
+    if (metadata.isNotEmpty) {
+      return metadata.beginToken!;
+    } else if (requiredKeyword != null) {
+      return requiredKeyword!;
+    } else if (covariantKeyword != null) {
+      return covariantKeyword!;
+    } else if (keyword != null) {
+      return keyword!;
+    } else if (_type != null) {
+      return _type!.beginToken;
+    }
+    return superKeyword;
+  }
+
+  @override
+  Iterable<SyntacticEntity> get childEntities => super._childEntities
+    ..add(keyword)
+    ..add(_type)
+    ..add(superKeyword)
+    ..add(period)
+    ..add(identifier)
+    ..add(_parameters);
+
+  @override
+  Token get endToken {
+    return question ?? _parameters?.endToken ?? identifier.endToken;
+  }
+
+  @override
+  SimpleIdentifierImpl get identifier => super.identifier!;
+
+  @override
+  bool get isConst => keyword?.keyword == Keyword.CONST;
+
+  @override
+  bool get isFinal => keyword?.keyword == Keyword.FINAL;
+
+  @override
+  FormalParameterListImpl? get parameters => _parameters;
+
+  set parameters(FormalParameterList? parameters) {
+    _parameters = _becomeParentOf(parameters as FormalParameterListImpl?);
+  }
+
+  @override
+  TypeAnnotationImpl? get type => _type;
+
+  set type(TypeAnnotation? type) {
+    _type = _becomeParentOf(type as TypeAnnotationImpl);
+  }
+
+  @override
+  TypeParameterListImpl? get typeParameters => _typeParameters;
+
+  set typeParameters(TypeParameterList? typeParameters) {
+    _typeParameters = _becomeParentOf(typeParameters as TypeParameterListImpl?);
+  }
+
+  @override
+  E? accept<E>(AstVisitor<E> visitor) =>
+      visitor.visitSuperFormalParameter(this);
+
+  @override
+  void visitChildren(AstVisitor visitor) {
+    super.visitChildren(visitor);
+    _type?.accept(visitor);
+    identifier.accept(visitor);
+    _typeParameters?.accept(visitor);
+    _parameters?.accept(visitor);
+  }
+}
+
 /// A case in a switch statement.
 ///
 ///    switchCase ::=
@@ -10353,7 +10504,8 @@ abstract class TypedLiteralImpl extends LiteralImpl implements TypedLiteral {
 /// The `.staticType` getter returns the type of the expression (which will
 /// always be the type `Type`).  To see the type represented by the type literal
 /// use `.typeName.type`.
-class TypeLiteralImpl extends ExpressionImpl implements TypeLiteral {
+class TypeLiteralImpl extends CommentReferableExpressionImpl
+    implements TypeLiteral {
   NamedTypeImpl _typeName;
 
   TypeLiteralImpl(this._typeName) {

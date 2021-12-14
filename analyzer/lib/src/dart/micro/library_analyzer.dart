@@ -31,6 +31,7 @@ import 'package:analyzer/src/error/imports_verifier.dart';
 import 'package:analyzer/src/error/inheritance_override.dart';
 import 'package:analyzer/src/error/override_verifier.dart';
 import 'package:analyzer/src/error/todo_finder.dart';
+import 'package:analyzer/src/error/unicode_text_verifier.dart';
 import 'package:analyzer/src/error/unused_local_elements_verifier.dart';
 import 'package:analyzer/src/generated/declaration_resolver.dart';
 import 'package:analyzer/src/generated/engine.dart';
@@ -110,7 +111,7 @@ class LibraryAnalyzer {
 
     // Parse all files.
     performance.run('parse', (performance) {
-      for (FileState file in _library.libraryFiles) {
+      for (FileState file in _library.files().ofLibrary) {
         if (completionPath == null || file.path == completionPath) {
           units[file] = _parse(
             file: file,
@@ -231,19 +232,19 @@ class LibraryAnalyzer {
 
     if (_analysisOptions.lint) {
       performance.run('computeLints', (performance) {
-        var allUnits = _library.libraryFiles.map((file) {
+        var allUnits = _library.files().ofLibrary.map((file) {
           var content = getFileContent(file);
           return LinterContextUnit(content, units[file]!);
         }).toList();
         for (int i = 0; i < allUnits.length; i++) {
-          _computeLints(_library.libraryFiles[i], allUnits[i], allUnits);
+          _computeLints(_library.files().ofLibrary[i], allUnits[i], allUnits);
         }
       });
     }
 
     // This must happen after all other diagnostics have been computed but
     // before the list of diagnostics has been filtered.
-    for (var file in _library.libraryFiles) {
+    for (var file in _library.files().ofLibrary) {
       IgnoreValidator(
         _getErrorReporter(file),
         _getErrorListener(file).errors,
@@ -270,6 +271,8 @@ class LibraryAnalyzer {
     unit.accept(DeadCodeVerifier(errorReporter));
 
     var content = getFileContent(file);
+    UnicodeTextVerifier(errorReporter).verify(unit, content);
+
     unit.accept(
       BestPracticesVerifier(
         errorReporter,
@@ -472,7 +475,7 @@ class LibraryAnalyzer {
   }
 
   bool _isExistingSource(Source source) {
-    for (var file in _library.directReferencedFiles) {
+    for (var file in _library.files().directReferencedFiles) {
       if (file.uri == source.uri) {
         return file.exists;
       }
@@ -595,7 +598,7 @@ class LibraryAnalyzer {
       } else if (directive is PartDirectiveImpl) {
         StringLiteral partUri = directive.uri;
 
-        FileState partFile = _library.partedFiles[partIndex];
+        FileState partFile = _library.files().parted[partIndex];
         var partUnit = units[partFile]!;
         CompilationUnitElement partElement = _libraryElement.parts[partIndex];
         partUnit.element = partElement;

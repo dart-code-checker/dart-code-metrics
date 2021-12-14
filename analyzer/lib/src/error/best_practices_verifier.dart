@@ -4,6 +4,7 @@
 
 import 'dart:collection';
 
+import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/syntactic_entity.dart';
 import 'package:analyzer/dart/ast/token.dart';
@@ -41,11 +42,7 @@ import 'package:meta/meta_meta.dart';
 /// Instances of the class `BestPracticesVerifier` traverse an AST structure
 /// looking for violations of Dart best practices.
 class BestPracticesVerifier extends RecursiveAstVisitor<void> {
-  static const String _TO_INT_METHOD_NAME = "toInt";
-
-  static final Map<String, TargetKind> _targetKindsByName = {
-    for (final kind in TargetKind.values) kind.toString(): kind,
-  };
+  static const String toIntMethodName = "toInt";
 
   /// The class containing the AST nodes being visited, or `null` if we are not
   /// in the scope of a class.
@@ -84,7 +81,7 @@ class BestPracticesVerifier extends RecursiveAstVisitor<void> {
   final WorkspacePackage? _workspacePackage;
 
   /// The [LinterContext] used for possible const calculations.
-  late final LinterContext _linterContext;
+  final LinterContext _linterContext;
 
   /// Is `true` if the library being analyzed is non-nullable by default.
   final bool _isNonNullableByDefault;
@@ -92,9 +89,10 @@ class BestPracticesVerifier extends RecursiveAstVisitor<void> {
   /// True if inference failures should be reported, otherwise false.
   final bool _strictInference;
 
-  /// Create a new instance of the [BestPracticesVerifier].
-  ///
-  /// @param errorReporter the error reporter
+  /// Whether [_currentLibrary] is part of its containing package's public API.
+  late final bool _inPublicPackageApi = _workspacePackage != null &&
+      _workspacePackage!.sourceIsInPublicApi(_currentLibrary.source);
+
   BestPracticesVerifier(
     this._errorReporter,
     TypeProviderImpl typeProvider,
@@ -120,26 +118,20 @@ class BestPracticesVerifier extends RecursiveAstVisitor<void> {
         _errorHandlerVerifier =
             ErrorHandlerVerifier(_errorReporter, typeProvider, typeSystem),
         _nullSafeApiVerifier = NullSafeApiVerifier(_errorReporter, typeSystem),
-        _workspacePackage = workspacePackage {
+        _workspacePackage = workspacePackage,
+        _linterContext = LinterContextImpl(
+          [],
+          LinterContextUnit(content, unit),
+          declaredVariables,
+          typeProvider,
+          typeSystem,
+          inheritanceManager,
+          analysisOptions,
+          workspacePackage,
+        ) {
     _deprecatedVerifier.pushInDeprecatedValue(_currentLibrary.hasDeprecated);
     _inDoNotStoreMember = _currentLibrary.hasDoNotStore;
-
-    _linterContext = LinterContextImpl(
-      [],
-      LinterContextUnit(content, unit),
-      declaredVariables,
-      typeProvider,
-      _typeSystem,
-      _inheritanceManager,
-      analysisOptions,
-      _workspacePackage,
-    );
     _invalidAccessVerifier._inTestDirectory = _linterContext.inTestDir(unit);
-  }
-
-  bool get _inPublicPackageApi {
-    return _workspacePackage != null &&
-        _workspacePackage!.sourceIsInPublicApi(_currentLibrary.source);
   }
 
   @override
@@ -304,7 +296,7 @@ class BestPracticesVerifier extends RecursiveAstVisitor<void> {
       }
     }
 
-    var kinds = _targetKindsFor(element);
+    var kinds = element.targetKinds;
     if (kinds.isNotEmpty) {
       if (!_isValidTarget(parent, kinds)) {
         var invokedElement = element.element!;
@@ -393,9 +385,20 @@ class BestPracticesVerifier extends RecursiveAstVisitor<void> {
   }
 
   @override
+  void visitCommentReference(CommentReference node) {
+    var newKeyword = node.newKeyword;
+    if (newKeyword != null &&
+        _currentLibrary.featureSet.isEnabled(Feature.constructor_tearoffs)) {
+      _errorReporter.reportErrorForToken(
+          HintCode.DEPRECATED_NEW_IN_COMMENT_REFERENCE, newKeyword, []);
+    }
+    super.visitCommentReference(node);
+  }
+
+  @override
   void visitConstructorDeclaration(ConstructorDeclaration node) {
     var element = node.declaredElement as ConstructorElementImpl;
-    if (!_isNonNullableByDefault && node.declaredElement!.isFactory) {
+    if (!_isNonNullableByDefault && element.isFactory) {
       if (node.body is BlockFunctionBody) {
         // Check the block for a return statement, if not, create the hint.
         if (!ExitDetector.exits(node.body)) {
@@ -470,9 +473,10 @@ class BestPracticesVerifier extends RecursiveAstVisitor<void> {
           // always named, so we can safely assume
           // `overriddenElement.enclosingElement.name` is non-`null`.
           _errorReporter.reportErrorForNode(
-              HintCode.INVALID_OVERRIDE_OF_NON_VIRTUAL_MEMBER,
-              field.name,
-              [field.name, overriddenElement.enclosingElement.name!]);
+              HintCode.INVALID_OVERRIDE_OF_NON_VIRTUAL_MEMBER, field.name, [
+            field.name.name,
+            overriddenElement.enclosingElement.displayName
+          ]);
         }
         if (!_invalidAccessVerifier._inTestDirectory) {
           _checkForAssignmentOfDoNotStore(field.initializer);
@@ -659,7 +663,7 @@ class BestPracticesVerifier extends RecursiveAstVisitor<void> {
         _errorReporter.reportErrorForNode(
             HintCode.INVALID_OVERRIDE_OF_NON_VIRTUAL_MEMBER,
             node.name,
-            [node.name, overriddenElement.enclosingElement.name!]);
+            [node.name.name, overriddenElement.enclosingElement.displayName]);
       }
 
       super.visitMethodDeclaration(node);
@@ -895,7 +899,7 @@ class BestPracticesVerifier extends RecursiveAstVisitor<void> {
           _wrapParenthesizedExpression(parent);
       var grandParent = parenthesizedExpression.parent;
       if (grandParent is MethodInvocation) {
-        if (_TO_INT_METHOD_NAME == grandParent.methodName.name &&
+        if (toIntMethodName == grandParent.methodName.name &&
             grandParent.argumentList.arguments.isEmpty) {
           _errorReporter.reportErrorForNode(
               HintCode.DIVISION_OPTIMIZATION, grandParent);
@@ -975,8 +979,6 @@ class BestPracticesVerifier extends RecursiveAstVisitor<void> {
       return false;
     }
 
-    /// Return `true` if the given class [element] defines a non-final instance
-    /// field.
     Iterable<String> nonFinalInstanceFields(ClassElement element) {
       return element.fields
           .where((FieldElement field) =>
@@ -984,8 +986,6 @@ class BestPracticesVerifier extends RecursiveAstVisitor<void> {
           .map((FieldElement field) => '${element.name}.${field.name}');
     }
 
-    /// Return `true` if the given class [element] defines or inherits a
-    /// non-final field.
     Iterable<String> definedOrInheritedNonFinalInstanceFields(
         ClassElement element, HashSet<ClassElement> visited) {
       Iterable<String> nonFinalFields = [];
@@ -1704,51 +1704,6 @@ class BestPracticesVerifier extends RecursiveAstVisitor<void> {
     return false;
   }
 
-  /// Return the target kinds defined for the given [annotation].
-  Set<TargetKind> _targetKindsFor(ElementAnnotation annotation) {
-    var element = annotation.element;
-    ClassElement? classElement;
-    if (element is PropertyAccessorElement) {
-      if (element.isGetter) {
-        var type = element.returnType;
-        if (type is InterfaceType) {
-          classElement = type.element;
-        }
-      }
-    } else if (element is ConstructorElement) {
-      classElement = element.enclosingElement;
-    }
-    if (classElement == null) {
-      return const <TargetKind>{};
-    }
-    for (var annotation in classElement.metadata) {
-      if (annotation.isTarget) {
-        var value = annotation.computeConstantValue()!;
-        var kinds = <TargetKind>{};
-
-        for (var kindObject in value.getField('kinds')!.toSetValue()!) {
-          // We can't directly translate the index from the analyzed TargetKind
-          // constant to TargetKinds.values because the analyzer from the SDK
-          // may have been compiled with a different version of pkg:meta.
-          var index = kindObject.getField('index')!.toIntValue()!;
-          var targetKindClass =
-              (kindObject.type as InterfaceType).element as EnumElementImpl;
-          // Instead, map constants to their TargetKind by comparing getter
-          // names.
-          var getter = targetKindClass.constants[index];
-          var name = 'TargetKind.${getter.name}';
-
-          var foundTargetKind = _targetKindsByName[name];
-          if (foundTargetKind != null) {
-            kinds.add(foundTargetKind);
-          }
-        }
-        return kinds;
-      }
-    }
-    return const <TargetKind>{};
-  }
-
   /// Checks for the passed as expression for the [HintCode.UNNECESSARY_CAST]
   /// hint code.
   ///
@@ -1844,16 +1799,15 @@ class _InvalidAccessVerifier {
   final LibraryElement _library;
   final WorkspacePackage? _workspacePackage;
 
-  late final bool _inTemplateSource;
+  final bool _inTemplateSource;
   late final bool _inTestDirectory;
 
   ClassElement? _enclosingClass;
 
   _InvalidAccessVerifier(
-      this._errorReporter, this._library, this._workspacePackage) {
-    var path = _library.source.fullName;
-    _inTemplateSource = path.contains(_templateExtension);
-  }
+      this._errorReporter, this._library, this._workspacePackage)
+      : _inTemplateSource =
+            _library.source.fullName.contains(_templateExtension);
 
   /// Produces a hint if [identifier] is accessed from an invalid location.
   ///

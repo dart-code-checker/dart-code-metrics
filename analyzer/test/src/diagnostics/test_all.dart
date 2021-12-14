@@ -344,7 +344,6 @@ import 'invalid_required_positional_param_test.dart'
     as invalid_required_positional_param;
 import 'invalid_sealed_annotation_test.dart' as invalid_sealed_annotation;
 import 'invalid_super_in_initializer_test.dart' as invalid_super_in_initializer;
-import 'invalid_super_invocation_test.dart' as invalid_super_invocation;
 import 'invalid_type_argument_in_const_list_test.dart'
     as invalid_type_argument_in_const_list;
 import 'invalid_type_argument_in_const_map_test.dart'
@@ -354,6 +353,7 @@ import 'invalid_type_argument_in_const_set_test.dart'
 import 'invalid_uri_test.dart' as invalid_uri;
 import 'invalid_use_of_covariant_in_extension_test.dart'
     as invalid_use_of_covariant_in_extension;
+import 'invalid_use_of_covariant_test.dart' as invalid_use_of_covariant;
 import 'invalid_use_of_internal_member_test.dart'
     as invalid_use_of_internal_member;
 import 'invalid_use_of_protected_member_test.dart'
@@ -624,12 +624,14 @@ import 'super_in_invalid_context_test.dart' as super_in_invalid_context;
 import 'super_in_redirecting_constructor_test.dart'
     as super_in_redirecting_constructor;
 import 'super_initializer_in_object_test.dart' as super_initializer_in_object;
+import 'super_invocation_not_last_test.dart' as super_invocation_not_last;
 import 'switch_case_completes_normally_test.dart'
     as switch_case_completes_normally;
 import 'switch_expression_not_assignable_test.dart'
     as switch_expression_not_assignable;
 import 'tearoff_of_generative_constructor_of_abstract_class_test.dart'
     as tearoff_of_generative_constructor_of_abstract_class;
+import 'text_direction_code_point_test.dart' as text_direction_code_point;
 import 'throw_of_invalid_type_test.dart' as throw_of_invalid_type;
 import 'todo_test.dart' as todo_test;
 import 'top_level_cycle_test.dart' as top_level_cycle;
@@ -946,11 +948,11 @@ main() {
     invalid_required_positional_param.main();
     invalid_sealed_annotation.main();
     invalid_super_in_initializer.main();
-    invalid_super_invocation.main();
     invalid_type_argument_in_const_list.main();
     invalid_type_argument_in_const_map.main();
     invalid_type_argument_in_const_set.main();
     invalid_uri.main();
+    invalid_use_of_covariant.main();
     invalid_use_of_covariant_in_extension.main();
     invalid_use_of_internal_member.main();
     invalid_use_of_protected_member.main();
@@ -1129,9 +1131,11 @@ main() {
     super_in_invalid_context.main();
     super_in_redirecting_constructor.main();
     super_initializer_in_object.main();
+    super_invocation_not_last.main();
     switch_case_completes_normally.main();
     switch_expression_not_assignable.main();
     tearoff_of_generative_constructor_of_abstract_class.main();
+    text_direction_code_point.main();
     throw_of_invalid_type.main();
     todo_test.main();
     top_level_cycle.main();

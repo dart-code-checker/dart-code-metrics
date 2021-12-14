@@ -7,7 +7,6 @@ import 'dart:collection';
 import 'package:_fe_analyzer_shared/src/flow_analysis/flow_analysis.dart';
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/ast/ast.dart';
-import 'package:analyzer/dart/ast/standard_ast_factory.dart';
 import 'package:analyzer/dart/ast/syntactic_entity.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/dart/element/element.dart';
@@ -19,6 +18,7 @@ import 'package:analyzer/diagnostic/diagnostic.dart';
 import 'package:analyzer/error/error.dart';
 import 'package:analyzer/error/listener.dart';
 import 'package:analyzer/src/dart/ast/ast.dart';
+import 'package:analyzer/src/dart/ast/ast_factory.dart';
 import 'package:analyzer/src/dart/ast/extensions.dart';
 import 'package:analyzer/src/dart/ast/utilities.dart';
 import 'package:analyzer/src/dart/element/element.dart';
@@ -628,6 +628,62 @@ class ResolverVisitor extends ResolverBase with ErrorDetectionHelpers {
     return null;
   }
 
+  /// If generic function instantiation should be performed on `expression`,
+  /// inserts a [FunctionReference] node which wraps [expression].
+  ///
+  /// If an [FunctionReference] is inserted, returns it; otherwise, returns
+  /// [expression].
+  ExpressionImpl insertGenericFunctionInstantiation(Expression expression) {
+    expression as ExpressionImpl;
+    if (!isConstructorTearoffsEnabled) {
+      // Temporarily, only create [ImplicitCallReference] nodes under the
+      // 'constructor-tearoffs' feature.
+      // TODO(srawlins): When we are ready to make a breaking change release to
+      // the analyzer package, remove this exception.
+      return expression;
+    }
+
+    var staticType = expression.staticType;
+    var context = InferenceContext.getContext(expression);
+    if (context == null ||
+        staticType is! FunctionType ||
+        staticType.typeFormals.isEmpty) {
+      return expression;
+    }
+
+    context = typeSystem.flatten(context);
+    if (context is! FunctionType || context.typeFormals.isNotEmpty) {
+      return expression;
+    }
+
+    List<DartType> typeArgumentTypes =
+        typeSystem.inferFunctionTypeInstantiation(
+      context,
+      staticType,
+      errorReporter: errorReporter,
+      errorNode: expression,
+      // If the constructor-tearoffs feature is enabled, then so is
+      // generic-metadata.
+      genericMetadataIsEnabled: true,
+    )!;
+    if (typeArgumentTypes.isNotEmpty) {
+      staticType = staticType.instantiate(typeArgumentTypes);
+    }
+
+    var parent = expression.parent;
+    var genericFunctionInstantiation = astFactory.functionReference(
+      function: expression,
+      typeArguments: null,
+    );
+    NodeReplacer.replace(expression, genericFunctionInstantiation,
+        parent: parent);
+
+    genericFunctionInstantiation.typeArgumentTypes = typeArgumentTypes;
+    genericFunctionInstantiation.staticType = staticType;
+
+    return genericFunctionInstantiation;
+  }
+
   /// If `expression` should be treated as `expression.call`, inserts an
   /// [ImplicitCallReferece] node which wraps [expression].
   ///
@@ -667,6 +723,7 @@ class ResolverVisitor extends ResolverBase with ErrorDetectionHelpers {
       typeArgumentTypes = typeSystem.inferFunctionTypeInstantiation(
         context,
         callMethodType,
+        errorReporter: errorReporter,
         errorNode: expression,
         // If the constructor-tearoffs feature is enabled, then so is
         // generic-metadata.
@@ -683,7 +740,7 @@ class ResolverVisitor extends ResolverBase with ErrorDetectionHelpers {
       staticElement: callMethod,
       typeArguments: null,
       typeArgumentTypes: typeArgumentTypes,
-    ) as ImplicitCallReferenceImpl;
+    );
     NodeReplacer.replace(expression, callReference, parent: parent);
 
     callReference.staticType = callMethodType;
@@ -743,8 +800,10 @@ class ResolverVisitor extends ResolverBase with ErrorDetectionHelpers {
 
     if (parent is CompilationUnit) {
       return node is ClassDeclaration ||
+          node is Directive ||
           node is ExtensionDeclaration ||
-          node is FunctionDeclaration;
+          node is FunctionDeclaration ||
+          node is TopLevelVariableDeclaration;
     }
 
     void forClassElement(ClassElement parentElement) {
@@ -753,6 +812,11 @@ class ResolverVisitor extends ResolverBase with ErrorDetectionHelpers {
 
     if (parent is ClassDeclaration) {
       forClassElement(parent.declaredElement!);
+      return true;
+    }
+
+    if (parent is ExtensionDeclaration) {
+      enclosingExtension = parent.declaredElement!;
       return true;
     }
 
@@ -981,20 +1045,16 @@ class ResolverVisitor extends ResolverBase with ErrorDetectionHelpers {
     var callerType = InferenceContext.getContext(node);
     NodeList<Expression> arguments = node.arguments;
     if (callerType is FunctionType) {
-      Map<String, DartType> namedParameterTypes =
-          callerType.namedParameterTypes;
-      List<DartType> normalParameterTypes = callerType.normalParameterTypes;
-      List<DartType> optionalParameterTypes = callerType.optionalParameterTypes;
-      int normalCount = normalParameterTypes.length;
-      int optionalCount = optionalParameterTypes.length;
+      var parameters = callerType.parameters;
 
-      Iterable<Expression> positional =
-          arguments.takeWhile((l) => l is! NamedExpression);
-      Iterable<Expression> required = positional.take(normalCount);
-      Iterable<Expression> optional =
-          positional.skip(normalCount).take(optionalCount);
-      Iterable<Expression> named =
-          arguments.skipWhile((l) => l is! NamedExpression);
+      var namedParameters = <String, ParameterElement>{};
+      for (var i = 0; i < parameters.length; i++) {
+        var parameter = parameters[i];
+        if (parameter.isNamed) {
+          namedParameters[parameter.name] = parameter;
+        }
+      }
+
       var parent = node.parent;
       DartType? targetType;
       Element? methodElement;
@@ -1008,28 +1068,29 @@ class ResolverVisitor extends ResolverBase with ErrorDetectionHelpers {
       //TODO(leafp): Consider using the parameter elements here instead.
       //TODO(leafp): Make sure that the parameter elements are getting
       // setup correctly with inference.
-      int index = 0;
-      for (Expression argument in required) {
-        var parameterType = normalParameterTypes[index++];
-        if (targetType != null) {
-          InferenceContext.setType(
-              argument,
-              typeSystem.refineNumericInvocationContext(
-                  targetType, methodElement, invocationContext, parameterType));
-        } else {
-          InferenceContext.setType(argument, parameterType);
-        }
-      }
-      index = 0;
-      for (Expression argument in optional) {
-        InferenceContext.setType(argument, optionalParameterTypes[index++]);
-      }
-
-      for (Expression argument in named) {
+      var positionalParameterIndex = 0;
+      for (var i = 0; i < arguments.length; i++) {
+        var argument = arguments[i];
+        ParameterElement? parameter;
         if (argument is NamedExpression) {
-          var type = namedParameterTypes[argument.name.label.name];
-          if (type != null) {
-            InferenceContext.setType(argument, type);
+          parameter = namedParameters[argument.name.label.name];
+        } else {
+          while (positionalParameterIndex < parameters.length) {
+            parameter = parameters[positionalParameterIndex++];
+            if (!parameter.isNamed) {
+              break;
+            }
+          }
+        }
+        if (parameter != null) {
+          var parameterType = parameter.type;
+          if (targetType != null) {
+            InferenceContext.setType(
+                argument,
+                typeSystem.refineNumericInvocationContext(targetType,
+                    methodElement, invocationContext, parameterType));
+          } else {
+            InferenceContext.setType(argument, parameterType);
           }
         }
       }
@@ -1060,6 +1121,7 @@ class ResolverVisitor extends ResolverBase with ErrorDetectionHelpers {
   void visitAsExpression(AsExpression node) {
     super.visitAsExpression(node);
     flowAnalysis.asExpression(node);
+    insertGenericFunctionInstantiation(node);
   }
 
   @override
@@ -1095,6 +1157,7 @@ class ResolverVisitor extends ResolverBase with ErrorDetectionHelpers {
   @override
   void visitAssignmentExpression(AssignmentExpression node) {
     _assignmentExpressionResolver.resolve(node as AssignmentExpressionImpl);
+    insertGenericFunctionInstantiation(node);
   }
 
   @override
@@ -1105,11 +1168,13 @@ class ResolverVisitor extends ResolverBase with ErrorDetectionHelpers {
       InferenceContext.setType(node.expression, futureUnion);
     }
     super.visitAwaitExpression(node);
+    insertGenericFunctionInstantiation(node);
   }
 
   @override
   void visitBinaryExpression(BinaryExpression node) {
     _binaryExpressionResolver.resolve(node as BinaryExpressionImpl);
+    insertGenericFunctionInstantiation(node);
   }
 
   @override
@@ -1224,21 +1289,20 @@ class ResolverVisitor extends ResolverBase with ErrorDetectionHelpers {
     boolExpressionVerifier.checkForNonBoolCondition(condition,
         whyNotPromoted: whyNotPromoted);
 
-    Expression thenExpression = node.thenExpression;
-    InferenceContext.setTypeFromNode(thenExpression, node);
+    InferenceContext.setTypeFromNode(node.thenExpression, node);
 
     if (flow != null) {
       flow.conditional_thenBegin(condition, node);
-      checkUnreachableNode(thenExpression);
+      checkUnreachableNode(node.thenExpression);
     }
-    thenExpression.accept(this);
-    nullSafetyDeadCodeVerifier.flowEnd(thenExpression);
+    node.thenExpression.accept(this);
+    nullSafetyDeadCodeVerifier.flowEnd(node.thenExpression);
 
     Expression elseExpression = node.elseExpression;
     InferenceContext.setTypeFromNode(elseExpression, node);
 
     if (flow != null) {
-      flow.conditional_elseBegin(thenExpression);
+      flow.conditional_elseBegin(node.thenExpression);
       checkUnreachableNode(elseExpression);
       elseExpression.accept(this);
       flow.conditional_end(node, elseExpression);
@@ -1246,6 +1310,7 @@ class ResolverVisitor extends ResolverBase with ErrorDetectionHelpers {
     } else {
       elseExpression.accept(this);
     }
+    elseExpression = node.elseExpression;
 
     node.accept(elementResolver);
     node.accept(typeAnalyzer);
@@ -1300,6 +1365,7 @@ class ResolverVisitor extends ResolverBase with ErrorDetectionHelpers {
     var expression = node.expression;
     InferenceContext.setType(expression, fieldType);
     expression.accept(this);
+    expression = node.expression;
     var whyNotPromoted = flowAnalysis.flow?.whyNotPromoted(expression);
     node.accept(elementResolver);
     node.accept(typeAnalyzer);
@@ -1356,11 +1422,10 @@ class ResolverVisitor extends ResolverBase with ErrorDetectionHelpers {
   void visitDoStatement(DoStatement node) {
     checkUnreachableNode(node);
 
-    var body = node.body;
     var condition = node.condition;
 
     flowAnalysis.flow?.doStatement_bodyBegin(node);
-    body.accept(this);
+    node.body.accept(this);
 
     flowAnalysis.flow?.doStatement_conditionBegin();
     InferenceContext.setType(condition, typeProvider.boolType);
@@ -1540,6 +1605,7 @@ class ResolverVisitor extends ResolverBase with ErrorDetectionHelpers {
     _enclosingFunction = node.declaredElement;
 
     _functionExpressionResolver.resolve(node);
+    insertGenericFunctionInstantiation(node);
 
     _enclosingFunction = outerFunction;
   }
@@ -1551,6 +1617,7 @@ class ResolverVisitor extends ResolverBase with ErrorDetectionHelpers {
     _functionExpressionInvocationResolver.resolve(
         node as FunctionExpressionInvocationImpl, whyNotPromotedList);
     nullShortingTermination(node);
+    insertGenericFunctionInstantiation(node);
     checkForArgumentTypesNotAssignableInList(
         node.argumentList, whyNotPromotedList);
   }
@@ -1599,10 +1666,9 @@ class ResolverVisitor extends ResolverBase with ErrorDetectionHelpers {
     boolExpressionVerifier.checkForNonBoolCondition(condition,
         whyNotPromoted: whyNotPromoted);
 
-    CollectionElement thenElement = node.thenElement;
     flowAnalysis.flow?.ifStatement_thenBegin(condition, node);
-    thenElement.accept(this);
-    nullSafetyDeadCodeVerifier.flowEnd(thenElement);
+    node.thenElement.accept(this);
+    nullSafetyDeadCodeVerifier.flowEnd(node.thenElement);
 
     var elseElement = node.elseElement;
     if (elseElement != null) {
@@ -1632,10 +1698,9 @@ class ResolverVisitor extends ResolverBase with ErrorDetectionHelpers {
     boolExpressionVerifier.checkForNonBoolCondition(condition,
         whyNotPromoted: whyNotPromoted);
 
-    Statement thenStatement = node.thenStatement;
     flowAnalysis.flow?.ifStatement_thenBegin(condition, node);
-    thenStatement.accept(this);
-    nullSafetyDeadCodeVerifier.flowEnd(thenStatement);
+    node.thenStatement.accept(this);
+    nullSafetyDeadCodeVerifier.flowEnd(node.thenStatement);
 
     var elseStatement = node.elseStatement;
     if (elseStatement != null) {
@@ -1683,6 +1748,7 @@ class ResolverVisitor extends ResolverBase with ErrorDetectionHelpers {
       type = DynamicTypeImpl.instance;
     }
     inferenceHelper.recordStaticType(node, type);
+    insertGenericFunctionInstantiation(node);
 
     nullShortingTermination(node);
   }
@@ -1760,6 +1826,7 @@ class ResolverVisitor extends ResolverBase with ErrorDetectionHelpers {
     var whyNotPromotedList = <Map<DartType, NonPromotionReason> Function()>[];
     var target = node.target;
     target?.accept(this);
+    target = node.target;
 
     if (_migratableAstInfoProvider.isMethodInvocationNullAware(node)) {
       var flow = flowAnalysis.flow;
@@ -1787,6 +1854,7 @@ class ResolverVisitor extends ResolverBase with ErrorDetectionHelpers {
     } else {
       nullShortingTermination(node);
     }
+    insertGenericFunctionInstantiation(node);
     checkForArgumentTypesNotAssignableInList(
         node.argumentList, whyNotPromotedList);
   }
@@ -1850,16 +1918,19 @@ class ResolverVisitor extends ResolverBase with ErrorDetectionHelpers {
   @override
   void visitPostfixExpression(PostfixExpression node) {
     _postfixExpressionResolver.resolve(node as PostfixExpressionImpl);
+    insertGenericFunctionInstantiation(node);
   }
 
   @override
   void visitPrefixedIdentifier(covariant PrefixedIdentifierImpl node) {
     _prefixedIdentifierResolver.resolve(node);
+    insertGenericFunctionInstantiation(node);
   }
 
   @override
   void visitPrefixExpression(PrefixExpression node) {
     _prefixExpressionResolver.resolve(node as PrefixExpressionImpl);
+    insertGenericFunctionInstantiation(node);
   }
 
   @override
@@ -1889,10 +1960,19 @@ class ResolverVisitor extends ResolverBase with ErrorDetectionHelpers {
       type = DynamicTypeImpl.instance;
     }
 
-    type = inferenceHelper.inferTearOff(node, propertyName, type);
+    if (!isConstructorTearoffsEnabled) {
+      // Only perform a generic function instantiation on a [PrefixedIdentifier]
+      // in pre-constructor-tearoffs code. In constructor-tearoffs-enabled code,
+      // generic function instantiation is performed at assignability check
+      // sites.
+      // TODO(srawlins): Switch all resolution to use the latter method, in a
+      // breaking change release.
+      type = inferenceHelper.inferTearOff(node, propertyName, type);
+    }
 
     inferenceHelper.recordStaticType(propertyName, type);
     inferenceHelper.recordStaticType(node, type);
+    insertGenericFunctionInstantiation(node);
 
     nullShortingTermination(node);
   }
@@ -1951,6 +2031,7 @@ class ResolverVisitor extends ResolverBase with ErrorDetectionHelpers {
   @override
   void visitSimpleIdentifier(covariant SimpleIdentifierImpl node) {
     _simpleIdentifierResolver.resolve(node);
+    insertGenericFunctionInstantiation(node);
   }
 
   @override
@@ -2141,9 +2222,8 @@ class ResolverVisitor extends ResolverBase with ErrorDetectionHelpers {
     boolExpressionVerifier.checkForNonBoolCondition(node.condition,
         whyNotPromoted: whyNotPromoted);
 
-    Statement body = node.body;
     flowAnalysis.flow?.whileStatement_bodyBegin(node, condition);
-    body.accept(this);
+    node.body.accept(this);
     flowAnalysis.flow?.whileStatement_end();
     nullSafetyDeadCodeVerifier.flowEnd(node.body);
     // TODO(brianwilkerson) If the loop can only be exited because the condition
