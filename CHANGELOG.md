@@ -8,6 +8,7 @@
 * chore: disable github_checks annotations from codecov
 * chore: activate language strict rules
 * fix: add missing severity for rules
+* feat: facelift lint console reporter
 
 ## 4.8.1
 

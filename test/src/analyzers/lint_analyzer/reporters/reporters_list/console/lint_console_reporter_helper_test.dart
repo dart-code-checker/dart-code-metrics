@@ -36,8 +36,14 @@ void main() {
             message: 'Issue message',
             verboseMessage: 'Issue verbose message',
           ),
+          'lib/src/my_source.dart',
         ),
-        equals('\x1B[38;5;11mWarning \x1B[0mIssue message : 1:2 : rule'),
+        equals([
+          '\x1B[38;5;180mWARNING \x1B[0mIssue message',
+          '        \x1B[38;5;39mlib/src/my_source.dart:1:2\x1B[0m',
+          '        rule : https://dartcodemetrics/rules/rule',
+          '',
+        ]),
       );
 
       expect(
@@ -50,8 +56,14 @@ void main() {
             message: 'Issue message',
             verboseMessage: 'Issue verbose message',
           ),
+          'lib/src/my_source.dart',
         ),
-        equals('\x1B[38;5;7m        \x1B[0mIssue message : 1:2 : rule'),
+        equals([
+          '\x1B[38;5;7m        \x1B[0mIssue message',
+          '        \x1B[38;5;39mlib/src/my_source.dart:1:2\x1B[0m',
+          '        rule : https://dartcodemetrics/rules/rule',
+          '',
+        ]),
       );
     });
 
@@ -62,9 +74,12 @@ void main() {
           'Class.method',
           ['violation1', 'violation2'],
         ),
-        equals(
-          '\x1B[38;5;9mAlarm   \x1B[0mClass.method - violation1, violation2',
-        ),
+        equals([
+          '\x1B[38;5;167mALARM   \x1B[0mClass.method',
+          '        violation1',
+          '        violation2',
+          '',
+        ]),
       );
 
       expect(
@@ -73,9 +88,12 @@ void main() {
           'Class.method',
           ['violation1', 'violation2'],
         ),
-        equals(
-          '\x1B[38;5;7m        \x1B[0mClass.method - violation1, violation2',
-        ),
+        equals([
+          '\x1B[38;5;7mNONE    \x1B[0mClass.method',
+          '        violation1',
+          '        violation2',
+          '',
+        ]),
       );
     });
 
