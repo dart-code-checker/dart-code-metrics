@@ -39,8 +39,11 @@ void main() {
         () => verboseOutput.writeln(captureAny()),
       ).captured.cast<String>();
 
-      expect(captured, equals(['No issues found!']));
-      expect(capturedVerbose, equals(['No issues found!']));
+      expect(captured, equals(['\x1B[38;5;20m✔\x1B[0m no issues found!']));
+      expect(
+        capturedVerbose,
+        equals(['\x1B[38;5;20m✔\x1B[0m no issues found!']),
+      );
     });
 
     test('complex report', () async {

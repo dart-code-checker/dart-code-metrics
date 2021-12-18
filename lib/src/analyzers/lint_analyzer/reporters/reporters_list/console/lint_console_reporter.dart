@@ -49,7 +49,7 @@ class LintConsoleReporter
     }
 
     if (!hasReportData) {
-      output.writeln('No issues found!');
+      output.writeln('${okPen('✔')} no issues found!');
     }
   }
 

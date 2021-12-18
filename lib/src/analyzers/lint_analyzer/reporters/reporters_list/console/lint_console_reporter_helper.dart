@@ -5,8 +5,8 @@ import '../../../metrics/models/metric_value_level.dart';
 import '../../../models/issue.dart';
 import '../../../models/severity.dart';
 
-final _redPen = AnsiPen()..rgb(r: 0.88, g: 0.32, b: 0.36);
-final _yellowPen = AnsiPen()..rgb(r: 0.98, g: 0.68, b: 0.4);
+final _alarmPen = AnsiPen()..rgb(r: 0.88, g: 0.32, b: 0.36);
+final _warnigPen = AnsiPen()..rgb(r: 0.98, g: 0.68, b: 0.4);
 final _bluePen = AnsiPen()..rgb(r: 0.08, g: 0.11, b: 0.81);
 final _whitePen = AnsiPen()..white();
 
@@ -15,15 +15,15 @@ final _linkPen = AnsiPen()..rgb(r: 0.0, g: 0.78, b: 1.0);
 /// Helper for building lint console reports
 class LintConsoleReporterHelper {
   static final _colorPens = {
-    MetricValueLevel.alarm: _redPen,
-    MetricValueLevel.warning: _yellowPen,
+    MetricValueLevel.alarm: _alarmPen,
+    MetricValueLevel.warning: _warnigPen,
     MetricValueLevel.noted: _bluePen,
     MetricValueLevel.none: _whitePen,
   };
 
   final _severityPens = {
-    Severity.error: _redPen,
-    Severity.warning: _yellowPen,
+    Severity.error: _alarmPen,
+    Severity.warning: _warnigPen,
     Severity.performance: _bluePen,
     Severity.style: _bluePen,
     Severity.none: _whitePen,
