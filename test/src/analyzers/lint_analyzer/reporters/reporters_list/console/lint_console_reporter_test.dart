@@ -32,8 +32,15 @@ void main() {
       await _reporter.report([]);
       await _verboseReporter.report([]);
 
-      verifyNever(() => output.writeln(any()));
-      verifyNever(() => verboseOutput.writeln(any()));
+      final captured = verify(
+        () => output.writeln(captureAny()),
+      ).captured.cast<String>();
+      final capturedVerbose = verify(
+        () => verboseOutput.writeln(captureAny()),
+      ).captured.cast<String>();
+
+      expect(captured, equals(['No issues found!']));
+      expect(capturedVerbose, equals(['No issues found!']));
     });
 
     test('complex report', () async {

@@ -27,9 +27,7 @@ class LintConsoleReporter
     Iterable<LintFileReport> records, {
     Iterable<SummaryLintReportRecord<Object>> summary = const [],
   }) async {
-    if (records.isEmpty) {
-      return;
-    }
+    var hasReportData = false;
 
     for (final file in records) {
       final lines = [
@@ -46,6 +44,12 @@ class LintConsoleReporter
         lines.forEach(output.writeln);
         output.writeln('');
       }
+
+      hasReportData |= lines.isNotEmpty;
+    }
+
+    if (!hasReportData) {
+      output.writeln('No issues found!');
     }
   }
 
