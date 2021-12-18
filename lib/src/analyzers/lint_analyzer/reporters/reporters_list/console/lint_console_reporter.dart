@@ -27,14 +27,15 @@ class LintConsoleReporter
     Iterable<LintFileReport> records, {
     Iterable<SummaryLintReportRecord<Object>> summary = const [],
   }) async {
-    if (records.isEmpty) {
-      return;
-    }
+    var hasReportData = false;
 
     for (final file in records) {
       final lines = [
         ..._reportMetrics('', file.file),
-        ..._reportIssues([...file.issues, ...file.antiPatternCases]),
+        ..._reportIssues(
+          [...file.issues, ...file.antiPatternCases],
+          file.relativePath,
+        ),
         ..._reportEntityMetrics({...file.classes, ...file.functions}),
       ];
 
@@ -43,13 +44,21 @@ class LintConsoleReporter
         lines.forEach(output.writeln);
         output.writeln('');
       }
+
+      hasReportData |= lines.isNotEmpty;
+    }
+
+    if (!hasReportData) {
+      output.writeln('${okPen('✔')} no issues found!');
     }
   }
 
-  Iterable<String> _reportIssues(Iterable<Issue> issues) => (issues.toList()
-        ..sort((a, b) =>
-            a.location.start.offset.compareTo(b.location.start.offset)))
-      .map(_helper.getIssueMessage);
+  Iterable<String> _reportIssues(Iterable<Issue> issues, String relativePath) =>
+      (issues.toList()
+            ..sort((a, b) =>
+                a.location.start.offset.compareTo(b.location.start.offset)))
+          .map((issue) => _helper.getIssueMessage(issue, relativePath))
+          .expand((lines) => lines);
 
   Iterable<String> _reportEntityMetrics(Map<String, Report> reports) =>
       (reports.entries.toList()
@@ -66,9 +75,7 @@ class LintConsoleReporter
             _helper.getMetricReport(metric),
       ];
 
-      return [
-        _helper.getMetricMessage(reportLevel, source, violations),
-      ];
+      return _helper.getMetricMessage(reportLevel, source, violations);
     }
 
     return [];

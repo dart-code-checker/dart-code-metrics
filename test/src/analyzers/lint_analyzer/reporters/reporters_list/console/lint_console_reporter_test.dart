@@ -32,8 +32,18 @@ void main() {
       await _reporter.report([]);
       await _verboseReporter.report([]);
 
-      verifyNever(() => output.writeln(any()));
-      verifyNever(() => verboseOutput.writeln(any()));
+      final captured = verify(
+        () => output.writeln(captureAny()),
+      ).captured.cast<String>();
+      final capturedVerbose = verify(
+        () => verboseOutput.writeln(captureAny()),
+      ).captured.cast<String>();
+
+      expect(captured, equals(['\x1B[38;5;20m✔\x1B[0m no issues found!']));
+      expect(
+        capturedVerbose,
+        equals(['\x1B[38;5;20m✔\x1B[0m no issues found!']),
+      );
     });
 
     test('complex report', () async {
@@ -52,32 +62,61 @@ void main() {
         equals(
           [
             'test/resources/abstract_class.dart:',
-            '\x1B[38;5;11mWarning \x1B[0mmetric1: \x1B[38;5;11m100 units\x1B[0m',
-            '\x1B[38;5;9mAlarm   \x1B[0mclass.constructor - metric2: \x1B[38;5;9m10\x1B[0m',
+            '\x1B[38;5;180mWARNING \x1B[0mmetric1: \x1B[38;5;180m100 units\x1B[0m',
+            '',
+            '\x1B[38;5;167mALARM   \x1B[0mclass.constructor',
+            '        metric2: \x1B[38;5;167m10\x1B[0m',
+            '',
             '',
             'test/resources/class_with_factory_constructors.dart:',
-            '\x1B[38;5;11mWarning \x1B[0msimple message : 0:0 : id',
-            '\x1B[38;5;4mStyle   \x1B[0msimple design message : 0:0 : designId',
-            '\x1B[38;5;11mWarning \x1B[0mfunction - metric4: \x1B[38;5;11m5 units\x1B[0m',
+            '\x1B[38;5;180mWARNING \x1B[0msimple message',
+            '        \x1B[38;5;39mtest/resources/class_with_factory_constructors.dart:0:0\x1B[0m',
+            '        id : https://documentation.com',
+            '',
+            '\x1B[38;5;20mSTYLE   \x1B[0msimple design message',
+            '        \x1B[38;5;39mtest/resources/class_with_factory_constructors.dart:0:0\x1B[0m',
+            '        designId : https://documentation.com',
+            '',
+            '\x1B[38;5;180mWARNING \x1B[0mfunction',
+            '        metric4: \x1B[38;5;180m5 units\x1B[0m',
+            '',
             '',
           ],
         ),
       );
+
       expect(
         capturedVerbose,
         equals(
           [
             'test/resources/abstract_class.dart:',
-            '\x1B[38;5;11mWarning \x1B[0mmetric1: \x1B[38;5;11m100 units\x1B[0m',
-            '\x1B[38;5;7m        \x1B[0mclass - metric1: \x1B[38;5;7m0\x1B[0m',
-            '\x1B[38;5;9mAlarm   \x1B[0mclass.constructor - metric2: \x1B[38;5;9m10\x1B[0m',
-            '\x1B[38;5;7m        \x1B[0mclass.method - metric3: \x1B[38;5;7m1\x1B[0m',
+            '\x1B[38;5;180mWARNING \x1B[0mmetric1: \x1B[38;5;180m100 units\x1B[0m',
+            '',
+            '\x1B[38;5;7mNONE    \x1B[0mclass',
+            '        metric1: \x1B[38;5;7m0\x1B[0m',
+            '',
+            '\x1B[38;5;167mALARM   \x1B[0mclass.constructor',
+            '        metric2: \x1B[38;5;167m10\x1B[0m',
+            '',
+            '\x1B[38;5;7mNONE    \x1B[0mclass.method',
+            '        metric3: \x1B[38;5;7m1\x1B[0m',
+            '',
             '',
             'test/resources/class_with_factory_constructors.dart:',
-            '\x1B[38;5;7m        \x1B[0mmetric1: \x1B[38;5;7m0\x1B[0m, metric2: \x1B[38;5;7m1\x1B[0m',
-            '\x1B[38;5;11mWarning \x1B[0msimple message : 0:0 : id',
-            '\x1B[38;5;4mStyle   \x1B[0msimple design message : 0:0 : designId',
-            '\x1B[38;5;11mWarning \x1B[0mfunction - metric4: \x1B[38;5;11m5 units\x1B[0m',
+            '\x1B[38;5;7mNONE    \x1B[0mmetric1: \x1B[38;5;7m0\x1B[0m',
+            '        metric2: \x1B[38;5;7m1\x1B[0m',
+            '',
+            '\x1B[38;5;180mWARNING \x1B[0msimple message',
+            '        \x1B[38;5;39mtest/resources/class_with_factory_constructors.dart:0:0\x1B[0m',
+            '        id : https://documentation.com',
+            '',
+            '\x1B[38;5;20mSTYLE   \x1B[0msimple design message',
+            '        \x1B[38;5;39mtest/resources/class_with_factory_constructors.dart:0:0\x1B[0m',
+            '        designId : https://documentation.com',
+            '',
+            '\x1B[38;5;180mWARNING \x1B[0mfunction',
+            '        metric4: \x1B[38;5;180m5 units\x1B[0m',
+            '',
             '',
           ],
         ),

@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:ansicolor/ansicolor.dart';
-
 import '../../../../../reporters/models/console_reporter.dart';
 import '../../../models/unused_files_file_report.dart';
 
@@ -18,7 +16,7 @@ class UnusedFilesConsoleReporter
     Iterable<void> summary = const [],
   }) async {
     if (records.isEmpty) {
-      output.writeln('No unused files found!');
+      output.writeln('${okPen('✔')} no unused files found!');
 
       return;
     }
@@ -27,13 +25,15 @@ class UnusedFilesConsoleReporter
       ..sort((a, b) => a.relativePath.compareTo(b.relativePath));
 
     for (final analysisRecord in sortedRecords) {
-      output.writeln('Unused file: ${analysisRecord.relativePath}');
+      output.writeln(
+        '${warnigPen('⚠')} unused file: ${analysisRecord.relativePath}',
+      );
     }
-
-    final color = AnsiPen()..yellow();
 
     output
       ..writeln('')
-      ..writeln('Total unused files - ${color(sortedRecords.length)}');
+      ..writeln(
+        '${alarmPen('✖')} total unused files - ${alarmPen(sortedRecords.length)}',
+      );
   }
 }
