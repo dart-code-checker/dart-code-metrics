@@ -12,6 +12,7 @@ import '../../../models/issue.dart';
 import '../../../models/severity.dart';
 import '../../models/common_rule.dart';
 import '../../rule_utils.dart';
+import 'models/comment_info.dart';
 
 part 'visitor.dart';
 
@@ -39,29 +40,32 @@ class CapitalizeCommentRule extends CommonRule {
         .map((declaration) => createIssue(
               rule: this,
               location: nodeLocation(
-                node: declaration,
+                node: declaration.token,
                 source: source,
               ),
               message: _warning,
-              replacement: _createReplacement(declaration.toString()),
+              replacement: _createReplacement(declaration),
             ))
         .toList(growable: false);
   }
 
-  Replacement _createReplacement(String comment) {
+  Replacement _createReplacement(CommentInfo commentType) {
+    final comment = commentType.token.toString();
     var resultString = comment;
-    // TODO(konoshenko): Process the case of TODO
-    if (comment.startsWith('//')) {
-      final subString = formatComment(comment.substring(2, comment.length));
-      resultString = '// $subString';
-    }
-    if (comment.startsWith('/*')) {
-      final subString = formatComment(comment.substring(2, comment.length - 2));
-      resultString = '/* $subString */';
-    }
-    if (comment.startsWith('///')) {
-      final subString = formatComment(comment.substring(3, comment.length));
-      resultString = '/// $subString';
+
+    switch (commentType.type) {
+      case '//':
+        final subString = formatComment(comment.substring(2, comment.length));
+        resultString = '// $subString';
+        break;
+      case '///':
+        final subString = formatComment(comment.substring(3, comment.length));
+        resultString = '/// $subString';
+        break;
+      case '/*':
+        final subString =
+            formatComment(comment.substring(2, comment.length - 2));
+        resultString = '/* $subString*/';
     }
 
     return Replacement(
