@@ -20,7 +20,7 @@ class Example2 {
   final NotCat notCat = NotCat();
 
   void main() {
-    final result = animal is HomeAnimal; // LINT
+    final result = animal is HomeAnimal;
     final result = animal is NotAnimal; // LINT
     final result = cat is HomeAnimal;
     final result = cat is Animal;
@@ -29,11 +29,11 @@ class Example2 {
     final result = dog is HomeAnimal;
     final result = dog is Animal;
     final result = dog is NotAnimal; // LINT
-    final result = animal is Dog; // LINT
-    final result = animal is Cat; // LINT
-    final result = homeAnimal is Cat; // LINT
-    final result = homeAnimal is Dog; // LINT
-    final result = homeAnimal is dynamic; // LINT
+    final result = animal is Dog;
+    final result = animal is Cat;
+    final result = homeAnimal is Cat;
+    final result = homeAnimal is Dog;
+    final result = homeAnimal is dynamic;
   }
 }
 
@@ -43,6 +43,8 @@ class Example3 {
   void main() {
     final result = myList is List<String>; // LINT
     final result = myList is List<int>;
+    final result = myList is List<Object>;
+    final result = myList is List<dynamic>;
   }
 }
 
@@ -80,6 +82,6 @@ void checkSameOrInheritor() {
   final check2Not = cat is! Dog;
   final check3 = cat is Animal;
   final check3Not = cat is! Animal;
-  final check4 = homeAnimal is Dog?; // LINT
+  final check4 = homeAnimal is Dog?;
   final check4Not = homeAnimal is! Dog?;
 }

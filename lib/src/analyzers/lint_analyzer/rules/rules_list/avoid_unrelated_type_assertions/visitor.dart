@@ -29,11 +29,16 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
     final objectCastedType =
         _foundCastedTypeInObjectTypeHierarchy(objectType, castedType);
-    if (objectCastedType == null) {
+    final castedObjectType =
+        _foundCastedTypeInObjectTypeHierarchy(castedType, objectType);
+    if (objectCastedType == null && castedObjectType == null) {
       return true;
     }
 
-    if (_checkGenerics(objectCastedType, castedType)) {
+    if (objectCastedType != null &&
+        _checkGenerics(objectCastedType, castedType) &&
+        castedObjectType != null &&
+        _checkGenerics(castedObjectType, objectType)) {
       return true;
     }
 
@@ -44,7 +49,9 @@ class _Visitor extends RecursiveAstVisitor<void> {
     DartType objectType,
     DartType castedType,
   ) {
-    if (objectType.element == castedType.element) {
+    if (objectType.element == castedType.element ||
+        castedType.isDynamic ||
+        objectType.isDynamic) {
       return objectType;
     }
 
@@ -57,6 +64,10 @@ class _Visitor extends RecursiveAstVisitor<void> {
   }
 
   bool _checkGenerics(DartType objectType, DartType castedType) {
+    if (objectType.isDynamic || castedType.isDynamic) {
+      return false;
+    }
+
     if (objectType is! ParameterizedType || castedType is! ParameterizedType) {
       return false;
     }
@@ -69,9 +80,13 @@ class _Visitor extends RecursiveAstVisitor<void> {
         argumentIndex < objectType.typeArguments.length;
         argumentIndex++) {
       if (_isUnrelatedTypeCheck(
-        objectType.typeArguments[argumentIndex],
-        castedType.typeArguments[argumentIndex],
-      )) {
+            objectType.typeArguments[argumentIndex],
+            castedType.typeArguments[argumentIndex],
+          ) &&
+          _isUnrelatedTypeCheck(
+            castedType.typeArguments[argumentIndex],
+            objectType.typeArguments[argumentIndex],
+          )) {
         return true;
       }
     }
