@@ -33,7 +33,7 @@ void main() {
         () => output.writeln(captureAny()),
       ).captured.cast<String>();
 
-      expect(captured, ['\x1B[38;5;2m✔\x1B[0m no unused localization found!']);
+      expect(captured, ['\x1B[38;5;20m✔\x1B[0m no unused localization found!']);
     });
 
     test('complex report', () async {
@@ -53,21 +53,18 @@ void main() {
 
       await _reporter.report(testReport);
 
-      final captured = verify(
-        () => output.writeln(captureAny()),
-      ).captured.cast<String>();
+      final captured =
+          verify(() => output.writeln(captureAny())).captured.cast<String>();
 
       expect(
         captured,
-        equals(
-          [
-            'class SomeClass',
-            '    \x1B[38;5;11m⚠\x1B[0m unused someMethod()',
-            '      at example.dart:5:3',
-            '',
-            '\x1B[38;5;9m✖\x1B[0m total unused localization class fields, getters and methods - \x1B[38;5;9m1\x1B[0m',
-          ],
-        ),
+        equals([
+          'class SomeClass',
+          '    \x1B[38;5;180m⚠\x1B[0m unused someMethod()',
+          '      at example.dart:5:3',
+          '',
+          '\x1B[38;5;167m✖\x1B[0m total unused localization class fields, getters and methods - \x1B[38;5;167m1\x1B[0m',
+        ]),
       );
     });
   });

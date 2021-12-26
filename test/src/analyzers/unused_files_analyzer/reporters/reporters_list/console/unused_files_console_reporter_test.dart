@@ -25,7 +25,10 @@ void main() {
     test('no unused files', () async {
       await _reporter.report([]);
 
-      verify(() => _output.writeln('No unused files found!'));
+      final report =
+          verify(() => _output.writeln(captureAny())).captured.cast<String>();
+
+      expect(report, equals(['\x1B[38;5;20m✔\x1B[0m no unused files found!']));
     });
 
     test('unused files', () async {
@@ -38,8 +41,12 @@ void main() {
           verify(() => _output.writeln(captureAny())).captured.cast<String>();
 
       expect(
-        report.first,
-        contains('Unused file: example.dart'),
+        report,
+        equals([
+          '\x1B[38;5;180m⚠\x1B[0m unused file: example.dart',
+          '',
+          '\x1B[38;5;167m✖\x1B[0m total unused files - \x1B[38;5;167m1\x1B[0m',
+        ]),
       );
     });
   });

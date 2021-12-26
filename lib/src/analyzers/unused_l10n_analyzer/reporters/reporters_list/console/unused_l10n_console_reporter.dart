@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:ansicolor/ansicolor.dart';
-
 import '../../../../../reporters/models/console_reporter.dart';
 import '../../../models/unused_l10n_file_report.dart';
 
@@ -10,10 +8,6 @@ import '../../../models/unused_l10n_file_report.dart';
 /// Use it to create reports in console format.
 class UnusedL10nConsoleReporter
     extends ConsoleReporter<UnusedL10nFileReport, void> {
-  final _errorColor = AnsiPen()..red(bold: true);
-  final _warningColor = AnsiPen()..yellow(bold: true);
-  final _successColor = AnsiPen()..green();
-
   UnusedL10nConsoleReporter(IOSink output) : super(output);
 
   @override
@@ -22,7 +16,7 @@ class UnusedL10nConsoleReporter
     Iterable<void> summary = const [],
   }) async {
     if (records.isEmpty) {
-      output.writeln('${_successColor('✔')} no unused localization found!');
+      output.writeln('${okPen('✔')} no unused localization found!');
 
       return;
     }
@@ -44,7 +38,7 @@ class UnusedL10nConsoleReporter
         final pathOffset = offset.padRight(5);
 
         output
-          ..writeln('$offset ${_warningColor('⚠')} unused ${issue.memberName}')
+          ..writeln('$offset ${warnigPen('⚠')} unused ${issue.memberName}')
           ..writeln('$pathOffset at $path:$line:$column');
       }
 
@@ -54,7 +48,7 @@ class UnusedL10nConsoleReporter
     }
 
     output.writeln(
-      '${_errorColor('✖')} total unused localization class fields, getters and methods - ${_errorColor(warnings)}',
+      '${alarmPen('✖')} total unused localization class fields, getters and methods - ${alarmPen(warnings)}',
     );
   }
 }
