@@ -137,7 +137,10 @@ Additionally, `exclude` entry for the analyzer config can be used to ignore file
 ```yaml title="analysis_options.yaml"
 analyzer:
   exclude:
-    - example/**
+    - "example/**"
+    - "build/**"
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
 ```
 
 will work both for the analyzer and for this plugin.
