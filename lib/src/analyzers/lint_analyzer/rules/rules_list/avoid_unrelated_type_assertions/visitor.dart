@@ -49,7 +49,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
     DartType objectType,
     DartType castedType,
   ) {
-    if (objectType.element == castedType.element ||
+    if ((objectType.element == castedType.element) ||
         castedType.isDynamic ||
         objectType.isDynamic) {
       return objectType;
@@ -79,14 +79,11 @@ class _Visitor extends RecursiveAstVisitor<void> {
     for (var argumentIndex = 0;
         argumentIndex < objectType.typeArguments.length;
         argumentIndex++) {
-      if (_isUnrelatedTypeCheck(
-            objectType.typeArguments[argumentIndex],
-            castedType.typeArguments[argumentIndex],
-          ) &&
-          _isUnrelatedTypeCheck(
-            castedType.typeArguments[argumentIndex],
-            objectType.typeArguments[argumentIndex],
-          )) {
+      final objectGenericType = objectType.typeArguments[argumentIndex];
+      final castedGenericType = castedType.typeArguments[argumentIndex];
+
+      if (_isUnrelatedTypeCheck(objectGenericType, castedGenericType) &&
+          _isUnrelatedTypeCheck(castedGenericType, objectGenericType)) {
         return true;
       }
     }
