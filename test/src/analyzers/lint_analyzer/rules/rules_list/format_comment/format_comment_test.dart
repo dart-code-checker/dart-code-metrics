@@ -1,19 +1,19 @@
 @TestOn('vm')
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/capitalize_comment/capitalize_comment_rule.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/capitalize_comment/format_comment_rule.dart';
 import 'package:test/test.dart';
 
 import '../../../../../helpers/rule_test_helper.dart';
 
-const _examplePath = 'capitalize_comment/examples/example.dart';
+const _examplePath = 'format_comment/examples/example.dart';
 const _exampleWithoutIssuePath =
-    'capitalize_comment/examples/example_without_issue.dart';
+    'format_comment/examples/example_without_issue.dart';
 
 void main() {
-  group('CapitalizeCommentRule', () {
+  group('FormatCommentRule', () {
     test('initialization', () async {
       final unit = await RuleTestHelper.resolveFromFile(_examplePath);
-      final issues = CapitalizeCommentRule().check(unit);
+      final issues = FormatCommentRule().check(unit);
 
       RuleTestHelper.verifyInitialization(
         issues: issues,
@@ -24,7 +24,7 @@ void main() {
 
     test('reports about found issues', () async {
       final unit = await RuleTestHelper.resolveFromFile(_examplePath);
-      final issues = CapitalizeCommentRule().check(unit);
+      final issues = FormatCommentRule().check(unit);
 
       RuleTestHelper.verifyIssues(
         issues: issues,
@@ -71,7 +71,7 @@ void main() {
     test('reports about found no issues', () async {
       final unit =
           await RuleTestHelper.resolveFromFile(_exampleWithoutIssuePath);
-      final issues = CapitalizeCommentRule().check(unit);
+      final issues = FormatCommentRule().check(unit);
 
       RuleTestHelper.verifyIssues(
         issues: issues,

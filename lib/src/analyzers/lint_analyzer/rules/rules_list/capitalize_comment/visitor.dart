@@ -1,4 +1,4 @@
-part of 'capitalize_comment_rule.dart';
+part of 'format_comment_rule.dart';
 
 const commentsOperator = ['//', '///', '/*'];
 

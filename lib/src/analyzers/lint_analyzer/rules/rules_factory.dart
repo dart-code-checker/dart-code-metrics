@@ -14,6 +14,7 @@ import 'rules_list/avoid_unnecessary_type_assertions/avoid_unnecessary_type_asse
 import 'rules_list/avoid_unused_parameters/avoid_unused_parameters_rule.dart';
 import 'rules_list/avoid_wrapping_in_padding/avoid_wrapping_in_padding_rule.dart';
 import 'rules_list/binary_expression_operand_order/binary_expression_operand_order_rule.dart';
+import 'rules_list/capitalize_comment/format_comment_rule.dart';
 import 'rules_list/component_annotation_arguments_ordering/component_annotation_arguments_ordering_rule.dart';
 import 'rules_list/double_literal_format/double_literal_format_rule.dart';
 import 'rules_list/member_ordering/member_ordering_rule.dart';
@@ -71,6 +72,7 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   ComponentAnnotationArgumentsOrderingRule.ruleId: (config) =>
       ComponentAnnotationArgumentsOrderingRule(config),
   DoubleLiteralFormatRule.ruleId: (config) => DoubleLiteralFormatRule(config),
+  FormatCommentRule.ruleId: (config) => FormatCommentRule(config),
   MemberOrderingRule.ruleId: (config) => MemberOrderingRule(config),
   MemberOrderingExtendedRule.ruleId: (config) =>
       MemberOrderingExtendedRule(config),
