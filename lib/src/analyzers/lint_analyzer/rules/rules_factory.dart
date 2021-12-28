@@ -1,3 +1,5 @@
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/avoid_global_state/avoid_global_state_rule.dart';
+
 import 'models/rule.dart';
 import 'rules_list/always_remove_listener/always_remove_listener_rule.dart';
 import 'rules_list/avoid-unnecessary-type-casts/avoid_unnecessary_type_casts_rule.dart';
@@ -43,6 +45,7 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   AlwaysRemoveListenerRule.ruleId: (config) => AlwaysRemoveListenerRule(config),
   AvoidUnnecessaryTypeCastsRule.ruleId: (config) =>
       AvoidUnnecessaryTypeCastsRule(config),
+  AvoidGlobalStateRule.ruleId: (config) => AvoidGlobalStateRule(config),
   AvoidIgnoringReturnValuesRule.ruleId: (config) =>
       AvoidIgnoringReturnValuesRule(config),
   AvoidLateKeywordRule.ruleId: (config) => AvoidLateKeywordRule(config),
