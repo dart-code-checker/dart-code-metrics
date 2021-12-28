@@ -17,7 +17,7 @@ void main() {
 
       RuleTestHelper.verifyInitialization(
         issues: issues,
-        ruleId: 'capitalize-comment',
+        ruleId: 'format-comment',
         severity: Severity.style,
       );
     });
