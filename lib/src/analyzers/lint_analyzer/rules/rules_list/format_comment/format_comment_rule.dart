@@ -32,17 +32,18 @@ class FormatCommentRule extends CommonRule {
 
     visitor.visitComments(source.unit.root);
 
-    return visitor.comments
-        .map((declaration) => createIssue(
-              rule: this,
-              location: nodeLocation(
-                node: declaration.token,
-                source: source,
-              ),
-              message: _warning,
-              replacement: _createReplacement(declaration),
-            ))
-        .toList(growable: false);
+    return [
+      for (final declaration in visitor.comments)
+        createIssue(
+          rule: this,
+          location: nodeLocation(
+            node: declaration.token,
+            source: source,
+          ),
+          message: _warning,
+          replacement: _createReplacement(declaration),
+        ),
+    ];
   }
 
   Replacement _createReplacement(CommentInfo commentType) {
