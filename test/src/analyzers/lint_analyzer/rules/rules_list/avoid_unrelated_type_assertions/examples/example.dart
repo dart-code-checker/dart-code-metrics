@@ -35,6 +35,10 @@ class Example2 {
     final result = homeAnimal is Dog;
     final result = homeAnimal is dynamic;
   }
+
+  void generic<T>() {
+    final result = animal is T;
+  }
 }
 
 class Example3 {

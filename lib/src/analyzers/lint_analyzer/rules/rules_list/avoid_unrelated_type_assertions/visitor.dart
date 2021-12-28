@@ -9,7 +9,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
   void visitIsExpression(IsExpression node) {
     super.visitIsExpression(node);
 
-    if (node.notOperator != null) {
+    if (node.notOperator != null || node.type.type is TypeParameterType) {
       return;
     }
 
