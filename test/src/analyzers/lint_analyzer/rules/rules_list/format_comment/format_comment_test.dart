@@ -1,6 +1,6 @@
 @TestOn('vm')
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/capitalize_comment/format_comment_rule.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/format_comment/format_comment_rule.dart';
 import 'package:test/test.dart';
 
 import '../../../../../helpers/rule_test_helper.dart';

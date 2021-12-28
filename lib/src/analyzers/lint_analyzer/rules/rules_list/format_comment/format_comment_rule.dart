@@ -24,6 +24,7 @@ class FormatCommentRule extends CommonRule {
           excludes: readExcludes(config),
         );
 
+
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
     final visitor = _Visitor();

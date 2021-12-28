@@ -5,7 +5,7 @@ const commentsOperator = ['//', '///', '/*'];
 class _Visitor extends RecursiveAstVisitor<void> {
   final _comments = <CommentInfo>[];
 
-  Iterable<CommentInfo> get comments => _comments;
+  List<CommentInfo> get comments => _comments;
 
   void visitComments(AstNode node) {
     Token? token = node.beginToken;
