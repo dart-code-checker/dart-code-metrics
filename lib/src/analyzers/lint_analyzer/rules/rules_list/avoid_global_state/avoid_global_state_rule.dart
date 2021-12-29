@@ -17,7 +17,7 @@ part 'visitor.dart';
 class AvoidGlobalStateRule extends CommonRule {
   static const String ruleId = 'avoid-global-state';
 
-  static const _warning = 'Avoid global state';
+  static const _warning = 'Avoid use global variable without const or final keywords.';
 
   AvoidGlobalStateRule([Map<String, Object> config = const {}])
       : super(
