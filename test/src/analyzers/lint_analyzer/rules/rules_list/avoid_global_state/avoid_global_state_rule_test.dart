@@ -34,7 +34,10 @@ void main() {
           'answer = 42',
           'evenNumbers = [1, 2, 3].where((element) => element.isEven)',
         ],
-        messages: ['Avoid global state', 'Avoid global state'],
+        messages: [
+          'Avoid use global variable without const or final keywords.',
+          'Avoid use global variable without const or final keywords.',
+        ],
       );
     });
   });
