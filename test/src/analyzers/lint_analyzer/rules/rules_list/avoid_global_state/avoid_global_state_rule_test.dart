@@ -35,8 +35,8 @@ void main() {
           'evenNumbers = [1, 2, 3].where((element) => element.isEven)',
         ],
         messages: [
-          'Avoid use global variable without const or final keywords.',
-          'Avoid use global variable without const or final keywords.',
+          'Avoid using global variable without const or final keywords.',
+          'Avoid using global variable without const or final keywords.',
         ],
       );
     });
