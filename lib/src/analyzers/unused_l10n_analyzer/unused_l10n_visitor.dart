@@ -27,15 +27,16 @@ class UnusedL10nVisitor extends RecursiveAstVisitor<void> {
         target as InstanceCreationExpression,
         name,
       );
+    } else if (_matchExtension(target)) {
+      final classTarget = (target as PrefixedIdentifier).identifier;
+
+      _addMemberInvocationOnAccessor(classTarget, name);
     } else if (_matchMethodOf(target)) {
       final classTarget = (target as MethodInvocation).target;
 
       if (_matchIdentifier(classTarget)) {
         _addMemberInvocation(classTarget as SimpleIdentifier, name);
       }
-    } else if (_matchExtension(target)) {
-      final classTarget = (target as PrefixedIdentifier).identifier;
-      _addMemberInvocationOnAccessor(classTarget, name);
     }
   }
 
@@ -71,15 +72,16 @@ class UnusedL10nVisitor extends RecursiveAstVisitor<void> {
         target as InstanceCreationExpression,
         name,
       );
+    } else if (_matchExtension(target)) {
+      final classTarget = (target as PrefixedIdentifier).identifier;
+
+      _addMemberInvocationOnAccessor(classTarget, name);
     } else if (_matchMethodOf(target)) {
       final classTarget = (target as MethodInvocation).target;
 
       if (_matchIdentifier(classTarget)) {
         _addMemberInvocation(classTarget as SimpleIdentifier, name);
       }
-    } else if (_matchExtension(target)) {
-      final classTarget = (target as PrefixedIdentifier).identifier;
-      _addMemberInvocationOnAccessor(classTarget, name);
     }
   }
 
@@ -131,9 +133,11 @@ class UnusedL10nVisitor extends RecursiveAstVisitor<void> {
   void _addMemberInvocationOnAccessor(SimpleIdentifier target, String name) {
     final staticElement =
         target.staticElement?.enclosingElement as ExtensionElement;
+
     for (final element in staticElement.accessors) {
-      if (_classPattern.hasMatch(element.name) && element.isGetter) {
+      if (_classPattern.hasMatch(element.returnType.toString())) {
         final classElement = element.returnType.element;
+
         if (classElement is ClassElement) {
           _invocations.update(
             classElement,
