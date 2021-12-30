@@ -13,6 +13,7 @@ Warning
 The rule should violate on not final and non-const top-level variables.
 
 Having many mutable global variables inside application is a pretty bad practice:
+
 - application state becomes distributed between multiple files
 - application state is not protected: it can be modified in almost any place
 - it might be hard to debug such applications
