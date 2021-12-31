@@ -1,6 +1,7 @@
 @TestOn('vm')
 import 'package:dart_code_metrics/src/cli/cli_runner.dart';
 import 'package:dart_code_metrics/src/cli/commands/check_unused_files_command.dart';
+import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
 const _usage = 'Check unused *.dart files.\n'
@@ -50,10 +51,7 @@ void main() {
 
     test('should have correct usage', () {
       expect(
-        command.usage.replaceAll(
-          RegExp('defaults to "(.*?)dart-code-metrics"'),
-          'defaults to current directory',
-        ),
+        command.usage.replaceAll('"${p.current}"', 'current directory'),
         _usage,
       );
     });

@@ -47,6 +47,7 @@ dart_code_metrics:
     - avoid-unused-parameters
     - avoid-unnecessary-type-assertions
     - avoid-unnecessary-type-casts
+    - avoid-global-state
     - binary-expression-operand-order
     - double-literal-format
     - newline-before-return
