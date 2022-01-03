@@ -34,10 +34,10 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [52, 124, 196, 250, 310, 397],
+        startOffsets: [52, 124, 196, 250, 309, 396],
         startLines: [2, 7, 12, 17, 22, 27],
         startColumns: [7, 7, 7, 7, 7, 7],
-        endOffsets: [59, 132, 199, 252, 330, 416],
+        endOffsets: [59, 132, 199, 252, 329, 415],
         locationTexts: [
           'example',
           '_example',
