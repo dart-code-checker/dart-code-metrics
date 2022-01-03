@@ -3,21 +3,22 @@
 ## Unreleased
 
 * feat: add static code diagnostics `avoid-global-state`.
-* chore: migrate from deprecated api
-* fix: fixed issue with type check in prefer-match-file-name
-* fix: stabilized command usage tests
-* doc: add flutter favorite badge
-* chore: disable github_checks annotations from codecov
-* chore: activate language strict rules
-* fix: add missing severity for rules
-* feat: facelift console reporters
+* chore: migrate from deprecated api.
+* fix: fixed issue with type check in prefer-match-file-name.
+* fix: stabilized command usage tests.
+* doc: add flutter favorite badge.
+* chore: disable github_checks annotations from codecov.
+* chore: activate language strict rules.
+* fix: add missing severity for rules.
+* feat: facelift console reporters.
 * chore: restrict `analyzer` version to `>=2.4.0 <3.1.0`.
 * chore: restrict `analyzer_plugin` version to `>=0.8.0 <0.10.0`.
 * feat: support extensions for check-unused-l10n.
+* feat: improve `prefer-correct-type-name` rule.
 
 ## 4.8.1
 
-* feat: add cli options for fatal exit if unused files or l10n are found
+* feat: add cli options for fatal exit if unused files or l10n are found.
 
 ## 4.8.0
 

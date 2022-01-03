@@ -12,6 +12,7 @@ class _Validator {
   });
 
   bool isValid(String name) =>
+      name.isEmpty ||
       exceptions.contains(name) ||
       (isUpperCase(name) &&
           withoutUnderscore(name).length >= minLength &&

@@ -6,9 +6,7 @@ import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/internal_re
 import 'package:path/path.dart';
 
 class FileResolver {
-  static Future<InternalResolvedUnitResult> resolve(
-    String filePath,
-  ) async {
+  static Future<InternalResolvedUnitResult> resolve(String filePath) async {
     final file = File(filePath);
 
     if (!file.existsSync()) {
