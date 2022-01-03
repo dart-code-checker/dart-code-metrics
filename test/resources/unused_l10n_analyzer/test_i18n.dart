@@ -42,3 +42,19 @@ class S {
     return S();
   }
 }
+
+class L10nClass {
+  String method(String value) => value;
+
+  String get regularGetter => 'regular getter';
+
+  final String regularField = 'regular field';
+
+  L10nClass._();
+}
+
+class L10nWrapper {}
+
+extension L10nExtension on L10nWrapper {
+  L10nClass get l10n => L10nClass._();
+}

@@ -109,6 +109,24 @@ void main() {
         expect(result, isEmpty);
       });
 
+      test(
+        'should analyze files with custom class pattern but using extension',
+        () async {
+          final config = _createConfig(
+            analyzerExcludePatterns: analyzerExcludes,
+            classPattern: 'L10nClass',
+          );
+
+          final result = await analyzer.runCliAnalysis(
+            folders,
+            rootDirectory,
+            config,
+          );
+
+          expect(result, isEmpty);
+        },
+      );
+
       test('should return a reporter', () {
         final reporter = analyzer.getReporter(name: 'console', output: stdout);
 

@@ -8,6 +8,14 @@ void main() {
   TestI18n.of('').regularMethod('some-string');
 
   TestI18n.of('').regularField.trim();
+
+  final wrapper = L10nWrapper();
+
+  wrapper.l10n.regularField.trim();
+
+  wrapper.l10n.regularGetter;
+
+  wrapper.l10n.method('value');
 }
 
 class SomeClass {
