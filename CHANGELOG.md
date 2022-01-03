@@ -13,6 +13,7 @@
 * feat: facelift console reporters
 * chore: restrict `analyzer` version to `>=2.4.0 <3.1.0`.
 * chore: restrict `analyzer_plugin` version to `>=0.8.0 <0.10.0`.
+* feat: support extensions for check-unused-l10n.
 
 ## 4.8.1
 
