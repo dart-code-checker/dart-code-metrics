@@ -110,7 +110,7 @@ void main() {
       });
 
       test(
-        'should analyze files with custom class pattern but using extension',
+        'should analyze files with custom class name using extension',
         () async {
           final config = _createConfig(
             analyzerExcludePatterns: analyzerExcludes,
