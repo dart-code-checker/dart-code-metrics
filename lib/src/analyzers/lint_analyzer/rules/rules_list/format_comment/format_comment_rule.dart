@@ -10,6 +10,7 @@ import '../../../models/internal_resolved_unit_result.dart';
 import '../../models/common_rule.dart';
 import '../../rule_utils.dart';
 import 'models/comment_info.dart';
+import 'models/comment_type.dart';
 
 part 'visitor.dart';
 
@@ -48,15 +49,15 @@ class FormatCommentRule extends CommonRule {
     var resultString = comment;
 
     switch (commentType.type) {
-      case '//':
+      case CommentType.base:
         final subString = formatComment(comment.substring(2, comment.length));
         resultString = '// $subString';
         break;
-      case '///':
+      case CommentType.documentation:
         final subString = formatComment(comment.substring(3, comment.length));
         resultString = '/// $subString';
         break;
-      case '/*':
+      case CommentType.multiline:
         final subString =
             formatComment(comment.substring(2, comment.length - 2));
         resultString = '/* $subString*/';

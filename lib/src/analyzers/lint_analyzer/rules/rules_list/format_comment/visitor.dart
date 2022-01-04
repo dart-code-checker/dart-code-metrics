@@ -1,6 +1,10 @@
 part of 'format_comment_rule.dart';
 
-const commentsOperator = ['//', '///', '/*'];
+const commentsOperator = {
+  CommentType.base: '//',
+  CommentType.documentation: '///',
+  CommentType.multiline: '/*',
+};
 
 class _Visitor extends RecursiveAstVisitor<void> {
   final _comments = <CommentInfo>[];
@@ -26,20 +30,21 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
   void _commentValidation(Token commentToken) {
     final comment = commentToken.toString();
-    var type = '';
+    var type = CommentType.base;
     if (comment.startsWith('//')) {
-      type = '//';
+      type = CommentType.base;
     }
     if (comment.startsWith('///')) {
-      type = '///';
+      type = CommentType.documentation;
     }
     if (comment.startsWith('/*')) {
-      type = '/*';
+      type = CommentType.multiline;
     }
 
-    final length = type == '/*' ? comment.length - 2 : comment.length;
+    final length =
+        type == CommentType.multiline ? comment.length - 2 : comment.length;
 
-    final message = comment.substring(type.length, length);
+    final message = comment.substring(commentsOperator[type]!.length, length);
     final messageTrim = message.trim();
     final firstLetter = messageTrim[0];
     final isFirstLetterUppercase = firstLetter == firstLetter.toUpperCase();
