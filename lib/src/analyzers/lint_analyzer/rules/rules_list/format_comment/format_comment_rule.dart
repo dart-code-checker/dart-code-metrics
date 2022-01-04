@@ -4,6 +4,7 @@ import 'package:analyzer/dart/ast/visitor.dart';
 
 import '../../../../../../lint_analyzer.dart';
 import '../../../../../utils/node_utils.dart';
+import '../../../../../utils/string_extensions.dart';
 import '../../../lint_utils.dart';
 import '../../../models/internal_resolved_unit_result.dart';
 import '../../models/common_rule.dart';
@@ -26,22 +27,18 @@ class FormatCommentRule extends CommonRule {
 
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
-    final visitor = _Visitor();
-
-    source.unit.visitChildren(visitor);
-
-    visitor.visitComments(source.unit.root);
+    final visitor = _Visitor()..checkComments(source.unit.root);
 
     return [
-      for (final declaration in visitor.comments)
+      for (final comment in visitor.comments)
         createIssue(
           rule: this,
           location: nodeLocation(
-            node: declaration.token,
+            node: comment.token,
             source: source,
           ),
           message: _warning,
-          replacement: _createReplacement(declaration),
+          replacement: _createReplacement(comment),
         ),
     ];
   }
@@ -77,8 +74,6 @@ class FormatCommentRule extends CommonRule {
 const _punctuation = ['.', '!', '?'];
 
 extension _StringExtension on String {
-  String capitalize() => '${this[0].toUpperCase()}${substring(1)}';
-
   String replaceEnd() =>
       !_punctuation.contains(this[length - 1]) ? '$this.' : this;
 }

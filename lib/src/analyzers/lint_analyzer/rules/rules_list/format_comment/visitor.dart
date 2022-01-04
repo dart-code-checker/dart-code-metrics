@@ -7,7 +7,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
   Iterable<CommentInfo> get comments => _comments;
 
-  void visitComments(AstNode node) {
+  void checkComments(AstNode node) {
     Token? token = node.beginToken;
     while (token != null) {
       Token? commentToken = token.precedingComments;
