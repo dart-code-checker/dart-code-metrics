@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/internal_resolved_unit_result.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/issue.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
@@ -13,6 +15,20 @@ class RuleTestHelper {
         'test/src/analyzers/lint_analyzer/rules/rules_list/$filePath';
 
     return FileResolver.resolve(fullPath);
+  }
+
+  static Future<InternalResolvedUnitResult> createAndResolveFromFile({
+    required String content,
+    required String filePath,
+  }) async {
+    final fullPath =
+        'test/src/analyzers/lint_analyzer/rules/rules_list/$filePath';
+
+    final file = File(fullPath)..writeAsStringSync(content);
+    final result = await FileResolver.resolve(fullPath);
+    file.deleteSync();
+
+    return result;
   }
 
   static void verifyInitialization({

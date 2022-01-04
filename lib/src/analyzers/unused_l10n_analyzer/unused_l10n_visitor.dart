@@ -27,6 +27,10 @@ class UnusedL10nVisitor extends RecursiveAstVisitor<void> {
         target as InstanceCreationExpression,
         name,
       );
+    } else if (_matchExtension(target)) {
+      final classTarget = (target as PrefixedIdentifier).identifier;
+
+      _addMemberInvocationOnAccessor(classTarget, name);
     } else if (_matchMethodOf(target)) {
       final classTarget = (target as MethodInvocation).target;
 
@@ -68,6 +72,10 @@ class UnusedL10nVisitor extends RecursiveAstVisitor<void> {
         target as InstanceCreationExpression,
         name,
       );
+    } else if (_matchExtension(target)) {
+      final classTarget = (target as PrefixedIdentifier).identifier;
+
+      _addMemberInvocationOnAccessor(classTarget, name);
     } else if (_matchMethodOf(target)) {
       final classTarget = (target as MethodInvocation).target;
 
@@ -89,6 +97,10 @@ class UnusedL10nVisitor extends RecursiveAstVisitor<void> {
 
   bool _matchMethodOf(Expression? target) =>
       target is MethodInvocation && target.methodName.name == 'of';
+
+  bool _matchExtension(Expression? target) =>
+      target is PrefixedIdentifier &&
+      target.staticElement?.enclosingElement is ExtensionElement;
 
   void _addMemberInvocation(SimpleIdentifier target, String name) {
     final staticElement = target.staticElement;
@@ -115,6 +127,26 @@ class UnusedL10nVisitor extends RecursiveAstVisitor<void> {
         (value) => value..add(name),
         ifAbsent: () => {name},
       );
+    }
+  }
+
+  void _addMemberInvocationOnAccessor(SimpleIdentifier target, String name) {
+    final staticElement =
+        target.staticElement?.enclosingElement as ExtensionElement;
+
+    for (final element in staticElement.accessors) {
+      if (_classPattern.hasMatch(element.returnType.toString())) {
+        final classElement = element.returnType.element;
+
+        if (classElement is ClassElement) {
+          _invocations.update(
+            classElement,
+            (value) => value..add(name),
+            ifAbsent: () => {name},
+          );
+          break;
+        }
+      }
     }
   }
 }

@@ -105,4 +105,5 @@ To set this up:
    - `tools\analyzer_plugin` directory in `dart_code_metrics` working copy
    - your project directory
 5. For Visual Studio Code on Windows: delete `C:\Users\<your-windows-user-name>\AppData\Local\.dartServer` folder.
+   For Android Studio on macOS: delete `/Users/<your-macOS-user-name>/.dartServer` folder.
 6. Start / restart your IDE

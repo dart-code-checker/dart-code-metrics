@@ -1,5 +1,6 @@
 import 'models/rule.dart';
 import 'rules_list/always_remove_listener/always_remove_listener_rule.dart';
+import 'rules_list/avoid_global_state/avoid_global_state_rule.dart';
 import 'rules_list/avoid_ignoring_return_values/avoid_ignoring_return_values_rule.dart';
 import 'rules_list/avoid_late_keyword/avoid_late_keyword_rule.dart';
 import 'rules_list/avoid_missing_enum_constant_in_map/avoid_missing_enum_constant_in_map_rule.dart';
@@ -42,6 +43,7 @@ import 'rules_list/provide_correct_intl_args/provide_correct_intl_args_rule.dart
 
 final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   AlwaysRemoveListenerRule.ruleId: (config) => AlwaysRemoveListenerRule(config),
+  AvoidGlobalStateRule.ruleId: (config) => AvoidGlobalStateRule(config),
   AvoidIgnoringReturnValuesRule.ruleId: (config) =>
       AvoidIgnoringReturnValuesRule(config),
   AvoidLateKeywordRule.ruleId: (config) => AvoidLateKeywordRule(config),

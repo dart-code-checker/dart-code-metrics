@@ -11,6 +11,10 @@ Rules configuration is [described here](../getting-started/configuration#configu
 
 ## Common {#common}
 
+- [avoid-global-state](./common/avoid-global-state.md)
+
+    Warns about usage mutable global variables.
+
 - [avoid-ignoring-return-values](./common/avoid-ignoring-return-values.md)
 
     Warns when a return value of a method or function invocation or a class instance property access is not used.
