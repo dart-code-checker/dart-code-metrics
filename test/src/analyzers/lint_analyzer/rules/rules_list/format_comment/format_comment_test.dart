@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/format_comment/format_comment_rule.dart';
 import 'package:test/test.dart';
@@ -44,15 +43,15 @@ void main() {
               'with dot.*/',
         ],
         messages: [
-          'Prefer format comments like sentences',
-          'Prefer format comments like sentences',
-          'Prefer format comments like sentences',
-          'Prefer format comments like sentences',
-          'Prefer format comments like sentences',
-          'Prefer format comments like sentences',
-          'Prefer format comments like sentences',
-          'Prefer format comments like sentences',
-          'Prefer format comments like sentences',
+          'Prefer formatting comments like sentences.',
+          'Prefer formatting comments like sentences.',
+          'Prefer formatting comments like sentences.',
+          'Prefer formatting comments like sentences.',
+          'Prefer formatting comments like sentences.',
+          'Prefer formatting comments like sentences.',
+          'Prefer formatting comments like sentences.',
+          'Prefer formatting comments like sentences.',
+          'Prefer formatting comments like sentences.',
         ],
         replacements: [
           '// With start space without dot.',

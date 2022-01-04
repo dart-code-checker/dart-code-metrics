@@ -2,11 +2,13 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 
-import '../../../../../../lint_analyzer.dart';
 import '../../../../../utils/node_utils.dart';
 import '../../../../../utils/string_extensions.dart';
 import '../../../lint_utils.dart';
 import '../../../models/internal_resolved_unit_result.dart';
+import '../../../models/issue.dart';
+import '../../../models/replacement.dart';
+import '../../../models/severity.dart';
 import '../../models/common_rule.dart';
 import '../../rule_utils.dart';
 import 'models/comment_info.dart';
@@ -17,7 +19,7 @@ part 'visitor.dart';
 class FormatCommentRule extends CommonRule {
   static const String ruleId = 'format-comment';
 
-  static const _warning = 'Prefer format comments like sentences';
+  static const _warning = 'Prefer formatting comments like sentences.';
 
   FormatCommentRule([Map<String, Object> config = const {}])
       : super(
