@@ -11,8 +11,10 @@ import '../../../models/replacement.dart';
 import '../../../models/severity.dart';
 import '../../models/common_rule.dart';
 import '../../rule_utils.dart';
-import 'models/comment_info.dart';
-import 'models/comment_type.dart';
+
+part 'models/comment_info.dart';
+
+part 'models/comment_type.dart';
 
 part 'visitor.dart';
 

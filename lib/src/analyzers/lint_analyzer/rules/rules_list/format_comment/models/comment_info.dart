@@ -1,6 +1,4 @@
-import 'package:analyzer/dart/ast/token.dart';
-
-import 'comment_type.dart';
+part of '../format_comment_rule.dart';
 
 class CommentInfo {
   final Token token;
