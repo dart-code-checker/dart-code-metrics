@@ -15,7 +15,7 @@ class _ex {
 
 // LINT Class with short name
 class ex {
-  _ex();
+  ex();
 }
 
 // LINT Private class with long name
