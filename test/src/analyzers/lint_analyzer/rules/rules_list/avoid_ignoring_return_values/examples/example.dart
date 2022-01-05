@@ -30,9 +30,12 @@ class SomeService {
     (list..sort()).contains(1); // LINT
 
     futureMethod(); // LINT
+    futureMethod().then((_) => null);
     voidFutureMethod();
+    voidFutureMethod().then((_) => null);
 
     await futureMethod(); // LINT
+    await futureMethod().then((_) => null);
     await voidFutureMethod();
 
     final futureResult = await futureMethod();
@@ -63,15 +66,21 @@ class SomeService {
     props.field; // LINT
 
     props.futureMixinMethod(); // LINT
+    props.futureMixinMethod().then((_) => null);
     props.voidFutureMixinMethod();
+    props.voidFutureMixinMethod().then((_) => null);
 
     await props.futureMixinMethod(); // LINT
+    await props.futureMixinMethod().then((_) => null);
     await props.voidFutureMixinMethod();
 
     props.futureExtensionMethod(); // LINT
+    props.futureExtensionMethod().then((_) => null);
     props.voidFutureExtensionMethod();
+    props.voidFutureExtensionMethod().then((_) => null);
 
     await props.futureExtensionMethod(); // LINT
+    await props.futureExtensionMethod().then((_) => null);
     await props.voidFutureExtensionMethod();
   }
 
