@@ -27,6 +27,14 @@ class _Visitor extends RecursiveAstVisitor<void> {
       return false;
     }
 
+    if (objectType.isDynamic || castedType.isDynamic) {
+      return false;
+    }
+
+    if (objectType is! ParameterizedType || castedType is! ParameterizedType) {
+      return false;
+    }
+
     final objectCastedType =
         _foundCastedTypeInObjectTypeHierarchy(objectType, castedType);
     final castedObjectType =

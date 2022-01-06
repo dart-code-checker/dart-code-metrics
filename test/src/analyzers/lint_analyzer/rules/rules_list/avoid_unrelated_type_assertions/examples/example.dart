@@ -89,3 +89,21 @@ void checkSameOrInheritor() {
   final check4 = homeAnimal is Dog?;
   final check4Not = homeAnimal is! Dog?;
 }
+
+String show(Object? object) {
+  Iterable<Object?> objects = [];
+
+  if (objects is Iterable<T>) {
+    return '';
+  }
+
+  return object is Cat ? 'cat' : 'unknown';
+}
+
+bool isTypeOf<ThisType, OfType>() => _Instance<ThisType>() is _Instance<OfType>;
+
+class _Instance<T> {
+  T field;
+
+  _Instance(): assert(field is Object?)
+}
