@@ -125,6 +125,10 @@ module.exports = {
               label: 'Official lint package',
               href: 'https://pub.dev/packages/lints',
             },
+            {
+              label: 'Flutter Linting Comparison',
+              href: 'https://rydmike.com/blog_flutter_linting',
+            },
           ],
         },
       ],
