@@ -7,13 +7,14 @@ import '../../../models/unused_l10n_file_report.dart';
 ///
 /// Use it to create reports in console format.
 class UnusedL10nConsoleReporter
-    extends ConsoleReporter<UnusedL10nFileReport, void> {
+    extends ConsoleReporter<UnusedL10nFileReport, void, void> {
   UnusedL10nConsoleReporter(IOSink output) : super(output);
 
   @override
   Future<void> report(
     Iterable<UnusedL10nFileReport> records, {
     Iterable<void> summary = const [],
+    void additionalParams,
   }) async {
     if (records.isEmpty) {
       output.writeln('${okPen('✔')} no unused localization found!');
@@ -38,7 +39,7 @@ class UnusedL10nConsoleReporter
         final pathOffset = offset.padRight(5);
 
         output
-          ..writeln('$offset ${warnigPen('⚠')} unused ${issue.memberName}')
+          ..writeln('$offset ${warningPen('⚠')} unused ${issue.memberName}')
           ..writeln('$pathOffset at $path:$line:$column');
       }
 

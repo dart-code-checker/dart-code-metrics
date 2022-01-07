@@ -11,13 +11,15 @@ import '../../../models/unused_l10n_issue.dart';
 ///
 /// Use it to create reports in JSON format.
 @immutable
-class UnusedL10nJsonReporter extends JsonReporter<UnusedL10nFileReport, void> {
+class UnusedL10nJsonReporter
+    extends JsonReporter<UnusedL10nFileReport, void, void> {
   const UnusedL10nJsonReporter(IOSink output) : super(output, 2);
 
   @override
   Future<void> report(
     Iterable<UnusedL10nFileReport> records, {
     Iterable<void> summary = const [],
+    void additionalParams,
   }) async {
     if (records.isEmpty) {
       return;
