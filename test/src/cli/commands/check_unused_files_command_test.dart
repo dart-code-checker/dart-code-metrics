@@ -23,6 +23,9 @@ const _usage = 'Check unused *.dart files.\n'
     '\n'
     '    --[no-]fatal-unused                           Treat find unused file as fatal.\n'
     '\n'
+    '\n'
+    '-d, --[no-]delete-files                           Delete all unused files.\n'
+    '\n'
     'Run "metrics help" to see global options.';
 
 void main() {
