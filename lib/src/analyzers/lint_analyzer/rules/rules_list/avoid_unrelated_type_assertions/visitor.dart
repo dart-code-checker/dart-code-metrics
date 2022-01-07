@@ -59,7 +59,9 @@ class _Visitor extends RecursiveAstVisitor<void> {
   ) {
     if ((objectType.element == castedType.element) ||
         castedType.isDynamic ||
-        objectType.isDynamic) {
+        objectType.isDynamic ||
+        _isFutureOrAndFuture(objectType, castedType) ||
+        _isObjectAndEnum(objectType, castedType)) {
       return objectType;
     }
 
@@ -98,4 +100,11 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
     return false;
   }
+
+  bool _isFutureOrAndFuture(DartType objectType, DartType castedType) =>
+      objectType.isDartAsyncFutureOr && castedType.isDartAsyncFuture;
+
+  bool _isObjectAndEnum(DartType objectType, DartType castedType) =>
+      objectType.isDartCoreObject &&
+      castedType.element?.kind == ElementKind.ENUM;
 }

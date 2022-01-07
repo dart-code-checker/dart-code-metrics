@@ -1,3 +1,5 @@
+import 'dart:async';
+
 class Example1 {
   final regularString = '';
   final String? nullableString = null;
@@ -97,6 +99,15 @@ String show(Object? object) {
     return '';
   }
 
+  if (object is Hello) {
+    return '';
+  }
+
+  final FutureOr<void> result;
+  if (result is Future) {
+    return '';
+  }
+
   return object is Cat ? 'cat' : 'unknown';
 }
 
@@ -105,5 +116,10 @@ bool isTypeOf<ThisType, OfType>() => _Instance<ThisType>() is _Instance<OfType>;
 class _Instance<T> {
   T field;
 
-  _Instance(): assert(field is Object?)
+  _Instance() : assert(field is Object?);
+}
+
+enum Hello {
+  world1,
+  world2,
 }

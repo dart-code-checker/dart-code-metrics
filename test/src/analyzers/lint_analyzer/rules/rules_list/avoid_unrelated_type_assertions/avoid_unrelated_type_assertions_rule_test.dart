@@ -25,7 +25,7 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startLines: [6, 7, 10, 24, 27, 28, 31, 48, 75, 76, 85],
+        startLines: [8, 9, 12, 26, 29, 30, 33, 50, 77, 78, 87],
         startColumns: [20, 21, 21, 20, 20, 20, 20, 20, 18, 18, 18],
         locationTexts: [
           'regularString is int',
