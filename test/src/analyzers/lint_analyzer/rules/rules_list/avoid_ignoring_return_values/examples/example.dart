@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_expression_function_bodies, unawaited_futures, cascade_invocations, unused_local_variable, unnecessary_statements, prefer_void_to_null, return_without_value
+
 import 'dart:async';
 
 class SomeService {
@@ -9,7 +11,7 @@ class SomeService {
     return 'string';
   }
 
-  void voidMethod() {
+  Future<void> voidMethod() async {
     final list = [
       1,
       2,
@@ -28,9 +30,12 @@ class SomeService {
     (list..sort()).contains(1); // LINT
 
     futureMethod(); // LINT
+    futureMethod().then((_) => null);
     voidFutureMethod();
+    voidFutureMethod().then((_) => null);
 
     await futureMethod(); // LINT
+    await futureMethod().then((_) => null);
     await voidFutureMethod();
 
     final futureResult = await futureMethod();
@@ -52,13 +57,31 @@ class SomeService {
     final props = ClassWithProps();
 
     props.name; // LINT
-    props.name; // LINT
+    props.value; // LINT
 
     props
       ..name
       ..value;
 
     props.field; // LINT
+
+    props.futureMixinMethod(); // LINT
+    props.futureMixinMethod().then((_) => null);
+    props.voidFutureMixinMethod();
+    props.voidFutureMixinMethod().then((_) => null);
+
+    await props.futureMixinMethod(); // LINT
+    await props.futureMixinMethod().then((_) => null);
+    await props.voidFutureMixinMethod();
+
+    props.futureExtensionMethod(); // LINT
+    props.futureExtensionMethod().then((_) => null);
+    props.voidFutureExtensionMethod();
+    props.voidFutureExtensionMethod().then((_) => null);
+
+    await props.futureExtensionMethod(); // LINT
+    await props.futureExtensionMethod().then((_) => null);
+    await props.voidFutureExtensionMethod();
   }
 
   Future<int> futureMethod() async {
@@ -86,11 +109,31 @@ class SomeService {
   }
 }
 
-class ClassWithProps {
+class ClassWithProps with MixinWithProp {
   String get name => 'name';
   String get value => 'value';
 
   String field = 'field';
+}
+
+mixin MixinWithProp {
+  Future<int> futureMixinMethod() async {
+    return 1;
+  }
+
+  Future<void> voidFutureMixinMethod() async {
+    return;
+  }
+}
+
+extension ClassWithPropsExtension on ClassWithProps {
+  Future<int> futureExtensionMethod() async {
+    return 1;
+  }
+
+  Future<void> voidFutureExtensionMethod() async {
+    return;
+  }
 }
 
 String function() {
