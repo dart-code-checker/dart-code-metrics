@@ -43,7 +43,7 @@ class CheckUnusedFilesCommand extends BaseCommand {
     );
 
     if (deleteFiles) {
-      await _analyzer.deleteAllUnusedFiles(unusedFilesResult);
+      _analyzer.deleteAllUnusedFiles(unusedFilesResult);
     }
 
     await _analyzer

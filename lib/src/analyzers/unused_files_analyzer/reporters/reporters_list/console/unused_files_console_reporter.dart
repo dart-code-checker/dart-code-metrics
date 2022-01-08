@@ -32,14 +32,18 @@ class UnusedFilesConsoleReporter
       );
     }
 
-    final removeFilesSuffix = additionalParams?.deleteUnusedFiles ?? false
-        ? ', all unused files were successfully deleted'
-        : '';
-
-    output
-      ..writeln('')
-      ..writeln(
-        '${alarmPen('✖')} total unused files - ${alarmPen(sortedRecords.length)}$removeFilesSuffix',
-      );
+    if (additionalParams?.deleteUnusedFiles ?? false) {
+      output
+        ..writeln('')
+        ..writeln(
+          '${okPen('✔')} ${alarmPen(sortedRecords.length)} files were successfully deleted',
+        );
+    } else {
+      output
+        ..writeln('')
+        ..writeln(
+          '${alarmPen('✖')} total unused files - ${alarmPen(sortedRecords.length)}$removeFilesSuffix',
+        );
+    }
   }
 }

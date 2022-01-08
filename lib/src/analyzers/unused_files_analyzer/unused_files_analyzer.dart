@@ -96,9 +96,7 @@ class UnusedFilesAnalyzer {
     }).toSet();
   }
 
-  Future<void> deleteAllUnusedFiles(
-    Iterable<UnusedFilesFileReport> reports,
-  ) async {
+  void deleteAllUnusedFiles(Iterable<UnusedFilesFileReport> reports) {
     for (final report in reports) {
       File(report.path).deleteSync();
     }
