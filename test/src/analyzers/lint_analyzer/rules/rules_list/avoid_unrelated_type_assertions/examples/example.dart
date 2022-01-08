@@ -92,31 +92,36 @@ void checkSameOrInheritor() {
   final check4Not = homeAnimal is! Dog?;
 }
 
-String show(Object? object) {
-  Iterable<Object?> objects = [];
-
-  if (objects is Iterable<T>) {
-    return '';
-  }
-
-  if (object is Hello) {
-    return '';
-  }
-
-  final FutureOr<void> result;
-  if (result is Future) {
-    return '';
-  }
-
-  return object is Cat ? 'cat' : 'unknown';
-}
-
 bool isTypeOf<ThisType, OfType>() => _Instance<ThisType>() is _Instance<OfType>;
 
 class _Instance<T> {
   T field;
 
   _Instance() : assert(field is Object?);
+
+  String show<T>(Object? object) {
+    Iterable<Object?> objects = [];
+
+    if (objects is Iterable<T>) {
+      return '';
+    }
+
+    if (object is Hello) {
+      return '';
+    }
+
+    final FutureOr<void> result;
+    if (result is Future) {
+      return '';
+    }
+
+    final FutureOr<T> generic;
+    if (generic is T) {
+      return '';
+    }
+
+    return object is Cat ? 'cat' : 'unknown';
+  }
 }
 
 enum Hello {
