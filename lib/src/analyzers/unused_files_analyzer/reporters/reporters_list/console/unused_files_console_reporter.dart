@@ -32,17 +32,19 @@ class UnusedFilesConsoleReporter
       );
     }
 
+    final filesCount = alarmPen(sortedRecords.length);
+
     if (additionalParams?.deleteUnusedFiles ?? false) {
       output
         ..writeln('')
         ..writeln(
-          '${okPen('✔')} ${alarmPen(sortedRecords.length)} files were successfully deleted',
+          '${okPen('✔')} $filesCount files were successfully deleted',
         );
     } else {
       output
         ..writeln('')
         ..writeln(
-          '${alarmPen('✖')} total unused files - ${alarmPen(sortedRecords.length)}$removeFilesSuffix',
+          '${alarmPen('✖')} total unused files - $filesCount',
         );
     }
   }
