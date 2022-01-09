@@ -15,6 +15,7 @@
 * chore: restrict `analyzer_plugin` version to `>=0.8.0 <0.10.0`.
 * feat: support extensions and static getters for check-unused-l10n.
 * feat: improve `prefer-correct-type-name` rule.
+* feat: add `delete-files` flag to `check-unused-files` command.
 * build: activate check_unused_files on CI.
 
 ## 4.8.1

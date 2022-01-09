@@ -13,8 +13,12 @@ import 'reporters_list/github/lint_github_reporter.dart';
 import 'reporters_list/html/lint_html_reporter.dart';
 import 'reporters_list/json/lint_json_reporter.dart';
 
-final _implementedReports = <String,
-    Reporter<FileReport, Object> Function(IOSink output, String reportFolder)>{
+final _implementedReports = <
+    String,
+    Reporter<FileReport, Object, void> Function(
+  IOSink output,
+  String reportFolder,
+)>{
   ConsoleReporter.id: (output, _) => LintConsoleReporter(output),
   ConsoleReporter.verboseId: (output, _) =>
       LintConsoleReporter(output, reportAll: true),
@@ -26,7 +30,7 @@ final _implementedReports = <String,
       LintCodeClimateReporter(output, gitlabCompatible: true),
 };
 
-Reporter<FileReport, Object>? reporter({
+Reporter<FileReport, Object, void>? reporter({
   required String name,
   required IOSink output,
   required String reportFolder,
