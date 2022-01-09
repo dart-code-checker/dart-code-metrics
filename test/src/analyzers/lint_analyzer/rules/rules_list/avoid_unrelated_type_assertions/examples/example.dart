@@ -120,6 +120,11 @@ class _Instance<T> {
       return '';
     }
 
+    final FutureOr<bool> generic2;
+    if (generic2 is bool) {
+      return '';
+    }
+
     return object is Cat ? 'cat' : 'unknown';
   }
 }
