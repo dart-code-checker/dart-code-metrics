@@ -23,6 +23,6 @@ class SomeClass {
 
   void method() {
     S.of('').regularMethod('');
-    S.of('').regularGetter;
+    S.current.regularGetter;
   }
 }
