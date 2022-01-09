@@ -34,18 +34,12 @@ class UnusedFilesConsoleReporter
 
     final filesCount = alarmPen(sortedRecords.length);
 
-    if (additionalParams?.deleteUnusedFiles ?? false) {
-      output
-        ..writeln('')
-        ..writeln(
-          '${okPen('✔')} $filesCount files were successfully deleted',
-        );
-    } else {
-      output
-        ..writeln('')
-        ..writeln(
-          '${alarmPen('✖')} total unused files - $filesCount',
-        );
-    }
+    final outputRecord = (additionalParams?.deleteUnusedFiles ?? false)
+        ? '${okPen('✔')} $filesCount files were successfully deleted'
+        : '${alarmPen('✖')} total unused files - $filesCount';
+
+    output
+      ..writeln('')
+      ..writeln(outputRecord);
   }
 }
