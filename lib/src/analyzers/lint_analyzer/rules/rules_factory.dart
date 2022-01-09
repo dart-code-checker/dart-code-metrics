@@ -66,7 +66,7 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   AvoidUnnecessaryTypeCastsRule.ruleId: (config) =>
       AvoidUnnecessaryTypeCastsRule(config),
   AvoidUnrelatedTypeAssertionsRule.ruleId: (config) =>
-      AvoidUnnecessaryTypeAssertionsRule(config),
+      AvoidUnrelatedTypeAssertionsRule(config),
   AvoidUnusedParametersRule.ruleId: (config) =>
       AvoidUnusedParametersRule(config),
   AvoidWrappingInPaddingRule.ruleId: (config) =>
