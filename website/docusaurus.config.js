@@ -11,9 +11,6 @@ module.exports = {
   projectName: 'dart-code-metrics',
   trailingSlash: false,
   themeConfig: {
-    gtag: {
-      trackingID: 'G-C2B16RHS34',
-    },
     algolia: {
       apiKey: '77b6353dcfcae7da42fcb75524a90002',
       indexName: 'dartcodemetrics',
@@ -145,6 +142,9 @@ module.exports = {
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
+        },
+        gtag: {
+          trackingID: 'G-C2B16RHS34',
         },
       },
     ],
