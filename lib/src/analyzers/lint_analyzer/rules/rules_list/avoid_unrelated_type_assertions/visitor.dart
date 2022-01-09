@@ -57,16 +57,24 @@ class _Visitor extends RecursiveAstVisitor<void> {
     DartType objectType,
     DartType castedType,
   ) {
-    if ((objectType.element == castedType.element) ||
-        castedType.isDynamic ||
-        objectType.isDynamic ||
-        _isFutureOrAndFuture(objectType, castedType) ||
-        _isObjectAndEnum(objectType, castedType)) {
+    if (_isFutureOrAndFuture(objectType, castedType)) {
       return objectType;
     }
 
-    if (objectType is InterfaceType) {
-      return objectType.allSupertypes
+    final correctObjectType =
+        objectType is InterfaceType && objectType.isDartAsyncFutureOr
+            ? objectType.typeArguments.first
+            : objectType;
+
+    if ((correctObjectType.element == castedType.element) ||
+        castedType.isDynamic ||
+        correctObjectType.isDynamic ||
+        _isObjectAndEnum(correctObjectType, castedType)) {
+      return correctObjectType;
+    }
+
+    if (correctObjectType is InterfaceType) {
+      return correctObjectType.allSupertypes
           .firstWhereOrNull((value) => value.element == castedType.element);
     }
 
