@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_flow_visitor.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/scope_visitor.dart';
 import 'package:test/test.dart';

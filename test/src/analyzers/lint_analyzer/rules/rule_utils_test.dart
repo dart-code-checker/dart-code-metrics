@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/replacement.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/models/rule.dart';

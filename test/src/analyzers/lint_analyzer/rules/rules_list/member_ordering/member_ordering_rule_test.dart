@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/member_ordering/member_ordering_rule.dart';
 import 'package:test/test.dart';
@@ -31,10 +30,8 @@ void main() {
 
         RuleTestHelper.verifyIssues(
           issues: issues,
-          startOffsets: [80, 177],
           startLines: [8, 16],
           startColumns: [3, 3],
-          endOffsets: [95, 204],
           locationTexts: [
             'final data = 1;',
             'String get value => _value;',
@@ -71,10 +68,8 @@ void main() {
 
         RuleTestHelper.verifyIssues(
           issues: issues,
-          startOffsets: [107, 216],
           startLines: [10, 18],
           startColumns: [3, 3],
-          endOffsets: [114, 254],
           locationTexts: [
             'Test();',
             'set value(String str) => _value = str;',
@@ -104,10 +99,8 @@ void main() {
 
         RuleTestHelper.verifyIssues(
           issues: issues,
-          startOffsets: [26, 68, 121, 169, 231, 267, 364],
           startLines: [4, 7, 10, 13, 16, 19, 25],
           startColumns: [3, 3, 3, 3, 3, 3, 3],
-          endOffsets: [56, 109, 157, 219, 255, 310, 406],
           locationTexts: [
             "@ViewChild('')\n"
                 '  Element view;',
@@ -152,10 +145,8 @@ void main() {
 
         RuleTestHelper.verifyIssues(
           issues: issues,
-          startOffsets: [94, 120, 148, 35, 62, 120, 201],
           startLines: [8, 10, 12, 4, 6, 10, 17],
           startColumns: [3, 3, 3, 3, 3, 3, 3],
-          endOffsets: [108, 136, 162, 50, 82, 136, 233],
           locationTexts: [
             'void work() {}',
             'void create() {}',

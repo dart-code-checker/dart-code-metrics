@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/avoid_unnecessary_setstate/avoid_unnecessary_setstate_rule.dart';
 import 'package:test/test.dart';
@@ -28,10 +27,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [302, 392, 606, 941, 1031, 455, 1294],
         startLines: [16, 22, 35, 57, 63, 27, 78],
         startColumns: [5, 7, 5, 5, 7, 5, 5],
-        endOffsets: [348, 442, 652, 987, 1081, 465, 1304],
         locationTexts: [
           'setState(() {\n'
               '      myString = "Hello";\n'

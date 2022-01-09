@@ -42,23 +42,13 @@ class RuleTestHelper {
 
   static void verifyIssues({
     required Iterable<Issue> issues,
-    Iterable<int>? startOffsets,
     Iterable<int>? startLines,
     Iterable<int>? startColumns,
-    Iterable<int>? endOffsets,
     Iterable<String>? locationTexts,
     Iterable<String>? messages,
     Iterable<String>? replacements,
     Iterable<String>? replacementComments,
   }) {
-    if (startOffsets != null) {
-      expect(
-        issues.map((issue) => issue.location.start.offset),
-        equals(startOffsets),
-        reason: 'incorrect start offset',
-      );
-    }
-
     if (startLines != null) {
       expect(
         issues.map((issue) => issue.location.start.line),
@@ -72,14 +62,6 @@ class RuleTestHelper {
         issues.map((issue) => issue.location.start.column),
         equals(startColumns),
         reason: 'incorrect start column',
-      );
-    }
-
-    if (endOffsets != null) {
-      expect(
-        issues.map((issue) => issue.location.end.offset),
-        equals(endOffsets),
-        reason: 'incorrect end offset',
       );
     }
 

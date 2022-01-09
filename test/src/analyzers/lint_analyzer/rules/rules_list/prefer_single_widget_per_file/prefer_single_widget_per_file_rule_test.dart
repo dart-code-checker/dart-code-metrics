@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/prefer_single_widget_per_file/prefer_single_widget_per_file_rule.dart';
 import 'package:test/test.dart';
@@ -35,10 +34,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [151, 275, 400],
         startLines: [11, 19, 27],
         startColumns: [1, 1, 1],
-        endOffsets: [265, 390, 535],
         messages: [
           'Only a single widget per file is allowed.',
           'Only a single widget per file is allowed.',
@@ -77,10 +74,8 @@ void main() {
 
         RuleTestHelper.verifyIssues(
           issues: issues,
-          startOffsets: [146, 261],
           startLines: [10, 17],
           startColumns: [1, 1],
-          endOffsets: [259, 399],
           messages: [
             'Only a single widget per file is allowed.',
             'Only a single widget per file is allowed.',

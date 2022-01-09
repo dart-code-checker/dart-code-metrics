@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/prefer_extracting_callbacks/prefer_extracting_callbacks_rule.dart';
 import 'package:test/test.dart';
@@ -26,10 +25,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [229, 1004],
         startLines: [11, 55],
         startColumns: [7, 7],
-        endOffsets: [273, 1048],
         locationTexts: [
           'onPressed: () {\n'
               '        return null;\n'

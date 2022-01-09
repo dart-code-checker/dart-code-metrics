@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-* feat: add static code diagnostics `avoid-global-state`.
+* feat: add static code diagnostics `avoid-global-state`, `avoid-unrelated-type-assertions`.
 * chore: migrate from deprecated api.
 * fix: fixed issue with type check in prefer-match-file-name.
 * fix: stabilized command usage tests.
@@ -16,6 +16,7 @@
 * feat: support extensions for check-unused-l10n.
 * feat: improve `prefer-correct-type-name` rule.
 * feat: add `delete-files` flag to `check-unused-files` command.
+* build: activate check_unused_files on CI.
 
 ## 4.8.1
 

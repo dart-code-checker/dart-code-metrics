@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/html/components/icon.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/html/models/icon_type.dart';
 import 'package:test/test.dart';

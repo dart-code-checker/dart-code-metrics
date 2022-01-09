@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/provide_correct_intl_args/provide_correct_intl_args_rule.dart';
 import 'package:test/test.dart';
@@ -35,30 +34,6 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [
-          184,
-          192,
-          192,
-          192,
-          504,
-          505,
-          403,
-          700,
-          701,
-          916,
-          1256,
-          1587,
-          1443,
-          1484,
-          1690,
-          1744,
-          2073,
-          1966,
-          2175,
-          2229,
-          2580,
-          2464,
-        ],
         startLines: [
           8,
           8,
@@ -106,30 +81,6 @@ void main() {
           47,
           23,
           47,
-        ],
-        endOffsets: [
-          197,
-          196,
-          196,
-          196,
-          510,
-          509,
-          407,
-          706,
-          705,
-          920,
-          1265,
-          1596,
-          1448,
-          1489,
-          1694,
-          1748,
-          2077,
-          1970,
-          2179,
-          2233,
-          2584,
-          2468,
         ],
         locationTexts: [
           '(String name)',

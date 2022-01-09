@@ -27,10 +27,8 @@ void main() {
 
         RuleTestHelper.verifyIssues(
           issues: issues,
-          startOffsets: [82, 242, 367, 434, 582, 864],
           startLines: [2, 7, 12, 13, 17, 22],
           startColumns: [22, 31, 31, 32, 31, 31],
-          endOffsets: [108, 268, 393, 460, 608, 898],
           messages: [
             'Prefer using const constructor BorderRadius.all.',
             'Prefer using const constructor BorderRadius.all.',

@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/avoid_missing_enum_constant_in_map/avoid_missing_enum_constant_in_map_rule.dart';
 import 'package:test/test.dart';
@@ -26,10 +25,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [119, 241, 241],
         startLines: [9, 15, 15],
         startColumns: [16, 16, 16],
-        endOffsets: [213, 308, 308],
         locationTexts: [
           '_code = <CountyCode, String>{\n'
               "    CountyCode.russia: 'RUS',\n"

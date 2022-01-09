@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/avoid_returning_widgets/avoid_returning_widgets_rule.dart';
 import 'package:test/test.dart';
@@ -26,10 +25,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [755, 791, 827, 859, 892, 961, 292, 1016, 1271],
         startLines: [36, 38, 40, 42, 44, 47, 16, 53, 67],
         startColumns: [5, 5, 5, 5, 5, 14, 3, 1, 1],
-        endOffsets: [776, 812, 844, 877, 915, 984, 331, 1071, 1346],
         locationTexts: [
           '_localBuildMyWidget()',
           '_getWidgetsIterable()',
@@ -74,10 +71,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [755, 791, 827, 292, 1016, 1073, 1138, 1203],
         startLines: [36, 38, 40, 16, 53, 57, 60, 63],
         startColumns: [5, 5, 5, 3, 1, 1, 1, 1],
-        endOffsets: [776, 812, 844, 331, 1071, 1136, 1201, 1261],
         locationTexts: [
           '_localBuildMyWidget()',
           '_getWidgetsIterable()',
