@@ -82,6 +82,8 @@ class UnusedL10nVisitor extends RecursiveAstVisitor<void> {
       if (_matchIdentifier(classTarget)) {
         _addMemberInvocation(classTarget as SimpleIdentifier, name);
       }
+    } else if (_matchStaticGetter(target)) {
+      _addMemberInvocation((target as PrefixedIdentifier).prefix, name);
     }
   }
 
@@ -101,6 +103,12 @@ class UnusedL10nVisitor extends RecursiveAstVisitor<void> {
   bool _matchExtension(Expression? target) =>
       target is PrefixedIdentifier &&
       target.staticElement?.enclosingElement is ExtensionElement;
+
+  bool _matchStaticGetter(Expression? target) =>
+      target is PrefixedIdentifier &&
+      _classPattern.hasMatch(
+        target.staticType?.getDisplayString(withNullability: false) ?? '',
+      );
 
   void _addMemberInvocation(SimpleIdentifier target, String name) {
     final staticElement = target.staticElement;
