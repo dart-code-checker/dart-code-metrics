@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'dart:io';
 
 import 'package:dart_code_metrics/src/analyzers/unused_l10n_analyzer/reporters/reporter_factory.dart';

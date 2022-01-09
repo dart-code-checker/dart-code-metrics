@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/scope_visitor.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/class_type.dart';

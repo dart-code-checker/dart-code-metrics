@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/component_annotation_arguments_ordering/component_annotation_arguments_ordering_rule.dart';
 import 'package:test/test.dart';
@@ -27,10 +26,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [126],
         startLines: [5],
         startColumns: [3],
-        endOffsets: [139],
         locationTexts: ['styleUrls: []'],
         messages: ['Arguments group styles should be before change-detection.'],
       );
@@ -67,10 +64,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [48, 75],
         startLines: [3, 4],
         startColumns: [3, 3],
-        endOffsets: [71, 122],
         locationTexts: [
           "template: '<div></div>'",
           'changeDetection: ChangeDetectionStrategy.OnPush',

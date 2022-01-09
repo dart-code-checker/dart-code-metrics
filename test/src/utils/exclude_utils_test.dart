@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'package:dart_code_metrics/src/utils/exclude_utils.dart';
 import 'package:glob/glob.dart';
 import 'package:test/test.dart';

@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'package:dart_code_metrics/src/utils/yaml_utils.dart';
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';

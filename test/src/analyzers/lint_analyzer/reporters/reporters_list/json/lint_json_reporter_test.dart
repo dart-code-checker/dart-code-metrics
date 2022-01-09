@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'dart:convert';
 import 'dart:io';
 

@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/avoid_late_keyword/avoid_late_keyword_rule.dart';
 import 'package:test/test.dart';
@@ -26,10 +25,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [15, 116, 179, 288, 338, 387],
         startLines: [2, 8, 11, 17, 21, 23],
         startColumns: [3, 3, 5, 5, 1, 1],
-        endOffsets: [42, 146, 209, 321, 376, 428],
         locationTexts: [
           "late final field = 'string'",
           'late String uninitializedField',

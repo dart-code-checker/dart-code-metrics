@@ -34,10 +34,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [52, 124, 196, 250, 309, 396],
         startLines: [2, 7, 12, 17, 22, 27],
         startColumns: [7, 7, 7, 7, 7, 7],
-        endOffsets: [59, 132, 199, 252, 329, 415],
         locationTexts: [
           'example',
           '_example',
@@ -68,10 +66,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [50, 127, 203, 266, 335, 414],
         startLines: [2, 8, 14, 20, 26, 32],
         startColumns: [6, 6, 6, 6, 6, 6],
-        endOffsets: [57, 135, 206, 268, 355, 433],
         locationTexts: [
           'example',
           '_example',
@@ -102,10 +98,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [56, 132, 207, 269, 337, 415],
         startLines: [2, 5, 8, 11, 14, 17],
         startColumns: [11, 11, 11, 11, 11, 11],
-        endOffsets: [63, 140, 210, 271, 357, 434],
         locationTexts: [
           'example',
           '_example',
@@ -136,10 +130,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [52, 110, 167, 211, 261, 321],
         startLines: [2, 5, 8, 11, 14, 17],
         startColumns: [7, 7, 7, 7, 7, 7],
-        endOffsets: [59, 118, 170, 213, 281, 340],
         locationTexts: [
           'example',
           '_example',

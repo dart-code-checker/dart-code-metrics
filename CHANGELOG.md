@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-* feat: add static code diagnostics `avoid-global-state`.
+* feat: add static code diagnostics `avoid-global-state`, `avoid-unrelated-type-assertions`.
 * chore: migrate from deprecated api.
 * fix: fixed issue with type check in prefer-match-file-name.
 * fix: stabilized command usage tests.

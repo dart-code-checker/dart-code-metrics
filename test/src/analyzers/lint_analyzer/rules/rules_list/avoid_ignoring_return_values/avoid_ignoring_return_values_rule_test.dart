@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/avoid_ignoring_return_values/avoid_ignoring_return_values_rule.dart';
 import 'package:test/test.dart';
@@ -26,23 +25,6 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [
-          455,
-          585,
-          626,
-          759,
-          916,
-          973,
-          1245,
-          1269,
-          1334,
-          1360,
-          1537,
-          1679,
-          1872,
-          2888,
-          2945,
-        ],
         startLines: [
           22,
           30,
@@ -61,23 +43,6 @@ void main() {
           147,
         ],
         startColumns: [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 3, 3],
-        endOffsets: [
-          470,
-          612,
-          641,
-          780,
-          933,
-          996,
-          1256,
-          1281,
-          1346,
-          1386,
-          1569,
-          1709,
-          1908,
-          2899,
-          2972,
-        ],
         locationTexts: [
           'list.remove(1);',
           '(list..sort()).contains(1);',

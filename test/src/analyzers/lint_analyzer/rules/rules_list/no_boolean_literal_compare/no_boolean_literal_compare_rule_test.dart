@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/no_boolean_literal_compare/no_boolean_literal_compare_rule.dart';
 import 'package:test/test.dart';
@@ -26,10 +25,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [74, 104, 134, 164, 191, 220, 340, 390, 470, 518, 660],
         startLines: [6, 8, 10, 12, 14, 16, 22, 24, 27, 28, 38],
         startColumns: [11, 11, 11, 11, 7, 7, 11, 11, 25, 25, 34],
-        endOffsets: [83, 113, 143, 174, 200, 230, 369, 419, 484, 532, 673],
         locationTexts: [
           'a == true',
           'b != true',
