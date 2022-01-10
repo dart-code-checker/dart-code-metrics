@@ -1,22 +1,14 @@
 # Changelog
 
-## Unreleased
+## 4.9.0
 
 * feat: add static code diagnostics `avoid-global-state`, `avoid-unrelated-type-assertions`.
-* chore: migrate from deprecated api.
-* fix: fixed issue with type check in prefer-match-file-name.
-* fix: stabilized command usage tests.
-* doc: add flutter favorite badge.
-* chore: disable github_checks annotations from codecov.
-* chore: activate language strict rules.
-* fix: add missing severity for rules.
+* feat: support extensions and static getters for `check-unused-l10n`.
+* feat: improve `prefer-correct-type-name`, `prefer-match-file-name` rules.
+* feat: add `delete-files` flag to `check-unused-files` command.
 * feat: facelift console reporters.
 * chore: restrict `analyzer` version to `>=2.4.0 <3.1.0`.
 * chore: restrict `analyzer_plugin` version to `>=0.8.0 <0.10.0`.
-* feat: support extensions and static getters for check-unused-l10n.
-* feat: improve `prefer-correct-type-name` rule.
-* feat: add `delete-files` flag to `check-unused-files` command.
-* build: activate check_unused_files on CI.
 
 ## 4.8.1
 
