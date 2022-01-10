@@ -19,6 +19,9 @@ abstract class Pattern {
   /// The severity of issues emitted by the pattern.
   final Severity severity;
 
+  /// A list of excluded files for the pattern.
+  final Iterable<String> excludes;
+
   /// Metric ids which values are used by the anti-pattern to detect a violation.
   Iterable<String> get dependentMetricIds;
 
@@ -26,6 +29,7 @@ abstract class Pattern {
     required this.id,
     required this.supportedType,
     required this.severity,
+    required this.excludes,
   });
 
   /// Returns [Iterable] with [Issue]'s detected while check the passed [source].
