@@ -26,10 +26,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [0, 32, 66, 102, 149, 198, 235, 287, 343],
         startLines: [1, 2, 3, 4, 6, 8, 11, 13, 22],
         startColumns: [1, 1, 1, 1, 3, 5, 3, 5, 1],
-        endOffsets: [31, 65, 101, 133, 182, 227, 267, 317, 374],
         locationTexts: [
           '// With start space without dot',
           '/* With start space without dot*/',
