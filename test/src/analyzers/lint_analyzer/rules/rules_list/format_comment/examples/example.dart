@@ -13,6 +13,11 @@ class Test {
     /// with start space with dot.
   }
 }
+//
+/**/
+///
+/*
 
+*/
 /* with start space
 with dot.*/

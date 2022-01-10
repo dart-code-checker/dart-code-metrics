@@ -46,6 +46,11 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
     final message = comment.substring(commentsOperator[type]!.length, length);
     final messageTrim = message.trim();
+
+    if (messageTrim.isEmpty) {
+      return;
+    }
+
     final firstLetter = messageTrim[0];
     final isFirstLetterUppercase = firstLetter == firstLetter.toUpperCase();
     final isFirstLetterSpace = message[0] == ' ';
