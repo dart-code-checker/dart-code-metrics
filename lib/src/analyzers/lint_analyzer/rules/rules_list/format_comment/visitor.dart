@@ -47,7 +47,9 @@ class _Visitor extends RecursiveAstVisitor<void> {
     final message = comment.substring(commentsOperator[type]!.length, length);
     final messageTrim = message.trim();
 
-    if (messageTrim.isEmpty) {
+    if (messageTrim.isEmpty ||
+        message.startsWith(' ignore:') ||
+        message.startsWith(' ignore_for_file:')) {
       return;
     }
 

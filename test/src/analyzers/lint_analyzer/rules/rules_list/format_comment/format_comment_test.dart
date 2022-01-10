@@ -26,8 +26,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startLines: [1, 2, 3, 4, 6, 8, 11, 13, 22],
-        startColumns: [1, 1, 1, 1, 3, 5, 3, 5, 1],
+        startLines: [1, 2, 3, 4, 6, 8, 11, 13, 24, 25, 26],
+        startColumns: [1, 1, 1, 1, 3, 5, 3, 5, 1, 1, 1],
         locationTexts: [
           '// With start space without dot',
           '/* With start space without dot*/',
@@ -37,10 +37,14 @@ void main() {
           '// with start space with dot.',
           '/// With start space without dot',
           '/// with start space with dot.',
+          '//ignore_for_file',
+          '//ignore',
           '/* with start space\n'
               'with dot.*/',
         ],
         messages: [
+          'Prefer formatting comments like sentences.',
+          'Prefer formatting comments like sentences.',
           'Prefer formatting comments like sentences.',
           'Prefer formatting comments like sentences.',
           'Prefer formatting comments like sentences.',
@@ -60,6 +64,8 @@ void main() {
           '// With start space with dot.',
           '/// With start space without dot.',
           '/// With start space with dot.',
+          '// Ignore_for_file.',
+          '// Ignore.',
           '/* With start space\n'
               'with dot.*/',
         ],

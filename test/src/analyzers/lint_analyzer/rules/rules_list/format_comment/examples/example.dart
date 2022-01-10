@@ -19,5 +19,9 @@ class Test {
 /*
 
 */
+// ignore:
+// ignore_for_file:
+//ignore_for_file
+//ignore
 /* with start space
 with dot.*/
