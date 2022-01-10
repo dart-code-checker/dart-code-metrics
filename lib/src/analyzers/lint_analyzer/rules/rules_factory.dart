@@ -1,6 +1,5 @@
 import 'models/rule.dart';
 import 'rules_list/always_remove_listener/always_remove_listener_rule.dart';
-import 'rules_list/avoid-unnecessary-type-casts/avoid_unnecessary_type_casts_rule.dart';
 import 'rules_list/avoid_global_state/avoid_global_state_rule.dart';
 import 'rules_list/avoid_ignoring_return_values/avoid_ignoring_return_values_rule.dart';
 import 'rules_list/avoid_late_keyword/avoid_late_keyword_rule.dart';
@@ -12,6 +11,8 @@ import 'rules_list/avoid_returning_widgets/avoid_returning_widgets_rule.dart';
 import 'rules_list/avoid_throw_in_catch_block/avoid_throw_in_catch_block_rule.dart';
 import 'rules_list/avoid_unnecessary_setstate/avoid_unnecessary_setstate_rule.dart';
 import 'rules_list/avoid_unnecessary_type_assertions/avoid_unnecessary_type_assertions_rule.dart';
+import 'rules_list/avoid_unnecessary_type_casts/avoid_unnecessary_type_casts_rule.dart';
+import 'rules_list/avoid_unrelated_type_assertions/avoid_unrelated_type_assertions_rule.dart';
 import 'rules_list/avoid_unused_parameters/avoid_unused_parameters_rule.dart';
 import 'rules_list/avoid_wrapping_in_padding/avoid_wrapping_in_padding_rule.dart';
 import 'rules_list/binary_expression_operand_order/binary_expression_operand_order_rule.dart';
@@ -43,8 +44,6 @@ import 'rules_list/provide_correct_intl_args/provide_correct_intl_args_rule.dart
 
 final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   AlwaysRemoveListenerRule.ruleId: (config) => AlwaysRemoveListenerRule(config),
-  AvoidUnnecessaryTypeCastsRule.ruleId: (config) =>
-      AvoidUnnecessaryTypeCastsRule(config),
   AvoidGlobalStateRule.ruleId: (config) => AvoidGlobalStateRule(config),
   AvoidIgnoringReturnValuesRule.ruleId: (config) =>
       AvoidIgnoringReturnValuesRule(config),
@@ -65,6 +64,10 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
       AvoidUnnecessarySetStateRule(config),
   AvoidUnnecessaryTypeAssertionsRule.ruleId: (config) =>
       AvoidUnnecessaryTypeAssertionsRule(config),
+  AvoidUnnecessaryTypeCastsRule.ruleId: (config) =>
+      AvoidUnnecessaryTypeCastsRule(config),
+  AvoidUnrelatedTypeAssertionsRule.ruleId: (config) =>
+      AvoidUnrelatedTypeAssertionsRule(config),
   AvoidUnusedParametersRule.ruleId: (config) =>
       AvoidUnusedParametersRule(config),
   AvoidWrappingInPaddingRule.ruleId: (config) =>

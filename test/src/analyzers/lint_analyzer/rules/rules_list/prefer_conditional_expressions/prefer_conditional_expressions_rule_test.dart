@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/prefer_conditional_expressions/prefer_conditional_expressions_rule.dart';
 import 'package:test/test.dart';
@@ -26,20 +25,6 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [
-          111,
-          289,
-          426,
-          490,
-          557,
-          616,
-          889,
-          1040,
-          1497,
-          1577,
-          1657,
-          1729,
-        ],
         startLines: [
           11,
           30,
@@ -55,20 +40,6 @@ void main() {
           171,
         ],
         startColumns: [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
-        endOffsets: [
-          161,
-          345,
-          476,
-          543,
-          602,
-          663,
-          930,
-          1087,
-          1563,
-          1643,
-          1715,
-          1787,
-        ],
         locationTexts: [
           'if (a == 3) {\n'
               '    a = 2;\n'

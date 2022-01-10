@@ -7,13 +7,13 @@ import '../models/unused_l10n_file_report.dart';
 import 'reporters_list/console/unused_l10n_console_reporter.dart';
 import 'reporters_list/json/unused_l10n_json_reporter.dart';
 
-final _implementedReports =
-    <String, Reporter<UnusedL10nFileReport, void> Function(IOSink output)>{
+final _implementedReports = <String,
+    Reporter<UnusedL10nFileReport, void, void> Function(IOSink output)>{
   ConsoleReporter.id: (output) => UnusedL10nConsoleReporter(output),
   JsonReporter.id: (output) => UnusedL10nJsonReporter(output),
 };
 
-Reporter<UnusedL10nFileReport, void>? reporter({
+Reporter<UnusedL10nFileReport, void, void>? reporter({
   required String name,
   required IOSink output,
 }) {

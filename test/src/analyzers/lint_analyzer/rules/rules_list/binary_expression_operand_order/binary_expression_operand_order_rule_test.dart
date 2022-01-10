@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/binary_expression_operand_order/binary_expression_operand_order_rule.dart';
 import 'package:test/test.dart';
@@ -26,10 +25,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [28, 61, 95, 128, 156, 184],
         startLines: [3, 4, 5, 6, 7, 8],
         startColumns: [14, 19, 19, 14, 14, 14],
-        endOffsets: [33, 66, 104, 133, 161, 189],
         locationTexts: [
           '1 + c',
           '1 + c',

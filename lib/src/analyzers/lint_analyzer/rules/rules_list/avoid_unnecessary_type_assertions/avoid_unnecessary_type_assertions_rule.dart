@@ -21,7 +21,7 @@ class AvoidUnnecessaryTypeAssertionsRule extends CommonRule {
   AvoidUnnecessaryTypeAssertionsRule([Map<String, Object> config = const {}])
       : super(
           id: ruleId,
-          severity: readSeverity(config, Severity.style),
+          severity: readSeverity(config, Severity.warning),
           excludes: readExcludes(config),
         );
 

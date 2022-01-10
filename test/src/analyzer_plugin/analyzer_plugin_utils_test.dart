@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart';
 import 'package:dart_code_metrics/src/analyzer_plugin/analyzer_plugin_utils.dart';

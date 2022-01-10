@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/newline_before_return/newline_before_return_rule.dart';
 import 'package:test/test.dart';
@@ -26,10 +25,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [256, 977, 1139],
         startLines: [13, 58, 70],
         startColumns: [5, 5, 5],
-        endOffsets: [269, 990, 1152],
         locationTexts: [
           'return a + 1;',
           'return a + 2;',

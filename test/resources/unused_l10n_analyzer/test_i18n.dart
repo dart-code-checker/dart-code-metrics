@@ -41,6 +41,9 @@ class S {
 
     return S();
   }
+
+  // ignore: prefer_constructors_over_static_methods
+  static S get current => S();
 }
 
 class L10nClass {

@@ -6,7 +6,8 @@ import 'file_report.dart';
 import 'reporter.dart';
 
 /// Machine-readable report in JSON format
-abstract class JsonReporter<T extends FileReport, S> extends Reporter<T, S> {
+abstract class JsonReporter<T extends FileReport, S, P>
+    extends Reporter<T, S, P> {
   static const String id = 'json';
 
   @protected

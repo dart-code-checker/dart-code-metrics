@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/no_equal_arguments/no_equal_arguments_rule.dart';
 import 'package:test/test.dart';
@@ -30,10 +29,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [328, 669, 753, 842, 942, 1068, 1170],
         startLines: [17, 32, 37, 42, 47, 54, 59],
         startColumns: [5, 5, 5, 5, 5, 5, 5],
-        endOffsets: [337, 683, 765, 861, 965, 1089, 1194],
         locationTexts: [
           'firstName',
           'user.firstName',
@@ -70,10 +67,8 @@ void main() {
 
     RuleTestHelper.verifyIssues(
       issues: issues,
-      startOffsets: [201],
       startLines: [9],
       startColumns: [3],
-      endOffsets: [220],
       locationTexts: ['lastName: firstName'],
       messages: ['The argument has already been passed.'],
     );

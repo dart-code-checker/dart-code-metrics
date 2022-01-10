@@ -17,14 +17,15 @@ import '../../../models/summary_lint_report_record.dart';
 ///
 /// Use it to create reports in JSON format.
 @immutable
-class LintJsonReporter
-    extends JsonReporter<LintFileReport, SummaryLintReportRecord<Object>> {
+class LintJsonReporter extends JsonReporter<LintFileReport,
+    SummaryLintReportRecord<Object>, void> {
   const LintJsonReporter(IOSink output) : super(output, 2);
 
   @override
   Future<void> report(
     Iterable<LintFileReport> records, {
     Iterable<SummaryLintReportRecord<Object>> summary = const [],
+    void additionalParams,
   }) async {
     if (records.isEmpty) {
       return;

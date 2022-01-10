@@ -1,5 +1,5 @@
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/avoid-unnecessary-type-casts/avoid_unnecessary_type_casts_rule.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/avoid_unnecessary_type_casts/avoid_unnecessary_type_casts_rule.dart';
 import 'package:test/test.dart';
 
 import '../../../../../helpers/rule_test_helper.dart';
@@ -15,7 +15,7 @@ void main() {
       RuleTestHelper.verifyInitialization(
         issues: issues,
         ruleId: 'avoid-unnecessary-type-casts',
-        severity: Severity.style,
+        severity: Severity.warning,
       );
     });
 
@@ -25,18 +25,6 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [
-          120,
-          173,
-          228,
-          539,
-          584,
-          630,
-          672,
-          718,
-          968,
-          1089,
-        ],
         startLines: [
           6,
           7,
@@ -60,18 +48,6 @@ void main() {
           20,
           16,
           20,
-        ],
-        endOffsets: [
-          143,
-          198,
-          252,
-          555,
-          601,
-          643,
-          689,
-          731,
-          986,
-          1108,
         ],
         locationTexts: [
           'regularString as String',

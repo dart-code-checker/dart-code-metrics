@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/avoid_nested_conditional_expressions/avoid_nested_conditional_expressions_rule.dart';
 import 'package:test/test.dart';
@@ -37,10 +36,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [126, 245, 277, 419, 451, 487],
         startLines: [7, 13, 14, 21, 22, 23],
         startColumns: [9, 9, 13, 9, 13, 17],
-        endOffsets: [185, 360, 341, 601, 582, 559],
         locationTexts: [
           'str.isEmpty // LINT\n'
               "          ? 'hello'\n"
@@ -89,10 +86,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [277, 451, 487],
         startLines: [14, 22, 23],
         startColumns: [13, 13, 17],
-        endOffsets: [341, 582, 559],
         locationTexts: [
           'str.isEmpty // LINT\n'
               "              ? 'hi'\n"

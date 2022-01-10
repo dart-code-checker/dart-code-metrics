@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/avoid_global_state/avoid_global_state_rule.dart';
 import 'package:test/test.dart';
@@ -26,10 +25,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [4, 29],
         startLines: [1, 2],
         startColumns: [5, 5],
-        endOffsets: [15, 87],
         locationTexts: [
           'answer = 42',
           'evenNumbers = [1, 2, 3].where((element) => element.isEven)',

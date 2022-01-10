@@ -52,14 +52,15 @@ const _designIssues = 'Design issues';
 /// Lint HTML reporter.
 ///
 /// Use it to create reports in HTML format.
-class LintHtmlReporter
-    extends HtmlReporter<LintFileReport, SummaryLintReportRecord<Object>> {
+class LintHtmlReporter extends HtmlReporter<LintFileReport,
+    SummaryLintReportRecord<Object>, void> {
   LintHtmlReporter(String reportFolder) : super(reportFolder);
 
   @override
   Future<void> report(
     Iterable<LintFileReport> records, {
     Iterable<SummaryLintReportRecord<Object>> summary = const [],
+    void additionalParams,
   }) async {
     await super.report(records);
 

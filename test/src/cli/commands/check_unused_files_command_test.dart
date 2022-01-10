@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'package:dart_code_metrics/src/cli/cli_runner.dart';
 import 'package:dart_code_metrics/src/cli/commands/check_unused_files_command.dart';
 import 'package:path/path.dart' as p;
@@ -22,6 +21,9 @@ const _usage = 'Check unused *.dart files.\n'
     '\n'
     '\n'
     '    --[no-]fatal-unused                           Treat find unused file as fatal.\n'
+    '\n'
+    '\n'
+    '-d, --[no-]delete-files                           Delete all unused files.\n'
     '\n'
     'Run "metrics help" to see global options.';
 

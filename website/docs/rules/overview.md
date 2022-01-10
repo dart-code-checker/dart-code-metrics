@@ -39,17 +39,21 @@ Rules configuration is [described here](../getting-started/configuration#configu
 
     Warns when call `throw` in a catch block.
 
+- [avoid-unnecessary-type-assertions](./common/avoid-unnecessary-type-assertions.md)
+
+    Warns about unnecessary usage of 'is' and 'whereType' operators.
+
 - [avoid-unnecessary-type-casts](./common/avoid-unnecessary-type-casts.md)
 
     Warns about unnecessary usage of 'as' operators.
 
+- [avoid-unrelated-type-assertions](./common/avoid-unrelated-type-assertions.md)
+
+    Warns about unrelated usages of 'is' operators.
+
 - [avoid-unused-parameters](./common/avoid-unused-parameters.md)
 
     Checks for unused parameters inside a function or method body.
-
-- [avoid-unnecessary-type-assertions](./common/avoid-unnecessary-type-assertions.md)
-
-    Warns about unnecessary usage of 'is' and 'whereType' operators.
 
 - [binary-expression-operand-order](./common/binary-expression-operand-order.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 

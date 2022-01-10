@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/avoid_throw_in_catch_block/avoid_throw_in_catch_block_rule.dart';
 import 'package:test/test.dart';
@@ -26,10 +25,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [343, 465],
         startLines: [17, 25],
         startColumns: [5, 5],
-        endOffsets: [370, 494],
         locationTexts: [
           'throw RepositoryException()',
           'throw DataProviderException()',

@@ -19,7 +19,7 @@ import 'models/code_climate_issue_severity.dart';
 ///
 /// Use it to create reports in Code Climate format.
 class LintCodeClimateReporter extends CodeClimateReporter<LintFileReport,
-    SummaryLintReportRecord<Object>> {
+    SummaryLintReportRecord<Object>, void> {
   LintCodeClimateReporter(IOSink output, {bool gitlabCompatible = false})
       : super(
           output,
@@ -30,6 +30,7 @@ class LintCodeClimateReporter extends CodeClimateReporter<LintFileReport,
   Future<void> report(
     Iterable<LintFileReport> records, {
     Iterable<SummaryLintReportRecord<Object>> summary = const [],
+    void additionalParams,
   }) async {
     if (records.isEmpty) {
       return;

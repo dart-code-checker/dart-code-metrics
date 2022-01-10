@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/prefer_trailing_comma/prefer_trailing_comma_rule.dart';
 import 'package:test/test.dart';
@@ -31,22 +30,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [
-          77,
-          196,
-          333,
-          457,
-          582,
-          691,
-          813,
-          1039,
-          1218,
-          1331,
-          1471,
-        ],
         startLines: [3, 9, 13, 18, 24, 28, 38, 49, 58, 64, 70],
         startColumns: [50, 7, 5, 52, 9, 8, 3, 59, 3, 3, 3],
-        endOffsets: [97, 234, 344, 477, 620, 710, 822, 1054, 1256, 1369, 1549],
         locationTexts: [
           'String thirdArgument',
           "'and another string for length exceed'",
@@ -117,10 +102,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [130, 226, 275, 610, 656, 1002, 1287, 1370, 1553, 1732],
         startLines: [9, 17, 19, 37, 41, 75, 91, 99, 109, 119],
         startColumns: [21, 33, 20, 23, 19, 18, 43, 21, 19, 19],
-        endOffsets: [141, 250, 299, 634, 680, 1011, 1288, 1383, 1566, 1760],
         locationTexts: [
           'String arg1',
           'void Function() callback',

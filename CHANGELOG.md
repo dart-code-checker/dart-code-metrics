@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-* feat: add static code diagnostics `avoid-global-state`, `format-comment`.
+* feat: add static code diagnostics `avoid-global-state`, `avoid-unrelated-type-assertions`, `format-comment`.
 * chore: migrate from deprecated api.
 * fix: fixed issue with type check in prefer-match-file-name.
 * fix: stabilized command usage tests.
@@ -13,8 +13,10 @@
 * feat: facelift console reporters.
 * chore: restrict `analyzer` version to `>=2.4.0 <3.1.0`.
 * chore: restrict `analyzer_plugin` version to `>=0.8.0 <0.10.0`.
-* feat: support extensions for check-unused-l10n.
+* feat: support extensions and static getters for check-unused-l10n.
 * feat: improve `prefer-correct-type-name` rule.
+* feat: add `delete-files` flag to `check-unused-files` command.
+* build: activate check_unused_files on CI.
 
 ## 4.8.1
 

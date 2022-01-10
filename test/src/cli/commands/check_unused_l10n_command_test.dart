@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'package:dart_code_metrics/src/cli/cli_runner.dart';
 import 'package:dart_code_metrics/src/cli/commands/check_unused_l10n_command.dart';
 import 'package:path/path.dart' as p;

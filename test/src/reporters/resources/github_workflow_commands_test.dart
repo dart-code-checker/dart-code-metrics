@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'package:dart_code_metrics/src/reporters/github_workflow_commands.dart';
 import 'package:source_span/source_span.dart';
 import 'package:test/test.dart';

@@ -34,7 +34,7 @@ class LintAnalyzer {
 
   /// Returns a reporter for the given [name]. Use the reporter
   /// to convert analysis reports to console, JSON or other supported format.
-  Reporter<FileReport, Object>? getReporter({
+  Reporter<FileReport, Object, void>? getReporter({
     required String name,
     required IOSink output,
     required String reportFolder,

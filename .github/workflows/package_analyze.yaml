@@ -65,6 +65,8 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           folders: "bin, example, lib, test"
+          check_unused_files: true
+          check_unused_files_folders: "bin, example, lib"
           pull_request_comment: true
 
       - name: Verify formatting

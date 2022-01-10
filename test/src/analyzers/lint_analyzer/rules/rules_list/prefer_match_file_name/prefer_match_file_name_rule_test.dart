@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/prefer_match_file_name/prefer_match_file_name_rule.dart';
 import 'package:test/test.dart';
@@ -43,10 +42,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [6],
         startLines: [1],
         startColumns: [7],
-        endOffsets: [13],
         messages: ['File name does not match with first class name.'],
         locationTexts: ['Example'],
       );
@@ -88,10 +85,8 @@ void main() {
 
         RuleTestHelper.verifyIssues(
           issues: issues,
-          startOffsets: [34],
           startLines: [3],
           startColumns: [6],
-          endOffsets: [53],
           messages: ['File name does not match with first enum name.'],
           locationTexts: ['MultipleEnumExample'],
         );
@@ -106,10 +101,8 @@ void main() {
 
         RuleTestHelper.verifyIssues(
           issues: issues,
-          startOffsets: [50],
           startLines: [3],
           startColumns: [11],
-          endOffsets: [74],
           messages: ['File name does not match with first extension name.'],
           locationTexts: ['MultipleExtensionExample'],
         );
@@ -124,10 +117,8 @@ void main() {
 
         RuleTestHelper.verifyIssues(
           issues: issues,
-          startOffsets: [28],
           startLines: [3],
           startColumns: [7],
-          endOffsets: [48],
           messages: ['File name does not match with first mixin name.'],
           locationTexts: ['MultipleMixinExample'],
         );

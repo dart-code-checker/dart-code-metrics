@@ -42,36 +42,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [
-          24,
-          47,
-          124,
-          165,
-          240,
-          265,
-          311,
-          336,
-          367,
-          399,
-          447,
-          472,
-        ],
         startLines: [2, 3, 7, 8, 11, 12, 16, 17, 20, 22, 25, 26],
         startColumns: [9, 9, 9, 9, 11, 11, 11, 11, 12, 12, 11, 11],
-        endOffsets: [
-          25,
-          48,
-          143,
-          196,
-          241,
-          266,
-          312,
-          337,
-          368,
-          400,
-          448,
-          473,
-        ],
         locationTexts: [
           'x',
           'y',
@@ -109,10 +81,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [22, 46, 72, 93],
         startLines: [2, 3, 6, 7],
         startColumns: [9, 9, 7, 7],
-        endOffsets: [24, 49, 73, 94],
         locationTexts: ['zy', '_ze', 'u', 'i'],
         messages: [
           "The zy identifier is 2 characters long. It's recommended to increase it up to 3 chars long.",
@@ -132,10 +102,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [14, 27],
         startLines: [2, 3],
         startColumns: [3, 3],
-        endOffsets: [15, 28],
         locationTexts: ['u', 'i'],
         messages: [
           "The u identifier is 1 characters long. It's recommended to increase it up to 3 chars long.",
@@ -153,10 +121,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [60, 85],
         startLines: [3, 4],
         startColumns: [11, 11],
-        endOffsets: [61, 86],
         locationTexts: ['u', 'i'],
         messages: [
           "The u identifier is 1 characters long. It's recommended to increase it up to 3 chars long.",
@@ -174,10 +140,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startOffsets: [22, 45],
         startLines: [2, 3],
         startColumns: [9, 9],
-        endOffsets: [23, 46],
         locationTexts: ['u', 'i'],
         messages: [
           "The u identifier is 1 characters long. It's recommended to increase it up to 3 chars long.",

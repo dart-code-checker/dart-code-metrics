@@ -1,4 +1,3 @@
-@TestOn('vm')
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_factory.dart';
 import 'package:test/test.dart';
 
@@ -43,6 +42,7 @@ void main() {
         'avoid-missing-enum-constant-in-map': <String, Object>{},
         'avoid-throw-in-catch-block': <String, Object>{},
         'prefer-correct-type-name': <String, Object>{},
+        'avoid-unrelated-type-assertions': <String, Object>{},
       }).map((rule) => rule.id),
       equals([
         'always-remove-listener',
@@ -55,6 +55,7 @@ void main() {
         'avoid-returning-widgets',
         'avoid-throw-in-catch-block',
         'avoid-unnecessary-setstate',
+        'avoid-unrelated-type-assertions',
         'avoid-unused-parameters',
         'avoid-wrapping-in-padding',
         'binary-expression-operand-order',

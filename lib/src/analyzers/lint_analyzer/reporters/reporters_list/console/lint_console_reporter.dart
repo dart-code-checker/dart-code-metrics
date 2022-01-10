@@ -13,8 +13,8 @@ import 'lint_console_reporter_helper.dart';
 /// Lint console reporter.
 ///
 /// Use it to create reports in console format.
-class LintConsoleReporter
-    extends ConsoleReporter<LintFileReport, SummaryLintReportRecord<Object>> {
+class LintConsoleReporter extends ConsoleReporter<LintFileReport,
+    SummaryLintReportRecord<Object>, void> {
   /// If true will report info about all files even if they're not above warning threshold
   final bool reportAll;
 
@@ -26,6 +26,7 @@ class LintConsoleReporter
   Future<void> report(
     Iterable<LintFileReport> records, {
     Iterable<SummaryLintReportRecord<Object>> summary = const [],
+    void additionalParams,
   }) async {
     var hasReportData = false;
 
