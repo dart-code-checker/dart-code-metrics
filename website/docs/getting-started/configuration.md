@@ -150,7 +150,17 @@ If you want a specific rule to ignore files, you can configure `exclude` entry f
 ```yaml title="analysis_options.yaml"
 dart_code_metrics:
   rules:
-    no-equal-arguments:
-      exclude:
-        - test/**
+    - no-equal-arguments:
+        exclude:
+          - test/**
+```
+
+and similar example for anti-pattern,
+
+```yaml title="analysis_options.yaml"
+dart_code_metrics:
+  anti-patterns:
+    - long-method:
+        exclude:
+          - test/**
 ```

@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* feat: support excludes for a separate anti-pattern.
+
 ## 4.9.0
 
 * feat: add static code diagnostics `avoid-global-state`, `avoid-unrelated-type-assertions`.

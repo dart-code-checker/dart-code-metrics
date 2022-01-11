@@ -36,6 +36,7 @@ class LongParameterList extends Pattern {
           id: patternId,
           supportedType: EntityType.methodEntity,
           severity: readSeverity(patternSettings, Severity.none),
+          excludes: readExcludes(patternSettings),
         );
 
   @override
