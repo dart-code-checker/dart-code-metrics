@@ -3,6 +3,7 @@
 ## Unreleased
 
 * feat: support excludes for a separate anti-pattern.
+* fix: prefer-extracting-callbacks in nested widgets
 
 ## 4.9.0
 

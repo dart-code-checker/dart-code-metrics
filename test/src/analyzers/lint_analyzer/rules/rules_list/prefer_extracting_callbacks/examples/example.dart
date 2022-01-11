@@ -88,6 +88,21 @@ class MyWidgetWithEmptyCallbacks extends StatelessWidget {
   }
 }
 
+class MyWidgetWithNestedWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: TextButton(
+        // LINT
+        onPressed: () {
+          return null;
+        },
+        child: Container(),
+      ),
+    );
+  }
+}
+
 class Widget {}
 
 class StatelessWidget extends Widget {}

@@ -34,6 +34,8 @@ class _InstanceCreationVisitor extends RecursiveAstVisitor<void> {
 
   @override
   void visitInstanceCreationExpression(InstanceCreationExpression node) {
+    super.visitInstanceCreationExpression(node);
+
     for (final argument in node.argumentList.arguments) {
       final expression =
           argument is NamedExpression ? argument.expression : argument;

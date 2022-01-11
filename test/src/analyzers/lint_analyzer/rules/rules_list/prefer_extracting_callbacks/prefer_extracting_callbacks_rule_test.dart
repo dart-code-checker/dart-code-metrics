@@ -25,8 +25,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startLines: [11, 55],
-        startColumns: [7, 7],
+        startLines: [11, 55, 97],
+        startColumns: [7, 7, 9],
         locationTexts: [
           'onPressed: () {\n'
               '        return null;\n'
@@ -34,8 +34,12 @@ void main() {
           'onPressed: () {\n'
               '        return null;\n'
               '      }',
+          'onPressed: () {\n'
+              '          return null;\n'
+              '        }',
         ],
         messages: [
+          'Prefer extracting the callback to a separate widget method.',
           'Prefer extracting the callback to a separate widget method.',
           'Prefer extracting the callback to a separate widget method.',
         ],
