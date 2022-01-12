@@ -4,6 +4,7 @@ analyzer:
   exclude:
     - test/resources/*
     - test/resources/unused_files_analyzer/**
+    - test/resources/unused_l10n_analyzer/**
     - test/**/examples/**
   language:
     strict-inference: true
