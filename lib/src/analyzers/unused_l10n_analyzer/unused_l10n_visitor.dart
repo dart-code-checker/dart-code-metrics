@@ -37,6 +37,8 @@ class UnusedL10nVisitor extends RecursiveAstVisitor<void> {
       if (_matchIdentifier(classTarget)) {
         _addMemberInvocation(classTarget as SimpleIdentifier, name);
       }
+    } else if (_matchStaticGetter(target)) {
+      _addMemberInvocation((target as PrefixedIdentifier).prefix, name);
     }
   }
 

@@ -35,6 +35,8 @@ void main() {
         final report = result.single;
         expect(report.className, 'TestI18n');
 
+        expect(report.issues.length, 3);
+
         final firstIssue = report.issues.first;
         expect(firstIssue.memberName, 'getter');
         expect(firstIssue.location.line, 4);
@@ -69,6 +71,8 @@ void main() {
         final report = result.single;
         expect(report.className, 'S');
 
+        expect(report.issues.length, 4);
+
         final firstIssue = report.issues.first;
         expect(firstIssue.memberName, 'field');
         expect(firstIssue.location.line, 23);
@@ -76,7 +80,7 @@ void main() {
 
         final secondIssue = report.issues.elementAt(1);
         expect(secondIssue.memberName, 'regularField');
-        expect(secondIssue.location.line, 36);
+        expect(secondIssue.location.line, 38);
         expect(secondIssue.location.column, 3);
 
         final thirdIssue = report.issues.elementAt(2);

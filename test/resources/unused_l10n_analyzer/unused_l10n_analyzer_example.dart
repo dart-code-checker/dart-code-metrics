@@ -24,5 +24,6 @@ class SomeClass {
   void method() {
     S.of('').regularMethod('');
     S.current.regularGetter;
+    S.current.anotherRegularMethod('');
   }
 }

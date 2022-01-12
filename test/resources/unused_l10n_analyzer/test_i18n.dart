@@ -31,6 +31,8 @@ class S {
 
   String regularMethod(String value) => value;
 
+  String anotherRegularMethod(String value) => value;
+
   String get regularGetter => 'regular getter';
 
   final String regularField = 'regular field'; // LINT
