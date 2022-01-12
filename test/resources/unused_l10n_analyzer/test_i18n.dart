@@ -12,6 +12,8 @@ class TestI18n {
 
   String get regularGetter => 'regular getter'; // LINT
 
+  String get anotherRegularGetter => 'another regular getter';
+
   final String regularField = 'regular field';
 
   TestI18n.of(String value) {
@@ -31,7 +33,11 @@ class S {
 
   String regularMethod(String value) => value;
 
+  String anotherRegularMethod(String value) => value;
+
   String get regularGetter => 'regular getter';
+
+  String get anotherRegularGetter => 'another regular getter';
 
   final String regularField = 'regular field'; // LINT
 
