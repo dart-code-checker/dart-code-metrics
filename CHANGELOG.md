@@ -4,7 +4,7 @@
 
 * feat: support excludes for a separate anti-pattern.
 * fix: prefer-extracting-callbacks in nested widgets.
-* fix: correctly handle method invocations on getters for `check-unused-l10n` command.
+* fix: correctly handle method invocations on getters and method of for `check-unused-l10n` command.
 
 ## 4.9.0
 
