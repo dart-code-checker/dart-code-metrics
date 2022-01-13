@@ -2,7 +2,7 @@ var answer = 42; // LINT
 var evenNumbers = [1, 2, 3].where((element) => element.isEven); // LINT
 const a = 1;
 final b = 1;
-static const noted2 = '';
+const noted2 = '';
 
 void function() {}
 
