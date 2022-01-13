@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+* feat: support excludes for a separate anti-pattern.
+* chore: restrict `analyzer` version to `>=2.4.0 <3.2.0`.
+
 ## 4.9.1
 
 * fix: `avoid-global-state` to support static fields.
