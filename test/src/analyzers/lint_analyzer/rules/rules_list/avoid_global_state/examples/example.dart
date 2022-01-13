@@ -28,13 +28,9 @@ class Mixin {
   void function() {}
 }
 
-
 extension Extension on String {
   static int? a; // LINT
   static dynamic c; // LINT
-  final int? b;
-  dynamic c2;
-  const d = 1;
   static const noted = '';
   static final finalField = 1;
   void function() {}
