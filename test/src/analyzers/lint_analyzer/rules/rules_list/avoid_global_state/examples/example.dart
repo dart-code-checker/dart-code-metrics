@@ -6,9 +6,10 @@ final b = 1;
 void function() {}
 
 class Foo {
-  static int? a;
+  static int? a; // LINT
+  static dynamic c; // LINT
   final int? b;
-  dynamic c;
+  dynamic c2;
   const d = 1;
   void function() {}
 }

@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* fix: `avoid-global-state` to support static fields.
 * feat: support excludes for a separate anti-pattern.
 * fix: prefer-extracting-callbacks in nested widgets.
 * fix: correctly handle method invocations on getters and method of for `check-unused-l10n` command.
