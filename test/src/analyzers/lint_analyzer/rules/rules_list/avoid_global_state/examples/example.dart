@@ -14,6 +14,7 @@ class Foo {
   const d = 1;
   static const noted = '';
   static final finalField = 1;
+  static var _c3 = '';
   void function() {}
 }
 
@@ -25,6 +26,7 @@ class Mixin {
   const d = 1;
   static const noted = '';
   static final finalField = 1;
+  static var _c3 = '';
   void function() {}
 }
 
@@ -33,5 +35,6 @@ extension Extension on String {
   static dynamic c; // LINT
   static const noted = '';
   static final finalField = 1;
+  static var _c3 = '';
   void function() {}
 }
