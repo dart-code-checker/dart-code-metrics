@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:analyzer/dart/element/element.dart';
 
 /// A container with information about used imports prefixes and used imported
