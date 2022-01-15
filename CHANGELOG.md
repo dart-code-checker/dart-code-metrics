@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* fix: ignore private variables in `avoid-global-state` rule.
 * feat: support excludes for a separate anti-pattern.
 * chore: restrict `analyzer` version to `>=2.4.0 <3.2.0`.
 
