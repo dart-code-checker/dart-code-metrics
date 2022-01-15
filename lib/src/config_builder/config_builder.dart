@@ -5,6 +5,8 @@ import '../analyzers/lint_analyzer/metrics/metrics_factory.dart';
 import '../analyzers/lint_analyzer/metrics/models/metric.dart';
 import '../analyzers/lint_analyzer/models/entity_type.dart';
 import '../analyzers/lint_analyzer/rules/rules_factory.dart';
+import '../analyzers/unused_code_analyzer/unused_code_analysis_config.dart';
+import '../analyzers/unused_code_analyzer/unused_code_config.dart';
 import '../analyzers/unused_files_analyzer/unused_files_analysis_config.dart';
 import '../analyzers/unused_files_analyzer/unused_files_config.dart';
 import '../analyzers/unused_l10n_analyzer/unused_l10n_analysis_config.dart';
@@ -84,6 +86,28 @@ class ConfigBuilder {
     String rootPath,
   ) =>
       UnusedFilesAnalysisConfig(
+        prepareExcludes(config.excludePatterns, rootPath),
+        prepareExcludes(config.analyzerExcludePatterns, rootPath),
+      );
+
+  /// Creates a raw unused code config from given [excludePatterns].
+  static UnusedCodeConfig getUnusedCodeConfigFromArgs(
+    Iterable<String> excludePatterns,
+  ) =>
+      UnusedCodeConfig.fromArgs(excludePatterns);
+
+  /// Creates a raw unused code config from given [options].
+  static UnusedCodeConfig getUnusedCodeConfigFromOption(
+    AnalysisOptions options,
+  ) =>
+      UnusedCodeConfig.fromAnalysisOptions(options);
+
+  /// Creates an unused code config from given raw [config].
+  static UnusedCodeAnalysisConfig getUnusedCodeConfig(
+    UnusedCodeConfig config,
+    String rootPath,
+  ) =>
+      UnusedCodeAnalysisConfig(
         prepareExcludes(config.excludePatterns, rootPath),
         prepareExcludes(config.analyzerExcludePatterns, rootPath),
       );

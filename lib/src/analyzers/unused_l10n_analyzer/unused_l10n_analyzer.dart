@@ -172,7 +172,7 @@ class UnusedL10nAnalyzer {
         .map((field) => field.isSynthetic ? field.nonSynthetic : field);
 
     return unusedAccessors
-        .map((accessor) => _createL10nIssues(accessor as ElementImpl, unit))
+        .map((accessor) => _createL10nIssue(accessor as ElementImpl, unit))
         .toList();
   }
 
@@ -186,11 +186,11 @@ class UnusedL10nAnalyzer {
         .map((method) => method.isSynthetic ? method.nonSynthetic : method);
 
     return unusedMethods
-        .map((method) => _createL10nIssues(method as ElementImpl, unit))
+        .map((method) => _createL10nIssue(method as ElementImpl, unit))
         .toList();
   }
 
-  UnusedL10nIssue _createL10nIssues(
+  UnusedL10nIssue _createL10nIssue(
     ElementImpl element,
     CompilationUnitElement unit,
   ) {

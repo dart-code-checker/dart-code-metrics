@@ -14,7 +14,6 @@ void main() {
       const rootDirectory = '';
       const analyzerExcludes = <String>[
         'test/resources/**',
-        'test/resources/unused_files_analyzer/generated/**/**',
         'test/**/examples/**',
       ];
       final folders = [
