@@ -29,8 +29,8 @@ void main() {
           config,
         );
 
-        final report = result.first;
-        expect(report.path, endsWith('not_used.dart'));
+        final report = result
+            .firstWhere((report) => report.path.endsWith('not_used.dart'));
 
         expect(report.issues.length, 3);
 
@@ -62,8 +62,9 @@ void main() {
           config,
         );
 
-        final report = result.last;
-        expect(report.path, endsWith('public_members.dart'));
+        final report = result.firstWhere(
+          (report) => report.path.endsWith('public_members.dart'),
+        );
 
         expect(report.issues.length, 7);
 
