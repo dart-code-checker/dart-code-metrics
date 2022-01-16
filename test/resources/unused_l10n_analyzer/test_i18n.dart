@@ -50,6 +50,12 @@ class S {
 
   // ignore: prefer_constructors_over_static_methods
   static S get current => S();
+
+  static const _privateField = 'hello';
+
+  String get _privateGetter => 'regular getter';
+
+  String _privateMethod() => 'hi';
 }
 
 class L10nClass {
