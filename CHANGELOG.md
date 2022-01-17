@@ -1,13 +1,12 @@
 # Changelog
 
-## Unreleased
+## 4.10.0-dev.1
 
-* fix: ignore private variables in `avoid-global-state` rule.
-* feat: support excludes for a separate anti-pattern.
-* chore: restrict `analyzer` version to `>=2.4.0 <3.2.0`.
 * feat: add check unused code command.
+* feat: support excludes for a separate anti-pattern.
 * feat: ignore private members for `check-unused-l10n` command.
-* chore: remove `@immutable` annotation from code.
+* fix: ignore private variables in `avoid-global-state` rule.
+* chore: restrict `analyzer` version to `>=2.4.0 <3.2.0`.
 
 ## 4.9.1
 
