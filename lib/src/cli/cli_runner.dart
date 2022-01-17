@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:args/command_runner.dart';
 
 import 'commands/analyze_command.dart';
+import 'commands/check_unused_code_command.dart';
 import 'commands/check_unused_files_command.dart';
 import 'commands/check_unused_l10n_command.dart';
 
@@ -13,6 +14,7 @@ class CliRunner extends CommandRunner<void> {
     AnalyzeCommand(),
     CheckUnusedFilesCommand(),
     CheckUnusedL10nCommand(),
+    CheckUnusedCodeCommand(),
   ];
 
   CliRunner()
