@@ -6,6 +6,7 @@
 * feat: support excludes for a separate anti-pattern.
 * chore: restrict `analyzer` version to `>=2.4.0 <3.2.0`.
 * feat: add check unused code command.
+* feat: ignore private members for `check-unused-l10n` command.
 
 ## 4.9.1
 
