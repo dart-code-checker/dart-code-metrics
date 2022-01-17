@@ -1,4 +1,3 @@
-import 'package:analyzer/dart/ast/ast.dart';
 import 'package:source_span/source_span.dart';
 
 import '../models/issue.dart';
