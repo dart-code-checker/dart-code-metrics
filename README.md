@@ -206,6 +206,26 @@ Console report example:
 
 ![Console report example](https://raw.githubusercontent.com/dart-code-checker/dart-code-metrics/master/assets/unused-l10n-console-report.png)
 
+#### Check unused code
+
+Checks unused code in `*.dart` files. To execute the command, run
+
+```sh
+$ dart run dart_code_metrics:metrics check-unused-code lib
+
+# or for a Flutter package
+$ flutter pub run dart_code_metrics:metrics check-unused-code lib
+```
+
+It will produce a result in one of the format:
+
+- Console
+- JSON
+
+Console report example:
+
+![Console report example](https://raw.githubusercontent.com/dart-code-checker/dart-code-metrics/master/assets/unused-code-console-report.png)
+
 ## Troubleshooting
 
 Please read [the following guide](./TROUBLESHOOTING.md) if the plugin is not working as you'd expect it to work.

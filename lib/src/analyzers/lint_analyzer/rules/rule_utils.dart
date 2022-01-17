@@ -1,3 +1,4 @@
+import 'package:analyzer/dart/ast/ast.dart';
 import 'package:source_span/source_span.dart';
 
 import '../models/issue.dart';
@@ -35,3 +36,20 @@ Uri documentation(Rule rule) => Uri(
         rule.id,
       ],
     );
+
+bool isEntrypoint(String name, NodeList<Annotation> metadata) =>
+    name == 'main' || _hasPragmaAnnotation(metadata);
+
+/// See https://github.com/dart-lang/sdk/blob/master/runtime/docs/compiler/aot/entry_point_pragma.md
+bool _hasPragmaAnnotation(Iterable<Annotation> metadata) =>
+    metadata.where((annotation) {
+      final arguments = annotation.arguments;
+
+      return annotation.name.name == 'pragma' &&
+          arguments != null &&
+          arguments.arguments
+              .where((argument) =>
+                  argument is SimpleStringLiteral &&
+                  argument.stringValue == 'vm:entry-point')
+              .isNotEmpty;
+    }).isNotEmpty;

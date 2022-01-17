@@ -1,8 +1,6 @@
-import 'package:meta/meta.dart';
 import 'package:source_span/source_span.dart';
 
 /// Represents an issue detected by the unused code check.
-@immutable
 class UnusedCodeIssue {
   /// The name of the unused declaration.
   final String declarationName;

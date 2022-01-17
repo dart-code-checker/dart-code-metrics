@@ -14,7 +14,7 @@ $ flutter pub run dart_code_metrics:metrics check-unused-code lib
 Full command description:
 
 ```text
-Usage: metrics check-unused-l10n [arguments] <directories>
+Usage: metrics check-unused-code [arguments] <directories>
 -h, --help                                        Print this usage information.
 
 

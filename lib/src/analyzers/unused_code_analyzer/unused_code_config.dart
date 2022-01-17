@@ -1,9 +1,6 @@
-import 'package:meta/meta.dart';
-
 import '../../config_builder/models/analysis_options.dart';
 
 /// Represents raw unused code config which can be merged with other raw configs.
-@immutable
 class UnusedCodeConfig {
   final Iterable<String> excludePatterns;
   final Iterable<String> analyzerExcludePatterns;

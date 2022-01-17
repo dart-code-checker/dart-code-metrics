@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:meta/meta.dart';
-
 import '../../../../../reporters/models/json_reporter.dart';
 import '../../../models/unused_code_file_report.dart';
 import '../../../models/unused_code_issue.dart';
@@ -10,7 +8,6 @@ import '../../../models/unused_code_issue.dart';
 /// Unused code JSON reporter.
 ///
 /// Use it to create reports in JSON format.
-@immutable
 class UnusedCodeJsonReporter
     extends JsonReporter<UnusedCodeFileReport, void, void> {
   const UnusedCodeJsonReporter(IOSink output) : super(output, 2);

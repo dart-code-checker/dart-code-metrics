@@ -4,15 +4,15 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/dart/element/element.dart';
 
+import '../lint_analyzer/rules/rule_utils.dart';
+
 class PublicCodeVisitor extends GeneralizingAstVisitor<void> {
   final Set<Element> topLevelElements = {};
-
-  PublicCodeVisitor();
 
   @override
   void visitCompilationUnitMember(CompilationUnitMember node) {
     if (node is FunctionDeclaration) {
-      if (node.name.name == 'main' || _hasPragmaAnnotation(node.metadata)) {
+      if (isEntrypoint(node.name.name, node.metadata)) {
         return;
       }
     }
@@ -36,18 +36,4 @@ class PublicCodeVisitor extends GeneralizingAstVisitor<void> {
       topLevelElements.add(element);
     }
   }
-
-  /// See https://github.com/dart-lang/sdk/blob/master/runtime/docs/compiler/aot/entry_point_pragma.md
-  bool _hasPragmaAnnotation(Iterable<Annotation> metadata) =>
-      metadata.where((annotation) {
-        final arguments = annotation.arguments;
-
-        return annotation.name.name == 'pragma' &&
-            arguments != null &&
-            arguments.arguments
-                .where((argument) =>
-                    argument is SimpleStringLiteral &&
-                    argument.stringValue == 'vm:entry-point')
-                .isNotEmpty;
-      }).isNotEmpty;
 }
