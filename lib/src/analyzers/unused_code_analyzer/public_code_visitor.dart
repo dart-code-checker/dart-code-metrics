@@ -4,7 +4,7 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/dart/element/element.dart';
 
-import '../lint_analyzer/rules/rule_utils.dart';
+import '../../utils/node_utils.dart';
 
 class PublicCodeVisitor extends GeneralizingAstVisitor<void> {
   final Set<Element> topLevelElements = {};

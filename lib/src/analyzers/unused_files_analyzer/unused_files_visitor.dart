@@ -3,7 +3,7 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 
-import '../lint_analyzer/rules/rule_utils.dart';
+import '../../utils/node_utils.dart';
 
 class UnusedFilesVisitor extends GeneralizingAstVisitor<void> {
   final String _currentFilePath;
