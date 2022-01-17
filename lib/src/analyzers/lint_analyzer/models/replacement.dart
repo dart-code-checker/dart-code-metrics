@@ -1,7 +1,4 @@
-import 'package:meta/meta.dart';
-
 /// Represents a single change.
-@immutable
 class Replacement {
   /// The human-readable description of the change to be applied.
   final String comment;

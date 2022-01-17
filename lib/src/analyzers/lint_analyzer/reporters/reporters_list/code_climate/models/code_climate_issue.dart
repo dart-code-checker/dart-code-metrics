@@ -1,11 +1,8 @@
-import 'package:meta/meta.dart';
-
 import 'code_climate_issue_category.dart';
 import 'code_climate_issue_location.dart';
 import 'code_climate_issue_severity.dart';
 
 /// Represents a Code Climate issue.
-@immutable
 class CodeClimateIssue {
   static const String type = 'issue';
 

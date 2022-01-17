@@ -1,5 +1,4 @@
 import 'package:glob/glob.dart';
-import 'package:meta/meta.dart';
 
 import 'anti_patterns/models/pattern.dart';
 import 'metrics/models/metric.dart';
@@ -7,7 +6,6 @@ import 'rules/models/rule.dart';
 
 /// Represents converted lint config which contains parsed entities.
 
-@immutable
 class LintAnalysisConfig {
   final Iterable<Glob> globalExcludes;
   final Iterable<Rule> codeRules;

@@ -1,7 +1,4 @@
-import 'package:meta/meta.dart';
-
 /// Exception thrown when an arguments not pass validation.
-@immutable
 class InvalidArgumentException implements Exception {
   /// Detailed message of what happened.
   final String message;

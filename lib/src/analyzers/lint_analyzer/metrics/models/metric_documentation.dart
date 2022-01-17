@@ -1,9 +1,6 @@
-import 'package:meta/meta.dart';
-
 import '../../models/entity_type.dart';
 
 /// Represents any metric documentation.
-@immutable
 class MetricDocumentation {
   /// The name of the metric.
   final String name;

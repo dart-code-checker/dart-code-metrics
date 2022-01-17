@@ -1,8 +1,6 @@
-import 'package:meta/meta.dart';
 import 'package:source_span/source_span.dart';
 
 /// Represents a Code Climate issue location.
-@immutable
 class CodeClimateIssueLocation {
   final String path;
   final SourceSpan location;

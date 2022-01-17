@@ -2,7 +2,6 @@
 
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:collection/collection.dart';
-import 'package:meta/meta.dart';
 
 import '../../../../../utils/node_utils.dart';
 import '../../../../../utils/object_extensions.dart';

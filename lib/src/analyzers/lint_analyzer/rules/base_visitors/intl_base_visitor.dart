@@ -159,7 +159,6 @@ abstract class IntlBaseVisitor extends GeneralizingAstVisitor<void> {
   }
 }
 
-@immutable
 abstract class IntlBaseIssue {
   final AstNode node;
   final String? nameFailure;

@@ -24,7 +24,6 @@ class _Visitor extends IntlBaseVisitor {
   }
 }
 
-@immutable
 class _NotCorrectNameIssue extends IntlBaseIssue {
   final String? className;
   final String? variableName;
@@ -39,7 +38,6 @@ class _NotCorrectNameIssue extends IntlBaseIssue {
       className != null ? '${className}_$variableName' : variableName;
 }
 
-@immutable
 class _NotExistNameIssue extends IntlBaseIssue {
   const _NotExistNameIssue(
     AstNode node,
