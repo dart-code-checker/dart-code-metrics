@@ -213,7 +213,6 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
           group.annotation == parsedGroup.annotation);
 }
 
-@immutable
 class _MemberInfo {
   final ClassMember classMember;
   final _MemberOrder memberOrder;
@@ -224,7 +223,6 @@ class _MemberInfo {
   });
 }
 
-@immutable
 class _MemberOrder {
   final bool isWrong;
   final bool isAlphabeticallyWrong;
@@ -243,7 +241,6 @@ class _MemberOrder {
   });
 }
 
-@immutable
 class _MemberNames {
   final String currentName;
   final String? previousName;

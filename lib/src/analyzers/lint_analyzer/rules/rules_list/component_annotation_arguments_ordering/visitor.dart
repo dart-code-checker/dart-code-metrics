@@ -71,7 +71,6 @@ class _Visitor extends SimpleAstVisitor<List<_ArgumentInfo>> {
       node.name.name == 'Component' && node.atSign.type == TokenType.AT;
 }
 
-@immutable
 class _ArgumentGroup {
   final String name;
   final Iterable<String> arguments;
@@ -139,7 +138,6 @@ class _ArgumentGroup {
       _groupsOrder.firstWhereOrNull((group) => group.arguments.contains(name));
 }
 
-@immutable
 class _ArgumentInfo {
   final NamedExpression argument;
   final _ArgumentOrder argumentOrder;
@@ -150,7 +148,6 @@ class _ArgumentInfo {
   });
 }
 
-@immutable
 class _ArgumentOrder {
   final bool isWrong;
   final _ArgumentGroup argumentGroup;

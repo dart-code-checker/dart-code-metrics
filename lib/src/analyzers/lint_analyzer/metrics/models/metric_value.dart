@@ -1,11 +1,8 @@
-import 'package:meta/meta.dart';
-
 import '../../models/context_message.dart';
 import 'metric_documentation.dart';
 import 'metric_value_level.dart';
 
 /// Represents a value computed by the metric.
-@immutable
 class MetricValue<T> {
   /// The id of the computed metric.
   final String metricsId;

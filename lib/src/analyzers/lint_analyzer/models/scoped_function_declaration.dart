@@ -1,11 +1,9 @@
 import 'package:analyzer/dart/ast/ast.dart';
-import 'package:meta/meta.dart';
 
 import 'function_type.dart';
 import 'scoped_class_declaration.dart';
 
 /// Represents a declaration of function / method.
-@immutable
 class ScopedFunctionDeclaration {
   /// The type of the declared function entity.
   final FunctionType type;

@@ -1,11 +1,9 @@
-import 'package:meta/meta.dart';
 import 'package:source_span/source_span.dart';
 
 import 'replacement.dart';
 import 'severity.dart';
 
 /// Represents an issue detected by the analysis rule.
-@immutable
 class Issue {
   /// The id of the rule associated with this issue.
   final String ruleId;

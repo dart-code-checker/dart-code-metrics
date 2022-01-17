@@ -172,56 +172,48 @@ class _Visitor extends IntlBaseVisitor {
   }
 }
 
-@immutable
 class _NotExistArgsIssue extends IntlBaseIssue {
   const _NotExistArgsIssue(
     AstNode node,
   ) : super(node, nameFailure: 'Parameter "args" should be added');
 }
 
-@immutable
 class _ArgsMustBeOmittedIssue extends IntlBaseIssue {
   const _ArgsMustBeOmittedIssue(
     AstNode node,
   ) : super(node, nameFailure: 'Parameter "args" should be removed');
 }
 
-@immutable
 class _ArgsItemMustBeOmittedIssue extends IntlBaseIssue {
   const _ArgsItemMustBeOmittedIssue(
     AstNode node,
   ) : super(node, nameFailure: 'Item is unused and should be removed');
 }
 
-@immutable
 class _ParameterMustBeOmittedIssue extends IntlBaseIssue {
   const _ParameterMustBeOmittedIssue(
     AstNode node,
   ) : super(node, nameFailure: 'Parameter is unused and should be removed');
 }
 
-@immutable
 class _MustBeSimpleIdentifierIssue extends IntlBaseIssue {
   const _MustBeSimpleIdentifierIssue(
     AstNode node,
   ) : super(node, nameFailure: 'Item should be simple identifier');
 }
 
-@immutable
 class _ParameterMustBeInArgsIssue extends IntlBaseIssue {
   const _ParameterMustBeInArgsIssue(
     AstNode node,
   ) : super(node, nameFailure: 'Parameter should be added to args');
 }
 
-@immutable
 class _ArgsMustBeInParameterIssue extends IntlBaseIssue {
   const _ArgsMustBeInParameterIssue(
     AstNode node,
   ) : super(node, nameFailure: 'Args item should be added to parameters');
 }
 
-@immutable
 class _InterpolationMustBeInArgsIssue extends IntlBaseIssue {
   const _InterpolationMustBeInArgsIssue(
     AstNode node,
@@ -231,7 +223,6 @@ class _InterpolationMustBeInArgsIssue extends IntlBaseIssue {
         );
 }
 
-@immutable
 class _InterpolationMustBeInParameterIssue extends IntlBaseIssue {
   const _InterpolationMustBeInParameterIssue(
     AstNode node,

@@ -1,9 +1,6 @@
-import 'package:meta/meta.dart';
-
 import '../../config_builder/models/analysis_options.dart';
 
 /// Represents raw unused files config which can be merged with other raw configs.
-@immutable
 class UnusedL10nConfig {
   final Iterable<String> excludePatterns;
   final Iterable<String> analyzerExcludePatterns;

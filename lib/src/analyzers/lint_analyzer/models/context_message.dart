@@ -1,8 +1,6 @@
-import 'package:meta/meta.dart';
 import 'package:source_span/source_span.dart';
 
 /// Represents a message with a relevant information associated with a diagnostic.
-@immutable
 class ContextMessage {
   /// The message to be displayed to the user.
   final String message;

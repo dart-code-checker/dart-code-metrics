@@ -1,11 +1,8 @@
-import 'package:meta/meta.dart';
-
 import '../../../reporters/models/file_report.dart';
 import 'issue.dart';
 import 'report.dart';
 
 /// Represents the metrics report collected for a file.
-@immutable
 class LintFileReport implements FileReport {
   /// The path to the target file.
   @override
