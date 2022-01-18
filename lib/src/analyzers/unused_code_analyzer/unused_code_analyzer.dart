@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:analyzer/dart/analysis/analysis_context.dart';
 import 'package:analyzer/dart/analysis/results.dart';
-import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/element/element.dart';
 // ignore: implementation_imports
 import 'package:analyzer/src/dart/element/element.dart';
@@ -68,17 +67,6 @@ class UnusedCodeAnalyzer {
         codeUsages,
         publicCode,
       );
-
-      final notAnalyzedFiles = filePaths.difference(analyzedFiles);
-      await _analyseFiles(
-        notAnalyzedFiles,
-        (filePath) => resolveFile2(path: filePath),
-        codeUsages,
-        publicCode,
-        shouldAnalyse: (filePath) => unusedCodeAnalysisConfig
-            .analyzerExcludedPatterns
-            .any((pattern) => pattern.matches(filePath)),
-      );
     }
 
     codeUsages.exports.forEach(publicCode.remove);
@@ -115,7 +103,8 @@ class UnusedCodeAnalyzer {
     return extractDartFilesFromFolders(
       contextFolders,
       rootFolder,
-      unusedCodeAnalysisConfig.globalExcludes,
+      unusedCodeAnalysisConfig.globalExcludes
+          .followedBy(unusedCodeAnalysisConfig.analyzerExcludedPatterns),
     );
   }
 
@@ -145,20 +134,17 @@ class UnusedCodeAnalyzer {
     Set<String> files,
     Future<SomeResolvedUnitResult> Function(String) unitExtractor,
     FileElementsUsage codeUsages,
-    Map<String, Set<Element>> publicCode, {
-    bool Function(String)? shouldAnalyse,
-  }) async {
+    Map<String, Set<Element>> publicCode,
+  ) async {
     for (final filePath in files) {
-      if (shouldAnalyse == null || shouldAnalyse(filePath)) {
-        final unit = await unitExtractor(filePath);
+      final unit = await unitExtractor(filePath);
 
-        final codeUsage = _analyzeFileCodeUsages(unit);
-        if (codeUsage != null) {
-          codeUsages.merge(codeUsage);
-        }
-
-        publicCode[filePath] = _analyzeFilePublicCode(unit);
+      final codeUsage = _analyzeFileCodeUsages(unit);
+      if (codeUsage != null) {
+        codeUsages.merge(codeUsage);
       }
+
+      publicCode[filePath] = _analyzeFilePublicCode(unit);
     }
   }
 
@@ -173,10 +159,7 @@ class UnusedCodeAnalyzer {
       final issues = <UnusedCodeIssue>[];
 
       for (final element in elements) {
-        if (!codeUsages.elements
-                .any((usedElement) => _isUsed(usedElement, element)) &&
-            !codeUsages.usedExtensions
-                .any((usedElement) => _isUsed(usedElement, element))) {
+        if (_isUnused(codeUsages, path, element)) {
           final unit = element.thisOrAncestorOfType<CompilationUnitElement>();
           if (unit != null) {
             issues.add(_createUnusedCodeIssue(element as ElementImpl, unit));
@@ -201,6 +184,26 @@ class UnusedCodeAnalyzer {
   bool _isUsed(Element usedElement, Element element) =>
       element == usedElement ||
       element is PropertyInducingElement && element.getter == usedElement;
+
+  bool _isUnused(
+    FileElementsUsage codeUsages,
+    String path,
+    Element element,
+  ) =>
+      !codeUsages.elements.any(
+        (usedElement) => _isUsed(usedElement, element),
+      ) &&
+      !codeUsages.usedExtensions.any(
+        (usedElement) => _isUsed(usedElement, element),
+      ) &&
+      !codeUsages.prefixMap.values.any(
+        (usage) =>
+            usage.paths.contains(path) &&
+            usage.elements.any((usedElement) =>
+                _isUsed(usedElement, element) ||
+                (usedElement.name == element.name &&
+                    usedElement.kind == element.kind)),
+      );
 
   UnusedCodeIssue _createUnusedCodeIssue(
     ElementImpl element,

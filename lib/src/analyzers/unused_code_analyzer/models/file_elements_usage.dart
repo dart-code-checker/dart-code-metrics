@@ -1,10 +1,12 @@
 import 'package:analyzer/dart/element/element.dart';
 
+import 'prefix_element_usage.dart';
+
 /// A container with information about used imports prefixes and used imported
 /// elements.
 class FileElementsUsage {
   /// The map of referenced prefix elements and the elements that they prefix.
-  final Map<PrefixElement, List<Element>> prefixMap = {};
+  final Map<PrefixElement, PrefixElementUsage> prefixMap = {};
 
   /// The set of referenced top-level elements.
   final Set<Element> elements = {};

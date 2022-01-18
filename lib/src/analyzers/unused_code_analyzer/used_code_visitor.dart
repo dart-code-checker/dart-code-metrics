@@ -3,7 +3,9 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/dart/element/element.dart';
+
 import 'models/file_elements_usage.dart';
+import 'models/prefix_element_usage.dart';
 
 // Copied from https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/lib/src/error/imports_verifier.dart#L15
 
@@ -100,8 +102,10 @@ class UsedCodeVisitor extends RecursiveAstVisitor<void> {
       if (target is SimpleIdentifier) {
         final targetElement = target.staticElement;
         if (targetElement is PrefixElement) {
-          (fileElementsUsage.prefixMap
-              .putIfAbsent(targetElement, () => <Element>[])).add(element);
+          (fileElementsUsage.prefixMap.putIfAbsent(
+            targetElement,
+            () => PrefixElementUsage(_getPrefixUsagePaths(target), {}),
+          )).add(element);
 
           return true;
         }
@@ -162,7 +166,10 @@ class UsedCodeVisitor extends RecursiveAstVisitor<void> {
 
       return;
     } else if (element is PrefixElement) {
-      fileElementsUsage.prefixMap.putIfAbsent(element, () => <Element>[]);
+      fileElementsUsage.prefixMap.putIfAbsent(
+        element,
+        () => PrefixElementUsage(_getPrefixUsagePaths(identifier), {}),
+      );
     } else if (element is MultiplyDefinedElement) {
       // If the element is multiply defined then call this method recursively
       // for each of the conflicting elements.
@@ -173,5 +180,26 @@ class UsedCodeVisitor extends RecursiveAstVisitor<void> {
         _visitIdentifier(identifier, elt);
       }
     }
+  }
+
+  Iterable<String> _getPrefixUsagePaths(SimpleIdentifier target) {
+    final root = target.root;
+
+    if (root is! CompilationUnit) {
+      return [];
+    }
+
+    return root.directives.fold<List<String>>([], (previousValue, directive) {
+      if (directive is ImportDirective &&
+          directive.prefix?.name == target.name) {
+        previousValue.add(directive.uriSource.toString());
+
+        for (final config in directive.configurations) {
+          previousValue.add(config.uriSource.toString());
+        }
+      }
+
+      return previousValue;
+    });
   }
 }
