@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_positional_boolean_parameters, library_private_types_in_public_api, override_on_non_overriding_member, unused_local_variable, no-empty-block
+
 // LINT
 void printInteger(int aNumber) {
   print('The number is $aNumber.'); // Print to console.
@@ -37,7 +39,7 @@ class _MyWidgetState extends BaseState<MyWidget> {
 
   void myMethod() {
     setState(() {
-      myString = "Hello";
+      myString = 'Hello';
     });
   }
 
@@ -152,7 +154,7 @@ enum SomeOtherEnum {
   world,
 }
 
-class Mixin {}
+mixin Mixin {}
 
 typedef Hello = String;
 

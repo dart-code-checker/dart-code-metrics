@@ -6,6 +6,7 @@ import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/element/element.dart';
 // ignore: implementation_imports
 import 'package:analyzer/src/dart/element/element.dart';
+import 'package:glob/glob.dart';
 import 'package:path/path.dart';
 import 'package:source_span/source_span.dart';
 
@@ -57,28 +58,34 @@ class UnusedCodeAnalyzer {
       final unusedCodeAnalysisConfig =
           await _getAnalysisConfig(context, rootFolder, config);
 
-      final filePaths =
-          _getFilePaths(folders, context, rootFolder, unusedCodeAnalysisConfig);
+      final excludes = unusedCodeAnalysisConfig.globalExcludes
+          .followedBy(unusedCodeAnalysisConfig.analyzerExcludedPatterns);
+      final filePaths = _getFilePaths(folders, context, rootFolder, excludes);
 
       final analyzedFiles =
           filePaths.intersection(context.contextRoot.analyzedFiles().toSet());
-      await _analyseFiles(
-        analyzedFiles,
-        context.currentSession.getResolvedUnit,
-        codeUsages,
-        publicCode,
-      );
+      for (final filePath in analyzedFiles) {
+        final unit = await context.currentSession.getResolvedUnit(filePath);
+
+        final codeUsage = _analyzeFileCodeUsages(unit);
+        if (codeUsage != null) {
+          codeUsages.merge(codeUsage);
+        }
+
+        publicCode[filePath] = _analyzeFilePublicCode(unit);
+      }
 
       final notAnalyzedFiles = filePaths.difference(analyzedFiles);
-      await _analyseFiles(
-        notAnalyzedFiles,
-        (filePath) => resolveFile2(path: filePath),
-        codeUsages,
-        publicCode,
-        shouldAnalyse: (filePath) => unusedCodeAnalysisConfig
-            .analyzerExcludedPatterns
-            .any((pattern) => pattern.matches(filePath)),
-      );
+      for (final filePath in notAnalyzedFiles) {
+        if (excludes.any((pattern) => pattern.matches(filePath))) {
+          final unit = await resolveFile2(path: filePath);
+
+          final codeUsage = _analyzeFileCodeUsages(unit);
+          if (codeUsage != null) {
+            codeUsages.merge(codeUsage);
+          }
+        }
+      }
     }
 
     codeUsages.exports.forEach(publicCode.remove);
@@ -105,18 +112,14 @@ class UnusedCodeAnalyzer {
     Iterable<String> folders,
     AnalysisContext context,
     String rootFolder,
-    UnusedCodeAnalysisConfig unusedCodeAnalysisConfig,
+    Iterable<Glob> excludes,
   ) {
     final contextFolders = folders
         .where((path) => normalize(join(rootFolder, path))
             .startsWith(context.contextRoot.root.path))
         .toList();
 
-    return extractDartFilesFromFolders(
-      contextFolders,
-      rootFolder,
-      unusedCodeAnalysisConfig.globalExcludes,
-    );
+    return extractDartFilesFromFolders(contextFolders, rootFolder, excludes);
   }
 
   FileElementsUsage? _analyzeFileCodeUsages(SomeResolvedUnitResult unit) {
@@ -141,27 +144,6 @@ class UnusedCodeAnalyzer {
     return {};
   }
 
-  Future<void> _analyseFiles(
-    Set<String> files,
-    Future<SomeResolvedUnitResult> Function(String) unitExtractor,
-    FileElementsUsage codeUsages,
-    Map<String, Set<Element>> publicCode, {
-    bool Function(String)? shouldAnalyse,
-  }) async {
-    for (final filePath in files) {
-      if (shouldAnalyse == null || shouldAnalyse(filePath)) {
-        final unit = await unitExtractor(filePath);
-
-        final codeUsage = _analyzeFileCodeUsages(unit);
-        if (codeUsage != null) {
-          codeUsages.merge(codeUsage);
-        }
-
-        publicCode[filePath] = _analyzeFilePublicCode(unit);
-      }
-    }
-  }
-
   Iterable<UnusedCodeFileReport> _getReports(
     FileElementsUsage codeUsages,
     Map<String, Set<Element>> publicCodeElements,
@@ -173,10 +155,7 @@ class UnusedCodeAnalyzer {
       final issues = <UnusedCodeIssue>[];
 
       for (final element in elements) {
-        if (!codeUsages.elements
-                .any((usedElement) => _isUsed(usedElement, element)) &&
-            !codeUsages.usedExtensions
-                .any((usedElement) => _isUsed(usedElement, element))) {
+        if (_isUnused(codeUsages, path, element)) {
           final unit = element.thisOrAncestorOfType<CompilationUnitElement>();
           if (unit != null) {
             issues.add(_createUnusedCodeIssue(element as ElementImpl, unit));
@@ -201,6 +180,26 @@ class UnusedCodeAnalyzer {
   bool _isUsed(Element usedElement, Element element) =>
       element == usedElement ||
       element is PropertyInducingElement && element.getter == usedElement;
+
+  bool _isUnused(
+    FileElementsUsage codeUsages,
+    String path,
+    Element element,
+  ) =>
+      !codeUsages.elements.any(
+        (usedElement) => _isUsed(usedElement, element),
+      ) &&
+      !codeUsages.usedExtensions.any(
+        (usedElement) => _isUsed(usedElement, element),
+      ) &&
+      !codeUsages.prefixMap.values.any(
+        (usage) =>
+            usage.paths.contains(path) &&
+            usage.elements.any((usedElement) =>
+                _isUsed(usedElement, element) ||
+                (usedElement.name == element.name &&
+                    usedElement.kind == element.kind)),
+      );
 
   UnusedCodeIssue _createUnusedCodeIssue(
     ElementImpl element,
