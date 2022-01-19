@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 4.10.0-dev.2
 
 * fix: support excludes and conditional imports for `check-unused-code` command.
 
