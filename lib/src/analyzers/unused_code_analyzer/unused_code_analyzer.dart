@@ -2,9 +2,11 @@ import 'dart:io';
 
 import 'package:analyzer/dart/analysis/analysis_context.dart';
 import 'package:analyzer/dart/analysis/results.dart';
+import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/element/element.dart';
 // ignore: implementation_imports
 import 'package:analyzer/src/dart/element/element.dart';
+import 'package:glob/glob.dart';
 import 'package:path/path.dart';
 import 'package:source_span/source_span.dart';
 
@@ -56,17 +58,34 @@ class UnusedCodeAnalyzer {
       final unusedCodeAnalysisConfig =
           await _getAnalysisConfig(context, rootFolder, config);
 
-      final filePaths =
-          _getFilePaths(folders, context, rootFolder, unusedCodeAnalysisConfig);
+      final excludes = unusedCodeAnalysisConfig.globalExcludes
+          .followedBy(unusedCodeAnalysisConfig.analyzerExcludedPatterns);
+      final filePaths = _getFilePaths(folders, context, rootFolder, excludes);
 
       final analyzedFiles =
           filePaths.intersection(context.contextRoot.analyzedFiles().toSet());
-      await _analyseFiles(
-        analyzedFiles,
-        context.currentSession.getResolvedUnit,
-        codeUsages,
-        publicCode,
-      );
+      for (final filePath in analyzedFiles) {
+        final unit = await context.currentSession.getResolvedUnit(filePath);
+
+        final codeUsage = _analyzeFileCodeUsages(unit);
+        if (codeUsage != null) {
+          codeUsages.merge(codeUsage);
+        }
+
+        publicCode[filePath] = _analyzeFilePublicCode(unit);
+      }
+
+      final notAnalyzedFiles = filePaths.difference(analyzedFiles);
+      for (final filePath in notAnalyzedFiles) {
+        if (excludes.any((pattern) => pattern.matches(filePath))) {
+          final unit = await resolveFile2(path: filePath);
+
+          final codeUsage = _analyzeFileCodeUsages(unit);
+          if (codeUsage != null) {
+            codeUsages.merge(codeUsage);
+          }
+        }
+      }
     }
 
     codeUsages.exports.forEach(publicCode.remove);
@@ -93,19 +112,14 @@ class UnusedCodeAnalyzer {
     Iterable<String> folders,
     AnalysisContext context,
     String rootFolder,
-    UnusedCodeAnalysisConfig unusedCodeAnalysisConfig,
+    Iterable<Glob> excludes,
   ) {
     final contextFolders = folders
         .where((path) => normalize(join(rootFolder, path))
             .startsWith(context.contextRoot.root.path))
         .toList();
 
-    return extractDartFilesFromFolders(
-      contextFolders,
-      rootFolder,
-      unusedCodeAnalysisConfig.globalExcludes
-          .followedBy(unusedCodeAnalysisConfig.analyzerExcludedPatterns),
-    );
+    return extractDartFilesFromFolders(contextFolders, rootFolder, excludes);
   }
 
   FileElementsUsage? _analyzeFileCodeUsages(SomeResolvedUnitResult unit) {
@@ -128,24 +142,6 @@ class UnusedCodeAnalyzer {
     }
 
     return {};
-  }
-
-  Future<void> _analyseFiles(
-    Set<String> files,
-    Future<SomeResolvedUnitResult> Function(String) unitExtractor,
-    FileElementsUsage codeUsages,
-    Map<String, Set<Element>> publicCode,
-  ) async {
-    for (final filePath in files) {
-      final unit = await unitExtractor(filePath);
-
-      final codeUsage = _analyzeFileCodeUsages(unit);
-      if (codeUsage != null) {
-        codeUsages.merge(codeUsage);
-      }
-
-      publicCode[filePath] = _analyzeFilePublicCode(unit);
-    }
   }
 
   Iterable<UnusedCodeFileReport> _getReports(
