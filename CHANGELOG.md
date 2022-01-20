@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* chore: restrict `analyzer` version to `>=2.4.0 <3.3.0`.
+
 ## 4.10.0-dev.2
 
 * fix: support excludes and conditional imports for `check-unused-code` command.
