@@ -77,8 +77,7 @@ class UnusedCodeAnalyzer {
 
       final notAnalyzedFiles = filePaths.difference(analyzedFiles);
       for (final filePath in notAnalyzedFiles) {
-        if (config.isMonorepo ||
-            excludes.any((pattern) => pattern.matches(filePath))) {
+        if (excludes.any((pattern) => pattern.matches(filePath))) {
           final unit = await resolveFile2(path: filePath);
 
           final codeUsage = _analyzeFileCodeUsages(unit);
@@ -117,10 +116,12 @@ class UnusedCodeAnalyzer {
     String rootFolder,
     Iterable<Glob> excludes,
   ) {
-    final contextFolders = folders
-        .where((path) => normalize(join(rootFolder, path))
-            .startsWith(context.contextRoot.root.path))
-        .toList();
+    final contextFolders = folders.where((path) {
+      final newPath = normalize(join(rootFolder, path));
+
+      return newPath == context.contextRoot.root.path ||
+          context.contextRoot.root.path.startsWith('$newPath/');
+    }).toList();
 
     return extractDartFilesFromFolders(contextFolders, rootFolder, excludes);
   }
