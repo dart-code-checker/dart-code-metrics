@@ -30,8 +30,12 @@ class CheckUnusedCodeCommand extends BaseCommand {
     final folders = argResults.rest;
     final excludePath = argResults[FlagNames.exclude] as String;
     final reporterName = argResults[FlagNames.reporter] as String;
+    final isMonorepo = argResults[FlagNames.isMonorepo] as bool;
 
-    final config = ConfigBuilder.getUnusedCodeConfigFromArgs([excludePath]);
+    final config = ConfigBuilder.getUnusedCodeConfigFromArgs(
+      [excludePath],
+      isMonorepo: isMonorepo,
+    );
 
     final unusedCodeResult = await _analyzer.runCliAnalysis(
       folders,
@@ -56,6 +60,7 @@ class CheckUnusedCodeCommand extends BaseCommand {
   void _addFlags() {
     _usesReporterOption();
     addCommonFlags();
+    _usesIsMonorepoOption();
     _usesExitOption();
   }
 
@@ -72,6 +77,15 @@ class CheckUnusedCodeCommand extends BaseCommand {
           FlagNames.jsonReporter,
         ],
         defaultsTo: FlagNames.consoleReporter,
+      );
+  }
+
+  void _usesIsMonorepoOption() {
+    argParser
+      ..addSeparator('')
+      ..addFlag(
+        FlagNames.isMonorepo,
+        help: 'Treats all exported code as unused by default.',
       );
   }
 

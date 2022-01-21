@@ -92,9 +92,10 @@ class ConfigBuilder {
 
   /// Creates a raw unused code config from given [excludePatterns].
   static UnusedCodeConfig getUnusedCodeConfigFromArgs(
-    Iterable<String> excludePatterns,
-  ) =>
-      UnusedCodeConfig.fromArgs(excludePatterns);
+    Iterable<String> excludePatterns, {
+    required bool isMonorepo,
+  }) =>
+      UnusedCodeConfig.fromArgs(excludePatterns, isMonorepo: isMonorepo);
 
   /// Creates a raw unused code config from given [options].
   static UnusedCodeConfig getUnusedCodeConfigFromOption(

@@ -10,6 +10,7 @@ class FlagNames {
   static const exclude = 'exclude';
   static const rootFolder = 'root-folder';
   static const sdkPath = 'sdk-path';
+  static const isMonorepo = 'monorepo';
 
   static const consoleReporter = ConsoleReporter.id;
   static const consoleVerboseReporter = ConsoleReporter.verboseId;

@@ -88,7 +88,9 @@ class UnusedCodeAnalyzer {
       }
     }
 
-    codeUsages.exports.forEach(publicCode.remove);
+    if (!config.isMonorepo) {
+      codeUsages.exports.forEach(publicCode.remove);
+    }
 
     return _getReports(codeUsages, publicCode, rootFolder);
   }

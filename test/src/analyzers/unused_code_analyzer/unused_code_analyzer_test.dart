@@ -151,4 +151,5 @@ UnusedCodeConfig _createConfig({
     UnusedCodeConfig(
       excludePatterns: const [],
       analyzerExcludePatterns: analyzerExcludePatterns,
+      isMonorepo: false,
     );
