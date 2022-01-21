@@ -193,6 +193,8 @@ class UnusedL10nAnalyzer {
         issues: issues,
       );
     }
+
+    return null;
   }
 
   Iterable<UnusedL10nIssue> _getUnusedAccessors(
