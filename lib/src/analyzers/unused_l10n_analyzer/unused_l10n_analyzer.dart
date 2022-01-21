@@ -129,24 +129,28 @@ class UnusedL10nAnalyzer {
     final unusedLocalizationIssues = <UnusedL10nFileReport>[];
 
     localizationUsages.forEach((classElement, usages) {
-      _getUnusedReports(
+      final report = _getUnusedReports(
         classElement,
-        unusedLocalizationIssues,
         usages,
         rootFolder,
       );
+      if (report != null) {
+        unusedLocalizationIssues.add(report);
+      }
 
       final hasCustomSupertype = classElement.allSupertypes.length > 1;
       if (hasCustomSupertype) {
         final supertype = classElement.supertype;
         if (supertype is InterfaceType) {
-          _getUnusedReports(
+          final report = _getUnusedReports(
             supertype.element,
-            unusedLocalizationIssues,
             usages,
             rootFolder,
             overriddenClassName: classElement.name,
           );
+          if (report != null) {
+            unusedLocalizationIssues.add(report);
+          }
         }
       }
     });
@@ -154,21 +158,20 @@ class UnusedL10nAnalyzer {
     return unusedLocalizationIssues;
   }
 
-  void _getUnusedReports(
+  UnusedL10nFileReport? _getUnusedReports(
     ClassElement classElement,
-    List<UnusedL10nFileReport> reports,
     Iterable<String> usages,
     String rootFolder, {
     String? overriddenClassName,
   }) {
     final unit = classElement.thisOrAncestorOfType<CompilationUnitElement>();
     if (unit == null) {
-      return;
+      return null;
     }
 
     final lineInfo = unit.lineInfo;
     if (lineInfo == null) {
-      return;
+      return null;
     }
 
     final accessorSourceSpans = _getUnusedAccessors(classElement, usages, unit);
@@ -183,13 +186,11 @@ class UnusedL10nAnalyzer {
     ];
 
     if (issues.isNotEmpty) {
-      reports.add(
-        UnusedL10nFileReport(
-          path: filePath,
-          relativePath: relativePath,
-          className: overriddenClassName ?? classElement.name,
-          issues: issues,
-        ),
+      return UnusedL10nFileReport(
+        path: filePath,
+        relativePath: relativePath,
+        className: overriddenClassName ?? classElement.name,
+        issues: issues,
       );
     }
   }
