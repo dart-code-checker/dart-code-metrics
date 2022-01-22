@@ -68,6 +68,8 @@ jobs:
           check_unused_files: true
           check_unused_files_folders: "bin, example, lib"
           pull_request_comment: true
+        env:
+          RUNNER_DEBUG: 1
 
       - name: Verify formatting
         run: dart format --set-exit-if-changed .
