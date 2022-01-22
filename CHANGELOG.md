@@ -3,8 +3,9 @@
 ## Unreleased
 
 * feat: add new command flag `--no-congratulate`.
-* chore: restrict `analyzer` version to `>=2.4.0 <3.3.0`.
+* feat: add `--version` flag to print current version of the package.
 * fix: make `check-unused-l10n` also cover supertype member calls.
+* chore: restrict `analyzer` version to `>=2.4.0 <3.3.0`.
 
 ## 4.10.0-dev.2
 
