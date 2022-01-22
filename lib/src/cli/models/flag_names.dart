@@ -6,6 +6,7 @@ import '../../reporters/models/json_reporter.dart';
 
 /// Represents all flag names used by the CLI.
 class FlagNames {
+  static const version = 'version';
   static const reporter = 'reporter';
   static const exclude = 'exclude';
   static const rootFolder = 'root-folder';
