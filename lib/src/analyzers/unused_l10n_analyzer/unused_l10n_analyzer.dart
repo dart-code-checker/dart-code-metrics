@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/type.dart';
 // ignore: implementation_imports
 import 'package:analyzer/src/dart/element/element.dart';
 import 'package:path/path.dart';
@@ -128,38 +129,72 @@ class UnusedL10nAnalyzer {
     final unusedLocalizationIssues = <UnusedL10nFileReport>[];
 
     localizationUsages.forEach((classElement, usages) {
-      final unit = classElement.thisOrAncestorOfType<CompilationUnitElement>();
-      if (unit != null) {
-        final lineInfo = unit.lineInfo;
-        if (lineInfo != null) {
-          final accessorSourceSpans =
-              _getUnusedAccessors(classElement, usages, unit);
-          final methodSourceSpans =
-              _getUnusedMethods(classElement, usages, unit);
+      final report = _getUnusedReports(
+        classElement,
+        usages,
+        rootFolder,
+      );
+      if (report != null) {
+        unusedLocalizationIssues.add(report);
+      }
 
-          final filePath = unit.source.toString();
-          final relativePath = relative(filePath, from: rootFolder);
-
-          final issues = [
-            ...accessorSourceSpans,
-            ...methodSourceSpans,
-          ];
-
-          if (issues.isNotEmpty) {
-            unusedLocalizationIssues.add(
-              UnusedL10nFileReport(
-                path: filePath,
-                relativePath: relativePath,
-                className: classElement.name,
-                issues: issues,
-              ),
-            );
+      final hasCustomSupertype = classElement.allSupertypes.length > 1;
+      if (hasCustomSupertype) {
+        final supertype = classElement.supertype;
+        if (supertype is InterfaceType) {
+          final report = _getUnusedReports(
+            supertype.element,
+            usages,
+            rootFolder,
+            overriddenClassName: classElement.name,
+          );
+          if (report != null) {
+            unusedLocalizationIssues.add(report);
           }
         }
       }
     });
 
     return unusedLocalizationIssues;
+  }
+
+  UnusedL10nFileReport? _getUnusedReports(
+    ClassElement classElement,
+    Iterable<String> usages,
+    String rootFolder, {
+    String? overriddenClassName,
+  }) {
+    final unit = classElement.thisOrAncestorOfType<CompilationUnitElement>();
+    if (unit == null) {
+      return null;
+    }
+
+    final lineInfo = unit.lineInfo;
+    if (lineInfo == null) {
+      return null;
+    }
+
+    final accessorSourceSpans = _getUnusedAccessors(classElement, usages, unit);
+    final methodSourceSpans = _getUnusedMethods(classElement, usages, unit);
+
+    final filePath = unit.source.toString();
+    final relativePath = relative(filePath, from: rootFolder);
+
+    final issues = [
+      ...accessorSourceSpans,
+      ...methodSourceSpans,
+    ];
+
+    if (issues.isNotEmpty) {
+      return UnusedL10nFileReport(
+        path: filePath,
+        relativePath: relativePath,
+        className: overriddenClassName ?? classElement.name,
+        issues: issues,
+      );
+    }
+
+    return null;
   }
 
   Iterable<UnusedL10nIssue> _getUnusedAccessors(
