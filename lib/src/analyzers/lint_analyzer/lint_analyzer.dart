@@ -187,7 +187,6 @@ class LintAnalyzer {
             ignores,
             internalResult,
             config,
-            filePath,
           ),
         );
       }
@@ -249,13 +248,12 @@ class LintAnalyzer {
     Suppression ignores,
     InternalResolvedUnitResult source,
     LintAnalysisConfig config,
-    String filePath,
   ) =>
       config.codeRules
           .where((rule) =>
               !ignores.isSuppressed(rule.id) &&
               !isExcluded(
-                filePath,
+                source.path,
                 prepareExcludes(rule.excludes, config.excludesRootFolder),
               ))
           .expand(
@@ -275,7 +273,12 @@ class LintAnalyzer {
     Map<ScopedFunctionDeclaration, Report> functionMetrics,
   ) =>
       config.antiPatterns
-          .where((pattern) => !ignores.isSuppressed(pattern.id))
+          .where((pattern) =>
+              !ignores.isSuppressed(pattern.id) &&
+              !isExcluded(
+                source.path,
+                prepareExcludes(pattern.excludes, config.excludesRootFolder),
+              ))
           .expand((pattern) => pattern
               .check(source, classMetrics, functionMetrics)
               .where((issue) => !ignores.isSuppressedAt(

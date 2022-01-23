@@ -9,6 +9,10 @@ void main() {
 
   TestI18n.of('').regularField.trim();
 
+  TestI18n.of('').anotherRegularGetter;
+
+  TestI18n.of('').baseGetter;
+
   final wrapper = L10nWrapper();
 
   wrapper.l10n.regularField.trim();
@@ -23,6 +27,8 @@ class SomeClass {
 
   void method() {
     S.of('').regularMethod('');
+    S.of('').anotherRegularGetter;
     S.current.regularGetter;
+    S.current.anotherRegularMethod('');
   }
 }

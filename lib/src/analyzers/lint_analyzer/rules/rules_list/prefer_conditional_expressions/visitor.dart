@@ -80,7 +80,6 @@ class _Visitor extends RecursiveAstVisitor<void> {
   }
 }
 
-@immutable
 class _StatementInfo {
   final IfStatement statement;
   final AstNode unwrappedThenStatement;

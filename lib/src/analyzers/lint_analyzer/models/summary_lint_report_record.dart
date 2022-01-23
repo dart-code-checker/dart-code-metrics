@@ -1,9 +1,6 @@
-import 'package:meta/meta.dart';
-
 import 'summary_lint_report_record_status.dart';
 
 /// Represents a summary for a lint report.
-@immutable
 class SummaryLintReportRecord<T> {
   final SummaryLintReportRecordStatus status;
 

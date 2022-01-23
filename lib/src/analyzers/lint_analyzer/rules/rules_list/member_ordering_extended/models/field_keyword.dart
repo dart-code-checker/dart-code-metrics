@@ -1,6 +1,5 @@
 part of '../member_ordering_extended_rule.dart';
 
-@immutable
 class _FieldKeyword {
   final String type;
 

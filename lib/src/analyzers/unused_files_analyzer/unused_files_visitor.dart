@@ -3,6 +3,8 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 
+import '../../utils/node_utils.dart';
+
 class UnusedFilesVisitor extends GeneralizingAstVisitor<void> {
   final String _currentFilePath;
 
@@ -37,22 +39,8 @@ class UnusedFilesVisitor extends GeneralizingAstVisitor<void> {
 
   @override
   void visitFunctionDeclaration(FunctionDeclaration node) {
-    if (node.name.name == 'main' || _hasPragmaAnnotation(node.metadata)) {
+    if (isEntrypoint(node.name.name, node.metadata)) {
       _paths.add(_currentFilePath);
     }
   }
-
-  /// See https://github.com/dart-lang/sdk/blob/master/runtime/docs/compiler/aot/entry_point_pragma.md
-  bool _hasPragmaAnnotation(Iterable<Annotation> metadata) =>
-      metadata.where((annotation) {
-        final arguments = annotation.arguments;
-
-        return annotation.name.name == 'pragma' &&
-            arguments != null &&
-            arguments.arguments
-                .where((argument) =>
-                    argument is SimpleStringLiteral &&
-                    argument.stringValue == 'vm:entry-point')
-                .isNotEmpty;
-      }).isNotEmpty;
 }

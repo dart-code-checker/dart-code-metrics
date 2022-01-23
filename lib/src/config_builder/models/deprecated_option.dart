@@ -1,7 +1,4 @@
-import 'package:meta/meta.dart';
-
 /// Class representing deprecated config option
-@immutable
 class DeprecatedOption {
   /// The last version number which supports the option.
   final String supportUntilVersion;

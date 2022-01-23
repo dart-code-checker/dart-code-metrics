@@ -59,7 +59,7 @@ add it manually to `pubspec.yaml`
 
 ```yaml
 dev_dependencies:
-  dart_code_metrics: ^4.8.1
+  dart_code_metrics: ^4.10.0-dev.2
 ```
 
 and then run
@@ -119,8 +119,8 @@ The package can be used as CLI and supports multiple commands:
 | Command            | Example of use                                            | Short description                                         |
 | ------------------ | --------------------------------------------------------- | --------------------------------------------------------- |
 | analyze            | dart run dart_code_metrics:metrics analyze lib            | Reports code metrics, rules and anti-patterns violations. |
-| check-unused-files | dart run dart_code_metrics:metrics check-unused-files lib | Checks unused \*.dart files. |
-| check-unused-l10n  | dart run dart_code_metrics:metrics check-unused-l10n lib | Check unused localization in *.dart files. |
+| check-unused-files | dart run dart_code_metrics:metrics check-unused-files lib | Checks unused \*.dart files.                              |
+| check-unused-l10n  | dart run dart_code_metrics:metrics check-unused-l10n lib  | Check unused localization in *.dart files.                |
 
 For additional help on any of the commands, enter `dart run dart_code_metrics:metrics help <command>`
 
@@ -205,6 +205,26 @@ It will produce a result in one of the format:
 Console report example:
 
 ![Console report example](https://raw.githubusercontent.com/dart-code-checker/dart-code-metrics/master/assets/unused-l10n-console-report.png)
+
+#### Check unused code
+
+Checks unused code in `*.dart` files. To execute the command, run
+
+```sh
+$ dart run dart_code_metrics:metrics check-unused-code lib
+
+# or for a Flutter package
+$ flutter pub run dart_code_metrics:metrics check-unused-code lib
+```
+
+It will produce a result in one of the format:
+
+- Console
+- JSON
+
+Console report example:
+
+![Console report example](https://raw.githubusercontent.com/dart-code-checker/dart-code-metrics/master/assets/unused-code-console-report.png)
 
 ## Troubleshooting
 

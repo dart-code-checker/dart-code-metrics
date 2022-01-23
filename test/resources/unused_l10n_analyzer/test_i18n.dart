@@ -1,4 +1,6 @@
-class TestI18n {
+import 'base_localization.dart';
+
+class TestI18n extends BaseLocalization {
   static const String field = 'field';
 
   static String get getter => 'getter'; // LINT
@@ -11,6 +13,8 @@ class TestI18n {
   String regularMethod(String value) => value;
 
   String get regularGetter => 'regular getter'; // LINT
+
+  String get anotherRegularGetter => 'another regular getter';
 
   final String regularField = 'regular field';
 
@@ -31,7 +35,11 @@ class S {
 
   String regularMethod(String value) => value;
 
+  String anotherRegularMethod(String value) => value;
+
   String get regularGetter => 'regular getter';
+
+  String get anotherRegularGetter => 'another regular getter';
 
   final String regularField = 'regular field'; // LINT
 
@@ -44,6 +52,12 @@ class S {
 
   // ignore: prefer_constructors_over_static_methods
   static S get current => S();
+
+  static const _privateField = 'hello';
+
+  String get _privateGetter => 'regular getter';
+
+  String _privateMethod() => 'hi';
 }
 
 class L10nClass {

@@ -4,6 +4,7 @@ analyzer:
   exclude:
     - test/resources/*
     - test/resources/unused_files_analyzer/**
+    - test/resources/unused_l10n_analyzer/**
     - test/**/examples/**
   language:
     strict-inference: true
@@ -44,6 +45,7 @@ dart_code_metrics:
     - test/resources/*
     - test/*
   rules:
+    - avoid-global-state
     - avoid-unused-parameters
     - avoid-unnecessary-type-assertions
     - avoid-unnecessary-type-casts
@@ -56,6 +58,7 @@ dart_code_metrics:
     - no-equal-then-else
     - no-object-declaration
     - prefer-conditional-expressions
+    - prefer-correct-type-name
     - prefer-first
     - prefer-last
     - prefer-match-file-name:

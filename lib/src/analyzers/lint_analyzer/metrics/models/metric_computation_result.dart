@@ -1,9 +1,6 @@
-import 'package:meta/meta.dart';
-
 import '../../models/context_message.dart';
 
 /// An internal model for representing a value computed by a metric.
-@immutable
 class MetricComputationResult<T> {
   /// The actual value computed by the metric.
   final T value;

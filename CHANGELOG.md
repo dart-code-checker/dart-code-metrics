@@ -2,21 +2,36 @@
 
 ## Unreleased
 
-* feat: add static code diagnostics `avoid-global-state`, `avoid-unrelated-type-assertions`, `format-comment`.
-* chore: migrate from deprecated api.
-* fix: fixed issue with type check in prefer-match-file-name.
-* fix: stabilized command usage tests.
-* doc: add flutter favorite badge.
-* chore: disable github_checks annotations from codecov.
-* chore: activate language strict rules.
-* fix: add missing severity for rules.
+* chore: restrict `analyzer` version to `>=2.4.0 <3.3.0`.
+* fix: make `check-unused-l10n` also cover supertype member calls.
+
+## 4.10.0-dev.2
+
+* fix: support excludes and conditional imports for `check-unused-code` command.
+
+## 4.10.0-dev.1
+
+* feat: add check unused code command.
+* feat: support excludes for a separate anti-pattern.
+* feat: ignore private members for `check-unused-l10n` command.
+* fix: ignore private variables in `avoid-global-state` rule.
+* chore: restrict `analyzer` version to `>=2.4.0 <3.2.0`.
+
+## 4.9.1
+
+* fix: `avoid-global-state` to support static fields.
+* fix: `prefer-extracting-callbacks` in nested widgets.
+* fix: correctly handle method invocations on getters and method of for `check-unused-l10n` command.
+
+## 4.9.0
+
+* feat: add static code diagnostics `avoid-global-state`, `avoid-unrelated-type-assertions`.
+* feat: support extensions and static getters for `check-unused-l10n`.
+* feat: improve `prefer-correct-type-name`, `prefer-match-file-name` rules.
+* feat: add `delete-files` flag to `check-unused-files` command.
 * feat: facelift console reporters.
 * chore: restrict `analyzer` version to `>=2.4.0 <3.1.0`.
 * chore: restrict `analyzer_plugin` version to `>=0.8.0 <0.10.0`.
-* feat: support extensions and static getters for check-unused-l10n.
-* feat: improve `prefer-correct-type-name` rule.
-* feat: add `delete-files` flag to `check-unused-files` command.
-* build: activate check_unused_files on CI.
 
 ## 4.8.1
 

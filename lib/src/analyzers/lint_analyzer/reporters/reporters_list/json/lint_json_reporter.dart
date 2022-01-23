@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:meta/meta.dart';
 import 'package:source_span/source_span.dart';
 
 import '../../../../../reporters/models/json_reporter.dart';
@@ -16,7 +15,6 @@ import '../../../models/summary_lint_report_record.dart';
 /// Lint JSON reporter.
 ///
 /// Use it to create reports in JSON format.
-@immutable
 class LintJsonReporter extends JsonReporter<LintFileReport,
     SummaryLintReportRecord<Object>, void> {
   const LintJsonReporter(IOSink output) : super(output, 2);

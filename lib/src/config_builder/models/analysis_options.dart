@@ -2,7 +2,6 @@ import 'dart:io';
 import 'dart:isolate';
 
 import 'package:analyzer/dart/analysis/analysis_context.dart';
-import 'package:meta/meta.dart';
 import 'package:path/path.dart' as p;
 import 'package:yaml/yaml.dart';
 
@@ -12,7 +11,6 @@ import '../analysis_options_utils.dart';
 const _analysisOptionsFileName = 'analysis_options.yaml';
 
 /// Class representing dart analysis options
-@immutable
 class AnalysisOptions {
   final Map<String, Object> options;
 

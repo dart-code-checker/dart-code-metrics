@@ -3,7 +3,6 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:collection/collection.dart';
-import 'package:meta/meta.dart';
 
 import '../../../../../utils/node_utils.dart';
 import '../../../../../utils/string_extensions.dart';

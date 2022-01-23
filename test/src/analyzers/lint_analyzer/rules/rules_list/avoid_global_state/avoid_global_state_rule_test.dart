@@ -25,13 +25,25 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startLines: [1, 2],
-        startColumns: [5, 5],
+        startLines: [1, 2, 10, 11, 22, 23, 34, 35],
+        startColumns: [5, 5, 15, 18, 15, 18, 15, 18],
         locationTexts: [
           'answer = 42',
           'evenNumbers = [1, 2, 3].where((element) => element.isEven)',
+          'a',
+          'c',
+          'a',
+          'c',
+          'a',
+          'c',
         ],
         messages: [
+          'Avoid using global variable without const or final keywords.',
+          'Avoid using global variable without const or final keywords.',
+          'Avoid using global variable without const or final keywords.',
+          'Avoid using global variable without const or final keywords.',
+          'Avoid using global variable without const or final keywords.',
+          'Avoid using global variable without const or final keywords.',
           'Avoid using global variable without const or final keywords.',
           'Avoid using global variable without const or final keywords.',
         ],
