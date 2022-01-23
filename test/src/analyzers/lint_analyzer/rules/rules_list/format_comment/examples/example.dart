@@ -25,3 +25,5 @@ class Test {
 //ignore
 /* with start space
 with dot.*/
+//Test multiline comment
+//second row

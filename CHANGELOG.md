@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* feat: add static code diagnostics `format-comment`.
 * chore: restrict `analyzer` version to `>=2.4.0 <3.3.0`.
 * fix: make `check-unused-l10n` also cover supertype member calls.
 
