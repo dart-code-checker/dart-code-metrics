@@ -2,7 +2,7 @@
 
 import 'dart:io';
 
-import '../../analyzers/unused_files_analyzer/reporters/report_params.dart';
+import '../../analyzers/unused_files_analyzer/reporters/unused_files_report_params.dart';
 import '../../analyzers/unused_files_analyzer/unused_files_analyzer.dart';
 import '../../config_builder/config_builder.dart';
 import '../models/flag_names.dart';
@@ -31,6 +31,8 @@ class CheckUnusedFilesCommand extends BaseCommand {
     final folders = argResults.rest;
     final excludePath = argResults[FlagNames.exclude] as String;
     final reporterName = argResults[FlagNames.reporter] as String;
+
+    final congratulate = argResults[FlagNames.congratulate] as bool;
     final deleteFiles = argResults[FlagNames.deleteFiles] as bool;
 
     final config = ConfigBuilder.getUnusedFilesConfigFromArgs([excludePath]);
@@ -53,7 +55,10 @@ class CheckUnusedFilesCommand extends BaseCommand {
         )
         ?.report(
           unusedFilesResult,
-          additionalParams: ReportParams(deleteUnusedFiles: deleteFiles),
+          additionalParams: UnusedFilesReportParams(
+            congratulate: congratulate,
+            deleteUnusedFiles: deleteFiles,
+          ),
         );
 
     if (unusedFilesResult.isNotEmpty &&
