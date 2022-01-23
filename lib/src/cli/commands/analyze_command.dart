@@ -8,6 +8,7 @@ import '../../analyzers/lint_analyzer/lint_analyzer.dart';
 import '../../analyzers/lint_analyzer/metrics/metrics_factory.dart';
 import '../../analyzers/lint_analyzer/metrics/models/metric_value_level.dart';
 import '../../analyzers/lint_analyzer/models/severity.dart';
+import '../../analyzers/lint_analyzer/reporters/lint_report_params.dart';
 import '../../analyzers/lint_analyzer/utils/report_utils.dart';
 import '../../config_builder/config_builder.dart';
 import '../../config_builder/models/deprecated_option.dart';
@@ -44,6 +45,8 @@ class AnalyzeCommand extends BaseCommand {
       },
     );
 
+    final congratulate = argResults[FlagNames.congratulate] as bool;
+
     final config = ConfigBuilder.getLintConfigFromArgs(parsedArgs);
 
     final lintAnalyserResult = await _analyzer.runCliAnalysis(
@@ -62,6 +65,7 @@ class AnalyzeCommand extends BaseCommand {
         ?.report(
           lintAnalyserResult,
           summary: _analyzer.getSummary(lintAnalyserResult),
+          additionalParams: LintReportParams(congratulate: congratulate),
         );
 
     if (hasIssueWithSevetiry(lintAnalyserResult, Severity.error)) {

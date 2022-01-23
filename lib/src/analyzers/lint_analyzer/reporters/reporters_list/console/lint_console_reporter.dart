@@ -8,13 +8,14 @@ import '../../../models/issue.dart';
 import '../../../models/lint_file_report.dart';
 import '../../../models/report.dart';
 import '../../../models/summary_lint_report_record.dart';
+import '../../lint_report_params.dart';
 import 'lint_console_reporter_helper.dart';
 
 /// Lint console reporter.
 ///
 /// Use it to create reports in console format.
 class LintConsoleReporter extends ConsoleReporter<LintFileReport,
-    SummaryLintReportRecord<Object>, void> {
+    SummaryLintReportRecord<Object>, LintReportParams> {
   /// If true will report info about all files even if they're not above warning threshold
   final bool reportAll;
 
@@ -26,7 +27,7 @@ class LintConsoleReporter extends ConsoleReporter<LintFileReport,
   Future<void> report(
     Iterable<LintFileReport> records, {
     Iterable<SummaryLintReportRecord<Object>> summary = const [],
-    void additionalParams,
+    LintReportParams? additionalParams,
   }) async {
     var hasReportData = false;
 
@@ -50,7 +51,9 @@ class LintConsoleReporter extends ConsoleReporter<LintFileReport,
     }
 
     if (!hasReportData) {
-      output.writeln('${okPen('✔')} no issues found!');
+      if (additionalParams?.congratulate ?? false) {
+        output.writeln('${okPen('✔')} no issues found!');
+      }
     }
   }
 
