@@ -54,23 +54,50 @@ void main() {
       });
     });
 
-    test('unused files', () async {
-      const record =
-          UnusedFilesFileReport(path: fullPath, relativePath: 'example.dart');
+    group('unused files', () {
+      test('without deleting flag', () async {
+        const record =
+            UnusedFilesFileReport(path: fullPath, relativePath: 'example.dart');
 
-      await reporter.report([record]);
+        await reporter.report([record]);
 
-      final captured =
-          verify(() => output.writeln(captureAny())).captured.cast<String>();
+        final captured =
+            verify(() => output.writeln(captureAny())).captured.cast<String>();
 
-      expect(
-        captured,
-        equals([
-          '\x1B[38;5;180m⚠\x1B[0m unused file: example.dart',
-          '',
-          '\x1B[38;5;167m✖\x1B[0m total unused files - \x1B[38;5;167m1\x1B[0m',
-        ]),
-      );
+        expect(
+          captured,
+          equals([
+            '\x1B[38;5;180m⚠\x1B[0m unused file: example.dart',
+            '',
+            '\x1B[38;5;167m✖\x1B[0m total unused files - \x1B[38;5;167m1\x1B[0m',
+          ]),
+        );
+      });
+
+      test('with deleting flag', () async {
+        const record =
+            UnusedFilesFileReport(path: fullPath, relativePath: 'example.dart');
+
+        await reporter.report(
+          [record],
+          additionalParams: const UnusedFilesReportParams(
+            congratulate: true,
+            deleteUnusedFiles: true,
+          ),
+        );
+
+        final captured =
+            verify(() => output.writeln(captureAny())).captured.cast<String>();
+
+        expect(
+          captured,
+          equals([
+            '\x1B[38;5;180m⚠\x1B[0m unused file: example.dart',
+            '',
+            '\x1B[38;5;20m✔\x1B[0m \x1B[38;5;167m1\x1B[0m files were successfully deleted',
+          ]),
+        );
+      });
     });
   });
 }

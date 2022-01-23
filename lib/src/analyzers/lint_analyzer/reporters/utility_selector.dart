@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:collection/collection.dart';
 
 import '../metrics/metric_utils.dart';
@@ -17,8 +15,6 @@ import '../models/lint_file_report.dart';
 import '../models/report.dart';
 import 'reporters_list/html/models/file_metrics_report.dart';
 import 'reporters_list/html/models/function_metrics_report.dart';
-
-double log2(num a) => log(a) / ln2;
 
 double avg(Iterable<num> it) => it.isNotEmpty ? it.sum / it.length : 0;
 
