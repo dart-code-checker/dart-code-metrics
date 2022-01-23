@@ -4,6 +4,7 @@ import 'package:ansicolor/ansicolor.dart';
 import 'package:dart_code_metrics/src/analyzers/unused_code_analyzer/models/unused_code_file_report.dart';
 import 'package:dart_code_metrics/src/analyzers/unused_code_analyzer/models/unused_code_issue.dart';
 import 'package:dart_code_metrics/src/analyzers/unused_code_analyzer/reporters/reporters_list/console/unused_code_console_reporter.dart';
+import 'package:dart_code_metrics/src/analyzers/unused_code_analyzer/reporters/unused_code_report_params.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:source_span/source_span.dart';
 import 'package:test/test.dart';
@@ -16,24 +17,34 @@ void main() {
 
     late IOSinkMock output; // ignore: close_sinks
 
-    late UnusedCodeConsoleReporter _reporter;
+    late UnusedCodeConsoleReporter reporter;
 
     setUp(() {
       output = IOSinkMock();
 
       ansiColorDisabled = false;
 
-      _reporter = UnusedCodeConsoleReporter(output);
+      reporter = UnusedCodeConsoleReporter(output);
     });
 
-    test('empty report', () async {
-      await _reporter.report([]);
+    group('empty report', () {
+      test('with congratulate param', () async {
+        const congratulate = UnusedCodeReportParams(congratulate: true);
 
-      final captured = verify(
-        () => output.writeln(captureAny()),
-      ).captured.cast<String>();
+        await reporter.report([], additionalParams: congratulate);
 
-      expect(captured, ['\x1B[38;5;20m✔\x1B[0m no unused code found!']);
+        final captured =
+            verify(() => output.writeln(captureAny())).captured.cast<String>();
+        expect(captured, ['\x1B[38;5;20m✔\x1B[0m no unused code found!']);
+      });
+
+      test('without congratulate param', () async {
+        const noCongratulate = UnusedCodeReportParams(congratulate: false);
+
+        await reporter.report([], additionalParams: noCongratulate);
+
+        verifyNever(() => output.writeln(any()));
+      });
     });
 
     test('complex report', () async {
@@ -51,7 +62,7 @@ void main() {
         ),
       ];
 
-      await _reporter.report(testReport);
+      await reporter.report(testReport);
 
       final captured =
           verify(() => output.writeln(captureAny())).captured.cast<String>();

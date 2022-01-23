@@ -20,6 +20,7 @@ import 'models/unused_code_file_report.dart';
 import 'models/unused_code_issue.dart';
 import 'public_code_visitor.dart';
 import 'reporters/reporter_factory.dart';
+import 'reporters/unused_code_report_params.dart';
 import 'unused_code_analysis_config.dart';
 import 'unused_code_config.dart';
 import 'used_code_visitor.dart';
@@ -30,7 +31,7 @@ class UnusedCodeAnalyzer {
 
   /// Returns a reporter for the given [name]. Use the reporter
   /// to convert analysis reports to console, JSON or other supported format.
-  Reporter<UnusedCodeFileReport, void, void>? getReporter({
+  Reporter<UnusedCodeFileReport, void, UnusedCodeReportParams>? getReporter({
     required String name,
     required IOSink output,
   }) =>
