@@ -18,7 +18,7 @@ class UnusedFilesConsoleReporter extends ConsoleReporter<UnusedFilesFileReport,
     UnusedFilesReportParams? additionalParams,
   }) async {
     if (records.isEmpty) {
-      if (additionalParams?.congratulate ?? false) {
+      if (additionalParams?.congratulate ?? true) {
         output.writeln('${okPen('✔')} no unused files found!');
       }
 

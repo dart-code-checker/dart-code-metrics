@@ -32,7 +32,7 @@ class CheckUnusedCodeCommand extends BaseCommand {
     final excludePath = argResults[FlagNames.exclude] as String;
     final reporterName = argResults[FlagNames.reporter] as String;
 
-    final congratulate = argResults[FlagNames.congratulate] as bool;
+    final noCongratulate = argResults[FlagNames.noCongratulate] as bool;
 
     final config = ConfigBuilder.getUnusedCodeConfigFromArgs([excludePath]);
 
@@ -50,7 +50,8 @@ class CheckUnusedCodeCommand extends BaseCommand {
         )
         ?.report(
           unusedCodeResult,
-          additionalParams: UnusedCodeReportParams(congratulate: congratulate),
+          additionalParams:
+              UnusedCodeReportParams(congratulate: !noCongratulate),
         );
 
     if (unusedCodeResult.isNotEmpty &&

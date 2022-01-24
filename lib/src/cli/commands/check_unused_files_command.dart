@@ -32,7 +32,7 @@ class CheckUnusedFilesCommand extends BaseCommand {
     final excludePath = argResults[FlagNames.exclude] as String;
     final reporterName = argResults[FlagNames.reporter] as String;
 
-    final congratulate = argResults[FlagNames.congratulate] as bool;
+    final noCongratulate = argResults[FlagNames.noCongratulate] as bool;
     final deleteFiles = argResults[FlagNames.deleteFiles] as bool;
 
     final config = ConfigBuilder.getUnusedFilesConfigFromArgs([excludePath]);
@@ -56,7 +56,7 @@ class CheckUnusedFilesCommand extends BaseCommand {
         ?.report(
           unusedFilesResult,
           additionalParams: UnusedFilesReportParams(
-            congratulate: congratulate,
+            congratulate: !noCongratulate,
             deleteUnusedFiles: deleteFiles,
           ),
         );

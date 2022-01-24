@@ -32,7 +32,7 @@ class CheckUnusedL10nCommand extends BaseCommand {
     final excludePath = argResults[FlagNames.exclude] as String;
     final reporterName = argResults[FlagNames.reporter] as String;
 
-    final congratulate = argResults[FlagNames.congratulate] as bool;
+    final noCongratulate = argResults[FlagNames.noCongratulate] as bool;
 
     final folders = argResults.rest;
 
@@ -55,7 +55,8 @@ class CheckUnusedL10nCommand extends BaseCommand {
         )
         ?.report(
           unusedL10nResult,
-          additionalParams: UnusedL10NReportParams(congratulate: congratulate),
+          additionalParams:
+              UnusedL10NReportParams(congratulate: !noCongratulate),
         );
 
     if (unusedL10nResult.isNotEmpty &&

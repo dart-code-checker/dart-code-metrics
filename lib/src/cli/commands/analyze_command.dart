@@ -45,7 +45,7 @@ class AnalyzeCommand extends BaseCommand {
       },
     );
 
-    final congratulate = argResults[FlagNames.congratulate] as bool;
+    final noCongratulate = argResults[FlagNames.noCongratulate] as bool;
 
     final config = ConfigBuilder.getLintConfigFromArgs(parsedArgs);
 
@@ -65,7 +65,7 @@ class AnalyzeCommand extends BaseCommand {
         ?.report(
           lintAnalyserResult,
           summary: _analyzer.getSummary(lintAnalyserResult),
-          additionalParams: LintReportParams(congratulate: congratulate),
+          additionalParams: LintReportParams(congratulate: !noCongratulate),
         );
 
     if (hasIssueWithSevetiry(lintAnalyserResult, Severity.error)) {

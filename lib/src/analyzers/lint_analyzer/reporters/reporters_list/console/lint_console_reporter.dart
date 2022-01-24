@@ -51,7 +51,7 @@ class LintConsoleReporter extends ConsoleReporter<LintFileReport,
     }
 
     if (!hasReportData) {
-      if (additionalParams?.congratulate ?? false) {
+      if (additionalParams?.congratulate ?? true) {
         output.writeln('${okPen('✔')} no issues found!');
       }
     }

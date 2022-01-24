@@ -122,9 +122,10 @@ abstract class BaseCommand extends Command<void> {
     argParser
       ..addSeparator('')
       ..addFlag(
-        FlagNames.congratulate,
-        help: 'Show output even when there are no issues.',
-        defaultsTo: true,
+        FlagNames.noCongratulate,
+        help: "Don't show output even when there are no issues.",
+        negatable: false,
+        defaultsTo: false,
       );
   }
 

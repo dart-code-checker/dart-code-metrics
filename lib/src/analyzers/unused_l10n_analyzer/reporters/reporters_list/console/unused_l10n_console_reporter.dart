@@ -18,7 +18,7 @@ class UnusedL10nConsoleReporter extends ConsoleReporter<UnusedL10nFileReport,
     UnusedL10NReportParams? additionalParams,
   }) async {
     if (records.isEmpty) {
-      if (additionalParams?.congratulate ?? false) {
+      if (additionalParams?.congratulate ?? true) {
         output.writeln('${okPen('✔')} no unused localization found!');
       }
 

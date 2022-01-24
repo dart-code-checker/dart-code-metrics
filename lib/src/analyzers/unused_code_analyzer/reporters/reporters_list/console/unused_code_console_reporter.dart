@@ -18,7 +18,7 @@ class UnusedCodeConsoleReporter extends ConsoleReporter<UnusedCodeFileReport,
     UnusedCodeReportParams? additionalParams,
   }) async {
     if (records.isEmpty) {
-      if (additionalParams?.congratulate ?? false) {
+      if (additionalParams?.congratulate ?? true) {
         output.writeln('${okPen('✔')} no unused code found!');
       }
 
