@@ -11,19 +11,20 @@ import '../../../models/lint_file_report.dart';
 import '../../../models/replacement.dart';
 import '../../../models/report.dart';
 import '../../../models/summary_lint_report_record.dart';
+import '../../lint_report_params.dart';
 
 /// Lint JSON reporter.
 ///
 /// Use it to create reports in JSON format.
 class LintJsonReporter extends JsonReporter<LintFileReport,
-    SummaryLintReportRecord<Object>, void> {
+    SummaryLintReportRecord<Object>, LintReportParams> {
   const LintJsonReporter(IOSink output) : super(output, 2);
 
   @override
   Future<void> report(
     Iterable<LintFileReport> records, {
     Iterable<SummaryLintReportRecord<Object>> summary = const [],
-    void additionalParams,
+    LintReportParams? additionalParams,
   }) async {
     if (records.isEmpty) {
       return;

@@ -39,7 +39,8 @@ class LintConfig {
 
   /// Creates the config from cli [arguments].
   factory LintConfig.fromArgs(ParsedArguments arguments) => LintConfig(
-        excludePatterns: [arguments.excludePath],
+        excludePatterns:
+            arguments.excludePath.isNotEmpty ? [arguments.excludePath] : [],
         excludeForMetricsPatterns: const [],
         metrics: {
           for (final metric in getMetrics(config: {}))

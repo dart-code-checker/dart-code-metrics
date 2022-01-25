@@ -107,6 +107,7 @@ abstract class BaseCommand extends Command<void> {
     usesRootFolderOption();
     usesSdkPathOption();
     usesExcludeOption();
+    _congratulateFlag();
   }
 
   String? findSdkPath() =>
@@ -116,6 +117,17 @@ abstract class BaseCommand extends Command<void> {
         Platform.environment,
         platformIsWindows: Platform.isWindows,
       );
+
+  void _congratulateFlag() {
+    argParser
+      ..addSeparator('')
+      ..addFlag(
+        FlagNames.noCongratulate,
+        help: "Don't show output even when there are no issues.",
+        negatable: false,
+        defaultsTo: false,
+      );
+  }
 
   Future<void> _verifyThenRunCommand() async {
     try {

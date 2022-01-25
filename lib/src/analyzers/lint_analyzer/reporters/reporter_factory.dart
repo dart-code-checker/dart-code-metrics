@@ -7,6 +7,7 @@ import '../../../reporters/models/github_reporter.dart';
 import '../../../reporters/models/html_reporter.dart';
 import '../../../reporters/models/json_reporter.dart';
 import '../../../reporters/models/reporter.dart';
+import 'lint_report_params.dart';
 import 'reporters_list/code_climate/lint_code_climate_reporter.dart';
 import 'reporters_list/console/lint_console_reporter.dart';
 import 'reporters_list/github/lint_github_reporter.dart';
@@ -15,7 +16,7 @@ import 'reporters_list/json/lint_json_reporter.dart';
 
 final _implementedReports = <
     String,
-    Reporter<FileReport, Object, void> Function(
+    Reporter<FileReport, Object, LintReportParams> Function(
   IOSink output,
   String reportFolder,
 )>{
@@ -30,7 +31,7 @@ final _implementedReports = <
       LintCodeClimateReporter(output, gitlabCompatible: true),
 };
 
-Reporter<FileReport, Object, void>? reporter({
+Reporter<FileReport, Object, LintReportParams>? reporter({
   required String name,
   required IOSink output,
   required String reportFolder,

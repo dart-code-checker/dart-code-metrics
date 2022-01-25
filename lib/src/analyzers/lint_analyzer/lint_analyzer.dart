@@ -25,6 +25,7 @@ import 'models/scoped_class_declaration.dart';
 import 'models/scoped_function_declaration.dart';
 import 'models/summary_lint_report_record.dart';
 import 'models/suppression.dart';
+import 'reporters/lint_report_params.dart';
 import 'reporters/reporter_factory.dart';
 import 'utils/report_utils.dart';
 
@@ -34,7 +35,7 @@ class LintAnalyzer {
 
   /// Returns a reporter for the given [name]. Use the reporter
   /// to convert analysis reports to console, JSON or other supported format.
-  Reporter<FileReport, Object, void>? getReporter({
+  Reporter<FileReport, Object, LintReportParams>? getReporter({
     required String name,
     required IOSink output,
     required String reportFolder,

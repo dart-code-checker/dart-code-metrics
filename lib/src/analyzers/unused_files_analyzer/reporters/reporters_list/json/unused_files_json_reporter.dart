@@ -3,20 +3,20 @@ import 'dart:io';
 
 import '../../../../../reporters/models/json_reporter.dart';
 import '../../../models/unused_files_file_report.dart';
-import '../../report_params.dart';
+import '../../unused_files_report_params.dart';
 
 /// Unused files JSON reporter.
 ///
 /// Use it to create reports in JSON format.
 class UnusedFilesJsonReporter
-    extends JsonReporter<UnusedFilesFileReport, void, ReportParams> {
+    extends JsonReporter<UnusedFilesFileReport, void, UnusedFilesReportParams> {
   const UnusedFilesJsonReporter(IOSink output) : super(output, 2);
 
   @override
   Future<void> report(
     Iterable<UnusedFilesFileReport> records, {
     Iterable<void> summary = const [],
-    ReportParams? additionalParams,
+    UnusedFilesReportParams? additionalParams,
   }) async {
     if (records.isEmpty) {
       return;
@@ -32,7 +32,6 @@ class UnusedFilesJsonReporter
     output.write(encodedReport);
   }
 
-  Map<String, String> _analysisRecordToJson(UnusedFilesFileReport report) => {
-        'path': report.relativePath,
-      };
+  Map<String, String> _analysisRecordToJson(UnusedFilesFileReport report) =>
+      {'path': report.relativePath};
 }

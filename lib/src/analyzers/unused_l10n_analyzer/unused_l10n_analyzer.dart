@@ -17,6 +17,7 @@ import '../../utils/file_utils.dart';
 import 'models/unused_l10n_file_report.dart';
 import 'models/unused_l10n_issue.dart';
 import 'reporters/reporter_factory.dart';
+import 'reporters/unused_l10n_report_params.dart';
 import 'unused_l10n_config.dart';
 import 'unused_l10n_visitor.dart';
 
@@ -26,7 +27,7 @@ class UnusedL10nAnalyzer {
 
   /// Returns a reporter for the given [name]. Use the reporter
   /// to convert analysis reports to console, JSON or other supported format.
-  Reporter<UnusedL10nFileReport, void, void>? getReporter({
+  Reporter<UnusedL10nFileReport, void, UnusedL10NReportParams>? getReporter({
     required String name,
     required IOSink output,
   }) =>

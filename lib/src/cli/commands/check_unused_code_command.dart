@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import '../../analyzers/unused_code_analyzer/reporters/unused_code_report_params.dart';
 import '../../analyzers/unused_code_analyzer/unused_code_analyzer.dart';
 import '../../config_builder/config_builder.dart';
 import '../models/flag_names.dart';
@@ -31,6 +32,8 @@ class CheckUnusedCodeCommand extends BaseCommand {
     final excludePath = argResults[FlagNames.exclude] as String;
     final reporterName = argResults[FlagNames.reporter] as String;
 
+    final noCongratulate = argResults[FlagNames.noCongratulate] as bool;
+
     final config = ConfigBuilder.getUnusedCodeConfigFromArgs([excludePath]);
 
     final unusedCodeResult = await _analyzer.runCliAnalysis(
@@ -45,7 +48,11 @@ class CheckUnusedCodeCommand extends BaseCommand {
           name: reporterName,
           output: stdout,
         )
-        ?.report(unusedCodeResult);
+        ?.report(
+          unusedCodeResult,
+          additionalParams:
+              UnusedCodeReportParams(congratulate: !noCongratulate),
+        );
 
     if (unusedCodeResult.isNotEmpty &&
         (argResults[FlagNames.fatalOnUnused] as bool)) {

@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import '../../analyzers/unused_l10n_analyzer/reporters/unused_l10n_report_params.dart';
 import '../../analyzers/unused_l10n_analyzer/unused_l10n_analyzer.dart';
 import '../../config_builder/config_builder.dart';
 import '../models/flag_names.dart';
@@ -31,6 +32,8 @@ class CheckUnusedL10nCommand extends BaseCommand {
     final excludePath = argResults[FlagNames.exclude] as String;
     final reporterName = argResults[FlagNames.reporter] as String;
 
+    final noCongratulate = argResults[FlagNames.noCongratulate] as bool;
+
     final folders = argResults.rest;
 
     final config = ConfigBuilder.getUnusedL10nConfigFromArgs(
@@ -50,7 +53,11 @@ class CheckUnusedL10nCommand extends BaseCommand {
           name: reporterName,
           output: stdout,
         )
-        ?.report(unusedL10nResult);
+        ?.report(
+          unusedL10nResult,
+          additionalParams:
+              UnusedL10NReportParams(congratulate: !noCongratulate),
+        );
 
     if (unusedL10nResult.isNotEmpty &&
         (argResults[FlagNames.fatalOnUnused] as bool)) {
