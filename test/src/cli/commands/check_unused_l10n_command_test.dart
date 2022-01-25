@@ -1,5 +1,4 @@
 import 'package:dart_code_metrics/src/cli/cli_runner.dart';
-import 'package:dart_code_metrics/src/cli/commands/check_unused_l10n_command.dart';
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
@@ -34,31 +33,30 @@ const _usage = 'Check unused localization in *.dart files.\n'
 void main() {
   group('CheckUnusedL10nCommand', () {
     final runner = CliRunner();
-    final command =
-        runner.commands['check-unused-l10n'] as CheckUnusedL10nCommand;
+    final command = runner.commands['check-unused-l10n'];
 
     test('should have correct name', () {
-      expect(command.name, 'check-unused-l10n');
+      expect(command?.name, equals('check-unused-l10n'));
     });
 
     test('should have correct description', () {
       expect(
-        command.description,
-        'Check unused localization in *.dart files.',
+        command?.description,
+        equals('Check unused localization in *.dart files.'),
       );
     });
 
     test('should have correct invocation', () {
       expect(
-        command.invocation,
-        'metrics check-unused-l10n [arguments] <directories>',
+        command?.invocation,
+        equals('metrics check-unused-l10n [arguments] <directories>'),
       );
     });
 
     test('should have correct usage', () {
       expect(
-        command.usage.replaceAll('"${p.current}"', 'current directory'),
-        _usage,
+        command?.usage.replaceAll('"${p.current}"', 'current directory'),
+        equals(_usage),
       );
     });
   });

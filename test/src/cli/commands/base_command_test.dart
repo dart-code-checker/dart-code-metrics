@@ -70,7 +70,7 @@ void main() {
       () {
         when(() => result['sdk-path'] as String).thenReturn('SDK_PATH');
 
-        expect(command.findSdkPath(), 'SDK_PATH');
+        expect(command.findSdkPath(), equals('SDK_PATH'));
       },
     );
 
