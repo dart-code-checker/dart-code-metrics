@@ -19,11 +19,12 @@ class CliRunner extends CommandRunner<void> {
     CheckUnusedCodeCommand(),
   ];
 
-  CliRunner()
-      : super(
-          'metrics',
-          'Analyze and improve your code quality.',
-        ) {
+  late final IOSink _output;
+
+  CliRunner([IOSink? output])
+      : super('metrics', 'Analyze and improve your code quality.') {
+    _output = output ?? stdout;
+
     _commands.forEach(addCommand);
 
     _usesVersionOption();
@@ -40,7 +41,7 @@ class CliRunner extends CommandRunner<void> {
     final showVersion = results[FlagNames.version] as bool;
 
     if (showVersion) {
-      print('Dart Code Metrics version: $packageVersion');
+      _output.writeln('Dart Code Metrics version: $packageVersion');
 
       return;
     }
@@ -48,11 +49,14 @@ class CliRunner extends CommandRunner<void> {
     try {
       await super.run(_addDefaultCommand(args));
     } on UsageException catch (e) {
-      print('${e.message}\n');
-      print('${e.usage}\n');
+      _output
+        ..writeln(e.message)
+        ..writeln(e.usage);
+
       exit(64);
     } on Exception catch (e) {
-      print('Oops; metrics has exited unexpectedly: "$e"');
+      _output.writeln('Oops; metrics has exited unexpectedly: "$e"');
+
       exit(1);
     }
   }
