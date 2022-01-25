@@ -2,22 +2,25 @@ import 'dart:io';
 
 import '../../../../../reporters/models/console_reporter.dart';
 import '../../../models/unused_code_file_report.dart';
+import '../../unused_code_report_params.dart';
 
 /// Unused code console reporter.
 ///
 /// Use it to create reports in console format.
-class UnusedCodeConsoleReporter
-    extends ConsoleReporter<UnusedCodeFileReport, void, void> {
+class UnusedCodeConsoleReporter extends ConsoleReporter<UnusedCodeFileReport,
+    void, UnusedCodeReportParams> {
   UnusedCodeConsoleReporter(IOSink output) : super(output);
 
   @override
   Future<void> report(
     Iterable<UnusedCodeFileReport> records, {
     Iterable<void> summary = const [],
-    void additionalParams,
+    UnusedCodeReportParams? additionalParams,
   }) async {
     if (records.isEmpty) {
-      output.writeln('${okPen('✔')} no unused code found!');
+      if (additionalParams?.congratulate ?? true) {
+        output.writeln('${okPen('✔')} no unused code found!');
+      }
 
       return;
     }

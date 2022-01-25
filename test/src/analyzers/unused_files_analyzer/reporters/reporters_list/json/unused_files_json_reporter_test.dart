@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dart_code_metrics/src/analyzers/unused_files_analyzer/models/unused_files_file_report.dart';
-import 'package:dart_code_metrics/src/analyzers/unused_files_analyzer/reporters/report_params.dart';
 import 'package:dart_code_metrics/src/analyzers/unused_files_analyzer/reporters/reporters_list/json/unused_files_json_reporter.dart';
+import 'package:dart_code_metrics/src/analyzers/unused_files_analyzer/reporters/unused_files_report_params.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
 
@@ -55,7 +55,10 @@ void main() {
       test('and about delete them', () async {
         await _reporter.report(
           [record],
-          additionalParams: const ReportParams(deleteUnusedFiles: true),
+          additionalParams: const UnusedFilesReportParams(
+            congratulate: false,
+            deleteUnusedFiles: true,
+          ),
         );
 
         final captured = verify(

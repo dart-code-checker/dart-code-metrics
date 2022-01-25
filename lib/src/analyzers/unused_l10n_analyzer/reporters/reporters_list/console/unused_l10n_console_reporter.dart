@@ -2,22 +2,25 @@ import 'dart:io';
 
 import '../../../../../reporters/models/console_reporter.dart';
 import '../../../models/unused_l10n_file_report.dart';
+import '../../unused_l10n_report_params.dart';
 
 /// Unused localization console reporter.
 ///
 /// Use it to create reports in console format.
-class UnusedL10nConsoleReporter
-    extends ConsoleReporter<UnusedL10nFileReport, void, void> {
+class UnusedL10nConsoleReporter extends ConsoleReporter<UnusedL10nFileReport,
+    void, UnusedL10NReportParams> {
   UnusedL10nConsoleReporter(IOSink output) : super(output);
 
   @override
   Future<void> report(
     Iterable<UnusedL10nFileReport> records, {
     Iterable<void> summary = const [],
-    void additionalParams,
+    UnusedL10NReportParams? additionalParams,
   }) async {
     if (records.isEmpty) {
-      output.writeln('${okPen('✔')} no unused localization found!');
+      if (additionalParams?.congratulate ?? true) {
+        output.writeln('${okPen('✔')} no unused localization found!');
+      }
 
       return;
     }

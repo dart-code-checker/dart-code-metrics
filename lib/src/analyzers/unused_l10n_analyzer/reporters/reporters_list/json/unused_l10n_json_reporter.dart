@@ -4,19 +4,20 @@ import 'dart:io';
 import '../../../../../reporters/models/json_reporter.dart';
 import '../../../models/unused_l10n_file_report.dart';
 import '../../../models/unused_l10n_issue.dart';
+import '../../unused_l10n_report_params.dart';
 
 /// Unused localization JSON reporter.
 ///
 /// Use it to create reports in JSON format.
 class UnusedL10nJsonReporter
-    extends JsonReporter<UnusedL10nFileReport, void, void> {
+    extends JsonReporter<UnusedL10nFileReport, void, UnusedL10NReportParams> {
   const UnusedL10nJsonReporter(IOSink output) : super(output, 2);
 
   @override
   Future<void> report(
     Iterable<UnusedL10nFileReport> records, {
     Iterable<void> summary = const [],
-    void additionalParams,
+    UnusedL10NReportParams? additionalParams,
   }) async {
     if (records.isEmpty) {
       return;

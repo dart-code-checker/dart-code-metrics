@@ -4,6 +4,7 @@ import 'package:ansicolor/ansicolor.dart';
 import 'package:dart_code_metrics/src/analyzers/unused_l10n_analyzer/models/unused_l10n_file_report.dart';
 import 'package:dart_code_metrics/src/analyzers/unused_l10n_analyzer/models/unused_l10n_issue.dart';
 import 'package:dart_code_metrics/src/analyzers/unused_l10n_analyzer/reporters/reporters_list/console/unused_l10n_console_reporter.dart';
+import 'package:dart_code_metrics/src/analyzers/unused_l10n_analyzer/reporters/unused_l10n_report_params.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:source_span/source_span.dart';
 import 'package:test/test.dart';
@@ -16,24 +17,37 @@ void main() {
 
     late IOSinkMock output; // ignore: close_sinks
 
-    late UnusedL10nConsoleReporter _reporter;
+    late UnusedL10nConsoleReporter reporter;
 
     setUp(() {
       output = IOSinkMock();
 
       ansiColorDisabled = false;
 
-      _reporter = UnusedL10nConsoleReporter(output);
+      reporter = UnusedL10nConsoleReporter(output);
     });
 
-    test('empty report', () async {
-      await _reporter.report([]);
+    group('empty report', () {
+      test('with congratulate param', () async {
+        const congratulate = UnusedL10NReportParams(congratulate: true);
 
-      final captured = verify(
-        () => output.writeln(captureAny()),
-      ).captured.cast<String>();
+        await reporter.report([], additionalParams: congratulate);
 
-      expect(captured, ['\x1B[38;5;20m✔\x1B[0m no unused localization found!']);
+        final captured =
+            verify(() => output.writeln(captureAny())).captured.cast<String>();
+        expect(
+          captured,
+          ['\x1B[38;5;20m✔\x1B[0m no unused localization found!'],
+        );
+      });
+
+      test('without congratulate param', () async {
+        const noCongratulate = UnusedL10NReportParams(congratulate: false);
+
+        await reporter.report([], additionalParams: noCongratulate);
+
+        verifyNever(() => output.writeln(any()));
+      });
     });
 
     test('complex report', () async {
@@ -51,7 +65,7 @@ void main() {
         ),
       ];
 
-      await _reporter.report(testReport);
+      await reporter.report(testReport);
 
       final captured =
           verify(() => output.writeln(captureAny())).captured.cast<String>();

@@ -1,4 +1,6 @@
-class TestI18n {
+import 'base_localization.dart';
+
+class TestI18n extends BaseLocalization {
   static const String field = 'field';
 
   static String get getter => 'getter'; // LINT
