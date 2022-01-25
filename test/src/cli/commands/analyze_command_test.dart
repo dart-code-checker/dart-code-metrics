@@ -1,5 +1,4 @@
 import 'package:dart_code_metrics/src/cli/cli_runner.dart';
-import 'package:dart_code_metrics/src/cli/commands/analyze_command.dart';
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
@@ -48,30 +47,30 @@ const _usage = 'Collect code metrics, rules and anti-patterns violations.\n'
 void main() {
   group('AnalyzeCommand', () {
     final runner = CliRunner();
-    final command = runner.commands['analyze'] as AnalyzeCommand;
+    final command = runner.commands['analyze'];
 
     test('should have correct name', () {
-      expect(command.name, 'analyze');
+      expect(command?.name, equals('analyze'));
     });
 
     test('should have correct description', () {
       expect(
-        command.description,
-        'Collect code metrics, rules and anti-patterns violations.',
+        command?.description,
+        equals('Collect code metrics, rules and anti-patterns violations.'),
       );
     });
 
     test('should have correct invocation', () {
       expect(
-        command.invocation,
-        'metrics analyze [arguments] <directories>',
+        command?.invocation,
+        equals('metrics analyze [arguments] <directories>'),
       );
     });
 
     test('should have correct usage', () {
       expect(
-        command.usage.replaceAll('"${p.current}"', 'current directory'),
-        _usage,
+        command?.usage.replaceAll('"${p.current}"', 'current directory'),
+        equals(_usage),
       );
     });
   });
