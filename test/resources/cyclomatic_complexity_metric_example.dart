@@ -2,6 +2,7 @@
 
 import 'package:analyzer/dart/ast/syntactic_entity.dart';
 import 'package:analyzer/dart/ast/token.dart';
+import 'package:test/test.dart';
 
 // BlockFunctionBody
 Stream<String> veryComplexFunction() async* {
@@ -87,3 +88,24 @@ void visitBlock(Token firstToken, Token lastToken) {
 }
 
 void _increaseComplexity(SyntacticEntity entity) {}
+
+void functionWithTest() {
+  Calculator? calc;
+  group('a', () {
+    group('b', () {
+      group('c', () {
+        test('adds one to input values', () {
+          calc = Calculator();
+          expect(calc?.addOne(2), 3);
+          expect(calc?.addOne(-7), -6);
+          expect(calc?.addOne(0), 1);
+        });
+      });
+    });
+  });
+}
+
+class Calculator {
+  /// Returns [value] plus 1.
+  int addOne(int value) => value + 1;
+}

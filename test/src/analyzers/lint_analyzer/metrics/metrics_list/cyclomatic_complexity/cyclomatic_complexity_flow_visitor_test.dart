@@ -35,12 +35,21 @@ Future<void> main() async {
       });
 
       test('empty function', () {
-        final declaration = scopeVisitor.functions.last.declaration;
+        final declaration = scopeVisitor.functions.toList()[2].declaration;
 
         final visitor = CyclomaticComplexityFlowVisitor();
         declaration.visitChildren(visitor);
 
         expect(visitor.complexityEntities, isEmpty);
+      });
+
+      test('function with blocks', () {
+        final declaration = scopeVisitor.functions.toList()[3].declaration;
+
+        final visitor = CyclomaticComplexityFlowVisitor();
+        declaration.visitChildren(visitor);
+
+        expect(visitor.complexityEntities, hasLength(3));
       });
     },
   );
