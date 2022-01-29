@@ -15,6 +15,11 @@ import 'reporters/unused_files_report_params.dart';
 import 'unused_files_config.dart';
 import 'unused_files_visitor.dart';
 
+const _exceptFiles = {
+  'lib/generated_plugin_registrant.dart',
+  'test/flutter_test_config.dart',
+};
+
 /// The analyzer responsible for collecting unused files reports.
 class UnusedFilesAnalyzer {
   const UnusedFilesAnalyzer();
@@ -86,14 +91,17 @@ class UnusedFilesAnalyzer {
       }
     }
 
-    return unusedFiles.map((path) {
-      final relativePath = relative(path, from: rootFolder);
+    return unusedFiles
+        .map((path) {
+          final relativePath = relative(path, from: rootFolder);
 
-      return UnusedFilesFileReport(
-        path: path,
-        relativePath: relativePath,
-      );
-    }).toSet();
+          return UnusedFilesFileReport(
+            path: path,
+            relativePath: relativePath,
+          );
+        })
+        .toSet()
+        .difference(_exceptFiles);
   }
 
   void deleteAllUnusedFiles(Iterable<UnusedFilesFileReport> reports) {
