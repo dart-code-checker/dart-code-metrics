@@ -37,7 +37,11 @@ SourceSpan nodeLocation({
 }
 
 bool isEntrypoint(String name, NodeList<Annotation> metadata) =>
-    name == 'main' || _hasPragmaAnnotation(metadata);
+    name == 'main' ||
+    _hasPragmaAnnotation(metadata) ||
+    _flutterInternalEntryFunctions.contains(name);
+
+const _flutterInternalEntryFunctions = {'registerPlugins', 'testExecutable'};
 
 /// See https://github.com/dart-lang/sdk/blob/master/runtime/docs/compiler/aot/entry_point_pragma.md
 bool _hasPragmaAnnotation(Iterable<Annotation> metadata) =>
