@@ -10,8 +10,8 @@ import '../../reporters/models/reporter.dart';
 import '../../utils/analyzer_utils.dart';
 import '../../utils/file_utils.dart';
 import 'models/unused_files_file_report.dart';
-import 'reporters/report_params.dart';
 import 'reporters/reporter_factory.dart';
+import 'reporters/unused_files_report_params.dart';
 import 'unused_files_config.dart';
 import 'unused_files_visitor.dart';
 
@@ -21,7 +21,7 @@ class UnusedFilesAnalyzer {
 
   /// Returns a reporter for the given [name]. Use the reporter
   /// to convert analysis reports to console, JSON or other supported format.
-  Reporter<UnusedFilesFileReport, void, ReportParams>? getReporter({
+  Reporter<UnusedFilesFileReport, void, UnusedFilesReportParams>? getReporter({
     required String name,
     required IOSink output,
   }) =>

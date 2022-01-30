@@ -1,5 +1,4 @@
 import 'package:dart_code_metrics/src/cli/cli_runner.dart';
-import 'package:dart_code_metrics/src/cli/commands/analyze_command.dart';
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
@@ -34,6 +33,9 @@ const _usage = 'Collect code metrics, rules and anti-patterns violations.\n'
     '                                                  (defaults to "{/**.g.dart,/**.template.dart}")\n'
     '\n'
     '\n'
+    "    --no-congratulate                             Don't show output even when there are no issues.\n"
+    '\n'
+    '\n'
     '    --set-exit-on-violation-level=<warning>       Set exit code 2 if code violations same or higher level than selected are detected.\n'
     '                                                  [noted, warning, alarm]\n'
     '    --[no-]fatal-style                            Treat style level issues as fatal.\n'
@@ -45,30 +47,30 @@ const _usage = 'Collect code metrics, rules and anti-patterns violations.\n'
 void main() {
   group('AnalyzeCommand', () {
     final runner = CliRunner();
-    final command = runner.commands['analyze'] as AnalyzeCommand;
+    final command = runner.commands['analyze'];
 
     test('should have correct name', () {
-      expect(command.name, 'analyze');
+      expect(command?.name, equals('analyze'));
     });
 
     test('should have correct description', () {
       expect(
-        command.description,
-        'Collect code metrics, rules and anti-patterns violations.',
+        command?.description,
+        equals('Collect code metrics, rules and anti-patterns violations.'),
       );
     });
 
     test('should have correct invocation', () {
       expect(
-        command.invocation,
-        'metrics analyze [arguments] <directories>',
+        command?.invocation,
+        equals('metrics analyze [arguments] <directories>'),
       );
     });
 
     test('should have correct usage', () {
       expect(
-        command.usage.replaceAll('"${p.current}"', 'current directory'),
-        _usage,
+        command?.usage.replaceAll('"${p.current}"', 'current directory'),
+        equals(_usage),
       );
     });
   });

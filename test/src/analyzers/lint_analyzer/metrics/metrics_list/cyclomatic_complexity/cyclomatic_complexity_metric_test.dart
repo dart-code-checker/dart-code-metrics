@@ -87,7 +87,7 @@ Future<void> main() async {
 
     test('empty function', () {
       final metricValue = metric.compute(
-        scopeVisitor.functions.last.declaration,
+        scopeVisitor.functions.toList()[2].declaration,
         scopeVisitor.classes,
         scopeVisitor.functions,
         example,
@@ -103,6 +103,33 @@ Future<void> main() async {
       );
       expect(metricValue.recommendation, isNull);
       expect(metricValue.context, isEmpty);
+    });
+
+    test('function with blocks', () {
+      final metricValue = metric.compute(
+        scopeVisitor.functions.toList()[3].declaration,
+        scopeVisitor.classes,
+        scopeVisitor.functions,
+        example,
+        [],
+      );
+
+      expect(metricValue.metricsId, equals(metric.id));
+      expect(metricValue.value, equals(4));
+      expect(metricValue.level, equals(MetricValueLevel.none));
+      expect(
+        metricValue.comment,
+        equals('This function has a cyclomatic complexity of 4.'),
+      );
+      expect(metricValue.recommendation, isNull);
+      expect(
+        metricValue.context.map((e) => e.message),
+        equals([
+          'Operator ?. increases complexity',
+          'Operator ?. increases complexity',
+          'Operator ?. increases complexity',
+        ]),
+      );
     });
   });
 }

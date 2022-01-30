@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:ansicolor/ansicolor.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/lint_report_params.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/console/lint_console_reporter.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
@@ -14,8 +15,8 @@ void main() {
     late IOSinkMock output; // ignore: close_sinks
     late IOSinkMock verboseOutput; // ignore: close_sinks
 
-    late LintConsoleReporter _reporter;
-    late LintConsoleReporter _verboseReporter;
+    late LintConsoleReporter reporter;
+    late LintConsoleReporter verboseReporter;
 
     setUp(() {
       output = IOSinkMock();
@@ -23,31 +24,42 @@ void main() {
 
       ansiColorDisabled = false;
 
-      _reporter = LintConsoleReporter(output);
-      _verboseReporter = LintConsoleReporter(verboseOutput, reportAll: true);
+      reporter = LintConsoleReporter(output);
+      verboseReporter = LintConsoleReporter(verboseOutput, reportAll: true);
     });
 
-    test('empty report', () async {
-      await _reporter.report([]);
-      await _verboseReporter.report([]);
+    group('empty report', () {
+      test('with congratulate param', () async {
+        const congratulate = LintReportParams(congratulate: true);
 
-      final captured = verify(
-        () => output.writeln(captureAny()),
-      ).captured.cast<String>();
-      final capturedVerbose = verify(
-        () => verboseOutput.writeln(captureAny()),
-      ).captured.cast<String>();
+        await reporter.report([], additionalParams: congratulate);
+        await verboseReporter.report([], additionalParams: congratulate);
 
-      expect(captured, equals(['\x1B[38;5;20m✔\x1B[0m no issues found!']));
-      expect(
-        capturedVerbose,
-        equals(['\x1B[38;5;20m✔\x1B[0m no issues found!']),
-      );
+        final captured =
+            verify(() => output.writeln(captureAny())).captured.cast<String>();
+        final capturedVerbose =
+            verify(() => verboseOutput.writeln(captureAny()))
+                .captured
+                .cast<String>();
+
+        expect(captured, equals(['\x1B[38;5;20m✔\x1B[0m no issues found!']));
+        expect(capturedVerbose, equals(captured));
+      });
+
+      test('without congratulate param', () async {
+        const noCongratulate = LintReportParams(congratulate: false);
+
+        await reporter.report([], additionalParams: noCongratulate);
+        await verboseReporter.report([], additionalParams: noCongratulate);
+
+        verifyNever(() => output.writeln(any()));
+        verifyNever(() => verboseOutput.writeln(any()));
+      });
     });
 
     test('complex report', () async {
-      await _reporter.report(testReport);
-      await _verboseReporter.report(testReport);
+      await reporter.report(testReport);
+      await verboseReporter.report(testReport);
 
       final captured = verify(
         () => output.writeln(captureAny()),
