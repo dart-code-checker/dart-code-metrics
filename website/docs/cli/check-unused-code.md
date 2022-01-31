@@ -31,8 +31,15 @@ Usage: metrics check-unused-code [arguments] <directories>
                                                   (defaults to "{/**.g.dart,/**.template.dart}")
 
 
-    --[no-]fatal-unused                           Treat find unused l10n as fatal.
+    --[no-]monorepo                               Treats all exported code as unused by default.
+
+
+    --[no-]fatal-unused                           Treat find unused file as fatal.
 ```
+
+## Monorepo support
+
+By default the command treats all code that exported from the package as used. To disable this behavior use `--monorepo` flag. This might be useful when all the packages in your repository only unused inside this repository and not published to pub.
 
 ## Output example {#output-example}
 

@@ -22,6 +22,9 @@ const _usage = 'Check unused code in *.dart files.\n'
     "    --no-congratulate                             Don't show output even when there are no issues.\n"
     '\n'
     '\n'
+    '    --[no-]monorepo                               Treats all exported code as unused by default.\n'
+    '\n'
+    '\n'
     '    --[no-]fatal-unused                           Treat find unused file as fatal.\n'
     '\n'
     'Run "metrics help" to see global options.';
