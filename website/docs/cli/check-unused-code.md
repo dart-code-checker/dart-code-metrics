@@ -33,6 +33,9 @@ Usage: metrics check-unused-code [arguments] <directories>
                                                   (defaults to "{/**.g.dart,/**.template.dart}")
 
 
+    --no-congratulate                             Don't show output even when there are no issues.
+
+
     --[no-]monorepo                               Treats all exported code as unused by default.
 
 
