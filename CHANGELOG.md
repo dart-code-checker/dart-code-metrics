@@ -8,6 +8,7 @@
 * fix: make `check-unused-l10n` also cover supertype member calls.
 * fix: cyclomatic complexity calculation for functions with internal lambdas.
 * chore: restrict `analyzer` version to `>=2.4.0 <3.3.0`.
+* feat: support monorepos for `check-unused-code` command.
 
 ## 4.10.0-dev.2
 

@@ -89,7 +89,9 @@ class UnusedCodeAnalyzer {
       }
     }
 
-    codeUsages.exports.forEach(publicCode.remove);
+    if (!config.isMonorepo) {
+      codeUsages.exports.forEach(publicCode.remove);
+    }
 
     return _getReports(codeUsages, publicCode, rootFolder);
   }
@@ -115,10 +117,12 @@ class UnusedCodeAnalyzer {
     String rootFolder,
     Iterable<Glob> excludes,
   ) {
-    final contextFolders = folders
-        .where((path) => normalize(join(rootFolder, path))
-            .startsWith(context.contextRoot.root.path))
-        .toList();
+    final contextFolders = folders.where((path) {
+      final newPath = normalize(join(rootFolder, path));
+
+      return newPath == context.contextRoot.root.path ||
+          context.contextRoot.root.path.startsWith('$newPath/');
+    }).toList();
 
     return extractDartFilesFromFolders(contextFolders, rootFolder, excludes);
   }

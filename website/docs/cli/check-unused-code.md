@@ -2,6 +2,8 @@
 
 Checks unused classes, functions, top level variables, extensions, enums, mixins and type aliases.
 
+**Note:** current implementation doesn't check for particular class methods usage. Also, it treats code, that is imported with not named conditional imports as unused. This will be fixed in the future releases.
+
 To execute the command, run
 
 ```sh
@@ -31,8 +33,18 @@ Usage: metrics check-unused-code [arguments] <directories>
                                                   (defaults to "{/**.g.dart,/**.template.dart}")
 
 
-    --[no-]fatal-unused                           Treat find unused l10n as fatal.
+    --no-congratulate                             Don't show output even when there are no issues.
+
+
+    --[no-]monorepo                               Treats all exported code as unused by default.
+
+
+    --[no-]fatal-unused                           Treat find unused file as fatal.
 ```
+
+## Monorepo support
+
+By default the command treats all code that exported from the package as used. To disable this behavior use `--monorepo` flag. This might be useful when all the packages in your repository only unused inside this repository and not published to pub.
 
 ## Output example {#output-example}
 
