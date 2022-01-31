@@ -43,6 +43,9 @@ Usage: metrics analyze [arguments...] <directories>
                                                   (defaults to "{/**.g.dart,/**.template.dart}")
 
 
+    --no-congratulate                             Don't show output even when there are no issues.
+
+
     --set-exit-on-violation-level=<warning>       Set exit code 2 if code violations 
                                                   have the same or higher level
                                                   [none, warning, alarm]
