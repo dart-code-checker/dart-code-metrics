@@ -120,7 +120,8 @@ The package can be used as CLI and supports multiple commands:
 | ------------------ | --------------------------------------------------------- | --------------------------------------------------------- |
 | analyze            | dart run dart_code_metrics:metrics analyze lib            | Reports code metrics, rules and anti-patterns violations. |
 | check-unused-files | dart run dart_code_metrics:metrics check-unused-files lib | Checks unused \*.dart files.                              |
-| check-unused-l10n  | dart run dart_code_metrics:metrics check-unused-l10n lib  | Check unused localization in *.dart files.                |
+| check-unused-l10n  | dart run dart_code_metrics:metrics check-unused-l10n lib  | Check unused localization in \*.dart files.               |
+| check-unused-code  | dart run dart_code_metrics:metrics check-unused-code lib  | Checks unused code in \*.dart files.                      |
 
 For additional help on any of the commands, enter `dart run dart_code_metrics:metrics help <command>`
 
