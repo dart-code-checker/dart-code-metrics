@@ -12,7 +12,8 @@ module.exports = {
   trailingSlash: false,
   themeConfig: {
     algolia: {
-      apiKey: '77b6353dcfcae7da42fcb75524a90002',
+      appId: 'Q3534T5ZJ0',
+      apiKey: '66c0ccc5277ab9519e66226ddb05bf50',
       indexName: 'dartcodemetrics',
     },
     prism: {

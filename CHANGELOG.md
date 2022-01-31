@@ -4,7 +4,9 @@
 
 * feat: add new command flag `--no-congratulate`.
 * feat: add `--version` flag to print current version of the package.
+* feat: improve `check-unused-files` and `check-unused-code` commands, add support for flutter internal entry functions.
 * fix: make `check-unused-l10n` also cover supertype member calls.
+* fix: cyclomatic complexity calculation for functions with internal lambdas.
 * chore: restrict `analyzer` version to `>=2.4.0 <3.3.0`.
 * feat: support monorepos for `check-unused-code` command.
 

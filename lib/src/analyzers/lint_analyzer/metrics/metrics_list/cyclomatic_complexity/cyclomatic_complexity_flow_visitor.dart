@@ -15,7 +15,7 @@ class CyclomaticComplexityFlowVisitor extends RecursiveAstVisitor<void> {
     TokenType.QUESTION_QUESTION_EQ,
   ];
 
-  final _complexityEntities = <SyntacticEntity>[];
+  final _complexityEntities = <SyntacticEntity>{};
 
   /// Returns an array of entities that increase cyclomatic complexity.
   Iterable<SyntacticEntity> get complexityEntities => _complexityEntities;
