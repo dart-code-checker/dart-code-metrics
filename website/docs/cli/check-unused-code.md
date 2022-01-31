@@ -2,6 +2,8 @@
 
 Checks unused classes, functions, top level variables, extensions, enums, mixins and type aliases.
 
+**Note:** current implementation doesn't check for particular class methods usage. Also, it treats code, that is imported with not named conditional imports as unused. This will be fixed in the future releases.
+
 To execute the command, run
 
 ```sh
