@@ -38,7 +38,9 @@ class CliRunner extends CommandRunner<void> {
   @override
   Future<void> run(Iterable<String> args) async {
     try {
-      final results = parse(args);
+      final argsWithDefaultCommand = _addDefaultCommand(args);
+
+      final results = parse(argsWithDefaultCommand);
       final showVersion = results[FlagNames.version] as bool;
 
       if (showVersion) {
@@ -47,7 +49,7 @@ class CliRunner extends CommandRunner<void> {
         return;
       }
 
-      await super.run(_addDefaultCommand(args));
+      await super.run(argsWithDefaultCommand);
     } on UsageException catch (e) {
       _output
         ..writeln(e.message)

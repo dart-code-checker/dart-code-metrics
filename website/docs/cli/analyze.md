@@ -374,7 +374,7 @@ code_quality:
   before_script:
     - dart pub global activate dart_code_metrics
   script:
-    - dart pub global run dart_code_metrics:metrics lib -r gitlab > code-quality-report.json
+    - dart pub global run dart_code_metrics:metrics analyze lib -r gitlab > code-quality-report.json
   artifacts:
     reports:
       codequality: code-quality-report.json
