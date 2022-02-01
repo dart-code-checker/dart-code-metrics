@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.10.1
+
+* fix: restore `analyze` command as default command.
+
 ## 4.10.0
 
 * feat: add `check-unused-code` command with monorepos support.
