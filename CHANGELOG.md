@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+* fix: move byte store out of driver creation to reuse it between multiple plugins.
+
+## Unreleased
+
 * feat: add new command flag `--no-congratulate`.
 * feat: add `--version` flag to print current version of the package.
 * feat: improve `check-unused-files` and `check-unused-code` commands, add support for flutter internal entry functions.
