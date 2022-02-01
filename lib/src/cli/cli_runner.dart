@@ -37,17 +37,19 @@ class CliRunner extends CommandRunner<void> {
   /// Main entry point for running a command
   @override
   Future<void> run(Iterable<String> args) async {
-    final results = parse(args);
-    final showVersion = results[FlagNames.version] as bool;
-
-    if (showVersion) {
-      _output.writeln('Dart Code Metrics version: $packageVersion');
-
-      return;
-    }
-
     try {
-      await super.run(_addDefaultCommand(args));
+      final argsWithDefaultCommand = _addDefaultCommand(args);
+
+      final results = parse(argsWithDefaultCommand);
+      final showVersion = results[FlagNames.version] as bool;
+
+      if (showVersion) {
+        _output.writeln('Dart Code Metrics version: $packageVersion');
+
+        return;
+      }
+
+      await super.run(argsWithDefaultCommand);
     } on UsageException catch (e) {
       _output
         ..writeln(e.message)

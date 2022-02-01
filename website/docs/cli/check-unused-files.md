@@ -29,6 +29,9 @@ Usage: metrics check-unused-files [arguments...] <directories>
                                                   (defaults to "{/**.g.dart,/**.template.dart}")
 
 
+    --no-congratulate                             Don't show output even when there are no issues.
+
+
     --[no-]fatal-unused                           Treat find unused file as fatal.
 
 -d, --[no-]delete-files                           Delete all unused files.

@@ -54,6 +54,9 @@ Usage: metrics check-unused-l10n [arguments] <directories>
                                                   (defaults to "{/**.g.dart,/**.template.dart}")
 
 
+    --no-congratulate                             Don't show output even when there are no issues.
+
+
     --[no-]fatal-unused                           Treat find unused l10n as fatal.
 ```
 
