@@ -6,7 +6,6 @@ import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/element/element.dart';
 // ignore: implementation_imports
 import 'package:analyzer/src/dart/element/element.dart';
-import 'package:glob/glob.dart';
 import 'package:path/path.dart';
 import 'package:source_span/source_span.dart';
 
@@ -14,7 +13,6 @@ import '../../config_builder/config_builder.dart';
 import '../../config_builder/models/analysis_options.dart';
 import '../../reporters/models/reporter.dart';
 import '../../utils/analyzer_utils.dart';
-import '../../utils/file_utils.dart';
 import 'models/file_elements_usage.dart';
 import 'models/unused_code_file_report.dart';
 import 'models/unused_code_issue.dart';
