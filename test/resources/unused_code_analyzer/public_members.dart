@@ -160,3 +160,9 @@ typedef Hello = String;
 
 // LINT
 typedef World = int;
+
+const double _kMenuVerticalPadding = 1;
+
+void setPadding() {
+  const padding = _kMenuVerticalPadding;
+}

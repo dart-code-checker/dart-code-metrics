@@ -149,7 +149,8 @@ class UsedCodeVisitor extends RecursiveAstVisitor<void> {
     }
 
     // Declarations are not a sign of usage.
-    if (identifier.parent is Declaration) {
+    if (identifier.parent is Declaration &&
+        !_isVariableDeclarationInitializer(identifier.parent, identifier)) {
       return;
     }
 
@@ -202,4 +203,10 @@ class UsedCodeVisitor extends RecursiveAstVisitor<void> {
       return previousValue;
     });
   }
+
+  bool _isVariableDeclarationInitializer(
+    AstNode? target,
+    SimpleIdentifier identifier,
+  ) =>
+      target is VariableDeclaration && target.initializer == identifier;
 }
