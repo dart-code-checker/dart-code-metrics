@@ -6,12 +6,12 @@ import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:collection/collection.dart';
 
+import '../../../../../utils/flutter_types_utils.dart';
 import '../../../../../utils/node_utils.dart';
 import '../../../lint_utils.dart';
 import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
 import '../../../models/severity.dart';
-import '../../flutter_rule_utils.dart';
 import '../../models/flutter_rule.dart';
 import '../../rule_utils.dart';
 

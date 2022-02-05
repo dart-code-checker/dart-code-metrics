@@ -166,3 +166,20 @@ const double _kMenuVerticalPadding = 1;
 void setPadding() {
   const padding = _kMenuVerticalPadding;
 }
+
+// LINT
+class MyOtherWidget extends StatefulWidget {
+  MyOtherWidget();
+
+  @override
+  _MyOtherWidgetState createState() => _MyOtherWidgetState();
+}
+
+class _MyOtherWidgetState extends BaseState<MyOtherWidget> {
+  @override
+  Widget build(BuildContext context) => ElevatedButton(
+        onPressed: () {},
+        onLongPress: () {},
+        child: Text('PRESS'),
+      );
+}

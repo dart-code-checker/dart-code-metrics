@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* fix: ignore a class usage inside `State<T>` for `check-unused-code` command.
 * fix: correctly handle variables declaration for `check-unused-code` command.
 
 ## 4.10.1
