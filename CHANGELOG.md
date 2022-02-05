@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* fix: add `monorepo` flag for `check-unused-code` command.
+
 ## 4.10.1
 
 * fix: restore `analyze` command as default command.
