@@ -61,7 +61,7 @@ class UnusedCodeAnalyzer {
 
       final excludes = unusedCodeAnalysisConfig.globalExcludes
           .followedBy(unusedCodeAnalysisConfig.analyzerExcludedPatterns);
-      final filePaths = _getFilePaths(folders, context, rootFolder, excludes);
+      final filePaths = getFilePaths(folders, context, rootFolder, excludes);
 
       final analyzedFiles =
           filePaths.intersection(context.contextRoot.analyzedFiles().toSet());
@@ -109,22 +109,6 @@ class UnusedCodeAnalyzer {
             .merge(config);
 
     return ConfigBuilder.getUnusedCodeConfig(contextConfig, rootFolder);
-  }
-
-  Set<String> _getFilePaths(
-    Iterable<String> folders,
-    AnalysisContext context,
-    String rootFolder,
-    Iterable<Glob> excludes,
-  ) {
-    final contextFolders = folders.where((path) {
-      final newPath = normalize(join(rootFolder, path));
-
-      return newPath == context.contextRoot.root.path ||
-          context.contextRoot.root.path.startsWith('$newPath/');
-    }).toList();
-
-    return extractDartFilesFromFolders(contextFolders, rootFolder, excludes);
   }
 
   FileElementsUsage? _analyzeFileCodeUsages(SomeResolvedUnitResult unit) {
