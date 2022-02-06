@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* feat: add static code diagnostic `avoid-dynamic`.
+
 ## 4.10.1
 
 * fix: restore `analyze` command as default command.
