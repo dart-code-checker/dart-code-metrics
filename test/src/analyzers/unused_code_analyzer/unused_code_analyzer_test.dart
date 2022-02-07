@@ -89,7 +89,7 @@ void main() {
             (report) => report.path.endsWith('public_members.dart'),
           );
 
-          expect(report.issues.length, 7);
+          expect(report.issues, hasLength(8));
 
           final firstIssue = report.issues.first;
           expect(firstIssue.declarationName, 'printInteger');
@@ -132,6 +132,12 @@ void main() {
           expect(seventhIssue.declarationType, 'type alias');
           expect(seventhIssue.location.line, 162);
           expect(seventhIssue.location.column, 1);
+
+          final eightsIssue = report.issues.elementAt(7);
+          expect(eightsIssue.declarationName, 'MyOtherWidget');
+          expect(eightsIssue.declarationType, 'class');
+          expect(eightsIssue.location.line, 171);
+          expect(eightsIssue.location.column, 1);
         });
       });
 
