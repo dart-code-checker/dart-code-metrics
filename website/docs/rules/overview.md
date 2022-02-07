@@ -103,6 +103,10 @@ Rules configuration is [described here](../getting-started/configuration#configu
 
     Warns when a class member is declared with Object type.
 
+- [prefer-async-await](./common/prefer-async-await.md)
+
+    Recommends to use async/await syntax to handle Futures result instead of `.then()` invocation.
+
 - [prefer-conditional-expressions](./common/prefer-conditional-expressions.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 
     Recommends to use a conditional expression instead of assigning to the same thing or return statement in each branch of an if statement.

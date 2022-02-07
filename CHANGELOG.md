@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-* feat: add static code diagnostic `avoid-dynamic`.
+* feat: add static code diagnostics `avoid-dynamic`, `prefer-async-await`.
 
 ## 4.10.1
 
