@@ -37,7 +37,7 @@ class PreferAsyncAwaitRule extends CommonRule {
               location: nodeLocation(
                 node: invocation,
                 source: source,
-                withCommentOrMetadata: true,
+                withCommentOrMetadata: false,
               ),
               message: _warningMessage,
             ))
