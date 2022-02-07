@@ -3,6 +3,7 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/element/type.dart';
 
+import '../../../../utils/flutter_types_utils.dart';
 import '../../../../utils/node_utils.dart';
 import '../../lint_utils.dart';
 import '../../metrics/metric_utils.dart';
@@ -15,7 +16,6 @@ import '../../models/report.dart';
 import '../../models/scoped_class_declaration.dart';
 import '../../models/scoped_function_declaration.dart';
 import '../../models/severity.dart';
-import '../../rules/flutter_rule_utils.dart';
 import '../models/pattern.dart';
 import '../pattern_utils.dart';
 

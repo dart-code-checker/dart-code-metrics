@@ -4,6 +4,7 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/dart/element/element.dart';
 
+import '../../utils/flutter_types_utils.dart';
 import 'models/file_elements_usage.dart';
 import 'models/prefix_element_usage.dart';
 
@@ -149,7 +150,13 @@ class UsedCodeVisitor extends RecursiveAstVisitor<void> {
     }
 
     // Declarations are not a sign of usage.
-    if (identifier.parent is Declaration) {
+    if (identifier.parent is Declaration &&
+        !_isVariableDeclarationInitializer(identifier.parent, identifier)) {
+      return;
+    }
+
+    // Usage in State<WidgetClassName> is not a sing of usage.
+    if (_isUsedAsNamedTypeForWidgetState(identifier)) {
       return;
     }
 
@@ -201,5 +208,18 @@ class UsedCodeVisitor extends RecursiveAstVisitor<void> {
 
       return previousValue;
     });
+  }
+
+  bool _isVariableDeclarationInitializer(
+    AstNode? target,
+    SimpleIdentifier identifier,
+  ) =>
+      target is VariableDeclaration && target.initializer == identifier;
+
+  bool _isUsedAsNamedTypeForWidgetState(SimpleIdentifier identifier) {
+    final grandGrandParent = identifier.parent?.parent?.parent;
+
+    return grandGrandParent is NamedType &&
+        isWidgetStateOrSubclass(grandGrandParent.type);
   }
 }
