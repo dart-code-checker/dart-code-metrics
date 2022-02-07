@@ -89,7 +89,7 @@ void main() {
             (report) => report.path.endsWith('public_members.dart'),
           );
 
-          expect(report.issues.length, 8);
+          expect(report.issues, hasLength(8));
 
           final firstIssue = report.issues.first;
           expect(firstIssue.declarationName, 'printInteger');
