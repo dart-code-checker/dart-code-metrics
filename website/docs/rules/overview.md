@@ -11,6 +11,10 @@ Rules configuration is [described here](../getting-started/configuration#configu
 
 ## Common {#common}
 
+- [avoid-dynamic](./common/avoid-dynamic.md)
+
+    Warns when `dynamic` type is used as variable type in declaration, return type of a function, etc.
+
 - [avoid-global-state](./common/avoid-global-state.md)
 
     Warns about usage mutable global variables.
