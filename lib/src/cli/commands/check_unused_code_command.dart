@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import '../../analyzers/unused_code_analyzer/reporters/unused_code_report_params.dart';
 import '../../analyzers/unused_code_analyzer/unused_code_analyzer.dart';
 import '../../config_builder/config_builder.dart';
 import '../models/flag_names.dart';
@@ -30,8 +31,13 @@ class CheckUnusedCodeCommand extends BaseCommand {
     final folders = argResults.rest;
     final excludePath = argResults[FlagNames.exclude] as String;
     final reporterName = argResults[FlagNames.reporter] as String;
+    final isMonorepo = argResults[FlagNames.isMonorepo] as bool;
+    final noCongratulate = argResults[FlagNames.noCongratulate] as bool;
 
-    final config = ConfigBuilder.getUnusedCodeConfigFromArgs([excludePath]);
+    final config = ConfigBuilder.getUnusedCodeConfigFromArgs(
+      [excludePath],
+      isMonorepo: isMonorepo,
+    );
 
     final unusedCodeResult = await _analyzer.runCliAnalysis(
       folders,
@@ -45,7 +51,11 @@ class CheckUnusedCodeCommand extends BaseCommand {
           name: reporterName,
           output: stdout,
         )
-        ?.report(unusedCodeResult);
+        ?.report(
+          unusedCodeResult,
+          additionalParams:
+              UnusedCodeReportParams(congratulate: !noCongratulate),
+        );
 
     if (unusedCodeResult.isNotEmpty &&
         (argResults[FlagNames.fatalOnUnused] as bool)) {
@@ -56,6 +66,7 @@ class CheckUnusedCodeCommand extends BaseCommand {
   void _addFlags() {
     _usesReporterOption();
     addCommonFlags();
+    _usesIsMonorepoOption();
     _usesExitOption();
   }
 
@@ -72,6 +83,15 @@ class CheckUnusedCodeCommand extends BaseCommand {
           FlagNames.jsonReporter,
         ],
         defaultsTo: FlagNames.consoleReporter,
+      );
+  }
+
+  void _usesIsMonorepoOption() {
+    argParser
+      ..addSeparator('')
+      ..addFlag(
+        FlagNames.isMonorepo,
+        help: 'Treats all exported code as unused by default.',
       );
   }
 

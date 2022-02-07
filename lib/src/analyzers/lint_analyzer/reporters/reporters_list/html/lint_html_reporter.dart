@@ -11,6 +11,7 @@ import '../../../metrics/metrics_list/technical_debt/technical_debt_metric.dart'
 import '../../../metrics/models/metric_value_level.dart';
 import '../../../models/lint_file_report.dart';
 import '../../../models/summary_lint_report_record.dart';
+import '../../lint_report_params.dart';
 import '../../utility_selector.dart';
 import 'components/icon.dart';
 import 'components/issue_details_tooltip.dart';
@@ -53,14 +54,14 @@ const _designIssues = 'Design issues';
 ///
 /// Use it to create reports in HTML format.
 class LintHtmlReporter extends HtmlReporter<LintFileReport,
-    SummaryLintReportRecord<Object>, void> {
+    SummaryLintReportRecord<Object>, LintReportParams> {
   LintHtmlReporter(String reportFolder) : super(reportFolder);
 
   @override
   Future<void> report(
     Iterable<LintFileReport> records, {
     Iterable<SummaryLintReportRecord<Object>> summary = const [],
-    void additionalParams,
+    LintReportParams? additionalParams,
   }) async {
     await super.report(records);
 

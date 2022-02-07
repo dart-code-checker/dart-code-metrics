@@ -68,6 +68,11 @@ void main() {
 
     test('getMetricMessage returns formatted message', () {
       expect(
+        helper.getMetricMessage(MetricValueLevel.alarm, 'Class.method', []),
+        isEmpty,
+      );
+
+      expect(
         helper.getMetricMessage(
           MetricValueLevel.alarm,
           'Class.method',

@@ -1,4 +1,5 @@
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/lint_config.dart';
+import 'package:dart_code_metrics/src/cli/models/parsed_arguments.dart';
 import 'package:dart_code_metrics/src/config_builder/models/analysis_options.dart';
 import 'package:test/test.dart';
 
@@ -132,6 +133,47 @@ void main() {
             'rule-id3': <String, Object>{},
           }),
         );
+      });
+    });
+
+    group('fromArgs constructs instance from passed', () {
+      test('empty arguments', () {
+        final config = LintConfig.fromArgs(
+          const ParsedArguments(excludePath: '', metricsConfig: {}),
+        );
+
+        expect(config.excludePatterns, isEmpty);
+        expect(config.excludeForMetricsPatterns, isEmpty);
+        expect(config.metrics, isEmpty);
+        expect(config.excludeForRulesPatterns, isEmpty);
+        expect(config.rules, isEmpty);
+      });
+
+      test('data', () {
+        final config = LintConfig.fromArgs(
+          const ParsedArguments(
+            excludePath: 'test/resources/**',
+            metricsConfig: {
+              'cyclomatic-complexity': '5',
+              'halstead-volume': '10',
+              'maximum-nesting-level': '5',
+              'metric-id4': '0',
+            },
+          ),
+        );
+
+        expect(config.excludePatterns, equals(['test/resources/**']));
+        expect(config.excludeForMetricsPatterns, isEmpty);
+        expect(
+          config.metrics,
+          equals({
+            'cyclomatic-complexity': '5',
+            'halstead-volume': '10',
+            'maximum-nesting-level': '5',
+          }),
+        );
+        expect(config.excludeForRulesPatterns, isEmpty);
+        expect(config.rules, isEmpty);
       });
     });
 

@@ -4,10 +4,12 @@ import '../../config_builder/models/analysis_options.dart';
 class UnusedCodeConfig {
   final Iterable<String> excludePatterns;
   final Iterable<String> analyzerExcludePatterns;
+  final bool isMonorepo;
 
   const UnusedCodeConfig({
     required this.excludePatterns,
     required this.analyzerExcludePatterns,
+    required this.isMonorepo,
   });
 
   /// Creates the config from analysis [options].
@@ -16,13 +18,18 @@ class UnusedCodeConfig {
         excludePatterns: const [],
         analyzerExcludePatterns:
             options.readIterableOfString(['analyzer', 'exclude']),
+        isMonorepo: false,
       );
 
   /// Creates the config from cli args.
-  factory UnusedCodeConfig.fromArgs(Iterable<String> excludePatterns) =>
+  factory UnusedCodeConfig.fromArgs(
+    Iterable<String> excludePatterns, {
+    required bool isMonorepo,
+  }) =>
       UnusedCodeConfig(
         excludePatterns: excludePatterns,
         analyzerExcludePatterns: const [],
+        isMonorepo: isMonorepo,
       );
 
   /// Merges two configs into a single one.
@@ -35,5 +42,6 @@ class UnusedCodeConfig {
           ...analyzerExcludePatterns,
           ...overrides.analyzerExcludePatterns,
         },
+        isMonorepo: isMonorepo || overrides.isMonorepo,
       );
 }

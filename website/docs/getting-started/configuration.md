@@ -26,7 +26,7 @@ Basic config example:
 dart_code_metrics:
   metrics:
     cyclomatic-complexity: 20
-    number-of-arguments: 4
+    number-of-parameters: 4
     maximum-nesting-level: 5
   metrics-exclude:
     - test/**

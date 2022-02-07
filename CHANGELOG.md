@@ -3,6 +3,22 @@
 ## Unreleased
 
 * feat: add static code diagnostics `format-comment`.
+* feat: add static code diagnostic `avoid-dynamic`.
+
+## 4.10.1
+
+* fix: restore `analyze` command as default command.
+
+## 4.10.0
+
+* feat: add `check-unused-code` command with monorepos support.
+* feat: support excludes for a separate anti-pattern.
+* feat: improve `check-unused-l10n` command, ignore private members and cover supertype member calls.
+* feat: add new command flag `--no-congratulate`.
+* feat: add `--version` flag to print current version of the package.
+* feat: support Flutter internal entry functions for `check-unused-files` and `check-unused-code`.
+* fix: cyclomatic complexity calculation for functions with internal lambdas.
+* fix: ignore private variables in `avoid-global-state` rule.
 * chore: restrict `analyzer` version to `>=2.4.0 <3.3.0`.
 * fix: make `check-unused-l10n` also cover supertype member calls.
 

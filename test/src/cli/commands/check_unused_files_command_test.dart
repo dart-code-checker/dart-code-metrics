@@ -1,5 +1,4 @@
 import 'package:dart_code_metrics/src/cli/cli_runner.dart';
-import 'package:dart_code_metrics/src/cli/commands/check_unused_files_command.dart';
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
@@ -20,6 +19,9 @@ const _usage = 'Check unused *.dart files.\n'
     '                                                  (defaults to "{/**.g.dart,/**.template.dart}")\n'
     '\n'
     '\n'
+    "    --no-congratulate                             Don't show output even when there are no issues.\n"
+    '\n'
+    '\n'
     '    --[no-]fatal-unused                           Treat find unused file as fatal.\n'
     '\n'
     '\n'
@@ -30,31 +32,27 @@ const _usage = 'Check unused *.dart files.\n'
 void main() {
   group('CheckUnusedFilesCommand', () {
     final runner = CliRunner();
-    final command =
-        runner.commands['check-unused-files'] as CheckUnusedFilesCommand;
+    final command = runner.commands['check-unused-files'];
 
     test('should have correct name', () {
-      expect(command.name, 'check-unused-files');
+      expect(command?.name, equals('check-unused-files'));
     });
 
     test('should have correct description', () {
-      expect(
-        command.description,
-        'Check unused *.dart files.',
-      );
+      expect(command?.description, equals('Check unused *.dart files.'));
     });
 
     test('should have correct invocation', () {
       expect(
-        command.invocation,
-        'metrics check-unused-files [arguments] <directories>',
+        command?.invocation,
+        equals('metrics check-unused-files [arguments] <directories>'),
       );
     });
 
     test('should have correct usage', () {
       expect(
-        command.usage.replaceAll('"${p.current}"', 'current directory'),
-        _usage,
+        command?.usage.replaceAll('"${p.current}"', 'current directory'),
+        equals(_usage),
       );
     });
   });
