@@ -1,4 +1,4 @@
-part of '../format_comment_rule.dart';
+part of '../format_single_line_comment_rule.dart';
 
 class CommentInfo {
   final Token token;

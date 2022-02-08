@@ -18,12 +18,13 @@ part 'models/comment_type.dart';
 
 part 'visitor.dart';
 
-class FormatCommentRule extends CommonRule {
-  static const String ruleId = 'format-comment';
+class FormatSingleLineCommentRule extends CommonRule {
+  static const String ruleId = 'format-single-line-comment';
 
-  static const _warning = 'Prefer formatting comments like sentences.';
+  static const _warning =
+      'Prefer formatting single-line comments like sentences.';
 
-  FormatCommentRule([Map<String, Object> config = const {}])
+  FormatSingleLineCommentRule([Map<String, Object> config = const {}])
       : super(
           id: ruleId,
           severity: readSeverity(config, Severity.style),
@@ -48,27 +49,34 @@ class FormatCommentRule extends CommonRule {
     ];
   }
 
-  Replacement _createReplacement(CommentInfo commentType) {
-    final comment = commentType.token.toString();
-    var resultString = comment;
+  Replacement _createReplacement(CommentInfo commentInfo) {
+    final commentToken = commentInfo.token;
+    var resultString = commentToken.toString();
 
-    switch (commentType.type) {
+    switch (commentInfo.type) {
       case CommentType.base:
-        final subString = formatComment(comment.substring(2, comment.length));
+        String subString;
+
+        final isHasNextComment = commentToken.next != null &&
+            commentToken.next!.type == TokenType.SINGLE_LINE_COMMENT &&
+            commentToken.next!.offset ==
+                commentToken.offset + resultString.length + 1;
+
+        subString = isHasNextComment
+            ? resultString.substring(2, resultString.length).trim().capitalize()
+            : formatComment(resultString.substring(2, resultString.length));
+
         resultString = '// $subString';
         break;
       case CommentType.documentation:
-        final subString = formatComment(comment.substring(3, comment.length));
+        final subString =
+            formatComment(resultString.substring(3, resultString.length));
         resultString = '/// $subString';
         break;
-      case CommentType.multiline:
-        final subString =
-            formatComment(comment.substring(2, comment.length - 2));
-        resultString = '/* $subString*/';
     }
 
     return Replacement(
-      comment: 'Format comments like sentences',
+      comment: 'Format single line comment like sentences',
       replacement: resultString,
     );
   }

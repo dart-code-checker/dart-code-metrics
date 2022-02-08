@@ -1,7 +1,4 @@
 // With start space without dot
-/* With start space without dot*/
-/*Without start space without dot*/
-/* with start space with dot.*/
 class Test {
   //Without start space without dot
   Test() {
@@ -12,18 +9,6 @@ class Test {
   function() {
     /// with start space with dot.
   }
-}
-//
-/**/
-///
-/*
-
-*/
 // ignore:
+}
 // ignore_for_file:
-//ignore_for_file
-//ignore
-/* with start space
-with dot.*/
-//Test multiline comment
-//second row
