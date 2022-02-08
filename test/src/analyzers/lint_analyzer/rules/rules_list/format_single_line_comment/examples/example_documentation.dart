@@ -7,7 +7,7 @@ class Box {
 }
 
 //not if there is nothing before it
-if (_chunks.isEmpty) return false;
+test() => false;
 
 void greet(String name) {
   // assume we have a valid name.
@@ -15,5 +15,4 @@ void greet(String name) {
 }
 
 /// deletes the file at [path] from the file system.
-void delete(String path) {
-}
+void delete(String path) {}
