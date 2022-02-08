@@ -24,4 +24,6 @@ void main() {
   SomeEnum.hello;
 
   config.calculateResults();
+
+  setPadding();
 }
