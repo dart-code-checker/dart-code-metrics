@@ -2,16 +2,16 @@
 
 import 'dart:async';
 
-import 'package:analyzer/dart/analysis/context_builder.dart';
 import 'package:analyzer/dart/analysis/context_locator.dart';
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/file_system/file_system.dart';
+import 'package:analyzer/file_system/physical_file_system.dart';
 // ignore: implementation_imports
 import 'package:analyzer/src/analysis_options/analysis_options_provider.dart';
 // ignore: implementation_imports
-import 'package:analyzer/src/dart/analysis/driver.dart';
+import 'package:analyzer/src/dart/analysis/context_builder.dart';
 // ignore: implementation_imports
-import 'package:analyzer/src/dart/analysis/driver_based_analysis_context.dart';
+import 'package:analyzer/src/dart/analysis/driver.dart';
 import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
 
@@ -21,8 +21,11 @@ import '../analyzers/lint_analyzer/metrics/metrics_list/number_of_parameters_met
 import '../analyzers/lint_analyzer/metrics/metrics_list/source_lines_of_code/source_lines_of_code_metric.dart';
 import '../config_builder/config_builder.dart';
 import '../config_builder/models/analysis_options.dart';
+import '../utils/analyzer_utils.dart';
 import '../utils/yaml_utils.dart';
 import 'analyzer_plugin_utils.dart';
+
+final _byteStore = createByteStore(PhysicalResourceProvider.INSTANCE);
 
 class AnalyzerPlugin extends ServerPlugin {
   static const _analyzer = LintAnalyzer();
@@ -72,9 +75,11 @@ class AnalyzerPlugin extends ServerPlugin {
       throw error;
     }
 
-    final builder = ContextBuilder(resourceProvider: resourceProvider);
-    final context = builder.createContext(contextRoot: locator.first)
-        as DriverBasedAnalysisContext;
+    final builder = ContextBuilderImpl(resourceProvider: resourceProvider);
+    final context = builder.createContext(
+      contextRoot: locator.first,
+      byteStore: _byteStore,
+    );
     final dartDriver = context.driver;
     final config = _createConfig(dartDriver, rootPath);
 

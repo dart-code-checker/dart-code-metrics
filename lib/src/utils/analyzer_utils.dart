@@ -22,7 +22,7 @@ AnalysisContextCollection createAnalysisContextCollection(
     includedPaths:
         folders.map((path) => normalize(join(rootFolder, path))).toList(),
     resourceProvider: resourceProvider,
-    byteStore: _createByteStore(resourceProvider),
+    byteStore: createByteStore(resourceProvider),
   );
 }
 
@@ -44,7 +44,7 @@ Set<String> getFilePaths(
 
 /// If the state location can be accessed, return the file byte store,
 /// otherwise return the memory byte store.
-ByteStore _createByteStore(PhysicalResourceProvider resourceProvider) {
+ByteStore createByteStore(PhysicalResourceProvider resourceProvider) {
   const M = 1024 * 1024 /*1 MiB*/;
   const G = 1024 * 1024 * 1024 /*1 GiB*/;
 
