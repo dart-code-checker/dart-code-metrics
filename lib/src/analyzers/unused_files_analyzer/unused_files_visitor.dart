@@ -6,13 +6,14 @@ import 'package:analyzer/dart/ast/visitor.dart';
 import '../../utils/node_utils.dart';
 
 class UnusedFilesVisitor extends GeneralizingAstVisitor<void> {
-  final String _currentFilePath;
+  final String currentFilePath;
+  final bool ignoreExports;
 
   final _paths = <String>[];
 
   Iterable<String> get paths => _paths;
 
-  UnusedFilesVisitor(this._currentFilePath);
+  UnusedFilesVisitor(this.currentFilePath, {required this.ignoreExports});
 
   @override
   void visitUriBasedDirective(UriBasedDirective node) {
@@ -32,15 +33,17 @@ class UnusedFilesVisitor extends GeneralizingAstVisitor<void> {
       }
     }
 
-    if (node is ExportDirective && !_paths.contains(_currentFilePath)) {
-      _paths.add(_currentFilePath);
+    if (!ignoreExports &&
+        node is ExportDirective &&
+        !_paths.contains(currentFilePath)) {
+      _paths.add(currentFilePath);
     }
   }
 
   @override
   void visitFunctionDeclaration(FunctionDeclaration node) {
     if (isEntrypoint(node.name.name, node.metadata)) {
-      _paths.add(_currentFilePath);
+      _paths.add(currentFilePath);
     }
   }
 }

@@ -100,7 +100,7 @@ class CheckUnusedCodeCommand extends BaseCommand {
       ..addSeparator('')
       ..addFlag(
         FlagNames.fatalOnUnused,
-        help: 'Treat find unused file as fatal.',
+        help: 'Treat find unused code as fatal.',
 // TODO(dkrutrkikh): activate on next major version
 //        defaultsTo: true,
       );

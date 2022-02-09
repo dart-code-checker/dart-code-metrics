@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* fix: add `monorepo` flag for `check-unused-code` command.
 * fix: ignore a class usage inside `State<T>` for `check-unused-code` command.
 * fix: correctly handle variables declaration for `check-unused-code` command.
 * feat: add static code diagnostics `avoid-dynamic`, `prefer-async-await`.

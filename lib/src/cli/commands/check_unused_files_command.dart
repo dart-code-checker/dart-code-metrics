@@ -31,11 +31,14 @@ class CheckUnusedFilesCommand extends BaseCommand {
     final folders = argResults.rest;
     final excludePath = argResults[FlagNames.exclude] as String;
     final reporterName = argResults[FlagNames.reporter] as String;
-
+    final isMonorepo = argResults[FlagNames.isMonorepo] as bool;
     final noCongratulate = argResults[FlagNames.noCongratulate] as bool;
     final deleteFiles = argResults[FlagNames.deleteFiles] as bool;
 
-    final config = ConfigBuilder.getUnusedFilesConfigFromArgs([excludePath]);
+    final config = ConfigBuilder.getUnusedFilesConfigFromArgs(
+      [excludePath],
+      isMonorepo: isMonorepo,
+    );
 
     final unusedFilesResult = await _analyzer.runCliAnalysis(
       folders,
@@ -70,6 +73,7 @@ class CheckUnusedFilesCommand extends BaseCommand {
   void _addFlags() {
     _usesReporterOption();
     addCommonFlags();
+    _usesIsMonorepoOption();
     _usesExitOption();
     _usesDeleteUnusedFiles();
   }
@@ -87,6 +91,15 @@ class CheckUnusedFilesCommand extends BaseCommand {
           FlagNames.jsonReporter,
         ],
         defaultsTo: FlagNames.consoleReporter,
+      );
+  }
+
+  void _usesIsMonorepoOption() {
+    argParser
+      ..addSeparator('')
+      ..addFlag(
+        FlagNames.isMonorepo,
+        help: 'Treats all exported files as unused by default.',
       );
   }
 
