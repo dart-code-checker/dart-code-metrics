@@ -3,6 +3,10 @@
 ## Unreleased
 
 * fix: move byte store out of driver creation to reuse it between multiple plugins.
+* fix: add `monorepo` flag for `check-unused-code` command.
+* fix: ignore a class usage inside `State<T>` for `check-unused-code` command.
+* fix: correctly handle variables declaration for `check-unused-code` command.
+* feat: add static code diagnostics `avoid-dynamic`, `prefer-async-await`.
 
 ## 4.10.1
 

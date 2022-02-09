@@ -6,7 +6,6 @@ import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/element/element.dart';
 // ignore: implementation_imports
 import 'package:analyzer/src/dart/element/element.dart';
-import 'package:glob/glob.dart';
 import 'package:path/path.dart';
 import 'package:source_span/source_span.dart';
 
@@ -14,7 +13,6 @@ import '../../config_builder/config_builder.dart';
 import '../../config_builder/models/analysis_options.dart';
 import '../../reporters/models/reporter.dart';
 import '../../utils/analyzer_utils.dart';
-import '../../utils/file_utils.dart';
 import 'models/file_elements_usage.dart';
 import 'models/unused_code_file_report.dart';
 import 'models/unused_code_issue.dart';
@@ -61,7 +59,7 @@ class UnusedCodeAnalyzer {
 
       final excludes = unusedCodeAnalysisConfig.globalExcludes
           .followedBy(unusedCodeAnalysisConfig.analyzerExcludedPatterns);
-      final filePaths = _getFilePaths(folders, context, rootFolder, excludes);
+      final filePaths = getFilePaths(folders, context, rootFolder, excludes);
 
       final analyzedFiles =
           filePaths.intersection(context.contextRoot.analyzedFiles().toSet());
@@ -109,22 +107,6 @@ class UnusedCodeAnalyzer {
             .merge(config);
 
     return ConfigBuilder.getUnusedCodeConfig(contextConfig, rootFolder);
-  }
-
-  Set<String> _getFilePaths(
-    Iterable<String> folders,
-    AnalysisContext context,
-    String rootFolder,
-    Iterable<Glob> excludes,
-  ) {
-    final contextFolders = folders.where((path) {
-      final newPath = normalize(join(rootFolder, path));
-
-      return newPath == context.contextRoot.root.path ||
-          context.contextRoot.root.path.startsWith('$newPath/');
-    }).toList();
-
-    return extractDartFilesFromFolders(contextFolders, rootFolder, excludes);
   }
 
   FileElementsUsage? _analyzeFileCodeUsages(SomeResolvedUnitResult unit) {
