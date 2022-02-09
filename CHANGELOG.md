@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 4.11.0-dev.1
 
 * fix: move byte store out of driver creation to reuse it between multiple plugins.
 * fix: add `monorepo` flag for `check-unused-code` command.
