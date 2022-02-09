@@ -193,6 +193,7 @@ void main() {
         );
         expect(result.rules, equals(_defaults.rules));
       });
+
       test('empty and overrides configs', () {
         final result = _empty.merge(_overrides);
 
@@ -208,6 +209,7 @@ void main() {
         );
         expect(result.rules, equals(_overrides.rules));
       });
+
       test('defaults and overrides configs', () {
         final result = _defaults.merge(_overrides);
 
