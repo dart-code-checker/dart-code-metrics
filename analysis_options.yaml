@@ -45,11 +45,17 @@ dart_code_metrics:
     - test/resources/*
     - test/*
   rules:
+    - avoid-dynamic:
+        exclude:
+          - test/**
     - avoid-global-state
-    - avoid-unused-parameters
+    - avoid-late-keyword:
+        exclude:
+          - test/**
+    - avoid-missing-enum-constant-in-map
     - avoid-unnecessary-type-assertions
     - avoid-unnecessary-type-casts
-    - avoid-global-state
+    - avoid-unused-parameters
     - binary-expression-operand-order
     - double-literal-format
     - newline-before-return
@@ -57,7 +63,12 @@ dart_code_metrics:
     - no-empty-block
     - no-equal-then-else
     - no-object-declaration
+    - prefer-async-await
     - prefer-conditional-expressions
+    - prefer-correct-identifier-length:
+        exceptions:
+          - id
+          - ok
     - prefer-correct-type-name
     - prefer-first
     - prefer-last

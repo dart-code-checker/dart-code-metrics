@@ -333,26 +333,27 @@ class LintHtmlReporter extends HtmlReporter<LintFileReport,
 
     final linesIndices = Element.tag('td')
       ..classes.add('metrics-source-code__number-lines');
-    for (var i = 1; i <= sourceFileLines.length; ++i) {
+    for (var lineIndex = 1; lineIndex <= sourceFileLines.length; ++lineIndex) {
       linesIndices
-        ..append(Element.tag('a')..attributes['name'] = 'L$i')
+        ..append(Element.tag('a')..attributes['name'] = 'L$lineIndex')
         ..append(Element.tag('a')
           ..classes.add('metrics-source-code__number')
-          ..attributes['href'] = '#L$i'
-          ..text = '$i')
+          ..attributes['href'] = '#L$lineIndex'
+          ..text = '$lineIndex')
         ..append(Element.tag('br'));
     }
 
     final cyclomaticValues = Element.tag('td')
       ..classes.add('metrics-source-code__complexity');
-    for (var i = 1; i <= sourceFileLines.length; ++i) {
+    for (var lineIndex = 1; lineIndex <= sourceFileLines.length; ++lineIndex) {
       final complexityValueElement = Element.tag('div')
         ..classes.add('metrics-source-code__text');
 
       final classReport = record.classes.entries.firstWhereOrNull((report) =>
-          report.value.location.start.line <= i &&
-          report.value.location.end.line >= i);
-      if (classReport != null && classReport.value.location.start.line == i) {
+          report.value.location.start.line <= lineIndex &&
+          report.value.location.end.line >= lineIndex);
+      if (classReport != null &&
+          classReport.value.location.start.line == lineIndex) {
         complexityValueElement
           ..classes.add('metrics-source-code__text--with-icon')
           ..append(renderComplexityIcon(classReport.value, classReport.key));
@@ -360,13 +361,13 @@ class LintHtmlReporter extends HtmlReporter<LintFileReport,
 
       final functionReport = record.functions.entries.firstWhereOrNull(
         (report) =>
-            report.value.location.start.line <= i &&
-            report.value.location.end.line >= i,
+            report.value.location.start.line <= lineIndex &&
+            report.value.location.end.line >= lineIndex,
       );
 
       var line = '';
       if (functionReport != null) {
-        if (functionReport.value.location.start.line == i) {
+        if (functionReport.value.location.start.line == lineIndex) {
           complexityValueElement
             ..classes.add('metrics-source-code__text--with-icon')
             ..append(
@@ -377,7 +378,7 @@ class LintHtmlReporter extends HtmlReporter<LintFileReport,
         final lineWithComplexityIncrement = functionReport.value
                 .metric(CyclomaticComplexityMetric.metricId)
                 ?.context
-                .where((element) => element.location.start.line == i)
+                .where((element) => element.location.start.line == lineIndex)
                 .length ??
             0;
 
@@ -403,7 +404,9 @@ class LintHtmlReporter extends HtmlReporter<LintFileReport,
       final debt = record.file
           .metric(TechnicalDebtMetric.metricId)
           ?.context
-          .firstWhereOrNull((context) => context.location.start.line == i)
+          .firstWhereOrNull(
+            (context) => context.location.start.line == lineIndex,
+          )
           ?.message;
       if (debt != null) {
         line += debt;
@@ -414,8 +417,9 @@ class LintHtmlReporter extends HtmlReporter<LintFileReport,
         complexityValueElement.text = line.replaceAll(' ', '&nbsp;');
       }
 
-      final architecturalIssues = record.antiPatternCases
-          .firstWhereOrNull((element) => element.location.start.line == i);
+      final architecturalIssues = record.antiPatternCases.firstWhereOrNull(
+        (element) => element.location.start.line == lineIndex,
+      );
 
       if (architecturalIssues != null) {
         final issueIcon = Element.tag('div')

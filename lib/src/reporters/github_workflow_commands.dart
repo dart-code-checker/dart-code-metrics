@@ -40,18 +40,18 @@ class GitHubWorkflowCommands {
     String? message,
     Map<String, Object>? parameters,
   ]) {
-    final sb = StringBuffer('::$command');
+    final buffer = StringBuffer('::$command');
     final params =
         parameters?.entries.map((e) => '${e.key}=${e.value}').join(',').trim();
     if (params != null && params.isNotEmpty) {
-      sb.write(' $params');
+      buffer.write(' $params');
     }
-    sb.write('::');
+    buffer.write('::');
     if (message != null) {
-      sb.write(message);
+      buffer.write(message);
     }
 
-    return sb.toString();
+    return buffer.toString();
   }
 
   Map<String, Object> _params(String? file, int? line, int? column) => {

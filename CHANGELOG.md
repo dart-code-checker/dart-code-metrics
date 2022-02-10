@@ -1,9 +1,13 @@
 # Changelog
 
+## Unreleased
+
+* chore: activate new lint rules.
+
 ## 4.11.0-dev.1
 
 * fix: move byte store out of driver creation to reuse it between multiple plugins.
-* fix: add `monorepo` flag for `check-unused-code` command.
+* fix: add `monorepo` flag for `check-unused-files` command.
 * fix: ignore a class usage inside `State<T>` for `check-unused-code` command.
 * fix: correctly handle variables declaration for `check-unused-code` command.
 * feat: add static code diagnostics `avoid-dynamic`, `prefer-async-await`.
