@@ -127,7 +127,13 @@ jobs:
 
       - name: Disable unsupported rules
         run: |
-          sed -i'.original' 's/- unnecessary_constructor_name/#    - unnecessary_constructor_name/g' analysis_options.yaml
+          sed -i'.original' 's/- avoid_final_parameters/#                       - avoid_final_parameters/g' analysis_options.yaml
+          sed -i'.original' 's/- conditional_uri_does_not_exist/#               - conditional_uri_does_not_exist/g' analysis_options.yaml
+          sed -i'.original' 's/- no_leading_underscores_for_library_prefixes/#  - no_leading_underscores_for_library_prefixes/g' analysis_options.yaml
+          sed -i'.original' 's/- no_leading_underscores_for_local_identifiers/# - no_leading_underscores_for_local_identifiers/g' analysis_options.yaml
+          sed -i'.original' 's/- secure_pubspec_urls/#                          - secure_pubspec_urls/g' analysis_options.yaml
+          sed -i'.original' 's/- unnecessary_constructor_name/#                 - unnecessary_constructor_name/g' analysis_options.yaml
+          sed -i'.original' 's/- unnecessary_late/#                             - unnecessary_late/g' analysis_options.yaml
 
       - name: Check compatibility
         run: |
