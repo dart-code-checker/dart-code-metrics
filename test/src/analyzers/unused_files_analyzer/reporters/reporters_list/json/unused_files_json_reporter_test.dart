@@ -14,19 +14,19 @@ void main() {
     const fullPath = '/home/developer/work/project/example.dart';
 
     // ignore: close_sinks
-    late IOSinkMock _output;
-    late UnusedFilesJsonReporter _reporter;
+    late IOSinkMock output;
+    late UnusedFilesJsonReporter reporter;
 
     setUp(() {
-      _output = IOSinkMock();
+      output = IOSinkMock();
 
-      _reporter = UnusedFilesJsonReporter(_output);
+      reporter = UnusedFilesJsonReporter(output);
     });
 
     test('no unused files', () async {
-      await _reporter.report([]);
+      await reporter.report([]);
 
-      verifyNever(() => _output.write(captureAny()));
+      verifyNever(() => output.write(captureAny()));
     });
 
     group('unused files', () {
@@ -34,10 +34,10 @@ void main() {
           UnusedFilesFileReport(path: fullPath, relativePath: 'example.dart');
 
       test('', () async {
-        await _reporter.report([record]);
+        await reporter.report([record]);
 
         final captured = verify(
-          () => _output.write(captureAny()),
+          () => output.write(captureAny()),
         ).captured.first as String;
         final report = json.decode(captured) as Map;
 
@@ -53,7 +53,7 @@ void main() {
       });
 
       test('and about delete them', () async {
-        await _reporter.report(
+        await reporter.report(
           [record],
           additionalParams: const UnusedFilesReportParams(
             congratulate: false,
@@ -62,7 +62,7 @@ void main() {
         );
 
         final captured = verify(
-          () => _output.write(captureAny()),
+          () => output.write(captureAny()),
         ).captured.first as String;
         final report = json.decode(captured) as Map;
 

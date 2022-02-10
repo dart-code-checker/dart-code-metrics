@@ -32,11 +32,11 @@ class AlwaysRemoveListenerRule extends FlutterRule {
 
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
-    final _visitor = _Visitor();
+    final visitor = _Visitor();
 
-    source.unit.visitChildren(_visitor);
+    source.unit.visitChildren(visitor);
 
-    return _visitor.missingInvocations
+    return visitor.missingInvocations
         .map((invocation) => createIssue(
               rule: this,
               location: nodeLocation(

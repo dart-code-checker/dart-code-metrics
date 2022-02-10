@@ -33,11 +33,11 @@ class PreferExtractingCallbacksRule extends FlutterRule {
 
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
-    final _visitor = _Visitor(_ignoredArguments);
+    final visitor = _Visitor(_ignoredArguments);
 
-    source.unit.visitChildren(_visitor);
+    source.unit.visitChildren(visitor);
 
-    return _visitor.expressions
+    return visitor.expressions
         .map(
           (expression) => createIssue(
             rule: this,

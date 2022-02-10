@@ -82,11 +82,11 @@ bool isReportLevel(MetricValueLevel level) =>
 
 /// Returns user friendly string representations of [type].
 String userFriendlyType(Type type) {
-  const _impl = 'Impl';
+  const impl = 'Impl';
 
   final typeName = type.toString();
 
-  return typeName.endsWith(_impl)
-      ? typeName.substring(0, typeName.length - _impl.length)
+  return typeName.endsWith(impl)
+      ? typeName.substring(0, typeName.length - impl.length)
       : typeName;
 }

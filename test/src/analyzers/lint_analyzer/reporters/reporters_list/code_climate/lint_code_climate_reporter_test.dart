@@ -13,29 +13,29 @@ void main() {
     late IOSinkMock output; // ignore: close_sinks
     late IOSinkMock gitlabOutput; // ignore: close_sinks
 
-    late LintCodeClimateReporter _reporter;
-    late LintCodeClimateReporter _gitlabReporter;
+    late LintCodeClimateReporter reporter;
+    late LintCodeClimateReporter gitlabReporter;
 
     setUp(() {
       output = IOSinkMock();
       gitlabOutput = IOSinkMock();
 
-      _reporter = LintCodeClimateReporter(output);
-      _gitlabReporter =
+      reporter = LintCodeClimateReporter(output);
+      gitlabReporter =
           LintCodeClimateReporter(gitlabOutput, gitlabCompatible: true);
     });
 
     test('empty report', () async {
-      await _reporter.report([]);
-      await _gitlabReporter.report([]);
+      await reporter.report([]);
+      await gitlabReporter.report([]);
 
       verifyNever(() => output.writeln(any()));
       verifyNever(() => gitlabOutput.writeln(any()));
     });
 
     test('complex report', () async {
-      await _reporter.report(testReport);
-      await _gitlabReporter.report(testReport);
+      await reporter.report(testReport);
+      await gitlabReporter.report(testReport);
 
       final captured = verify(
         () => output.writeln(captureAny()),

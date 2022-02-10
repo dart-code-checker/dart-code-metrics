@@ -41,13 +41,13 @@ class DoubleLiteralFormatRule extends CommonRule {
 
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
-    final _visitor = _Visitor();
+    final visitor = _Visitor();
 
-    source.unit.visitChildren(_visitor);
+    source.unit.visitChildren(visitor);
 
     final issues = <Issue>[];
 
-    for (final literal in _visitor.literals) {
+    for (final literal in visitor.literals) {
       final lexeme = literal.literal.lexeme;
 
       String? message;
