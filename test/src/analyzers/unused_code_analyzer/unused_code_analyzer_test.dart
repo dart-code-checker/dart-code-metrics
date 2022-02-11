@@ -36,14 +36,14 @@ void main() {
         });
 
         test('should report 3 files and not report excluded file', () {
-          expect(result.length, 3);
+          expect(result, hasLength(3));
         });
 
         test('should analyze not used files', () async {
           final report = result
               .firstWhere((report) => report.path.endsWith('not_used.dart'));
 
-          expect(report.issues.length, 3);
+          expect(report.issues, hasLength(3));
 
           final firstIssue = report.issues.first;
           expect(firstIssue.declarationName, 'NotUsed');
@@ -75,7 +75,7 @@ void main() {
             (report) => report.path.endsWith('conditional_file.dart'),
           );
 
-          expect(report.issues.length, 1);
+          expect(report.issues, hasLength(1));
 
           final firstIssue = report.issues.first;
           expect(firstIssue.declarationName, 'hello');
