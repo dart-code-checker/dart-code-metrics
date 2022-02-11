@@ -23,17 +23,17 @@ class LintConfig {
 
   /// Creates the config from analysis [options].
   factory LintConfig.fromAnalysisOptions(AnalysisOptions options) {
-    const _rootKey = 'dart_code_metrics';
+    const rootKey = 'dart_code_metrics';
 
     return LintConfig(
       excludePatterns: options.readIterableOfString(['analyzer', 'exclude']),
       excludeForMetricsPatterns:
-          options.readIterableOfString([_rootKey, 'metrics-exclude']),
-      metrics: options.readMap([_rootKey, 'metrics']),
-      rules: options.readMapOfMap([_rootKey, 'rules']),
+          options.readIterableOfString([rootKey, 'metrics-exclude']),
+      metrics: options.readMap([rootKey, 'metrics']),
+      rules: options.readMapOfMap([rootKey, 'rules']),
       excludeForRulesPatterns:
-          options.readIterableOfString([_rootKey, 'rules-exclude']),
-      antiPatterns: options.readMapOfMap([_rootKey, 'anti-patterns']),
+          options.readIterableOfString([rootKey, 'rules-exclude']),
+      antiPatterns: options.readMapOfMap([rootKey, 'anti-patterns']),
     );
   }
 

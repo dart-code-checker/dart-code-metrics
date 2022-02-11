@@ -28,22 +28,22 @@ bool _isCapableToTransformToMap(Object? object) =>
     object.every((node) => node is String || node is Map<String, Object>);
 
 Object _merge(Object? defaults, Object overrides) {
-  var o1 = defaults;
-  var o2 = overrides;
+  var obj1 = defaults;
+  var obj2 = overrides;
 
-  if (_isCapableToTransformToMap(o1) && o2 is Map<String, Object>) {
-    o1 = _iterableToMap(o1 as Iterable<Object>);
-  } else if (o1 is Map<String, Object> && _isCapableToTransformToMap(o2)) {
-    o2 = _iterableToMap(o2 as Iterable<Object>);
+  if (_isCapableToTransformToMap(obj1) && obj2 is Map<String, Object>) {
+    obj1 = _iterableToMap(obj1 as Iterable<Object>);
+  } else if (obj1 is Map<String, Object> && _isCapableToTransformToMap(obj2)) {
+    obj2 = _iterableToMap(obj2 as Iterable<Object>);
   }
 
-  if (o1 is Map<String, Object> && o2 is Map<String, Object>) {
-    return mergeMaps(defaults: o1, overrides: o2);
-  } else if (o1 is List<Object> && o2 is List<Object>) {
-    return _mergeIterable(o1, o2);
+  if (obj1 is Map<String, Object> && obj2 is Map<String, Object>) {
+    return mergeMaps(defaults: obj1, overrides: obj2);
+  } else if (obj1 is List<Object> && obj2 is List<Object>) {
+    return _mergeIterable(obj1, obj2);
   }
 
-  return o2;
+  return obj2;
 }
 
 List<Object> _mergeIterable(

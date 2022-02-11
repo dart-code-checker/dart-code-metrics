@@ -39,15 +39,15 @@ Iterable<Metric> getMetrics({
   Iterable<String> patternsDependencies = const [],
   EntityType? measuredType,
 }) {
-  final _metrics = _implementedMetrics.keys.map(
+  final metrics = _implementedMetrics.keys.map(
     (id) => _implementedMetrics[id]!(
       !patternsDependencies.contains(id) ? config : {},
     ),
   );
 
   return measuredType != null
-      ? _metrics
+      ? metrics
           .where((metric) => metric.documentation.measuredType == measuredType)
           .toList()
-      : _metrics;
+      : metrics;
 }

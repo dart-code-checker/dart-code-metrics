@@ -30,7 +30,7 @@ void main() {
       const metricId1Value = 10;
       const metricId2Value = 0.5;
 
-      const _config = {
+      const config = {
         metricId1: '$metricId1Value',
         metricId2: {'threshold': '$metricId2Value'},
         metricId3: '',
@@ -38,20 +38,20 @@ void main() {
       };
 
       expect(
-        readNullableThreshold<int>(_config, metricId1),
+        readNullableThreshold<int>(config, metricId1),
         equals(metricId1Value),
       );
 
       expect(
-        readNullableThreshold<double>(_config, metricId2),
+        readNullableThreshold<double>(config, metricId2),
         equals(metricId2Value),
       );
 
-      expect(readNullableThreshold<int>(_config, metricId3), isNull);
+      expect(readNullableThreshold<int>(config, metricId3), isNull);
 
-      expect(readNullableThreshold<double>(_config, metricId4), isNull);
+      expect(readNullableThreshold<double>(config, metricId4), isNull);
 
-      expect(readNullableThreshold<int>(_config, metricId5), isNull);
+      expect(readNullableThreshold<int>(config, metricId5), isNull);
     });
 
     test('readConfigValue returns a value from Map based config', () {
@@ -63,7 +63,7 @@ void main() {
       const metricId1Value = 10;
       const metricId2Value = 0.5;
 
-      const _config = {
+      const config = {
         metricId1: '$metricId1Value',
         metricId2: {'value': '$metricId1Value'},
         metricId3: {'value': '$metricId2Value'},
@@ -71,20 +71,20 @@ void main() {
         metricId5: null,
       };
 
-      expect(readConfigValue<int>(_config, metricId1, 'value'), isNull);
+      expect(readConfigValue<int>(config, metricId1, 'value'), isNull);
 
-      expect(readConfigValue<int>(_config, metricId2, 'value'), equals(10));
+      expect(readConfigValue<int>(config, metricId2, 'value'), equals(10));
 
-      expect(readConfigValue<double>(_config, metricId3, 'value'), equals(0.5));
+      expect(readConfigValue<double>(config, metricId3, 'value'), equals(0.5));
 
       expect(
-        readConfigValue<String>(_config, metricId4, 'value'),
+        readConfigValue<String>(config, metricId4, 'value'),
         equals('message'),
       );
 
-      expect(readConfigValue<int>(_config, metricId5, 'value'), isNull);
+      expect(readConfigValue<int>(config, metricId5, 'value'), isNull);
 
-      expect(readConfigValue<int>(_config, metricId6, 'value'), isNull);
+      expect(readConfigValue<int>(config, metricId6, 'value'), isNull);
     });
 
     test('valueLevel returns a level of passed value', () {

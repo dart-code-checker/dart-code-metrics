@@ -45,15 +45,15 @@ Set<String> getFilePaths(
 /// If the state location can be accessed, return the file byte store,
 /// otherwise return the memory byte store.
 ByteStore createByteStore(PhysicalResourceProvider resourceProvider) {
-  const M = 1024 * 1024 /*1 MiB*/;
-  const G = 1024 * 1024 * 1024 /*1 GiB*/;
+  const miB = 1024 * 1024 /*1 MiB*/;
+  const giB = 1024 * 1024 * 1024 /*1 GiB*/;
 
-  const memoryCacheSize = M * 128;
+  const memoryCacheSize = miB * 128;
 
   final stateLocation = resourceProvider.getStateLocation('.dart-code-metrics');
   if (stateLocation != null) {
     return MemoryCachingByteStore(
-      EvictingFileByteStore(stateLocation.path, G),
+      EvictingFileByteStore(stateLocation.path, giB),
       memoryCacheSize,
     );
   }

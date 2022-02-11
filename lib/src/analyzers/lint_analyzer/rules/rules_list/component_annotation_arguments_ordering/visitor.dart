@@ -16,7 +16,7 @@ class _Visitor extends SimpleAstVisitor<List<_ArgumentInfo>> {
   }
 
   List<_ArgumentInfo> _visitAnnotation(Annotation node) {
-    final _argumentsInfo = <_ArgumentInfo>[];
+    final argumentsInfo = <_ArgumentInfo>[];
 
     final arguments = node.arguments?.arguments.whereType<NamedExpression>();
 
@@ -26,15 +26,15 @@ class _Visitor extends SimpleAstVisitor<List<_ArgumentInfo>> {
         final group = _ArgumentGroup.parseArgumentName(name);
 
         if (group != null && _groupsOrder.contains(group)) {
-          _argumentsInfo.add(_ArgumentInfo(
+          argumentsInfo.add(_ArgumentInfo(
             argument: argument,
-            argumentOrder: _getOrder(group, _argumentsInfo),
+            argumentOrder: _getOrder(group, argumentsInfo),
           ));
         }
       }
     }
 
-    return _argumentsInfo;
+    return argumentsInfo;
   }
 
   _ArgumentOrder _getOrder(

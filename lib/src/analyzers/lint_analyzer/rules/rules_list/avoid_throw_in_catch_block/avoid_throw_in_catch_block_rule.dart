@@ -28,11 +28,11 @@ class AvoidThrowInCatchBlockRule extends CommonRule {
 
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
-    final _visitor = _Visitor();
+    final visitor = _Visitor();
 
-    source.unit.visitChildren(_visitor);
+    source.unit.visitChildren(visitor);
 
-    return _visitor.throwExpression.map((expression) => createIssue(
+    return visitor.throwExpression.map((expression) => createIssue(
           rule: this,
           location: nodeLocation(
             node: expression,

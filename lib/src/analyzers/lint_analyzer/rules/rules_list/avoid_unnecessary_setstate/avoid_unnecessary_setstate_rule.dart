@@ -31,12 +31,12 @@ class AvoidUnnecessarySetStateRule extends FlutterRule {
 
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
-    final _visitor = _Visitor();
+    final visitor = _Visitor();
 
-    source.unit.visitChildren(_visitor);
+    source.unit.visitChildren(visitor);
 
     return [
-      ..._visitor.setStateInvocations.map((invocation) => createIssue(
+      ...visitor.setStateInvocations.map((invocation) => createIssue(
             rule: this,
             location: nodeLocation(
               node: invocation,
@@ -44,7 +44,7 @@ class AvoidUnnecessarySetStateRule extends FlutterRule {
             ),
             message: _warningMessage,
           )),
-      ..._visitor.classMethodsInvocations.map((invocation) => createIssue(
+      ...visitor.classMethodsInvocations.map((invocation) => createIssue(
             rule: this,
             location: nodeLocation(
               node: invocation,

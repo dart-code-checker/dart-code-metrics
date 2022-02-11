@@ -89,13 +89,13 @@ class WeightOfClassMetric extends ClassMetric<double> {
       !Identifier.isPrivateName(function.name);
 
   bool _isFunctionalMethod(ScopedFunctionDeclaration function) {
-    const _nonFunctionalTypes = {
+    const nonFunctionalTypes = {
       FunctionType.constructor,
       FunctionType.setter,
       FunctionType.getter,
     };
 
-    return !_nonFunctionalTypes.contains(function.type);
+    return !nonFunctionalTypes.contains(function.type);
   }
 
   Iterable<ContextMessage> _context(
