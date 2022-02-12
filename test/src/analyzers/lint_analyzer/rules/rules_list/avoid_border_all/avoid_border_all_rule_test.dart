@@ -43,10 +43,10 @@ void main() {
               '          )',
         ],
         replacementComments: [
-          'Prefer using const constructor Border.fromBorderSide.',
-          'Prefer using const constructor Border.fromBorderSide.',
-          'Prefer using const constructor Border.fromBorderSide.',
-          'Prefer using const constructor Border.fromBorderSide.',
+          'Replace with const Border.fromBorderSide.',
+          'Replace with const Border.fromBorderSide.',
+          'Replace with const Border.fromBorderSide.',
+          'Replace with const Border.fromBorderSide.',
         ],
         replacements: [
           'const Border.fromBorderSide(BorderSide())',
