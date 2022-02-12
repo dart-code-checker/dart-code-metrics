@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* feat: add static code diagnostics `avoid-border-all`.
 * chore: activate new lint rules.
 
 ## 4.11.0-dev.1
