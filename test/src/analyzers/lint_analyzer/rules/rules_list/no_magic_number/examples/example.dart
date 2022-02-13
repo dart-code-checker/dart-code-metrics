@@ -14,3 +14,5 @@ void fun4() {
 }
 
 void fun5() => const {1, 2};
+
+void fun6() => const Map<String, String>();
