@@ -48,19 +48,14 @@ class PreferConstBorderRadiusRule extends FlutterRule {
   }
 
   Replacement? _createReplacement(InstanceCreationExpression expression) {
-    final value = _getConstructorArgumentValue(expression);
+    final value = expression.argumentList.arguments
+        .map((arg) => '$arg, ')
+        .join('')
+        .trim();
 
-    return value != null
-        ? Replacement(
-            comment: _replaceComment,
-            replacement: 'const BorderRadius.all(Radius.circular($value))',
-          )
-        : null;
-  }
-
-  String? _getConstructorArgumentValue(InstanceCreationExpression expression) {
-    final arguments = expression.argumentList.arguments;
-
-    return arguments.isNotEmpty ? arguments.first.toString() : null;
+    return Replacement(
+      comment: _replaceComment,
+      replacement: 'const BorderRadius.all(Radius.circular($value))',
+    );
   }
 }
