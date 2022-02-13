@@ -57,12 +57,7 @@ class AvoidBorderAllRule extends FlutterRule {
 
   String? _getConstructorArgumentValue(InstanceCreationExpression expression) {
     final arguments = expression.argumentList.arguments;
-    final buffer = StringBuffer();
 
-    for (final arg in arguments) {
-      buffer.write('${arg.toString()},');
-    }
-
-    return buffer.toString();
+    return arguments.map((arg) => '$arg, ').join('').trim();
   }
 }
