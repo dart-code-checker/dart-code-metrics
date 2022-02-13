@@ -47,17 +47,14 @@ class AvoidBorderAllRule extends FlutterRule {
   }
 
   Replacement? _createReplacement(InstanceCreationExpression expression) {
-    final value = _getConstructorArgumentValue(expression);
+    final value = expression.argumentList.arguments
+        .map((arg) => '$arg, ')
+        .join('')
+        .trim();
 
     return Replacement(
       comment: _replaceComment,
       replacement: 'const Border.fromBorderSide(BorderSide($value))',
     );
-  }
-
-  String? _getConstructorArgumentValue(InstanceCreationExpression expression) {
-    final arguments = expression.argumentList.arguments;
-
-    return arguments.map((arg) => '$arg, ').join('').trim();
   }
 }
