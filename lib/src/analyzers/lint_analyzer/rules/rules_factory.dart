@@ -46,7 +46,7 @@ import 'rules_list/provide_correct_intl_args/provide_correct_intl_args_rule.dart
 
 final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   AlwaysRemoveListenerRule.ruleId: (config) => AlwaysRemoveListenerRule(config),
-  AvoidBorderAllRule.ruleId: (config) => AlwaysRemoveListenerRule(config),
+  AvoidBorderAllRule.ruleId: (config) => AvoidBorderAllRule(config),
   AvoidDynamicRule.ruleId: (config) => AvoidDynamicRule(config),
   AvoidGlobalStateRule.ruleId: (config) => AvoidGlobalStateRule(config),
   AvoidIgnoringReturnValuesRule.ruleId: (config) =>
