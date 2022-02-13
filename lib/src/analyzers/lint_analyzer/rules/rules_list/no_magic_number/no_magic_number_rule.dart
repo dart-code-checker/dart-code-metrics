@@ -40,6 +40,7 @@ class NoMagicNumberRule extends CommonRule {
         .where(_isMagicNumber)
         .where(_isNotInsideVariable)
         .where(_isNotInsideCollectionLiteral)
+        .where(_isNotInsideConstMap)
         .where(_isNotInsideConstConstructor)
         .where(_isNotInDateTime)
         .map((lit) => createIssue(
@@ -74,6 +75,12 @@ class NoMagicNumberRule extends CommonRule {
       null;
 
   bool _isNotInsideCollectionLiteral(Literal l) => l.parent is! TypedLiteral;
+
+  bool _isNotInsideConstMap(Literal l) {
+    final grandParent = l.parent?.parent;
+
+    return !(grandParent is SetOrMapLiteral && grandParent.isConst);
+  }
 
   bool _isNotInsideConstConstructor(Literal l) =>
       l.thisOrAncestorMatching((ancestor) =>
