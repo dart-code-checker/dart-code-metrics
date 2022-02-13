@@ -72,9 +72,24 @@ class _InvocationsVisitor extends RecursiveAstVisitor<void> {
   @override
   void visitMethodInvocation(MethodInvocation node) {
     if (_declarationNames.contains(node.methodName.name) &&
-        node.realTarget == null) {
+        node.realTarget == null &&
+        !_isInsideBuilder(node)) {
       _invocations.add(node);
     }
+  }
+
+  bool _isInsideBuilder(MethodInvocation node) {
+    final expression = node.thisOrAncestorOfType<NamedExpression>();
+
+    if (expression is NamedExpression) {
+      final type = expression.staticType;
+      if (type is FunctionType) {
+        return type.returnType is InterfaceType &&
+            hasWidgetType(type.returnType);
+      }
+    }
+
+    return false;
   }
 }
 
