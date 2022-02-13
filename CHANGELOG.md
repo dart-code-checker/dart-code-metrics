@@ -3,6 +3,7 @@
 ## Unreleased
 
 * chore: activate new lint rules.
+* feat: improve `avoid-returning-widgets` builder functions handling.
 * fix: correctly handle const maps in `no-magic-number`.
 
 ## 4.11.0-dev.1
