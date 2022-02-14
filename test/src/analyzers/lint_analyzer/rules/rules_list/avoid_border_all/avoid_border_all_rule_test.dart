@@ -50,9 +50,9 @@ void main() {
         ],
         replacements: [
           'const Border.fromBorderSide(BorderSide())',
-          'const Border.fromBorderSide(BorderSide(color: const Color(0),))',
-          'const Border.fromBorderSide(BorderSide(color: const Color(0), width: 1,))',
-          'const Border.fromBorderSide(BorderSide(color: const Color(0), width: 1, style: BorderStyle.none,))',
+          'const Border.fromBorderSide(BorderSide(color: const Color(0)))',
+          'const Border.fromBorderSide(BorderSide(color: const Color(0), width: 1))',
+          'const Border.fromBorderSide(BorderSide(color: const Color(0), width: 1, style: BorderStyle.none))',
         ],
         messages: [
           'Prefer using const constructor Border.fromBorderSide.',

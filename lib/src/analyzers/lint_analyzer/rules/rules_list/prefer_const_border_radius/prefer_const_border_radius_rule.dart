@@ -49,8 +49,8 @@ class PreferConstBorderRadiusRule extends FlutterRule {
 
   Replacement? _createReplacement(InstanceCreationExpression expression) {
     final value = expression.argumentList.arguments
-        .map((arg) => '$arg, ')
-        .join('')
+        .map((arg) => '$arg')
+        .join(', ')
         .trim();
 
     return Replacement(

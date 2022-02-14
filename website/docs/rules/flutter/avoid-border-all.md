@@ -12,8 +12,7 @@ Performance
 
 ## Description {#description}
 
-`Border.all` constructor calls const `Border.fromBorderSide` constructor under the hood. This rule allows to
-replace `Border.all` with const `Border.fromBorderSide`.
+`Border.all` constructor calls const `Border.fromBorderSide` constructor under the hood. This rule allows to replace `Border.all` with const `Border.fromBorderSide`.
 
 ### Example {#example}
 
