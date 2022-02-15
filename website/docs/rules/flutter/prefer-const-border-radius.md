@@ -12,9 +12,7 @@ Performance
 
 ## Description {#description}
 
-`BorderRadius.circular` constructor calls const `BorderRadius.all` constructor under the hood. This rule allows to
-replace
-`BorderRadius.circular(value)` with const `BorderRadius.all(Radius.circular(value))` if radius is a constant value.
+`BorderRadius.circular` constructor calls const `BorderRadius.all` constructor under the hood. This rule allows to replace `BorderRadius.circular(value)` with const `BorderRadius.all(Radius.circular(value))` if radius is a constant value.
 
 ### Example {#example}
 

@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* feat: add static code diagnostics `avoid-border-all`.
 * chore: activate new lint rules.
 * feat: improve `avoid-returning-widgets` builder functions handling.
 * fix: correctly handle const maps in `no-magic-number`.

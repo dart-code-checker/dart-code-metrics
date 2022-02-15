@@ -2,7 +2,6 @@
 
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
-import 'package:analyzer/dart/element/element.dart';
 
 import '../../../../../utils/node_utils.dart';
 import '../../../lint_utils.dart';
@@ -15,13 +14,13 @@ import '../../rule_utils.dart';
 
 part 'visitor.dart';
 
-class PreferConstBorderRadiusRule extends FlutterRule {
-  static const ruleId = 'prefer-const-border-radius';
+class AvoidBorderAllRule extends FlutterRule {
+  static const ruleId = 'avoid-border-all';
   static const _issueMessage =
-      'Prefer using const constructor BorderRadius.all.';
-  static const _replaceComment = 'Replace with const BorderRadius constructor.';
+      'Prefer using const constructor Border.fromBorderSide.';
+  static const _replaceComment = 'Replace with const Border.fromBorderSide.';
 
-  PreferConstBorderRadiusRule([Map<String, Object> config = const {}])
+  AvoidBorderAllRule([Map<String, Object> config = const {}])
       : super(
           id: ruleId,
           severity: readSeverity(config, Severity.performance),
@@ -55,7 +54,7 @@ class PreferConstBorderRadiusRule extends FlutterRule {
 
     return Replacement(
       comment: _replaceComment,
-      replacement: 'const BorderRadius.all(Radius.circular($value))',
+      replacement: 'const Border.fromBorderSide(BorderSide($value))',
     );
   }
 }

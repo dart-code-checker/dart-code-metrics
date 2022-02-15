@@ -1,5 +1,6 @@
 import 'models/rule.dart';
 import 'rules_list/always_remove_listener/always_remove_listener_rule.dart';
+import 'rules_list/avoid_border_all/avoid_border_all_rule.dart';
 import 'rules_list/avoid_dynamic/avoid_dynamic_rule.dart';
 import 'rules_list/avoid_global_state/avoid_global_state_rule.dart';
 import 'rules_list/avoid_ignoring_return_values/avoid_ignoring_return_values_rule.dart';
@@ -45,6 +46,7 @@ import 'rules_list/provide_correct_intl_args/provide_correct_intl_args_rule.dart
 
 final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   AlwaysRemoveListenerRule.ruleId: (config) => AlwaysRemoveListenerRule(config),
+  AvoidBorderAllRule.ruleId: (config) => AvoidBorderAllRule(config),
   AvoidDynamicRule.ruleId: (config) => AvoidDynamicRule(config),
   AvoidGlobalStateRule.ruleId: (config) => AvoidGlobalStateRule(config),
   AvoidIgnoringReturnValuesRule.ruleId: (config) =>
