@@ -12,7 +12,7 @@ Performance
 
 ## Description {#description}
 
-`Border.all` constructor calls const `Border.fromBorderSide` constructor under the hood. This rule allows to replace `Border.all` with const `Border.fromBorderSide`.
+`Border.all` constructor calls **const** `Border.fromBorderSide` constructor under the hood. This rule allows to replace `Border.all` with **const** `Border.fromBorderSide`.
 
 ### Example {#example}
 
@@ -31,11 +31,12 @@ class BorderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      //LINT
       border: Border.all({
         Color color = const Color(0xFF000000),
         double width = 1.0,
         BorderStyle style = BorderStyle.solid,
-      }), //LINT
+      }),
       child: child,
     );
   }
