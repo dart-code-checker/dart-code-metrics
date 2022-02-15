@@ -6,6 +6,7 @@
 * chore: activate new lint rules.
 * feat: improve `avoid-returning-widgets` builder functions handling.
 * fix: correctly handle const maps in `no-magic-number`.
+* fix: correctly handle excluded files for `check-unused-code`.
 
 ## 4.11.0-dev.1
 

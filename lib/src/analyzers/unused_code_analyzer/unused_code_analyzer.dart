@@ -57,9 +57,12 @@ class UnusedCodeAnalyzer {
       final unusedCodeAnalysisConfig =
           await _getAnalysisConfig(context, rootFolder, config);
 
-      final excludes = unusedCodeAnalysisConfig.globalExcludes
-          .followedBy(unusedCodeAnalysisConfig.analyzerExcludedPatterns);
-      final filePaths = getFilePaths(folders, context, rootFolder, excludes);
+      final filePaths = getFilePaths(
+        folders,
+        context,
+        rootFolder,
+        unusedCodeAnalysisConfig.globalExcludes,
+      );
 
       final analyzedFiles =
           filePaths.intersection(context.contextRoot.analyzedFiles().toSet());
@@ -76,7 +79,8 @@ class UnusedCodeAnalyzer {
 
       final notAnalyzedFiles = filePaths.difference(analyzedFiles);
       for (final filePath in notAnalyzedFiles) {
-        if (excludes.any((pattern) => pattern.matches(filePath))) {
+        if (unusedCodeAnalysisConfig.analyzerExcludedPatterns
+            .any((pattern) => pattern.matches(filePath))) {
           final unit = await resolveFile2(path: filePath);
 
           final codeUsage = _analyzeFileCodeUsages(unit);
