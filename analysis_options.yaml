@@ -5,6 +5,7 @@ analyzer:
     - test/resources/*
     - test/resources/unused_files_analyzer/**
     - test/resources/unused_l10n_analyzer/**
+    - test/resources/unused_code_analyzer/generated/**
     - test/**/examples/**
   language:
     strict-inference: true
