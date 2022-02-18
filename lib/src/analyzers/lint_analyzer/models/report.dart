@@ -14,10 +14,10 @@ class Report {
   final AstNode declaration;
 
   /// Target entity metrics.
-  final Iterable<MetricValue<num>> metrics;
+  final Iterable<MetricValue> metrics;
 
   /// Returns a certain target metric.
-  MetricValue<num>? metric(String id) =>
+  MetricValue? metric(String id) =>
       metrics.firstWhereOrNull((metric) => metric.metricsId == id);
 
   /// The highest reported level of a metric.

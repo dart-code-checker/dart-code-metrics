@@ -45,7 +45,7 @@ class HalsteadVolumeMetric extends FunctionMetric<double> {
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
     InternalResolvedUnitResult source,
-    Iterable<MetricValue<num>> otherMetricsValues,
+    Iterable<MetricValue> otherMetricsValues,
   ) {
     final visitor = HalsteadVolumeAstVisitor();
     node.visitChildren(visitor);

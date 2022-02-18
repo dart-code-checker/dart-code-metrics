@@ -33,7 +33,7 @@ MetricComputationResult<int> computeImplementation(
   Iterable<ScopedClassDeclaration> classDeclarations,
   Iterable<ScopedFunctionDeclaration> functionDeclarations,
   InternalResolvedUnitResult source,
-  Iterable<MetricValue<num>> otherMetricsValues,
+  Iterable<MetricValue> otherMetricsValues,
 ) {
   final halVol = otherMetricsValues.firstWhere(
     (value) => value.metricsId == HalsteadVolumeMetric.metricId,

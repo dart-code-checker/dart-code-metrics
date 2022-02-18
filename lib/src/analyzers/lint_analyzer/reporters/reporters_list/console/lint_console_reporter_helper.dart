@@ -75,7 +75,7 @@ class LintConsoleReporterHelper {
   }
 
   /// Converts a [metric] to the metric message string.
-  String getMetricReport(MetricValue<num> metric) {
+  String getMetricReport(MetricValue metric) {
     final color = _colorPens[metric.level];
 
     if (color != null) {

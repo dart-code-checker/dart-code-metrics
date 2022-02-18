@@ -296,7 +296,7 @@ class LintAnalyzer {
     final classRecords = <ScopedClassDeclaration, Report>{};
 
     for (final classDeclaration in visitor.classes) {
-      final metrics = <MetricValue<num>>[];
+      final metrics = <MetricValue>[];
 
       for (final metric in config.classesMetrics) {
         if (metric.supports(
@@ -336,7 +336,7 @@ class LintAnalyzer {
     InternalResolvedUnitResult source,
     LintAnalysisConfig config,
   ) {
-    final metrics = <MetricValue<num>>[];
+    final metrics = <MetricValue>[];
 
     for (final metric in config.fileMetrics) {
       if (metric.supports(
@@ -371,7 +371,7 @@ class LintAnalyzer {
     final functionRecords = <ScopedFunctionDeclaration, Report>{};
 
     for (final function in visitor.functions) {
-      final metrics = <MetricValue<num>>[];
+      final metrics = <MetricValue>[];
 
       for (final metric in config.methodsMetrics) {
         if (metric.supports(

@@ -23,7 +23,7 @@ Element renderDetailsTooltip(Report entityReport, String entityType) {
   return tooltip;
 }
 
-Element renderDetailsTooltipMetric(MetricValue<num> metric) {
+Element renderDetailsTooltipMetric(MetricValue metric) {
   final metricName = metric.documentation.name.toLowerCase();
   final violationLevel = metric.level.toString();
 

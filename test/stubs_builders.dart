@@ -15,7 +15,7 @@ import 'package:source_span/source_span.dart';
 
 class _DeclarationMock extends Mock implements Declaration {}
 
-MetricValue<T> buildMetricValueStub<T>({
+MetricValue<T> buildMetricValueStub<T extends num>({
   required String id,
   required T value,
   String? unitType,
@@ -38,7 +38,7 @@ MetricValue<T> buildMetricValueStub<T>({
 
 Report buildReportStub({
   SourceSpanBase? location,
-  Iterable<MetricValue<num>> metrics = const [],
+  Iterable<MetricValue> metrics = const [],
 }) {
   const defaultMetricValues = [
     MetricValue<int>(
@@ -77,7 +77,7 @@ Report buildReportStub({
 
 Report buildFunctionRecordStub({
   SourceSpanBase? location,
-  Iterable<MetricValue<num>> metrics = const [],
+  Iterable<MetricValue> metrics = const [],
 }) {
   final defaultMetricValues = [
     buildMetricValueStub<int>(

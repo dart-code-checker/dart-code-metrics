@@ -43,7 +43,7 @@ class MaintainabilityIndexMetric extends FunctionMetric<int> {
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
     InternalResolvedUnitResult source,
-    Iterable<MetricValue<Object>> otherMetricsValues,
+    Iterable<MetricValue> otherMetricsValues,
   ) =>
       super.supports(
         node,
@@ -65,7 +65,7 @@ class MaintainabilityIndexMetric extends FunctionMetric<int> {
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
     InternalResolvedUnitResult source,
-    Iterable<MetricValue<num>> otherMetricsValues,
+    Iterable<MetricValue> otherMetricsValues,
   ) {
     final halVol = otherMetricsValues.firstWhere(
       (value) => value.metricsId == HalsteadVolumeMetric.metricId,

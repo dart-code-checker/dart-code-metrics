@@ -29,9 +29,9 @@ class ConfigBuilder {
   static LintAnalysisConfig getLintAnalysisConfig(
     LintConfig config,
     String excludesRootFolder, {
-    Iterable<Metric<num>>? classMetrics,
-    Iterable<Metric<num>>? fileMetrics,
-    Iterable<Metric<num>>? functionMetrics,
+    Iterable<Metric>? classMetrics,
+    Iterable<Metric>? fileMetrics,
+    Iterable<Metric>? functionMetrics,
   }) {
     final patterns = getPatternsById(config);
     final patternsDependencies = patterns

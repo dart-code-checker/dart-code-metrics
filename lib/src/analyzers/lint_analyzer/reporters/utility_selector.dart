@@ -124,7 +124,7 @@ class UtilitySelector {
       );
 }
 
-MetricValue<T> _buildMetricValueStub<T>({
+MetricValue<T> _buildMetricValueStub<T extends num>({
   required String id,
   required T value,
   EntityType type = EntityType.methodEntity,
