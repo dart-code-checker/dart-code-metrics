@@ -17,7 +17,7 @@ const _documentation = MetricDocumentation(
   name: 'Number of Methods',
   shortName: 'NOM',
   measuredType: EntityType.classEntity,
-  recomendedThreshold: 10,
+  recommendedThreshold: 10,
 );
 
 /// Number of Methods (NOM)

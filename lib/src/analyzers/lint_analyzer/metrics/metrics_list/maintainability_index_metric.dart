@@ -19,7 +19,7 @@ const _documentation = MetricDocumentation(
   name: 'Maintainability Index',
   shortName: 'MI',
   measuredType: EntityType.methodEntity,
-  recomendedThreshold: 50,
+  recommendedThreshold: 50,
 );
 
 /// Maintainability Index (MI)

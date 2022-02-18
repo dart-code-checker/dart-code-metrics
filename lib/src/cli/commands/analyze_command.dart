@@ -68,10 +68,10 @@ class AnalyzeCommand extends BaseCommand {
           additionalParams: LintReportParams(congratulate: !noCongratulate),
         );
 
-    if (hasIssueWithSevetiry(lintAnalyserResult, Severity.error)) {
+    if (hasIssueWithSeverity(lintAnalyserResult, Severity.error)) {
       exit(3);
     } else if ((argResults[FlagNames.fatalWarnings] as bool) &&
-        hasIssueWithSevetiry(lintAnalyserResult, Severity.warning)) {
+        hasIssueWithSeverity(lintAnalyserResult, Severity.warning)) {
       exit(2);
     }
 
@@ -85,9 +85,9 @@ class AnalyzeCommand extends BaseCommand {
     }
 
     if (((argResults[FlagNames.fatalPerformance] as bool) &&
-            hasIssueWithSevetiry(lintAnalyserResult, Severity.performance)) ||
+            hasIssueWithSeverity(lintAnalyserResult, Severity.performance)) ||
         ((argResults[FlagNames.fatalStyle] as bool) &&
-            hasIssueWithSevetiry(lintAnalyserResult, Severity.style))) {
+            hasIssueWithSeverity(lintAnalyserResult, Severity.style))) {
       exit(1);
     }
   }
@@ -140,7 +140,7 @@ class AnalyzeCommand extends BaseCommand {
       argParser.addOption(
         metric.id,
         help: '${metric.documentation.name} threshold$deprecationMessage.',
-        valueHelp: '${metric.documentation.recomendedThreshold}',
+        valueHelp: '${metric.documentation.recommendedThreshold}',
         callback: (i) {
           if (i != null && int.tryParse(i) == null) {
             print(

@@ -136,7 +136,7 @@ MetricValue<T> _buildMetricValueStub<T>({
         name: id,
         shortName: id.toUpperCase(),
         measuredType: type,
-        recomendedThreshold: 0,
+        recommendedThreshold: 0,
       ),
       value: value,
       level: level,

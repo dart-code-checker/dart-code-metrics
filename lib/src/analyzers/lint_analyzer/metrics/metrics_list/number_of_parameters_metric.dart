@@ -15,7 +15,7 @@ const _documentation = MetricDocumentation(
   name: 'Number of Parameters',
   shortName: 'NOP',
   measuredType: EntityType.methodEntity,
-  recomendedThreshold: 4,
+  recommendedThreshold: 4,
 );
 
 /// Number of Parameters (NOP)

@@ -17,7 +17,7 @@ MetricValueLevel maxMetricViolationLevel(Iterable<LintFileReport> records) =>
         )
         .max;
 
-bool hasIssueWithSevetiry(
+bool hasIssueWithSeverity(
   Iterable<LintFileReport> records,
   Severity severity,
 ) =>

@@ -20,7 +20,7 @@ const _documentation = MetricDocumentation(
   name: 'Cyclomatic Complexity',
   shortName: 'CYCLO',
   measuredType: EntityType.methodEntity,
-  recomendedThreshold: 20,
+  recommendedThreshold: 20,
 );
 
 /// Cyclomatic Complexity (CYCLO)

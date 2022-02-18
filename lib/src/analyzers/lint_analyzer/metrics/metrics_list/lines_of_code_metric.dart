@@ -14,7 +14,7 @@ const _documentation = MetricDocumentation(
   name: 'Lines of Code',
   shortName: 'LOC',
   measuredType: EntityType.methodEntity,
-  recomendedThreshold: 100,
+  recommendedThreshold: 100,
 );
 
 /// Lines of Code (LOC)

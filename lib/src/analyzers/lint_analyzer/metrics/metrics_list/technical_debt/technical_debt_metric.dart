@@ -22,7 +22,7 @@ const _documentation = MetricDocumentation(
   name: 'Technical Debt',
   shortName: 'TECHDEBT',
   measuredType: EntityType.fileEntity,
-  recomendedThreshold: 0,
+  recommendedThreshold: 0,
 );
 
 /// Technical Debt (TECHDEBT)

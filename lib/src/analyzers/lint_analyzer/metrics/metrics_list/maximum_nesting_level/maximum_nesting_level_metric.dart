@@ -18,7 +18,7 @@ const _documentation = MetricDocumentation(
   name: 'Maximum Nesting Level',
   shortName: 'MAXNESTING',
   measuredType: EntityType.methodEntity,
-  recomendedThreshold: 5,
+  recommendedThreshold: 5,
 );
 
 /// Maximum Nesting Level (MAXNESTING)

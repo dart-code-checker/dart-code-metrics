@@ -18,7 +18,7 @@ const _documentation = MetricDocumentation(
   name: 'Weight Of a Class',
   shortName: 'WOC',
   measuredType: EntityType.classEntity,
-  recomendedThreshold: 0.33,
+  recommendedThreshold: 0.33,
 );
 
 /// Weight Of a Class (WOC)

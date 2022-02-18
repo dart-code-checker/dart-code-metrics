@@ -17,7 +17,7 @@ const _documentation = MetricDocumentation(
   name: 'Source lines of Code',
   shortName: 'SLOC',
   measuredType: EntityType.methodEntity,
-  recomendedThreshold: 50,
+  recommendedThreshold: 50,
 );
 
 /// Source lines of Code (SLOC)

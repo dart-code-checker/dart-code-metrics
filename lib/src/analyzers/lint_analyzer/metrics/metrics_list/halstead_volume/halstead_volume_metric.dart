@@ -17,7 +17,7 @@ const _documentation = MetricDocumentation(
   name: 'Halstead Volume',
   shortName: 'HALVOL',
   measuredType: EntityType.methodEntity,
-  recomendedThreshold: 150,
+  recommendedThreshold: 150,
 );
 
 /// Halstead Volume (HALVOL)

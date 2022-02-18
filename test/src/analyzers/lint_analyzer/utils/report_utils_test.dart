@@ -125,16 +125,16 @@ void main() {
     });
 
     test(
-      'hasIssueWithSevetiry returns true if found issue with required severity',
+      'hasIssueWithSeverity returns true if found issue with required severity',
       () {
-        expect(hasIssueWithSevetiry(fileRecords, Severity.error), isTrue);
-        expect(hasIssueWithSevetiry(fileRecords, Severity.warning), isFalse);
+        expect(hasIssueWithSeverity(fileRecords, Severity.error), isTrue);
+        expect(hasIssueWithSeverity(fileRecords, Severity.warning), isFalse);
         expect(
-          hasIssueWithSevetiry(fileRecords, Severity.performance),
+          hasIssueWithSeverity(fileRecords, Severity.performance),
           isFalse,
         );
-        expect(hasIssueWithSevetiry(fileRecords, Severity.style), isTrue);
-        expect(hasIssueWithSevetiry(fileRecords, Severity.none), isFalse);
+        expect(hasIssueWithSeverity(fileRecords, Severity.style), isTrue);
+        expect(hasIssueWithSeverity(fileRecords, Severity.none), isFalse);
       },
     );
 
