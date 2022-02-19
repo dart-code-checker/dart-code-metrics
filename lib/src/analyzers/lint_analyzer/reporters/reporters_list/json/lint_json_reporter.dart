@@ -93,7 +93,7 @@ class LintJsonReporter extends JsonReporter<LintFileReport,
       };
 
   List<Map<String, Object>> _metricValuesToJson(
-    Iterable<MetricValue<num>> metrics,
+    Iterable<MetricValue> metrics,
   ) =>
       metrics.map((metric) {
         final unitType = metric.unitType;

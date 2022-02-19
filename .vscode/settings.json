@@ -27,6 +27,7 @@
         "setstate",
         "SLOC",
         "todos",
-        "unawaited"
+        "unawaited",
+        "writeln"
     ]
 }

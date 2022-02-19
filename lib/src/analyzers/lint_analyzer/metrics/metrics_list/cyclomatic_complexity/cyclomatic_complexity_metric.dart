@@ -20,7 +20,7 @@ const _documentation = MetricDocumentation(
   name: 'Cyclomatic Complexity',
   shortName: 'CYCLO',
   measuredType: EntityType.methodEntity,
-  recomendedThreshold: 20,
+  recommendedThreshold: 20,
 );
 
 /// Cyclomatic Complexity (CYCLO)
@@ -45,7 +45,7 @@ class CyclomaticComplexityMetric extends FunctionMetric<int> {
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
     InternalResolvedUnitResult source,
-    Iterable<MetricValue<num>> otherMetricsValues,
+    Iterable<MetricValue> otherMetricsValues,
   ) {
     final visitor = CyclomaticComplexityFlowVisitor();
     node.visitChildren(visitor);

@@ -17,7 +17,7 @@ const _documentation = MetricDocumentation(
   name: 'Number of Methods',
   shortName: 'NOM',
   measuredType: EntityType.classEntity,
-  recomendedThreshold: 10,
+  recommendedThreshold: 10,
 );
 
 /// Number of Methods (NOM)
@@ -41,7 +41,7 @@ class NumberOfMethodsMetric extends ClassMetric<int> {
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
     InternalResolvedUnitResult source,
-    Iterable<MetricValue<num>> otherMetricsValues,
+    Iterable<MetricValue> otherMetricsValues,
   ) {
     final methods = classMethods(node, functionDeclarations);
 

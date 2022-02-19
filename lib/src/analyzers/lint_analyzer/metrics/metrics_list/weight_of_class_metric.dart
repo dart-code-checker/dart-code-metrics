@@ -18,7 +18,7 @@ const _documentation = MetricDocumentation(
   name: 'Weight Of a Class',
   shortName: 'WOC',
   measuredType: EntityType.classEntity,
-  recomendedThreshold: 0.33,
+  recommendedThreshold: 0.33,
 );
 
 /// Weight Of a Class (WOC)
@@ -42,7 +42,7 @@ class WeightOfClassMetric extends ClassMetric<double> {
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
     InternalResolvedUnitResult source,
-    Iterable<MetricValue<Object>> otherMetricsValues,
+    Iterable<MetricValue> otherMetricsValues,
   ) =>
       super.supports(
         node,
@@ -61,7 +61,7 @@ class WeightOfClassMetric extends ClassMetric<double> {
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
     InternalResolvedUnitResult source,
-    Iterable<MetricValue<num>> otherMetricsValues,
+    Iterable<MetricValue> otherMetricsValues,
   ) {
     final totalPublicMethods = classMethods(node, functionDeclarations)
         .where(_isPublicMethod)

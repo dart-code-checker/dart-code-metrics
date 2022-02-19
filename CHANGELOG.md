@@ -3,10 +3,11 @@
 ## Unreleased
 
 * feat: add static code diagnostics `avoid-border-all`.
-* chore: activate new lint rules.
 * feat: improve `avoid-returning-widgets` builder functions handling.
 * fix: correctly handle const maps in `no-magic-number`.
 * fix: correctly handle excluded files for `check-unused-code`.
+* chore: activate new lint rules.
+* refactor: prepare for complex metric values.
 
 ## 4.11.0-dev.1
 

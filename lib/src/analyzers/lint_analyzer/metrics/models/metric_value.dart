@@ -3,7 +3,7 @@ import 'metric_documentation.dart';
 import 'metric_value_level.dart';
 
 /// Represents a value computed by the metric.
-class MetricValue<T> {
+class MetricValue<T extends num> {
   /// The id of the computed metric.
   final String metricsId;
 

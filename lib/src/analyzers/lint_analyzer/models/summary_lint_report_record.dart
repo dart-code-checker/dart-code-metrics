@@ -1,7 +1,7 @@
 import 'summary_lint_report_record_status.dart';
 
 /// Represents a summary for a lint report.
-class SummaryLintReportRecord<T> {
+class SummaryLintReportRecord<T extends Object> {
   final SummaryLintReportRecordStatus status;
 
   final String title;
