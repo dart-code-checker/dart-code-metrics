@@ -21,8 +21,7 @@ part 'visitor.dart';
 class FormatCommentRule extends CommonRule {
   static const String ruleId = 'format-comment';
 
-  static const _warning =
-      'Prefer formatting comments like sentences.';
+  static const _warning = 'Prefer formatting comments like sentences.';
 
   FormatCommentRule([Map<String, Object> config = const {}])
       : super(
