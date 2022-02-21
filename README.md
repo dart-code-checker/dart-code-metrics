@@ -53,13 +53,13 @@ $ dart pub add --dev dart_code_metrics
 $ flutter pub add --dev dart_code_metrics
 ```
 
-**OR**
+## OR
 
 add it manually to `pubspec.yaml`
 
 ```yaml
 dev_dependencies:
-  dart_code_metrics: ^4.11.0-dev.1
+  dart_code_metrics: ^4.11.0
 ```
 
 and then run

@@ -8,15 +8,19 @@
         "codeclimate",
         "codecov",
         "codequality",
+        "commitlint",
         "cyclomatic",
         "dartanalyzer",
         "dartdocs",
         "dependabot",
         "dkrutskikh",
+        "Dmitry",
         "Gitlab",
+        "Grott",
         "Halstead",
         "incendial",
         "ints",
+        "Konoshenko",
         "lcov",
         "McCabe's",
         "mocktail",
@@ -28,6 +32,7 @@
         "SLOC",
         "todos",
         "unawaited",
-        "writeln"
+        "writeln",
+        "Zhifarsky"
     ]
 }

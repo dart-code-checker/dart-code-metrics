@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 4.11.0
 
 * feat: add static code diagnostics `format-comment`.
 * feat: add static code diagnostics `avoid-border-all`.
