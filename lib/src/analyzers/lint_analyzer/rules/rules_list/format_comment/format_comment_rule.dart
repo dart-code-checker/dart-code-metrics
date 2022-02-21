@@ -22,7 +22,7 @@ class FormatCommentRule extends CommonRule {
   static const String ruleId = 'format-comment';
 
   static const _warning =
-      'Prefer formatting single-line comments like sentences.';
+      'Prefer formatting comments like sentences.';
 
   FormatCommentRule([Map<String, Object> config = const {}])
       : super(
@@ -76,7 +76,7 @@ class FormatCommentRule extends CommonRule {
     }
 
     return Replacement(
-      comment: 'Format single line comment like sentences',
+      comment: 'Format comment like sentences',
       replacement: resultString,
     );
   }

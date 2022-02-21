@@ -37,11 +37,11 @@ void main() {
           '/// with start space with dot.',
         ],
         messages: [
-          'Prefer formatting single-line comments like sentences.',
-          'Prefer formatting single-line comments like sentences.',
-          'Prefer formatting single-line comments like sentences.',
-          'Prefer formatting single-line comments like sentences.',
-          'Prefer formatting single-line comments like sentences.',
+          'Prefer formatting comments like sentences.',
+          'Prefer formatting comments like sentences.',
+          'Prefer formatting comments like sentences.',
+          'Prefer formatting comments like sentences.',
+          'Prefer formatting comments like sentences.',
         ],
         replacements: [
           '// With start space without dot.',
@@ -69,11 +69,11 @@ void main() {
           '/// deletes the file at [path] from the file system.',
         ],
         messages: [
-          'Prefer formatting single-line comments like sentences.',
-          'Prefer formatting single-line comments like sentences.',
-          'Prefer formatting single-line comments like sentences.',
-          'Prefer formatting single-line comments like sentences.',
-          'Prefer formatting single-line comments like sentences.',
+          'Prefer formatting comments like sentences.',
+          'Prefer formatting comments like sentences.',
+          'Prefer formatting comments like sentences.',
+          'Prefer formatting comments like sentences.',
+          'Prefer formatting comments like sentences.',
         ],
         replacements: [
           '/// The value this wraps.',
