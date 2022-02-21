@@ -1,14 +1,14 @@
 part of 'format_comment_rule.dart';
 
 const commentsOperator = {
-  CommentType.base: '//',
-  CommentType.documentation: '///',
+  _CommentType.base: '//',
+  _CommentType.documentation: '///',
 };
 
 class _Visitor extends RecursiveAstVisitor<void> {
-  final _comments = <CommentInfo>[];
+  final _comments = <_CommentInfo>[];
 
-  Iterable<CommentInfo> get comments => _comments;
+  Iterable<_CommentInfo> get comments => _comments;
 
   void checkComments(AstNode node) {
     Token? token = node.beginToken;
@@ -30,14 +30,14 @@ class _Visitor extends RecursiveAstVisitor<void> {
   void _commentValidation(Token commentToken) {
     if (commentToken.type == TokenType.SINGLE_LINE_COMMENT) {
       if (commentToken.toString().startsWith('///')) {
-        _checkCommentByType(commentToken, CommentType.documentation);
+        _checkCommentByType(commentToken, _CommentType.documentation);
       } else if (commentToken.toString().startsWith('//')) {
-        _checkCommentByType(commentToken, CommentType.base);
+        _checkCommentByType(commentToken, _CommentType.base);
       }
     }
   }
 
-  void _checkCommentByType(Token commentToken, CommentType type) {
+  void _checkCommentByType(Token commentToken, _CommentType type) {
     final commentText =
         commentToken.toString().substring(commentsOperator[type]!.length);
 
@@ -56,7 +56,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
       final single = commentToken.previous == null && commentToken.next == null;
 
       if (incorrectFormat && single) {
-        _comments.add(CommentInfo(type, commentToken));
+        _comments.add(_CommentInfo(type, commentToken));
       }
     }
   }

@@ -1,8 +1,8 @@
 part of '../format_comment_rule.dart';
 
-class CommentInfo {
+class _CommentInfo {
   final Token token;
-  final CommentType type;
+  final _CommentType type;
 
-  CommentInfo(this.type, this.token);
+  _CommentInfo(this.type, this.token);
 }

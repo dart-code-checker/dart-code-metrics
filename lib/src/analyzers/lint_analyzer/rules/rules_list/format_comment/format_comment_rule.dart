@@ -48,12 +48,12 @@ class FormatCommentRule extends CommonRule {
     ];
   }
 
-  Replacement _createReplacement(CommentInfo commentInfo) {
+  Replacement _createReplacement(_CommentInfo commentInfo) {
     final commentToken = commentInfo.token;
     var resultString = commentToken.toString();
 
     switch (commentInfo.type) {
-      case CommentType.base:
+      case _CommentType.base:
         String subString;
 
         final isHasNextComment = commentToken.next != null &&
@@ -67,7 +67,7 @@ class FormatCommentRule extends CommonRule {
 
         resultString = '// $subString';
         break;
-      case CommentType.documentation:
+      case _CommentType.documentation:
         final subString =
             formatComment(resultString.substring(3, resultString.length));
         resultString = '/// $subString';
