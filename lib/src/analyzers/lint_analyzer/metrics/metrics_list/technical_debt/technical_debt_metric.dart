@@ -22,7 +22,7 @@ const _documentation = MetricDocumentation(
   name: 'Technical Debt',
   shortName: 'TECHDEBT',
   measuredType: EntityType.fileEntity,
-  recomendedThreshold: 0,
+  recommendedThreshold: 0,
 );
 
 /// Technical Debt (TECHDEBT)
@@ -77,7 +77,7 @@ class TechnicalDebtMetric extends FileMetric<double> {
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
     InternalResolvedUnitResult source,
-    Iterable<MetricValue<num>> otherMetricsValues,
+    Iterable<MetricValue> otherMetricsValues,
   ) {
     var debt = 0.0;
 

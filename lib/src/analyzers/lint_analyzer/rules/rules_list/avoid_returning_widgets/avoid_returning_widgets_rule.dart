@@ -3,6 +3,7 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
+import 'package:analyzer/dart/element/type.dart';
 
 import '../../../../../utils/flutter_types_utils.dart';
 import '../../../../../utils/node_utils.dart';
@@ -39,12 +40,12 @@ class AvoidReturningWidgetsRule extends FlutterRule {
 
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
-    final _visitor = _Visitor(_ignoredNames, _ignoredAnnotations);
+    final visitor = _Visitor(_ignoredNames, _ignoredAnnotations);
 
-    source.unit.visitChildren(_visitor);
+    source.unit.visitChildren(visitor);
 
     return [
-      ..._visitor.invocations.map((invocation) => createIssue(
+      ...visitor.invocations.map((invocation) => createIssue(
             rule: this,
             location: nodeLocation(
               node: invocation,
@@ -53,7 +54,7 @@ class AvoidReturningWidgetsRule extends FlutterRule {
             ),
             message: _warningMessage,
           )),
-      ..._visitor.getters.map((getter) => createIssue(
+      ...visitor.getters.map((getter) => createIssue(
             rule: this,
             location: nodeLocation(
               node: getter,
@@ -62,7 +63,7 @@ class AvoidReturningWidgetsRule extends FlutterRule {
             ),
             message: _getterWarningMessage,
           )),
-      ..._visitor.globalFunctions.map((globalFunction) => createIssue(
+      ...visitor.globalFunctions.map((globalFunction) => createIssue(
             rule: this,
             location: nodeLocation(
               node: globalFunction,

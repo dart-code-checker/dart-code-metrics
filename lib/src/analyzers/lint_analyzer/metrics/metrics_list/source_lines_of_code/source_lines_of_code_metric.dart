@@ -17,7 +17,7 @@ const _documentation = MetricDocumentation(
   name: 'Source lines of Code',
   shortName: 'SLOC',
   measuredType: EntityType.methodEntity,
-  recomendedThreshold: 50,
+  recommendedThreshold: 50,
 );
 
 /// Source lines of Code (SLOC)
@@ -44,7 +44,7 @@ class SourceLinesOfCodeMetric extends FunctionMetric<int> {
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
     InternalResolvedUnitResult source,
-    Iterable<MetricValue<num>> otherMetricsValues,
+    Iterable<MetricValue> otherMetricsValues,
   ) {
     final visitor = SourceCodeVisitor(source.lineInfo);
     node.visitChildren(visitor);

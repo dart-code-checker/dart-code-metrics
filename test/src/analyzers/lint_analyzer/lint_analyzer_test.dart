@@ -74,7 +74,7 @@ void main() {
       });
 
       test('should exceed lines-of-code metric', () async {
-        final config = _createConfig(metrics: {'lines-of-code': 4});
+        final config = _createConfig(metrics: {'lines-of-code': 8});
 
         final result = await analyzer.runCliAnalysis(
           folders,
@@ -119,8 +119,8 @@ void main() {
         expect(report, isEmpty);
       });
 
-      test('should report avoid-late-keyword rule', () async {
-        final config = _createConfig(rules: {'avoid-late-keyword': {}});
+      test('should report no-magic-number rule', () async {
+        final config = _createConfig(rules: {'no-magic-number': {}});
 
         final result = await analyzer.runCliAnalysis(
           folders,
@@ -130,9 +130,11 @@ void main() {
 
         final issues =
             reportForFile(result, 'lint_analyzer_exclude_example.dart').issues;
-        final ids = issues.map((issue) => issue.ruleId);
 
-        expect(ids, List.filled(1, 'avoid-late-keyword'));
+        expect(
+          issues.map((issue) => issue.ruleId),
+          equals(['no-magic-number', 'no-magic-number']),
+        );
       });
 
       test('should not report rules', () async {

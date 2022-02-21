@@ -32,11 +32,11 @@ class AvoidUnusedParametersRule extends CommonRule {
 
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
-    final _visitor = _Visitor();
+    final visitor = _Visitor();
 
-    source.unit.visitChildren(_visitor);
+    source.unit.visitChildren(visitor);
 
-    return _visitor.unusedParameters
+    return visitor.unusedParameters
         .map((parameter) => createIssue(
               rule: this,
               location: nodeLocation(

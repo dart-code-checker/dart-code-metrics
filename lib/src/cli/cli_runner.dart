@@ -19,12 +19,11 @@ class CliRunner extends CommandRunner<void> {
     CheckUnusedCodeCommand(),
   ];
 
-  late final IOSink _output;
+  final IOSink _output;
 
   CliRunner([IOSink? output])
-      : super('metrics', 'Analyze and improve your code quality.') {
-    _output = output ?? stdout;
-
+      : _output = output ?? stdout,
+        super('metrics', 'Analyze and improve your code quality.') {
     _commands.forEach(addCommand);
 
     _usesVersionOption();

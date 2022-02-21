@@ -29,9 +29,9 @@ class ConfigBuilder {
   static LintAnalysisConfig getLintAnalysisConfig(
     LintConfig config,
     String excludesRootFolder, {
-    Iterable<Metric<num>>? classMetrics,
-    Iterable<Metric<num>>? fileMetrics,
-    Iterable<Metric<num>>? functionMetrics,
+    Iterable<Metric>? classMetrics,
+    Iterable<Metric>? fileMetrics,
+    Iterable<Metric>? functionMetrics,
   }) {
     final patterns = getPatternsById(config);
     final patternsDependencies = patterns
@@ -70,9 +70,10 @@ class ConfigBuilder {
 
   /// Creates a raw unused files config from given [excludePatterns].
   static UnusedFilesConfig getUnusedFilesConfigFromArgs(
-    Iterable<String> excludePatterns,
-  ) =>
-      UnusedFilesConfig.fromArgs(excludePatterns);
+    Iterable<String> excludePatterns, {
+    required bool isMonorepo,
+  }) =>
+      UnusedFilesConfig.fromArgs(excludePatterns, isMonorepo: isMonorepo);
 
   /// Creates a raw unused files config from given [options].
   static UnusedFilesConfig getUnusedFilesConfigFromOption(

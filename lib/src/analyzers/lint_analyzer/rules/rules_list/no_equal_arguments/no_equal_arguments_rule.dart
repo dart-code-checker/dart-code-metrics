@@ -31,11 +31,11 @@ class NoEqualArgumentsRule extends CommonRule {
 
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
-    final _visitor = _Visitor(_ignoredParameters);
+    final visitor = _Visitor(_ignoredParameters);
 
-    source.unit.visitChildren(_visitor);
+    source.unit.visitChildren(visitor);
 
-    return _visitor.arguments
+    return visitor.arguments
         .map((argument) => createIssue(
               rule: this,
               location: nodeLocation(

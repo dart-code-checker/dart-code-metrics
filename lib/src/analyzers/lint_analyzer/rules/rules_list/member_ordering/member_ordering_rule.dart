@@ -38,11 +38,11 @@ class MemberOrderingRule extends CommonRule {
 
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
-    final _visitor = _Visitor(_groupsOrder);
+    final visitor = _Visitor(_groupsOrder);
 
     final membersInfo = [
       for (final entry in source.unit.childEntities)
-        if (entry is ClassDeclaration) ...entry.accept(_visitor)!,
+        if (entry is ClassDeclaration) ...entry.accept(visitor)!,
     ];
 
     return [

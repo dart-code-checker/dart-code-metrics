@@ -145,6 +145,10 @@ Rules configuration is [described here](../getting-started/configuration#configu
 
     Warns when an event listener is added but never removed.
 
+- [avoid-border-all](./flutter/avoid-border-all.md)
+
+    Avoid using Border.all constructor.
+
 - [avoid-returning-widgets](./flutter/avoid-returning-widgets.md) &nbsp; [![Configurable](https://img.shields.io/badge/-configurable-informational)](./flutter/avoid-returning-widgets.md#config-example)
 
     Warns when a method or function returns a Widget or subclass of a Widget.

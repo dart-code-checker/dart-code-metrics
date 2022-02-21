@@ -20,7 +20,7 @@ const _documentation = MetricDocumentation(
   name: 'Cyclomatic Complexity',
   shortName: 'CYCLO',
   measuredType: EntityType.methodEntity,
-  recomendedThreshold: 20,
+  recommendedThreshold: 20,
 );
 
 /// Cyclomatic Complexity (CYCLO)
@@ -45,7 +45,7 @@ class CyclomaticComplexityMetric extends FunctionMetric<int> {
     Iterable<ScopedClassDeclaration> classDeclarations,
     Iterable<ScopedFunctionDeclaration> functionDeclarations,
     InternalResolvedUnitResult source,
-    Iterable<MetricValue<num>> otherMetricsValues,
+    Iterable<MetricValue> otherMetricsValues,
   ) {
     final visitor = CyclomaticComplexityFlowVisitor();
     node.visitChildren(visitor);
@@ -70,7 +70,8 @@ class CyclomaticComplexityMetric extends FunctionMetric<int> {
     InternalResolvedUnitResult source,
   ) =>
       complexityEntities.map((entity) {
-        late String message;
+        String? message;
+
         if (entity is AstNode) {
           message = userFriendlyType(entity.runtimeType).camelCaseToText();
         } else if (entity is Token) {
@@ -78,7 +79,7 @@ class CyclomaticComplexityMetric extends FunctionMetric<int> {
         }
 
         return ContextMessage(
-          message: '${message.capitalize()} increases complexity',
+          message: '${message?.capitalize()} increases complexity',
           location: nodeLocation(node: entity, source: source),
         );
       }).toList()

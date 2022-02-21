@@ -65,29 +65,29 @@ abstract class BaseCommand extends Command<void> {
   void validateRootFolderExist() {
     final rootFolderPath = argResults[FlagNames.rootFolder] as String;
     if (!Directory(rootFolderPath).existsSync()) {
-      final _exceptionMessage =
+      final exceptionMessage =
           'Root folder $rootFolderPath does not exist or not a directory.';
 
-      throw InvalidArgumentException(_exceptionMessage);
+      throw InvalidArgumentException(exceptionMessage);
     }
   }
 
   void validateSdkPath() {
     final sdkPath = argResults[FlagNames.sdkPath] as String?;
     if (sdkPath != null && !Directory(sdkPath).existsSync()) {
-      final _exceptionMessage =
+      final exceptionMessage =
           'Dart SDK path $sdkPath does not exist or not a directory.';
 
-      throw InvalidArgumentException(_exceptionMessage);
+      throw InvalidArgumentException(exceptionMessage);
     }
   }
 
   void validateTargetDirectories() {
     if (argResults.rest.isEmpty) {
-      const _exceptionMessage =
+      const exceptionMessage =
           'Invalid number of directories. At least one must be specified.';
 
-      throw const InvalidArgumentException(_exceptionMessage);
+      throw const InvalidArgumentException(exceptionMessage);
     }
 
     final rootFolderPath = argResults[FlagNames.rootFolder] as String;
@@ -95,10 +95,10 @@ abstract class BaseCommand extends Command<void> {
     for (final relativePath in argResults.rest) {
       final absolutePath = join(rootFolderPath, relativePath);
       if (!Directory(absolutePath).existsSync()) {
-        final _exceptionMessage =
+        final exceptionMessage =
             "$absolutePath doesn't exist or isn't a directory.";
 
-        throw InvalidArgumentException(_exceptionMessage);
+        throw InvalidArgumentException(exceptionMessage);
       }
     }
   }

@@ -15,19 +15,19 @@ void main() {
     const fullPath = '/home/developer/work/project/example.dart';
 
     // ignore: close_sinks
-    late IOSinkMock _output;
-    late UnusedL10nJsonReporter _reporter;
+    late IOSinkMock output;
+    late UnusedL10nJsonReporter reporter;
 
     setUp(() {
-      _output = IOSinkMock();
+      output = IOSinkMock();
 
-      _reporter = UnusedL10nJsonReporter(_output);
+      reporter = UnusedL10nJsonReporter(output);
     });
 
     test('no unused files', () async {
-      await _reporter.report([]);
+      await reporter.report([]);
 
-      verifyNever(() => _output.write(captureAny()));
+      verifyNever(() => output.write(captureAny()));
     });
 
     test('unused files', () async {
@@ -45,10 +45,10 @@ void main() {
         ),
       ];
 
-      await _reporter.report(testReport);
+      await reporter.report(testReport);
 
       final captured = verify(
-        () => _output.write(captureAny()),
+        () => output.write(captureAny()),
       ).captured.first as String;
       final report = json.decode(captured) as Map;
 

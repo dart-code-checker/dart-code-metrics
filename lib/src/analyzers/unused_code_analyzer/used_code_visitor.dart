@@ -182,8 +182,8 @@ class UsedCodeVisitor extends RecursiveAstVisitor<void> {
       // for each of the conflicting elements.
       final conflictingElements = element.conflictingElements;
       final length = conflictingElements.length;
-      for (var i = 0; i < length; i++) {
-        final elt = conflictingElements[i];
+      for (var index = 0; index < length; index++) {
+        final elt = conflictingElements[index];
         _visitIdentifier(identifier, elt);
       }
     }

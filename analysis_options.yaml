@@ -5,6 +5,7 @@ analyzer:
     - test/resources/*
     - test/resources/unused_files_analyzer/**
     - test/resources/unused_l10n_analyzer/**
+    - test/resources/unused_code_analyzer/generated/**
     - test/**/examples/**
   language:
     strict-inference: true
@@ -45,11 +46,17 @@ dart_code_metrics:
     - test/resources/*
     - test/*
   rules:
+    - avoid-dynamic:
+        exclude:
+          - test/**
     - avoid-global-state
-    - avoid-unused-parameters
+    - avoid-late-keyword:
+        exclude:
+          - test/**
+    - avoid-missing-enum-constant-in-map
     - avoid-unnecessary-type-assertions
     - avoid-unnecessary-type-casts
-    - avoid-global-state
+    - avoid-unused-parameters
     - binary-expression-operand-order
     - double-literal-format
     - newline-before-return
@@ -57,7 +64,12 @@ dart_code_metrics:
     - no-empty-block
     - no-equal-then-else
     - no-object-declaration
+    - prefer-async-await
     - prefer-conditional-expressions
+    - prefer-correct-identifier-length:
+        exceptions:
+          - id
+          - ok
     - prefer-correct-type-name
     - prefer-first
     - prefer-last
@@ -83,6 +95,7 @@ linter:
     - avoid_equals_and_hash_code_on_mutable_classes
     - avoid_escaping_inner_quotes
     - avoid_field_initializers_in_const_classes
+    - avoid_final_parameters
     - avoid_implementing_value_types
     - avoid_js_rounded_ints
     - avoid_multiple_declarations_per_line
@@ -106,6 +119,7 @@ linter:
     #    - cast_nullable_to_non_nullable
     - close_sinks
     - comment_references
+    - conditional_uri_does_not_exist
     - depend_on_referenced_packages
     - deprecated_consistency
     - diagnostic_describe_all_properties
@@ -122,6 +136,8 @@ linter:
     - missing_whitespace_between_adjacent_strings
     #    - no_adjacent_strings_in_list
     - no_default_cases
+    - no_leading_underscores_for_library_prefixes
+    - no_leading_underscores_for_local_identifiers
     - no_logic_in_create_state
     - no_runtimeType_toString
     - noop_primitive_operations
@@ -153,7 +169,9 @@ linter:
     - prefer_single_quotes
     #    - public_member_api_docs
     #    - require_trailing_commas
-    - sized_box_for_whitespace
+    - secure_pubspec_urls
+    #    - sized_box_for_whitespace
+    #    - sized_box_shrink_expand
     #    - sort_child_properties_last
     #    - sort_constructors_first
     - sort_pub_dependencies
@@ -167,6 +185,7 @@ linter:
     - unnecessary_constructor_name
     #    - unnecessary_final
     - unnecessary_lambdas
+    - unnecessary_late
     - unnecessary_null_aware_assignments
     - unnecessary_null_checks
     - unnecessary_nullable_for_final_variable_declarations
@@ -174,7 +193,8 @@ linter:
     - unnecessary_raw_strings
     - unnecessary_statements
     - unsafe_html
-    - use_build_context_synchronously
+    #    - use_build_context_synchronously
+    #    - use_decorated_box
     #    - use_full_hex_values_for_flutter_colors
     - use_if_null_to_convert_nulls_to_bools
     - use_is_even_rather_than_modulo

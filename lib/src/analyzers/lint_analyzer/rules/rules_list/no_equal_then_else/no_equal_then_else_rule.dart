@@ -29,11 +29,11 @@ class NoEqualThenElseRule extends CommonRule {
 
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
-    final _visitor = _Visitor();
+    final visitor = _Visitor();
 
-    source.unit.visitChildren(_visitor);
+    source.unit.visitChildren(visitor);
 
-    return _visitor.nodes
+    return visitor.nodes
         .map(
           (node) => createIssue(
             rule: this,

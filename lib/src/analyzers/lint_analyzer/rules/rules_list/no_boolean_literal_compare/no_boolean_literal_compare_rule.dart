@@ -39,13 +39,13 @@ class NoBooleanLiteralCompareRule extends CommonRule {
 
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
-    final _visitor = _Visitor();
+    final visitor = _Visitor();
 
-    source.unit.visitChildren(_visitor);
+    source.unit.visitChildren(visitor);
 
     final issues = <Issue>[];
 
-    for (final expression in _visitor.expressions) {
+    for (final expression in visitor.expressions) {
       final leftOperandBooleanLiteral =
           expression.leftOperand is BooleanLiteral;
 

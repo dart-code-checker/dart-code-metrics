@@ -85,6 +85,6 @@ class LintConsoleReporter extends ConsoleReporter<LintFileReport,
     return [];
   }
 
-  bool _isNeedToReport(MetricValue<Object> metric) =>
+  bool _isNeedToReport(MetricValue metric) =>
       metric.level > MetricValueLevel.none;
 }

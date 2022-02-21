@@ -31,7 +31,7 @@ class PreferMatchFileNameRule extends CommonRule {
     final visitor = _Visitor();
     source.unit.visitChildren(visitor);
 
-    final _issue = <Issue>[];
+    final issues = <Issue>[];
 
     if (visitor.declaration.isNotEmpty &&
         !_hasMatchName(source.path, visitor.declaration.first.name)) {
@@ -44,10 +44,10 @@ class PreferMatchFileNameRule extends CommonRule {
         message: 'File name does not match with first $nodeType name.',
       );
 
-      _issue.add(issue);
+      issues.add(issue);
     }
 
-    return _issue;
+    return issues;
   }
 
   bool _hasMatchName(String path, String identifierName) {

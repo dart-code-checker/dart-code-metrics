@@ -77,7 +77,7 @@ void main() {
         final report = result.single;
         expect(report.className, 'S');
 
-        expect(report.issues.length, 4);
+        expect(report.issues, hasLength(4));
 
         final firstIssue = report.issues.first;
         expect(firstIssue.memberName, 'field');
