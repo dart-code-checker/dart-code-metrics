@@ -1,4 +1,4 @@
-part of 'format_single_line_comment_rule.dart';
+part of 'format_comment_rule.dart';
 
 const commentsOperator = {
   CommentType.base: '//',
@@ -38,19 +38,20 @@ class _Visitor extends RecursiveAstVisitor<void> {
   }
 
   void _checkCommentByType(Token commentToken, CommentType type) {
-    final commentText = commentToken.toString();
-    var text = commentText.substring(commentsOperator[type]!.length);
+    final commentText =
+        commentToken.toString().substring(commentsOperator[type]!.length);
+
+    var text = commentText.trim();
 
     if (text.isEmpty ||
-        text.startsWith(' ignore:') ||
-        text.startsWith(' ignore_for_file:')) {
+        text.startsWith('ignore:') ||
+        text.startsWith('ignore_for_file:')) {
       return;
     } else {
       text = text.trim();
       final upperCase = text[0] == text[0].toUpperCase();
-      final hasEmptySpace = text.startsWith(' ');
       final lastSymbol = _punctuation.contains(text[text.length - 1]);
-
+      final hasEmptySpace = commentText[0] == ' ';
       final incorrectFormat = !upperCase || !hasEmptySpace || !lastSymbol;
       final single = commentToken.previous == null && commentToken.next == null;
 

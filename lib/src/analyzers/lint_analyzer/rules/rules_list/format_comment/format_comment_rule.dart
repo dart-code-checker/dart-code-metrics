@@ -18,13 +18,13 @@ part 'models/comment_type.dart';
 
 part 'visitor.dart';
 
-class FormatSingleLineCommentRule extends CommonRule {
-  static const String ruleId = 'format-single-line-comment';
+class FormatCommentRule extends CommonRule {
+  static const String ruleId = 'format-comment';
 
   static const _warning =
       'Prefer formatting single-line comments like sentences.';
 
-  FormatSingleLineCommentRule([Map<String, Object> config = const {}])
+  FormatCommentRule([Map<String, Object> config = const {}])
       : super(
           id: ruleId,
           severity: readSeverity(config, Severity.style),

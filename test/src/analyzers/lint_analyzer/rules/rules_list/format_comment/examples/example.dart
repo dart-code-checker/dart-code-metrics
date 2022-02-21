@@ -11,4 +11,8 @@ class Test {
   }
 // ignore:
 }
+
 // ignore_for_file:
+var a;
+
+/// [WidgetModel] for widget.

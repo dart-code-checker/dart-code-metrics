@@ -1,31 +1,29 @@
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/format_single_line_comment/format_single_line_comment_rule.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/format_comment/format_comment_rule.dart';
 import 'package:test/test.dart';
 
 import '../../../../../helpers/rule_test_helper.dart';
 
-const _examplePath = 'format_single_line_comment/examples/example.dart';
-const _withoutIssuePath =
-    'format_single_line_comment/examples/example_without_issue.dart';
-const _multiline =
-    'format_single_line_comment/examples/example_documentation.dart';
+const _examplePath = 'format_comment/examples/example.dart';
+const _withoutIssuePath = 'format_comment/examples/example_without_issue.dart';
+const _multiline = 'format_comment/examples/example_documentation.dart';
 
 void main() {
   group('FormatCommentRule', () {
     test('initialization', () async {
       final unit = await RuleTestHelper.resolveFromFile(_examplePath);
-      final issues = FormatSingleLineCommentRule().check(unit);
+      final issues = FormatCommentRule().check(unit);
 
       RuleTestHelper.verifyInitialization(
         issues: issues,
-        ruleId: 'format-single-line-comment',
+        ruleId: 'format-comment',
         severity: Severity.style,
       );
     });
 
     test('reports about found issues', () async {
       final unit = await RuleTestHelper.resolveFromFile(_examplePath);
-      final issues = FormatSingleLineCommentRule().check(unit);
+      final issues = FormatCommentRule().check(unit);
 
       RuleTestHelper.verifyIssues(
         issues: issues,
@@ -57,7 +55,7 @@ void main() {
 
     test('reports about found issues in cases from documentation', () async {
       final unit = await RuleTestHelper.resolveFromFile(_multiline);
-      final issues = FormatSingleLineCommentRule().check(unit);
+      final issues = FormatCommentRule().check(unit);
 
       RuleTestHelper.verifyIssues(
         issues: issues,
@@ -89,7 +87,7 @@ void main() {
 
     test('reports no issues', () async {
       final unit = await RuleTestHelper.resolveFromFile(_withoutIssuePath);
-      RuleTestHelper.verifyNoIssues(FormatSingleLineCommentRule().check(unit));
+      RuleTestHelper.verifyNoIssues(FormatCommentRule().check(unit));
     });
   });
 }
