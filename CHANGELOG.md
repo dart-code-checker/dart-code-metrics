@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* feat: add static code diagnostics `format-comment`.
 * feat: add static code diagnostics `avoid-border-all`.
 * feat: improve `avoid-returning-widgets` builder functions handling.
 * fix: correctly handle const maps in `no-magic-number`.
