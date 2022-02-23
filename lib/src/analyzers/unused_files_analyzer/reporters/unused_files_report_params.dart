@@ -1,4 +1,4 @@
-/// Represents additional unused files reporter params
+/// Represents additional unused files reporter params.
 class UnusedFilesReportParams {
   final bool congratulate;
   final bool deleteUnusedFiles;

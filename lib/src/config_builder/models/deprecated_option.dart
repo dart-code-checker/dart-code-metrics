@@ -1,4 +1,4 @@
-/// Class representing deprecated config option
+/// Class representing deprecated config option.
 class DeprecatedOption {
   /// The last version number which supports the option.
   final String supportUntilVersion;

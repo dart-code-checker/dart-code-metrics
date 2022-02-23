@@ -8,17 +8,17 @@ const _minTypeLengthLabel = 'min-length';
 const _maxTypeLengthLabel = 'max-length';
 const _excludeLabel = 'excluded';
 
-/// Parser for rule configuration
+/// Parser for rule configuration.
 class _ConfigParser {
-  /// Read min type length from config
+  /// Read min type length from config.
   static int readMinTypeLength(Map<String, Object> config) =>
       _parseIntConfig(config[_minTypeLengthLabel]) ?? _defaultMinTypeLength;
 
-  /// Read max type length from config
+  /// Read max type length from config.
   static int readMaxTypeLength(Map<String, Object> config) =>
       _parseIntConfig(config[_maxTypeLengthLabel]) ?? _defaultMaxTypeLength;
 
-  /// Read excludes list from config
+  /// Read excludes list from config.
   static Iterable<String> readExcludes(Map<String, Object> config) =>
       _isIterableOfStrings(config[_excludeLabel])
           ? (config[_excludeLabel] as Iterable).cast<String>()

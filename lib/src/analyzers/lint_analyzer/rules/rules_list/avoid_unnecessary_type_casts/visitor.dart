@@ -44,7 +44,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
     final isCastedTypeNullable =
         castedType.nullabilitySuffix != NullabilitySuffix.none;
 
-    // Only one case `Type? is Type` always valid assertion case
+    // Only one case `Type? is Type` always valid assertion case.
     return isObjectTypeNullable && !isCastedTypeNullable;
   }
 

@@ -287,7 +287,7 @@ class AnalyzerPlugin extends ServerPlugin {
         ...(driver2 as AnalysisDriver).addedFiles,
     };
 
-    // From ServerPlugin.handleAnalysisSetPriorityFiles
+    // From ServerPlugin.handleAnalysisSetPriorityFiles.
     final filesByDriver = <AnalysisDriverGeneric, List<String>>{};
     for (final file in filesToFullyResolve) {
       final contextRoot = contextRootContaining(file);

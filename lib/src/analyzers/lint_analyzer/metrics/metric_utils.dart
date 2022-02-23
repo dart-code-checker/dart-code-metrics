@@ -42,7 +42,7 @@ T? readConfigValue<T extends Object>(
   return null;
 }
 
-/// Returns calculated [MetricValueLevel] based on the [value] to [warningLevel] ratio
+/// Returns calculated [MetricValueLevel] based on the [value] to [warningLevel] ratio.
 MetricValueLevel valueLevel(num? value, num? warningLevel) {
   if (value == null || warningLevel == null) {
     return MetricValueLevel.none;
@@ -59,7 +59,7 @@ MetricValueLevel valueLevel(num? value, num? warningLevel) {
   return MetricValueLevel.none;
 }
 
-/// Returns calculated [MetricValueLevel] based on the [value] to [warningLevel] inverted ratio
+/// Returns calculated [MetricValueLevel] based on the [value] to [warningLevel] inverted ratio.
 MetricValueLevel invertValueLevel(num? value, num? warningLevel) {
   if (value == null || warningLevel == null) {
     return MetricValueLevel.none;
@@ -76,7 +76,7 @@ MetricValueLevel invertValueLevel(num? value, num? warningLevel) {
   return MetricValueLevel.none;
 }
 
-/// Determines if the [level] warns about need to be a report about a metric value
+/// Determines if the [level] warns about need to be a report about a metric value.
 bool isReportLevel(MetricValueLevel level) =>
     level == MetricValueLevel.warning || level == MetricValueLevel.alarm;
 

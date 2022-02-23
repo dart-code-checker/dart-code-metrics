@@ -7,7 +7,7 @@ import 'package:path/path.dart' as p;
 import 'file_report.dart';
 import 'reporter.dart';
 
-/// HTML-doc reporter
+/// HTML-doc reporter.
 abstract class HtmlReporter<T extends FileReport, S, P>
     extends Reporter<T, S, P> {
   static const String id = 'html';

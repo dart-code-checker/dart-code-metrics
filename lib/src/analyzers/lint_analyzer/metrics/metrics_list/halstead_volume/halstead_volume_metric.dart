@@ -50,13 +50,13 @@ class HalsteadVolumeMetric extends FunctionMetric<double> {
     final visitor = HalsteadVolumeAstVisitor();
     node.visitChildren(visitor);
 
-    // LTH (length) - the sum of the number of operators and the number of operands
+    // LTH (length) - the sum of the number of operators and the number of operands.
     final lth = visitor.operators + visitor.operands;
 
-    // VOC (vocabulary) – the the number of unique operators and the number of unique operands
+    // VOC (vocabulary) – the the number of unique operators and the number of unique operands.
     final voc = visitor.uniqueOperators + visitor.uniqueOperands;
 
-    // VOL (volume) – based on the length and the vocabulary
+    // VOL (volume) – based on the length and the vocabulary.
     final vol = voc != 0 ? lth * _log2(voc) : 0.0;
 
     return MetricComputationResult<double>(value: vol);

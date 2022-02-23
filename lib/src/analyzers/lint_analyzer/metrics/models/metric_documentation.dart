@@ -11,7 +11,7 @@ class MetricDocumentation {
   /// The type of entities which will be measured by the metric.
   final EntityType measuredType;
 
-  /// The recommended threshold value for this metric
+  /// The recommended threshold value for this metric.
   final num recommendedThreshold;
 
   /// Initialize a newly created [MetricDocumentation].

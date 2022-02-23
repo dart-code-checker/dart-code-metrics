@@ -1,7 +1,7 @@
 import '../../../reporters/models/file_report.dart';
 import 'unused_l10n_issue.dart';
 
-/// Represents unused localization report collected for a file
+/// Represents unused localization report collected for a file.
 class UnusedL10nFileReport implements FileReport {
   /// The path to the target file.
   @override

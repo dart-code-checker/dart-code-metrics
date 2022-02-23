@@ -30,7 +30,7 @@ final _implementedMetrics = <String, Metric Function(Map<String, Object>)>{
   // Depend on CyclomaticComplexityMetric, HalsteadVolumeMetric and SourceLinesOfCodeMetric metrics
   MaintainabilityIndexMetric.metricId: (config) =>
       MaintainabilityIndexMetric(config: config),
-  // Depend on all metrics
+  // Depend on all metrics.
   TechnicalDebtMetric.metricId: (config) => TechnicalDebtMetric(config: config),
 };
 
