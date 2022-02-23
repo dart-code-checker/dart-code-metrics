@@ -22,16 +22,16 @@ import '../pattern_utils.dart';
 class LongMethod extends Pattern {
   static const String patternId = 'long-method';
 
-  final int? _sourceLinesOfCodeMetricTreshold;
+  final int? _sourceLinesOfCodeMetricThreshold;
 
   @override
   Iterable<String> get dependentMetricIds => [SourceLinesOfCodeMetric.metricId];
 
   LongMethod({
     Map<String, Object> patternSettings = const {},
-    Map<String, Object> metricstTresholds = const {},
-  })  : _sourceLinesOfCodeMetricTreshold = readNullableThreshold<int>(
-          metricstTresholds,
+    Map<String, Object> metricsThresholds = const {},
+  })  : _sourceLinesOfCodeMetricThreshold = readNullableThreshold<int>(
+          metricsThresholds,
           SourceLinesOfCodeMetric.metricId,
         ),
         super(
@@ -50,12 +50,13 @@ class LongMethod extends Pattern {
       functionMetrics.entries
           .where((entry) => !_isExcluded(entry.key))
           .expand((entry) => [
-                if (_sourceLinesOfCodeMetricTreshold != null)
+                if (_sourceLinesOfCodeMetricThreshold != null)
                   ...entry.value.metrics
                       .where((metricValue) =>
                           metricValue.metricsId ==
                               SourceLinesOfCodeMetric.metricId &&
-                          metricValue.value > _sourceLinesOfCodeMetricTreshold!)
+                          metricValue.value >
+                              _sourceLinesOfCodeMetricThreshold!)
                       .map(
                         (metricValue) => createIssue(
                           pattern: this,
@@ -68,12 +69,12 @@ class LongMethod extends Pattern {
                             functionType: entry.key.type,
                           ),
                           verboseMessage: _compileRecommendationMessage(
-                            maximumLines: _sourceLinesOfCodeMetricTreshold,
+                            maximumLines: _sourceLinesOfCodeMetricThreshold,
                             functionType: entry.key.type,
                           ),
                         ),
                       ),
-                if (_sourceLinesOfCodeMetricTreshold == null)
+                if (_sourceLinesOfCodeMetricThreshold == null)
                   // ignore: deprecated_member_use_from_same_package
                   ..._legacyBehaviour(source, entry),
               ])

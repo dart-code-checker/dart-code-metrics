@@ -6,7 +6,7 @@ import 'package:meta/meta.dart';
 import 'file_report.dart';
 import 'reporter.dart';
 
-/// Plain terminal reporter
+/// Plain terminal reporter.
 abstract class ConsoleReporter<T extends FileReport, S, P>
     extends Reporter<T, S, P> {
   static const String id = 'console';

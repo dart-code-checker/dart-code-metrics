@@ -1,4 +1,4 @@
-/// Represents additional lint reporter params
+/// Represents additional lint reporter params.
 class LintReportParams {
   final bool congratulate;
 

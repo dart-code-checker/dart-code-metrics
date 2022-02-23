@@ -10,7 +10,7 @@ import '../analysis_options_utils.dart';
 
 const _analysisOptionsFileName = 'analysis_options.yaml';
 
-/// Class representing dart analysis options
+/// Class representing dart analysis options.
 class AnalysisOptions {
   final Map<String, Object> options;
 

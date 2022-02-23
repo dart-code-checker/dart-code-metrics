@@ -147,8 +147,7 @@ class AnalyzerPlugin extends ServerPlugin {
   ) async {
     try {
       final driver = driverForPath(parameters.file) as AnalysisDriver;
-      // ignore: deprecated_member_use
-      final analysisResult = await driver.getResult2(parameters.file);
+      final analysisResult = await driver.getResult(parameters.file);
 
       if (analysisResult is! ResolvedUnitResult) {
         return plugin.EditGetFixesResult([]);
@@ -287,7 +286,7 @@ class AnalyzerPlugin extends ServerPlugin {
         ...(driver2 as AnalysisDriver).addedFiles,
     };
 
-    // From ServerPlugin.handleAnalysisSetPriorityFiles
+    // From ServerPlugin.handleAnalysisSetPriorityFiles.
     final filesByDriver = <AnalysisDriverGeneric, List<String>>{};
     for (final file in filesToFullyResolve) {
       final contextRoot = contextRootContaining(file);

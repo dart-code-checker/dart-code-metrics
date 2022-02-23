@@ -3,13 +3,13 @@ import 'dart:io';
 import 'package:dart_code_metrics/lint_analyzer.dart';
 
 Future<void> main() async {
-  // Get some folder you would like to analyze
+  // Get some folder you would like to analyze.
   const foldersToAnalyze = ['lib', 'test'];
 
-  // Root folder path is used to resolve relative file paths
+  // Root folder path is used to resolve relative file paths.
   const rootFolder = 'projectRoot';
 
-  // First of all config has to be created for a checker
+  // First of all config has to be created for a checker.
   const config = LintConfig(
     excludePatterns: ['test/resources/**'],
     excludeForMetricsPatterns: ['test/**'],

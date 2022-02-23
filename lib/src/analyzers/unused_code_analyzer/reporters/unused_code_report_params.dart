@@ -1,4 +1,4 @@
-/// Represents additional unused code reporter params
+/// Represents additional unused code reporter params.
 class UnusedCodeReportParams {
   final bool congratulate;
 

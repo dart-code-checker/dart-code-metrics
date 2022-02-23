@@ -13,10 +13,10 @@ abstract class Rule {
   /// The type of the rule.
   final RuleType type;
 
-  /// The severity of issues emitted by the rule
+  /// The severity of issues emitted by the rule.
   final Severity severity;
 
-  /// A list of excluded files for the rule
+  /// A list of excluded files for the rule.
   final Iterable<String> excludes;
 
   /// Initialize a newly created [Rule].

@@ -29,11 +29,11 @@ class CliRunner extends CommandRunner<void> {
     _usesVersionOption();
   }
 
-  /// Represents the invocation string message
+  /// Represents the invocation string message.
   @override
   String get invocation => '${super.invocation} <directories>';
 
-  /// Main entry point for running a command
+  /// Main entry point for running a command.
   @override
   Future<void> run(Iterable<String> args) async {
     try {

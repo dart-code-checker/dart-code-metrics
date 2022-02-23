@@ -1,7 +1,7 @@
 import '../../../reporters/models/file_report.dart';
 import 'unused_code_issue.dart';
 
-/// Represents unused code report collected for a file
+/// Represents unused code report collected for a file.
 class UnusedCodeFileReport implements FileReport {
   /// The path to the target file.
   @override

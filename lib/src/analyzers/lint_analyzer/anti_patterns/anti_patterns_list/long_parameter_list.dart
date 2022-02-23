@@ -19,7 +19,7 @@ import '../pattern_utils.dart';
 class LongParameterList extends Pattern {
   static const String patternId = 'long-parameter-list';
 
-  final int? _numberOfParametersMetricTreshold;
+  final int? _numberOfParametersMetricThreshold;
 
   @override
   Iterable<String> get dependentMetricIds =>
@@ -27,9 +27,9 @@ class LongParameterList extends Pattern {
 
   LongParameterList({
     Map<String, Object> patternSettings = const {},
-    Map<String, Object> metricstTresholds = const {},
-  })  : _numberOfParametersMetricTreshold = readNullableThreshold<int>(
-          metricstTresholds,
+    Map<String, Object> metricsThresholds = const {},
+  })  : _numberOfParametersMetricThreshold = readNullableThreshold<int>(
+          metricsThresholds,
           NumberOfParametersMetric.metricId,
         ),
         super(
@@ -47,13 +47,13 @@ class LongParameterList extends Pattern {
   ) =>
       functionMetrics.entries
           .expand((entry) => [
-                if (_numberOfParametersMetricTreshold != null)
+                if (_numberOfParametersMetricThreshold != null)
                   ...entry.value.metrics
                       .where((metricValue) =>
                           metricValue.metricsId ==
                               NumberOfParametersMetric.metricId &&
                           metricValue.value >
-                              _numberOfParametersMetricTreshold!)
+                              _numberOfParametersMetricThreshold!)
                       .map(
                         (metricValue) => createIssue(
                           pattern: this,
@@ -66,12 +66,13 @@ class LongParameterList extends Pattern {
                             functionType: entry.key.type,
                           ),
                           verboseMessage: _compileRecommendationMessage(
-                            maximumArguments: _numberOfParametersMetricTreshold,
+                            maximumArguments:
+                                _numberOfParametersMetricThreshold,
                             functionType: entry.key.type,
                           ),
                         ),
                       ),
-                if (_numberOfParametersMetricTreshold == null)
+                if (_numberOfParametersMetricThreshold == null)
                   // ignore: deprecated_member_use_from_same_package
                   ..._legacyBehaviour(source, entry),
               ])

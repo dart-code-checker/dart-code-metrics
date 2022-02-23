@@ -12,7 +12,7 @@ final _whitePen = AnsiPen()..white();
 
 final _linkPen = AnsiPen()..rgb(r: 0.0, g: 0.78, b: 1.0);
 
-/// Helper for building lint console reports
+/// Helper for building lint console reports.
 class LintConsoleReporterHelper {
   static final _colorPens = {
     MetricValueLevel.alarm: _alarmPen,

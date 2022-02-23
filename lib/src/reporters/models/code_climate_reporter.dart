@@ -16,7 +16,7 @@ abstract class CodeClimateReporter<T extends FileReport, S, P>
   @protected
   final IOSink output;
 
-  /// If true will report in GitLab Code Quality format
+  /// If true will report in GitLab Code Quality format.
   @protected
   final bool gitlabCompatible;
 
