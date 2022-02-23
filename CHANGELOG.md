@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* **Breaking Change:** cli arguments `--fatal-unused` and `--fatal-warnings` activate by default.
+
 ## 4.11.0
 
 * feat: add static code diagnostics `format-comment`.
