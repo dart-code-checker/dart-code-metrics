@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* feat: add static code diagnostics `avoid-extends-keyword`.
 * **Breaking Change:** cli arguments `--fatal-unused` and `--fatal-warnings` activate by default.
 * chore: restrict `analyzer` version to `>=2.8.0 <3.3.0`.
 
