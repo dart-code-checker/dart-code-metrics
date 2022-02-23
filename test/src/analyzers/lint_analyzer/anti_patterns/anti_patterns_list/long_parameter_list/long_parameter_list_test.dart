@@ -34,7 +34,7 @@ void main() {
     });
 
     final issues = LongParameterList(
-      metricstTresholds: {NumberOfParametersMetric.metricId: 4},
+      metricsThresholds: {NumberOfParametersMetric.metricId: 4},
     ).check(unit, {}, {
       declarations.last: Report(
         location:

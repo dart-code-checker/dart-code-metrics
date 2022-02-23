@@ -36,7 +36,7 @@ void main() {
       });
 
       final issues = LongMethod(
-        metricstTresholds: {SourceLinesOfCodeMetric.metricId: 25},
+        metricsThresholds: {SourceLinesOfCodeMetric.metricId: 25},
       ).check(unit, {}, {
         declarations.first: Report(
           location:
@@ -128,7 +128,7 @@ void main() {
       });
 
       final issues = LongMethod(
-        metricstTresholds: {SourceLinesOfCodeMetric.metricId: 25},
+        metricsThresholds: {SourceLinesOfCodeMetric.metricId: 25},
       ).check(unit, {}, {
         declarations.first: Report(
           location:
