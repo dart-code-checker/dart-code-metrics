@@ -5,6 +5,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
   Iterable<Expression> get expressions => _expressions;
 
+  // for `operator []` and `operator []=`
   @override
   void visitIndexExpression(IndexExpression node) {
     super.visitIndexExpression(node);
@@ -23,6 +24,30 @@ class _Visitor extends RecursiveAstVisitor<void> {
     final indexTypeIsSubClassOfMapKeyType = indexType.asInstanceOf(mapType.keyElement) != null;
     if (!indexTypeIsSubClassOfMapKeyType) {
       _expressions.add(node);
+    }
+  }
+
+  // for things like `map.containsKey`
+  @override
+  void visitMethodInvocation(MethodInvocation node) {
+    super.visitMethodInvocation(node);
+
+    switch (node.methodName.name) {
+      case 'containsKey':
+      case 'remove':
+        final mapType = _getMapType(node.target?.staticType);
+        final argType = node.argumentList.arguments.singleOrNull?.staticType;
+        if(mapType != null && argType != null && argType.asInstanceOf(mapType.keyElement) == null) {
+          _expressions.add(node);
+        }
+        break;
+      case 'containsValue':
+        final mapType = _getMapType(node.target?.staticType);
+        final argType = node.argumentList.arguments.singleOrNull?.staticType;
+        if(mapType != null && argType != null && argType.asInstanceOf(mapType.valueElement) == null) {
+          _expressions.add(node);
+        }
+        break;
     }
   }
 
