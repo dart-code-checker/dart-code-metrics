@@ -1,23 +1,45 @@
 void main() {
-  final primitiveMap = Map<int, String>();
-  // write
-  primitiveMap[42] = "value";
-  primitiveMap["str"] = "value"; // LINT
-  // read
-  final a1 = primitiveMap[42];
-  final a2 = primitiveMap["str"]; // LINT
+  {
+    final primitiveMap = Map<int, String>();
 
-  final inheritanceMap = Map<Animal, String>();
-  // write
-  inheritanceMap[Animal()] = "value";
-  inheritanceMap[HumanExtendsAnimal()] = "value";
-  inheritanceMap[DogImplementsAnimal()] = "value";
-  inheritanceMap[Flower()] = "value"; // LINT
-  // read
-  final b1 = inheritanceMap[Animal()];
-  final b2 = inheritanceMap[HumanExtendsAnimal()];
-  final b3 = inheritanceMap[DogImplementsAnimal()];
-  final b4 = inheritanceMap[Flower()]; // LINT
+    primitiveMap[42] = "value";
+    primitiveMap["str"] = "value"; // LINT
+
+    final a1 = primitiveMap[42];
+    final a2 = primitiveMap["str"]; // LINT
+
+    primitiveMap.containsKey(42);
+    primitiveMap.containsKey("str"); // LINT
+
+    primitiveMap.containsValue("value");
+    primitiveMap.containsValue(100); // LINT
+
+    primitiveMap.remove(42);
+    primitiveMap.remove("str"); // LINT
+  }
+
+  {
+    final inheritanceMap = Map<Animal, Flower>();
+
+    inheritanceMap[Animal()] = "value";
+    inheritanceMap[HumanExtendsAnimal()] = "value";
+    inheritanceMap[DogImplementsAnimal()] = "value";
+    inheritanceMap[Flower()] = "value"; // LINT
+
+    final b1 = inheritanceMap[Animal()];
+    final b2 = inheritanceMap[HumanExtendsAnimal()];
+    final b3 = inheritanceMap[DogImplementsAnimal()];
+    final b4 = inheritanceMap[Flower()]; // LINT
+
+    inheritanceMap.containsKey(DogImplementsAnimal());
+    inheritanceMap.containsKey(Flower()); // LINT
+
+    inheritanceMap.containsValue(Flower());
+    inheritanceMap.containsValue(DogImplementsAnimal()); // LINT
+
+    inheritanceMap.remove(DogImplementsAnimal());
+    inheritanceMap.remove(Flower()); // LINT
+  }
 }
 
 class Animal {}
