@@ -2,10 +2,10 @@ void main() {
   final primitiveMap = Map<int, String>();
   // write
   primitiveMap[42] = "value";
-  primitiveMap["wrong_key_type"] = "value"; // LINT
+  primitiveMap["str"] = "value"; // LINT
   // read
   final a1 = primitiveMap[42];
-  final a2 = primitiveMap["wrong_key_type"]; // LINT
+  final a2 = primitiveMap["str"]; // LINT
 
   final inheritanceMap = Map<Animal, String>();
   // write

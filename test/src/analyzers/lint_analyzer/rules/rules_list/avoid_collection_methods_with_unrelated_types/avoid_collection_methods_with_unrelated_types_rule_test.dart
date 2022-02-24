@@ -25,11 +25,20 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        // TODO fill in
-        startLines: [],
-        startColumns: [],
-        locationTexts: [],
-        messages: [],
+        startLines: [5, 8, 15, 20],
+        startColumns: [3, 14, 3, 14],
+        locationTexts: [
+          'primitiveMap["str"]',
+          'primitiveMap["str"]',
+          'inheritanceMap[Flower()]',
+          'inheritanceMap[Flower()]',
+        ],
+        messages: [
+          'Avoid collection methods with unrelated types.',
+          'Avoid collection methods with unrelated types.',
+          'Avoid collection methods with unrelated types.',
+          'Avoid collection methods with unrelated types.',
+        ],
       );
     });
   });
