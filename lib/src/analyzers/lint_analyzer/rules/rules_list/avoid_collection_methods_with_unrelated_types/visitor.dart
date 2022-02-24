@@ -10,13 +10,8 @@ class _Visitor extends RecursiveAstVisitor<void> {
     super.visitIndexExpression(node);
 
     final targetType = node.target?.staticType;
-    final mapKeyType = _getMapKeyType(targetType);
-    if (mapKeyType == null) {
-      return;
-    }
-
-    final mapKeyElement = mapKeyType.element;
-    if (mapKeyElement is! ClassElement) {
+    final mapType = _getMapType(targetType);
+    if (mapType == null) {
       return;
     }
 
@@ -25,13 +20,13 @@ class _Visitor extends RecursiveAstVisitor<void> {
       return;
     }
 
-    final indexTypeIsSubClassOfMapKeyType = indexType.asInstanceOf(mapKeyElement) != null;
+    final indexTypeIsSubClassOfMapKeyType = indexType.asInstanceOf(mapType.keyElement) != null;
     if (!indexTypeIsSubClassOfMapKeyType) {
       _expressions.add(node);
     }
   }
 
-  DartType? _getMapKeyType(DartType? type) {
+  _MapType? _getMapType(DartType? type) {
     if (type == null || !type.isDartCoreMap || type is! ParameterizedType) {
       return null;
     }
@@ -41,6 +36,25 @@ class _Visitor extends RecursiveAstVisitor<void> {
       return null;
     }
 
-    return typeArguments.first;
+    final keyType = typeArguments.first;
+    final valueType = typeArguments[1];
+
+    final keyElement = keyType.element;
+    final valueElement = valueType.element;
+    if (keyElement is! ClassElement || valueElement is! ClassElement) {
+      return null;
+    }
+
+    return _MapType(keyType, valueType, keyElement, valueElement);
   }
+}
+
+class _MapType {
+  final DartType keyType;
+  final DartType valueType;
+
+  final ClassElement keyElement;
+  final ClassElement valueElement;
+
+  _MapType(this.keyType, this.valueType, this.keyElement, this.valueElement);
 }
