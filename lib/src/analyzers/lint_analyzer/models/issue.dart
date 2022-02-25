@@ -43,14 +43,4 @@ class Issue {
     this.verboseMessage,
     this.suggestion,
   });
-
-  @override
-  String toString() => 'Issue{'
-      'startLine: ${location.start.line}, '
-      'startColumn: ${location.start.column}, '
-      'locationText: ${location.text}, '
-      'message: $message, '
-      'replacement: ${suggestion?.replacement}, '
-      'replacementComment: ${suggestion?.comment}, '
-      '}';
 }
