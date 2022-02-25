@@ -41,10 +41,11 @@ void main() {
     inheritanceMap.remove(Flower()); // LINT
   }
 
+  // sub-class of `Map`, `Iterable` etc should also be supported
   {
     final myMap = MyMapSubClass();
-    myMap[42] = "value";
-    myMap["str"] = "value"; // LINT
+    var c1 = myMap[42];
+    var c2 = myMap["str"]; // LINT
     myMap.containsKey(42);
     myMap.containsKey("str"); // LINT
   }

@@ -25,8 +25,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startLines: [6, 9, 12, 15, 18, 27, 32, 35, 38, 41, 47, 49, 54, 57],
-        startColumns: [5, 16, 5, 5, 5, 5, 16, 5, 5, 5, 5, 5, 5, 5],
+        startLines: [6, 9, 12, 15, 18, 27, 32, 35, 38, 41, 48, 50, 55, 58],
+        startColumns: [5, 16, 5, 5, 5, 5, 16, 5, 5, 5, 14, 5, 5, 5],
         locationTexts: [
           'primitiveMap["str"]',
           'primitiveMap["str"]',
