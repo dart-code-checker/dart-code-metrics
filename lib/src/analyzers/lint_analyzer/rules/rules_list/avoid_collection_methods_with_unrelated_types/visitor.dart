@@ -10,22 +10,8 @@ class _Visitor extends RecursiveAstVisitor<void> {
   void visitIndexExpression(IndexExpression node) {
     super.visitIndexExpression(node);
 
-    final targetType = node.target?.staticType;
-    final mapType = _getMapType(targetType);
-    if (mapType == null) {
-      return;
-    }
-
-    final indexType = node.index.staticType;
-    if (indexType == null) {
-      return;
-    }
-
-    final indexTypeIsSubClassOfMapKeyType =
-        indexType.asInstanceOf(mapType.keyElement) != null;
-    if (!indexTypeIsSubClassOfMapKeyType) {
-      _expressions.add(node);
-    }
+    final mapType = _getMapTypeElement(node.target?.staticType);
+    _addIfNotSubType(node.index.staticType, mapType?.first, node);
   }
 
   // for things like `map.containsKey`
@@ -38,12 +24,12 @@ class _Visitor extends RecursiveAstVisitor<void> {
     switch (node.methodName.name) {
       case 'containsKey':
       case 'remove':
-        final mapType = _getMapType(node.target?.staticType);
-        _addIfNotSubType(argType, mapType?.keyElement, node);
+        final mapType = _getMapTypeElement(node.target?.staticType);
+        _addIfNotSubType(argType, mapType?.first, node);
         break;
       case 'containsValue':
-        final mapType = _getMapType(node.target?.staticType);
-        _addIfNotSubType(argType, mapType?.valueElement, node);
+        final mapType = _getMapTypeElement(node.target?.staticType);
+        _addIfNotSubType(argType, mapType?[1], node);
         break;
       case 'contains':
         final iterableType = _getIterableTypeElement(node.target?.staticType);
@@ -55,7 +41,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
   void _addIfNotSubType(
     DartType? childType,
     ClassElement? parentElement,
-    MethodInvocation node,
+    Expression node,
   ) {
     if (parentElement != null &&
         childType != null &&
@@ -64,50 +50,28 @@ class _Visitor extends RecursiveAstVisitor<void> {
     }
   }
 
-  _MapType? _getMapType(DartType? type) {
-    final mapType = getSupertypeMap(type);
-    if (mapType == null || mapType is! ParameterizedType) {
+  List<ClassElement>? _getMapTypeElement(DartType? type) =>
+      _getTypeArgElements(getSupertypeMap(type));
+
+  ClassElement? _getIterableTypeElement(DartType? type) =>
+      _getTypeArgElements(getSupertypeIterable(type))?.singleOrNull;
+
+  ClassElement? _getListTypeElement(DartType? type) =>
+      _getTypeArgElements(getSupertypeList(type))?.singleOrNull;
+
+  List<ClassElement>? _getTypeArgElements(DartType? type) {
+    if (type == null || type is! ParameterizedType) {
       return null;
     }
 
-    final typeArguments = mapType.typeArguments;
-    if (typeArguments.length != 2) {
+    final typeArgElements = type.typeArguments
+        .map((arg) => arg.element)
+        .whereType<ClassElement>()
+        .toList();
+    if (typeArgElements.length < type.typeArguments.length) {
       return null;
     }
 
-    final keyType = typeArguments.first;
-    final valueType = typeArguments[1];
-
-    final keyElement = keyType.element;
-    final valueElement = valueType.element;
-    if (keyElement is! ClassElement || valueElement is! ClassElement) {
-      return null;
-    }
-
-    return _MapType(keyType, valueType, keyElement, valueElement);
+    return typeArgElements;
   }
-
-  ClassElement? _getIterableTypeElement(DartType? type) {
-    final iterableType = getSupertypeIterable(type);
-    if (iterableType == null || iterableType is! ParameterizedType) {
-      return null;
-    }
-
-    final typeArgElement = iterableType.typeArguments.singleOrNull?.element;
-    if (typeArgElement is! ClassElement) {
-      return null;
-    }
-
-    return typeArgElement;
-  }
-}
-
-class _MapType {
-  final DartType keyType;
-  final DartType valueType;
-
-  final ClassElement keyElement;
-  final ClassElement valueElement;
-
-  _MapType(this.keyType, this.valueType, this.keyElement, this.valueElement);
 }
