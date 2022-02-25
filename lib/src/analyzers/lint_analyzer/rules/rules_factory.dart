@@ -17,6 +17,7 @@ import 'rules_list/avoid_unnecessary_type_casts/avoid_unnecessary_type_casts_rul
 import 'rules_list/avoid_unrelated_type_assertions/avoid_unrelated_type_assertions_rule.dart';
 import 'rules_list/avoid_unused_parameters/avoid_unused_parameters_rule.dart';
 import 'rules_list/avoid_wrapping_in_padding/avoid_wrapping_in_padding_rule.dart';
+import 'rules_list/ban_name/ban_name_rule.dart';
 import 'rules_list/binary_expression_operand_order/binary_expression_operand_order_rule.dart';
 import 'rules_list/component_annotation_arguments_ordering/component_annotation_arguments_ordering_rule.dart';
 import 'rules_list/double_literal_format/double_literal_format_rule.dart';
@@ -77,6 +78,7 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
       AvoidUnusedParametersRule(config),
   AvoidWrappingInPaddingRule.ruleId: (config) =>
       AvoidWrappingInPaddingRule(config),
+  BanNameRule.ruleId: (config) => BanNameRule(config),
   BinaryExpressionOperandOrderRule.ruleId: (config) =>
       BinaryExpressionOperandOrderRule(config),
   ComponentAnnotationArgumentsOrderingRule.ruleId: (config) =>
