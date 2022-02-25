@@ -59,6 +59,10 @@ Rules configuration is [described here](../getting-started/configuration#configu
 
     Checks for unused parameters inside a function or method body.
 
+- [ban-name](./common/ban-name.md) &nbsp; [![Configurable](https://img.shields.io/badge/-configurable-informational)](./common/ban-name.md#config-example)
+
+    Configure some names that you want to ban.
+
 - [binary-expression-operand-order](./common/binary-expression-operand-order.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 
     Warns when a literal value is on the left hand side in a binary expressions.
