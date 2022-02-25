@@ -56,12 +56,43 @@ void main() {
 
     Iterable<int>.generate(10).contains(42);
     Iterable<int>.generate(10).contains("str"); // LINT
+
+    <int>{1, 2, 3}.contains(42);
+    <int>{1, 2, 3}.contains("str"); // LINT
   }
 
   {
     final primitiveList = [10, 20, 30];
     primitiveList.remove(20);
     primitiveList.remove("str"); // LINT
+  }
+
+  {
+    final primitiveSet = {10, 20, 30};
+
+    primitiveSet.contains(42);
+    primitiveSet.contains("str"); // LINT
+
+    primitiveSet.containsAll(Iterable<int>.empty());
+    primitiveSet.containsAll(Iterable<String>.empty()); // LINT
+
+    primitiveSet.difference(<int>{});
+    primitiveSet.difference(<String>{}); // LINT
+
+    primitiveSet.intersection(<int>{});
+    primitiveSet.intersection(<String>{}); // LINT
+
+    primitiveSet.lookup(42);
+    primitiveSet.lookup("str"); // LINT
+
+    primitiveList.remove(42);
+    primitiveList.remove("str"); // LINT
+
+    primitiveSet.removeAll(Iterable<int>.empty());
+    primitiveSet.removeAll(Iterable<String>.empty()); // LINT
+
+    primitiveSet.retainAll(Iterable<int>.empty());
+    primitiveSet.retainAll(Iterable<String>.empty()); // LINT
   }
 }
 

@@ -19,60 +19,82 @@ class _Visitor extends RecursiveAstVisitor<void> {
   void visitMethodInvocation(MethodInvocation node) {
     super.visitMethodInvocation(node);
 
+    final mapType = _getMapTypeElement(node.target?.staticType);
+    final listType = _getListTypeElement(node.target?.staticType);
+    final setType = _getSetTypeElement(node.target?.staticType);
+    final iterableType = _getIterableTypeElement(node.target?.staticType);
     final argType = node.argumentList.arguments.singleOrNull?.staticType;
 
     switch (node.methodName.name) {
       case 'containsKey':
-        final mapType = _getMapTypeElement(node.target?.staticType);
         _addIfNotSubType(argType, mapType?.first, node);
         break;
       case 'remove':
-        final mapType = _getMapTypeElement(node.target?.staticType);
         _addIfNotSubType(argType, mapType?.first, node);
-
-        final listType = _getListTypeElement(node.target?.staticType);
         _addIfNotSubType(argType, listType, node);
+        _addIfNotSubType(argType, setType, node);
+        break;
+      case 'lookup':
+        _addIfNotSubType(argType, setType, node);
         break;
       case 'containsValue':
-        final mapType = _getMapTypeElement(node.target?.staticType);
         _addIfNotSubType(argType, mapType?[1], node);
         break;
       case 'contains':
-        final iterableType = _getIterableTypeElement(node.target?.staticType);
         _addIfNotSubType(argType, iterableType, node);
+        break;
+      case 'containsAll':
+      case 'removeAll':
+      case 'retainAll':
+        final argAsIterableParamType = _getIterableTypeElement(argType);
+        _addIfNotSubType(argAsIterableParamType?.type, setType, node);
+        break;
+      case 'difference':
+      case 'intersection':
+        final argAsSetParamType = _getSetTypeElement(argType);
+        _addIfNotSubType(argAsSetParamType?.type, setType, node);
         break;
     }
   }
 
   void _addIfNotSubType(
     DartType? childType,
-    ClassElement? parentElement,
+    _TypedClassElement? parentElement,
     Expression node,
   ) {
     if (parentElement != null &&
         childType != null &&
-        childType.asInstanceOf(parentElement) == null) {
+        childType.asInstanceOf(parentElement.element) == null) {
       _expressions.add(node);
     }
   }
 
-  List<ClassElement>? _getMapTypeElement(DartType? type) =>
+  List<_TypedClassElement>? _getMapTypeElement(DartType? type) =>
       _getTypeArgElements(getSupertypeMap(type));
 
-  ClassElement? _getIterableTypeElement(DartType? type) =>
+  _TypedClassElement? _getIterableTypeElement(DartType? type) =>
       _getTypeArgElements(getSupertypeIterable(type))?.singleOrNull;
 
-  ClassElement? _getListTypeElement(DartType? type) =>
+  _TypedClassElement? _getListTypeElement(DartType? type) =>
       _getTypeArgElements(getSupertypeList(type))?.singleOrNull;
 
-  List<ClassElement>? _getTypeArgElements(DartType? type) {
+  _TypedClassElement? _getSetTypeElement(DartType? type) =>
+      _getTypeArgElements(getSupertypeSet(type))?.singleOrNull;
+
+  List<_TypedClassElement>? _getTypeArgElements(DartType? type) {
     if (type == null || type is! ParameterizedType) {
       return null;
     }
 
     final typeArgElements = type.typeArguments
-        .map((arg) => arg.element)
-        .whereType<ClassElement>()
+        .map((typeArg) {
+          final element = typeArg.element;
+
+          return element is ClassElement
+              ? _TypedClassElement(typeArg, element)
+              : null;
+        })
+        .whereNotNull()
         .toList();
     if (typeArgElements.length < type.typeArguments.length) {
       return null;
@@ -80,4 +102,11 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
     return typeArgElements;
   }
+}
+
+class _TypedClassElement {
+  final DartType type;
+  final ClassElement element;
+
+  _TypedClassElement(this.type, this.element);
 }

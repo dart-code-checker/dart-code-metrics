@@ -22,15 +22,25 @@ Bad:
 
 ```dart
 final map = Map<int, String>();
-map["str"] = "value";
-var a = map["str"];
-map.containsKey("str");
-map.containsValue(42);
-map.remove("str");
+map["str"] = "value"; // LINT
+var a = map["str"]; // LINT
+map.containsKey("str"); // LINT
+map.containsValue(42); // LINT
+map.remove("str"); // LINT
 
-Iterable<int>.empty().contains("str");
+Iterable<int>.empty().contains("str"); // LINT
 
-List<int>().remove("str");
+List<int>().remove("str"); // LINT
+
+final set = {10, 20, 30};
+set.contains("str"); // LINT
+set.containsAll(Iterable<String>.empty()); // LINT
+set.difference(<String>{}); // LINT
+primitiveSet.intersection(<String>{}); // LINT
+set.lookup("str"); // LINT
+primitiveList.remove("str"); // LINT
+set.removeAll(Iterable<String>.empty()); // LINT
+set.retainAll(Iterable<String>.empty()); // LINT
 ```
 
 Good:
@@ -46,4 +56,14 @@ map.remove(42);
 Iterable<int>.empty().contains(42);
 
 List<int>().remove(42);
+
+final set = {10, 20, 30};
+set.contains(42);
+set.containsAll(Iterable<int>.empty());
+set.difference(<int>{});
+primitiveSet.intersection(<int>{});
+set.lookup(42);
+primitiveList.remove(42);
+set.removeAll(Iterable<int>.empty());
+set.retainAll(Iterable<int>.empty());
 ```

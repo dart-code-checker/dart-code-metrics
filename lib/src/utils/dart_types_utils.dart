@@ -18,6 +18,9 @@ DartType? getSupertypeIterable(DartType? type) =>
 DartType? getSupertypeList(DartType? type) =>
     _getSelfOrSupertypes(type, (t) => t?.isDartCoreList ?? false);
 
+DartType? getSupertypeSet(DartType? type) =>
+    _getSelfOrSupertypes(type, (t) => t?.isDartCoreSet ?? false);
+
 DartType? getSupertypeMap(DartType? type) =>
     _getSelfOrSupertypes(type, (t) => t?.isDartCoreMap ?? false);
 
