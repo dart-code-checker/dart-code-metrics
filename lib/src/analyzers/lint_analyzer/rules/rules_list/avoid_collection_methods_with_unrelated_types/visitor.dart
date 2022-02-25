@@ -21,7 +21,8 @@ class _Visitor extends RecursiveAstVisitor<void> {
       return;
     }
 
-    final indexTypeIsSubClassOfMapKeyType = indexType.asInstanceOf(mapType.keyElement) != null;
+    final indexTypeIsSubClassOfMapKeyType =
+        indexType.asInstanceOf(mapType.keyElement) != null;
     if (!indexTypeIsSubClassOfMapKeyType) {
       _expressions.add(node);
     }
@@ -38,19 +39,25 @@ class _Visitor extends RecursiveAstVisitor<void> {
       case 'containsKey':
       case 'remove':
         final mapType = _getMapType(node.target?.staticType);
-        if (mapType != null && argType != null && argType.asInstanceOf(mapType.keyElement) == null) {
+        if (mapType != null &&
+            argType != null &&
+            argType.asInstanceOf(mapType.keyElement) == null) {
           _expressions.add(node);
         }
         break;
       case 'containsValue':
         final mapType = _getMapType(node.target?.staticType);
-        if (mapType != null && argType != null && argType.asInstanceOf(mapType.valueElement) == null) {
+        if (mapType != null &&
+            argType != null &&
+            argType.asInstanceOf(mapType.valueElement) == null) {
           _expressions.add(node);
         }
         break;
       case 'contains':
         final iterableType = _getIterableTypeElement(node.target?.staticType);
-        if (iterableType != null && argType != null && argType.asInstanceOf(iterableType) == null) {
+        if (iterableType != null &&
+            argType != null &&
+            argType.asInstanceOf(iterableType) == null) {
           _expressions.add(node);
         }
         break;
@@ -80,7 +87,9 @@ class _Visitor extends RecursiveAstVisitor<void> {
   }
 
   ClassElement? _getIterableTypeElement(DartType? type) {
-    if (type == null || !isIterableOrSubclass(type) || type is! ParameterizedType) {
+    if (type == null ||
+        !isIterableOrSubclass(type) ||
+        type is! ParameterizedType) {
       return null;
     }
 
