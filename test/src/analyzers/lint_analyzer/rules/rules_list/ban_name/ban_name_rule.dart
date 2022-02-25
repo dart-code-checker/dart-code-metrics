@@ -31,10 +31,15 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startLines: [3, 6],
-        startColumns: [3, 3],
-        locationTexts: ['showDialog', 'showSnackBar'],
+        startLines: [6, 7, 10],
+        startColumns: [3, 12, 3],
+        locationTexts: [
+          'showDialog',
+          'showDialog',
+          'showSnackBar',
+        ],
         messages: [
+          'Please use myShowDialog (showDialog is banned)',
           'Please use myShowDialog (showDialog is banned)',
           'What about myShowSnackBar (showSnackBar is banned)',
         ],
