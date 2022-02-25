@@ -1,26 +1,43 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:analyzer/dart/element/type.dart';
+import 'package:collection/collection.dart';
 
 bool isIterableOrSubclass(DartType? type) =>
-    _isIterable(type) || _isSubclassOfIterable(type);
-
-bool _isIterable(DartType? type) => type?.isDartCoreIterable ?? false;
-
-bool _isSubclassOfIterable(DartType? type) =>
-    type is InterfaceType && type.allSupertypes.any(_isIterable);
+    _checkSelfOrSupertypes(type, (t) => t?.isDartCoreIterable ?? false);
 
 bool isListOrSubclass(DartType? type) =>
-    _isList(type) || _isSubclassOfList(type);
+    _checkSelfOrSupertypes(type, (t) => t?.isDartCoreList ?? false);
 
-bool _isList(DartType? type) => type?.isDartCoreList ?? false;
+bool isMapOrSubclass(DartType? type) =>
+    _checkSelfOrSupertypes(type, (t) => t?.isDartCoreMap ?? false);
 
-bool _isSubclassOfList(DartType? type) =>
-    type is InterfaceType && type.allSupertypes.any(_isList);
+DartType? getSupertypeIterable(DartType? type) =>
+    _getSelfOrSupertypes(type, (t) => t?.isDartCoreIterable ?? false);
 
-bool isMapOrSubclass(DartType? type) => _isMap(type) || _isSubclassOfMap(type);
+DartType? getSupertypeList(DartType? type) =>
+    _getSelfOrSupertypes(type, (t) => t?.isDartCoreList ?? false);
 
-bool _isMap(DartType? type) => type?.isDartCoreMap ?? false;
+DartType? getSupertypeMap(DartType? type) =>
+    _getSelfOrSupertypes(type, (t) => t?.isDartCoreMap ?? false);
 
-bool _isSubclassOfMap(DartType? type) =>
-    type is InterfaceType && type.allSupertypes.any(_isMap);
+bool _checkSelfOrSupertypes(
+  DartType? type,
+  bool Function(DartType?) predicate,
+) =>
+    predicate(type) ||
+    (type is InterfaceType && type.allSupertypes.any(predicate));
+
+DartType? _getSelfOrSupertypes(
+  DartType? type,
+  bool Function(DartType?) predicate,
+) {
+  if (predicate(type)) {
+    return type;
+  }
+  if (type is InterfaceType) {
+    return type.allSupertypes.firstWhereOrNull(predicate);
+  }
+
+  return null;
+}
