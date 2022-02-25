@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 
 import '../../../../../helpers/rule_test_helper.dart';
 
-const _examplePath = 'always_remove_listener/examples/example.dart';
+const _examplePath = 'ban_name/examples/example.dart';
 
 void main() {
   group('BanNameRule', () {
@@ -31,10 +31,13 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startLines: [],
-        startColumns: [],
-        locationTexts: [],
-        messages: [],
+        startLines: [3, 6],
+        startColumns: [3, 3],
+        locationTexts: ['showDialog', 'showSnackBar'],
+        messages: [
+          'Please use myShowDialog (showDialog is banned)',
+          'What about myShowSnackBar (showSnackBar is banned)',
+        ],
       );
     });
   });

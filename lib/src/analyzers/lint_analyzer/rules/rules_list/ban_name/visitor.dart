@@ -1,14 +1,14 @@
 part of 'ban_name_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
-  final List<_BanNameConfigEntry> _entries;
   final Map<String, _BanNameConfigEntry> _entryMap;
 
   final _nodes = <_NodeWithMessage>[];
 
   Iterable<_NodeWithMessage> get nodes => _nodes;
 
-  _Visitor(this._entries) : _entryMap = Map.fromEntries(_entries.map((e) => MapEntry(e.ident, e)));
+  _Visitor(List<_BanNameConfigEntry> entries)
+      : _entryMap = Map.fromEntries(entries.map((e) => MapEntry(e.ident, e)));
 
   @override
   void visitSimpleIdentifier(SimpleIdentifier node) {
@@ -33,8 +33,11 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
   void _visitIdent(Expression node, SimpleIdentifier ident) {
     final name = ident.name;
-    if(_entryMap.containsKey(name)) {
-      _nodes.add(_NodeWithMessage(node, '${_entryMap[name]!.description} ($name is banned)'));
+    if (_entryMap.containsKey(name)) {
+      _nodes.add(_NodeWithMessage(
+        node,
+        '${_entryMap[name]!.description} ($name is banned)',
+      ));
     }
   }
 }
