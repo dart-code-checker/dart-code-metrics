@@ -37,6 +37,7 @@ dart_code_metrics:
   rules:
     ...
     - ban-name:
+        entries:
         - ident: showDialog
           description: Please use myShowDialog in this package
 ```
