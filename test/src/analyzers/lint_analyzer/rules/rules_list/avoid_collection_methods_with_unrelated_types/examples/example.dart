@@ -85,8 +85,8 @@ void main() {
     primitiveSet.lookup(42);
     primitiveSet.lookup("str"); // LINT
 
-    primitiveList.remove(42);
-    primitiveList.remove("str"); // LINT
+    primitiveSet.remove(42);
+    primitiveSet.remove("str"); // LINT
 
     primitiveSet.removeAll(Iterable<int>.empty());
     primitiveSet.removeAll(Iterable<String>.empty()); // LINT
