@@ -40,6 +40,14 @@ void main() {
     inheritanceMap.remove(DogImplementsAnimal());
     inheritanceMap.remove(Flower()); // LINT
   }
+
+  {
+    <int>[1, 2, 3].contains(42);
+    <int>[1, 2, 3].contains("str"); // LINT
+
+    Iterable<int>.generate(10).contains(42);
+    Iterable<int>.generate(10).contains("str"); // LINT
+  }
 }
 
 class Animal {}

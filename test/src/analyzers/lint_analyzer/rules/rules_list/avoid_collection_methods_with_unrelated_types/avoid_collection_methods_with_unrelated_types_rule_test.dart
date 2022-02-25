@@ -25,8 +25,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startLines: [6, 9, 12, 15, 18, 27, 32, 35, 38, 41],
-        startColumns: [5, 16, 5, 5, 5, 5, 16, 5, 5, 5],
+        startLines: [6, 9, 12, 15, 18, 27, 32, 35, 38, 41, 46, 49],
+        startColumns: [5, 16, 5, 5, 5, 5, 16, 5, 5, 5, 5, 5],
         locationTexts: [
           'primitiveMap["str"]',
           'primitiveMap["str"]',
@@ -38,8 +38,12 @@ void main() {
           'inheritanceMap.containsKey(Flower())',
           'inheritanceMap.containsValue(DogImplementsAnimal())',
           'inheritanceMap.remove(Flower())',
+          '<int>[1, 2, 3].contains("str")',
+          'Iterable<int>.generate(10).contains("str")',
         ],
         messages: [
+          'Avoid collection methods with unrelated types.',
+          'Avoid collection methods with unrelated types.',
           'Avoid collection methods with unrelated types.',
           'Avoid collection methods with unrelated types.',
           'Avoid collection methods with unrelated types.',

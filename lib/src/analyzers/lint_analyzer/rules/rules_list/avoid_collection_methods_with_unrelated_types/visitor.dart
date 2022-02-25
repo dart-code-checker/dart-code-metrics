@@ -32,19 +32,25 @@ class _Visitor extends RecursiveAstVisitor<void> {
   void visitMethodInvocation(MethodInvocation node) {
     super.visitMethodInvocation(node);
 
+    final argType = node.argumentList.arguments.singleOrNull?.staticType;
+
     switch (node.methodName.name) {
       case 'containsKey':
       case 'remove':
         final mapType = _getMapType(node.target?.staticType);
-        final argType = node.argumentList.arguments.singleOrNull?.staticType;
-        if(mapType != null && argType != null && argType.asInstanceOf(mapType.keyElement) == null) {
+        if (mapType != null && argType != null && argType.asInstanceOf(mapType.keyElement) == null) {
           _expressions.add(node);
         }
         break;
       case 'containsValue':
         final mapType = _getMapType(node.target?.staticType);
-        final argType = node.argumentList.arguments.singleOrNull?.staticType;
-        if(mapType != null && argType != null && argType.asInstanceOf(mapType.valueElement) == null) {
+        if (mapType != null && argType != null && argType.asInstanceOf(mapType.valueElement) == null) {
+          _expressions.add(node);
+        }
+        break;
+      case 'contains':
+        final iterableType = _getIterableTypeElement(node.target?.staticType);
+        if (iterableType != null && argType != null && argType.asInstanceOf(iterableType) == null) {
           _expressions.add(node);
         }
         break;
@@ -71,6 +77,19 @@ class _Visitor extends RecursiveAstVisitor<void> {
     }
 
     return _MapType(keyType, valueType, keyElement, valueElement);
+  }
+
+  ClassElement? _getIterableTypeElement(DartType? type) {
+    if (type == null || !isIterableOrSubclass(type) || type is! ParameterizedType) {
+      return null;
+    }
+
+    final typeArgElement = type.typeArguments.singleOrNull?.element;
+    if (typeArgElement is! ClassElement) {
+      return null;
+    }
+
+    return typeArgElement;
   }
 }
 
