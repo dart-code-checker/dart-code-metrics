@@ -39,28 +39,25 @@ class _Visitor extends RecursiveAstVisitor<void> {
       case 'containsKey':
       case 'remove':
         final mapType = _getMapType(node.target?.staticType);
-        if (mapType != null &&
-            argType != null &&
-            argType.asInstanceOf(mapType.keyElement) == null) {
-          _expressions.add(node);
-        }
+        _addIfNotSubType(argType, mapType?.keyElement, node);
         break;
       case 'containsValue':
         final mapType = _getMapType(node.target?.staticType);
-        if (mapType != null &&
-            argType != null &&
-            argType.asInstanceOf(mapType.valueElement) == null) {
-          _expressions.add(node);
-        }
+        _addIfNotSubType(argType, mapType?.valueElement, node);
         break;
       case 'contains':
         final iterableType = _getIterableTypeElement(node.target?.staticType);
-        if (iterableType != null &&
-            argType != null &&
-            argType.asInstanceOf(iterableType) == null) {
-          _expressions.add(node);
-        }
+        _addIfNotSubType(argType, iterableType, node);
         break;
+    }
+  }
+
+  void _addIfNotSubType(
+      DartType? childType, ClassElement? parentElement, MethodInvocation node) {
+    if (parentElement != null &&
+        childType != null &&
+        childType.asInstanceOf(parentElement) == null) {
+      _expressions.add(node);
     }
   }
 
