@@ -7,6 +7,7 @@ import '../../../models/severity.dart';
 import '../../models/common_rule.dart';
 
 part 'visitor.dart';
+part 'utils/config_parser.dart';
 
 class BanNameRule extends CommonRule {
   static const String ruleId = 'ban-name';
