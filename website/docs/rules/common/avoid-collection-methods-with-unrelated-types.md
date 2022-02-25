@@ -12,15 +12,6 @@ Warning
 
 Avoid using collection methods with unrelated types, such as accessing a map of integers using a string key.
 
-Full list:
-
-* `Map.operator []`
-* `Map.operator []=`
-* `Map.containsKey`
-* `Map.containsValue`
-* `Map.remove`
-* `Iterable.contains`
-
 This lint has been requested for a long time: Follow [this link](https://github.com/dart-lang/linter/issues/1307) to see the details.
 
 Related: Dart's built-in `list_remove_unrelated_type` and `iterable_contains_unrelated_type`.
@@ -38,6 +29,8 @@ map.containsValue(42);
 map.remove("str");
 
 Iterable<int>.empty().contains("str");
+
+List<int>().remove("str");
 ```
 
 Good:
@@ -51,4 +44,6 @@ map.containsValue("value");
 map.remove(42);
 
 Iterable<int>.empty().contains(42);
+
+List<int>().remove(42);
 ```
