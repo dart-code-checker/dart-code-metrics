@@ -25,8 +25,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startLines: [6, 9, 12, 15, 18, 27, 32, 35, 38, 41, 48, 50, 55, 58],
-        startColumns: [5, 16, 5, 5, 5, 5, 16, 5, 5, 5, 14, 5, 5, 5],
+        startLines: [6, 9, 12, 15, 18, 27, 32, 35, 38, 41, 48, 50, 55, 58, 64],
+        startColumns: [5, 16, 5, 5, 5, 5, 16, 5, 5, 5, 14, 5, 5, 5, 5],
         locationTexts: [
           'primitiveMap["str"]',
           'primitiveMap["str"]',
@@ -42,8 +42,10 @@ void main() {
           'myMap.containsKey("str")',
           '<int>[1, 2, 3].contains("str")',
           'Iterable<int>.generate(10).contains("str")',
+          'primitiveList.remove("str")',
         ],
         messages: [
+          'Avoid collection methods with unrelated types.',
           'Avoid collection methods with unrelated types.',
           'Avoid collection methods with unrelated types.',
           'Avoid collection methods with unrelated types.',

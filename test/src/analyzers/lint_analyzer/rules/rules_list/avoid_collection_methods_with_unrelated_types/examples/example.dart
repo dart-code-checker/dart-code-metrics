@@ -57,6 +57,12 @@ void main() {
     Iterable<int>.generate(10).contains(42);
     Iterable<int>.generate(10).contains("str"); // LINT
   }
+
+  {
+    final primitiveList = [10, 20, 30];
+    primitiveList.remove(20);
+    primitiveList.remove("str"); // LINT
+  }
 }
 
 class Animal {}

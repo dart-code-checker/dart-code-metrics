@@ -23,9 +23,15 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
     switch (node.methodName.name) {
       case 'containsKey':
+        final mapType = _getMapTypeElement(node.target?.staticType);
+        _addIfNotSubType(argType, mapType?.first, node);
+        break;
       case 'remove':
         final mapType = _getMapTypeElement(node.target?.staticType);
         _addIfNotSubType(argType, mapType?.first, node);
+
+        final listType = _getListTypeElement(node.target?.staticType);
+        _addIfNotSubType(argType, listType, node);
         break;
       case 'containsValue':
         final mapType = _getMapTypeElement(node.target?.staticType);
