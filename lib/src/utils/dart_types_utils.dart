@@ -17,3 +17,10 @@ bool _isList(DartType? type) => type?.isDartCoreList ?? false;
 
 bool _isSubclassOfList(DartType? type) =>
     type is InterfaceType && type.allSupertypes.any(_isList);
+
+bool isMapOrSubclass(DartType? type) => _isMap(type) || _isSubclassOfMap(type);
+
+bool _isMap(DartType? type) => type?.isDartCoreMap ?? false;
+
+bool _isSubclassOfMap(DartType? type) =>
+    type is InterfaceType && type.allSupertypes.any(_isMap);

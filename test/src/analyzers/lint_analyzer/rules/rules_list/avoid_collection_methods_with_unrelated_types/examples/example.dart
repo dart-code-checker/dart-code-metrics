@@ -42,6 +42,14 @@ void main() {
   }
 
   {
+    final myMap = MyMapSubClass();
+    myMap[42] = "value";
+    myMap["str"] = "value"; // LINT
+    myMap.containsKey(42);
+    myMap.containsKey("str"); // LINT
+  }
+
+  {
     <int>[1, 2, 3].contains(42);
     <int>[1, 2, 3].contains("str"); // LINT
 
@@ -57,3 +65,5 @@ class HumanExtendsAnimal extends Animal {}
 class DogImplementsAnimal implements Animal {}
 
 class Flower {}
+
+class MyMapSubClass extends Map<int, String> {}

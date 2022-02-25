@@ -53,7 +53,10 @@ class _Visitor extends RecursiveAstVisitor<void> {
   }
 
   void _addIfNotSubType(
-      DartType? childType, ClassElement? parentElement, MethodInvocation node) {
+    DartType? childType,
+    ClassElement? parentElement,
+    MethodInvocation node,
+  ) {
     if (parentElement != null &&
         childType != null &&
         childType.asInstanceOf(parentElement) == null) {
@@ -62,7 +65,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
   }
 
   _MapType? _getMapType(DartType? type) {
-    if (type == null || !type.isDartCoreMap || type is! ParameterizedType) {
+    if (type == null || !isMapOrSubclass(type) || type is! ParameterizedType) {
       return null;
     }
 
