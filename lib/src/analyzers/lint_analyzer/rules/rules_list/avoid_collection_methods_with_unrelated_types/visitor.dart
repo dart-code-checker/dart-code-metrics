@@ -65,11 +65,12 @@ class _Visitor extends RecursiveAstVisitor<void> {
   }
 
   _MapType? _getMapType(DartType? type) {
-    if (type == null || !isMapOrSubclass(type) || type is! ParameterizedType) {
+    final mapType = getSupertypeMap(type);
+    if (mapType == null || mapType is! ParameterizedType) {
       return null;
     }
 
-    final typeArguments = type.typeArguments;
+    final typeArguments = mapType.typeArguments;
     if (typeArguments.length != 2) {
       return null;
     }
@@ -87,13 +88,12 @@ class _Visitor extends RecursiveAstVisitor<void> {
   }
 
   ClassElement? _getIterableTypeElement(DartType? type) {
-    if (type == null ||
-        !isIterableOrSubclass(type) ||
-        type is! ParameterizedType) {
+    final iterableType = getSupertypeIterable(type);
+    if (iterableType == null || iterableType is! ParameterizedType) {
       return null;
     }
 
-    final typeArgElement = type.typeArguments.singleOrNull?.element;
+    final typeArgElement = iterableType.typeArguments.singleOrNull?.element;
     if (typeArgElement is! ClassElement) {
       return null;
     }
