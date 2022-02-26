@@ -14,7 +14,7 @@ void main() {
 
       RuleTestHelper.verifyInitialization(
         issues: issues,
-        ruleId: 'prefer-correct-type-name',
+        ruleId: 'ban-name',
         severity: Severity.style,
       );
     });
