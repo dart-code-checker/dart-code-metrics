@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* feat: add static code diagnostic `avoid-collection-methods-with-unrelated-types`
+
 ## 4.11.0
 
 * feat: add static code diagnostics `format-comment`.
