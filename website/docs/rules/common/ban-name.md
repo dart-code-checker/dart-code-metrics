@@ -12,7 +12,7 @@ Style
 
 Configure some names that you want to ban.
 
-For example, in my own app, I want to ban `showDialog` and force to use `myShowDialog` instead. This is because (let me explain the simplified case) I added logging in `myShowDialog`, and I do want every dialog to be logged.
+Example: When you add some extra functionalities to built-in Flutter functions (such as logging for `showDialog`), you may want to ban the original Flutter function and use your own version.
 
 ### Example {#example}
 
