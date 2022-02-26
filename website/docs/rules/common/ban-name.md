@@ -6,7 +6,7 @@ ban-name
 
 ## Severity {#severity}
 
-Warning
+Style
 
 ## Description {#description}
 
