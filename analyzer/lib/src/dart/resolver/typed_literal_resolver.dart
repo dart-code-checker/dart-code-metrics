@@ -20,6 +20,28 @@ import 'package:analyzer/src/generated/migratable_ast_info_provider.dart';
 import 'package:analyzer/src/generated/resolver.dart';
 import 'package:analyzer/src/generated/utilities_dart.dart';
 
+/// Context for inferring the types of elements of a collection literal.
+class CollectionLiteralContext {
+  /// The type context for ordinary collection elements, if this is a list or
+  /// set literal.  Otherwise `null`.
+  final DartType? elementType;
+
+  /// The type context for spread expressions.
+  final DartType iterableType;
+
+  /// The type context for keys, if this is a map literal.  Otherwise `null`.
+  final DartType? keyType;
+
+  /// The type context for values, if this is a map literal.  Otherwise `null`.
+  final DartType? valueType;
+
+  CollectionLiteralContext(
+      {this.elementType,
+      required this.iterableType,
+      this.keyType,
+      this.valueType});
+}
+
 /// Helper for resolving [ListLiteral]s and [SetOrMapLiteral]s.
 class TypedLiteralResolver {
   final ResolverVisitor _resolver;
@@ -73,7 +95,8 @@ class TypedLiteralResolver {
         : NullabilitySuffix.star;
   }
 
-  void resolveListLiteral(ListLiteralImpl node) {
+  void resolveListLiteral(ListLiteralImpl node,
+      {required DartType? contextType}) {
     InterfaceType? listType;
 
     var typeArguments = node.typeArguments?.arguments;
@@ -85,29 +108,30 @@ class TypedLiteralResolver {
         }
       }
     } else {
-      listType = _inferListType(node, downwards: true);
+      listType =
+          _inferListType(node, downwards: true, contextType: contextType);
     }
+    CollectionLiteralContext? context;
     if (listType != null) {
       DartType elementType = listType.typeArguments[0];
       DartType iterableType = _typeProvider.iterableType(elementType);
-      _pushCollectionTypesDownToAll(_getListElements(node),
+      context = CollectionLiteralContext(
           elementType: elementType, iterableType: iterableType);
-      InferenceContext.setType(node, listType);
-    } else {
-      InferenceContext.clearType(node);
     }
 
-    node.visitChildren(_resolver);
-    _insertImplicitCallReferences(node);
-    _resolveListLiteral2(node);
+    node.typeArguments?.accept(_resolver);
+    _resolveElements(node.elements, context);
+    _resolveListLiteral2(node, contextType: contextType);
   }
 
-  void resolveSetOrMapLiteral(SetOrMapLiteral node) {
+  void resolveSetOrMapLiteral(SetOrMapLiteral node,
+      {required DartType? contextType}) {
     (node as SetOrMapLiteralImpl).becomeUnresolved();
     var typeArguments = node.typeArguments?.arguments;
 
     InterfaceType? literalType;
-    var literalResolution = _computeSetOrMapResolution(node);
+    var literalResolution =
+        _computeSetOrMapResolution(node, contextType: contextType);
     if (literalResolution.kind == _LiteralResolutionKind.set) {
       if (typeArguments != null && typeArguments.length == 1) {
         var elementType = typeArguments[0].typeOrThrow;
@@ -129,15 +153,17 @@ class TypedLiteralResolver {
       assert(literalResolution.kind == _LiteralResolutionKind.ambiguous);
       literalType = null;
     }
+    var elements = _getSetOrMapElements(node);
+    CollectionLiteralContext? context;
     if (literalType is InterfaceType) {
       List<DartType> typeArguments = literalType.typeArguments;
       if (typeArguments.length == 1) {
         DartType elementType = literalType.typeArguments[0];
         DartType iterableType = _typeProvider.iterableType(elementType);
-        _pushCollectionTypesDownToAll(_getSetOrMapElements(node),
+        context = CollectionLiteralContext(
             elementType: elementType, iterableType: iterableType);
         if (!_uiAsCodeEnabled &&
-            _getSetOrMapElements(node).isEmpty &&
+            elements.isEmpty &&
             node.typeArguments == null &&
             node.isMap) {
           // The node is really an empty set literal with no type arguments.
@@ -146,7 +172,7 @@ class TypedLiteralResolver {
       } else if (typeArguments.length == 2) {
         DartType keyType = typeArguments[0];
         DartType valueType = typeArguments[1];
-        _pushCollectionTypesDownToAll(_getSetOrMapElements(node),
+        context = CollectionLiteralContext(
             iterableType: literalType, keyType: keyType, valueType: valueType);
       }
       node.contextType = literalType;
@@ -154,9 +180,9 @@ class TypedLiteralResolver {
       node.contextType = null;
     }
 
-    node.visitChildren(_resolver);
-    _insertImplicitCallReferences(node);
-    _resolveSetOrMapLiteral2(node);
+    node.typeArguments?.accept(_resolver);
+    _resolveElements(node.elements, context);
+    _resolveSetOrMapLiteral2(node, contextType: contextType);
   }
 
   DartType _computeElementType(CollectionElement element) {
@@ -218,10 +244,10 @@ class TypedLiteralResolver {
   }
 
   /// Compute the context type for the given set or map [literal].
-  _LiteralResolution _computeSetOrMapResolution(SetOrMapLiteral literal) {
+  _LiteralResolution _computeSetOrMapResolution(SetOrMapLiteral literal,
+      {required DartType? contextType}) {
     _LiteralResolution typeArgumentsResolution =
         _fromTypeArguments(literal.typeArguments?.arguments);
-    var contextType = InferenceContext.getContext(literal);
     _LiteralResolution contextResolution = _fromContextType(contextType);
     _LeafElements elementCounts = _LeafElements(_getSetOrMapElements(literal));
     _LiteralResolution elementResolution = elementCounts.resolution;
@@ -424,9 +450,8 @@ class TypedLiteralResolver {
     }
   }
 
-  InterfaceType? _inferListType(ListLiteral node, {bool downwards = false}) {
-    var contextType = InferenceContext.getContext(node);
-
+  InterfaceType? _inferListType(ListLiteral node,
+      {bool downwards = false, required DartType? contextType}) {
     var element = _typeProvider.listElement;
     var typeParameters = element.typeParameters;
     var genericElementType = typeParameters[0].instantiate(
@@ -599,102 +624,15 @@ class TypedLiteralResolver {
     );
   }
 
-  void _insertImplicitCallReference(CollectionElement? node) {
-    if (node is Expression) {
-      _resolver.insertImplicitCallReference(node);
-    } else if (node is MapLiteralEntry) {
-      _insertImplicitCallReference(node.key);
-      _insertImplicitCallReference(node.value);
-    } else if (node is IfElement) {
-      _insertImplicitCallReference(node.thenElement);
-      _insertImplicitCallReference(node.elseElement);
-    } else if (node is ForElement) {
-      _insertImplicitCallReference(node.body);
-    }
-    // Nothing to do for [SpreadElement] as analyzer does not desugar this
-    // element.
-  }
-
-  void _insertImplicitCallReferences(TypedLiteral node) {
-    if (node is ListLiteral) {
-      for (var element in node.elements) {
-        _insertImplicitCallReference(element);
-      }
-    } else if (node is SetOrMapLiteral) {
-      for (var element in node.elements) {
-        _insertImplicitCallReference(element);
-      }
+  void _resolveElements(
+      List<CollectionElement> elements, CollectionLiteralContext? context) {
+    for (var element in elements) {
+      (element as CollectionElementImpl).resolveElement(_resolver, context);
     }
   }
 
-  void _pushCollectionTypesDown(CollectionElement? element,
-      {DartType? elementType,
-      required DartType iterableType,
-      DartType? keyType,
-      DartType? valueType}) {
-    if (element is Expression) {
-      InferenceContext.setType(element, elementType);
-    } else if (element is ForElement) {
-      _pushCollectionTypesDown(element.body,
-          elementType: elementType,
-          iterableType: iterableType,
-          keyType: keyType,
-          valueType: valueType);
-    } else if (element is IfElement) {
-      _pushCollectionTypesDown(element.thenElement,
-          elementType: elementType,
-          iterableType: iterableType,
-          keyType: keyType,
-          valueType: valueType);
-      _pushCollectionTypesDown(element.elseElement,
-          elementType: elementType,
-          iterableType: iterableType,
-          keyType: keyType,
-          valueType: valueType);
-    } else if (element is MapLiteralEntry) {
-      InferenceContext.setType(element.key, keyType);
-      InferenceContext.setType(element.value, valueType);
-    } else if (element is SpreadElement) {
-      if (_isNonNullableByDefault && element.isNullAware) {
-        iterableType = _typeSystem.makeNullable(iterableType);
-      }
-      InferenceContext.setType(element.expression, iterableType);
-    }
-  }
-
-  void _pushCollectionTypesDownToAll(List<CollectionElement> elements,
-      {DartType? elementType,
-      required DartType iterableType,
-      DartType? keyType,
-      DartType? valueType}) {
-    for (CollectionElement element in elements) {
-      _pushCollectionTypesDown(element,
-          elementType: elementType,
-          iterableType: iterableType,
-          keyType: keyType,
-          valueType: valueType);
-    }
-  }
-
-  /// Record that the static type of the given node is the given type.
-  ///
-  /// @param expression the node whose type is to be recorded
-  /// @param type the static type of the node
-  ///
-  /// TODO(scheglov) Inline this.
-  void _recordStaticType(ExpressionImpl expression, DartType type) {
-    expression.staticType = type;
-//    if (type == null) {
-//      expression.staticType = _dynamicType;
-//    } else {
-//      expression.staticType = type;
-//      if (identical(type, NeverTypeImpl.instance)) {
-//        _flowAnalysis?.flow?.handleExit();
-//      }
-//    }
-  }
-
-  void _resolveListLiteral2(ListLiteralImpl node) {
+  void _resolveListLiteral2(ListLiteralImpl node,
+      {required DartType? contextType}) {
     var typeArguments = node.typeArguments?.arguments;
 
     // If we have explicit arguments, use them.
@@ -703,12 +641,9 @@ class TypedLiteralResolver {
       if (typeArguments.length == 1) {
         elementType = typeArguments[0].typeOrThrow;
       }
-      _recordStaticType(
-        node,
-        _typeProvider.listElement.instantiate(
-          typeArguments: [elementType],
-          nullabilitySuffix: _noneOrStarSuffix,
-        ),
+      node.staticType = _typeProvider.listElement.instantiate(
+        typeArguments: [elementType],
+        nullabilitySuffix: _noneOrStarSuffix,
       );
       return;
     }
@@ -716,20 +651,21 @@ class TypedLiteralResolver {
     DartType listDynamicType = _typeProvider.listType(_dynamicType);
 
     // If there are no type arguments, try to infer some arguments.
-    var inferred = _inferListType(node);
+    var inferred = _inferListType(node, contextType: contextType);
 
     if (inferred != listDynamicType) {
       // TODO(brianwilkerson) Determine whether we need to make the inferred
       //  type non-nullable here or whether it will already be non-nullable.
-      _recordStaticType(node, inferred!);
+      node.staticType = inferred!;
       return;
     }
 
     // If we have no type arguments and couldn't infer any, use dynamic.
-    _recordStaticType(node, listDynamicType);
+    node.staticType = listDynamicType;
   }
 
-  void _resolveSetOrMapLiteral2(SetOrMapLiteralImpl node) {
+  void _resolveSetOrMapLiteral2(SetOrMapLiteralImpl node,
+      {required DartType? contextType}) {
     var typeArguments = node.typeArguments?.arguments;
 
     // If we have type arguments, use them.
@@ -739,24 +675,18 @@ class TypedLiteralResolver {
       if (typeArguments.length == 1) {
         node.becomeSet();
         var elementType = typeArguments[0].typeOrThrow;
-        _recordStaticType(
-          node,
-          _typeProvider.setElement.instantiate(
-            typeArguments: [elementType],
-            nullabilitySuffix: _noneOrStarSuffix,
-          ),
+        node.staticType = _typeProvider.setElement.instantiate(
+          typeArguments: [elementType],
+          nullabilitySuffix: _noneOrStarSuffix,
         );
         return;
       } else if (typeArguments.length == 2) {
         node.becomeMap();
         var keyType = typeArguments[0].typeOrThrow;
         var valueType = typeArguments[1].typeOrThrow;
-        _recordStaticType(
-          node,
-          _typeProvider.mapElement.instantiate(
-            typeArguments: [keyType, valueType],
-            nullabilitySuffix: _noneOrStarSuffix,
-          ),
+        node.staticType = _typeProvider.mapElement.instantiate(
+          typeArguments: [keyType, valueType],
+          nullabilitySuffix: _noneOrStarSuffix,
         );
         return;
       }
@@ -775,7 +705,7 @@ class TypedLiteralResolver {
     }
     if (_strictInference &&
         _getSetOrMapElements(node).isEmpty &&
-        InferenceContext.getContext(node) == null) {
+        contextType == null) {
       // We cannot infer the type of a collection literal with no elements, and
       // no context type. If there are any elements, inference has not failed,
       // as the types of those elements are considered resolved.
@@ -787,7 +717,7 @@ class TypedLiteralResolver {
     // TODO(brianwilkerson) Decide whether the literalType needs to be made
     //  non-nullable here or whether that will have happened in
     //  _inferSetOrMapLiteralType.
-    _recordStaticType(node, literalType);
+    node.staticType = literalType;
   }
 
   DartType _toMapType(SetOrMapLiteral node, DartType? contextType,

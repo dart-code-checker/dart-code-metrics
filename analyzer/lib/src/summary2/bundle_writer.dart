@@ -176,9 +176,14 @@ class BundleWriter {
     _resolutionSink._writeAnnotationList(element.metadata);
 
     _writeTypeParameters(element.typeParameters, () {
+      _resolutionSink.writeType(element.supertype);
+      _resolutionSink._writeTypeList(element.mixins);
+      _resolutionSink._writeTypeList(element.interfaces);
+
       _writeList(
         element.fields.where((e) {
-          return !e.isSynthetic || const {'index', 'values'}.contains(e.name);
+          return !e.isSynthetic ||
+              e is FieldElementImpl && e.isSyntheticEnumField;
         }).toList(),
         _writeFieldElement,
       );

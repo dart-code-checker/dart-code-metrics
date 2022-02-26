@@ -5,6 +5,7 @@
 @deprecated
 library analyzer.test.constant_test;
 
+import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/src/dart/element/element.dart';
 import 'package:analyzer/src/generated/constant.dart';
 import 'package:test/test.dart';
@@ -372,6 +373,112 @@ const [for (var i = 0; i < 4; i++) i]
     await _assertValueBool(true, "'a' != 'b'");
   }
 
+  test_object_enum() async {
+    await resolveTestCode('''
+enum E { v1, v2 }
+const x1 = E.v1;
+const x2 = E.v2;
+''');
+
+    _assertTopVarConstValue('x1', r'''
+E
+  _name: String v1
+  index: int 0
+''');
+
+    _assertTopVarConstValue('x2', r'''
+E
+  _name: String v2
+  index: int 1
+''');
+  }
+
+  /// Enum constants can reference other constants.
+  test_object_enum_enhanced_constants() async {
+    await assertNoErrorsInCode('''
+enum E {
+  v1(42), v2(v1);
+  final Object? a;
+  const E([this.a]);
+}
+''');
+
+    assertDartObjectText(findElement.field('v2').evaluationResult.value, r'''
+E
+  _name: String v2
+  a: E
+    _name: String v1
+    a: int 42
+    index: int 0
+  index: int 1
+''');
+  }
+
+  test_object_enum_enhanced_named() async {
+    await resolveTestCode('''
+enum E<T> {
+  v1<double>.named(10),
+  v2.named(20);
+  final T f;
+  const E.named(this.f);
+}
+
+const x1 = E.v1;
+const x2 = E.v2;
+''');
+
+    _assertTopVarConstValue('x1', r'''
+E<double>
+  _name: String v1
+  f: double 10.0
+  index: int 0
+''');
+
+    _assertTopVarConstValue('x2', r'''
+E<int>
+  _name: String v2
+  f: int 20
+  index: int 1
+''');
+  }
+
+  test_object_enum_enhanced_unnamed() async {
+    await resolveTestCode('''
+enum E<T> {
+  v1<int>(10),
+  v2(20),
+  v3('abc');
+  final T f;
+  const E(this.f);
+}
+
+const x1 = E.v1;
+const x2 = E.v2;
+const x3 = E.v3;
+''');
+
+    _assertTopVarConstValue('x1', r'''
+E<int>
+  _name: String v1
+  f: int 10
+  index: int 0
+''');
+
+    _assertTopVarConstValue('x2', r'''
+E<int>
+  _name: String v2
+  f: int 20
+  index: int 1
+''');
+
+    _assertTopVarConstValue('x3', r'''
+E<String>
+  _name: String v3
+  f: String abc
+  index: int 2
+''');
+  }
+
   test_parenthesizedExpression() async {
     await _assertValueString("a", "('a')");
   }
@@ -444,6 +551,10 @@ const [for (var i = 0; i < 4; i++) i]
     await _assertValueInt(6, "'Dvorak'.length");
   }
 
+  void _assertTopVarConstValue(String name, String expected) {
+    assertDartObjectText(_topVarConstResult(name).value, expected);
+  }
+
   Future<void> _assertValueBool(bool expectedValue, String contents) async {
     var result = await _getExpressionValue(contents);
     DartObject value = result.value!;
@@ -490,5 +601,21 @@ $context
     );
 
     return evaluator.evaluate(expression);
+  }
+
+  EvaluationResultImpl _topVarConstResult(String name) {
+    var element = findElement.topVar(name) as ConstTopLevelVariableElementImpl;
+    return element.evaluationResult!;
+  }
+}
+
+extension on VariableElement {
+  EvaluationResultImpl get evaluationResult {
+    var constVariable = this as ConstVariableElement;
+    var evaluationResult = constVariable.evaluationResult;
+    if (evaluationResult == null) {
+      fail('Not evaluated: $this');
+    }
+    return evaluationResult;
   }
 }

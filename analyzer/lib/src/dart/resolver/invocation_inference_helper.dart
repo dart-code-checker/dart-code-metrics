@@ -97,7 +97,7 @@ class InvocationInferenceHelper {
     List<TypeParameterElement>? typeParameters;
     ConstructorElement? rawElement;
 
-    var typeName = constructorName.type2;
+    var typeName = constructorName.type;
     var typeArguments = typeName.typeArguments;
     var typeElement = typeName.name.staticElement;
     if (typeElement is ClassElement) {
@@ -138,7 +138,9 @@ class InvocationInferenceHelper {
 
   FunctionType? inferArgumentTypesForGeneric(AstNode inferenceNode,
       DartType? uninstantiatedType, TypeArgumentList? typeArguments,
-      {AstNode? errorNode, bool isConst = false}) {
+      {AstNode? errorNode,
+      bool isConst = false,
+      required DartType? contextReturnType}) {
     errorNode ??= inferenceNode;
     uninstantiatedType = _getFreshType(uninstantiatedType);
     if (typeArguments == null &&
@@ -149,7 +151,7 @@ class InvocationInferenceHelper {
         parameters: const <ParameterElement>[],
         declaredReturnType: uninstantiatedType.returnType,
         argumentTypes: const <DartType>[],
-        contextReturnType: InferenceContext.getContext(inferenceNode),
+        contextReturnType: contextReturnType,
         downwards: true,
         isConst: isConst,
         errorReporter: _errorReporter,
@@ -163,13 +165,12 @@ class InvocationInferenceHelper {
     return null;
   }
 
-  void inferArgumentTypesForInvocation(
-    InvocationExpression node,
-    DartType? type,
-  ) {
-    var inferred = inferArgumentTypesForGeneric(node, type, node.typeArguments);
-    InferenceContext.setType(
-        node.argumentList, inferred ?? node.staticInvokeType);
+  DartType? inferArgumentTypesForInvocation(
+      InvocationExpression node, DartType? type,
+      {required DartType? contextType}) {
+    return inferArgumentTypesForGeneric(node, type, node.typeArguments,
+            contextReturnType: contextType) ??
+        node.staticInvokeType;
   }
 
   /// Given a possibly generic invocation like `o.m(args)` or `(f)(args)` try to
@@ -178,14 +179,14 @@ class InvocationInferenceHelper {
   /// This takes into account both the context type, as well as information from
   /// the argument types.
   void inferGenericInvocationExpression(
-    InvocationExpressionImpl node,
-    DartType? type,
-  ) {
+      InvocationExpressionImpl node, DartType? type,
+      {required DartType? contextType}) {
     var arguments = node.argumentList;
     var freshType = _getFreshType(type);
 
     var inferred = inferGenericInvoke(
-        node, freshType, node.typeArguments, arguments, node.function);
+        node, freshType, node.typeArguments, arguments, node.function,
+        contextReturnType: contextType);
     if (inferred != null && inferred != node.staticInvokeType) {
       // Fix up the parameter elements based on inferred method.
       arguments.correspondingStaticParameters =
@@ -209,7 +210,8 @@ class InvocationInferenceHelper {
       TypeArgumentList? typeArguments,
       ArgumentList argumentList,
       AstNode errorNode,
-      {bool isConst = false}) {
+      {bool isConst = false,
+      required DartType? contextReturnType}) {
     if (typeArguments == null &&
         fnType is FunctionType &&
         fnType.typeFormals.isNotEmpty) {
@@ -217,7 +219,7 @@ class InvocationInferenceHelper {
       var typeArgs = _inferUpwards(
         rawType: fnType,
         argumentList: argumentList,
-        contextType: InferenceContext.getContext(node),
+        contextType: contextReturnType,
         isConst: isConst,
         errorNode: errorNode,
       );
@@ -248,15 +250,12 @@ class InvocationInferenceHelper {
   /// Given an uninstantiated generic function type, referenced by the
   /// [identifier] in the tear-off [expression], try to infer the instantiated
   /// generic function type from the surrounding context.
-  DartType inferTearOff(
-    Expression expression,
-    SimpleIdentifierImpl identifier,
-    DartType tearOffType,
-  ) {
-    var context = InferenceContext.getContext(expression);
-    if (context is FunctionType && tearOffType is FunctionType) {
+  DartType inferTearOff(Expression expression, SimpleIdentifierImpl identifier,
+      DartType tearOffType,
+      {required DartType? contextType}) {
+    if (contextType is FunctionType && tearOffType is FunctionType) {
       var typeArguments = _typeSystem.inferFunctionTypeInstantiation(
-        context,
+        contextType,
         tearOffType,
         errorReporter: _errorReporter,
         errorNode: expression,
@@ -274,12 +273,11 @@ class InvocationInferenceHelper {
   ///
   /// @param expression the node whose type is to be recorded
   /// @param type the static type of the node
-  ///
-  /// TODO(scheglov) this is duplication
-  void recordStaticType(ExpressionImpl expression, DartType type) {
+  void recordStaticType(ExpressionImpl expression, DartType type,
+      {required DartType? contextType}) {
     var hooks = _migrationResolutionHooks;
     if (hooks != null) {
-      type = hooks.modifyExpressionType(expression, type);
+      type = hooks.modifyExpressionType(expression, type, contextType);
     }
 
     expression.staticType = type;
@@ -297,12 +295,13 @@ class InvocationInferenceHelper {
     required FunctionExpressionInvocationImpl node,
     required FunctionType rawType,
     required List<WhyNotPromotedGetter> whyNotPromotedList,
+    required DartType? contextType,
   }) {
     _resolveInvocation(
       rawType: rawType,
       typeArgumentList: node.typeArguments,
       argumentList: node.argumentList,
-      contextType: InferenceContext.getContext(node),
+      contextType: contextType,
       isConst: false,
       errorNode: node.function,
       whyNotPromotedList: whyNotPromotedList,
@@ -321,12 +320,13 @@ class InvocationInferenceHelper {
     required MethodInvocationImpl node,
     required FunctionType rawType,
     required List<WhyNotPromotedGetter> whyNotPromotedList,
+    required DartType? contextType,
   }) {
     _resolveInvocation(
       rawType: rawType,
       typeArgumentList: node.typeArguments,
       argumentList: node.argumentList,
-      contextType: InferenceContext.getContext(node),
+      contextType: contextType,
       isConst: false,
       errorNode: node.function,
       whyNotPromotedList: whyNotPromotedList,
@@ -347,7 +347,7 @@ class InvocationInferenceHelper {
         returnType,
       );
     }
-    recordStaticType(node, returnType);
+    recordStaticType(node, returnType, contextType: contextType);
   }
 
   List<DartType>? _inferDownwards({
@@ -420,11 +420,15 @@ class InvocationInferenceHelper {
     return false;
   }
 
-  void _resolveArguments(ArgumentList argumentList,
-      List<WhyNotPromotedGetter> whyNotPromotedList) {
-    _resolver.visitArgumentList(argumentList,
+  void _resolveArguments(
+      ArgumentList argumentList,
+      List<WhyNotPromotedGetter> whyNotPromotedList,
+      List<ParameterElement> parameters,
+      {required DartType? methodInvocationContext}) {
+    _resolver.analyzeArgumentList(argumentList, parameters,
         isIdentical: _isCallToIdentical(argumentList.parent),
-        whyNotPromotedList: whyNotPromotedList);
+        whyNotPromotedList: whyNotPromotedList,
+        methodInvocationContext: methodInvocationContext);
   }
 
   void _resolveInvocation({
@@ -442,6 +446,7 @@ class InvocationInferenceHelper {
         typeArgumentList: typeArgumentList,
         argumentList: argumentList,
         whyNotPromotedList: whyNotPromotedList,
+        methodInvocationContext: contextType,
       );
     } else {
       _resolveInvocationWithoutTypeArguments(
@@ -467,8 +472,8 @@ class InvocationInferenceHelper {
     var typeParameters = rawType.typeFormals;
 
     if (typeParameters.isEmpty) {
-      InferenceContext.setType(argumentList, rawType);
-      _resolveArguments(argumentList, whyNotPromotedList);
+      _resolveArguments(argumentList, whyNotPromotedList, rawType.parameters,
+          methodInvocationContext: contextType);
 
       _typeArgumentTypes = const <DartType>[];
       _invokeType = rawType;
@@ -483,9 +488,10 @@ class InvocationInferenceHelper {
       )!;
 
       var downwardsInvokeType = rawType.instantiate(downwardsTypeArguments);
-      InferenceContext.setType(argumentList, downwardsInvokeType);
 
-      _resolveArguments(argumentList, whyNotPromotedList);
+      _resolveArguments(
+          argumentList, whyNotPromotedList, downwardsInvokeType.parameters,
+          methodInvocationContext: contextType);
 
       _typeArgumentTypes = _inferUpwards(
         rawType: rawType,
@@ -503,6 +509,7 @@ class InvocationInferenceHelper {
     required TypeArgumentList typeArgumentList,
     required ArgumentList argumentList,
     required List<WhyNotPromotedGetter> whyNotPromotedList,
+    required DartType? methodInvocationContext,
   }) {
     var typeParameters = rawType.typeFormals;
 
@@ -528,9 +535,9 @@ class InvocationInferenceHelper {
     }
 
     var invokeType = rawType.instantiate(typeArguments);
-    InferenceContext.setType(argumentList, invokeType);
 
-    _resolveArguments(argumentList, whyNotPromotedList);
+    _resolveArguments(argumentList, whyNotPromotedList, invokeType.parameters,
+        methodInvocationContext: methodInvocationContext);
 
     _typeArgumentTypes = typeArguments;
     _invokeType = invokeType;

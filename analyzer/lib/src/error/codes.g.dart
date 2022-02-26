@@ -1605,6 +1605,14 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
     uniqueName: 'CLASS_INSTANTIATION_ACCESS_TO_UNKNOWN_MEMBER',
   );
 
+  static const CompileTimeErrorCode CONCRETE_CLASS_HAS_ENUM_SUPERINTERFACE =
+      CompileTimeErrorCode(
+    'CONCRETE_CLASS_HAS_ENUM_SUPERINTERFACE',
+    "Concrete classes can't have 'Enum' as a superinterface.",
+    correctionMessage:
+        "Try specifying a different interface, or remove it from the list.",
+  );
+
   /**
    * Parameters:
    * 0: the name of the abstract method
@@ -1886,6 +1894,20 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
    * Parameters:
    * 0: the name of the type variable
    */
+  static const CompileTimeErrorCode CONFLICTING_TYPE_VARIABLE_AND_ENUM =
+      CompileTimeErrorCode(
+    'CONFLICTING_TYPE_VARIABLE_AND_CONTAINER',
+    "'{0}' can't be used to name both a type variable and the enum in which "
+        "the type variable is defined.",
+    correctionMessage: "Try renaming either the type variable or the enum.",
+    hasPublishedDocs: true,
+    uniqueName: 'CONFLICTING_TYPE_VARIABLE_AND_ENUM',
+  );
+
+  /**
+   * Parameters:
+   * 0: the name of the type variable
+   */
   static const CompileTimeErrorCode CONFLICTING_TYPE_VARIABLE_AND_EXTENSION =
       CompileTimeErrorCode(
     'CONFLICTING_TYPE_VARIABLE_AND_CONTAINER',
@@ -1935,6 +1957,20 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
     correctionMessage: "Try renaming either the type variable or the member.",
     hasPublishedDocs: true,
     uniqueName: 'CONFLICTING_TYPE_VARIABLE_AND_MEMBER_CLASS',
+  );
+
+  /**
+   * Parameters:
+   * 0: the name of the type variable
+   */
+  static const CompileTimeErrorCode CONFLICTING_TYPE_VARIABLE_AND_MEMBER_ENUM =
+      CompileTimeErrorCode(
+    'CONFLICTING_TYPE_VARIABLE_AND_MEMBER',
+    "'{0}' can't be used to name both a type variable and a member in this "
+        "enum.",
+    correctionMessage: "Try renaming either the type variable or the member.",
+    hasPublishedDocs: true,
+    uniqueName: 'CONFLICTING_TYPE_VARIABLE_AND_MEMBER_ENUM',
   );
 
   /**
@@ -3634,6 +3670,46 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
     'ENUM_CONSTANT_SAME_NAME_AS_ENCLOSING',
     "The name of the enum constant can't be the same as the enum's name.",
     correctionMessage: "Try renaming the constant.",
+  );
+
+  static const CompileTimeErrorCode ENUM_CONSTANT_WITH_NON_CONST_CONSTRUCTOR =
+      CompileTimeErrorCode(
+    'ENUM_CONSTANT_WITH_NON_CONST_CONSTRUCTOR',
+    "The invoked constructor isn't a const constructor.",
+    correctionMessage: "Try invoking a const generative constructor.",
+  );
+
+  static const CompileTimeErrorCode
+      ENUM_INSTANTIATED_TO_BOUNDS_IS_NOT_WELL_BOUNDED = CompileTimeErrorCode(
+    'ENUM_INSTANTIATED_TO_BOUNDS_IS_NOT_WELL_BOUNDED',
+    "The result of instantiating the enum to bounds is not well-bounded.",
+    correctionMessage: "Try using different bounds for type parameters.",
+  );
+
+  static const CompileTimeErrorCode ENUM_MIXIN_WITH_INSTANCE_VARIABLE =
+      CompileTimeErrorCode(
+    'ENUM_MIXIN_WITH_INSTANCE_VARIABLE',
+    "Mixins applied to enums can't have instance variables.",
+    correctionMessage: "Try replacing the instance variables with getters.",
+  );
+
+  /**
+   * Parameters:
+   * 0: the name of the abstract method
+   * 1: the name of the enclosing enum
+   */
+  static const CompileTimeErrorCode ENUM_WITH_ABSTRACT_MEMBER =
+      CompileTimeErrorCode(
+    'ENUM_WITH_ABSTRACT_MEMBER',
+    "'{0}' must have a method body because '{1}' is an enum.",
+    correctionMessage: "Try adding a body to '{0}'.",
+  );
+
+  static const CompileTimeErrorCode ENUM_WITH_NAME_VALUES =
+      CompileTimeErrorCode(
+    'ENUM_WITH_NAME_VALUES',
+    "The name 'values' is not a valid name for an enum.",
+    correctionMessage: "Try using a different name.",
   );
 
   /**
@@ -5691,6 +5767,63 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
   );
 
   /**
+   * Parameters:
+   * 0: the name of member that cannot be declared
+   */
+  static const CompileTimeErrorCode ILLEGAL_CONCRETE_ENUM_MEMBER_DECLARATION =
+      CompileTimeErrorCode(
+    'ILLEGAL_CONCRETE_ENUM_MEMBER',
+    "A concrete instance member named '{0}' can't be declared in a class that "
+        "implements 'Enum'.",
+    correctionMessage: "Try using a different name.",
+    uniqueName: 'ILLEGAL_CONCRETE_ENUM_MEMBER_DECLARATION',
+  );
+
+  /**
+   * Parameters:
+   * 0: the name of member that cannot be inherited
+   * 1: the name of the class that declares the member
+   */
+  static const CompileTimeErrorCode ILLEGAL_CONCRETE_ENUM_MEMBER_INHERITANCE =
+      CompileTimeErrorCode(
+    'ILLEGAL_CONCRETE_ENUM_MEMBER',
+    "A concrete instance member named '{0}' can't be inherited from '{1}' in a "
+        "class that implements 'Enum'.",
+    correctionMessage: "Try using a different name.",
+    uniqueName: 'ILLEGAL_CONCRETE_ENUM_MEMBER_INHERITANCE',
+  );
+
+  static const CompileTimeErrorCode ILLEGAL_ENUM_VALUES_DECLARATION =
+      CompileTimeErrorCode(
+    'ILLEGAL_ENUM_VALUES',
+    "An instance member named 'values' can't be declared in a class that "
+        "implements 'Enum'.",
+    correctionMessage: "Try using a different name.",
+    uniqueName: 'ILLEGAL_ENUM_VALUES_DECLARATION',
+  );
+
+  /**
+   * Parameters:
+   * 0: the name of the class that declares 'values'
+   */
+  static const CompileTimeErrorCode ILLEGAL_ENUM_VALUES_INHERITANCE =
+      CompileTimeErrorCode(
+    'ILLEGAL_ENUM_VALUES',
+    "An instance member named 'values' can't be inherited from '{0}' in a "
+        "class that implements 'Enum'.",
+    correctionMessage: "Try using a different name.",
+    uniqueName: 'ILLEGAL_ENUM_VALUES_INHERITANCE',
+  );
+
+  static const CompileTimeErrorCode ILLEGAL_LANGUAGE_VERSION_OVERRIDE =
+      CompileTimeErrorCode(
+    'ILLEGAL_LANGUAGE_VERSION_OVERRIDE',
+    "The language version must be {0}.",
+    correctionMessage:
+        "Try removing the language version override and migrating the code.",
+  );
+
+  /**
    * No parameters.
    */
   // #### Description
@@ -5901,6 +6034,19 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
 
   /**
    * Parameters:
+   * 0: the name of the superclass
+   */
+  static const CompileTimeErrorCode
+      IMPLICIT_SUPER_INITIALIZER_MISSING_ARGUMENTS = CompileTimeErrorCode(
+    'IMPLICIT_SUPER_INITIALIZER_MISSING_ARGUMENTS',
+    "The implicitly invoked unnamed constructor from '{0}' has required "
+        "parameters.",
+    correctionMessage:
+        "Try adding an explicit super initializer with the required arguments.",
+  );
+
+  /**
+   * Parameters:
    * 0: the name of the instance member
    */
   // #### Description
@@ -5957,28 +6103,6 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
         "Try replacing the reference to the instance member with a different "
         "expression",
     hasPublishedDocs: true,
-  );
-
-  static const CompileTimeErrorCode
-      IMPLICIT_UNNAMED_SUPER_CONSTRUCTOR_INVOCATION_MISSING_REQUIRED_ARGUMENT =
-      CompileTimeErrorCode(
-    'IMPLICIT_UNNAMED_SUPER_CONSTRUCTOR_INVOCATION_MISSING_REQUIRED_ARGUMENT',
-    "The named parameter '{0}' is required in the implicitly invoked unnamed "
-        "constructor of '{1}'.",
-    correctionMessage:
-        "Try declaring corresponding named super-parameter, or explicitly "
-        "invoking a different constructor.",
-  );
-
-  static const CompileTimeErrorCode
-      IMPLICIT_UNNAMED_SUPER_CONSTRUCTOR_INVOCATION_NOT_ENOUGH_POSITIONAL_ARGUMENTS =
-      CompileTimeErrorCode(
-    'IMPLICIT_UNNAMED_SUPER_CONSTRUCTOR_INVOCATION_NOT_ENOUGH_POSITIONAL_ARGUMENTS',
-    "The implicitly invoked unnamed constructor of '{0}' expects {1} "
-        "positional arguments, but {2} found.",
-    correctionMessage:
-        "Try declaring positional super-parameters, or explicitly invoking a "
-        "different constructor.",
   );
 
   /**
@@ -6568,6 +6692,7 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
   // instantiated:
   //
   // ```dart
+  // // @dart = 2.16
   // enum E {a}
   //
   // var e = [!E!]();
@@ -6579,6 +6704,7 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
   // constants defined in the enum:
   //
   // ```dart
+  // // @dart = 2.16
   // enum E {a}
   //
   // var e = E.a;
@@ -7497,6 +7623,13 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
     'INVALID_OVERRIDE',
     "'{1}.{0}' ('{2}') isn't a valid override of '{3}.{0}' ('{4}').",
     hasPublishedDocs: true,
+  );
+
+  static const CompileTimeErrorCode
+      INVALID_REFERENCE_TO_GENERATIVE_ENUM_CONSTRUCTOR = CompileTimeErrorCode(
+    'INVALID_REFERENCE_TO_GENERATIVE_ENUM_CONSTRUCTOR',
+    "Generative enum constructors can only be used as targets of redirection.",
+    correctionMessage: "Try using a factory constructor, or an enum constant.",
   );
 
   /**
@@ -8431,35 +8564,38 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
 
   /**
    * 12.1 Constants: A constant expression is ... a constant list literal.
+   *
+   * Note: This diagnostic is never displayed to the user, so it doesn't need
+   * to be documented.
    */
   static const CompileTimeErrorCode MISSING_CONST_IN_LIST_LITERAL =
       CompileTimeErrorCode(
     'MISSING_CONST_IN_LIST_LITERAL',
-    "List literals must be prefixed with 'const' when used as a constant "
-        "expression.",
-    correctionMessage: "Try adding the keyword 'const' before the literal.",
+    "Seeing this message constitutes a bug. Please report it.",
   );
 
   /**
    * 12.1 Constants: A constant expression is ... a constant map literal.
+   *
+   * Note: This diagnostic is never displayed to the user, so it doesn't need
+   * to be documented.
    */
   static const CompileTimeErrorCode MISSING_CONST_IN_MAP_LITERAL =
       CompileTimeErrorCode(
     'MISSING_CONST_IN_MAP_LITERAL',
-    "Map literals must be prefixed with 'const' when used as a constant "
-        "expression.",
-    correctionMessage: "Try adding the keyword 'const' before the literal.",
+    "Seeing this message constitutes a bug. Please report it.",
   );
 
   /**
    * 12.1 Constants: A constant expression is ... a constant set literal.
+   *
+   * Note: This diagnostic is never displayed to the user, so it doesn't need
+   * to be documented.
    */
   static const CompileTimeErrorCode MISSING_CONST_IN_SET_LITERAL =
       CompileTimeErrorCode(
     'MISSING_CONST_IN_SET_LITERAL',
-    "Set literals must be prefixed with 'const' when used as a constant "
-        "expression.",
-    correctionMessage: "Try adding the keyword 'const' before the literal.",
+    "Seeing this message constitutes a bug. Please report it.",
   );
 
   /**
@@ -10280,6 +10416,13 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
     "The values in a const set literal must be constants.",
     correctionMessage: "Try removing the keyword 'const' from the set literal.",
     hasPublishedDocs: true,
+  );
+
+  static const CompileTimeErrorCode NON_CONST_GENERATIVE_ENUM_CONSTRUCTOR =
+      CompileTimeErrorCode(
+    'NON_CONST_GENERATIVE_ENUM_CONSTRUCTOR',
+    "Generative enum constructors must be 'const'.",
+    correctionMessage: "Try adding the keyword 'const'.",
   );
 
   /**
@@ -13187,6 +13330,13 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
     hasPublishedDocs: true,
   );
 
+  static const CompileTimeErrorCode SUPER_IN_ENUM_CONSTRUCTOR =
+      CompileTimeErrorCode(
+    'SUPER_IN_ENUM_CONSTRUCTOR',
+    "The enum constructor can't have a 'super' initializer.",
+    correctionMessage: "Try removing the 'super' invocation.",
+  );
+
   /**
    * No parameters.
    */
@@ -14166,8 +14316,8 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
 
   /**
    * Parameters:
-   * 0: the name of the enumeration constant that is not defined
-   * 1: the name of the enumeration used to access the constant
+   * 0: the name of the enum constant that is not defined
+   * 1: the name of the enum used to access the constant
    */
   // #### Description
   //
@@ -14213,6 +14363,30 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
         "Try correcting the name to the name of an existing constant, or "
         "defining a constant named '{0}'.",
     hasPublishedDocs: true,
+  );
+
+  /**
+   * Parameters:
+   * 0: the name of the constructor that is undefined
+   */
+  static const CompileTimeErrorCode UNDEFINED_ENUM_CONSTRUCTOR_NAMED =
+      CompileTimeErrorCode(
+    'UNDEFINED_ENUM_CONSTRUCTOR',
+    "The enum doesn't have a constructor named '{0}'.",
+    correctionMessage:
+        "Try correcting the name to the name of an existing constructor, or "
+        "defining constructor with the name '{0}'.",
+    uniqueName: 'UNDEFINED_ENUM_CONSTRUCTOR_NAMED',
+  );
+
+  static const CompileTimeErrorCode UNDEFINED_ENUM_CONSTRUCTOR_UNNAMED =
+      CompileTimeErrorCode(
+    'UNDEFINED_ENUM_CONSTRUCTOR',
+    "The enum doesn't have an unnamed constructor.",
+    correctionMessage:
+        "Try adding the name of an existing constructor, or defining an "
+        "unnamed constructor.",
+    uniqueName: 'UNDEFINED_ENUM_CONSTRUCTOR_UNNAMED',
   );
 
   /**
@@ -15444,6 +15618,13 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
     hasPublishedDocs: true,
   );
 
+  static const CompileTimeErrorCode VALUES_DECLARATION_IN_ENUM =
+      CompileTimeErrorCode(
+    'VALUES_DECLARATION_IN_ENUM',
+    "A member named 'values' can't be declared in an enum.",
+    correctionMessage: "Try using a different name.",
+  );
+
   /**
    * Parameters:
    * 0: the type of the object being assigned.
@@ -15752,6 +15933,19 @@ class CompileTimeErrorCode extends AnalyzerErrorCode {
     "The constructor '{0}.{1}' doesn't have type parameters.",
     correctionMessage: "Try moving type arguments to after the type name.",
     hasPublishedDocs: true,
+  );
+
+  /**
+   * Parameters:
+   * 0: the number of type parameters that were declared
+   * 1: the number of type arguments provided
+   */
+  static const CompileTimeErrorCode WRONG_NUMBER_OF_TYPE_ARGUMENTS_ENUM =
+      CompileTimeErrorCode(
+    'WRONG_NUMBER_OF_TYPE_ARGUMENTS_ENUM',
+    "The enum is declared with {0} type parameters, but {1} type arguments "
+        "were given.",
+    correctionMessage: "Try adjusting the number of type arguments.",
   );
 
   /**
@@ -16401,7 +16595,7 @@ class StaticWarningCode extends AnalyzerErrorCode {
   // #### Description
   //
   // The analyzer produces this diagnostic when a `switch` statement for an enum
-  // doesn't include an option for one of the values in the enumeration.
+  // doesn't include an option for one of the values in the enum.
   //
   // Note that `null` is always a possible value for an enum and therefore also
   // must be handled.

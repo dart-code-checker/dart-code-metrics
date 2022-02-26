@@ -46,8 +46,19 @@ import 'package:collection/collection.dart';
 
 /// A concrete implementation of a [ClassElement].
 abstract class AbstractClassElementImpl extends _ExistingElementImpl
-    with TypeParameterizedElementMixin
+    with TypeParameterizedElementMixin, HasCompletionData
     implements ClassElement {
+  /// The superclass of the class, or `null` for [Object].
+  InterfaceType? _supertype;
+
+  /// A list containing all of the mixins that are applied to the class being
+  /// extended in order to derive the superclass of this class.
+  List<InterfaceType> _mixins = const [];
+
+  /// A list containing all of the interfaces that are implemented by this
+  /// class.
+  List<InterfaceType> _interfaces = const [];
+
   /// The type defined by the class.
   InterfaceType? _thisType;
 
@@ -61,6 +72,10 @@ abstract class AbstractClassElementImpl extends _ExistingElementImpl
   /// A list containing all of the methods contained in this class.
   List<MethodElement> _methods = _Sentinel.methodElement;
 
+  /// This callback is set during mixins inference to handle reentrant calls.
+  List<InterfaceType>? Function(AbstractClassElementImpl)?
+      mixinInferenceCallback;
+
   /// Initialize a newly created class element to have the given [name] at the
   /// given [offset] in the file that contains the declaration of this element.
   AbstractClassElementImpl(String name, int offset) : super(name, offset);
@@ -72,6 +87,12 @@ abstract class AbstractClassElementImpl extends _ExistingElementImpl
       (accessor as PropertyAccessorElementImpl).enclosingElement = this;
     }
     _accessors = accessors;
+  }
+
+  @override
+  List<InterfaceType> get allSupertypes {
+    var sessionImpl = library.session as AnalysisSessionImpl;
+    return sessionImpl.classHierarchy.implementedInterfaces(this);
   }
 
   @override
@@ -92,6 +113,23 @@ abstract class AbstractClassElementImpl extends _ExistingElementImpl
   }
 
   @override
+  List<InterfaceType> get interfaces =>
+      ElementTypeProvider.current.getClassInterfaces(this);
+
+  set interfaces(List<InterfaceType> interfaces) {
+    _interfaces = interfaces;
+  }
+
+  List<InterfaceType> get interfacesInternal {
+    return _interfaces;
+  }
+
+  @override
+  bool get isDartCoreEnum {
+    return name == 'Enum' && library.isDartCore;
+  }
+
+  @override
   bool get isDartCoreObject => false;
 
   @override
@@ -101,7 +139,38 @@ abstract class AbstractClassElementImpl extends _ExistingElementImpl
   bool get isMixin => false;
 
   @override
+  List<InterfaceType> get mixins {
+    if (mixinInferenceCallback != null) {
+      var mixins = mixinInferenceCallback!(this);
+      if (mixins != null) {
+        return _mixins = mixins;
+      }
+    }
+
+    return _mixins;
+  }
+
+  set mixins(List<InterfaceType> mixins) {
+    _mixins = mixins;
+  }
+
+  @override
   List<InterfaceType> get superclassConstraints => const <InterfaceType>[];
+
+  @override
+  InterfaceType? get supertype {
+    if (_supertype != null) return _supertype!;
+
+    if (hasModifier(Modifier.DART_CORE_OBJECT)) {
+      return null;
+    }
+
+    return _supertype;
+  }
+
+  set supertype(InterfaceType? supertype) {
+    _supertype = supertype;
+  }
 
   @override
   InterfaceType get thisType {
@@ -127,6 +196,16 @@ abstract class AbstractClassElementImpl extends _ExistingElementImpl
       (typeParameter as TypeParameterElementImpl).enclosingElement = this;
     }
     _typeParameterElements = typeParameters;
+  }
+
+  @override
+  ConstructorElement? get unnamedConstructor {
+    for (ConstructorElement element in constructors) {
+      if (element.name.isEmpty) {
+        return element;
+      }
+    }
+    return null;
   }
 
   @override
@@ -315,6 +394,9 @@ abstract class AbstractClassElementImpl extends _ExistingElementImpl
     super.visitChildren(visitor);
     safelyVisitChildren(accessors, visitor);
     safelyVisitChildren(fields, visitor);
+    safelyVisitChildren(constructors, visitor);
+    safelyVisitChildren(methods, visitor);
+    safelyVisitChildren(typeParameters, visitor);
   }
 
   /// Return an iterable containing all of the implementations of a getter with
@@ -434,17 +516,6 @@ abstract class AbstractClassElementImpl extends _ExistingElementImpl
 
 /// An [AbstractClassElementImpl] which is a class.
 class ClassElementImpl extends AbstractClassElementImpl {
-  /// The superclass of the class, or `null` for [Object].
-  InterfaceType? _supertype;
-
-  /// A list containing all of the mixins that are applied to the class being
-  /// extended in order to derive the superclass of this class.
-  List<InterfaceType> _mixins = const [];
-
-  /// A list containing all of the interfaces that are implemented by this
-  /// class.
-  List<InterfaceType> _interfaces = const [];
-
   /// For classes which are not mixin applications, a list containing all of the
   /// constructors contained in this class, or `null` if the list of
   /// constructors has not yet been built.
@@ -457,9 +528,6 @@ class ClassElementImpl extends AbstractClassElementImpl {
   /// A flag indicating whether the types associated with the instance members
   /// of this class have been inferred.
   bool hasBeenInferred = false;
-
-  /// This callback is set during mixins inference to handle reentrant calls.
-  List<InterfaceType>? Function(ClassElementImpl)? mixinInferenceCallback;
 
   ElementLinkedData? linkedData;
 
@@ -480,12 +548,6 @@ class ClassElementImpl extends AbstractClassElementImpl {
     }
 
     return _accessors;
-  }
-
-  @override
-  List<InterfaceType> get allSupertypes {
-    var sessionImpl = library.session as AnalysisSessionImpl;
-    return sessionImpl.classHierarchy.implementedInterfaces(this);
   }
 
   @override
@@ -601,13 +663,6 @@ class ClassElementImpl extends AbstractClassElementImpl {
   }
 
   @override
-  List<InterfaceType> get interfaces =>
-      ElementTypeProvider.current.getClassInterfaces(this);
-
-  set interfaces(List<InterfaceType> interfaces) {
-    _interfaces = interfaces;
-  }
-
   List<InterfaceType> get interfacesInternal {
     linkedData?.read(this);
     return _interfaces;
@@ -730,19 +785,8 @@ class ClassElementImpl extends AbstractClassElementImpl {
 
   @override
   List<InterfaceType> get mixins {
-    if (mixinInferenceCallback != null) {
-      var mixins = mixinInferenceCallback!(this);
-      if (mixins != null) {
-        return _mixins = mixins;
-      }
-    }
-
     linkedData?.read(this);
-    return _mixins;
-  }
-
-  set mixins(List<InterfaceType> mixins) {
-    _mixins = mixins;
+    return super.mixins;
   }
 
   @override
@@ -758,33 +802,13 @@ class ClassElementImpl extends AbstractClassElementImpl {
   @override
   InterfaceType? get supertype {
     linkedData?.read(this);
-    if (_supertype != null) return _supertype!;
-
-    if (hasModifier(Modifier.DART_CORE_OBJECT)) {
-      return null;
-    }
-
-    return _supertype;
-  }
-
-  set supertype(InterfaceType? supertype) {
-    _supertype = supertype;
+    return super.supertype;
   }
 
   @override
   List<TypeParameterElement> get typeParameters {
     linkedData?.read(this);
     return super.typeParameters;
-  }
-
-  @override
-  ConstructorElement? get unnamedConstructor {
-    for (ConstructorElement element in constructors) {
-      if (element.name.isEmpty) {
-        return element;
-      }
-    }
-    return null;
   }
 
   @override
@@ -797,14 +821,6 @@ class ClassElementImpl extends AbstractClassElementImpl {
     reference.element = this;
 
     this.linkedData = linkedData;
-  }
-
-  @override
-  void visitChildren(ElementVisitor visitor) {
-    super.visitChildren(visitor);
-    safelyVisitChildren(constructors, visitor);
-    safelyVisitChildren(methods, visitor);
-    safelyVisitChildren(typeParameters, visitor);
   }
 
   /// Compute a list of constructors for this class, which is a mixin
@@ -1349,9 +1365,6 @@ class ConstructorElementImpl extends ExecutableElementImpl
   }
 
   @override
-  bool get isStatic => false;
-
-  @override
   ElementKind get kind => ElementKind.CONSTRUCTOR;
 
   @override
@@ -1456,6 +1469,11 @@ mixin ConstructorElementMixin implements ConstructorElement {
     }
     // OK, can be used as default constructor
     return true;
+  }
+
+  @override
+  bool get isGenerative {
+    return !isFactory;
   }
 }
 
@@ -1584,23 +1602,19 @@ class DefaultSuperFormalParameterElementImpl
 
   @override
   String? get defaultValueCode {
-    return constantInitializer?.toSource();
-  }
-
-  @override
-  bool get hasDefaultValue {
-    if (super.hasDefaultValue) {
-      return true;
-    }
-    return computeConstantValue() != null;
-  }
-
-  @override
-  DartObject? computeConstantValue() {
+    final constantInitializer = this.constantInitializer;
     if (constantInitializer != null) {
-      return super.computeConstantValue();
+      return constantInitializer.toSource();
     }
 
+    if (_superConstructorParameterDefaultValue != null) {
+      return superConstructorParameter?.defaultValueCode;
+    }
+
+    return null;
+  }
+
+  DartObject? get _superConstructorParameterDefaultValue {
     var superDefault = superConstructorParameter?.computeConstantValue();
     var superDefaultType = superDefault?.type;
     var libraryElement = library;
@@ -1611,6 +1625,15 @@ class DefaultSuperFormalParameterElementImpl
     }
 
     return null;
+  }
+
+  @override
+  DartObject? computeConstantValue() {
+    if (constantInitializer != null) {
+      return super.computeConstantValue();
+    }
+
+    return _superConstructorParameterDefaultValue;
   }
 }
 
@@ -2670,12 +2693,8 @@ class EnumElementImpl extends AbstractClassElementImpl {
     return _accessors;
   }
 
-  @override
-  List<InterfaceType> get allSupertypes =>
-      <InterfaceType>[...interfaces, supertype];
-
   List<FieldElement> get constants {
-    return fields.where((field) => !field.isSynthetic).toList();
+    return fields.where((field) => field.isEnumConstant).toList();
   }
 
   @override
@@ -2700,9 +2719,6 @@ class EnumElementImpl extends AbstractClassElementImpl {
 
   @override
   bool get hasStaticMember => true;
-
-  @override
-  List<InterfaceType> get interfaces => const [];
 
   @override
   bool get isAbstract => false;
@@ -2748,17 +2764,14 @@ class EnumElementImpl extends AbstractClassElementImpl {
   }
 
   @override
-  List<InterfaceType> get mixins => const <InterfaceType>[];
-
-  @override
   String get name {
     return super.name!;
   }
 
   @override
-  InterfaceType get supertype {
-    var enumType = library.typeProvider.enumType;
-    return enumType ?? library.typeProvider.objectType;
+  InterfaceType? get supertype {
+    linkedData?.read(this);
+    return super.supertype;
   }
 
   @override
@@ -2767,8 +2780,16 @@ class EnumElementImpl extends AbstractClassElementImpl {
     return super.typeParameters;
   }
 
-  @override
-  ConstructorElement? get unnamedConstructor => null;
+  ConstFieldElementImpl? get valuesField {
+    for (var field in fields) {
+      if (field is ConstFieldElementImpl &&
+          field.name == 'values' &&
+          field.isSyntheticEnumField) {
+        return field;
+      }
+    }
+    return null;
+  }
 
   @override
   void appendTo(ElementDisplayStringBuilder builder) {
@@ -2785,7 +2806,7 @@ class EnumElementImpl extends AbstractClassElementImpl {
 
 /// A base class for concrete implementations of an [ExecutableElement].
 abstract class ExecutableElementImpl extends _ExistingElementImpl
-    with TypeParameterizedElementMixin
+    with TypeParameterizedElementMixin, HasCompletionData
     implements ExecutableElement, ElementImplWithFunctionType {
   /// A list containing all of the parameters defined by this executable
   /// element.
@@ -2854,6 +2875,15 @@ abstract class ExecutableElementImpl extends _ExistingElementImpl
 
   @override
   bool get isOperator => false;
+
+  @override
+  bool get isStatic {
+    return hasModifier(Modifier.STATIC);
+  }
+
+  set isStatic(bool isStatic) {
+    setModifier(Modifier.STATIC, isStatic);
+  }
 
   @override
   bool get isSynchronous => !isAsynchronous;
@@ -3000,7 +3030,7 @@ class ExportElementImpl extends UriReferencedElementImpl
 
 /// A concrete implementation of an [ExtensionElement].
 class ExtensionElementImpl extends _ExistingElementImpl
-    with TypeParameterizedElementMixin
+    with TypeParameterizedElementMixin, HasCompletionData
     implements ExtensionElement {
   /// The type being extended.
   DartType? _extendedType;
@@ -3126,6 +3156,16 @@ class ExtensionElementImpl extends _ExistingElementImpl
   }
 
   @override
+  FieldElement? getField(String name) {
+    for (FieldElement fieldElement in fields) {
+      if (name == fieldElement.name) {
+        return fieldElement;
+      }
+    }
+    return null;
+  }
+
+  @override
   PropertyAccessorElement? getGetter(String getterName) {
     int length = accessors.length;
     for (int i = 0; i < length; i++) {
@@ -3174,6 +3214,7 @@ class ExtensionElementImpl extends _ExistingElementImpl
 
 /// A concrete implementation of a [FieldElement].
 class FieldElementImpl extends PropertyInducingElementImpl
+    with HasCompletionData
     implements FieldElement {
   /// True if this field inherits from a covariant parameter. This happens
   /// when it overrides a field in a supertype that is covariant.
@@ -3215,14 +3256,18 @@ class FieldElementImpl extends PropertyInducingElementImpl
     return hasModifier(Modifier.EXTERNAL);
   }
 
-  @override
-  bool get isStatic {
-    return hasModifier(Modifier.STATIC);
-  }
-
-  /// Set whether this field is static.
-  set isStatic(bool isStatic) {
-    setModifier(Modifier.STATIC, isStatic);
+  /// Return `true` if this element is a synthetic enum field.
+  ///
+  /// It is synthetic because it is not written explicitly in code, but it
+  /// is different from other synthetic fields, because its getter is also
+  /// synthetic.
+  ///
+  /// Such fields are `index`, `_name`, and `values`.
+  bool get isSyntheticEnumField {
+    return enclosingElement is EnumElementImpl &&
+        isSynthetic &&
+        getter?.isSynthetic == true &&
+        setter == null;
   }
 
   @override
@@ -3302,9 +3347,6 @@ class FunctionElementImpl extends ExecutableElementImpl
   bool get isEntryPoint {
     return isStatic && displayName == FunctionElement.MAIN_FUNCTION_NAME;
   }
-
-  @override
-  bool get isStatic => enclosingElement is CompilationUnitElement;
 
   @override
   ElementKind get kind => ElementKind.FUNCTION;
@@ -3430,6 +3472,11 @@ class GenericFunctionTypeElementImpl extends _ExistingElementImpl
     safelyVisitChildren(typeParameters, visitor);
     safelyVisitChildren(parameters, visitor);
   }
+}
+
+/// This mixins is added to elements that can have cache completion data.
+mixin HasCompletionData {
+  Object? completionData;
 }
 
 /// A concrete implementation of a [HideElementCombinator].
@@ -3570,13 +3617,7 @@ class LibraryElementImpl extends _ExistingElementImpl
   final AnalysisContext context;
 
   @override
-  final AnalysisSession session;
-
-  /// If `true`, then this library is valid in the session.
-  ///
-  /// A library becomes invalid when one of its files, or one of its
-  /// dependencies, changes.
-  bool isValid = true;
+  AnalysisSession session;
 
   /// The language version for the library.
   LibraryLanguageVersion? _languageVersion;
@@ -4158,16 +4199,6 @@ class MethodElementImpl extends ExecutableElementImpl implements MethodElement {
         (0x41 <= first && first <= 0x5A) ||
         first == 0x5F ||
         first == 0x24);
-  }
-
-  @override
-  bool get isStatic {
-    return hasModifier(Modifier.STATIC);
-  }
-
-  /// Set whether this method is static.
-  set isStatic(bool isStatic) {
-    setModifier(Modifier.STATIC, isStatic);
   }
 
   @override
@@ -5000,16 +5031,6 @@ class PropertyAccessorElementImpl extends ExecutableElementImpl
   }
 
   @override
-  bool get isStatic {
-    return hasModifier(Modifier.STATIC);
-  }
-
-  /// Set whether this accessor is static.
-  set isStatic(bool isStatic) {
-    setModifier(Modifier.STATIC, isStatic);
-  }
-
-  @override
   ElementKind get kind {
     if (isGetter) {
       return ElementKind.GETTER;
@@ -5067,12 +5088,12 @@ class PropertyAccessorElementImpl_ImplicitGetter
 
   @override
   Element get nonSynthetic {
-    if (enclosingElement is EnumElementImpl) {
-      if (name == 'index' || name == 'values') {
-        return enclosingElement;
-      }
+    final variable = this.variable;
+    if (!variable.isSynthetic) {
+      return variable;
     }
-    return variable;
+    assert(enclosingElement is EnumElementImpl);
+    return enclosingElement;
   }
 
   @override
@@ -5217,6 +5238,7 @@ abstract class PropertyInducingElementImpl
   Element get nonSynthetic {
     if (isSynthetic) {
       if (enclosingElement is EnumElementImpl) {
+        // TODO(scheglov) remove 'index'?
         if (name == 'index' || name == 'values') {
           return enclosingElement;
         }
@@ -5399,6 +5421,7 @@ class SuperFormalParameterElementImpl extends ParameterElementImpl
 
 /// A concrete implementation of a [TopLevelVariableElement].
 class TopLevelVariableElementImpl extends PropertyInducingElementImpl
+    with HasCompletionData
     implements TopLevelVariableElement {
   /// Initialize a newly created synthetic top-level variable element to have
   /// the given [name] and [offset].
@@ -5433,7 +5456,7 @@ class TopLevelVariableElementImpl extends PropertyInducingElementImpl
 ///
 /// Clients may not extend, implement or mix-in this class.
 class TypeAliasElementImpl extends _ExistingElementImpl
-    with TypeParameterizedElementMixin
+    with TypeParameterizedElementMixin, HasCompletionData
     implements TypeAliasElement {
   /// Is `true` if the element has direct or indirect reference to itself
   /// from anywhere except a class element or type parameter bounds.
@@ -5881,6 +5904,10 @@ abstract class VariableElementImpl extends ElementImpl
 
   @override
   bool get isStatic => hasModifier(Modifier.STATIC);
+
+  set isStatic(bool isStatic) {
+    setModifier(Modifier.STATIC, isStatic);
+  }
 
   @override
   String get name => super.name!;

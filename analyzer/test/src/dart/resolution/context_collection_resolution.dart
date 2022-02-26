@@ -212,6 +212,10 @@ abstract class ContextResolutionTest
     );
   }
 
+  /// Override this method to update [analysisOptions] for every context root,
+  /// the default or already updated with `analysis_options.yaml` file.
+  void updateAnalysisOptions(AnalysisOptionsImpl analysisOptions) {}
+
   /// Call this method if the test needs to use the empty byte store, without
   /// any information cached.
   void useEmptyByteStore() {
@@ -241,6 +245,7 @@ abstract class ContextResolutionTest
       resourceProvider: resourceProvider,
       retainDataForTesting: retainDataForTesting,
       sdkPath: sdkRoot.path,
+      updateAnalysisOptions: updateAnalysisOptions,
     );
 
     verifyCreatedCollection();
@@ -313,6 +318,7 @@ class PubPackageResolutionTest extends ContextResolutionTest {
   void writeTestPackageConfig(
     PackageConfigFileBuilder config, {
     String? languageVersion,
+    bool ffi = false,
     bool js = false,
     bool meta = false,
   }) {
@@ -323,6 +329,14 @@ class PubPackageResolutionTest extends ContextResolutionTest {
       rootPath: testPackageRootPath,
       languageVersion: languageVersion ?? testPackageLanguageVersion,
     );
+
+    if (ffi) {
+      var ffiPath = '/packages/ffi';
+      MockPackages.addFfiPackageFiles(
+        getFolder(ffiPath),
+      );
+      config.add(name: 'ffi', rootPath: ffiPath);
+    }
 
     if (js) {
       var jsPath = '/packages/js';
@@ -429,6 +443,11 @@ mixin WithNoImplicitCastsMixin on PubPackageResolutionTest {
 mixin WithoutConstructorTearoffsMixin on PubPackageResolutionTest {
   @override
   String? get testPackageLanguageVersion => '2.14';
+}
+
+mixin WithoutEnhancedEnumsMixin on PubPackageResolutionTest {
+  @override
+  String? get testPackageLanguageVersion => '2.16';
 }
 
 mixin WithoutNullSafetyMixin on PubPackageResolutionTest {

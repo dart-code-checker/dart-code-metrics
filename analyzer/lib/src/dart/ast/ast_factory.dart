@@ -156,6 +156,7 @@ class AstFactoryImpl extends AstFactory {
           List<Annotation>? metadata,
           Token? abstractKeyword,
           Token? macroKeyword,
+          Token? augmentKeyword,
           Token classKeyword,
           SimpleIdentifier name,
           TypeParameterList? typeParameters,
@@ -170,6 +171,7 @@ class AstFactoryImpl extends AstFactory {
           metadata,
           abstractKeyword,
           macroKeyword,
+          augmentKeyword,
           classKeyword,
           name as SimpleIdentifierImpl,
           typeParameters as TypeParameterListImpl?,
@@ -190,6 +192,7 @@ class AstFactoryImpl extends AstFactory {
           Token equals,
           Token? abstractKeyword,
           Token? macroKeyword,
+          Token? augmentKeyword,
           NamedType superclass,
           WithClause withClause,
           ImplementsClause? implementsClause,
@@ -203,6 +206,7 @@ class AstFactoryImpl extends AstFactory {
           equals,
           abstractKeyword,
           macroKeyword,
+          augmentKeyword,
           superclass as NamedTypeImpl,
           withClause as WithClauseImpl,
           implementsClause as ImplementsClauseImpl?,
@@ -385,7 +389,11 @@ class AstFactoryImpl extends AstFactory {
   EnumConstantDeclarationImpl enumConstantDeclaration(Comment? comment,
           List<Annotation>? metadata, SimpleIdentifier name) =>
       EnumConstantDeclarationImpl(
-          comment as CommentImpl?, metadata, name as SimpleIdentifierImpl);
+        documentationComment: comment as CommentImpl?,
+        metadata: metadata,
+        name: name as SimpleIdentifierImpl,
+        arguments: null,
+      );
 
   @Deprecated('Use enumDeclaration2() instead')
   @override
@@ -407,6 +415,7 @@ class AstFactoryImpl extends AstFactory {
           implementsClause: null,
           leftBracket: leftBracket,
           constants: constants,
+          semicolon: null,
           members: [],
           rightBracket: rightBracket);
 
@@ -422,6 +431,7 @@ class AstFactoryImpl extends AstFactory {
     required Token leftBracket,
     required List<EnumConstantDeclaration> constants,
     required List<ClassMember> members,
+    required Token? semicolon,
     required Token rightBracket,
   }) {
     return EnumDeclarationImpl(
@@ -434,6 +444,7 @@ class AstFactoryImpl extends AstFactory {
       implementsClause as ImplementsClauseImpl?,
       leftBracket,
       constants,
+      semicolon,
       members,
       rightBracket,
     );
@@ -528,6 +539,7 @@ class AstFactoryImpl extends AstFactory {
           {Comment? comment,
           List<Annotation>? metadata,
           Token? abstractKeyword,
+          Token? augmentKeyword,
           Token? covariantKeyword,
           Token? externalKeyword,
           Token? staticKeyword,
@@ -537,6 +549,7 @@ class AstFactoryImpl extends AstFactory {
           comment as CommentImpl?,
           metadata,
           abstractKeyword,
+          augmentKeyword,
           covariantKeyword,
           externalKeyword,
           staticKeyword,
@@ -662,6 +675,7 @@ class AstFactoryImpl extends AstFactory {
   FunctionDeclarationImpl functionDeclaration(
           Comment? comment,
           List<Annotation>? metadata,
+          Token? augmentKeyword,
           Token? externalKeyword,
           TypeAnnotation? returnType,
           Token? propertyKeyword,
@@ -670,6 +684,7 @@ class AstFactoryImpl extends AstFactory {
       FunctionDeclarationImpl(
           comment as CommentImpl?,
           metadata,
+          augmentKeyword,
           externalKeyword,
           returnType as TypeAnnotationImpl?,
           propertyKeyword,
@@ -1014,6 +1029,7 @@ class AstFactoryImpl extends AstFactory {
   MixinDeclarationImpl mixinDeclaration(
           Comment? comment,
           List<Annotation>? metadata,
+          Token? augmentKeyword,
           Token mixinKeyword,
           SimpleIdentifier name,
           TypeParameterList? typeParameters,
@@ -1025,6 +1041,7 @@ class AstFactoryImpl extends AstFactory {
       MixinDeclarationImpl(
           comment as CommentImpl?,
           metadata,
+          augmentKeyword,
           mixinKeyword,
           name as SimpleIdentifierImpl,
           typeParameters as TypeParameterListImpl?,

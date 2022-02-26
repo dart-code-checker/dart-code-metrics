@@ -254,6 +254,7 @@ class InformativeDataApplier {
         element.nameOffset = info.nameOffset;
         element.nameEnd = info.nameEnd;
         element.documentationComment = info.documentationComment;
+
         _applyToFormalParameters(
           element.parameters_unresolved,
           info.parameters,
@@ -1296,6 +1297,7 @@ class _InformativeDataWriter {
       _writeDocumentationComment(node);
       _writeOffsets(
         metadata: node.metadata,
+        enumConstantArguments: node.arguments,
       );
     }
 
@@ -1429,6 +1431,7 @@ class _InformativeDataWriter {
     NodeList<ConstructorInitializer>? constructorInitializers,
     NodeList<EnumConstantDeclaration>? enumConstants,
     TypeAnnotation? aliasedType,
+    EnumConstantArguments? enumConstantArguments,
   }) {
     var collector = _OffsetsCollector();
 
@@ -1480,6 +1483,8 @@ class _InformativeDataWriter {
       addTypeParameters(aliasedType.typeParameters);
       addFormalParameters(aliasedType.parameters);
     }
+    enumConstantArguments?.typeArguments?.accept(collector);
+    enumConstantArguments?.argumentList.arguments.accept(collector);
     sink.writeUint30List(collector.offsets);
   }
 
@@ -1655,11 +1660,10 @@ class _OffsetsApplier extends _OffsetsAstVisitor {
   _OffsetsApplier(this._iterator);
 
   void applyToConstantInitializer(Element element) {
-    if (element is ConstVariableElement) {
-      var initializer = element.constantInitializer;
-      if (initializer != null) {
-        initializer.accept(this);
-      }
+    if (element is ConstFieldElementImpl && element.isEnumConstant) {
+      _applyToEnumConstantInitializer(element);
+    } else if (element is ConstVariableElement) {
+      element.constantInitializer?.accept(this);
     }
   }
 
@@ -1732,6 +1736,16 @@ class _OffsetsApplier extends _OffsetsAstVisitor {
       element.nameOffset = identifier.offset;
     }
   }
+
+  void _applyToEnumConstantInitializer(ConstFieldElementImpl element) {
+    var initializer = element.constantInitializer;
+    if (initializer is InstanceCreationExpression) {
+      initializer.constructorName.type.typeArguments?.accept(this);
+      for (var argument in initializer.argumentList.arguments) {
+        argument.accept(this);
+      }
+    }
+  }
 }
 
 abstract class _OffsetsAstVisitor extends RecursiveAstVisitor<void> {
@@ -1740,6 +1754,7 @@ abstract class _OffsetsAstVisitor extends RecursiveAstVisitor<void> {
   @override
   void visitAnnotation(Annotation node) {
     _tokenOrNull(node.atSign);
+    _tokenOrNull(node.period);
     super.visitAnnotation(node);
   }
 
@@ -1760,6 +1775,7 @@ abstract class _OffsetsAstVisitor extends RecursiveAstVisitor<void> {
   void visitAssertInitializer(AssertInitializer node) {
     _tokenOrNull(node.assertKeyword);
     _tokenOrNull(node.leftParenthesis);
+    _tokenOrNull(node.comma);
     _tokenOrNull(node.rightParenthesis);
     super.visitAssertInitializer(node);
   }
@@ -1797,7 +1813,7 @@ abstract class _OffsetsAstVisitor extends RecursiveAstVisitor<void> {
 
   @override
   void visitConstructorName(ConstructorName node) {
-    node.type2.accept(this);
+    node.type.accept(this);
     _tokenOrNull(node.period);
     node.name?.accept(this);
   }
@@ -1810,6 +1826,8 @@ abstract class _OffsetsAstVisitor extends RecursiveAstVisitor<void> {
   @override
   void visitFormalParameterList(FormalParameterList node) {
     _tokenOrNull(node.leftParenthesis);
+    _tokenOrNull(node.leftDelimiter);
+    _tokenOrNull(node.rightDelimiter);
     _tokenOrNull(node.rightParenthesis);
     super.visitFormalParameterList(node);
   }
@@ -1818,6 +1836,15 @@ abstract class _OffsetsAstVisitor extends RecursiveAstVisitor<void> {
   void visitGenericFunctionType(GenericFunctionType node) {
     _tokenOrNull(node.functionKeyword);
     super.visitGenericFunctionType(node);
+  }
+
+  @override
+  void visitIfElement(IfElement node) {
+    _tokenOrNull(node.ifKeyword);
+    _tokenOrNull(node.leftParenthesis);
+    _tokenOrNull(node.rightParenthesis);
+    _tokenOrNull(node.elseKeyword);
+    super.visitIfElement(node);
   }
 
   @override
@@ -1858,11 +1885,23 @@ abstract class _OffsetsAstVisitor extends RecursiveAstVisitor<void> {
   }
 
   @override
+  void visitLabel(Label node) {
+    _tokenOrNull(node.colon);
+    super.visitLabel(node);
+  }
+
+  @override
   void visitListLiteral(ListLiteral node) {
     _tokenOrNull(node.constKeyword);
     _tokenOrNull(node.leftBracket);
     _tokenOrNull(node.rightBracket);
     super.visitListLiteral(node);
+  }
+
+  @override
+  void visitMapLiteralEntry(MapLiteralEntry node) {
+    _tokenOrNull(node.separator);
+    super.visitMapLiteralEntry(node);
   }
 
   @override
@@ -1872,6 +1911,12 @@ abstract class _OffsetsAstVisitor extends RecursiveAstVisitor<void> {
     node.methodName.accept(this);
     node.typeArguments?.accept(this);
     node.argumentList.accept(this);
+  }
+
+  @override
+  void visitNamedType(NamedType node) {
+    _tokenOrNull(node.question);
+    super.visitNamedType(node);
   }
 
   @override

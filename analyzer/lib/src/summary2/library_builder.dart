@@ -22,21 +22,13 @@ import 'package:analyzer/src/summary2/types_builder.dart';
 
 class ImplicitEnumNodes {
   final EnumElementImpl element;
-  final FieldElementImpl indexField;
   final ast.NamedTypeImpl valuesTypeNode;
   final ConstFieldElementImpl valuesField;
-  final ParameterElementImpl constructorIndexParameter;
-  final ParameterElementImpl constructorNameParameter;
-  final MethodElementImpl? syntheticToStringMethod;
 
   ImplicitEnumNodes({
     required this.element,
-    required this.indexField,
     required this.valuesTypeNode,
     required this.valuesField,
-    required this.constructorIndexParameter,
-    required this.constructorNameParameter,
-    required this.syntheticToStringMethod,
   });
 }
 
@@ -138,7 +130,8 @@ class LibraryBuilder {
   void buildEnumChildren() {
     var typeProvider = element.typeProvider;
     for (var enum_ in implicitEnumNodes) {
-      enum_.indexField.type = typeProvider.intType;
+      enum_.element.supertype =
+          typeProvider.enumType ?? typeProvider.objectType;
       var valuesType = typeProvider.listType(
         element.typeSystem.instantiateToBounds2(
           classElement: enum_.element,
@@ -147,9 +140,6 @@ class LibraryBuilder {
       );
       enum_.valuesTypeNode.type = valuesType;
       enum_.valuesField.type = valuesType;
-      enum_.constructorIndexParameter.type = typeProvider.intType;
-      enum_.constructorNameParameter.type = typeProvider.stringType;
-      enum_.syntheticToStringMethod?.returnType = typeProvider.stringType;
     }
   }
 

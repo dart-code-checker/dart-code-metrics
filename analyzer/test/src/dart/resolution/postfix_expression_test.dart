@@ -55,10 +55,6 @@ void f(Object x) {
 }
 ''');
 
-    if (hasAssignmentLeftResolution) {
-      assertType(findNode.simple('x++;'), 'A');
-    }
-
     assertPostfixExpression(
       findNode.postfix('x++'),
       readElement: findElement.parameter('x'),
@@ -106,15 +102,21 @@ void f(Map<String, int> a) {
 }
 ''');
 
-    assertIndexExpression(
-      findNode.index('a['),
-      readElement: elementMatcher(
-        mapElement.getMethod('[]'),
-        substitution: {'K': 'String', 'V': 'int'},
-      ),
-      writeElement: null,
-      type: 'int?',
-    );
+    assertResolvedNodeText(findNode.index('a['), r'''
+IndexExpression
+  target: SimpleIdentifier
+    token: a
+    staticElement: a@24
+    staticType: Map<String, int>
+  leftBracket: [
+  index: SimpleStringLiteral
+    literal: 'foo'
+  rightBracket: ]
+  staticElement: MethodMember
+    base: dart:core::@class::Map::@method::[]
+    substitution: {K: String, V: int}
+  staticType: int?
+''');
 
     assertPostfixExpression(
       findNode.postfix(']!'),

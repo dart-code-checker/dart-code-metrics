@@ -82,7 +82,7 @@ import 'package:meta/meta.dart';
 /// TODO(scheglov) Clean up the list of implicitly analyzed files.
 class AnalysisDriver implements AnalysisDriverGeneric {
   /// The version of data format, should be incremented on every format change.
-  static const int DATA_VERSION = 200;
+  static const int DATA_VERSION = 208;
 
   /// The number of exception contexts allowed to write. Once this field is
   /// zero, we stop writing any new exception contexts in this process.
@@ -223,12 +223,7 @@ class AnalysisDriver implements AnalysisDriverGeneric {
   /// Whether resolved units should be indexed.
   final bool enableIndex;
 
-  /// The current analysis session.
-  late final AnalysisSessionImpl _currentSession = AnalysisSessionImpl(this);
-
-  /// The current library context, consistent with the [_currentSession].
-  ///
-  /// TODO(scheglov) We probably should tie it into the session.
+  /// The context in which libraries should be analyzed.
   LibraryContext? _libraryContext;
 
   /// Whether `dart:core` has been transitively discovered.
@@ -273,37 +268,6 @@ class AnalysisDriver implements AnalysisDriverGeneric {
     _search = Search(this);
   }
 
-  /// Create a new instance of [AnalysisDriver].
-  ///
-  /// The given [SourceFactory] is cloned to ensure that it does not contain a
-  /// reference to a [AnalysisContext] in which it could have been used.
-  @Deprecated('Use the unnamed constructor instead')
-  AnalysisDriver.tmp1({
-    required AnalysisDriverScheduler scheduler,
-    required PerformanceLog logger,
-    required ResourceProvider resourceProvider,
-    required ByteStore byteStore,
-    required SourceFactory sourceFactory,
-    required AnalysisOptionsImpl analysisOptions,
-    required Packages packages,
-    FileContentCache? fileContentCache,
-    bool enableIndex = false,
-    SummaryDataStore? externalSummaries,
-    bool retainDataForTesting = false,
-  }) : this(
-          scheduler: scheduler,
-          logger: logger,
-          resourceProvider: resourceProvider,
-          byteStore: byteStore,
-          sourceFactory: sourceFactory,
-          analysisOptions: analysisOptions,
-          packages: packages,
-          fileContentCache: fileContentCache,
-          enableIndex: enableIndex,
-          externalSummaries: externalSummaries,
-          retainDataForTesting: retainDataForTesting,
-        );
-
   /// Return the set of files explicitly added to analysis using [addFile].
   Set<String> get addedFiles => _fileTracker.addedFiles;
 
@@ -311,7 +275,9 @@ class AnalysisDriver implements AnalysisDriverGeneric {
   AnalysisOptions get analysisOptions => _analysisOptions;
 
   /// Return the current analysis session.
-  AnalysisSessionImpl get currentSession => _currentSession;
+  AnalysisSessionImpl get currentSession {
+    return libraryContext.elementFactory.analysisSession;
+  }
 
   /// Return the stream that produces [ExceptionResult]s.
   Stream<ExceptionResult> get exceptions => _exceptionController.stream;
@@ -337,7 +303,7 @@ class AnalysisDriver implements AnalysisDriverGeneric {
   LibraryContext get libraryContext {
     return _libraryContext ??= LibraryContext(
       testView: _testView.libraryContextTestView,
-      session: currentSession,
+      analysisSession: AnalysisSessionImpl(this),
       logger: _logger,
       byteStore: _byteStore,
       analysisOptions: _analysisOptions,
@@ -515,9 +481,7 @@ class AnalysisDriver implements AnalysisDriverGeneric {
   /// periodically.
   @visibleForTesting
   void clearLibraryContext() {
-    _libraryContext?.invalidAllLibraries();
     _libraryContext = null;
-    _currentSession.clearHierarchies();
   }
 
   /// Some state on which analysis depends has changed, so the driver needs to be
@@ -654,7 +618,7 @@ class AnalysisDriver implements AnalysisDriverGeneric {
 
     FileState file = _fileTracker.getFile(path);
     return FileResultImpl(
-        _currentSession, path, file.uri, file.lineInfo, file.isPart);
+        currentSession, path, file.uri, file.lineInfo, file.isPart);
   }
 
   /// Return the [FileResult] for the Dart file with the given [path].
@@ -1328,7 +1292,7 @@ class AnalysisDriver implements AnalysisDriverGeneric {
       declaredVariables,
       sourceFactory,
       libraryContext.elementFactory.libraryOfUri2(library.uriStr),
-      libraryContext.analysisSession.inheritanceManager,
+      libraryContext.elementFactory.analysisSession.inheritanceManager,
       library,
       testingData: testingData,
     ).analyzeForCompletion(
@@ -1441,7 +1405,7 @@ class AnalysisDriver implements AnalysisDriverGeneric {
           declaredVariables,
           sourceFactory,
           libraryContext.elementFactory.libraryOfUri2(library.uriStr),
-          libraryContext.analysisSession.inheritanceManager,
+          libraryContext.elementFactory.analysisSession.inheritanceManager,
           library,
           testingData: testingData,
         ).analyze();
@@ -1512,7 +1476,7 @@ class AnalysisDriver implements AnalysisDriverGeneric {
               declaredVariables,
               sourceFactory,
               libraryContext.elementFactory.libraryOfUri2(library.uriStr),
-              libraryContext.analysisSession.inheritanceManager,
+              libraryContext.elementFactory.analysisSession.inheritanceManager,
               library,
               testingData: testingData)
           .analyze();
@@ -1778,6 +1742,10 @@ class AnalysisDriver implements AnalysisDriverGeneric {
 
     _libraryContext?.elementFactory.removeLibraries(
       affected.map((e) => e.uriStr).toSet(),
+    );
+
+    _libraryContext?.elementFactory.replaceAnalysisSession(
+      AnalysisSessionImpl(this),
     );
   }
 
@@ -2153,7 +2121,11 @@ class AnalysisDriverTestView {
 
   FileTracker get fileTracker => driver._fileTracker;
 
-  LibraryContext? get libraryContext => driver._libraryContext;
+  Set<String> get loadedLibraryUriSet {
+    var elementFactory = driver.libraryContext.elementFactory;
+    var libraryReferences = elementFactory.rootReference.children;
+    return libraryReferences.map((e) => e.name).toSet();
+  }
 
   Map<String, ResolvedUnitResult> get priorityResults {
     return driver._priorityResults;

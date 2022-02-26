@@ -150,7 +150,7 @@ class ElementBuilder extends ThrowingAstVisitor<void> {
       }
     });
 
-    node.superclass2.accept(this);
+    node.superclass.accept(this);
     node.withClause.accept(this);
     node.implementsClause?.accept(this);
   }
@@ -184,7 +184,7 @@ class ElementBuilder extends ThrowingAstVisitor<void> {
     node.declaredElement = element;
     _linker.elementNodes[element] = node;
 
-    var reference = _enclosingContext.addConstructor(name, element);
+    var reference = _enclosingContext.addConstructor(element);
     _buildExecutableElementChildren(
       reference: reference,
       element: element,
@@ -220,42 +220,6 @@ class ElementBuilder extends ThrowingAstVisitor<void> {
       hasConstConstructor: true,
     );
 
-    // Build the 'index' field.
-    var indexField = ConstFieldElementImpl('index', -1)
-      ..isSynthetic = true
-      ..isFinal = true;
-    holder.addNonSyntheticField(indexField);
-
-    var constructorIndexParameter = FieldFormalParameterElementImpl(
-      name: 'index',
-      nameOffset: -1,
-      parameterKind: ParameterKind.REQUIRED,
-    )..field = indexField;
-
-    var constructorNameParameter = ParameterElementImpl(
-      name: 'name',
-      nameOffset: -1,
-      parameterKind: ParameterKind.REQUIRED,
-    );
-
-    var constructorName = '_';
-    if (node.constants.any((c) => c.name.name == '_')) {
-      constructorName = '_1';
-    }
-
-    var constructorReference =
-        reference.getChild('@constructor').getChild(constructorName);
-    var constructor = ConstructorElementImpl(constructorName, -1)
-      ..isConst = true
-      ..isSynthetic = true
-      ..parameters = [
-        constructorIndexParameter,
-        constructorNameParameter,
-      ]
-      ..reference = constructorReference;
-    constructorReference.element = constructor;
-    element.constructors = [constructor];
-
     // Build fields for all enum constants.
     var constants = node.constants;
     var valuesElements = <Expression>[];
@@ -274,6 +238,10 @@ class ElementBuilder extends ThrowingAstVisitor<void> {
         _unitElement,
         constant.metadata,
       );
+
+      var constructorSelector = constant.arguments?.constructorSelector;
+      var constructorName = constructorSelector?.name.name;
+
       var initializer = astFactory.instanceCreationExpression(
         null,
         astFactory.constructorName(
@@ -281,23 +249,19 @@ class ElementBuilder extends ThrowingAstVisitor<void> {
             name: astFactory.simpleIdentifier(
               StringToken(TokenType.STRING, element.name, -1),
             ),
+            typeArguments: constant.arguments?.typeArguments,
           ),
-          Tokens.period(),
-          astFactory.simpleIdentifier(
-            StringToken(TokenType.STRING, constructorName, -1),
-          ),
+          constructorName != null ? Tokens.period() : null,
+          constructorName != null
+              ? astFactory.simpleIdentifier(
+                  StringToken(TokenType.STRING, constructorName, -1),
+                )
+              : null,
         ),
         astFactory.argumentList(
           Tokens.openParenthesis(),
           [
-            astFactory.integerLiteral(
-              StringToken(TokenType.STRING, '$i', 0),
-              i,
-            ),
-            astFactory.simpleStringLiteral(
-              StringToken(TokenType.STRING, "'$name'", 0),
-              name,
-            ),
+            ...?constant.arguments?.argumentList.arguments,
           ],
           Tokens.closeParenthesis(),
         ),
@@ -374,41 +338,41 @@ class ElementBuilder extends ThrowingAstVisitor<void> {
       holder.addNonSyntheticField(valuesField);
     }
 
-    // TODO(scheglov) implement
-    // node.extendsClause?.accept(this);
-    // node.withClause?.accept(this);
-    // node.implementsClause?.accept(this);
+    node.withClause?.accept(this);
+    node.implementsClause?.accept(this);
 
     _withEnclosing(holder, () {
       node.typeParameters?.accept(this);
       _visitPropertyFirst<FieldDeclaration>(node.members);
     });
 
-    MethodElementImpl? syntheticToStringMethod;
-    if (holder.getMethod('toString').element == null) {
-      syntheticToStringMethod = MethodElementImpl('toString', -1)
-        ..isSynthetic = true;
-      holder.addMethod(name, syntheticToStringMethod);
+    var needsImplicitConstructor = !holder.constructors.any(
+      (e) => e.name.isEmpty || e.isGenerative,
+    );
+
+    if (needsImplicitConstructor) {
+      holder.addConstructor(
+        ConstructorElementImpl('', -1)
+          ..isConst = true
+          ..isSynthetic = true,
+      );
     }
 
     _libraryBuilder.implicitEnumNodes.add(
       ImplicitEnumNodes(
         element: element,
-        indexField: indexField,
         valuesTypeNode: valuesTypeNode,
         valuesField: valuesField,
-        constructorIndexParameter: constructorIndexParameter,
-        constructorNameParameter: constructorNameParameter,
-        syntheticToStringMethod: syntheticToStringMethod,
       ),
     );
 
-    element.typeParameters = holder.typeParameters;
     element.accessors = holder.propertyAccessors;
+    element.constructors = holder.constructors;
     element.fields = holder.properties.whereType<FieldElementImpl>().toList();
     element.methods = holder.methods;
+    element.typeParameters = holder.typeParameters;
 
-    // TODO(scheglov) resolve field formals
+    _resolveConstructorFieldFormals(element);
   }
 
   @override
@@ -425,7 +389,7 @@ class ElementBuilder extends ThrowingAstVisitor<void> {
 
   @override
   void visitExtendsClause(ExtendsClause node) {
-    node.superclass2.accept(this);
+    node.superclass.accept(this);
   }
 
   @override
@@ -442,7 +406,7 @@ class ElementBuilder extends ThrowingAstVisitor<void> {
     node.declaredElement = element;
     _linker.elementNodes[element] = node;
 
-    var refName = name ?? 'extension-${_nextUnnamedExtensionId++}';
+    var refName = name ?? '${_nextUnnamedExtensionId++}';
     var reference = _enclosingContext.addExtension(refName, element);
 
     if (name != null) {
@@ -587,6 +551,7 @@ class ElementBuilder extends ThrowingAstVisitor<void> {
     if (node.isGetter) {
       var element = PropertyAccessorElementImpl(name, nameOffset);
       element.isGetter = true;
+      element.isStatic = true;
 
       reference = _enclosingContext.addGetter(name, element);
       executableElement = element;
@@ -595,6 +560,7 @@ class ElementBuilder extends ThrowingAstVisitor<void> {
     } else if (node.isSetter) {
       var element = PropertyAccessorElementImpl(name, nameOffset);
       element.isSetter = true;
+      element.isStatic = true;
 
       reference = _enclosingContext.addSetter(name, element);
       executableElement = element;
@@ -602,6 +568,7 @@ class ElementBuilder extends ThrowingAstVisitor<void> {
       _buildSyntheticVariable(name: name, accessorElement: element);
     } else {
       var element = FunctionElementImpl(name, nameOffset);
+      element.isStatic = true;
       reference = _enclosingContext.addFunction(name, element);
       executableElement = element;
     }
@@ -776,7 +743,7 @@ class ElementBuilder extends ThrowingAstVisitor<void> {
 
   @override
   void visitImplementsClause(ImplementsClause node) {
-    node.interfaces2.accept(this);
+    node.interfaces.accept(this);
   }
 
   @override
@@ -835,6 +802,14 @@ class ElementBuilder extends ThrowingAstVisitor<void> {
       element.isAbstract = node.isAbstract;
       element.isGetter = true;
       element.isStatic = node.isStatic;
+
+      // `class Enum {}` in `dart:core` declares `int get index` as abstract.
+      // But the specification says that practically a different class
+      // implementing `Enum` is used as a superclass, so `index` should be
+      // considered to have non-abstract implementation.
+      if (_enclosingContext.isDartCoreEnum && name == 'index') {
+        element.isAbstract = false;
+      }
 
       reference = _enclosingContext.addGetter(name, element);
       executableElement = element;
@@ -924,7 +899,7 @@ class ElementBuilder extends ThrowingAstVisitor<void> {
 
   @override
   void visitOnClause(OnClause node) {
-    node.superclassConstraints2.accept(this);
+    node.superclassConstraints.accept(this);
   }
 
   @override
@@ -1121,7 +1096,7 @@ class ElementBuilder extends ThrowingAstVisitor<void> {
 
   @override
   void visitWithClause(WithClause node) {
-    node.mixinTypes2.accept(this);
+    node.mixinTypes.accept(this);
   }
 
   List<ElementAnnotation> _buildAnnotations(List<Annotation> nodeList) {
@@ -1139,29 +1114,19 @@ class ElementBuilder extends ThrowingAstVisitor<void> {
     _withEnclosing(holder, () {
       _visitPropertyFirst<FieldDeclaration>(node.members);
     });
-    element.accessors = holder.propertyAccessors;
-    element.fields = holder.properties.whereType<FieldElement>().toList();
-    element.methods = holder.methods;
 
     if (holder.constructors.isEmpty) {
       holder.addConstructor(
-        '',
         ConstructorElementImpl('', -1)..isSynthetic = true,
       );
     }
 
-    var constructors = holder.constructors;
-    element.constructors = constructors;
+    element.accessors = holder.propertyAccessors;
+    element.constructors = holder.constructors;
+    element.fields = holder.properties.whereType<FieldElement>().toList();
+    element.methods = holder.methods;
 
-    // We have all fields and constructors.
-    // Now we can resolve field formal parameters.
-    for (var constructor in constructors) {
-      for (var parameter in constructor.parameters) {
-        if (parameter is FieldFormalParameterElementImpl) {
-          parameter.field = element.getField(parameter.name);
-        }
-      }
-    }
+    _resolveConstructorFieldFormals(element);
   }
 
   void _buildExecutableElementChildren({
@@ -1225,6 +1190,16 @@ class ElementBuilder extends ThrowingAstVisitor<void> {
   /// TODO(scheglov) Maybe inline?
   void _buildType(TypeAnnotation? node) {
     node?.accept(this);
+  }
+
+  void _resolveConstructorFieldFormals(AbstractClassElementImpl element) {
+    for (var constructor in element.constructors) {
+      for (var parameter in constructor.parameters) {
+        if (parameter is FieldFormalParameterElementImpl) {
+          parameter.field = element.getField(parameter.name);
+        }
+      }
+    }
   }
 
   Uri? _selectAbsoluteUri(NamespaceDirective directive) {
@@ -1395,14 +1370,19 @@ class _EnclosingContext {
     this.hasConstConstructor = false,
   });
 
+  bool get isDartCoreEnum {
+    final element = this.element;
+    return element is ClassElementImpl && element.isDartCoreEnum;
+  }
+
   Reference addClass(String name, ClassElementImpl element) {
     classes.add(element);
     return _bindReference('@class', name, element);
   }
 
-  Reference addConstructor(String name, ConstructorElementImpl element) {
+  Reference addConstructor(ConstructorElementImpl element) {
     constructors.add(element);
-    return _bindReference('@constructor', name, element);
+    return _bindReference('@constructor', element.name, element);
   }
 
   Reference addEnum(String name, EnumElementImpl element) {

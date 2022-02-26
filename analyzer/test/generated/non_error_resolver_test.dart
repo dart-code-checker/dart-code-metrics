@@ -21,6 +21,17 @@ main() {
 @reflectiveTest
 class NonErrorResolverTest extends PubPackageResolutionTest
     with NonErrorResolverTestCases {
+  test_async_callback_in_with_unknown_return_type_context() async {
+    await assertNoErrorsInCode('''
+abstract class C {
+  R run<R>(R Function() action);
+}
+f(C c) {
+  c.run(() async {});
+}
+''');
+  }
+
   test_await_flattened() async {
     await assertNoErrorsInCode('''
 Future<Future<int>>? ffi() => null;
@@ -92,6 +103,23 @@ abstract class B<E> implements C<E> {
 class A<E> extends B<E> implements D<E> {
 }
 ''');
+  }
+
+  test_no_call_tearoff_on_promoted_var() async {
+    await assertNoErrorsInCode('''
+class B {
+  Object call() => '';
+}
+void test(Object x) {
+  x as Object Function();
+  x; // promoted
+  x = B(); // No implicit tearoff of `.call`, demotes x
+  x; // demoted
+}
+''');
+    assertType(findNode.simple('x; // promoted'), 'Object Function()');
+    assertType(findNode.assignment('x = B()'), 'B');
+    assertType(findNode.simple('x; // demoted'), 'Object');
   }
 
   test_typedef_not_function() async {
@@ -1469,6 +1497,20 @@ class Bar {
 
 var map = <String, Func>{'bar': new Bar()};
 ''');
+  }
+
+  test_implicit_call_tearoff_assignment_rhs() async {
+    await assertNoErrorsInCode('''
+class C {
+  void call() {}
+}
+test() {
+  void Function() f;
+  f = C();
+  return f;
+}
+''');
+    assertType(findNode.assignment('f = C()'), 'void Function()');
   }
 
   test_importDuplicatedLibraryName() async {
@@ -3291,5 +3333,35 @@ main(A<V> p) {
   }
 }
 ''');
+  }
+
+  test_yieldStar_inside_method_async() async {
+    await assertNoErrorsInCode('''
+class A {
+  m() async* {
+    yield* Stream.fromIterable([1]);
+  }
+}
+''');
+
+    assertType(
+        findNode
+            .yieldStatement('yield* Stream.fromIterable([1]);')
+            .expression
+            .staticType,
+        'Stream<int>');
+  }
+
+  test_yieldStar_inside_method_sync() async {
+    await assertNoErrorsInCode('''
+class A {
+  m() sync* {
+    yield* [1];
+  }
+}
+''');
+
+    assertType(findNode.yieldStatement('yield* [1];').expression.staticType,
+        'List<int>');
   }
 }

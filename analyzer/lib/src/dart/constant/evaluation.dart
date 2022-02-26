@@ -28,6 +28,12 @@ import 'package:analyzer/src/generated/constant.dart';
 import 'package:analyzer/src/generated/engine.dart';
 import 'package:analyzer/src/task/api/model.dart';
 
+/// During evaluation of enum constants we might need to report an error
+/// that is associated with the [InstanceCreationExpression], but this
+/// expression is synthetic. Instead, we remember the corresponding
+/// [EnumConstantDeclaration] and report the error on it.
+final enumConstantErrorNodes = Expando<EnumConstantDeclaration>();
+
 /// Helper class encapsulating the methods for evaluating constants and
 /// constant instance creation expressions.
 class ConstantEvaluationEngine {
@@ -101,6 +107,17 @@ class ConstantEvaluationEngine {
                 [dartObject.type, constant.type]);
           }
         }
+
+        if (dartObject != null) {
+          var enumConstant = _enumConstant(constant);
+          if (enumConstant != null) {
+            dartObject.updateEnumConstant(
+              index: enumConstant.index,
+              name: enumConstant.name,
+            );
+          }
+        }
+
         constant.evaluationResult =
             EvaluationResultImpl(dartObject, errorListener.errors);
       }
@@ -176,6 +193,18 @@ class ConstantEvaluationEngine {
   /// [callback].
   void computeDependencies(
       ConstantEvaluationTarget constant, ReferenceFinderCallback callback) {
+    if (constant is ConstFieldElementImpl && constant.isEnumConstant) {
+      var enclosing = constant.enclosingElement;
+      if (enclosing is EnumElementImpl) {
+        if (enclosing.name == 'values') {
+          return;
+        }
+        if (constant.name == enclosing.name) {
+          return;
+        }
+      }
+    }
+
     ReferenceFinder referenceFinder = ReferenceFinder(callback);
     if (constant is ConstructorElement) {
       constant = constant.declaration;
@@ -359,6 +388,21 @@ class ConstantEvaluationEngine {
       return null;
     }
     return redirectedConstructor;
+  }
+
+  static _EnumConstant? _enumConstant(VariableElementImpl element) {
+    if (element is ConstFieldElementImpl && element.isEnumConstant) {
+      var enum_ = element.enclosingElement;
+      if (enum_ is EnumElementImpl) {
+        var index = enum_.constants.indexOf(element);
+        assert(index >= 0);
+        return _EnumConstant(
+          index: index,
+          name: element.name,
+        );
+      }
+    }
+    return null;
   }
 
   static DartObjectImpl _nullObject(LibraryElementImpl library) {
@@ -636,7 +680,7 @@ class ConstantVisitor extends UnifyingAstVisitor<DartObjectImpl> {
     // The result is already instantiated during resolution;
     // [_dartObjectComputer.typeInstantiate] is unnecessary.
     var typeElement =
-        node.constructorName.type2.name.staticElement as TypeDefiningElement;
+        node.constructorName.type.name.staticElement as TypeDefiningElement;
 
     TypeAliasElement? viaTypeAlias;
     if (typeElement is TypeAliasElementImpl) {
@@ -1917,6 +1961,16 @@ class EvaluationResultImpl {
   }
 }
 
+class _EnumConstant {
+  final int index;
+  final String name;
+
+  _EnumConstant({
+    required this.index,
+    required this.name,
+  });
+}
+
 /// The result of evaluation the initializers declared on a const constructor.
 class _InitializersEvaluationResult {
   /// The result of a const evaluation of an initializer, if one was performed,
@@ -2505,7 +2559,7 @@ class _InstanceCreationEvaluator {
       declaredVariables,
       errorReporter,
       library,
-      node,
+      enumConstantErrorNodes[node] ?? node,
       constructor,
       typeArguments,
       namedNodes: namedNodes,
@@ -2569,7 +2623,7 @@ extension RuntimeExtensions on TypeSystemImpl {
     DartType type,
   ) {
     if (!isNonNullableByDefault) {
-      type = toLegacyType(type);
+      type = toLegacyTypeIfOptOut(type);
     }
     var objType = obj.type;
     return isSubtypeOf(objType, type);

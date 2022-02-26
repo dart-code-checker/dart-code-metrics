@@ -30,6 +30,7 @@ import 'package:analyzer/src/dart/element/type_demotion.dart';
 import 'package:analyzer/src/dart/element/type_provider.dart';
 import 'package:analyzer/src/dart/element/type_schema.dart';
 import 'package:analyzer/src/dart/element/type_schema_elimination.dart';
+import 'package:analyzer/src/dart/element/well_bounded.dart';
 
 /// The [TypeSystem] implementation.
 class TypeSystemImpl implements TypeSystem {
@@ -543,7 +544,7 @@ class TypeSystemImpl implements TypeSystem {
         typeArguments: typeArguments,
         nullabilitySuffix: nullabilitySuffix,
       );
-      type = toLegacyType(type) as InterfaceType;
+      type = toLegacyTypeIfOptOut(type) as InterfaceType;
       return type;
     } else if (typeAliasElement != null) {
       var typeParameters = typeAliasElement.typeParameters;
@@ -552,7 +553,7 @@ class TypeSystemImpl implements TypeSystem {
         typeArguments: typeArguments,
         nullabilitySuffix: nullabilitySuffix,
       );
-      type = toLegacyType(type);
+      type = toLegacyTypeIfOptOut(type);
       return type;
     } else {
       throw ArgumentError('Missing element');
@@ -1178,6 +1179,17 @@ class TypeSystemImpl implements TypeSystem {
     return false;
   }
 
+  /// See `15.2 Super-bounded types` in the language specification.
+  TypeBoundedResult isWellBounded(
+    DartType type, {
+    required bool allowSuperBounded,
+  }) {
+    return TypeBoundedHelper(this).isWellBounded(
+      type,
+      allowSuperBounded: allowSuperBounded,
+    );
+  }
+
   /// Returns the least closure of [type] with respect to [typeParameters].
   ///
   /// https://github.com/dart-lang/language
@@ -1283,8 +1295,8 @@ class TypeSystemImpl implements TypeSystem {
         // TODO(scheglov) waiting for the spec
         // https://github.com/dart-lang/sdk/issues/42605
       } else {
-        srcType = toLegacyType(srcType);
-        destType = toLegacyType(destType);
+        srcType = toLegacyTypeIfOptOut(srcType);
+        destType = toLegacyTypeIfOptOut(destType);
       }
       if (srcType != destType) {
         // Failed to find an appropriate substitution
@@ -1468,17 +1480,10 @@ class TypeSystemImpl implements TypeSystem {
     return RuntimeTypeEqualityHelper(this).equal(T1, T2);
   }
 
-  DartType toLegacyType(DartType type) {
-    if (isNonNullableByDefault) return type;
-    return NullabilityEliminator.perform(typeProvider, type);
-  }
-
   /// If a legacy library, return the legacy version of the [type].
   /// Otherwise, return the original type.
   DartType toLegacyTypeIfOptOut(DartType type) {
-    if (isNonNullableByDefault) {
-      return type;
-    }
+    if (isNonNullableByDefault) return type;
     return NullabilityEliminator.perform(typeProvider, type);
   }
 

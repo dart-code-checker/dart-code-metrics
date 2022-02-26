@@ -12,14 +12,18 @@ import 'package:analyzer/src/dart/ast/extensions.dart';
 import 'package:analyzer/src/dart/element/member.dart';
 import 'package:analyzer/src/dart/element/type.dart';
 import 'package:analyzer/src/dart/element/type_algebra.dart';
+import 'package:analyzer/src/dart/resolver/instance_creation_resolver_helper.dart';
 import 'package:analyzer/src/dart/resolver/invocation_inference_helper.dart';
 import 'package:analyzer/src/error/codes.dart';
 import 'package:analyzer/src/generated/resolver.dart';
 
-class AnnotationResolver {
+class AnnotationResolver with InstanceCreationResolverMixin {
   final ResolverVisitor _resolver;
 
   AnnotationResolver(this._resolver);
+
+  @override
+  ResolverVisitor get resolver => _resolver;
 
   LibraryElement get _definingLibrary => _resolver.definingLibrary;
 
@@ -118,7 +122,7 @@ class AnnotationResolver {
         CompileTimeErrorCode.INVALID_ANNOTATION,
         node,
       );
-      _resolver.visitArgumentList(argumentList,
+      _resolver.analyzeArgumentList(argumentList, null,
           whyNotPromotedList: whyNotPromotedList);
       return;
     }
@@ -138,8 +142,7 @@ class AnnotationResolver {
         );
       }
       _resolveConstructorInvocationArguments(node);
-      InferenceContext.setType(argumentList, constructorElement.type);
-      _resolver.visitArgumentList(argumentList,
+      _resolver.analyzeArgumentList(argumentList, constructorElement.parameters,
           whyNotPromotedList: whyNotPromotedList);
       return;
     }
@@ -154,8 +157,7 @@ class AnnotationResolver {
       node.element = constructorElement;
       _resolveConstructorInvocationArguments(node);
 
-      InferenceContext.setType(argumentList, constructorElement.type);
-      _resolver.visitArgumentList(argumentList,
+      _resolver.analyzeArgumentList(argumentList, constructorElement.parameters,
           whyNotPromotedList: whyNotPromotedList);
     }
 
@@ -213,18 +215,30 @@ class AnnotationResolver {
       return;
     }
 
-    _resolver.visitArgumentList(argumentList,
-        whyNotPromotedList: whyNotPromotedList);
-
     var elementToInfer = ConstructorElementToInfer(
       typeParameters,
       constructorElement,
     );
+    var inferenceResult = inferArgumentTypes(
+        inferenceNode: node,
+        constructorElement: constructorElement,
+        elementToInfer: elementToInfer,
+        typeArguments: node.typeArguments,
+        arguments: node.arguments!,
+        errorNode: node,
+        isConst: true,
+        contextReturnType: null);
+    if (inferenceResult != null) {
+      constructorElement = inferenceResult.constructorElement;
+    }
+    _resolver.analyzeArgumentList(argumentList, constructorElement.parameters,
+        whyNotPromotedList: whyNotPromotedList);
+
     var constructorRawType = elementToInfer.asType;
 
     var inferred = _resolver.inferenceHelper.inferGenericInvoke(
         node, constructorRawType, typeArgumentList, argumentList, node,
-        isConst: true)!;
+        isConst: true, contextReturnType: null)!;
 
     constructorElement = ConstructorMember.from(
       constructorElement,
@@ -516,7 +530,7 @@ class AnnotationResolver {
       AnnotationImpl node, List<WhyNotPromotedGetter> whyNotPromotedList) {
     var arguments = node.arguments;
     if (arguments != null) {
-      _resolver.visitArgumentList(arguments,
+      _resolver.analyzeArgumentList(arguments, null,
           whyNotPromotedList: whyNotPromotedList);
     }
   }
