@@ -19,8 +19,19 @@ Example: When you add some extra functionalities to built-in Flutter functions (
 Bad:
 
 ```dart
-// suppose the user configures `showDialog` to be banned
-showDialog(); // LINT
+// suppose the configuration is the one shown below
+
+showDialog('some_arguments', 'another_argument'); // LINT
+material.showDialog('some_arguments', 'another_argument'); // LINT
+
+var strangeName = 42; // LINT
+
+void strangeName() {} // LINT
+
+// LINT
+class AnotherStrangeName {
+  late var strangeName; // LINT
+}
 ```
 
 Good:
@@ -40,4 +51,8 @@ dart_code_metrics:
         entries:
         - ident: showDialog
           description: Please use myShowDialog in this package
+        - ident: strangeName
+          description: The name is too strange
+        - ident: AnotherStrangeName
+          description: Oops
 ```

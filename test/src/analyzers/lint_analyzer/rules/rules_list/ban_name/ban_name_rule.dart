@@ -25,23 +25,30 @@ void main() {
       final issues = BanNameRule({
         'entries': [
           {'ident': 'showDialog', 'description': 'Please use myShowDialog'},
-          {'ident': 'showSnackBar', 'description': 'What about myShowSnackBar'},
+          {'ident': 'strangeName', 'description': 'The name is too strange'},
+          {'ident': 'AnotherStrangeName', 'description': 'Oops'},
         ],
       }).check(unit);
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startLines: [6, 7, 10],
-        startColumns: [3, 12, 3],
+        startLines: [6, 7, 9, 12, 15, 16],
+        startColumns: [3, 12, 7, 6, 7, 12],
         locationTexts: [
           'showDialog',
           'showDialog',
-          'showSnackBar',
+          'strangeName',
+          'strangeName',
+          'AnotherStrangeName',
+          'strangeName',
         ],
         messages: [
           'Please use myShowDialog (showDialog is banned)',
           'Please use myShowDialog (showDialog is banned)',
-          'What about myShowSnackBar (showSnackBar is banned)',
+          'The name is too strange (strangeName is banned)',
+          'The name is too strange (strangeName is banned)',
+          'Oops (AnotherStrangeName is banned)',
+          'The name is too strange (strangeName is banned)',
         ],
       );
     });
