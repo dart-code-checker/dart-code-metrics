@@ -22,9 +22,9 @@ class AvoidCollectionMethodsWithUnrelatedTypesRule extends CommonRule {
 
   static const _warning = 'Avoid collection methods with unrelated types.';
 
-  AvoidCollectionMethodsWithUnrelatedTypesRule(
-      [Map<String, Object> config = const {}])
-      : super(
+  AvoidCollectionMethodsWithUnrelatedTypesRule([
+    Map<String, Object> config = const {},
+  ]) : super(
           id: ruleId,
           severity: readSeverity(config, Severity.warning),
           excludes: readExcludes(config),
