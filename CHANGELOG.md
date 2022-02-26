@@ -4,6 +4,7 @@
 
 * **Breaking Change:** cli arguments `--fatal-unused` and `--fatal-warnings` activate by default.
 * chore: restrict `analyzer` version to `>=2.8.0 <3.3.0`.
+* feat: add static code diagnostic `ban-name`
 
 ## 4.11.0
 
