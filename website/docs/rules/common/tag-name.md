@@ -22,7 +22,7 @@ dart_code_metrics:
   rules:
     ...
     - tag-name:
-        var_names: [_kTag]
+        var-names: [_kTag]
     ...
 ```
 

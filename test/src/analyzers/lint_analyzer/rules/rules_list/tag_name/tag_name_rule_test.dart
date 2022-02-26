@@ -21,7 +21,9 @@ void main() {
 
     test('reports about found issues', () async {
       final unit = await RuleTestHelper.resolveFromFile(_examplePath);
-      final issues = TagNameRule().check(unit);
+      final issues = TagNameRule({
+        'var-names': ['_kTag', 'tag', 'TAG'],
+      }).check(unit);
 
       RuleTestHelper.verifyIssues(
         issues: issues,

@@ -12,14 +12,18 @@ import '../../models/common_rule.dart';
 import '../../rule_utils.dart';
 
 part 'visitor.dart';
+part 'utils/config_parser.dart';
 
 class TagNameRule extends CommonRule {
   static const String ruleId = 'tag-name';
 
   static const _warning = 'Incorrect tag name';
 
+  final _ParsedConfig _parsedConfig;
+
   TagNameRule([Map<String, Object> config = const {}])
-      : super(
+      : _parsedConfig = _ConfigParser._parseConfig(config),
+        super(
           id: ruleId,
           severity: readSeverity(config, Severity.warning),
           excludes: readExcludes(config),
@@ -27,7 +31,7 @@ class TagNameRule extends CommonRule {
 
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
-    final visitor = _Visitor();
+    final visitor = _Visitor(_parsedConfig);
 
     source.unit.visitChildren(visitor);
 
