@@ -11,6 +11,10 @@ Rules configuration is [described here](../getting-started/configuration#configu
 
 ## Common {#common}
 
+- [avoid-collection-methods-with-unrelated-types](./common/avoid-collection-methods-with-unrelated-types.md)
+
+    Avoid using collection methods with unrelated types, such as accessing a map of integers using a string key.
+
 - [avoid-dynamic](./common/avoid-dynamic.md)
 
     Warns when `dynamic` type is used as variable type in declaration, return type of a function, etc.
