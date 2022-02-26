@@ -2,11 +2,13 @@
 
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
+import 'package:meta/meta_meta.dart';
 
 import '../../../../../utils/node_utils.dart';
 import '../../../lint_utils.dart';
 import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
+import '../../../models/replacement.dart';
 import '../../../models/severity.dart';
 import '../../models/common_rule.dart';
 import '../../rule_utils.dart';
@@ -17,7 +19,7 @@ part 'utils/config_parser.dart';
 class TagNameRule extends CommonRule {
   static const String ruleId = 'tag-name';
 
-  static const _warning = 'Incorrect tag name';
+  static const _warning = 'Tag name should match class name';
 
   final _ParsedConfig _parsedConfig;
 
@@ -39,10 +41,11 @@ class TagNameRule extends CommonRule {
         .map((node) => createIssue(
               rule: this,
               location: nodeLocation(
-                node: node,
+                node: node.initializer,
                 source: source,
               ),
               message: _warning,
+              replacement: node.replacement,
             ))
         .toList(growable: false);
   }
