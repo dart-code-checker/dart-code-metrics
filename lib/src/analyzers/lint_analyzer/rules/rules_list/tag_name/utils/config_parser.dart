@@ -5,7 +5,9 @@ const _varNamesLabel = 'var-names';
 /// Parser for rule configuration.
 class _ConfigParser {
   static _ParsedConfig _parseConfig(Map<String, Object> value) => _ParsedConfig(
-        varNames: (value[_varNamesLabel] as List<Object>? ?? <Object>[]).map((item) => item as String).toList(),
+        varNames: (value[_varNamesLabel] as List<Object>? ?? <Object>[])
+            .map((item) => item as String)
+            .toList(),
       );
 }
 

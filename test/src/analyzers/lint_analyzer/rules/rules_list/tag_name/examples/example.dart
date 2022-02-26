@@ -10,4 +10,4 @@ class Orange extends _Fruit {
   static const TAG = 'Or' + 'an' + 'ge';
 }
 
-static const TAG = 'FileLevelTagIsIgnored';
+const TAG = 'FileLevelTagIsIgnored';

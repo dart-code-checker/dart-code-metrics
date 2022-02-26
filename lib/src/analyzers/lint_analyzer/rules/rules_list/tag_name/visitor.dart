@@ -22,7 +22,9 @@ class _Visitor extends RecursiveAstVisitor<void> {
     final fieldName = fieldVariable.name.name;
     final fieldType = fieldVariable.declaredElement?.type;
 
-    if (!(fieldType != null && fieldType.isDartCoreString && _parsedConfig.varNames.contains(fieldName))) {
+    if (!(fieldType != null &&
+        fieldType.isDartCoreString &&
+        _parsedConfig.varNames.contains(fieldName))) {
       return;
     }
 
