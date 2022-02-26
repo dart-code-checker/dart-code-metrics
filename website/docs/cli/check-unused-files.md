@@ -54,7 +54,7 @@ The reporter prints a single JSON object containing meta information and the unu
 
 - `formatVersion` - an integer representing the format version (will be incremented each time the serialization format changes)
 - `timestamp` - a creation time of the report in YYYY-MM-DD HH:MM:SS format
-- `unusedFiles` - an array of [unused files](#the-unusedFiles-object-fields-are)
+- `unusedFiles` - an array of [unused files](#the-unused-files-object-fields-are)
 - `automaticallyDeleted` - an indication of unused files being automatically deleted
 
 ```JSON
@@ -76,7 +76,7 @@ The reporter prints a single JSON object containing meta information and the unu
 }
 ```
 
-#### The **unusedFiles** object fields are {#the-unusedfiles-object-fields-are}
+#### The **unusedFiles** object fields are {#the-unused-files-object-fields-are}
 
 - `path` - a relative path of the unused file
 
