@@ -70,7 +70,8 @@ dart_code_metrics:
         exceptions:
           - id
           - ok
-    - prefer-correct-type-name
+    - prefer-correct-type-name:
+        max-length: 44
     - prefer-first
     - prefer-last
     - prefer-match-file-name:
