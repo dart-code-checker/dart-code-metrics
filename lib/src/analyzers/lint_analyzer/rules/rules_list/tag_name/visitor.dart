@@ -43,7 +43,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
       _nodes.add(_NodeWithMessage(
         fieldInitializer,
         Replacement(
-          comment: 'Replace with $expectFieldValue',
+          comment: "Replace with '$expectFieldValue'",
           replacement: "'$expectFieldValue'",
         ),
       ));

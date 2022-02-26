@@ -27,12 +27,12 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startLines: [],
-        startColumns: [],
-        locationTexts: [],
-        replacementComments: [],
-        replacements: [],
-        messages: [],
+        startLines: [6],
+        startColumns: [24],
+        locationTexts: ["'Orange'"],
+        messages: ['Tag name should match class name'],
+        replacements: ["'Apple'"],
+        replacementComments: ["Replace with 'Apple'"],
       );
     });
   });

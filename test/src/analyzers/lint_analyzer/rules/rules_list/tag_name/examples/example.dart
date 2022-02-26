@@ -7,5 +7,7 @@ class Apple extends _Fruit {
 }
 
 class Orange extends _Fruit {
-  static const _kTag = 'Orange';
+  static const TAG = 'Orange';
 }
+
+static const TAG = 'FileLevelTagIsIgnored';
