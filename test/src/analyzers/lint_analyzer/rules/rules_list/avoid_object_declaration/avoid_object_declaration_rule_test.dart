@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 
 import '../../../../../helpers/rule_test_helper.dart';
 
-const _examplePath = 'no_object_declaration/examples/example.dart';
+const _examplePath = 'avoid_object_declaration/examples/example.dart';
 
 void main() {
   group('AvoidObjectDeclarationRule', () {
