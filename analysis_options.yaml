@@ -52,6 +52,7 @@ dart_code_metrics:
         exclude:
           - test/**
     - avoid-empty-block
+    - avoid-equal-then-else
     - avoid-global-state
     - avoid-late-keyword:
         exclude:
@@ -63,7 +64,6 @@ dart_code_metrics:
     - binary-expression-operand-order
     - double-literal-format
     - newline-before-return
-    - no-equal-then-else
     - no-object-declaration
     - prefer-async-await
     - prefer-conditional-expressions

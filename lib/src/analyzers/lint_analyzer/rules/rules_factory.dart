@@ -6,6 +6,7 @@ import 'rules_list/avoid_collection_methods_with_unrelated_types/avoid_collectio
 import 'rules_list/avoid_dynamic/avoid_dynamic_rule.dart';
 import 'rules_list/avoid_empty_block/avoid_empty_block_rule.dart';
 import 'rules_list/avoid_equal_arguments/avoid_equal_arguments_rule.dart';
+import 'rules_list/avoid_equal_then_else/avoid_equal_then_else_rule.dart';
 import 'rules_list/avoid_global_state/avoid_global_state_rule.dart';
 import 'rules_list/avoid_ignoring_return_values/avoid_ignoring_return_values_rule.dart';
 import 'rules_list/avoid_late_keyword/avoid_late_keyword_rule.dart';
@@ -29,7 +30,6 @@ import 'rules_list/format_comment/format_comment_rule.dart';
 import 'rules_list/member_ordering/member_ordering_rule.dart';
 import 'rules_list/member_ordering_extended/member_ordering_extended_rule.dart';
 import 'rules_list/newline_before_return/newline_before_return_rule.dart';
-import 'rules_list/no_equal_then_else/no_equal_then_else_rule.dart';
 import 'rules_list/no_magic_number/no_magic_number_rule.dart';
 import 'rules_list/no_object_declaration/no_object_declaration_rule.dart';
 import 'rules_list/prefer_async_await/prefer_async_await_rule.dart';
@@ -58,6 +58,7 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   AvoidDynamicRule.ruleId: (config) => AvoidDynamicRule(config),
   AvoidEmptyBlockRule.ruleId: (config) => AvoidEmptyBlockRule(config),
   AvoidEqualArgumentsRule.ruleId: (config) => AvoidEqualArgumentsRule(config),
+  AvoidEqualThenElseRule.ruleId: (config) => AvoidEqualThenElseRule(config),
   AvoidGlobalStateRule.ruleId: (config) => AvoidGlobalStateRule(config),
   AvoidIgnoringReturnValuesRule.ruleId: (config) =>
       AvoidIgnoringReturnValuesRule(config),
@@ -97,7 +98,6 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   MemberOrderingExtendedRule.ruleId: (config) =>
       MemberOrderingExtendedRule(config),
   NewlineBeforeReturnRule.ruleId: (config) => NewlineBeforeReturnRule(config),
-  NoEqualThenElseRule.ruleId: (config) => NoEqualThenElseRule(config),
   NoMagicNumberRule.ruleId: (config) => NoMagicNumberRule(config),
   NoObjectDeclarationRule.ruleId: (config) => NoObjectDeclarationRule(config),
   PreferAsyncAwaitRule.ruleId: (config) => PreferAsyncAwaitRule(config),

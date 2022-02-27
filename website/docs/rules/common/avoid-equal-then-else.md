@@ -2,7 +2,7 @@
 
 ## Rule id {#rule-id}
 
-no-equal-then-else
+avoid-equal-then-else
 
 ## Severity {#severity}
 

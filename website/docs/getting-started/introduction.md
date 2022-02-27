@@ -22,6 +22,6 @@ For small projects metrics can help avoid the stage when codebase becomes harder
 
 Other ecosystems have useful rules like unused arguments check, class member ordering check, etc. They’re not available in the built-in Dart SDK linter, but they are very handy and thats why Dart Code Metrics provides them.
 
-Stylistic rules aren’t the only important things to consider; Dart Code Metrics also provide rules, that highlight potential errors like `no-equal-then-else`, `avoid-equal-arguments`, and more.
+Stylistic rules aren’t the only important things to consider; Dart Code Metrics also provide rules, that highlight potential errors like `avoid-equal-then-else`, `avoid-equal-arguments`, and more.
 
 The rules are partially based on a personal experience during code reviews and feedback / requests from the community, so if you have any ideas to share, please don't hesitate! Another part of the rules emerged during the process of studying other tools’ rules. (Shoutout to PVS-Studio, TSLint, and ESLint for inspiration!)

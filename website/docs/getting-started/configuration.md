@@ -33,10 +33,10 @@ dart_code_metrics:
   rules:
     - avoid-boolean-literal-compare
     - avoid-empty-block
+    - avoid-equal-then-else
     - newline-before-return
     - prefer-trailing-comma
     - prefer-conditional-expressions
-    - no-equal-then-else
   anti-patterns:
     - long-method
     - long-parameter-list

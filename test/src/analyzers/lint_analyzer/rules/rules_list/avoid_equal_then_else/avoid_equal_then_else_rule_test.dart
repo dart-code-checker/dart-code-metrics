@@ -1,27 +1,27 @@
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/no_equal_then_else/no_equal_then_else_rule.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/avoid_equal_then_else/avoid_equal_then_else_rule.dart';
 import 'package:test/test.dart';
 
 import '../../../../../helpers/rule_test_helper.dart';
 
-const _examplePath = 'no_equal_then_else/examples/example.dart';
+const _examplePath = 'avoid_equal_then_else/examples/example.dart';
 
 void main() {
-  group('NoEqualThenElseRule', () {
+  group('AvoidEqualThenElseRule', () {
     test('initialization', () async {
       final unit = await RuleTestHelper.resolveFromFile(_examplePath);
-      final issues = NoEqualThenElseRule().check(unit);
+      final issues = AvoidEqualThenElseRule().check(unit);
 
       RuleTestHelper.verifyInitialization(
         issues: issues,
-        ruleId: 'no-equal-then-else',
+        ruleId: 'avoid-equal-then-else',
         severity: Severity.warning,
       );
     });
 
     test('reports about found issues', () async {
       final unit = await RuleTestHelper.resolveFromFile(_examplePath);
-      final issues = NoEqualThenElseRule().check(unit);
+      final issues = AvoidEqualThenElseRule().check(unit);
 
       RuleTestHelper.verifyIssues(
         issues: issues,

@@ -31,6 +31,10 @@ Rules configuration is [described here](../getting-started/configuration#configu
 
     Warns when equal arguments passed to a function or method invocation.
 
+- [avoid-equal-then-else](./common/avoid-equal-then-else.md)
+
+    Warns when if statement has equal then and else statements or conditional expression has equal then and else expressions.
+
 - [avoid-global-state](./common/avoid-global-state.md)
 
     Warns about usage mutable global variables.
@@ -102,10 +106,6 @@ Rules configuration is [described here](../getting-started/configuration#configu
 - [newline-before-return](./common/newline-before-return.md)
 
     Enforces blank line between statements and return in a block.
-
-- [no-equal-then-else](./common/no-equal-then-else.md)
-
-    Warns when if statement has equal then and else statements or conditional expression has equal then and else expressions.
 
 - [no-magic-number](./common/no-magic-number.md) &nbsp; [![Configurable](https://img.shields.io/badge/-configurable-informational)](./common/no-magic-number.md#config-example)
 

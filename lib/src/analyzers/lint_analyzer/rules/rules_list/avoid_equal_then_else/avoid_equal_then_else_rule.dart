@@ -15,12 +15,12 @@ part 'visitor.dart';
 
 // Inspired by PVS-Studio (https://www.viva64.com/en/w/v6004/)
 
-class NoEqualThenElseRule extends CommonRule {
-  static const String ruleId = 'no-equal-then-else';
+class AvoidEqualThenElseRule extends CommonRule {
+  static const String ruleId = 'avoid-equal-then-else';
 
   static const _warningMessage = 'Then and else branches are equal.';
 
-  NoEqualThenElseRule([Map<String, Object> config = const {}])
+  AvoidEqualThenElseRule([Map<String, Object> config = const {}])
       : super(
           id: ruleId,
           severity: readSeverity(config, Severity.warning),
