@@ -63,6 +63,10 @@ Rules configuration is [described here](../getting-started/configuration#configu
 
     Warns when non null assertion operator (or “bang” operator) is used for a property access or method invocation. The operator check works at runtime and it may fail and throw a runtime exception.
 
+- [avoid-object-declaration](./common/avoid-object-declaration.md)
+
+    Warns when a class member is declared with Object type.
+
 - [avoid-throw-in-catch-block](./common/avoid-throw-in-catch-block.md)
 
     Warns when call `throw` in a catch block.
@@ -110,10 +114,6 @@ Rules configuration is [described here](../getting-started/configuration#configu
 - [newline-before-return](./common/newline-before-return.md)
 
     Enforces blank line between statements and return in a block.
-
-- [no-object-declaration](./common/no-object-declaration.md)
-
-    Warns when a class member is declared with Object type.
 
 - [prefer-async-await](./common/prefer-async-await.md)
 

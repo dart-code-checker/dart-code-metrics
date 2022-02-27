@@ -2,7 +2,7 @@
 
 ## Rule id {#rule-id}
 
-no-object-declaration
+avoid-object-declaration
 
 ## Severity {#severity}
 

@@ -13,13 +13,13 @@ import '../../rule_utils.dart';
 
 part 'visitor.dart';
 
-class NoObjectDeclarationRule extends CommonRule {
-  static const String ruleId = 'no-object-declaration';
+class AvoidObjectDeclarationRule extends CommonRule {
+  static const String ruleId = 'avoid-object-declaration';
 
   static const _warningMessage =
       'Avoid Object type declaration in class member.';
 
-  NoObjectDeclarationRule([Map<String, Object> config = const {}])
+  AvoidObjectDeclarationRule([Map<String, Object> config = const {}])
       : super(
           id: ruleId,
           severity: readSeverity(config, Severity.style),

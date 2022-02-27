@@ -58,13 +58,13 @@ dart_code_metrics:
         exclude:
           - test/**
     - avoid-missing-enum-constant-in-map
+    - avoid-object-declaration
     - avoid-unnecessary-type-assertions
     - avoid-unnecessary-type-casts
     - avoid-unused-parameters
     - binary-expression-operand-order
     - double-literal-format
     - newline-before-return
-    - no-object-declaration
     - prefer-async-await
     - prefer-conditional-expressions
     - prefer-correct-identifier-length:

@@ -1,5 +1,5 @@
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/no_object_declaration/no_object_declaration_rule.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/avoid_object_declaration/avoid_object_declaration_rule.dart';
 import 'package:test/test.dart';
 
 import '../../../../../helpers/rule_test_helper.dart';
@@ -7,21 +7,21 @@ import '../../../../../helpers/rule_test_helper.dart';
 const _examplePath = 'no_object_declaration/examples/example.dart';
 
 void main() {
-  group('NoObjectDeclarationRule', () {
+  group('AvoidObjectDeclarationRule', () {
     test('initialization', () async {
       final unit = await RuleTestHelper.resolveFromFile(_examplePath);
-      final issues = NoObjectDeclarationRule().check(unit);
+      final issues = AvoidObjectDeclarationRule().check(unit);
 
       RuleTestHelper.verifyInitialization(
         issues: issues,
-        ruleId: 'no-object-declaration',
+        ruleId: 'avoid-object-declaration',
         severity: Severity.style,
       );
     });
 
     test('reports about found issues', () async {
       final unit = await RuleTestHelper.resolveFromFile(_examplePath);
-      final issues = NoObjectDeclarationRule().check(unit);
+      final issues = AvoidObjectDeclarationRule().check(unit);
 
       RuleTestHelper.verifyIssues(
         issues: issues,

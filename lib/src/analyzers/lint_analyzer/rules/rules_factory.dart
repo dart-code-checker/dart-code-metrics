@@ -14,6 +14,7 @@ import 'rules_list/avoid_magic_number/avoid_magic_number_rule.dart';
 import 'rules_list/avoid_missing_enum_constant_in_map/avoid_missing_enum_constant_in_map_rule.dart';
 import 'rules_list/avoid_nested_conditional_expressions/avoid_nested_conditional_expressions_rule.dart';
 import 'rules_list/avoid_non_null_assertion/avoid_non_null_assertion_rule.dart';
+import 'rules_list/avoid_object_declaration/avoid_object_declaration_rule.dart';
 import 'rules_list/avoid_preserve_whitespace_false/avoid_preserve_whitespace_false_rule.dart';
 import 'rules_list/avoid_returning_widgets/avoid_returning_widgets_rule.dart';
 import 'rules_list/avoid_throw_in_catch_block/avoid_throw_in_catch_block_rule.dart';
@@ -31,7 +32,6 @@ import 'rules_list/format_comment/format_comment_rule.dart';
 import 'rules_list/member_ordering/member_ordering_rule.dart';
 import 'rules_list/member_ordering_extended/member_ordering_extended_rule.dart';
 import 'rules_list/newline_before_return/newline_before_return_rule.dart';
-import 'rules_list/no_object_declaration/no_object_declaration_rule.dart';
 import 'rules_list/prefer_async_await/prefer_async_await_rule.dart';
 import 'rules_list/prefer_conditional_expressions/prefer_conditional_expressions_rule.dart';
 import 'rules_list/prefer_const_border_radius/prefer_const_border_radius_rule.dart';
@@ -70,6 +70,8 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
       AvoidNestedConditionalExpressionsRule(config),
   AvoidNonNullAssertionRule.ruleId: (config) =>
       AvoidNonNullAssertionRule(config),
+  AvoidObjectDeclarationRule.ruleId: (config) =>
+      AvoidObjectDeclarationRule(config),
   AvoidPreserveWhitespaceFalseRule.ruleId: (config) =>
       AvoidPreserveWhitespaceFalseRule(config),
   AvoidReturningWidgetsRule.ruleId: (config) =>
@@ -99,7 +101,6 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   MemberOrderingExtendedRule.ruleId: (config) =>
       MemberOrderingExtendedRule(config),
   NewlineBeforeReturnRule.ruleId: (config) => NewlineBeforeReturnRule(config),
-  NoObjectDeclarationRule.ruleId: (config) => NoObjectDeclarationRule(config),
   PreferAsyncAwaitRule.ruleId: (config) => PreferAsyncAwaitRule(config),
   PreferConditionalExpressionsRule.ruleId: (config) =>
       PreferConditionalExpressionsRule(config),
