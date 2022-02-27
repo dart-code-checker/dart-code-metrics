@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 
 import '../../../../../helpers/rule_test_helper.dart';
 
-const _examplePath = 'no_empty_block/examples/example.dart';
+const _examplePath = 'avoid_empty_block/examples/example.dart';
 
 void main() {
   group('AvoidEmptyBlockRule', () {

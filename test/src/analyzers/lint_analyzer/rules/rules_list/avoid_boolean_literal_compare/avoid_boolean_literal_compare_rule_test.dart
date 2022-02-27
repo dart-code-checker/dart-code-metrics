@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 
 import '../../../../../helpers/rule_test_helper.dart';
 
-const _examplePath = 'no_boolean_literal_compare/examples/example.dart';
+const _examplePath = 'avoid_boolean_literal_compare/examples/example.dart';
 
 void main() {
   group('AvoidBooleanLiteralCompareRule', () {

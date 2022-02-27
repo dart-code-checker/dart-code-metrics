@@ -1,4 +1,4 @@
-part of 'no_equal_arguments_rule.dart';
+part of 'avoid_equal_arguments_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
   final _arguments = <Expression>[];

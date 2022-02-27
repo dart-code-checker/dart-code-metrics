@@ -14,14 +14,14 @@ import '../../rule_utils.dart';
 part 'config_parser.dart';
 part 'visitor.dart';
 
-class NoEqualArgumentsRule extends CommonRule {
-  static const String ruleId = 'no-equal-arguments';
+class AvoidEqualArgumentsRule extends CommonRule {
+  static const String ruleId = 'avoid-equal-arguments';
 
   static const _warningMessage = 'The argument has already been passed.';
 
   final Iterable<String> _ignoredParameters;
 
-  NoEqualArgumentsRule([Map<String, Object> config = const {}])
+  AvoidEqualArgumentsRule([Map<String, Object> config = const {}])
       : _ignoredParameters = _ConfigParser.parseIgnoredParameters(config),
         super(
           id: ruleId,

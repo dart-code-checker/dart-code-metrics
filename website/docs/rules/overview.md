@@ -27,6 +27,10 @@ Rules configuration is [described here](../getting-started/configuration#configu
 
     Disallows empty blocks except catch clause block.
 
+- [avoid-equal-arguments](./common/avoid-equal-arguments.md) &nbsp; ![Configurable](https://img.shields.io/badge/-configurable-informational)
+
+    Warns when equal arguments passed to a function or method invocation.
+
 - [avoid-global-state](./common/avoid-global-state.md)
 
     Warns about usage mutable global variables.
@@ -98,10 +102,6 @@ Rules configuration is [described here](../getting-started/configuration#configu
 - [newline-before-return](./common/newline-before-return.md)
 
     Enforces blank line between statements and return in a block.
-
-- [no-equal-arguments](./common/no-equal-arguments.md) &nbsp; ![Configurable](https://img.shields.io/badge/-configurable-informational)
-
-    Warns when equal arguments passed to a function or method invocation.
 
 - [no-equal-then-else](./common/no-equal-then-else.md)
 

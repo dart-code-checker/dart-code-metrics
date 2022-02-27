@@ -4,7 +4,7 @@
 
 ## Rule id {#rule-id}
 
-no-equal-arguments
+avoid-equal-arguments
 
 ## Severity {#severity}
 
@@ -23,7 +23,7 @@ dart_code_metrics:
   ...
   rules:
     ...
-    - no-equal-arguments:
+    - avoid-equal-arguments:
         ignored-parameters:
           - height
           - width

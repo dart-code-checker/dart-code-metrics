@@ -1,31 +1,31 @@
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/no_equal_arguments/no_equal_arguments_rule.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/avoid_equal_arguments/avoid_equal_arguments_rule.dart';
 import 'package:test/test.dart';
 
 import '../../../../../helpers/rule_test_helper.dart';
 
-const _examplePath = 'no_equal_arguments/examples/example.dart';
+const _examplePath = 'avoid_equal_arguments/examples/example.dart';
 const _incorrectExamplePath =
-    'no_equal_arguments/examples/incorrect_example.dart';
+    'avoid_equal_arguments/examples/incorrect_example.dart';
 const _namedParametersExamplePath =
-    'no_equal_arguments/examples/named_parameters_example.dart';
+    'avoid_equal_arguments/examples/named_parameters_example.dart';
 
 void main() {
   group('NoEqualArgumentsRule', () {
     test('initialization', () async {
       final unit = await RuleTestHelper.resolveFromFile(_examplePath);
-      final issues = NoEqualArgumentsRule().check(unit);
+      final issues = AvoidEqualArgumentsRule().check(unit);
 
       RuleTestHelper.verifyInitialization(
         issues: issues,
-        ruleId: 'no-equal-arguments',
+        ruleId: 'avoid-equal-arguments',
         severity: Severity.warning,
       );
     });
 
     test('reports about found issues', () async {
       final unit = await RuleTestHelper.resolveFromFile(_incorrectExamplePath);
-      final issues = NoEqualArgumentsRule().check(unit);
+      final issues = AvoidEqualArgumentsRule().check(unit);
 
       RuleTestHelper.verifyIssues(
         issues: issues,
@@ -54,7 +54,7 @@ void main() {
 
     test('reports no issues', () async {
       final unit = await RuleTestHelper.resolveFromFile(_examplePath);
-      final issues = NoEqualArgumentsRule().check(unit);
+      final issues = AvoidEqualArgumentsRule().check(unit);
 
       RuleTestHelper.verifyNoIssues(issues);
     });
@@ -63,7 +63,7 @@ void main() {
   test('reports about found issue with default config', () async {
     final unit =
         await RuleTestHelper.resolveFromFile(_namedParametersExamplePath);
-    final issues = NoEqualArgumentsRule().check(unit);
+    final issues = AvoidEqualArgumentsRule().check(unit);
 
     RuleTestHelper.verifyIssues(
       issues: issues,
@@ -83,7 +83,7 @@ void main() {
       ],
     };
 
-    final issues = NoEqualArgumentsRule(config).check(unit);
+    final issues = AvoidEqualArgumentsRule(config).check(unit);
 
     RuleTestHelper.verifyNoIssues(issues);
   });
