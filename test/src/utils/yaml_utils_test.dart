@@ -10,7 +10,7 @@ code_checker:
   metrics-exclude:
     - test/**
   rules:
-    - no-boolean-literal-compare
+    - avoid-boolean-literal-compare
 ''';
 
 void main() {

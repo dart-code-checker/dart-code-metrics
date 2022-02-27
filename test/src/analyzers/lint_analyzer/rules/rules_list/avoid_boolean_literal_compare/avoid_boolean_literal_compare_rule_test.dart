@@ -1,5 +1,5 @@
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/no_boolean_literal_compare/no_boolean_literal_compare_rule.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/avoid_boolean_literal_compare/avoid_boolean_literal_compare_rule.dart';
 import 'package:test/test.dart';
 
 import '../../../../../helpers/rule_test_helper.dart';
@@ -7,21 +7,21 @@ import '../../../../../helpers/rule_test_helper.dart';
 const _examplePath = 'no_boolean_literal_compare/examples/example.dart';
 
 void main() {
-  group('NoBooleanLiteralCompareRule', () {
+  group('AvoidBooleanLiteralCompareRule', () {
     test('initialization', () async {
       final unit = await RuleTestHelper.resolveFromFile(_examplePath);
-      final issues = NoBooleanLiteralCompareRule().check(unit);
+      final issues = AvoidBooleanLiteralCompareRule().check(unit);
 
       RuleTestHelper.verifyInitialization(
         issues: issues,
-        ruleId: 'no-boolean-literal-compare',
+        ruleId: 'avoid-boolean-literal-compare',
         severity: Severity.style,
       );
     });
 
     test('reports about found issues', () async {
       final unit = await RuleTestHelper.resolveFromFile(_examplePath);
-      final issues = NoBooleanLiteralCompareRule().check(unit);
+      final issues = AvoidBooleanLiteralCompareRule().check(unit);
 
       RuleTestHelper.verifyIssues(
         issues: issues,

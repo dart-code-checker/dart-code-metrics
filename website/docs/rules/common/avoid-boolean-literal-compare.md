@@ -1,10 +1,10 @@
-# No boolean literal compare
+# Avoid boolean literal compare
 
 ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 
 ## Rule id {#rule-id}
 
-no-boolean-literal-compare
+avoid-boolean-literal-compare
 
 ## Severity {#severity}
 

@@ -88,8 +88,8 @@ dart_code_metrics:
   metrics-exclude:
     - test/**
   rules:
+    - avoid-boolean-literal-compare
     - newline-before-return
-    - no-boolean-literal-compare
     - no-empty-block
     - prefer-trailing-comma
     - prefer-conditional-expressions

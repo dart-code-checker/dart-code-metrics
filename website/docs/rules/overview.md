@@ -11,6 +11,10 @@ Rules configuration is [described here](../getting-started/configuration#configu
 
 ## Common {#common}
 
+- [avoid-boolean-literal-compare](./common/avoid-boolean-literal-compare.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
+
+    Warns on comparison to a boolean literal, as in x == true.
+
 - [avoid-collection-methods-with-unrelated-types](./common/avoid-collection-methods-with-unrelated-types.md)
 
     Avoid using collection methods with unrelated types, such as accessing a map of integers using a string key.
@@ -90,10 +94,6 @@ Rules configuration is [described here](../getting-started/configuration#configu
 - [newline-before-return](./common/newline-before-return.md)
 
     Enforces blank line between statements and return in a block.
-
-- [no-boolean-literal-compare](./common/no-boolean-literal-compare.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
-
-    Warns on comparison to a boolean literal, as in x == true.
 
 - [no-empty-block](./common/no-empty-block.md)
 

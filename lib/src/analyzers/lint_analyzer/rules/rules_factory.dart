@@ -1,5 +1,6 @@
 import 'models/rule.dart';
 import 'rules_list/always_remove_listener/always_remove_listener_rule.dart';
+import 'rules_list/avoid_boolean_literal_compare/avoid_boolean_literal_compare_rule.dart';
 import 'rules_list/avoid_border_all/avoid_border_all_rule.dart';
 import 'rules_list/avoid_collection_methods_with_unrelated_types/avoid_collection_methods_with_unrelated_types_rule.dart';
 import 'rules_list/avoid_dynamic/avoid_dynamic_rule.dart';
@@ -26,7 +27,6 @@ import 'rules_list/format_comment/format_comment_rule.dart';
 import 'rules_list/member_ordering/member_ordering_rule.dart';
 import 'rules_list/member_ordering_extended/member_ordering_extended_rule.dart';
 import 'rules_list/newline_before_return/newline_before_return_rule.dart';
-import 'rules_list/no_boolean_literal_compare/no_boolean_literal_compare_rule.dart';
 import 'rules_list/no_empty_block/no_empty_block_rule.dart';
 import 'rules_list/no_equal_arguments/no_equal_arguments_rule.dart';
 import 'rules_list/no_equal_then_else/no_equal_then_else_rule.dart';
@@ -50,6 +50,8 @@ import 'rules_list/tag_name/tag_name_rule.dart';
 
 final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   AlwaysRemoveListenerRule.ruleId: (config) => AlwaysRemoveListenerRule(config),
+  AvoidBooleanLiteralCompareRule.ruleId: (config) =>
+      AvoidBooleanLiteralCompareRule(config),
   AvoidBorderAllRule.ruleId: (config) => AvoidBorderAllRule(config),
   AvoidCollectionMethodsWithUnrelatedTypesRule.ruleId: (config) =>
       AvoidCollectionMethodsWithUnrelatedTypesRule(config),
@@ -93,8 +95,6 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   MemberOrderingExtendedRule.ruleId: (config) =>
       MemberOrderingExtendedRule(config),
   NewlineBeforeReturnRule.ruleId: (config) => NewlineBeforeReturnRule(config),
-  NoBooleanLiteralCompareRule.ruleId: (config) =>
-      NoBooleanLiteralCompareRule(config),
   NoEmptyBlockRule.ruleId: (config) => NoEmptyBlockRule(config),
   NoEqualArgumentsRule.ruleId: (config) => NoEqualArgumentsRule(config),
   NoEqualThenElseRule.ruleId: (config) => NoEqualThenElseRule(config),

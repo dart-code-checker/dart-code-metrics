@@ -19,8 +19,8 @@ part 'visitor.dart';
 
 // Inspired by TSLint (https://palantir.github.io/tslint/rules/no-boolean-literal-compare/)
 
-class NoBooleanLiteralCompareRule extends CommonRule {
-  static const String ruleId = 'no-boolean-literal-compare';
+class AvoidBooleanLiteralCompareRule extends CommonRule {
+  static const String ruleId = 'avoid-boolean-literal-compare';
 
   static const _warning =
       'Comparing boolean values to boolean literals is unnecessary, as those expressions will result in booleans too. Just use the boolean values directly or negate them.';
@@ -30,7 +30,7 @@ class NoBooleanLiteralCompareRule extends CommonRule {
   static const _negate =
       'This expression is unnecessarily compared to a boolean. Just negate it.';
 
-  NoBooleanLiteralCompareRule([Map<String, Object> config = const {}])
+  AvoidBooleanLiteralCompareRule([Map<String, Object> config = const {}])
       : super(
           id: ruleId,
           severity: readSeverity(config, Severity.style),
