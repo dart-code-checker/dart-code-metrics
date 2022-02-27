@@ -119,8 +119,8 @@ void main() {
         expect(report, isEmpty);
       });
 
-      test('should report no-magic-number rule', () async {
-        final config = _createConfig(rules: {'no-magic-number': {}});
+      test('should report avoid-magic-number rule', () async {
+        final config = _createConfig(rules: {'avoid-magic-number': {}});
 
         final result = await analyzer.runCliAnalysis(
           folders,
@@ -133,7 +133,7 @@ void main() {
 
         expect(
           issues.map((issue) => issue.ruleId),
-          equals(['no-magic-number', 'no-magic-number']),
+          equals(['avoid-magic-number', 'avoid-magic-number']),
         );
       });
 

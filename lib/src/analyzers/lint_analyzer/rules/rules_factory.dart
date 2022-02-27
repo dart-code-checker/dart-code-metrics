@@ -10,6 +10,7 @@ import 'rules_list/avoid_equal_then_else/avoid_equal_then_else_rule.dart';
 import 'rules_list/avoid_global_state/avoid_global_state_rule.dart';
 import 'rules_list/avoid_ignoring_return_values/avoid_ignoring_return_values_rule.dart';
 import 'rules_list/avoid_late_keyword/avoid_late_keyword_rule.dart';
+import 'rules_list/avoid_magic_number/avoid_magic_number_rule.dart';
 import 'rules_list/avoid_missing_enum_constant_in_map/avoid_missing_enum_constant_in_map_rule.dart';
 import 'rules_list/avoid_nested_conditional_expressions/avoid_nested_conditional_expressions_rule.dart';
 import 'rules_list/avoid_non_null_assertion/avoid_non_null_assertion_rule.dart';
@@ -30,7 +31,6 @@ import 'rules_list/format_comment/format_comment_rule.dart';
 import 'rules_list/member_ordering/member_ordering_rule.dart';
 import 'rules_list/member_ordering_extended/member_ordering_extended_rule.dart';
 import 'rules_list/newline_before_return/newline_before_return_rule.dart';
-import 'rules_list/no_magic_number/no_magic_number_rule.dart';
 import 'rules_list/no_object_declaration/no_object_declaration_rule.dart';
 import 'rules_list/prefer_async_await/prefer_async_await_rule.dart';
 import 'rules_list/prefer_conditional_expressions/prefer_conditional_expressions_rule.dart';
@@ -63,6 +63,7 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   AvoidIgnoringReturnValuesRule.ruleId: (config) =>
       AvoidIgnoringReturnValuesRule(config),
   AvoidLateKeywordRule.ruleId: (config) => AvoidLateKeywordRule(config),
+  AvoidMagicNumberRule.ruleId: (config) => AvoidMagicNumberRule(config),
   AvoidMissingEnumConstantInMapRule.ruleId: (config) =>
       AvoidMissingEnumConstantInMapRule(config),
   AvoidNestedConditionalExpressionsRule.ruleId: (config) =>
@@ -98,7 +99,6 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   MemberOrderingExtendedRule.ruleId: (config) =>
       MemberOrderingExtendedRule(config),
   NewlineBeforeReturnRule.ruleId: (config) => NewlineBeforeReturnRule(config),
-  NoMagicNumberRule.ruleId: (config) => NoMagicNumberRule(config),
   NoObjectDeclarationRule.ruleId: (config) => NoObjectDeclarationRule(config),
   PreferAsyncAwaitRule.ruleId: (config) => PreferAsyncAwaitRule(config),
   PreferConditionalExpressionsRule.ruleId: (config) =>

@@ -28,6 +28,7 @@
         "mocktail",
         "negatable",
         "nullsafety",
+        "posix",
         "pubignore",
         "pubspec",
         "semver",

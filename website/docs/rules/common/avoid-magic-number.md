@@ -4,7 +4,7 @@
 
 ## Rule id {#rule-id}
 
-no-magic-number
+avoid-magic-number
 
 ## Severity {#severity}
 
@@ -64,6 +64,6 @@ dart_code_metrics:
   ...
   rules:
     ...
-    - no-magic-number:
+    - avoid-magic-number:
         allowed: [3.14, 100, 12]
 ```

@@ -47,6 +47,10 @@ Rules configuration is [described here](../getting-started/configuration#configu
 
     Warns when a field or variable is declared with a `late` keyword.
 
+- [avoid-magic-number](./common/avoid-magic-number.md) &nbsp; [![Configurable](https://img.shields.io/badge/-configurable-informational)](./common/avoid-magic-number.md#config-example)
+
+    Warns against using number literals outside of named constants or variables.
+
 - [avoid-missing-enum-constant-in-map](./common/avoid-missing-enum-constant-in-map.md)
 
     Warns when a enum constant is missing in a map declaration.
@@ -106,10 +110,6 @@ Rules configuration is [described here](../getting-started/configuration#configu
 - [newline-before-return](./common/newline-before-return.md)
 
     Enforces blank line between statements and return in a block.
-
-- [no-magic-number](./common/no-magic-number.md) &nbsp; [![Configurable](https://img.shields.io/badge/-configurable-informational)](./common/no-magic-number.md#config-example)
-
-    Warns against using number literals outside of named constants or variables.
 
 - [no-object-declaration](./common/no-object-declaration.md)
 

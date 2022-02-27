@@ -14,15 +14,15 @@ import '../../rule_utils.dart';
 part 'config_parser.dart';
 part 'visitor.dart';
 
-class NoMagicNumberRule extends CommonRule {
-  static const String ruleId = 'no-magic-number';
+class AvoidMagicNumberRule extends CommonRule {
+  static const String ruleId = 'avoid-magic-number';
 
   static const _warningMessage =
       'Avoid using magic numbers. Extract them to named constants or variables.';
 
   final Iterable<num> _allowedMagicNumbers;
 
-  NoMagicNumberRule([Map<String, Object> config = const {}])
+  AvoidMagicNumberRule([Map<String, Object> config = const {}])
       : _allowedMagicNumbers = _ConfigParser.parseAllowedNumbers(config),
         super(
           id: ruleId,
