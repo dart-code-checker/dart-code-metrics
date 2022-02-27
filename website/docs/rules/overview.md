@@ -23,6 +23,10 @@ Rules configuration is [described here](../getting-started/configuration#configu
 
     Warns when `dynamic` type is used as variable type in declaration, return type of a function, etc.
 
+- [avoid-empty-block](./common/avoid-empty-block.md)
+
+    Disallows empty blocks except catch clause block.
+
 - [avoid-global-state](./common/avoid-global-state.md)
 
     Warns about usage mutable global variables.
@@ -94,10 +98,6 @@ Rules configuration is [described here](../getting-started/configuration#configu
 - [newline-before-return](./common/newline-before-return.md)
 
     Enforces blank line between statements and return in a block.
-
-- [no-empty-block](./common/no-empty-block.md)
-
-    Disallows empty blocks except catch clause block.
 
 - [no-equal-arguments](./common/no-equal-arguments.md) &nbsp; ![Configurable](https://img.shields.io/badge/-configurable-informational)
 

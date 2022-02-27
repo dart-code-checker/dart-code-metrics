@@ -89,8 +89,8 @@ dart_code_metrics:
     - test/**
   rules:
     - avoid-boolean-literal-compare
+    - avoid-empty-block
     - newline-before-return
-    - no-empty-block
     - prefer-trailing-comma
     - prefer-conditional-expressions
     - no-equal-then-else

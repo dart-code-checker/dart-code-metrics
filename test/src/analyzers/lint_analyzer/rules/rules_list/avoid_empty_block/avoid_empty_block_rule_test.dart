@@ -1,5 +1,5 @@
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/no_empty_block/no_empty_block_rule.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/avoid_empty_block/avoid_empty_block_rule.dart';
 import 'package:test/test.dart';
 
 import '../../../../../helpers/rule_test_helper.dart';
@@ -7,21 +7,21 @@ import '../../../../../helpers/rule_test_helper.dart';
 const _examplePath = 'no_empty_block/examples/example.dart';
 
 void main() {
-  group('NoEmptyBlockRule', () {
+  group('AvoidEmptyBlockRule', () {
     test('initialization', () async {
       final unit = await RuleTestHelper.resolveFromFile(_examplePath);
-      final issues = NoEmptyBlockRule().check(unit);
+      final issues = AvoidEmptyBlockRule().check(unit);
 
       RuleTestHelper.verifyInitialization(
         issues: issues,
-        ruleId: 'no-empty-block',
+        ruleId: 'avoid-empty-block',
         severity: Severity.style,
       );
     });
 
     test('reports about found issues', () async {
       final unit = await RuleTestHelper.resolveFromFile(_examplePath);
-      final issues = NoEmptyBlockRule().check(unit);
+      final issues = AvoidEmptyBlockRule().check(unit);
 
       RuleTestHelper.verifyIssues(
         issues: issues,

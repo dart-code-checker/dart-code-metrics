@@ -2,7 +2,7 @@
 
 ## Rule id {#rule-id}
 
-no-empty-block
+avoid-empty-block
 
 ## Severity {#severity}
 
@@ -34,16 +34,16 @@ Good:
 
 ```dart
   if ( ... ) {
-    // TODO(developername): need to implement.
+    // TODO(developerName): need to implement.
   }
 
   [1, 2, 3, 4].forEach((val) {
-    // TODO(developername): need to implement.
+    // TODO(developerName): need to implement.
   });
 
 
   void function() {
-    // TODO(developername): need to implement.
+    // TODO(developerName): need to implement.
   }
 ```
 

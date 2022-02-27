@@ -32,8 +32,8 @@ dart_code_metrics:
     - test/**
   rules:
     - avoid-boolean-literal-compare
+    - avoid-empty-block
     - newline-before-return
-    - no-empty-block
     - prefer-trailing-comma
     - prefer-conditional-expressions
     - no-equal-then-else
@@ -107,22 +107,22 @@ will set severity to `warning`.
 If a specific rule or anti-pattern warning should be ignored, it can be flagged with a comment. For example,
 
 ```dart
-// ignore: no-empty-block
+// ignore: avoid-empty-block
 void emptyFunction() {}
 ```
 
-tells the analyzer to ignore this instance of the `no-empty-block` warning.
+tells the analyzer to ignore this instance of the `avoid-empty-block` warning.
 
 End-of-line comments are supported as well. The following communicates the same thing:
 
 ```dart
-void emptyFunction() {} // ignore: no-empty-block
+void emptyFunction() {} // ignore: avoid-empty-block
 ```
 
 To ignore a rule for an entire file, use the `ignore_for_file` comment flag. For example,
 
 ```dart
-// ignore_for_file: no-empty-block
+// ignore_for_file: avoid-empty-block
 ...
 
 void emptyFunction() {}

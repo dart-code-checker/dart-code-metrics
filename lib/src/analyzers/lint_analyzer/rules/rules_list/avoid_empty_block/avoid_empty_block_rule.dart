@@ -15,13 +15,13 @@ part 'visitor.dart';
 
 // Inspired by TSLint (https://palantir.github.io/tslint/rules/no-empty/)
 
-class NoEmptyBlockRule extends CommonRule {
-  static const String ruleId = 'no-empty-block';
+class AvoidEmptyBlockRule extends CommonRule {
+  static const String ruleId = 'avoid-empty-block';
 
   static const _warning =
       'Block is empty. Empty blocks are often indicators of missing code.';
 
-  NoEmptyBlockRule([Map<String, Object> config = const {}])
+  AvoidEmptyBlockRule([Map<String, Object> config = const {}])
       : super(
           id: ruleId,
           severity: readSeverity(config, Severity.style),

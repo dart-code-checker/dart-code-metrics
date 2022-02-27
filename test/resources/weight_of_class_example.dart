@@ -1,4 +1,4 @@
-// ignore_for_file: no-empty-block
+// ignore_for_file: avoid-empty-block
 
 class SimpleClass {
   String _value1;

@@ -8,7 +8,7 @@ void main() {
       getRulesById({
         'prefer-match-file-name': <String, Object>{},
         'provide-correct-intl-args': <String, Object>{},
-        'no-empty-block': <String, Object>{},
+        'avoid-empty-block': <String, Object>{},
         'binary-expression-operand-order': <String, Object>{},
         'no-magic-number': <String, Object>{},
         'double-literal-format': <String, Object>{},
@@ -47,6 +47,7 @@ void main() {
       equals([
         'always-remove-listener',
         'avoid-boolean-literal-compare',
+        'avoid-empty-block',
         'avoid-ignoring-return-values',
         'avoid-late-keyword',
         'avoid-missing-enum-constant-in-map',
@@ -65,7 +66,6 @@ void main() {
         'member-ordering',
         'member-ordering-extended',
         'newline-before-return',
-        'no-empty-block',
         'no-equal-arguments',
         'no-equal-then-else',
         'no-magic-number',

@@ -51,6 +51,7 @@ dart_code_metrics:
     - avoid-dynamic:
         exclude:
           - test/**
+    - avoid-empty-block
     - avoid-global-state
     - avoid-late-keyword:
         exclude:
@@ -62,7 +63,6 @@ dart_code_metrics:
     - binary-expression-operand-order
     - double-literal-format
     - newline-before-return
-    - no-empty-block
     - no-equal-then-else
     - no-object-declaration
     - prefer-async-await
