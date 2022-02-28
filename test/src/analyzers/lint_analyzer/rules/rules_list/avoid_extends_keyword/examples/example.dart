@@ -6,7 +6,8 @@ abstract class C {
   int get a;
 }
 
-class D extends C { // LINT
+class D extends C {
+  // LINT
   // Implementation
 }
 
@@ -14,10 +15,12 @@ abstract class E {
   int get a;
 }
 
-abstract class G extends E { // LINT
+abstract class G extends E {
+  // LINT
   String get b;
 }
 
-class K extends G { // LINT
+class K extends G {
+  // LINT
   // Implementation
 }

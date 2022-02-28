@@ -14,6 +14,7 @@ import '../../models/flutter_rule.dart';
 import '../../rule_utils.dart';
 
 part 'visitor.dart';
+part 'class_visitor.dart';
 
 class AvoidExtendsKeywordRule extends FlutterRule {
   static const ruleId = 'avoid-extends-keyword';
@@ -47,7 +48,7 @@ class AvoidExtendsKeywordRule extends FlutterRule {
         .toList(growable: false);
   }
 
-  Replacement? _createReplacement(ClassDeclaration expression) => Replacement(
+  Replacement? _createReplacement(ExtendsClause expression) => Replacement(
         comment: _replaceComment,
         replacement:
             expression.toString().replaceFirst('extends', 'implements'),

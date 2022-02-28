@@ -1,9 +1,9 @@
 part of 'avoid_extends_keyword_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
-  final _expressions = <ClassDeclaration>[];
+  final _expressions = <ExtendsClause>[];
 
-  Iterable<ClassDeclaration> get expressions => _expressions;
+  Iterable<ExtendsClause> get expressions => _expressions;
 
   @override
   void visitClassDeclaration(ClassDeclaration node) {
@@ -11,7 +11,12 @@ class _Visitor extends RecursiveAstVisitor<void> {
     final keywordType = node.extendsClause?.extendsKeyword.type;
 
     if (beginTokenType == Keyword.ABSTRACT && keywordType == Keyword.EXTENDS) {
-      _expressions.add(node);
+      final visitor = _ClassVisitor();
+      node.root.visitChildren(visitor);
+
+      if (!visitor.hasRealization) {
+        _expressions.add(node.extendsClause!);
+      }
     }
   }
 }
