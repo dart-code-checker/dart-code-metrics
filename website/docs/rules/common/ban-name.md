@@ -14,6 +14,8 @@ Configure some names that you want to ban.
 
 Example: When you add some extra functionalities to built-in Flutter functions (such as logging for `showDialog`), you may want to ban the original Flutter function and use your own version.
 
+Limitation: When trying to ban some methods in your package, it also triggers on imported from an external package code.
+
 ### Example {#example}
 
 Bad:
