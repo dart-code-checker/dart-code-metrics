@@ -39,7 +39,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
     if (className == null) {
       return;
     }
-    final expectFieldValue = className;
+    final expectFieldValue = _calculateExpectFieldValue(className);
 
     if (fieldInitValue != expectFieldValue) {
       _nodes.add(_NodeWithMessage(
@@ -50,6 +50,18 @@ class _Visitor extends RecursiveAstVisitor<void> {
         ),
       ));
     }
+  }
+
+  String _calculateExpectFieldValue(String className) {
+    var ans = className;
+    if (className.startsWith(_parsedConfig.stripPrefix)) {
+      ans = ans.substring(_parsedConfig.stripPrefix.length);
+    }
+    if (className.endsWith(_parsedConfig.stripPostfix)) {
+      ans = ans.substring(0, ans.length - _parsedConfig.stripPostfix.length);
+    }
+
+    return ans;
   }
 }
 

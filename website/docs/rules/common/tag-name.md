@@ -23,6 +23,8 @@ dart_code_metrics:
     ...
     - tag-name:
         var-names: [_kTag]
+        strip-prefix: _
+        strip-postfix: State
     ...
 ```
 
@@ -34,6 +36,10 @@ Bad:
 class Apple {
   static const _kTag = 'Orange'; // LINT
 }
+
+class _OrangeState {
+  static const _kTag = 'Apple'; // LINT
+}
 ```
 
 Good:
@@ -41,5 +47,9 @@ Good:
 ```dart
 class Apple {
   static const _kTag = 'Apple';
+}
+
+class _OrangeState {
+  static const _kTag = 'Orange';
 }
 ```

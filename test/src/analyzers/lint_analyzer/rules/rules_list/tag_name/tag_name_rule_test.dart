@@ -23,6 +23,8 @@ void main() {
       final unit = await RuleTestHelper.resolveFromFile(_examplePath);
       final issues = TagNameRule({
         'var-names': ['_kTag', 'tag', 'TAG'],
+        'strip-prefix': '_',
+        'strip-postfix': 'State',
       }).check(unit);
 
       RuleTestHelper.verifyIssues(
