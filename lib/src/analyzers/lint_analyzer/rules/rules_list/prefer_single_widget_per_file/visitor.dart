@@ -15,7 +15,7 @@ class _Visitor extends SimpleAstVisitor<void> {
   void visitClassDeclaration(ClassDeclaration node) {
     super.visitClassDeclaration(node);
 
-    final classType = node.extendsClause?.superclass.type;
+    final classType = node.extendsClause?.superclass2.type;
     if (isWidgetOrSubclass(classType) &&
         (!_ignorePrivateWidgets || !Identifier.isPrivateName(node.name.name))) {
       _nodes.add(node);
