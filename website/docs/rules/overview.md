@@ -143,6 +143,10 @@ Rules configuration is [described here](../getting-started/configuration#configu
 
     Check for trailing comma for arguments, parameters, enum values and collections.
 
+- [tag-name](common/tag-name.md) &nbsp; [![Configurable](https://img.shields.io/badge/-configurable-informational)](./common/prefer-trailing-comma.md#config-example) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
+
+  Warns when tag name does not match class name.
+
 ## Flutter specific {#flutter-specific}
 
 - [always-remove-listener](./flutter/always-remove-listener.md)
