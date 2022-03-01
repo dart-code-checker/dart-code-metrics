@@ -7,7 +7,8 @@ const _descriptionLabel = 'description';
 /// Parser for rule configuration.
 class _ConfigParser {
   static List<_BanNameConfigEntry> _parseEntryConfig(
-          Map<String, Object> config) =>
+    Map<String, Object> config,
+  ) =>
       (config[_entriesLabel] as Iterable<Object?>? ?? []).map((entry) {
         final entryMap = entry as Map<Object?, Object?>;
 
