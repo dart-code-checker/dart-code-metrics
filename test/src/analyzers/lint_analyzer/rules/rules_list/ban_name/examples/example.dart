@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/material.dart' as material;
+import 'dialog.dart';
+import 'dialog.dart' as material;
 
 void func() {
   myShowDialog('some_arguments', 'another_argument');
