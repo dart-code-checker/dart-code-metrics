@@ -14,6 +14,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
   void visitClassDeclaration(ClassDeclaration node) {
     super.visitClassDeclaration(node);
 
+    // ignore: deprecated_member_use
     final type = node.extendsClause?.superclass2.type;
     if (type == null || !isWidgetStateOrSubclass(type)) {
       return;
