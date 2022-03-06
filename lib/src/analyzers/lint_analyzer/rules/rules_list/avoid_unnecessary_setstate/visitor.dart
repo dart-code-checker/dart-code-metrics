@@ -14,7 +14,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
   void visitClassDeclaration(ClassDeclaration node) {
     super.visitClassDeclaration(node);
 
-    final type = node.extendsClause?.superclass.type;
+    final type = node.extendsClause?.superclass2.type;
     if (type == null || !isWidgetStateOrSubclass(type)) {
       return;
     }

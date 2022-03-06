@@ -18,6 +18,7 @@ import 'rules_list/avoid_unnecessary_type_casts/avoid_unnecessary_type_casts_rul
 import 'rules_list/avoid_unrelated_type_assertions/avoid_unrelated_type_assertions_rule.dart';
 import 'rules_list/avoid_unused_parameters/avoid_unused_parameters_rule.dart';
 import 'rules_list/avoid_wrapping_in_padding/avoid_wrapping_in_padding_rule.dart';
+import 'rules_list/ban_name/ban_name_rule.dart';
 import 'rules_list/binary_expression_operand_order/binary_expression_operand_order_rule.dart';
 import 'rules_list/component_annotation_arguments_ordering/component_annotation_arguments_ordering_rule.dart';
 import 'rules_list/double_literal_format/double_literal_format_rule.dart';
@@ -45,6 +46,7 @@ import 'rules_list/prefer_on_push_cd_strategy/prefer_on_push_cd_strategy_rule.da
 import 'rules_list/prefer_single_widget_per_file/prefer_single_widget_per_file_rule.dart';
 import 'rules_list/prefer_trailing_comma/prefer_trailing_comma_rule.dart';
 import 'rules_list/provide_correct_intl_args/provide_correct_intl_args_rule.dart';
+import 'rules_list/tag_name/tag_name_rule.dart';
 
 final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   AlwaysRemoveListenerRule.ruleId: (config) => AlwaysRemoveListenerRule(config),
@@ -80,6 +82,7 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
       AvoidUnusedParametersRule(config),
   AvoidWrappingInPaddingRule.ruleId: (config) =>
       AvoidWrappingInPaddingRule(config),
+  BanNameRule.ruleId: (config) => BanNameRule(config),
   BinaryExpressionOperandOrderRule.ruleId: (config) =>
       BinaryExpressionOperandOrderRule(config),
   ComponentAnnotationArgumentsOrderingRule.ruleId: (config) =>
@@ -119,6 +122,7 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   PreferTrailingCommaRule.ruleId: (config) => PreferTrailingCommaRule(config),
   ProvideCorrectIntlArgsRule.ruleId: (config) =>
       ProvideCorrectIntlArgsRule(config),
+  TagNameRule.ruleId: (config) => TagNameRule(config),
 };
 
 Iterable<Rule> get allRules =>
