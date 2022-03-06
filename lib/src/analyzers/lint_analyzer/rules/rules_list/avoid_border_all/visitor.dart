@@ -15,8 +15,6 @@ class _Visitor extends RecursiveAstVisitor<void> {
     if (expression.staticType?.getDisplayString(withNullability: true) ==
             _className &&
         expression.constructorName.name?.name == _borderRadiusConstructorName) {
-      expression.argumentList.arguments.map((e) => null);
-
       var isAllConst = true;
 
       for (final argument in expression.argumentList.arguments) {
