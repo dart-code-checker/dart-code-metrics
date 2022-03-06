@@ -3,6 +3,7 @@
 ## Unreleased
 
 * feat: add static code diagnostic `avoid-collection-methods-with-unrelated-types`
+* fix: added parameter constant check in `avoid-border-all`.
 
 ## 4.11.0
 

@@ -20,7 +20,33 @@ class MyWidget extends StatelessWidget {
             style: BorderStyle.none,
           ),
         ), // LINT
+        Container(
+          border: Border.all(
+            color: const Color(0),
+            width: foo(),
+            style: BorderStyle.none,
+          ),
+        ),
+        Container(
+          border: Border.all(
+            color: const Color(0),
+            width: someBool ? 1 : 0,
+            style: BorderStyle.none,
+          ),
+        ),
+        Container(
+          border: Border.all(
+            color: const Color(0),
+            width: someInt,
+            style: BorderStyle.none,
+          ),
+        ),
       ]);
+
+  var someBool = false;
+  var someInt = 5;
+
+  double foo() => 20.0;
 }
 
 class Border {
