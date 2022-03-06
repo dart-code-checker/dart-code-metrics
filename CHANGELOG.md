@@ -2,10 +2,11 @@
 
 ## Unreleased
 
-* fix: added parameter constant check in `avoid-border-all`.
 * **Breaking Change:** cli arguments `--fatal-unused` and `--fatal-warnings` activate by default.
+* fix: added parameter constant check in `avoid-border-all`.
 * chore: restrict `analyzer` version to `>=3.3.0 <3.4.0`.
 * chore: restrict `analyzer_plugin` version to `>=0.9.0 <0.10.0`.
+* chore: set min `mocktail` version to `^0.3.0`.
 * feat: add static code diagnostic `avoid-collection-methods-with-unrelated-types`
 
 ## 4.11.0
