@@ -1,0 +1,17 @@
+default:
+  image: google/dart
+
+stages:
+  - analyze
+
+jobAnalyze:
+  stage: analyze
+  script:
+    - dart pub upgrade
+    - dart run dart_code_metrics:metrics lib -r gitlab > code-quality-report.json
+    - dart run dart_code_metrics:metrics lib -r html
+  artifacts:
+    paths:
+      - metrics
+    reports:
+      codequality: code-quality-report.json
