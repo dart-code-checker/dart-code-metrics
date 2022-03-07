@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 4.12.0
 
 * feat: add static code diagnostics `avoid-collection-methods-with-unrelated-types`, `ban-name`, `tag-name`.
 * fix: added parameter constant check in `avoid-border-all`.
