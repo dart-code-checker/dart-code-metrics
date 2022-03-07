@@ -4,6 +4,7 @@
 
 * feat: add static code diagnostics `avoid-collection-methods-with-unrelated-types`, `ban-name`, `tag-name`.
 * fix: added parameter constant check in `avoid-border-all`.
+* chore: restrict `analyzer` version to `>=2.4.0 <3.4.0`.
 * chore: set min `mocktail` version to `^0.3.0`.
 
 ## 4.11.0
