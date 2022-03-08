@@ -46,6 +46,7 @@ dart_code_metrics:
     - test/resources/*
     - test/*
   rules:
+    - avoid-collection-methods-with-unrelated-types
     - avoid-dynamic:
         exclude:
           - test/**

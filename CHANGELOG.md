@@ -2,22 +2,20 @@
 
 ## Unreleased
 
-* chore: added links to documentation in changelog.
 * **Breaking Change:** cli arguments `--fatal-unused` and `--fatal-warnings` activate by default.
 * chore: restrict `analyzer` version to `>=3.0.0 <3.4.0`.
 * chore: restrict `analyzer_plugin` version to `>=0.9.0 <0.10.0`.
 
 ## 4.12.0
 
-* feat: add static code diagnostics [`avoid-collection-methods-with-unrelated-types`](https://dartcodemetrics.dev/docs/rules/common/avoid-collection-methods-with-unrelated-types), `ban-name`, `tag-name`.
+* feat: add static code diagnostics [`avoid-collection-methods-with-unrelated-types`](https://dartcodemetrics.dev/docs/rules/common/avoid-collection-methods-with-unrelated-types), [`ban-name`](https://dartcodemetrics.dev/docs/rules/common/ban-name), [`tag-name`](https://dartcodemetrics.dev/docs/rules/common/tag-name).
 * fix: added parameter constant check in [`avoid-border-all`](https://dartcodemetrics.dev/docs/rules/flutter/avoid-border-all).
 * chore: restrict `analyzer` version to `>=2.4.0 <3.4.0`.
 * chore: set min `mocktail` version to `^0.3.0`.
 
 ## 4.11.0
 
-* feat: add static code diagnostics [`format-comment`](https://dartcodemetrics.dev/docs/rules/common/format-comment).
-* feat: add static code diagnostics  [`avoid-border-all`](https://dartcodemetrics.dev/docs/rules/flutter/avoid-border-all).
+* feat: add static code diagnostics [`format-comment`](https://dartcodemetrics.dev/docs/rules/common/format-comment), [`avoid-border-all`](https://dartcodemetrics.dev/docs/rules/flutter/avoid-border-all).
 * feat: improve [`avoid-returning-widgets`](https://dartcodemetrics.dev/docs/rules/flutter/avoid-returning-widgets) builder functions handling.
 * fix: correctly handle const maps in [`no-magic-number`](https://dartcodemetrics.dev/docs/rules/common/no-magic-number).
 * fix: correctly handle excluded files for [`check-unused-code`](https://dartcodemetrics.dev/docs/cli/check-unused-code).
