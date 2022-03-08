@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_positional_boolean_parameters, library_private_types_in_public_api, override_on_non_overriding_member, unused_local_variable, no-empty-block
+// ignore_for_file: avoid_positional_boolean_parameters, library_private_types_in_public_api, override_on_non_overriding_member, unused_local_variable, avoid-empty-block
 
 // LINT
 void printInteger(int aNumber) {

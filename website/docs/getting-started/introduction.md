@@ -8,7 +8,7 @@ Dart Code Metrics is a static analysis tool that helps you analyse and improve y
 
 It collects analytical data on the code through calculating code metrics with configurable thresholds and provides additional rules for the Dart analyzer.
 
-It can be launched via the command line, connected as a plugin to the Dart Analysis Server, or as a library. Launching via the command line allows you to easily integrate the tool into the CI/CD process, and you can get results in Сonsole, HTML, JSON, CodeClimate, or GitHub. Connecting the tool as a plugin to the Analysis Server allows you to receive real-time feedback directly from the IDE.
+It can be launched via the command line, connected as a plugin to the Dart Analysis Server, or as a library. Launching via the command line allows you to easily integrate the tool into the CI/CD process, and you can get results in Console, HTML, JSON, CodeClimate, or GitHub. Connecting the tool as a plugin to the Analysis Server allows you to receive real-time feedback directly from the IDE.
 
 ## Metrics {#metrics}
 
@@ -22,6 +22,6 @@ For small projects metrics can help avoid the stage when codebase becomes harder
 
 Other ecosystems have useful rules like unused arguments check, class member ordering check, etc. They’re not available in the built-in Dart SDK linter, but they are very handy and thats why Dart Code Metrics provides them.
 
-Stylistic rules aren’t the only important things to consider; Dart Code Metrics also provide rules, that highlight potential errors like `no-equal-then-else`, `no-equal-arguments`, and more.
+Stylistic rules aren’t the only important things to consider; Dart Code Metrics also provide rules, that highlight potential errors like `avoid-equal-then-else`, `avoid-equal-arguments`, and more.
 
 The rules are partially based on a personal experience during code reviews and feedback / requests from the community, so if you have any ideas to share, please don't hesitate! Another part of the rules emerged during the process of studying other tools’ rules. (Shoutout to PVS-Studio, TSLint, and ESLint for inspiration!)

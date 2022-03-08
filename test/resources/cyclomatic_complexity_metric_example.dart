@@ -1,4 +1,4 @@
-// ignore_for_file: dead_code, unused_local_variable, no-empty-block
+// ignore_for_file: dead_code, unused_local_variable, avoid-empty-block
 
 import 'package:analyzer/dart/ast/syntactic_entity.dart';
 import 'package:analyzer/dart/ast/token.dart';

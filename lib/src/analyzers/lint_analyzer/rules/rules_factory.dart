@@ -1,14 +1,20 @@
 import 'models/rule.dart';
 import 'rules_list/always_remove_listener/always_remove_listener_rule.dart';
+import 'rules_list/avoid_boolean_literal_compare/avoid_boolean_literal_compare_rule.dart';
 import 'rules_list/avoid_border_all/avoid_border_all_rule.dart';
 import 'rules_list/avoid_collection_methods_with_unrelated_types/avoid_collection_methods_with_unrelated_types_rule.dart';
 import 'rules_list/avoid_dynamic/avoid_dynamic_rule.dart';
+import 'rules_list/avoid_empty_block/avoid_empty_block_rule.dart';
+import 'rules_list/avoid_equal_arguments/avoid_equal_arguments_rule.dart';
+import 'rules_list/avoid_equal_then_else/avoid_equal_then_else_rule.dart';
 import 'rules_list/avoid_global_state/avoid_global_state_rule.dart';
 import 'rules_list/avoid_ignoring_return_values/avoid_ignoring_return_values_rule.dart';
 import 'rules_list/avoid_late_keyword/avoid_late_keyword_rule.dart';
+import 'rules_list/avoid_magic_number/avoid_magic_number_rule.dart';
 import 'rules_list/avoid_missing_enum_constant_in_map/avoid_missing_enum_constant_in_map_rule.dart';
 import 'rules_list/avoid_nested_conditional_expressions/avoid_nested_conditional_expressions_rule.dart';
 import 'rules_list/avoid_non_null_assertion/avoid_non_null_assertion_rule.dart';
+import 'rules_list/avoid_object_declaration/avoid_object_declaration_rule.dart';
 import 'rules_list/avoid_preserve_whitespace_false/avoid_preserve_whitespace_false_rule.dart';
 import 'rules_list/avoid_returning_widgets/avoid_returning_widgets_rule.dart';
 import 'rules_list/avoid_throw_in_catch_block/avoid_throw_in_catch_block_rule.dart';
@@ -26,12 +32,6 @@ import 'rules_list/format_comment/format_comment_rule.dart';
 import 'rules_list/member_ordering/member_ordering_rule.dart';
 import 'rules_list/member_ordering_extended/member_ordering_extended_rule.dart';
 import 'rules_list/newline_before_return/newline_before_return_rule.dart';
-import 'rules_list/no_boolean_literal_compare/no_boolean_literal_compare_rule.dart';
-import 'rules_list/no_empty_block/no_empty_block_rule.dart';
-import 'rules_list/no_equal_arguments/no_equal_arguments_rule.dart';
-import 'rules_list/no_equal_then_else/no_equal_then_else_rule.dart';
-import 'rules_list/no_magic_number/no_magic_number_rule.dart';
-import 'rules_list/no_object_declaration/no_object_declaration_rule.dart';
 import 'rules_list/prefer_async_await/prefer_async_await_rule.dart';
 import 'rules_list/prefer_conditional_expressions/prefer_conditional_expressions_rule.dart';
 import 'rules_list/prefer_const_border_radius/prefer_const_border_radius_rule.dart';
@@ -50,20 +50,28 @@ import 'rules_list/tag_name/tag_name_rule.dart';
 
 final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   AlwaysRemoveListenerRule.ruleId: (config) => AlwaysRemoveListenerRule(config),
+  AvoidBooleanLiteralCompareRule.ruleId: (config) =>
+      AvoidBooleanLiteralCompareRule(config),
   AvoidBorderAllRule.ruleId: (config) => AvoidBorderAllRule(config),
   AvoidCollectionMethodsWithUnrelatedTypesRule.ruleId: (config) =>
       AvoidCollectionMethodsWithUnrelatedTypesRule(config),
   AvoidDynamicRule.ruleId: (config) => AvoidDynamicRule(config),
+  AvoidEmptyBlockRule.ruleId: (config) => AvoidEmptyBlockRule(config),
+  AvoidEqualArgumentsRule.ruleId: (config) => AvoidEqualArgumentsRule(config),
+  AvoidEqualThenElseRule.ruleId: (config) => AvoidEqualThenElseRule(config),
   AvoidGlobalStateRule.ruleId: (config) => AvoidGlobalStateRule(config),
   AvoidIgnoringReturnValuesRule.ruleId: (config) =>
       AvoidIgnoringReturnValuesRule(config),
   AvoidLateKeywordRule.ruleId: (config) => AvoidLateKeywordRule(config),
+  AvoidMagicNumberRule.ruleId: (config) => AvoidMagicNumberRule(config),
   AvoidMissingEnumConstantInMapRule.ruleId: (config) =>
       AvoidMissingEnumConstantInMapRule(config),
   AvoidNestedConditionalExpressionsRule.ruleId: (config) =>
       AvoidNestedConditionalExpressionsRule(config),
   AvoidNonNullAssertionRule.ruleId: (config) =>
       AvoidNonNullAssertionRule(config),
+  AvoidObjectDeclarationRule.ruleId: (config) =>
+      AvoidObjectDeclarationRule(config),
   AvoidPreserveWhitespaceFalseRule.ruleId: (config) =>
       AvoidPreserveWhitespaceFalseRule(config),
   AvoidReturningWidgetsRule.ruleId: (config) =>
@@ -93,13 +101,6 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   MemberOrderingExtendedRule.ruleId: (config) =>
       MemberOrderingExtendedRule(config),
   NewlineBeforeReturnRule.ruleId: (config) => NewlineBeforeReturnRule(config),
-  NoBooleanLiteralCompareRule.ruleId: (config) =>
-      NoBooleanLiteralCompareRule(config),
-  NoEmptyBlockRule.ruleId: (config) => NoEmptyBlockRule(config),
-  NoEqualArgumentsRule.ruleId: (config) => NoEqualArgumentsRule(config),
-  NoEqualThenElseRule.ruleId: (config) => NoEqualThenElseRule(config),
-  NoMagicNumberRule.ruleId: (config) => NoMagicNumberRule(config),
-  NoObjectDeclarationRule.ruleId: (config) => NoObjectDeclarationRule(config),
   PreferAsyncAwaitRule.ruleId: (config) => PreferAsyncAwaitRule(config),
   PreferConditionalExpressionsRule.ruleId: (config) =>
       PreferConditionalExpressionsRule(config),

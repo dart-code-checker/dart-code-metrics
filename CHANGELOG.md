@@ -3,6 +3,7 @@
 ## Unreleased
 
 * **Breaking Change:** cli arguments `--fatal-unused` and `--fatal-warnings` activate by default.
+* **Breaking Change:** rename rules prefixed with `no-` to use `avoid-` prefix.
 * chore: restrict `analyzer` version to `>=3.0.0 <3.4.0`.
 * chore: restrict `analyzer_plugin` version to `>=0.9.0 <0.10.0`.
 

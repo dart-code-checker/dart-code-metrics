@@ -88,12 +88,12 @@ dart_code_metrics:
   metrics-exclude:
     - test/**
   rules:
+    - avoid-boolean-literal-compare
+    - avoid-empty-block
+    - avoid-equal-then-else
     - newline-before-return
-    - no-boolean-literal-compare
-    - no-empty-block
     - prefer-trailing-comma
     - prefer-conditional-expressions
-    - no-equal-then-else
 ```
 
 Reload IDE to allow the analyzer to discover the plugin config.

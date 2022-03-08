@@ -11,6 +11,10 @@ Rules configuration is [described here](../getting-started/configuration#configu
 
 ## Common {#common}
 
+- [avoid-boolean-literal-compare](./common/avoid-boolean-literal-compare.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
+
+    Warns on comparison to a boolean literal, as in x == true.
+
 - [avoid-collection-methods-with-unrelated-types](./common/avoid-collection-methods-with-unrelated-types.md)
 
     Avoid using collection methods with unrelated types, such as accessing a map of integers using a string key.
@@ -18,6 +22,18 @@ Rules configuration is [described here](../getting-started/configuration#configu
 - [avoid-dynamic](./common/avoid-dynamic.md)
 
     Warns when `dynamic` type is used as variable type in declaration, return type of a function, etc.
+
+- [avoid-empty-block](./common/avoid-empty-block.md)
+
+    Disallows empty blocks except catch clause block.
+
+- [avoid-equal-arguments](./common/avoid-equal-arguments.md) &nbsp; ![Configurable](https://img.shields.io/badge/-configurable-informational)
+
+    Warns when equal arguments passed to a function or method invocation.
+
+- [avoid-equal-then-else](./common/avoid-equal-then-else.md)
+
+    Warns when if statement has equal then and else statements or conditional expression has equal then and else expressions.
 
 - [avoid-global-state](./common/avoid-global-state.md)
 
@@ -31,6 +47,10 @@ Rules configuration is [described here](../getting-started/configuration#configu
 
     Warns when a field or variable is declared with a `late` keyword.
 
+- [avoid-magic-number](./common/avoid-magic-number.md) &nbsp; [![Configurable](https://img.shields.io/badge/-configurable-informational)](./common/avoid-magic-number.md#config-example)
+
+    Warns against using number literals outside of named constants or variables.
+
 - [avoid-missing-enum-constant-in-map](./common/avoid-missing-enum-constant-in-map.md)
 
     Warns when a enum constant is missing in a map declaration.
@@ -42,6 +62,10 @@ Rules configuration is [described here](../getting-started/configuration#configu
 - [avoid-non-null-assertion](./common/avoid-non-null-assertion.md)
 
     Warns when non null assertion operator (or “bang” operator) is used for a property access or method invocation. The operator check works at runtime and it may fail and throw a runtime exception.
+
+- [avoid-object-declaration](./common/avoid-object-declaration.md)
+
+    Warns when a class member is declared with Object type.
 
 - [avoid-throw-in-catch-block](./common/avoid-throw-in-catch-block.md)
 
@@ -90,30 +114,6 @@ Rules configuration is [described here](../getting-started/configuration#configu
 - [newline-before-return](./common/newline-before-return.md)
 
     Enforces blank line between statements and return in a block.
-
-- [no-boolean-literal-compare](./common/no-boolean-literal-compare.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
-
-    Warns on comparison to a boolean literal, as in x == true.
-
-- [no-empty-block](./common/no-empty-block.md)
-
-    Disallows empty blocks except catch clause block.
-
-- [no-equal-arguments](./common/no-equal-arguments.md) &nbsp; ![Configurable](https://img.shields.io/badge/-configurable-informational)
-
-    Warns when equal arguments passed to a function or method invocation.
-
-- [no-equal-then-else](./common/no-equal-then-else.md)
-
-    Warns when if statement has equal then and else statements or conditional expression has equal then and else expressions.
-
-- [no-magic-number](./common/no-magic-number.md) &nbsp; [![Configurable](https://img.shields.io/badge/-configurable-informational)](./common/no-magic-number.md#config-example)
-
-    Warns against using number literals outside of named constants or variables.
-
-- [no-object-declaration](./common/no-object-declaration.md)
-
-    Warns when a class member is declared with Object type.
 
 - [prefer-async-await](./common/prefer-async-await.md)
 
