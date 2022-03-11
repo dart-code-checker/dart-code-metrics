@@ -135,6 +135,10 @@ Rules configuration is [described here](../getting-started/configuration#configu
 
     Use `first` to gets the first element.
 
+- [prefer-immediate-return](./common/prefer-immediate-return.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
+
+    Warns when a method or a function returns a variable declared right before the return statement.
+
 - [prefer-last](./common/prefer-last.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 
     Use `last` to gets the last element.
