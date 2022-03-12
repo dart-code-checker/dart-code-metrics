@@ -1,0 +1,9 @@
+image: google/dart
+
+pipelines:
+  default:
+    - step:
+        name: analyze
+        script:
+          - dart pub upgrade
+          - dart run dart_code_metrics:metrics lib
