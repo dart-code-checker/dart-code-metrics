@@ -110,6 +110,7 @@ class AnalyzeCommand extends BaseCommand {
         allowed: [
           FlagNames.consoleReporter,
           FlagNames.consoleVerboseReporter,
+          FlagNames.checkstyleReporter,
           FlagNames.codeClimateReporter,
           FlagNames.githubReporter,
           FlagNames.gitlabCodeClimateReporter,

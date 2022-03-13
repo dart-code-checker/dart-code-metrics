@@ -6,6 +6,7 @@
         "backport",
         "behaviour",
         "bools",
+        "Checkstyle",
         "codeclimate",
         "codecov",
         "codequality",

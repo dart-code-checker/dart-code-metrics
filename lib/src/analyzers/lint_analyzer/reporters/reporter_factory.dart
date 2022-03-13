@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import '../../../reporters/models/checkstyle_reporter.dart';
 import '../../../reporters/models/code_climate_reporter.dart';
 import '../../../reporters/models/console_reporter.dart';
 import '../../../reporters/models/file_report.dart';
@@ -8,6 +9,7 @@ import '../../../reporters/models/html_reporter.dart';
 import '../../../reporters/models/json_reporter.dart';
 import '../../../reporters/models/reporter.dart';
 import 'lint_report_params.dart';
+import 'reporters_list/checkstyle/lint_checkstyle_reporter.dart';
 import 'reporters_list/code_climate/lint_code_climate_reporter.dart';
 import 'reporters_list/console/lint_console_reporter.dart';
 import 'reporters_list/github/lint_github_reporter.dart';
@@ -20,6 +22,7 @@ final _implementedReports = <
   IOSink output,
   String reportFolder,
 )>{
+  CheckstyleReporter.id: (output, _) => LintCheckstyleReporter(output),
   ConsoleReporter.id: (output, _) => LintConsoleReporter(output),
   ConsoleReporter.verboseId: (output, _) =>
       LintConsoleReporter(output, reportAll: true),
