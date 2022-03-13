@@ -17,38 +17,38 @@ Warns when if statement has equal then and else statements or conditional expres
 Bad:
 
 ```dart
-final value1 = 1;
-final value2 = 2;
+final firstValue = 1;
+final secondValue = 2;
 
 ...
 
 // LINT
 if (condition) {
-  result = value1;
+  result = firstValue;
 } else {
-  result = value1;
+  result = firstValue;
 }
 
 ...
 
-result = condition ? value1 : value1; // LINT
+result = condition ? firstValue : firstValue; // LINT
 ```
 
 Good:
 
 ```dart
-final value1 = 1;
-final value2 = 2;
+final firstValue = 1;
+final secondValue = 2;
 
 ...
 
 if (condition) {
-  result = value1;
+  result = firstValue;
 } else {
-  result = value2;
+  result = secondValue;
 }
 
 ...
 
-result = condition ? value1 : value2;
+result = condition ? firstValue : secondValue;
 ```
