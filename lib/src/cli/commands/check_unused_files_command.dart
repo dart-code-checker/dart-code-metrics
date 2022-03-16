@@ -109,7 +109,8 @@ class CheckUnusedFilesCommand extends BaseCommand {
       ..addFlag(
         FlagNames.fatalOnUnused,
         help: 'Treat find unused file as fatal.',
-        defaultsTo: true,
+// TODO(dkrutrkikh): activate on next major version
+//        defaultsTo: true,
       );
   }
 

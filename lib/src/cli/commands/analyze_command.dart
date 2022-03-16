@@ -174,7 +174,8 @@ class AnalyzeCommand extends BaseCommand {
       ..addFlag(
         FlagNames.fatalWarnings,
         help: 'Treat warning level issues as fatal.',
-        defaultsTo: true,
+// TODO(dkrutrkikh): activate on next major version
+//        defaultsTo: true,
       );
   }
 }

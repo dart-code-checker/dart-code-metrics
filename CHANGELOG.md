@@ -4,10 +4,13 @@
 
 * **Breaking Change:** cli arguments `--fatal-unused` and `--fatal-warnings` activate by default.
 * **Breaking Change:** rename rules prefixed with `no-` to use `avoid-` prefix.
-* feat: add [prefer-immediate-return](https://dartcodemetrics.dev/docs/rules/common/prefer-immediate-return) rule
-* feat: add Checkstyle format reporter.
 * chore: restrict `analyzer` version to `>=3.0.0 <3.4.0`.
 * chore: restrict `analyzer_plugin` version to `>=0.9.0 <0.10.0`.
+
+## 4.13.0
+
+* feat: add [prefer-immediate-return](https://dartcodemetrics.dev/docs/rules/common/prefer-immediate-return) rule
+* feat: add Checkstyle format reporter.
 
 ## 4.12.0
 
@@ -71,7 +74,7 @@
 
 * feat: add static code diagnostics [`avoid-global-state`](https://dartcodemetrics.dev/docs/rules/common/avoid-global-state), [`avoid-unrelated-type-assertions`](https://dartcodemetrics.dev/docs/rules/common/avoid-unrelated-type-assertions).
 * feat: support extensions and static getters for [`check-unused-l10n`](https://dartcodemetrics.dev/docs/cli/check-unused-l10n).
-* feat: improve [ `prefer-correct-type-name`](https://dartcodemetrics.dev/docs/rules/common/prefer-correct-type-name), [`prefer-match-file-name`](https://dartcodemetrics.dev/docs/rules/common/prefer-match-file-name) rules.
+* feat: improve [`prefer-correct-type-name`](https://dartcodemetrics.dev/docs/rules/common/prefer-correct-type-name), [`prefer-match-file-name`](https://dartcodemetrics.dev/docs/rules/common/prefer-match-file-name) rules.
 * feat: add `delete-files` flag to [`check-unused-files`](https://dartcodemetrics.dev/docs/cli/check-unused-files) command.
 * feat: facelift console reporters.
 * chore: restrict `analyzer` version to `>=2.4.0 <3.1.0`.
