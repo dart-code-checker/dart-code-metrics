@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 4.13.0
 
 * feat: add [Checkstyle](https://dartcodemetrics.dev/docs/cli/analyze#checkstyle) format reporter.
 * feat: add [prefer-immediate-return](https://dartcodemetrics.dev/docs/rules/common/prefer-immediate-return) rule
