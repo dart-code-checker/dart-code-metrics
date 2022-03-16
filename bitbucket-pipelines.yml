@@ -6,4 +6,6 @@ pipelines:
         name: analyze
         script:
           - dart pub upgrade
-          - dart run dart_code_metrics:metrics lib
+          - dart run dart_code_metrics:metrics lib -r checkstyle > checkstyle-result.xml
+        after-script:
+          - pipe: atlassian/checkstyle-report:0.3.1
