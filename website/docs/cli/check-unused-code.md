@@ -40,7 +40,6 @@ Usage: metrics check-unused-code [arguments] <directories>
 
 
     --[no-]fatal-unused                           Treat find unused file as fatal.
-                                                  (defaults to on)
 ```
 
 ## Monorepo support

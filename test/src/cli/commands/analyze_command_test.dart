@@ -41,7 +41,6 @@ const _usage = 'Collect code metrics, rules and anti-patterns violations.\n'
     '    --[no-]fatal-style                            Treat style level issues as fatal.\n'
     '    --[no-]fatal-performance                      Treat performance level issues as fatal.\n'
     '    --[no-]fatal-warnings                         Treat warning level issues as fatal.\n'
-    '                                                  (defaults to on)\n'
     '\n'
     'Run "metrics help" to see global options.';
 

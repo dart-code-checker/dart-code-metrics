@@ -51,7 +51,6 @@ Usage: metrics analyze [arguments...] <directories>
     --[no-]fatal-style                            Treat style level issues as fatal.
     --[no-]fatal-performance                      Treat performance level issues as fatal.
     --[no-]fatal-warnings                         Treat warning level issues as fatal.
-                                                  (defaults to on)
 ```
 
 ## Output example {#output-example}
