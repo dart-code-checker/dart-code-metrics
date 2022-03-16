@@ -58,6 +58,7 @@ Usage: metrics check-unused-l10n [arguments] <directories>
 
 
     --[no-]fatal-unused                           Treat find unused l10n as fatal.
+                                                  (defaults to on)
 ```
 
 ## Output example {#output-example}
