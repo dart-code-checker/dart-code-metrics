@@ -29,6 +29,7 @@ It will produce a result in one of the supported formats:
 
 - Console
 - GitHub
+- Checkstyle
 - Codeclimate
 - HTML
 - JSON
