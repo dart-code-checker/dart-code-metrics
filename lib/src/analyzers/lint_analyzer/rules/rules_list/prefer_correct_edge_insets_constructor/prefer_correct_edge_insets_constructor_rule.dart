@@ -15,7 +15,7 @@ import '../../rule_utils.dart';
 part 'visitor.dart';
 
 class PreferCorrectEdgeInsetsConstructorRule extends FlutterRule {
-  static const ruleId = 'prefer-correct-edge-insets-constructor-rule';
+  static const ruleId = 'prefer-correct-edge-insets-constructor';
   static const _issueMessage = 'Prefer using correct EdgeInsets constructor.';
 
   PreferCorrectEdgeInsetsConstructorRule([

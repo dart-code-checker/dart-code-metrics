@@ -32,19 +32,6 @@ class _Visitor extends RecursiveAstVisitor<void> {
     }
   }
 
-  void _removeZeroParamsFromSymmetric(InstanceCreationExpression expression) {
-    final params = <String>[];
-
-    expression.argumentList.arguments.map((e) {
-      if (e.endToken.toString() != '0') {
-        params.add(
-          '${e.beginToken.toString()}: ${e.endToken.toString()}',
-        );
-      }
-    });
-    _expressions[expression] = 'EdgeInsets.symmetric(${params.join(', ')})';
-  }
-
   void _validateLTRB(InstanceCreationExpression expression) {
     final argumentsList =
         expression.argumentList.arguments.map((e) => e.toString());
@@ -114,8 +101,30 @@ class _Visitor extends RecursiveAstVisitor<void> {
       params[param.beginToken.toString()] = param.endToken.toString();
     }
 
-    _removeZeroParamsFromSymmetric(expression);
+    // EdgeInsets.symmetric(horizontal: 0, vertical: 12) -> EdgeInsets.symmetric(vertical: 12)
+    // EdgeInsets.symmetric(horizontal: 0, vertical: 0) -> EdgeInsets.zero
+    if (params.values.contains('0')) {
+      final arguments = <String>[];
 
+      for (final param in expression.argumentList.arguments) {
+        if (param.endToken.toString() != '0') {
+          arguments.add(
+            '${param.beginToken.toString()}: ${param.endToken.toString()}',
+          );
+        }
+      }
+
+      if (arguments.isEmpty) {
+        _expressions[expression] = 'EdgeInsets.zero';
+      } else {
+        _expressions[expression] =
+            'EdgeInsets.symmetric(${arguments.join(', ')})';
+      }
+
+      return;
+    }
+
+    // EdgeInsets.symmetric(horizontal: 12, vertical: 12) -> EdgeInsets.all(12)
     if (params['horizontal'] == params['vertical']) {
       _expressions[expression] = 'EdgeInsets.all(${params['horizontal']})';
 
@@ -129,26 +138,41 @@ class _Visitor extends RecursiveAstVisitor<void> {
       params[param.beginToken.toString()] = param.endToken.toString();
     }
 
+    if (params.isEmpty) {
+      return;
+    }
+
+    // EdgeInsets.only(left: 0, right: 12) -> EdgeInsets.only(right: 12)
     if (params.values.contains('0')) {
-      final params = <String>[];
+      final arg = <String>[];
 
       for (final argument in expression.argumentList.arguments) {
         if (argument.endToken.toString() != '0') {
-          params.add(
+          arg.add(
             '${argument.beginToken.toString()}: ${argument.endToken.toString()}',
           );
         }
       }
 
-      if (params.isEmpty) {
-        _expressions[expression] = 'EdgeInsets.zero';
+      if (arg.isNotEmpty) {
+        _expressions[expression] = 'EdgeInsets.only(${arg.join(', ')})';
+
+        return;
       } else {
-        _expressions[expression] = 'EdgeInsets.only(${params.join(', ')})';
+        return;
       }
+    }
+
+    // EdgeInsets.only(bottom: 10, right: 10, left: 10, top:10) -> EdgeInsets.all(10)
+    if (params.length == 4 &&
+        params.values.first != '0' &&
+        params.values.every((element) => element == params.values.first)) {
+      _expressions[expression] = 'EdgeInsets.all(${params.values.first})';
 
       return;
     }
 
+    // EdgeInsets.only(bottom: 10, right: 12, left: 12, top:10) -> EdgeInsets.symmetric(horizontal: 12, vertical: 10)
     if (params.length == 4 &&
         params['top'] == params['bottom'] &&
         params['left'] == params['right']) {
@@ -158,13 +182,17 @@ class _Visitor extends RecursiveAstVisitor<void> {
       return;
     }
 
-    if (params.length == 2 && params['top'] == params['bottom']) {
+    // EdgeInsets.only(bottom: 10, top:10) -> EdgeInsets.symmetric(vertical: 10)
+    if (params.length == 2 &&
+        params['top'] != null &&
+        params['top'] == params['bottom']) {
       _expressions[expression] =
           'EdgeInsets.symmetric(vertical: ${params['top']})';
 
       return;
     }
 
+    // EdgeInsets.only(left: 10, right:10) -> EdgeInsets.symmetric(horizontal: 10)
     if (params.length == 2 && params['left'] == params['right']) {
       _expressions[expression] =
           'EdgeInsets.symmetric(horizontal: ${params['left']})';

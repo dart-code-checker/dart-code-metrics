@@ -1,26 +1,3 @@
-class MyWidget extends StatelessWidget {
-  Widget build(BuildContext _) => Column(children: [
-        Container(
-          padding: const EdgeInsets.fromLTRB(1, 1, 0, 0), // LINT
-        ),
-        Container(
-          padding: const EdgeInsets.fromLTRB(1, 1, 1, 1), // LINT
-        ),
-        Container(
-          padding:
-              const EdgeInsets.symmetric(horizontal: 10, vertical: 10), // LINT
-        ),
-        Container(
-          padding: const EdgeInsets.only(
-              top: 0, left: 0, bottom: 0, right: 0), // LINT
-        ),
-        Container(
-          padding: const EdgeInsets.only(
-              top: 10, left: 5, bottom: 10, right: 5), // LINT
-        ),
-      ]);
-}
-
 class EdgeInsets {
   final double top;
   final double left;
