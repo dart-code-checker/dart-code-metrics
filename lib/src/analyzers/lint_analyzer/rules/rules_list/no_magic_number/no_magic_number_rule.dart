@@ -43,6 +43,7 @@ class NoMagicNumberRule extends CommonRule {
         .where(_isNotInsideConstMap)
         .where(_isNotInsideConstConstructor)
         .where(_isNotInDateTime)
+        .where(_isNotInsideIndexExpression)
         .map((lit) => createIssue(
               rule: this,
               location: nodeLocation(
@@ -86,4 +87,6 @@ class NoMagicNumberRule extends CommonRule {
       l.thisOrAncestorMatching((ancestor) =>
           ancestor is InstanceCreationExpression && ancestor.isConst) ==
       null;
+
+  bool _isNotInsideIndexExpression(Literal l) => l.parent is! IndexExpression;
 }
