@@ -35,6 +35,7 @@ import 'rules_list/no_object_declaration/no_object_declaration_rule.dart';
 import 'rules_list/prefer_async_await/prefer_async_await_rule.dart';
 import 'rules_list/prefer_conditional_expressions/prefer_conditional_expressions_rule.dart';
 import 'rules_list/prefer_const_border_radius/prefer_const_border_radius_rule.dart';
+import 'rules_list/prefer_correct_edge_insets_constructor/prefer_correct_edge_insets_constructor_rule.dart';
 import 'rules_list/prefer_correct_identifier_length/prefer_correct_identifier_length_rule.dart';
 import 'rules_list/prefer_correct_type_name/prefer_correct_type_name_rule.dart';
 import 'rules_list/prefer_extracting_callbacks/prefer_extracting_callbacks_rule.dart';
@@ -106,6 +107,8 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
       PreferConditionalExpressionsRule(config),
   PreferConstBorderRadiusRule.ruleId: (config) =>
       PreferConstBorderRadiusRule(config),
+  PreferCorrectEdgeInsetsConstructorRule.ruleId: (config) =>
+      PreferCorrectEdgeInsetsConstructorRule(config),
   PreferCorrectIdentifierLengthRule.ruleId: (config) =>
       PreferCorrectIdentifierLengthRule(config),
   PreferCorrectTypeNameRule.ruleId: (config) =>
