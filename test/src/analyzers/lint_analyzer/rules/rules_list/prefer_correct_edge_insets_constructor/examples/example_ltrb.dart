@@ -17,5 +17,14 @@ class MyWidget extends StatelessWidget {
         Container(
           padding: const EdgeInsets.fromLTRB(3, 0, 0, 2), // LINT
         ),
+        Container(
+          padding: const EdgeInsets.fromLTRB(3, _test, 2 - 2, test()), // LINT
+        ),
       ]);
+}
+
+const _test = 0;
+
+int test() {
+  return 0;
 }
