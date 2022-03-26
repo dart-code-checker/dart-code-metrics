@@ -39,7 +39,6 @@ class AvoidBorderAllRule extends FlutterRule {
               location: nodeLocation(
                 node: expression,
                 source: source,
-                withCommentOrMetadata: true,
               ),
               message: _issueMessage,
               replacement: _createReplacement(expression),

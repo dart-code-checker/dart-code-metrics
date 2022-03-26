@@ -45,11 +45,7 @@ class ComponentAnnotationArgumentsOrderingRule extends AngularRule {
     return argumentsInfo.where((info) => info.argumentOrder.isWrong).map(
           (info) => createIssue(
             rule: this,
-            location: nodeLocation(
-              node: info.argument,
-              source: source,
-              withCommentOrMetadata: true,
-            ),
+            location: nodeLocation(node: info.argument, source: source),
             message:
                 'Arguments group ${info.argumentOrder.argumentGroup.name} $_warningMessage ${info.argumentOrder.previousArgumentGroup?.name}.',
           ),

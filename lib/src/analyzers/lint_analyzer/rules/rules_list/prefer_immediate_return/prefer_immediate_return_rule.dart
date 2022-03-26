@@ -36,11 +36,7 @@ class PreferImmediateReturnRule extends CommonRule {
         .map(
           (issue) => createIssue(
             rule: this,
-            location: nodeLocation(
-              node: issue.returnStatement,
-              source: source,
-              withCommentOrMetadata: true,
-            ),
+            location: nodeLocation(node: issue.returnStatement, source: source),
             message: _warningMessage,
             replacement: Replacement(
               comment: _replaceComment,
