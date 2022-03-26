@@ -36,10 +36,7 @@ class AvoidBorderAllRule extends FlutterRule {
     return visitor.expressions
         .map((expression) => createIssue(
               rule: this,
-              location: nodeLocation(
-                node: expression,
-                source: source,
-              ),
+              location: nodeLocation(node: expression, source: source),
               message: _issueMessage,
               replacement: _createReplacement(expression),
             ))
