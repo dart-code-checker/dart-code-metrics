@@ -38,11 +38,7 @@ class BinaryExpressionOperandOrderRule extends CommonRule {
     return visitor.binaryExpressions
         .map((lit) => createIssue(
               rule: this,
-              location: nodeLocation(
-                node: lit,
-                source: source,
-                withCommentOrMetadata: true,
-              ),
+              location: nodeLocation(node: lit, source: source),
               message: _warningMessage,
               replacement: Replacement(
                 comment: _correctionComment,
