@@ -3,6 +3,7 @@
 ## Unreleased
 
 * feat: add static code diagnostics `prefer-correct-edge-insets-constructor-rule`.
+* fix: support index expressions for no-magic-number rule.
 
 ## 4.13.0
 
@@ -71,7 +72,7 @@
 
 * feat: add static code diagnostics [`avoid-global-state`](https://dartcodemetrics.dev/docs/rules/common/avoid-global-state), [`avoid-unrelated-type-assertions`](https://dartcodemetrics.dev/docs/rules/common/avoid-unrelated-type-assertions).
 * feat: support extensions and static getters for [`check-unused-l10n`](https://dartcodemetrics.dev/docs/cli/check-unused-l10n).
-* feat: improve [ `prefer-correct-type-name`](https://dartcodemetrics.dev/docs/rules/common/prefer-correct-type-name), [`prefer-match-file-name`](https://dartcodemetrics.dev/docs/rules/common/prefer-match-file-name) rules.
+* feat: improve [prefer-correct-type-name](https://dartcodemetrics.dev/docs/rules/common/prefer-correct-type-name), [`prefer-match-file-name`](https://dartcodemetrics.dev/docs/rules/common/prefer-match-file-name) rules.
 * feat: add `delete-files` flag to [`check-unused-files`](https://dartcodemetrics.dev/docs/cli/check-unused-files) command.
 * feat: facelift console reporters.
 * chore: restrict `analyzer` version to `>=2.4.0 <3.1.0`.
