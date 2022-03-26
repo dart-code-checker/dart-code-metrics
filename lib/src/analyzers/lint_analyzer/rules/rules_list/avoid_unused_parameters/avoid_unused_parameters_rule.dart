@@ -39,11 +39,7 @@ class AvoidUnusedParametersRule extends CommonRule {
     return visitor.unusedParameters
         .map((parameter) => createIssue(
               rule: this,
-              location: nodeLocation(
-                node: parameter,
-                source: source,
-                withCommentOrMetadata: true,
-              ),
+              location: nodeLocation(node: parameter, source: source),
               message: _warningMessage,
             ))
         .toList(growable: false);

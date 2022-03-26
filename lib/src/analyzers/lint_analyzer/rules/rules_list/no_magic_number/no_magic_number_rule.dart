@@ -46,11 +46,7 @@ class NoMagicNumberRule extends CommonRule {
         .where(_isNotInsideIndexExpression)
         .map((lit) => createIssue(
               rule: this,
-              location: nodeLocation(
-                node: lit,
-                source: source,
-                withCommentOrMetadata: true,
-              ),
+              location: nodeLocation(node: lit, source: source),
               message: _warningMessage,
             ))
         .toList(growable: false);

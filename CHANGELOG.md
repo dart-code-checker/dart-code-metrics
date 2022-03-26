@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-* fix: support index expressions for no-magic-number rule.
+* fix: support index expressions for [`no-magic-number`](https://dartcodemetrics.dev/docs/rules/common/no-magic-number) rule.
 
 ## 4.13.0
 

@@ -37,11 +37,7 @@ class NoEmptyBlockRule extends CommonRule {
     return visitor.emptyBlocks
         .map((block) => createIssue(
               rule: this,
-              location: nodeLocation(
-                node: block,
-                source: source,
-                withCommentOrMetadata: true,
-              ),
+              location: nodeLocation(node: block, source: source),
               message: _warning,
             ))
         .toList(growable: false);
