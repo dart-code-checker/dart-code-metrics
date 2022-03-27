@@ -41,3 +41,31 @@ int calculateSum(int a, int b) {
 
   return sum; // OK, "sum" variable not immediately preceding return statement
 }
+
+void calculateSum(int a, int b) {
+  try {
+    final sum = a + b;
+
+    return sum; // LINT
+  } catch (e) {
+    final sum = 0;
+
+    return sum; // LINT
+  }
+
+  return 0;
+}
+
+void calculateSomething(bool condition, int a, int b) {
+  for (var i = 0; i < 10; i++) {
+    final result = a * b;
+
+    return result; // LINT
+  }
+  if (condition) {
+    final result = a + b;
+
+    return result; // LINT
+  }
+  return 0;
+}

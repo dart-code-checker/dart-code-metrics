@@ -6,16 +6,16 @@ class _Visitor extends RecursiveAstVisitor<void> {
   Iterable<_IssueDetails> get issues => _issues;
 
   @override
-  void visitBlockFunctionBody(BlockFunctionBody node) {
-    super.visitBlockFunctionBody(node);
+  void visitBlock(Block node) {
+    super.visitBlock(node);
 
-    if (node.block.statements.length < 2) {
+    if (node.statements.length < 2) {
       return;
     }
 
     final variableDeclarationStatement =
-        node.block.statements[node.block.statements.length - 2];
-    final returnStatement = node.block.statements.last;
+        node.statements[node.statements.length - 2];
+    final returnStatement = node.statements.last;
     if (variableDeclarationStatement is! VariableDeclarationStatement ||
         returnStatement is! ReturnStatement) {
       return;
