@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@docusaurus/core": "^2.0.0-beta.16",
-    "@docusaurus/preset-classic": "^2.0.0-beta.17",
+    "@docusaurus/preset-classic": "^2.0.0-beta.18",
     "@mdx-js/react": "^1.6.21",
     "@svgr/webpack": "^6.2.1",
     "clsx": "^1.1.1",
@@ -31,7 +31,7 @@
     "@types/react": "^17.0.43",
     "@types/react-helmet": "^6.1.5",
     "@types/react-router-dom": "^5.3.3",
-    "prettier": "2.6.0",
+    "prettier": "2.6.1",
     "typescript": "^4.6.3"
   }
 }

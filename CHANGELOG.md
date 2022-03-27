@@ -3,7 +3,7 @@
 ## Unreleased
 
 * feat: add static code diagnostics [`prefer-correct-edge-insets-constructor-rule`](https://dartcodemetrics.dev/docs/rules/flutter/prefer-correct-edge-insets-constructor).
-* fix: support index expressions for no-magic-number rule.
+* fix: support index expressions for [`no-magic-number`](https://dartcodemetrics.dev/docs/rules/common/no-magic-number) rule.
 
 ## 4.13.0
 

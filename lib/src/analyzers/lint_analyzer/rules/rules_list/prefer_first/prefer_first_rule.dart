@@ -36,11 +36,7 @@ class PreferFirstRule extends CommonRule {
     return visitor.expressions
         .map((expression) => createIssue(
               rule: this,
-              location: nodeLocation(
-                node: expression,
-                source: source,
-                withCommentOrMetadata: true,
-              ),
+              location: nodeLocation(node: expression, source: source),
               message: _warningMessage,
               replacement: _createReplacement(expression),
             ))
