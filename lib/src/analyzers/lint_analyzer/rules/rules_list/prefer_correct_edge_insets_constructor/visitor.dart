@@ -1,7 +1,5 @@
 part of 'prefer_correct_edge_insets_constructor_rule.dart';
 
-const _className = 'EdgeInsets';
-
 const _constructorNameFromLTRB = 'fromLTRB';
 const _constructorNameSymmetric = 'symmetric';
 const _constructorNameOnly = 'only';
@@ -15,26 +13,20 @@ class _Visitor extends RecursiveAstVisitor<void> {
   void visitInstanceCreationExpression(InstanceCreationExpression expression) {
     super.visitInstanceCreationExpression(expression);
 
-    final className = expression.staticType?.getDisplayString(
-      withNullability: true,
-    );
-
-    if (className == _className) {
-      final constructorName = expression.constructorName.name;
-
-      if (constructorName?.name == _constructorNameFromLTRB) {
-        _validateLTRB(expression);
-      } else if (constructorName?.name == _constructorNameSymmetric) {
-        _validateSymmetric(expression);
-      } else if (constructorName?.name == _constructorNameOnly) {
-        _validateOnly(expression);
-      }
+    final constructorName = expression.constructorName.name?.name;
+    if (constructorName == _constructorNameFromLTRB) {
+      _validateLTRB(expression);
+    } else if (constructorName == _constructorNameSymmetric) {
+      _validateSymmetric(expression);
+    } else if (constructorName == _constructorNameOnly) {
+      _validateOnly(expression);
     }
   }
 
   void _validateLTRB(InstanceCreationExpression expression) {
-    if (!expression.argumentList.arguments
-        .every((element) => element is IntegerLiteral)) {
+    if (!expression.argumentList.arguments.every(
+      (element) => element is IntegerLiteral || element is DoubleLiteral,
+    )) {
       return;
     }
 
@@ -53,12 +45,12 @@ class _Visitor extends RecursiveAstVisitor<void> {
         argumentsList.first == argumentsList.elementAt(2) &&
         argumentsList.elementAt(1) == argumentsList.elementAt(3)) {
       final params = <String>[];
-      if (argumentsList.first != '0') {
+      if (num.tryParse(argumentsList.first) != 0) {
         params.add(
           'horizontal: ${argumentsList.first}',
         );
       }
-      if (argumentsList.elementAt(1) != '0') {
+      if (num.tryParse(argumentsList.elementAt(1)) != 0) {
         params.add(
           'vertical: ${argumentsList.elementAt(1)}',
         );
@@ -69,7 +61,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
     }
 
     // EdgeInsets.fromLTRB(3,0,0,2) -> EdgeInsets.only(left: 3, bottom: 2)
-    if (argumentsList.contains('0')) {
+    if (argumentsList.contains('0') || argumentsList.contains('0.0')) {
       _ltrbToOnly(expression);
 
       return;
@@ -83,7 +75,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
         index++) {
       final argumentString =
           expression.argumentList.arguments[index].toString();
-      if (argumentString != '0') {
+      if (num.tryParse(argumentString) != 0) {
         switch (index) {
           case 0:
             params.add('left: $argumentString');
@@ -105,8 +97,9 @@ class _Visitor extends RecursiveAstVisitor<void> {
   }
 
   void _validateSymmetric(InstanceCreationExpression expression) {
-    if (!expression.argumentList.arguments
-        .every((element) => element.endToken.type == TokenType.INT)) {
+    if (!expression.argumentList.arguments.every((element) =>
+        element.endToken.type == TokenType.INT ||
+        element.endToken.type == TokenType.DOUBLE)) {
       return;
     }
 
@@ -117,11 +110,11 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
     // EdgeInsets.symmetric(horizontal: 0, vertical: 12) -> EdgeInsets.symmetric(vertical: 12)
     // EdgeInsets.symmetric(horizontal: 0, vertical: 0) -> EdgeInsets.zero
-    if (params.values.contains('0')) {
+    if (params.values.contains('0') || params.values.contains('0.0')) {
       final arguments = <String>[];
 
       for (final param in expression.argumentList.arguments) {
-        if (param.endToken.toString() != '0') {
+        if (num.tryParse(param.endToken.toString()) != 0) {
           arguments.add(
             '${param.beginToken.toString()}: ${param.endToken.toString()}',
           );
@@ -147,8 +140,9 @@ class _Visitor extends RecursiveAstVisitor<void> {
   }
 
   void _validateOnly(InstanceCreationExpression expression) {
-    if (!expression.argumentList.arguments
-        .every((element) => element.endToken.type == TokenType.INT)) {
+    if (!expression.argumentList.arguments.every((element) =>
+        element.endToken.type == TokenType.INT ||
+        element.endToken.type == TokenType.DOUBLE)) {
       return;
     }
     final params = <String, String>{};
@@ -160,11 +154,11 @@ class _Visitor extends RecursiveAstVisitor<void> {
       return;
     }
     // EdgeInsets.only(left: 0, right: 12) -> EdgeInsets.only(right: 12)
-    if (params.values.contains('0')) {
+    if (params.values.contains('0') || params.values.contains('0.0')) {
       final arg = <String>[];
 
       for (final argument in expression.argumentList.arguments) {
-        if (argument.endToken.toString() != '0') {
+        if (num.tryParse(argument.endToken.toString()) != 0) {
           arg.add(
             '${argument.beginToken.toString()}: ${argument.endToken.toString()}',
           );
@@ -206,7 +200,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
   bool _isOnlyCanBeReplacedWithAll(Map<String, String> params) =>
       params.length == 4 &&
-      params.values.first != '0' &&
+      num.tryParse(params.values.first) != 0 &&
       params.values.every((element) => element == params.values.first);
 
   bool _isOnlyCanBeReplacedWithSymmetric(Map<String, String> params) =>

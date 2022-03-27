@@ -30,9 +30,14 @@ void main() {
 
         RuleTestHelper.verifyIssues(
           issues: issues,
-          startLines: [6, 15, 19, 22, 25],
-          startColumns: [20, 15, 15, 20, 20],
+          startLines: [6, 15, 19, 22, 25, 28, 36, 44, 52, 55],
+          startColumns: [20, 15, 15, 20, 20, 20, 20, 20, 20, 20],
           messages: [
+            'Prefer using correct EdgeInsets constructor.',
+            'Prefer using correct EdgeInsets constructor.',
+            'Prefer using correct EdgeInsets constructor.',
+            'Prefer using correct EdgeInsets constructor.',
+            'Prefer using correct EdgeInsets constructor.',
             'Prefer using correct EdgeInsets constructor.',
             'Prefer using correct EdgeInsets constructor.',
             'Prefer using correct EdgeInsets constructor.',
@@ -45,6 +50,11 @@ void main() {
             'Prefer use EdgeInsets.symmetric(horizontal: 12, vertical: 10)',
             'Prefer use EdgeInsets.symmetric(vertical: 10)',
             'Prefer use EdgeInsets.symmetric(horizontal: 10)',
+            'Prefer use EdgeInsets.symmetric(horizontal: 5, vertical: 10)',
+            'Prefer use EdgeInsets.all(10.0)',
+            'Prefer use EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0)',
+            'Prefer use EdgeInsets.symmetric(vertical: 10.0)',
+            'Prefer use EdgeInsets.symmetric(horizontal: 10.0)',
           ],
           replacements: [
             'EdgeInsets.symmetric(horizontal: 5, vertical: 10)',
@@ -52,6 +62,11 @@ void main() {
             'EdgeInsets.symmetric(horizontal: 12, vertical: 10)',
             'EdgeInsets.symmetric(vertical: 10)',
             'EdgeInsets.symmetric(horizontal: 10)',
+            'EdgeInsets.symmetric(horizontal: 5, vertical: 10)',
+            'EdgeInsets.all(10.0)',
+            'EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0)',
+            'EdgeInsets.symmetric(vertical: 10.0)',
+            'EdgeInsets.symmetric(horizontal: 10.0)',
           ],
           locationTexts: [
             'const EdgeInsets.only(\n'
@@ -64,6 +79,26 @@ void main() {
             'const EdgeInsets.only(bottom: 10, right: 12, left: 12, top: 10)',
             'const EdgeInsets.only(bottom: 10, top: 10)',
             'const EdgeInsets.only(left: 10, right: 10)',
+            'const EdgeInsets.only(\n'
+                '            top: 10,\n'
+                '            left: 5,\n'
+                '            bottom: 10,\n'
+                '            right: 5,\n'
+                '          )',
+            'const EdgeInsets.only(\n'
+                '            bottom: 10.0,\n'
+                '            right: 10.0,\n'
+                '            left: 10.0,\n'
+                '            top: 10.0,\n'
+                '          )',
+            'const EdgeInsets.only(\n'
+                '            bottom: 10.0,\n'
+                '            right: 12.0,\n'
+                '            left: 12.0,\n'
+                '            top: 10.0,\n'
+                '          )',
+            'const EdgeInsets.only(bottom: 10.0, top: 10.0)',
+            'const EdgeInsets.only(left: 10.0, right: 10.0)',
           ],
         );
       });
@@ -74,9 +109,14 @@ void main() {
 
         RuleTestHelper.verifyIssues(
           issues: issues,
-          startLines: [6, 9, 12, 15, 18],
-          startColumns: [20, 20, 20, 20, 20],
+          startLines: [6, 9, 12, 15, 18, 24, 27, 30, 33, 36],
+          startColumns: [20, 20, 20, 20, 20,20, 20, 20, 20, 20],
           messages: [
+            'Prefer using correct EdgeInsets constructor.',
+            'Prefer using correct EdgeInsets constructor.',
+            'Prefer using correct EdgeInsets constructor.',
+            'Prefer using correct EdgeInsets constructor.',
+            'Prefer using correct EdgeInsets constructor.',
             'Prefer using correct EdgeInsets constructor.',
             'Prefer using correct EdgeInsets constructor.',
             'Prefer using correct EdgeInsets constructor.',
@@ -89,6 +129,11 @@ void main() {
             'Prefer use EdgeInsets.all(1)',
             'Prefer use EdgeInsets.symmetric(horizontal: 3, vertical: 2)',
             'Prefer use EdgeInsets.only(left: 3, bottom: 2)',
+            'Prefer use EdgeInsets.only(left: 1.0, top: 1.0)',
+            'Prefer use EdgeInsets.all(12.0)',
+            'Prefer use EdgeInsets.all(1.0)',
+            'Prefer use EdgeInsets.symmetric(horizontal: 3.0, vertical: 2.0)',
+            'Prefer use EdgeInsets.only(left: 3.0, bottom: 2.0)',
           ],
           replacements: [
             'EdgeInsets.only(left: 1, top: 1)',
@@ -96,6 +141,11 @@ void main() {
             'EdgeInsets.all(1)',
             'EdgeInsets.symmetric(horizontal: 3, vertical: 2)',
             'EdgeInsets.only(left: 3, bottom: 2)',
+            'EdgeInsets.only(left: 1.0, top: 1.0)',
+            'EdgeInsets.all(12.0)',
+            'EdgeInsets.all(1.0)',
+            'EdgeInsets.symmetric(horizontal: 3.0, vertical: 2.0)',
+            'EdgeInsets.only(left: 3.0, bottom: 2.0)',
           ],
           locationTexts: [
             'const EdgeInsets.fromLTRB(1, 1, 0, 0)',
@@ -103,6 +153,11 @@ void main() {
             'const EdgeInsets.fromLTRB(1, 1, 1, 1)',
             'const EdgeInsets.fromLTRB(3, 2, 3, 2)',
             'const EdgeInsets.fromLTRB(3, 0, 0, 2)',
+            'const EdgeInsets.fromLTRB(1.0, 1.0, 0.0, 0.0)',
+            'const EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 12.0)',
+            'const EdgeInsets.fromLTRB(1.0, 1.0, 1.0, 1.0)',
+            'const EdgeInsets.fromLTRB(3.0, 2.0, 3.0, 2.0)',
+            'const EdgeInsets.fromLTRB(3.0, 0.0, 0.0, 2.0)',
           ],
         );
       });
@@ -113,9 +168,12 @@ void main() {
 
         RuleTestHelper.verifyIssues(
           issues: issues,
-          startLines: [7, 11, 15],
-          startColumns: [15, 15, 15],
+          startLines: [7, 11, 15, 18, 22, 26],
+          startColumns: [15, 15, 15, 20, 20, 20],
           messages: [
+            'Prefer using correct EdgeInsets constructor.',
+            'Prefer using correct EdgeInsets constructor.',
+            'Prefer using correct EdgeInsets constructor.',
             'Prefer using correct EdgeInsets constructor.',
             'Prefer using correct EdgeInsets constructor.',
             'Prefer using correct EdgeInsets constructor.',
@@ -124,16 +182,30 @@ void main() {
             'Prefer use EdgeInsets.all(10)',
             'Prefer use EdgeInsets.symmetric(horizontal: 10)',
             'Prefer use EdgeInsets.symmetric(vertical: 10)',
+            'Prefer use EdgeInsets.all(10.0)',
+            'Prefer use EdgeInsets.symmetric(horizontal: 10.0)',
+            'Prefer use EdgeInsets.symmetric(vertical: 10.0)',
           ],
           replacements: [
             'EdgeInsets.all(10)',
             'EdgeInsets.symmetric(horizontal: 10)',
             'EdgeInsets.symmetric(vertical: 10)',
+            'EdgeInsets.all(10.0)',
+            'EdgeInsets.symmetric(horizontal: 10.0)',
+            'EdgeInsets.symmetric(vertical: 10.0)',
           ],
           locationTexts: [
             'const EdgeInsets.symmetric(horizontal: 10, vertical: 10)',
             'const EdgeInsets.symmetric(horizontal: 10, vertical: 0)',
             'const EdgeInsets.symmetric(horizontal: 0, vertical: 10)',
+            'const EdgeInsets.symmetric(\n'
+                '              horizontal: 10.0, vertical: 10.0)',
+            'const EdgeInsets.symmetric(\n'
+                '              horizontal: 10.0, vertical: 0.0)',
+            'const EdgeInsets.symmetric(\n'
+                '            horizontal: 0.0,\n'
+                '            vertical: 10.0,\n'
+                '          )',
           ],
         );
       });
