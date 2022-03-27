@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-* feat: add static code diagnostics `prefer-correct-edge-insets-constructor-rule`.
+* feat: add static code diagnostics [`prefer-correct-edge-insets-constructor-rule`](https://dartcodemetrics.dev/docs/rules/flutter/prefer-correct-edge-insets-constructor).
 
 ## 4.13.0
 

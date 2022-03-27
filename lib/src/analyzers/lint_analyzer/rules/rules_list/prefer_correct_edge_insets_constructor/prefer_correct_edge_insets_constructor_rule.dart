@@ -38,7 +38,6 @@ class PreferCorrectEdgeInsetsConstructorRule extends FlutterRule {
               location: nodeLocation(
                 node: expression.key,
                 source: source,
-                withCommentOrMetadata: true,
               ),
               message: _issueMessage,
               replacement: _createReplacement(expression.value),

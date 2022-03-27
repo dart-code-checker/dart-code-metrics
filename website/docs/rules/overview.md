@@ -185,6 +185,10 @@ Rules configuration is [described here](../getting-started/configuration#configu
 
     Warns when used non const border radius.
 
+- [prefer-correct-edge-insets-constructor](./flutter/prefer-correct-edge-insets-constructor.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
+
+    Prefer correct EdgeInsets constructor.
+
 - [prefer-extracting-callbacks](./flutter/prefer-extracting-callbacks.md) &nbsp; [![Configurable](https://img.shields.io/badge/-configurable-informational)](./flutter/prefer-extracting-callbacks.md#config-example)
 
     Warns about inline callbacks in a widget tree and suggest to extract them to a widget method.
