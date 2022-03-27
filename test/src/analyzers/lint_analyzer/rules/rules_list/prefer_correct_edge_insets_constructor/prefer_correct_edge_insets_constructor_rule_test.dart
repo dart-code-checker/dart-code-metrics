@@ -110,7 +110,7 @@ void main() {
         RuleTestHelper.verifyIssues(
           issues: issues,
           startLines: [6, 9, 12, 15, 18, 24, 27, 30, 33, 36],
-          startColumns: [20, 20, 20, 20, 20,20, 20, 20, 20, 20],
+          startColumns: [20, 20, 20, 20, 20, 20, 20, 20, 20, 20],
           messages: [
             'Prefer using correct EdgeInsets constructor.',
             'Prefer using correct EdgeInsets constructor.',
