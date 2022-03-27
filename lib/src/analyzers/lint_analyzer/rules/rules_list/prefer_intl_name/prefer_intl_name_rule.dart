@@ -51,11 +51,7 @@ class PreferIntlNameRule extends IntlRule {
 
         return createIssue(
           rule: this,
-          location: nodeLocation(
-            node: issue.node,
-            source: source,
-            withCommentOrMetadata: true,
-          ),
+          location: nodeLocation(node: issue.node, source: source),
           message: '$_notCorrectNameFailure $correction.',
           replacement: Replacement(
             comment: _notCorrectNameCorrectionComment,
@@ -67,11 +63,7 @@ class PreferIntlNameRule extends IntlRule {
           .whereType<_NotExistNameIssue>()
           .map((issue) => createIssue(
                 rule: this,
-                location: nodeLocation(
-                  node: issue.node,
-                  source: source,
-                  withCommentOrMetadata: true,
-                ),
+                location: nodeLocation(node: issue.node, source: source),
                 message: _notExistsNameFailure,
               )),
     ];
