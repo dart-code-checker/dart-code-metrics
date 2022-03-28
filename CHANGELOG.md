@@ -3,12 +3,13 @@
 ## Unreleased
 
 * feat: add static code diagnostics [`prefer-correct-edge-insets-constructor-rule`](https://dartcodemetrics.dev/docs/rules/flutter/prefer-correct-edge-insets-constructor).
+* fix: cover more cases in [`prefer-immediate-return`](https://dartcodemetrics.dev/docs/rules/common/prefer-immediate-return) rule
 * fix: support index expressions for [`no-magic-number`](https://dartcodemetrics.dev/docs/rules/common/no-magic-number) rule.
 
 ## 4.13.0
 
 * feat: add [Checkstyle](https://dartcodemetrics.dev/docs/cli/analyze#checkstyle) format reporter.
-* feat: add [prefer-immediate-return](https://dartcodemetrics.dev/docs/rules/common/prefer-immediate-return) rule
+* feat: add [`prefer-immediate-return`](https://dartcodemetrics.dev/docs/rules/common/prefer-immediate-return) rule
 
 ## 4.12.0
 
