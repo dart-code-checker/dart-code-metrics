@@ -12,7 +12,7 @@ Style
 
 ## Description {#description}
 
-If 0 values are mostly passed into EdgeInsets.fromLTRB then it makes sense to use EdgeInsets.only for only the values that are to be used. Also if there are symmetric values passed into EdgeInsets.fromLTRB or EdgeInsets.only then it makes sense to convert this into the EdgeInsets.symmetric equivalent.
+If any value, passed to EdgeInsets.fromLTRB, equals 0, then EdgeInsets.fromLTRB should be replaced with EdgeInsets.only passing all non-zero values. If passed values are symmetric, then EdgeInsets.fromLTRB or EdgeInsets.only should be replaced with EdgeInsets.symmetric.
 
 ### Example {#example}
 

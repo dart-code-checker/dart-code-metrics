@@ -12,17 +12,17 @@ class MyWidget extends StatelessWidget {
         ),
         Container(
           padding:
-              const EdgeInsets.only(bottom: 10, right: 10, left: 10, top: 10),
+              const EdgeInsets.only(bottom: 10, right: 10, left: 10, top: 10), // LINT
         ),
         Container(
           padding:
-              const EdgeInsets.only(bottom: 10, right: 12, left: 12, top: 10),
+              const EdgeInsets.only(bottom: 10, right: 12, left: 12, top: 10), // LINT
         ),
         Container(
-          padding: const EdgeInsets.only(bottom: 10, top: 10),
+          padding: const EdgeInsets.only(bottom: 10, top: 10), // LINT
         ),
         Container(
-          padding: const EdgeInsets.only(left: 10, right: 10),
+          padding: const EdgeInsets.only(left: 10, right: 10), // LINT
         ),
         Container(
           padding: const EdgeInsets.only(
@@ -38,7 +38,7 @@ class MyWidget extends StatelessWidget {
             right: 10.0,
             left: 10.0,
             top: 10.0,
-          ),
+          ), // LINT
         ),
         Container(
           padding: const EdgeInsets.only(
@@ -46,13 +46,13 @@ class MyWidget extends StatelessWidget {
             right: 12.0,
             left: 12.0,
             top: 10.0,
-          ),
+          ), // LINT
         ),
         Container(
-          padding: const EdgeInsets.only(bottom: 10.0, top: 10.0),
+          padding: const EdgeInsets.only(bottom: 10.0, top: 10.0), // LINT
         ),
         Container(
-          padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+          padding: const EdgeInsets.only(left: 10.0, right: 10.0), // LINT
         ),
       ]);
 }
