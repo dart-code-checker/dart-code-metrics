@@ -30,8 +30,8 @@ void main() {
 
         RuleTestHelper.verifyIssues(
           issues: issues,
-          startLines: [6, 15, 19, 22, 25, 28, 36, 44, 52, 55],
-          startColumns: [20, 15, 15, 20, 20, 20, 20, 20, 20, 20],
+          startLines: [6, 14, 18, 22, 25, 28, 36, 44, 52, 55],
+          startColumns: [20, 20, 20, 20, 20, 20, 20, 20, 20, 20],
           messages: [
             'Prefer using correct EdgeInsets constructor.',
             'Prefer using correct EdgeInsets constructor.',
@@ -75,8 +75,10 @@ void main() {
                 '            bottom: 10,\n'
                 '            right: 5,\n'
                 '          )',
-            'const EdgeInsets.only(bottom: 10, right: 10, left: 10, top: 10)',
-            'const EdgeInsets.only(bottom: 10, right: 12, left: 12, top: 10)',
+            'const EdgeInsets.only(\n'
+                '              bottom: 10, right: 10, left: 10, top: 10)',
+            'const EdgeInsets.only(\n'
+                '              bottom: 10, right: 12, left: 12, top: 10)',
             'const EdgeInsets.only(bottom: 10, top: 10)',
             'const EdgeInsets.only(left: 10, right: 10)',
             'const EdgeInsets.only(\n'

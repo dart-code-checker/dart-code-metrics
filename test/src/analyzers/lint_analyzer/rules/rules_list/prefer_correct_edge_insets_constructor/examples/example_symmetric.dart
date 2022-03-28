@@ -28,5 +28,14 @@ class MyWidget extends StatelessWidget {
             vertical: 10.0,
           ), // LINT
         ),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 2),
+        ),
+        Container(
+          padding: const EdgeInsets.symmetric(vertical: 2),
+        ),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
+        ),
       ]);
 }

@@ -38,6 +38,15 @@ class MyWidget extends StatelessWidget {
         Container(
           padding: EdgeInsets.fromLTRB(3.0, _test, 2 - 2, test()), // LINT
         ),
+        Container(
+          padding: EdgeInsets.fromLTRB(3, 4, 5, 6),
+        ),
+        Container(
+          padding: EdgeInsets.fromLTRB(3, 4, 4, 6),
+        ),
+        Container(
+          padding: EdgeInsets.fromLTRB(6, 4, 5, 6),
+        ),
       ]);
 }
 
