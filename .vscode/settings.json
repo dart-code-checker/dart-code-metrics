@@ -9,6 +9,7 @@
         "Checkstyle",
         "codeclimate",
         "codecov",
+        "codemagic",
         "codequality",
         "commitlint",
         "cyclomatic",

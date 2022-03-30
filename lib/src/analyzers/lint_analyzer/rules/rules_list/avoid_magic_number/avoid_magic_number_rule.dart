@@ -43,13 +43,10 @@ class AvoidMagicNumberRule extends CommonRule {
         .where(_isNotInsideConstMap)
         .where(_isNotInsideConstConstructor)
         .where(_isNotInDateTime)
+        .where(_isNotInsideIndexExpression)
         .map((lit) => createIssue(
               rule: this,
-              location: nodeLocation(
-                node: lit,
-                source: source,
-                withCommentOrMetadata: true,
-              ),
+              location: nodeLocation(node: lit, source: source),
               message: _warningMessage,
             ))
         .toList(growable: false);
@@ -86,4 +83,6 @@ class AvoidMagicNumberRule extends CommonRule {
       l.thisOrAncestorMatching((ancestor) =>
           ancestor is InstanceCreationExpression && ancestor.isConst) ==
       null;
+
+  bool _isNotInsideIndexExpression(Literal l) => l.parent is! IndexExpression;
 }

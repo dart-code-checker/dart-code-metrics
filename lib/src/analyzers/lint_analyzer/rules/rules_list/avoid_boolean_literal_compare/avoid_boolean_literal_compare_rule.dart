@@ -66,11 +66,7 @@ class AvoidBooleanLiteralCompareRule extends CommonRule {
 
       issues.add(createIssue(
         rule: this,
-        location: nodeLocation(
-          node: expression,
-          source: source,
-          withCommentOrMetadata: true,
-        ),
+        location: nodeLocation(node: expression, source: source),
         message: _warning,
         replacement: Replacement(
           comment: useDirect ? _useItDirectly : _negate,

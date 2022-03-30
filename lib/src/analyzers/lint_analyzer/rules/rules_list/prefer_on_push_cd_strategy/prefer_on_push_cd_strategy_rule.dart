@@ -36,11 +36,7 @@ class PreferOnPushCdStrategyRule extends AngularRule {
     return visitor.expression
         .map((expression) => createIssue(
               rule: this,
-              location: nodeLocation(
-                node: expression,
-                source: source,
-                withCommentOrMetadata: true,
-              ),
+              location: nodeLocation(node: expression, source: source),
               message: _failure,
             ))
         .toList(growable: false);

@@ -43,11 +43,7 @@ class ProvideCorrectIntlArgsRule extends IntlRule {
     return visitor.issues
         .map((issue) => createIssue(
               rule: this,
-              location: nodeLocation(
-                node: issue.node,
-                source: source,
-                withCommentOrMetadata: true,
-              ),
+              location: nodeLocation(node: issue.node, source: source),
               message: issue.nameFailure!,
             ))
         .toList();

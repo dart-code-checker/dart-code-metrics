@@ -38,11 +38,7 @@ class AvoidEqualArgumentsRule extends CommonRule {
     return visitor.arguments
         .map((argument) => createIssue(
               rule: this,
-              location: nodeLocation(
-                node: argument,
-                source: source,
-                withCommentOrMetadata: true,
-              ),
+              location: nodeLocation(node: argument, source: source),
               message: _warningMessage,
             ))
         .toList(growable: false);

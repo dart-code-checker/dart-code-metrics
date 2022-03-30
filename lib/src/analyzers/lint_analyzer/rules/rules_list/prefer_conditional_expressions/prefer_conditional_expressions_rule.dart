@@ -40,11 +40,7 @@ class PreferConditionalExpressionsRule extends CommonRule {
         .map(
           (info) => createIssue(
             rule: this,
-            location: nodeLocation(
-              node: info.statement,
-              source: source,
-              withCommentOrMetadata: true,
-            ),
+            location: nodeLocation(node: info.statement, source: source),
             message: _warningMessage,
             replacement: _createReplacement(info),
           ),

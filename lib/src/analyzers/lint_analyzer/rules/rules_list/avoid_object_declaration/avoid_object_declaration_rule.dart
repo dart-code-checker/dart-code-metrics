@@ -36,11 +36,7 @@ class AvoidObjectDeclarationRule extends CommonRule {
         .map(
           (member) => createIssue(
             rule: this,
-            location: nodeLocation(
-              node: member,
-              source: source,
-              withCommentOrMetadata: true,
-            ),
+            location: nodeLocation(node: member, source: source),
             message: _warningMessage,
           ),
         )

@@ -1,16 +1,21 @@
 # Changelog
 
-## Unreleased
+## Unreleased Major
 
 * **Breaking Change:** cli arguments `--fatal-unused` and `--fatal-warnings` activate by default.
 * **Breaking Change:** rename rules prefixed with `no-` to use `avoid-` prefix.
 * chore: restrict `analyzer` version to `>=3.3.0 <3.4.0`.
 * chore: restrict `analyzer_plugin` version to `>=0.9.0 <0.10.0`.
 
+## Unreleased
+
+* fix: cover more cases in [`prefer-immediate-return`](https://dartcodemetrics.dev/docs/rules/common/prefer-immediate-return) rule
+* fix: support index expressions for [`no-magic-number`](https://dartcodemetrics.dev/docs/rules/common/no-magic-number) rule.
+
 ## 4.13.0
 
 * feat: add [Checkstyle](https://dartcodemetrics.dev/docs/cli/analyze#checkstyle) format reporter.
-* feat: add [prefer-immediate-return](https://dartcodemetrics.dev/docs/rules/common/prefer-immediate-return) rule
+* feat: add [`prefer-immediate-return`](https://dartcodemetrics.dev/docs/rules/common/prefer-immediate-return) rule
 
 ## 4.12.0
 
