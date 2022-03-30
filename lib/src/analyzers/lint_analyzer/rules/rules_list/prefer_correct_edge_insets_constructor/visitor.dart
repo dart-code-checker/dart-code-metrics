@@ -25,17 +25,24 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
   void _validateLTRB(InstanceCreationExpression expression) {
     if (!expression.argumentList.arguments.every(
-      (element) => element is IntegerLiteral || element is DoubleLiteral,
+          (element) => element is IntegerLiteral || element is DoubleLiteral,
     )) {
       return;
     }
 
     final argumentsList =
-        expression.argumentList.arguments.map((e) => e.toString());
+    expression.argumentList.arguments.map((e) => e.toString());
+
+    // EdgeInsets.fromLTRB(0,0,0,0) -> EdgeInsets.zero
+    if (argumentsList.every((element) => num.tryParse(element) == 0)) {
+      _expressions[expression] = _replaceWithZero();
+
+      return;
+    }
 
     // EdgeInsets.fromLTRB(12,12,12,12) -> EdgeInsets.all(12)
     if (argumentsList.every((element) => element == argumentsList.first)) {
-      _expressions[expression] = 'EdgeInsets.all(${argumentsList.first})';
+      _expressions[expression] = _replaceWithAll(argumentsList.first);
 
       return;
     }
@@ -55,7 +62,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
           'vertical: ${argumentsList.elementAt(1)}',
         );
       }
-      _expressions[expression] = 'EdgeInsets.symmetric(${params.join(', ')})';
+      _expressions[expression] = _replaceWithSymmetric(params.join(', '));
 
       return;
     }
@@ -71,10 +78,10 @@ class _Visitor extends RecursiveAstVisitor<void> {
   void _ltrbToOnly(InstanceCreationExpression expression) {
     final params = <String>[];
     for (var index = 0;
-        index < expression.argumentList.arguments.length;
-        index++) {
+    index < expression.argumentList.arguments.length;
+    index++) {
       final argumentString =
-          expression.argumentList.arguments[index].toString();
+      expression.argumentList.arguments[index].toString();
       if (num.tryParse(argumentString) != 0) {
         switch (index) {
           case 0:
@@ -93,12 +100,12 @@ class _Visitor extends RecursiveAstVisitor<void> {
       }
     }
 
-    _expressions[expression] = 'EdgeInsets.only(${params.join(', ')})';
+    _expressions[expression] = _replaceWithOnly(params.join(', '));
   }
 
   void _validateSymmetric(InstanceCreationExpression expression) {
     if (!expression.argumentList.arguments.every((element) =>
-        element.endToken.type == TokenType.INT ||
+    element.endToken.type == TokenType.INT ||
         element.endToken.type == TokenType.DOUBLE)) {
       return;
     }
@@ -111,21 +118,12 @@ class _Visitor extends RecursiveAstVisitor<void> {
     // EdgeInsets.symmetric(horizontal: 0, vertical: 12) -> EdgeInsets.symmetric(vertical: 12)
     // EdgeInsets.symmetric(horizontal: 0, vertical: 0) -> EdgeInsets.zero
     if (params.values.contains('0') || params.values.contains('0.0')) {
-      final arguments = <String>[];
-
-      for (final param in expression.argumentList.arguments) {
-        if (num.tryParse(param.endToken.toString()) != 0) {
-          arguments.add(
-            '${param.beginToken.toString()}: ${param.endToken.toString()}',
-          );
-        }
-      }
+      final arguments = _stringArgumentsFromExpression(expression);
 
       if (arguments.isEmpty) {
-        _expressions[expression] = 'EdgeInsets.zero';
+        _expressions[expression] = _replaceWithZero();
       } else {
-        _expressions[expression] =
-            'EdgeInsets.symmetric(${arguments.join(', ')})';
+        _expressions[expression] = _replaceWithSymmetric(arguments.join(', '));
       }
 
       return;
@@ -133,7 +131,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
     // EdgeInsets.symmetric(horizontal: 12, vertical: 12) -> EdgeInsets.all(12)
     if (params['horizontal'] == params['vertical']) {
-      _expressions[expression] = 'EdgeInsets.all(${params['horizontal']})';
+      _expressions[expression] = _replaceWithAll(params['horizontal']);
 
       return;
     }
@@ -141,7 +139,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
   void _validateOnly(InstanceCreationExpression expression) {
     if (!expression.argumentList.arguments.every((element) =>
-        element.endToken.type == TokenType.INT ||
+    element.endToken.type == TokenType.INT ||
         element.endToken.type == TokenType.DOUBLE)) {
       return;
     }
@@ -155,18 +153,10 @@ class _Visitor extends RecursiveAstVisitor<void> {
     }
     // EdgeInsets.only(left: 0, right: 12) -> EdgeInsets.only(right: 12)
     if (params.values.contains('0') || params.values.contains('0.0')) {
-      final arg = <String>[];
+      final params = _stringArgumentsFromExpression(expression);
 
-      for (final argument in expression.argumentList.arguments) {
-        if (num.tryParse(argument.endToken.toString()) != 0) {
-          arg.add(
-            '${argument.beginToken.toString()}: ${argument.endToken.toString()}',
-          );
-        }
-      }
-
-      if (arg.isNotEmpty) {
-        _expressions[expression] = 'EdgeInsets.only(${arg.join(', ')})';
+      if (params.isNotEmpty) {
+        _expressions[expression] = _replaceWithOnly(params.join(', '));
 
         return;
       } else {
@@ -175,46 +165,69 @@ class _Visitor extends RecursiveAstVisitor<void> {
     }
     // EdgeInsets.only(bottom: 10, right: 10, left: 10, top:10) -> EdgeInsets.all(10)
     if (_isOnlyCanBeReplacedWithAll(params)) {
-      _expressions[expression] = 'EdgeInsets.all(${params.values.first})';
+      _expressions[expression] = _replaceWithAll(params.values.first);
 
       return;
     }
     // EdgeInsets.only(bottom: 10, right: 12, left: 12, top:10) -> EdgeInsets.symmetric(horizontal: 12, vertical: 10)
     if (_isOnlyCanBeReplacedWithSymmetric(params)) {
-      _expressions[expression] =
-          'EdgeInsets.symmetric(horizontal: ${params['left']}, vertical: ${params['top']})';
+      final param = 'horizontal: ${params['left']}, vertical: ${params['top']}';
+      _expressions[expression] = _replaceWithSymmetric(param);
 
       return;
     }
     // EdgeInsets.only(bottom: 10, top:10) -> EdgeInsets.symmetric(vertical: 10)
     if (_isOnlyCanBeReplacedWithVertical(params)) {
-      _expressions[expression] =
-          'EdgeInsets.symmetric(vertical: ${params['top']})';
+      final param = 'vertical: ${params['top']}';
+      _expressions[expression] = _replaceWithSymmetric(param);
     }
     // EdgeInsets.only(left: 10, right:10) -> EdgeInsets.symmetric(horizontal: 10)
     if (_isOnlyCanBeReplacedWithHorizontal(params)) {
-      _expressions[expression] =
-          'EdgeInsets.symmetric(horizontal: ${params['left']})';
+      final param = 'horizontal: ${params['left']}';
+      _expressions[expression] = _replaceWithSymmetric(param);
     }
   }
 
   bool _isOnlyCanBeReplacedWithAll(Map<String, String> params) =>
       params.length == 4 &&
-      num.tryParse(params.values.first) != 0 &&
-      params.values.every((element) => element == params.values.first);
+          num.tryParse(params.values.first) != 0 &&
+          params.values.every((element) => element == params.values.first);
 
   bool _isOnlyCanBeReplacedWithSymmetric(Map<String, String> params) =>
       params.length == 4 &&
-      params['top'] == params['bottom'] &&
-      params['left'] == params['right'];
+          params['top'] == params['bottom'] &&
+          params['left'] == params['right'];
 
   bool _isOnlyCanBeReplacedWithVertical(Map<String, String> params) =>
       params.length == 2 &&
-      params['top'] != null &&
-      params['top'] == params['bottom'];
+          params['top'] != null &&
+          params['top'] == params['bottom'];
 
   bool _isOnlyCanBeReplacedWithHorizontal(Map<String, String> params) =>
       params.length == 2 &&
-      params['left'] != null &&
-      params['left'] == params['right'];
+          params['left'] != null &&
+          params['left'] == params['right'];
+
+  List<String> _stringArgumentsFromExpression(
+      InstanceCreationExpression expression,
+      ) {
+    final arguments = <String>[];
+    for (final expression in expression.argumentList.arguments) {
+      if (num.tryParse(expression.endToken.toString()) != 0) {
+        final name = expression.beginToken.toString();
+        final value = expression.endToken.toString();
+        arguments.add('$name: $value');
+      }
+    }
+
+    return arguments;
+  }
+
+  String _replaceWithZero() => 'EdgeInsets.zero';
+
+  String _replaceWithAll(String? param) => 'EdgeInsets.all($param)';
+
+  String _replaceWithOnly(String? param) => 'EdgeInsets.only($param)';
+
+  String _replaceWithSymmetric(String? param) => 'EdgeInsets.symmetric($param)';
 }
