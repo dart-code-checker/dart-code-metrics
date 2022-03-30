@@ -25,13 +25,13 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
   void _validateLTRB(InstanceCreationExpression expression) {
     if (!expression.argumentList.arguments.every(
-          (element) => element is IntegerLiteral || element is DoubleLiteral,
+      (element) => element is IntegerLiteral || element is DoubleLiteral,
     )) {
       return;
     }
 
     final argumentsList =
-    expression.argumentList.arguments.map((e) => e.toString());
+        expression.argumentList.arguments.map((e) => e.toString());
 
     // EdgeInsets.fromLTRB(0,0,0,0) -> EdgeInsets.zero
     if (argumentsList.every((element) => num.tryParse(element) == 0)) {
@@ -78,10 +78,10 @@ class _Visitor extends RecursiveAstVisitor<void> {
   void _ltrbToOnly(InstanceCreationExpression expression) {
     final params = <String>[];
     for (var index = 0;
-    index < expression.argumentList.arguments.length;
-    index++) {
+        index < expression.argumentList.arguments.length;
+        index++) {
       final argumentString =
-      expression.argumentList.arguments[index].toString();
+          expression.argumentList.arguments[index].toString();
       if (num.tryParse(argumentString) != 0) {
         switch (index) {
           case 0:
@@ -105,7 +105,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
   void _validateSymmetric(InstanceCreationExpression expression) {
     if (!expression.argumentList.arguments.every((element) =>
-    element.endToken.type == TokenType.INT ||
+        element.endToken.type == TokenType.INT ||
         element.endToken.type == TokenType.DOUBLE)) {
       return;
     }
@@ -139,7 +139,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
   void _validateOnly(InstanceCreationExpression expression) {
     if (!expression.argumentList.arguments.every((element) =>
-    element.endToken.type == TokenType.INT ||
+        element.endToken.type == TokenType.INT ||
         element.endToken.type == TokenType.DOUBLE)) {
       return;
     }
@@ -190,27 +190,27 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
   bool _isOnlyCanBeReplacedWithAll(Map<String, String> params) =>
       params.length == 4 &&
-          num.tryParse(params.values.first) != 0 &&
-          params.values.every((element) => element == params.values.first);
+      num.tryParse(params.values.first) != 0 &&
+      params.values.every((element) => element == params.values.first);
 
   bool _isOnlyCanBeReplacedWithSymmetric(Map<String, String> params) =>
       params.length == 4 &&
-          params['top'] == params['bottom'] &&
-          params['left'] == params['right'];
+      params['top'] == params['bottom'] &&
+      params['left'] == params['right'];
 
   bool _isOnlyCanBeReplacedWithVertical(Map<String, String> params) =>
       params.length == 2 &&
-          params['top'] != null &&
-          params['top'] == params['bottom'];
+      params['top'] != null &&
+      params['top'] == params['bottom'];
 
   bool _isOnlyCanBeReplacedWithHorizontal(Map<String, String> params) =>
       params.length == 2 &&
-          params['left'] != null &&
-          params['left'] == params['right'];
+      params['left'] != null &&
+      params['left'] == params['right'];
 
   List<String> _stringArgumentsFromExpression(
-      InstanceCreationExpression expression,
-      ) {
+    InstanceCreationExpression expression,
+  ) {
     final arguments = <String>[];
     for (final expression in expression.argumentList.arguments) {
       if (num.tryParse(expression.endToken.toString()) != 0) {
