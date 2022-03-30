@@ -4,6 +4,7 @@
 
 * fix: cover more cases in [`prefer-immediate-return`](https://dartcodemetrics.dev/docs/rules/common/prefer-immediate-return) rule
 * fix: support index expressions for [`no-magic-number`](https://dartcodemetrics.dev/docs/rules/common/no-magic-number) rule.
+* fix: add check for supertypes for [`avoid-non-null-assertions`](https://dartcodemetrics.dev/docs/rules/common/avoid-non-null-assertion) rule.
 
 ## 4.13.0
 
