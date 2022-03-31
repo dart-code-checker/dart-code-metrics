@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - master
+      - next-major
     paths:
       - "bin/**"
       - "example/**"
@@ -18,6 +19,7 @@ on:
   push:
     branches:
       - master
+      - next-major
     paths:
       - "bin/**"
       - "example/**"
