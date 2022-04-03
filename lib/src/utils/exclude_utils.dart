@@ -16,6 +16,5 @@ Iterable<Glob> prepareExcludes(
             Glob(p.normalize(p.join(root, exclude)).replaceAll(r'\', '/')))
         .toList();
 
-Iterable<String> extractExcludes(String excludePath) => excludePath.isNotEmpty
-    ? excludePath.split(',').map((path) => path.trim())
-    : [];
+Iterable<String> extractExcludes(String excludePath) =>
+    excludePath.split(',').map((path) => path.trim());
