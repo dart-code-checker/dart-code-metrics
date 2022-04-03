@@ -1,6 +1,10 @@
 part of 'prefer_correct_edge_insets_constructor_rule.dart';
 
+const _className = 'EdgeInsets';
+const _classNameDirection = 'EdgeInsetsDirectional';
+
 const _constructorNameFromLTRB = 'fromLTRB';
+const _constructorNameFromSTEB = 'fromSTEB';
 const _constructorNameSymmetric = 'symmetric';
 const _constructorNameOnly = 'only';
 
@@ -12,14 +16,23 @@ class _Visitor extends RecursiveAstVisitor<void> {
   @override
   void visitInstanceCreationExpression(InstanceCreationExpression expression) {
     super.visitInstanceCreationExpression(expression);
-
+    final className =
+        expression.staticType?.getDisplayString(withNullability: true);
     final constructorName = expression.constructorName.name?.name;
-    if (constructorName == _constructorNameFromLTRB) {
-      _validateLTRB(expression);
-    } else if (constructorName == _constructorNameSymmetric) {
-      _validateSymmetric(expression);
-    } else if (constructorName == _constructorNameOnly) {
-      _validateOnly(expression);
+
+    if (className == _classNameDirection &&
+        constructorName == _constructorNameOnly) {
+      _validateEdgeInsetsDirectionalOnly(expression);
+    } else if (className == _className || className == _classNameDirection) {
+      if (constructorName == _constructorNameFromLTRB) {
+        _validateLTRB(expression);
+      } else if (constructorName == _constructorNameSymmetric) {
+        _validateSymmetric(expression);
+      } else if (constructorName == _constructorNameOnly) {
+        _validateOnly(expression);
+      } else if (constructorName == _constructorNameFromSTEB) {
+        _validateSTEB(expression);
+      }
     }
   }
 
@@ -75,6 +88,59 @@ class _Visitor extends RecursiveAstVisitor<void> {
     }
   }
 
+  void _validateSTEB(InstanceCreationExpression expression) {
+    if (!expression.argumentList.arguments.every(
+      (element) => element is IntegerLiteral || element is DoubleLiteral,
+    )) {
+      return;
+    }
+
+    final argumentsList =
+        expression.argumentList.arguments.map((e) => e.toString());
+
+    // EdgeInsets.fromSTEB(0,0,0,0) -> EdgeInsets.zero
+    if (argumentsList.every((element) => num.tryParse(element) == 0)) {
+      _expressions[expression] = _replaceWithZero();
+
+      return;
+    }
+
+    // EdgeInsets.fromSTEB(12,12,12,12) -> EdgeInsetsDirectional.all(12)
+    if (argumentsList.every((element) => element == argumentsList.first)) {
+      _expressions[expression] =
+          _replaceWithEdgeInsetsDirectionalAll(argumentsList.first);
+
+      return;
+    }
+
+    // EdgeInsets.fromSTEB(3,2,3,2) -> EdgeInsets.symmetric(horizontal: 3, vertical: 2)
+    if (argumentsList.length == 4 &&
+        argumentsList.first == argumentsList.elementAt(2) &&
+        argumentsList.elementAt(1) == argumentsList.elementAt(3)) {
+      final params = <String>[];
+      if (num.tryParse(argumentsList.first) != 0) {
+        params.add(
+          'horizontal: ${argumentsList.first}',
+        );
+      }
+      if (num.tryParse(argumentsList.elementAt(1)) != 0) {
+        params.add(
+          'vertical: ${argumentsList.elementAt(1)}',
+        );
+      }
+      _expressions[expression] = _replaceWithSymmetric(params.join(', '));
+
+      return;
+    }
+
+    // EdgeInsets.fromSTEB(3,0,0,2) -> EdgeInsetsDirectional.only(left: 3, bottom: 2)
+    if (argumentsList.contains('0') || argumentsList.contains('0.0')) {
+      _stebToOnly(expression);
+
+      return;
+    }
+  }
+
   void _ltrbToOnly(InstanceCreationExpression expression) {
     final params = <String>[];
     for (var index = 0;
@@ -103,18 +169,41 @@ class _Visitor extends RecursiveAstVisitor<void> {
     _expressions[expression] = _replaceWithOnly(params.join(', '));
   }
 
+  void _stebToOnly(InstanceCreationExpression expression) {
+    final params = <String>[];
+    for (var index = 0;
+        index < expression.argumentList.arguments.length;
+        index++) {
+      final argumentString =
+          expression.argumentList.arguments[index].toString();
+      if (num.tryParse(argumentString) != 0) {
+        switch (index) {
+          case 0:
+            params.add('start: $argumentString');
+            break;
+          case 1:
+            params.add('top: $argumentString');
+            break;
+          case 2:
+            params.add('end: $argumentString');
+            break;
+          case 3:
+            params.add('bottom: $argumentString');
+            break;
+        }
+      }
+    }
+
+    _expressions[expression] =
+        _replaceWithEdgeInsetsDirectionalOnly(params.join(', '));
+  }
+
   void _validateSymmetric(InstanceCreationExpression expression) {
-    if (!expression.argumentList.arguments.every((element) =>
-        element.endToken.type == TokenType.INT ||
-        element.endToken.type == TokenType.DOUBLE)) {
+    final params = _getNamedParams(expression);
+
+    if (params.isEmpty) {
       return;
     }
-
-    final params = <String, String>{};
-    for (final param in expression.argumentList.arguments) {
-      params[param.beginToken.toString()] = param.endToken.toString();
-    }
-
     // EdgeInsets.symmetric(horizontal: 0, vertical: 12) -> EdgeInsets.symmetric(vertical: 12)
     // EdgeInsets.symmetric(horizontal: 0, vertical: 0) -> EdgeInsets.zero
     if (params.values.contains('0') || params.values.contains('0.0')) {
@@ -138,30 +227,23 @@ class _Visitor extends RecursiveAstVisitor<void> {
   }
 
   void _validateOnly(InstanceCreationExpression expression) {
-    if (!expression.argumentList.arguments.every((element) =>
-        element.endToken.type == TokenType.INT ||
-        element.endToken.type == TokenType.DOUBLE)) {
-      return;
-    }
-    final params = <String, String>{};
-    for (final param in expression.argumentList.arguments) {
-      params[param.beginToken.toString()] = param.endToken.toString();
-    }
+    final params = _getNamedParams(expression);
 
     if (params.isEmpty) {
       return;
     }
+
     // EdgeInsets.only(left: 0, right: 12) -> EdgeInsets.only(right: 12)
     if (params.values.contains('0') || params.values.contains('0.0')) {
       final params = _stringArgumentsFromExpression(expression);
 
       if (params.isNotEmpty) {
         _expressions[expression] = _replaceWithOnly(params.join(', '));
-
-        return;
       } else {
-        return;
+        _expressions[expression] = _replaceWithZero();
       }
+
+      return;
     }
     // EdgeInsets.only(bottom: 10, right: 10, left: 10, top:10) -> EdgeInsets.all(10)
     if (_isOnlyCanBeReplacedWithAll(params)) {
@@ -188,25 +270,102 @@ class _Visitor extends RecursiveAstVisitor<void> {
     }
   }
 
+  void _validateEdgeInsetsDirectionalOnly(
+    InstanceCreationExpression expression,
+  ) {
+    final params = _getNamedParams(expression);
+
+    if (params.isEmpty) {
+      return;
+    }
+
+    // EdgeInsetsDirectional.only(top: 0, start: 12) -> EdgeInsetsDirectional.only(start: 12)
+    if (params.values.contains('0') || params.values.contains('0.0')) {
+      final params = _stringArgumentsFromExpression(expression);
+
+      if (params.isNotEmpty) {
+        _expressions[expression] =
+            _replaceWithEdgeInsetsDirectionalOnly(params.join(', '));
+      } else {
+        _expressions[expression] = _replaceWithZero();
+      }
+
+      return;
+    }
+    // EdgeInsetsDirectional.only(start: 10, end: 10, bottom: 10, top:10) -> EdgeInsets.all(10)
+    if (_isOnlyCanBeReplacedWithAll(params)) {
+      _expressions[expression] =
+          _replaceWithEdgeInsetsDirectionalAll(params.values.first);
+
+      return;
+    }
+    // EdgeInsetsDirectional.only(start: 12, end: 12, bottom: 10, top:10) -> EdgeInsets.symmetric(horizontal: 12, vertical: 10)
+    if (_isOnlyCanBeReplacedWithSymmetric(params, isSteb: true)) {
+      final param =
+          'horizontal: ${params['start']}, vertical: ${params['top']}';
+      _expressions[expression] = _replaceWithSymmetric(param);
+
+      return;
+    }
+    // EdgeInsets.only(bottom: 10, top:10) -> EdgeInsets.symmetric(vertical: 10)
+    if (_isOnlyCanBeReplacedWithVertical(params)) {
+      final param = 'vertical: ${params['top']}';
+      _expressions[expression] = _replaceWithSymmetric(param);
+    }
+    // EdgeInsets.only(left: 10, right:10) -> EdgeInsets.symmetric(horizontal: 10)
+    if (_isOnlyCanBeReplacedWithHorizontal(params, isSteb: true)) {
+      final param = 'horizontal: ${params['start']}';
+      _expressions[expression] = _replaceWithSymmetric(param);
+    }
+  }
+
   bool _isOnlyCanBeReplacedWithAll(Map<String, String> params) =>
       params.length == 4 &&
       num.tryParse(params.values.first) != 0 &&
       params.values.every((element) => element == params.values.first);
 
-  bool _isOnlyCanBeReplacedWithSymmetric(Map<String, String> params) =>
-      params.length == 4 &&
-      params['top'] == params['bottom'] &&
-      params['left'] == params['right'];
+  bool _isOnlyCanBeReplacedWithSymmetric(
+    Map<String, String> params, {
+    bool isSteb = false,
+  }) =>
+      isSteb
+          ? params.length == 4 &&
+              params['start'] == params['end'] &&
+              params['top'] == params['bottom']
+          : params.length == 4 &&
+              params['top'] == params['bottom'] &&
+              params['left'] == params['right'];
 
   bool _isOnlyCanBeReplacedWithVertical(Map<String, String> params) =>
       params.length == 2 &&
       params['top'] != null &&
       params['top'] == params['bottom'];
 
-  bool _isOnlyCanBeReplacedWithHorizontal(Map<String, String> params) =>
-      params.length == 2 &&
-      params['left'] != null &&
-      params['left'] == params['right'];
+  bool _isOnlyCanBeReplacedWithHorizontal(
+    Map<String, String> params, {
+    bool isSteb = false,
+  }) =>
+      isSteb
+          ? params.length == 2 &&
+              params['start'] != null &&
+              params['start'] == params['end']
+          : params.length == 2 &&
+              params['left'] != null &&
+              params['left'] == params['right'];
+
+  String _replaceWithZero() => 'EdgeInsets.zero';
+
+  String _replaceWithAll(String? param) => 'EdgeInsets.all($param)';
+
+  String _replaceWithEdgeInsetsDirectionalAll(String param) =>
+      'EdgeInsetsDirectional.all($param)';
+
+  String _replaceWithOnly(String? param) => 'EdgeInsets.only($param)';
+
+  String _replaceWithEdgeInsetsDirectionalOnly(String? param) =>
+      'EdgeInsetsDirectional.only($param)';
+
+  String _replaceWithSymmetric(String? param) => 'EdgeInsets.symmetric($param)';
 
   List<String> _stringArgumentsFromExpression(
     InstanceCreationExpression expression,
@@ -223,11 +382,17 @@ class _Visitor extends RecursiveAstVisitor<void> {
     return arguments;
   }
 
-  String _replaceWithZero() => 'EdgeInsets.zero';
+  Map<String, String> _getNamedParams(InstanceCreationExpression expression) {
+    final params = <String, String>{};
 
-  String _replaceWithAll(String? param) => 'EdgeInsets.all($param)';
+    if (expression.argumentList.arguments.every((element) =>
+        element.endToken.type == TokenType.INT ||
+        element.endToken.type == TokenType.DOUBLE)) {
+      for (final param in expression.argumentList.arguments) {
+        params[param.beginToken.toString()] = param.endToken.toString();
+      }
+    }
 
-  String _replaceWithOnly(String? param) => 'EdgeInsets.only($param)';
-
-  String _replaceWithSymmetric(String? param) => 'EdgeInsets.symmetric($param)';
+    return params;
+  }
 }

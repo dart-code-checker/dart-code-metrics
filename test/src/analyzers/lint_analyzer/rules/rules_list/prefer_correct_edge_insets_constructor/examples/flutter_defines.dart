@@ -30,6 +30,39 @@ class EdgeInsets {
         bottom = vertical;
 }
 
+class EdgeInsetsDirectional {
+  final double top;
+  final double start;
+  final double end;
+  final double bottom;
+
+  const EdgeInsetsDirectional.fromSTEB(
+      this.start, this.top, this.end, this.bottom);
+
+  const EdgeInsetsDirectional.all(double value)
+      : start = value,
+        top = value,
+        end = value,
+        bottom = value;
+
+  const EdgeInsetsDirectional.only({
+    this.start = 0.0,
+    this.top = 0.0,
+    this.end = 0.0,
+    this.bottom = 0.0,
+  });
+
+  static const EdgeInsets zero = EdgeInsets.only();
+
+  const EdgeInsetsDirectional.symmetric({
+    double vertical = 0.0,
+    double horizontal = 0.0,
+  })  : start = horizontal,
+        top = vertical,
+        end = horizontal,
+        bottom = vertical;
+}
+
 class Column extends Widget {
   final List<Widget> children;
 
