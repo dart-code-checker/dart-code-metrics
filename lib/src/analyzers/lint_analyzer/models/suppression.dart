@@ -24,10 +24,9 @@ class Suppression {
       final ids = match.group(1)!.split(',').map(_canonicalize);
       final location = info.getLocation(match.start);
       final lineNumber = location.lineNumber;
-      final beforeMatch = content.substring(
-        info.getOffsetOfLine(lineNumber - 1),
-        info.getOffsetOfLine(lineNumber - 1) + location.columnNumber - 1,
-      );
+      final offset = info.getOffsetOfLine(lineNumber - 1);
+      final beforeMatch =
+          content.substring(offset, offset + location.columnNumber - 1);
 
       // If comment sits next to code, so it refers to its own line, otherwise it refers to the next line.
       final ignoredNextLine = beforeMatch.trim().isEmpty;

@@ -68,18 +68,19 @@ class MemberOrderingExtendedRule extends CommonRule {
       if (_alphabetize)
         ...membersInfo
             .where((info) => info.memberOrder.isAlphabeticallyWrong)
-            .map(
-              (info) => createIssue(
-                rule: this,
-                location: nodeLocation(
-                  node: info.classMember,
-                  source: source,
-                  withCommentOrMetadata: true,
-                ),
-                message:
-                    '${info.memberOrder.memberNames.currentName} $_warningAlphabeticalMessage ${info.memberOrder.memberNames.previousName}.',
-              ),
+            .map((info) {
+          final names = info.memberOrder.memberNames;
+          return createIssue(
+            rule: this,
+            location: nodeLocation(
+              node: info.classMember,
+              source: source,
+              withCommentOrMetadata: true,
             ),
+            message:
+                '${names.currentName} $_warningAlphabeticalMessage ${names.previousName}.',
+          );
+        }),
       if (!_alphabetize && _alphabetizeByType)
         ...membersInfo.where((info) => info.memberOrder.isByTypeWrong).map(
               (info) => createIssue(

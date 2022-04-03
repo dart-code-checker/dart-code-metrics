@@ -9,12 +9,12 @@ class _Visitor extends RecursiveAstVisitor<void> {
   void visitIsExpression(IsExpression node) {
     super.visitIsExpression(node);
 
-    if (node.notOperator != null || node.type.type is TypeParameterType) {
+    final castedType = node.type.type;
+    if (node.notOperator != null || castedType is TypeParameterType) {
       return;
     }
 
     final objectType = node.expression.staticType;
-    final castedType = node.type.type;
 
     if (_isUnrelatedTypeCheck(objectType, castedType)) {
       _expressions[node] =
@@ -90,13 +90,12 @@ class _Visitor extends RecursiveAstVisitor<void> {
       return false;
     }
 
-    if (objectType.typeArguments.length != castedType.typeArguments.length) {
+    final length = objectType.typeArguments.length;
+    if (length != castedType.typeArguments.length) {
       return false;
     }
 
-    for (var argumentIndex = 0;
-        argumentIndex < objectType.typeArguments.length;
-        argumentIndex++) {
+    for (var argumentIndex = 0; argumentIndex < length; argumentIndex++) {
       final objectGenericType = objectType.typeArguments[argumentIndex];
       final castedGenericType = castedType.typeArguments[argumentIndex];
 

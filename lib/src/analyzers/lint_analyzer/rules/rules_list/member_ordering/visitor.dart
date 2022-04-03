@@ -31,14 +31,15 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
     }
 
     for (final variable in fieldDeclaration.fields.variables) {
-      final membersGroup = Identifier.isPrivateName(variable.name.name)
+      final name = variable.name.name;
+      final membersGroup = Identifier.isPrivateName(name)
           ? _MembersGroup.privateFields
           : _MembersGroup.publicFields;
 
       if (_groupsOrder.contains(membersGroup)) {
         _membersInfo.add(_MemberInfo(
           classMember: fieldDeclaration,
-          memberOrder: _getOrder(membersGroup, variable.name.name),
+          memberOrder: _getOrder(membersGroup, name),
         ));
       }
     }
