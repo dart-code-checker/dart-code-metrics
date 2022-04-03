@@ -35,7 +35,7 @@ class CheckUnusedCodeCommand extends BaseCommand {
     final noCongratulate = argResults[FlagNames.noCongratulate] as bool;
 
     final config = ConfigBuilder.getUnusedCodeConfigFromArgs(
-      [excludePath],
+      excludePath,
       isMonorepo: isMonorepo,
     );
 

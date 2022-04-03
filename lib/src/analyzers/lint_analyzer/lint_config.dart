@@ -1,6 +1,7 @@
 import '../../cli/models/parsed_arguments.dart';
 import '../../config_builder/analysis_options_utils.dart';
 import '../../config_builder/models/analysis_options.dart';
+import '../../utils/exclude_utils.dart';
 import 'metrics/metrics_factory.dart';
 
 /// Represents raw lint config which can be merged with other raw configs.
@@ -39,8 +40,7 @@ class LintConfig {
 
   /// Creates the config from cli [arguments].
   factory LintConfig.fromArgs(ParsedArguments arguments) => LintConfig(
-        excludePatterns:
-            arguments.excludePath.isNotEmpty ? [arguments.excludePath] : [],
+        excludePatterns: extractExcludes(arguments.excludePath),
         excludeForMetricsPatterns: const [],
         metrics: {
           for (final metric in getMetrics(config: {}))

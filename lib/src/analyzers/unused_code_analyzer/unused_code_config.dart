@@ -1,4 +1,5 @@
 import '../../config_builder/models/analysis_options.dart';
+import '../../utils/exclude_utils.dart';
 
 /// Represents raw unused code config which can be merged with other raw configs.
 class UnusedCodeConfig {
@@ -23,11 +24,11 @@ class UnusedCodeConfig {
 
   /// Creates the config from cli args.
   factory UnusedCodeConfig.fromArgs(
-    Iterable<String> excludePatterns, {
+    String excludePath, {
     required bool isMonorepo,
   }) =>
       UnusedCodeConfig(
-        excludePatterns: excludePatterns,
+        excludePatterns: extractExcludes(excludePath),
         analyzerExcludePatterns: const [],
         isMonorepo: isMonorepo,
       );

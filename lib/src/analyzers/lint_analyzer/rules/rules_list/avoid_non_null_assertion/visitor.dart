@@ -19,9 +19,14 @@ class _Visitor extends RecursiveAstVisitor<void> {
     if (operand is IndexExpression) {
       final type = operand.target?.staticType;
 
-      return type != null && type.isDartCoreMap;
+      return type is InterfaceType &&
+          (_isMapOrSubclassOfMap(type) ||
+              type.allSupertypes.any(_isMapOrSubclassOfMap));
     }
 
     return false;
   }
+
+  bool _isMapOrSubclassOfMap(DartType? type) =>
+      type != null && type.isDartCoreMap;
 }

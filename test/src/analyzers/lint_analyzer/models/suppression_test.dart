@@ -19,14 +19,14 @@ void main() {
     expect(suppression.isSuppressed('rule_id3'), isTrue);
     expect(suppression.isSuppressed('rule_id4'), isFalse);
 
-    expect(suppression.isSuppressedAt('rule_id1', 5), isTrue);
-    expect(suppression.isSuppressedAt('rule_id2', 8), isTrue);
-    expect(suppression.isSuppressedAt('rule_id3', 2), isTrue);
+    expect(suppression.isSuppressedAt('rule_id1', null), isTrue);
+    expect(suppression.isSuppressedAt('rule_id2', null), isTrue);
+    expect(suppression.isSuppressedAt('rule_id3', null), isTrue);
     expect(suppression.isSuppressedAt('rule_id4', 5), isTrue);
     expect(suppression.isSuppressedAt('rule_id5', 5), isTrue);
-    expect(suppression.isSuppressedAt('rule_id6', 8), isTrue);
-    expect(suppression.isSuppressedAt('rule_id7', 8), isTrue);
-    expect(suppression.isSuppressedAt('rule_id8', 8), isTrue);
-    expect(suppression.isSuppressedAt('rule_id9', 8), isTrue);
+    expect(suppression.isSuppressedAt('rule_id6', 9), isTrue);
+    expect(suppression.isSuppressedAt('rule_id7', 9), isTrue);
+    expect(suppression.isSuppressedAt('rule_id8', 9), isTrue);
+    expect(suppression.isSuppressedAt('rule_id9', 9), isTrue);
   });
 }
