@@ -5,6 +5,7 @@
 * fix: cover more cases in [`prefer-immediate-return`](https://dartcodemetrics.dev/docs/rules/common/prefer-immediate-return) rule
 * fix: support index expressions for [`no-magic-number`](https://dartcodemetrics.dev/docs/rules/common/no-magic-number) rule.
 * chore: restrict `analyzer` version to `>=2.4.0 <3.5.0`.
+* fix: correctly handle nullable types of collections for [`avoid-collection-methods-with-unrelated-types`](https://dartcodemetrics.dev/docs/rules/common/avoid-collection-methods-with-unrelated-types)
 
 ## 4.13.0
 
