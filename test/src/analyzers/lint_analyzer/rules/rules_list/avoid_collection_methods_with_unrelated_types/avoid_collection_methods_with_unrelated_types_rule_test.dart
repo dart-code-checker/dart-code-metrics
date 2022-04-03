@@ -6,6 +6,8 @@ import '../../../../../helpers/rule_test_helper.dart';
 
 const _examplePath =
     'avoid_collection_methods_with_unrelated_types/examples/example.dart';
+const _nullableExamplePath =
+    'avoid_collection_methods_with_unrelated_types/examples/nullable_example.dart';
 
 void main() {
   group('AvoidCollectionMethodsWithUnrelatedTypesRule', () {
@@ -123,6 +125,33 @@ void main() {
           'Avoid collection methods with unrelated types.',
           'Avoid collection methods with unrelated types.',
           'Avoid collection methods with unrelated types.',
+          'Avoid collection methods with unrelated types.',
+          'Avoid collection methods with unrelated types.',
+          'Avoid collection methods with unrelated types.',
+          'Avoid collection methods with unrelated types.',
+          'Avoid collection methods with unrelated types.',
+          'Avoid collection methods with unrelated types.',
+        ],
+      );
+    });
+
+    test('reports about found issues for nullable collections', () async {
+      final unit = await RuleTestHelper.resolveFromFile(_nullableExamplePath);
+      final issues = AvoidCollectionMethodsWithUnrelatedTypesRule().check(unit);
+
+      RuleTestHelper.verifyIssues(
+        issues: issues,
+        startLines: [4, 10, 15, 20, 25, 30],
+        startColumns: [5, 5, 5, 5, 5, 5],
+        locationTexts: [
+          'regularMap[null]',
+          'nullableMap["str"]',
+          'regularList.remove(null)',
+          'nullableList.remove("str")',
+          'regularSet.contains(null)',
+          'nullableSet.contains("str")',
+        ],
+        messages: [
           'Avoid collection methods with unrelated types.',
           'Avoid collection methods with unrelated types.',
           'Avoid collection methods with unrelated types.',
