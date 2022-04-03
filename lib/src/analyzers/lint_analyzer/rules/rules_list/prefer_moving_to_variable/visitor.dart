@@ -27,7 +27,11 @@ class _BlockVisitor extends RecursiveAstVisitor<void> {
 
   @override
   void visitPropertyAccess(PropertyAccess node) {
-    final hasDuplicates = _checkForDuplicates(node, node.realTarget);
+    if (node.target == null) {
+      return;
+    }
+
+    final hasDuplicates = _checkForDuplicates(node, node.target);
     if (!hasDuplicates) {
       super.visitPropertyAccess(node);
     }
@@ -35,7 +39,11 @@ class _BlockVisitor extends RecursiveAstVisitor<void> {
 
   @override
   void visitMethodInvocation(MethodInvocation node) {
-    final hasDuplicates = _checkForDuplicates(node, node.realTarget);
+    if (node.parent is CascadeExpression) {
+      return;
+    }
+
+    final hasDuplicates = _checkForDuplicates(node, node.target);
     if (!hasDuplicates) {
       super.visitMethodInvocation(node);
     }
@@ -44,7 +52,8 @@ class _BlockVisitor extends RecursiveAstVisitor<void> {
   bool _checkForDuplicates(AstNode node, Expression? target) {
     final access = node.toString();
     final visitedInvocation = _visitedInvocations[access];
-    final isDuplicate = visitedInvocation != null && visitedInvocation != node;
+    final isDuplicate =
+        visitedInvocation != null && _isDuplicate(visitedInvocation, node);
     if (isDuplicate) {
       _duplicates.addAll([visitedInvocation!, node]);
     }
@@ -57,6 +66,33 @@ class _BlockVisitor extends RecursiveAstVisitor<void> {
     _visitAllTargets(target);
 
     return false;
+  }
+
+  bool _isDuplicate(AstNode visitedInvocation, AstNode node) {
+    final visitedSwitch =
+        visitedInvocation.thisOrAncestorOfType<SwitchStatement>();
+
+    final visitedBlock = visitedInvocation.thisOrAncestorOfType<Block>();
+    final parentBlock = node.thisOrAncestorOfType<Block>();
+
+    // ignore: avoid-late-keyword
+    late final grandParentBlock = parentBlock?.thisOrAncestorMatching(
+      (block) => block is Block && block != parentBlock,
+    );
+
+    final visitedFunctionExpression = visitedInvocation.thisOrAncestorMatching(
+      (astNode) =>
+          astNode is FunctionExpression || astNode is FunctionDeclaration,
+    );
+    final parentFunctionExpression = node.thisOrAncestorMatching((astNode) =>
+        astNode is FunctionExpression || astNode is FunctionDeclaration);
+
+    return visitedInvocation != node &&
+        visitedSwitch == null &&
+        (visitedBlock == parentBlock || visitedBlock == grandParentBlock) &&
+        (visitedFunctionExpression == null &&
+                parentFunctionExpression == null ||
+            visitedFunctionExpression == parentFunctionExpression);
   }
 
   void _visitAllTargets(Expression? target) {

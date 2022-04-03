@@ -5,6 +5,8 @@ import 'package:test/test.dart';
 import '../../../../../helpers/rule_test_helper.dart';
 
 const _examplePath = 'prefer_moving_to_variable/examples/example.dart';
+const _cascadeExamplePath =
+    'prefer_moving_to_variable/examples/cascade_example.dart';
 
 void main() {
   group('PreferMovingToVariableRule', () {
@@ -106,6 +108,13 @@ void main() {
           'Prefer moving repeated invocations to variable and use it instead.',
         ],
       );
+    });
+
+    test('reports no issues for cascade', () async {
+      final unit = await RuleTestHelper.resolveFromFile(_cascadeExamplePath);
+      final issues = PreferMovingToVariableRule().check(unit);
+
+      RuleTestHelper.verifyNoIssues(issues);
     });
   });
 }
