@@ -27,5 +27,19 @@ class Test {
     object!.method(); // LINT
 
     object?.method();
+
+    final myMap = MyMap<String, String>();
+    myMap['key']!.contains('other');
+
+    final myOtherMap = MyAnotherMap<String, String>();
+    myOtherMap['key']!.contains('other');
   }
+}
+
+class MyMap<K, V> extends Map<K, V> {
+  void doNothing() {}
+}
+
+class MyAnotherMap<K, V> implements Map<K, V> {
+  void doNothing() {}
 }

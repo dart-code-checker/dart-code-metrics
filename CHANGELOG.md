@@ -3,8 +3,12 @@
 ## Unreleased
 
 * feat: add static code diagnostics [`prefer-correct-edge-insets-constructor-rule`](https://dartcodemetrics.dev/docs/rules/flutter/prefer-correct-edge-insets-constructor).
+* feat: add static code diagnostic [`prefer-commenting-analyzer-ignores`](https://dartcodemetrics.dev/docs/rules/common/prefer-commenting-analyzer-ignores).
+* fix: add check for supertypes for [`avoid-non-null-assertions`](https://dartcodemetrics.dev/docs/rules/common/avoid-non-null-assertion) rule.
 * fix: cover more cases in [`prefer-immediate-return`](https://dartcodemetrics.dev/docs/rules/common/prefer-immediate-return) rule
 * fix: support index expressions for [`no-magic-number`](https://dartcodemetrics.dev/docs/rules/common/no-magic-number) rule.
+* fix: correctly split exclude path
+* chore: restrict `analyzer` version to `>=2.4.0 <3.5.0`.
 
 ## 4.13.0
 

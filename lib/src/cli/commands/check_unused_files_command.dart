@@ -36,7 +36,7 @@ class CheckUnusedFilesCommand extends BaseCommand {
     final deleteFiles = argResults[FlagNames.deleteFiles] as bool;
 
     final config = ConfigBuilder.getUnusedFilesConfigFromArgs(
-      [excludePath],
+      excludePath,
       isMonorepo: isMonorepo,
     );
 

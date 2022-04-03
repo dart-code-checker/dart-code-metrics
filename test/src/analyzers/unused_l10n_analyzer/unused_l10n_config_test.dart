@@ -56,7 +56,7 @@ void main() {
 
     group('fromArgs constructs instance from passed', () {
       test('data', () {
-        final config = UnusedL10nConfig.fromArgs(['hello'], 'pattern1');
+        final config = UnusedL10nConfig.fromArgs('hello', 'pattern1');
 
         expect(config.excludePatterns, equals(['hello']));
         expect(config.analyzerExcludePatterns, isEmpty);
