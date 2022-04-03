@@ -4,6 +4,7 @@ import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
+import 'package:analyzer/source/line_info.dart';
 // ignore: implementation_imports
 import 'package:analyzer/src/dart/element/element.dart';
 import 'package:path/path.dart';
@@ -233,8 +234,8 @@ class UnusedL10nAnalyzer {
   ) {
     final offset = element.codeOffset!;
 
-    // ignore: unnecessary_non_null_assertion
-    final lineInfo = unit.lineInfo!;
+    // ignore: dead_null_aware_expression
+    final lineInfo = unit.lineInfo ?? LineInfo([0]);
     final offsetLocation = lineInfo.getLocation(offset);
 
     final sourceUrl = element.source!.uri;
