@@ -1,4 +1,5 @@
 import '../../config_builder/models/analysis_options.dart';
+import '../../utils/exclude_utils.dart';
 
 /// Represents raw unused files config which can be merged with other raw configs.
 class UnusedFilesConfig {
@@ -23,11 +24,11 @@ class UnusedFilesConfig {
 
   /// Creates the config from cli args.
   factory UnusedFilesConfig.fromArgs(
-    Iterable<String> excludePatterns, {
+    String excludePath, {
     required bool isMonorepo,
   }) =>
       UnusedFilesConfig(
-        excludePatterns: excludePatterns,
+        excludePatterns: extractExcludes(excludePath),
         analyzerExcludePatterns: const [],
         isMonorepo: isMonorepo,
       );

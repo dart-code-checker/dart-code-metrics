@@ -33,6 +33,7 @@ import 'rules_list/no_equal_then_else/no_equal_then_else_rule.dart';
 import 'rules_list/no_magic_number/no_magic_number_rule.dart';
 import 'rules_list/no_object_declaration/no_object_declaration_rule.dart';
 import 'rules_list/prefer_async_await/prefer_async_await_rule.dart';
+import 'rules_list/prefer_commenting_analyzer_ignores/prefer_commenting_analyzer_ignores.dart';
 import 'rules_list/prefer_conditional_expressions/prefer_conditional_expressions_rule.dart';
 import 'rules_list/prefer_const_border_radius/prefer_const_border_radius_rule.dart';
 import 'rules_list/prefer_correct_identifier_length/prefer_correct_identifier_length_rule.dart';
@@ -103,6 +104,8 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   NoMagicNumberRule.ruleId: (config) => NoMagicNumberRule(config),
   NoObjectDeclarationRule.ruleId: (config) => NoObjectDeclarationRule(config),
   PreferAsyncAwaitRule.ruleId: (config) => PreferAsyncAwaitRule(config),
+  PreferCommentingAnalyzerIgnores.ruleId: (config) =>
+      PreferCommentingAnalyzerIgnores(config),
   PreferConditionalExpressionsRule.ruleId: (config) =>
       PreferConditionalExpressionsRule(config),
   PreferConstBorderRadiusRule.ruleId: (config) =>
