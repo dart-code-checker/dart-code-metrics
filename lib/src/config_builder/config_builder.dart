@@ -68,12 +68,12 @@ class ConfigBuilder {
     );
   }
 
-  /// Creates a raw unused files config from given [excludePath].
+  /// Creates a raw unused files config from given [excludePatterns].
   static UnusedFilesConfig getUnusedFilesConfigFromArgs(
-    String excludePath, {
+    Iterable<String> excludePatterns, {
     required bool isMonorepo,
   }) =>
-      UnusedFilesConfig.fromArgs(excludePath, isMonorepo: isMonorepo);
+      UnusedFilesConfig.fromArgs(excludePatterns, isMonorepo: isMonorepo);
 
   /// Creates a raw unused files config from given [options].
   static UnusedFilesConfig getUnusedFilesConfigFromOption(
@@ -91,12 +91,12 @@ class ConfigBuilder {
         prepareExcludes(config.analyzerExcludePatterns, rootPath),
       );
 
-  /// Creates a raw unused code config from given [excludePath].
+  /// Creates a raw unused code config from given [excludePatterns].
   static UnusedCodeConfig getUnusedCodeConfigFromArgs(
-    String excludePath, {
+    Iterable<String> excludePatterns, {
     required bool isMonorepo,
   }) =>
-      UnusedCodeConfig.fromArgs(excludePath, isMonorepo: isMonorepo);
+      UnusedCodeConfig.fromArgs(excludePatterns, isMonorepo: isMonorepo);
 
   /// Creates a raw unused code config from given [options].
   static UnusedCodeConfig getUnusedCodeConfigFromOption(
@@ -114,12 +114,12 @@ class ConfigBuilder {
         prepareExcludes(config.analyzerExcludePatterns, rootPath),
       );
 
-  /// Creates a raw unused localization config from given [excludePath] and [classPattern].
+  /// Creates a raw unused localization config from given [excludePatterns] and [classPattern].
   static UnusedL10nConfig getUnusedL10nConfigFromArgs(
-    String excludePath,
+    Iterable<String> excludePatterns,
     String classPattern,
   ) =>
-      UnusedL10nConfig.fromArgs(excludePath, classPattern);
+      UnusedL10nConfig.fromArgs(excludePatterns, classPattern);
 
   /// Creates a raw unused localization config from given [options].
   static UnusedL10nConfig getUnusedL10nConfigFromOption(

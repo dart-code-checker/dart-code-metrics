@@ -1,5 +1,4 @@
 import '../../config_builder/models/analysis_options.dart';
-import '../../utils/exclude_utils.dart';
 
 /// Represents raw unused files config which can be merged with other raw configs.
 class UnusedL10nConfig {
@@ -26,11 +25,11 @@ class UnusedL10nConfig {
 
   /// Creates the config from cli args.
   factory UnusedL10nConfig.fromArgs(
-    String excludePath,
+    Iterable<String> excludePatterns,
     String classPattern,
   ) =>
       UnusedL10nConfig(
-        excludePatterns: extractExcludes(excludePath),
+        excludePatterns: excludePatterns,
         analyzerExcludePatterns: const [],
         classPattern: classPattern,
       );

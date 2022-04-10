@@ -37,7 +37,7 @@ class CheckUnusedL10nCommand extends BaseCommand {
     final folders = argResults.rest;
 
     final config = ConfigBuilder.getUnusedL10nConfigFromArgs(
-      excludePath,
+      [excludePath],
       classPattern,
     );
 

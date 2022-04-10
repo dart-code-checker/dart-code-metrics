@@ -27,7 +27,7 @@ dart_code_metrics:
     number-of-parameters: 5
     source-lines-of-code: 50
     technical-debt:
-      threshold: 1
+      threshold: 16
       todo-cost: 4
       ignore-cost: 8
       ignore-for-file-cost: 16
