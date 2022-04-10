@@ -147,7 +147,8 @@ class AnalyzerPlugin extends ServerPlugin {
   ) async {
     try {
       final driver = driverForPath(parameters.file) as AnalysisDriver;
-      final analysisResult = await driver.getResult(parameters.file);
+      // ignore: deprecated_member_use
+      final analysisResult = await driver.getResult2(parameters.file);
 
       if (analysisResult is! ResolvedUnitResult) {
         return plugin.EditGetFixesResult([]);

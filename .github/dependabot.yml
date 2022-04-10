@@ -4,6 +4,7 @@
 # https://help.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
 
 version: 2
+enable-beta-ecosystems: true
 updates:
   # Maintain dependencies for GitHub Actions
   - package-ecosystem: "github-actions"
@@ -30,3 +31,9 @@ updates:
       - "dkrutskikh"
     commit-message:
       prefix: "chore: "
+
+  # Maintain dependencies for Dart pub
+  - package-ecosystem: "pub"
+    directory: "/"
+    schedule:
+      interval: "daily"
