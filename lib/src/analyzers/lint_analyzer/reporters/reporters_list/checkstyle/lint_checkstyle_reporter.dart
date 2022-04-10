@@ -42,12 +42,13 @@ class LintCheckstyleReporter extends CheckstyleReporter<LintFileReport,
               final issues = [...record.issues, ...record.antiPatternCases];
 
               for (final issue in issues) {
+                final locationStart = issue.location.start;
                 builder.element(
                   'error',
                   attributes: {
-                    'line': '${issue.location.start.line}',
-                    if (issue.location.start.column > 0)
-                      'column': '${issue.location.start.column}',
+                    'line': '${locationStart.line}',
+                    if (locationStart.column > 0)
+                      'column': '${locationStart.column}',
                     'severity': _severityMapping[issue.severity] ?? 'ignore',
                     'message': issue.message,
                     'source': issue.ruleId,

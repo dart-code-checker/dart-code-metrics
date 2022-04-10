@@ -59,16 +59,15 @@ class UtilitySelector {
         .where((r) => isReportLevel(r.maximumNestingLevel.level))
         .length;
 
-    final technicalDebt =
-        record.file.metric(TechnicalDebtMetric.metricId)?.value.toDouble() ??
-            0.0;
+    final technicalDeptMetric =
+        record.file.metric(TechnicalDebtMetric.metricId);
+    final technicalDebt = technicalDeptMetric?.value.toDouble() ?? 0.0;
     final technicalDebtViolations = record.file.metrics
         .where((value) =>
             value.metricsId == TechnicalDebtMetric.metricId &&
             isReportLevel(value.level))
         .length;
-    final technicalDebtUnitType =
-        record.file.metric(TechnicalDebtMetric.metricId)?.unitType;
+    final technicalDebtUnitType = technicalDeptMetric?.unitType;
 
     return FileMetricsReport(
       averageArgumentsCount: averageArgumentCount.round(),

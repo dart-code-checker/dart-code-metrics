@@ -33,18 +33,19 @@ class PreferMatchFileNameRule extends CommonRule {
 
     final issues = <Issue>[];
 
-    if (visitor.declaration.isNotEmpty &&
-        !_hasMatchName(source.path, visitor.declaration.first.name)) {
+    if (visitor.declaration.isNotEmpty) {
       final node = visitor.declaration.first;
-      final nodeType = humanReadableNodeType(node.parent).toLowerCase();
+      if (!_hasMatchName(source.path, node.name)) {
+        final nodeType = humanReadableNodeType(node.parent).toLowerCase();
 
-      final issue = createIssue(
-        rule: this,
-        location: nodeLocation(node: node, source: source),
-        message: 'File name does not match with first $nodeType name.',
-      );
+        final issue = createIssue(
+          rule: this,
+          location: nodeLocation(node: node, source: source),
+          message: 'File name does not match with first $nodeType name.',
+        );
 
-      issues.add(issue);
+        issues.add(issue);
+      }
     }
 
     return issues;

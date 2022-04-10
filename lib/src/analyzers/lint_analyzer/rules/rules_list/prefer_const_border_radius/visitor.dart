@@ -12,11 +12,13 @@ class _Visitor extends RecursiveAstVisitor<void> {
   void visitInstanceCreationExpression(InstanceCreationExpression expression) {
     super.visitInstanceCreationExpression(expression);
 
+    final arguments = expression.argumentList.arguments;
+
     if (expression.staticType?.getDisplayString(withNullability: true) ==
             _borderRadiusClassName &&
         expression.constructorName.name?.name == _borderRadiusConstructorName &&
-        expression.argumentList.arguments.length == 1) {
-      final arg = expression.argumentList.arguments.first;
+        arguments.length == 1) {
+      final arg = arguments.first;
 
       if (arg is Literal) {
         _expressions.add(expression);

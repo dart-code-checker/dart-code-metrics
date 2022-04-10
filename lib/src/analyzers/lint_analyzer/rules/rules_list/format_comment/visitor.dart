@@ -29,9 +29,10 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
   void _commentValidation(Token commentToken) {
     if (commentToken.type == TokenType.SINGLE_LINE_COMMENT) {
-      if (commentToken.toString().startsWith('///')) {
+      final token = commentToken.toString();
+      if (token.startsWith('///')) {
         _checkCommentByType(commentToken, _CommentType.documentation);
-      } else if (commentToken.toString().startsWith('//')) {
+      } else if (token.startsWith('//')) {
         _checkCommentByType(commentToken, _CommentType.base);
       }
     }

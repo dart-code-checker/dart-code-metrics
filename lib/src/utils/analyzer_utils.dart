@@ -34,9 +34,9 @@ Set<String> getFilePaths(
 ) {
   final contextFolders = folders.where((path) {
     final newPath = normalize(join(rootFolder, path));
+    final rootPath = context.contextRoot.root.path;
 
-    return newPath == context.contextRoot.root.path ||
-        context.contextRoot.root.path.startsWith('$newPath/');
+    return newPath == rootPath || rootPath.startsWith('$newPath/');
   }).toList();
 
   return extractDartFilesFromFolders(contextFolders, rootFolder, excludes);
