@@ -56,7 +56,7 @@ void main() {
 
     group('fromArgs constructs instance from passed', () {
       test('data', () {
-        final config = UnusedCodeConfig.fromArgs('hello', isMonorepo: true);
+        final config = UnusedCodeConfig.fromArgs(['hello'], isMonorepo: true);
 
         expect(config.excludePatterns, equals(['hello']));
         expect(config.analyzerExcludePatterns, isEmpty);
