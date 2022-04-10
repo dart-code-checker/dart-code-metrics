@@ -156,6 +156,7 @@ class AnalyzerPlugin extends ServerPlugin {
 
       final fixes = _check(driver, analysisResult).where((fix) {
         final location = fix.error.location;
+
         return location.file == parameters.file &&
             location.offset <= parameters.offset &&
             parameters.offset <= location.offset + location.length &&

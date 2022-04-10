@@ -70,6 +70,7 @@ class MemberOrderingExtendedRule extends CommonRule {
             .where((info) => info.memberOrder.isAlphabeticallyWrong)
             .map((info) {
           final names = info.memberOrder.memberNames;
+
           return createIssue(
             rule: this,
             location: nodeLocation(
