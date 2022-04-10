@@ -78,6 +78,9 @@ dart_code_metrics:
     - prefer-match-file-name:
         exclude:
           - test/**
+    - prefer-moving-to-variable:
+        exclude:
+          - test/**
     - prefer-trailing-comma
 
 linter:
