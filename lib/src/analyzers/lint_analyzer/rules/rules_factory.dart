@@ -44,6 +44,7 @@ import 'rules_list/prefer_immediate_return/prefer_immediate_return_rule.dart';
 import 'rules_list/prefer_intl_name/prefer_intl_name_rule.dart';
 import 'rules_list/prefer_last/prefer_last_rule.dart';
 import 'rules_list/prefer_match_file_name/prefer_match_file_name_rule.dart';
+import 'rules_list/prefer_moving_to_variable/prefer_moving_to_variable_rule.dart';
 import 'rules_list/prefer_on_push_cd_strategy/prefer_on_push_cd_strategy_rule.dart';
 import 'rules_list/prefer_single_widget_per_file/prefer_single_widget_per_file_rule.dart';
 import 'rules_list/prefer_trailing_comma/prefer_trailing_comma_rule.dart';
@@ -121,6 +122,8 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   PreferIntlNameRule.ruleId: (config) => PreferIntlNameRule(config),
   PreferLastRule.ruleId: (config) => PreferLastRule(config),
   PreferMatchFileNameRule.ruleId: (config) => PreferMatchFileNameRule(config),
+  PreferMovingToVariableRule.ruleId: (config) =>
+      PreferMovingToVariableRule(config),
   PreferOnPushCdStrategyRule.ruleId: (config) =>
       PreferOnPushCdStrategyRule(config),
   PreferSingleWidgetPerFileRule.ruleId: (config) =>
