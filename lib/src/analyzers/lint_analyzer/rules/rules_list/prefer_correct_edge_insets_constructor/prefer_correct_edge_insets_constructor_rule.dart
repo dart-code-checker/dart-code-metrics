@@ -1,8 +1,8 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:analyzer/dart/ast/ast.dart';
-import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
+import 'package:collection/collection.dart';
 
 import '../../../../../utils/node_utils.dart';
 import '../../../lint_utils.dart';
@@ -12,6 +12,10 @@ import '../../../models/replacement.dart';
 import '../../../models/severity.dart';
 import '../../models/flutter_rule.dart';
 import '../../rule_utils.dart';
+import 'models/edge_insets_data.dart';
+import 'models/edge_insets_param.dart';
+
+part 'validator.dart';
 
 part 'visitor.dart';
 
@@ -30,9 +34,13 @@ class PreferCorrectEdgeInsetsConstructorRule extends FlutterRule {
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
     final visitor = _Visitor();
+    final validator = _Validator();
     source.unit.visitChildren(visitor);
 
-    return visitor.expressions.entries
+    visitor.expressions.entries;
+    validator.validate(visitor.expressions);
+
+    return validator.expressions.entries
         .map((expression) => createIssue(
               rule: this,
               location: nodeLocation(
