@@ -3,6 +3,7 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:collection/collection.dart';
+import 'package:meta/meta.dart';
 
 import '../../../../../utils/node_utils.dart';
 import '../../../lint_utils.dart';
@@ -12,12 +13,11 @@ import '../../../models/replacement.dart';
 import '../../../models/severity.dart';
 import '../../models/flutter_rule.dart';
 import '../../rule_utils.dart';
-import 'models/edge_insets_data.dart';
-import 'models/edge_insets_param.dart';
 
 part 'validator.dart';
-
 part 'visitor.dart';
+part 'models/edge_insets_param.dart';
+part 'models/edge_insets_data.dart';
 
 class PreferCorrectEdgeInsetsConstructorRule extends FlutterRule {
   static const ruleId = 'prefer-correct-edge-insets-constructor';
@@ -35,9 +35,8 @@ class PreferCorrectEdgeInsetsConstructorRule extends FlutterRule {
   Iterable<Issue> check(InternalResolvedUnitResult source) {
     final visitor = _Visitor();
     final validator = _Validator();
-    source.unit.visitChildren(visitor);
 
-    visitor.expressions.entries;
+    source.unit.visitChildren(visitor);
     validator.validate(visitor.expressions);
 
     return validator.expressions.entries

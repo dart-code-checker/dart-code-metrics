@@ -1,4 +1,4 @@
-import 'package:meta/meta.dart';
+part of '../prefer_correct_edge_insets_constructor_rule.dart';
 
 @immutable
 class EdgeInsetsParam {

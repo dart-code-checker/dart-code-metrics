@@ -11,21 +11,27 @@ class _Validator {
     for (final expression in expressions.entries) {
       final data = expression.value;
 
-      if (data.constructorName == _constructorNameFromSTEB ||
-          data.constructorName == _constructorNameFromLTRB) {
-        _validateFromSTEB(expression.key, data);
+      String? exceptionValue;
+      switch (data.constructorName) {
+        case _constructorNameFromSTEB:
+        case _constructorNameFromLTRB:
+          exceptionValue = _validateFromSTEB(data);
+          break;
+        case _constructorNameSymmetric:
+          exceptionValue = _validateSymmetric(data);
+          break;
+        case _constructorNameOnly:
+          exceptionValue = _validateFromOnly(data);
+          break;
       }
 
-      if (data.constructorName == _constructorNameSymmetric) {
-        _validateSymmetric(expression.key, data);
-      }
-      if (data.constructorName == _constructorNameOnly) {
-        _validateFromOnly(expression.key, data);
+      if (exceptionValue != null) {
+        _exceptions[expression.key] = exceptionValue;
       }
     }
   }
 
-  void _validateSymmetric(InstanceCreationExpression key, EdgeInsetsData data) {
+  String? _validateSymmetric(EdgeInsetsData data) {
     final param = data.params;
     final vertical = param.firstWhereOrNull((e) => e.name == 'vertical')?.value;
     final horizontal =
@@ -35,22 +41,24 @@ class _Validator {
     final isAllParamsZero = isParamsSame && horizontal == 0;
 
     if (isAllParamsZero) {
-      _exceptions[key] = _replaceWithZero();
+      return _replaceWithZero();
     }
 
     if (isParamsSame) {
-      _exceptions[key] = '${data.className}.all($horizontal)';
+      return '${data.className}.all($horizontal)';
     }
 
     if (horizontal == 0 && vertical != null) {
-      _exceptions[key] = _replaceWithSymmetric('vertical: $vertical');
+      return _replaceWithSymmetric('vertical: $vertical');
     }
     if (vertical == 0 && horizontal != null) {
-      _exceptions[key] = _replaceWithSymmetric('horizontal: $horizontal');
+      return _replaceWithSymmetric('horizontal: $horizontal');
     }
+
+    return null;
   }
 
-  void _validateFromOnly(InstanceCreationExpression key, EdgeInsetsData data) {
+  String? _validateFromOnly(EdgeInsetsData data) {
     {
       final param = data.params;
       final top = param.firstWhereOrNull((e) => e.name == 'top')?.value;
@@ -68,39 +76,29 @@ class _Validator {
       final hasBottomParam = bottom != 0 && bottom != null;
       final hasRightParam = right != 0 && right != null;
       if (paramsList.every((element) => element == 0)) {
-        _exceptions[key] = _replaceWithZero();
-
-        return;
+        return _replaceWithZero();
       }
 
       if (paramsList.every((element) => element == top && top != null)) {
-        _exceptions[key] = '${data.className}.all(${data.params.first.value})';
-
-        return;
+        return '${data.className}.all(${data.params.first.value})';
       }
 
       if (left == right && hasLeftParam && top == bottom && hasTopParam) {
         final params = 'horizontal: $right, vertical: $top';
-        _exceptions[key] = _replaceWithSymmetric(params);
 
-        return;
+        return _replaceWithSymmetric(params);
       }
 
       if (top == bottom && top != 0 && !hasLeftParam && !hasRightParam) {
-        _exceptions[key] = _replaceWithSymmetric('vertical: $top');
-
-        return;
+        return _replaceWithSymmetric('vertical: $top');
       }
 
-      // EdgeInsets.only(left: 10, right:10) -> EdgeInsets.symmetric(vertical: 10)
       if (left == right && right != 0 && !hasTopParam && !hasBottomParam) {
-        _exceptions[key] = _replaceWithSymmetric('horizontal: $right');
-
-        return;
+        return _replaceWithSymmetric('horizontal: $right');
       }
 
       if (paramsList.contains(0)) {
-        _exceptions[key] = '${data.className}.only(${[
+        return '${data.className}.only(${[
           if (hasTopParam) 'top: $top',
           if (hasBottomParam) 'bottom: $bottom',
           if (hasLeftParam && data.className == 'EdgeInsetsDirectional')
@@ -110,27 +108,22 @@ class _Validator {
             'end: $right',
           if (hasRightParam && data.className == 'EdgeInsets') 'right: $right',
         ].join(', ')})';
-
-        return;
       }
     }
+
+    return null;
   }
 
-  void _validateFromSTEB(InstanceCreationExpression key, EdgeInsetsData data) {
-    // EdgeInsets.fromLTRB(0,0,0,0) -> EdgeInsets.zero
+  String? _validateFromSTEB(
+    EdgeInsetsData data,
+  ) {
     if (data.params.every((element) => element.value == 0)) {
-      _exceptions[key] = _replaceWithZero();
-
-      return;
+      return _replaceWithZero();
     }
 
-    // EdgeInsets.fromLTRB(12,12,12,12) -> EdgeInsets.all(12)
-    // EdgeInsetsDirectional.fromSTEB(12,12,12,12) -> EdgeInsetsDirectional.all(12)
     if (data.params
         .every((element) => element.value == data.params.first.value)) {
-      _exceptions[key] = '${data.className}.all(${data.params.first.value})';
-
-      return;
+      return '${data.className}.all(${data.params.first.value})';
     }
 
     final left = data.params.first.value;
@@ -138,7 +131,6 @@ class _Validator {
     final right = data.params.elementAt(2).value;
     final bottom = data.params.elementAt(3).value;
 
-    // EdgeInsets.fromLTRB(3,2,3,2) -> EdgeInsets.symmetric(horizontal: 3, vertical: 2)
     if (left == right && top == bottom) {
       final params = <String>[];
       if (left != 0) {
@@ -147,17 +139,15 @@ class _Validator {
       if (top != 0) {
         params.add('vertical: $top');
       }
-      _exceptions[key] = _replaceWithSymmetric(params.join(', '));
 
-      return;
+      return _replaceWithSymmetric(params.join(', '));
     }
 
-    // EdgeInsets.fromLTRB(3,2,3,2) -> EdgeInsets.symmetric(horizontal: 3, vertical: 2)
     if (data.params.any((element) => element.value == 0)) {
       final params = <String>[];
 
       if (left != 0) {
-        if (data.constructorName == 'fromLTRB') {
+        if (data.constructorName == _constructorNameFromLTRB) {
           params.add('left: $left');
         } else {
           params.add('start: $left');
@@ -168,7 +158,7 @@ class _Validator {
       }
 
       if (right != 0) {
-        if (data.constructorName == 'fromLTRB') {
+        if (data.constructorName == _constructorNameFromLTRB) {
           params.add('right: $right');
         } else {
           params.add('end: $right');
@@ -179,10 +169,10 @@ class _Validator {
         params.add('bottom: $bottom');
       }
 
-      _exceptions[key] = '${data.className}.only(${params.join(', ')})';
-
-      return;
+      return '${data.className}.only(${params.join(', ')})';
     }
+
+    return null;
   }
 
   String _replaceWithZero() => 'EdgeInsets.zero';
