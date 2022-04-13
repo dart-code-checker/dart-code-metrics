@@ -68,5 +68,25 @@ class MyWidget extends StatelessWidget {
         Container(
           padding: const EdgeInsets.only(left: 10.0),
         ),
+        Container(
+          padding: const EdgeInsets.only(left: mockBool ? 70 : 0),
+        ),
+        Container(
+          padding: const EdgeInsets.only(right: spacing),
+        ),
+        Container(
+          padding: const EdgeInsets.only(left: 24.0 + spacing),
+        ),
+        Container(
+          padding: const EdgeInsets.only(
+            top: spacing,
+            bottom: spacing,
+            left: 6.0,
+            right: 6.0,
+          ),
+        ),
       ]);
 }
+
+final mockBool = false;
+final spacing = 10.0;

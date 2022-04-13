@@ -43,19 +43,30 @@ class _Visitor extends RecursiveAstVisitor<void> {
     String? constructorName,
     String? className,
   ) {
-    final argumentsList = <EdgeInsetsParam>[];
+    final argumentsList = <EdgeInsetsParam?>[];
     for (final expression in expression.argumentList.arguments) {
-      final name = expression.beginToken.toString();
-      final value = expression.endToken.toString();
-      argumentsList
-          .add(EdgeInsetsParam(name: name, value: num.tryParse(value)));
+      final variable = expression.childEntities.last;
+      if (variable is IntegerLiteral || variable is DoubleLiteral) {
+        final name = expression.beginToken.toString();
+        final value = expression.endToken.toString();
+
+        argumentsList.add(EdgeInsetsParam(
+          name: name,
+          value: num.tryParse(value),
+        ));
+      } else {
+        argumentsList.add(null);
+      }
     }
 
-    _expressions[expression] = EdgeInsetsData(
-      className ?? '',
-      constructorName ?? '',
-      argumentsList,
-    );
+    if (!argumentsList.contains(null)) {
+      final param = argumentsList.whereType<EdgeInsetsParam>().toList();
+      _expressions[expression] = EdgeInsetsData(
+        className ?? '',
+        constructorName ?? '',
+        param,
+      );
+    }
   }
 
   void _parsePositionParams(
