@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 4.14.0
 
 * feat: add static code diagnostic [`prefer-commenting-analyzer-ignores`](https://dartcodemetrics.dev/docs/rules/common/prefer-commenting-analyzer-ignores).
 * feat: add static code diagnostic [`prefer-moving-to-variable`](https://dartcodemetrics.dev/docs/rules/common/prefer-moving-to-variable).
