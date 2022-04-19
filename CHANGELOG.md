@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* fix: dart-code-metrics crash saying `Bad state: No element` when running command.
+
 ## 4.14.0
 
 * feat: add static code diagnostic [`prefer-commenting-analyzer-ignores`](https://dartcodemetrics.dev/docs/rules/common/prefer-commenting-analyzer-ignores).
