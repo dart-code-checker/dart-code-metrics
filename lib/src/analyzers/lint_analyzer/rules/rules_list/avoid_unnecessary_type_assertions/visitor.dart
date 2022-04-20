@@ -19,14 +19,14 @@ class _Visitor extends RecursiveAstVisitor<void> {
         isWhereTypeInvocation &&
         targetType is ParameterizedType) {
       final isTargetTypeHasGeneric = targetType.typeArguments.isNotEmpty;
-      final isWhereTypeHasGeneric =
-          node.typeArguments?.arguments.isNotEmpty ?? false;
+      final arguments = node.typeArguments?.arguments;
+      final isWhereTypeHasGeneric = arguments?.isNotEmpty ?? false;
 
       if (isTargetTypeHasGeneric &&
           isWhereTypeHasGeneric &&
           _isUselessTypeCheck(
             targetType.typeArguments.first,
-            node.typeArguments?.arguments.first.type,
+            arguments?.first.type,
           )) {
         _expressions[node] =
             '${node.methodName}${node.typeArguments ?? ''}${node.argumentList}';
@@ -99,13 +99,12 @@ class _Visitor extends RecursiveAstVisitor<void> {
       return false;
     }
 
-    if (objectType.typeArguments.length != castedType.typeArguments.length) {
+    final length = objectType.typeArguments.length;
+    if (length != castedType.typeArguments.length) {
       return false;
     }
 
-    for (var argumentIndex = 0;
-        argumentIndex < objectType.typeArguments.length;
-        argumentIndex++) {
+    for (var argumentIndex = 0; argumentIndex < length; argumentIndex++) {
       if (!_isUselessTypeCheck(
         objectType.typeArguments[argumentIndex],
         castedType.typeArguments[argumentIndex],

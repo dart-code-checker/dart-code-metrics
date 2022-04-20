@@ -3,14 +3,18 @@
 ## Unreleased
 
 * feat: add static code diagnostics [`prefer-correct-edge-insets-constructor-rule`](https://dartcodemetrics.dev/docs/rules/flutter/prefer-correct-edge-insets-constructor).
+* fix: dart-code-metrics crash saying `Bad state: No element` when running command.
+
+## 4.14.0
+
 * feat: add static code diagnostic [`prefer-commenting-analyzer-ignores`](https://dartcodemetrics.dev/docs/rules/common/prefer-commenting-analyzer-ignores).
 * feat: add static code diagnostic [`prefer-moving-to-variable`](https://dartcodemetrics.dev/docs/rules/common/prefer-moving-to-variable).
 * fix: add check for supertypes for [`avoid-non-null-assertions`](https://dartcodemetrics.dev/docs/rules/common/avoid-non-null-assertion) rule.
-* fix: cover more cases in [`prefer-immediate-return`](https://dartcodemetrics.dev/docs/rules/common/prefer-immediate-return) rule
+* fix: correctly handle nullable types of collections for [`avoid-collection-methods-with-unrelated-types`](https://dartcodemetrics.dev/docs/rules/common/avoid-collection-methods-with-unrelated-types) rule.
+* fix: cover more cases in [`prefer-immediate-return`](https://dartcodemetrics.dev/docs/rules/common/prefer-immediate-return) rule.
 * fix: support index expressions for [`no-magic-number`](https://dartcodemetrics.dev/docs/rules/common/no-magic-number) rule.
-* chore: restrict `analyzer` version to `>=2.4.0 <3.4.0`.
-* fix: correctly handle nullable types of collections for [`avoid-collection-methods-with-unrelated-types`](https://dartcodemetrics.dev/docs/rules/common/avoid-collection-methods-with-unrelated-types)
-* docs: update `prefer-async-await` rule.
+* docs: update [`prefer-async-await`](https://dartcodemetrics.dev/docs/rules/common/prefer-async-await) rule.
+* chore: restrict [`analyzer`](https://pub.dev/packages/analyzer) version to `>=2.4.0 <3.4.0`.
 
 ## 4.13.0
 

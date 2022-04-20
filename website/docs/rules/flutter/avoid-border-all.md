@@ -32,11 +32,11 @@ class BorderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       //LINT
-      border: Border.all({
-        Color color = const Color(0xFF000000),
-        double width = 1.0,
-        BorderStyle style = BorderStyle.solid,
-      }),
+      border: Border.all(
+        color: const Color(0xFF000000),
+        width: 1.0,
+        style: BorderStyle.solid,
+      ),
       child: child,
     );
   }

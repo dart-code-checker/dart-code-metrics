@@ -54,23 +54,24 @@ class FormatCommentRule extends CommonRule {
 
     switch (commentInfo.type) {
       case _CommentType.base:
-        String subString;
+        String commentText;
 
         final isHasNextComment = commentToken.next != null &&
             commentToken.next!.type == TokenType.SINGLE_LINE_COMMENT &&
             commentToken.next!.offset ==
                 commentToken.offset + resultString.length + 1;
+        final subString = resultString.substring(2, resultString.length);
 
-        subString = isHasNextComment
-            ? resultString.substring(2, resultString.length).trim().capitalize()
-            : formatComment(resultString.substring(2, resultString.length));
+        commentText = isHasNextComment
+            ? subString.trim().capitalize()
+            : formatComment(subString);
 
-        resultString = '// $subString';
+        resultString = '// $commentText';
         break;
       case _CommentType.documentation:
-        final subString =
+        final commentText =
             formatComment(resultString.substring(3, resultString.length));
-        resultString = '/// $subString';
+        resultString = '/// $commentText';
         break;
     }
 

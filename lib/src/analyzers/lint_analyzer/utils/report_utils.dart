@@ -15,7 +15,8 @@ MetricValueLevel maxMetricViolationLevel(Iterable<LintFileReport> records) =>
           (record) => [...record.classes.values, ...record.functions.values]
               .map((report) => report.metricsLevel),
         )
-        .max;
+        .maxOrNull ??
+    MetricValueLevel.none;
 
 bool hasIssueWithSeverity(
   Iterable<LintFileReport> records,

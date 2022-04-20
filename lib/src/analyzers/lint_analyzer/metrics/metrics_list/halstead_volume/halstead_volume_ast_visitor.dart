@@ -45,7 +45,8 @@ class HalsteadVolumeAstVisitor extends RecursiveAstVisitor<void> {
     var token = firstToken;
     while (token != lastToken && token != null) {
       if (token.isOperator) {
-        _operators[token.type.name] = (_operators[token.type.name] ?? 0) + 1;
+        final name = token.type.name;
+        _operators[name] = (_operators[name] ?? 0) + 1;
       }
 
       if (token.isIdentifier) {
