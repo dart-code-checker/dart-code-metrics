@@ -74,11 +74,12 @@ class _Visitor extends RecursiveAstVisitor<void> {
     String? constructorName,
     String? className,
   ) {
-    if (expression.argumentList.arguments.length == 4 &&
-        expression.argumentList.arguments.every(
+    final arguments = expression.argumentList.arguments;
+    if (arguments.length == 4 &&
+        arguments.every(
           (element) => element is IntegerLiteral || element is DoubleLiteral,
         )) {
-      final argumentsList = expression.argumentList.arguments
+      final argumentsList = arguments
           .map((e) => EdgeInsetsParam(value: num.tryParse(e.toString())))
           .toList();
 
