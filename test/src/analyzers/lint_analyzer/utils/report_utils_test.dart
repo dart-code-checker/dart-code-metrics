@@ -122,6 +122,7 @@ void main() {
 
     test('maxMetricViolationLevel returns violation level', () {
       expect(maxMetricViolationLevel(fileRecords), MetricValueLevel.warning);
+      expect(maxMetricViolationLevel([]), MetricValueLevel.none);
     });
 
     test(
