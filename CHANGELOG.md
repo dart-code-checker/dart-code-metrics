@@ -3,6 +3,7 @@
 ## Unreleased
 
 * fix: dart-code-metrics crash saying `Bad state: No element` when running command.
+* feat: remove declaration in prefer-immediate-return
 
 ## 4.14.0
 

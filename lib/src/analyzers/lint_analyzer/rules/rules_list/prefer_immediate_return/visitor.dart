@@ -33,7 +33,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
     }
 
     _issues.add(_IssueDetails(
-      lastDeclaredVariable.initializer,
+      lastDeclaredVariable,
       returnStatement,
     ));
   }
@@ -41,10 +41,10 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
 class _IssueDetails {
   const _IssueDetails(
-    this.variableDeclarationInitializer,
+    this.variableDeclaration,
     this.returnStatement,
   );
 
-  final Expression? variableDeclarationInitializer;
+  final VariableDeclaration variableDeclaration;
   final ReturnStatement returnStatement;
 }
