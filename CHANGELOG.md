@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* fix: correctly handle disabling rules with false.
 * fix: dart-code-metrics crash saying `Bad state: No element` when running command.
 
 ## 4.14.0
