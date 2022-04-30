@@ -44,20 +44,31 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
     var text = commentText.trim();
 
-    if (text.isEmpty ||
-        text.startsWith('ignore:') ||
-        text.startsWith('ignore_for_file:')) {
-      return;
-    } else {
-      text = text.trim();
-      final upperCase = text[0] == text[0].toUpperCase();
-      final lastSymbol = _punctuation.contains(text[text.length - 1]);
-      final hasEmptySpace = commentText[0] == ' ';
-      final incorrectFormat = !upperCase || !hasEmptySpace || !lastSymbol;
-      final single = commentToken.previous == null && commentToken.next == null;
+    final isIgnoreComment =
+        text.startsWith('ignore:') || text.startsWith('ignore_for_file:');
 
-      if (incorrectFormat && single) {
-        _comments.add(_CommentInfo(type, commentToken));
+    final regTemplateExp = RegExp(r"{@template [\w'-]+}");
+    final regMacroExp = RegExp(r"{@macro [\w'-]+}");
+
+    final isMacros = regTemplateExp.hasMatch(text) ||
+        regMacroExp.hasMatch(text) ||
+        text == '{@endtemplate}';
+
+    {
+      if (text.isEmpty || isIgnoreComment || isMacros) {
+        return;
+      } else {
+        text = text.trim();
+        final upperCase = text[0] == text[0].toUpperCase();
+        final lastSymbol = _punctuation.contains(text[text.length - 1]);
+        final hasEmptySpace = commentText[0] == ' ';
+        final incorrectFormat = !upperCase || !hasEmptySpace || !lastSymbol;
+        final single =
+            commentToken.previous == null && commentToken.next == null;
+
+        if (incorrectFormat && single) {
+          _comments.add(_CommentInfo(type, commentToken));
+        }
       }
     }
   }

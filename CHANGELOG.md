@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* fix: [`format-comment`](https://dartcodemetrics.dev/docs/rules/common/format-comment) is listing the macros from dart doc.
 * fix: dart-code-metrics crash saying `Bad state: No element` when running command.
 
 ## 4.14.0

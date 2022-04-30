@@ -16,3 +16,12 @@ void greet(String name) {
 
 /// deletes the file at [path] from the file system.
 void delete(String path) {}
+
+/// {@template template_name}
+void f1() {}
+
+/// {@endtemplate}
+void f2() {}
+
+/// {@macro template_name}
+void f3() {}
