@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* feat: add static code diagnostic [`avoid-non-ascii-symbols`](https://dartcodemetrics.dev/docs/rules/common/avoid-non-ascii-symbols).
 * fix: dart-code-metrics crash saying `Bad state: No element` when running command.
 
 ## 4.14.0
