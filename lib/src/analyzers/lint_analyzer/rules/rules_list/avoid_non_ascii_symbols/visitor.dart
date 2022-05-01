@@ -24,6 +24,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
       if (element is InterpolationString &&
           !_onlyAsciiSymbolsRegExp.hasMatch(element.value)) {
         _literals.add(node);
+        break;
       }
     }
   }
