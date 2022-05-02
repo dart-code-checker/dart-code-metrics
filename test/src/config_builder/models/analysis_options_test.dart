@@ -153,6 +153,12 @@ void main() {
             'rule-id3',
           ],
           'rules4': null,
+          'rules5': [
+            'rule-id1',
+            'rule-id2',
+            'rule-id3',
+            {'rule-id1': false},
+          ],
         },
       });
 
@@ -185,6 +191,15 @@ void main() {
       );
 
       expect(options.readMapOfMap(['dart_code_metrics', 'rules4']), isEmpty);
+
+      expect(
+        options.readMapOfMap(['dart_code_metrics', 'rules5']),
+        allOf(
+          containsPair('rule-id2', <String, Object>{}),
+          containsPair('rule-id3', <String, Object>{}),
+          hasLength(2),
+        ),
+      );
     });
 
     test(
