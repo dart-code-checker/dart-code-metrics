@@ -28,15 +28,15 @@ void main() {
         RuleTestHelper.verifyIssues(
           issues: issues,
           startLines: [
-            4,
+            2,
             10,
             16,
-            23,
-            30,
-            49,
-            53,
-            63,
-            68,
+            21,
+            28,
+            47,
+            51,
+            61,
+            66,
           ],
           startColumns: [
             3,
@@ -83,15 +83,29 @@ void main() {
             'return a + b;',
           ],
           locationTexts: [
+            'final sum = a + b;\n'
+                '\n'
+                '  return sum;',
             'return sum;',
             'return sum;',
-            'return sum;',
-            'return result;',
-            'return x;',
-            'return sum;',
-            'return sum;',
-            'return result;',
-            'return result;',
+            'final result = width * height;\n'
+                '\n'
+                '    return result;',
+            'final String? x;\n'
+                '\n'
+                '  return x;',
+            'final sum = a + b;\n'
+                '\n'
+                '    return sum;',
+            'final sum = 0;\n'
+                '\n'
+                '    return sum;',
+            'final result = a * b;\n'
+                '\n'
+                '    return result;',
+            'final result = a + b;\n'
+                '\n'
+                '    return result;',
           ],
         );
       });
