@@ -8,6 +8,7 @@ import 'rules_list/avoid_ignoring_return_values/avoid_ignoring_return_values_rul
 import 'rules_list/avoid_late_keyword/avoid_late_keyword_rule.dart';
 import 'rules_list/avoid_missing_enum_constant_in_map/avoid_missing_enum_constant_in_map_rule.dart';
 import 'rules_list/avoid_nested_conditional_expressions/avoid_nested_conditional_expressions_rule.dart';
+import 'rules_list/avoid_non_ascii_symbols/avoid_non_ascii_symbols_rule.dart';
 import 'rules_list/avoid_non_null_assertion/avoid_non_null_assertion_rule.dart';
 import 'rules_list/avoid_preserve_whitespace_false/avoid_preserve_whitespace_false_rule.dart';
 import 'rules_list/avoid_returning_widgets/avoid_returning_widgets_rule.dart';
@@ -65,6 +66,7 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
       AvoidMissingEnumConstantInMapRule(config),
   AvoidNestedConditionalExpressionsRule.ruleId: (config) =>
       AvoidNestedConditionalExpressionsRule(config),
+  AvoidNonAsciiSymbolsRule.ruleId: (config) => AvoidNonAsciiSymbolsRule(config),
   AvoidNonNullAssertionRule.ruleId: (config) =>
       AvoidNonNullAssertionRule(config),
   AvoidPreserveWhitespaceFalseRule.ruleId: (config) =>

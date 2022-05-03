@@ -8,12 +8,13 @@ import '../analyzers/lint_analyzer/models/internal_resolved_unit_result.dart';
 SourceSpan nodeLocation({
   required SyntacticEntity node,
   required InternalResolvedUnitResult source,
+  SyntacticEntity? endNode,
   bool withCommentOrMetadata = false,
 }) {
   final offset = !withCommentOrMetadata && node is AnnotatedNode
       ? node.firstTokenAfterCommentAndMetadata.offset
       : node.offset;
-  final end = node.end;
+  final end = endNode?.end ?? node.end;
   final sourceUrl = Uri.file(source.path);
 
   final offsetLocation = source.lineInfo.getLocation(offset);
