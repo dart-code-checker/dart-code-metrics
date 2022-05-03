@@ -5,8 +5,10 @@ const commentsOperator = {
   _CommentType.documentation: '///',
 };
 
-final _regTemplateExp = RegExp(r"{@template [\w'-]+}");
-final _regMacroExp = RegExp(r"{@macro [\w'-]+}");
+final _regMacrosExp = RegExp('{@(template|macro) .+}');
+const _macrosEndExp = '{@endtemplate}';
+const _ignoreExp = 'ignore:';
+const _ignoreForFileExp = 'ignore_for_file:';
 
 class _Visitor extends RecursiveAstVisitor<void> {
   final _comments = <_CommentInfo>[];
@@ -48,11 +50,9 @@ class _Visitor extends RecursiveAstVisitor<void> {
     var text = commentText.trim();
 
     final isIgnoreComment =
-        text.startsWith('ignore:') || text.startsWith('ignore_for_file:');
+        text.startsWith(_ignoreExp) || text.startsWith(_ignoreForFileExp);
 
-    final isMacros = _regTemplateExp.hasMatch(text) ||
-        _regMacroExp.hasMatch(text) ||
-        text == '{@endtemplate}';
+    final isMacros = _regMacrosExp.hasMatch(text) || text == _macrosEndExp;
 
     {
       if (text.isEmpty || isIgnoreComment || isMacros) {
