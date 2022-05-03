@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 4.15.0
 
 * fix: [`format-comment`](https://dartcodemetrics.dev/docs/rules/common/format-comment) is listing the macros from dart doc.
 * feat: add static code diagnostic [`avoid-non-ascii-symbols`](https://dartcodemetrics.dev/docs/rules/common/avoid-non-ascii-symbols).
