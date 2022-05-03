@@ -32,18 +32,29 @@ class PreferImmediateReturnRule extends CommonRule {
     final visitor = _Visitor();
     source.unit.visitChildren(visitor);
 
-    return visitor.issues
-        .map(
-          (issue) => createIssue(
-            rule: this,
-            location: nodeLocation(node: issue.returnStatement, source: source),
-            message: _warningMessage,
-            replacement: Replacement(
-              comment: _replaceComment,
-              replacement: 'return ${issue.variableDeclarationInitializer};',
-            ),
+    return visitor.issues.map(
+      (issue) {
+        AstNode? getSingleDeclarationNode() {
+          final declarationList =
+              issue.variableDeclaration.parent as VariableDeclarationList;
+
+          return declarationList.variables.length == 1 ? declarationList : null;
+        }
+
+        return createIssue(
+          rule: this,
+          location: nodeLocation(
+            node: getSingleDeclarationNode() ?? issue.returnStatement,
+            endNode: issue.returnStatement,
+            source: source,
           ),
-        )
-        .toList(growable: false);
+          message: _warningMessage,
+          replacement: Replacement(
+            comment: _replaceComment,
+            replacement: 'return ${issue.variableDeclaration.initializer};',
+          ),
+        );
+      },
+    ).toList(growable: false);
   }
 }
