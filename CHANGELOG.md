@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* fix: [`format-comment`](https://dartcodemetrics.dev/docs/rules/common/format-comment) is listing the macros from dart doc.
 * feat: add static code diagnostic [`avoid-non-ascii-symbols`](https://dartcodemetrics.dev/docs/rules/common/avoid-non-ascii-symbols).
 * feat: remove declaration in [`prefer-immediate-return`](https://dartcodemetrics.dev/docs/rules/common/prefer-immediate-return).
 * fix: correctly handle disabling rules with false.
