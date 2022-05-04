@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* feat: add `ignored-patterns` option to [`format-comment`](https://dartcodemetrics.dev/docs/rules/common/format-comment). The given regular expression will be used to ignore comments that match them.
+
 ## 4.15.0
 
 * fix: [`format-comment`](https://dartcodemetrics.dev/docs/rules/common/format-comment) is listing the macros from dart doc.
