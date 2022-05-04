@@ -14,6 +14,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
   _Visitor(this._ignoredPatterns);
 
   final Iterable<RegExp> _ignoredPatterns;
+
   final _comments = <_CommentInfo>[];
 
   Iterable<_CommentInfo> get comments => _comments;

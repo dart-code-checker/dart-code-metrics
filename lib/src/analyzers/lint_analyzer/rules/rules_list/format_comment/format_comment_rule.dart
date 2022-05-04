@@ -33,7 +33,8 @@ class FormatCommentRule extends CommonRule {
           excludes: readExcludes(config),
         );
 
-  /// The patterns to ignore. The patterns are used as [RegExp]s.
+  /// The patterns to ignore. They are used to ignore and not lint comments that
+  /// match at least one of them.
   final Iterable<RegExp> _ignoredPatterns;
 
   @override

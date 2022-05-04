@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-* feat: add `ignored-patterns` option to [`format-comment`](https://dartcodemetrics.dev/docs/rules/common/format-comment). The given regular expression will be used to ignore comments that match them.
+* feat: add the `ignored-patterns` option to [`format-comment`](https://dartcodemetrics.dev/docs/rules/common/format-comment). The given regular expressions will be used to ignore comments that match them.
 
 ## 4.15.0
 
