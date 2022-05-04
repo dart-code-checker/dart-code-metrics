@@ -7,8 +7,6 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
   @override
   void visitBlockFunctionBody(BlockFunctionBody node) {
-    super.visitBlockFunctionBody(node);
-
     final visitor = _BlockVisitor();
     node.visitChildren(visitor);
 
@@ -39,7 +37,8 @@ class _BlockVisitor extends RecursiveAstVisitor<void> {
 
   @override
   void visitMethodInvocation(MethodInvocation node) {
-    if (node.parent is CascadeExpression) {
+    if (node.parent is CascadeExpression ||
+        (node.staticType?.isVoid ?? false)) {
       return;
     }
 
@@ -76,7 +75,7 @@ class _BlockVisitor extends RecursiveAstVisitor<void> {
     final parentBlock = node.thisOrAncestorOfType<Block>();
 
     // ignore: avoid-late-keyword
-    late final grandParentBlock = parentBlock?.thisOrAncestorMatching(
+    final grandParentBlock = parentBlock?.thisOrAncestorMatching(
       (block) => block is Block && block != parentBlock,
     );
 

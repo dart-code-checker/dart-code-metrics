@@ -22,8 +22,11 @@ void main() {
   Theme.from().value.runtimeType; // LINT
   Theme.from().value.length; // LINT
 
-  Theme.from().someMethod(); // LINT
-  Theme.from().someMethod(); // LINT
+  Theme.from().someMethod();
+  Theme.from().someMethod();
+
+  Theme.from().notVoidMethod(); // LINT
+  Theme.from().notVoidMethod(); // LINT
 
   getValue(); // LINT
   getValue(); // LINT
@@ -43,6 +46,12 @@ class Theme {
 
     string.indexOf('').sign.bitLength.isEven; // LINT
     string.indexOf('').sign.isOdd; // LINT
+  }
+
+  String notVoidMethod() {
+    final string = 'str';
+
+    return string;
   }
 }
 
