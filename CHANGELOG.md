@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* fix: remove duplicated and ignore void function calls for [`prefer-moving-to-variable`](https://dartcodemetrics.dev/docs/rules/common/prefer-moving-to-variable).
+
 ## 4.15.0
 
 * fix: [`format-comment`](https://dartcodemetrics.dev/docs/rules/common/format-comment) is listing the macros from dart doc.
