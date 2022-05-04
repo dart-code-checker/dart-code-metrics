@@ -24,15 +24,21 @@ class FormatCommentRule extends CommonRule {
   static const _warning = 'Prefer formatting comments like sentences.';
 
   FormatCommentRule([Map<String, Object> config = const {}])
-      : super(
+      : _ignoredPatterns = List<String>.from(
+          config['ignored-patterns'] as List? ?? const <String>[],
+        ).map((stringPattern) => RegExp(stringPattern)),
+        super(
           id: ruleId,
           severity: readSeverity(config, Severity.style),
           excludes: readExcludes(config),
         );
 
+  /// The patterns to ignore. The patterns are used as [RegExp]s.
+  final Iterable<RegExp> _ignoredPatterns;
+
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
-    final visitor = _Visitor()..checkComments(source.unit.root);
+    final visitor = _Visitor(_ignoredPatterns)..checkComments(source.unit.root);
 
     return [
       for (final comment in visitor.comments)
