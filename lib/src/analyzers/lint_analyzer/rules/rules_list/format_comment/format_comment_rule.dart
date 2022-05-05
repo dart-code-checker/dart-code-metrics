@@ -12,10 +12,9 @@ import '../../../models/severity.dart';
 import '../../models/common_rule.dart';
 import '../../rule_utils.dart';
 
+part 'config_parser.dart';
 part 'models/comment_info.dart';
-
 part 'models/comment_type.dart';
-
 part 'visitor.dart';
 
 class FormatCommentRule extends CommonRule {
@@ -24,9 +23,7 @@ class FormatCommentRule extends CommonRule {
   static const _warning = 'Prefer formatting comments like sentences.';
 
   FormatCommentRule([Map<String, Object> config = const {}])
-      : _ignoredPatterns = List<String>.from(
-          config['ignored-patterns'] as List? ?? const <String>[],
-        ).map((stringPattern) => RegExp(stringPattern)),
+      : _ignoredPatterns = _ConfigParser.getIgnoredPatterns(config),
         super(
           id: ruleId,
           severity: readSeverity(config, Severity.style),
