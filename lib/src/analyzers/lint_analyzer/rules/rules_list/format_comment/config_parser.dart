@@ -6,7 +6,7 @@ class _ConfigParser {
   static Iterable<RegExp> getIgnoredPatterns(Map<String, Object> config) =>
       config[_ignoredPatternsConfig] is Iterable
           ? List<String>.from(
-              config[_ignoredPatternsConfig] as Iterable? ?? const <String>[],
+              config[_ignoredPatternsConfig] as Iterable,
             ).map((stringPattern) => RegExp(stringPattern))
           : const [];
 }
