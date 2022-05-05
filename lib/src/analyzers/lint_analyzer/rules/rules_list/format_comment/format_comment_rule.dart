@@ -22,6 +22,10 @@ class FormatCommentRule extends CommonRule {
 
   static const _warning = 'Prefer formatting comments like sentences.';
 
+  /// The patterns to ignore. They are used to ignore and not lint comments that
+  /// match at least one of them.
+  final Iterable<RegExp> _ignoredPatterns;
+
   FormatCommentRule([Map<String, Object> config = const {}])
       : _ignoredPatterns = _ConfigParser.getIgnoredPatterns(config),
         super(
@@ -29,10 +33,6 @@ class FormatCommentRule extends CommonRule {
           severity: readSeverity(config, Severity.style),
           excludes: readExcludes(config),
         );
-
-  /// The patterns to ignore. They are used to ignore and not lint comments that
-  /// match at least one of them.
-  final Iterable<RegExp> _ignoredPatterns;
 
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {

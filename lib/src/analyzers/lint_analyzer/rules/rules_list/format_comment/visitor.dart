@@ -11,9 +11,9 @@ const _ignoreExp = 'ignore:';
 const _ignoreForFileExp = 'ignore_for_file:';
 
 class _Visitor extends RecursiveAstVisitor<void> {
-  _Visitor(this._ignoredPatterns);
-
   final Iterable<RegExp> _ignoredPatterns;
+
+  _Visitor(this._ignoredPatterns);
 
   final _comments = <_CommentInfo>[];
 
