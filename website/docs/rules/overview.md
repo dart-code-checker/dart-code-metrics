@@ -59,6 +59,10 @@ Rules configuration is [described here](../getting-started/configuration#configu
 
     Warns about nested conditional expressions.
 
+- [avoid-non-ascii-symbols](./common/avoid-non-ascii-symbols.md)
+
+    Warns when a string literal contains non ascii characters.
+
 - [avoid-non-null-assertion](./common/avoid-non-null-assertion.md)
 
     Warns when non null assertion operator (or “bang” operator) is used for a property access or method invocation. The operator check works at runtime and it may fail and throw a runtime exception.
@@ -118,6 +122,10 @@ Rules configuration is [described here](../getting-started/configuration#configu
 - [prefer-async-await](./common/prefer-async-await.md)
 
     Recommends to use async/await syntax to handle Futures result instead of `.then()` invocation.
+
+- [prefer-commenting-analyzer-ignores](./common/prefer-commenting-analyzer-ignores.md)
+
+    Warns when `// ignore:` comments are left without any additional description why this ignore is applied.
 
 - [prefer-conditional-expressions](./common/prefer-conditional-expressions.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 

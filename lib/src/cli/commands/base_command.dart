@@ -14,11 +14,12 @@ import '../utils/detect_sdk_path.dart';
 abstract class BaseCommand extends Command<void> {
   @override
   ArgResults get argResults {
-    if (super.argResults == null) {
+    final results = super.argResults;
+    if (results == null) {
       throw StateError('Unexpected empty args parse result');
     }
 
-    return super.argResults!;
+    return results;
   }
 
   @override

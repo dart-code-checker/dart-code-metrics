@@ -23,7 +23,8 @@ class _Visitor extends IntlBaseVisitor {
     MethodInvocation methodInvocation,
     FormalParameterList? parameterList,
   ) {
-    final argsArgument = methodInvocation.argumentList.arguments
+    final arguments = methodInvocation.argumentList.arguments;
+    final argsArgument = arguments
         .whereType<NamedExpression>()
         .where((argument) => argument.name.label.name == 'args')
         .firstOrNull
@@ -60,8 +61,7 @@ class _Visitor extends IntlBaseVisitor {
       parameterSimpleIdentifiers,
     );
 
-    final messageArgument =
-        methodInvocation.argumentList.arguments.first.as<StringInterpolation>();
+    final messageArgument = arguments.first.as<StringInterpolation>();
 
     if (messageArgument != null) {
       final interpolationExpressions = messageArgument.elements

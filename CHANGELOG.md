@@ -7,11 +7,24 @@
 * chore: restrict `analyzer` version to `>=3.4.0 <3.5.0`.
 * chore: restrict `analyzer_plugin` version to `>=0.9.0 <0.10.0`.
 
-## Unreleased
+## 4.15.0
 
-* fix: cover more cases in [`prefer-immediate-return`](https://dartcodemetrics.dev/docs/rules/common/prefer-immediate-return) rule
+* fix: [`format-comment`](https://dartcodemetrics.dev/docs/rules/common/format-comment) is listing the macros from dart doc.
+* feat: add static code diagnostic [`avoid-non-ascii-symbols`](https://dartcodemetrics.dev/docs/rules/common/avoid-non-ascii-symbols).
+* feat: remove declaration in [`prefer-immediate-return`](https://dartcodemetrics.dev/docs/rules/common/prefer-immediate-return).
+* fix: correctly handle disabling rules with false.
+* fix: dart-code-metrics crash saying `Bad state: No element` when running command.
+
+## 4.14.0
+
+* feat: add static code diagnostic [`prefer-commenting-analyzer-ignores`](https://dartcodemetrics.dev/docs/rules/common/prefer-commenting-analyzer-ignores).
+* feat: add static code diagnostic [`prefer-moving-to-variable`](https://dartcodemetrics.dev/docs/rules/common/prefer-moving-to-variable).
+* fix: add check for supertypes for [`avoid-non-null-assertions`](https://dartcodemetrics.dev/docs/rules/common/avoid-non-null-assertion) rule.
+* fix: correctly handle nullable types of collections for [`avoid-collection-methods-with-unrelated-types`](https://dartcodemetrics.dev/docs/rules/common/avoid-collection-methods-with-unrelated-types) rule.
+* fix: cover more cases in [`prefer-immediate-return`](https://dartcodemetrics.dev/docs/rules/common/prefer-immediate-return) rule.
 * fix: support index expressions for [`no-magic-number`](https://dartcodemetrics.dev/docs/rules/common/no-magic-number) rule.
-* chore: restrict `analyzer` version to `>=2.4.0 <3.5.0`.
+* docs: update [`prefer-async-await`](https://dartcodemetrics.dev/docs/rules/common/prefer-async-await) rule.
+* chore: restrict [`analyzer`](https://pub.dev/packages/analyzer) version to `>=2.4.0 <3.4.0`.
 
 ## 4.13.0
 

@@ -13,6 +13,7 @@ import 'rules_list/avoid_late_keyword/avoid_late_keyword_rule.dart';
 import 'rules_list/avoid_magic_number/avoid_magic_number_rule.dart';
 import 'rules_list/avoid_missing_enum_constant_in_map/avoid_missing_enum_constant_in_map_rule.dart';
 import 'rules_list/avoid_nested_conditional_expressions/avoid_nested_conditional_expressions_rule.dart';
+import 'rules_list/avoid_non_ascii_symbols/avoid_non_ascii_symbols_rule.dart';
 import 'rules_list/avoid_non_null_assertion/avoid_non_null_assertion_rule.dart';
 import 'rules_list/avoid_object_declaration/avoid_object_declaration_rule.dart';
 import 'rules_list/avoid_preserve_whitespace_false/avoid_preserve_whitespace_false_rule.dart';
@@ -33,6 +34,7 @@ import 'rules_list/member_ordering/member_ordering_rule.dart';
 import 'rules_list/member_ordering_extended/member_ordering_extended_rule.dart';
 import 'rules_list/newline_before_return/newline_before_return_rule.dart';
 import 'rules_list/prefer_async_await/prefer_async_await_rule.dart';
+import 'rules_list/prefer_commenting_analyzer_ignores/prefer_commenting_analyzer_ignores.dart';
 import 'rules_list/prefer_conditional_expressions/prefer_conditional_expressions_rule.dart';
 import 'rules_list/prefer_const_border_radius/prefer_const_border_radius_rule.dart';
 import 'rules_list/prefer_correct_identifier_length/prefer_correct_identifier_length_rule.dart';
@@ -43,6 +45,7 @@ import 'rules_list/prefer_immediate_return/prefer_immediate_return_rule.dart';
 import 'rules_list/prefer_intl_name/prefer_intl_name_rule.dart';
 import 'rules_list/prefer_last/prefer_last_rule.dart';
 import 'rules_list/prefer_match_file_name/prefer_match_file_name_rule.dart';
+import 'rules_list/prefer_moving_to_variable/prefer_moving_to_variable_rule.dart';
 import 'rules_list/prefer_on_push_cd_strategy/prefer_on_push_cd_strategy_rule.dart';
 import 'rules_list/prefer_single_widget_per_file/prefer_single_widget_per_file_rule.dart';
 import 'rules_list/prefer_trailing_comma/prefer_trailing_comma_rule.dart';
@@ -69,6 +72,7 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
       AvoidMissingEnumConstantInMapRule(config),
   AvoidNestedConditionalExpressionsRule.ruleId: (config) =>
       AvoidNestedConditionalExpressionsRule(config),
+  AvoidNonAsciiSymbolsRule.ruleId: (config) => AvoidNonAsciiSymbolsRule(config),
   AvoidNonNullAssertionRule.ruleId: (config) =>
       AvoidNonNullAssertionRule(config),
   AvoidObjectDeclarationRule.ruleId: (config) =>
@@ -103,6 +107,8 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
       MemberOrderingExtendedRule(config),
   NewlineBeforeReturnRule.ruleId: (config) => NewlineBeforeReturnRule(config),
   PreferAsyncAwaitRule.ruleId: (config) => PreferAsyncAwaitRule(config),
+  PreferCommentingAnalyzerIgnores.ruleId: (config) =>
+      PreferCommentingAnalyzerIgnores(config),
   PreferConditionalExpressionsRule.ruleId: (config) =>
       PreferConditionalExpressionsRule(config),
   PreferConstBorderRadiusRule.ruleId: (config) =>
@@ -119,6 +125,8 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   PreferIntlNameRule.ruleId: (config) => PreferIntlNameRule(config),
   PreferLastRule.ruleId: (config) => PreferLastRule(config),
   PreferMatchFileNameRule.ruleId: (config) => PreferMatchFileNameRule(config),
+  PreferMovingToVariableRule.ruleId: (config) =>
+      PreferMovingToVariableRule(config),
   PreferOnPushCdStrategyRule.ruleId: (config) =>
       PreferOnPushCdStrategyRule(config),
   PreferSingleWidgetPerFileRule.ruleId: (config) =>

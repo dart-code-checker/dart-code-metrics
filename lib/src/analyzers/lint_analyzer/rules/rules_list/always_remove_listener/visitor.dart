@@ -193,17 +193,19 @@ class _ListenableVisitor extends RecursiveAstVisitor<void> {
   void visitMethodInvocation(MethodInvocation node) {
     super.visitMethodInvocation(node);
 
-    if (node.methodName.name == 'addListener') {
+    final name = node.methodName.name;
+
+    if (name == 'addListener') {
       final type = node.realTarget?.staticType;
       if (isSubclassOfListenable(type)) {
         _addedListeners.add(node);
       }
-    } else if (node.methodName.name == 'removeListener') {
+    } else if (name == 'removeListener') {
       final type = node.realTarget?.staticType;
       if (isSubclassOfListenable(type)) {
         _removedListeners.add(node);
       }
-    } else if (node.methodName.name == 'dispose') {
+    } else if (name == 'dispose') {
       final type = node.realTarget?.staticType;
       if (isSubclassOfListenable(type)) {
         _disposedListeners.add(node);

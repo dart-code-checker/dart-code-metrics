@@ -349,9 +349,12 @@ class LintHtmlReporter extends HtmlReporter<LintFileReport,
       final complexityValueElement = Element.tag('div')
         ..classes.add('metrics-source-code__text');
 
-      final classReport = record.classes.entries.firstWhereOrNull((report) =>
-          report.value.location.start.line <= lineIndex &&
-          report.value.location.end.line >= lineIndex);
+      final classReport = record.classes.entries.firstWhereOrNull((report) {
+        final location = report.value.location;
+
+        return location.start.line <= lineIndex &&
+            location.end.line >= lineIndex;
+      });
       if (classReport != null &&
           classReport.value.location.start.line == lineIndex) {
         complexityValueElement
@@ -435,6 +438,8 @@ class LintHtmlReporter extends HtmlReporter<LintFileReport,
       cyclomaticValues.append(complexityValueElement);
     }
 
+    final from = p.dirname(record.relativePath);
+
     final codeBlock = Element.tag('td')
       ..classes.add('metrics-source-code__code')
       ..append(Element.tag('pre')
@@ -445,13 +450,12 @@ class LintHtmlReporter extends HtmlReporter<LintFileReport,
       ..append(Element.tag('h1')
         ..classes.add('metric-header')
         ..append(Element.tag('a')
-          ..attributes['href'] =
-              p.relative('index.html', from: p.dirname(record.relativePath))
+          ..attributes['href'] = p.relative('index.html', from: from)
           ..text = 'All files')
         ..append(Element.tag('span')..text = ' : ')
         ..append(Element.tag('a')
           ..attributes['href'] = 'index.html'
-          ..text = p.dirname(record.relativePath))
+          ..text = from)
         ..append(
           Element.tag('span')..text = '/${p.basename(record.relativePath)}',
         ))
@@ -488,20 +492,16 @@ class LintHtmlReporter extends HtmlReporter<LintFileReport,
       ..append(Element.tag('meta')..attributes['charset'] = 'utf-8')
       ..append(Element.tag('link')
         ..attributes['rel'] = 'stylesheet'
-        ..attributes['href'] =
-            p.relative('variables.css', from: p.dirname(record.relativePath)))
+        ..attributes['href'] = p.relative('variables.css', from: from))
       ..append(Element.tag('link')
         ..attributes['rel'] = 'stylesheet'
-        ..attributes['href'] =
-            p.relative('normalize.css', from: p.dirname(record.relativePath)))
+        ..attributes['href'] = p.relative('normalize.css', from: from))
       ..append(Element.tag('link')
         ..attributes['rel'] = 'stylesheet'
-        ..attributes['href'] =
-            p.relative('base.css', from: p.dirname(record.relativePath)))
+        ..attributes['href'] = p.relative('base.css', from: from))
       ..append(Element.tag('link')
         ..attributes['rel'] = 'stylesheet'
-        ..attributes['href'] =
-            p.relative('main.css', from: p.dirname(record.relativePath)));
+        ..attributes['href'] = p.relative('main.css', from: from));
 
     final html = Element.tag('html')
       ..attributes['lang'] = 'en'

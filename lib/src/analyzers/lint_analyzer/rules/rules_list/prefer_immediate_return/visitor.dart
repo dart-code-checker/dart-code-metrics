@@ -9,12 +9,12 @@ class _Visitor extends RecursiveAstVisitor<void> {
   void visitBlock(Block node) {
     super.visitBlock(node);
 
-    if (node.statements.length < 2) {
+    final length = node.statements.length;
+    if (length < 2) {
       return;
     }
 
-    final variableDeclarationStatement =
-        node.statements[node.statements.length - 2];
+    final variableDeclarationStatement = node.statements[length - 2];
     final returnStatement = node.statements.last;
     if (variableDeclarationStatement is! VariableDeclarationStatement ||
         returnStatement is! ReturnStatement) {
@@ -33,7 +33,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
     }
 
     _issues.add(_IssueDetails(
-      lastDeclaredVariable.initializer,
+      lastDeclaredVariable,
       returnStatement,
     ));
   }
@@ -41,10 +41,10 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
 class _IssueDetails {
   const _IssueDetails(
-    this.variableDeclarationInitializer,
+    this.variableDeclaration,
     this.returnStatement,
   );
 
-  final Expression? variableDeclarationInitializer;
+  final VariableDeclaration variableDeclaration;
   final ReturnStatement returnStatement;
 }

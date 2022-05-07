@@ -28,7 +28,7 @@ Good:
 
 ```dart
 Future<void> main() async {
-  final result = await someFuture; (result) => handleResult(result));
+  final result = await someFuture;
   handleResult(result);
 
   final anotherResult = await foo.asyncMethod();

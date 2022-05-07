@@ -64,18 +64,32 @@ class AnalysisOptions {
     }
 
     if (data is Iterable<Object>) {
-      return Map.unmodifiable(Map<String, Map<String, Object>>.fromEntries([
-        ...data.whereType<String>().map((node) => MapEntry(node, {})),
-        ...data
-            .whereType<Map<String, Object>>()
-            .where((node) =>
-                node.keys.length == 1 &&
-                node.values.first is Map<String, Object>)
-            .map((node) => MapEntry(
-                  node.keys.first,
-                  node.values.first as Map<String, Object>,
-                )),
-      ]));
+      return Map.unmodifiable(Map<String, Map<String, Object>>.fromEntries(
+        data.fold([], (previousValue, element) {
+          if (element is String) {
+            return [...previousValue, MapEntry(element, <String, Object>{})];
+          }
+
+          if (element is Map<String, Object>) {
+            final hasSingleKey = element.keys.length == 1;
+            final value = element.values.first;
+
+            if (hasSingleKey && value is Map<String, Object> || value is bool) {
+              final updatedValue = value is bool
+                  ? <String, Object>{'enabled': value}
+                  : value as Map<String, Object>;
+
+              return [
+                ...previousValue,
+                MapEntry(element.keys.first, updatedValue),
+              ];
+            }
+          }
+
+          return previousValue;
+        }),
+      )..removeWhere((key, value) =>
+          (value['enabled'] is bool && value['enabled'] == false)));
     } else if (data is Map<String, Object>) {
       final rulesNode = data;
 
