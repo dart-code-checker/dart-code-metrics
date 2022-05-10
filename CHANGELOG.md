@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* fix: [`avoid-border-all`](https://dartcodemetrics.dev/docs/rules/flutter/avoid-border-all) is triggered even when it is not a const.
+
 ## 4.15.0
 
 * fix: [`format-comment`](https://dartcodemetrics.dev/docs/rules/common/format-comment) is listing the macros from dart doc.
