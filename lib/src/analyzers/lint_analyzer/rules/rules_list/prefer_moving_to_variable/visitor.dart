@@ -74,7 +74,6 @@ class _BlockVisitor extends RecursiveAstVisitor<void> {
     final visitedBlock = visitedInvocation.thisOrAncestorOfType<Block>();
     final parentBlock = node.thisOrAncestorOfType<Block>();
 
-    // ignore: avoid-late-keyword
     final grandParentBlock = parentBlock?.thisOrAncestorMatching(
       (block) => block is Block && block != parentBlock,
     );
