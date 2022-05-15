@@ -1,8 +1,9 @@
 // ignore_for_file: public_member_api_docs
 
 import 'dart:async';
+import 'dart:io' as io;
 
-import 'package:analyzer/dart/analysis/context_locator.dart';
+import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/file_system/file_system.dart';
 import 'package:analyzer/file_system/physical_file_system.dart';
@@ -12,6 +13,8 @@ import 'package:analyzer/src/analysis_options/analysis_options_provider.dart';
 import 'package:analyzer/src/dart/analysis/context_builder.dart';
 // ignore: implementation_imports
 import 'package:analyzer/src/dart/analysis/driver.dart';
+// ignore: implementation_imports
+import 'package:analyzer/src/dart/analysis/file_content_cache.dart';
 import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
 
@@ -30,9 +33,10 @@ final _byteStore = createByteStore(PhysicalResourceProvider.INSTANCE);
 class AnalyzerPlugin extends ServerPlugin {
   static const _analyzer = LintAnalyzer();
 
-  final _configs = <AnalysisDriverGeneric, LintAnalysisConfig>{};
+  late final FileContentCache _fileContentCache;
 
   var _filesFromSetPriorityFilesRequest = <String>[];
+  final _configs = <AnalysisDriverGeneric, LintAnalysisConfig>{};
 
   @override
   String get contactInfo =>
@@ -47,24 +51,40 @@ class AnalyzerPlugin extends ServerPlugin {
   @override
   String get version => '1.0.0-alpha.0';
 
-  AnalyzerPlugin(ResourceProvider provider) : super(provider);
-
-  @override
-  void contentChanged(String path) {
-    super.driverForPath(path)?.addFile(path);
+  AnalyzerPlugin(ResourceProvider provider)
+      : super(resourceProvider: provider) {
+    _fileContentCache = FileContentCache(resourceProvider);
   }
+/*
+  @override
+  void contentChanged(List<String> paths) {
+    // super.driverForPath(path)?.addFile(path);
+    logLine('[contentChanged][path: $path]');
+    final driver = super.driverForPath(path);
+    if (driver is AnalysisDriver) {
+      driver.changeFile(path);
+      runZonedGuarded(
+        () async {
+          final affectedFiles = await driver.applyPendingFileChanges();
+          await _analyzeFiles(driver, affectedFiles);
+        },
+        (e, stackTrace) {
+          logLine('[exception][e: $e][stackTrace: $stackTrace]');
+          channel.sendNotification(
+            plugin.PluginErrorParams(false, e.toString(), stackTrace.toString())
+                .toNotification(),
+          );
+        },
+      );
+    }
+  }
+*/
 
   @override
-  AnalysisDriverGeneric createAnalysisDriver(plugin.ContextRoot contextRoot) {
-    final rootPath = contextRoot.root;
-    final locator =
-        ContextLocator(resourceProvider: resourceProvider).locateRoots(
-      includedPaths: [rootPath],
-      excludedPaths: contextRoot.exclude,
-      optionsFile: contextRoot.optionsFile,
-    );
-
-    if (locator.isEmpty) {
+  Future<void> afterNewContextCollection({
+    required AnalysisContextCollection contextCollection,
+  }) {
+    if (contextCollection.contexts.isEmpty) {
       final error = StateError('Unexpected empty context');
       channel.sendNotification(plugin.PluginErrorParams(
         true,
@@ -75,17 +95,22 @@ class AnalyzerPlugin extends ServerPlugin {
       throw error;
     }
 
+    final contextRoot2 = contextCollection.contexts.first.contextRoot;
+    logLine(
+        '[create][contextRoots: ${contextCollection.contexts.map((e) => e.contextRoot.root.path)}]');
+
     final builder = ContextBuilderImpl(resourceProvider: resourceProvider);
     final context = builder.createContext(
-      contextRoot: locator.first,
+      contextRoot: contextRoot2,
       byteStore: _byteStore,
+      fileContentCache: _fileContentCache,
     );
     final dartDriver = context.driver;
-    final config = _createConfig(dartDriver, rootPath);
+    final config = _createConfig(dartDriver, contextRoot2.root.path);
 
-    if (config == null) {
-      return dartDriver;
-    }
+//    if (config == null) {
+//      return dartDriver;
+//    }
 
     // Temporary disable deprecation check
     //
@@ -102,14 +127,17 @@ class AnalyzerPlugin extends ServerPlugin {
     // }
 
     runZonedGuarded(
-      () {
-        dartDriver.results.listen((analysisResult) {
-          if (analysisResult is ResolvedUnitResult) {
-            _processResult(dartDriver, analysisResult);
-          }
-        });
+      () async {
+        final filesToAnalyze = contextRoot2.analyzedFiles().toList();
+        await _analyzeFiles(dartDriver, filesToAnalyze);
+        // dartDriver.results.listen((analysisResult) {
+        //   if (analysisResult is ResolvedUnitResult) {
+        //     _processResult(dartDriver, analysisResult);
+        //   }
+        // });
       },
       (e, stackTrace) {
+        logLine('[exception][e: $e][stackTrace: $stackTrace]');
         channel.sendNotification(
           plugin.PluginErrorParams(false, e.toString(), stackTrace.toString())
               .toNotification(),
@@ -117,7 +145,39 @@ class AnalyzerPlugin extends ServerPlugin {
       },
     );
 
-    return dartDriver;
+    return super
+        .afterNewContextCollection(contextCollection: contextCollection);
+  }
+
+  Future<void> _analyzeFiles(
+    AnalysisDriver dartDriver,
+    List<String> filesToAnalyze,
+  ) async {
+    logLine(
+      '[analyzeFiles][root: ${dartDriver.name}][filesToAnalyze: $filesToAnalyze]',
+    );
+    final analysisSession = dartDriver.currentSession;
+    for (final path in filesToAnalyze) {
+      if (path.endsWith('.dart')) {
+        logLine('  [path: $path]');
+        final analysisResult = await analysisSession.getResolvedUnit(path);
+        if (analysisResult is ResolvedUnitResult) {
+          logLine('    [has ResolvedUnitResult]');
+          _processResult(dartDriver, analysisResult);
+          logLine('    processed');
+        }
+      }
+    }
+    dartDriver.clearLibraryContext();
+  }
+
+  @override
+  void logLine(String line) {
+    io.File('/Users/dmitry/Development/plugin_log.txt').writeAsStringSync(
+      '$line\n',
+      mode: io.FileMode.append,
+      flush: true,
+    );
   }
 
   @override
@@ -146,14 +206,9 @@ class AnalyzerPlugin extends ServerPlugin {
     plugin.EditGetFixesParams parameters,
   ) async {
     try {
-      final driver = driverForPath(parameters.file) as AnalysisDriver;
-      // ignore: deprecated_member_use
-      final analysisResult = await driver.getResult2(parameters.file);
+      final analysisResult = await getResolvedUnitResult(parameters.file);
 
-      if (analysisResult is! ResolvedUnitResult) {
-        return plugin.EditGetFixesResult([]);
-      }
-
+/*
       final fixes = _check(driver, analysisResult).where((fix) {
         final location = fix.error.location;
 
@@ -164,6 +219,8 @@ class AnalyzerPlugin extends ServerPlugin {
       }).toList();
 
       return plugin.EditGetFixesResult(fixes);
+*/
+      return plugin.EditGetFixesResult([]);
     } on Exception catch (e, stackTrace) {
       channel.sendNotification(
         plugin.PluginErrorParams(false, e.toString(), stackTrace.toString())
@@ -278,6 +335,7 @@ class AnalyzerPlugin extends ServerPlugin {
   /// As a result, [_processResult] will get called with resolved units, and thus all of our diagnostics
   /// will get run on all files in the repo instead of only the currently open/edited ones!
   void _updatePriorityFiles() {
+/*
     final filesToFullyResolve = {
       // Ensure these go first, since they're actually considered priority; ...
       ..._filesFromSetPriorityFilesRequest,
@@ -302,5 +360,6 @@ class AnalyzerPlugin extends ServerPlugin {
     filesByDriver.forEach((driver, files) {
       driver.priorityFiles = files;
     });
+*/
   }
 }

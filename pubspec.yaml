@@ -11,7 +11,8 @@ environment:
 
 dependencies:
   analyzer: ">=2.4.0 <4.1.0"
-  analyzer_plugin: ">=0.8.0 <0.11.0"
+  analyzer_plugin:
+    path: /Users/dmitry/Development/dart/sdk/pkg/analyzer_plugin
   ansicolor: ^2.0.1
   args: ^2.0.0
   collection: ^1.15.0
