@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* fix: temporary remove enums support for [`prefer-trailing-comma`](https://dartcodemetrics.dev/docs/rules/common/prefer-trailing-comma).
+
 ## 4.15.1
 
 * chore: restrict `analyzer` version to `>=2.4.0 <4.1.0`.
