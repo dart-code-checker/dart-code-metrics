@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* fix: [`avoid-border-all`](https://dartcodemetrics.dev/docs/rules/flutter/avoid-border-all) is triggered even when it is not a const.
+
 ## 4.15.1
 
 * chore: restrict `analyzer` version to `>=2.4.0 <4.1.0`.
