@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 4.15.2
 
 * feat: add the `ignored-patterns` option to [`format-comment`](https://dartcodemetrics.dev/docs/rules/common/format-comment). The given regular expressions will be used to ignore comments that match them.
 * fix: [`avoid-border-all`](https://dartcodemetrics.dev/docs/rules/flutter/avoid-border-all) is triggered even when it is not a const.
