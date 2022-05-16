@@ -1,5 +1,5 @@
 class MyWidget extends StatelessWidget {
-  Widget build(BuildContext _) => Column(children: [
+  Widget build(BuildContext context) => Column(children: [
         const Container(border: Border.fromBorderSide(BorderSide())),
         Container(border: Border.all()), // LINT
         Container(
@@ -25,6 +25,11 @@ class MyWidget extends StatelessWidget {
             color: const Color(0),
             width: foo(),
             style: BorderStyle.none,
+          ),
+        ),
+        Container(
+          border: Border.all(
+            color: Theme.of(context).color,
           ),
         ),
         Container(
@@ -106,3 +111,9 @@ class Widget {
 }
 
 class BuildContext {}
+
+class Theme {
+  const color = Color(0);
+
+  static Color of(BuildContext context) => color;
+}
