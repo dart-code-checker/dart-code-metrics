@@ -2,7 +2,13 @@
 
 ## Unreleased
 
+* fix: [`avoid-border-all`](https://dartcodemetrics.dev/docs/rules/flutter/avoid-border-all) is triggered even when it is not a const.
 * fix: remove duplicated and ignore void function calls for [`prefer-moving-to-variable`](https://dartcodemetrics.dev/docs/rules/common/prefer-moving-to-variable).
+
+## 4.15.1
+
+* chore: restrict `analyzer` version to `>=2.4.0 <4.1.0`.
+* chore: restrict `analyzer_plugin` version to `>=0.8.0 <0.11.0`.
 
 ## 4.15.0
 
