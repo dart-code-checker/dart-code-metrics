@@ -89,5 +89,39 @@ void main() {
       final unit = await RuleTestHelper.resolveFromFile(_withoutIssuePath);
       RuleTestHelper.verifyNoIssues(FormatCommentRule().check(unit));
     });
+
+    test('ignores the given patterns', () async {
+      final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+      final issues = FormatCommentRule(const {
+        'ignored-patterns': [
+          // Ignores all the comments that start with 'Without'.
+          r'^Without.*$',
+        ],
+      }).check(unit);
+
+      RuleTestHelper.verifyIssues(
+        issues: issues,
+        startLines: [1, 5, 8, 10],
+        startColumns: [1, 5, 3, 5],
+        locationTexts: [
+          '// With start space without dot',
+          '// with start space with dot.',
+          '/// With start space without dot',
+          '/// with start space with dot.',
+        ],
+        messages: [
+          'Prefer formatting comments like sentences.',
+          'Prefer formatting comments like sentences.',
+          'Prefer formatting comments like sentences.',
+          'Prefer formatting comments like sentences.',
+        ],
+        replacements: [
+          '// With start space without dot.',
+          '// With start space with dot.',
+          '/// With start space without dot.',
+          '/// With start space with dot.',
+        ],
+      );
+    });
   });
 }
