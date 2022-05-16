@@ -29,13 +29,6 @@ class _Visitor extends RecursiveAstVisitor<void> {
   }
 
   @override
-  void visitEnumDeclaration(EnumDeclaration node) {
-    super.visitEnumDeclaration(node);
-
-    _visitNodeList(node.constants, node.leftBracket, node.rightBracket);
-  }
-
-  @override
   void visitListLiteral(ListLiteral node) {
     super.visitListLiteral(node);
 

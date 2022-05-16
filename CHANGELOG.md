@@ -4,6 +4,7 @@
 
 * fix: [`avoid-border-all`](https://dartcodemetrics.dev/docs/rules/flutter/avoid-border-all) is triggered even when it is not a const.
 * fix: remove duplicated and ignore void function calls for [`prefer-moving-to-variable`](https://dartcodemetrics.dev/docs/rules/common/prefer-moving-to-variable).
+* fix: temporary remove enums support for [`prefer-trailing-comma`](https://dartcodemetrics.dev/docs/rules/common/prefer-trailing-comma).
 
 ## 4.15.1
 
