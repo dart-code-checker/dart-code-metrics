@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* chore: restrict `analyzer` version to `>=2.4.0 <4.2.0`.
+
 ## 4.15.2
 
 * feat: add the `ignored-patterns` option to [`format-comment`](https://dartcodemetrics.dev/docs/rules/common/format-comment). The given regular expressions will be used to ignore comments that match them.
