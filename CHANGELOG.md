@@ -3,6 +3,7 @@
 ## Unreleased
 
 * chore: restrict `analyzer` version to `>=2.4.0 <4.2.0`.
+* fix: normalize file paths after extraction from analyzed folder.
 
 ## 4.15.2
 
