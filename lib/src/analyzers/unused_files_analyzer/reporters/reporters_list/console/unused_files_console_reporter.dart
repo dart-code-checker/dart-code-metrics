@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import '../../../../../reporters/models/console_reporter.dart';
 import '../../../models/unused_files_file_report.dart';
 import '../../unused_files_report_params.dart';
@@ -9,7 +7,7 @@ import '../../unused_files_report_params.dart';
 /// Use it to create reports in console format.
 class UnusedFilesConsoleReporter extends ConsoleReporter<UnusedFilesFileReport,
     void, UnusedFilesReportParams> {
-  UnusedFilesConsoleReporter(IOSink output) : super(output);
+  UnusedFilesConsoleReporter(super.output);
 
   @override
   Future<void> report(

@@ -111,7 +111,7 @@ class _Visitor extends IntlBaseVisitor {
   void _checkItemsOnSimple<T extends AstNode>(Iterable<T> items) {
     addIssues(items
         .where((item) => item is! SimpleIdentifier)
-        .map((item) => _MustBeSimpleIdentifierIssue(item)));
+        .map(_MustBeSimpleIdentifierIssue.new));
   }
 
   void _checkAllParametersMustBeContainsInArgs(
@@ -121,7 +121,7 @@ class _Visitor extends IntlBaseVisitor {
     _addIssuesIfNotContains(
       parameters,
       argsArgument,
-      (arg) => _ParameterMustBeInArgsIssue(arg),
+      _ParameterMustBeInArgsIssue.new,
     );
   }
 
@@ -132,7 +132,7 @@ class _Visitor extends IntlBaseVisitor {
     _addIssuesIfNotContains(
       argsArgument,
       parameters,
-      (arg) => _ArgsMustBeInParameterIssue(arg),
+      _ArgsMustBeInParameterIssue.new,
     );
   }
 
@@ -143,7 +143,7 @@ class _Visitor extends IntlBaseVisitor {
     _addIssuesIfNotContains(
       simpleIdentifierExpressions,
       parameters,
-      (arg) => _InterpolationMustBeInParameterIssue(arg),
+      _InterpolationMustBeInParameterIssue.new,
     );
   }
 
@@ -154,7 +154,7 @@ class _Visitor extends IntlBaseVisitor {
     _addIssuesIfNotContains(
       simpleIdentifierExpressions,
       args,
-      (arg) => _InterpolationMustBeInArgsIssue(arg),
+      _InterpolationMustBeInArgsIssue.new,
     );
   }
 
@@ -174,60 +174,58 @@ class _Visitor extends IntlBaseVisitor {
 
 class _NotExistArgsIssue extends IntlBaseIssue {
   const _NotExistArgsIssue(
-    AstNode node,
-  ) : super(node, nameFailure: 'Parameter "args" should be added');
+    super.node,
+  ) : super(nameFailure: 'Parameter "args" should be added');
 }
 
 class _ArgsMustBeOmittedIssue extends IntlBaseIssue {
   const _ArgsMustBeOmittedIssue(
-    AstNode node,
-  ) : super(node, nameFailure: 'Parameter "args" should be removed');
+    super.node,
+  ) : super(nameFailure: 'Parameter "args" should be removed');
 }
 
 class _ArgsItemMustBeOmittedIssue extends IntlBaseIssue {
   const _ArgsItemMustBeOmittedIssue(
-    AstNode node,
-  ) : super(node, nameFailure: 'Item is unused and should be removed');
+    super.node,
+  ) : super(nameFailure: 'Item is unused and should be removed');
 }
 
 class _ParameterMustBeOmittedIssue extends IntlBaseIssue {
   const _ParameterMustBeOmittedIssue(
-    AstNode node,
-  ) : super(node, nameFailure: 'Parameter is unused and should be removed');
+    super.node,
+  ) : super(nameFailure: 'Parameter is unused and should be removed');
 }
 
 class _MustBeSimpleIdentifierIssue extends IntlBaseIssue {
   const _MustBeSimpleIdentifierIssue(
-    AstNode node,
-  ) : super(node, nameFailure: 'Item should be simple identifier');
+    super.node,
+  ) : super(nameFailure: 'Item should be simple identifier');
 }
 
 class _ParameterMustBeInArgsIssue extends IntlBaseIssue {
   const _ParameterMustBeInArgsIssue(
-    AstNode node,
-  ) : super(node, nameFailure: 'Parameter should be added to args');
+    super.node,
+  ) : super(nameFailure: 'Parameter should be added to args');
 }
 
 class _ArgsMustBeInParameterIssue extends IntlBaseIssue {
   const _ArgsMustBeInParameterIssue(
-    AstNode node,
-  ) : super(node, nameFailure: 'Args item should be added to parameters');
+    super.node,
+  ) : super(nameFailure: 'Args item should be added to parameters');
 }
 
 class _InterpolationMustBeInArgsIssue extends IntlBaseIssue {
   const _InterpolationMustBeInArgsIssue(
-    AstNode node,
+    super.node,
   ) : super(
-          node,
           nameFailure: 'Interpolation expression should be added to args',
         );
 }
 
 class _InterpolationMustBeInParameterIssue extends IntlBaseIssue {
   const _InterpolationMustBeInParameterIssue(
-    AstNode node,
+    super.node,
   ) : super(
-          node,
           nameFailure: 'Interpolation expression should be added to parameters',
         );
 }

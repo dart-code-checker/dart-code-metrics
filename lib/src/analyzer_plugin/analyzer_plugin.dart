@@ -47,7 +47,7 @@ class AnalyzerPlugin extends ServerPlugin {
   @override
   String get version => '1.0.0-alpha.0';
 
-  AnalyzerPlugin(ResourceProvider provider) : super(provider);
+  AnalyzerPlugin(ResourceProvider super.provider);
 
   @override
   void contentChanged(String path) {
@@ -147,8 +147,7 @@ class AnalyzerPlugin extends ServerPlugin {
   ) async {
     try {
       final driver = driverForPath(parameters.file) as AnalysisDriver;
-      // ignore: deprecated_member_use
-      final analysisResult = await driver.getResult2(parameters.file);
+      final analysisResult = await driver.getResult(parameters.file);
 
       if (analysisResult is! ResolvedUnitResult) {
         return plugin.EditGetFixesResult([]);

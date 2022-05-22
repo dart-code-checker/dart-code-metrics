@@ -11,8 +11,7 @@ class _Visitor extends SimpleAstVisitor<void> {
 
   @override
   void visitClassDeclaration(ClassDeclaration node) {
-    // ignore: deprecated_member_use
-    final classType = node.extendsClause?.superclass2.type;
+    final classType = node.extendsClause?.superclass.type;
     if (!isWidgetOrSubclass(classType) && !isWidgetStateOrSubclass(classType)) {
       return;
     }

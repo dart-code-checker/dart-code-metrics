@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import '../../../../../reporters/models/console_reporter.dart';
 import '../../../models/unused_l10n_file_report.dart';
 import '../../unused_l10n_report_params.dart';
@@ -9,7 +7,7 @@ import '../../unused_l10n_report_params.dart';
 /// Use it to create reports in console format.
 class UnusedL10nConsoleReporter extends ConsoleReporter<UnusedL10nFileReport,
     void, UnusedL10NReportParams> {
-  UnusedL10nConsoleReporter(IOSink output) : super(output);
+  UnusedL10nConsoleReporter(super.output);
 
   @override
   Future<void> report(
