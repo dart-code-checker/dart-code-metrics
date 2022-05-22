@@ -3,6 +3,7 @@
 ## Unreleased
 
 * chore: restrict `analyzer` version to `>=2.4.0 <4.2.0`.
+* build: changed min `SDK` version to `2.17.1`.
 
 ## 4.15.2
 
