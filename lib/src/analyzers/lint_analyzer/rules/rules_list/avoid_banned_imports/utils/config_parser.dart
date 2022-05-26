@@ -21,7 +21,10 @@ class _ConfigParser {
       }).toList();
 
   static List<RegExp> _parseListRegExp(Object? object) =>
-      (object! as List<Object?>).map((e) => e! as String).map((e) => RegExp(e)).toList();
+      (object! as List<Object?>)
+          .map((e) => e! as String)
+          .map((e) => RegExp(e))
+          .toList();
 }
 
 class _AvoidBannedImportsConfigEntry {
