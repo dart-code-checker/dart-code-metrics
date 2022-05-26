@@ -11,6 +11,10 @@ Rules configuration is [described here](../getting-started/configuration#configu
 
 ## Common {#common}
 
+- [avoid-banned-imports](./common/avoid-banned-imports.md) &nbsp; [![Configurable](https://img.shields.io/badge/-configurable-informational)](./common/avoid-banned-imports.md#config-example)
+
+    Configure some imports that you want to ban.
+
 - [avoid-collection-methods-with-unrelated-types](./common/avoid-collection-methods-with-unrelated-types.md)
 
     Avoid using collection methods with unrelated types, such as accessing a map of integers using a string key.
