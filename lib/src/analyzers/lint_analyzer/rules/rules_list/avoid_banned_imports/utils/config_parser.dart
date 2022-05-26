@@ -1,27 +1,36 @@
 part of '../avoid_banned_imports_rule.dart';
 
 const _entriesLabel = 'entries';
-const _identLabel = 'ident';
-const _descriptionLabel = 'description';
+const _pathsLabel = 'paths';
+const _denyLabel = 'deny';
+const _messageLabel = 'message';
 
 /// Parser for rule configuration.
 class _ConfigParser {
-  static List<_BanNameConfigEntry> _parseEntryConfig(
+  static List<_AvoidBannedImportsConfigEntry> _parseEntryConfig(
     Map<String, Object> config,
   ) =>
       (config[_entriesLabel] as Iterable<Object?>? ?? []).map((entry) {
         final entryMap = entry as Map<Object?, Object?>;
 
-        return _BanNameConfigEntry(
-          ident: entryMap[_identLabel] as String,
-          description: entryMap[_descriptionLabel] as String,
+        return _AvoidBannedImportsConfigEntry(
+          paths: _parseListString(entryMap[_pathsLabel]),
+          deny: _parseListString(entryMap[_denyLabel]),
+          message: entryMap[_messageLabel] as String,
         );
       }).toList();
+
+  static List<String> _parseListString(Object? object) => (object! as List<Object?>).map((e) => e! as String).toList();
 }
 
-class _BanNameConfigEntry {
-  final String ident;
-  final String description;
+class _AvoidBannedImportsConfigEntry {
+  final List<String> paths;
+  final List<String> deny;
+  final String message;
 
-  _BanNameConfigEntry({required this.ident, required this.description});
+  _AvoidBannedImportsConfigEntry({
+    required this.paths,
+    required this.deny,
+    required this.message,
+  });
 }

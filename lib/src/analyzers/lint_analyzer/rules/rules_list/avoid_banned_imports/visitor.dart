@@ -1,13 +1,13 @@
 part of 'avoid_banned_imports_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
-  final Map<String, _BanNameConfigEntry> _entryMap;
+  final Map<String, _AvoidBannedImportsConfigEntry> _entryMap;
 
   final _nodes = <_NodeWithMessage>[];
 
   Iterable<_NodeWithMessage> get nodes => _nodes;
 
-  _Visitor(List<_BanNameConfigEntry> entries)
+  _Visitor(List<_AvoidBannedImportsConfigEntry> entries)
       : _entryMap = Map.fromEntries(entries.map((e) => MapEntry(e.ident, e)));
 
   @override

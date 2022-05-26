@@ -17,7 +17,7 @@ part 'utils/config_parser.dart';
 class AvoidBannedImportsRule extends CommonRule {
   static const String ruleId = 'avoid-banned-imports';
 
-  final List<_BanNameConfigEntry> _entries;
+  final List<_AvoidBannedImportsConfigEntry> _entries;
 
   AvoidBannedImportsRule([Map<String, Object> config = const {}])
       : _entries = _ConfigParser._parseEntryConfig(config),
