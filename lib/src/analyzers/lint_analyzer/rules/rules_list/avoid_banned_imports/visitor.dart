@@ -1,49 +1,30 @@
 part of 'avoid_banned_imports_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
-  final Map<String, _AvoidBannedImportsConfigEntry> _entryMap;
+  final List<_AvoidBannedImportsConfigEntry> entries;
 
   final _nodes = <_NodeWithMessage>[];
 
   Iterable<_NodeWithMessage> get nodes => _nodes;
 
-  _Visitor(List<_AvoidBannedImportsConfigEntry> entries)
-      : _entryMap = Map.fromEntries(entries.map((e) => MapEntry(e.ident, e)));
+  _Visitor(this.entries);
 
   @override
-  void visitSimpleIdentifier(SimpleIdentifier node) {
-    super.visitSimpleIdentifier(node);
-    _visitIdent(node, node);
-  }
+  void visitImportDirective(ImportDirective node) {
+    print('hi node=$node');
 
-  @override
-  void visitPrefixedIdentifier(PrefixedIdentifier node) {
-    super.visitPrefixedIdentifier(node);
-    _visitIdent(node, node.identifier);
-    _visitIdent(node, node.prefix);
-  }
-
-  @override
-  void visitLibraryIdentifier(LibraryIdentifier node) {
-    super.visitLibraryIdentifier(node);
-    for (final component in node.components) {
-      _visitIdent(node, component);
-    }
-  }
-
-  void _visitIdent(Expression node, SimpleIdentifier ident) {
-    final name = ident.name;
-    if (_entryMap.containsKey(name)) {
+    // TODO
+    if (false) {
       _nodes.add(_NodeWithMessage(
         node,
-        '${_entryMap[name]!.description} ($name is banned)',
+        'TODO',
       ));
     }
   }
 }
 
 class _NodeWithMessage {
-  final Expression node;
+  final AstNode node;
   final String message;
 
   _NodeWithMessage(this.node, this.message);
