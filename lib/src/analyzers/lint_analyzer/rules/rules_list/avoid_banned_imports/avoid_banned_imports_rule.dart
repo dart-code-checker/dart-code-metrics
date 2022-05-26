@@ -31,7 +31,7 @@ class AvoidBannedImportsRule extends CommonRule {
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
     final activeEntries =
-        _entries.where((entry) => entry.paths.any((path) => _globMatch(pattern: path, data: source.path))).toList();
+        _entries.where((entry) => entry.paths.any((path) => path.hasMatch(source.path))).toList();
 
     final visitor = _Visitor(activeEntries);
 

@@ -14,18 +14,19 @@ class _ConfigParser {
         final entryMap = entry as Map<Object?, Object?>;
 
         return _AvoidBannedImportsConfigEntry(
-          paths: _parseListString(entryMap[_pathsLabel]),
-          deny: _parseListString(entryMap[_denyLabel]),
+          paths: _parseListRegExp(entryMap[_pathsLabel]),
+          deny: _parseListRegExp(entryMap[_denyLabel]),
           message: entryMap[_messageLabel] as String,
         );
       }).toList();
 
-  static List<String> _parseListString(Object? object) => (object! as List<Object?>).map((e) => e! as String).toList();
+  static List<RegExp> _parseListRegExp(Object? object) =>
+      (object! as List<Object?>).map((e) => e! as String).map((e) => RegExp(e)).toList();
 }
 
 class _AvoidBannedImportsConfigEntry {
-  final List<String> paths;
-  final List<String> deny;
+  final List<RegExp> paths;
+  final List<RegExp> deny;
   final String message;
 
   _AvoidBannedImportsConfigEntry({

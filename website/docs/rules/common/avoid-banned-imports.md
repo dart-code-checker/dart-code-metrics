@@ -31,6 +31,8 @@ Good:
 
 ### Config example {#config-example}
 
+The `paths` and `deny` both support regular expressions.
+
 ```yaml
 dart_code_metrics:
   ...
@@ -38,10 +40,10 @@ dart_code_metrics:
     ...
     - avoid_restricted_imports:
         entries:
-        - paths: ["some/**/folder/*.dart", "another/folder/**.dart"]
+        - paths: ["some/folder/.*\.dart", "another/folder/.*\.dart"]
           deny: ["package:flutter/material.dart"]
           message: "Do not import Flutter Material Design library, we should not depend on it!"
-        - paths: ["core/*.dart"]
+        - paths: ["core/.*\.dart"]
           deny: ["package:flutter_bloc/flutter_bloc.dart"]
           message: 'State management should be not used inside "core" folder.'
 ```

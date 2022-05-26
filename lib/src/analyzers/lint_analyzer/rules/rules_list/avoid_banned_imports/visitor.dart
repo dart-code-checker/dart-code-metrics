@@ -19,7 +19,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
     }
 
     for (final entry in _activeEntries) {
-      if (entry.deny.any((deny) => _globMatch(pattern: deny, data: uri))) {
+      if (entry.deny.any((deny) => deny.hasMatch(uri))) {
         _nodes.add(_NodeWithMessage(
           node,
           'Avoid banned imports (${entry.message})',
@@ -35,5 +35,3 @@ class _NodeWithMessage {
 
   _NodeWithMessage(this.node, this.message);
 }
-
-bool _globMatch({required String pattern, required String data}) => TODO;
