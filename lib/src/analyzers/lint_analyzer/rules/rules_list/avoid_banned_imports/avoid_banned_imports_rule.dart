@@ -12,6 +12,7 @@ import '../../models/common_rule.dart';
 import '../../rule_utils.dart';
 
 part 'visitor.dart';
+
 part 'utils/config_parser.dart';
 
 class AvoidBannedImportsRule extends CommonRule {
@@ -29,7 +30,10 @@ class AvoidBannedImportsRule extends CommonRule {
 
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
-    final visitor = _Visitor(_entries);
+    final activeEntries =
+        _entries.where((entry) => entry.paths.any((path) => _globMatch(pattern: path, data: source.path))).toList();
+
+    final visitor = _Visitor(activeEntries);
 
     source.unit.visitChildren(visitor);
 
