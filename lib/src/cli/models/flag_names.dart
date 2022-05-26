@@ -1,3 +1,4 @@
+import '../../reporters/models/checkstyle_reporter.dart';
 import '../../reporters/models/code_climate_reporter.dart';
 import '../../reporters/models/console_reporter.dart';
 import '../../reporters/models/github_reporter.dart';
@@ -17,6 +18,7 @@ class FlagNames {
   static const consoleReporter = ConsoleReporter.id;
   static const consoleVerboseReporter = ConsoleReporter.verboseId;
   static const codeClimateReporter = CodeClimateReporter.id;
+  static const checkstyleReporter = CheckstyleReporter.id;
   static const htmlReporter = HtmlReporter.id;
   static const jsonReporter = JsonReporter.id;
   static const githubReporter = GitHubReporter.id;

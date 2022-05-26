@@ -18,8 +18,7 @@ Usage: metrics analyze [arguments...] <directories>
 
 
 -r, --reporter=<console>                          The format of the output of the analysis
-                                                  [console (default), console-verbose,
-                                                  codeclimate, github, gitlab, html, json]
+                                                  [console (default), console-verbose, checkstyle, codeclimate, github, gitlab, html, json]
 -o, --output-directory=<OUTPUT>                   Write HTML output to OUTPUT
                                                   (defaults to "metrics/")
 
@@ -52,7 +51,6 @@ Usage: metrics analyze [arguments...] <directories>
     --[no-]fatal-style                            Treat style level issues as fatal.
     --[no-]fatal-performance                      Treat performance level issues as fatal.
     --[no-]fatal-warnings                         Treat warning level issues as fatal.
-                                                  (defaults to on)
 ```
 
 ## Output example {#output-example}
@@ -356,7 +354,7 @@ jobs:
         run: flutter pub get
 
       - name: Run Code Metrics
-        run: flutter pub run dart_code_metrics:metrics --reporter=github lib
+        run: flutter pub run dart_code_metrics:metrics --fatal-style --fatal-performance --fatal-warnings --reporter=github lib
 ```
 
 Example of a report in a PR:
@@ -375,7 +373,7 @@ code_quality:
   before_script:
     - dart pub global activate dart_code_metrics
   script:
-    - dart pub global run dart_code_metrics:metrics analyze lib -r gitlab > code-quality-report.json
+    - dart pub global run dart_code_metrics:metrics analyze --fatal-style --fatal-performance --fatal-warnings --reporter=gitlab lib > code-quality-report.json
   artifacts:
     reports:
       codequality: code-quality-report.json
@@ -388,3 +386,51 @@ Example of a Code Quality widget in a PR:
 Example of a Code Quality in a PR diff view:
 
 ![GitLab diff](../../static/img/gitlab-codequality-diff-view.jpg)
+
+### Checkstyle {#checkstyle}
+
+Reports about design and static code diagnostics issues. Use `--reporter=checkstyle` to enable this format.
+
+```xml
+<?xml version="1.0"?>
+<checkstyle version="10.0">
+  <file name="lib/src/analyzers/lint_analyzer/lint_analyzer.dart">
+    <error line="168" column="3" severity="ignore" message="Long method. This method contains 63 lines with code." source="long-method"/>
+  </file>
+  <file name="lib/src/analyzers/lint_analyzer/rules/rules_list/avoid_returning_widgets/visit_declaration.dart">
+    <error line="3" column="1" severity="ignore" message="Long Parameter List. This function require 6 arguments." source="long-parameter-list"/>
+  </file>
+  <file name="lib/src/analyzers/lint_analyzer/reporters/utility_selector.dart">
+    <error line="27" column="3" severity="ignore" message="Long method. This method contains 53 lines with code." source="long-method"/>
+  </file>
+  <file name="lib/src/analyzers/lint_analyzer/reporters/reporters_list/html/utility_functions.dart">
+    <error line="45" column="1" severity="ignore" message="Long function. This function contains 56 lines with code." source="long-method"/>
+  </file>
+  <file name="lib/src/analyzers/lint_analyzer/reporters/reporters_list/html/lint_html_reporter.dart">
+    <error line="74" column="3" severity="ignore" message="Long method. This method contains 136 lines with code." source="long-method"/>
+    <error line="330" column="3" severity="ignore" message="Long method. This method contains 159 lines with code." source="long-method"/>
+  </file>
+</checkstyle>
+```
+
+#### Example Bitbucket pipeline configuration
+
+- Define a pipeline in your [`bitbucket-pipelines.yml`](https://support.atlassian.com/bitbucket-cloud/docs/configure-bitbucket-pipelinesyml/) file that generates the Checkstyle report and [process them](https://bitbucket.org/product/features/pipelines/integrations?p=atlassian/checkstyle-report).
+
+```yaml
+image: google/dart
+
+pipelines:
+  default:
+    - step:
+        name: analyze
+        script:
+          - dart pub global activate dart_code_metrics
+          - dart pub global run dart_code_metrics:metrics analyze --fatal-style --fatal-performance --fatal-warnings --reporter=checkstyle lib > checkstyle-result.xml
+        after-script:
+          - pipe: atlassian/checkstyle-report:0.3.1
+```
+
+Example of a report:
+
+![Checkstyle report in Bitbucket  ](../../static/img/bitbucket-pipeline-report.jpg)

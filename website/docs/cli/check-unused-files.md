@@ -33,7 +33,6 @@ Usage: metrics check-unused-files [arguments...] <directories>
 
 
     --[no-]fatal-unused                           Treat find unused file as fatal.
-                                                  (defaults to on)
 
 -d, --[no-]delete-files                           Delete all unused files.
 ```

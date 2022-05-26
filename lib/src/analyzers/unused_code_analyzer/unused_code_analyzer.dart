@@ -198,6 +198,7 @@ class UnusedCodeAnalyzer {
   ) {
     final offset = element.codeOffset!;
 
+    // ignore: unnecessary_non_null_assertion
     final lineInfo = unit.lineInfo!;
     final offsetLocation = lineInfo.getLocation(offset);
 

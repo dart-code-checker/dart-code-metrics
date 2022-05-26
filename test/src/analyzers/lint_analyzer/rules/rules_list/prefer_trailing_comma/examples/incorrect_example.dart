@@ -35,7 +35,7 @@ enum FirstEnum {
   thirdItem,
   forthItem,
   fifthItem,
-  sixthItem // LINT
+  sixthItem
 }
 
 class FirstClass {

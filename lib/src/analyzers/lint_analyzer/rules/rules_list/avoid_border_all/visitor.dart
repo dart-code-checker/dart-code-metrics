@@ -21,7 +21,9 @@ class _Visitor extends RecursiveAstVisitor<void> {
         final arg = (argument as NamedExpression).expression;
         if (arg is Literal) {
           continue;
-        } else if (arg is MethodInvocation || arg is ConditionalExpression) {
+        } else if (arg is MethodInvocation ||
+            arg is ConditionalExpression ||
+            arg is PropertyAccess) {
           isAllConst = false;
         } else if (arg is SimpleIdentifier) {
           final element = arg.staticElement;

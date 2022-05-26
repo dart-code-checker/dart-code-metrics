@@ -27,7 +27,6 @@ const _usage = 'Check unused localization in *.dart files.\n'
     '\n'
     '\n'
     '    --[no-]fatal-unused                           Treat find unused l10n as fatal.\n'
-    '                                                  (defaults to on)\n'
     '\n'
     'Run "metrics help" to see global options.';
 

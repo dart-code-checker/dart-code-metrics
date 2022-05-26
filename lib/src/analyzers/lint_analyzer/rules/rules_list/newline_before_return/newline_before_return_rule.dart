@@ -80,7 +80,9 @@ Token _optimalToken(Token token, LineInfo lineInfo) {
 
 Token? _latestCommentToken(Token token) {
   Token? latestCommentToken = token.precedingComments;
+  // ignore: prefer-moving-to-variable
   while (latestCommentToken?.next != null) {
+    // ignore: prefer-moving-to-variable
     latestCommentToken = latestCommentToken?.next;
   }
 

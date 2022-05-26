@@ -14,6 +14,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
   void visitClassDeclaration(ClassDeclaration node) {
     super.visitClassDeclaration(node);
 
+    // ignore: deprecated_member_use
     final type = node.extendsClause?.superclass2.type;
     if (type == null || !isWidgetStateOrSubclass(type)) {
       return;
@@ -96,11 +97,12 @@ class _MethodVisitor extends RecursiveAstVisitor<void> {
     super.visitMethodInvocation(node);
 
     final name = node.methodName.name;
+    final notInBody = _isNotInFunctionBody(node);
 
-    if (name == 'setState' && _isNotInFunctionBody(node)) {
+    if (name == 'setState' && notInBody) {
       _setStateInvocations.add(node);
     } else if (classMethodsNames.contains(name) &&
-        _isNotInFunctionBody(node) &&
+        notInBody &&
         node.realTarget == null) {
       _classMethodsInvocations.add(node);
     }

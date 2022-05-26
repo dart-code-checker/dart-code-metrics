@@ -6,8 +6,10 @@
         "backport",
         "behaviour",
         "bools",
+        "Checkstyle",
         "codeclimate",
         "codecov",
+        "codemagic",
         "codequality",
         "commitlint",
         "cyclomatic",
@@ -37,5 +39,21 @@
         "unawaited",
         "writeln",
         "Zhifarsky"
-    ]
+    ],
+    "explorer.fileNesting.enabled": true,
+    "explorer.fileNesting.expand": false,
+    "explorer.fileNesting.patterns": {
+        "pubspec.yaml": ".packages, pubspec.lock",
+        ".gitignore": ".gitattributes, .gitmodules, .gitmessage, .mailmap, .git-blame*",
+    },
+    "[dart]": {
+        "editor.formatOnSave": true,
+        "files.insertFinalNewline": true,
+    },
+    "files.trimTrailingWhitespace": true,
+    "files.trimFinalNewlines": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll": true,
+        "source.organizeImports": true,
+    },
 }

@@ -110,6 +110,7 @@ class AnalyzeCommand extends BaseCommand {
         allowed: [
           FlagNames.consoleReporter,
           FlagNames.consoleVerboseReporter,
+          FlagNames.checkstyleReporter,
           FlagNames.codeClimateReporter,
           FlagNames.githubReporter,
           FlagNames.gitlabCodeClimateReporter,
@@ -173,7 +174,8 @@ class AnalyzeCommand extends BaseCommand {
       ..addFlag(
         FlagNames.fatalWarnings,
         help: 'Treat warning level issues as fatal.',
-        defaultsTo: true,
+// TODO(dkrutrkikh): activate on next major version
+//        defaultsTo: true,
       );
   }
 }

@@ -147,20 +147,21 @@ class AnalyzerPlugin extends ServerPlugin {
   ) async {
     try {
       final driver = driverForPath(parameters.file) as AnalysisDriver;
-      final analysisResult = await driver.getResult(parameters.file);
+      // ignore: deprecated_member_use
+      final analysisResult = await driver.getResult2(parameters.file);
 
       if (analysisResult is! ResolvedUnitResult) {
         return plugin.EditGetFixesResult([]);
       }
 
-      final fixes = _check(driver, analysisResult)
-          .where((fix) =>
-              fix.error.location.file == parameters.file &&
-              fix.error.location.offset <= parameters.offset &&
-              parameters.offset <=
-                  fix.error.location.offset + fix.error.location.length &&
-              fix.fixes.isNotEmpty)
-          .toList();
+      final fixes = _check(driver, analysisResult).where((fix) {
+        final location = fix.error.location;
+
+        return location.file == parameters.file &&
+            location.offset <= parameters.offset &&
+            parameters.offset <= location.offset + location.length &&
+            fix.fixes.isNotEmpty;
+      }).toList();
 
       return plugin.EditGetFixesResult(fixes);
     } on Exception catch (e, stackTrace) {

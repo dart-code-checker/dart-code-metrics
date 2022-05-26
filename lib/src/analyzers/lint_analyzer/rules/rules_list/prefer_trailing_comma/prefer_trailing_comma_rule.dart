@@ -44,11 +44,7 @@ class PreferTrailingCommaRule extends CommonRule {
         .map(
           (node) => createIssue(
             rule: this,
-            location: nodeLocation(
-              node: node,
-              source: source,
-              withCommentOrMetadata: true,
-            ),
+            location: nodeLocation(node: node, source: source),
             message: _warningMessage,
             replacement: Replacement(
               comment: _correctionMessage,

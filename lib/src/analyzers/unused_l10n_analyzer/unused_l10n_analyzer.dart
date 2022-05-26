@@ -171,6 +171,7 @@ class UnusedL10nAnalyzer {
     }
 
     final lineInfo = unit.lineInfo;
+    // ignore: unnecessary_null_comparison
     if (lineInfo == null) {
       return null;
     }
@@ -232,6 +233,7 @@ class UnusedL10nAnalyzer {
   ) {
     final offset = element.codeOffset!;
 
+    // ignore: unnecessary_non_null_assertion
     final lineInfo = unit.lineInfo!;
     final offsetLocation = lineInfo.getLocation(offset);
 

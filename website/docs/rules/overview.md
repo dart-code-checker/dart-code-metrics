@@ -39,6 +39,10 @@ Rules configuration is [described here](../getting-started/configuration#configu
 
     Warns about nested conditional expressions.
 
+- [avoid-non-ascii-symbols](./common/avoid-non-ascii-symbols.md)
+
+    Warns when a string literal contains non ascii characters.
+
 - [avoid-non-null-assertion](./common/avoid-non-null-assertion.md)
 
     Warns when non null assertion operator (or “bang” operator) is used for a property access or method invocation. The operator check works at runtime and it may fail and throw a runtime exception.
@@ -75,7 +79,7 @@ Rules configuration is [described here](../getting-started/configuration#configu
 
     Checks that double literals should begin with `0.` instead of just `.`, and should not end with a trailing `0`.
 
-- [format-comment](./common/format-comment.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
+- [format-comment](./common/format-comment.md) &nbsp; [![Configurable](https://img.shields.io/badge/-configurable-informational)](./common/format-comment.md#config-example) ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 
   Prefer format comments like sentences.
 
@@ -119,6 +123,10 @@ Rules configuration is [described here](../getting-started/configuration#configu
 
     Recommends to use async/await syntax to handle Futures result instead of `.then()` invocation.
 
+- [prefer-commenting-analyzer-ignores](./common/prefer-commenting-analyzer-ignores.md)
+
+    Warns when `// ignore:` comments are left without any additional description why this ignore is applied.
+
 - [prefer-conditional-expressions](./common/prefer-conditional-expressions.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 
     Recommends to use a conditional expression instead of assigning to the same thing or return statement in each branch of an if statement.
@@ -134,6 +142,10 @@ Rules configuration is [described here](../getting-started/configuration#configu
 - [prefer-first](./common/prefer-first.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 
     Use `first` to gets the first element.
+
+- [prefer-immediate-return](./common/prefer-immediate-return.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
+
+    Warns when a method or a function returns a variable declared right before the return statement.
 
 - [prefer-last](./common/prefer-last.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 

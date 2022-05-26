@@ -14,6 +14,9 @@ plugin.AnalysisErrorFixes codeIssueToAnalysisErrorFixes(
   ResolvedUnitResult? unitResult,
 ) {
   final fileWithIssue = uriToPath(issue.location.sourceUrl) ?? '';
+  final location = issue.location;
+  final locationStart = location.start;
+  final locationEnd = location.end;
 
   return plugin.AnalysisErrorFixes(
     plugin.AnalysisError(
@@ -21,12 +24,12 @@ plugin.AnalysisErrorFixes codeIssueToAnalysisErrorFixes(
       plugin.AnalysisErrorType.LINT,
       plugin.Location(
         fileWithIssue,
-        issue.location.start.offset,
-        issue.location.length,
-        issue.location.start.line,
-        issue.location.start.column,
-        endLine: issue.location.end.line,
-        endColumn: issue.location.end.column,
+        locationStart.offset,
+        location.length,
+        locationStart.line,
+        locationStart.column,
+        endLine: locationEnd.line,
+        endColumn: locationEnd.column,
       ),
       issue.message,
       issue.ruleId,
@@ -47,8 +50,8 @@ plugin.AnalysisErrorFixes codeIssueToAnalysisErrorFixes(
               unitResult.exists ? 0 : -1,
               edits: [
                 plugin.SourceEdit(
-                  issue.location.start.offset,
-                  issue.location.length,
+                  locationStart.offset,
+                  location.length,
                   issue.suggestion!.replacement,
                 ),
               ],

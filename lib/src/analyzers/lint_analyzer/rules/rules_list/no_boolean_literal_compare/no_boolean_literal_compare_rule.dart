@@ -59,18 +59,14 @@ class NoBooleanLiteralCompareRule extends CommonRule {
               : expression.leftOperand)
           .toString();
 
-      final useDirect = (expression.operator.type == TokenType.EQ_EQ &&
-              booleanLiteralOperand == 'true') ||
-          (expression.operator.type == TokenType.BANG_EQ &&
-              booleanLiteralOperand == 'false');
+      final type = expression.operator.type;
+      final useDirect =
+          (type == TokenType.EQ_EQ && booleanLiteralOperand == 'true') ||
+              (type == TokenType.BANG_EQ && booleanLiteralOperand == 'false');
 
       issues.add(createIssue(
         rule: this,
-        location: nodeLocation(
-          node: expression,
-          source: source,
-          withCommentOrMetadata: true,
-        ),
+        location: nodeLocation(node: expression, source: source),
         message: _warning,
         replacement: Replacement(
           comment: useDirect ? _useItDirectly : _negate,

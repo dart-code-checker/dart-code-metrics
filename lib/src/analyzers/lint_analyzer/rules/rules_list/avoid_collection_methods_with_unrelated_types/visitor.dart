@@ -19,10 +19,12 @@ class _Visitor extends RecursiveAstVisitor<void> {
   void visitMethodInvocation(MethodInvocation node) {
     super.visitMethodInvocation(node);
 
-    final mapType = _getMapTypeElement(node.target?.staticType);
-    final listType = _getListTypeElement(node.target?.staticType);
-    final setType = _getSetTypeElement(node.target?.staticType);
-    final iterableType = _getIterableTypeElement(node.target?.staticType);
+    final staticType = node.target?.staticType;
+
+    final mapType = _getMapTypeElement(staticType);
+    final listType = _getListTypeElement(staticType);
+    final setType = _getSetTypeElement(staticType);
+    final iterableType = _getIterableTypeElement(staticType);
     final argType = node.argumentList.arguments.singleOrNull?.staticType;
 
     switch (node.methodName.name) {
@@ -64,7 +66,9 @@ class _Visitor extends RecursiveAstVisitor<void> {
   ) {
     if (parentElement != null &&
         childType != null &&
-        childType.asInstanceOf(parentElement.element) == null) {
+        childType.asInstanceOf(parentElement.element) == null &&
+        !(parentElement.type.nullabilitySuffix == NullabilitySuffix.question &&
+            childType.isDartCoreNull)) {
       _expressions.add(node);
     }
   }
