@@ -3,6 +3,7 @@
 ## Unreleased
 
 * chore: restrict `analyzer` version to `>=2.4.0 <4.2.0`.
+* feat: add [`avoid-banned-imports`](https://dartcodemetrics.dev/docs/rules/common/avoid-banned-imports) rule
 
 ## 4.15.2
 
