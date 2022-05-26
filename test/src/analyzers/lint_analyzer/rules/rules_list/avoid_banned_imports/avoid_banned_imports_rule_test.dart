@@ -24,22 +24,31 @@ void main() {
 
       final issues = AvoidBannedImportsRule({
         'entries': <Object>[
-          // TODO
-          // <String, Object>{
-          //   'paths': [TODO],
-          //   'deny': [TODO],
-          //   'message': TODO,
-          // },
+          <String, Object>{
+            'paths': [
+              r'.*examples.*\.dart',
+            ],
+            'deny': [
+              'package:flutter/.*',
+              'package:my_app/ban_folder/.*',
+            ],
+            'message': 'sample message',
+          },
         ],
       }).check(unit);
 
-      // TODO
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startLines: [],
-        startColumns: [],
-        locationTexts: [],
-        messages: [],
+        startLines: [1, 4],
+        startColumns: [1, 1],
+        locationTexts: [
+          "import 'package:flutter/material.dart';",
+          "import 'package:my_app/ban_folder/something.dart';",
+        ],
+        messages: [
+          'Avoid banned imports (sample message)',
+          'Avoid banned imports (sample message)',
+        ],
       );
     });
   });
