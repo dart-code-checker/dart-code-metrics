@@ -1,17 +1,5 @@
-import 'dialog.dart';
-import 'dialog.dart' as material;
+import 'package:flutter/material.dart'; // LINT
+import 'package:good_package/good_file.dart';
 
-void func() {
-  myShowDialog('some_arguments', 'another_argument');
-  showDialog('some_arguments', 'another_argument'); // LINT
-  material.showDialog('some_arguments', 'another_argument'); // LINT
-
-  var strangeName = 42; // LINT
-}
-
-void strangeName() {} // LINT
-
-// LINT
-class AnotherStrangeName {
-  late var strangeName; // LINT
-}
+import 'package:my_app/ban_folder/something.dart'; // LINT
+import 'package:my_app/good_folder/something.dart';
