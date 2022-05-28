@@ -33,5 +33,6 @@ class FlagNames {
   static const l10nClassPattern = 'class-pattern';
 
   static const fatalOnUnused = 'fatal-unused';
+  static const fatalOnFound = 'fatal-found';
   static const deleteFiles = 'delete-files';
 }
