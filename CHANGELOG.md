@@ -3,6 +3,7 @@
 ## Unreleased
 
 * chore: restrict `analyzer` version to `>=2.4.0 <4.2.0`.
+feat: introduce new command [`check-unnecessary-nullable`](https://dartcodemetrics.dev/docs/cli/check-unnecessary-nullable).
 
 ## 4.15.2
 
