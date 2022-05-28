@@ -260,7 +260,9 @@ class UnnecessaryNullableAnalyzer {
   bool _shouldMarkParameterAsNullable(Expression argument) {
     if (argument is NullLiteral) {
       return true;
-    } else if (argument is Identifier || argument is PropertyAccess) {
+    } else if (argument is Identifier ||
+        argument is PropertyAccess ||
+        argument is IndexExpression) {
       final isNullable =
           argument.staticType?.nullabilitySuffix == NullabilitySuffix.question;
 
