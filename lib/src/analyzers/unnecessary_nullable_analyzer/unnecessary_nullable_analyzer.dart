@@ -258,20 +258,14 @@ class UnnecessaryNullableAnalyzer {
   }
 
   bool _shouldMarkParameterAsNullable(Expression argument) {
-    if (argument is NullLiteral) {
-      return true;
-    } else if (argument is Identifier ||
-        argument is PropertyAccess ||
-        argument is IndexExpression) {
-      final isNullable =
-          argument.staticType?.nullabilitySuffix == NullabilitySuffix.question;
-
-      return isNullable;
-    } else if (argument is NamedExpression) {
+    if (argument is NamedExpression) {
       return _shouldMarkParameterAsNullable(argument.expression);
     }
 
-    return false;
+    final isNullable =
+        argument.staticType?.nullabilitySuffix == NullabilitySuffix.question;
+
+    return isNullable;
   }
 
   UnnecessaryNullableIssue _createUnnecessaryNullableIssue(

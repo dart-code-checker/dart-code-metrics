@@ -6,7 +6,7 @@ import 'nullable_method_parameters.dart';
 
 void main() {
   final withMethods = ClassWithMethods();
-  final nullableWrapper = Test();
+  final nullableWrapper = _Test();
   final map = {'123': '321'};
 
   withMethods
@@ -25,6 +25,7 @@ void main() {
   final defaultNonNullable = const DefaultNonNullable(value: '321');
   final namedNonNullable = const NamedNonNullable(value: '123');
 
+  doSomething(_getNullableString());
   doSomething(map['321']);
   doSomething('value');
 
@@ -38,7 +39,9 @@ void main() {
   multipleParametersWithOptional('name', 1, 'secondName');
 }
 
-class Test {
-  Test get level => Test();
+class _Test {
+  _Test get level => _Test();
   String? get uri => null;
 }
+
+String? _getNullableString() => null;
