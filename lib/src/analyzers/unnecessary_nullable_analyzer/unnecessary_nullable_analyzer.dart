@@ -221,12 +221,6 @@ class UnnecessaryNullableAnalyzer {
               NullabilitySuffix.question,
     );
 
-    // print('----');
-    // print('found unnecessary nullable parameters:');
-    // print('element ${element.displayName}');
-    // print('kind ${element.kind.displayName.toUpperCase()}');
-    // print('parameters: $unnecessaryNullable');
-
     if (unnecessaryNullable.isEmpty) {
       return null;
     }
@@ -262,7 +256,7 @@ class UnnecessaryNullableAnalyzer {
       return _shouldMarkParameterAsNullable(argument.expression);
     }
 
-    final isNullable =
+    final isNullable = argument is NullLiteral ||
         argument.staticType?.nullabilitySuffix == NullabilitySuffix.question;
 
     return isNullable;
@@ -274,9 +268,7 @@ class UnnecessaryNullableAnalyzer {
     Iterable<FormalParameter> parameters,
   ) {
     final offset = element.codeOffset!;
-
-    // ignore: unnecessary_non_null_assertion
-    final lineInfo = unit.lineInfo!;
+    final lineInfo = unit.lineInfo;
     final offsetLocation = lineInfo.getLocation(offset);
 
     final sourceUrl = element.source!.uri;
