@@ -6,6 +6,7 @@ import 'nullable_method_parameters.dart';
 
 void main() {
   final withMethods = ClassWithMethods();
+  final nullableWrapper = Test();
 
   withMethods
     ..someMethod(null)
@@ -28,10 +29,15 @@ void main() {
 
   alwaysNonNullableDoSomething('anotherValue');
 
-  multipleParametersUsed('str', 1, name: null);
+  multipleParametersUsed('str', 1, name: nullableWrapper.level.uri);
   multipleParametersUsed('str', 1, name: 'name', secondName: 'secondName');
   multipleParametersUsed('str', 1, name: 'name', thirdName: 'thirdName');
 
   multipleParametersWithNamed('name', 1, name: 'secondName');
   multipleParametersWithOptional('name', 1, 'secondName');
+}
+
+class Test {
+  Test get level => Test();
+  String? get uri => null;
 }
