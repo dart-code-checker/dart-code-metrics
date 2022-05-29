@@ -3,6 +3,22 @@
 ## Unreleased
 
 * feat: add static code diagnostics [`prefer-correct-edge-insets-constructor-rule`](https://dartcodemetrics.dev/docs/rules/flutter/prefer-correct-edge-insets-constructor).
+* chore: restrict `analyzer` version to `>=2.4.0 <4.2.0`.
+
+## 4.15.2
+
+* feat: add the `ignored-patterns` option to [`format-comment`](https://dartcodemetrics.dev/docs/rules/common/format-comment). The given regular expressions will be used to ignore comments that match them.
+* fix: [`avoid-border-all`](https://dartcodemetrics.dev/docs/rules/flutter/avoid-border-all) is triggered even when it is not a const.
+* fix: remove duplicated and ignore void function calls for [`prefer-moving-to-variable`](https://dartcodemetrics.dev/docs/rules/common/prefer-moving-to-variable).
+* fix: temporary remove enums support for [`prefer-trailing-comma`](https://dartcodemetrics.dev/docs/rules/common/prefer-trailing-comma).
+
+## 4.15.1
+
+* chore: restrict `analyzer` version to `>=2.4.0 <4.1.0`.
+* chore: restrict `analyzer_plugin` version to `>=0.8.0 <0.11.0`.
+
+## 4.15.0
+
 * fix: [`format-comment`](https://dartcodemetrics.dev/docs/rules/common/format-comment) is listing the macros from dart doc.
 * feat: add static code diagnostic [`avoid-non-ascii-symbols`](https://dartcodemetrics.dev/docs/rules/common/avoid-non-ascii-symbols).
 * feat: remove declaration in [`prefer-immediate-return`](https://dartcodemetrics.dev/docs/rules/common/prefer-immediate-return).
