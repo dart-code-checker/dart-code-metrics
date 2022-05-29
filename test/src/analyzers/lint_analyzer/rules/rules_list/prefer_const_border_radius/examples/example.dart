@@ -26,8 +26,26 @@ class MyWidget extends StatelessWidget {
           _constValue == 10.0 ? 25.0 : 30.0,
         ),
       ),
+      BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(
+          width: ringWidth,
+          color: Colors.yellow,
+        ),
+      )
     ]);
   }
+}
+
+enum BoxShape { circle }
+
+final ringWidth = _kDefaultRingWidth * _scaling;
+
+class BoxDecoration {
+  BoxShape shape;
+  BorderRadius border;
+
+  const BorderRadius.all({this.shape, this.border});
 }
 
 class BorderRadius {
@@ -38,11 +56,11 @@ class BorderRadius {
 
   const BorderRadius.all(Radius radius)
       : this.only(
-          topLeft: radius,
-          topRight: radius,
-          bottomLeft: radius,
-          bottomRight: radius,
-        );
+    topLeft: radius,
+    topRight: radius,
+    bottomLeft: radius,
+    bottomRight: radius,
+  );
 
   BorderRadius.circular(double radius) : this.all(Radius.circular(radius));
 
