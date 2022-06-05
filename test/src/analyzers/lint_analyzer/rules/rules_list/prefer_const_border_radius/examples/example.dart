@@ -26,26 +26,40 @@ class MyWidget extends StatelessWidget {
           _constValue == 10.0 ? 25.0 : 30.0,
         ),
       ),
-      BoxDecoration(
-        shape: BoxShape.circle,
-        border: Border.all(
-          width: ringWidth,
-          color: Colors.yellow,
+      const ClipRRect(
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(
+            width: ringWidth,
+            color: Colors.gray,
+          ),
         ),
-      )
+      ),
     ]);
   }
 }
 
+class Colors {
+  static const gray = Color(0xFF000000);
+}
+
+class Color {
+  final int value;
+
+  const Color(int value) : value = value & 0xFFFFFFFF;
+}
+
 enum BoxShape { circle }
 
-final ringWidth = _kDefaultRingWidth * _scaling;
+const _kDefaultRingWidth = 3;
+const _scaling = 3.0;
+const ringWidth = _kDefaultRingWidth * _scaling;
 
 class BoxDecoration {
-  BoxShape shape;
-  BorderRadius border;
+  final BoxShape? shape;
+  final Border? border;
 
-  const BorderRadius.all({this.shape, this.border});
+  const BoxDecoration({this.shape, this.border});
 }
 
 class BorderRadius {
@@ -56,11 +70,11 @@ class BorderRadius {
 
   const BorderRadius.all(Radius radius)
       : this.only(
-    topLeft: radius,
-    topRight: radius,
-    bottomLeft: radius,
-    bottomRight: radius,
-  );
+          topLeft: radius,
+          topRight: radius,
+          bottomLeft: radius,
+          bottomRight: radius,
+        );
 
   BorderRadius.circular(double radius) : this.all(Radius.circular(radius));
 
@@ -69,6 +83,18 @@ class BorderRadius {
     this.topRight = Radius.zero,
     this.bottomLeft = Radius.zero,
     this.bottomRight = Radius.zero,
+  });
+}
+
+class BorderSide {}
+
+class Border {
+  final Color? color;
+  final double? width;
+
+  const Border.all({
+    this.width,
+    this.color,
   });
 }
 
@@ -86,8 +112,9 @@ class Radius {
 class ClipRRect extends Widget {
   final Widget? child;
   final BorderRadius? borderRadius;
+  final BoxDecoration? decoration;
 
-  const ClipRRect({this.child, this.borderRadius});
+  const ClipRRect({this.child, this.borderRadius, this.decoration});
 }
 
 class Column extends Widget {
