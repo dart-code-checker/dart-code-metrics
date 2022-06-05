@@ -5,6 +5,9 @@ import 'unconditional_file.dart'
     if (dart.library.html) 'conditional_file.dart'
     if (dart.library.io) 'conditional_file.dart' as config;
 
+part 'part_of_test_class.dart';
+part 'part_of_test_class_2.dart';
+
 void main() {
   final widget = MyWidget('hello');
 
@@ -26,4 +29,7 @@ void main() {
   config.calculateResults();
 
   setPadding();
+
+  _PartOfTestClass();
+  _PartOfTestClassWithNumberInFileName();
 }
