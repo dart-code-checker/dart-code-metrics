@@ -36,7 +36,7 @@ Usage: metrics analyze [arguments...] <directories>
 
     --root-folder=<./>                            Root folder
                                                   (defaults to current directory)
-    --sdk-path=<directory-path>                   Dart SDK directory path. 
+    --sdk-path=<directory-path>                   Dart SDK directory path.
                                                   Should be provided only when you run the application as compiled executable(https://dart.dev/tools/dart-compile#exe) and automatic Dart SDK path detection fails.
     --exclude=<{/**.g.dart,/**.template.dart}>    File paths in Glob syntax to be exclude
                                                   (defaults to "{/**.g.dart,/**.template.dart}")
@@ -45,7 +45,7 @@ Usage: metrics analyze [arguments...] <directories>
     --no-congratulate                             Don't show output even when there are no issues.
 
 
-    --set-exit-on-violation-level=<warning>       Set exit code 2 if code violations 
+    --set-exit-on-violation-level=<warning>       Set exit code 2 if code violations
                                                   have the same or higher level
                                                   [none, warning, alarm]
     --[no-]fatal-style                            Treat style level issues as fatal.
@@ -369,7 +369,7 @@ Reports about design and static code diagnostics issues in merge requests based 
 
 ```yaml
 code_quality:
-  image: google/dart
+  image: dart
   before_script:
     - dart pub global activate dart_code_metrics
   script:
