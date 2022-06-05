@@ -1,5 +1,7 @@
 # Format comments
 
+![Configurable](https://img.shields.io/badge/-configurable-informational)
+
 ## Rule id {#rule-id}
 
 format-comment
@@ -11,6 +13,20 @@ Style
 ## Description {#description}
 
 Prefer format comments like sentences.
+
+Use `ignored-patterns` configuration, if you want to ignore comments that match the given regular expressions.
+
+### Config example {#config-example}
+
+```yaml
+dart_code_metrics:
+  ...
+  rules:
+    ...
+    - format-comment:
+        ignored-patterns:
+          - ^ cSpell.*  # Ignores all the comments that start with 'cSpell' (for example: '// cSpell:disable-next-line').
+```
 
 ### Example {#example}
 

@@ -4,8 +4,24 @@
 
 * **Breaking Change:** cli arguments `--fatal-unused` and `--fatal-warnings` activate by default.
 * **Breaking Change:** rename rules prefixed with `no-` to use `avoid-` prefix.
-* chore: restrict `analyzer` version to `>=3.4.0 <3.5.0`.
-* chore: restrict `analyzer_plugin` version to `>=0.9.0 <0.10.0`.
+* chore: restrict `analyzer` version to `>=3.4.0 <4.2.0`.
+* chore: restrict `analyzer_plugin` version to `>=0.9.0 <0.11.0`.
+
+## Unreleased
+
+* chore: restrict `analyzer` version to `>=2.4.0 <4.2.0`.
+
+## 4.15.2
+
+* feat: add the `ignored-patterns` option to [`format-comment`](https://dartcodemetrics.dev/docs/rules/common/format-comment). The given regular expressions will be used to ignore comments that match them.
+* fix: [`avoid-border-all`](https://dartcodemetrics.dev/docs/rules/flutter/avoid-border-all) is triggered even when it is not a const.
+* fix: remove duplicated and ignore void function calls for [`prefer-moving-to-variable`](https://dartcodemetrics.dev/docs/rules/common/prefer-moving-to-variable).
+* fix: temporary remove enums support for [`prefer-trailing-comma`](https://dartcodemetrics.dev/docs/rules/common/prefer-trailing-comma).
+
+## 4.15.1
+
+* chore: restrict `analyzer` version to `>=2.4.0 <4.1.0`.
+* chore: restrict `analyzer_plugin` version to `>=0.8.0 <0.11.0`.
 
 ## 4.15.0
 

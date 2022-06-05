@@ -30,8 +30,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startLines: [3, 9, 13, 18, 24, 28, 38, 49, 58, 64, 70],
-        startColumns: [50, 7, 5, 52, 9, 8, 3, 59, 3, 3, 3],
+        startLines: [3, 9, 13, 18, 24, 28, 49, 58, 64, 70],
+        startColumns: [50, 7, 5, 52, 9, 8, 59, 3, 3, 3],
         locationTexts: [
           'String thirdArgument',
           "'and another string for length exceed'",
@@ -39,14 +39,12 @@ void main() {
           'String thirdArgument',
           "'and another string for length exceed'",
           "'some other string'",
-          'sixthItem',
           'this.forthField',
           "'and another string for length exceed'",
           "'and another string for length exceed'",
           "'and another string for length exceed': 'and another string for length exceed'",
         ],
         messages: [
-          'Prefer trailing comma.',
           'Prefer trailing comma.',
           'Prefer trailing comma.',
           'Prefer trailing comma.',
@@ -69,7 +67,6 @@ void main() {
           'Add trailing comma.',
           'Add trailing comma.',
           'Add trailing comma.',
-          'Add trailing comma.',
         ],
         replacements: [
           'String thirdArgument,',
@@ -78,7 +75,6 @@ void main() {
           'String thirdArgument,',
           "'and another string for length exceed',",
           "'some other string',",
-          'sixthItem,',
           'this.forthField,',
           "'and another string for length exceed',",
           "'and another string for length exceed',",
@@ -102,8 +98,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startLines: [9, 17, 19, 37, 41, 75, 91, 99, 109, 119],
-        startColumns: [21, 33, 20, 23, 19, 18, 43, 21, 19, 19],
+        startLines: [9, 17, 19, 37, 41, 91, 99, 109, 119],
+        startColumns: [21, 33, 20, 23, 19, 43, 21, 19, 19],
         locationTexts: [
           'String arg1',
           'void Function() callback',
@@ -114,14 +110,12 @@ void main() {
           '() {\n'
               '      return;\n'
               '    }',
-          'firstItem',
           '0',
           '\'some string\'',
           '\'some string\'',
           '\'some string\': \'some string\'',
         ],
         messages: [
-          'Prefer trailing comma.',
           'Prefer trailing comma.',
           'Prefer trailing comma.',
           'Prefer trailing comma.',

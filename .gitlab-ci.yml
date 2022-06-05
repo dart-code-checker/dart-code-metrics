@@ -1,5 +1,5 @@
 default:
-  image: google/dart
+  image: dart
 
 stages:
   - analyze

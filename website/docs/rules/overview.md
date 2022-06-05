@@ -103,7 +103,7 @@ Rules configuration is [described here](../getting-started/configuration#configu
 
     Checks that double literals should begin with `0.` instead of just `.`, and should not end with a trailing `0`.
 
-- [format-comment](./common/format-comment.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
+- [format-comment](./common/format-comment.md) &nbsp; [![Configurable](https://img.shields.io/badge/-configurable-informational)](./common/format-comment.md#config-example) ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 
   Prefer format comments like sentences.
 
