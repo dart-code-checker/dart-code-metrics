@@ -27,41 +27,51 @@ void main() {
       when(() => context.contextRoot).thenReturn(contextRoot);
     });
 
-    test('should return paths to the files', () {
-      const excludes = <Glob>[];
+    test(
+      'should return paths to the files',
+      () {
+        const excludes = <Glob>[];
 
-      final filePaths =
-          getFilePaths([folderPath], context, rootFolder, excludes);
+        final filePaths =
+            getFilePaths([folderPath], context, rootFolder, excludes).toList()
+              ..sort();
 
-      expect(filePaths, hasLength(3));
+        expect(filePaths, hasLength(3));
 
-      const startPath = '$rootFolder/$folderPath';
+        const startPath = '$rootFolder/$folderPath';
 
-      final firstPath = filePaths.first;
-      expect(firstPath, '$startPath/first_file.dart');
+        final firstPath = filePaths.first;
+        expect(firstPath, '$startPath/first_file.dart');
 
-      final secondPath = filePaths.elementAt(1);
-      expect(secondPath, '$startPath/second_file.dart');
+        final secondPath = filePaths.elementAt(1);
+        expect(secondPath, '$startPath/inner_folder/first_inner_file.dart');
 
-      final thirdPath = filePaths.last;
-      expect(thirdPath, '$startPath/inner_folder/first_inner_file.dart');
-    });
+        final thirdPath = filePaths.last;
+        expect(thirdPath, '$startPath/second_file.dart');
+      },
+      testOn: 'posix',
+    );
 
-    test('should return paths to the files without excluded', () {
-      final excludes = [Glob('**/second_file.dart')];
+    test(
+      'should return paths to the files without excluded',
+      () {
+        final excludes = [Glob('**/second_file.dart')];
 
-      final filePaths =
-          getFilePaths([folderPath], context, rootFolder, excludes);
+        final filePaths =
+            getFilePaths([folderPath], context, rootFolder, excludes).toList()
+              ..sort();
 
-      expect(filePaths, hasLength(2));
+        expect(filePaths, hasLength(2));
 
-      const startPath = '$rootFolder/$folderPath';
+        const startPath = '$rootFolder/$folderPath';
 
-      final firstPath = filePaths.first;
-      expect(firstPath, '$startPath/first_file.dart');
+        final firstPath = filePaths.first;
+        expect(firstPath, '$startPath/first_file.dart');
 
-      final secondPath = filePaths.last;
-      expect(secondPath, '$startPath/inner_folder/first_inner_file.dart');
-    });
+        final secondPath = filePaths.last;
+        expect(secondPath, '$startPath/inner_folder/first_inner_file.dart');
+      },
+      testOn: 'posix',
+    );
   });
 }
