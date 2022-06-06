@@ -26,7 +26,7 @@ class MyWidget extends StatelessWidget {
           _constValue == 10.0 ? 25.0 : 30.0,
         ),
       ),
-      const ClipRRect(
+      ClipRRect(
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           border: Border.all(
@@ -51,9 +51,9 @@ class Color {
 
 enum BoxShape { circle }
 
-const _kDefaultRingWidth = 3;
-const _scaling = 3.0;
-const ringWidth = _kDefaultRingWidth * _scaling;
+final _kDefaultRingWidth = 3;
+final _scaling = 3.0;
+final ringWidth = _kDefaultRingWidth * _scaling;
 
 class BoxDecoration {
   final BoxShape? shape;
