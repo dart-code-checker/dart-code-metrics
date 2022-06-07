@@ -26,8 +26,40 @@ class MyWidget extends StatelessWidget {
           _constValue == 10.0 ? 25.0 : 30.0,
         ),
       ),
+      ClipRRect(
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(
+            width: ringWidth,
+            color: Colors.gray,
+          ),
+        ),
+      ),
     ]);
   }
+}
+
+class Colors {
+  static const gray = Color(0xFF000000);
+}
+
+class Color {
+  final int value;
+
+  const Color(int value) : value = value & 0xFFFFFFFF;
+}
+
+enum BoxShape { circle }
+
+final _kDefaultRingWidth = 3;
+final _scaling = 3.0;
+final ringWidth = _kDefaultRingWidth * _scaling;
+
+class BoxDecoration {
+  final BoxShape? shape;
+  final Border? border;
+
+  const BoxDecoration({this.shape, this.border});
 }
 
 class BorderRadius {
@@ -54,6 +86,18 @@ class BorderRadius {
   });
 }
 
+class BorderSide {}
+
+class Border {
+  final Color? color;
+  final double? width;
+
+  const Border.all({
+    this.width,
+    this.color,
+  });
+}
+
 class Radius {
   final double x;
   final double y;
@@ -68,8 +112,9 @@ class Radius {
 class ClipRRect extends Widget {
   final Widget? child;
   final BorderRadius? borderRadius;
+  final BoxDecoration? decoration;
 
-  const ClipRRect({this.child, this.borderRadius});
+  const ClipRRect({this.child, this.borderRadius, this.decoration});
 }
 
 class Column extends Widget {
