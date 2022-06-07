@@ -105,10 +105,10 @@ jobs:
           CODECOV_TOKEN: ${{secrets.CODECOV_TOKEN}}
         if: success()
         run: |
-          dart test --concurrency=2 --coverage=coverage --reporter=github --file-reporter="json:reports/tests.json"
+          dart test --coverage=coverage --reporter=github --file-reporter="json:reports/tests.json"
           dart run coverage:format_coverage --in coverage --out coverage/coverage.lcov --lcov --report-on=lib
           dart run tool/uncovered_coverage.dart
-          dart test test/fake_test.dart --coverage=coverage --concurrency=2
+          dart test test/fake_test.dart --coverage=coverage
           dart run coverage:format_coverage --in coverage --out coverage/coverage.lcov --lcov --report-on=lib
           bash <(curl -s https://codecov.io/bash) -f coverage/coverage.lcov
 
@@ -154,7 +154,7 @@ jobs:
       - name: Check compatibility
         run: |
           dart analyze --fatal-warnings --fatal-infos .
-          dart test --concurrency=2
+          dart test
 
   check-beta-dart-compatibility:
     needs: analysis
@@ -175,7 +175,7 @@ jobs:
       - name: Check compatibility
         run: |
           dart analyze --fatal-warnings --fatal-infos .
-          dart test --concurrency=2 --reporter=github
+          dart test --reporter=github
 
   check-windows-compatibility:
     needs: analysis
@@ -196,4 +196,4 @@ jobs:
       - name: Check compatibility
         run: |
           dart analyze --fatal-warnings --fatal-infos .
-          dart test --concurrency=2 --reporter=github
+          dart test --reporter=github
