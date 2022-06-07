@@ -117,7 +117,7 @@ jobs:
         if: success() || failure() # run this step even if previous step failed
         with:
           name: Tests result
-          path: action_app/reports/tests.json
+          path: reports/tests.json
           reporter: dart-json
           list-suites: "all"
           list-tests: "all"
