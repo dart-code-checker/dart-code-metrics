@@ -61,19 +61,25 @@ void main() {
     });
 
     test('with allowed-line-count config', () async {
-      final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+      final unit = await RuleTestHelper.resolveFromFile(_exampleMaxLineCountPath);
       final config = {
         'allowed-line-count': 3,
       };
 
       final issues = PreferExtractingCallbacksRule(config).check(unit);
 
-      // TODO
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startLines: [],
-        startColumns: [],
-        locationTexts: [],
+        startLines: [20],
+        startColumns: [7],
+        locationTexts: [
+          'onPressed: () {\n'
+              '        firstLine();\n'
+              '        secondLine();\n'
+              '        thirdLine();\n'
+              '        fourthLine();\n'
+              '      }',
+        ],
         messages: [
           'Prefer extracting the callback to a separate widget method.',
         ],
