@@ -5,7 +5,8 @@ import 'package:test/test.dart';
 import '../../../../../helpers/rule_test_helper.dart';
 
 const _examplePath = 'prefer_extracting_callbacks/examples/example.dart';
-const _exampleMaxLineCountPath = 'prefer_extracting_callbacks/examples/example_max_line_count.dart';
+const _exampleMaxLineCountPath =
+    'prefer_extracting_callbacks/examples/example_max_line_count.dart';
 
 void main() {
   group('PreferExtractingCallbacksRule', () {
@@ -61,7 +62,8 @@ void main() {
     });
 
     test('with allowed-line-count config', () async {
-      final unit = await RuleTestHelper.resolveFromFile(_exampleMaxLineCountPath);
+      final unit =
+          await RuleTestHelper.resolveFromFile(_exampleMaxLineCountPath);
       final config = {
         'allowed-line-count': 3,
       };
