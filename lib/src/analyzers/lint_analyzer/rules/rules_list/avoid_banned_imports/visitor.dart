@@ -7,7 +7,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
   Iterable<_NodeWithMessage> get nodes => _nodes;
 
-  _Visitor(this._activeEntries);f
+  _Visitor(this._activeEntries);
 
   @override
   void visitImportDirective(ImportDirective node) {
