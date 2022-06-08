@@ -4,11 +4,11 @@ class _Visitor extends SimpleAstVisitor<void> {
   final _expressions = <Expression>[];
 
   final Iterable<String> _ignoredArguments;
-  final int? _maxLineCount;
+  final int? _allowedLineCount;
 
   Iterable<Expression> get expressions => _expressions;
 
-  _Visitor(this._ignoredArguments, this._maxLineCount);
+  _Visitor(this._ignoredArguments, this._allowedLineCount);
 
   @override
   void visitClassDeclaration(ClassDeclaration node) {
@@ -18,7 +18,7 @@ class _Visitor extends SimpleAstVisitor<void> {
       return;
     }
 
-    final visitor = _InstanceCreationVisitor(_ignoredArguments, _maxLineCount);
+    final visitor = _InstanceCreationVisitor(_ignoredArguments, _allowedLineCount);
     node.visitChildren(visitor);
 
     _expressions.addAll(visitor.expressions);
@@ -29,11 +29,11 @@ class _InstanceCreationVisitor extends RecursiveAstVisitor<void> {
   final _expressions = <Expression>[];
 
   final Iterable<String> _ignoredArguments;
-  final int? _maxLineCount;
+  final int? _allowedLineCount;
 
   Iterable<Expression> get expressions => _expressions;
 
-  _InstanceCreationVisitor(this._ignoredArguments, this._maxLineCount);
+  _InstanceCreationVisitor(this._ignoredArguments, this._allowedLineCount);
 
   @override
   void visitInstanceCreationExpression(InstanceCreationExpression node) {
@@ -46,7 +46,8 @@ class _InstanceCreationVisitor extends RecursiveAstVisitor<void> {
       if (_isNotIgnored(argument) &&
           expression is FunctionExpression &&
           _hasNotEmptyBlockBody(expression) &&
-          !_isFlutterBuilder(expression)) {
+          !_isFlutterBuilder(expression) &&
+          _isLongEnough(expression)) {
         _expressions.add(argument);
       }
     }
@@ -76,4 +77,9 @@ class _InstanceCreationVisitor extends RecursiveAstVisitor<void> {
   bool _isNotIgnored(Expression argument) =>
       argument is! NamedExpression ||
       !_ignoredArguments.contains(argument.name.label.name);
+
+  bool _isLongEnough(Expression expression) {
+    final lineCount = TODO;
+    return lineCount >= _allowedLineCount;
+  }
 }

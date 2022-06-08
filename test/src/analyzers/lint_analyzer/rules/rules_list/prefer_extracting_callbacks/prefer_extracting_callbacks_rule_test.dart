@@ -60,10 +60,10 @@ void main() {
       RuleTestHelper.verifyNoIssues(issues);
     });
 
-    test('with max-line-count config', () async {
+    test('with allowed-line-count config', () async {
       final unit = await RuleTestHelper.resolveFromFile(_examplePath);
       final config = {
-        'max-line-count': 3,
+        'allowed-line-count': 3,
       };
 
       final issues = PreferExtractingCallbacksRule(config).check(unit);

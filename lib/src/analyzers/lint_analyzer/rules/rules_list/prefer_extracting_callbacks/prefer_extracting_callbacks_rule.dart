@@ -22,11 +22,11 @@ class PreferExtractingCallbacksRule extends FlutterRule {
       'Prefer extracting the callback to a separate widget method.';
 
   final Iterable<String> _ignoredArguments;
-  final int? _maxLineCount;
+  final int? _allowedLineCount;
 
   PreferExtractingCallbacksRule([Map<String, Object> config = const {}])
       : _ignoredArguments = _ConfigParser.parseIgnoredArguments(config),
-        _maxLineCount = _ConfigParser.parseMaxLineCount(config),
+        _allowedLineCount = _ConfigParser.parseAllowedLineCount(config),
         super(
           id: ruleId,
           severity: readSeverity(config, Severity.style),
@@ -35,7 +35,7 @@ class PreferExtractingCallbacksRule extends FlutterRule {
 
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
-    final visitor = _Visitor(_ignoredArguments, _maxLineCount);
+    final visitor = _Visitor(_ignoredArguments, _allowedLineCount);
 
     source.unit.visitChildren(visitor);
 
