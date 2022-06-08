@@ -7,12 +7,10 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
   Iterable<_NodeWithMessage> get nodes => _nodes;
 
-  _Visitor(this._activeEntries);
+  _Visitor(this._activeEntries);f
 
   @override
   void visitImportDirective(ImportDirective node) {
-    // print('hi node=$node uri=${node.uri} uri.stringValue=${node.uri.stringValue}');
-
     final uri = node.uri.stringValue;
     if (uri == null) {
       return;
