@@ -35,7 +35,7 @@ class PreferExtractingCallbacksRule extends FlutterRule {
 
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
-    final visitor = _Visitor(_ignoredArguments);
+    final visitor = _Visitor(_ignoredArguments, _maxLineCount);
 
     source.unit.visitChildren(visitor);
 

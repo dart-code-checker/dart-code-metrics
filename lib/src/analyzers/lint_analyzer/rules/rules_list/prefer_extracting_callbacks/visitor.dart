@@ -4,10 +4,11 @@ class _Visitor extends SimpleAstVisitor<void> {
   final _expressions = <Expression>[];
 
   final Iterable<String> _ignoredArguments;
+  final int? _maxLineCount;
 
   Iterable<Expression> get expressions => _expressions;
 
-  _Visitor(this._ignoredArguments);
+  _Visitor(this._ignoredArguments, this._maxLineCount);
 
   @override
   void visitClassDeclaration(ClassDeclaration node) {
@@ -17,7 +18,7 @@ class _Visitor extends SimpleAstVisitor<void> {
       return;
     }
 
-    final visitor = _InstanceCreationVisitor(_ignoredArguments);
+    final visitor = _InstanceCreationVisitor(_ignoredArguments, _maxLineCount);
     node.visitChildren(visitor);
 
     _expressions.addAll(visitor.expressions);
@@ -28,10 +29,11 @@ class _InstanceCreationVisitor extends RecursiveAstVisitor<void> {
   final _expressions = <Expression>[];
 
   final Iterable<String> _ignoredArguments;
+  final int? _maxLineCount;
 
   Iterable<Expression> get expressions => _expressions;
 
-  _InstanceCreationVisitor(this._ignoredArguments);
+  _InstanceCreationVisitor(this._ignoredArguments, this._maxLineCount);
 
   @override
   void visitInstanceCreationExpression(InstanceCreationExpression node) {
