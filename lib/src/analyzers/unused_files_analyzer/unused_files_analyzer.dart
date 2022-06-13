@@ -47,7 +47,7 @@ class UnusedFilesAnalyzer {
 
     for (final context in collection.contexts) {
       final unusedFilesAnalysisConfig =
-          await _getAnalysisConfig(context, rootFolder, config);
+          _getAnalysisConfig(context, rootFolder, config);
 
       final filePaths = getFilePaths(
         folders,
@@ -92,13 +92,13 @@ class UnusedFilesAnalyzer {
     }
   }
 
-  Future<UnusedFilesAnalysisConfig> _getAnalysisConfig(
+  UnusedFilesAnalysisConfig _getAnalysisConfig(
     AnalysisContext context,
     String rootFolder,
     UnusedFilesConfig config,
-  ) async {
-    final analysisOptions = await analysisOptionsFromContext(context) ??
-        await analysisOptionsFromFilePath(rootFolder);
+  ) {
+    final analysisOptions = analysisOptionsFromContext(context) ??
+        analysisOptionsFromFilePath(rootFolder, context);
 
     final contextConfig =
         ConfigBuilder.getUnusedFilesConfigFromOption(analysisOptions)
