@@ -4,6 +4,7 @@
 
 * test: added test case in [`prefer-const-border-radius`](https://dartcodemetrics.dev/docs/rules/flutter/prefer-const-border-radius) rule.
 * chore: restrict `analyzer` version to `>=2.4.0 <4.2.0`.
+* fix: normalize file paths after extraction from analyzed folder.
 * fix: improve context root included files calculation.
 * fix: resolve package with imported analysis options.
 
