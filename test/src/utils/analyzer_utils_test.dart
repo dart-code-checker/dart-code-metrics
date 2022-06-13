@@ -74,19 +74,23 @@ void main() {
       testOn: 'posix',
     );
 
-    test('should', () {
-      const rootFolder = 'test/resources/./';
-      final excludes = [Glob('**/first*file.dart')];
+    test(
+      'should normalize file path if root path has relative parts',
+      () {
+        const rootFolder = 'test/resources/./';
+        final excludes = [Glob('**/first*file.dart')];
 
-      final filePaths =
-          getFilePaths([folderPath], context, rootFolder, excludes).toList()
-            ..sort();
+        final filePaths =
+            getFilePaths([folderPath], context, rootFolder, excludes).toList()
+              ..sort();
 
-      expect(filePaths, hasLength(1));
+        expect(filePaths, hasLength(1));
 
-      final firstPath = filePaths.first;
-      expect(firstPath, 'test/resources/file_paths_folder/second_file.dart');
-      expect(firstPath, isNot(contains(rootFolder)));
-    });
+        final firstPath = filePaths.first;
+        expect(firstPath, 'test/resources/file_paths_folder/second_file.dart');
+        expect(firstPath, isNot(contains(rootFolder)));
+      },
+      testOn: 'posix',
+    );
   });
 }
