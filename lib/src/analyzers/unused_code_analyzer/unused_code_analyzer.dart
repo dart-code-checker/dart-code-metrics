@@ -55,7 +55,7 @@ class UnusedCodeAnalyzer {
 
     for (final context in collection.contexts) {
       final unusedCodeAnalysisConfig =
-          await _getAnalysisConfig(context, rootFolder, config);
+          _getAnalysisConfig(context, rootFolder, config);
 
       final filePaths = getFilePaths(
         folders,
@@ -98,13 +98,13 @@ class UnusedCodeAnalyzer {
     return _getReports(codeUsages, publicCode, rootFolder);
   }
 
-  Future<UnusedCodeAnalysisConfig> _getAnalysisConfig(
+  UnusedCodeAnalysisConfig _getAnalysisConfig(
     AnalysisContext context,
     String rootFolder,
     UnusedCodeConfig config,
-  ) async {
-    final analysisOptions = await analysisOptionsFromContext(context) ??
-        await analysisOptionsFromFilePath(rootFolder);
+  ) {
+    final analysisOptions = analysisOptionsFromContext(context) ??
+        analysisOptionsFromFilePath(rootFolder, context);
 
     final contextConfig =
         ConfigBuilder.getUnusedCodeConfigFromOption(analysisOptions)

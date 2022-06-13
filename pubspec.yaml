@@ -32,5 +32,9 @@ dev_dependencies:
   mocktail: ^0.3.0
   test: ^1.16.8
 
+  # internal package, used only in tests data
+  test_lints:
+    path: ./test/resources/test_lints
+
 executables:
   metrics:
