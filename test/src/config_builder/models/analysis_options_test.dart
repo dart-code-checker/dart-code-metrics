@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dart_code_metrics/src/config_builder/models/analysis_options.dart';
+import 'package:dart_code_metrics/src/utils/analyzer_utils.dart';
 import 'package:test/test.dart';
 
 const _options = {
@@ -28,23 +29,35 @@ const _options = {
 };
 
 void main() {
+  final collection = createAnalysisContextCollection(
+    ['test'],
+    Directory.current.path,
+    null,
+  );
+
   group('analysisOptionsFromFile constructs AnalysisOptions from', () {
-    test('null', () async {
-      final options = await analysisOptionsFromFile(null);
+    test('null', () {
+      final options = analysisOptionsFromFile(null, collection.contexts.first);
 
       expect(options.options, isEmpty);
     });
 
-    test('invalid file', () async {
-      final options = await analysisOptionsFromFile(File('unavailable.yaml'));
+    test('invalid file', () {
+      final options = analysisOptionsFromFile(
+        File('unavailable.yaml'),
+        collection.contexts.first,
+      );
 
       expect(options.options, isEmpty);
     });
 
-    test('yaml file', () async {
+    test('yaml file', () {
       const yamlFilePath = './test/resources/analysis_options_pkg.yaml';
 
-      final options = await analysisOptionsFromFile(File(yamlFilePath));
+      final options = analysisOptionsFromFile(
+        File(yamlFilePath),
+        collection.contexts.first,
+      );
 
       expect(options.options, contains('linter'));
       expect(options.options['linter'], contains('rules'));
@@ -95,6 +108,21 @@ void main() {
           containsPair('rule-id4', true),
           containsPair('rule-id5', true),
         ),
+      );
+    });
+
+    test('valid file with single import', () {
+      const yamlFilePath = './test/resources/analysis_options_with_import.yaml';
+
+      final options = analysisOptionsFromFile(
+        File(yamlFilePath),
+        collection.contexts.first,
+      );
+
+      expect(options.options['analyzer'], isNotEmpty);
+      expect(
+        (options.options['analyzer'] as Map<String, Object>)['plugins'],
+        equals(['dart_code_metrics']),
       );
     });
   });
