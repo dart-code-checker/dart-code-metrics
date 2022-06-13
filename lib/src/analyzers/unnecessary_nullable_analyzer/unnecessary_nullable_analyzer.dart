@@ -107,8 +107,8 @@ class UnnecessaryNullableAnalyzer {
     String rootFolder,
     UnnecessaryNullableConfig config,
   ) async {
-    final analysisOptions = await analysisOptionsFromContext(context) ??
-        await analysisOptionsFromFilePath(rootFolder);
+    final analysisOptions = analysisOptionsFromContext(context) ??
+        analysisOptionsFromFilePath(rootFolder, context);
 
     final contextConfig =
         ConfigBuilder.getUnnecessaryNullableConfigFromOption(analysisOptions)
@@ -256,8 +256,12 @@ class UnnecessaryNullableAnalyzer {
       return _shouldMarkParameterAsNullable(argument.expression);
     }
 
+    final staticType = argument.staticType;
+
     final isNullable = argument is NullLiteral ||
-        argument.staticType?.nullabilitySuffix == NullabilitySuffix.question;
+        (staticType != null &&
+            (staticType.isDynamic ||
+                staticType.nullabilitySuffix == NullabilitySuffix.question));
 
     return isNullable;
   }
