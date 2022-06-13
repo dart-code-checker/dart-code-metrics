@@ -73,5 +73,20 @@ void main() {
       },
       testOn: 'posix',
     );
+
+    test('should', () {
+      const rootFolder = 'test/resources/./';
+      final excludes = [Glob('**/first*file.dart')];
+
+      final filePaths =
+          getFilePaths([folderPath], context, rootFolder, excludes).toList()
+            ..sort();
+
+      expect(filePaths, hasLength(1));
+
+      final firstPath = filePaths.first;
+      expect(firstPath, 'test/resources/file_paths_folder/second_file.dart');
+      expect(firstPath, isNot(contains(rootFolder)));
+    });
   });
 }
