@@ -7,6 +7,7 @@
 * fix: normalize file paths after extraction from analyzed folder.
 * fix: improve context root included files calculation.
 * fix: resolve package with imported analysis options.
+* fix: change elements equality check to overcome incorrect libs resolution.
 
 ## 4.15.2
 
