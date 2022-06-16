@@ -3,3 +3,5 @@ ignore:
   - intl
   - test_lints
   - flutter
+  - good_package
+  - my_app
