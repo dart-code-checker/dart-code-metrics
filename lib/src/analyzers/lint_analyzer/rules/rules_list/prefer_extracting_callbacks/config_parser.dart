@@ -12,6 +12,7 @@ class _ConfigParser {
 
   static int? parseAllowedLineCount(Map<String, Object> config) {
     final raw = config[_allowedLineCountConfig];
+
     return raw is int? ? raw : null;
   }
 }
