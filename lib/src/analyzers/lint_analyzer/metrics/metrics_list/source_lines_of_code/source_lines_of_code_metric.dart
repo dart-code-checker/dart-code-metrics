@@ -1,6 +1,7 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:source_span/source_span.dart';
 
+import '../../../base_visitors/source_code_visitor.dart';
 import '../../../models/context_message.dart';
 import '../../../models/entity_type.dart';
 import '../../../models/internal_resolved_unit_result.dart';
@@ -11,7 +12,6 @@ import '../../models/function_metric.dart';
 import '../../models/metric_computation_result.dart';
 import '../../models/metric_documentation.dart';
 import '../../models/metric_value.dart';
-import 'source_code_visitor.dart';
 
 const _documentation = MetricDocumentation(
   name: 'Source lines of Code',

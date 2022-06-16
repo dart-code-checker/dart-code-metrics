@@ -2,11 +2,12 @@
 
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
+import 'package:analyzer/source/line_info.dart';
 
 import '../../../../../utils/flutter_types_utils.dart';
 import '../../../../../utils/node_utils.dart';
+import '../../../base_visitors/source_code_visitor.dart';
 import '../../../lint_utils.dart';
-import '../../../metrics/metrics_list/source_lines_of_code/source_code_visitor.dart';
 import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
 import '../../../models/severity.dart';
@@ -36,7 +37,8 @@ class PreferExtractingCallbacksRule extends FlutterRule {
 
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
-    final visitor = _Visitor(source, _ignoredArguments, _allowedLineCount);
+    final visitor =
+        _Visitor(source.lineInfo, _ignoredArguments, _allowedLineCount);
 
     source.unit.visitChildren(visitor);
 

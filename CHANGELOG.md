@@ -8,6 +8,7 @@
 * fix: improve context root included files calculation.
 * feat: add [`avoid-banned-imports`](https://dartcodemetrics.dev/docs/rules/common/avoid-banned-imports) rule
 * fix: resolve package with imported analysis options.
+* feat: add configuration to [`prefer-extracting-callbacks`](https://dartcodemetrics.dev/docs/rules/flutter/prefer-extracting-callbacks)
 
 ## 4.15.2
 

@@ -2,3 +2,4 @@ ignore:
   - analyzer
   - intl
   - test_lints
+  - flutter

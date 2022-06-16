@@ -3,13 +3,13 @@ part of 'prefer_extracting_callbacks_rule.dart';
 class _Visitor extends SimpleAstVisitor<void> {
   final _expressions = <Expression>[];
 
-  final InternalResolvedUnitResult _source;
+  final LineInfo _lineInfo;
   final Iterable<String> _ignoredArguments;
   final int? _allowedLineCount;
 
   Iterable<Expression> get expressions => _expressions;
 
-  _Visitor(this._source, this._ignoredArguments, this._allowedLineCount);
+  _Visitor(this._lineInfo, this._ignoredArguments, this._allowedLineCount);
 
   @override
   void visitClassDeclaration(ClassDeclaration node) {
@@ -19,8 +19,11 @@ class _Visitor extends SimpleAstVisitor<void> {
       return;
     }
 
-    final visitor =
-        _InstanceCreationVisitor(_source, _ignoredArguments, _allowedLineCount);
+    final visitor = _InstanceCreationVisitor(
+      _lineInfo,
+      _ignoredArguments,
+      _allowedLineCount,
+    );
     node.visitChildren(visitor);
 
     _expressions.addAll(visitor.expressions);
@@ -30,14 +33,17 @@ class _Visitor extends SimpleAstVisitor<void> {
 class _InstanceCreationVisitor extends RecursiveAstVisitor<void> {
   final _expressions = <Expression>[];
 
-  final InternalResolvedUnitResult _source;
+  final LineInfo _lineInfo;
   final Iterable<String> _ignoredArguments;
   final int? _allowedLineCount;
 
   Iterable<Expression> get expressions => _expressions;
 
   _InstanceCreationVisitor(
-      this._source, this._ignoredArguments, this._allowedLineCount);
+    this._lineInfo,
+    this._ignoredArguments,
+    this._allowedLineCount,
+  );
 
   @override
   void visitInstanceCreationExpression(InstanceCreationExpression node) {
@@ -88,7 +94,7 @@ class _InstanceCreationVisitor extends RecursiveAstVisitor<void> {
       return true;
     }
 
-    final visitor = SourceCodeVisitor(_source.lineInfo);
+    final visitor = SourceCodeVisitor(_lineInfo);
     expression.visitChildren(visitor);
 
     return visitor.linesWithCode.length > allowedLineCount;
