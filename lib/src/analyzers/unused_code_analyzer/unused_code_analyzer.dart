@@ -169,8 +169,28 @@ class UnusedCodeAnalyzer {
   }
 
   bool _isUsed(Element usedElement, Element element) =>
-      element == usedElement ||
-      element is PropertyInducingElement && element.getter == usedElement;
+      _isEqualElements(usedElement, element) ||
+      element is PropertyInducingElement &&
+          _isEqualElements(usedElement, element.getter);
+
+  bool _isEqualElements(Element left, Element? right) {
+    if (left == right) {
+      return true;
+    }
+
+    final usedLibrary = left.library;
+    final declaredSource = right?.librarySource;
+
+    // This is a hack to fix incorrect libraries resolution.
+    // Should be removed after new analyzer version is available.
+    // see: https://github.com/dart-lang/sdk/issues/49182
+    return usedLibrary != null &&
+        declaredSource != null &&
+        left.name == right?.name &&
+        usedLibrary.units
+            .map((unit) => unit.source.fullName)
+            .contains(declaredSource.fullName);
+  }
 
   bool _isUnused(
     FileElementsUsage codeUsages,
