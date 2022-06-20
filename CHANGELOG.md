@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* feat: introduce new command [`check-unnecessary-nullable`](https://dartcodemetrics.dev/docs/cli/check-unnecessary-nullable).
 * feat: add [`avoid-banned-imports`](https://dartcodemetrics.dev/docs/rules/common/avoid-banned-imports) rule.
 * feat: add configuration to [`prefer-extracting-callbacks`](https://dartcodemetrics.dev/docs/rules/flutter/prefer-extracting-callbacks).
 * feat: improve [`checkstyle`](https://dartcodemetrics.dev/docs/cli/analyze#checkstyle) report, added metrics entries.

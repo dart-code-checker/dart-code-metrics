@@ -217,9 +217,7 @@ class UnusedCodeAnalyzer {
     CompilationUnitElement unit,
   ) {
     final offset = element.codeOffset!;
-
-    // ignore: unnecessary_non_null_assertion
-    final lineInfo = unit.lineInfo!;
+    final lineInfo = unit.lineInfo;
     final offsetLocation = lineInfo.getLocation(offset);
 
     final sourceUrl = element.source!.uri;
