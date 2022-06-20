@@ -35,22 +35,41 @@ void main() {
       final file = report.findAllElements('file');
       expect(
         file.first.getAttribute('name'),
+        equals('test/resources/abstract_class.dart'),
+      );
+      expect(
+        file.last.getAttribute('name'),
         equals('test/resources/class_with_factory_constructors.dart'),
       );
 
-      final errors = report.findAllElements('error');
+      var errors = file.first.findAllElements('error').toList();
+      expect(errors.first.getAttribute('line'), equals('0'));
+      expect(errors.first.getAttribute('severity'), equals('warning'));
+      expect(errors.first.getAttribute('message'), equals('metric comment'));
+      expect(errors.first.getAttribute('source'), equals('file-metric-id'));
+      expect(errors.last.getAttribute('line'), equals('0'));
+      expect(errors.last.getAttribute('severity'), equals('error'));
+      expect(errors.last.getAttribute('message'), equals('metric comment'));
+      expect(errors.last.getAttribute('source'), equals('id'));
+
+      errors = file.last.findAllElements('error').toList();
       expect(errors.first.getAttribute('line'), equals('0'));
       expect(errors.first.getAttribute('severity'), equals('warning'));
       expect(errors.first.getAttribute('message'), equals('simple message'));
       expect(errors.first.getAttribute('source'), equals('id'));
 
-      expect(errors.last.getAttribute('line'), equals('0'));
-      expect(errors.last.getAttribute('severity'), equals('info'));
+      expect(errors[1].getAttribute('line'), equals('0'));
+      expect(errors[1].getAttribute('severity'), equals('info'));
       expect(
-        errors.last.getAttribute('message'),
+        errors[1].getAttribute('message'),
         equals('simple design message'),
       );
-      expect(errors.last.getAttribute('source'), equals('designId'));
+      expect(errors[1].getAttribute('source'), equals('designId'));
+
+      expect(errors.last.getAttribute('line'), equals('0'));
+      expect(errors.last.getAttribute('severity'), equals('warning'));
+      expect(errors.last.getAttribute('message'), equals('metric comment'));
+      expect(errors.last.getAttribute('source'), equals('id'));
     });
   });
 }
