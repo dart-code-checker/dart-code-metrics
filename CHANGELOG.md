@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 4.16.0
 
 * feat: introduce new command [`check-unnecessary-nullable`](https://dartcodemetrics.dev/docs/cli/check-unnecessary-nullable).
 * feat: add [`avoid-banned-imports`](https://dartcodemetrics.dev/docs/rules/common/avoid-banned-imports) rule.
