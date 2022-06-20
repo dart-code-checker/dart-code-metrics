@@ -6,8 +6,11 @@
 * chore: restrict `analyzer` version to `>=2.4.0 <4.2.0`.
 * fix: normalize file paths after extraction from analyzed folder.
 * fix: improve context root included files calculation.
+* feat: add [`avoid-banned-imports`](https://dartcodemetrics.dev/docs/rules/common/avoid-banned-imports) rule
 * fix: resolve package with imported analysis options.
 * fix: change elements equality check to overcome incorrect libs resolution.
+* feat: add configuration to [`prefer-extracting-callbacks`](https://dartcodemetrics.dev/docs/rules/flutter/prefer-extracting-callbacks)
+* feat: improve [`checkstyle`](https://dartcodemetrics.dev/docs/cli/analyze#checkstyle) report, added metrics entries.
 
 ## 4.15.2
 
