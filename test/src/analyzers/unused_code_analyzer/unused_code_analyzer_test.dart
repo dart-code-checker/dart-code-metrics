@@ -36,7 +36,7 @@ void main() {
         });
 
         test('should report 3 files and not report excluded file', () {
-          expect(result, hasLength(3));
+          expect(result, hasLength(4));
         });
 
         test('should analyze not used files', () async {
@@ -138,6 +138,20 @@ void main() {
           expect(eightsIssue.declarationType, 'class');
           expect(eightsIssue.location.line, 171);
           expect(eightsIssue.location.column, 1);
+        });
+
+        test('should analyze elements from incorrectly parsed library', () {
+          final report = result.firstWhere(
+            (report) => report.path.endsWith('app_icons.dart'),
+          );
+
+          expect(report.issues, hasLength(1));
+
+          final firstIssue = report.issues.first;
+          expect(firstIssue.declarationName, 'AppIcons');
+          expect(firstIssue.declarationType, 'class');
+          expect(firstIssue.location.line, 3);
+          expect(firstIssue.location.column, 1);
         });
       });
 

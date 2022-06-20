@@ -23,5 +23,5 @@ Set<String> extractDartFilesFromFolders(
                   relative(entity.path, from: rootFolder),
                   globalExcludes,
                 ))
-            .map((entity) => entity.path))
+            .map((entity) => normalize(entity.path)))
         .toSet();

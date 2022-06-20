@@ -45,7 +45,7 @@ class InvocationsVisitor extends RecursiveAstVisitor<void> {
     if (element == null) {
       return;
     }
-    // // Ignore if an unknown library.
+    // Ignore if an unknown library.
     final containingLibrary = element.library;
     if (containingLibrary == null) {
       return;
