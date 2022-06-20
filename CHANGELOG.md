@@ -8,6 +8,7 @@
 * fix: improve context root included files calculation.
 * feat: add [`avoid-banned-imports`](https://dartcodemetrics.dev/docs/rules/common/avoid-banned-imports) rule
 * fix: resolve package with imported analysis options.
+* fix: change elements equality check to overcome incorrect libs resolution.
 * feat: add configuration to [`prefer-extracting-callbacks`](https://dartcodemetrics.dev/docs/rules/flutter/prefer-extracting-callbacks)
 * feat: improve [`checkstyle`](https://dartcodemetrics.dev/docs/cli/analyze#checkstyle) report, added metrics entries.
 
