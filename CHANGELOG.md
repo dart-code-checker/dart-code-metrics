@@ -12,6 +12,7 @@
 * fix: correctly handle `-` symbol for [`prefer-commenting-analyzer-ignores`](https://dartcodemetrics.dev/docs/rules/common/prefer-commenting-analyzer-ignores).
 * fix: change elements equality check to overcome incorrect libs resolution.
 * chore: restrict `analyzer` version to `>=2.4.0 <4.2.0`.
+* chore: clean up unnecessary nullable parameters.
 * test: added test case in [`prefer-const-border-radius`](https://dartcodemetrics.dev/docs/rules/flutter/prefer-const-border-radius) rule.
 
 ## 4.15.2

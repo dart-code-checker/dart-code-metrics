@@ -14,7 +14,7 @@ class Suppression {
   bool isSuppressed(String id) => _ignoreForFileSet.contains(_canonicalize(id));
 
   /// Checks that the [id] is suppressed for the [lineIndex].
-  bool isSuppressedAt(String id, int? lineIndex) =>
+  bool isSuppressedAt(String id, int lineIndex) =>
       isSuppressed(id) ||
       (_ignoreMap[lineIndex]?.contains(_canonicalize(id)) ?? false);
 
