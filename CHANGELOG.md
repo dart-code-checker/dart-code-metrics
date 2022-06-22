@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+* chore: restrict `analyzer` version to `>=4.0.0 <4.2.0`.
+* feat: migrate to new analyzer plugins API.
+
 ## 4.16.0
 
 * feat: introduce new command [`check-unnecessary-nullable`](https://dartcodemetrics.dev/docs/cli/check-unnecessary-nullable).
