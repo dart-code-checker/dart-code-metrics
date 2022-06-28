@@ -27,7 +27,7 @@ Usage: metrics check-unused-code [arguments] <directories>
 
     --root-folder=<./>                            Root folder.
                                                   (defaults to current directory)
-    --sdk-path=<directory-path>                   Dart SDK directory path. 
+    --sdk-path=<directory-path>                   Dart SDK directory path.
                                                   Should be provided only when you run the application as compiled executable(https://dart.dev/tools/dart-compile#exe) and automatic Dart SDK path detection fails.
     --exclude=<{/**.g.dart,/**.template.dart}>    File paths in Glob syntax to be exclude.
                                                   (defaults to "{/**.g.dart,/**.template.dart}")
@@ -44,7 +44,7 @@ Usage: metrics check-unused-code [arguments] <directories>
 
 ## Monorepo support
 
-By default the command treats all code that exported from the package as used. To disable this behavior use `--monorepo` flag. This might be useful when all the packages in your repository only unused inside this repository and not published to pub.
+By default the command treats all code that is exported from the package as used. To disable this behavior use `--monorepo` flag. This might be useful when all the packages in your repository are only used within the repository and are not published to the pub.
 
 ## Output example {#output-example}
 

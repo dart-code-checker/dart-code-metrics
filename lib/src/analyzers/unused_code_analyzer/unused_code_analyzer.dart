@@ -56,7 +56,7 @@ class UnusedCodeAnalyzer {
 
     for (final context in collection.contexts) {
       final unusedCodeAnalysisConfig =
-          await _getAnalysisConfig(context, rootFolder, config);
+          _getAnalysisConfig(context, rootFolder, config);
 
       final filePaths = getFilePaths(
         folders,
@@ -99,13 +99,13 @@ class UnusedCodeAnalyzer {
     return _getReports(codeUsages, publicCode, rootFolder);
   }
 
-  Future<UnusedCodeAnalysisConfig> _getAnalysisConfig(
+  UnusedCodeAnalysisConfig _getAnalysisConfig(
     AnalysisContext context,
     String rootFolder,
     UnusedCodeConfig config,
-  ) async {
-    final analysisOptions = await analysisOptionsFromContext(context) ??
-        await analysisOptionsFromFilePath(rootFolder);
+  ) {
+    final analysisOptions = analysisOptionsFromContext(context) ??
+        analysisOptionsFromFilePath(rootFolder, context);
 
     final contextConfig =
         ConfigBuilder.getUnusedCodeConfigFromOption(analysisOptions)
@@ -170,8 +170,28 @@ class UnusedCodeAnalyzer {
   }
 
   bool _isUsed(Element usedElement, Element element) =>
-      element == usedElement ||
-      element is PropertyInducingElement && element.getter == usedElement;
+      _isEqualElements(usedElement, element) ||
+      element is PropertyInducingElement &&
+          _isEqualElements(usedElement, element.getter);
+
+  bool _isEqualElements(Element left, Element? right) {
+    if (left == right) {
+      return true;
+    }
+
+    final usedLibrary = left.library;
+    final declaredSource = right?.librarySource;
+
+    // This is a hack to fix incorrect libraries resolution.
+    // Should be removed after new analyzer version is available.
+    // see: https://github.com/dart-lang/sdk/issues/49182
+    return usedLibrary != null &&
+        declaredSource != null &&
+        left.name == right?.name &&
+        usedLibrary.units
+            .map((unit) => unit.source.fullName)
+            .contains(declaredSource.fullName);
+  }
 
   bool _isUnused(
     FileElementsUsage codeUsages,
@@ -198,10 +218,9 @@ class UnusedCodeAnalyzer {
     CompilationUnitElement unit,
   ) {
     final offset = element.codeOffset!;
-
-    // ignore: dead_null_aware_expression
-    final lineInfo = unit.lineInfo ?? LineInfo([0]);
-    final offsetLocation = lineInfo.getLocation(offset);
+    final lineInfo = unit.lineInfo;
+    // ignore: unnecessary_non_null_assertion
+    final offsetLocation = lineInfo!.getLocation(offset);
 
     final sourceUrl = element.source!.uri;
 

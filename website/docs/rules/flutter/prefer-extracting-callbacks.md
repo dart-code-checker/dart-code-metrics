@@ -31,6 +31,7 @@ dart_code_metrics:
     - prefer-extracting-callbacks:
         ignored-named-arguments:
           - onPressed
+        allowed-line-count: 3
 ```
 
 ### Example {#example}

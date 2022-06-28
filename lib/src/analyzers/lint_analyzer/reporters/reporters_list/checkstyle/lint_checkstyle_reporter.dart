@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:xml/xml.dart';
 
 import '../../../../../reporters/models/checkstyle_reporter.dart';
+import '../../../metrics/models/metric_value_level.dart';
 import '../../../models/lint_file_report.dart';
 import '../../../models/severity.dart';
 import '../../../models/summary_lint_report_record.dart';
@@ -39,22 +40,8 @@ class LintCheckstyleReporter extends CheckstyleReporter<LintFileReport,
             'file',
             attributes: {'name': record.relativePath},
             nest: () {
-              final issues = [...record.issues, ...record.antiPatternCases];
-
-              for (final issue in issues) {
-                final locationStart = issue.location.start;
-                builder.element(
-                  'error',
-                  attributes: {
-                    'line': '${locationStart.line}',
-                    if (locationStart.column > 0)
-                      'column': '${locationStart.column}',
-                    'severity': _severityMapping[issue.severity] ?? 'ignore',
-                    'message': issue.message,
-                    'source': issue.ruleId,
-                  },
-                );
-              }
+              _reportIssues(builder, record);
+              _reportMetrics(builder, record);
             },
           );
         }
@@ -63,14 +50,84 @@ class LintCheckstyleReporter extends CheckstyleReporter<LintFileReport,
     output.writeln(builder.buildDocument().toXmlString(pretty: true));
   }
 
+  void _reportIssues(XmlBuilder builder, LintFileReport report) {
+    final issues = [...report.issues, ...report.antiPatternCases];
+
+    for (final issue in issues) {
+      final locationStart = issue.location.start;
+      builder.element(
+        'error',
+        attributes: {
+          'line': '${locationStart.line}',
+          if (locationStart.column > 0) 'column': '${locationStart.column}',
+          'severity': _issueSeverityMapping[issue.severity] ?? 'ignore',
+          'message': issue.message,
+          'source': issue.ruleId,
+        },
+      );
+    }
+  }
+
+  void _reportMetrics(XmlBuilder builder, LintFileReport record) {
+    for (final metric in record.file.metrics) {
+      if (_isMetricNeedToReport(metric.level)) {
+        builder.element(
+          'error',
+          attributes: {
+            'line': '0',
+            'severity': _metricSeverityMapping[metric.level] ?? 'ignore',
+            'message': metric.comment,
+            'source': metric.metricsId,
+          },
+        );
+      }
+    }
+
+    final metricRecords =
+        {...record.classes, ...record.functions}.entries.toList();
+    for (final record in metricRecords) {
+      if (!_isMetricNeedToReport(record.value.metricsLevel)) {
+        continue;
+      }
+
+      final location = record.value.location;
+
+      for (final metricValue in record.value.metrics) {
+        builder.element(
+          'error',
+          attributes: {
+            'line': '${location.start.line}',
+            if (record.value.location.start.column > 0)
+              'column': '${record.value.location.start.column}',
+            'severity': _metricSeverityMapping[metricValue.level] ?? 'ignore',
+            'message': metricValue.comment,
+            'source': metricValue.metricsId,
+          },
+        );
+      }
+    }
+  }
+
   bool _needToReport(LintFileReport report) =>
-      report.issues.isNotEmpty || report.antiPatternCases.isNotEmpty;
+      report.issues.isNotEmpty ||
+      report.antiPatternCases.isNotEmpty ||
+      _isMetricNeedToReport(report.file.metricsLevel);
+
+  bool _isMetricNeedToReport(MetricValueLevel level) =>
+      level > MetricValueLevel.none;
 }
 
-const _severityMapping = {
+const _issueSeverityMapping = {
   Severity.error: 'error',
   Severity.warning: 'warning',
   Severity.style: 'info',
   Severity.performance: 'warning',
   Severity.none: 'ignore',
+};
+
+const _metricSeverityMapping = {
+  MetricValueLevel.alarm: 'error',
+  MetricValueLevel.warning: 'warning',
+  MetricValueLevel.noted: 'info',
+  MetricValueLevel.none: 'ignore',
 };

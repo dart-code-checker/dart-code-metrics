@@ -27,6 +27,5 @@ class _Visitor extends RecursiveAstVisitor<void> {
     return false;
   }
 
-  bool _isMapOrSubclassOfMap(DartType? type) =>
-      type != null && type.isDartCoreMap;
+  bool _isMapOrSubclassOfMap(DartType type) => type.isDartCoreMap;
 }
