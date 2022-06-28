@@ -189,6 +189,10 @@ Rules configuration is [described here](../getting-started/configuration#configu
 
     Warns when a widget is wrapped in a Padding widget but has a padding settings by itself.
 
+- [avoid-use-expanded-as-spacer](./flutter/avoid-use-expanded-as-spacer.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
+
+    Avoid use Expanded widget instead of Spacer.
+
 - [prefer-const-border-radius](./flutter/prefer-const-border-radius.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 
     Warns when used non const border radius.

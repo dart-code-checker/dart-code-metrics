@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* feat: add static code diagnostic [`avoid-use-expanded-as-spacer`](https://dartcodemetrics.dev/docs/rules/flutter/avoid-use-expanded-as-spacer).
+
 ## 4.16.0
 
 * feat: introduce new command [`check-unnecessary-nullable`](https://dartcodemetrics.dev/docs/cli/check-unnecessary-nullable).
