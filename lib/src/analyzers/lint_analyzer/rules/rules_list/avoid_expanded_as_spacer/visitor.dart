@@ -28,16 +28,15 @@ class _Visitor extends RecursiveAstVisitor<void> {
         withNullability: true,
       );
 
-      final hasNoArgument =
-          (expandedChild.expression as InstanceCreationExpression)
-              .argumentList
-              .arguments
-              .isEmpty;
+      final child = expandedChild.expression;
+      if (child is InstanceCreationExpression) {
+        final hasNoArgument = child.argumentList.arguments.isEmpty;
 
-      if (hasNoArgument &&
-          (childName == _containerClassName ||
-              childName == _sizeBoxClassName)) {
-        _expressions.add(expression);
+        if (hasNoArgument &&
+            (childName == _containerClassName ||
+                childName == _sizeBoxClassName)) {
+          _expressions.add(expression);
+        }
       }
     }
   }

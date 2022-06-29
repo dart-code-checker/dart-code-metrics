@@ -2,11 +2,14 @@ class MyWidget extends StatelessWidget {
   Widget build(BuildContext context) => Column(children: [
         Expanded(child: Container()), // LINT
         Expanded(child: SizeBox()), // LINT
+        Expanded(child: foo()),
         Expanded(child: SizeBox(child: Container())),
         Expanded(child: Container(child: SizeBox())),
         Spacer(),
       ]);
 }
+
+Widget foo() => SizeBox();
 
 class Container extends Widget {
   final Widget? child;
