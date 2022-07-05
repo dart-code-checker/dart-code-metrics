@@ -63,7 +63,9 @@ class AnalyzerPlugin extends ServerPlugin {
 
       if (resolvedUnit is ResolvedUnitResult) {
         final analysisErrors = _getErrorsForResolvedUnit(
-            resolvedUnit, analysisContext.contextRoot.root.path);
+          resolvedUnit,
+          analysisContext.contextRoot.root.path,
+        );
 
         channel.sendNotification(
           plugin.AnalysisErrorsParams(
