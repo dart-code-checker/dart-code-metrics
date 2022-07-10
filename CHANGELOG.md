@@ -9,7 +9,22 @@
 
 ## Unreleased
 
+* chore: restrict `analyzer` version to `>=2.7.0 <4.3.0`.
+
+## 4.16.0
+
+* feat: introduce new command [`check-unnecessary-nullable`](https://dartcodemetrics.dev/docs/cli/check-unnecessary-nullable).
+* feat: add [`avoid-banned-imports`](https://dartcodemetrics.dev/docs/rules/common/avoid-banned-imports) rule.
+* feat: add configuration to [`prefer-extracting-callbacks`](https://dartcodemetrics.dev/docs/rules/flutter/prefer-extracting-callbacks).
+* feat: improve [`checkstyle`](https://dartcodemetrics.dev/docs/cli/analyze#checkstyle) report, added metrics entries.
+* fix: normalize file paths after extraction from analyzed folder.
+* fix: improve context root included files calculation.
+* fix: resolve package with imported analysis options.
+* fix: correctly handle `-` symbol for [`prefer-commenting-analyzer-ignores`](https://dartcodemetrics.dev/docs/rules/common/prefer-commenting-analyzer-ignores).
+* fix: change elements equality check to overcome incorrect libs resolution.
 * chore: restrict `analyzer` version to `>=2.4.0 <4.2.0`.
+* chore: clean up unnecessary nullable parameters.
+* test: added test case in [`prefer-const-border-radius`](https://dartcodemetrics.dev/docs/rules/flutter/prefer-const-border-radius) rule.
 
 ## 4.15.2
 

@@ -79,8 +79,8 @@ class LintAnalyzer {
     final analyzerResult = <LintFileReport>[];
 
     for (final context in collection.contexts) {
-      final analysisOptions = await analysisOptionsFromContext(context) ??
-          await analysisOptionsFromFilePath(rootFolder);
+      final analysisOptions = analysisOptionsFromContext(context) ??
+          analysisOptionsFromFilePath(rootFolder, context);
 
       final excludesRootFolder = analysisOptions.folderPath ?? rootFolder;
 

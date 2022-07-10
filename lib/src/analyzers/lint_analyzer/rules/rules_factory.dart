@@ -1,5 +1,6 @@
 import 'models/rule.dart';
 import 'rules_list/always_remove_listener/always_remove_listener_rule.dart';
+import 'rules_list/avoid_banned_imports/avoid_banned_imports_rule.dart';
 import 'rules_list/avoid_boolean_literal_compare/avoid_boolean_literal_compare_rule.dart';
 import 'rules_list/avoid_border_all/avoid_border_all_rule.dart';
 import 'rules_list/avoid_collection_methods_with_unrelated_types/avoid_collection_methods_with_unrelated_types_rule.dart';
@@ -54,6 +55,7 @@ import 'rules_list/tag_name/tag_name_rule.dart';
 
 final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   AlwaysRemoveListenerRule.ruleId: (config) => AlwaysRemoveListenerRule(config),
+  AvoidBannedImportsRule.ruleId: (config) => AvoidBannedImportsRule(config),
   AvoidBooleanLiteralCompareRule.ruleId: (config) =>
       AvoidBooleanLiteralCompareRule(config),
   AvoidBorderAllRule.ruleId: (config) => AvoidBorderAllRule(config),

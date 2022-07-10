@@ -11,6 +11,10 @@ Rules configuration is [described here](../getting-started/configuration#configu
 
 ## Common {#common}
 
+- [avoid-banned-imports](./common/avoid-banned-imports.md) &nbsp; [![Configurable](https://img.shields.io/badge/-configurable-informational)](./common/avoid-banned-imports.md#config-example)
+
+    Configure some imports that you want to ban.
+
 - [avoid-boolean-literal-compare](./common/avoid-boolean-literal-compare.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 
     Warns on comparison to a boolean literal, as in x == true.

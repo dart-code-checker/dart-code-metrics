@@ -5,6 +5,8 @@ import '../analyzers/lint_analyzer/metrics/metrics_factory.dart';
 import '../analyzers/lint_analyzer/metrics/models/metric.dart';
 import '../analyzers/lint_analyzer/models/entity_type.dart';
 import '../analyzers/lint_analyzer/rules/rules_factory.dart';
+import '../analyzers/unnecessary_nullable_analyzer/unnecessary_nullable_analysis_config.dart';
+import '../analyzers/unnecessary_nullable_analyzer/unnecessary_nullable_config.dart';
 import '../analyzers/unused_code_analyzer/unused_code_analysis_config.dart';
 import '../analyzers/unused_code_analyzer/unused_code_config.dart';
 import '../analyzers/unused_files_analyzer/unused_files_analysis_config.dart';
@@ -136,5 +138,31 @@ class ConfigBuilder {
         prepareExcludes(config.excludePatterns, rootPath),
         prepareExcludes(config.analyzerExcludePatterns, rootPath),
         config.classPattern,
+      );
+
+  /// Creates a raw unnecessary nullable config from given [excludePatterns].
+  static UnnecessaryNullableConfig getUnnecessaryNullableConfigFromArgs(
+    Iterable<String> excludePatterns, {
+    required bool isMonorepo,
+  }) =>
+      UnnecessaryNullableConfig.fromArgs(
+        excludePatterns,
+        isMonorepo: isMonorepo,
+      );
+
+  /// Creates a raw unnecessary nullable config from given [options].
+  static UnnecessaryNullableConfig getUnnecessaryNullableConfigFromOption(
+    AnalysisOptions options,
+  ) =>
+      UnnecessaryNullableConfig.fromAnalysisOptions(options);
+
+  /// Creates an unnecessary nullable config from given raw [config].
+  static UnnecessaryNullableAnalysisConfig getUnnecessaryNullableConfig(
+    UnnecessaryNullableConfig config,
+    String rootPath,
+  ) =>
+      UnnecessaryNullableAnalysisConfig(
+        prepareExcludes(config.excludePatterns, rootPath),
+        prepareExcludes(config.analyzerExcludePatterns, rootPath),
       );
 }

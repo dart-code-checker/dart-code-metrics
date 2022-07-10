@@ -19,9 +19,6 @@ void main() {
     expect(suppression.isSuppressed('rule_id3'), isTrue);
     expect(suppression.isSuppressed('rule_id4'), isFalse);
 
-    expect(suppression.isSuppressedAt('rule_id1', null), isTrue);
-    expect(suppression.isSuppressedAt('rule_id2', null), isTrue);
-    expect(suppression.isSuppressedAt('rule_id3', null), isTrue);
     expect(suppression.isSuppressedAt('rule_id4', 5), isTrue);
     expect(suppression.isSuppressedAt('rule_id5', 5), isTrue);
     expect(suppression.isSuppressedAt('rule_id6', 9), isTrue);

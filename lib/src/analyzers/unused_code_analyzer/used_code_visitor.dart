@@ -130,7 +130,7 @@ class UsedCodeVisitor extends RecursiveAstVisitor<void> {
 
   /// Records use of a not prefixed [element].
   void _recordUsedElement(Element element) {
-    // // Ignore if an unknown library.
+    // Ignore if an unknown library.
     final containingLibrary = element.library;
     if (containingLibrary == null) {
       return;

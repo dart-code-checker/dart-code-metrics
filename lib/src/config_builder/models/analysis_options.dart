@@ -1,7 +1,7 @@
 import 'dart:io';
-import 'dart:isolate';
 
 import 'package:analyzer/dart/analysis/analysis_context.dart';
+import 'package:analyzer/dart/analysis/uri_converter.dart';
 import 'package:path/path.dart' as p;
 import 'package:yaml/yaml.dart';
 
@@ -109,28 +109,43 @@ class AnalysisOptions {
   }
 }
 
-Future<AnalysisOptions?> analysisOptionsFromContext(
+AnalysisOptions? analysisOptionsFromContext(
   AnalysisContext context,
-) async {
+) {
   final optionsFilePath = context.contextRoot.optionsFile?.path;
 
   return optionsFilePath == null
       ? null
-      : analysisOptionsFromFile(File(optionsFilePath));
+      : analysisOptionsFromFile(File(optionsFilePath), context);
 }
 
-Future<AnalysisOptions> analysisOptionsFromFilePath(String path) {
+AnalysisOptions analysisOptionsFromFilePath(
+  String path,
+  AnalysisContext context,
+) {
   final analysisOptionsFile = File(p.absolute(path, _analysisOptionsFileName));
 
-  return analysisOptionsFromFile(analysisOptionsFile);
+  return analysisOptionsFromFile(analysisOptionsFile, context);
 }
 
-Future<AnalysisOptions> analysisOptionsFromFile(File? options) async =>
+AnalysisOptions analysisOptionsFromFile(
+  File? options,
+  AnalysisContext context,
+) =>
     options != null && options.existsSync()
-        ? AnalysisOptions(options.path, await _loadConfigFromYamlFile(options))
+        ? AnalysisOptions(
+            options.path,
+            _loadConfigFromYamlFile(
+              options,
+              context.currentSession.uriConverter,
+            ),
+          )
         : const AnalysisOptions(null, {});
 
-Future<Map<String, Object>> _loadConfigFromYamlFile(File options) async {
+Map<String, Object> _loadConfigFromYamlFile(
+  File options,
+  UriConverter converter,
+) {
   try {
     final node = options.existsSync()
         ? loadYamlNode(options.readAsStringSync())
@@ -141,12 +156,15 @@ Future<Map<String, Object>> _loadConfigFromYamlFile(File options) async {
 
     final includeNode = optionsNode['include'];
     if (includeNode is String) {
-      final resolvedUri = includeNode.startsWith('package:')
-          ? await Isolate.resolvePackageUri(Uri.parse(includeNode))
-          : Uri.file(p.absolute(p.dirname(options.path), includeNode));
+      final packageImport = includeNode.startsWith('package:');
+
+      final resolvedUri = packageImport
+          ? converter.uriToPath(Uri.parse(includeNode))
+          : p.absolute(p.dirname(options.path), includeNode);
+
       if (resolvedUri != null) {
         final resolvedYamlMap =
-            await _loadConfigFromYamlFile(File.fromUri(resolvedUri));
+            _loadConfigFromYamlFile(File(resolvedUri), converter);
         optionsNode =
             mergeMaps(defaults: resolvedYamlMap, overrides: optionsNode);
       }
