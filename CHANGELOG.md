@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-* chore: restrict `analyzer` version to `>=2.4.0 <4.3.0`.
+* chore: restrict `analyzer` version to `>=2.7.0 <4.3.0`.
 
 ## 4.16.0
 
