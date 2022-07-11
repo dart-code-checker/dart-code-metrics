@@ -10,7 +10,7 @@ Style
 
 ## Description {#description}
 
-The rule should detect Expanded widgets that contain empty SizedBox/Container and propose to replace them with Spacer()
+The rule detects Expanded widgets that contain empty SizedBox/Container and proposes to replace them with the Spacer widget.
 
 ### Example {#example}
 

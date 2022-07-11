@@ -191,7 +191,7 @@ Rules configuration is [described here](../getting-started/configuration#configu
 
 - [avoid-use-expanded-as-spacer](./flutter/avoid-use-expanded-as-spacer.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 
-    Avoid use Expanded widget instead of Spacer.
+    Avoid using Expanded widget as Spacer.
 
 - [prefer-const-border-radius](./flutter/prefer-const-border-radius.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 
