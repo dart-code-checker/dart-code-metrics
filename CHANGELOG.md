@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* feat: add static code diagnostic [`avoid-use-expanded-as-spacer`](https://dartcodemetrics.dev/docs/rules/flutter/avoid-use-expanded-as-spacer).
 * feat: add static code diagnostics [`prefer-correct-edge-insets-constructor-rule`](https://dartcodemetrics.dev/docs/rules/flutter/prefer-correct-edge-insets-constructor).
 * chore: restrict `analyzer` version to `>=2.7.0 <4.3.0`.
 
