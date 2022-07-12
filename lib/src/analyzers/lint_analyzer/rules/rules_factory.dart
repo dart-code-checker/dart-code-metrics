@@ -14,6 +14,7 @@ import 'rules_list/avoid_non_ascii_symbols/avoid_non_ascii_symbols_rule.dart';
 import 'rules_list/avoid_non_null_assertion/avoid_non_null_assertion_rule.dart';
 import 'rules_list/avoid_preserve_whitespace_false/avoid_preserve_whitespace_false_rule.dart';
 import 'rules_list/avoid_returning_widgets/avoid_returning_widgets_rule.dart';
+import 'rules_list/avoid_shrink_wrap_in_lists/avoid_shrink_wrap_in_lists_rule.dart';
 import 'rules_list/avoid_throw_in_catch_block/avoid_throw_in_catch_block_rule.dart';
 import 'rules_list/avoid_unnecessary_setstate/avoid_unnecessary_setstate_rule.dart';
 import 'rules_list/avoid_unnecessary_type_assertions/avoid_unnecessary_type_assertions_rule.dart';
@@ -76,6 +77,8 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
       AvoidPreserveWhitespaceFalseRule(config),
   AvoidReturningWidgetsRule.ruleId: (config) =>
       AvoidReturningWidgetsRule(config),
+  AvoidShrinkWrapInListsRule.ruleId: (config) =>
+      AvoidShrinkWrapInListsRule(config),
   AvoidThrowInCatchBlockRule.ruleId: (config) =>
       AvoidThrowInCatchBlockRule(config),
   AvoidUnnecessarySetStateRule.ruleId: (config) =>

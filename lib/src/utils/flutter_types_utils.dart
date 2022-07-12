@@ -18,14 +18,23 @@ bool isWidgetStateOrSubclass(DartType? type) =>
 bool isSubclassOfListenable(DartType? type) =>
     type is InterfaceType && type.allSupertypes.any(_isListenable);
 
+bool isListViewWidget(DartType? type) =>
+    type?.getDisplayString(withNullability: false) == 'ListView';
+
+bool isColumnWidget(DartType? type) =>
+    type?.getDisplayString(withNullability: false) == 'Column';
+
+bool isRowWidget(DartType? type) =>
+    type?.getDisplayString(withNullability: false) == 'Row';
+
 bool isPaddingWidget(DartType? type) =>
     type?.getDisplayString(withNullability: false) == 'Padding';
 
-bool _isWidget(DartType? type) =>
-    type?.getDisplayString(withNullability: false) == 'Widget';
-
 bool isBuildContext(DartType? type) =>
     type?.getDisplayString(withNullability: false) == 'BuildContext';
+
+bool _isWidget(DartType? type) =>
+    type?.getDisplayString(withNullability: false) == 'Widget';
 
 bool _isSubclassOfWidget(DartType? type) =>
     type is InterfaceType && type.allSupertypes.any(_isWidget);
