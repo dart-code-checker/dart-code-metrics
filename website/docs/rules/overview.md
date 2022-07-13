@@ -143,6 +143,10 @@ Rules configuration is [described here](../getting-started/configuration#configu
 
     Type name should only contain alphanumeric characters, start with an uppercase character and span between min-length and max-length characters in length.
 
+- [prefer-enums-by-name](./common/prefer-enums-by-name.md)
+
+    Since Dart 2.15 it's possible to use `byName` method on enum `values` prop instead of searching the value with `firstWhere`.
+
 - [prefer-first](./common/prefer-first.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 
     Use `first` to gets the first element.
