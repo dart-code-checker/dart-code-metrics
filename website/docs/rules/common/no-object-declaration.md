@@ -12,7 +12,7 @@ Style
 
 Warns when a class member is declared with Object type.
 
-## Example {#example}
+### Example {#example}
 
 Bad:
 
