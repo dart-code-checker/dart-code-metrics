@@ -28,8 +28,9 @@ void main() {
         startLines: [6, 8],
         startColumns: [3, 3],
         locationTexts: [
-          "SomeEnums.values.firstWhere((element) => element.name === 'first')",
-          "SomeEnums.values.firstWhere((element) => element.name === 'second', orElse: () => null)",
+          "SomeEnums.values.firstWhere((element) => element.name == 'first')",
+          'SomeEnums.values\n'
+              "      .firstWhere((element) => element.name == 'second', orElse: () => null)",
         ],
         messages: [
           'Prefer using values.byName',
