@@ -1,10 +1,10 @@
 import 'package:glob/glob.dart';
 import 'package:path/path.dart' as p;
 
-bool isExcluded(String? absolutePath, Iterable<Glob> excludes) {
-  final path = absolutePath?.replaceAll(r'\', '/');
+bool isExcluded(String absolutePath, Iterable<Glob> excludes) {
+  final path = absolutePath.replaceAll(r'\', '/');
 
-  return path != null && excludes.any((exclude) => exclude.matches(path));
+  return excludes.any((exclude) => exclude.matches(path));
 }
 
 Iterable<Glob> prepareExcludes(

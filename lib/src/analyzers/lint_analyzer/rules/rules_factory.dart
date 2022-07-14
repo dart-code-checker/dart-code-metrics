@@ -1,8 +1,10 @@
 import 'models/rule.dart';
 import 'rules_list/always_remove_listener/always_remove_listener_rule.dart';
+import 'rules_list/avoid_banned_imports/avoid_banned_imports_rule.dart';
 import 'rules_list/avoid_border_all/avoid_border_all_rule.dart';
 import 'rules_list/avoid_collection_methods_with_unrelated_types/avoid_collection_methods_with_unrelated_types_rule.dart';
 import 'rules_list/avoid_dynamic/avoid_dynamic_rule.dart';
+import 'rules_list/avoid_expanded_as_spacer/avoid_expanded_as_spacer_rule.dart';
 import 'rules_list/avoid_global_state/avoid_global_state_rule.dart';
 import 'rules_list/avoid_ignoring_return_values/avoid_ignoring_return_values_rule.dart';
 import 'rules_list/avoid_late_keyword/avoid_late_keyword_rule.dart';
@@ -54,6 +56,7 @@ import 'rules_list/tag_name/tag_name_rule.dart';
 
 final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   AlwaysRemoveListenerRule.ruleId: AlwaysRemoveListenerRule.new,
+  AvoidBannedImportsRule.ruleId: AvoidBannedImportsRule.new,
   AvoidBorderAllRule.ruleId: AvoidBorderAllRule.new,
   AvoidCollectionMethodsWithUnrelatedTypesRule.ruleId:
       AvoidCollectionMethodsWithUnrelatedTypesRule.new,
@@ -77,6 +80,7 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   AvoidUnrelatedTypeAssertionsRule.ruleId: AvoidUnrelatedTypeAssertionsRule.new,
   AvoidUnusedParametersRule.ruleId: AvoidUnusedParametersRule.new,
   AvoidWrappingInPaddingRule.ruleId: AvoidWrappingInPaddingRule.new,
+  AvoidExpandedAsSpacerRule.ruleId: AvoidExpandedAsSpacerRule.new,
   BanNameRule.ruleId: BanNameRule.new,
   BinaryExpressionOperandOrderRule.ruleId: BinaryExpressionOperandOrderRule.new,
   ComponentAnnotationArgumentsOrderingRule.ruleId:

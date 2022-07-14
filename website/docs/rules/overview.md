@@ -11,6 +11,10 @@ Rules configuration is [described here](../getting-started/configuration#configu
 
 ## Common {#common}
 
+- [avoid-banned-imports](./common/avoid-banned-imports.md) &nbsp; [![Configurable](https://img.shields.io/badge/-configurable-informational)](./common/avoid-banned-imports.md#config-example)
+
+    Configure some imports that you want to ban.
+
 - [avoid-collection-methods-with-unrelated-types](./common/avoid-collection-methods-with-unrelated-types.md)
 
     Avoid using collection methods with unrelated types, such as accessing a map of integers using a string key.
@@ -184,6 +188,10 @@ Rules configuration is [described here](../getting-started/configuration#configu
 - [avoid-wrapping-in-padding](./flutter/avoid-wrapping-in-padding.md)
 
     Warns when a widget is wrapped in a Padding widget but has a padding settings by itself.
+
+- [avoid-use-expanded-as-spacer](./flutter/avoid-use-expanded-as-spacer.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
+
+    Avoid using Expanded widget as Spacer.
 
 - [prefer-const-border-radius](./flutter/prefer-const-border-radius.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 

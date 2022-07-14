@@ -30,17 +30,25 @@ class _Visitor extends RecursiveAstVisitor<void> {
     if (node.type == TokenType.SINGLE_LINE_COMMENT) {
       final comment = node.toString();
 
-      final matches = _getIgnoreMatches(comment);
-      if (_hasNoDescription(matches, comment) && _hasNoPreviousComment(node)) {
+      if (_isIgnoreComment(comment) &&
+          _hasNoDescription(comment) &&
+          _hasNoPreviousComment(node)) {
         _comments.add(node);
       }
     }
   }
 
-  bool _hasNoDescription(Iterable<Match> matches, String comment) =>
-      matches.isNotEmpty &&
-      matches.first.groupCount > 0 &&
-      comment.trim().endsWith(matches.first.group(0)?.trim() ?? '');
+  bool _isIgnoreComment(String comment) {
+    final regExp = RegExp(r'(^//\s*ignore:\s*)', multiLine: true);
+
+    return regExp.allMatches(comment).isNotEmpty;
+  }
+
+  bool _hasNoDescription(String comment) {
+    final regExp = RegExp(r'(^//\s*ignore:.+?[^,\s]\s)', multiLine: true);
+
+    return regExp.allMatches(comment).isEmpty;
+  }
 
   bool _hasNoPreviousComment(Token node) {
     final previous = node.previous;
@@ -49,11 +57,5 @@ class _Visitor extends RecursiveAstVisitor<void> {
         (previous.type != TokenType.SINGLE_LINE_COMMENT ||
             _lineInfo.getLocation(node.offset).lineNumber - 1 !=
                 _lineInfo.getLocation(previous.offset).lineNumber);
-  }
-
-  Iterable<Match> _getIgnoreMatches(String comment) {
-    final regExp = RegExp(r'ignore:[a-z_,-\s]*([a-z]*(-|_)[a-z]*)+');
-
-    return regExp.allMatches(comment);
   }
 }

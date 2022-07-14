@@ -4,6 +4,7 @@ import 'package:args/command_runner.dart';
 
 import '../version.dart';
 import 'commands/analyze_command.dart';
+import 'commands/check_unnecessary_nullable_command.dart';
 import 'commands/check_unused_code_command.dart';
 import 'commands/check_unused_files_command.dart';
 import 'commands/check_unused_l10n_command.dart';
@@ -17,6 +18,7 @@ class CliRunner extends CommandRunner<void> {
     CheckUnusedFilesCommand(),
     CheckUnusedL10nCommand(),
     CheckUnusedCodeCommand(),
+    CheckUnnecessaryNullableCommand(),
   ];
 
   final IOSink _output;

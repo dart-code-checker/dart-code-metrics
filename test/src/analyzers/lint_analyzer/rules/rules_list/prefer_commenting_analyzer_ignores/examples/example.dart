@@ -15,4 +15,7 @@ void main() {
 
   // ignore: deprecated_member_use, long-method multiple same line ignore
   final linkedList = LinkedList();
+
+  // ignore: avoid-non-null-assertion, checked for non-null
+  final hashMap = HashMap();
 }

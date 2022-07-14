@@ -51,8 +51,8 @@ class UnusedL10nAnalyzer {
     final localizationUsages = <ClassElement, Set<String>>{};
 
     for (final context in collection.contexts) {
-      final analysisOptions = await analysisOptionsFromContext(context) ??
-          await analysisOptionsFromFilePath(rootFolder);
+      final analysisOptions = analysisOptionsFromContext(context) ??
+          analysisOptionsFromFilePath(rootFolder, context);
 
       final contextConfig =
           ConfigBuilder.getUnusedL10nConfigFromOption(analysisOptions)
@@ -232,9 +232,7 @@ class UnusedL10nAnalyzer {
     CompilationUnitElement unit,
   ) {
     final offset = element.codeOffset!;
-
-    // ignore: unnecessary_non_null_assertion
-    final lineInfo = unit.lineInfo!;
+    final lineInfo = unit.lineInfo;
     final offsetLocation = lineInfo.getLocation(offset);
 
     final sourceUrl = element.source!.uri;

@@ -5,6 +5,8 @@ import 'package:test/test.dart';
 import '../../../../../helpers/rule_test_helper.dart';
 
 const _examplePath = 'prefer_extracting_callbacks/examples/example.dart';
+const _exampleMaxLineCountPath =
+    'prefer_extracting_callbacks/examples/example_max_line_count.dart';
 
 void main() {
   group('PreferExtractingCallbacksRule', () {
@@ -46,7 +48,7 @@ void main() {
       );
     });
 
-    test('with custom config reports no issues', () async {
+    test('with ignored-named-arguments config reports no issues', () async {
       final unit = await RuleTestHelper.resolveFromFile(_examplePath);
       final config = {
         'ignored-named-arguments': [
@@ -57,6 +59,33 @@ void main() {
       final issues = PreferExtractingCallbacksRule(config).check(unit);
 
       RuleTestHelper.verifyNoIssues(issues);
+    });
+
+    test('with allowed-line-count config', () async {
+      final unit =
+          await RuleTestHelper.resolveFromFile(_exampleMaxLineCountPath);
+      final config = {
+        'allowed-line-count': 3,
+      };
+
+      final issues = PreferExtractingCallbacksRule(config).check(unit);
+
+      RuleTestHelper.verifyIssues(
+        issues: issues,
+        startLines: [20],
+        startColumns: [7],
+        locationTexts: [
+          'onPressed: () {\n'
+              '        firstLine();\n'
+              '        secondLine();\n'
+              '        thirdLine();\n'
+              '        fourthLine();\n'
+              '      }',
+        ],
+        messages: [
+          'Prefer extracting the callback to a separate widget method.',
+        ],
+      );
     });
   });
 }

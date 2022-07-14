@@ -20,17 +20,13 @@ abstract class IntlBaseVisitor extends GeneralizingAstVisitor<void> {
   Iterable<IntlBaseIssue> get issues => _issues;
 
   @protected
-  void addIssue(IntlBaseIssue? issue) {
-    if (issue != null) {
-      _issues.add(issue);
-    }
+  void addIssue(IntlBaseIssue issue) {
+    _issues.add(issue);
   }
 
   @protected
-  void addIssues(Iterable<IntlBaseIssue>? issues) {
-    if (issues != null) {
-      _issues.addAll(issues);
-    }
+  void addIssues(Iterable<IntlBaseIssue> issues) {
+    _issues.addAll(issues);
   }
 
   @override
@@ -98,8 +94,8 @@ abstract class IntlBaseVisitor extends GeneralizingAstVisitor<void> {
   @protected
   void checkMethodInvocation(
     MethodInvocation methodInvocation, {
+    required String variableName,
     String? className,
-    String? variableName,
     FormalParameterList? parameterList,
   });
 
@@ -141,8 +137,8 @@ abstract class IntlBaseVisitor extends GeneralizingAstVisitor<void> {
 
   void _checkMethodInvocation(
     MethodInvocation methodInvocation, {
+    required String variableName,
     String? className,
-    String? variableName,
     FormalParameterList? parameterList,
   }) {
     if ((methodInvocation.target?.as<SimpleIdentifier>()?.name != 'Intl') ||

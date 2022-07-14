@@ -6,6 +6,8 @@ analyzer:
     - test/resources/unused_files_analyzer/**
     - test/resources/unused_l10n_analyzer/**
     - test/resources/unused_code_analyzer/generated/**
+    - test/resources/unnecessary_nullable_analyzer/generated/**
+    - test/resources/file_path_folder/**
     - test/**/examples/**
   language:
     strict-inference: true
@@ -125,7 +127,6 @@ linter:
     - close_sinks
     - comment_references
     - conditional_uri_does_not_exist
-    - depend_on_referenced_packages
     - deprecated_consistency
     - diagnostic_describe_all_properties
     - directives_ordering
@@ -135,18 +136,14 @@ linter:
     - invariant_booleans
     - join_return_with_assignment
     - leading_newlines_in_multiline_strings
-    - library_private_types_in_public_api
     #    - lines_longer_than_80_chars
     - literal_only_boolean_expressions
     - missing_whitespace_between_adjacent_strings
     #    - no_adjacent_strings_in_list
     - no_default_cases
-    - no_leading_underscores_for_library_prefixes
-    - no_leading_underscores_for_local_identifiers
     - no_logic_in_create_state
     - no_runtimeType_toString
     - noop_primitive_operations
-    - null_check_on_nullable_type_parameter
     - omit_local_variable_types
     #    - one_member_abstracts
     - only_throw_errors
@@ -167,7 +164,6 @@ linter:
     - prefer_foreach
     - prefer_if_elements_to_conditional_expressions
     - prefer_int_literals
-    - prefer_interpolation_to_compose_strings
     - prefer_mixin
     - prefer_null_aware_method_calls
     - prefer_relative_imports
@@ -187,13 +183,9 @@ linter:
     - type_annotate_public_apis
     - unawaited_futures
     - unnecessary_await_in_return
-    - unnecessary_constructor_name
     #    - unnecessary_final
     - unnecessary_lambdas
-    - unnecessary_late
-    - unnecessary_null_aware_assignments
     - unnecessary_null_checks
-    - unnecessary_nullable_for_final_variable_declarations
     - unnecessary_parenthesis
     - unnecessary_raw_strings
     - unnecessary_statements
