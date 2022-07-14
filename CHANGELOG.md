@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 4.17.0-dev.1
 
 * feat: add static code diagnostic [`avoid-use-expanded-as-spacer`](https://dartcodemetrics.dev/docs/rules/flutter/avoid-use-expanded-as-spacer).
 * feat: migrate to new analyzer plugins API.
