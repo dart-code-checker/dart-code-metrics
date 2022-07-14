@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import '../../../../../reporters/models/console_reporter.dart';
 import '../../../models/unnecessary_nullable_file_report.dart';
 import '../../unnecessary_nullable_report_params.dart';
@@ -9,7 +7,7 @@ import '../../unnecessary_nullable_report_params.dart';
 /// Use it to create reports in console format.
 class UnnecessaryNullableConsoleReporter extends ConsoleReporter<
     UnnecessaryNullableFileReport, void, UnnecessaryNullableReportParams> {
-  UnnecessaryNullableConsoleReporter(IOSink output) : super(output);
+  UnnecessaryNullableConsoleReporter(super.output);
 
   @override
   Future<void> report(
