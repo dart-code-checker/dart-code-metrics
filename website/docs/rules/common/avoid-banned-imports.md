@@ -1,4 +1,4 @@
-# Ban name
+# Avoid banned imports
 
 ## Rule id {#rule-id}
 
