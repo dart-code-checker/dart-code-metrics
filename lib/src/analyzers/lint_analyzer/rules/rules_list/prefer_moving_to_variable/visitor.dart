@@ -54,7 +54,7 @@ class _BlockVisitor extends RecursiveAstVisitor<void> {
     final isDuplicate =
         visitedInvocation != null && _isDuplicate(visitedInvocation, node);
     if (isDuplicate) {
-      _duplicates.addAll([visitedInvocation!, node]);
+      _duplicates.addAll([visitedInvocation, node]);
     }
 
     if (_visitedNodes.contains(node)) {
