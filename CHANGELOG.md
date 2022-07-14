@@ -4,6 +4,7 @@
 
 * feat: add static code diagnostic [`avoid-use-expanded-as-spacer`](https://dartcodemetrics.dev/docs/rules/flutter/avoid-use-expanded-as-spacer).
 * feat: migrate to new analyzer plugins API.
+* chore: changed min `SDK` version to `2.15.0`.
 * chore: restrict `analyzer` version to `>=4.1.0 <4.3.0`.
 * chore: restrict `analyzer_plugin` version to `>=0.11.0 <0.12.0`.
 
