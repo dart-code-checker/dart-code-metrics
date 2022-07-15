@@ -3,6 +3,7 @@ import 'rules_list/always_remove_listener/always_remove_listener_rule.dart';
 import 'rules_list/avoid_banned_imports/avoid_banned_imports_rule.dart';
 import 'rules_list/avoid_border_all/avoid_border_all_rule.dart';
 import 'rules_list/avoid_collection_methods_with_unrelated_types/avoid_collection_methods_with_unrelated_types_rule.dart';
+import 'rules_list/avoid_duplicate_exports/avoid_duplicate_exports_rule.dart';
 import 'rules_list/avoid_dynamic/avoid_dynamic_rule.dart';
 import 'rules_list/avoid_expanded_as_spacer/avoid_expanded_as_spacer_rule.dart';
 import 'rules_list/avoid_global_state/avoid_global_state_rule.dart';
@@ -42,6 +43,7 @@ import 'rules_list/prefer_conditional_expressions/prefer_conditional_expressions
 import 'rules_list/prefer_const_border_radius/prefer_const_border_radius_rule.dart';
 import 'rules_list/prefer_correct_identifier_length/prefer_correct_identifier_length_rule.dart';
 import 'rules_list/prefer_correct_type_name/prefer_correct_type_name_rule.dart';
+import 'rules_list/prefer_enums_by_name/prefer_enums_by_name_rule.dart';
 import 'rules_list/prefer_extracting_callbacks/prefer_extracting_callbacks_rule.dart';
 import 'rules_list/prefer_first/prefer_first_rule.dart';
 import 'rules_list/prefer_immediate_return/prefer_immediate_return_rule.dart';
@@ -56,92 +58,69 @@ import 'rules_list/provide_correct_intl_args/provide_correct_intl_args_rule.dart
 import 'rules_list/tag_name/tag_name_rule.dart';
 
 final _implementedRules = <String, Rule Function(Map<String, Object>)>{
-  AlwaysRemoveListenerRule.ruleId: (config) => AlwaysRemoveListenerRule(config),
-  AvoidBannedImportsRule.ruleId: (config) => AvoidBannedImportsRule(config),
-  AvoidBorderAllRule.ruleId: (config) => AvoidBorderAllRule(config),
-  AvoidCollectionMethodsWithUnrelatedTypesRule.ruleId: (config) =>
-      AvoidCollectionMethodsWithUnrelatedTypesRule(config),
-  AvoidDynamicRule.ruleId: (config) => AvoidDynamicRule(config),
-  AvoidGlobalStateRule.ruleId: (config) => AvoidGlobalStateRule(config),
-  AvoidIgnoringReturnValuesRule.ruleId: (config) =>
-      AvoidIgnoringReturnValuesRule(config),
-  AvoidLateKeywordRule.ruleId: (config) => AvoidLateKeywordRule(config),
-  AvoidMissingEnumConstantInMapRule.ruleId: (config) =>
-      AvoidMissingEnumConstantInMapRule(config),
-  AvoidNestedConditionalExpressionsRule.ruleId: (config) =>
-      AvoidNestedConditionalExpressionsRule(config),
-  AvoidNonAsciiSymbolsRule.ruleId: (config) => AvoidNonAsciiSymbolsRule(config),
-  AvoidNonNullAssertionRule.ruleId: (config) =>
-      AvoidNonNullAssertionRule(config),
-  AvoidPreserveWhitespaceFalseRule.ruleId: (config) =>
-      AvoidPreserveWhitespaceFalseRule(config),
-  AvoidReturningWidgetsRule.ruleId: (config) =>
-      AvoidReturningWidgetsRule(config),
-  AvoidThrowInCatchBlockRule.ruleId: (config) =>
-      AvoidThrowInCatchBlockRule(config),
-  AvoidTopLevelMembersInTestsRule.ruleId: (config) =>
-      AvoidTopLevelMembersInTestsRule(config),
-  AvoidUnnecessarySetStateRule.ruleId: (config) =>
-      AvoidUnnecessarySetStateRule(config),
-  AvoidUnnecessaryTypeAssertionsRule.ruleId: (config) =>
-      AvoidUnnecessaryTypeAssertionsRule(config),
-  AvoidUnnecessaryTypeCastsRule.ruleId: (config) =>
-      AvoidUnnecessaryTypeCastsRule(config),
-  AvoidUnrelatedTypeAssertionsRule.ruleId: (config) =>
-      AvoidUnrelatedTypeAssertionsRule(config),
-  AvoidUnusedParametersRule.ruleId: (config) =>
-      AvoidUnusedParametersRule(config),
-  AvoidWrappingInPaddingRule.ruleId: (config) =>
-      AvoidWrappingInPaddingRule(config),
-  AvoidExpandedAsSpacerRule.ruleId: (config) =>
-      AvoidExpandedAsSpacerRule(config),
-  BanNameRule.ruleId: (config) => BanNameRule(config),
-  BinaryExpressionOperandOrderRule.ruleId: (config) =>
-      BinaryExpressionOperandOrderRule(config),
-  ComponentAnnotationArgumentsOrderingRule.ruleId: (config) =>
-      ComponentAnnotationArgumentsOrderingRule(config),
-  DoubleLiteralFormatRule.ruleId: (config) => DoubleLiteralFormatRule(config),
-  FormatCommentRule.ruleId: (config) => FormatCommentRule(config),
-  MemberOrderingRule.ruleId: (config) => MemberOrderingRule(config),
-  MemberOrderingExtendedRule.ruleId: (config) =>
-      MemberOrderingExtendedRule(config),
-  NewlineBeforeReturnRule.ruleId: (config) => NewlineBeforeReturnRule(config),
-  NoBooleanLiteralCompareRule.ruleId: (config) =>
-      NoBooleanLiteralCompareRule(config),
-  NoEmptyBlockRule.ruleId: (config) => NoEmptyBlockRule(config),
-  NoEqualArgumentsRule.ruleId: (config) => NoEqualArgumentsRule(config),
-  NoEqualThenElseRule.ruleId: (config) => NoEqualThenElseRule(config),
-  NoMagicNumberRule.ruleId: (config) => NoMagicNumberRule(config),
-  NoObjectDeclarationRule.ruleId: (config) => NoObjectDeclarationRule(config),
-  PreferAsyncAwaitRule.ruleId: (config) => PreferAsyncAwaitRule(config),
-  PreferCommentingAnalyzerIgnores.ruleId: (config) =>
-      PreferCommentingAnalyzerIgnores(config),
-  PreferConditionalExpressionsRule.ruleId: (config) =>
-      PreferConditionalExpressionsRule(config),
-  PreferConstBorderRadiusRule.ruleId: (config) =>
-      PreferConstBorderRadiusRule(config),
-  PreferCorrectIdentifierLengthRule.ruleId: (config) =>
-      PreferCorrectIdentifierLengthRule(config),
-  PreferCorrectTypeNameRule.ruleId: (config) =>
-      PreferCorrectTypeNameRule(config),
-  PreferExtractingCallbacksRule.ruleId: (config) =>
-      PreferExtractingCallbacksRule(config),
-  PreferFirstRule.ruleId: (config) => PreferFirstRule(config),
-  PreferImmediateReturnRule.ruleId: (config) =>
-      PreferImmediateReturnRule(config),
-  PreferIntlNameRule.ruleId: (config) => PreferIntlNameRule(config),
-  PreferLastRule.ruleId: (config) => PreferLastRule(config),
-  PreferMatchFileNameRule.ruleId: (config) => PreferMatchFileNameRule(config),
-  PreferMovingToVariableRule.ruleId: (config) =>
-      PreferMovingToVariableRule(config),
-  PreferOnPushCdStrategyRule.ruleId: (config) =>
-      PreferOnPushCdStrategyRule(config),
-  PreferSingleWidgetPerFileRule.ruleId: (config) =>
-      PreferSingleWidgetPerFileRule(config),
-  PreferTrailingCommaRule.ruleId: (config) => PreferTrailingCommaRule(config),
-  ProvideCorrectIntlArgsRule.ruleId: (config) =>
-      ProvideCorrectIntlArgsRule(config),
-  TagNameRule.ruleId: (config) => TagNameRule(config),
+  AlwaysRemoveListenerRule.ruleId: AlwaysRemoveListenerRule.new,
+  AvoidBannedImportsRule.ruleId: AvoidBannedImportsRule.new,
+  AvoidBorderAllRule.ruleId: AvoidBorderAllRule.new,
+  AvoidCollectionMethodsWithUnrelatedTypesRule.ruleId:
+      AvoidCollectionMethodsWithUnrelatedTypesRule.new,
+  AvoidDuplicateExportsRule.ruleId: AvoidDuplicateExportsRule.new,
+  AvoidDynamicRule.ruleId: AvoidDynamicRule.new,
+  AvoidGlobalStateRule.ruleId: AvoidGlobalStateRule.new,
+  AvoidIgnoringReturnValuesRule.ruleId: AvoidIgnoringReturnValuesRule.new,
+  AvoidLateKeywordRule.ruleId: AvoidLateKeywordRule.new,
+  AvoidMissingEnumConstantInMapRule.ruleId:
+      AvoidMissingEnumConstantInMapRule.new,
+  AvoidNestedConditionalExpressionsRule.ruleId:
+      AvoidNestedConditionalExpressionsRule.new,
+  AvoidNonAsciiSymbolsRule.ruleId: AvoidNonAsciiSymbolsRule.new,
+  AvoidNonNullAssertionRule.ruleId: AvoidNonNullAssertionRule.new,
+  AvoidPreserveWhitespaceFalseRule.ruleId: AvoidPreserveWhitespaceFalseRule.new,
+  AvoidReturningWidgetsRule.ruleId: AvoidReturningWidgetsRule.new,
+  AvoidThrowInCatchBlockRule.ruleId: AvoidThrowInCatchBlockRule.new,
+  AvoidTopLevelMembersInTestsRule.ruleId: AvoidTopLevelMembersInTestsRule.new,
+  AvoidUnnecessarySetStateRule.ruleId: AvoidUnnecessarySetStateRule.new,
+  AvoidUnnecessaryTypeAssertionsRule.ruleId:
+      AvoidUnnecessaryTypeAssertionsRule.new,
+  AvoidUnnecessaryTypeCastsRule.ruleId: AvoidUnnecessaryTypeCastsRule.new,
+  AvoidUnrelatedTypeAssertionsRule.ruleId: AvoidUnrelatedTypeAssertionsRule.new,
+  AvoidUnusedParametersRule.ruleId: AvoidUnusedParametersRule.new,
+  AvoidWrappingInPaddingRule.ruleId: AvoidWrappingInPaddingRule.new,
+  AvoidExpandedAsSpacerRule.ruleId: AvoidExpandedAsSpacerRule.new,
+  BanNameRule.ruleId: BanNameRule.new,
+  BinaryExpressionOperandOrderRule.ruleId: BinaryExpressionOperandOrderRule.new,
+  ComponentAnnotationArgumentsOrderingRule.ruleId:
+      ComponentAnnotationArgumentsOrderingRule.new,
+  DoubleLiteralFormatRule.ruleId: DoubleLiteralFormatRule.new,
+  FormatCommentRule.ruleId: FormatCommentRule.new,
+  MemberOrderingRule.ruleId: MemberOrderingRule.new,
+  MemberOrderingExtendedRule.ruleId: MemberOrderingExtendedRule.new,
+  NewlineBeforeReturnRule.ruleId: NewlineBeforeReturnRule.new,
+  NoBooleanLiteralCompareRule.ruleId: NoBooleanLiteralCompareRule.new,
+  NoEmptyBlockRule.ruleId: NoEmptyBlockRule.new,
+  NoEqualArgumentsRule.ruleId: NoEqualArgumentsRule.new,
+  NoEqualThenElseRule.ruleId: NoEqualThenElseRule.new,
+  NoMagicNumberRule.ruleId: NoMagicNumberRule.new,
+  NoObjectDeclarationRule.ruleId: NoObjectDeclarationRule.new,
+  PreferAsyncAwaitRule.ruleId: PreferAsyncAwaitRule.new,
+  PreferCommentingAnalyzerIgnores.ruleId: PreferCommentingAnalyzerIgnores.new,
+  PreferConditionalExpressionsRule.ruleId: PreferConditionalExpressionsRule.new,
+  PreferConstBorderRadiusRule.ruleId: PreferConstBorderRadiusRule.new,
+  PreferCorrectIdentifierLengthRule.ruleId:
+      PreferCorrectIdentifierLengthRule.new,
+  PreferCorrectTypeNameRule.ruleId: PreferCorrectTypeNameRule.new,
+  PreferEnumsByNameRule.ruleId: PreferEnumsByNameRule.new,
+  PreferExtractingCallbacksRule.ruleId: PreferExtractingCallbacksRule.new,
+  PreferFirstRule.ruleId: PreferFirstRule.new,
+  PreferImmediateReturnRule.ruleId: PreferImmediateReturnRule.new,
+  PreferIntlNameRule.ruleId: PreferIntlNameRule.new,
+  PreferLastRule.ruleId: PreferLastRule.new,
+  PreferMatchFileNameRule.ruleId: PreferMatchFileNameRule.new,
+  PreferMovingToVariableRule.ruleId: PreferMovingToVariableRule.new,
+  PreferOnPushCdStrategyRule.ruleId: PreferOnPushCdStrategyRule.new,
+  PreferSingleWidgetPerFileRule.ruleId: PreferSingleWidgetPerFileRule.new,
+  PreferTrailingCommaRule.ruleId: PreferTrailingCommaRule.new,
+  ProvideCorrectIntlArgsRule.ruleId: ProvideCorrectIntlArgsRule.new,
+  TagNameRule.ruleId: TagNameRule.new,
 };
 
 Iterable<Rule> get allRules =>

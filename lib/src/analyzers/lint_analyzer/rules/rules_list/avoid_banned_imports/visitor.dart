@@ -20,7 +20,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
       if (entry.deny.any((deny) => deny.hasMatch(uri))) {
         _nodes.add(_NodeWithMessage(
           node,
-          'Avoid banned imports (${entry.message})',
+          'Avoid banned imports (${entry.message}).',
         ));
       }
     }
