@@ -19,6 +19,10 @@ Rules configuration is [described here](../getting-started/configuration#configu
 
     Avoid using collection methods with unrelated types, such as accessing a map of integers using a string key.
 
+- [avoid-duplicate-exports](./common/avoid-duplicate-exports.md)
+
+    Warns when a file has multiple `exports` declarations with the same URI.
+
 - [avoid-dynamic](./common/avoid-dynamic.md)
 
     Warns when `dynamic` type is used as variable type in declaration, return type of a function, etc.

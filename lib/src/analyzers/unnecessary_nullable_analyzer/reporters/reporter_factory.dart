@@ -15,8 +15,8 @@ final _implementedReports = <
         Function(
   IOSink output,
 )>{
-  ConsoleReporter.id: (output) => UnnecessaryNullableConsoleReporter(output),
-  JsonReporter.id: (output) => UnnecessaryNullableJsonReporter(output),
+  ConsoleReporter.id: UnnecessaryNullableConsoleReporter.new,
+  JsonReporter.id: UnnecessaryNullableJsonReporter.new,
 };
 
 Reporter<UnnecessaryNullableFileReport, void, UnnecessaryNullableReportParams>?
