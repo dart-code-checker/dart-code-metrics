@@ -130,10 +130,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Install Dart 2.14.0
+      - name: Install Dart 2.17.0
         uses: dart-lang/setup-dart@v1
         with:
-          sdk: "2.14.0"
+          sdk: "2.17.0"
 
       - name: Checkout
         uses: actions/checkout@v3
@@ -141,20 +141,10 @@ jobs:
       - name: Install dependencies
         run: dart pub downgrade
 
-      - name: Disable unsupported rules
-        run: |
-          sed -i'.original' 's/- avoid_final_parameters/#                       - avoid_final_parameters/g' analysis_options.yaml
-          sed -i'.original' 's/- conditional_uri_does_not_exist/#               - conditional_uri_does_not_exist/g' analysis_options.yaml
-          sed -i'.original' 's/- no_leading_underscores_for_library_prefixes/#  - no_leading_underscores_for_library_prefixes/g' analysis_options.yaml
-          sed -i'.original' 's/- no_leading_underscores_for_local_identifiers/# - no_leading_underscores_for_local_identifiers/g' analysis_options.yaml
-          sed -i'.original' 's/- secure_pubspec_urls/#                          - secure_pubspec_urls/g' analysis_options.yaml
-          sed -i'.original' 's/- unnecessary_constructor_name/#                 - unnecessary_constructor_name/g' analysis_options.yaml
-          sed -i'.original' 's/- unnecessary_late/#                             - unnecessary_late/g' analysis_options.yaml
-
       - name: Check compatibility
         run: |
           dart analyze --fatal-warnings --fatal-infos .
-          dart test
+          dart test --reporter=github
 
   check-beta-dart-compatibility:
     needs: analysis

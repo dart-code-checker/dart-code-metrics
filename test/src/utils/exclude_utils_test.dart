@@ -11,7 +11,7 @@ void main() {
           '/home/user/project/.dart_tool/**',
           '/home/user/project/packages/**',
           '/home/user/project/src/exclude_me.dart',
-        ].map((item) => Glob(item));
+        ].map(Glob.new);
 
         expect(
           isExcluded('/home/user/project/src/exclude_me.dart', excludes),
@@ -26,7 +26,7 @@ void main() {
         'c:/Users/dmitry/Development/.dart_tool/**',
         'c:/Users/dmitry/Development/packages/**',
         'c:/Users/dmitry/Development/src/exclude_me.dart',
-      ].map((item) => Glob(item));
+      ].map(Glob.new);
 
       expect(
         isExcluded(
