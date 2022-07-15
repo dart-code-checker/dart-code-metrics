@@ -3,6 +3,7 @@ import 'rules_list/always_remove_listener/always_remove_listener_rule.dart';
 import 'rules_list/avoid_banned_imports/avoid_banned_imports_rule.dart';
 import 'rules_list/avoid_border_all/avoid_border_all_rule.dart';
 import 'rules_list/avoid_collection_methods_with_unrelated_types/avoid_collection_methods_with_unrelated_types_rule.dart';
+import 'rules_list/avoid_duplicate_exports/avoid_duplicate_exports_rule.dart';
 import 'rules_list/avoid_dynamic/avoid_dynamic_rule.dart';
 import 'rules_list/avoid_expanded_as_spacer/avoid_expanded_as_spacer_rule.dart';
 import 'rules_list/avoid_global_state/avoid_global_state_rule.dart';
@@ -60,6 +61,7 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   AvoidBorderAllRule.ruleId: AvoidBorderAllRule.new,
   AvoidCollectionMethodsWithUnrelatedTypesRule.ruleId:
       AvoidCollectionMethodsWithUnrelatedTypesRule.new,
+  AvoidDuplicateExportsRule.ruleId: AvoidDuplicateExportsRule.new,
   AvoidDynamicRule.ruleId: AvoidDynamicRule.new,
   AvoidGlobalStateRule.ruleId: AvoidGlobalStateRule.new,
   AvoidIgnoringReturnValuesRule.ruleId: AvoidIgnoringReturnValuesRule.new,

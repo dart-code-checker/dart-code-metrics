@@ -46,8 +46,8 @@ void main() {
           "import 'package:my_app/ban_folder/something.dart';",
         ],
         messages: [
-          'Avoid banned imports (sample message)',
-          'Avoid banned imports (sample message)',
+          'Avoid banned imports (sample message).',
+          'Avoid banned imports (sample message).',
         ],
       );
     });
