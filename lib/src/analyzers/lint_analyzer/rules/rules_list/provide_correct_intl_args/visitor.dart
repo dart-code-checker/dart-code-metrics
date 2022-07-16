@@ -111,7 +111,7 @@ class _Visitor extends IntlBaseVisitor {
   void _checkItemsOnSimple<T extends AstNode>(Iterable<T> items) {
     addIssues(items
         .where((item) => item is! SimpleIdentifier)
-        .map((item) => _MustBeSimpleIdentifierIssue(item)));
+        .map(_MustBeSimpleIdentifierIssue.new));
   }
 
   void _checkAllParametersMustBeContainsInArgs(
@@ -121,7 +121,7 @@ class _Visitor extends IntlBaseVisitor {
     _addIssuesIfNotContains(
       parameters,
       argsArgument,
-      (arg) => _ParameterMustBeInArgsIssue(arg),
+      _ParameterMustBeInArgsIssue.new,
     );
   }
 
@@ -132,7 +132,7 @@ class _Visitor extends IntlBaseVisitor {
     _addIssuesIfNotContains(
       argsArgument,
       parameters,
-      (arg) => _ArgsMustBeInParameterIssue(arg),
+      _ArgsMustBeInParameterIssue.new,
     );
   }
 
@@ -143,7 +143,7 @@ class _Visitor extends IntlBaseVisitor {
     _addIssuesIfNotContains(
       simpleIdentifierExpressions,
       parameters,
-      (arg) => _InterpolationMustBeInParameterIssue(arg),
+      _InterpolationMustBeInParameterIssue.new,
     );
   }
 
@@ -154,7 +154,7 @@ class _Visitor extends IntlBaseVisitor {
     _addIssuesIfNotContains(
       simpleIdentifierExpressions,
       args,
-      (arg) => _InterpolationMustBeInArgsIssue(arg),
+      _InterpolationMustBeInArgsIssue.new,
     );
   }
 

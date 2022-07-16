@@ -1,4 +1,4 @@
-image: google/dart
+image: dart
 
 pipelines:
   default:
