@@ -13,8 +13,8 @@ final _implementedReports = <
     Reporter<UnusedL10nFileReport, void, UnusedL10NReportParams> Function(
   IOSink output,
 )>{
-  ConsoleReporter.id: (output) => UnusedL10nConsoleReporter(output),
-  JsonReporter.id: (output) => UnusedL10nJsonReporter(output),
+  ConsoleReporter.id: UnusedL10nConsoleReporter.new,
+  JsonReporter.id: UnusedL10nJsonReporter.new,
 };
 
 Reporter<UnusedL10nFileReport, void, UnusedL10NReportParams>? reporter({

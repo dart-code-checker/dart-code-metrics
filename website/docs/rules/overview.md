@@ -19,6 +19,10 @@ Rules configuration is [described here](../getting-started/configuration#configu
 
     Avoid using collection methods with unrelated types, such as accessing a map of integers using a string key.
 
+- [avoid-duplicate-exports](./common/avoid-duplicate-exports.md)
+
+    Warns when a file has multiple `exports` declarations with the same URI.
+
 - [avoid-dynamic](./common/avoid-dynamic.md)
 
     Warns when `dynamic` type is used as variable type in declaration, return type of a function, etc.
@@ -54,6 +58,10 @@ Rules configuration is [described here](../getting-started/configuration#configu
 - [avoid-throw-in-catch-block](./common/avoid-throw-in-catch-block.md)
 
     Warns when call `throw` in a catch block.
+
+- [avoid-top-level-members-in-tests](./common/avoid-top-level-members-in-tests.md)
+
+    Warns when a public top-level member (expect the entrypoint) is declared inside a test file.
 
 - [avoid-unnecessary-type-assertions](./common/avoid-unnecessary-type-assertions.md)
 
@@ -142,6 +150,10 @@ Rules configuration is [described here](../getting-started/configuration#configu
 - [prefer-correct-type-name](./common/prefer-correct-type-name.md) &nbsp; [![Configurable](https://img.shields.io/badge/-configurable-informational)](./common/prefer-correct-type-name.md#config-example)
 
     Type name should only contain alphanumeric characters, start with an uppercase character and span between min-length and max-length characters in length.
+
+- [prefer-enums-by-name](./common/prefer-enums-by-name.md)
+
+    Since Dart 2.15 it's possible to use `byName` method on enum `values` prop instead of searching the value with `firstWhere`.
 
 - [prefer-first](./common/prefer-first.md) &nbsp; ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success)
 

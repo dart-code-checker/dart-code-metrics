@@ -23,7 +23,7 @@ class _ConfigParser {
   static List<RegExp> _parseListRegExp(Object? object) =>
       (object! as List<Object?>)
           .map((e) => e! as String)
-          .map((e) => RegExp(e))
+          .map(RegExp.new)
           .toList();
 }
 
