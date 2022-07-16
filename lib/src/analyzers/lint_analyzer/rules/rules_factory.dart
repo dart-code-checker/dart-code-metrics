@@ -16,6 +16,7 @@ import 'rules_list/avoid_non_null_assertion/avoid_non_null_assertion_rule.dart';
 import 'rules_list/avoid_preserve_whitespace_false/avoid_preserve_whitespace_false_rule.dart';
 import 'rules_list/avoid_returning_widgets/avoid_returning_widgets_rule.dart';
 import 'rules_list/avoid_throw_in_catch_block/avoid_throw_in_catch_block_rule.dart';
+import 'rules_list/avoid_top_level_members_in_tests/avoid_top_level_members_in_tests_rule.dart';
 import 'rules_list/avoid_unnecessary_setstate/avoid_unnecessary_setstate_rule.dart';
 import 'rules_list/avoid_unnecessary_type_assertions/avoid_unnecessary_type_assertions_rule.dart';
 import 'rules_list/avoid_unnecessary_type_casts/avoid_unnecessary_type_casts_rule.dart';
@@ -76,6 +77,7 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   AvoidPreserveWhitespaceFalseRule.ruleId: AvoidPreserveWhitespaceFalseRule.new,
   AvoidReturningWidgetsRule.ruleId: AvoidReturningWidgetsRule.new,
   AvoidThrowInCatchBlockRule.ruleId: AvoidThrowInCatchBlockRule.new,
+  AvoidTopLevelMembersInTestsRule.ruleId: AvoidTopLevelMembersInTestsRule.new,
   AvoidUnnecessarySetStateRule.ruleId: AvoidUnnecessarySetStateRule.new,
   AvoidUnnecessaryTypeAssertionsRule.ruleId:
       AvoidUnnecessaryTypeAssertionsRule.new,

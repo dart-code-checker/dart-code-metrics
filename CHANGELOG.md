@@ -3,6 +3,7 @@
 ## Unreleased
 
 * feat: add static code diagnostic [`avoid-duplicate-exports`](https://dartcodemetrics.dev/docs/rules/common/avoid-duplicate-exports).
+* feat: add static code diagnostic [`avoid-top-level-members-in-tests`](https://dartcodemetrics.dev/docs/rules/common/avoid-top-level-members-in-tests).
 * feat: add static code diagnostic [`prefer-enums-by-name`](https://dartcodemetrics.dev/docs/rules/common/prefer-enums-by-name).
 
 ## 4.17.0-dev.1

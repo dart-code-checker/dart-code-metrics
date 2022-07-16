@@ -59,6 +59,10 @@ Rules configuration is [described here](../getting-started/configuration#configu
 
     Warns when call `throw` in a catch block.
 
+- [avoid-top-level-members-in-tests](./common/avoid-top-level-members-in-tests.md)
+
+    Warns when a public top-level member (expect the entrypoint) is declared inside a test file.
+
 - [avoid-unnecessary-type-assertions](./common/avoid-unnecessary-type-assertions.md)
 
     Warns about unnecessary usage of 'is' and 'whereType' operators.
