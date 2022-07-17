@@ -26,6 +26,8 @@ where values in the `<>` are optional, values in the `()` are interchangeable an
 
 **Note:** not all of the pattern parts are applicable for every case, for example, `late-constructors` are not expected, since they are not supported by the language itself.
 
+Additionally, you can configure the rule with `build-method` entry to apply ordering for the Flutter widgets `build` method separately.
+
 For example, the value for `order` may be an array consisting of the following strings:
 
 - public-late-final-fields

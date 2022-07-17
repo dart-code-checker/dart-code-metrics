@@ -180,6 +180,7 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
       parsedGroup is _MethodMemberGroup &&
       (!group.isStatic || group.isStatic == parsedGroup.isStatic) &&
       (!group.isNullable || group.isNullable == parsedGroup.isNullable) &&
+      (!group.isBuild || group.isBuild == parsedGroup.isBuild) &&
       (group.modifier == _Modifier.unset ||
           group.modifier == parsedGroup.modifier) &&
       (group.annotation == _Annotation.unset ||

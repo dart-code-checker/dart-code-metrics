@@ -89,10 +89,12 @@ class _FieldMemberGroup extends _MemberGroup {
 class _MethodMemberGroup extends _MemberGroup {
   final bool isStatic;
   final bool isNullable;
+  final bool isBuild;
 
   const _MethodMemberGroup._({
     required this.isNullable,
     required this.isStatic,
+    required this.isBuild,
     required _Annotation annotation,
     required _MemberType memberType,
     required _Modifier modifier,
@@ -112,11 +114,14 @@ class _MethodMemberGroup extends _MemberGroup {
     final modifier = Identifier.isPrivateName(declaration.name.name)
         ? _Modifier.private
         : _Modifier.public;
+    final isBuild =
+        declaration.name.name == 'build' && annotation == _Annotation.override;
 
     return _MethodMemberGroup._(
       annotation: annotation ?? _Annotation.unset,
       isStatic: declaration.isStatic,
       isNullable: declaration.returnType?.question != null,
+      isBuild: isBuild,
       memberType: _MemberType.method,
       modifier: modifier,
       rawRepresentation: '',
@@ -131,6 +136,7 @@ class _MethodMemberGroup extends _MemberGroup {
     coefficient += isNullable ? 1 : 0;
     coefficient += annotation != _Annotation.unset ? 1 : 0;
     coefficient += modifier != _Modifier.unset ? 1 : 0;
+    coefficient += isBuild ? 10 : 0;
 
     return coefficient;
   }

@@ -13,6 +13,8 @@ const _alphabeticalCorrectExamplePath =
     'member_ordering_extended/examples/alphabetical_correct_example.dart';
 const _typeAlphabeticalExamplePath =
     'member_ordering_extended/examples/type_alphabetical_example.dart';
+const _buildMethodExamplePath =
+    'member_ordering_extended/examples/build_method_example.dart';
 
 void main() {
   group('MemberOrderingExtendedRule', () {
@@ -207,6 +209,39 @@ void main() {
           );
         },
       );
+
+      test('accepts build method and reports issues', () async {
+        final unit =
+            await RuleTestHelper.resolveFromFile(_buildMethodExamplePath);
+        final config = {
+          'order': [
+            'constructors',
+            'overridden-methods',
+            'build-method',
+            'public-methods',
+          ],
+        };
+
+        final issues = MemberOrderingExtendedRule(config).check(unit);
+
+        RuleTestHelper.verifyIssues(
+          issues: issues,
+          startLines: [7, 12],
+          startColumns: [3, 3],
+          locationTexts: [
+            '@override\n'
+                '  _Widget build(_BuildContext context) {\n'
+                '    return _Widget();\n'
+                '  }',
+            '@override\n'
+                '  void initState() {}',
+          ],
+          messages: [
+            'build-method should be before public-methods.',
+            'overridden-methods should be before build-method.',
+          ],
+        );
+      });
 
       group('and alphabetical order', () {
         test('reports about found issues', () async {
