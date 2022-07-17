@@ -41,6 +41,7 @@ import 'rules_list/prefer_async_await/prefer_async_await_rule.dart';
 import 'rules_list/prefer_commenting_analyzer_ignores/prefer_commenting_analyzer_ignores.dart';
 import 'rules_list/prefer_conditional_expressions/prefer_conditional_expressions_rule.dart';
 import 'rules_list/prefer_const_border_radius/prefer_const_border_radius_rule.dart';
+import 'rules_list/prefer_correct_edge_insets_constructor/prefer_correct_edge_insets_constructor_rule.dart';
 import 'rules_list/prefer_correct_identifier_length/prefer_correct_identifier_length_rule.dart';
 import 'rules_list/prefer_correct_type_name/prefer_correct_type_name_rule.dart';
 import 'rules_list/prefer_enums_by_name/prefer_enums_by_name_rule.dart';
@@ -105,6 +106,8 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   PreferCommentingAnalyzerIgnores.ruleId: PreferCommentingAnalyzerIgnores.new,
   PreferConditionalExpressionsRule.ruleId: PreferConditionalExpressionsRule.new,
   PreferConstBorderRadiusRule.ruleId: PreferConstBorderRadiusRule.new,
+  PreferCorrectEdgeInsetsConstructorRule.ruleId:
+      PreferCorrectEdgeInsetsConstructorRule.new,
   PreferCorrectIdentifierLengthRule.ruleId:
       PreferCorrectIdentifierLengthRule.new,
   PreferCorrectTypeNameRule.ruleId: PreferCorrectTypeNameRule.new,
