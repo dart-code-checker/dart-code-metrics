@@ -62,6 +62,8 @@ class CliRunner extends CommandRunner<void> {
 
       exit(1);
     }
+
+    exit(0);
   }
 
   Iterable<String> _addDefaultCommand(Iterable<String> args) => args.isEmpty
