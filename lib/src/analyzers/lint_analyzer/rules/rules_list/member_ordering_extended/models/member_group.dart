@@ -107,15 +107,15 @@ class _MethodMemberGroup extends _MemberGroup {
         );
 
   factory _MethodMemberGroup.parse(MethodDeclaration declaration) {
+    final methodName = declaration.name.name;
     final annotation = declaration.metadata
         .map((metadata) => _Annotation.parse(metadata.name.name))
         .whereNotNull()
         .firstOrNull;
-    final modifier = Identifier.isPrivateName(declaration.name.name)
+    final modifier = Identifier.isPrivateName(methodName)
         ? _Modifier.private
         : _Modifier.public;
-    final isBuild =
-        declaration.name.name == 'build' && annotation == _Annotation.override;
+    final isBuild = methodName == 'build' && annotation == _Annotation.override;
 
     return _MethodMemberGroup._(
       annotation: annotation ?? _Annotation.unset,
