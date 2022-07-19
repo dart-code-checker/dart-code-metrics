@@ -15,7 +15,9 @@ class _ConfigParser {
 
   static final _regExp = RegExp(
     '(overridden-|protected-)?(private-|public-)?(static-)?(late-)?'
-    '(var-|final-|const-)?(nullable-)?(named-)?(factory-)?(build-)?',
+    '(var-|final-|const-)?(nullable-)?(named-)?(factory-)?(build-)?'
+    '(init-state-)?(did-change-dependencies-)?(did-update-widget-)?'
+    '(dispose-)?',
   );
 
   static List<_MemberGroup> parseOrder(Map<String, Object> config) {
@@ -53,6 +55,10 @@ class _ConfigParser {
       final isNamed = match.group(7) != null;
       final isFactory = match.group(8) != null;
       final isBuild = match.group(9) != null;
+      final isInitState = match.group(10) != null;
+      final isDidChangeDependencies = match.group(11) != null;
+      final isDidUpdateWidget = match.group(12) != null;
+      final isDispose = match.group(13) != null;
 
       switch (type) {
         case _MemberType.field:
@@ -72,6 +78,10 @@ class _ConfigParser {
             isNullable: isNullable,
             isStatic: isStatic,
             isBuild: isBuild,
+            isInitState: isInitState,
+            isDidChangeDependencies: isDidChangeDependencies,
+            isDidUpdateWidget: isDidUpdateWidget,
+            isDispose: isDispose,
             annotation: annotation,
             memberType: type,
             modifier: modifier,

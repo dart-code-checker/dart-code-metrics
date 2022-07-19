@@ -6,7 +6,7 @@
 * feat: add static code diagnostic [`avoid-top-level-members-in-tests`](https://dartcodemetrics.dev/docs/rules/common/avoid-top-level-members-in-tests).
 * feat: add static code diagnostic [`prefer-correct-edge-insets-constructor-rule`](https://dartcodemetrics.dev/docs/rules/flutter/prefer-correct-edge-insets-constructor).
 * feat: add static code diagnostic [`prefer-enums-by-name`](https://dartcodemetrics.dev/docs/rules/common/prefer-enums-by-name).
-* feat: add build method config entry to [`member-ordering-extended`](https://dartcodemetrics.dev/docs/rules/common/member-ordering-extended).
+* feat: add flutter specific methods config to [`member-ordering-extended`](https://dartcodemetrics.dev/docs/rules/common/member-ordering-extended).
 
 ## 4.17.0-dev.1
 
