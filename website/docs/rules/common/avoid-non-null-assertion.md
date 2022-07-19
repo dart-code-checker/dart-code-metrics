@@ -53,7 +53,7 @@ class Test {
     object?.field?.contains('other');
 
     final map = {'key': 'value'};
-    map['key']!.contains('other');
+    map['key']?.contains('other');
 
     object?.method();
   }
