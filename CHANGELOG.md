@@ -6,7 +6,8 @@
 * feat: add static code diagnostic [`avoid-top-level-members-in-tests`](https://dartcodemetrics.dev/docs/rules/common/avoid-top-level-members-in-tests).
 * feat: add static code diagnostic [`prefer-correct-edge-insets-constructor-rule`](https://dartcodemetrics.dev/docs/rules/flutter/prefer-correct-edge-insets-constructor).
 * feat: add static code diagnostic [`prefer-enums-by-name`](https://dartcodemetrics.dev/docs/rules/common/prefer-enums-by-name).
-* fix: add zero exit to command runner
+* fix: add zero exit to command runner.
+* feat: add suppressions for `check-unused-files`, `check-unused-code`, `check-unnecessary-nullable` commands.
 
 ## 4.17.0-dev.1
 

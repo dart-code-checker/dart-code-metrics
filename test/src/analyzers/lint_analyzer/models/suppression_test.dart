@@ -1,4 +1,4 @@
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/suppression.dart';
+import 'package:dart_code_metrics/src/utils/suppression.dart';
 import 'package:test/test.dart';
 
 import '../../../helpers/file_resolver.dart';

@@ -9,6 +9,7 @@ class Suppression {
 
   final _ignoreMap = <int, List<String>>{};
   final _ignoreForFileSet = <String>{};
+  final LineInfo lineInfo;
 
   /// Checks that the [id] is globally suppressed.
   bool isSuppressed(String id) => _ignoreForFileSet.contains(_canonicalize(id));
@@ -19,12 +20,12 @@ class Suppression {
       (_ignoreMap[lineIndex]?.contains(_canonicalize(id)) ?? false);
 
   /// Initialize a newly created [Suppression] with the given [content] and [info].
-  Suppression(String content, LineInfo info) {
+  Suppression(String content, this.lineInfo) {
     for (final match in _ignoreMatchers.allMatches(content)) {
       final ids = match.group(1)!.split(',').map(_canonicalize);
-      final location = info.getLocation(match.start);
+      final location = lineInfo.getLocation(match.start);
       final lineNumber = location.lineNumber;
-      final offset = info.getOffsetOfLine(lineNumber - 1);
+      final offset = lineInfo.getOffsetOfLine(lineNumber - 1);
       final beforeMatch =
           content.substring(offset, offset + location.columnNumber - 1);
 
