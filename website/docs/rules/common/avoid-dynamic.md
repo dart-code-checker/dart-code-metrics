@@ -38,3 +38,15 @@ String concat(String a, String b) {
   return a + b;
 }
 ```
+
+### Config example {#config-example}
+
+```yaml
+dart_code_metrics:
+  ...
+  rules:
+    ...
+    - avoid-dynamic:
+        exclude:
+          - test/**
+```
