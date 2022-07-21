@@ -11,6 +11,7 @@ import '../../../models/severity.dart';
 import '../../models/common_rule.dart';
 import '../../rule_utils.dart';
 
+part 'config_parser.dart';
 part 'visitor.dart';
 
 class PreferMovingToVariableRule extends CommonRule {
@@ -19,8 +20,12 @@ class PreferMovingToVariableRule extends CommonRule {
   static const _warningMessage =
       'Prefer moving repeated invocations to variable and use it instead.';
 
+  final int? _duplicatesThreshold;
+
   PreferMovingToVariableRule([Map<String, Object> config = const {}])
-      : super(
+      : _duplicatesThreshold =
+            _ConfigParser.parseAllowedDuplicatedChains(config),
+        super(
           id: ruleId,
           severity: readSeverity(config, Severity.warning),
           excludes: readExcludes(config),
@@ -28,7 +33,7 @@ class PreferMovingToVariableRule extends CommonRule {
 
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
-    final visitor = _Visitor();
+    final visitor = _Visitor(_duplicatesThreshold);
 
     source.unit.visitChildren(visitor);
 

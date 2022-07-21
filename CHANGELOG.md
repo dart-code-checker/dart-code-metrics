@@ -8,6 +8,7 @@
 * feat: add static code diagnostic [`prefer-correct-edge-insets-constructor-rule`](https://dartcodemetrics.dev/docs/rules/flutter/prefer-correct-edge-insets-constructor).
 * feat: add static code diagnostic [`prefer-enums-by-name`](https://dartcodemetrics.dev/docs/rules/common/prefer-enums-by-name).
 * fix: add zero exit to command runner
+* feat: add configuration to [`prefer-moving-to-variable`](https://dartcodemetrics.dev/docs/rules/common/prefer-moving-to-variable).
 
 ## 4.17.0-dev.1
 

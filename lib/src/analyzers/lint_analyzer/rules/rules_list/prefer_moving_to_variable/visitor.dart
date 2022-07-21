@@ -3,11 +3,15 @@ part of 'prefer_moving_to_variable_rule.dart';
 class _Visitor extends RecursiveAstVisitor<void> {
   final _nodes = <AstNode>[];
 
+  final int? _duplicatesThreshold;
+
   Iterable<AstNode> get nodes => _nodes;
+
+  _Visitor(this._duplicatesThreshold);
 
   @override
   void visitBlockFunctionBody(BlockFunctionBody node) {
-    final visitor = _BlockVisitor();
+    final visitor = _BlockVisitor(_duplicatesThreshold);
     node.visitChildren(visitor);
 
     _nodes.addAll(visitor.duplicates);
@@ -17,11 +21,22 @@ class _Visitor extends RecursiveAstVisitor<void> {
 class _BlockVisitor extends RecursiveAstVisitor<void> {
   final Map<String, AstNode> _visitedInvocations = {};
   final Set<AstNode> _visitedNodes = {};
-  final Set<AstNode> _duplicates = {};
+  final Map<String, Set<AstNode>> _duplicates = {};
 
-  Set<AstNode> get duplicates => _duplicates;
+  final int? _duplicatesThreshold;
 
-  _BlockVisitor();
+  Set<AstNode> get duplicates =>
+      _duplicates.entries.fold(<AstNode>{}, (previousValue, element) {
+        final duplicatesThreshold = _duplicatesThreshold;
+        if (duplicatesThreshold == null ||
+            element.value.length >= duplicatesThreshold) {
+          previousValue.addAll(element.value);
+        }
+
+        return previousValue;
+      });
+
+  _BlockVisitor(this._duplicatesThreshold);
 
   @override
   void visitPropertyAccess(PropertyAccess node) {
@@ -54,7 +69,11 @@ class _BlockVisitor extends RecursiveAstVisitor<void> {
     final isDuplicate =
         visitedInvocation != null && _isDuplicate(visitedInvocation, node);
     if (isDuplicate) {
-      _duplicates.addAll([visitedInvocation, node]);
+      _duplicates.update(
+        access,
+        (value) => value..addAll([visitedInvocation, node]),
+        ifAbsent: () => {visitedInvocation, node},
+      );
     }
 
     if (_visitedNodes.contains(node)) {

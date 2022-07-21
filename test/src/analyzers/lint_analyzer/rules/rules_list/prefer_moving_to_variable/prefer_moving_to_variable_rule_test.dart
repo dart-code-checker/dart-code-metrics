@@ -212,5 +212,35 @@ void main() {
 
       RuleTestHelper.verifyNoIssues(issues);
     });
+
+    test('reports issues with custom config', () async {
+      final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+      final config = {
+        'allowed-duplicated-chains': 3,
+      };
+      final issues = PreferMovingToVariableRule(config).check(unit);
+
+      RuleTestHelper.verifyIssues(
+        issues: issues,
+        startLines: [10, 11, 13, 14, 31, 32],
+        startColumns: [3, 3, 3, 3, 3, 3],
+        locationTexts: [
+          'getValue()',
+          'getValue()',
+          'getValue()',
+          'getValue()',
+          'getValue()',
+          'getValue()',
+        ],
+        messages: [
+          'Prefer moving repeated invocations to variable and use it instead.',
+          'Prefer moving repeated invocations to variable and use it instead.',
+          'Prefer moving repeated invocations to variable and use it instead.',
+          'Prefer moving repeated invocations to variable and use it instead.',
+          'Prefer moving repeated invocations to variable and use it instead.',
+          'Prefer moving repeated invocations to variable and use it instead.',
+        ],
+      );
+    });
   });
 }
