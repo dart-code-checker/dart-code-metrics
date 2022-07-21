@@ -19,7 +19,7 @@ class Suppression {
       isSuppressed(id) ||
       (_ignoreMap[lineIndex]?.contains(_canonicalize(id)) ?? false);
 
-  /// Initialize a newly created [Suppression] with the given [content] and [info].
+  /// Initialize a newly created [Suppression] with the given [content] and [lineInfo].
   Suppression(String content, this.lineInfo) {
     for (final match in _ignoreMatchers.allMatches(content)) {
       final ids = match.group(1)!.split(',').map(_canonicalize);
