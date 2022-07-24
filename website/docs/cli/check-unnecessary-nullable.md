@@ -38,6 +38,10 @@ Usage: metrics check-unnecessary-nullable [arguments] <directories>
     --[no-]fatal-found                            Treat found unnecessary nullable parameters as fatal.
 ```
 
+## Suppressing the command
+
+In order to suppress the command add the `ignore: unnecessary-nullable` comment. To suppress for an entire file add `ignore_for_file: unnecessary-nullable` to the beginning of a file.
+
 ## Monorepo support
 
 By default the command treats all code that is exported from the package as used. To disable this behavior use `--monorepo` flag. This might be useful when all the packages in your repository are only used within the repository and are not published to the pub.
