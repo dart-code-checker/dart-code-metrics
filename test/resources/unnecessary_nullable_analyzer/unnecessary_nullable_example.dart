@@ -3,6 +3,7 @@
 import 'nullable_class_parameters.dart';
 import 'nullable_function_parameters.dart';
 import 'nullable_method_parameters.dart';
+import 'suppressed_file.dart';
 
 void main() {
   final withMethods = ClassWithMethods();
@@ -14,6 +15,7 @@ void main() {
     ..someMethod('value');
 
   withMethods.alwaysNonNullable('anotherValue');
+  withMethods.ignoredAlwaysNonNullable('anotherValue');
 
   withMethods.multipleParametersUsed('123', 1, name: 'null');
   withMethods.multipleParametersUsed('123', 1, name: null);
@@ -24,6 +26,8 @@ void main() {
   final nullableConstructor = const NullableClassParameters(null);
   final defaultNonNullable = const DefaultNonNullable(value: '321');
   final namedNonNullable = const NamedNonNullable(value: '123');
+
+  IgnoredClassWithMethods().alwaysNonNullable('string');
 
   doSomething(_getNullableString());
   doSomething(map['321']);

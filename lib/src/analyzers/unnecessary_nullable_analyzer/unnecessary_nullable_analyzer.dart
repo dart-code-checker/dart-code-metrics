@@ -16,6 +16,7 @@ import '../../config_builder/config_builder.dart';
 import '../../config_builder/models/analysis_options.dart';
 import '../../reporters/models/reporter.dart';
 import '../../utils/analyzer_utils.dart';
+import '../../utils/suppression.dart';
 import 'declarations_visitor.dart';
 import 'invocations_visitor.dart';
 import 'models/invocations_usage.dart';
@@ -28,6 +29,8 @@ import 'unnecessary_nullable_config.dart';
 
 /// The analyzer responsible for collecting unnecessary nullable parameters reports.
 class UnnecessaryNullableAnalyzer {
+  static const _ignoreName = 'unnecessary-nullable';
+
   const UnnecessaryNullableAnalyzer();
 
   /// Returns a reporter for the given [name]. Use the reporter
@@ -133,7 +136,13 @@ class UnnecessaryNullableAnalyzer {
 
   DeclarationUsages _analyzeDeclarationsUsage(SomeResolvedUnitResult unit) {
     if (unit is ResolvedUnitResult) {
-      final visitor = DeclarationsVisitor();
+      final suppression = Suppression(unit.content, unit.lineInfo);
+      final isSuppressed = suppression.isSuppressed(_ignoreName);
+      if (isSuppressed) {
+        return {};
+      }
+
+      final visitor = DeclarationsVisitor(suppression, _ignoreName);
       unit.unit.visitChildren(visitor);
 
       return visitor.declarations;
