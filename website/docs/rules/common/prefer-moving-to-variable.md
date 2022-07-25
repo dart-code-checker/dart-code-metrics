@@ -1,5 +1,7 @@
 # Prefer moving to variable
 
+![Configurable](https://img.shields.io/badge/-configurable-informational)
+
 ## Rule id {#rule-id}
 
 prefer-moving-to-variable
@@ -20,6 +22,19 @@ final age = getUser().age;
 ```
 
 the rule will suggest to move `getUser()` call to a single variable.
+
+Use `allowed-duplicated-chains` configuration, if you want to set a threshold after which the rule should trigger on duplicated lines.
+
+### Config example {#config-example}
+
+```yaml
+dart_code_metrics:
+  ...
+  rules:
+    ...
+    - prefer-moving-to-variable:
+        allowed-duplicated-chains: 3
+```
 
 ### Example {#example}
 
