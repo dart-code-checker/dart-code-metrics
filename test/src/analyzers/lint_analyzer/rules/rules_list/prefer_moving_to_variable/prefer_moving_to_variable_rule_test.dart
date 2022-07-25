@@ -91,7 +91,7 @@ void main() {
           'Theme.from().notVoidMethod()',
           'Theme.from().notVoidMethod()',
           "string.indexOf('').sign",
-          "string.indexOf('').sign"
+          "string.indexOf('').sign",
         ],
         messages: [
           'Prefer moving repeated invocations to variable and use it instead.',
