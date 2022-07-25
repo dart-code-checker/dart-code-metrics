@@ -420,17 +420,20 @@ class LintHtmlReporter extends HtmlReporter<LintFileReport,
         complexityValueElement.text = line.replaceAll(' ', '&nbsp;');
       }
 
-      final architecturalIssues = record.antiPatternCases.firstWhereOrNull(
-        (element) => element.location.start.line == lineIndex,
-      );
+      final issue = record.issues.firstWhereOrNull(
+            (element) => element.location.start.line == lineIndex,
+          ) ??
+          record.antiPatternCases.firstWhereOrNull(
+            (element) => element.location.start.line == lineIndex,
+          );
 
-      if (architecturalIssues != null) {
+      if (issue != null) {
         final issueIcon = Element.tag('div')
           ..classes.addAll(
             ['metrics-source-code__icon', 'metrics-source-code__icon--issue'],
           )
           ..append(renderIcon(IconType.issue))
-          ..append(renderIssueDetailsTooltip(architecturalIssues));
+          ..append(renderIssueDetailsTooltip(issue));
 
         complexityValueElement.append(issueIcon);
       }
