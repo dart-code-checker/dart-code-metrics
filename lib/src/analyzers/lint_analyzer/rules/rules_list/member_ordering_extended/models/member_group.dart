@@ -89,10 +89,20 @@ class _FieldMemberGroup extends _MemberGroup {
 class _MethodMemberGroup extends _MemberGroup {
   final bool isStatic;
   final bool isNullable;
+  final bool isBuild;
+  final bool isInitState;
+  final bool isDidChangeDependencies;
+  final bool isDidUpdateWidget;
+  final bool isDispose;
 
   const _MethodMemberGroup._({
     required this.isNullable,
     required this.isStatic,
+    required this.isBuild,
+    required this.isInitState,
+    required this.isDidChangeDependencies,
+    required this.isDidUpdateWidget,
+    required this.isDispose,
     required _Annotation annotation,
     required _MemberType memberType,
     required _Modifier modifier,
@@ -105,18 +115,33 @@ class _MethodMemberGroup extends _MemberGroup {
         );
 
   factory _MethodMemberGroup.parse(MethodDeclaration declaration) {
+    final methodName = declaration.name.name;
     final annotation = declaration.metadata
         .map((metadata) => _Annotation.parse(metadata.name.name))
         .whereNotNull()
         .firstOrNull;
-    final modifier = Identifier.isPrivateName(declaration.name.name)
+    final modifier = Identifier.isPrivateName(methodName)
         ? _Modifier.private
         : _Modifier.public;
+
+    final hasOverrideAnnotation = annotation == _Annotation.override;
+    final isBuild = methodName == 'build' && hasOverrideAnnotation;
+    final isInitState = methodName == 'initState' && hasOverrideAnnotation;
+    final isDidChangeDependencies =
+        methodName == 'didChangeDependencies' && hasOverrideAnnotation;
+    final isDidUpdateWidget =
+        methodName == 'didUpdateWidget' && hasOverrideAnnotation;
+    final isDispose = methodName == 'dispose' && hasOverrideAnnotation;
 
     return _MethodMemberGroup._(
       annotation: annotation ?? _Annotation.unset,
       isStatic: declaration.isStatic,
       isNullable: declaration.returnType?.question != null,
+      isBuild: isBuild,
+      isInitState: isInitState,
+      isDidChangeDependencies: isDidChangeDependencies,
+      isDidUpdateWidget: isDidUpdateWidget,
+      isDispose: isDispose,
       memberType: _MemberType.method,
       modifier: modifier,
       rawRepresentation: '',
@@ -131,6 +156,11 @@ class _MethodMemberGroup extends _MemberGroup {
     coefficient += isNullable ? 1 : 0;
     coefficient += annotation != _Annotation.unset ? 1 : 0;
     coefficient += modifier != _Modifier.unset ? 1 : 0;
+    coefficient += isBuild ? 10 : 0;
+    coefficient += isInitState ? 10 : 0;
+    coefficient += isDidChangeDependencies ? 10 : 0;
+    coefficient += isDidUpdateWidget ? 10 : 0;
+    coefficient += isDispose ? 10 : 0;
 
     return coefficient;
   }

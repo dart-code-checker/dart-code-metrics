@@ -26,40 +26,48 @@ where values in the `<>` are optional, values in the `()` are interchangeable an
 
 **Note:** not all of the pattern parts are applicable for every case, for example, `late-constructors` are not expected, since they are not supported by the language itself.
 
+Additionally, in order to apply ordering for the Flutter specific widget methods, you can configure the rule with:
+
+* build-method
+* init-state-method
+* did-change-dependencies-method
+* did-update-widget-method
+* dispose-method
+
 For example, the value for `order` may be an array consisting of the following strings:
 
-- public-late-final-fields
-- private-late-final-fields
-- public-nullable-fields
-- private-nullable-fields
-- named-constructors
-- factory-constructors
-- getters
-- setters
-- public-static-methods
-- private-static-methods
-- protected-methods
-- etc.
+* public-late-final-fields
+* private-late-final-fields
+* public-nullable-fields
+* private-nullable-fields
+* named-constructors
+* factory-constructors
+* getters
+* setters
+* public-static-methods
+* private-static-methods
+* protected-methods
+* etc.
 
 You can simply configure the rule to sort only by a type:
 
-- fields
-- methods
-- setters
-- getters (or just **getters-setters** if you don't want to separate them)
-- constructors
+* fields
+* methods
+* setters
+* getters (or just **getters-setters** if you don't want to separate them)
+* constructors
 
 The default config is:
 
-- public-fields
-- private-fields
-- public-getters
-- private-getters
-- public-setters
-- private-setters
-- constructors
-- public-methods
-- private-methods
+* public-fields
+* private-fields
+* public-getters
+* private-getters
+* public-setters
+* private-setters
+* constructors
+* public-methods
+* private-methods
 
 The `alphabetize` option will enforce that members within the same category should be alphabetically sorted by name.
 
