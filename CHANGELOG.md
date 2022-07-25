@@ -2,11 +2,15 @@
 
 ## Unreleased
 
+* feat: add configuration to [`prefer-moving-to-variable`](https://dartcodemetrics.dev/docs/rules/common/prefer-moving-to-variable).
+* feat: add flutter specific methods config to [`member-ordering-extended`](https://dartcodemetrics.dev/docs/rules/common/member-ordering-extended).
 * feat: add static code diagnostic [`avoid-duplicate-exports`](https://dartcodemetrics.dev/docs/rules/common/avoid-duplicate-exports).
+* feat: add static code diagnostic [`avoid-shrink-wrap-in-lists`](https://dartcodemetrics.dev/docs/rules/flutter/avoid-shrink-wrap-in-lists).
 * feat: add static code diagnostic [`avoid-top-level-members-in-tests`](https://dartcodemetrics.dev/docs/rules/common/avoid-top-level-members-in-tests).
 * feat: add static code diagnostic [`prefer-correct-edge-insets-constructor-rule`](https://dartcodemetrics.dev/docs/rules/flutter/prefer-correct-edge-insets-constructor).
 * feat: add static code diagnostic [`prefer-enums-by-name`](https://dartcodemetrics.dev/docs/rules/common/prefer-enums-by-name).
-* feat: add flutter specific methods config to [`member-ordering-extended`](https://dartcodemetrics.dev/docs/rules/common/member-ordering-extended).
+* feat: add suppressions for `check-unused-files`, `check-unused-code`, `check-unnecessary-nullable` commands.
+* fix: add zero exit to command runner
 
 ## 4.17.0-dev.1
 

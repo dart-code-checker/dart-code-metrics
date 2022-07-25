@@ -37,6 +37,10 @@ Usage: metrics check-unused-files [arguments...] <directories>
 -d, --[no-]delete-files                           Delete all unused files.
 ```
 
+## Suppressing the command
+
+In order to suppress the command add `ignore_for_file: unused-files` to the beginning of a file.
+
 ## Monorepo support
 
 By default the command treats all files that are exported from the package as used. To disable this behavior use `--monorepo` flag. This might be useful when all the packages in your repository are only used within the repository and are not published to the pub.

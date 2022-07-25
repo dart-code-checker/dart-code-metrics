@@ -183,3 +183,8 @@ class _MyOtherWidgetState extends BaseState<MyOtherWidget> {
         child: Text('PRESS'),
       );
 }
+
+// ignore: unused-code
+void ignoredPrintBool(bool value) {
+  print(value); // Print to console.
+}
