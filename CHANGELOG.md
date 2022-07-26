@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 4.17.0
 
 * feat: add configuration to [`prefer-moving-to-variable`](https://dartcodemetrics.dev/docs/rules/common/prefer-moving-to-variable).
 * feat: add flutter specific methods config to [`member-ordering-extended`](https://dartcodemetrics.dev/docs/rules/common/member-ordering-extended).
