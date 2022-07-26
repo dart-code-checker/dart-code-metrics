@@ -12,6 +12,8 @@
 * feat: add suppressions for [`check-unused-code`](https://dartcodemetrics.dev/docs/cli/check-unused-code), [`check-unused-files`](https://dartcodemetrics.dev/docs/cli/check-unused-files), [`check-unnecessary-nullable`](https://dartcodemetrics.dev/docs/cli/check-unnecessary-nullable) commands.
 * fix: add zero exit to command runner.
 * fix: show lint issue in [html report](https://dartcodemetrics.dev/docs/cli/analyze#html).
+* chore: restrict `analyzer` version to `>=4.0.0 <4.4.0`.
+* chore: revert `analyzer_plugin` version to `>=0.10.0 <0.11.0`.
 
 ## 4.17.0-dev.1
 

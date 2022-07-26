@@ -104,6 +104,7 @@ class UnusedL10nVisitor extends RecursiveAstVisitor<void> {
 
   bool _matchExtension(Expression? target) =>
       target is PrefixedIdentifier &&
+      // ignore: deprecated_member_use
       target.staticElement?.enclosingElement is ExtensionElement;
 
   bool _matchStaticGetter(Expression? target) =>
@@ -129,6 +130,7 @@ class UnusedL10nVisitor extends RecursiveAstVisitor<void> {
     String name,
   ) {
     final staticElement =
+        // ignore: deprecated_member_use
         target.constructorName.staticElement?.enclosingElement;
 
     if (staticElement is ClassElement) {
@@ -142,6 +144,7 @@ class UnusedL10nVisitor extends RecursiveAstVisitor<void> {
 
   void _addMemberInvocationOnAccessor(SimpleIdentifier target, String name) {
     final staticElement =
+        // ignore: deprecated_member_use
         target.staticElement?.enclosingElement as ExtensionElement;
 
     for (final element in staticElement.accessors) {
