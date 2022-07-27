@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+* chore: restrict `analyzer` version to `>=4.1.0 <4.4.0`.
+* chore: restrict `analyzer_plugin` version to `>=0.11.0 <0.12.0`.
+
 ## 4.17.0
 
 * feat: add configuration to [`prefer-moving-to-variable`](https://dartcodemetrics.dev/docs/rules/common/prefer-moving-to-variable).
