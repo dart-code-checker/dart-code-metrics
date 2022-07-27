@@ -170,7 +170,7 @@ It will produce a result in one of the format:
 
 Console report example:
 
-![Console report example](https://raw.githubusercontent.com/dart-code-checker/dart-code-metrics/master/assets/unused-files-console-report.png)
+![Console report example](https://raw.githubusercontent.com/dart-code-checker/dart-code-metrics/master/assets/unnecessary-nullable-console-report.png)
 
 #### Check unused files
 
