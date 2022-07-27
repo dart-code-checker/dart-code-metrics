@@ -1,6 +1,6 @@
 # Check unnecessary nullable parameters
 
-Check unnecessary nullable parameters in functions, methods, constructors. Removing unnecessary nullables can help reduce amount of checks in the code.
+Checks unnecessary nullable parameters in functions, methods, constructors. Removing unnecessary nullables can help reduce amount of checks in the code.
 
 To execute the command, run
 
