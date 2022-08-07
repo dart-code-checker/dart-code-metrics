@@ -1,5 +1,6 @@
 import React from 'react';
-import CopyButton from './buttons/CopyButton';
+import RuleAdditionalInfo from './rule/RuleAdditionalInfo';
+import RuleId from './rule/RuleId';
 
 type Props = {
   name: string;
@@ -22,34 +23,24 @@ export default function RuleEntry({
   hasFix,
   isDeprecated,
 }: Props) {
-  const severityLover = severity?.toLowerCase();
   const href = `${type}/${name}`;
 
   return (
     <div className="rule-entry">
       <div className="rule-content">
         <a className="rule-link" href={href}>
-          <span>{name}</span>
-          <CopyButton link={href} />
+          <RuleId name={name} />
         </a>
 
         <p className="rule-description">{children}</p>
 
-        <div className="rule-additional-info">
-          <div>added in: {version}</div>
-
-          <div className={`rule-severity ${severityLover}`}>
-            {severityLover}
-          </div>
-
-          <div className="rule-options">
-            {hasConfig && <span title="Configurable">⚙️</span>}
-
-            {hasFix && <span title="Has auto-fix">🛠</span>}
-
-            {isDeprecated && <span title="Deprecated">⚠️</span>}
-          </div>
-        </div>
+        <RuleAdditionalInfo
+          version={version}
+          severity={severity}
+          hasConfig={hasConfig}
+          hasFix={hasFix}
+          isDeprecated={isDeprecated}
+        />
       </div>
     </div>
   );

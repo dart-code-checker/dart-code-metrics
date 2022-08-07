@@ -1,0 +1,23 @@
+import RuleDetails from '@site/src/components/RuleDetails';
+
+<RuleDetails version="4.15.0" severity="warning" />
+
+Warns when a string literal contains non ascii characters. This might indicate that the string was not localized.
+
+### Example {#example}
+
+**❌ Bad:**
+
+```dart
+final chinese = 'hello 汉字'; // LINT
+final russian = 'hello привет'; // LINT
+final withSomeNonAsciiSymbols = '#!$_&-  éè  ;∞¥₤€'; // LINT
+final misspelling = 'inform@tiv€'; // LINT
+```
+
+**✅ Good:**
+
+```dart
+final english = 'hello';
+final someGenericSymbols ='!@#$%^';
+```
