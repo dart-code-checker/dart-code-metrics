@@ -1,18 +1,13 @@
----
-sidebar_position: 0
-sidebar_label: Overview
----
-
-# Metrics overview
+# Metrics
 
 Metrics are grouped by a category to help you understand their purpose.
 
-Metrics configuration is [described here](../getting-started/configuration#configuring-a-metrics-entry).
+Metrics configuration is [described here](./getting-started/configuration#configuring-a-metrics-entry).
 
 ## Function specific metrics {#function-specific-metrics}
 
 - [Cyclomatic Complexity](./cyclomatic-complexity.md)
-  
+
     The number of linearly-independent paths through a method.
 
 - [Halstead Volume](./halstead-volume.md)

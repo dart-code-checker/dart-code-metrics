@@ -1,9 +1,4 @@
----
-sidebar_position: 0
-sidebar_label: 'Overview'
----
-
-# CLI Overview
+# CLI
 
 To use the package as a command-line tool, run
 

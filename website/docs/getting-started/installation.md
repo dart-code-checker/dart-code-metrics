@@ -43,7 +43,7 @@ To use Dart Code Metrics as a plugin to the Dart analyzer refer to the [Analyzer
 
 ### CLI {#cli}
 
-To use Dart Code Metrics as a command-line tool refer to the [Command Line Interface documentation section](../cli/overview.md).
+To use Dart Code Metrics as a command-line tool refer to the [Command Line Interface documentation section](../cli).
 
 ### Library {#library}
 

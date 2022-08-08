@@ -17,8 +17,8 @@
 **Note: you can find [the full documentation on the website](https://dartcodemetrics.dev/docs/getting-started/introduction)**
 
 [Configuration](https://dartcodemetrics.dev/docs/getting-started/configuration) |
-[Rules](https://dartcodemetrics.dev/docs/rules/overview) |
-[Metrics](https://dartcodemetrics.dev/docs/metrics/overview) |
+[Rules](https://dartcodemetrics.dev/docs/rules) |
+[Metrics](https://dartcodemetrics.dev/docs/metrics) |
 [Anti-patterns](https://dartcodemetrics.dev/docs/anti-patterns/overivew)
 
 <a href="https://flutter.dev/docs/development/packages-and-plugins/favorites">
@@ -31,13 +31,13 @@
 
 Dart Code Metrics is a static analysis tool that helps you analyse and improve your code quality.
 
-- Reports [code metrics](https://dartcodemetrics.dev/docs/metrics/overview)
-- Provides [additional rules](https://dartcodemetrics.dev/docs/rules/overview) for the dart analyzer
-- Checks for [anti-patterns](https://dartcodemetrics.dev/docs/anti-patterns/overview)
+- Reports [code metrics](https://dartcodemetrics.dev/docs/metrics)
+- Provides [additional rules](https://dartcodemetrics.dev/docs/rules) for the dart analyzer
+- Checks for [anti-patterns](https://dartcodemetrics.dev/docs/anti-patterns)
 - Checks [unused `*.dart` files](https://dartcodemetrics.dev/docs/cli/check-unused-files)
 - Checks [unused l10n](https://dartcodemetrics.dev/docs/cli/check-unused-l10n)
 - Checks [unnecessary nullable parameters](https://dartcodemetrics.dev/docs/cli/check-unnecessary-nullable)
-- Can be used as [CLI](https://dartcodemetrics.dev/docs/cli/overview), [analyzer plugin](https://dartcodemetrics.dev/docs/analyzer-plugin) or [library](https://dartcodemetrics.dev/docs/getting-started/installation#library)
+- Can be used as [CLI](https://dartcodemetrics.dev/docs/cli), [analyzer plugin](https://dartcodemetrics.dev/docs/analyzer-plugin) or [library](https://dartcodemetrics.dev/docs/getting-started/installation#library)
 
 ## Links
 
@@ -127,7 +127,7 @@ The package can be used as CLI and supports multiple commands:
 
 For additional help on any of the commands, enter `dart run dart_code_metrics:metrics help <command>`
 
-**Note:** if you're setting up Dart Code Metrics for multi-package repository, check out [this website section](https://dartcodemetrics.dev/docs/cli/overview#multi-package-repositories-usage).
+**Note:** if you're setting up Dart Code Metrics for multi-package repository, check out [this website section](https://dartcodemetrics.dev/docs/cli#multi-package-repositories-usage).
 
 #### Analyze
 

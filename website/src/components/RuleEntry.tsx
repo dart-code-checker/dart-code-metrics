@@ -23,7 +23,7 @@ export default function RuleEntry({
   hasFix,
   isDeprecated,
 }: Props) {
-  const href = `${type}/${name}`;
+  const href = `rules/${type}/${name}`;
 
   return (
     <div className="rule-entry">
