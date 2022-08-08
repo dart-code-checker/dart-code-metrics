@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 part of 'provide_correct_intl_args_rule.dart';
 
 class _Visitor extends IntlBaseVisitor {

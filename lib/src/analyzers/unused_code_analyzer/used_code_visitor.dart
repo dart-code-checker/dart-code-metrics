@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs
+// ignore_for_file: public_member_api_docs, deprecated_member_use
 
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
@@ -89,7 +89,6 @@ class UsedCodeVisitor extends RecursiveAstVisitor<void> {
 
   void _recordIfExtensionMember(Element? element) {
     if (element != null) {
-      // ignore: deprecated_member_use
       final enclosingElement = element.enclosingElement;
       if (enclosingElement is ExtensionElement) {
         _recordUsedExtension(enclosingElement);
@@ -166,7 +165,6 @@ class UsedCodeVisitor extends RecursiveAstVisitor<void> {
       return;
     }
 
-    // ignore: deprecated_member_use
     final enclosingElement = element.enclosingElement;
     if (enclosingElement is CompilationUnitElement) {
       _recordUsedElement(element);
