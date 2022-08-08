@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 4.18.0-dev.1
 
 * chore: restrict `analyzer` version to `>=4.1.0 <4.5.0`.
 * chore: restrict `analyzer_plugin` version to `>=0.11.0 <0.12.0`.
