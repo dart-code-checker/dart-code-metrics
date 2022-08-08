@@ -42,22 +42,22 @@ module.exports = {
           activeBasePath: 'docs/getting-started',
         },
         {
-          to: 'docs/rules/overview',
+          to: 'docs/rules',
           label: 'Rules',
           position: 'right',
           activeBasePath: 'docs/rules',
         },
         {
-          to: 'docs/metrics/overview',
+          to: 'docs/metrics',
           label: 'Metrics',
           position: 'right',
           activeBasePath: 'docs/metrics',
         },
         {
-          to: 'docs/cli/overview',
+          to: 'docs/cli',
           label: 'Commands',
           position: 'right',
-          activeBasePath: 'docs/cli/overview',
+          activeBasePath: 'docs/cli',
         },
         {
           href: 'https://github.com/dart-code-checker/dart-code-metrics',
@@ -74,11 +74,11 @@ module.exports = {
           items: [
             {
               label: 'Rules',
-              to: 'docs/rules/overview',
+              to: 'docs/rules',
             },
             {
               label: 'Metrics',
-              to: 'docs/metrics/overview',
+              to: 'docs/metrics',
             },
             {
               label: 'Configuration',
@@ -139,7 +139,8 @@ module.exports = {
       {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
-          editUrl: 'https://github.com/dart-code-checker/dart-code-metrics/tree/master/website/',
+          editUrl:
+            'https://github.com/dart-code-checker/dart-code-metrics/tree/master/website/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
