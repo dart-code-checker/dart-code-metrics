@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:analyzer/dart/analysis/analysis_context.dart';
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:path/path.dart';
 
@@ -9,7 +10,6 @@ import '../../reporters/models/file_report.dart';
 import '../../reporters/models/reporter.dart';
 import '../../utils/analyzer_utils.dart';
 import '../../utils/exclude_utils.dart';
-import '../../utils/file_utils.dart';
 import '../../utils/node_utils.dart';
 import '../../utils/suppression.dart';
 import 'lint_analysis_config.dart';
@@ -81,32 +81,20 @@ class LintAnalyzer {
     final analyzerResult = <LintFileReport>[];
 
     for (final context in collection.contexts) {
-      final analysisOptions = analysisOptionsFromContext(context) ??
-          analysisOptionsFromFilePath(rootFolder, context);
+      final lintAnalysisConfig =
+          _getAnalysisConfig(context, rootFolder, config);
 
-      final excludesRootFolder = analysisOptions.folderPath ?? rootFolder;
-
-      final contextConfig =
-          ConfigBuilder.getLintConfigFromOptions(analysisOptions).merge(config);
-      final lintAnalysisConfig = ConfigBuilder.getLintAnalysisConfig(
-        contextConfig,
-        excludesRootFolder,
-      );
-
-      final contextFolders = folders
-          .where((path) => normalize(join(rootFolder, path))
-              .startsWith(context.contextRoot.root.path))
-          .toList();
-
-      final filePaths = extractDartFilesFromFolders(
-        contextFolders,
+      final filePaths = getFilePaths(
+        folders,
+        context,
         rootFolder,
         lintAnalysisConfig.globalExcludes,
       );
 
+      print(filePaths);
+
       final analyzedFiles =
           filePaths.intersection(context.contextRoot.analyzedFiles().toSet());
-
       for (final filePath in analyzedFiles) {
         final unit = await context.currentSession.getResolvedUnit(filePath);
         if (unit is ResolvedUnitResult) {
@@ -164,6 +152,25 @@ class LintAnalyzer {
           value: totalTechDebt(records),
         ),
       ];
+
+  LintAnalysisConfig _getAnalysisConfig(
+    AnalysisContext context,
+    String rootFolder,
+    LintConfig config,
+  ) {
+    final analysisOptions = analysisOptionsFromContext(context) ??
+        analysisOptionsFromFilePath(rootFolder, context);
+
+    final contextConfig =
+        ConfigBuilder.getLintConfigFromOptions(analysisOptions).merge(config);
+
+    final excludesRootFolder = analysisOptions.folderPath ?? rootFolder;
+
+    return ConfigBuilder.getLintAnalysisConfig(
+      contextConfig,
+      excludesRootFolder,
+    );
+  }
 
   LintFileReport? _analyzeFile(
     ResolvedUnitResult result,
