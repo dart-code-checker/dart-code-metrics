@@ -36,7 +36,7 @@ class UnusedL10nConsoleReporter extends ConsoleReporter<UnusedL10nFileReport,
       for (final issue in analysisRecord.issues) {
         final line = issue.location.line;
         final column = issue.location.column;
-        final path = analysisRecord.relativePath;
+        final path = analysisRecord.path;
 
         final offset = ''.padRight(3);
         final pathOffset = offset.padRight(5);

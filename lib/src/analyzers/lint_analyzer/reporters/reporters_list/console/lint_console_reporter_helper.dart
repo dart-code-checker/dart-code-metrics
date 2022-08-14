@@ -30,17 +30,17 @@ class LintConsoleReporterHelper {
   };
 
   /// Converts an [issue] to the issue message string.
-  Iterable<String> getIssueMessage(Issue issue, String relativePath) {
+  Iterable<String> getIssueMessage(Issue issue, String absolutePath) {
     final severity = _getSeverity(issue.severity);
     final locationStart = issue.location.start;
     final location = _linkPen(
-      '$relativePath:${locationStart.line}:${locationStart.column}',
+      '$absolutePath:${locationStart.line}:${locationStart.column}',
     );
     final tabulation = _normalize('');
 
     return [
       '$severity${issue.message}',
-      '$tabulation$location',
+      '${tabulation}at $location',
       '$tabulation${issue.ruleId} : ${issue.documentation}',
       '',
     ];
