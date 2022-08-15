@@ -91,8 +91,6 @@ class LintAnalyzer {
         lintAnalysisConfig.globalExcludes,
       );
 
-      print(filePaths);
-
       final analyzedFiles =
           filePaths.intersection(context.contextRoot.analyzedFiles().toSet());
       for (final filePath in analyzedFiles) {
