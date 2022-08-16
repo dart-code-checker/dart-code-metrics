@@ -14,7 +14,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
       if (_isNodeValid(node)) {
         _declarations.add(node);
       }
-    } else if ((node.declaredElement?.isStatic ?? false) &&
+    } else if ((node.declaredElement2?.isStatic ?? false) &&
         _isNodeValid(node)) {
       _declarations.add(node);
     }
@@ -23,5 +23,5 @@ class _Visitor extends RecursiveAstVisitor<void> {
   bool _isNodeValid(VariableDeclaration node) =>
       !node.isFinal &&
       !node.isConst &&
-      !(node.declaredElement?.isPrivate ?? false);
+      !(node.declaredElement2?.isPrivate ?? false);
 }
