@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* chore: restrict `analyzer` version to `>=4.1.0 <4.7.0`.
+
 ## 4.18.0-dev.1
 
 * chore: restrict `analyzer` version to `>=4.1.0 <4.5.0`.
