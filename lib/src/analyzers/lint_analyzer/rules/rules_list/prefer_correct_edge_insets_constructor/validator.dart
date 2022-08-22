@@ -45,7 +45,7 @@ class _Validator {
     }
 
     if (isParamsSame) {
-      return '${data.className}.all($horizontal)';
+      return 'const ${data.className}.all($horizontal)';
     }
 
     if (horizontal == 0 && vertical != null) {
@@ -80,7 +80,7 @@ class _Validator {
       }
 
       if (paramsList.every((element) => element == top && top != null)) {
-        return '${data.className}.all(${data.params.first.value})';
+        return 'const ${data.className}.all(${data.params.first.value})';
       }
 
       if (left == right && hasLeftParam && top == bottom && hasTopParam) {
@@ -98,7 +98,7 @@ class _Validator {
       }
 
       if (paramsList.contains(0)) {
-        return '${data.className}.only(${[
+        return 'const ${data.className}.only(${[
           if (hasTopParam) 'top: $top',
           if (hasBottomParam) 'bottom: $bottom',
           if (hasLeftParam && data.className == 'EdgeInsetsDirectional')
@@ -123,7 +123,7 @@ class _Validator {
 
     if (data.params
         .every((element) => element.value == data.params.first.value)) {
-      return '${data.className}.all(${data.params.first.value})';
+      return 'const ${data.className}.all(${data.params.first.value})';
     }
 
     final left = data.params.first.value;
@@ -169,7 +169,7 @@ class _Validator {
         params.add('bottom: $bottom');
       }
 
-      return '${data.className}.only(${params.join(', ')})';
+      return 'const ${data.className}.only(${params.join(', ')})';
     }
 
     return null;
@@ -177,5 +177,6 @@ class _Validator {
 
   String _replaceWithZero() => 'EdgeInsets.zero';
 
-  String _replaceWithSymmetric(String? param) => 'EdgeInsets.symmetric($param)';
+  String _replaceWithSymmetric(String? param) =>
+      'const EdgeInsets.symmetric($param)';
 }
