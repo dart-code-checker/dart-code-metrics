@@ -44,7 +44,7 @@ class UnnecessaryNullableJsonReporter extends JsonReporter<
   Map<String, Object> _issueToJson(UnnecessaryNullableIssue issue) => {
         'declarationType': issue.declarationType,
         'declarationName': issue.declarationName,
-        'parameters': issue.parameters,
+        'parameters': issue.parameters.toList(),
         'column': issue.location.column,
         'line': issue.location.line,
         'offset': issue.location.offset,
