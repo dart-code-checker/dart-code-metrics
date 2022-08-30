@@ -39,7 +39,7 @@ void main() {
         ),
         equals([
           '\x1B[38;5;180mWARNING \x1B[0mIssue message',
-          '        \x1B[38;5;39mlib/src/my_source.dart:1:2\x1B[0m',
+          '        at \x1B[38;5;39mlib/src/my_source.dart:1:2\x1B[0m',
           '        rule : https://dartcodemetrics/rules/rule',
           '',
         ]),
@@ -59,7 +59,7 @@ void main() {
         ),
         equals([
           '\x1B[38;5;7m        \x1B[0mIssue message',
-          '        \x1B[38;5;39mlib/src/my_source.dart:1:2\x1B[0m',
+          '        at \x1B[38;5;39mlib/src/my_source.dart:1:2\x1B[0m',
           '        rule : https://dartcodemetrics/rules/rule',
           '',
         ]),
