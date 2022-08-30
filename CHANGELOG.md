@@ -14,6 +14,7 @@
 
 * chore: restrict `analyzer` version to `>=4.1.0 <4.5.0`.
 * chore: restrict `analyzer_plugin` version to `>=0.11.0 <0.12.0`.
+* feat: replace relative path in reporters output with absolute to support IDE clicks.
 
 ## 4.17.1
 

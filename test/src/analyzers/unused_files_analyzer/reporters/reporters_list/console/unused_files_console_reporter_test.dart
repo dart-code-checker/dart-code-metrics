@@ -67,7 +67,7 @@ void main() {
         expect(
           captured,
           equals([
-            '\x1B[38;5;180m⚠\x1B[0m unused file: example.dart',
+            '\x1B[38;5;180m⚠\x1B[0m unused file: $fullPath',
             '',
             '\x1B[38;5;167m✖\x1B[0m total unused files - \x1B[38;5;167m1\x1B[0m',
           ]),
@@ -92,7 +92,7 @@ void main() {
         expect(
           captured,
           equals([
-            '\x1B[38;5;180m⚠\x1B[0m unused file: example.dart',
+            '\x1B[38;5;180m⚠\x1B[0m unused file: $fullPath',
             '',
             '\x1B[38;5;20m✔\x1B[0m \x1B[38;5;167m1\x1B[0m files were successfully deleted',
           ]),
