@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.18.0
+
+* fix: `--reporter=json` for `check-unnecessary-nullable` crashes, saying `Converting object to an encodable object failed: Instance of 'MappedIterable<FormalParameter, String>'`
+
 ## 4.18.0-dev.2
 
 * chore: restrict `analyzer` version to `>=4.1.0 <4.7.0`.
