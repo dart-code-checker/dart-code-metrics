@@ -49,7 +49,7 @@ class AnalyzeCommand extends BaseCommand {
 
     final config = ConfigBuilder.getLintConfigFromArgs(parsedArgs);
 
-    final lintAnalyserResult = await _analyzer.runCliAnalysis(
+    final lintAnalyzerResult = await _analyzer.runCliAnalysis(
       argResults.rest,
       argResults[FlagNames.rootFolder] as String,
       config,
@@ -63,15 +63,15 @@ class AnalyzeCommand extends BaseCommand {
           reportFolder: argResults[FlagNames.reportFolder] as String,
         )
         ?.report(
-          lintAnalyserResult,
-          summary: _analyzer.getSummary(lintAnalyserResult),
+          lintAnalyzerResult,
+          summary: _analyzer.getSummary(lintAnalyzerResult),
           additionalParams: LintReportParams(congratulate: !noCongratulate),
         );
 
-    if (hasIssueWithSeverity(lintAnalyserResult, Severity.error)) {
+    if (hasIssueWithSeverity(lintAnalyzerResult, Severity.error)) {
       exit(3);
     } else if ((argResults[FlagNames.fatalWarnings] as bool) &&
-        hasIssueWithSeverity(lintAnalyserResult, Severity.warning)) {
+        hasIssueWithSeverity(lintAnalyzerResult, Severity.warning)) {
       exit(2);
     }
 
@@ -80,14 +80,14 @@ class AnalyzeCommand extends BaseCommand {
     );
 
     if (maximumAllowedLevel != null &&
-        maxMetricViolationLevel(lintAnalyserResult) >= maximumAllowedLevel) {
+        maxMetricViolationLevel(lintAnalyzerResult) >= maximumAllowedLevel) {
       exit(2);
     }
 
     if (((argResults[FlagNames.fatalPerformance] as bool) &&
-            hasIssueWithSeverity(lintAnalyserResult, Severity.performance)) ||
+            hasIssueWithSeverity(lintAnalyzerResult, Severity.performance)) ||
         ((argResults[FlagNames.fatalStyle] as bool) &&
-            hasIssueWithSeverity(lintAnalyserResult, Severity.style))) {
+            hasIssueWithSeverity(lintAnalyzerResult, Severity.style))) {
       exit(1);
     }
   }
