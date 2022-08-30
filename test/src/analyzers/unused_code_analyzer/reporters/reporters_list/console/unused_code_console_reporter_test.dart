@@ -72,7 +72,7 @@ void main() {
         equals([
           'example.dart:',
           '    \x1B[38;5;180m⚠\x1B[0m unused class SomeClass',
-          '      at example.dart:5:3',
+          '      at $fullPath:5:3',
           '',
           '\x1B[38;5;167m✖\x1B[0m total unused code (classes, functions, variables, extensions, enums, mixins and type aliases) - \x1B[38;5;167m1\x1B[0m',
         ]),
