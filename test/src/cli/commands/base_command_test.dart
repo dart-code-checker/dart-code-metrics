@@ -17,11 +17,11 @@ void main() {
       when(() => result.rest).thenReturn([]);
 
       expect(
-        command.validateTargetDirectories,
+        command.validateTargetDirectoriesOrFiles,
         throwsA(predicate((e) =>
             e is InvalidArgumentException &&
             e.message ==
-                'Invalid number of directories. At least one must be specified.')),
+                'Invalid number of directories or files. At least one must be specified.')),
       );
     });
 
@@ -30,11 +30,12 @@ void main() {
       when(() => result['root-folder'] as String).thenReturn('./');
 
       expect(
-        command.validateTargetDirectories,
+        command.validateTargetDirectoriesOrFiles,
         throwsA(predicate(
           (e) =>
               e is InvalidArgumentException &&
-              e.message == "./bil doesn't exist or isn't a directory.",
+              e.message ==
+                  "./bil doesn't exist or isn't a directory or a file.",
         )),
       );
     });

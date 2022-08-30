@@ -1,14 +1,17 @@
 // ignore_for_file: implementation_imports
+import 'dart:io';
+
 import 'package:analyzer/dart/analysis/analysis_context.dart';
 import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
 import 'package:analyzer/file_system/physical_file_system.dart';
 import 'package:analyzer/src/dart/analysis/analysis_context_collection.dart';
 import 'package:analyzer/src/dart/analysis/byte_store.dart';
 import 'package:analyzer/src/dart/analysis/file_byte_store.dart';
+import 'package:file/local.dart';
 import 'package:glob/glob.dart';
 import 'package:path/path.dart';
 
-import 'file_utils.dart';
+import 'exclude_utils.dart';
 
 AnalysisContextCollection createAnalysisContextCollection(
   Iterable<String> folders,
@@ -40,7 +43,7 @@ Set<String> getFilePaths(
     return folderPath == rootPath || folderPath.startsWith('$rootPath/');
   }).toList();
 
-  return extractDartFilesFromFolders(contextFolders, rootFolder, excludes);
+  return _extractDartFilesFromFolders(contextFolders, rootFolder, excludes);
 }
 
 /// If the state location can be accessed, return the file byte store,
@@ -61,3 +64,25 @@ ByteStore createByteStore(PhysicalResourceProvider resourceProvider) {
 
   return MemoryCachingByteStore(NullByteStore(), memoryCacheSize);
 }
+
+Set<String> _extractDartFilesFromFolders(
+  Iterable<String> folders,
+  String rootFolder,
+  Iterable<Glob> globalExcludes,
+) =>
+    folders
+        .expand((fileSystemEntity) => (fileSystemEntity.endsWith('.dart')
+                ? Glob(fileSystemEntity)
+                : Glob('$fileSystemEntity/**.dart'))
+            .listFileSystemSync(
+              const LocalFileSystem(),
+              root: rootFolder,
+              followLinks: false,
+            )
+            .whereType<File>()
+            .where((entity) => !isExcluded(
+                  relative(entity.path, from: rootFolder),
+                  globalExcludes,
+                ))
+            .map((entity) => normalize(entity.path)))
+        .toSet();

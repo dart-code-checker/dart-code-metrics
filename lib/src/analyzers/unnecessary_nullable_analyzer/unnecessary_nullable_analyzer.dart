@@ -64,7 +64,7 @@ class UnnecessaryNullableAnalyzer {
 
     for (final context in collection.contexts) {
       final unnecessaryNullableAnalysisConfig =
-          await _getAnalysisConfig(context, rootFolder, config);
+          _getAnalysisConfig(context, rootFolder, config);
 
       final filePaths = getFilePaths(
         folders,
@@ -107,11 +107,11 @@ class UnnecessaryNullableAnalyzer {
     return _getReports(invocationsUsages, declarationsUsages, rootFolder);
   }
 
-  Future<UnnecessaryNullableAnalysisConfig> _getAnalysisConfig(
+  UnnecessaryNullableAnalysisConfig _getAnalysisConfig(
     AnalysisContext context,
     String rootFolder,
     UnnecessaryNullableConfig config,
-  ) async {
+  ) {
     final analysisOptions = analysisOptionsFromContext(context) ??
         analysisOptionsFromFilePath(rootFolder, context);
 

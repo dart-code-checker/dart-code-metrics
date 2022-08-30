@@ -22,7 +22,7 @@ class AvoidTopLevelMembersInTestsRule extends CommonRule {
       : super(
           id: ruleId,
           severity: readSeverity(config, Severity.warning),
-          excludes: ['!test/**'],
+          excludes: ['/**', '!test/**'],
         );
 
   @override
