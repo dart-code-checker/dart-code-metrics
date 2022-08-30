@@ -4,6 +4,7 @@
 
 * feat: support passing file paths to all commands.
 * fix: avoid-top-level-members-in-tests ignore lib
+* fix: `--reporter=json` for `check-unnecessary-nullable` crashes, saying `Converting object to an encodable object failed: Instance of 'MappedIterable<FormalParameter, String>'`
 
 ## 4.18.0-dev.2
 
