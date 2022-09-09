@@ -48,3 +48,10 @@ mixin AbstractMixin {
     return 'string';
   }
 }
+
+// LINT
+int shadowing(String value) {
+  final value = 1;
+
+  return value;
+}

@@ -4,7 +4,8 @@
 
 * feat: support passing file paths to all commands.
 * fix: avoid-top-level-members-in-tests ignore lib
-* fix: `--reporter=json` for `check-unnecessary-nullable` crashes, saying `Converting object to an encodable object failed: Instance of 'MappedIterable<FormalParameter, String>'`
+* fix: `--reporter=json` for `check-unnecessary-nullable` crashes, saying `Converting object to an encodable object failed: Instance of 'MappedIterable<FormalParameter, String>'`.
+* fix: support variables shadowing for [`avoid-unused-parameters`](https://dartcodemetrics.dev/docs/rules/common/avoid-unused-parameters).
 
 ## 4.18.0-dev.2
 
