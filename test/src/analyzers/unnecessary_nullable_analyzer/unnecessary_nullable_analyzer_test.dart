@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:collection/collection.dart';
 import 'package:dart_code_metrics/src/analyzers/unnecessary_nullable_analyzer/models/unnecessary_nullable_file_report.dart';
 import 'package:dart_code_metrics/src/analyzers/unnecessary_nullable_analyzer/reporters/reporters_list/console/unnecessary_nullable_console_reporter.dart';
 import 'package:dart_code_metrics/src/analyzers/unnecessary_nullable_analyzer/unnecessary_nullable_analyzer.dart';
@@ -120,6 +121,14 @@ void main() {
           );
           expect(thirdIssue.location.line, 25);
           expect(thirdIssue.location.column, 1);
+        });
+
+        test('should analyze ignored parameters and report no issues',
+            () async {
+          final report = result.firstWhereOrNull((report) =>
+              report.path.endsWith('nullable_widget_key_parameters.dart'));
+
+          expect(report, isNull);
         });
       });
 
