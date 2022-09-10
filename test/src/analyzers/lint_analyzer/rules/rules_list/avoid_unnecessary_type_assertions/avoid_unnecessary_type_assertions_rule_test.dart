@@ -132,7 +132,7 @@ void main() {
     });
 
     test(
-      'should report about all found issues in example_with_not_is.dart',
+      'reports about all found issues in example_with_not_is.dart',
       () async {
         final unit = await RuleTestHelper.resolveFromFile(_notIsExamplePath);
         final issues = AvoidUnnecessaryTypeAssertionsRule().check(unit);

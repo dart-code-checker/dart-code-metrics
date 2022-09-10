@@ -15,4 +15,8 @@ void checkSameOrInheritor() {
   final check = cat is Dog;
   final check = cat is! Dog; // LINT
   final check = cat is! NotAnimal; // Lint
+
+  final Cat? nullableCat = null;
+
+  final check = nullableCat is! Cat;
 }

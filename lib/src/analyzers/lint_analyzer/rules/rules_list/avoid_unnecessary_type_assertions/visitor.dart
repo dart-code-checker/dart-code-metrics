@@ -79,7 +79,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
       return false;
     }
 
-    return true;
+    return !isReversed;
   }
 
   bool _checkNullableCompatibility(DartType objectType, DartType castedType) {
