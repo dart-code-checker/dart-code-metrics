@@ -39,20 +39,20 @@ class Scaffold extends Widget {
 class CustomScrollView extends Widget {
   final Iterable<Widget> slivers;
 
-  const CustomScrollView({@required this.slivers});
+  const CustomScrollView({required this.slivers});
 }
 
 class SliverGrid extends Widget {
   final Widget delegate;
 
-  const SliverGrid({@required this.delegate});
+  const SliverGrid({required this.delegate});
 }
 
 class SliverChildBuilderDelegate extends Widget {
   final int childCount;
   final WidgetBuilder builder;
 
-  const SliverChildBuilderDelegate(this.builder, {@required this.childCount});
+  const SliverChildBuilderDelegate(this.builder, {required this.childCount});
 }
 
 typedef WidgetBuilder = Widget Function(BuildContext context);

@@ -1,29 +1,28 @@
-import 'package:flutter/material.dart';
+class Widget {}
 
-void main() {
-  runApp(const MyApp());
+class StatefulWidget extends Widget {}
+
+class FloatingActionButton extends Widget {
+  final VoidCallback onPressed;
+
+  const FloatingActionButton({required this.onPressed})
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class Scaffold extends Widget {
+  final Widget floatingActionButton;
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
+  const Scaffold({required this.floatingActionButton});
+}
+
+typedef VoidCallback = void Function();
+
+abstract class State<T> {
+  void initState();
+
+  void setState(VoidCallback callback) => callback();
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -55,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
       synchronousWork3: () async {
         print('work 3');
       },
-      synchronousWork4: work4,
+      synchronousWork4: work4, // LINT
     );
   }
 
@@ -80,30 +79,12 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
       floatingActionButton: FloatingActionButton(
+        // LINT
         onPressed: () async {
           await Future.delayed(const Duration(seconds: 1));
           _incrementCounter();
         },
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }

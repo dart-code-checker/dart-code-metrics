@@ -26,13 +26,18 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startLines: [50, 55, 58, 101],
+        startLines: [49, 54, 57, 84],
         startColumns: [7, 7, 7, 9],
         locationTexts: [
-          'synchronousWork: work1,',
-          'synchronousWork3: () async {',
-          'synchronousWork4: work4,',
-          'onPressed: () async {',
+          'synchronousWork: work1',
+          'synchronousWork3: () async {\n'
+              "        print('work 3');\n"
+              '      }',
+          'synchronousWork4: work4',
+          'onPressed: () async {\n'
+              '          await Future.delayed(const Duration(seconds: 1));\n'
+              '          _incrementCounter();\n'
+              '        }',
         ],
         messages: [
           'Expected a sync function but got async.',
