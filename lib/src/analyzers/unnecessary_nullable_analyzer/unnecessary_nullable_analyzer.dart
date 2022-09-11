@@ -18,6 +18,7 @@ import '../../config_builder/config_builder.dart';
 import '../../config_builder/models/analysis_options.dart';
 import '../../reporters/models/reporter.dart';
 import '../../utils/analyzer_utils.dart';
+import '../../utils/flutter_types_utils.dart';
 import '../../utils/suppression.dart';
 import 'declarations_visitor.dart';
 import 'invocations_visitor.dart';
@@ -227,6 +228,7 @@ class UnnecessaryNullableAnalyzer {
 
     final unnecessaryNullable = parameters.where(
       (parameter) =>
+          !_shouldIgnoreWidgetKey(parameter) &&
           !markedParameters.contains(parameter) &&
           parameter.declaredElement?.type.nullabilitySuffix ==
               NullabilitySuffix.question,
@@ -299,5 +301,16 @@ class UnnecessaryNullableAnalyzer {
         column: offsetLocation.columnNumber,
       ),
     );
+  }
+
+  bool _shouldIgnoreWidgetKey(FormalParameter parameter) {
+    final closestDeclaration = parameter.parent?.parent;
+
+    if (closestDeclaration is ConstructorDeclaration) {
+      return parameter.identifier?.name == 'key' &&
+          isWidgetOrSubclass(closestDeclaration.declaredElement?.returnType);
+    }
+
+    return false;
   }
 }

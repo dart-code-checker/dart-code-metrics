@@ -3,6 +3,7 @@
 import 'nullable_class_parameters.dart';
 import 'nullable_function_parameters.dart';
 import 'nullable_method_parameters.dart';
+import 'nullable_widget_key_parameters.dart';
 import 'suppressed_file.dart';
 
 void main() {
@@ -41,6 +42,8 @@ void main() {
 
   multipleParametersWithNamed('name', 1, name: 'secondName');
   multipleParametersWithOptional('name', 1, 'secondName');
+
+  MyWidget(GlobalKey());
 }
 
 class _Test {
