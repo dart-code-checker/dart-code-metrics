@@ -1,4 +1,4 @@
-part of 'avoid_passing_async_when_sync_expected.dart';
+part of 'avoid_passing_async_when_sync_expected_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
   final _invalidArguments = <Expression>[];

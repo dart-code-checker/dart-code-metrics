@@ -12,6 +12,7 @@
 * chore: restrict `analyzer` version to `>=4.1.0 <4.8.0`.
 * fix: add const to edge insets constructors in [`prefer-correct-edge-insets-constructor-rule`](https://dartcodemetrics.dev/docs/rules/flutter/prefer-correct-edge-insets-constructor) when appropriate.
 * fix: make [`avoid-border-all`](https://dartcodemetrics.dev/docs/rules/flutter/avoid-border-all) not report errors on final variables.
+* feat: add static code diagnostic [`avoid-passing-async-when-sync-expected`](https://dartcodemetrics.dev/docs/rules/common/avoid-passing-async-when-sync-expected).
 
 ## 4.18.0-dev.2
 

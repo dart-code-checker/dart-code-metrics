@@ -1,5 +1,5 @@
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/avoid_passing_async_when_sync_expected/avoid_passing_async_when_sync_expected.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/avoid_passing_async_when_sync_expected/avoid_passing_async_when_sync_expected_rule.dart';
 import 'package:test/test.dart';
 
 import '../../../../../helpers/rule_test_helper.dart';
@@ -15,7 +15,7 @@ void main() {
 
       RuleTestHelper.verifyInitialization(
         issues: issues,
-        ruleId: AvoidPassingAsyncWhenSyncExpectedRule.ruleId,
+        ruleId: 'avoid-passing-async-when-sync-expected',
         severity: Severity.warning,
       );
     });
