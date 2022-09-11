@@ -1,10 +1,9 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:analyzer/dart/ast/ast.dart';
-import 'package:analyzer/dart/ast/syntactic_entity.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
-import 'package:collection/collection.dart';
+import 'package:analyzer/dart/element/element.dart';
 
 import '../../../../../utils/node_utils.dart';
 import '../../../lint_utils.dart';

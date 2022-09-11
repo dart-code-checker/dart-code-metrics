@@ -81,8 +81,13 @@ class _InvocationsVisitor extends RecursiveAstVisitor<void> {
   }
 
   bool _isInsideBuilder(MethodInvocation node) {
-    final expression = node.thisOrAncestorOfType<NamedExpression>();
+    final grandParent = node.parent?.parent;
+    if (grandParent is FunctionExpression &&
+        grandParent.parent is! NamedExpression) {
+      return grandParent.staticParameterElement?.declaration.name == 'builder';
+    }
 
+    final expression = node.thisOrAncestorOfType<NamedExpression>();
     if (expression is NamedExpression) {
       final type = expression.staticType;
       if (type is FunctionType) {

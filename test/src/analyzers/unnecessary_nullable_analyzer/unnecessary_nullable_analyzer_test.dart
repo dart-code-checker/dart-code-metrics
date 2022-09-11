@@ -123,13 +123,15 @@ void main() {
           expect(thirdIssue.location.column, 1);
         });
 
-        test('should analyze ignored parameters and report no issues',
-            () async {
-          final report = result.firstWhereOrNull((report) =>
-              report.path.endsWith('nullable_widget_key_parameters.dart'));
+        test(
+          'should analyze ignored parameters and report no issues',
+          () async {
+            final report = result.firstWhereOrNull((report) =>
+                report.path.endsWith('nullable_widget_key_parameters.dart'));
 
-          expect(report, isNull);
-        });
+            expect(report, isNull);
+          },
+        );
       });
 
       test('should return a reporter', () {
