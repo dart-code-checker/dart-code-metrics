@@ -77,7 +77,7 @@ void checkSameOrInheritor() {
   final check1 = cat is Cat?; // Lint
   final check1Not = cat is! Cat?; // Lint
   final check2 = cat is Dog;
-  final check2Not = cat is! Dog;
+  final check2Not = cat is! Dog; // LINT
   final check3 = cat is Animal; // Lint
   final check3Not = cat is! Animal; // Lint
   final check4 = homeAnimal is Dog?;

@@ -7,6 +7,7 @@ import '../../../../../helpers/rule_test_helper.dart';
 const _path = 'avoid_unnecessary_type_assertions/examples';
 const _classExampleWithIs = '$_path/example_with_is.dart';
 const _classExampleCases = '$_path/example_cases.dart';
+const _notIsExamplePath = '$_path/example_with_not_is.dart';
 
 void main() {
   group('AvoidUnnecessaryTypeAssertionsRule', () {
@@ -21,7 +22,7 @@ void main() {
       );
     });
 
-    test('reports about found all issues in example_with_is.dart', () async {
+    test('reports about all found issues in example_with_is.dart', () async {
       final unit = await RuleTestHelper.resolveFromFile(_classExampleWithIs);
       final issues = AvoidUnnecessaryTypeAssertionsRule().check(unit);
 
@@ -45,6 +46,7 @@ void main() {
           67,
           77,
           78,
+          80,
           81,
           82,
           86,
@@ -68,6 +70,7 @@ void main() {
           18,
           18,
           18,
+          21,
           21,
           18,
           21,
@@ -93,6 +96,7 @@ void main() {
           'nullableCats.whereType<Cat?>()',
           'cat is Cat?',
           'cat is! Cat?',
+          'cat is! Dog',
           'cat is Animal',
           'cat is! Animal',
           'dogs.whereType<Dog?>()',
@@ -117,6 +121,7 @@ void main() {
           'Avoid unnecessary "whereType<Cat?>()" assertion.',
           'Avoid unnecessary "is" assertion. The result is always "true".',
           'Avoid unnecessary "is!" assertion. The result is always "false".',
+          'Avoid unnecessary "is!" assertion. The result is always "false".',
           'Avoid unnecessary "is" assertion. The result is always "true".',
           'Avoid unnecessary "is!" assertion. The result is always "false".',
           'Avoid unnecessary "whereType<Dog?>()" assertion.',
@@ -126,7 +131,31 @@ void main() {
       );
     });
 
-    test('reports about found all issues in example_cases.dart', () async {
+    test(
+      'reports about all found issues in example_with_not_is.dart',
+      () async {
+        final unit = await RuleTestHelper.resolveFromFile(_notIsExamplePath);
+        final issues = AvoidUnnecessaryTypeAssertionsRule().check(unit);
+
+        RuleTestHelper.verifyIssues(
+          issues: issues,
+          startLines: [14, 16, 17],
+          startColumns: [17, 17, 17],
+          locationTexts: [
+            'cat is! Cat',
+            'cat is! Dog',
+            'cat is! NotAnimal',
+          ],
+          messages: [
+            'Avoid unnecessary "is!" assertion. The result is always "false".',
+            'Avoid unnecessary "is!" assertion. The result is always "false".',
+            'Avoid unnecessary "is!" assertion. The result is always "false".',
+          ],
+        );
+      },
+    );
+
+    test('reports about all found issues in example_cases.dart', () async {
       final unit = await RuleTestHelper.resolveFromFile(_classExampleCases);
       final issues = AvoidUnnecessaryTypeAssertionsRule().check(unit);
 
