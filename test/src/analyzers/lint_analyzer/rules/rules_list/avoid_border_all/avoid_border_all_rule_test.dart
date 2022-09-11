@@ -5,6 +5,8 @@ import 'package:test/test.dart';
 import '../../../../../helpers/rule_test_helper.dart';
 
 const _examplePath = 'avoid_border_all/examples/example.dart';
+const _exampleWithVariablesPath =
+    'avoid_border_all/examples/example_with_variables..dart';
 
 void main() {
   group('AvoidBorderAllRule', () {
@@ -61,6 +63,15 @@ void main() {
           'Prefer using const constructor Border.fromBorderSide.',
         ],
       );
+    });
+
+    test('does not report a issue when final variable is used as argument',
+        () async {
+      final unit =
+          await RuleTestHelper.resolveFromFile(_exampleWithVariablesPath);
+      final issues = AvoidBorderAllRule().check(unit);
+
+      RuleTestHelper.verifyNoIssues(issues);
     });
   });
 }
