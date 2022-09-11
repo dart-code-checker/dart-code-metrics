@@ -6,7 +6,7 @@ import '../../../../../helpers/rule_test_helper.dart';
 
 const _examplePath = 'avoid_border_all/examples/example.dart';
 const _exampleWithVariablesPath =
-    'avoid_border_all/examples/example_with_variables..dart';
+    'avoid_border_all/examples/example_with_final_variables.dart';
 
 void main() {
   group('AvoidBorderAllRule', () {
