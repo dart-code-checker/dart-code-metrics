@@ -6,6 +6,7 @@
 * fix: avoid-top-level-members-in-tests ignore lib.
 * fix: `--reporter=json` for `check-unnecessary-nullable` crashes, saying `Converting object to an encodable object failed: Instance of 'MappedIterable<FormalParameter, String>'`.
 * fix: support not named builder parameters for [`avoid-returning-widgets`](https://dartcodemetrics.dev/docs/rules/flutter/avoid-returning-widgets).
+* feat: make [`avoid-unnecessary-type-assertions`](https://dartcodemetrics.dev/docs/rules/common/avoid-unnecessary-type-assertions) handle is! checks.
 
 ## 4.18.0-dev.2
 
