@@ -8,6 +8,7 @@
 * fix: support variables shadowing for [`avoid-unused-parameters`](https://dartcodemetrics.dev/docs/rules/common/avoid-unused-parameters).
 * fix: support not named builder parameters for [`avoid-returning-widgets`](https://dartcodemetrics.dev/docs/rules/flutter/avoid-returning-widgets).
 * feat: make [`avoid-unnecessary-type-assertions`](https://dartcodemetrics.dev/docs/rules/common/avoid-unnecessary-type-assertions) handle is! checks.
+* chore: restrict `analyzer` version to `>=4.1.0 <4.8.0`.
 
 ## 4.18.0-dev.2
 
