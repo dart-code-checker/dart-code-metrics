@@ -10,6 +10,7 @@
 * feat: make [`avoid-unnecessary-type-assertions`](https://dartcodemetrics.dev/docs/rules/common/avoid-unnecessary-type-assertions) handle is! checks.
 * fix: make check-unnecessary-nullable command ignore Flutter keys.
 * chore: restrict `analyzer` version to `>=4.1.0 <4.8.0`.
+* fix: add const to edge insets constructors in [`prefer-correct-edge-insets-constructor-rule`](https://dartcodemetrics.dev/docs/rules/flutter/prefer-correct-edge-insets-constructor) when appropriate.
 
 ## 4.18.0-dev.2
 
