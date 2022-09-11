@@ -5,7 +5,7 @@ class StatefulWidget extends Widget {}
 class FloatingActionButton extends Widget {
   final VoidCallback onPressed;
 
-  const FloatingActionButton({required this.onPressed})
+  const FloatingActionButton({required this.onPressed});
 }
 
 class Scaffold extends Widget {
