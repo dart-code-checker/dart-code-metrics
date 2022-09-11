@@ -11,6 +11,7 @@
 * fix: make check-unnecessary-nullable command ignore Flutter keys.
 * chore: restrict `analyzer` version to `>=4.1.0 <4.8.0`.
 * fix: add const to edge insets constructors in [`prefer-correct-edge-insets-constructor-rule`](https://dartcodemetrics.dev/docs/rules/flutter/prefer-correct-edge-insets-constructor) when appropriate.
+* fix: make [`avoid-border-all`](https://dartcodemetrics.dev/docs/rules/flutter/avoid-border-all) not report errors on final variables.
 
 ## 4.18.0-dev.2
 

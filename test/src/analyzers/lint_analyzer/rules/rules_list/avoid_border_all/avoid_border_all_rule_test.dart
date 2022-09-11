@@ -65,13 +65,15 @@ void main() {
       );
     });
 
-    test('does not report a issue when final variable is used as argument',
-        () async {
-      final unit =
-          await RuleTestHelper.resolveFromFile(_exampleWithVariablesPath);
-      final issues = AvoidBorderAllRule().check(unit);
+    test(
+      'does not report a issue when final variable is used as argument',
+      () async {
+        final unit =
+            await RuleTestHelper.resolveFromFile(_exampleWithVariablesPath);
+        final issues = AvoidBorderAllRule().check(unit);
 
-      RuleTestHelper.verifyNoIssues(issues);
-    });
+        RuleTestHelper.verifyNoIssues(issues);
+      },
+    );
   });
 }
