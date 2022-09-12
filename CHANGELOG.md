@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 4.18.0
 
 * feat: support passing file paths to all commands.
 * fix: avoid-top-level-members-in-tests ignore lib
