@@ -29,7 +29,7 @@ void main() {
         startLines: [6],
         startColumns: [1],
         locationTexts: [
-          "export 'package:my_app/good_folder/something.dart';",
+          "export 'package:intl/good_folder/something.dart';",
         ],
         messages: [
           'Avoid declaring duplicate exports.',
