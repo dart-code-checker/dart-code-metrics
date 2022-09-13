@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.18.1
+
+* fix: fix regression in is! checks for [`avoid-unnecessary-type-assertions`](https://dartcodemetrics.dev/docs/rules/common/avoid-unnecessary-type-assertions).
+* chore: restrict `analyzer` version to `>=4.4.0 <4.8.0`.
+
 ## 4.18.0
 
 * feat: support passing file paths to all commands.

@@ -44,7 +44,10 @@ class _Visitor extends RecursiveAstVisitor<void> {
     final castedType = node.type.type;
 
     if (node.notOperator != null) {
-      if (_isUselessTypeCheck(castedType, objectType, true)) {
+      if (objectType != null &&
+          !objectType.isDynamic &&
+          !objectType.isDartCoreObject &&
+          _isUselessTypeCheck(castedType, objectType, true)) {
         _expressions[node] =
             '${node.isOperator.keyword?.lexeme ?? ''}${node.notOperator ?? ''}';
       }
