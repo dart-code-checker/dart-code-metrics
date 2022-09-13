@@ -3,7 +3,7 @@
 ## 4.18.1
 
 * fix: fix regression in is! checks for [`avoid-unnecessary-type-assertions`](https://dartcodemetrics.dev/docs/rules/common/avoid-unnecessary-type-assertions).
-* chore: restrict `analyzer` version to `>=4.3.0 <4.8.0`.
+* chore: revert `analyzer_plugin` version to `>=0.10.0 <0.11.0`.
 
 ## 4.18.0
 
