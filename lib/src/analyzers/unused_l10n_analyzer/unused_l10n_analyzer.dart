@@ -4,7 +4,6 @@ import 'dart:io';
 
 import 'package:analyzer/dart/analysis/analysis_context.dart';
 import 'package:analyzer/dart/analysis/results.dart';
-import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 // ignore: implementation_imports
@@ -78,24 +77,6 @@ class UnusedL10nAnalyzer {
             ifAbsent: () => usages,
           );
         });
-      }
-
-      final notAnalyzedFiles = filePaths.difference(analyzedFiles);
-
-      for (final filePath in notAnalyzedFiles) {
-        if (unusedLocalizationAnalysisConfig.analyzerExcludedPatterns
-            .any((pattern) => pattern.matches(filePath))) {
-          final unit = await resolveFile2(path: filePath);
-
-          _analyzeFile(unit, unusedLocalizationAnalysisConfig.classPattern)
-              .forEach((classElement, usages) {
-            localizationUsages.update(
-              classElement,
-              (value) => value..addAll(usages),
-              ifAbsent: () => usages,
-            );
-          });
-        }
       }
     }
 

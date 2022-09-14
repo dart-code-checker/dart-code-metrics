@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:analyzer/dart/analysis/analysis_context.dart';
 import 'package:analyzer/dart/analysis/results.dart';
-import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:path/path.dart';
 
 import '../../config_builder/config_builder.dart';
@@ -66,16 +65,6 @@ class UnusedFilesAnalyzer {
       for (final filePath in analyzedFiles) {
         final unit = await context.currentSession.getResolvedUnit(filePath);
         unusedFiles.removeAll(_analyzeFile(filePath, unit, config.isMonorepo));
-      }
-
-      final notAnalyzedFiles = filePaths.difference(analyzedFiles);
-      for (final filePath in notAnalyzedFiles) {
-        if (unusedFilesAnalysisConfig.analyzerExcludedPatterns
-            .any((pattern) => pattern.matches(filePath))) {
-          final unit = await resolveFile2(path: filePath);
-          unusedFiles
-              .removeAll(_analyzeFile(filePath, unit, config.isMonorepo));
-        }
       }
     }
 
