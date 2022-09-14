@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 4.18.2
 
 * fix: use empty analysis options exclude to properly resolve units and speed up commands analysis.
 
