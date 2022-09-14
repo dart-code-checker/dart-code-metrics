@@ -112,6 +112,7 @@ class ConfigBuilder {
   ) =>
       UnusedCodeAnalysisConfig(
         prepareExcludes(config.excludePatterns, rootPath),
+        prepareExcludes(config.analyzerExcludePatterns, rootPath),
       );
 
   /// Creates a raw unused localization config from given [excludePatterns] and [classPattern].
@@ -160,5 +161,6 @@ class ConfigBuilder {
   ) =>
       UnnecessaryNullableAnalysisConfig(
         prepareExcludes(config.excludePatterns, rootPath),
+        prepareExcludes(config.analyzerExcludePatterns, rootPath),
       );
 }

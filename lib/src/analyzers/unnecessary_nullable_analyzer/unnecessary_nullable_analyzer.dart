@@ -83,7 +83,10 @@ class UnnecessaryNullableAnalyzer {
           invocationsUsages.merge(invocationsUsage);
         }
 
-        declarationsUsages[filePath] = _analyzeDeclarationsUsage(unit);
+        if (!unnecessaryNullableAnalysisConfig.analyzerExcludedPatterns
+            .any((pattern) => pattern.matches(filePath))) {
+          declarationsUsages[filePath] = _analyzeDeclarationsUsage(unit);
+        }
       }
     }
 

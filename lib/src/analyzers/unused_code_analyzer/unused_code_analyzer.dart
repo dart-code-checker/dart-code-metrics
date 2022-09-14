@@ -76,7 +76,10 @@ class UnusedCodeAnalyzer {
           codeUsages.merge(codeUsage);
         }
 
-        publicCode[filePath] = _analyzeFilePublicCode(unit);
+        if (!unusedCodeAnalysisConfig.analyzerExcludedPatterns
+            .any((pattern) => pattern.matches(filePath))) {
+          publicCode[filePath] = _analyzeFilePublicCode(unit);
+        }
       }
     }
 

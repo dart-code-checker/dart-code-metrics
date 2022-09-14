@@ -21,12 +21,13 @@ AnalysisContextCollection createAnalysisContextCollection(
   String rootFolder,
   String? sdkPath,
 ) {
-  final resourceProvider = _prepareAnalysisOptions();
+  final includedPaths =
+      folders.map((path) => normalize(join(rootFolder, path))).toList();
+  final resourceProvider = _prepareAnalysisOptions(includedPaths);
 
   return AnalysisContextCollectionImpl(
     sdkPath: sdkPath,
-    includedPaths:
-        folders.map((path) => normalize(join(rootFolder, path))).toList(),
+    includedPaths: includedPaths,
     resourceProvider: resourceProvider,
     byteStore: createByteStore(resourceProvider),
   );
@@ -90,13 +91,13 @@ Set<String> _extractDartFilesFromFolders(
             .map((entity) => normalize(entity.path)))
         .toSet();
 
-ResourceProvider _prepareAnalysisOptions() {
+ResourceProvider _prepareAnalysisOptions(List<String> includedPaths) {
   final resourceProvider =
       OverlayResourceProvider(PhysicalResourceProvider.INSTANCE);
 
   final contextLocator = ContextLocator(resourceProvider: resourceProvider);
-  final roots =
-      contextLocator.locateRoots(includedPaths: [], excludedPaths: []);
+  final roots = contextLocator
+      .locateRoots(includedPaths: includedPaths, excludedPaths: []);
 
   for (final root in roots) {
     final path = root.optionsFile?.path;
