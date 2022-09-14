@@ -90,7 +90,6 @@ class ConfigBuilder {
   ) =>
       UnusedFilesAnalysisConfig(
         prepareExcludes(config.excludePatterns, rootPath),
-        prepareExcludes(config.analyzerExcludePatterns, rootPath),
       );
 
   /// Creates a raw unused code config from given [excludePatterns].
@@ -113,7 +112,6 @@ class ConfigBuilder {
   ) =>
       UnusedCodeAnalysisConfig(
         prepareExcludes(config.excludePatterns, rootPath),
-        prepareExcludes(config.analyzerExcludePatterns, rootPath),
       );
 
   /// Creates a raw unused localization config from given [excludePatterns] and [classPattern].
@@ -136,7 +134,6 @@ class ConfigBuilder {
   ) =>
       UnusedL10nAnalysisConfig(
         prepareExcludes(config.excludePatterns, rootPath),
-        prepareExcludes(config.analyzerExcludePatterns, rootPath),
         config.classPattern,
       );
 
@@ -163,6 +160,5 @@ class ConfigBuilder {
   ) =>
       UnnecessaryNullableAnalysisConfig(
         prepareExcludes(config.excludePatterns, rootPath),
-        prepareExcludes(config.analyzerExcludePatterns, rootPath),
       );
 }

@@ -4,7 +4,6 @@ import 'dart:io';
 
 import 'package:analyzer/dart/analysis/analysis_context.dart';
 import 'package:analyzer/dart/analysis/results.dart';
-import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
@@ -85,19 +84,6 @@ class UnnecessaryNullableAnalyzer {
         }
 
         declarationsUsages[filePath] = _analyzeDeclarationsUsage(unit);
-      }
-
-      final notAnalyzedFiles = filePaths.difference(analyzedFiles);
-      for (final filePath in notAnalyzedFiles) {
-        if (unnecessaryNullableAnalysisConfig.analyzerExcludedPatterns
-            .any((pattern) => pattern.matches(filePath))) {
-          final unit = await resolveFile2(path: filePath);
-
-          final invocationsUsage = _analyzeInvocationsUsage(unit);
-          if (invocationsUsage != null) {
-            invocationsUsages.merge(invocationsUsage);
-          }
-        }
       }
     }
 
