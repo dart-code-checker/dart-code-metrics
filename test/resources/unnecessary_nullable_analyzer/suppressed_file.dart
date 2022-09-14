@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary-nullable
+// ignore_for_file: unnecessary-nullable, avoid-unused-parameters, no-empty-block
 
 class IgnoredClassWithMethods {
   void someMethod(String? value) {}
