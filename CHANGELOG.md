@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* feat: add static code diagnostic [`prefer-correct-test-file-name`](https://dartcodemetrics.dev/docs/rules/common/prefer-correct-test-file-name).
+
 ## 4.18.3
 
 * fix: fix regression in is! checks for [`avoid-unnecessary-type-assertions`](https://dartcodemetrics.dev/docs/rules/common/avoid-unnecessary-type-assertions).
