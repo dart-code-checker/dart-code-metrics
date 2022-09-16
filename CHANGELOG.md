@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* feat: add static code diagnostic [`prefer-checking-for-equals-in-render-object-setters`](https://dartcodemetrics.dev/docs/rules/flutter/prefer-checking-for-equals-in-render-object-setters).
+
 ## 4.18.3
 
 * fix: fix regression in is! checks for [`avoid-unnecessary-type-assertions`](https://dartcodemetrics.dev/docs/rules/common/avoid-unnecessary-type-assertions).
