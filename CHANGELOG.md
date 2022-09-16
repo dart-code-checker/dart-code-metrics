@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-* feat: add static code diagnostic [`prefer-checking-for-equals-in-render-object-setters`](https://dartcodemetrics.dev/docs/rules/flutter/prefer-checking-for-equals-in-render-object-setters).
+* feat: add static code diagnostic [`check-for-equals-in-render-object-setters`](https://dartcodemetrics.dev/docs/rules/flutter/check-for-equals-in-render-object-setters).
 
 ## 4.18.3
 
