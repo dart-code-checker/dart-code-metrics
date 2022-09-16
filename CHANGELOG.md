@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* feat: add static code diagnostic [`avoid-redundant-async`](https://dartcodemetrics.dev/docs/rules/common/avoid-redundant-async).
+
 ## 4.18.3
 
 * fix: fix regression in is! checks for [`avoid-unnecessary-type-assertions`](https://dartcodemetrics.dev/docs/rules/common/avoid-unnecessary-type-assertions).
