@@ -67,6 +67,15 @@ class SomeRenderBox extends RenderBox {
     markNeedsLayout();
   }
 
+  bool get opaque => _opaque;
+  bool _opaque;
+  set opaque(bool value) {
+    if (_opaque != value) {
+      _opaque = value;
+      markNeedsPaint();
+    }
+  }
+
   void markNeedsLayout() {}
 
   void markNeedsPaint() {}

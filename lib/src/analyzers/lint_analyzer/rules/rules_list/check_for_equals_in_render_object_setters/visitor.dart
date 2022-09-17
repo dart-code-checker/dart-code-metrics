@@ -53,7 +53,7 @@ class _SettersVisitor extends GeneralizingAstVisitor<void> {
           if (condition is BinaryExpression) {
             if (!(_usesParameter(condition.leftOperand) ||
                 _usesParameter(condition.rightOperand) &&
-                    returnVisitor.hasValidReturn)) {
+                    returnVisitor.isValid)) {
               _declarations.add(_DeclarationInfo(
                 node,
                 'Equals check compares a wrong parameter or has no return statement.',
@@ -64,7 +64,8 @@ class _SettersVisitor extends GeneralizingAstVisitor<void> {
           return;
         }
 
-        if (statement is! AssertStatement) {
+        if (statement is! AssertStatement &&
+            statement is! VariableDeclarationStatement) {
           notFirst = true;
         }
       }
@@ -84,7 +85,11 @@ class _SettersVisitor extends GeneralizingAstVisitor<void> {
 }
 
 class _ReturnVisitor extends RecursiveAstVisitor<void> {
-  bool hasValidReturn = false;
+  bool _hasValidReturn = false;
+
+  bool _hasValidAssignment = false;
+
+  bool get isValid => _hasValidReturn || _hasValidAssignment;
 
   @override
   void visitReturnStatement(ReturnStatement node) {
@@ -93,8 +98,15 @@ class _ReturnVisitor extends RecursiveAstVisitor<void> {
     final type = node.expression?.staticType;
 
     if (type == null || type.isVoid) {
-      hasValidReturn = true;
+      _hasValidReturn = true;
     }
+  }
+
+  @override
+  void visitAssignmentExpression(AssignmentExpression node) {
+    super.visitAssignmentExpression(node);
+
+    _hasValidAssignment = true;
   }
 }
 
