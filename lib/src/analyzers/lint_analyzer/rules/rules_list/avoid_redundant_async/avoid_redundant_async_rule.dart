@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:analyzer/dart/ast/ast.dart';
+import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 
 import '../../../../../utils/node_utils.dart';
@@ -13,17 +14,17 @@ import '../../rule_utils.dart';
 
 part 'visitor.dart';
 
-class AvoidTopLevelMembersInTestsRule extends CommonRule {
-  static const String ruleId = 'avoid-top-level-members-in-tests';
+class AvoidRedundantAsyncRule extends CommonRule {
+  static const String ruleId = 'avoid-redundant-async';
 
-  static const _warning = 'Avoid declaring top-level members in tests.';
+  static const _warningMessage =
+      "'async' keyword is redundant, consider removing it.";
 
-  AvoidTopLevelMembersInTestsRule([Map<String, Object> config = const {}])
+  AvoidRedundantAsyncRule([Map<String, Object> config = const {}])
       : super(
           id: ruleId,
           severity: readSeverity(config, Severity.warning),
-          excludes:
-              hasExcludes(config) ? readExcludes(config) : ['/**', '!test/**'],
+          excludes: readExcludes(config),
         );
 
   @override
@@ -32,15 +33,13 @@ class AvoidTopLevelMembersInTestsRule extends CommonRule {
 
     source.unit.visitChildren(visitor);
 
-    return visitor.declarations
-        .map((declaration) => createIssue(
-              rule: this,
-              location: nodeLocation(
-                node: declaration,
-                source: source,
-              ),
-              message: _warning,
-            ))
-        .toList(growable: false);
+    return visitor.declarations.map((declaration) => createIssue(
+          rule: this,
+          location: nodeLocation(
+            node: declaration,
+            source: source,
+          ),
+          message: _warningMessage,
+        ));
   }
 }

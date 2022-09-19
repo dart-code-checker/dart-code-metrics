@@ -15,6 +15,7 @@ import 'rules_list/avoid_non_ascii_symbols/avoid_non_ascii_symbols_rule.dart';
 import 'rules_list/avoid_non_null_assertion/avoid_non_null_assertion_rule.dart';
 import 'rules_list/avoid_passing_async_when_sync_expected/avoid_passing_async_when_sync_expected_rule.dart';
 import 'rules_list/avoid_preserve_whitespace_false/avoid_preserve_whitespace_false_rule.dart';
+import 'rules_list/avoid_redundant_async/avoid_redundant_async_rule.dart';
 import 'rules_list/avoid_returning_widgets/avoid_returning_widgets_rule.dart';
 import 'rules_list/avoid_shrink_wrap_in_lists/avoid_shrink_wrap_in_lists_rule.dart';
 import 'rules_list/avoid_throw_in_catch_block/avoid_throw_in_catch_block_rule.dart';
@@ -46,12 +47,14 @@ import 'rules_list/prefer_conditional_expressions/prefer_conditional_expressions
 import 'rules_list/prefer_const_border_radius/prefer_const_border_radius_rule.dart';
 import 'rules_list/prefer_correct_edge_insets_constructor/prefer_correct_edge_insets_constructor_rule.dart';
 import 'rules_list/prefer_correct_identifier_length/prefer_correct_identifier_length_rule.dart';
+import 'rules_list/prefer_correct_test_file_name/prefer_correct_test_file_name_rule.dart';
 import 'rules_list/prefer_correct_type_name/prefer_correct_type_name_rule.dart';
 import 'rules_list/prefer_enums_by_name/prefer_enums_by_name_rule.dart';
 import 'rules_list/prefer_extracting_callbacks/prefer_extracting_callbacks_rule.dart';
 import 'rules_list/prefer_first/prefer_first_rule.dart';
 import 'rules_list/prefer_immediate_return/prefer_immediate_return_rule.dart';
 import 'rules_list/prefer_intl_name/prefer_intl_name_rule.dart';
+import 'rules_list/prefer_iterable_of/prefer_iterable_of_rule.dart';
 import 'rules_list/prefer_last/prefer_last_rule.dart';
 import 'rules_list/prefer_match_file_name/prefer_match_file_name_rule.dart';
 import 'rules_list/prefer_moving_to_variable/prefer_moving_to_variable_rule.dart';
@@ -81,6 +84,7 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   AvoidPassingAsyncWhenSyncExpectedRule.ruleId:
       AvoidPassingAsyncWhenSyncExpectedRule.new,
   AvoidPreserveWhitespaceFalseRule.ruleId: AvoidPreserveWhitespaceFalseRule.new,
+  AvoidRedundantAsyncRule.ruleId: AvoidRedundantAsyncRule.new,
   AvoidReturningWidgetsRule.ruleId: AvoidReturningWidgetsRule.new,
   AvoidShrinkWrapInListsRule.ruleId: AvoidShrinkWrapInListsRule.new,
   AvoidThrowInCatchBlockRule.ruleId: AvoidThrowInCatchBlockRule.new,
@@ -118,12 +122,14 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
       PreferCorrectEdgeInsetsConstructorRule.new,
   PreferCorrectIdentifierLengthRule.ruleId:
       PreferCorrectIdentifierLengthRule.new,
+  PreferCorrectTestFileNameRule.ruleId: PreferCorrectTestFileNameRule.new,
   PreferCorrectTypeNameRule.ruleId: PreferCorrectTypeNameRule.new,
   PreferEnumsByNameRule.ruleId: PreferEnumsByNameRule.new,
   PreferExtractingCallbacksRule.ruleId: PreferExtractingCallbacksRule.new,
   PreferFirstRule.ruleId: PreferFirstRule.new,
   PreferImmediateReturnRule.ruleId: PreferImmediateReturnRule.new,
   PreferIntlNameRule.ruleId: PreferIntlNameRule.new,
+  PreferIterableOfRule.ruleId: PreferIterableOfRule.new,
   PreferLastRule.ruleId: PreferLastRule.new,
   PreferMatchFileNameRule.ruleId: PreferMatchFileNameRule.new,
   PreferMovingToVariableRule.ruleId: PreferMovingToVariableRule.new,
