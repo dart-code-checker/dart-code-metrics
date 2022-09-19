@@ -29,6 +29,7 @@ class PreferMatchFileNameRule extends CommonRule {
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
     final visitor = _Visitor();
+
     source.unit.visitChildren(visitor);
 
     final issues = <Issue>[];

@@ -11,15 +11,19 @@ import '../../../models/severity.dart';
 import '../../models/common_rule.dart';
 import '../../rule_utils.dart';
 
+part 'config_parser.dart';
 part 'visitor.dart';
 
-class AvoidTopLevelMembersInTestsRule extends CommonRule {
-  static const String ruleId = 'avoid-top-level-members-in-tests';
+class PreferCorrectTestFileNameRule extends CommonRule {
+  static const String ruleId = 'prefer-correct-test-file-name';
 
-  static const _warning = 'Avoid declaring top-level members in tests.';
+  static const _warningMessage = 'Test file name should end with ';
 
-  AvoidTopLevelMembersInTestsRule([Map<String, Object> config = const {}])
-      : super(
+  final String _fileNamePattern;
+
+  PreferCorrectTestFileNameRule([Map<String, Object> config = const {}])
+      : _fileNamePattern = _ConfigParser.parseNamePattern(config),
+        super(
           id: ruleId,
           severity: readSeverity(config, Severity.warning),
           excludes:
@@ -28,18 +32,15 @@ class AvoidTopLevelMembersInTestsRule extends CommonRule {
 
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
-    final visitor = _Visitor();
+    final visitor = _Visitor(source.path, _fileNamePattern);
 
     source.unit.visitChildren(visitor);
 
-    return visitor.declarations
+    return visitor.declaration
         .map((declaration) => createIssue(
               rule: this,
-              location: nodeLocation(
-                node: declaration,
-                source: source,
-              ),
-              message: _warning,
+              location: nodeLocation(node: declaration, source: source),
+              message: '$_warningMessage$_fileNamePattern',
             ))
         .toList(growable: false);
   }
