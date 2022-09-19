@@ -3,6 +3,7 @@
 ## Unreleased
 
 * feat: add static code diagnostic [`avoid-redundant-async`](https://dartcodemetrics.dev/docs/rules/common/avoid-redundant-async).
+* feat: add static code diagnostic [`prefer-iterable-of`](https://dartcodemetrics.dev/docs/rules/common/prefer-iterable-of).
 
 ## 4.18.3
 
