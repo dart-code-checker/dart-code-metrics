@@ -52,6 +52,7 @@ import 'rules_list/prefer_extracting_callbacks/prefer_extracting_callbacks_rule.
 import 'rules_list/prefer_first/prefer_first_rule.dart';
 import 'rules_list/prefer_immediate_return/prefer_immediate_return_rule.dart';
 import 'rules_list/prefer_intl_name/prefer_intl_name_rule.dart';
+import 'rules_list/prefer_iterable_of/prefer_iterable_of_rule.dart';
 import 'rules_list/prefer_last/prefer_last_rule.dart';
 import 'rules_list/prefer_match_file_name/prefer_match_file_name_rule.dart';
 import 'rules_list/prefer_moving_to_variable/prefer_moving_to_variable_rule.dart';
@@ -123,6 +124,7 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   PreferFirstRule.ruleId: PreferFirstRule.new,
   PreferImmediateReturnRule.ruleId: PreferImmediateReturnRule.new,
   PreferIntlNameRule.ruleId: PreferIntlNameRule.new,
+  PreferIterableOfRule.ruleId: PreferIterableOfRule.new,
   PreferLastRule.ruleId: PreferLastRule.new,
   PreferMatchFileNameRule.ruleId: PreferMatchFileNameRule.new,
   PreferMovingToVariableRule.ruleId: PreferMovingToVariableRule.new,

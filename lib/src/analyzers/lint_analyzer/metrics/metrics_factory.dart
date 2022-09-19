@@ -27,10 +27,10 @@ final _implementedMetrics = <String, Metric Function(Map<String, Object>)>{
       SourceLinesOfCodeMetric(config: config),
   WeightOfClassMetric.metricId: (config) => WeightOfClassMetric(config: config),
   // Complex metrics:
-  // Depend on CyclomaticComplexityMetric, HalsteadVolumeMetric and SourceLinesOfCodeMetric metrics
+  // Depends on CyclomaticComplexityMetric, HalsteadVolumeMetric and SourceLinesOfCodeMetric metrics
   MaintainabilityIndexMetric.metricId: (config) =>
       MaintainabilityIndexMetric(config: config),
-  // Depend on all metrics.
+  // Depends on all metrics.
   TechnicalDebtMetric.metricId: (config) => TechnicalDebtMetric(config: config),
 };
 

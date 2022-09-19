@@ -133,7 +133,7 @@ linter:
     - do_not_use_environment
     - eol_at_end_of_file
     - flutter_style_todos
-    - invariant_booleans
+    # - invariant_booleans
     - join_return_with_assignment
     - leading_newlines_in_multiline_strings
     #    - lines_longer_than_80_chars
