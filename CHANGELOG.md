@@ -4,6 +4,10 @@
 
 * feat: add static code diagnostic [`prefer-iterable-of`](https://dartcodemetrics.dev/docs/rules/common/prefer-iterable-of).
 
+## 4.18.3
+
+* fix: fix regression in is! checks for [`avoid-unnecessary-type-assertions`](https://dartcodemetrics.dev/docs/rules/common/avoid-unnecessary-type-assertions).
+
 ## 4.18.2
 
 * fix: use empty analysis options exclude to properly resolve units and speed up commands analysis.

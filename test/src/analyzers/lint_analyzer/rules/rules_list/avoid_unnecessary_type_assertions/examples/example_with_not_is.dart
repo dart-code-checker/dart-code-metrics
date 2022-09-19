@@ -26,3 +26,8 @@ void checkSameOrInheritor() {
   final Object b;
   final check = b is! int;
 }
+
+void check<T>() {
+  final T b;
+  final check = b is! int;
+}

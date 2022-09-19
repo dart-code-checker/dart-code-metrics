@@ -45,6 +45,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
     if (node.notOperator != null) {
       if (objectType != null &&
+          objectType is! TypeParameterType &&
           !objectType.isDynamic &&
           !objectType.isDartCoreObject &&
           _isUselessTypeCheck(castedType, objectType, true)) {
