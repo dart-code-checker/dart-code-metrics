@@ -22,4 +22,12 @@ class SomeClass {
   Future<String> anotherAsyncMethod() async => Future.value('value');
 
   Future<String> someAsyncMethod(Future<String> later) => later;
+
+  Future<void> report(Iterable<String> records) async {
+    if (records.isEmpty) {
+      return;
+    }
+
+    print(records);
+  }
 }
