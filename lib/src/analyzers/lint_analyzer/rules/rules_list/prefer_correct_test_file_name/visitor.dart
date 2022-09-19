@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 part of 'prefer_correct_test_file_name_rule.dart';
 
 class _Visitor extends GeneralizingAstVisitor<void> {
@@ -14,7 +12,8 @@ class _Visitor extends GeneralizingAstVisitor<void> {
 
   @override
   void visitFunctionDeclaration(FunctionDeclaration node) {
-    if (node.name2.lexeme != 'main' || _matchesTestName(path)) {
+    // ignore: deprecated_member_use
+    if (node.name.name != 'main' || _matchesTestName(path)) {
       return;
     }
 
