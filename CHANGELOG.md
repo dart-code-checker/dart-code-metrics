@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* feat: add static code diagnostic [`prefer-correct-test-file-name`](https://dartcodemetrics.dev/docs/rules/common/prefer-correct-test-file-name).
 * feat: add static code diagnostic [`prefer-iterable-of`](https://dartcodemetrics.dev/docs/rules/common/prefer-iterable-of).
 
 ## 4.18.3
