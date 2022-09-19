@@ -13,5 +13,11 @@ Iterable<String> readExcludes(Map<String, Object> config) {
       : const <String>[];
 }
 
+bool hasExcludes(Map<String, Object> config) {
+  final data = config['exclude'];
+
+  return _isIterableOfStrings(data);
+}
+
 bool _isIterableOfStrings(Object? object) =>
     object is Iterable<Object> && object.every((node) => node is String);

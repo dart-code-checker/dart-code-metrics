@@ -46,6 +46,7 @@ import 'rules_list/prefer_conditional_expressions/prefer_conditional_expressions
 import 'rules_list/prefer_const_border_radius/prefer_const_border_radius_rule.dart';
 import 'rules_list/prefer_correct_edge_insets_constructor/prefer_correct_edge_insets_constructor_rule.dart';
 import 'rules_list/prefer_correct_identifier_length/prefer_correct_identifier_length_rule.dart';
+import 'rules_list/prefer_correct_test_file_name/prefer_correct_test_file_name_rule.dart';
 import 'rules_list/prefer_correct_type_name/prefer_correct_type_name_rule.dart';
 import 'rules_list/prefer_enums_by_name/prefer_enums_by_name_rule.dart';
 import 'rules_list/prefer_extracting_callbacks/prefer_extracting_callbacks_rule.dart';
@@ -118,6 +119,7 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
       PreferCorrectEdgeInsetsConstructorRule.new,
   PreferCorrectIdentifierLengthRule.ruleId:
       PreferCorrectIdentifierLengthRule.new,
+  PreferCorrectTestFileNameRule.ruleId: PreferCorrectTestFileNameRule.new,
   PreferCorrectTypeNameRule.ruleId: PreferCorrectTypeNameRule.new,
   PreferEnumsByNameRule.ruleId: PreferEnumsByNameRule.new,
   PreferExtractingCallbacksRule.ruleId: PreferExtractingCallbacksRule.new,

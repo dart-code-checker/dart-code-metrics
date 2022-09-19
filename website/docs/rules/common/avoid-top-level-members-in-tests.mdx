@@ -6,6 +6,12 @@ Warns when a public top-level member (expect the entrypoint) is declared inside 
 
 It helps reduce code bloat and find unused declarations in test files.
 
+::: note
+
+If you want to set `exclude` config for this rule, the default `['/**', '!test/**']` will be overriden.
+
+:::
+
 ### Example {#example}
 
 Bad:
