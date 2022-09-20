@@ -18,6 +18,9 @@ bool isRenderObjectOrSubclass(DartType? type) =>
 bool isRenderObjectWidgetOrSubclass(DartType? type) =>
     _isRenderObjectWidget(type) || _isSubclassOfRenderObjectWidget(type);
 
+bool isRenderObjectElementOrSubclass(DartType? type) =>
+    _isRenderObjectElement(type) || _isSubclassOfRenderObjectElement(type);
+
 bool isWidgetStateOrSubclass(DartType? type) =>
     _isWidgetState(type) || _isSubclassOfWidgetState(type);
 
@@ -79,3 +82,9 @@ bool _isRenderObjectWidget(DartType? type) =>
 
 bool _isSubclassOfRenderObjectWidget(DartType? type) =>
     type is InterfaceType && type.allSupertypes.any(_isRenderObjectWidget);
+
+bool _isRenderObjectElement(DartType? type) =>
+    type?.getDisplayString(withNullability: false) == 'RenderObjectElement';
+
+bool _isSubclassOfRenderObjectElement(DartType? type) =>
+    type is InterfaceType && type.allSupertypes.any(_isRenderObjectElement);

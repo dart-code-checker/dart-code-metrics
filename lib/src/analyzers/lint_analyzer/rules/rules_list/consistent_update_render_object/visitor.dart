@@ -18,7 +18,20 @@ class _Visitor extends GeneralizingAstVisitor<void> {
     final updateDeclaration = methodsVisitor.updateDeclaration;
     final createDeclaration = methodsVisitor.createDeclaration;
 
-    if (updateDeclaration == null || createDeclaration == null) {
+    if (createDeclaration == null) {
+      return;
+    }
+
+    final creationVisitor = _CreationVisitor();
+    createDeclaration.visitChildren(creationVisitor);
+
+    final createArgumentsLength =
+        _getCountableArgumentsLength(creationVisitor.arguments);
+    if (createArgumentsLength == 0) {
+      return;
+    }
+
+    if (updateDeclaration == null) {
       if (node.abstractKeyword == null) {
         _declarations.add(_DeclarationInfo(
           node,
@@ -29,20 +42,27 @@ class _Visitor extends GeneralizingAstVisitor<void> {
       return;
     }
 
-    final creationVisitor = _CreationVisitor();
-    createDeclaration.visitChildren(creationVisitor);
-
     final propertyAccessVisitor = _PropertyAccessVisitor();
     updateDeclaration.visitChildren(propertyAccessVisitor);
 
-    if (creationVisitor.arguments.length !=
-        propertyAccessVisitor.propertyAccess.length) {
+    if (createArgumentsLength != propertyAccessVisitor.propertyAccess.length) {
       _declarations.add(_DeclarationInfo(
         updateDeclaration,
         "updateRenderObject method doesn't update all parameters, that are set in createRenderObject",
       ));
     }
   }
+
+  int _getCountableArgumentsLength(List<Expression> arguments) =>
+      arguments.where(
+        (argument) {
+          final expression =
+              argument is NamedExpression ? argument.expression : argument;
+
+          return expression is! NullLiteral &&
+              !isRenderObjectElementOrSubclass(expression.staticType);
+        },
+      ).length;
 }
 
 class _MethodsVisitor extends GeneralizingAstVisitor<void> {

@@ -134,3 +134,107 @@ class _Decorator extends RenderObjectWidget {
       ..textDirection = textDirection;
   }
 }
+
+class _RenderCupertinoTextSelectionToolbarShape extends RenderBox {
+  int anchor;
+  bool isAbove;
+  Widget child;
+
+  _RenderCupertinoTextSelectionToolbarShape(
+    this.anchor,
+    this.isAbove,
+    this.child,
+  );
+}
+
+class _CupertinoTextSelectionToolbarShape
+    extends SingleChildRenderObjectWidget {
+  const _CupertinoTextSelectionToolbarShape({
+    required this.anchor,
+    required this.isAbove,
+    this.child,
+  });
+
+  final int anchor;
+
+  final bool isAbove;
+
+  final Widget child;
+
+  @override
+  _RenderCupertinoTextSelectionToolbarShape createRenderObject(
+    BuildContext context,
+  ) =>
+      _RenderCupertinoTextSelectionToolbarShape(
+        anchor,
+        isAbove,
+        null,
+      );
+
+  @override
+  void updateRenderObject(
+    BuildContext context,
+    _RenderCupertinoTextSelectionToolbarShape renderObject,
+  ) {
+    renderObject
+      ..anchor = _anchor
+      ..isAbove = _isAbove;
+  }
+}
+
+class RenderIntrinsicHeight extends RenderBox {}
+
+class IntrinsicHeight extends SingleChildRenderObjectWidget {
+  const IntrinsicHeight();
+
+  @override
+  RenderIntrinsicHeight createRenderObject(BuildContext context) =>
+      RenderIntrinsicHeight();
+}
+
+class RenderObjectElement {}
+
+class ListWheelElement extends RenderObjectElement {}
+
+class RenderListWheelViewport extends RenderBox {
+  ListWheelElement childManager;
+  double overAndUnderCenterOpacity;
+  double itemExtent;
+
+  RenderListWheelViewport({
+    required this.childManager,
+    required this.overAndUnderCenterOpacity,
+    required this.itemExtent,
+  })
+}
+
+class ListWheelViewport extends RenderObjectWidget {
+  final double overAndUnderCenterOpacity;
+
+  final double itemExtent;
+
+  const ListWheelViewport(this.itemExtent, this.overAndUnderCenterOpacity);
+
+  @override
+  ListWheelElement createElement() => ListWheelElement();
+
+  @override
+  RenderListWheelViewport createRenderObject(BuildContext context) {
+    final ListWheelElement childManager = context as ListWheelElement;
+    return RenderListWheelViewport(
+      childManager: childManager,
+      overAndUnderCenterOpacity: overAndUnderCenterOpacity,
+      itemExtent: itemExtent,
+    );
+  }
+
+  @override
+  void updateRenderObject(
+    BuildContext context,
+    RenderListWheelViewport renderObject,
+  ) {
+    renderObject
+      ..overAndUnderCenterOpacity = overAndUnderCenterOpacity
+      ..itemExtent = itemExtent;
+  }
+}
