@@ -3,6 +3,7 @@
 ## Unreleased
 
 * feat: add static code diagnostic [`check-for-equals-in-render-object-setters`](https://dartcodemetrics.dev/docs/rules/flutter/check-for-equals-in-render-object-setters).
+* feat: add static code diagnostic [`consistent-update-render-object`](https://dartcodemetrics.dev/docs/rules/flutter/consistent-update-render-object).
 * feat: add static code diagnostic [`avoid-redundant-async`](https://dartcodemetrics.dev/docs/rules/common/avoid-redundant-async).
 * feat: add static code diagnostic [`prefer-correct-test-file-name`](https://dartcodemetrics.dev/docs/rules/common/prefer-correct-test-file-name).
 * feat: add static code diagnostic [`prefer-iterable-of`](https://dartcodemetrics.dev/docs/rules/common/prefer-iterable-of).
