@@ -205,7 +205,7 @@ class RenderListWheelViewport extends RenderBox {
     required this.childManager,
     required this.overAndUnderCenterOpacity,
     required this.itemExtent,
-  })
+  });
 }
 
 class ListWheelViewport extends RenderObjectWidget {
