@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.19.1
+
+* fix: make [`avoid-wrapping-in-padding`](https://dartcodemetrics.dev/docs/rules/flutter/avoid-wrapping-in-padding) trigger only on Container widget.
+
 ## 4.19.0
 
 * feat: add static code diagnostic [`check-for-equals-in-render-object-setters`](https://dartcodemetrics.dev/docs/rules/flutter/check-for-equals-in-render-object-setters).

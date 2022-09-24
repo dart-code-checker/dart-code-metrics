@@ -23,14 +23,10 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
     if (child != null && child is NamedExpression) {
       final expression = child.expression;
-      if (expression is InstanceCreationExpression) {
-        final element = expression.staticType?.element;
-        if (element is ClassElement) {
-          return element.fields
-                  .firstWhereOrNull((filed) => filed.name == 'padding') !=
-              null;
-        }
-      }
+
+      return expression is InstanceCreationExpression &&
+          expression.staticType?.getDisplayString(withNullability: false) ==
+              'Container';
     }
 
     return false;
