@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.19.1
+
+* fix: make [`avoid-redundant-async`](https://dartcodemetrics.dev/docs/rules/common/avoid-redundant-async) correctly handle nullable return values.
+
 ## 4.19.0
 
 * feat: add static code diagnostic [`check-for-equals-in-render-object-setters`](https://dartcodemetrics.dev/docs/rules/flutter/check-for-equals-in-render-object-setters).
