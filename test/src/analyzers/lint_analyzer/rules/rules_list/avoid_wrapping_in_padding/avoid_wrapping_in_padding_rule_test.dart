@@ -33,7 +33,7 @@ void main() {
               '    )',
         ],
         messages: [
-          'Avoid wrapping a widget with padding settings in a Padding widget.',
+          'Avoid wrapping a Container in a Padding widget.',
         ],
       );
     });

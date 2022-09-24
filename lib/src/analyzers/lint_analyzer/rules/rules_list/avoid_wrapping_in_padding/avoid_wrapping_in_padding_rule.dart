@@ -2,7 +2,6 @@
 
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
-import 'package:analyzer/dart/element/element.dart';
 import 'package:collection/collection.dart';
 
 import '../../../../../utils/flutter_types_utils.dart';
@@ -19,8 +18,7 @@ part 'visitor.dart';
 class AvoidWrappingInPaddingRule extends FlutterRule {
   static const String ruleId = 'avoid-wrapping-in-padding';
 
-  static const _warning =
-      'Avoid wrapping a widget with padding settings in a Padding widget.';
+  static const _warning = 'Avoid wrapping a Container in a Padding widget.';
 
   AvoidWrappingInPaddingRule([Map<String, Object> config = const {}])
       : super(
