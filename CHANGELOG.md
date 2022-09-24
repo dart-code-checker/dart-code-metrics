@@ -2,6 +2,7 @@
 
 ## 4.19.1
 
+* fix: make [`avoid-redundant-async`](https://dartcodemetrics.dev/docs/rules/common/avoid-redundant-async) correctly handle nullable return values.
 * fix: make [`avoid-wrapping-in-padding`](https://dartcodemetrics.dev/docs/rules/flutter/avoid-wrapping-in-padding) trigger only on Container widget.
 
 ## 4.19.0

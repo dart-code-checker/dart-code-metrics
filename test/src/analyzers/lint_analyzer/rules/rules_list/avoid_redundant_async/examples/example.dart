@@ -30,4 +30,8 @@ class SomeClass {
 
     print(records);
   }
+
+  Future<void> returnNullable(SomeClass? instance) async {
+    return instance?.report([]);
+  }
 }
