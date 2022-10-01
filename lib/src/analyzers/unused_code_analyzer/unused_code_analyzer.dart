@@ -10,6 +10,7 @@ import 'package:source_span/source_span.dart';
 
 import '../../config_builder/config_builder.dart';
 import '../../config_builder/models/analysis_options.dart';
+import '../../logger/logger.dart';
 import '../../reporters/models/reporter.dart';
 import '../../utils/analyzer_utils.dart';
 import '../../utils/suppression.dart';
@@ -46,7 +47,8 @@ class UnusedCodeAnalyzer {
   Future<Iterable<UnusedCodeFileReport>> runCliAnalysis(
     Iterable<String> folders,
     String rootFolder,
-    UnusedCodeConfig config, {
+    UnusedCodeConfig config,
+    Logger logger, {
     String? sdkPath,
   }) async {
     final collection =
@@ -68,6 +70,14 @@ class UnusedCodeAnalyzer {
 
       final analyzedFiles =
           filePaths.intersection(context.contextRoot.analyzedFiles().toSet());
+
+      final contextsLength = collection.contexts.length;
+      final filesLength = analyzedFiles.length;
+      final updateMessage = contextsLength == 1
+          ? 'Checking unused code for $filesLength file(s)'
+          : 'Checking unused code for ${collection.contexts.indexOf(context) + 1}/$contextsLength contexts with $filesLength file(s)';
+      logger.progress.update(updateMessage);
+
       for (final filePath in analyzedFiles) {
         final unit = await context.currentSession.getResolvedUnit(filePath);
 

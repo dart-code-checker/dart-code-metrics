@@ -12,12 +12,15 @@ import '../../analyzers/lint_analyzer/reporters/lint_report_params.dart';
 import '../../analyzers/lint_analyzer/utils/report_utils.dart';
 import '../../config_builder/config_builder.dart';
 import '../../config_builder/models/deprecated_option.dart';
+import '../../logger/logger.dart';
 import '../models/flag_names.dart';
 import '../models/parsed_arguments.dart';
 import 'base_command.dart';
 
 class AnalyzeCommand extends BaseCommand {
   static const _analyzer = LintAnalyzer();
+
+  final Logger _logger;
 
   @override
   String get name => 'analyze';
@@ -30,12 +33,15 @@ class AnalyzeCommand extends BaseCommand {
   String get invocation =>
       '${runner?.executableName} $name [arguments] <directories>';
 
-  AnalyzeCommand() {
+  AnalyzeCommand(this._logger) {
     _addFlags();
   }
 
   @override
   Future<void> runCommand() async {
+    _logger.isSilent = isNoCongratulate;
+    _logger.progress.start('Analyzing');
+
     final parsedArgs = ParsedArguments(
       excludePath: argResults[FlagNames.exclude] as String,
       metricsConfig: {
@@ -45,16 +51,17 @@ class AnalyzeCommand extends BaseCommand {
       },
     );
 
-    final noCongratulate = argResults[FlagNames.noCongratulate] as bool;
-
     final config = ConfigBuilder.getLintConfigFromArgs(parsedArgs);
 
     final lintAnalyzerResult = await _analyzer.runCliAnalysis(
       argResults.rest,
       argResults[FlagNames.rootFolder] as String,
       config,
+      _logger,
       sdkPath: findSdkPath(),
     );
+
+    _logger.progress.complete('Analysis is completed. Preparing the results:');
 
     await _analyzer
         .getReporter(
@@ -65,7 +72,7 @@ class AnalyzeCommand extends BaseCommand {
         ?.report(
           lintAnalyzerResult,
           summary: _analyzer.getSummary(lintAnalyzerResult),
-          additionalParams: LintReportParams(congratulate: !noCongratulate),
+          additionalParams: LintReportParams(congratulate: !isNoCongratulate),
         );
 
     if (hasIssueWithSeverity(lintAnalyzerResult, Severity.error)) {

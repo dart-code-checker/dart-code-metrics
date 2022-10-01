@@ -5,11 +5,14 @@ import 'dart:io';
 import '../../analyzers/unnecessary_nullable_analyzer/reporters/unnecessary_nullable_report_params.dart';
 import '../../analyzers/unnecessary_nullable_analyzer/unnecessary_nullable_analyzer.dart';
 import '../../config_builder/config_builder.dart';
+import '../../logger/logger.dart';
 import '../models/flag_names.dart';
 import 'base_command.dart';
 
 class CheckUnnecessaryNullableCommand extends BaseCommand {
   static const _analyzer = UnnecessaryNullableAnalyzer();
+
+  final Logger _logger;
 
   @override
   String get name => 'check-unnecessary-nullable';
@@ -22,18 +25,20 @@ class CheckUnnecessaryNullableCommand extends BaseCommand {
   String get invocation =>
       '${runner?.executableName} $name [arguments] <directories>';
 
-  CheckUnnecessaryNullableCommand() {
+  CheckUnnecessaryNullableCommand(this._logger) {
     _addFlags();
   }
 
   @override
   Future<void> runCommand() async {
+    _logger.isSilent = isNoCongratulate;
+    _logger.progress.start('Checking unnecessary nullable parameters');
+
     final rootFolder = argResults[FlagNames.rootFolder] as String;
     final folders = argResults.rest;
     final excludePath = argResults[FlagNames.exclude] as String;
     final reporterName = argResults[FlagNames.reporter] as String;
     final isMonorepo = argResults[FlagNames.isMonorepo] as bool;
-    final noCongratulate = argResults[FlagNames.noCongratulate] as bool;
 
     final config = ConfigBuilder.getUnnecessaryNullableConfigFromArgs(
       [excludePath],
@@ -44,8 +49,11 @@ class CheckUnnecessaryNullableCommand extends BaseCommand {
       folders,
       rootFolder,
       config,
+      _logger,
       sdkPath: findSdkPath(),
     );
+
+    _logger.progress.complete('Analysis is completed. Preparing the results:');
 
     await _analyzer
         .getReporter(
@@ -55,7 +63,7 @@ class CheckUnnecessaryNullableCommand extends BaseCommand {
         ?.report(
           unusedCodeResult,
           additionalParams:
-              UnnecessaryNullableReportParams(congratulate: !noCongratulate),
+              UnnecessaryNullableReportParams(congratulate: !isNoCongratulate),
         );
 
     if (unusedCodeResult.isNotEmpty &&

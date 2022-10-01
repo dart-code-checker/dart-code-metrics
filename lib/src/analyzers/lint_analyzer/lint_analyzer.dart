@@ -6,6 +6,7 @@ import 'package:path/path.dart';
 
 import '../../config_builder/config_builder.dart';
 import '../../config_builder/models/analysis_options.dart';
+import '../../logger/logger.dart';
 import '../../reporters/models/file_report.dart';
 import '../../reporters/models/reporter.dart';
 import '../../utils/analyzer_utils.dart';
@@ -72,7 +73,8 @@ class LintAnalyzer {
   Future<Iterable<LintFileReport>> runCliAnalysis(
     Iterable<String> folders,
     String rootFolder,
-    LintConfig config, {
+    LintConfig config,
+    Logger logger, {
     String? sdkPath,
   }) async {
     final collection =
@@ -93,6 +95,14 @@ class LintAnalyzer {
 
       final analyzedFiles =
           filePaths.intersection(context.contextRoot.analyzedFiles().toSet());
+
+      final contextsLength = collection.contexts.length;
+      final filesLength = analyzedFiles.length;
+      final updateMessage = contextsLength == 1
+          ? 'Analyzing $filesLength file(s)'
+          : 'Analyzing ${collection.contexts.indexOf(context) + 1}/$contextsLength contexts with $filesLength file(s)';
+      logger.progress.update(updateMessage);
+
       for (final filePath in analyzedFiles) {
         final unit = await context.currentSession.getResolvedUnit(filePath);
         if (unit is ResolvedUnitResult) {

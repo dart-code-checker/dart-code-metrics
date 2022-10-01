@@ -5,11 +5,14 @@ import 'dart:io';
 import '../../analyzers/unused_code_analyzer/reporters/unused_code_report_params.dart';
 import '../../analyzers/unused_code_analyzer/unused_code_analyzer.dart';
 import '../../config_builder/config_builder.dart';
+import '../../logger/logger.dart';
 import '../models/flag_names.dart';
 import 'base_command.dart';
 
 class CheckUnusedCodeCommand extends BaseCommand {
   static const _analyzer = UnusedCodeAnalyzer();
+
+  final Logger _logger;
 
   @override
   String get name => 'check-unused-code';
@@ -21,18 +24,20 @@ class CheckUnusedCodeCommand extends BaseCommand {
   String get invocation =>
       '${runner?.executableName} $name [arguments] <directories>';
 
-  CheckUnusedCodeCommand() {
+  CheckUnusedCodeCommand(this._logger) {
     _addFlags();
   }
 
   @override
   Future<void> runCommand() async {
+    _logger.isSilent = isNoCongratulate;
+    _logger.progress.start('Checking unused code');
+
     final rootFolder = argResults[FlagNames.rootFolder] as String;
     final folders = argResults.rest;
     final excludePath = argResults[FlagNames.exclude] as String;
     final reporterName = argResults[FlagNames.reporter] as String;
     final isMonorepo = argResults[FlagNames.isMonorepo] as bool;
-    final noCongratulate = argResults[FlagNames.noCongratulate] as bool;
 
     final config = ConfigBuilder.getUnusedCodeConfigFromArgs(
       [excludePath],
@@ -43,8 +48,11 @@ class CheckUnusedCodeCommand extends BaseCommand {
       folders,
       rootFolder,
       config,
+      _logger,
       sdkPath: findSdkPath(),
     );
+
+    _logger.progress.complete('Analysis is completed. Preparing the results:');
 
     await _analyzer
         .getReporter(
@@ -54,7 +62,7 @@ class CheckUnusedCodeCommand extends BaseCommand {
         ?.report(
           unusedCodeResult,
           additionalParams:
-              UnusedCodeReportParams(congratulate: !noCongratulate),
+              UnusedCodeReportParams(congratulate: !isNoCongratulate),
         );
 
     if (unusedCodeResult.isNotEmpty &&

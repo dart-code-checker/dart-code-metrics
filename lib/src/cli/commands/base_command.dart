@@ -22,6 +22,8 @@ abstract class BaseCommand extends Command<void> {
     return results;
   }
 
+  bool get isNoCongratulate => argResults[FlagNames.noCongratulate] as bool;
+
   @override
   Future<void> run() => _verifyThenRunCommand();
 
