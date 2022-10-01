@@ -4,7 +4,6 @@ import 'dart:async';
 
 import 'package:analyzer/dart/analysis/context_locator.dart';
 import 'package:analyzer/dart/analysis/results.dart';
-import 'package:analyzer/file_system/file_system.dart';
 import 'package:analyzer/file_system/physical_file_system.dart';
 // ignore: implementation_imports
 import 'package:analyzer/src/analysis_options/analysis_options_provider.dart';
@@ -47,7 +46,7 @@ class AnalyzerPlugin extends ServerPlugin {
   @override
   String get version => '1.0.0-alpha.0';
 
-  AnalyzerPlugin(ResourceProvider provider) : super(provider);
+  AnalyzerPlugin(super.resourceProvider);
 
   @override
   void contentChanged(String path) {
