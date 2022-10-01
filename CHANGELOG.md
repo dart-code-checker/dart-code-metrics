@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* chore: changed min `SDK` version to `2.17.1`.
+
 ## 4.19.1
 
 * fix: make [`avoid-redundant-async`](https://dartcodemetrics.dev/docs/rules/common/avoid-redundant-async) correctly handle nullable return values.

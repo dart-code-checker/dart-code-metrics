@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import '../../../../../reporters/models/console_reporter.dart';
 import '../../../metrics/metric_utils.dart';
 import '../../../metrics/models/metric_value.dart';
@@ -21,7 +19,7 @@ class LintConsoleReporter extends ConsoleReporter<LintFileReport,
 
   final _helper = LintConsoleReporterHelper();
 
-  LintConsoleReporter(IOSink output, {this.reportAll = false}) : super(output);
+  LintConsoleReporter(super.output, {this.reportAll = false});
 
   @override
   Future<void> report(

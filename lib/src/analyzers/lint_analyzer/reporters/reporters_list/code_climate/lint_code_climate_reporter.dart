@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:crypto/crypto.dart';
 
@@ -21,11 +20,7 @@ import 'models/code_climate_issue_severity.dart';
 /// Use it to create reports in Code Climate format.
 class LintCodeClimateReporter extends CodeClimateReporter<LintFileReport,
     SummaryLintReportRecord<Object>, LintReportParams> {
-  LintCodeClimateReporter(IOSink output, {bool gitlabCompatible = false})
-      : super(
-          output,
-          gitlabCompatible: gitlabCompatible,
-        );
+  LintCodeClimateReporter(super.output, {super.gitlabCompatible});
 
   @override
   Future<void> report(

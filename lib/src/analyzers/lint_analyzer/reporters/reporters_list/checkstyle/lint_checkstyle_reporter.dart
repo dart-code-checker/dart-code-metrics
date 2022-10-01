@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:xml/xml.dart';
 
 import '../../../../../reporters/models/checkstyle_reporter.dart';
@@ -14,7 +12,7 @@ import '../../lint_report_params.dart';
 /// Use it to create reports in Checkstyle format.
 class LintCheckstyleReporter extends CheckstyleReporter<LintFileReport,
     SummaryLintReportRecord<Object>, LintReportParams> {
-  LintCheckstyleReporter(IOSink output) : super(output);
+  LintCheckstyleReporter(super.output);
 
   @override
   Future<void> report(
