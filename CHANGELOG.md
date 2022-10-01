@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* feat: add logger and progress indication.
+
 ## 4.19.1
 
 * fix: make [`avoid-redundant-async`](https://dartcodemetrics.dev/docs/rules/common/avoid-redundant-async) correctly handle nullable return values.
