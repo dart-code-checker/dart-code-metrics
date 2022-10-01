@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 part of 'member_ordering_extended_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
@@ -13,22 +15,29 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
 
     _membersInfo.clear();
 
+    final type = node.extendsClause?.superclass.type;
+    final isFlutterWidget =
+        isWidgetOrSubclass(type) || isWidgetStateOrSubclass(type);
+
     for (final member in node.members) {
       if (member is FieldDeclaration) {
-        _visitFieldDeclaration(member);
+        _visitFieldDeclaration(member, isFlutterWidget);
       } else if (member is ConstructorDeclaration) {
-        _visitConstructorDeclaration(member);
+        _visitConstructorDeclaration(member, isFlutterWidget);
       } else if (member is MethodDeclaration) {
-        _visitMethodDeclaration(member);
+        _visitMethodDeclaration(member, isFlutterWidget);
       }
     }
 
     return _membersInfo;
   }
 
-  void _visitFieldDeclaration(FieldDeclaration declaration) {
+  void _visitFieldDeclaration(
+    FieldDeclaration declaration,
+    bool isFlutterWidget,
+  ) {
     final group = _FieldMemberGroup.parse(declaration);
-    final closestGroup = _getClosestGroup(group);
+    final closestGroup = _getClosestGroup(group, isFlutterWidget);
 
     if (closestGroup != null) {
       _membersInfo.add(_MemberInfo(
@@ -44,9 +53,12 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
     }
   }
 
-  void _visitConstructorDeclaration(ConstructorDeclaration declaration) {
+  void _visitConstructorDeclaration(
+    ConstructorDeclaration declaration,
+    bool isFlutterWidget,
+  ) {
     final group = _ConstructorMemberGroup.parse(declaration);
-    final closestGroup = _getClosestGroup(group);
+    final closestGroup = _getClosestGroup(group, isFlutterWidget);
 
     if (closestGroup != null) {
       _membersInfo.add(_MemberInfo(
@@ -60,10 +72,13 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
     }
   }
 
-  void _visitMethodDeclaration(MethodDeclaration declaration) {
+  void _visitMethodDeclaration(
+    MethodDeclaration declaration,
+    bool isFlutterWidget,
+  ) {
     if (declaration.isGetter || declaration.isSetter) {
       final group = _GetSetMemberGroup.parse(declaration);
-      final closestGroup = _getClosestGroup(group);
+      final closestGroup = _getClosestGroup(group, isFlutterWidget);
 
       if (closestGroup != null) {
         _membersInfo.add(_MemberInfo(
@@ -79,7 +94,7 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
       }
     } else {
       final group = _MethodMemberGroup.parse(declaration);
-      final closestGroup = _getClosestGroup(group);
+      final closestGroup = _getClosestGroup(group, isFlutterWidget);
 
       if (closestGroup != null) {
         _membersInfo.add(_MemberInfo(
@@ -96,13 +111,17 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
     }
   }
 
-  _MemberGroup? _getClosestGroup(_MemberGroup parsedGroup) {
+  _MemberGroup? _getClosestGroup(
+    _MemberGroup parsedGroup,
+    bool isFlutterWidget,
+  ) {
     final closestGroups = _groupsOrder
         .where(
           (group) =>
               _isConstructorGroup(group, parsedGroup) ||
               _isFieldGroup(group, parsedGroup) ||
               _isGetSetGroup(group, parsedGroup) ||
+              (isFlutterWidget && _isFlutterMethodGroup(group, parsedGroup)) ||
               _isMethodGroup(group, parsedGroup),
         )
         .sorted(
@@ -180,10 +199,27 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
       parsedGroup is _MethodMemberGroup &&
       (!group.isStatic || group.isStatic == parsedGroup.isStatic) &&
       (!group.isNullable || group.isNullable == parsedGroup.isNullable) &&
+      !group.isBuild &&
+      !group.isDidChangeDependencies &&
+      !group.isDidUpdateWidget &&
+      !group.isInitState &&
+      !group.isDispose &&
       (group.modifier == _Modifier.unset ||
           group.modifier == parsedGroup.modifier) &&
       (group.annotation == _Annotation.unset ||
           group.annotation == parsedGroup.annotation);
+
+  bool _isFlutterMethodGroup(_MemberGroup group, _MemberGroup parsedGroup) =>
+      group is _MethodMemberGroup &&
+      parsedGroup is _MethodMemberGroup &&
+      ((group.isBuild && group.isBuild == parsedGroup.isBuild) ||
+          (group.isInitState && group.isInitState == parsedGroup.isInitState) ||
+          (group.isDidChangeDependencies &&
+              group.isDidChangeDependencies ==
+                  parsedGroup.isDidChangeDependencies) ||
+          (group.isDidUpdateWidget &&
+              group.isDidUpdateWidget == parsedGroup.isDidUpdateWidget) ||
+          (group.isDispose && group.isDispose == parsedGroup.isDispose));
 
   bool _isGetSetGroup(_MemberGroup group, _MemberGroup parsedGroup) =>
       group is _GetSetMemberGroup &&

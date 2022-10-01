@@ -35,7 +35,7 @@ void main() {
           );
         });
 
-        test('should report 3 files and not report excluded file', () {
+        test('should report 4 files and not report excluded file', () {
           expect(result, hasLength(4));
         });
 

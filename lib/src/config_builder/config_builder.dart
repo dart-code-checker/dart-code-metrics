@@ -90,7 +90,6 @@ class ConfigBuilder {
   ) =>
       UnusedFilesAnalysisConfig(
         prepareExcludes(config.excludePatterns, rootPath),
-        prepareExcludes(config.analyzerExcludePatterns, rootPath),
       );
 
   /// Creates a raw unused code config from given [excludePatterns].
@@ -136,7 +135,6 @@ class ConfigBuilder {
   ) =>
       UnusedL10nAnalysisConfig(
         prepareExcludes(config.excludePatterns, rootPath),
-        prepareExcludes(config.analyzerExcludePatterns, rootPath),
         config.classPattern,
       );
 

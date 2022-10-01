@@ -29,8 +29,8 @@ void main() {
               r'.*examples.*\.dart',
             ],
             'deny': [
-              'package:flutter/.*',
-              'package:my_app/ban_folder/.*',
+              'package:test/.*',
+              'package:intl/ban_folder/.*',
             ],
             'message': 'sample message',
           },
@@ -42,12 +42,12 @@ void main() {
         startLines: [1, 4],
         startColumns: [1, 1],
         locationTexts: [
-          "import 'package:flutter/material.dart';",
-          "import 'package:my_app/ban_folder/something.dart';",
+          "import 'package:test/material.dart';",
+          "import 'package:intl/ban_folder/something.dart';",
         ],
         messages: [
-          'Avoid banned imports (sample message)',
-          'Avoid banned imports (sample message)',
+          'Avoid banned imports (sample message).',
+          'Avoid banned imports (sample message).',
         ],
       );
     });

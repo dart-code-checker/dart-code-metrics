@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 part of 'avoid_unnecessary_type_assertions_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
@@ -40,13 +42,29 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
     final objectType = node.expression.staticType;
     final castedType = node.type.type;
+
+    if (node.notOperator != null) {
+      if (objectType != null &&
+          objectType is! TypeParameterType &&
+          !objectType.isDynamic &&
+          !objectType.isDartCoreObject &&
+          _isUselessTypeCheck(castedType, objectType, true)) {
+        _expressions[node] =
+            '${node.isOperator.keyword?.lexeme ?? ''}${node.notOperator ?? ''}';
+      }
+    }
+
     if (_isUselessTypeCheck(objectType, castedType)) {
       _expressions[node] =
           '${node.isOperator.keyword?.lexeme ?? ''}${node.notOperator ?? ''}';
     }
   }
 
-  bool _isUselessTypeCheck(DartType? objectType, DartType? castedType) {
+  bool _isUselessTypeCheck(
+    DartType? objectType,
+    DartType? castedType, [
+    bool isReversed = false,
+  ]) {
     if (objectType == null || castedType == null) {
       return false;
     }
@@ -58,14 +76,14 @@ class _Visitor extends RecursiveAstVisitor<void> {
     final objectCastedType =
         _foundCastedTypeInObjectTypeHierarchy(objectType, castedType);
     if (objectCastedType == null) {
-      return false;
+      return isReversed;
     }
 
     if (!_checkGenerics(objectCastedType, castedType)) {
       return false;
     }
 
-    return true;
+    return !isReversed;
   }
 
   bool _checkNullableCompatibility(DartType objectType, DartType castedType) {

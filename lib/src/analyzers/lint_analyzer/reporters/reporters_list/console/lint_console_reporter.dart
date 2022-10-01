@@ -34,7 +34,7 @@ class LintConsoleReporter extends ConsoleReporter<LintFileReport,
         ..._reportMetrics('', file.file),
         ..._reportIssues(
           [...file.issues, ...file.antiPatternCases],
-          file.relativePath,
+          file.path,
         ),
         ..._reportEntityMetrics({...file.classes, ...file.functions}),
       ];
@@ -55,11 +55,11 @@ class LintConsoleReporter extends ConsoleReporter<LintFileReport,
     }
   }
 
-  Iterable<String> _reportIssues(Iterable<Issue> issues, String relativePath) =>
+  Iterable<String> _reportIssues(Iterable<Issue> issues, String absolutePath) =>
       (issues.toList()
             ..sort((a, b) =>
                 a.location.start.offset.compareTo(b.location.start.offset)))
-          .map((issue) => _helper.getIssueMessage(issue, relativePath))
+          .map((issue) => _helper.getIssueMessage(issue, absolutePath))
           .expand((lines) => lines);
 
   Iterable<String> _reportEntityMetrics(Map<String, Report> reports) =>

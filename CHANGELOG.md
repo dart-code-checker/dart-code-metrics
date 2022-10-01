@@ -1,10 +1,83 @@
 # Changelog
 
+## Unreleased
+
+* chore: changed min `SDK` version to `2.17.1`.
+
+## 4.19.1
+
+* fix: make [`avoid-redundant-async`](https://dartcodemetrics.dev/docs/rules/common/avoid-redundant-async) correctly handle nullable return values.
+* fix: make [`avoid-wrapping-in-padding`](https://dartcodemetrics.dev/docs/rules/flutter/avoid-wrapping-in-padding) trigger only on Container widget.
+
+## 4.19.0
+
+* feat: add static code diagnostic [`check-for-equals-in-render-object-setters`](https://dartcodemetrics.dev/docs/rules/flutter/check-for-equals-in-render-object-setters).
+* feat: add static code diagnostic [`consistent-update-render-object`](https://dartcodemetrics.dev/docs/rules/flutter/consistent-update-render-object).
+* feat: add static code diagnostic [`avoid-redundant-async`](https://dartcodemetrics.dev/docs/rules/common/avoid-redundant-async).
+* feat: add static code diagnostic [`prefer-correct-test-file-name`](https://dartcodemetrics.dev/docs/rules/common/prefer-correct-test-file-name).
+* feat: add static code diagnostic [`prefer-iterable-of`](https://dartcodemetrics.dev/docs/rules/common/prefer-iterable-of).
+
+## 4.18.3
+
+* fix: fix regression in is! checks for [`avoid-unnecessary-type-assertions`](https://dartcodemetrics.dev/docs/rules/common/avoid-unnecessary-type-assertions).
+
+## 4.18.2
+
+* fix: use empty analysis options exclude to properly resolve units and speed up commands analysis.
+
+## 4.18.1
+
+* fix: fix regression in is! checks for [`avoid-unnecessary-type-assertions`](https://dartcodemetrics.dev/docs/rules/common/avoid-unnecessary-type-assertions).
+* chore: revert `analyzer_plugin` version to `>=0.10.0 <0.11.0`.
+
+## 4.18.0
+
+* feat: support passing file paths to all commands.
+* fix: avoid-top-level-members-in-tests ignore lib
+* fix: `--reporter=json` for `check-unnecessary-nullable` crashes, saying `Converting object to an encodable object failed: Instance of 'MappedIterable<FormalParameter, String>'`.
+* fix: support variables shadowing for [`avoid-unused-parameters`](https://dartcodemetrics.dev/docs/rules/common/avoid-unused-parameters).
+* fix: support not named builder parameters for [`avoid-returning-widgets`](https://dartcodemetrics.dev/docs/rules/flutter/avoid-returning-widgets).
+* feat: make [`avoid-unnecessary-type-assertions`](https://dartcodemetrics.dev/docs/rules/common/avoid-unnecessary-type-assertions) handle is! checks.
+* fix: make check-unnecessary-nullable command ignore Flutter keys.
+* chore: restrict `analyzer` version to `>=4.1.0 <4.8.0`.
+* fix: add const to edge insets constructors in [`prefer-correct-edge-insets-constructor-rule`](https://dartcodemetrics.dev/docs/rules/flutter/prefer-correct-edge-insets-constructor) when appropriate.
+* fix: make [`avoid-border-all`](https://dartcodemetrics.dev/docs/rules/flutter/avoid-border-all) not report errors on final variables.
+* feat: add static code diagnostic [`avoid-passing-async-when-sync-expected`](https://dartcodemetrics.dev/docs/rules/common/avoid-passing-async-when-sync-expected).
+
+## 4.18.0-dev.2
+
+* chore: restrict `analyzer` version to `>=4.1.0 <4.7.0`.
+
+## 4.18.0-dev.1
+
+* chore: restrict `analyzer` version to `>=4.1.0 <4.5.0`.
+* chore: restrict `analyzer_plugin` version to `>=0.11.0 <0.12.0`.
+* feat: replace relative path in reporters output with absolute to support IDE clicks.
+
+## 4.17.1
+
+* chore: restrict `analyzer` version to `>=4.0.0 <4.7.0`.
+
+## 4.17.0
+
+* feat: add configuration to [`prefer-moving-to-variable`](https://dartcodemetrics.dev/docs/rules/common/prefer-moving-to-variable).
+* feat: add flutter specific methods config to [`member-ordering-extended`](https://dartcodemetrics.dev/docs/rules/common/member-ordering-extended).
+* feat: add static code diagnostic [`avoid-duplicate-exports`](https://dartcodemetrics.dev/docs/rules/common/avoid-duplicate-exports).
+* feat: add static code diagnostic [`avoid-shrink-wrap-in-lists`](https://dartcodemetrics.dev/docs/rules/flutter/avoid-shrink-wrap-in-lists).
+* feat: add static code diagnostic [`avoid-top-level-members-in-tests`](https://dartcodemetrics.dev/docs/rules/common/avoid-top-level-members-in-tests).
+* feat: add static code diagnostic [`prefer-correct-edge-insets-constructor-rule`](https://dartcodemetrics.dev/docs/rules/flutter/prefer-correct-edge-insets-constructor).
+* feat: add static code diagnostic [`prefer-enums-by-name`](https://dartcodemetrics.dev/docs/rules/common/prefer-enums-by-name).
+* feat: add suppressions for [`check-unused-code`](https://dartcodemetrics.dev/docs/cli/check-unused-code), [`check-unused-files`](https://dartcodemetrics.dev/docs/cli/check-unused-files), [`check-unnecessary-nullable`](https://dartcodemetrics.dev/docs/cli/check-unnecessary-nullable) commands.
+* fix: add zero exit to command runner.
+* fix: show lint issue in [html report](https://dartcodemetrics.dev/docs/cli/analyze#html).
+* chore: restrict `analyzer` version to `>=4.0.0 <4.4.0`.
+* chore: revert `analyzer_plugin` version to `>=0.10.0 <0.11.0`.
+
 ## 4.17.0-dev.1
 
 * feat: add static code diagnostic [`avoid-use-expanded-as-spacer`](https://dartcodemetrics.dev/docs/rules/flutter/avoid-use-expanded-as-spacer).
 * feat: migrate to new analyzer plugins API.
-* chore: changed min `SDK` version to `2.17.1`.
+* chore: changed min `SDK` version to `2.17.0`.
 * chore: restrict `analyzer` version to `>=4.1.0 <4.3.0`.
 * chore: restrict `analyzer_plugin` version to `>=0.11.0 <0.12.0`.
 

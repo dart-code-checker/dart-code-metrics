@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart'; // LINT
-import 'package:good_package/good_file.dart';
+import 'package:test/material.dart'; // LINT
+import 'package:mocktail/good_file.dart';
 
-import 'package:my_app/ban_folder/something.dart'; // LINT
-import 'package:my_app/good_folder/something.dart';
+import 'package:intl/ban_folder/something.dart'; // LINT
+import 'package:intl/good_folder/something.dart';

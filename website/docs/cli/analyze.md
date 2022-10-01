@@ -418,7 +418,7 @@ Reports about design and static code diagnostics issues. Use `--reporter=checkst
 - Define a pipeline in your [`bitbucket-pipelines.yml`](https://support.atlassian.com/bitbucket-cloud/docs/configure-bitbucket-pipelinesyml/) file that generates the Checkstyle report and [process them](https://bitbucket.org/product/features/pipelines/integrations?p=atlassian/checkstyle-report).
 
 ```yaml
-image: google/dart
+image: dart
 
 pipelines:
   default:

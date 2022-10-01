@@ -75,7 +75,7 @@ void main() {
         equals([
           'class SomeClass',
           '    \x1B[38;5;180m⚠\x1B[0m unused someMethod()',
-          '      at example.dart:5:3',
+          '      at $fullPath:5:3',
           '',
           '\x1B[38;5;167m✖\x1B[0m total unused localization class fields, getters and methods - \x1B[38;5;167m1\x1B[0m',
         ]),

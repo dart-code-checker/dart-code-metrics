@@ -20,10 +20,10 @@ add it manually to `pubspec.yaml`
 
 ```yaml title="pubspec.yaml"
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: '>=2.17.0 <3.0.0'
 
 dev_dependencies:
-  dart_code_metrics: ^4.17.0-dev.1
+  dart_code_metrics: ^4.19.1
 ```
 
 and then run
@@ -43,7 +43,7 @@ To use Dart Code Metrics as a plugin to the Dart analyzer refer to the [Analyzer
 
 ### CLI {#cli}
 
-To use Dart Code Metrics as a command-line tool refer to the [Command Line Interface documentation section](../cli/overview.md).
+To use Dart Code Metrics as a command-line tool refer to the [Command Line Interface documentation section](../cli).
 
 ### Library {#library}
 

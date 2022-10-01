@@ -1,0 +1,55 @@
+import RuleDetails from '@site/src/components/RuleDetails';
+
+<RuleDetails version="4.14.0" severity="warning" hasConfig />
+
+Warns when a property access or a method invocation start with duplicated chains of other invocations / accesses inside a single function or method block.
+
+For instance, you have a function `getUser()` that returns a class instance with two fields: `name` and `age`. If you call this function twice inside another function body, like:
+
+```dart
+final name = getUser().name;
+final age = getUser().age;
+```
+
+the rule will suggest to move `getUser()` call to a single variable.
+
+Use `allowed-duplicated-chains` configuration, if you want to set a threshold after which the rule should trigger on duplicated lines.
+
+### ⚙️ Config example {#config-example}
+
+```yaml
+dart_code_metrics:
+  ...
+  rules:
+    ...
+    - prefer-moving-to-variable:
+        allowed-duplicated-chains: 3
+```
+
+### Example {#example}
+
+**❌ Bad:**
+
+```dart
+return Container(
+  color: Theme.of(context).colorScheme.secondary, // LINT
+  child: Text(
+    'Text with a background color',
+    style: Theme.of(context).textTheme.headline6, // LINT
+  ),
+);
+```
+
+**✅ Good:**
+
+```dart
+final theme = Theme.of(context);
+
+return Container(
+  color: theme.colorScheme.secondary,
+  child: Text(
+    'Text with a background color',
+    style: theme.textTheme.headline6,
+  ),
+);
+```

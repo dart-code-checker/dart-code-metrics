@@ -31,7 +31,7 @@ abstract class BaseCommand extends Command<void> {
   void validateCommand() {
     validateRootFolderExist();
     validateSdkPath();
-    validateTargetDirectories();
+    validateTargetDirectoriesOrFiles();
   }
 
   void usesRootFolderOption() {
@@ -83,10 +83,10 @@ abstract class BaseCommand extends Command<void> {
     }
   }
 
-  void validateTargetDirectories() {
+  void validateTargetDirectoriesOrFiles() {
     if (argResults.rest.isEmpty) {
       const exceptionMessage =
-          'Invalid number of directories. At least one must be specified.';
+          'Invalid number of directories or files. At least one must be specified.';
 
       throw const InvalidArgumentException(exceptionMessage);
     }
@@ -95,9 +95,10 @@ abstract class BaseCommand extends Command<void> {
 
     for (final relativePath in argResults.rest) {
       final absolutePath = join(rootFolderPath, relativePath);
-      if (!Directory(absolutePath).existsSync()) {
+      if (!Directory(absolutePath).existsSync() &&
+          !File(absolutePath).existsSync()) {
         final exceptionMessage =
-            "$absolutePath doesn't exist or isn't a directory.";
+            "$absolutePath doesn't exist or isn't a directory or a file.";
 
         throw InvalidArgumentException(exceptionMessage);
       }

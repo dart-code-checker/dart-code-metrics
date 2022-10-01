@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:analyzer/dart/analysis/analysis_context.dart';
 import 'package:analyzer/dart/analysis/results.dart';
-import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/element/element.dart';
 // ignore: implementation_imports
 import 'package:analyzer/src/dart/element/element.dart';
@@ -13,6 +12,7 @@ import '../../config_builder/config_builder.dart';
 import '../../config_builder/models/analysis_options.dart';
 import '../../reporters/models/reporter.dart';
 import '../../utils/analyzer_utils.dart';
+import '../../utils/suppression.dart';
 import 'models/file_elements_usage.dart';
 import 'models/unused_code_file_report.dart';
 import 'models/unused_code_issue.dart';
@@ -25,6 +25,8 @@ import 'used_code_visitor.dart';
 
 /// The analyzer responsible for collecting unused code reports.
 class UnusedCodeAnalyzer {
+  static const _ignoreName = 'unused-code';
+
   const UnusedCodeAnalyzer();
 
   /// Returns a reporter for the given [name]. Use the reporter
@@ -74,19 +76,9 @@ class UnusedCodeAnalyzer {
           codeUsages.merge(codeUsage);
         }
 
-        publicCode[filePath] = _analyzeFilePublicCode(unit);
-      }
-
-      final notAnalyzedFiles = filePaths.difference(analyzedFiles);
-      for (final filePath in notAnalyzedFiles) {
-        if (unusedCodeAnalysisConfig.analyzerExcludedPatterns
+        if (!unusedCodeAnalysisConfig.analyzerExcludedPatterns
             .any((pattern) => pattern.matches(filePath))) {
-          final unit = await resolveFile2(path: filePath);
-
-          final codeUsage = _analyzeFileCodeUsages(unit);
-          if (codeUsage != null) {
-            codeUsages.merge(codeUsage);
-          }
+          publicCode[filePath] = _analyzeFilePublicCode(unit);
         }
       }
     }
@@ -126,7 +118,13 @@ class UnusedCodeAnalyzer {
 
   Set<Element> _analyzeFilePublicCode(SomeResolvedUnitResult unit) {
     if (unit is ResolvedUnitResult) {
-      final visitor = PublicCodeVisitor();
+      final suppression = Suppression(unit.content, unit.lineInfo);
+      final isSuppressed = suppression.isSuppressed(_ignoreName);
+      if (isSuppressed) {
+        return {};
+      }
+
+      final visitor = PublicCodeVisitor(suppression, _ignoreName);
       unit.unit.visitChildren(visitor);
 
       return visitor.topLevelElements;

@@ -42,6 +42,10 @@ Usage: metrics check-unused-code [arguments] <directories>
     --[no-]fatal-unused                           Treat find unused file as fatal.
 ```
 
+## Suppressing the command
+
+In order to suppress the command add the `ignore: unused-code` comment. To suppress for an entire file add `ignore_for_file: unused-code` to the beginning of a file.
+
 ## Monorepo support
 
 By default the command treats all code that is exported from the package as used. To disable this behavior use `--monorepo` flag. This might be useful when all the packages in your repository are only used within the repository and are not published to the pub.

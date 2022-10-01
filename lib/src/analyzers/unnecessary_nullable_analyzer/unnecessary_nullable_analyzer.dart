@@ -1,8 +1,9 @@
+// ignore_for_file: deprecated_member_use
+
 import 'dart:io';
 
 import 'package:analyzer/dart/analysis/analysis_context.dart';
 import 'package:analyzer/dart/analysis/results.dart';
-import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
@@ -16,6 +17,8 @@ import '../../config_builder/config_builder.dart';
 import '../../config_builder/models/analysis_options.dart';
 import '../../reporters/models/reporter.dart';
 import '../../utils/analyzer_utils.dart';
+import '../../utils/flutter_types_utils.dart';
+import '../../utils/suppression.dart';
 import 'declarations_visitor.dart';
 import 'invocations_visitor.dart';
 import 'models/invocations_usage.dart';
@@ -28,6 +31,8 @@ import 'unnecessary_nullable_config.dart';
 
 /// The analyzer responsible for collecting unnecessary nullable parameters reports.
 class UnnecessaryNullableAnalyzer {
+  static const _ignoreName = 'unnecessary-nullable';
+
   const UnnecessaryNullableAnalyzer();
 
   /// Returns a reporter for the given [name]. Use the reporter
@@ -59,7 +64,7 @@ class UnnecessaryNullableAnalyzer {
 
     for (final context in collection.contexts) {
       final unnecessaryNullableAnalysisConfig =
-          await _getAnalysisConfig(context, rootFolder, config);
+          _getAnalysisConfig(context, rootFolder, config);
 
       final filePaths = getFilePaths(
         folders,
@@ -78,19 +83,9 @@ class UnnecessaryNullableAnalyzer {
           invocationsUsages.merge(invocationsUsage);
         }
 
-        declarationsUsages[filePath] = _analyzeDeclarationsUsage(unit);
-      }
-
-      final notAnalyzedFiles = filePaths.difference(analyzedFiles);
-      for (final filePath in notAnalyzedFiles) {
-        if (unnecessaryNullableAnalysisConfig.analyzerExcludedPatterns
+        if (!unnecessaryNullableAnalysisConfig.analyzerExcludedPatterns
             .any((pattern) => pattern.matches(filePath))) {
-          final unit = await resolveFile2(path: filePath);
-
-          final invocationsUsage = _analyzeInvocationsUsage(unit);
-          if (invocationsUsage != null) {
-            invocationsUsages.merge(invocationsUsage);
-          }
+          declarationsUsages[filePath] = _analyzeDeclarationsUsage(unit);
         }
       }
     }
@@ -102,11 +97,11 @@ class UnnecessaryNullableAnalyzer {
     return _getReports(invocationsUsages, declarationsUsages, rootFolder);
   }
 
-  Future<UnnecessaryNullableAnalysisConfig> _getAnalysisConfig(
+  UnnecessaryNullableAnalysisConfig _getAnalysisConfig(
     AnalysisContext context,
     String rootFolder,
     UnnecessaryNullableConfig config,
-  ) async {
+  ) {
     final analysisOptions = analysisOptionsFromContext(context) ??
         analysisOptionsFromFilePath(rootFolder, context);
 
@@ -133,7 +128,13 @@ class UnnecessaryNullableAnalyzer {
 
   DeclarationUsages _analyzeDeclarationsUsage(SomeResolvedUnitResult unit) {
     if (unit is ResolvedUnitResult) {
-      final visitor = DeclarationsVisitor();
+      final suppression = Suppression(unit.content, unit.lineInfo);
+      final isSuppressed = suppression.isSuppressed(_ignoreName);
+      if (isSuppressed) {
+        return {};
+      }
+
+      final visitor = DeclarationsVisitor(suppression, _ignoreName);
       unit.unit.visitChildren(visitor);
 
       return visitor.declarations;
@@ -216,6 +217,7 @@ class UnnecessaryNullableAnalyzer {
 
     final unnecessaryNullable = parameters.where(
       (parameter) =>
+          !_shouldIgnoreWidgetKey(parameter) &&
           !markedParameters.contains(parameter) &&
           parameter.declaredElement?.type.nullabilitySuffix ==
               NullabilitySuffix.question,
@@ -288,5 +290,16 @@ class UnnecessaryNullableAnalyzer {
         column: offsetLocation.columnNumber,
       ),
     );
+  }
+
+  bool _shouldIgnoreWidgetKey(FormalParameter parameter) {
+    final closestDeclaration = parameter.parent?.parent;
+
+    if (closestDeclaration is ConstructorDeclaration) {
+      return parameter.identifier?.name == 'key' &&
+          isWidgetOrSubclass(closestDeclaration.declaredElement?.returnType);
+    }
+
+    return false;
   }
 }

@@ -13,6 +13,8 @@ const _alphabeticalCorrectExamplePath =
     'member_ordering_extended/examples/alphabetical_correct_example.dart';
 const _typeAlphabeticalExamplePath =
     'member_ordering_extended/examples/type_alphabetical_example.dart';
+const _flutterMethodsExamplePath =
+    'member_ordering_extended/examples/flutter_methods_example.dart';
 
 void main() {
   group('MemberOrderingExtendedRule', () {
@@ -207,6 +209,55 @@ void main() {
           );
         },
       );
+
+      test('accepts flutter methods and reports issues', () async {
+        final unit =
+            await RuleTestHelper.resolveFromFile(_flutterMethodsExamplePath);
+        final config = {
+          'order': [
+            'constructors',
+            'overridden-methods',
+            'dispose-method',
+            'did-update-widget-method',
+            'did-change-dependencies-method',
+            'init-state-method',
+            'build-method',
+            'public-methods',
+          ],
+        };
+
+        final issues = MemberOrderingExtendedRule(config).check(unit);
+
+        RuleTestHelper.verifyIssues(
+          issues: issues,
+          startLines: [7, 12, 15, 18, 21, 24],
+          startColumns: [3, 3, 3, 3, 3, 3],
+          locationTexts: [
+            '@override\n'
+                '  Widget build(BuildContext context) {\n'
+                '    return Widget();\n'
+                '  }',
+            '@override\n'
+                '  void initState() {}',
+            '@override\n'
+                '  void didChangeDependencies() {}',
+            '@override\n'
+                '  void didUpdateWidget() {}',
+            '@override\n'
+                '  void dispose() {}',
+            '@override\n'
+                '  void someOtherMethod() {}',
+          ],
+          messages: [
+            'build-method should be before public-methods.',
+            'init-state-method should be before build-method.',
+            'did-change-dependencies-method should be before init-state-method.',
+            'did-update-widget-method should be before did-change-dependencies-method.',
+            'dispose-method should be before did-update-widget-method.',
+            'overridden-methods should be before dispose-method.',
+          ],
+        );
+      });
 
       group('and alphabetical order', () {
         test('reports about found issues', () async {

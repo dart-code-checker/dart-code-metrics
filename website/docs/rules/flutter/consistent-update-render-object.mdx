@@ -1,0 +1,152 @@
+import RuleDetails from '@site/src/components/RuleDetails';
+
+<RuleDetails version="4.19.0" severity="warning" />
+
+Warns when an `updateRenderObject` method is absent or doesn't update all fields set in `createRenderObject`.
+
+### Example {#example}
+
+**❌ Bad:**
+
+```dart
+// LINT
+class ColorFiltered extends SingleChildRenderObjectWidget {
+  const ColorFiltered({required this.value});
+
+  final int value;
+
+  @override
+  RenderObject createRenderObject(BuildContext context) =>
+      _ColorFilterRenderObject(colorFilter);
+}
+```
+
+**✅ Good:**
+
+```dart
+class ColorFiltered extends SingleChildRenderObjectWidget {
+  const ColorFiltered({required this.value});
+
+  final int value;
+
+  @override
+  RenderObject createRenderObject(BuildContext context) =>
+      _ColorFilterRenderObject(colorFilter);
+
+  @override
+  void updateRenderObject(BuildContext context, RenderObject renderObject) {
+    (renderObject as _ColorFilterRenderObject).value = value;
+  }
+}
+```
+
+**❌ Bad:**
+
+```dart
+class _MenuItem extends SingleChildRenderObjectWidget {
+  const _MenuItem({required this.value});
+
+  final bool value;
+
+  @override
+  RenderObject createRenderObject(BuildContext context) {
+    return _RenderMenuItem(value);
+  }
+
+  @override
+  // LINT
+  void updateRenderObject(BuildContext context, _RenderMenuItem renderObject) {}
+}
+```
+
+**✅ Good:**
+
+```dart
+class _MenuItem extends SingleChildRenderObjectWidget {
+  const _MenuItem({required this.value});
+
+  final bool value;
+
+  @override
+  RenderObject createRenderObject(BuildContext context) {
+    return _RenderMenuItem(value);
+  }
+
+  @override
+  void updateRenderObject(BuildContext context, _RenderMenuItem renderObject) {
+    renderObject.value = value;
+  }
+}
+```
+
+**❌ Bad:**
+
+```dart
+class _Decorator extends RenderObjectWidget {
+  const _Decorator({
+    required this.textDirection,
+    required this.isFocused,
+    required this.expands,
+  });
+
+  final TextDirection textDirection;
+  final bool isFocused;
+  final bool expands;
+
+  @override
+  _RenderDecoration createRenderObject(BuildContext context) {
+    return _RenderDecoration(
+      textDirection: textDirection,
+      isFocused: isFocused,
+      expands: expands,
+    );
+  }
+
+  @override
+  // LINT
+  void updateRenderObject(
+    BuildContext context,
+    _RenderDecoration renderObject,
+  ) {
+    renderObject
+      ..expands = expands
+      ..textDirection = textDirection;
+  }
+}
+```
+
+**✅ Good:**
+
+```dart
+class _Decorator extends RenderObjectWidget {
+  const _Decorator({
+    required this.textDirection,
+    required this.isFocused,
+    required this.expands,
+  });
+
+  final TextDirection textDirection;
+  final bool isFocused;
+  final bool expands;
+
+  @override
+  _RenderDecoration createRenderObject(BuildContext context) {
+    return _RenderDecoration(
+      textDirection: textDirection,
+      isFocused: isFocused,
+      expands: expands,
+    );
+  }
+
+  @override
+  void updateRenderObject(
+    BuildContext context,
+    _RenderDecoration renderObject,
+  ) {
+    renderObject
+      ..expands = expands
+      ..isFocused = isFocused
+      ..textDirection = textDirection;
+  }
+}
+```

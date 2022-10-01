@@ -2,13 +2,13 @@ import 'dart:io';
 
 import 'package:analyzer/dart/analysis/analysis_context.dart';
 import 'package:analyzer/dart/analysis/results.dart';
-import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:path/path.dart';
 
 import '../../config_builder/config_builder.dart';
 import '../../config_builder/models/analysis_options.dart';
 import '../../reporters/models/reporter.dart';
 import '../../utils/analyzer_utils.dart';
+import '../../utils/suppression.dart';
 import 'models/unused_files_file_report.dart';
 import 'reporters/reporter_factory.dart';
 import 'reporters/unused_files_report_params.dart';
@@ -18,6 +18,8 @@ import 'unused_files_visitor.dart';
 
 /// The analyzer responsible for collecting unused files reports.
 class UnusedFilesAnalyzer {
+  static const _ignoreName = 'unused-files';
+
   const UnusedFilesAnalyzer();
 
   /// Returns a reporter for the given [name]. Use the reporter
@@ -64,16 +66,6 @@ class UnusedFilesAnalyzer {
         final unit = await context.currentSession.getResolvedUnit(filePath);
         unusedFiles.removeAll(_analyzeFile(filePath, unit, config.isMonorepo));
       }
-
-      final notAnalyzedFiles = filePaths.difference(analyzedFiles);
-      for (final filePath in notAnalyzedFiles) {
-        if (unusedFilesAnalysisConfig.analyzerExcludedPatterns
-            .any((pattern) => pattern.matches(filePath))) {
-          final unit = await resolveFile2(path: filePath);
-          unusedFiles
-              .removeAll(_analyzeFile(filePath, unit, config.isMonorepo));
-        }
-      }
     }
 
     return unusedFiles.map((path) {
@@ -113,6 +105,12 @@ class UnusedFilesAnalyzer {
     bool ignoreExports,
   ) {
     if (unit is ResolvedUnitResult) {
+      final suppression = Suppression(unit.content, unit.lineInfo);
+      final isSuppressed = suppression.isSuppressed(_ignoreName);
+      if (isSuppressed) {
+        return [filePath];
+      }
+
       final visitor =
           UnusedFilesVisitor(filePath, ignoreExports: ignoreExports);
       unit.unit.visitChildren(visitor);

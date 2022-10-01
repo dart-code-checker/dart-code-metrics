@@ -28,7 +28,7 @@ class UnusedFilesConsoleReporter extends ConsoleReporter<UnusedFilesFileReport,
 
     for (final analysisRecord in sortedRecords) {
       output.writeln(
-        '${warningPen('⚠')} unused file: ${analysisRecord.relativePath}',
+        '${warningPen('⚠')} unused file: ${analysisRecord.path}',
       );
     }
 

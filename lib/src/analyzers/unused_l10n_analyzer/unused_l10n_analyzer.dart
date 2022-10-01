@@ -1,7 +1,9 @@
+// ignore_for_file: deprecated_member_use
+
 import 'dart:io';
 
+import 'package:analyzer/dart/analysis/analysis_context.dart';
 import 'package:analyzer/dart/analysis/results.dart';
-import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 // ignore: implementation_imports
@@ -13,11 +15,11 @@ import '../../config_builder/config_builder.dart';
 import '../../config_builder/models/analysis_options.dart';
 import '../../reporters/models/reporter.dart';
 import '../../utils/analyzer_utils.dart';
-import '../../utils/file_utils.dart';
 import 'models/unused_l10n_file_report.dart';
 import 'models/unused_l10n_issue.dart';
 import 'reporters/reporter_factory.dart';
 import 'reporters/unused_l10n_report_params.dart';
+import 'unused_l10n_analysis_config.dart';
 import 'unused_l10n_config.dart';
 import 'unused_l10n_visitor.dart';
 
@@ -51,22 +53,12 @@ class UnusedL10nAnalyzer {
     final localizationUsages = <ClassElement, Set<String>>{};
 
     for (final context in collection.contexts) {
-      final analysisOptions = analysisOptionsFromContext(context) ??
-          analysisOptionsFromFilePath(rootFolder, context);
-
-      final contextConfig =
-          ConfigBuilder.getUnusedL10nConfigFromOption(analysisOptions)
-              .merge(config);
       final unusedLocalizationAnalysisConfig =
-          ConfigBuilder.getUnusedL10nConfig(contextConfig, rootFolder);
+          _getAnalysisConfig(context, rootFolder, config);
 
-      final contextFolders = folders
-          .where((path) => normalize(join(rootFolder, path))
-              .startsWith(context.contextRoot.root.path))
-          .toList();
-
-      final filePaths = extractDartFilesFromFolders(
-        contextFolders,
+      final filePaths = getFilePaths(
+        folders,
+        context,
         rootFolder,
         unusedLocalizationAnalysisConfig.globalExcludes,
       );
@@ -86,27 +78,24 @@ class UnusedL10nAnalyzer {
           );
         });
       }
-
-      final notAnalyzedFiles = filePaths.difference(analyzedFiles);
-
-      for (final filePath in notAnalyzedFiles) {
-        if (unusedLocalizationAnalysisConfig.analyzerExcludedPatterns
-            .any((pattern) => pattern.matches(filePath))) {
-          final unit = await resolveFile2(path: filePath);
-
-          _analyzeFile(unit, unusedLocalizationAnalysisConfig.classPattern)
-              .forEach((classElement, usages) {
-            localizationUsages.update(
-              classElement,
-              (value) => value..addAll(usages),
-              ifAbsent: () => usages,
-            );
-          });
-        }
-      }
     }
 
     return _checkUnusedL10n(localizationUsages, rootFolder);
+  }
+
+  UnusedL10nAnalysisConfig _getAnalysisConfig(
+    AnalysisContext context,
+    String rootFolder,
+    UnusedL10nConfig config,
+  ) {
+    final analysisOptions = analysisOptionsFromContext(context) ??
+        analysisOptionsFromFilePath(rootFolder, context);
+
+    final contextConfig =
+        ConfigBuilder.getUnusedL10nConfigFromOption(analysisOptions)
+            .merge(config);
+
+    return ConfigBuilder.getUnusedL10nConfig(contextConfig, rootFolder);
   }
 
   Map<ClassElement, Set<String>> _analyzeFile(

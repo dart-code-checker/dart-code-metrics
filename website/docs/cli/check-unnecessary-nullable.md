@@ -1,6 +1,6 @@
 # Check unnecessary nullable parameters
 
-Check unnecessary nullable parameters in functions, methods, constructors. Removing unnecessary nullables can help reduce amount of checks in the code.
+Checks unnecessary nullable parameters in functions, methods, constructors. Removing unnecessary nullables can help reduce amount of checks in the code.
 
 To execute the command, run
 
@@ -37,6 +37,10 @@ Usage: metrics check-unnecessary-nullable [arguments] <directories>
 
     --[no-]fatal-found                            Treat found unnecessary nullable parameters as fatal.
 ```
+
+## Suppressing the command
+
+In order to suppress the command add the `ignore: unnecessary-nullable` comment. To suppress for an entire file add `ignore_for_file: unnecessary-nullable` to the beginning of a file.
 
 ## Monorepo support
 

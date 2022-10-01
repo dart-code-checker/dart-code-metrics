@@ -17,8 +17,8 @@
 **Note: you can find [the full documentation on the website](https://dartcodemetrics.dev/docs/getting-started/introduction)**
 
 [Configuration](https://dartcodemetrics.dev/docs/getting-started/configuration) |
-[Rules](https://dartcodemetrics.dev/docs/rules/overview) |
-[Metrics](https://dartcodemetrics.dev/docs/metrics/overview) |
+[Rules](https://dartcodemetrics.dev/docs/rules) |
+[Metrics](https://dartcodemetrics.dev/docs/metrics) |
 [Anti-patterns](https://dartcodemetrics.dev/docs/anti-patterns/overivew)
 
 <a href="https://flutter.dev/docs/development/packages-and-plugins/favorites">
@@ -31,12 +31,13 @@
 
 Dart Code Metrics is a static analysis tool that helps you analyse and improve your code quality.
 
-- Reports [code metrics](https://dartcodemetrics.dev/docs/metrics/overview)
-- Provides [additional rules](https://dartcodemetrics.dev/docs/rules/overview) for the dart analyzer
-- Checks for [anti-patterns](https://dartcodemetrics.dev/docs/anti-patterns/overview)
+- Reports [code metrics](https://dartcodemetrics.dev/docs/metrics)
+- Provides [additional rules](https://dartcodemetrics.dev/docs/rules) for the dart analyzer
+- Checks for [anti-patterns](https://dartcodemetrics.dev/docs/anti-patterns)
 - Checks [unused `*.dart` files](https://dartcodemetrics.dev/docs/cli/check-unused-files)
 - Checks [unused l10n](https://dartcodemetrics.dev/docs/cli/check-unused-l10n)
-- Can be used as [CLI](https://dartcodemetrics.dev/docs/cli/overview), [analyzer plugin](https://dartcodemetrics.dev/docs/analyzer-plugin) or [library](https://dartcodemetrics.dev/docs/getting-started/installation#library)
+- Checks [unnecessary nullable parameters](https://dartcodemetrics.dev/docs/cli/check-unnecessary-nullable)
+- Can be used as [CLI](https://dartcodemetrics.dev/docs/cli), [analyzer plugin](https://dartcodemetrics.dev/docs/analyzer-plugin) or [library](https://dartcodemetrics.dev/docs/getting-started/installation#library)
 
 ## Links
 
@@ -59,7 +60,7 @@ add it manually to `pubspec.yaml`
 
 ```yaml
 dev_dependencies:
-  dart_code_metrics: ^4.17.0-dev.1
+  dart_code_metrics: ^4.19.1
 ```
 
 and then run
@@ -119,13 +120,14 @@ The package can be used as CLI and supports multiple commands:
 | Command            | Example of use                                            | Short description                                         |
 | ------------------ | --------------------------------------------------------- | --------------------------------------------------------- |
 | analyze            | dart run dart_code_metrics:metrics analyze lib            | Reports code metrics, rules and anti-patterns violations. |
+| check-unnecessary-nullable | dart run dart_code_metrics:metrics check-unnecessary-nullable lib | Checks unnecessary nullable parameters in functions, methods, constructors. |
 | check-unused-files | dart run dart_code_metrics:metrics check-unused-files lib | Checks unused \*.dart files.                              |
 | check-unused-l10n  | dart run dart_code_metrics:metrics check-unused-l10n lib  | Check unused localization in \*.dart files.               |
 | check-unused-code  | dart run dart_code_metrics:metrics check-unused-code lib  | Checks unused code in \*.dart files.                      |
 
 For additional help on any of the commands, enter `dart run dart_code_metrics:metrics help <command>`
 
-**Note:** if you're setting up Dart Code Metrics for multi-package repository, check out [this website section](https://dartcodemetrics.dev/docs/cli/overview#multi-package-repositories-usage).
+**Note:** if you're setting up Dart Code Metrics for multi-package repository, check out [this website section](https://dartcodemetrics.dev/docs/cli#multi-package-repositories-usage).
 
 #### Analyze
 
@@ -149,6 +151,26 @@ It will produce a result in one of the format:
 Console report example:
 
 ![Console report example](https://raw.githubusercontent.com/dart-code-checker/dart-code-metrics/master/assets/analyze-console-report.png)
+
+#### Check unnecessary nullable parameters
+
+Checks unnecessary nullable parameters in functions, methods, constructors. To execute the command, run
+
+```sh
+$ dart run dart_code_metrics:metrics check-unnecessary-nullable lib
+
+# or for a Flutter package
+$ flutter pub run dart_code_metrics:metrics check-unnecessary-nullable lib
+```
+
+It will produce a result in one of the format:
+
+- Console
+- JSON
+
+Console report example:
+
+![Console report example](https://raw.githubusercontent.com/dart-code-checker/dart-code-metrics/master/assets/unnecessary-nullable-console-report.png)
 
 #### Check unused files
 

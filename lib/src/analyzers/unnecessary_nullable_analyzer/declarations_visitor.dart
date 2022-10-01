@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs
+// ignore_for_file: public_member_api_docs, deprecated_member_use
 
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
@@ -6,15 +6,26 @@ import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 
 import '../../utils/node_utils.dart';
+import '../../utils/suppression.dart';
 
 typedef DeclarationUsages = Map<Element, Iterable<FormalParameter>>;
 
 class DeclarationsVisitor extends RecursiveAstVisitor<void> {
   final DeclarationUsages declarations = {};
 
+  final Suppression _suppression;
+  final String _pattern;
+
+  DeclarationsVisitor(this._suppression, this._pattern);
+
   @override
   void visitMethodDeclaration(MethodDeclaration node) {
     super.visitMethodDeclaration(node);
+
+    final lineIndex = _suppression.lineInfo.getLocation(node.offset).lineNumber;
+    if (_suppression.isSuppressedAt(_pattern, lineIndex)) {
+      return;
+    }
 
     final parameters = node.parameters?.parameters;
     if (parameters == null || !_hasNullableParameters(parameters)) {
@@ -28,6 +39,11 @@ class DeclarationsVisitor extends RecursiveAstVisitor<void> {
   void visitFunctionDeclaration(FunctionDeclaration node) {
     super.visitFunctionDeclaration(node);
 
+    final lineIndex = _suppression.lineInfo.getLocation(node.offset).lineNumber;
+    if (_suppression.isSuppressedAt(_pattern, lineIndex)) {
+      return;
+    }
+
     final parameters = node.functionExpression.parameters?.parameters;
     if (isEntrypoint(node.name.name, node.metadata) ||
         (parameters == null || !_hasNullableParameters(parameters))) {
@@ -40,6 +56,11 @@ class DeclarationsVisitor extends RecursiveAstVisitor<void> {
   @override
   void visitConstructorDeclaration(ConstructorDeclaration node) {
     super.visitConstructorDeclaration(node);
+
+    final lineIndex = _suppression.lineInfo.getLocation(node.offset).lineNumber;
+    if (_suppression.isSuppressedAt(_pattern, lineIndex)) {
+      return;
+    }
 
     final parameters = node.parameters.parameters;
     if (!_hasNullableParameters(parameters)) {

@@ -19,4 +19,7 @@ class ClassWithMethods {
     required String? name,
     String? secondName,
   }) {}
+
+  // ignore: unnecessary-nullable
+  void ignoredAlwaysNonNullable(String? anotherValue) {}
 }

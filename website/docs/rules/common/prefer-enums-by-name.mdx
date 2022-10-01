@@ -1,0 +1,28 @@
+import RuleDetails from '@site/src/components/RuleDetails';
+
+<RuleDetails version="4.17.0" severity="style" />
+
+Since Dart 2.15 it's possible to use `byName` method on enum `values` prop instead of searching the value with `firstWhere`.
+
+:::caution
+
+`byName` will throw an exception if the enum does not contain a value for the given name.
+
+:::
+
+### Example {#example}
+
+**❌ Bad:**
+
+```dart
+// LINT
+final styleDefinition = StyleDefinition.values.firstWhere(
+  (def) => def.name == json['styleDefinition'],
+);
+```
+
+**✅ Good:**
+
+```dart
+final styleDefinition = StyleDefinition.values.byName(json['styleDefinition']);
+```

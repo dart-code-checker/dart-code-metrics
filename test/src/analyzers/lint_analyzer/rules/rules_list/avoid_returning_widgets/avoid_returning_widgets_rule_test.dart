@@ -5,6 +5,8 @@ import 'package:test/test.dart';
 import '../../../../../helpers/rule_test_helper.dart';
 
 const _examplePath = 'avoid_returning_widgets/examples/example.dart';
+const _notNamedParameterExamplePath =
+    'avoid_returning_widgets/examples/not_named_parameter_example.dart';
 
 void main() {
   group('AvoidReturningWidgetsRule', () {
@@ -99,6 +101,14 @@ void main() {
           'Avoid returning widgets from a global function.',
         ],
       );
+    });
+
+    test('reports no issues for not named parameters', () async {
+      final unit =
+          await RuleTestHelper.resolveFromFile(_notNamedParameterExamplePath);
+      final issues = AvoidReturningWidgetsRule().check(unit);
+
+      RuleTestHelper.verifyNoIssues(issues);
     });
   });
 }
