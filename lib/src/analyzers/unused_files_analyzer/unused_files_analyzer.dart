@@ -66,6 +66,8 @@ class UnusedFilesAnalyzer {
       final analyzedFiles =
           filePaths.intersection(context.contextRoot.analyzedFiles().toSet());
       for (final filePath in analyzedFiles) {
+        _logger?.infoVerbose('Analyzing $filePath');
+
         final unit = await context.currentSession.getResolvedUnit(filePath);
         unusedFiles.removeAll(_analyzeFile(filePath, unit, config.isMonorepo));
       }

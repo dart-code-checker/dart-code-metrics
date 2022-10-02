@@ -14,6 +14,7 @@ class FlagNames {
   static const sdkPath = 'sdk-path';
   static const isMonorepo = 'monorepo';
   static const version = 'version';
+  static const verbose = 'verbose';
 
   static const consoleReporter = ConsoleReporter.id;
   static const consoleVerboseReporter = ConsoleReporter.verboseId;

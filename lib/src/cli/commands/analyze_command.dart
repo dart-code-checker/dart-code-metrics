@@ -39,8 +39,10 @@ class AnalyzeCommand extends BaseCommand {
 
   @override
   Future<void> runCommand() async {
-    _logger.isSilent = isNoCongratulate;
-    _logger.progress.start('Analyzing');
+    _logger
+      ..isSilent = isNoCongratulate
+      ..isVerbose = isVerbose
+      ..progress.start('Analyzing');
 
     final parsedArgs = ParsedArguments(
       excludePath: argResults[FlagNames.exclude] as String,

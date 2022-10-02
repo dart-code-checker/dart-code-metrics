@@ -11,13 +11,20 @@ final okPen = AnsiPen()..rgb(r: 0.23, g: 0.61, b: 0.16);
 class Logger {
   final progress = Progress(okPen, warningPen, errorPen);
 
-  bool isVerbose = false;
+  bool _isVerbose = false;
+  bool get isVerbose => _isVerbose;
+  set isVerbose(bool value) {
+    _isVerbose = value;
+
+    progress.updateShowProgress = !(_isSilent || _isVerbose);
+  }
 
   bool _isSilent = false;
   bool get isSilent => _isSilent;
   set isSilent(bool value) {
     _isSilent = value;
-    progress.updateShowProgress = value;
+
+    progress.updateShowProgress = !(_isSilent || _isVerbose);
   }
 
   final _queue = <String>[];
@@ -30,6 +37,12 @@ class Logger {
 
   void info(String message) {
     _output.writeln(message);
+  }
+
+  void infoVerbose(String message) {
+    if (_isVerbose) {
+      info(message);
+    }
   }
 
   void error(String message) {
@@ -46,7 +59,7 @@ class Logger {
 
   void delayed(String message) => _queue.add(message);
 
-  void flush([Function(String?)? print]) {
+  void flush([void Function(String)? print]) {
     final writeln = print ?? info;
 
     _queue

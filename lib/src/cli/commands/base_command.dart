@@ -24,6 +24,8 @@ abstract class BaseCommand extends Command<void> {
 
   bool get isNoCongratulate => argResults[FlagNames.noCongratulate] as bool;
 
+  bool get isVerbose => argResults[FlagNames.verbose] as bool;
+
   @override
   Future<void> run() => _verifyThenRunCommand();
 
@@ -34,35 +36,6 @@ abstract class BaseCommand extends Command<void> {
     validateRootFolderExist();
     validateSdkPath();
     validateTargetDirectoriesOrFiles();
-  }
-
-  void usesRootFolderOption() {
-    argParser
-      ..addSeparator('')
-      ..addOption(
-        FlagNames.rootFolder,
-        help: 'Root folder.',
-        valueHelp: './',
-        defaultsTo: Directory.current.path,
-      );
-  }
-
-  void usesSdkPathOption() {
-    argParser.addOption(
-      FlagNames.sdkPath,
-      help:
-          'Dart SDK directory path. Should be provided only when you run the application as compiled executable(https://dart.dev/tools/dart-compile#exe) and automatic Dart SDK path detection fails.',
-      valueHelp: 'directory-path',
-    );
-  }
-
-  void usesExcludeOption() {
-    argParser.addOption(
-      FlagNames.exclude,
-      help: 'File paths in Glob syntax to be exclude.',
-      valueHelp: '{/**.g.dart,/**.template.dart}',
-      defaultsTo: '{/**.g.dart,/**.template.dart}',
-    );
   }
 
   void validateRootFolderExist() {
@@ -111,18 +84,40 @@ abstract class BaseCommand extends Command<void> {
     usesRootFolderOption();
     usesSdkPathOption();
     usesExcludeOption();
-    _congratulateFlag();
+    usesCongratulateFlag();
+    usesVerboseFlag();
   }
 
-  String? findSdkPath() =>
-      argResults[FlagNames.sdkPath] as String? ??
-      detectSdkPath(
-        Platform.executable,
-        Platform.environment,
-        platformIsWindows: Platform.isWindows,
+  void usesRootFolderOption() {
+    argParser
+      ..addSeparator('')
+      ..addOption(
+        FlagNames.rootFolder,
+        help: 'Root folder.',
+        valueHelp: './',
+        defaultsTo: Directory.current.path,
       );
+  }
 
-  void _congratulateFlag() {
+  void usesSdkPathOption() {
+    argParser.addOption(
+      FlagNames.sdkPath,
+      help:
+          'Dart SDK directory path. Should be provided only when you run the application as compiled executable(https://dart.dev/tools/dart-compile#exe) and automatic Dart SDK path detection fails.',
+      valueHelp: 'directory-path',
+    );
+  }
+
+  void usesExcludeOption() {
+    argParser.addOption(
+      FlagNames.exclude,
+      help: 'File paths in Glob syntax to be exclude.',
+      valueHelp: '{/**.g.dart,/**.template.dart}',
+      defaultsTo: '{/**.g.dart,/**.template.dart}',
+    );
+  }
+
+  void usesCongratulateFlag() {
     argParser
       ..addSeparator('')
       ..addFlag(
@@ -132,6 +127,24 @@ abstract class BaseCommand extends Command<void> {
         defaultsTo: false,
       );
   }
+
+  void usesVerboseFlag() {
+    argParser
+      ..addSeparator('')
+      ..addFlag(
+        FlagNames.verbose,
+        help: 'Show verbose logs',
+        defaultsTo: false,
+      );
+  }
+
+  String? findSdkPath() =>
+      argResults[FlagNames.sdkPath] as String? ??
+      detectSdkPath(
+        Platform.executable,
+        Platform.environment,
+        platformIsWindows: Platform.isWindows,
+      );
 
   Future<void> _verifyThenRunCommand() async {
     try {

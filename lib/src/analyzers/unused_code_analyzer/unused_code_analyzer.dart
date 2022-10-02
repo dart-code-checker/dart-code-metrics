@@ -80,6 +80,8 @@ class UnusedCodeAnalyzer {
       _logger?.progress.update(updateMessage);
 
       for (final filePath in analyzedFiles) {
+        _logger?.infoVerbose('Analyzing $filePath');
+
         final unit = await context.currentSession.getResolvedUnit(filePath);
 
         final codeUsage = _analyzeFileCodeUsages(unit);
@@ -95,6 +97,9 @@ class UnusedCodeAnalyzer {
     }
 
     if (!config.isMonorepo) {
+      _logger?.infoVerbose(
+        'Removing globally exported files with code usages from the analysis: ${codeUsages.exports.length}',
+      );
       codeUsages.exports.forEach(publicCode.remove);
     }
 

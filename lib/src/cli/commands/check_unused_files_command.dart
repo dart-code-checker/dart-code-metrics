@@ -31,8 +31,10 @@ class CheckUnusedFilesCommand extends BaseCommand {
 
   @override
   Future<void> runCommand() async {
-    _logger.isSilent = isNoCongratulate;
-    _logger.progress.start('Checking unused files');
+    _logger
+      ..isSilent = isNoCongratulate
+      ..isVerbose = isVerbose
+      ..progress.start('Checking unused files');
 
     final rootFolder = argResults[FlagNames.rootFolder] as String;
     final folders = argResults.rest;

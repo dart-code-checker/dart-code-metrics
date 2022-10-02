@@ -87,21 +87,33 @@ class UnnecessaryNullableAnalyzer {
       _logger?.progress.update(updateMessage);
 
       for (final filePath in analyzedFiles) {
+        _logger?.infoVerbose('Analyzing $filePath');
+
         final unit = await context.currentSession.getResolvedUnit(filePath);
 
         final invocationsUsage = _analyzeInvocationsUsage(unit);
         if (invocationsUsage != null) {
+          _logger?.infoVerbose(
+            'Found invocations: ${invocationsUsage.elements.length}',
+          );
+
           invocationsUsages.merge(invocationsUsage);
         }
 
         if (!unnecessaryNullableAnalysisConfig.analyzerExcludedPatterns
             .any((pattern) => pattern.matches(filePath))) {
+          _logger
+              ?.infoVerbose('Found declarations: ${declarationsUsages.length}');
+
           declarationsUsages[filePath] = _analyzeDeclarationsUsage(unit);
         }
       }
     }
 
     if (!config.isMonorepo) {
+      _logger?.infoVerbose(
+        'Removing globally exported files with declarations from the analysis: ${invocationsUsages.exports.length}',
+      );
       invocationsUsages.exports.forEach(declarationsUsages.remove);
     }
 

@@ -31,8 +31,10 @@ class CheckUnusedL10nCommand extends BaseCommand {
 
   @override
   Future<void> runCommand() async {
-    _logger.isSilent = isNoCongratulate;
-    _logger.progress.start('Checking unused localization');
+    _logger
+      ..isSilent = isNoCongratulate
+      ..isVerbose = isVerbose
+      ..progress.start('Checking unused localization');
 
     final rootFolder = argResults[FlagNames.rootFolder] as String;
     final classPattern = argResults[FlagNames.l10nClassPattern] as String;
