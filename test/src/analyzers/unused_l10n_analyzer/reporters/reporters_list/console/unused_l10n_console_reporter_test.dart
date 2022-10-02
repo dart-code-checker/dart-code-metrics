@@ -37,7 +37,7 @@ void main() {
             verify(() => output.writeln(captureAny())).captured.cast<String>();
         expect(
           captured,
-          ['\x1B[38;5;20m✔\x1B[0m no unused localization found!'],
+          ['\x1B[38;5;70m✔\x1B[0m no unused localization found!'],
         );
       });
 

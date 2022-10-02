@@ -42,7 +42,7 @@ void main() {
                 .captured
                 .cast<String>();
 
-        expect(captured, equals(['\x1B[38;5;20m✔\x1B[0m no issues found!']));
+        expect(captured, equals(['\x1B[38;5;70m✔\x1B[0m no issues found!']));
         expect(capturedVerbose, equals(captured));
       });
 

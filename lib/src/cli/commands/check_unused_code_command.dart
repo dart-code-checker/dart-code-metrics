@@ -101,7 +101,7 @@ class CheckUnusedCodeCommand extends BaseCommand {
       ..addSeparator('')
       ..addFlag(
         FlagNames.isMonorepo,
-        help: 'Treats all exported code as unused by default.',
+        help: 'Treat all exported code as unused by default.',
       );
   }
 

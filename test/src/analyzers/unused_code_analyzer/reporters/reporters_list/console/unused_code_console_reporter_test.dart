@@ -35,7 +35,7 @@ void main() {
 
         final captured =
             verify(() => output.writeln(captureAny())).captured.cast<String>();
-        expect(captured, ['\x1B[38;5;20m✔\x1B[0m no unused code found!']);
+        expect(captured, ['\x1B[38;5;70m✔\x1B[0m no unused code found!']);
       });
 
       test('without congratulate param', () async {

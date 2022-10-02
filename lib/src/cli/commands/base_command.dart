@@ -133,7 +133,7 @@ abstract class BaseCommand extends Command<void> {
       ..addSeparator('')
       ..addFlag(
         FlagNames.verbose,
-        help: 'Show verbose logs',
+        help: 'Show verbose logs.',
         defaultsTo: false,
       );
   }

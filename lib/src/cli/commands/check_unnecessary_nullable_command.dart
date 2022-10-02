@@ -103,7 +103,7 @@ class CheckUnnecessaryNullableCommand extends BaseCommand {
       ..addFlag(
         FlagNames.isMonorepo,
         help:
-            'Treats all exported code with parameters as non-nullable by default.',
+            'Treat all exported code with parameters as non-nullable by default.',
       );
   }
 

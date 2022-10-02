@@ -23,7 +23,10 @@ const _usage =
     "    --no-congratulate                             Don't show output even when there are no issues.\n"
     '\n'
     '\n'
-    '    --[no-]monorepo                               Treats all exported code with parameters as non-nullable by default.\n'
+    '    --[no-]verbose                                Show verbose logs.\n'
+    '\n'
+    '\n'
+    '    --[no-]monorepo                               Treat all exported code with parameters as non-nullable by default.\n'
     '\n'
     '\n'
     '    --[no-]fatal-found                            Treat found unnecessary nullable parameters as fatal.\n'

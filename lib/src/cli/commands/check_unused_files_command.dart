@@ -109,7 +109,7 @@ class CheckUnusedFilesCommand extends BaseCommand {
       ..addSeparator('')
       ..addFlag(
         FlagNames.isMonorepo,
-        help: 'Treats all exported files as unused by default.',
+        help: 'Treat all exported files as unused by default.',
       );
   }
 

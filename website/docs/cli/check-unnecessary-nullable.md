@@ -32,7 +32,7 @@ Usage: metrics check-unnecessary-nullable [arguments] <directories>
     --no-congratulate                             Don't show output even when there are no issues.
 
 
-    --[no-]monorepo                               Treats all exported code with parameters as non-nullable by default.
+    --[no-]monorepo                               Treat all exported code with parameters as non-nullable by default.
 
 
     --[no-]fatal-found                            Treat found unnecessary nullable parameters as fatal.
