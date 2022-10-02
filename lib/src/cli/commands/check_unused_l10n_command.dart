@@ -10,7 +10,7 @@ import '../models/flag_names.dart';
 import 'base_command.dart';
 
 class CheckUnusedL10nCommand extends BaseCommand {
-  static const _analyzer = UnusedL10nAnalyzer();
+  final UnusedL10nAnalyzer _analyzer;
 
   final Logger _logger;
 
@@ -24,7 +24,8 @@ class CheckUnusedL10nCommand extends BaseCommand {
   String get invocation =>
       '${runner?.executableName} $name [arguments] <directories>';
 
-  CheckUnusedL10nCommand(this._logger) {
+  CheckUnusedL10nCommand(this._logger)
+      : _analyzer = UnusedL10nAnalyzer(_logger) {
     _addFlags();
   }
 

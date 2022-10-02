@@ -10,7 +10,7 @@ import '../models/flag_names.dart';
 import 'base_command.dart';
 
 class CheckUnnecessaryNullableCommand extends BaseCommand {
-  static const _analyzer = UnnecessaryNullableAnalyzer();
+  final UnnecessaryNullableAnalyzer _analyzer;
 
   final Logger _logger;
 
@@ -25,7 +25,8 @@ class CheckUnnecessaryNullableCommand extends BaseCommand {
   String get invocation =>
       '${runner?.executableName} $name [arguments] <directories>';
 
-  CheckUnnecessaryNullableCommand(this._logger) {
+  CheckUnnecessaryNullableCommand(this._logger)
+      : _analyzer = UnnecessaryNullableAnalyzer(_logger) {
     _addFlags();
   }
 
@@ -49,7 +50,6 @@ class CheckUnnecessaryNullableCommand extends BaseCommand {
       folders,
       rootFolder,
       config,
-      _logger,
       sdkPath: findSdkPath(),
     );
 

@@ -18,7 +18,7 @@ import '../models/parsed_arguments.dart';
 import 'base_command.dart';
 
 class AnalyzeCommand extends BaseCommand {
-  static const _analyzer = LintAnalyzer();
+  final LintAnalyzer _analyzer;
 
   final Logger _logger;
 
@@ -33,7 +33,7 @@ class AnalyzeCommand extends BaseCommand {
   String get invocation =>
       '${runner?.executableName} $name [arguments] <directories>';
 
-  AnalyzeCommand(this._logger) {
+  AnalyzeCommand(this._logger) : _analyzer = LintAnalyzer(_logger) {
     _addFlags();
   }
 
@@ -57,7 +57,6 @@ class AnalyzeCommand extends BaseCommand {
       argResults.rest,
       argResults[FlagNames.rootFolder] as String,
       config,
-      _logger,
       sdkPath: findSdkPath(),
     );
 

@@ -28,7 +28,9 @@ import 'used_code_visitor.dart';
 class UnusedCodeAnalyzer {
   static const _ignoreName = 'unused-code';
 
-  const UnusedCodeAnalyzer();
+  final Logger? _logger;
+
+  const UnusedCodeAnalyzer([this._logger]);
 
   /// Returns a reporter for the given [name]. Use the reporter
   /// to convert analysis reports to console, JSON or other supported format.
@@ -47,8 +49,7 @@ class UnusedCodeAnalyzer {
   Future<Iterable<UnusedCodeFileReport>> runCliAnalysis(
     Iterable<String> folders,
     String rootFolder,
-    UnusedCodeConfig config,
-    Logger logger, {
+    UnusedCodeConfig config, {
     String? sdkPath,
   }) async {
     final collection =
@@ -76,7 +77,7 @@ class UnusedCodeAnalyzer {
       final updateMessage = contextsLength == 1
           ? 'Checking unused code for $filesLength file(s)'
           : 'Checking unused code for ${collection.contexts.indexOf(context) + 1}/$contextsLength contexts with $filesLength file(s)';
-      logger.progress.update(updateMessage);
+      _logger?.progress.update(updateMessage);
 
       for (final filePath in analyzedFiles) {
         final unit = await context.currentSession.getResolvedUnit(filePath);

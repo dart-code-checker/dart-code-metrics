@@ -34,7 +34,9 @@ import 'unnecessary_nullable_config.dart';
 class UnnecessaryNullableAnalyzer {
   static const _ignoreName = 'unnecessary-nullable';
 
-  const UnnecessaryNullableAnalyzer();
+  final Logger? _logger;
+
+  const UnnecessaryNullableAnalyzer([this._logger]);
 
   /// Returns a reporter for the given [name]. Use the reporter
   /// to convert analysis reports to console, JSON or other supported format.
@@ -54,8 +56,7 @@ class UnnecessaryNullableAnalyzer {
   Future<Iterable<UnnecessaryNullableFileReport>> runCliAnalysis(
     Iterable<String> folders,
     String rootFolder,
-    UnnecessaryNullableConfig config,
-    Logger logger, {
+    UnnecessaryNullableConfig config, {
     String? sdkPath,
   }) async {
     final collection =
@@ -83,7 +84,7 @@ class UnnecessaryNullableAnalyzer {
       final updateMessage = contextsLength == 1
           ? 'Checking unnecessary nullable parameters for $filesLength file(s)'
           : 'Checking unnecessary nullable parameters for ${collection.contexts.indexOf(context) + 1}/$contextsLength contexts with $filesLength file(s)';
-      logger.progress.update(updateMessage);
+      _logger?.progress.update(updateMessage);
 
       for (final filePath in analyzedFiles) {
         final unit = await context.currentSession.getResolvedUnit(filePath);

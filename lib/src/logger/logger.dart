@@ -22,10 +22,14 @@ class Logger {
 
   final _queue = <String>[];
 
-  void write(String message) => stdout.write(message);
+  final IOSink _output;
+
+  Logger(this._output);
+
+  void write(String message) => _output.write(message);
 
   void info(String message) {
-    stdout.writeln(message);
+    _output.writeln(message);
   }
 
   void error(String message) {
@@ -37,7 +41,7 @@ class Logger {
   }
 
   void success(String message) {
-    stdout.writeln(okPen(message));
+    _output.writeln(okPen(message));
   }
 
   void delayed(String message) => _queue.add(message);

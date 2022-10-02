@@ -10,7 +10,7 @@ import '../models/flag_names.dart';
 import 'base_command.dart';
 
 class CheckUnusedFilesCommand extends BaseCommand {
-  static const _analyzer = UnusedFilesAnalyzer();
+  final UnusedFilesAnalyzer _analyzer;
 
   final Logger _logger;
 
@@ -24,7 +24,8 @@ class CheckUnusedFilesCommand extends BaseCommand {
   String get invocation =>
       '${runner?.executableName} $name [arguments] <directories>';
 
-  CheckUnusedFilesCommand(this._logger) {
+  CheckUnusedFilesCommand(this._logger)
+      : _analyzer = UnusedFilesAnalyzer(_logger) {
     _addFlags();
   }
 

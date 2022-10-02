@@ -14,18 +14,18 @@ import 'models/flag_names.dart';
 /// Represents a cli runner responsible
 /// for running a command based on raw cli call data.
 class CliRunner extends CommandRunner<void> {
-  static final _logger = Logger();
+  final Logger _logger;
 
-  static final _commands = [
-    AnalyzeCommand(_logger),
-    CheckUnusedFilesCommand(_logger),
-    CheckUnusedL10nCommand(_logger),
-    CheckUnusedCodeCommand(_logger),
-    CheckUnnecessaryNullableCommand(_logger),
-  ];
-
-  CliRunner() : super('metrics', 'Analyze and improve your code quality.') {
-    _commands.forEach(addCommand);
+  CliRunner([IOSink? output])
+      : _logger = Logger(output ?? stdout),
+        super('metrics', 'Analyze and improve your code quality.') {
+    [
+      AnalyzeCommand(_logger),
+      CheckUnusedFilesCommand(_logger),
+      CheckUnusedL10nCommand(_logger),
+      CheckUnusedCodeCommand(_logger),
+      CheckUnnecessaryNullableCommand(_logger),
+    ].forEach(addCommand);
 
     _usesVersionOption();
   }

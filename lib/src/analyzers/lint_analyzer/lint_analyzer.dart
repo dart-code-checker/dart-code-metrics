@@ -32,7 +32,9 @@ import 'utils/report_utils.dart';
 
 /// The analyzer responsible for collecting lint reports.
 class LintAnalyzer {
-  const LintAnalyzer();
+  final Logger? _logger;
+
+  const LintAnalyzer([this._logger]);
 
   /// Returns a reporter for the given [name]. Use the reporter
   /// to convert analysis reports to console, JSON or other supported format.
@@ -73,8 +75,7 @@ class LintAnalyzer {
   Future<Iterable<LintFileReport>> runCliAnalysis(
     Iterable<String> folders,
     String rootFolder,
-    LintConfig config,
-    Logger logger, {
+    LintConfig config, {
     String? sdkPath,
   }) async {
     final collection =
@@ -101,7 +102,7 @@ class LintAnalyzer {
       final updateMessage = contextsLength == 1
           ? 'Analyzing $filesLength file(s)'
           : 'Analyzing ${collection.contexts.indexOf(context) + 1}/$contextsLength contexts with $filesLength file(s)';
-      logger.progress.update(updateMessage);
+      _logger?.progress.update(updateMessage);
 
       for (final filePath in analyzedFiles) {
         final unit = await context.currentSession.getResolvedUnit(filePath);

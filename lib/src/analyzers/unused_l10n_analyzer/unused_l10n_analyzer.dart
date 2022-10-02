@@ -13,6 +13,7 @@ import 'package:source_span/source_span.dart';
 
 import '../../config_builder/config_builder.dart';
 import '../../config_builder/models/analysis_options.dart';
+import '../../logger/logger.dart';
 import '../../reporters/models/reporter.dart';
 import '../../utils/analyzer_utils.dart';
 import 'models/unused_l10n_file_report.dart';
@@ -25,7 +26,9 @@ import 'unused_l10n_visitor.dart';
 
 /// The analyzer responsible for collecting unused localization reports.
 class UnusedL10nAnalyzer {
-  const UnusedL10nAnalyzer();
+  final Logger? _logger;
+
+  const UnusedL10nAnalyzer([this._logger]);
 
   /// Returns a reporter for the given [name]. Use the reporter
   /// to convert analysis reports to console, JSON or other supported format.

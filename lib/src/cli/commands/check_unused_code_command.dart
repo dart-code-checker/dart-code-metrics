@@ -10,7 +10,7 @@ import '../models/flag_names.dart';
 import 'base_command.dart';
 
 class CheckUnusedCodeCommand extends BaseCommand {
-  static const _analyzer = UnusedCodeAnalyzer();
+  final UnusedCodeAnalyzer _analyzer;
 
   final Logger _logger;
 
@@ -24,7 +24,8 @@ class CheckUnusedCodeCommand extends BaseCommand {
   String get invocation =>
       '${runner?.executableName} $name [arguments] <directories>';
 
-  CheckUnusedCodeCommand(this._logger) {
+  CheckUnusedCodeCommand(this._logger)
+      : _analyzer = UnusedCodeAnalyzer(_logger) {
     _addFlags();
   }
 
@@ -48,7 +49,6 @@ class CheckUnusedCodeCommand extends BaseCommand {
       folders,
       rootFolder,
       config,
-      _logger,
       sdkPath: findSdkPath(),
     );
 
