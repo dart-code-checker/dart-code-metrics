@@ -39,7 +39,5 @@ class _NotCorrectNameIssue extends IntlBaseIssue {
 }
 
 class _NotExistNameIssue extends IntlBaseIssue {
-  const _NotExistNameIssue(
-    AstNode node,
-  ) : super(node);
+  const _NotExistNameIssue(super.node);
 }

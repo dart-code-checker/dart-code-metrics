@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import '../../../../../reporters/models/github_reporter.dart';
 import '../../../models/lint_file_report.dart';
 import '../../../models/severity.dart';
@@ -17,7 +15,7 @@ const _deprecationMessage =
 /// Consider using Dart Code Metrics GitHub Action instead.
 class LintGitHubReporter extends GitHubReporter<LintFileReport,
     SummaryLintReportRecord<Object>, LintReportParams> {
-  const LintGitHubReporter(IOSink output) : super(output);
+  const LintGitHubReporter(super.output);
 
   @override
   Future<void> report(

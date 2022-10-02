@@ -55,7 +55,7 @@ const _designIssues = 'Design issues';
 /// Use it to create reports in HTML format.
 class LintHtmlReporter extends HtmlReporter<LintFileReport,
     SummaryLintReportRecord<Object>, LintReportParams> {
-  LintHtmlReporter(String reportFolder) : super(reportFolder);
+  LintHtmlReporter(super.reportFolder);
 
   @override
   Future<void> report(
