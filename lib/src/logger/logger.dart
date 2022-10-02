@@ -53,6 +53,21 @@ class Logger {
     stderr.writeln(warningPen('[$tag] $message'));
   }
 
+  void updateAvailable(
+    String version,
+    String newVersion,
+    String changelogLink,
+  ) {
+    if (!_isSilent) {
+      _output
+        ..writeln()
+        ..writeln(
+          '🆕 Update available! ${warningPen('$version -> $newVersion')}',
+        )
+        ..writeln('🆕 Changelog: ${warningPen(changelogLink)}');
+    }
+  }
+
   void success(String message) {
     _output.writeln(okPen(message));
   }
