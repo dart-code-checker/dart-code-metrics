@@ -37,5 +37,9 @@ dev_dependencies:
   test_lints:
     path: ./test/resources/test_lints
 
+# for 2.17.1 compatibility
+dependency_overrides:
+  platform: ^3.1.0
+
 executables:
   metrics:
