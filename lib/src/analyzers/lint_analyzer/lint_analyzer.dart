@@ -6,6 +6,7 @@ import 'package:path/path.dart';
 
 import '../../config_builder/config_builder.dart';
 import '../../config_builder/models/analysis_options.dart';
+import '../../logger/logger.dart';
 import '../../reporters/models/file_report.dart';
 import '../../reporters/models/reporter.dart';
 import '../../utils/analyzer_utils.dart';
@@ -31,7 +32,9 @@ import 'utils/report_utils.dart';
 
 /// The analyzer responsible for collecting lint reports.
 class LintAnalyzer {
-  const LintAnalyzer();
+  final Logger? _logger;
+
+  const LintAnalyzer([this._logger]);
 
   /// Returns a reporter for the given [name]. Use the reporter
   /// to convert analysis reports to console, JSON or other supported format.
@@ -93,7 +96,17 @@ class LintAnalyzer {
 
       final analyzedFiles =
           filePaths.intersection(context.contextRoot.analyzedFiles().toSet());
+
+      final contextsLength = collection.contexts.length;
+      final filesLength = analyzedFiles.length;
+      final updateMessage = contextsLength == 1
+          ? 'Analyzing $filesLength file(s)'
+          : 'Analyzing ${collection.contexts.indexOf(context) + 1}/$contextsLength contexts with $filesLength file(s)';
+      _logger?.progress.update(updateMessage);
+
       for (final filePath in analyzedFiles) {
+        _logger?.infoVerbose('Analyzing $filePath');
+
         final unit = await context.currentSession.getResolvedUnit(filePath);
         if (unit is ResolvedUnitResult) {
           final result = _analyzeFile(
@@ -104,6 +117,10 @@ class LintAnalyzer {
           );
 
           if (result != null) {
+            _logger?.infoVerbose(
+              'Analysis result: found ${result.issues.length} issues',
+            );
+
             analyzerResult.add(result);
           }
         }
@@ -176,78 +193,60 @@ class LintAnalyzer {
     String rootFolder, {
     String? filePath,
   }) {
-    if (filePath != null && _isSupported(result)) {
-      final ignores = Suppression(result.content, result.lineInfo);
-      final internalResult = InternalResolvedUnitResult(
-        filePath,
-        result.content,
-        result.unit,
-        result.lineInfo,
+    if (filePath == null || !_isSupported(result)) {
+      return null;
+    }
+
+    final ignores = Suppression(result.content, result.lineInfo);
+    final internalResult = InternalResolvedUnitResult(
+      filePath,
+      result.content,
+      result.unit,
+      result.lineInfo,
+    );
+    final relativePath = relative(filePath, from: rootFolder);
+
+    final issues = <Issue>[];
+    if (!isExcluded(filePath, config.rulesExcludes)) {
+      issues.addAll(_checkOnCodeIssues(ignores, internalResult, config));
+    }
+
+    if (!isExcluded(filePath, config.metricsExcludes)) {
+      final visitor = ScopeVisitor();
+      internalResult.unit.visitChildren(visitor);
+
+      final classMetrics = _checkClassMetrics(visitor, internalResult, config);
+      final fileMetrics = _checkFileMetrics(visitor, internalResult, config);
+      final functionMetrics =
+          _checkFunctionMetrics(visitor, internalResult, config);
+      final antiPatterns = _checkOnAntiPatterns(
+        ignores,
+        internalResult,
+        config,
+        classMetrics,
+        functionMetrics,
       );
-      final relativePath = relative(filePath, from: rootFolder);
-
-      final issues = <Issue>[];
-      if (!isExcluded(filePath, config.rulesExcludes)) {
-        issues.addAll(
-          _checkOnCodeIssues(
-            ignores,
-            internalResult,
-            config,
-          ),
-        );
-      }
-
-      if (!isExcluded(filePath, config.metricsExcludes)) {
-        final visitor = ScopeVisitor();
-        internalResult.unit.visitChildren(visitor);
-
-        final classMetrics =
-            _checkClassMetrics(visitor, internalResult, config);
-
-        final fileMetrics = _checkFileMetrics(visitor, internalResult, config);
-
-        final functionMetrics =
-            _checkFunctionMetrics(visitor, internalResult, config);
-
-        final antiPatterns = _checkOnAntiPatterns(
-          ignores,
-          internalResult,
-          config,
-          classMetrics,
-          functionMetrics,
-        );
-
-        return LintFileReport(
-          path: filePath,
-          relativePath: relativePath,
-          file: fileMetrics,
-          classes: Map.unmodifiable(classMetrics
-              .map<String, Report>((key, value) => MapEntry(key.name, value))),
-          functions: Map.unmodifiable(functionMetrics.map<String, Report>(
-            (key, value) => MapEntry(key.fullName, value),
-          )),
-          issues: issues,
-          antiPatternCases: antiPatterns,
-        );
-      }
 
       return LintFileReport(
         path: filePath,
         relativePath: relativePath,
-        file: Report(
-          location:
-              nodeLocation(node: internalResult.unit, source: internalResult),
-          metrics: const [],
-          declaration: internalResult.unit,
-        ),
-        classes: const {},
-        functions: const {},
+        file: fileMetrics,
+        classes: Map.unmodifiable(classMetrics
+            .map<String, Report>((key, value) => MapEntry(key.name, value))),
+        functions: Map.unmodifiable(functionMetrics.map<String, Report>(
+          (key, value) => MapEntry(key.fullName, value),
+        )),
         issues: issues,
-        antiPatternCases: const [],
+        antiPatternCases: antiPatterns,
       );
     }
 
-    return null;
+    return LintFileReport.onlyIssues(
+      path: filePath,
+      relativePath: relativePath,
+      file: _getEmptyFileReport(internalResult),
+      issues: issues,
+    );
   }
 
   Iterable<Issue> _checkOnCodeIssues(
@@ -367,6 +366,14 @@ class LintAnalyzer {
       metrics: metrics,
     );
   }
+
+  Report _getEmptyFileReport(InternalResolvedUnitResult internalResult) =>
+      Report(
+        location:
+            nodeLocation(node: internalResult.unit, source: internalResult),
+        metrics: const [],
+        declaration: internalResult.unit,
+      );
 
   Map<ScopedFunctionDeclaration, Report> _checkFunctionMetrics(
     ScopeVisitor visitor,

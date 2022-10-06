@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
+import 'package:pub_updater/pub_updater.dart';
 
+import '../logger/logger.dart';
 import '../version.dart';
 import 'commands/analyze_command.dart';
 import 'commands/check_unnecessary_nullable_command.dart';
@@ -13,20 +15,21 @@ import 'models/flag_names.dart';
 /// Represents a cli runner responsible
 /// for running a command based on raw cli call data.
 class CliRunner extends CommandRunner<void> {
-  static final _commands = [
-    AnalyzeCommand(),
-    CheckUnusedFilesCommand(),
-    CheckUnusedL10nCommand(),
-    CheckUnusedCodeCommand(),
-    CheckUnnecessaryNullableCommand(),
-  ];
+  final Logger _logger;
 
-  final IOSink _output;
+  final PubUpdater? _pubUpdater;
 
-  CliRunner([IOSink? output])
-      : _output = output ?? stdout,
+  CliRunner([IOSink? output, PubUpdater? pubUpdater])
+      : _logger = Logger(output ?? stdout),
+        _pubUpdater = pubUpdater ?? PubUpdater(),
         super('metrics', 'Analyze and improve your code quality.') {
-    _commands.forEach(addCommand);
+    [
+      AnalyzeCommand(_logger),
+      CheckUnusedFilesCommand(_logger),
+      CheckUnusedL10nCommand(_logger),
+      CheckUnusedCodeCommand(_logger),
+      CheckUnnecessaryNullableCommand(_logger),
+    ].forEach(addCommand);
 
     _usesVersionOption();
   }
@@ -45,23 +48,25 @@ class CliRunner extends CommandRunner<void> {
       final showVersion = results[FlagNames.version] as bool;
 
       if (showVersion) {
-        _output.writeln('Dart Code Metrics version: $packageVersion');
+        _logger.info('Dart Code Metrics version: $packageVersion');
 
         return;
       }
 
       await super.run(argsWithDefaultCommand);
     } on UsageException catch (e) {
-      _output
-        ..writeln(e.message)
-        ..writeln(e.usage);
+      _logger
+        ..info(e.message)
+        ..info(e.usage);
 
       exit(64);
     } on Exception catch (e) {
-      _output.writeln('Oops; metrics has exited unexpectedly: "$e"');
+      _logger.error('Oops; metrics has exited unexpectedly: "$e"');
 
       exit(1);
     }
+
+    await _checkForUpdates();
 
     exit(0);
   }
@@ -80,5 +85,19 @@ class CliRunner extends CommandRunner<void> {
         help: 'Reports the version of this tool.',
         negatable: false,
       );
+  }
+
+  Future<void> _checkForUpdates() async {
+    try {
+      final latestVersion =
+          await _pubUpdater?.getLatestVersion('dart_code_metrics');
+      final isUpToDate = packageVersion == latestVersion;
+      if (!isUpToDate && latestVersion != null) {
+        final changelogLink =
+            'https://github.com/dart-code-checker/dart-code-metrics/releases/tag/$latestVersion';
+        _logger.updateAvailable(packageVersion, latestVersion, changelogLink);
+      }
+      // ignore: avoid_catches_without_on_clauses
+    } catch (_) {}
   }
 }

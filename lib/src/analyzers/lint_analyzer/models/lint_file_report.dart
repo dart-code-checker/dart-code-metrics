@@ -36,4 +36,13 @@ class LintFileReport implements FileReport {
     required this.issues,
     required this.antiPatternCases,
   });
+
+  const LintFileReport.onlyIssues({
+    required this.path,
+    required this.relativePath,
+    required this.file,
+    required this.issues,
+  })  : classes = const {},
+        functions = const {},
+        antiPatternCases = const {};
 }

@@ -12,9 +12,9 @@ abstract class ConsoleReporter<T extends FileReport, S, P>
   static const String id = 'console';
   static const String verboseId = 'console-verbose';
 
-  final AnsiPen alarmPen = AnsiPen()..rgb(r: 0.88, g: 0.32, b: 0.36);
-  final AnsiPen warningPen = AnsiPen()..rgb(r: 0.98, g: 0.68, b: 0.4);
-  final AnsiPen okPen = AnsiPen()..rgb(r: 0.08, g: 0.11, b: 0.81);
+  final alarmPen = AnsiPen()..rgb(r: 0.88, g: 0.32, b: 0.36);
+  final warningPen = AnsiPen()..rgb(r: 0.98, g: 0.68, b: 0.4);
+  final okPen = AnsiPen()..rgb(r: 0.23, g: 0.61, b: 0.16);
 
   @protected
   final IOSink output;

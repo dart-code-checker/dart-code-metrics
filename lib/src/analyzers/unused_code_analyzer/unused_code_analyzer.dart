@@ -10,6 +10,7 @@ import 'package:source_span/source_span.dart';
 
 import '../../config_builder/config_builder.dart';
 import '../../config_builder/models/analysis_options.dart';
+import '../../logger/logger.dart';
 import '../../reporters/models/reporter.dart';
 import '../../utils/analyzer_utils.dart';
 import '../../utils/suppression.dart';
@@ -27,7 +28,9 @@ import 'used_code_visitor.dart';
 class UnusedCodeAnalyzer {
   static const _ignoreName = 'unused-code';
 
-  const UnusedCodeAnalyzer();
+  final Logger? _logger;
+
+  const UnusedCodeAnalyzer([this._logger]);
 
   /// Returns a reporter for the given [name]. Use the reporter
   /// to convert analysis reports to console, JSON or other supported format.
@@ -68,7 +71,17 @@ class UnusedCodeAnalyzer {
 
       final analyzedFiles =
           filePaths.intersection(context.contextRoot.analyzedFiles().toSet());
+
+      final contextsLength = collection.contexts.length;
+      final filesLength = analyzedFiles.length;
+      final updateMessage = contextsLength == 1
+          ? 'Checking unused code for $filesLength file(s)'
+          : 'Checking unused code for ${collection.contexts.indexOf(context) + 1}/$contextsLength contexts with $filesLength file(s)';
+      _logger?.progress.update(updateMessage);
+
       for (final filePath in analyzedFiles) {
+        _logger?.infoVerbose('Analyzing $filePath');
+
         final unit = await context.currentSession.getResolvedUnit(filePath);
 
         final codeUsage = _analyzeFileCodeUsages(unit);
@@ -84,6 +97,9 @@ class UnusedCodeAnalyzer {
     }
 
     if (!config.isMonorepo) {
+      _logger?.infoVerbose(
+        'Removing globally exported files with code usages from the analysis: ${codeUsages.exports.length}',
+      );
       codeUsages.exports.forEach(publicCode.remove);
     }
 

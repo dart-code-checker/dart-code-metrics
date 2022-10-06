@@ -21,6 +21,7 @@ dependencies:
   html: ">=0.15.0 <1.0.0"
   meta: ^1.7.0
   path: ^1.8.0
+  pub_updater: ^0.2.2
   source_span: ^1.8.0
   xml: ">=5.3.0 <7.0.0"
   yaml: ^3.1.0
@@ -35,6 +36,10 @@ dev_dependencies:
   # internal package, used only in tests data
   test_lints:
     path: ./test/resources/test_lints
+
+# for 2.17.1 compatibility
+dependency_overrides:
+  platform: ^3.1.0
 
 executables:
   metrics:

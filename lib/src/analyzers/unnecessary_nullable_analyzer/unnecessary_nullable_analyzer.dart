@@ -15,6 +15,7 @@ import 'package:source_span/source_span.dart';
 
 import '../../config_builder/config_builder.dart';
 import '../../config_builder/models/analysis_options.dart';
+import '../../logger/logger.dart';
 import '../../reporters/models/reporter.dart';
 import '../../utils/analyzer_utils.dart';
 import '../../utils/flutter_types_utils.dart';
@@ -33,7 +34,9 @@ import 'unnecessary_nullable_config.dart';
 class UnnecessaryNullableAnalyzer {
   static const _ignoreName = 'unnecessary-nullable';
 
-  const UnnecessaryNullableAnalyzer();
+  final Logger? _logger;
+
+  const UnnecessaryNullableAnalyzer([this._logger]);
 
   /// Returns a reporter for the given [name]. Use the reporter
   /// to convert analysis reports to console, JSON or other supported format.
@@ -75,22 +78,42 @@ class UnnecessaryNullableAnalyzer {
 
       final analyzedFiles =
           filePaths.intersection(context.contextRoot.analyzedFiles().toSet());
+
+      final contextsLength = collection.contexts.length;
+      final filesLength = analyzedFiles.length;
+      final updateMessage = contextsLength == 1
+          ? 'Checking unnecessary nullable parameters for $filesLength file(s)'
+          : 'Checking unnecessary nullable parameters for ${collection.contexts.indexOf(context) + 1}/$contextsLength contexts with $filesLength file(s)';
+      _logger?.progress.update(updateMessage);
+
       for (final filePath in analyzedFiles) {
+        _logger?.infoVerbose('Analyzing $filePath');
+
         final unit = await context.currentSession.getResolvedUnit(filePath);
 
         final invocationsUsage = _analyzeInvocationsUsage(unit);
         if (invocationsUsage != null) {
+          _logger?.infoVerbose(
+            'Found invocations: ${invocationsUsage.elements.length}',
+          );
+
           invocationsUsages.merge(invocationsUsage);
         }
 
         if (!unnecessaryNullableAnalysisConfig.analyzerExcludedPatterns
             .any((pattern) => pattern.matches(filePath))) {
+          _logger
+              ?.infoVerbose('Found declarations: ${declarationsUsages.length}');
+
           declarationsUsages[filePath] = _analyzeDeclarationsUsage(unit);
         }
       }
     }
 
     if (!config.isMonorepo) {
+      _logger?.infoVerbose(
+        'Removing globally exported files with declarations from the analysis: ${invocationsUsages.exports.length}',
+      );
       invocationsUsages.exports.forEach(declarationsUsages.remove);
     }
 

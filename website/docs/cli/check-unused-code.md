@@ -36,7 +36,7 @@ Usage: metrics check-unused-code [arguments] <directories>
     --no-congratulate                             Don't show output even when there are no issues.
 
 
-    --[no-]monorepo                               Treats all exported code as unused by default.
+    --[no-]monorepo                               Treat all exported code as unused by default.
 
 
     --[no-]fatal-unused                           Treat find unused file as fatal.

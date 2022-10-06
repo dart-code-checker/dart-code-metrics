@@ -5,11 +5,14 @@ import 'dart:io';
 import '../../analyzers/unused_l10n_analyzer/reporters/unused_l10n_report_params.dart';
 import '../../analyzers/unused_l10n_analyzer/unused_l10n_analyzer.dart';
 import '../../config_builder/config_builder.dart';
+import '../../logger/logger.dart';
 import '../models/flag_names.dart';
 import 'base_command.dart';
 
 class CheckUnusedL10nCommand extends BaseCommand {
-  static const _analyzer = UnusedL10nAnalyzer();
+  final UnusedL10nAnalyzer _analyzer;
+
+  final Logger _logger;
 
   @override
   String get name => 'check-unused-l10n';
@@ -21,18 +24,22 @@ class CheckUnusedL10nCommand extends BaseCommand {
   String get invocation =>
       '${runner?.executableName} $name [arguments] <directories>';
 
-  CheckUnusedL10nCommand() {
+  CheckUnusedL10nCommand(this._logger)
+      : _analyzer = UnusedL10nAnalyzer(_logger) {
     _addFlags();
   }
 
   @override
   Future<void> runCommand() async {
+    _logger
+      ..isSilent = isNoCongratulate
+      ..isVerbose = isVerbose
+      ..progress.start('Checking unused localization');
+
     final rootFolder = argResults[FlagNames.rootFolder] as String;
     final classPattern = argResults[FlagNames.l10nClassPattern] as String;
     final excludePath = argResults[FlagNames.exclude] as String;
     final reporterName = argResults[FlagNames.reporter] as String;
-
-    final noCongratulate = argResults[FlagNames.noCongratulate] as bool;
 
     final folders = argResults.rest;
 
@@ -48,6 +55,8 @@ class CheckUnusedL10nCommand extends BaseCommand {
       sdkPath: findSdkPath(),
     );
 
+    _logger.progress.complete('Analysis is completed. Preparing the results:');
+
     await _analyzer
         .getReporter(
           name: reporterName,
@@ -56,7 +65,7 @@ class CheckUnusedL10nCommand extends BaseCommand {
         ?.report(
           unusedL10nResult,
           additionalParams:
-              UnusedL10NReportParams(congratulate: !noCongratulate),
+              UnusedL10NReportParams(congratulate: !isNoCongratulate),
         );
 
     if (unusedL10nResult.isNotEmpty &&

@@ -5,11 +5,14 @@ import 'dart:io';
 import '../../analyzers/unused_files_analyzer/reporters/unused_files_report_params.dart';
 import '../../analyzers/unused_files_analyzer/unused_files_analyzer.dart';
 import '../../config_builder/config_builder.dart';
+import '../../logger/logger.dart';
 import '../models/flag_names.dart';
 import 'base_command.dart';
 
 class CheckUnusedFilesCommand extends BaseCommand {
-  static const _analyzer = UnusedFilesAnalyzer();
+  final UnusedFilesAnalyzer _analyzer;
+
+  final Logger _logger;
 
   @override
   String get name => 'check-unused-files';
@@ -21,18 +24,23 @@ class CheckUnusedFilesCommand extends BaseCommand {
   String get invocation =>
       '${runner?.executableName} $name [arguments] <directories>';
 
-  CheckUnusedFilesCommand() {
+  CheckUnusedFilesCommand(this._logger)
+      : _analyzer = UnusedFilesAnalyzer(_logger) {
     _addFlags();
   }
 
   @override
   Future<void> runCommand() async {
+    _logger
+      ..isSilent = isNoCongratulate
+      ..isVerbose = isVerbose
+      ..progress.start('Checking unused files');
+
     final rootFolder = argResults[FlagNames.rootFolder] as String;
     final folders = argResults.rest;
     final excludePath = argResults[FlagNames.exclude] as String;
     final reporterName = argResults[FlagNames.reporter] as String;
     final isMonorepo = argResults[FlagNames.isMonorepo] as bool;
-    final noCongratulate = argResults[FlagNames.noCongratulate] as bool;
     final deleteFiles = argResults[FlagNames.deleteFiles] as bool;
 
     final config = ConfigBuilder.getUnusedFilesConfigFromArgs(
@@ -47,6 +55,8 @@ class CheckUnusedFilesCommand extends BaseCommand {
       sdkPath: findSdkPath(),
     );
 
+    _logger.progress.complete('Analysis is completed. Preparing the results:');
+
     if (deleteFiles) {
       _analyzer.deleteAllUnusedFiles(unusedFilesResult);
     }
@@ -59,7 +69,7 @@ class CheckUnusedFilesCommand extends BaseCommand {
         ?.report(
           unusedFilesResult,
           additionalParams: UnusedFilesReportParams(
-            congratulate: !noCongratulate,
+            congratulate: !isNoCongratulate,
             deleteUnusedFiles: deleteFiles,
           ),
         );
@@ -99,7 +109,7 @@ class CheckUnusedFilesCommand extends BaseCommand {
       ..addSeparator('')
       ..addFlag(
         FlagNames.isMonorepo,
-        help: 'Treats all exported files as unused by default.',
+        help: 'Treat all exported files as unused by default.',
       );
   }
 

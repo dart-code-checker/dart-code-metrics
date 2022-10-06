@@ -6,6 +6,7 @@ import 'package:path/path.dart';
 
 import '../../config_builder/config_builder.dart';
 import '../../config_builder/models/analysis_options.dart';
+import '../../logger/logger.dart';
 import '../../reporters/models/reporter.dart';
 import '../../utils/analyzer_utils.dart';
 import '../../utils/suppression.dart';
@@ -20,7 +21,9 @@ import 'unused_files_visitor.dart';
 class UnusedFilesAnalyzer {
   static const _ignoreName = 'unused-files';
 
-  const UnusedFilesAnalyzer();
+  final Logger? _logger;
+
+  const UnusedFilesAnalyzer([this._logger]);
 
   /// Returns a reporter for the given [name]. Use the reporter
   /// to convert analysis reports to console, JSON or other supported format.
@@ -63,6 +66,8 @@ class UnusedFilesAnalyzer {
       final analyzedFiles =
           filePaths.intersection(context.contextRoot.analyzedFiles().toSet());
       for (final filePath in analyzedFiles) {
+        _logger?.infoVerbose('Analyzing $filePath');
+
         final unit = await context.currentSession.getResolvedUnit(filePath);
         unusedFiles.removeAll(_analyzeFile(filePath, unit, config.isMonorepo));
       }

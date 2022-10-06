@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* feat: add logger and progress indication.
 * chore: changed min `SDK` version to `2.17.1`.
 
 ## 4.19.1

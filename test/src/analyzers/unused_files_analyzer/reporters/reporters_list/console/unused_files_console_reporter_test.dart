@@ -38,7 +38,7 @@ void main() {
             verify(() => output.writeln(captureAny())).captured.cast<String>();
         expect(
           captured,
-          equals(['\x1B[38;5;20m✔\x1B[0m no unused files found!']),
+          equals(['\x1B[38;5;70m✔\x1B[0m no unused files found!']),
         );
       });
 
@@ -94,7 +94,7 @@ void main() {
           equals([
             '\x1B[38;5;180m⚠\x1B[0m unused file: $fullPath',
             '',
-            '\x1B[38;5;20m✔\x1B[0m \x1B[38;5;167m1\x1B[0m files were successfully deleted',
+            '\x1B[38;5;70m✔\x1B[0m \x1B[38;5;167m1\x1B[0m files were successfully deleted',
           ]),
         );
       });
