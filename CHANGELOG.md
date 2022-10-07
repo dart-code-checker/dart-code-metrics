@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* feat: add static code diagnostic [`arguments-ordering`](https://dartcodemetrics.dev/docs/rules/common/arguments-ordering).
+
 ## 5.0.1
 
 * fix: correctly available check rule names.
