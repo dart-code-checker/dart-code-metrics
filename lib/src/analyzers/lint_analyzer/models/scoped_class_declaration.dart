@@ -18,9 +18,9 @@ class ScopedClassDeclaration {
     String? name;
 
     if (node is ExtensionDeclaration) {
-      name = node.name?.name;
+      name = node.name?.lexeme;
     } else if (node is NamedCompilationUnitMember) {
-      name = node.name.name;
+      name = node.name.lexeme;
     }
 
     return name ?? '';

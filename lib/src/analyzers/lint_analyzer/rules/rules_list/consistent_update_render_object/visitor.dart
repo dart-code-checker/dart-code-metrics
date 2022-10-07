@@ -72,8 +72,7 @@ class _MethodsVisitor extends GeneralizingAstVisitor<void> {
 
   @override
   void visitMethodDeclaration(MethodDeclaration node) {
-    // ignore: deprecated_member_use
-    final name = node.name.name;
+    final name = node.name.lexeme;
     if (name == 'updateRenderObject') {
       updateDeclaration = node;
     } else if (name == 'createRenderObject') {

@@ -24,7 +24,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
     final declaration = _visitDeclaration(
       node,
-      node.name,
+      node.name.lexeme,
       node.returnType,
       _ignoredNames,
       _ignoredAnnotations,
@@ -118,7 +118,7 @@ class _DeclarationsVisitor extends RecursiveAstVisitor<void> {
 
     final declaration = _visitDeclaration(
       node,
-      node.name,
+      node.name.lexeme,
       node.returnType,
       _ignoredNames,
       _ignoredAnnotations,
@@ -140,7 +140,7 @@ class _DeclarationsVisitor extends RecursiveAstVisitor<void> {
 
     final declaration = _visitDeclaration(
       node,
-      node.name,
+      node.name.lexeme,
       node.returnType,
       _ignoredNames,
       _ignoredAnnotations,

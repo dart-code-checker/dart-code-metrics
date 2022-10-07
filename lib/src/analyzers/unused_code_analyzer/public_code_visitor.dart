@@ -23,7 +23,7 @@ class PublicCodeVisitor extends GeneralizingAstVisitor<void> {
     }
 
     if (node is FunctionDeclaration) {
-      if (isEntrypoint(node.name.name, node.metadata)) {
+      if (isEntrypoint(node.name.lexeme, node.metadata)) {
         return;
       }
     }

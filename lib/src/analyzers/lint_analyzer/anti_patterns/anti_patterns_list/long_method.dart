@@ -87,10 +87,10 @@ class LongMethod extends Pattern {
 
     if (declaration is FunctionDeclaration) {
       returnType = declaration.returnType?.type;
-      name = declaration.name.name;
+      name = declaration.name.lexeme;
     } else if (declaration is MethodDeclaration) {
       returnType = declaration.returnType?.type;
-      name = declaration.name.name;
+      name = declaration.name.lexeme;
     }
 
     return returnType != null && hasWidgetType(returnType) && name == 'build';

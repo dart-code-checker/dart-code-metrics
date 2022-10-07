@@ -3,18 +3,19 @@
 part of 'prefer_correct_identifier_length_rule.dart';
 
 class _Visitor extends ScopeVisitor {
-  final _declarationNodes = <SimpleIdentifier>[];
+  final _declarationNodes = <Token>[];
   final _Validator validator;
 
   _Visitor(this.validator);
 
-  Iterable<SimpleIdentifier> get nodes => _declarationNodes;
+  Iterable<Token> get nodes => _declarationNodes;
 
   @override
   void visitMethodDeclaration(MethodDeclaration node) {
     super.visitMethodDeclaration(node);
 
-    if ((node.isGetter || node.isSetter) && !validator.isValid(node.name)) {
+    if ((node.isGetter || node.isSetter) &&
+        !validator.isValid(node.name.lexeme)) {
       _declarationNodes.add(node.name);
     }
   }
@@ -24,7 +25,7 @@ class _Visitor extends ScopeVisitor {
     super.visitEnumDeclaration(node);
 
     for (final node in node.constants) {
-      if (!validator.isValid(node.name)) {
+      if (!validator.isValid(node.name.lexeme)) {
         _declarationNodes.add(node.name);
       }
     }
@@ -34,7 +35,7 @@ class _Visitor extends ScopeVisitor {
   void visitVariableDeclaration(VariableDeclaration node) {
     super.visitVariableDeclaration(node);
 
-    if (!validator.isValid(node.name)) {
+    if (!validator.isValid(node.name.lexeme)) {
       _declarationNodes.add(node.name);
     }
   }

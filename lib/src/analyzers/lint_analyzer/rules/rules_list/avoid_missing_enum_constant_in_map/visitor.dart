@@ -14,15 +14,14 @@ class _Visitor extends RecursiveAstVisitor<void> {
     }
 
     final usages = <String>[];
-    ClassElement? enumElement;
+    EnumElement? enumElement;
 
     for (final element in node.elements) {
       if (element is MapLiteralEntry) {
         final key = element.key;
         if (key is PrefixedIdentifier) {
           final staticElement = key.prefix.staticElement;
-          if (staticElement is ClassElement &&
-              staticElement.kind == ElementKind.ENUM) {
+          if (staticElement is EnumElement) {
             enumElement ??= staticElement;
             usages.add(key.identifier.name);
           }

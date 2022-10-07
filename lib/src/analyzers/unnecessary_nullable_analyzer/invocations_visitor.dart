@@ -13,9 +13,9 @@ class InvocationsVisitor extends RecursiveAstVisitor<void> {
   void visitExportDirective(ExportDirective node) {
     super.visitExportDirective(node);
 
-    final path = node.uriSource?.fullName;
-    if (path != null) {
-      invocationsUsages.exports.add(path);
+    final uri = node.element2?.uri;
+    if (uri is DirectiveUriWithSource) {
+      invocationsUsages.exports.add(uri.source.fullName);
     }
   }
 

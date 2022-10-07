@@ -94,7 +94,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
     final typeArgElements = type.typeArguments
         .map((typeArg) {
-          final element = typeArg.element;
+          final element = typeArg.element2;
 
           return element is ClassElement
               ? _TypedClassElement(typeArg, element)

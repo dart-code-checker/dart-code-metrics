@@ -1,6 +1,6 @@
 part of 'ban_name_rule.dart';
 
-class _Visitor extends RecursiveAstVisitor<void> {
+class _Visitor extends GeneralizingAstVisitor<void> {
   final Map<String, _BanNameConfigEntry> _entryMap;
 
   final _nodes = <_NodeWithMessage>[];
@@ -12,27 +12,33 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
   @override
   void visitSimpleIdentifier(SimpleIdentifier node) {
-    super.visitSimpleIdentifier(node);
-    _visitIdent(node, node);
+    _visitIdent(node, node.name);
   }
 
   @override
   void visitPrefixedIdentifier(PrefixedIdentifier node) {
-    super.visitPrefixedIdentifier(node);
-    _visitIdent(node, node.identifier);
-    _visitIdent(node, node.prefix);
+    _visitIdent(node, node.identifier.name);
+    _visitIdent(node, node.prefix.name);
   }
 
   @override
   void visitLibraryIdentifier(LibraryIdentifier node) {
-    super.visitLibraryIdentifier(node);
     for (final component in node.components) {
-      _visitIdent(node, component);
+      _visitIdent(node, component.name);
     }
   }
 
-  void _visitIdent(Expression node, SimpleIdentifier ident) {
-    final name = ident.name;
+  @override
+  void visitDeclaration(Declaration node) {
+    final name = node.declaredElement?.displayName;
+    if (name != null) {
+      _visitIdent(node, name);
+    }
+
+    super.visitDeclaration(node);
+  }
+
+  void _visitIdent(AstNode node, String name) {
     if (_entryMap.containsKey(name)) {
       _nodes.add(_NodeWithMessage(
         node,
@@ -43,7 +49,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
 }
 
 class _NodeWithMessage {
-  final Expression node;
+  final AstNode node;
   final String message;
 
   _NodeWithMessage(this.node, this.message);

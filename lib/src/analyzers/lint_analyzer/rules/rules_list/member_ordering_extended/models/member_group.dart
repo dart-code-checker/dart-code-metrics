@@ -47,7 +47,7 @@ class _FieldMemberGroup extends _MemberGroup {
         .whereNotNull()
         .firstOrNull;
     final modifier =
-        Identifier.isPrivateName(declaration.fields.variables.first.name.name)
+        Identifier.isPrivateName(declaration.fields.variables.first.name.lexeme)
             ? _Modifier.private
             : _Modifier.public;
     final isNullable = declaration.fields.type?.type?.nullabilitySuffix ==
@@ -117,7 +117,7 @@ class _MethodMemberGroup extends _MemberGroup {
         );
 
   factory _MethodMemberGroup.parse(MethodDeclaration declaration) {
-    final methodName = declaration.name.name;
+    final methodName = declaration.name.lexeme;
     final annotation = declaration.metadata
         .map((metadata) => _Annotation.parse(metadata.name.name))
         .whereNotNull()
@@ -200,7 +200,7 @@ class _ConstructorMemberGroup extends _MemberGroup {
 
     final modifier = name == null
         ? _Modifier.unset
-        : Identifier.isPrivateName(name.name)
+        : Identifier.isPrivateName(name.lexeme)
             ? _Modifier.private
             : _Modifier.public;
 
@@ -249,7 +249,7 @@ class _GetSetMemberGroup extends _MemberGroup {
         .whereNotNull()
         .firstOrNull;
     final type = declaration.isGetter ? _MemberType.getter : _MemberType.setter;
-    final modifier = Identifier.isPrivateName(declaration.name.name)
+    final modifier = Identifier.isPrivateName(declaration.name.lexeme)
         ? _Modifier.private
         : _Modifier.public;
 

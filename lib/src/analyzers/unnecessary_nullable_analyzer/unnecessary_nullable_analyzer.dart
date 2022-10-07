@@ -266,7 +266,7 @@ class UnnecessaryNullableAnalyzer {
     if (parameter.isNamed) {
       return namedArguments.firstWhereOrNull((arg) =>
           arg is NamedExpression &&
-          arg.name.label.name == parameter.identifier?.name);
+          arg.name.label.name == parameter.name?.lexeme);
     }
 
     final parameterIndex = notNamedParameters.indexOf(parameter);
@@ -319,7 +319,7 @@ class UnnecessaryNullableAnalyzer {
     final closestDeclaration = parameter.parent?.parent;
 
     if (closestDeclaration is ConstructorDeclaration) {
-      return parameter.identifier?.name == 'key' &&
+      return parameter.name?.lexeme == 'key' &&
           isWidgetOrSubclass(closestDeclaration.declaredElement?.returnType);
     }
 

@@ -21,7 +21,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
   }
 
   void _checkField(FieldDeclaration node, VariableDeclaration fieldVariable) {
-    final fieldName = fieldVariable.name.name;
+    final fieldName = fieldVariable.name.lexeme;
     final fieldType = fieldVariable.declaredElement?.type;
 
     if (!(fieldType != null &&
@@ -37,7 +37,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
     final fieldInitValue = fieldInitializer.stringValue;
 
     final classDeclaration = node.thisOrAncestorOfType<ClassDeclaration>();
-    final className = classDeclaration?.name.name;
+    final className = classDeclaration?.name.lexeme;
     if (className == null) {
       return;
     }

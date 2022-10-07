@@ -45,7 +45,7 @@ class DeclarationsVisitor extends RecursiveAstVisitor<void> {
     }
 
     final parameters = node.functionExpression.parameters?.parameters;
-    if (isEntrypoint(node.name.name, node.metadata) ||
+    if (isEntrypoint(node.name.lexeme, node.metadata) ||
         (parameters == null || !_hasNullableParameters(parameters))) {
       return;
     }

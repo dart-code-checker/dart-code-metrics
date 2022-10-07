@@ -4,6 +4,8 @@
 
 * feat: add logger and progress indication.
 * chore: changed min `SDK` version to `2.17.1`.
+* chore: restrict `analyzer` version to `>=5.0.0 <5.2.0`.
+* chore: restrict `analyzer_plugin` version to `>=0.11.0 <0.12.0`.
 
 ## 4.19.1
 

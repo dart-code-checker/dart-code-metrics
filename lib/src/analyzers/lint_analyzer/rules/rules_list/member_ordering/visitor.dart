@@ -33,7 +33,7 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
     }
 
     for (final variable in fieldDeclaration.fields.variables) {
-      final name = variable.name.name;
+      final name = variable.name.lexeme;
       final membersGroup = Identifier.isPrivateName(name)
           ? _MembersGroup.privateFields
           : _MembersGroup.publicFields;
@@ -55,7 +55,7 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
         classMember: constructorDeclaration,
         memberOrder: _getOrder(
           _MembersGroup.constructors,
-          constructorDeclaration.name?.name ?? '',
+          constructorDeclaration.name?.lexeme ?? '',
         ),
       ));
     }
@@ -69,15 +69,15 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
     _MembersGroup membersGroup;
 
     if (methodDeclaration.isGetter) {
-      membersGroup = Identifier.isPrivateName(methodDeclaration.name.name)
+      membersGroup = Identifier.isPrivateName(methodDeclaration.name.lexeme)
           ? _MembersGroup.privateGetters
           : _MembersGroup.publicGetters;
     } else if (methodDeclaration.isSetter) {
-      membersGroup = Identifier.isPrivateName(methodDeclaration.name.name)
+      membersGroup = Identifier.isPrivateName(methodDeclaration.name.lexeme)
           ? _MembersGroup.privateSetters
           : _MembersGroup.publicSetters;
     } else {
-      membersGroup = Identifier.isPrivateName(methodDeclaration.name.name)
+      membersGroup = Identifier.isPrivateName(methodDeclaration.name.lexeme)
           ? _MembersGroup.privateMethods
           : _MembersGroup.publicMethods;
     }
@@ -85,7 +85,7 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
     if (_groupsOrder.contains(membersGroup)) {
       _membersInfo.add(_MemberInfo(
         classMember: methodDeclaration,
-        memberOrder: _getOrder(membersGroup, methodDeclaration.name.name),
+        memberOrder: _getOrder(membersGroup, methodDeclaration.name.lexeme),
       ));
     }
   }
@@ -94,9 +94,9 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
     for (final data in classMember.metadata) {
       final annotation = _Annotation.parse(data.name.name);
       final memberName = classMember is FieldDeclaration
-          ? classMember.fields.variables.first.name.name
+          ? classMember.fields.variables.first.name.lexeme
           : classMember is MethodDeclaration
-              ? classMember.name.name
+              ? classMember.name.lexeme
               : '';
 
       if (annotation != null && _groupsOrder.contains(annotation.group)) {

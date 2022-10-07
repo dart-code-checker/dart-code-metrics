@@ -30,7 +30,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
     final lastDeclaredVariable =
         variableDeclarationStatement.variables.variables.last;
-    if (returnIdentifier.name != lastDeclaredVariable.name.name) {
+    if (returnIdentifier.name != lastDeclaredVariable.name.lexeme) {
       return;
     }
 

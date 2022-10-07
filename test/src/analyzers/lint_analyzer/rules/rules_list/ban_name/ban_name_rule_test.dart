@@ -33,13 +33,15 @@ void main() {
       RuleTestHelper.verifyIssues(
         issues: issues,
         startLines: [6, 7, 9, 12, 15, 16],
-        startColumns: [3, 12, 7, 6, 7, 12],
+        startColumns: [3, 12, 7, 1, 1, 12],
         locationTexts: [
           'showDialog',
           'showDialog',
-          'strangeName',
-          'strangeName',
-          'AnotherStrangeName',
+          'strangeName = 42',
+          'void strangeName() {}',
+          'class AnotherStrangeName {\n'
+              '  late var strangeName; // LINT\n'
+              '}',
           'strangeName',
         ],
         messages: [

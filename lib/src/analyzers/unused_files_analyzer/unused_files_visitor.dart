@@ -2,6 +2,7 @@
 
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
+import 'package:analyzer/dart/element/element.dart';
 
 import '../../utils/node_utils.dart';
 
@@ -17,17 +18,16 @@ class UnusedFilesVisitor extends GeneralizingAstVisitor<void> {
 
   @override
   void visitUriBasedDirective(UriBasedDirective node) {
-    final absolutePath = node.uriSource?.fullName;
-
+    final absolutePath = _getAbsolutePath(node);
     if (absolutePath != null) {
       _paths.add(absolutePath);
     }
 
     if (node is NamespaceDirective) {
       for (final config in node.configurations) {
-        final path = config.uriSource?.fullName;
-
-        if (path != null) {
+        final uri = config.resolvedUri;
+        if (uri is DirectiveUriWithSource) {
+          final path = uri.source.fullName;
           _paths.add(path);
         }
       }
@@ -42,8 +42,27 @@ class UnusedFilesVisitor extends GeneralizingAstVisitor<void> {
 
   @override
   void visitFunctionDeclaration(FunctionDeclaration node) {
-    if (isEntrypoint(node.name.name, node.metadata)) {
+    if (isEntrypoint(node.name.lexeme, node.metadata)) {
       _paths.add(currentFilePath);
     }
+  }
+
+  String? _getAbsolutePath(UriBasedDirective node) {
+    if (node is ImportDirective) {
+      return node.element2?.importedLibrary?.source.fullName;
+    }
+
+    if (node is ExportDirective) {
+      return node.element2?.exportedLibrary?.source.fullName;
+    }
+
+    if (node is PartDirective) {
+      final uri = node.element2?.uri;
+      if (uri is DirectiveUriWithSource) {
+        return uri.source.fullName;
+      }
+    }
+
+    return null;
   }
 }

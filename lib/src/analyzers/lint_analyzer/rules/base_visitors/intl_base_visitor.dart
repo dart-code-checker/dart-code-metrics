@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, deprecated_member_use
 
 import 'package:analyzer/dart/ast/ast.dart';
+import 'package:analyzer/dart/ast/syntactic_entity.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
@@ -35,7 +36,8 @@ abstract class IntlBaseVisitor extends GeneralizingAstVisitor<void> {
       return;
     }
 
-    final className = node.parent?.as<NamedCompilationUnitMember>()?.name.name;
+    final className =
+        node.parent?.as<NamedCompilationUnitMember>()?.name.lexeme;
 
     _checkVariables(className, node.fields);
 
@@ -57,7 +59,7 @@ abstract class IntlBaseVisitor extends GeneralizingAstVisitor<void> {
       return;
     }
 
-    final methodName = node.name.name;
+    final methodName = node.name.lexeme;
     final methodParameters = node.parameters;
 
     final methodInvocation = _getMethodInvocation(node.body);
@@ -76,7 +78,7 @@ abstract class IntlBaseVisitor extends GeneralizingAstVisitor<void> {
 
   @override
   void visitFunctionDeclaration(FunctionDeclaration node) {
-    final methodName = node.name.name;
+    final methodName = node.name.lexeme;
     final methodParameters = node.functionExpression.parameters;
     final methodInvocation = _getMethodInvocation(node.functionExpression.body);
 
@@ -103,7 +105,7 @@ abstract class IntlBaseVisitor extends GeneralizingAstVisitor<void> {
     for (final variable in variables.variables) {
       final initializer = variable.initializer?.as<MethodInvocation>();
       if (initializer != null) {
-        final variableName = variable.name.name;
+        final variableName = variable.name.lexeme;
 
         _checkMethodInvocation(
           initializer,
@@ -115,9 +117,9 @@ abstract class IntlBaseVisitor extends GeneralizingAstVisitor<void> {
   }
 
   String? _getClassName(MethodDeclaration node) {
-    final name = node.parent?.as<NamedCompilationUnitMember>()?.name.name;
+    final name = node.parent?.as<NamedCompilationUnitMember>()?.name.lexeme;
 
-    return name ?? node.parent?.as<ExtensionDeclaration>()?.name?.name;
+    return name ?? node.parent?.as<ExtensionDeclaration>()?.name?.lexeme;
   }
 
   MethodInvocation? _getMethodInvocation(FunctionBody body) {
@@ -156,7 +158,7 @@ abstract class IntlBaseVisitor extends GeneralizingAstVisitor<void> {
 }
 
 abstract class IntlBaseIssue {
-  final AstNode node;
+  final SyntacticEntity node;
   final String? nameFailure;
 
   const IntlBaseIssue(

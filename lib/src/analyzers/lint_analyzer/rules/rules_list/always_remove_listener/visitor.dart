@@ -18,7 +18,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
       return;
     }
 
-    switch (node.name.name) {
+    switch (node.name.lexeme) {
       case 'initState':
         {
           final visitor = _ListenableVisitor();
@@ -90,9 +90,9 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
       if (target is PrefixedIdentifier &&
           _isRootWidget(target.prefix.staticType, widgetType)) {
-        final targetName = widgetParameter.identifier != null
+        final targetName = widgetParameter.name?.lexeme != null
             ? [
-                widgetParameter.identifier?.name,
+                widgetParameter.name?.lexeme,
                 ...(target.name.split('.')..removeAt(0)),
               ].join('.')
             : null;
@@ -144,7 +144,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
   MethodDeclaration? _getDisposeMethodDeclaration(ClassDeclaration parent) =>
       parent.members.firstWhereOrNull((member) =>
-              member is MethodDeclaration && member.name.name == 'dispose')
+              member is MethodDeclaration && member.name.lexeme == 'dispose')
           as MethodDeclaration?;
 
   bool _haveSameTargets(
