@@ -5,3 +5,4 @@ ignore:
   - flutter
   - good_package
   - my_app
+  - platform
