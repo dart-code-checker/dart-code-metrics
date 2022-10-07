@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 4.20.0
 
 * feat: add logger and progress indication.
 * fix: fix excludes for rules intended only for tests.
