@@ -6,6 +6,7 @@
 * chore: changed min `SDK` version to `2.18.0`.
 * chore: restrict `analyzer` version to `>=5.1.0 <5.2.0`.
 * chore: restrict `analyzer_plugin` version to `>=0.11.0 <0.12.0`.
+* fix: make [`avoid-redundant-async`](https://dartcodemetrics.dev/docs/rules/common/avoid-redundant-async) correctly handle yield.
 
 ## 4.19.1
 

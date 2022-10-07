@@ -34,4 +34,10 @@ class SomeClass {
   Future<void> returnNullable(SomeClass? instance) async {
     return instance?.report([]);
   }
+
+  Stream<int> buildStream() async* {
+    for (int i = 0; i < 10; i++) {
+      yield i;
+    }
+  }
 }
