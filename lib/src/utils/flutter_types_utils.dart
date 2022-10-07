@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, deprecated_member_use
+// ignore_for_file: public_member_api_docs
 
 import 'package:analyzer/dart/element/type.dart';
 import 'package:collection/collection.dart';
@@ -48,7 +48,7 @@ bool _isWidget(DartType? type) =>
 bool _isSubclassOfWidget(DartType? type) =>
     type is InterfaceType && type.allSupertypes.any(_isWidget);
 
-bool _isWidgetState(DartType? type) => type?.element?.displayName == 'State';
+bool _isWidgetState(DartType? type) => type?.element2?.displayName == 'State';
 
 bool _isSubclassOfWidgetState(DartType? type) =>
     type is InterfaceType && type.allSupertypes.any(_isWidgetState);

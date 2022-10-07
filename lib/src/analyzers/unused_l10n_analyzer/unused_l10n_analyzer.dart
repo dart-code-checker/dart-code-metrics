@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 import 'dart:io';
 
 import 'package:analyzer/dart/analysis/analysis_context.dart';
@@ -138,7 +136,7 @@ class UnusedL10nAnalyzer {
         final supertype = classElement.supertype;
         if (supertype is InterfaceType) {
           final report = _getUnusedReports(
-            supertype.element,
+            supertype.element2,
             usages,
             rootFolder,
             overriddenClassName: classElement.name,
@@ -154,7 +152,7 @@ class UnusedL10nAnalyzer {
   }
 
   UnusedL10nFileReport? _getUnusedReports(
-    ClassElement classElement,
+    InterfaceElement classElement,
     Iterable<String> usages,
     String rootFolder, {
     String? overriddenClassName,
@@ -194,7 +192,7 @@ class UnusedL10nAnalyzer {
   }
 
   Iterable<UnusedL10nIssue> _getUnusedAccessors(
-    ClassElement classElement,
+    InterfaceElement classElement,
     Iterable<String> usages,
     CompilationUnitElement unit,
   ) {
@@ -208,7 +206,7 @@ class UnusedL10nAnalyzer {
   }
 
   Iterable<UnusedL10nIssue> _getUnusedMethods(
-    ClassElement classElement,
+    InterfaceElement classElement,
     Iterable<String> usages,
     CompilationUnitElement unit,
   ) {

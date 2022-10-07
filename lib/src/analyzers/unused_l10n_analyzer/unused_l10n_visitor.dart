@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, deprecated_member_use
+// ignore_for_file: public_member_api_docs
 
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
@@ -104,7 +104,7 @@ class UnusedL10nVisitor extends RecursiveAstVisitor<void> {
 
   bool _matchExtension(Expression? target) =>
       target is PrefixedIdentifier &&
-      target.staticElement?.enclosingElement is ExtensionElement;
+      target.staticElement?.enclosingElement3 is ExtensionElement;
 
   bool _matchStaticGetter(Expression? target) =>
       target is PrefixedIdentifier &&
@@ -129,7 +129,7 @@ class UnusedL10nVisitor extends RecursiveAstVisitor<void> {
     String name,
   ) {
     final staticElement =
-        target.constructorName.staticElement?.enclosingElement;
+        target.constructorName.staticElement?.enclosingElement3;
 
     if (staticElement is ClassElement) {
       _invocations.update(
@@ -142,11 +142,11 @@ class UnusedL10nVisitor extends RecursiveAstVisitor<void> {
 
   void _addMemberInvocationOnAccessor(SimpleIdentifier target, String name) {
     final staticElement =
-        target.staticElement?.enclosingElement as ExtensionElement;
+        target.staticElement?.enclosingElement3 as ExtensionElement;
 
     for (final element in staticElement.accessors) {
       if (_classPattern.hasMatch(element.returnType.toString())) {
-        final classElement = element.returnType.element;
+        final classElement = element.returnType.element2;
 
         if (classElement is ClassElement) {
           _invocations.update(

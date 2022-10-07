@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:analyzer/dart/ast/ast.dart';
+import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:path/path.dart' as p;
 
@@ -35,13 +36,13 @@ class PreferMatchFileNameRule extends CommonRule {
     final issues = <Issue>[];
 
     if (visitor.declaration.isNotEmpty) {
-      final node = visitor.declaration.first;
-      if (!_hasMatchName(source.path, node.name)) {
-        final nodeType = humanReadableNodeType(node.parent).toLowerCase();
+      final info = visitor.declaration.first;
+      if (!_hasMatchName(source.path, info.token.lexeme)) {
+        final nodeType = humanReadableNodeType(info.parent).toLowerCase();
 
         final issue = createIssue(
           rule: this,
-          location: nodeLocation(node: node, source: source),
+          location: nodeLocation(node: info.token, source: source),
           message: 'File name does not match with first $nodeType name.',
         );
 

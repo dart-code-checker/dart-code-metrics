@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 part of 'avoid_global_state_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
@@ -11,7 +9,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
   void visitVariableDeclaration(VariableDeclaration node) {
     super.visitVariableDeclaration(node);
 
-    if (node.declaredElement?.enclosingElement is CompilationUnitElement) {
+    if (node.declaredElement?.enclosingElement3 is CompilationUnitElement) {
       if (_isNodeValid(node)) {
         _declarations.add(node);
       }

@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:analyzer/dart/ast/ast.dart';
 
 import 'class_type.dart';
@@ -18,9 +16,9 @@ class ScopedClassDeclaration {
     String? name;
 
     if (node is ExtensionDeclaration) {
-      name = node.name?.name;
+      name = node.name?.lexeme;
     } else if (node is NamedCompilationUnitMember) {
-      name = node.name.name;
+      name = node.name.lexeme;
     }
 
     return name ?? '';

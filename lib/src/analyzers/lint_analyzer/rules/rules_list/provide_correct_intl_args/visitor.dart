@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 part of 'provide_correct_intl_args_rule.dart';
 
 class _Visitor extends IntlBaseVisitor {
@@ -33,10 +31,9 @@ class _Visitor extends IntlBaseVisitor {
         ?.expression
         .as<ListLiteral>();
 
-    final parameterSimpleIdentifiers = parameterList?.parameters
-            .map((parameter) => parameter.identifier)
-            .toList() ??
-        <SimpleIdentifier>[];
+    final parameterSimpleIdentifiers =
+        parameterList?.parameters.map((parameter) => parameter.name).toList() ??
+            <Token>[];
 
     if (argsArgument != null && parameterSimpleIdentifiers.isEmpty) {
       addIssue(_ArgsMustBeOmittedIssue(argsArgument));
@@ -50,17 +47,20 @@ class _Visitor extends IntlBaseVisitor {
 
     _checkAllArgsElementsMustBeSimpleIdentifier(argsArgument);
 
-    final argsSimpleIdentifiers =
-        argsArgument?.elements.whereType<SimpleIdentifier>().toList() ??
-            <SimpleIdentifier>[];
+    final argsSimpleIdentifiers = argsArgument?.elements
+            .whereType<SimpleIdentifier>()
+            .toList()
+            .map((identifier) => identifier.token)
+            .toList() ??
+        <Token>[];
 
     _checkAllParametersMustBeContainsInArgs(
       parameterSimpleIdentifiers,
       argsSimpleIdentifiers,
     );
     _checkAllArgsMustBeContainsInParameters(
-      argsSimpleIdentifiers,
       parameterSimpleIdentifiers,
+      argsSimpleIdentifiers,
     );
 
     final messageArgument = arguments.first.as<StringInterpolation>();
@@ -73,8 +73,11 @@ class _Visitor extends IntlBaseVisitor {
 
       _checkItemsOnSimple(interpolationExpressions);
 
-      final interpolationExpressionSimpleIdentifiers =
-          interpolationExpressions.whereType<SimpleIdentifier>().toList();
+      final interpolationExpressionSimpleIdentifiers = interpolationExpressions
+          .whereType<SimpleIdentifier>()
+          .toList()
+          .map((identifier) => identifier.token)
+          .toList();
 
       if (argsArgument != null &&
           parameterSimpleIdentifiers.isEmpty &&
@@ -84,8 +87,8 @@ class _Visitor extends IntlBaseVisitor {
 
       if (interpolationExpressionSimpleIdentifiers.isNotEmpty) {
         _checkAllInterpolationMustBeContainsInParameters(
-          interpolationExpressionSimpleIdentifiers,
           parameterSimpleIdentifiers,
+          interpolationExpressionSimpleIdentifiers,
         );
         _checkAllInterpolationMustBeContainsInArgs(
           interpolationExpressionSimpleIdentifiers,
@@ -117,8 +120,8 @@ class _Visitor extends IntlBaseVisitor {
   }
 
   void _checkAllParametersMustBeContainsInArgs(
-    Iterable<SimpleIdentifier?> parameters,
-    Iterable<SimpleIdentifier> argsArgument,
+    Iterable<Token?> parameters,
+    Iterable<Token> argsArgument,
   ) {
     _addIssuesIfNotContains(
       parameters,
@@ -128,8 +131,8 @@ class _Visitor extends IntlBaseVisitor {
   }
 
   void _checkAllArgsMustBeContainsInParameters(
-    Iterable<SimpleIdentifier> argsArgument,
-    Iterable<SimpleIdentifier?> parameters,
+    Iterable<Token?> parameters,
+    Iterable<Token> argsArgument,
   ) {
     _addIssuesIfNotContains(
       argsArgument,
@@ -139,8 +142,8 @@ class _Visitor extends IntlBaseVisitor {
   }
 
   void _checkAllInterpolationMustBeContainsInParameters(
-    Iterable<SimpleIdentifier> simpleIdentifierExpressions,
-    Iterable<SimpleIdentifier?> parameters,
+    Iterable<Token?> parameters,
+    Iterable<Token> simpleIdentifierExpressions,
   ) {
     _addIssuesIfNotContains(
       simpleIdentifierExpressions,
@@ -150,8 +153,8 @@ class _Visitor extends IntlBaseVisitor {
   }
 
   void _checkAllInterpolationMustBeContainsInArgs(
-    Iterable<SimpleIdentifier> simpleIdentifierExpressions,
-    Iterable<SimpleIdentifier> args,
+    Iterable<Token> simpleIdentifierExpressions,
+    Iterable<Token> args,
   ) {
     _addIssuesIfNotContains(
       simpleIdentifierExpressions,
@@ -161,14 +164,14 @@ class _Visitor extends IntlBaseVisitor {
   }
 
   void _addIssuesIfNotContains(
-    Iterable<SimpleIdentifier?> checkedItems,
-    Iterable<SimpleIdentifier?> existsItems,
-    IntlBaseIssue Function(SimpleIdentifier args) issueFactory,
+    Iterable<Token?> checkedItems,
+    Iterable<Token?> existsItems,
+    IntlBaseIssue Function(Token args) issueFactory,
   ) {
-    final argsNames = existsItems.map((item) => item?.token.lexeme).toSet();
+    final argsNames = existsItems.map((item) => item?.lexeme).toSet();
 
     addIssues(checkedItems
-        .where((arg) => !argsNames.contains(arg?.token.lexeme))
+        .where((arg) => !argsNames.contains(arg?.lexeme))
         .whereNotNull()
         .map(issueFactory));
   }

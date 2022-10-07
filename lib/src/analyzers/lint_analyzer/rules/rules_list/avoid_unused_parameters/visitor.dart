@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 part of 'avoid_unused_parameters_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
@@ -14,7 +12,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
     final parent = node.parent;
     final parameters = node.parameters;
 
-    if (parent is ClassDeclaration && parent.isAbstract ||
+    if (parent is ClassDeclaration && parent.abstractKeyword != null ||
         node.isAbstract ||
         node.externalKeyword != null ||
         (parameters == null || parameters.parameters.isEmpty)) {
@@ -66,8 +64,9 @@ class _Visitor extends RecursiveAstVisitor<void> {
     final allIdentifierElements = visitor.elements;
 
     for (final parameter in parameters) {
-      final name = parameter.identifier;
-      if (name != null && !allIdentifierElements.contains(name.staticElement)) {
+      final name = parameter.name;
+      if (name != null &&
+          !allIdentifierElements.contains(parameter.declaredElement)) {
         result.add(parameter);
       }
     }
@@ -76,8 +75,8 @@ class _Visitor extends RecursiveAstVisitor<void> {
   }
 
   bool _hasNoUnderscoresInName(FormalParameter parameter) =>
-      parameter.identifier != null &&
-      parameter.identifier!.name.replaceAll('_', '').isNotEmpty;
+      parameter.name != null &&
+      parameter.name!.lexeme.replaceAll('_', '').isNotEmpty;
 }
 
 class _IdentifiersVisitor extends RecursiveAstVisitor<void> {

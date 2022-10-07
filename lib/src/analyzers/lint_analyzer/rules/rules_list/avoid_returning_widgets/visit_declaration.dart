@@ -2,7 +2,7 @@ part of 'avoid_returning_widgets_rule.dart';
 
 Declaration? _visitDeclaration(
   Declaration node,
-  SimpleIdentifier name,
+  String name,
   TypeAnnotation? returnType,
   Iterable<String> ignoredNames,
   Iterable<String> ignoredAnnotations, {
@@ -14,9 +14,7 @@ Declaration? _visitDeclaration(
         node.atSign.type == TokenType.AT,
   );
 
-  if (!hasIgnoredAnnotation &&
-      !isSetter &&
-      !_isIgnored(name.name, ignoredNames)) {
+  if (!hasIgnoredAnnotation && !isSetter && !_isIgnored(name, ignoredNames)) {
     final type = returnType?.type;
     if (type != null && hasWidgetType(type)) {
       return node;

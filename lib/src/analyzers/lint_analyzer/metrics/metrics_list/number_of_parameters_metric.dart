@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:collection/collection.dart';
 
@@ -51,7 +49,7 @@ class NumberOfParametersMetric extends FunctionMetric<int> {
           ?.enclosingDeclaration
           ?.name;
 
-      return node.name.name != 'copyWith' ||
+      return node.name.lexeme != 'copyWith' ||
           className == null ||
           className !=
               node.returnType?.type?.getDisplayString(withNullability: true);

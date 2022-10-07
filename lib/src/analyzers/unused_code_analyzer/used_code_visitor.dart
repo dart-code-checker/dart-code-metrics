@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, deprecated_member_use
+// ignore_for_file: public_member_api_docs
 
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
@@ -11,13 +11,13 @@ import 'models/prefix_element_usage.dart';
 // Copied from https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/lib/src/error/imports_verifier.dart#L15
 
 class UsedCodeVisitor extends RecursiveAstVisitor<void> {
-  final FileElementsUsage fileElementsUsage = FileElementsUsage();
+  final fileElementsUsage = FileElementsUsage();
 
   @override
   void visitExportDirective(ExportDirective node) {
     super.visitExportDirective(node);
 
-    final path = node.uriSource?.fullName;
+    final path = node.element2?.exportedLibrary?.source.fullName;
     if (path != null) {
       fileElementsUsage.exports.add(path);
     }
@@ -89,7 +89,7 @@ class UsedCodeVisitor extends RecursiveAstVisitor<void> {
 
   void _recordIfExtensionMember(Element? element) {
     if (element != null) {
-      final enclosingElement = element.enclosingElement;
+      final enclosingElement = element.enclosingElement3;
       if (enclosingElement is ExtensionElement) {
         _recordUsedExtension(enclosingElement);
       }
@@ -165,7 +165,7 @@ class UsedCodeVisitor extends RecursiveAstVisitor<void> {
       return;
     }
 
-    final enclosingElement = element.enclosingElement;
+    final enclosingElement = element.enclosingElement3;
     if (enclosingElement is CompilationUnitElement) {
       _recordUsedElement(element);
     } else if (enclosingElement is ExtensionElement) {
@@ -199,10 +199,16 @@ class UsedCodeVisitor extends RecursiveAstVisitor<void> {
     return root.directives.fold<List<String>>([], (previousValue, directive) {
       if (directive is ImportDirective &&
           directive.prefix?.name == target.name) {
-        previousValue.add(directive.uriSource.toString());
+        final path = directive.element2?.importedLibrary?.source.fullName;
+        if (path != null) {
+          previousValue.add(path);
+        }
 
         for (final config in directive.configurations) {
-          previousValue.add(config.uriSource.toString());
+          final uri = config.resolvedUri;
+          if (uri is DirectiveUriWithSource) {
+            previousValue.add(uri.source.fullName);
+          }
         }
       }
 

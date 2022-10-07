@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 part of 'prefer_immediate_return_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
@@ -30,7 +28,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
     final lastDeclaredVariable =
         variableDeclarationStatement.variables.variables.last;
-    if (returnIdentifier.name != lastDeclaredVariable.name.name) {
+    if (returnIdentifier.name != lastDeclaredVariable.name.lexeme) {
       return;
     }
 

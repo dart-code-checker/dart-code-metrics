@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, deprecated_member_use
+// ignore_for_file: public_member_api_docs
 
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
@@ -45,7 +45,7 @@ class DeclarationsVisitor extends RecursiveAstVisitor<void> {
     }
 
     final parameters = node.functionExpression.parameters?.parameters;
-    if (isEntrypoint(node.name.name, node.metadata) ||
+    if (isEntrypoint(node.name.lexeme, node.metadata) ||
         (parameters == null || !_hasNullableParameters(parameters))) {
       return;
     }

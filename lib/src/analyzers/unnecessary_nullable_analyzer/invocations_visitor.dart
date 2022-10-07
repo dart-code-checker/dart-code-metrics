@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, deprecated_member_use
+// ignore_for_file: public_member_api_docs
 
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
@@ -13,9 +13,9 @@ class InvocationsVisitor extends RecursiveAstVisitor<void> {
   void visitExportDirective(ExportDirective node) {
     super.visitExportDirective(node);
 
-    final path = node.uriSource?.fullName;
-    if (path != null) {
-      invocationsUsages.exports.add(path);
+    final uri = node.element2?.uri;
+    if (uri is DirectiveUriWithSource) {
+      invocationsUsages.exports.add(uri.source.fullName);
     }
   }
 

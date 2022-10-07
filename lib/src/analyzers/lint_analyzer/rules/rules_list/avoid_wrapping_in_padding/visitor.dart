@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 part of 'avoid_wrapping_in_padding_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {

@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 part of 'avoid_returning_widgets_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
@@ -24,7 +22,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
     final declaration = _visitDeclaration(
       node,
-      node.name,
+      node.name.lexeme,
       node.returnType,
       _ignoredNames,
       _ignoredAnnotations,
@@ -118,7 +116,7 @@ class _DeclarationsVisitor extends RecursiveAstVisitor<void> {
 
     final declaration = _visitDeclaration(
       node,
-      node.name,
+      node.name.lexeme,
       node.returnType,
       _ignoredNames,
       _ignoredAnnotations,
@@ -140,7 +138,7 @@ class _DeclarationsVisitor extends RecursiveAstVisitor<void> {
 
     final declaration = _visitDeclaration(
       node,
-      node.name,
+      node.name.lexeme,
       node.returnType,
       _ignoredNames,
       _ignoredAnnotations,

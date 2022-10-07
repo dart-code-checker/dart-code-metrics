@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 part of 'avoid_unnecessary_setstate_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
@@ -23,13 +21,13 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
     final declarations = node.members.whereType<MethodDeclaration>().toList();
     final classMethodsNames =
-        declarations.map((declaration) => declaration.name.name).toSet();
+        declarations.map((declaration) => declaration.name.lexeme).toSet();
     final bodies = declarations.map((declaration) => declaration.body).toList();
     final methods = declarations
-        .where((member) => _checkedMethods.contains(member.name.name))
+        .where((member) => _checkedMethods.contains(member.name.lexeme))
         .toList();
     final restMethods = declarations
-        .where((member) => !_checkedMethods.contains(member.name.name))
+        .where((member) => !_checkedMethods.contains(member.name.lexeme))
         .toList();
 
     final visitedRestMethods = <String, bool>{};
@@ -46,7 +44,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
                   classMethodsNames,
                   bodies,
                   restMethods.firstWhere((method) =>
-                      method.name.name == invocation.methodName.name),
+                      method.name.lexeme == invocation.methodName.name),
                 ))
             .toList(),
       );
@@ -64,7 +62,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
       return false;
     }
 
-    final name = declaration.name.name;
+    final name = declaration.name.lexeme;
     if (visitedRestMethods.containsKey(name) && visitedRestMethods[name]!) {
       return true;
     }

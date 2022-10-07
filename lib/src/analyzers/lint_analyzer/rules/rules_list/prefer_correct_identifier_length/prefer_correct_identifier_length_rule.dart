@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:analyzer/dart/ast/ast.dart';
+import 'package:analyzer/dart/ast/token.dart';
 
 import '../../../../../utils/node_utils.dart';
 import '../../../lint_utils.dart';
@@ -42,7 +43,7 @@ class PreferCorrectIdentifierLengthRule extends CommonRule {
           (node) => createIssue(
             rule: this,
             location: nodeLocation(node: node, source: source),
-            message: createErrorMessage(node.name),
+            message: createErrorMessage(node.lexeme),
           ),
         )
         .toList(growable: false);

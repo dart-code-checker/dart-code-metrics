@@ -12,8 +12,7 @@ class _Visitor extends GeneralizingAstVisitor<void> {
 
   @override
   void visitFunctionDeclaration(FunctionDeclaration node) {
-    // ignore: deprecated_member_use
-    if (node.name.name != 'main' || _matchesTestName(path)) {
+    if (node.name.lexeme != 'main' || _matchesTestName(path)) {
       return;
     }
 

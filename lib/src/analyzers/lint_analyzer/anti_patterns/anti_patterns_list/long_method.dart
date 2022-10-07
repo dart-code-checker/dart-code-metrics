@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, deprecated_member_use
+// ignore_for_file: public_member_api_docs
 
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/element/type.dart';
@@ -87,10 +87,10 @@ class LongMethod extends Pattern {
 
     if (declaration is FunctionDeclaration) {
       returnType = declaration.returnType?.type;
-      name = declaration.name.name;
+      name = declaration.name.lexeme;
     } else if (declaration is MethodDeclaration) {
       returnType = declaration.returnType?.type;
-      name = declaration.name.name;
+      name = declaration.name.lexeme;
     }
 
     return returnType != null && hasWidgetType(returnType) && name == 'build';

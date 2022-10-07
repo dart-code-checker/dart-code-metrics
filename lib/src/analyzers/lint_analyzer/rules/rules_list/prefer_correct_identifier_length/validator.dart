@@ -11,8 +11,7 @@ class _Validator {
     required this.exceptions,
   });
 
-  bool isValid(SimpleIdentifier identifier) =>
-      _validate(_getNameWithoutUnderscore(identifier.name));
+  bool isValid(String name) => _validate(_getNameWithoutUnderscore(name));
 
   bool _validate(String name) =>
       exceptions.contains(name) ||

@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 part of 'member_ordering_extended_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
@@ -44,7 +42,7 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
         classMember: declaration,
         memberOrder: _getOrder(
           closestGroup,
-          declaration.fields.variables.first.name.name,
+          declaration.fields.variables.first.name.lexeme,
           declaration.fields.type?.type
                   ?.getDisplayString(withNullability: false) ??
               '_',
@@ -65,7 +63,7 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
         classMember: declaration,
         memberOrder: _getOrder(
           closestGroup,
-          declaration.name?.name ?? '',
+          declaration.name?.lexeme ?? '',
           declaration.returnType.name,
         ),
       ));
@@ -85,7 +83,7 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
           classMember: declaration,
           memberOrder: _getOrder(
             closestGroup,
-            declaration.name.name,
+            declaration.name.lexeme,
             declaration.returnType?.type
                     ?.getDisplayString(withNullability: false) ??
                 '_',
@@ -101,7 +99,7 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
           classMember: declaration,
           memberOrder: _getOrder(
             closestGroup,
-            declaration.name.name,
+            declaration.name.lexeme,
             declaration.returnType?.type
                     ?.getDisplayString(withNullability: false) ??
                 '_',

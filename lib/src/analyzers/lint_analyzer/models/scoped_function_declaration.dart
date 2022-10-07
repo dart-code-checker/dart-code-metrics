@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:analyzer/dart/ast/ast.dart';
 
 import 'function_type.dart';
@@ -22,12 +20,12 @@ class ScopedFunctionDeclaration {
     String? name;
 
     if (node is FunctionDeclaration) {
-      name = node.name.name;
+      name = node.name.lexeme;
     } else if (node is ConstructorDeclaration) {
-      name = node.name?.name ??
-          (node.parent as NamedCompilationUnitMember).name.name;
+      name = node.name?.lexeme ??
+          (node.parent as NamedCompilationUnitMember).name.lexeme;
     } else if (node is MethodDeclaration) {
-      name = node.name.name;
+      name = node.name.lexeme;
     }
 
     return name ?? '';

@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 part of 'always_remove_listener_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
@@ -18,7 +16,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
       return;
     }
 
-    switch (node.name.name) {
+    switch (node.name.lexeme) {
       case 'initState':
         {
           final visitor = _ListenableVisitor();
@@ -90,9 +88,10 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
       if (target is PrefixedIdentifier &&
           _isRootWidget(target.prefix.staticType, widgetType)) {
-        final targetName = widgetParameter.identifier != null
+        final name = widgetParameter.name?.lexeme;
+        final targetName = name != null
             ? [
-                widgetParameter.identifier?.name,
+                name,
                 ...(target.name.split('.')..removeAt(0)),
               ].join('.')
             : null;
@@ -144,7 +143,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
   MethodDeclaration? _getDisposeMethodDeclaration(ClassDeclaration parent) =>
       parent.members.firstWhereOrNull((member) =>
-              member is MethodDeclaration && member.name.name == 'dispose')
+              member is MethodDeclaration && member.name.lexeme == 'dispose')
           as MethodDeclaration?;
 
   bool _haveSameTargets(

@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, deprecated_member_use
+// ignore_for_file: public_member_api_docs
 
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
@@ -23,7 +23,7 @@ class PublicCodeVisitor extends GeneralizingAstVisitor<void> {
     }
 
     if (node is FunctionDeclaration) {
-      if (isEntrypoint(node.name.name, node.metadata)) {
+      if (isEntrypoint(node.name.lexeme, node.metadata)) {
         return;
       }
     }
