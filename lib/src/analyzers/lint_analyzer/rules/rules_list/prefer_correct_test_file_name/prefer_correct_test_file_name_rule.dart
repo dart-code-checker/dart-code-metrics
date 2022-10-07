@@ -27,7 +27,7 @@ class PreferCorrectTestFileNameRule extends CommonRule {
           id: ruleId,
           severity: readSeverity(config, Severity.warning),
           excludes:
-              hasExcludes(config) ? readExcludes(config) : ['/**', '!test/**'],
+              hasExcludes(config) ? readExcludes(config) : ['lib/**', 'bin/**'],
         );
 
   @override

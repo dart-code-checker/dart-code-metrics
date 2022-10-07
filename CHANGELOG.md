@@ -3,6 +3,7 @@
 ## Unreleased
 
 * feat: add logger and progress indication.
+* fix: fix excludes for rules intended only for tests.
 * chore: changed min `SDK` version to `2.18.0`.
 * chore: restrict `analyzer` version to `>=5.1.0 <5.2.0`.
 * chore: restrict `analyzer_plugin` version to `>=0.11.0 <0.12.0`.
