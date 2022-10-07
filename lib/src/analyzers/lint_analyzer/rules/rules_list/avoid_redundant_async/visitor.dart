@@ -73,4 +73,11 @@ class _AsyncVisitor extends RecursiveAstVisitor<void> {
 
     hasValidAsync = true;
   }
+
+  @override
+  void visitYieldStatement(YieldStatement node) {
+    super.visitYieldStatement(node);
+
+    hasValidAsync = true;
+  }
 }
