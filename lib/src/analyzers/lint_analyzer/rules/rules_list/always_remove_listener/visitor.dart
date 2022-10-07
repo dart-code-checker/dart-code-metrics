@@ -90,9 +90,10 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
       if (target is PrefixedIdentifier &&
           _isRootWidget(target.prefix.staticType, widgetType)) {
-        final targetName = widgetParameter.name?.lexeme != null
+        final name = widgetParameter.name?.lexeme;
+        final targetName = name != null
             ? [
-                widgetParameter.name?.lexeme,
+                name,
                 ...(target.name.split('.')..removeAt(0)),
               ].join('.')
             : null;
