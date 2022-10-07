@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 part of 'member_ordering_extended_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {

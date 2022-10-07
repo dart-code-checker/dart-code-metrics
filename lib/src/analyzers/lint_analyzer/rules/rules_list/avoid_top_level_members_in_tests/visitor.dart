@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 part of 'avoid_top_level_members_in_tests_rule.dart';
 
 class _Visitor extends GeneralizingAstVisitor<void> {
