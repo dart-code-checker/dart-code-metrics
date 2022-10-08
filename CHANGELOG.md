@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.21.0
+
+* feat: add static code diagnostic [`missing-test-assertion`](https://dartcodemetrics.dev/docs/rules/common/missing-test-assertion).
+
 ## 4.20.0
 
 * feat: add logger and progress indication.
