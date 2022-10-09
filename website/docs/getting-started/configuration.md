@@ -8,6 +8,8 @@ To configure the package add a `dart_code_metrics` entry to `analysis_options.ya
 
 ```yaml title="analysis_options.yaml"
 dart_code_metrics:
+  extends:
+    - ... # configures the list of preset configurations
   metrics:
     - ... # configures the list of reported metrics
   metrics-exclude:
@@ -41,6 +43,18 @@ dart_code_metrics:
     - long-method
     - long-parameter-list
 ```
+
+## Extending an existing configuration preset
+
+To extend an existing preset add a reference to the `.yaml` file with the preset in the `extends` entry. For example:
+
+```yaml title="analysis_options.yaml"
+dart_code_metrics:
+  extends:
+    - package:dart_code_metrics/presets/all.yaml
+```
+
+All predefined preset [can be found here](https://github.com/dart-code-checker/dart-code-metrics/tree/master/lib/presets).
 
 ## Configuring a metrics entry {#configuring-a-metrics-entry}
 

@@ -1,9 +1,10 @@
 # Changelog
 
-## 4.21.0
+## Unreleased
 
 * fix: add rule 'missing-test-assertion' in rules factory.
 * feat: add static code diagnostic [`missing-test-assertion`](https://dartcodemetrics.dev/docs/rules/common/missing-test-assertion).
+* feat: add support for presets
 
 ## 4.20.0
 

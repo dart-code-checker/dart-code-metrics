@@ -12,6 +12,7 @@ const _options = {
     'strong-mode': {'implicit-casts': false, 'implicit-dynamic': false},
   },
   'dart_code_metrics': {
+    'extends': ['package:test_lint/presets.yaml'],
     'anti-patterns': {
       'anti-pattern-id1': true,
       'anti-pattern-id2': false,
@@ -125,6 +126,22 @@ void main() {
         equals(['dart_code_metrics']),
       );
     });
+
+    test('extends config', () {
+      const yamlFilePath =
+          './test/resources/analysis_options_with_extends.yaml';
+
+      final options = analysisOptionsFromFile(
+        File(yamlFilePath),
+        collection.contexts.first,
+      );
+
+      expect(options.options['dart_code_metrics'], contains('rules'));
+      expect(
+        (options.options['dart_code_metrics'] as Map<String, Object>)['rules'],
+        allOf(contains('rule-id10')),
+      );
+    });
   });
 
   group('AnalysisOptions', () {
@@ -134,7 +151,7 @@ void main() {
       expect(options.readIterableOfString([]), isEmpty);
       expect(options.readIterableOfString(['key']), isEmpty);
       expect(
-        options.readIterableOfString(['dart_code_metrics', 'anti-patterns']),
+        options.readIterableOfString(['anti-patterns'], packageRelated: true),
         isEmpty,
       );
       expect(
@@ -142,7 +159,7 @@ void main() {
         equals(['test/resources/**']),
       );
       expect(
-        options.readIterableOfString(['dart_code_metrics', 'metrics-exclude']),
+        options.readIterableOfString(['metrics-exclude'], packageRelated: true),
         equals(['test/**', 'examples/**']),
       );
     });
@@ -152,12 +169,13 @@ void main() {
 
       expect(options.readMap([]), equals(_options));
       expect(options.readMap(['include']), isEmpty);
+      expect(options.readMap(['extends'], packageRelated: true), isEmpty);
       expect(
-        options.readMap(['dart_code_metrics', 'metrics-exclude']),
+        options.readMap(['metrics-exclude'], packageRelated: true),
         isEmpty,
       );
       expect(
-        options.readMap(['dart_code_metrics', 'rules']),
+        options.readMap(['rules'], packageRelated: true),
         allOf(
           containsPair('rule-id1', false),
           containsPair('rule-id2', true),
@@ -193,7 +211,7 @@ void main() {
       expect(options.readMapOfMap(['key']), isEmpty);
 
       expect(
-        options.readMapOfMap(['dart_code_metrics', 'rules1']),
+        options.readMapOfMap(['rules1'], packageRelated: true),
         allOf(
           containsPair('rule-id1', <String, Object>{}),
           containsPair('rule-id2', <String, Object>{}),
@@ -202,7 +220,7 @@ void main() {
       );
 
       expect(
-        options.readMapOfMap(['dart_code_metrics', 'rules2']),
+        options.readMapOfMap(['rules2'], packageRelated: true),
         allOf(
           containsPair('rule-id2', <String, Object>{}),
           containsPair('rule-id3', <String, Object>{}),
@@ -210,7 +228,7 @@ void main() {
       );
 
       expect(
-        options.readMapOfMap(['dart_code_metrics', 'rules3']),
+        options.readMapOfMap(['rules3'], packageRelated: true),
         allOf(
           containsPair('rule-id1', <String, Object>{}),
           containsPair('rule-id2', {'severity': 'info'}),
@@ -218,10 +236,10 @@ void main() {
         ),
       );
 
-      expect(options.readMapOfMap(['dart_code_metrics', 'rules4']), isEmpty);
+      expect(options.readMapOfMap(['rules4'], packageRelated: true), isEmpty);
 
       expect(
-        options.readMapOfMap(['dart_code_metrics', 'rules5']),
+        options.readMapOfMap(['rules5'], packageRelated: true),
         allOf(
           containsPair('rule-id2', <String, Object>{}),
           containsPair('rule-id3', <String, Object>{}),

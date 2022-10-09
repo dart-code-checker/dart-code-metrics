@@ -1,0 +1,4 @@
+dart_code_metrics:
+  extends:
+    - package:dart_code_metrics/presets/dart_all.yaml
+    - package:dart_code_metrics/presets/flutter_all.yaml
