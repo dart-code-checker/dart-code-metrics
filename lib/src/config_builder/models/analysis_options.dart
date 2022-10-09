@@ -174,20 +174,10 @@ Map<String, Object> _loadConfigFromYamlFile(
     var optionsNode =
         node is YamlMap ? yamlMapToDartMap(node) : <String, Object>{};
 
-    final includeNode = optionsNode['include'];
-    if (includeNode is String) {
-      final packageImport = includeNode.startsWith('package:');
-
-      final resolvedUri = packageImport
-          ? converter.uriToPath(Uri.parse(includeNode))
-          : p.absolute(p.dirname(options.path), includeNode);
-
-      if (resolvedUri != null) {
-        final resolvedYamlMap =
-            _loadConfigFromYamlFile(File(resolvedUri), converter);
-        optionsNode =
-            mergeMaps(defaults: resolvedYamlMap, overrides: optionsNode);
-      }
+    final path = optionsNode['include'];
+    if (path is String) {
+      optionsNode =
+          _resolveImportAsOptions(options, converter, path, optionsNode);
     }
 
     final rootConfig = optionsNode[_rootKey];
@@ -198,23 +188,35 @@ Map<String, Object> _loadConfigFromYamlFile(
         : extendedNode is Iterable<Object>
             ? extendedNode.cast<String>()
             : <String>[];
-    for (final config in extendConfig) {
-      final packageImport = config.startsWith('package:');
-
-      final resolvedUri = packageImport
-          ? converter.uriToPath(Uri.parse(config))
-          : p.absolute(p.dirname(options.path), config);
-
-      if (resolvedUri != null) {
-        final resolvedYamlMap =
-            _loadConfigFromYamlFile(File(resolvedUri), converter);
-        optionsNode =
-            mergeMaps(defaults: resolvedYamlMap, overrides: optionsNode);
-      }
+    for (final path in extendConfig) {
+      optionsNode =
+          _resolveImportAsOptions(options, converter, path, optionsNode);
     }
 
     return optionsNode;
   } on YamlException catch (e) {
     throw FormatException(e.message, e.span);
   }
+}
+
+Map<String, Object> _resolveImportAsOptions(
+  File options,
+  UriConverter converter,
+  String path,
+  Map<String, Object> optionsNode,
+) {
+  final packageImport = path.startsWith('package:');
+
+  final resolvedUri = packageImport
+      ? converter.uriToPath(Uri.parse(path))
+      : p.absolute(p.dirname(options.path), path);
+
+  if (resolvedUri != null) {
+    final resolvedYamlMap =
+        _loadConfigFromYamlFile(File(resolvedUri), converter);
+
+    return mergeMaps(defaults: resolvedYamlMap, overrides: optionsNode);
+  }
+
+  return optionsNode;
 }
