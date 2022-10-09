@@ -1,0 +1,50 @@
+import RuleDetails from '@site/src/components/RuleDetails';
+
+<RuleDetails version="4.21.0" severity="style" />
+
+Warns that there is no assertion in the test.
+
+Use `include-assertions` configuration, if you want to include specific assertions.
+
+### ⚙️ Config example {#config-example}
+
+```yaml
+dart_code_metrics:
+  ...
+  rules:
+    ...
+    - missing-test-assertion:
+        include-assertions:
+          - verify
+```
+
+### Example {#example}
+
+**❌ Bad:**
+
+```dart
+test('bad unit test', () {
+    // Given
+    final a = 1;
+    final b = 2;
+
+    // When
+    final c = a + 1;
+});
+```
+
+**✅ Good:**
+
+```dart
+test('good unit test', () {
+    // Given
+    final a = 1;
+    final b = 2;
+
+    // When
+    final c = a + 1;
+
+    // Then : actual assertion
+    expect(b, c);
+});
+```
