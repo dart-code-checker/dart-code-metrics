@@ -10,6 +10,8 @@ import '../analysis_options_utils.dart';
 
 const _analysisOptionsFileName = 'analysis_options.yaml';
 
+const _rootKey = 'dart_code_metrics';
+
 /// Class representing dart analysis options.
 class AnalysisOptions {
   final Map<String, Object> options;
@@ -24,10 +26,16 @@ class AnalysisOptions {
     return finalPath == null ? null : p.dirname(finalPath);
   }
 
-  Iterable<String> readIterableOfString(Iterable<String> pathSegments) {
+  Iterable<String> readIterableOfString(
+    Iterable<String> pathSegments, {
+    bool packageRelated = false,
+  }) {
+    final usedSegments =
+        packageRelated ? [_rootKey, ...pathSegments] : pathSegments;
+
     Object? data = options;
 
-    for (final key in pathSegments) {
+    for (final key in usedSegments) {
       if (data is Map<String, Object> && data.containsKey(key)) {
         data = data[key];
       } else {
@@ -38,10 +46,16 @@ class AnalysisOptions {
     return isIterableOfStrings(data) ? (data as Iterable).cast<String>() : [];
   }
 
-  Map<String, Object> readMap(Iterable<String> pathSegments) {
+  Map<String, Object> readMap(
+    Iterable<String> pathSegments, {
+    bool packageRelated = false,
+  }) {
+    final usedSegments =
+        packageRelated ? [_rootKey, ...pathSegments] : pathSegments;
+
     Object? data = options;
 
-    for (final key in pathSegments) {
+    for (final key in usedSegments) {
       if (data is Map<String, Object?> && data.containsKey(key)) {
         data = data[key];
       } else {
@@ -52,10 +66,16 @@ class AnalysisOptions {
     return data is Map<String, Object> ? data : {};
   }
 
-  Map<String, Map<String, Object>> readMapOfMap(Iterable<String> pathSegments) {
+  Map<String, Map<String, Object>> readMapOfMap(
+    Iterable<String> pathSegments, {
+    bool packageRelated = false,
+  }) {
+    final usedSegments =
+        packageRelated ? [_rootKey, ...pathSegments] : pathSegments;
+
     Object? data = options;
 
-    for (final key in pathSegments) {
+    for (final key in usedSegments) {
       if (data is Map<String, Object?> && data.containsKey(key)) {
         data = data[key];
       } else {
@@ -161,6 +181,29 @@ Map<String, Object> _loadConfigFromYamlFile(
       final resolvedUri = packageImport
           ? converter.uriToPath(Uri.parse(includeNode))
           : p.absolute(p.dirname(options.path), includeNode);
+
+      if (resolvedUri != null) {
+        final resolvedYamlMap =
+            _loadConfigFromYamlFile(File(resolvedUri), converter);
+        optionsNode =
+            mergeMaps(defaults: resolvedYamlMap, overrides: optionsNode);
+      }
+    }
+
+    final rootConfig = optionsNode[_rootKey];
+    final extendedNode =
+        rootConfig is Map<String, Object> ? rootConfig['extends'] : null;
+    final extendConfig = extendedNode is String
+        ? [extendedNode]
+        : extendedNode is Iterable<Object>
+            ? extendedNode.cast<String>()
+            : <String>[];
+    for (final config in extendConfig) {
+      final packageImport = config.startsWith('package:');
+
+      final resolvedUri = packageImport
+          ? converter.uriToPath(Uri.parse(config))
+          : p.absolute(p.dirname(options.path), config);
 
       if (resolvedUri != null) {
         final resolvedYamlMap =
