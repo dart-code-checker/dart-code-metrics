@@ -12,6 +12,7 @@ import '../../models/common_rule.dart';
 import '../../rule_utils.dart';
 
 part 'config_parser.dart';
+
 part 'visitor.dart';
 
 class MissingTestAssertionRule extends CommonRule {
@@ -20,9 +21,11 @@ class MissingTestAssertionRule extends CommonRule {
   static const _warningMessage = 'Missing test assertion.';
 
   final Iterable<String> _includeAssertions;
+  final Iterable<String> _includeMethods;
 
   MissingTestAssertionRule([Map<String, Object> config = const {}])
       : _includeAssertions = _ConfigParser.parseIncludeAssertions(config),
+        _includeMethods = _ConfigParser.parseIncludeMethods(config),
         super(
           id: ruleId,
           severity: readSeverity(config, Severity.warning),
@@ -32,7 +35,7 @@ class MissingTestAssertionRule extends CommonRule {
 
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
-    final visitor = _Visitor(_includeAssertions);
+    final visitor = _Visitor(_includeAssertions, _includeMethods);
 
     source.unit.visitChildren(visitor);
 

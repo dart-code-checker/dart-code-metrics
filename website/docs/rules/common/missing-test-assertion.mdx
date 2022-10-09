@@ -1,10 +1,14 @@
 import RuleDetails from '@site/src/components/RuleDetails';
 
-<RuleDetails version="4.21.0" severity="style" />
+<RuleDetails version="4.21.0" severity="warning" />
 
 Warns that there is no assertion in the test.
 
 Use `include-assertions` configuration, if you want to include specific assertions.
+Defaults to Dart default assertions including expect, expectLater and all expectAsync variants.
+
+Use `include-methods` configuration, if you want the linter to check particular test methods for missing assertions.
+Defaults to `test` and `testWidgets` methods.
 
 ### ⚙️ Config example {#config-example}
 
@@ -16,6 +20,8 @@ dart_code_metrics:
     - missing-test-assertion:
         include-assertions:
           - verify
+        include-methods:
+          - customTest
 ```
 
 ### Example {#example}

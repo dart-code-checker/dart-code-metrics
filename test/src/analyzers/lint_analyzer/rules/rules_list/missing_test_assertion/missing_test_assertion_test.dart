@@ -10,6 +10,8 @@ const _incorrectExamplePath =
     'missing_test_assertion/examples/incorrect_example.dart';
 const _customAssertionsExamplePath =
     'missing_test_assertion/examples/custom_assertions_example.dart';
+const _customMethodsExamplePath =
+    'missing_test_assertion/examples/custom_methods_example.dart';
 
 void main() {
   group('MissingTestAssertion', () {
@@ -31,7 +33,7 @@ void main() {
       RuleTestHelper.verifyNoIssues(issues);
     });
 
-    test('with custom config reports no issues', () async {
+    test('with custom assertions config reports no issues', () async {
       final unit =
           await RuleTestHelper.resolveFromFile(_customAssertionsExamplePath);
       final config = {
@@ -66,6 +68,32 @@ void main() {
         ],
         messages: [
           'Missing test assertion.',
+          'Missing test assertion.',
+          'Missing test assertion.',
+        ],
+      );
+    });
+
+    test('with custom methods config reports about found issues', () async {
+      final unit =
+          await RuleTestHelper.resolveFromFile(_customMethodsExamplePath);
+      final config = {
+        'include-methods': [
+          'customTest',
+          'otherTestMethod',
+        ],
+      };
+      final issues = MissingTestAssertionRule(config).check(unit);
+
+      RuleTestHelper.verifyIssues(
+        issues: issues,
+        startLines: [4, 6],
+        startColumns: [3, 3],
+        locationTexts: [
+          'customTest(null, () => 1 == 1)',
+          'otherTestMethod(null, () => 1 == 1)',
+        ],
+        messages: [
           'Missing test assertion.',
           'Missing test assertion.',
         ],

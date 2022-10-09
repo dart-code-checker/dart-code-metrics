@@ -6,8 +6,9 @@ class _Visitor extends RecursiveAstVisitor<void> {
   Iterable<AstNode> get nodes => _nodes;
 
   final Iterable<String> _includeAssertions;
+  final Iterable<String> _includeMethods;
 
-  _Visitor(this._includeAssertions);
+  _Visitor(this._includeAssertions, this._includeMethods);
 
   @override
   void visitFunctionDeclaration(FunctionDeclaration node) {
@@ -16,14 +17,14 @@ class _Visitor extends RecursiveAstVisitor<void> {
       return;
     }
 
-    final visitor = _MethodTestVisitor(_includeAssertions);
+    final visitor = _MethodTestVisitor(_includeAssertions, _includeMethods);
     node.visitChildren(visitor);
     _nodes.addAll(visitor.nodes);
   }
 }
 
 class _MethodTestVisitor extends RecursiveAstVisitor<void> {
-  static const _testMethodNameList = <String>{
+  final _testMethodNameList = <String>{
     'test',
     'testWidgets',
   };
@@ -34,7 +35,9 @@ class _MethodTestVisitor extends RecursiveAstVisitor<void> {
 
   final Iterable<String> _includeAssertions;
 
-  _MethodTestVisitor(this._includeAssertions);
+  _MethodTestVisitor(this._includeAssertions, Iterable<String> includeMethods) {
+    _testMethodNameList.addAll(includeMethods);
+  }
 
   @override
   void visitMethodInvocation(MethodInvocation node) {
@@ -73,10 +76,8 @@ class _MethodAssertionVisitor extends RecursiveAstVisitor<void> {
     'expectLater',
   };
 
-  final Iterable<String> _includeAssertions;
-
-  _MethodAssertionVisitor(this._includeAssertions) {
-    _assertionMethodNameList.addAll(_includeAssertions);
+  _MethodAssertionVisitor(Iterable<String> includeAssertions) {
+    _assertionMethodNameList.addAll(includeAssertions);
   }
 
   bool hasContainedAssertion = false;
