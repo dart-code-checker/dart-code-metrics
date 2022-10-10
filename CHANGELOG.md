@@ -1,9 +1,8 @@
 # Changelog
 
-## Unreleased
+## 4.21.0
 
 * feat: add 'include-methods' config to static code diagnostic [`missing-test-assertion`](https://dartcodemetrics.dev/docs/rules/common/missing-test-assertion)
-* fix: add rule 'missing-test-assertion' in rules factory.
 * feat: add static code diagnostic [`missing-test-assertion`](https://dartcodemetrics.dev/docs/rules/common/missing-test-assertion).
 * feat: add support for presets
 
