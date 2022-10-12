@@ -9,6 +9,7 @@ Example: When you add some extra functionalities to built-in Flutter functions (
 :::caution
 
 When trying to ban some methods in your package, it also triggers on imported from an external package code.
+But you can specify the name to ban (ex: 'Counter.value' instead of 'value').
 
 :::
 
@@ -30,12 +31,15 @@ void strangeName() {} // LINT
 class AnotherStrangeName {
   late var strangeName; // LINT
 }
+
+StrangeClass.someMethod(); // LINT
 ```
 
 **✅ Good:**
 
 ```dart
 myShowDialog();
+NonStrangeClass.someMethod();
 ```
 
 ### ⚙️ Config example {#config-example}
@@ -53,4 +57,6 @@ dart_code_metrics:
           description: The name is too strange
         - ident: AnotherStrangeName
           description: Oops
+        - ident: StrangeClass.someMethod
+          description: Please use a NonStrangeClass.someMethod instead
 ```

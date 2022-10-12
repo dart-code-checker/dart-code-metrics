@@ -7,6 +7,8 @@ class _Visitor extends GeneralizingAstVisitor<void> {
 
   Iterable<_NodeWithMessage> get nodes => _nodes;
 
+  final _nodeBreadcrumb = <String, AstNode>{};
+
   _Visitor(List<_BanNameConfigEntry> entries)
       : _entryMap = Map.fromEntries(entries.map((e) => MapEntry(e.ident, e)));
 
@@ -39,6 +41,23 @@ class _Visitor extends GeneralizingAstVisitor<void> {
   }
 
   void _visitIdent(AstNode node, String name) {
+    final prevNode =
+        _nodeBreadcrumb.isNotEmpty ? _nodeBreadcrumb.values.last : null;
+    if (prevNode == null || node.offset == (prevNode.end + 1)) {
+      _nodeBreadcrumb.addAll({name: node});
+    } else {
+      _nodeBreadcrumb.clear();
+    }
+
+    final breadcrumbString = _nodeBreadcrumb.keys.join('.');
+    if (_entryMap.containsKey(breadcrumbString)) {
+      _nodes.add(_NodeWithMessage(
+        _nodeBreadcrumb.values.first,
+        '${_entryMap[breadcrumbString]!.description} ($breadcrumbString is banned)',
+      ));
+      return;
+    }
+
     if (_entryMap.containsKey(name)) {
       _nodes.add(_NodeWithMessage(
         node,
