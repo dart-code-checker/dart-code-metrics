@@ -3,9 +3,9 @@ part of 'ban_name_rule.dart';
 class _Visitor extends GeneralizingAstVisitor<void> {
   final Map<String, _BanNameConfigEntry> _entryMap;
 
-  final _nodes = <_NodeWithMessage>[];
+  final _nodes = <_NodeInfo>[];
 
-  Iterable<_NodeWithMessage> get nodes => _nodes;
+  Iterable<_NodeInfo> get nodes => _nodes;
 
   final _nodeBreadcrumb = <String, AstNode>{};
 
@@ -43,33 +43,41 @@ class _Visitor extends GeneralizingAstVisitor<void> {
   void _visitIdent(AstNode node, String name) {
     final prevNode =
         _nodeBreadcrumb.isNotEmpty ? _nodeBreadcrumb.values.last : null;
-    if (prevNode == null || node.offset == (prevNode.end + 1)) {
+    if (node.offset - 1 == prevNode?.end) {
       _nodeBreadcrumb.addAll({name: node});
     } else {
       _nodeBreadcrumb.clear();
     }
 
+    if (_nodeBreadcrumb.isEmpty) {
+      _nodeBreadcrumb.addAll({name: node});
+    }
+
     final breadcrumbString = _nodeBreadcrumb.keys.join('.');
     if (_entryMap.containsKey(breadcrumbString)) {
-      _nodes.add(_NodeWithMessage(
+      _nodes.add(_NodeInfo(
         _nodeBreadcrumb.values.first,
-        '${_entryMap[breadcrumbString]!.description} ($breadcrumbString is banned)',
+        message:
+            '${_entryMap[breadcrumbString]!.description} ($breadcrumbString is banned)',
+        endNode: _nodeBreadcrumb.values.last,
       ));
+
       return;
     }
 
     if (_entryMap.containsKey(name)) {
-      _nodes.add(_NodeWithMessage(
+      _nodes.add(_NodeInfo(
         node,
-        '${_entryMap[name]!.description} ($name is banned)',
+        message: '${_entryMap[name]!.description} ($name is banned)',
       ));
     }
   }
 }
 
-class _NodeWithMessage {
+class _NodeInfo {
   final AstNode node;
   final String message;
+  final AstNode? endNode;
 
-  _NodeWithMessage(this.node, this.message);
+  _NodeInfo(this.node, {required this.message, this.endNode});
 }

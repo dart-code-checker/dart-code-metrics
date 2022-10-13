@@ -37,7 +37,11 @@ class BanNameRule extends CommonRule {
         .map(
           (node) => createIssue(
             rule: this,
-            location: nodeLocation(node: node.node, source: source),
+            location: nodeLocation(
+              node: node.node,
+              source: source,
+              endNode: node.endNode,
+            ),
             message: node.message,
           ),
         )
