@@ -56,6 +56,11 @@ class AnalyzerPlugin extends ServerPlugin {
     required AnalysisContext analysisContext,
     required String path,
   }) async {
+    final isAnalyzed = analysisContext.contextRoot.isAnalyzed(path);
+    if (!isAnalyzed) {
+      return;
+    }
+
     try {
       final resolvedUnit =
           await analysisContext.currentSession.getResolvedUnit(path);
