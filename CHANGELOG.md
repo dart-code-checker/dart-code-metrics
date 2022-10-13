@@ -1,10 +1,14 @@
 # Changelog
 
+## 4.21.1
+
+* fix: stop plugin flickering after migration to new api.
+
 ## 4.21.0
 
-* feat: add 'include-methods' config to static code diagnostic [`missing-test-assertion`](https://dartcodemetrics.dev/docs/rules/common/missing-test-assertion)
+* feat: add 'include-methods' config to static code diagnostic [`missing-test-assertion`](https://dartcodemetrics.dev/docs/rules/common/missing-test-assertion).
 * feat: add static code diagnostic [`missing-test-assertion`](https://dartcodemetrics.dev/docs/rules/common/missing-test-assertion).
-* feat: add support for presets
+* feat: add support for presets.
 
 ## 4.20.0
 
