@@ -53,22 +53,24 @@ class _Visitor extends GeneralizingAstVisitor<void> {
       _nodeBreadcrumb.addAll({name: node});
     }
 
-    final breadcrumbString = _nodeBreadcrumb.keys.join('.');
-    if (_entryMap.containsKey(breadcrumbString)) {
+    if (_entryMap.containsKey(name)) {
       _nodes.add(_NodeInfo(
-        _nodeBreadcrumb.values.first,
-        message:
-            '${_entryMap[breadcrumbString]!.description} ($breadcrumbString is banned)',
-        endNode: _nodeBreadcrumb.values.last,
+        node,
+        fullName: name,
+        message: '${_entryMap[name]!.description} ($name is banned)',
       ));
 
       return;
     }
 
-    if (_entryMap.containsKey(name)) {
+    final breadcrumbString = _nodeBreadcrumb.keys.join('.');
+    if (_entryMap.containsKey(breadcrumbString)) {
       _nodes.add(_NodeInfo(
-        node,
-        message: '${_entryMap[name]!.description} ($name is banned)',
+        _nodeBreadcrumb.values.first,
+        fullName: breadcrumbString,
+        message:
+            '${_entryMap[breadcrumbString]!.description} ($breadcrumbString is banned)',
+        endNode: _nodeBreadcrumb.values.last,
       ));
     }
   }
@@ -76,8 +78,14 @@ class _Visitor extends GeneralizingAstVisitor<void> {
 
 class _NodeInfo {
   final AstNode node;
+  final String fullName;
   final String message;
   final AstNode? endNode;
 
-  _NodeInfo(this.node, {required this.message, this.endNode});
+  _NodeInfo(
+    this.node, {
+    required this.fullName,
+    required this.message,
+    this.endNode,
+  });
 }

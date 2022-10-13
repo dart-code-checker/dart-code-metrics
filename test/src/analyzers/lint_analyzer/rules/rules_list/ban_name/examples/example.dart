@@ -25,4 +25,4 @@ DateTime.now().day; // LINT
 class DateTimeTest {
   final currentTimestamp = DateTime.now(); // LINT
 }
-DateTime currentTimestamp = DateTime('01.01.1959');
+DateTime now = DateTime(2022);
