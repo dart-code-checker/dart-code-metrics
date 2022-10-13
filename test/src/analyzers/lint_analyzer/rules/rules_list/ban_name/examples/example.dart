@@ -19,3 +19,10 @@ class AnotherStrangeName {
 
 StrangeClass.someMethod(); // LINT
 NonStrangeClass.someMethod();
+
+DateTime.now(); // LINT
+DateTime.now().day; // LINT
+class DateTimeTest {
+  final currentTimestamp = DateTime.now(); // LINT
+}
+DateTime currentTimestamp = DateTime('01.01.1959');
