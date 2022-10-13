@@ -9,7 +9,7 @@ Example: When you add some extra functionalities to built-in Flutter functions (
 :::caution
 
 When trying to ban some methods in your package, it also triggers on imported from an external package code.
-But you can specify the name to ban (ex: 'Counter.value' instead of 'value').
+But you can specify the name to ban (ex: 'DateTime.now' instead of 'now').
 
 :::
 
@@ -33,6 +33,14 @@ class AnotherStrangeName {
 }
 
 StrangeClass.someMethod(); // LINT
+NonStrangeClass.someMethod();
+
+DateTime.now(); // LINT
+DateTime.now().day; // LINT
+class DateTimeTest {
+  final currentTimestamp = DateTime.now(); // LINT
+}
+DateTime currentTimestamp = DateTime('01.01.1959');
 ```
 
 **✅ Good:**
@@ -40,6 +48,11 @@ StrangeClass.someMethod(); // LINT
 ```dart
 myShowDialog();
 NonStrangeClass.someMethod();
+clock.now();
+clock.now().day;
+class DateTimeTest {
+  final currentTimestamp = clock.now();
+}
 ```
 
 ### ⚙️ Config example {#config-example}
@@ -59,4 +72,6 @@ dart_code_metrics:
           description: Oops
         - ident: StrangeClass.someMethod
           description: Please use a NonStrangeClass.someMethod instead
+        - ident: DateTime.now
+          description: Please use a clock.now instead
 ```
