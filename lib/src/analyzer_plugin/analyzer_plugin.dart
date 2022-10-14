@@ -13,6 +13,7 @@ import '../analyzers/lint_analyzer/metrics/metrics_list/number_of_parameters_met
 import '../analyzers/lint_analyzer/metrics/metrics_list/source_lines_of_code/source_lines_of_code_metric.dart';
 import '../config_builder/config_builder.dart';
 import '../config_builder/models/analysis_options.dart';
+import '../version.dart';
 import 'analyzer_plugin_utils.dart';
 
 class AnalyzerPlugin extends ServerPlugin {
@@ -30,7 +31,7 @@ class AnalyzerPlugin extends ServerPlugin {
   List<String> get fileGlobsToAnalyze => const ['*.dart'];
 
   @override
-  String get name => 'Dart Code Metrics $version';
+  String get name => 'Dart Code Metrics $packageVersion';
 
   @override
   String get version => '1.0.0-alpha.0';

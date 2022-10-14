@@ -3,6 +3,7 @@
 ## 4.21.2
 
 * fix: correctly handle FutureOr functions for [`avoid-passing-async-when-sync-expected`](https://dartcodemetrics.dev/docs/rules/common/avoid-passing-async-when-sync-expected).
+* chore: add version to plugin name.
 
 ## 4.21.1
 
