@@ -2,7 +2,7 @@
 
 ## 4.21.2
 
-* fix(avoid-passing-async-when-sync-expected): FutureOr Functions are interpreted as synchronous functions
+* fix: correctly handle FutureOr functions for [`avoid-passing-async-when-sync-expected`](https://dartcodemetrics.dev/docs/rules/common/avoid-passing-async-when-sync-expected).
 
 ## 4.21.1
 

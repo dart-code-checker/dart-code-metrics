@@ -30,7 +30,7 @@ class AnalyzerPlugin extends ServerPlugin {
   List<String> get fileGlobsToAnalyze => const ['*.dart'];
 
   @override
-  String get name => 'Dart Code Metrics';
+  String get name => 'Dart Code Metrics $version';
 
   @override
   String get version => '1.0.0-alpha.0';
