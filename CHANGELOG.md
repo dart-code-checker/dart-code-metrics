@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.21.2
+
+* fix(avoid-passing-async-when-sync-expected): FutureOr Functions are interpreted as synchronous functions
+
 ## 4.21.1
 
 * fix: stop plugin flickering after migration to new api.
