@@ -88,4 +88,10 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+
+  Future<String> doSomeGetRequest() => Future.value('');
+
+  Future<String> doAnotherGetRequest(String input) => Future.value('');
+
+  Future<String> main() => doSomeGetRequest().then(doAnotherGetRequest);
 }
