@@ -2,7 +2,8 @@
 
 ## Unreleased
 
-* **Breaking change** feat: rename `member-ordering-extended` to `member-ordering`, discarding the old implementation.
+* feat: **Breaking change** rename `member-ordering-extended` to `member-ordering`, discarding the old implementation.
+* feat: add static code diagnostic [`avoid-cascade-after-if-null`](https://dartcodemetrics.dev/docs/rules/common/avoid-cascade-after-if-null).
 
 ## 4.21.2
 
