@@ -1,7 +1,8 @@
 part of 'member_ordering_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
-  final List<_MembersGroup> _groupsOrder;
+  final List<_MemberGroup> _groupsOrder;
+
   final _membersInfo = <_MemberInfo>[];
 
   _Visitor(this._groupsOrder);
@@ -12,122 +13,152 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
 
     _membersInfo.clear();
 
+    final type = node.extendsClause?.superclass.type;
+    final isFlutterWidget =
+        isWidgetOrSubclass(type) || isWidgetStateOrSubclass(type);
+
     for (final member in node.members) {
       if (member is FieldDeclaration) {
-        _visitFieldDeclaration(member);
+        _visitFieldDeclaration(member, isFlutterWidget);
       } else if (member is ConstructorDeclaration) {
-        _visitConstructorDeclaration(member);
+        _visitConstructorDeclaration(member, isFlutterWidget);
       } else if (member is MethodDeclaration) {
-        _visitMethodDeclaration(member);
+        _visitMethodDeclaration(member, isFlutterWidget);
       }
     }
 
     return _membersInfo;
   }
 
-  void _visitFieldDeclaration(FieldDeclaration fieldDeclaration) {
-    if (_hasMetadata(fieldDeclaration)) {
-      return;
-    }
-
-    for (final variable in fieldDeclaration.fields.variables) {
-      final name = variable.name.lexeme;
-      final membersGroup = Identifier.isPrivateName(name)
-          ? _MembersGroup.privateFields
-          : _MembersGroup.publicFields;
-
-      if (_groupsOrder.contains(membersGroup)) {
-        _membersInfo.add(_MemberInfo(
-          classMember: fieldDeclaration,
-          memberOrder: _getOrder(membersGroup, name),
-        ));
-      }
-    }
-  }
-
-  void _visitConstructorDeclaration(
-    ConstructorDeclaration constructorDeclaration,
+  void _visitFieldDeclaration(
+    FieldDeclaration declaration,
+    bool isFlutterWidget,
   ) {
-    if (_groupsOrder.contains(_MembersGroup.constructors)) {
+    final group = _FieldMemberGroup.parse(declaration);
+    final closestGroup = _getClosestGroup(group, isFlutterWidget);
+
+    if (closestGroup != null) {
       _membersInfo.add(_MemberInfo(
-        classMember: constructorDeclaration,
+        classMember: declaration,
         memberOrder: _getOrder(
-          _MembersGroup.constructors,
-          constructorDeclaration.name?.lexeme ?? '',
+          closestGroup,
+          declaration.fields.variables.first.name.lexeme,
+          declaration.fields.type?.type
+                  ?.getDisplayString(withNullability: false) ??
+              '_',
         ),
       ));
     }
   }
 
-  void _visitMethodDeclaration(MethodDeclaration methodDeclaration) {
-    if (_hasMetadata(methodDeclaration)) {
-      return;
-    }
+  void _visitConstructorDeclaration(
+    ConstructorDeclaration declaration,
+    bool isFlutterWidget,
+  ) {
+    final group = _ConstructorMemberGroup.parse(declaration);
+    final closestGroup = _getClosestGroup(group, isFlutterWidget);
 
-    _MembersGroup membersGroup;
-
-    if (methodDeclaration.isGetter) {
-      membersGroup = Identifier.isPrivateName(methodDeclaration.name.lexeme)
-          ? _MembersGroup.privateGetters
-          : _MembersGroup.publicGetters;
-    } else if (methodDeclaration.isSetter) {
-      membersGroup = Identifier.isPrivateName(methodDeclaration.name.lexeme)
-          ? _MembersGroup.privateSetters
-          : _MembersGroup.publicSetters;
-    } else {
-      membersGroup = Identifier.isPrivateName(methodDeclaration.name.lexeme)
-          ? _MembersGroup.privateMethods
-          : _MembersGroup.publicMethods;
-    }
-
-    if (_groupsOrder.contains(membersGroup)) {
+    if (closestGroup != null) {
       _membersInfo.add(_MemberInfo(
-        classMember: methodDeclaration,
-        memberOrder: _getOrder(membersGroup, methodDeclaration.name.lexeme),
+        classMember: declaration,
+        memberOrder: _getOrder(
+          closestGroup,
+          declaration.name?.lexeme ?? '',
+          declaration.returnType.name,
+        ),
       ));
     }
   }
 
-  bool _hasMetadata(ClassMember classMember) {
-    for (final data in classMember.metadata) {
-      final annotation = _Annotation.parse(data.name.name);
-      final memberName = classMember is FieldDeclaration
-          ? classMember.fields.variables.first.name.lexeme
-          : classMember is MethodDeclaration
-              ? classMember.name.lexeme
-              : '';
+  void _visitMethodDeclaration(
+    MethodDeclaration declaration,
+    bool isFlutterWidget,
+  ) {
+    if (declaration.isGetter || declaration.isSetter) {
+      final group = _GetSetMemberGroup.parse(declaration);
+      final closestGroup = _getClosestGroup(group, isFlutterWidget);
 
-      if (annotation != null && _groupsOrder.contains(annotation.group)) {
+      if (closestGroup != null) {
         _membersInfo.add(_MemberInfo(
-          classMember: classMember,
-          memberOrder: _getOrder(annotation.group, memberName),
+          classMember: declaration,
+          memberOrder: _getOrder(
+            closestGroup,
+            declaration.name.lexeme,
+            declaration.returnType?.type
+                    ?.getDisplayString(withNullability: false) ??
+                '_',
+          ),
         ));
+      }
+    } else {
+      final group = _MethodMemberGroup.parse(declaration);
+      final closestGroup = _getClosestGroup(group, isFlutterWidget);
 
-        return true;
+      if (closestGroup != null) {
+        _membersInfo.add(_MemberInfo(
+          classMember: declaration,
+          memberOrder: _getOrder(
+            closestGroup,
+            declaration.name.lexeme,
+            declaration.returnType?.type
+                    ?.getDisplayString(withNullability: false) ??
+                '_',
+          ),
+        ));
       }
     }
-
-    return false;
   }
 
-  _MemberOrder _getOrder(_MembersGroup memberGroup, String memberName) {
+  _MemberGroup? _getClosestGroup(
+    _MemberGroup parsedGroup,
+    bool isFlutterWidget,
+  ) {
+    final closestGroups = _groupsOrder
+        .where(
+          (group) =>
+              _isConstructorGroup(group, parsedGroup) ||
+              _isFieldGroup(group, parsedGroup) ||
+              _isGetSetGroup(group, parsedGroup) ||
+              (isFlutterWidget && _isFlutterMethodGroup(group, parsedGroup)) ||
+              _isMethodGroup(group, parsedGroup),
+        )
+        .sorted(
+          (a, b) => b.getSortingCoefficient() - a.getSortingCoefficient(),
+        );
+
+    return closestGroups.firstOrNull;
+  }
+
+  _MemberOrder _getOrder(
+    _MemberGroup memberGroup,
+    String memberName,
+    String typeName,
+  ) {
     if (_membersInfo.isNotEmpty) {
       final lastMemberOrder = _membersInfo.last.memberOrder;
       final hasSameGroup = lastMemberOrder.memberGroup == memberGroup;
 
-      final previousMemberGroup = hasSameGroup
-          ? lastMemberOrder.previousMemberGroup
-          : lastMemberOrder.memberGroup;
+      final previousMemberGroup =
+          hasSameGroup && lastMemberOrder.previousMemberGroup != null
+              ? lastMemberOrder.previousMemberGroup
+              : lastMemberOrder.memberGroup;
 
       final memberNames = _MemberNames(
         currentName: memberName,
         previousName: lastMemberOrder.memberNames.currentName,
+        currentTypeName: typeName,
+        previousTypeName: lastMemberOrder.memberNames.currentTypeName,
       );
 
       return _MemberOrder(
         memberNames: memberNames,
         isAlphabeticallyWrong: hasSameGroup &&
             memberNames.currentName.compareTo(memberNames.previousName!) < 0,
+        isByTypeWrong: hasSameGroup &&
+            memberNames.currentTypeName
+                    .toLowerCase()
+                    .compareTo(memberNames.previousTypeName!.toLowerCase()) <
+                0,
         memberGroup: memberGroup,
         previousMemberGroup: previousMemberGroup,
         isWrong: (hasSameGroup && lastMemberOrder.isWrong) ||
@@ -136,101 +167,84 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
     }
 
     return _MemberOrder(
-      memberNames: _MemberNames(currentName: memberName),
+      memberNames:
+          _MemberNames(currentName: memberName, currentTypeName: typeName),
       isAlphabeticallyWrong: false,
+      isByTypeWrong: false,
       memberGroup: memberGroup,
       isWrong: false,
     );
   }
 
   bool _isCurrentGroupBefore(
-    _MembersGroup lastMemberGroup,
-    _MembersGroup memberGroup,
+    _MemberGroup lastMemberGroup,
+    _MemberGroup memberGroup,
   ) =>
       _groupsOrder.indexOf(lastMemberGroup) > _groupsOrder.indexOf(memberGroup);
-}
 
-class _MembersGroup {
-  final String name;
+  bool _isConstructorGroup(_MemberGroup group, _MemberGroup parsedGroup) =>
+      group is _ConstructorMemberGroup &&
+      parsedGroup is _ConstructorMemberGroup &&
+      (!group.isFactory || group.isFactory == parsedGroup.isFactory) &&
+      (!group.isNamed || group.isNamed == parsedGroup.isNamed) &&
+      (group.modifier == _Modifier.unset ||
+          group.modifier == parsedGroup.modifier) &&
+      (group.annotation == _Annotation.unset ||
+          group.annotation == parsedGroup.annotation);
 
-  // Generic
-  static const publicFields = _MembersGroup._('public-fields');
-  static const privateFields = _MembersGroup._('private-fields');
-  static const publicGetters = _MembersGroup._('public-getters');
-  static const privateGetters = _MembersGroup._('private-getters');
-  static const publicSetters = _MembersGroup._('public-setters');
-  static const privateSetters = _MembersGroup._('private-setters');
-  static const publicMethods = _MembersGroup._('public-methods');
-  static const privateMethods = _MembersGroup._('private-methods');
-  static const constructors = _MembersGroup._('constructors');
+  bool _isMethodGroup(_MemberGroup group, _MemberGroup parsedGroup) =>
+      group is _MethodMemberGroup &&
+      parsedGroup is _MethodMemberGroup &&
+      (!group.isStatic || group.isStatic == parsedGroup.isStatic) &&
+      (!group.isNullable || group.isNullable == parsedGroup.isNullable) &&
+      !group.isBuild &&
+      !group.isDidChangeDependencies &&
+      !group.isDidUpdateWidget &&
+      !group.isInitState &&
+      !group.isDispose &&
+      (group.modifier == _Modifier.unset ||
+          group.modifier == parsedGroup.modifier) &&
+      (group.annotation == _Annotation.unset ||
+          group.annotation == parsedGroup.annotation);
 
-  // Angular
-  static const angularInputs = _MembersGroup._('angular-inputs');
-  static const angularOutputs = _MembersGroup._('angular-outputs');
-  static const angularHostBindings = _MembersGroup._('angular-host-bindings');
-  static const angularHostListeners = _MembersGroup._('angular-host-listeners');
-  static const angularViewChildren = _MembersGroup._('angular-view-children');
-  static const angularContentChildren =
-      _MembersGroup._('angular-content-children');
+  bool _isFlutterMethodGroup(_MemberGroup group, _MemberGroup parsedGroup) =>
+      group is _MethodMemberGroup &&
+      parsedGroup is _MethodMemberGroup &&
+      ((group.isBuild && group.isBuild == parsedGroup.isBuild) ||
+          (group.isInitState && group.isInitState == parsedGroup.isInitState) ||
+          (group.isDidChangeDependencies &&
+              group.isDidChangeDependencies ==
+                  parsedGroup.isDidChangeDependencies) ||
+          (group.isDidUpdateWidget &&
+              group.isDidUpdateWidget == parsedGroup.isDidUpdateWidget) ||
+          (group.isDispose && group.isDispose == parsedGroup.isDispose));
 
-  static const _groupsOrder = [
-    publicFields,
-    privateFields,
-    publicGetters,
-    privateGetters,
-    publicSetters,
-    privateSetters,
-    constructors,
-    publicMethods,
-    privateMethods,
-    angularInputs,
-    angularOutputs,
-    angularHostBindings,
-    angularHostListeners,
-    angularViewChildren,
-    angularContentChildren,
-  ];
+  bool _isGetSetGroup(_MemberGroup group, _MemberGroup parsedGroup) =>
+      group is _GetSetMemberGroup &&
+      parsedGroup is _GetSetMemberGroup &&
+      (group.memberType == parsedGroup.memberType ||
+          (group.memberType == _MemberType.getterAndSetter &&
+              (parsedGroup.memberType == _MemberType.getter ||
+                  parsedGroup.memberType == _MemberType.setter))) &&
+      (!group.isStatic || group.isStatic == parsedGroup.isStatic) &&
+      (!group.isNullable || group.isNullable == parsedGroup.isNullable) &&
+      (group.modifier == _Modifier.unset ||
+          group.modifier == parsedGroup.modifier) &&
+      (group.annotation == _Annotation.unset ||
+          group.annotation == parsedGroup.annotation);
 
-  const _MembersGroup._(this.name);
-
-  static _MembersGroup? parse(String name) =>
-      _groupsOrder.firstWhereOrNull((group) => group.name == name);
-}
-
-class _Annotation {
-  final String name;
-  final _MembersGroup group;
-
-  static const input = _Annotation._('Input', _MembersGroup.angularInputs);
-  static const output = _Annotation._('Output', _MembersGroup.angularOutputs);
-  static const hostBinding =
-      _Annotation._('HostBinding', _MembersGroup.angularHostBindings);
-  static const hostListener =
-      _Annotation._('HostListener', _MembersGroup.angularHostListeners);
-  static const viewChild =
-      _Annotation._('ViewChild', _MembersGroup.angularViewChildren);
-  static const viewChildren =
-      _Annotation._('ViewChildren', _MembersGroup.angularViewChildren);
-  static const contentChild =
-      _Annotation._('ContentChild', _MembersGroup.angularContentChildren);
-  static const contentChildren =
-      _Annotation._('ContentChildren', _MembersGroup.angularContentChildren);
-
-  static const _annotations = [
-    input,
-    output,
-    hostBinding,
-    hostListener,
-    viewChild,
-    viewChildren,
-    contentChild,
-    contentChildren,
-  ];
-
-  const _Annotation._(this.name, this.group);
-
-  static _Annotation? parse(String name) =>
-      _annotations.firstWhereOrNull((annotation) => annotation.name == name);
+  bool _isFieldGroup(_MemberGroup group, _MemberGroup parsedGroup) =>
+      group is _FieldMemberGroup &&
+      parsedGroup is _FieldMemberGroup &&
+      (!group.isLate || group.isLate == parsedGroup.isLate) &&
+      (!group.isStatic || group.isStatic == parsedGroup.isStatic) &&
+      (!group.isNullable || group.isNullable == parsedGroup.isNullable) &&
+      (group.modifier == _Modifier.unset ||
+          group.modifier == parsedGroup.modifier) &&
+      (group.keyword == _FieldKeyword.unset ||
+          group.keyword == parsedGroup.keyword) &&
+      (group.annotation == _Annotation.unset ||
+          group.annotation == parsedGroup.annotation);
 }
 
 class _MemberInfo {
@@ -246,13 +260,15 @@ class _MemberInfo {
 class _MemberOrder {
   final bool isWrong;
   final bool isAlphabeticallyWrong;
+  final bool isByTypeWrong;
   final _MemberNames memberNames;
-  final _MembersGroup memberGroup;
-  final _MembersGroup? previousMemberGroup;
+  final _MemberGroup memberGroup;
+  final _MemberGroup? previousMemberGroup;
 
   const _MemberOrder({
     required this.isWrong,
     required this.isAlphabeticallyWrong,
+    required this.isByTypeWrong,
     required this.memberNames,
     required this.memberGroup,
     this.previousMemberGroup,
@@ -262,9 +278,13 @@ class _MemberOrder {
 class _MemberNames {
   final String currentName;
   final String? previousName;
+  final String currentTypeName;
+  final String? previousTypeName;
 
   const _MemberNames({
     required this.currentName,
+    required this.currentTypeName,
     this.previousName,
+    this.previousTypeName,
   });
 }

@@ -2,10 +2,11 @@
 
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
+import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:collection/collection.dart';
 
+import '../../../../../utils/flutter_types_utils.dart';
 import '../../../../../utils/node_utils.dart';
-import '../../../../../utils/string_extensions.dart';
 import '../../../lint_utils.dart';
 import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
@@ -14,22 +15,29 @@ import '../../models/common_rule.dart';
 import '../../rule_utils.dart';
 
 part 'config_parser.dart';
+part 'models/annotation.dart';
+part 'models/field_keyword.dart';
+part 'models/member_group.dart';
+part 'models/member_type.dart';
+part 'models/modifier.dart';
 part 'visitor.dart';
-
-// Inspired by TSLint (https://palantir.github.io/tslint/rules/member-ordering/)
 
 class MemberOrderingRule extends CommonRule {
   static const ruleId = 'member-ordering';
 
   static const _warningMessage = 'should be before';
   static const _warningAlphabeticalMessage = 'should be alphabetically before';
+  static const _warningTypeAlphabeticalMessage =
+      'type name should be alphabetically before';
 
-  final List<_MembersGroup> _groupsOrder;
+  final List<_MemberGroup> _groupsOrder;
   final bool _alphabetize;
+  final bool _alphabetizeByType;
 
   MemberOrderingRule([Map<String, Object> config = const {}])
       : _groupsOrder = _ConfigParser.parseOrder(config),
         _alphabetize = _ConfigParser.parseAlphabetize(config),
+        _alphabetizeByType = _ConfigParser.parseAlphabetizeByType(config),
         super(
           id: ruleId,
           severity: readSeverity(config, Severity.style),
@@ -55,7 +63,7 @@ class MemberOrderingRule extends CommonRule {
                 withCommentOrMetadata: true,
               ),
               message:
-                  '${info.memberOrder.memberGroup.name} $_warningMessage ${info.memberOrder.previousMemberGroup?.name}.',
+                  '${info.memberOrder.memberGroup} $_warningMessage ${info.memberOrder.previousMemberGroup}.',
             ),
           ),
       if (_alphabetize)
@@ -75,6 +83,19 @@ class MemberOrderingRule extends CommonRule {
                 '${names.currentName} $_warningAlphabeticalMessage ${names.previousName}.',
           );
         }),
+      if (!_alphabetize && _alphabetizeByType)
+        ...membersInfo.where((info) => info.memberOrder.isByTypeWrong).map(
+              (info) => createIssue(
+                rule: this,
+                location: nodeLocation(
+                  node: info.classMember,
+                  source: source,
+                  withCommentOrMetadata: true,
+                ),
+                message:
+                    '${info.memberOrder.memberNames.currentName} $_warningTypeAlphabeticalMessage ${info.memberOrder.memberNames.previousName}.',
+              ),
+            ),
     ];
   }
 }

@@ -10,10 +10,4 @@ class Test {
   void create() {} // LINT
 
   void init() {} // LINT
-
-  @Input()
-  String last;
-
-  @Input() // LINT
-  String first;
 }

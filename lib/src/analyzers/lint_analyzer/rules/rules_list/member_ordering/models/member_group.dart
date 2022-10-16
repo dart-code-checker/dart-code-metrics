@@ -1,4 +1,4 @@
-part of '../member_ordering_extended_rule.dart';
+part of '../member_ordering_rule.dart';
 
 abstract class _MemberGroup {
   final _Annotation annotation;
