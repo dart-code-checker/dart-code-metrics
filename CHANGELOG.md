@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* feat: add static code diagnostic [`avoid-cascade-after-if-null`](https://dartcodemetrics.dev/docs/rules/common/avoid-cascade-after-if-null).
+
 ## 4.21.2
 
 * fix: correctly handle FutureOr functions for [`avoid-passing-async-when-sync-expected`](https://dartcodemetrics.dev/docs/rules/common/avoid-passing-async-when-sync-expected).
