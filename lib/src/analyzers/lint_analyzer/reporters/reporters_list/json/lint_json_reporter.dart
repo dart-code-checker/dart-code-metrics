@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:path/path.dart';
 import 'package:source_span/source_span.dart';
 
 import '../../../../../reporters/models/json_reporter.dart';
@@ -19,6 +20,15 @@ import '../../lint_report_params.dart';
 class LintJsonReporter extends JsonReporter<LintFileReport,
     SummaryLintReportRecord<Object>, LintReportParams> {
   const LintJsonReporter(IOSink output) : super(output, 2);
+
+  factory LintJsonReporter.toFile(String path, String rootFolder) {
+    final isAbsolutePath = isAbsolute(path);
+    final filePath = isAbsolutePath ? path : normalize(join(rootFolder, path));
+
+    final file = File(filePath.endsWith('.json') ? filePath : '$filePath.json');
+
+    return LintJsonReporter(file.openWrite());
+  }
 
   @override
   Future<void> report(
