@@ -60,3 +60,17 @@ metrics:
     Run `dart_code_metrics` in all packages.
      - Note: you can also rely on your IDEs Dart Analysis / Issues window.
 ```
+
+## Calling the cli from your own package with the linter configuration
+
+If you have a separate package with all the linter and DCM configurations which is used by your other packages and you want to call DCM transitively add a `bin` folder with a Dart file, for example
+
+```dart metrics.dart
+import 'package:dart_code_metrics/cli_runner.dart';
+
+Future<void> main(List<String> args) async {
+  await CliRunner().run(args);
+}
+```
+
+After that you will be able to run DCM by calling your package executable.

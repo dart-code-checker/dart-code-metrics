@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* feat: make CliRunner a part of public API in order to support transitive executable calls use-case.
 * feat: add static code diagnostic [`avoid-cascade-after-if-null`](https://dartcodemetrics.dev/docs/rules/common/avoid-cascade-after-if-null).
 
 ## 4.21.2
