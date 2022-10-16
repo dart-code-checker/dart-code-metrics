@@ -4,20 +4,20 @@ import 'package:test/test.dart';
 
 import '../../../../../helpers/rule_test_helper.dart';
 
-const _examplePath = 'member_ordering_extended/examples/example.dart';
+const _examplePath = 'member_ordering/examples/example.dart';
 const _multipleClassesExamplePath =
-    'member_ordering_extended/examples/multiple_classes_example.dart';
+    'member_ordering/examples/multiple_classes_example.dart';
 const _alphabeticalExamplePath =
-    'member_ordering_extended/examples/alphabetical_example.dart';
+    'member_ordering/examples/alphabetical_example.dart';
 const _alphabeticalCorrectExamplePath =
-    'member_ordering_extended/examples/alphabetical_correct_example.dart';
+    'member_ordering/examples/alphabetical_correct_example.dart';
 const _typeAlphabeticalExamplePath =
-    'member_ordering_extended/examples/type_alphabetical_example.dart';
+    'member_ordering/examples/type_alphabetical_example.dart';
 const _flutterMethodsExamplePath =
-    'member_ordering_extended/examples/flutter_methods_example.dart';
+    'member_ordering/examples/flutter_methods_example.dart';
 
 void main() {
-  group('MemberOrderingExtendedRule', () {
+  group('MemberOrderingRule', () {
     test('initialization', () async {
       final unit = await RuleTestHelper.resolveFromFile(_examplePath);
       final issues = MemberOrderingRule().check(unit);
