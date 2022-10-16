@@ -26,6 +26,7 @@ class FlagNames {
   static const gitlabCodeClimateReporter = CodeClimateReporter.alternativeId;
 
   static const reportFolder = 'output-directory';
+  static const jsonReportPath = 'json-path';
   static const setExitOnViolationLevel = 'set-exit-on-violation-level';
   static const fatalStyle = 'fatal-style';
   static const fatalPerformance = 'fatal-performance';

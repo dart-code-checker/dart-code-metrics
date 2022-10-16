@@ -139,7 +139,11 @@ void main() {
     group('fromArgs constructs instance from passed', () {
       test('empty arguments', () {
         final config = LintConfig.fromArgs(
-          const ParsedArguments(excludePath: '', metricsConfig: {}),
+          const ParsedArguments(
+            excludePath: '',
+            metricsConfig: {},
+            rootFolder: '',
+          ),
         );
 
         expect(config.excludePatterns, isEmpty);
@@ -159,6 +163,7 @@ void main() {
               'maximum-nesting-level': '5',
               'metric-id4': '0',
             },
+            rootFolder: '',
           ),
         );
 

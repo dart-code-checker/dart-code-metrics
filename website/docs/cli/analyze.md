@@ -21,6 +21,7 @@ Usage: metrics analyze [arguments...] <directories>
                                                   [console (default), console-verbose, checkstyle, codeclimate, github, gitlab, html, json]
 -o, --output-directory=<OUTPUT>                   Write HTML output to OUTPUT
                                                   (defaults to "metrics/")
+    --json-path=<path/to/file.json>               Path to the JSON file with the output of the analysis.
 
 
     --cyclomatic-complexity=<20>                  Cyclomatic Complexity threshold.
