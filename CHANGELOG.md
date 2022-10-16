@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* feat: support report to the json file option for the `analyze` command.
+
 ## 4.21.2
 
 * fix: correctly handle FutureOr functions for [`avoid-passing-async-when-sync-expected`](https://dartcodemetrics.dev/docs/rules/common/avoid-passing-async-when-sync-expected).
