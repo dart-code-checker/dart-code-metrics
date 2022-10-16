@@ -23,7 +23,7 @@ dart_code_metrics:
     - binary-expression-operand-order
     - double-literal-format
     - format-comment
-    - member-ordering-extended
+    - member-ordering
     - newline-before-return
     - no-boolean-literal-compare
     - no-empty-block
