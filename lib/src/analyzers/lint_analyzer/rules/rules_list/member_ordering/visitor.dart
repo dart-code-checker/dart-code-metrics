@@ -2,10 +2,11 @@ part of 'member_ordering_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
   final List<_MemberGroup> _groupsOrder;
+  final List<_MemberGroup> _widgetsGroupsOrder;
 
   final _membersInfo = <_MemberInfo>[];
 
-  _Visitor(this._groupsOrder);
+  _Visitor(this._groupsOrder, this._widgetsGroupsOrder);
 
   @override
   List<_MemberInfo> visitClassDeclaration(ClassDeclaration node) {
@@ -46,6 +47,7 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
           declaration.fields.type?.type
                   ?.getDisplayString(withNullability: false) ??
               '_',
+          isFlutterWidget,
         ),
       ));
     }
@@ -65,6 +67,7 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
           closestGroup,
           declaration.name?.lexeme ?? '',
           declaration.returnType.name,
+          isFlutterWidget,
         ),
       ));
     }
@@ -87,6 +90,7 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
             declaration.returnType?.type
                     ?.getDisplayString(withNullability: false) ??
                 '_',
+            isFlutterWidget,
           ),
         ));
       }
@@ -103,6 +107,7 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
             declaration.returnType?.type
                     ?.getDisplayString(withNullability: false) ??
                 '_',
+            isFlutterWidget,
           ),
         ));
       }
@@ -113,13 +118,13 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
     _MemberGroup parsedGroup,
     bool isFlutterWidget,
   ) {
-    final closestGroups = _groupsOrder
+    final closestGroups = (isFlutterWidget ? _widgetsGroupsOrder : _groupsOrder)
         .where(
           (group) =>
               _isConstructorGroup(group, parsedGroup) ||
               _isFieldGroup(group, parsedGroup) ||
               _isGetSetGroup(group, parsedGroup) ||
-              (isFlutterWidget && _isFlutterMethodGroup(group, parsedGroup)) ||
+              _isFlutterMethodGroup(group, parsedGroup) ||
               _isMethodGroup(group, parsedGroup),
         )
         .sorted(
@@ -133,6 +138,7 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
     _MemberGroup memberGroup,
     String memberName,
     String typeName,
+    bool isFlutterWidget,
   ) {
     if (_membersInfo.isNotEmpty) {
       final lastMemberOrder = _membersInfo.last.memberOrder;
@@ -162,7 +168,11 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
         memberGroup: memberGroup,
         previousMemberGroup: previousMemberGroup,
         isWrong: (hasSameGroup && lastMemberOrder.isWrong) ||
-            _isCurrentGroupBefore(lastMemberOrder.memberGroup, memberGroup),
+            _isCurrentGroupBefore(
+              lastMemberOrder.memberGroup,
+              memberGroup,
+              isFlutterWidget,
+            ),
       );
     }
 
@@ -179,8 +189,12 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
   bool _isCurrentGroupBefore(
     _MemberGroup lastMemberGroup,
     _MemberGroup memberGroup,
-  ) =>
-      _groupsOrder.indexOf(lastMemberGroup) > _groupsOrder.indexOf(memberGroup);
+    bool isFlutterWidget,
+  ) {
+    final group = isFlutterWidget ? _widgetsGroupsOrder : _groupsOrder;
+
+    return group.indexOf(lastMemberGroup) > group.indexOf(memberGroup);
+  }
 
   bool _isConstructorGroup(_MemberGroup group, _MemberGroup parsedGroup) =>
       group is _ConstructorMemberGroup &&
