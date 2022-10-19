@@ -7,12 +7,12 @@ abstract class _MemberGroup {
 
   final String rawRepresentation;
 
-  const _MemberGroup(
-    this.annotation,
-    this.memberType,
-    this.modifier,
-    this.rawRepresentation,
-  );
+  const _MemberGroup({
+    required this.annotation,
+    required this.memberType,
+    required this.modifier,
+    required this.rawRepresentation,
+  });
 
   int getSortingCoefficient();
 }
@@ -28,16 +28,11 @@ class _FieldMemberGroup extends _MemberGroup {
     required this.isNullable,
     required this.isStatic,
     required this.keyword,
-    required _Annotation annotation,
-    required _MemberType memberType,
-    required _Modifier modifier,
-    required String rawRepresentation,
-  }) : super(
-          annotation,
-          memberType,
-          modifier,
-          rawRepresentation,
-        );
+    required super.annotation,
+    required super.memberType,
+    required super.modifier,
+    required super.rawRepresentation,
+  });
 
   factory _FieldMemberGroup.parse(FieldDeclaration declaration) {
     final annotation = declaration.metadata
@@ -89,30 +84,32 @@ class _FieldMemberGroup extends _MemberGroup {
 class _MethodMemberGroup extends _MemberGroup {
   final bool isStatic;
   final bool isNullable;
-  final bool isBuild;
-  final bool isInitState;
-  final bool isDidChangeDependencies;
-  final bool isDidUpdateWidget;
-  final bool isDispose;
+  final String? name;
 
   const _MethodMemberGroup._({
     required this.isNullable,
     required this.isStatic,
-    required this.isBuild,
-    required this.isInitState,
-    required this.isDidChangeDependencies,
-    required this.isDidUpdateWidget,
-    required this.isDispose,
-    required _Annotation annotation,
+    required this.name,
+    required super.annotation,
+    required super.memberType,
+    required super.modifier,
+    required super.rawRepresentation,
+  });
+
+  factory _MethodMemberGroup.named({
+    required String name,
     required _MemberType memberType,
-    required _Modifier modifier,
     required String rawRepresentation,
-  }) : super(
-          annotation,
-          memberType,
-          modifier,
-          rawRepresentation,
-        );
+  }) =>
+      _MethodMemberGroup._(
+        name: name,
+        isNullable: false,
+        isStatic: false,
+        modifier: _Modifier.unset,
+        annotation: _Annotation.unset,
+        memberType: memberType,
+        rawRepresentation: rawRepresentation,
+      );
 
   factory _MethodMemberGroup.parse(MethodDeclaration declaration) {
     final methodName = declaration.name.lexeme;
@@ -124,24 +121,11 @@ class _MethodMemberGroup extends _MemberGroup {
         ? _Modifier.private
         : _Modifier.public;
 
-    final hasOverrideAnnotation = annotation == _Annotation.override;
-    final isBuild = methodName == 'build' && hasOverrideAnnotation;
-    final isInitState = methodName == 'initState' && hasOverrideAnnotation;
-    final isDidChangeDependencies =
-        methodName == 'didChangeDependencies' && hasOverrideAnnotation;
-    final isDidUpdateWidget =
-        methodName == 'didUpdateWidget' && hasOverrideAnnotation;
-    final isDispose = methodName == 'dispose' && hasOverrideAnnotation;
-
     return _MethodMemberGroup._(
+      name: methodName.toLowerCase(),
       annotation: annotation ?? _Annotation.unset,
       isStatic: declaration.isStatic,
       isNullable: declaration.returnType?.question != null,
-      isBuild: isBuild,
-      isInitState: isInitState,
-      isDidChangeDependencies: isDidChangeDependencies,
-      isDidUpdateWidget: isDidUpdateWidget,
-      isDispose: isDispose,
       memberType: _MemberType.method,
       modifier: modifier,
       rawRepresentation: '',
@@ -156,11 +140,7 @@ class _MethodMemberGroup extends _MemberGroup {
     coefficient += isNullable ? 1 : 0;
     coefficient += annotation != _Annotation.unset ? 1 : 0;
     coefficient += modifier != _Modifier.unset ? 1 : 0;
-    coefficient += isBuild ? 10 : 0;
-    coefficient += isInitState ? 10 : 0;
-    coefficient += isDidChangeDependencies ? 10 : 0;
-    coefficient += isDidUpdateWidget ? 10 : 0;
-    coefficient += isDispose ? 10 : 0;
+    coefficient += name != null ? 10 : 0;
 
     return coefficient;
   }
@@ -176,16 +156,11 @@ class _ConstructorMemberGroup extends _MemberGroup {
   const _ConstructorMemberGroup._({
     required this.isNamed,
     required this.isFactory,
-    required _Annotation annotation,
-    required _MemberType memberType,
-    required _Modifier modifier,
-    required String rawRepresentation,
-  }) : super(
-          annotation,
-          memberType,
-          modifier,
-          rawRepresentation,
-        );
+    required super.annotation,
+    required super.memberType,
+    required super.modifier,
+    required super.rawRepresentation,
+  });
 
   factory _ConstructorMemberGroup.parse(ConstructorDeclaration declaration) {
     final annotation = declaration.metadata
@@ -235,11 +210,11 @@ class _GetSetMemberGroup extends _MemberGroup {
   const _GetSetMemberGroup._({
     required this.isNullable,
     required this.isStatic,
-    required _Annotation annotation,
-    required _MemberType memberType,
-    required _Modifier modifier,
-    required String rawRepresentation,
-  }) : super(annotation, memberType, modifier, rawRepresentation);
+    required super.annotation,
+    required super.memberType,
+    required super.modifier,
+    required super.rawRepresentation,
+  });
 
   factory _GetSetMemberGroup.parse(MethodDeclaration declaration) {
     final annotation = declaration.metadata

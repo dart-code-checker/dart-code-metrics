@@ -74,13 +74,15 @@ void main() {
 
         RuleTestHelper.verifyIssues(
           issues: issues,
-          startLines: [12],
-          startColumns: [3],
+          startLines: [12, 33],
+          startColumns: [3, 3],
           locationTexts: [
             '@override\n'
                 '  void initState() {}',
+            'void initState();',
           ],
           messages: [
+            'init-state-method should be before build-method.',
             'init-state-method should be before build-method.',
           ],
         );
@@ -251,8 +253,8 @@ void main() {
 
         RuleTestHelper.verifyIssues(
           issues: issues,
-          startLines: [7, 12, 15, 18, 21, 24],
-          startColumns: [3, 3, 3, 3, 3, 3],
+          startLines: [7, 12, 15, 18, 21, 24, 33, 35, 37, 39],
+          startColumns: [3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
           locationTexts: [
             '@override\n'
                 '  Widget build(BuildContext context) {\n'
@@ -268,6 +270,10 @@ void main() {
                 '  void dispose() {}',
             '@override\n'
                 '  void someOtherMethod() {}',
+            'void initState();',
+            'void didChangeDependencies();',
+            'void didUpdateWidget();',
+            'void dispose();',
           ],
           messages: [
             'build-method should be before public-methods.',
@@ -276,6 +282,10 @@ void main() {
             'did-update-widget-method should be before did-change-dependencies-method.',
             'dispose-method should be before did-update-widget-method.',
             'overridden-methods should be before dispose-method.',
+            'init-state-method should be before build-method.',
+            'did-change-dependencies-method should be before init-state-method.',
+            'did-update-widget-method should be before did-change-dependencies-method.',
+            'dispose-method should be before did-update-widget-method.',
           ],
         );
       });

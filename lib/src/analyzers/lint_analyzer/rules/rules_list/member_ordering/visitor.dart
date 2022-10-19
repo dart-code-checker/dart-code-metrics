@@ -124,7 +124,6 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
               _isConstructorGroup(group, parsedGroup) ||
               _isFieldGroup(group, parsedGroup) ||
               _isGetSetGroup(group, parsedGroup) ||
-              _isFlutterMethodGroup(group, parsedGroup) ||
               _isMethodGroup(group, parsedGroup),
         )
         .sorted(
@@ -211,27 +210,11 @@ class _Visitor extends RecursiveAstVisitor<List<_MemberInfo>> {
       parsedGroup is _MethodMemberGroup &&
       (!group.isStatic || group.isStatic == parsedGroup.isStatic) &&
       (!group.isNullable || group.isNullable == parsedGroup.isNullable) &&
-      !group.isBuild &&
-      !group.isDidChangeDependencies &&
-      !group.isDidUpdateWidget &&
-      !group.isInitState &&
-      !group.isDispose &&
+      (group.name == null || group.name == parsedGroup.name) &&
       (group.modifier == _Modifier.unset ||
           group.modifier == parsedGroup.modifier) &&
       (group.annotation == _Annotation.unset ||
           group.annotation == parsedGroup.annotation);
-
-  bool _isFlutterMethodGroup(_MemberGroup group, _MemberGroup parsedGroup) =>
-      group is _MethodMemberGroup &&
-      parsedGroup is _MethodMemberGroup &&
-      ((group.isBuild && group.isBuild == parsedGroup.isBuild) ||
-          (group.isInitState && group.isInitState == parsedGroup.isInitState) ||
-          (group.isDidChangeDependencies &&
-              group.isDidChangeDependencies ==
-                  parsedGroup.isDidChangeDependencies) ||
-          (group.isDidUpdateWidget &&
-              group.isDidUpdateWidget == parsedGroup.isDidUpdateWidget) ||
-          (group.isDispose && group.isDispose == parsedGroup.isDispose));
 
   bool _isGetSetGroup(_MemberGroup group, _MemberGroup parsedGroup) =>
       group is _GetSetMemberGroup &&

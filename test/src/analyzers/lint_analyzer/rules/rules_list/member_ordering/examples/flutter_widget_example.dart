@@ -30,13 +30,13 @@ class Widget {}
 class StatelessWidget extends Widget {
   Widget build(BuildContext context);
 
-  void initState();
+  void initState(); // LINT
 
-  void didChangeDependencies();
+  void didChangeDependencies(); // LINT
 
-  void didUpdateWidget();
+  void didUpdateWidget(); // LINT
 
-  void dispose();
+  void dispose(); // LINT
 
   void someOtherMethod();
 }

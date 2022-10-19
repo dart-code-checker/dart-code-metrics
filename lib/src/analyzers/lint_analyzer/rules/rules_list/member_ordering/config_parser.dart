@@ -29,9 +29,7 @@ class _ConfigParser {
 
   static final _regExp = RegExp(
     '(overridden-|protected-)?(private-|public-)?(static-)?(late-)?'
-    '(var-|final-|const-)?(nullable-)?(named-)?(factory-)?(build-)?'
-    '(init-state-)?(did-change-dependencies-)?(did-update-widget-)?'
-    '(dispose-)?',
+    '(var-|final-|const-)?(nullable-)?(named-)?(factory-)?',
   );
 
   static List<_MemberGroup> parseOrder(Map<String, Object> config) {
@@ -64,6 +62,17 @@ class _ConfigParser {
     final type = _MemberType.parse(lastGroup);
     final result = _regExp.allMatches(group.toLowerCase());
 
+    final isNamedMethod = group.endsWith('-method');
+    if (isNamedMethod) {
+      final name = group.split('-method').first.replaceAll('-', '');
+
+      return _MethodMemberGroup.named(
+        name: name,
+        memberType: _MemberType.method,
+        rawRepresentation: group,
+      );
+    }
+
     final hasGroups = result.isNotEmpty && result.first.groupCount > 0;
     if (hasGroups && type != null) {
       final match = result.first;
@@ -76,11 +85,6 @@ class _ConfigParser {
       final isNullable = match.group(6) != null;
       final isNamed = match.group(7) != null;
       final isFactory = match.group(8) != null;
-      final isBuild = match.group(9) != null;
-      final isInitState = match.group(10) != null;
-      final isDidChangeDependencies = match.group(11) != null;
-      final isDidUpdateWidget = match.group(12) != null;
-      final isDispose = match.group(13) != null;
 
       switch (type) {
         case _MemberType.field:
@@ -97,13 +101,9 @@ class _ConfigParser {
 
         case _MemberType.method:
           return _MethodMemberGroup._(
+            name: null,
             isNullable: isNullable,
             isStatic: isStatic,
-            isBuild: isBuild,
-            isInitState: isInitState,
-            isDidChangeDependencies: isDidChangeDependencies,
-            isDidUpdateWidget: isDidUpdateWidget,
-            isDispose: isDispose,
             annotation: annotation,
             memberType: type,
             modifier: modifier,
