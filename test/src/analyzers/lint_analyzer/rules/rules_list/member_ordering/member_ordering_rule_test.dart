@@ -13,8 +13,10 @@ const _alphabeticalCorrectExamplePath =
     'member_ordering/examples/alphabetical_correct_example.dart';
 const _typeAlphabeticalExamplePath =
     'member_ordering/examples/type_alphabetical_example.dart';
-const _flutterMethodsExamplePath =
-    'member_ordering/examples/flutter_methods_example.dart';
+const _flutterWidgetExamplePath =
+    'member_ordering/examples/flutter_widget_example.dart';
+const _notWidgetExamplePath =
+    'member_ordering/examples/not_widget_example.dart';
 
 void main() {
   group('MemberOrderingRule', () {
@@ -63,6 +65,25 @@ void main() {
         final issues = MemberOrderingRule().check(unit);
 
         RuleTestHelper.verifyNoIssues(issues);
+      });
+
+      test('reports about Flutter widget issues', () async {
+        final unit =
+            await RuleTestHelper.resolveFromFile(_flutterWidgetExamplePath);
+        final issues = MemberOrderingRule().check(unit);
+
+        RuleTestHelper.verifyIssues(
+          issues: issues,
+          startLines: [12],
+          startColumns: [3],
+          locationTexts: [
+            '@override\n'
+                '  void initState() {}',
+          ],
+          messages: [
+            'init-state-method should be before build-method.',
+          ],
+        );
       });
     });
 
@@ -210,11 +231,11 @@ void main() {
         },
       );
 
-      test('accepts flutter methods and reports issues', () async {
+      test('accepts Flutter widgets order and reports issues', () async {
         final unit =
-            await RuleTestHelper.resolveFromFile(_flutterMethodsExamplePath);
+            await RuleTestHelper.resolveFromFile(_flutterWidgetExamplePath);
         final config = {
-          'order': [
+          'widgets-order': [
             'constructors',
             'overridden-methods',
             'dispose-method',
@@ -257,6 +278,28 @@ void main() {
             'overridden-methods should be before dispose-method.',
           ],
         );
+      });
+
+      test('report no issue for non-widget classes', () async {
+        final unit =
+            await RuleTestHelper.resolveFromFile(_notWidgetExamplePath);
+        final config = {
+          'widgets-order': [
+            'constructors',
+            'overridden-methods',
+            'dispose-method',
+            'did-update-widget-method',
+            'did-change-dependencies-method',
+            'init-state-method',
+            'build-method',
+            'public-methods',
+          ],
+          'order': <String>[],
+        };
+
+        final issues = MemberOrderingRule(config).check(unit);
+
+        RuleTestHelper.verifyNoIssues(issues);
       });
 
       group('and alphabetical order', () {

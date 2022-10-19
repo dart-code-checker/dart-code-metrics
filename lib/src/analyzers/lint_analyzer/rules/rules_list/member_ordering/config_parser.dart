@@ -13,6 +13,20 @@ class _ConfigParser {
     'private-methods',
   ];
 
+  static const _defaultWidgetsOrderList = [
+    'constructor',
+    'named-constructor',
+    'const-fields',
+    'static-methods',
+    'final-fields',
+    'init-state-method',
+    'var-fields',
+    'init-state-method',
+    'private-methods',
+    'overridden-public-methods',
+    'build-method',
+  ];
+
   static final _regExp = RegExp(
     '(overridden-|protected-)?(private-|public-)?(static-)?(late-)?'
     '(var-|final-|const-)?(nullable-)?(named-)?(factory-)?(build-)?'
@@ -26,6 +40,14 @@ class _ConfigParser {
         : _defaultOrderList;
 
     return order.map(_parseGroup).whereNotNull().toList();
+  }
+
+  static List<_MemberGroup> parseWidgetsOrder(Map<String, Object> config) {
+    final widgetsOrder = config['widgets-order'] is Iterable
+        ? List<String>.from(config['widgets-order'] as Iterable)
+        : _defaultWidgetsOrderList;
+
+    return widgetsOrder.map(_parseGroup).whereNotNull().toList();
   }
 
   static bool parseAlphabetize(Map<String, Object> config) =>

@@ -31,11 +31,13 @@ class MemberOrderingRule extends CommonRule {
       'type name should be alphabetically before';
 
   final List<_MemberGroup> _groupsOrder;
+  final List<_MemberGroup> _widgetsGroupsOrder;
   final bool _alphabetize;
   final bool _alphabetizeByType;
 
   MemberOrderingRule([Map<String, Object> config = const {}])
       : _groupsOrder = _ConfigParser.parseOrder(config),
+        _widgetsGroupsOrder = _ConfigParser.parseWidgetsOrder(config),
         _alphabetize = _ConfigParser.parseAlphabetize(config),
         _alphabetizeByType = _ConfigParser.parseAlphabetizeByType(config),
         super(
@@ -46,7 +48,7 @@ class MemberOrderingRule extends CommonRule {
 
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
-    final visitor = _Visitor(_groupsOrder);
+    final visitor = _Visitor(_groupsOrder, _widgetsGroupsOrder);
 
     final membersInfo = [
       for (final entry in source.unit.childEntities)
