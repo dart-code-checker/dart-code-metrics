@@ -4,7 +4,9 @@ import RuleDetails from '@site/src/components/RuleDetails';
 
 Enforces extended member ordering.
 
-The value for the `order` entry should match the following pattern:
+Order for regular classes can be confugured by `order`. To configure widget class members order use `widgets-order`.
+
+The value for the `order` or `widgets-order` entries should match the following pattern:
 
 `< (overridden | protected)- >< (private | public)- >< static- >< late- >< (var | final | const)- >< nullable- >< named- >< factory- > (fields | getters | getters-setters | setters | constructors | methods) `
 
@@ -16,15 +18,7 @@ Not all of the pattern parts are applicable for every case, for example, `late-c
 
 :::
 
-Additionally, in order to apply ordering for the Flutter specific widget methods, you can configure the rule with:
-
-- build-method
-- init-state-method
-- did-change-dependencies-method
-- did-update-widget-method
-- dispose-method
-
-For example, the value for `order` may be an array consisting of the following strings:
+For example, the value for `order` or `widgets-order` may be an array consisting of the following strings:
 
 - public-late-final-fields
 - private-late-final-fields
@@ -47,7 +41,7 @@ You can simply configure the rule to sort only by a type:
 - getters (or just **getters-setters** if you don't want to separate them)
 - constructors
 
-The default config is:
+The default config for `order` is:
 
 - public-fields
 - private-fields
@@ -58,6 +52,20 @@ The default config is:
 - constructors
 - public-methods
 - private-methods
+
+The default config for `widgets-order` is ([from Flutter style guide](https://github.com/flutter/flutter/wiki/Style-guide-for-Flutter-repo#order-other-class-members-in-a-way-that-makes-sense)):
+
+- constructor
+- named-constructor
+- const-fields
+- static-methods
+- final-fields
+- init-state-method
+- var-fields
+- init-state-method
+- private-methods
+- overridden-public-methods
+- build-method
 
 The `alphabetize` option will enforce that members within the same category should be alphabetically sorted by name.
 
