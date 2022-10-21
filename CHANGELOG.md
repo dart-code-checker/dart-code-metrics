@@ -8,6 +8,10 @@
 * feat: add static code diagnostic [`avoid-cascade-after-if-null`](https://dartcodemetrics.dev/docs/rules/common/avoid-cascade-after-if-null).
 * feat: **Breaking change** handle widget members order separately in [`member-ordering`](https://dartcodemetrics.dev/docs/rules/common/member-ordering).
 * feat: support dynamic method names for [`member-ordering`](https://dartcodemetrics.dev/docs/rules/common/member-ordering).
+* chore: restrict `analyzer` version to `>=4.4.0 <5.2.0`.
+* chore: set min `coverage` version to `^1.6.1`.
+* chore: set min `lints` version to `^2.0.1`.
+* chore: set min `test` version to `^1.21.6`.
 
 ## 4.21.2
 
