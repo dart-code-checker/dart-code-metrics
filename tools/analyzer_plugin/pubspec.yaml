@@ -6,7 +6,8 @@ environment:
   sdk: ">=2.14.0 <3.0.0"
 
 dependencies:
-  dart_code_metrics: ^4.21.2
+  dart_code_metrics:
+    path: /Users/dimannich/Desktop/code/master-dart-code-metrics
 
 dev_dependencies:
   lints: ^1.0.1
