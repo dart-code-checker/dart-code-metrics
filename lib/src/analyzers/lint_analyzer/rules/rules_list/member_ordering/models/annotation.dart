@@ -17,9 +17,8 @@ class _Annotation {
   const _Annotation._(this.name, [this.publicName]);
 
   static _Annotation parse(String? name) => all.firstWhere(
-        (annotation) =>
-            annotation.name == name ||
-            (annotation.publicName != null && annotation.publicName == name),
-        orElse: () => _Annotation.unset,
-      );
+      (annotation) =>
+          annotation.name == name ||
+          (annotation.publicName != null && annotation.publicName == name),
+      orElse: () => _Annotation.unset);
 }

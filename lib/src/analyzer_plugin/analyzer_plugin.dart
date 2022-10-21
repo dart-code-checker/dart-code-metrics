@@ -36,6 +36,9 @@ class AnalyzerPlugin extends ServerPlugin {
   @override
   String get version => '1.0.0-alpha.0';
 
+  @override
+  bool get contributesAnalysisErrors => true;
+
   AnalyzerPlugin({
     required super.resourceProvider,
   });
@@ -43,13 +46,16 @@ class AnalyzerPlugin extends ServerPlugin {
   @override
   Future<void> afterNewContextCollection({
     required AnalysisContextCollection contextCollection,
-  }) {
+  }) async {
     _contextCollection = contextCollection;
 
     contextCollection.contexts.forEach(_createConfig);
 
-    return super
-        .afterNewContextCollection(contextCollection: contextCollection);
+    await super.afterNewContextCollection(contextCollection: contextCollection);
+
+    channel.sendNotification(
+      plugin.AnalysisFinishedParams().toNotification(),
+    );
   }
 
   @override
