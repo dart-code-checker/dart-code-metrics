@@ -10,12 +10,12 @@ class _Visitor extends RecursiveAstVisitor<void> {
     super.visitInstanceCreationExpression(node);
 
     if (isIterableOrSubclass(node.staticType) &&
-        node.constructorName.name?.name == 'from') {
+        node.constructorName.name?.name == 'from' &&
+        _hasConstructorOf(node.staticType)) {
       final arg = node.argumentList.arguments.first;
 
       final argumentType = _getType(arg.staticType);
       final castedType = _getType(node.staticType);
-
       if (argumentType != null &&
           !argumentType.isDartCoreObject &&
           !argumentType.isDynamic &&
@@ -23,6 +23,14 @@ class _Visitor extends RecursiveAstVisitor<void> {
         _expressions.add(node);
       }
     }
+  }
+
+  bool _hasConstructorOf(DartType? type) {
+    if (type is InterfaceType) {
+      return type.constructors.any((element) => element.name == 'of');
+    }
+
+    return false;
   }
 
   DartType? _getType(DartType? type) {

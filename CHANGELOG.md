@@ -8,6 +8,7 @@
 * feat: add static code diagnostic [`avoid-cascade-after-if-null`](https://dartcodemetrics.dev/docs/rules/common/avoid-cascade-after-if-null).
 * feat: **Breaking change** handle widget members order separately in [`member-ordering`](https://dartcodemetrics.dev/docs/rules/common/member-ordering).
 * feat: support dynamic method names for [`member-ordering`](https://dartcodemetrics.dev/docs/rules/common/member-ordering).
+* fix: check `of` constructor exist for [`prefer-iterable-of`](https://dartcodemetrics.dev/docs/rules/common/prefer-iterable-of)
 
 ## 4.21.2
 
