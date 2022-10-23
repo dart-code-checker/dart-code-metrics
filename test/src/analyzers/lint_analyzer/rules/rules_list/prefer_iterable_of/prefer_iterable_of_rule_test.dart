@@ -14,6 +14,8 @@ const _linkedHashSetExamplePath =
 const _listQueueExamplePath =
     'prefer_iterable_of/examples/list_queue_example.dart';
 const _queueExamplePath = 'prefer_iterable_of/examples/queue_example.dart';
+const _queueListExamplePath =
+    'prefer_iterable_of/examples/queue_list_example.dart';
 const _splayTreeSetExamplePath =
     'prefer_iterable_of/examples/splay_tree_set_example.dart';
 
@@ -246,6 +248,21 @@ void main() {
           "Replace with 'of'.",
           "Replace with 'of'.",
         ],
+      );
+    });
+
+    test('reports about found issues for queue list', () async {
+      final unit = await RuleTestHelper.resolveFromFile(_queueListExamplePath);
+      final issues = PreferIterableOfRule().check(unit);
+
+      RuleTestHelper.verifyIssues(
+        issues: issues,
+        startLines: [],
+        startColumns: [],
+        locationTexts: [],
+        messages: [],
+        replacements: [],
+        replacementComments: [],
       );
     });
 
