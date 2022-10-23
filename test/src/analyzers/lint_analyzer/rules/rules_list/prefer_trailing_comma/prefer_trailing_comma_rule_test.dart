@@ -20,7 +20,7 @@ void main() {
       RuleTestHelper.verifyInitialization(
         issues: issues,
         ruleId: 'prefer-trailing-comma',
-        severity: Severity.warning,
+        severity: Severity.style,
       );
     });
 
