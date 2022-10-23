@@ -255,15 +255,7 @@ void main() {
       final unit = await RuleTestHelper.resolveFromFile(_queueListExamplePath);
       final issues = PreferIterableOfRule().check(unit);
 
-      RuleTestHelper.verifyIssues(
-        issues: issues,
-        startLines: [],
-        startColumns: [],
-        locationTexts: [],
-        messages: [],
-        replacements: [],
-        replacementComments: [],
-      );
+      RuleTestHelper.verifyNoIssues(issues);
     });
 
     test('reports about found issues for splay tree sets', () async {
