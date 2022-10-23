@@ -9,6 +9,7 @@
 * feat: **Breaking change** handle widget members order separately in [`member-ordering`](https://dartcodemetrics.dev/docs/rules/common/member-ordering).
 * feat: support dynamic method names for [`member-ordering`](https://dartcodemetrics.dev/docs/rules/common/member-ordering).
 * fix: check `of` constructor exist for [`prefer-iterable-of`](https://dartcodemetrics.dev/docs/rules/common/prefer-iterable-of)
+* feat: **Breaking change** change severity for avoid-banned-imports, prefer-trailing-comma, ban-name rules.
 
 ## 4.21.2
 
