@@ -23,7 +23,7 @@ class BanNameRule extends CommonRule {
       : _entries = _ConfigParser._parseEntryConfig(config),
         super(
           id: ruleId,
-          severity: readSeverity(config, Severity.style),
+          severity: readSeverity(config, Severity.warning),
           excludes: readExcludes(config),
         );
 

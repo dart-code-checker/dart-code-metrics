@@ -12,8 +12,8 @@ import '../../../models/severity.dart';
 import '../../models/common_rule.dart';
 import '../../rule_utils.dart';
 
-part 'visitor.dart';
 part 'utils/config_parser.dart';
+part 'visitor.dart';
 
 class TagNameRule extends CommonRule {
   static const String ruleId = 'tag-name';
