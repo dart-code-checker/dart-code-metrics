@@ -34,7 +34,7 @@ class UnusedCodeAnalyzer {
 
   /// Returns a reporter for the given [name]. Use the reporter
   /// to convert analysis reports to console, JSON or other supported format.
-  Reporter<UnusedCodeFileReport, void, UnusedCodeReportParams>? getReporter({
+  Reporter<UnusedCodeFileReport, UnusedCodeReportParams>? getReporter({
     required String name,
     required IOSink output,
   }) =>

@@ -5,14 +5,13 @@ import '../../unused_code_report_params.dart';
 /// Unused code console reporter.
 ///
 /// Use it to create reports in console format.
-class UnusedCodeConsoleReporter extends ConsoleReporter<UnusedCodeFileReport,
-    void, UnusedCodeReportParams> {
+class UnusedCodeConsoleReporter
+    extends ConsoleReporter<UnusedCodeFileReport, UnusedCodeReportParams> {
   UnusedCodeConsoleReporter(super.output);
 
   @override
   Future<void> report(
     Iterable<UnusedCodeFileReport> records, {
-    Iterable<void> summary = const [],
     UnusedCodeReportParams? additionalParams,
   }) async {
     if (records.isEmpty) {

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/lint_report_params.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/json/lint_json_reporter.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
@@ -25,7 +26,11 @@ void main() {
     });
 
     test('complex report', () {
-      LintJsonReporter(output).report(testReport, summary: testSummary);
+      LintJsonReporter(output).report(
+        testReport,
+        additionalParams:
+            const LintReportParams(congratulate: true, summary: testSummary),
+      );
 
       final captured = verify(
         () => output.write(captureAny()),

@@ -4,20 +4,18 @@ import '../../../../../reporters/models/checkstyle_reporter.dart';
 import '../../../metrics/models/metric_value_level.dart';
 import '../../../models/lint_file_report.dart';
 import '../../../models/severity.dart';
-import '../../../models/summary_lint_report_record.dart';
 import '../../lint_report_params.dart';
 
 /// Lint Checkstyle reporter.
 ///
 /// Use it to create reports in Checkstyle format.
-class LintCheckstyleReporter extends CheckstyleReporter<LintFileReport,
-    SummaryLintReportRecord<Object>, LintReportParams> {
+class LintCheckstyleReporter
+    extends CheckstyleReporter<LintFileReport, LintReportParams> {
   LintCheckstyleReporter(super.output);
 
   @override
   Future<void> report(
     Iterable<LintFileReport> records, {
-    Iterable<SummaryLintReportRecord<Object>> summary = const [],
     LintReportParams? additionalParams,
   }) async {
     if (records.isEmpty) {

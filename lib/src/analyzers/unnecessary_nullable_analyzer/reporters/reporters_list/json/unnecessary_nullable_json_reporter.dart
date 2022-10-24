@@ -10,13 +10,12 @@ import '../../unnecessary_nullable_report_params.dart';
 ///
 /// Use it to create reports in JSON format.
 class UnnecessaryNullableJsonReporter extends JsonReporter<
-    UnnecessaryNullableFileReport, void, UnnecessaryNullableReportParams> {
+    UnnecessaryNullableFileReport, UnnecessaryNullableReportParams> {
   const UnnecessaryNullableJsonReporter(IOSink output) : super(output, 2);
 
   @override
   Future<void> report(
     Iterable<UnnecessaryNullableFileReport> records, {
-    Iterable<void> summary = const [],
     UnnecessaryNullableReportParams? additionalParams,
   }) async {
     if (records.isEmpty) {

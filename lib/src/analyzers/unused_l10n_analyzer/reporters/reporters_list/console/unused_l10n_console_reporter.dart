@@ -5,14 +5,13 @@ import '../../unused_l10n_report_params.dart';
 /// Unused localization console reporter.
 ///
 /// Use it to create reports in console format.
-class UnusedL10nConsoleReporter extends ConsoleReporter<UnusedL10nFileReport,
-    void, UnusedL10NReportParams> {
+class UnusedL10nConsoleReporter
+    extends ConsoleReporter<UnusedL10nFileReport, UnusedL10NReportParams> {
   UnusedL10nConsoleReporter(super.output);
 
   @override
   Future<void> report(
     Iterable<UnusedL10nFileReport> records, {
-    Iterable<void> summary = const [],
     UnusedL10NReportParams? additionalParams,
   }) async {
     if (records.isEmpty) {

@@ -4,7 +4,6 @@ import '../../../../utils/node_utils.dart';
 import '../../lint_utils.dart';
 import '../../metrics/metric_utils.dart';
 import '../../metrics/metrics_list/number_of_parameters_metric.dart';
-import '../../metrics/models/metric_value_level.dart';
 import '../../models/entity_type.dart';
 import '../../models/function_type.dart';
 import '../../models/internal_resolved_unit_result.dart';
@@ -72,9 +71,6 @@ class LongParameterList extends Pattern {
                           ),
                         ),
                       ),
-                if (_numberOfParametersMetricThreshold == null)
-                  // ignore: deprecated_member_use_from_same_package
-                  ..._legacyBehaviour(source, entry),
               ])
           .toList();
 
@@ -91,30 +87,4 @@ class LongParameterList extends Pattern {
       maximumArguments != null
           ? "Based on configuration of this package, we don't recommend writing a $functionType with argument count more than $maximumArguments."
           : null;
-
-  @Deprecated('Fallback for current behaviour, will be removed in 5.0.0')
-  Iterable<Issue> _legacyBehaviour(
-    InternalResolvedUnitResult source,
-    MapEntry<ScopedFunctionDeclaration, Report> entry,
-  ) =>
-      entry.value.metrics
-          .where((metricValue) =>
-              metricValue.metricsId == NumberOfParametersMetric.metricId &&
-              metricValue.level == MetricValueLevel.none &&
-              metricValue.value > 4)
-          .map(
-            (metricValue) => createIssue(
-              pattern: this,
-              location: nodeLocation(
-                node: entry.key.declaration,
-                source: source,
-              ),
-              message: _compileMessage(
-                args: metricValue.value,
-                functionType: entry.key.type,
-              ),
-              verboseMessage:
-                  'Anti pattern works in deprecated mode. Please configure ${NumberOfParametersMetric.metricId} metric. For detailed information please read documentation.',
-            ),
-          );
 }

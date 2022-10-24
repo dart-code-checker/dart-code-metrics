@@ -30,6 +30,7 @@ const _usage =
     '\n'
     '\n'
     '    --[no-]fatal-found                            Treat found unnecessary nullable parameters as fatal.\n'
+    '                                                  (defaults to on)\n'
     '\n'
     'Run "metrics help" to see global options.';
 

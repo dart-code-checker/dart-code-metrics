@@ -284,8 +284,6 @@ The reporter prints a single JSON object containing meta information and the vio
 
 ### GitHub {#github}
 
-> **DEPRECATED!** This reporter is deprecated and will be removed in 5.0.0. You can migrate on our [GitHub Action](../integrations/github-action.md).
-
 Reports about design and static code diagnostics issues in pull requests based on GitHub Actions Workflow commands. Use `--reporter=github` to enable this format.
 
 - Install dart/flutter and get packages:

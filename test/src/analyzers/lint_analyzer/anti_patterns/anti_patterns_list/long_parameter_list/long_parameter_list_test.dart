@@ -67,34 +67,5 @@ void main() {
         "Based on configuration of this package, we don't recommend writing a function with argument count more than 4.",
       ],
     );
-
-    final fallbackIssues = LongParameterList().check(unit, {}, {
-      declarations.last: Report(
-        location:
-            nodeLocation(node: declarations.last.declaration, source: unit),
-        metrics: [
-          buildMetricValueStub(id: NumberOfParametersMetric.metricId, value: 5),
-        ],
-        declaration: declarations.last.declaration,
-      ),
-    });
-
-    AntiPatternTestHelper.verifyInitialization(
-      issues: fallbackIssues,
-      antiPatternId: 'long-parameter-list',
-      severity: Severity.none,
-    );
-
-    AntiPatternTestHelper.verifyIssues(
-      issues: fallbackIssues,
-      startOffsets: [58],
-      startLines: [5],
-      startColumns: [1],
-      endOffsets: [109],
-      messages: ['Long Parameter List. This function require 5 arguments.'],
-      verboseMessage: [
-        'Anti pattern works in deprecated mode. Please configure number-of-parameters metric. For detailed information please read documentation.',
-      ],
-    );
   });
 }
