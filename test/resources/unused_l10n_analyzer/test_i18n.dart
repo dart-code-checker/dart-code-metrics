@@ -43,7 +43,7 @@ class S {
 
   final String regularField = 'regular field'; // LINT
 
-  String get proxyGetter = 'proxy getter';
+  String get proxyGetter => 'proxy getter';
 
   final String proxyField = 'proxy field';
 
