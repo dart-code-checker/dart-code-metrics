@@ -49,7 +49,7 @@ class UnusedL10nVisitor extends RecursiveAstVisitor<void> {
     final prefix = node.prefix;
     final name = node.identifier.name;
 
-    if (_matchIdentifier(prefix) || _matchStaticGetter(prefix)) {
+    if (_matchIdentifier(prefix)) {
       _addMemberInvocation(prefix, name);
     }
   }
