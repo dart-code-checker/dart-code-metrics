@@ -11,9 +11,8 @@ import '../../../models/severity.dart';
 import '../../models/common_rule.dart';
 import '../../rule_utils.dart';
 
-part 'visitor.dart';
-
 part 'utils/config_parser.dart';
+part 'visitor.dart';
 
 class AvoidBannedImportsRule extends CommonRule {
   static const String ruleId = 'avoid-banned-imports';
@@ -24,7 +23,7 @@ class AvoidBannedImportsRule extends CommonRule {
       : _entries = _ConfigParser._parseEntryConfig(config),
         super(
           id: ruleId,
-          severity: readSeverity(config, Severity.style),
+          severity: readSeverity(config, Severity.warning),
           excludes: readExcludes(config),
         );
 

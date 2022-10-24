@@ -15,7 +15,7 @@ void main() {
       RuleTestHelper.verifyInitialization(
         issues: issues,
         ruleId: 'avoid-banned-imports',
-        severity: Severity.style,
+        severity: Severity.warning,
       );
     });
 

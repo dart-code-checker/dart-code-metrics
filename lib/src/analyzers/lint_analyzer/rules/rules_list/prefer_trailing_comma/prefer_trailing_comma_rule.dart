@@ -30,7 +30,7 @@ class PreferTrailingCommaRule extends CommonRule {
       : _itemsBreakpoint = _ConfigParser.parseBreakpoint(config),
         super(
           id: ruleId,
-          severity: readSeverity(config, Severity.warning),
+          severity: readSeverity(config, Severity.style),
           excludes: readExcludes(config),
         );
 
