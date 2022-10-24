@@ -5,15 +5,14 @@ import '../../../metrics/models/metric_value_level.dart';
 import '../../../models/issue.dart';
 import '../../../models/lint_file_report.dart';
 import '../../../models/report.dart';
-import '../../../models/summary_lint_report_record.dart';
 import '../../lint_report_params.dart';
 import 'lint_console_reporter_helper.dart';
 
 /// Lint console reporter.
 ///
 /// Use it to create reports in console format.
-class LintConsoleReporter extends ConsoleReporter<LintFileReport,
-    SummaryLintReportRecord<Object>, LintReportParams> {
+class LintConsoleReporter
+    extends ConsoleReporter<LintFileReport, LintReportParams> {
   /// If true will report info about all files even if they're not above warning threshold.
   final bool reportAll;
 
@@ -24,7 +23,6 @@ class LintConsoleReporter extends ConsoleReporter<LintFileReport,
   @override
   Future<void> report(
     Iterable<LintFileReport> records, {
-    Iterable<SummaryLintReportRecord<Object>> summary = const [],
     LintReportParams? additionalParams,
   }) async {
     var hasReportData = false;

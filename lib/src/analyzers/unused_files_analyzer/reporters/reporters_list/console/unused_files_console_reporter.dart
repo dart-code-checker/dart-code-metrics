@@ -5,14 +5,13 @@ import '../../unused_files_report_params.dart';
 /// Unused files console reporter.
 ///
 /// Use it to create reports in console format.
-class UnusedFilesConsoleReporter extends ConsoleReporter<UnusedFilesFileReport,
-    void, UnusedFilesReportParams> {
+class UnusedFilesConsoleReporter
+    extends ConsoleReporter<UnusedFilesFileReport, UnusedFilesReportParams> {
   UnusedFilesConsoleReporter(super.output);
 
   @override
   Future<void> report(
     Iterable<UnusedFilesFileReport> records, {
-    Iterable<void> summary = const [],
     UnusedFilesReportParams? additionalParams,
   }) async {
     if (records.isEmpty) {

@@ -8,14 +8,14 @@ import 'unused_code_report_params.dart';
 
 final _implementedReports = <
     String,
-    Reporter<UnusedCodeFileReport, void, UnusedCodeReportParams> Function(
+    Reporter<UnusedCodeFileReport, UnusedCodeReportParams> Function(
   IOSink output,
 )>{
   ConsoleReporter.id: UnusedCodeConsoleReporter.new,
   JsonReporter.id: UnusedCodeJsonReporter.new,
 };
 
-Reporter<UnusedCodeFileReport, void, UnusedCodeReportParams>? reporter({
+Reporter<UnusedCodeFileReport, UnusedCodeReportParams>? reporter({
   required String name,
   required IOSink output,
 }) {

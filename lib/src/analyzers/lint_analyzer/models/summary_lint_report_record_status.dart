@@ -3,19 +3,19 @@ class SummaryLintReportRecordStatus {
   /// Error.
   ///
   /// Status indicates that a record contains error information.
-  /// Commonly represend by ❌ emoji
+  /// Commonly represented by ❌ emoji
   static const error = SummaryLintReportRecordStatus._('error');
 
   /// Warning.
   ///
   /// Status indicates that a record requires user attention.
-  /// Commonly represend by ⚠️ emoji.
+  /// Commonly represented by ⚠️ emoji.
   static const warning = SummaryLintReportRecordStatus._('warning');
 
   /// OK.
   ///
   /// Standard status for successful record.
-  /// Commonly represend by ✅ emoji.
+  /// Commonly represented by ✅ emoji.
   static const ok = SummaryLintReportRecordStatus._('ok');
 
   /// None.

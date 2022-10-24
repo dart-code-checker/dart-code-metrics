@@ -38,15 +38,15 @@ class UnnecessaryNullableAnalyzer {
 
   /// Returns a reporter for the given [name]. Use the reporter
   /// to convert analysis reports to console, JSON or other supported format.
-  Reporter<UnnecessaryNullableFileReport, void,
-      UnnecessaryNullableReportParams>? getReporter({
+  Reporter<UnnecessaryNullableFileReport, UnnecessaryNullableReportParams>?
+      getReporter({
     required String name,
     required IOSink output,
   }) =>
-      reporter(
-        name: name,
-        output: output,
-      );
+          reporter(
+            name: name,
+            output: output,
+          );
 
   /// Returns a list of unnecessary nullable parameters reports
   /// for analyzing all files in the given [folders].

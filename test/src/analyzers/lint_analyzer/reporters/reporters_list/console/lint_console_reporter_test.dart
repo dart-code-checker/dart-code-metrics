@@ -30,7 +30,7 @@ void main() {
 
     group('empty report', () {
       test('with congratulate param', () async {
-        const congratulate = LintReportParams(congratulate: true);
+        const congratulate = LintReportParams(congratulate: true, summary: []);
 
         await reporter.report([], additionalParams: congratulate);
         await verboseReporter.report([], additionalParams: congratulate);
@@ -47,7 +47,8 @@ void main() {
       });
 
       test('without congratulate param', () async {
-        const noCongratulate = LintReportParams(congratulate: false);
+        const noCongratulate =
+            LintReportParams(congratulate: false, summary: []);
 
         await reporter.report([], additionalParams: noCongratulate);
         await verboseReporter.report([], additionalParams: noCongratulate);

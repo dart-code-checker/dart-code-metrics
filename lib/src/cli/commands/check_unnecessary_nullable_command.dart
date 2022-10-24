@@ -113,8 +113,7 @@ class CheckUnnecessaryNullableCommand extends BaseCommand {
       ..addFlag(
         FlagNames.fatalOnFound,
         help: 'Treat found unnecessary nullable parameters as fatal.',
-// TODO(dkrutrkikh): activate on next major version
-//        defaultsTo: true,
+        defaultsTo: true,
       );
   }
 }

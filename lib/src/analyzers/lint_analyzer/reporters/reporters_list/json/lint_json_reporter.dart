@@ -17,8 +17,7 @@ import '../../lint_report_params.dart';
 /// Lint JSON reporter.
 ///
 /// Use it to create reports in JSON format.
-class LintJsonReporter extends JsonReporter<LintFileReport,
-    SummaryLintReportRecord<Object>, LintReportParams> {
+class LintJsonReporter extends JsonReporter<LintFileReport, LintReportParams> {
   const LintJsonReporter(IOSink output) : super(output, 2);
 
   factory LintJsonReporter.toFile(String path, String rootFolder) {
@@ -33,18 +32,19 @@ class LintJsonReporter extends JsonReporter<LintFileReport,
   @override
   Future<void> report(
     Iterable<LintFileReport> records, {
-    Iterable<SummaryLintReportRecord<Object>> summary = const [],
     LintReportParams? additionalParams,
   }) async {
     if (records.isEmpty) {
       return;
     }
 
+    final summary = additionalParams?.summary;
+
     final encodedReport = json.encode({
       'formatVersion': formatVersion,
       'timestamp': getTimestamp(),
       'records': records.map(_lintFileReportToJson).toList(),
-      if (summary.isNotEmpty)
+      if (summary != null && summary.isNotEmpty)
         'summary': summary.map(_summaryLintReportRecordToJson).toList(),
     });
 

@@ -11,6 +11,7 @@
 * fix: check `of` constructor exist for [`prefer-iterable-of`](https://dartcodemetrics.dev/docs/rules/common/prefer-iterable-of)
 * feat: **Breaking change** change severity for avoid-banned-imports, prefer-trailing-comma, ban-name rules.
 * feat: support proxy calls for check-unused-l10n.
+* feat: **Breaking change** cleanup public API.
 
 ## 4.21.2
 

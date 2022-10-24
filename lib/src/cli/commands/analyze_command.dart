@@ -65,7 +65,10 @@ class AnalyzeCommand extends BaseCommand {
           LintJsonReporter.toFile(jsonReportPath, parsedArgs.rootFolder);
       await jsonReporter.report(
         lintAnalyzerResult,
-        summary: _analyzer.getSummary(lintAnalyzerResult),
+        additionalParams: LintReportParams(
+          congratulate: true,
+          summary: _analyzer.getSummary(lintAnalyzerResult),
+        ),
       );
     }
 
@@ -77,8 +80,10 @@ class AnalyzeCommand extends BaseCommand {
         )
         ?.report(
           lintAnalyzerResult,
-          summary: _analyzer.getSummary(lintAnalyzerResult),
-          additionalParams: LintReportParams(congratulate: !isNoCongratulate),
+          additionalParams: LintReportParams(
+            congratulate: !isNoCongratulate,
+            summary: _analyzer.getSummary(lintAnalyzerResult),
+          ),
         );
 
     _checkSeverity(lintAnalyzerResult);
@@ -197,8 +202,7 @@ class AnalyzeCommand extends BaseCommand {
       ..addFlag(
         FlagNames.fatalWarnings,
         help: 'Treat warning level issues as fatal.',
-// TODO(dkrutrkikh): activate on next major version
-//        defaultsTo: true,
+        defaultsTo: true,
       );
   }
 }

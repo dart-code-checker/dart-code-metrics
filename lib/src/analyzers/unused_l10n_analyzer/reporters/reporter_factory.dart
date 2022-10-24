@@ -10,14 +10,14 @@ import 'unused_l10n_report_params.dart';
 
 final _implementedReports = <
     String,
-    Reporter<UnusedL10nFileReport, void, UnusedL10NReportParams> Function(
+    Reporter<UnusedL10nFileReport, UnusedL10NReportParams> Function(
   IOSink output,
 )>{
   ConsoleReporter.id: UnusedL10nConsoleReporter.new,
   JsonReporter.id: UnusedL10nJsonReporter.new,
 };
 
-Reporter<UnusedL10nFileReport, void, UnusedL10NReportParams>? reporter({
+Reporter<UnusedL10nFileReport, UnusedL10NReportParams>? reporter({
   required String name,
   required IOSink output,
 }) {
