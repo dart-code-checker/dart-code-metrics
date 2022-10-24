@@ -47,18 +47,10 @@ class UnusedL10nVisitor extends RecursiveAstVisitor<void> {
     super.visitPrefixedIdentifier(node);
 
     final prefix = node.prefix;
+    final name = node.identifier.name;
 
-    if (_classPattern.hasMatch(prefix.name)) {
-      final staticElement = prefix.staticElement;
-      final name = node.identifier.name;
-
-      if (staticElement is ClassElement) {
-        _invocations.update(
-          staticElement,
-          (value) => value..add(name),
-          ifAbsent: () => {name},
-        );
-      }
+    if (_matchIdentifier(prefix)) {
+      _addMemberInvocation(prefix, name);
     }
   }
 
@@ -85,12 +77,23 @@ class UnusedL10nVisitor extends RecursiveAstVisitor<void> {
         _addMemberInvocation(classTarget as SimpleIdentifier, name);
       }
     } else if (_matchStaticGetter(target)) {
-      _addMemberInvocation((target as PrefixedIdentifier).prefix, name);
+      final prefix = target as PrefixedIdentifier;
+      final classTarget = prefix.identifier;
+
+      if (_matchIdentifier(classTarget)) {
+        _addMemberInvocation(classTarget, name);
+      }
+
+      _addMemberInvocation(prefix.prefix, name);
     }
   }
 
   bool _matchIdentifier(Expression? target) =>
-      target is SimpleIdentifier && _classPattern.hasMatch(target.name);
+      target is SimpleIdentifier &&
+      (_classPattern.hasMatch(target.name) ||
+          _classPattern.hasMatch(
+            target.staticType?.getDisplayString(withNullability: false) ?? '',
+          ));
 
   bool _matchConstructorOf(Expression? target) =>
       target is InstanceCreationExpression &&
@@ -115,13 +118,23 @@ class UnusedL10nVisitor extends RecursiveAstVisitor<void> {
   void _addMemberInvocation(SimpleIdentifier target, String name) {
     final staticElement = target.staticElement;
 
-    if (staticElement is ClassElement) {
-      _invocations.update(
-        staticElement,
-        (value) => value..add(name),
-        ifAbsent: () => {name},
-      );
+    if (staticElement is VariableElement) {
+      final classElement = staticElement.type.element2;
+      if (_classPattern.hasMatch(classElement?.name ?? '')) {
+        _tryAddInvocation(classElement, name);
+      }
+
+      return;
+    } else if (staticElement is PropertyAccessorElement) {
+      final classElement = staticElement.type.returnType.element2;
+      if (_classPattern.hasMatch(classElement?.name ?? '')) {
+        _tryAddInvocation(classElement, name);
+      }
+
+      return;
     }
+
+    _tryAddInvocation(staticElement, name);
   }
 
   void _addMemberInvocationOnConstructor(
@@ -131,13 +144,7 @@ class UnusedL10nVisitor extends RecursiveAstVisitor<void> {
     final staticElement =
         target.constructorName.staticElement?.enclosingElement3;
 
-    if (staticElement is ClassElement) {
-      _invocations.update(
-        staticElement,
-        (value) => value..add(name),
-        ifAbsent: () => {name},
-      );
-    }
+    _tryAddInvocation(staticElement, name);
   }
 
   void _addMemberInvocationOnAccessor(SimpleIdentifier target, String name) {
@@ -146,17 +153,21 @@ class UnusedL10nVisitor extends RecursiveAstVisitor<void> {
 
     for (final element in staticElement.accessors) {
       if (_classPattern.hasMatch(element.returnType.toString())) {
-        final classElement = element.returnType.element2;
+        final declaredElement = element.returnType.element2;
 
-        if (classElement is ClassElement) {
-          _invocations.update(
-            classElement,
-            (value) => value..add(name),
-            ifAbsent: () => {name},
-          );
-          break;
-        }
+        _tryAddInvocation(declaredElement, name);
+        break;
       }
+    }
+  }
+
+  void _tryAddInvocation(Element? element, String name) {
+    if (element is ClassElement) {
+      _invocations.update(
+        element,
+        (value) => value..add(name),
+        ifAbsent: () => {name},
+      );
     }
   }
 }

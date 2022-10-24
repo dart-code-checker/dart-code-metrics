@@ -43,6 +43,12 @@ class S {
 
   final String regularField = 'regular field'; // LINT
 
+  String get proxyGetter => 'proxy getter';
+
+  final String proxyField = 'proxy field';
+
+  String proxyMethod(String value) => value;
+
   // ignore: prefer_constructors_over_static_methods
   static S of(String value) {
     print(value);
@@ -58,6 +64,12 @@ class S {
   String get _privateGetter => 'regular getter';
 
   String _privateMethod() => 'hi';
+}
+
+class SofS {
+  final S l10n;
+
+  const SofS(this.l10n);
 }
 
 class L10nClass {

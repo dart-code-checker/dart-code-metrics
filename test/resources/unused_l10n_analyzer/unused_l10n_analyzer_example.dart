@@ -30,5 +30,12 @@ class SomeClass {
     S.of('').anotherRegularGetter;
     S.current.regularGetter;
     S.current.anotherRegularMethod('');
+
+    final instance = S();
+    instance.proxyGetter;
+    instance.proxyMethod('hello');
+
+    final wrapper = SofS(S());
+    wrapper.l10n.proxyField;
   }
 }
