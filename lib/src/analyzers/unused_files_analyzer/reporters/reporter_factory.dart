@@ -10,14 +10,14 @@ import 'unused_files_report_params.dart';
 
 final _implementedReports = <
     String,
-    Reporter<UnusedFilesFileReport, void, UnusedFilesReportParams> Function(
+    Reporter<UnusedFilesFileReport, UnusedFilesReportParams> Function(
   IOSink output,
 )>{
   ConsoleReporter.id: UnusedFilesConsoleReporter.new,
   JsonReporter.id: UnusedFilesJsonReporter.new,
 };
 
-Reporter<UnusedFilesFileReport, void, UnusedFilesReportParams>? reporter({
+Reporter<UnusedFilesFileReport, UnusedFilesReportParams>? reporter({
   required String name,
   required IOSink output,
 }) {

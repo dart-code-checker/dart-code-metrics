@@ -115,8 +115,7 @@ class CheckUnusedL10nCommand extends BaseCommand {
       ..addFlag(
         FlagNames.fatalOnUnused,
         help: 'Treat find unused l10n as fatal.',
-// TODO(dkrutrkikh): activate on next major version
-//        defaultsTo: true,
+        defaultsTo: true,
       );
   }
 }

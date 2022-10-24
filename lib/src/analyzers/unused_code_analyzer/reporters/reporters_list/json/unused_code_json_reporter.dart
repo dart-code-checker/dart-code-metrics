@@ -10,13 +10,12 @@ import '../../unused_code_report_params.dart';
 ///
 /// Use it to create reports in JSON format.
 class UnusedCodeJsonReporter
-    extends JsonReporter<UnusedCodeFileReport, void, UnusedCodeReportParams> {
+    extends JsonReporter<UnusedCodeFileReport, UnusedCodeReportParams> {
   const UnusedCodeJsonReporter(IOSink output) : super(output, 2);
 
   @override
   Future<void> report(
     Iterable<UnusedCodeFileReport> records, {
-    Iterable<void> summary = const [],
     UnusedCodeReportParams? additionalParams,
   }) async {
     if (records.isEmpty) {

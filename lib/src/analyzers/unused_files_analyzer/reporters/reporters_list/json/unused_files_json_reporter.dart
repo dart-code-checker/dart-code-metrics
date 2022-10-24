@@ -9,13 +9,12 @@ import '../../unused_files_report_params.dart';
 ///
 /// Use it to create reports in JSON format.
 class UnusedFilesJsonReporter
-    extends JsonReporter<UnusedFilesFileReport, void, UnusedFilesReportParams> {
+    extends JsonReporter<UnusedFilesFileReport, UnusedFilesReportParams> {
   const UnusedFilesJsonReporter(IOSink output) : super(output, 2);
 
   @override
   Future<void> report(
     Iterable<UnusedFilesFileReport> records, {
-    Iterable<void> summary = const [],
     UnusedFilesReportParams? additionalParams,
   }) async {
     if (records.isEmpty) {

@@ -10,8 +10,7 @@ import 'unnecessary_nullable_report_params.dart';
 
 final _implementedReports = <
     String,
-    Reporter<UnnecessaryNullableFileReport, void,
-            UnnecessaryNullableReportParams>
+    Reporter<UnnecessaryNullableFileReport, UnnecessaryNullableReportParams>
         Function(
   IOSink output,
 )>{
@@ -19,7 +18,7 @@ final _implementedReports = <
   JsonReporter.id: UnnecessaryNullableJsonReporter.new,
 };
 
-Reporter<UnnecessaryNullableFileReport, void, UnnecessaryNullableReportParams>?
+Reporter<UnnecessaryNullableFileReport, UnnecessaryNullableReportParams>?
     reporter({
   required String name,
   required IOSink output,

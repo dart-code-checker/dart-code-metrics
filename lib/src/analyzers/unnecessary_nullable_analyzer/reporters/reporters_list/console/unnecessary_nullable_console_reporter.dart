@@ -6,13 +6,12 @@ import '../../unnecessary_nullable_report_params.dart';
 ///
 /// Use it to create reports in console format.
 class UnnecessaryNullableConsoleReporter extends ConsoleReporter<
-    UnnecessaryNullableFileReport, void, UnnecessaryNullableReportParams> {
+    UnnecessaryNullableFileReport, UnnecessaryNullableReportParams> {
   UnnecessaryNullableConsoleReporter(super.output);
 
   @override
   Future<void> report(
     Iterable<UnnecessaryNullableFileReport> records, {
-    Iterable<void> summary = const [],
     UnnecessaryNullableReportParams? additionalParams,
   }) async {
     if (records.isEmpty) {

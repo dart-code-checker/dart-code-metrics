@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/lint_report_params.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/reporters/reporters_list/checkstyle/lint_checkstyle_reporter.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
@@ -25,7 +26,11 @@ void main() {
     });
 
     test('complex report', () {
-      LintCheckstyleReporter(output).report(testReport, summary: testSummary);
+      LintCheckstyleReporter(output).report(
+        testReport,
+        additionalParams:
+            const LintReportParams(congratulate: true, summary: testSummary),
+      );
 
       final captured = verify(
         () => output.writeln(captureAny()),

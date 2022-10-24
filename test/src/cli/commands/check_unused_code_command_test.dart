@@ -29,6 +29,7 @@ const _usage = 'Check unused code in *.dart files.\n'
     '\n'
     '\n'
     '    --[no-]fatal-unused                           Treat find unused code as fatal.\n'
+    '                                                  (defaults to on)\n'
     '\n'
     'Run "metrics help" to see global options.';
 

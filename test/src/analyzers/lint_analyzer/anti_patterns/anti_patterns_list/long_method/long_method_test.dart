@@ -71,40 +71,6 @@ void main() {
           "Based on configuration of this package, we don't recommend write a function longer than 25 lines with code.",
         ],
       );
-
-      final fallbackIssues = LongMethod().check(unit, {}, {
-        declarations.first: Report(
-          location:
-              nodeLocation(node: declarations.first.declaration, source: unit),
-          metrics: [
-            buildMetricValueStub(
-              id: SourceLinesOfCodeMetric.metricId,
-              value: 55,
-            ),
-          ],
-          declaration: declarations.first.declaration,
-        ),
-      });
-
-      AntiPatternTestHelper.verifyInitialization(
-        issues: fallbackIssues,
-        antiPatternId: 'long-method',
-        severity: Severity.none,
-      );
-
-      AntiPatternTestHelper.verifyIssues(
-        issues: fallbackIssues,
-        startOffsets: [0],
-        startLines: [1],
-        startColumns: [1],
-        endOffsets: [1309],
-        messages: [
-          'Long function. This function contains 55 lines with code.',
-        ],
-        verboseMessage: [
-          'Anti pattern works in deprecated mode. Please configure source-lines-of-code metric. For detailed information please read documentation.',
-        ],
-      );
     });
 
     test('skip widget build method', () async {

@@ -18,7 +18,7 @@ import 'reporters_list/json/lint_json_reporter.dart';
 
 final _implementedReports = <
     String,
-    Reporter<FileReport, Object, LintReportParams> Function(
+    Reporter<FileReport, LintReportParams> Function(
   IOSink output,
   String reportFolder,
 )>{
@@ -34,7 +34,7 @@ final _implementedReports = <
       LintCodeClimateReporter(output, gitlabCompatible: true),
 };
 
-Reporter<FileReport, Object, LintReportParams>? reporter({
+Reporter<FileReport, LintReportParams>? reporter({
   required String name,
   required IOSink output,
   required String reportFolder,
