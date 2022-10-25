@@ -63,7 +63,7 @@ class Progress {
 
   void complete([String? update]) {
     _stopwatch.stop();
-    _writeLn('$_clearLn${okPen('✓')} ${update ?? _message} $_time\n');
+    _writeLn('$_clearLn${okPen('✔')} ${update ?? _message} $_time\n');
     _timer?.cancel();
   }
 
@@ -76,8 +76,7 @@ class Progress {
   void _onTick(Timer? _, [bool withTime = true]) {
     _index++;
     final char = _progressAnimation[_index % _progressAnimation.length];
-    _write('$_clearMessageLength$char $_message... ${withTime ? _time : ''}'
-        .trim());
+    _write('$_clearLn$char $_message... ${withTime ? _time : ''}'.trim());
   }
 
   void _write(Object? object) {
@@ -92,13 +91,8 @@ class Progress {
     }
   }
 
-  String get _clearMessageLength {
-    final length = _message!.length + 8 + _time.length;
-
-    return '\b${'\b' * length}';
-  }
-
-  String get _clearLn => '$_clearMessageLength\u001b[2K';
+  String get _clearLn => '\u001b[2K'
+      '\r';
 
   String get _time {
     final elapsedTime = _stopwatch.elapsed.inMilliseconds;
