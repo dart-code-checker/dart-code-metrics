@@ -141,6 +141,10 @@ void main() {
         (options.options['dart_code_metrics'] as Map<String, Object>)['rules'],
         allOf(contains('rule-id10')),
       );
+      expect(
+        options.readMapOfMap(['rules'], packageRelated: true)['rule-id4'],
+        containsPair('exclude', ['test/**']),
+      );
     });
   });
 

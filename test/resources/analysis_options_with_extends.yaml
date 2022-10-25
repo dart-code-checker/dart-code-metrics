@@ -13,5 +13,7 @@ dart_code_metrics:
   metrics-exclude:
     - test/**
   rules:
-    - rule-id4
+    - rule-id4:
+        exclude:
+          - test/**
     - rule-id5
