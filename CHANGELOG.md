@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.21.3
+
+* chore: remove wildcard version resolution.
+* fix: update progress correctly for idea.
+
 ## 4.21.2
 
 * fix: correctly handle FutureOr functions for [`avoid-passing-async-when-sync-expected`](https://dartcodemetrics.dev/docs/rules/common/avoid-passing-async-when-sync-expected).
