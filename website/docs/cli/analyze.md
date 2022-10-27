@@ -17,6 +17,9 @@ Usage: metrics analyze [arguments...] <directories>
 -h, --help                                        Print this usage information.
 
 
+-c, --print-config                                Print resolved config.
+
+
 -r, --reporter=<console>                          The format of the output of the analysis
                                                   [console (default), console-verbose, checkstyle, codeclimate, github, gitlab, html, json]
 -o, --output-directory=<OUTPUT>                   Write HTML output to OUTPUT

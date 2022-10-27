@@ -12,6 +12,7 @@
 * feat: **Breaking change** change severity for avoid-banned-imports, prefer-trailing-comma, ban-name rules.
 * feat: support proxy calls for check-unused-l10n.
 * feat: **Breaking change** cleanup public API.
+* feat: add `print-config` option to the `analyze` command.
 
 ## 4.21.2
 

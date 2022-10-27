@@ -153,8 +153,6 @@ abstract class BaseCommand extends Command<void> {
       usageException(e.message);
     }
 
-    // TODO(incendial): check deprecated here
-
     return runCommand();
   }
 }

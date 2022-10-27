@@ -38,4 +38,11 @@ abstract class Pattern {
     Map<ScopedClassDeclaration, Report> classMetrics,
     Map<ScopedFunctionDeclaration, Report> functionMetrics,
   );
+
+  Map<String, Object?> toJson() => {
+        'id': id,
+        'severity': severity.toString(),
+        'excludes': excludes.toList(),
+        'dependentMetricIds': dependentMetricIds.toList(),
+      };
 }

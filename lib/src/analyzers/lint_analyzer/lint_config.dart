@@ -11,6 +11,7 @@ class LintConfig {
   final Map<String, Map<String, Object>> rules;
   final Iterable<String> excludeForRulesPatterns;
   final Map<String, Map<String, Object>> antiPatterns;
+  final bool shouldPrintConfig;
 
   const LintConfig({
     required this.excludePatterns,
@@ -19,6 +20,7 @@ class LintConfig {
     required this.rules,
     required this.excludeForRulesPatterns,
     required this.antiPatterns,
+    required this.shouldPrintConfig,
   });
 
   /// Creates the config from analysis [options].
@@ -32,10 +34,12 @@ class LintConfig {
             .readIterableOfString(['rules-exclude'], packageRelated: true),
         antiPatterns:
             options.readMapOfMap(['anti-patterns'], packageRelated: true),
+        shouldPrintConfig: false,
       );
 
   /// Creates the config from cli [arguments].
   factory LintConfig.fromArgs(ParsedArguments arguments) => LintConfig(
+        shouldPrintConfig: arguments.shouldPrintConfig,
         excludePatterns:
             arguments.excludePath.isNotEmpty ? [arguments.excludePath] : [],
         excludeForMetricsPatterns: const [],
@@ -54,6 +58,7 @@ class LintConfig {
   /// Config coming from [overrides] has a higher priority
   /// and overrides conflicting entries.
   LintConfig merge(LintConfig overrides) => LintConfig(
+        shouldPrintConfig: shouldPrintConfig || overrides.shouldPrintConfig,
         excludePatterns: {...excludePatterns, ...overrides.excludePatterns},
         excludeForMetricsPatterns: {
           ...excludeForMetricsPatterns,
