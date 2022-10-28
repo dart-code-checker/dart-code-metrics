@@ -13,6 +13,7 @@ class InvocationsVisitor extends RecursiveAstVisitor<void> {
   void visitExportDirective(ExportDirective node) {
     super.visitExportDirective(node);
 
+    // ignore: deprecated_member_use
     final uri = node.element2?.uri;
     if (uri is DirectiveUriWithSource) {
       invocationsUsages.exports.add(uri.source.fullName);

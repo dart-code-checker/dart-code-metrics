@@ -66,6 +66,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
             ? objectType.typeArguments.first
             : objectType;
 
+    // ignore: deprecated_member_use
     if ((correctObjectType.element2 == castedType.element2) ||
         castedType.isDynamic ||
         correctObjectType.isDynamic ||
@@ -75,6 +76,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
     if (correctObjectType is InterfaceType) {
       return correctObjectType.allSupertypes
+          // ignore: deprecated_member_use
           .firstWhereOrNull((value) => value.element2 == castedType.element2);
     }
 
@@ -113,5 +115,6 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
   bool _isObjectAndEnum(DartType objectType, DartType castedType) =>
       objectType.isDartCoreObject &&
+      // ignore: deprecated_member_use
       castedType.element2?.kind == ElementKind.ENUM;
 }

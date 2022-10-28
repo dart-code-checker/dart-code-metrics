@@ -17,6 +17,7 @@ class UsedCodeVisitor extends RecursiveAstVisitor<void> {
   void visitExportDirective(ExportDirective node) {
     super.visitExportDirective(node);
 
+    // ignore: deprecated_member_use
     final path = node.element2?.exportedLibrary?.source.fullName;
     if (path != null) {
       fileElementsUsage.exports.add(path);
@@ -89,6 +90,7 @@ class UsedCodeVisitor extends RecursiveAstVisitor<void> {
 
   void _recordIfExtensionMember(Element? element) {
     if (element != null) {
+      // ignore: deprecated_member_use
       final enclosingElement = element.enclosingElement3;
       if (enclosingElement is ExtensionElement) {
         _recordUsedExtension(enclosingElement);
@@ -165,6 +167,7 @@ class UsedCodeVisitor extends RecursiveAstVisitor<void> {
       return;
     }
 
+    // ignore: deprecated_member_use
     final enclosingElement = element.enclosingElement3;
     if (enclosingElement is CompilationUnitElement) {
       _recordUsedElement(element);
@@ -199,6 +202,7 @@ class UsedCodeVisitor extends RecursiveAstVisitor<void> {
     return root.directives.fold<List<String>>([], (previousValue, directive) {
       if (directive is ImportDirective &&
           directive.prefix?.name == target.name) {
+        // ignore: deprecated_member_use
         final path = directive.element2?.importedLibrary?.source.fullName;
         if (path != null) {
           previousValue.add(path);
