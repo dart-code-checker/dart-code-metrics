@@ -31,6 +31,14 @@ class PreferSingleWidgetPerFileRule extends FlutterRule {
         );
 
   @override
+  Map<String, Object?> toJson() {
+    final json = super.toJson();
+    json[_ConfigParser._ignorePrivateWidgetsName] = _ignorePrivateWidgets;
+
+    return json;
+  }
+
+  @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
     final visitor = _Visitor(ignorePrivateWidgets: _ignorePrivateWidgets);
 

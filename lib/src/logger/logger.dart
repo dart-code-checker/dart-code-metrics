@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:ansicolor/ansicolor.dart';
@@ -51,6 +52,19 @@ class Logger {
 
   void warn(String message, {String tag = 'WARN'}) {
     stderr.writeln(warningPen('[$tag] $message'));
+  }
+
+  void printConfig(Map<String, Object?> config) {
+    if (!_isSilent) {
+      const encoder = JsonEncoder.withIndent('  ');
+      final prettyprint = encoder.convert(config);
+
+      _output
+        ..writeln('\n')
+        ..writeln(okPen('⚙️ Merged config:'))
+        ..writeln(prettyprint)
+        ..writeln('\n');
+    }
   }
 
   void updateAvailable(

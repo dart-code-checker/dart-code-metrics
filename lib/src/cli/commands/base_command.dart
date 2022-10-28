@@ -81,11 +81,23 @@ abstract class BaseCommand extends Command<void> {
   }
 
   void addCommonFlags() {
+    usesPrintConfig();
     usesRootFolderOption();
     usesSdkPathOption();
     usesExcludeOption();
     usesCongratulateFlag();
     usesVerboseFlag();
+  }
+
+  void usesPrintConfig() {
+    argParser
+      ..addSeparator('')
+      ..addFlag(
+        FlagNames.printConfig,
+        abbr: 'c',
+        help: 'Print resolved config.',
+        negatable: false,
+      );
   }
 
   void usesRootFolderOption() {
@@ -152,8 +164,6 @@ abstract class BaseCommand extends Command<void> {
     } on InvalidArgumentException catch (e) {
       usageException(e.message);
     }
-
-    // TODO(incendial): check deprecated here
 
     return runCommand();
   }

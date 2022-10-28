@@ -29,4 +29,10 @@ abstract class Rule {
 
   /// Returns [Iterable] with [Issue]'s detected while check the passed [source]
   Iterable<Issue> check(InternalResolvedUnitResult source);
+
+  Map<String, Object?> toJson() => {
+        'id': id,
+        'severity': severity.toString(),
+        'excludes': excludes.toList(),
+      };
 }

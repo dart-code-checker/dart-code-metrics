@@ -23,6 +23,7 @@ Future<void> main() async {
       'newline-before-return': {'severity': 'info'},
     },
     antiPatterns: {'long-method': {}},
+    shouldPrintConfig: false,
   );
 
   const analyzer = LintAnalyzer();

@@ -21,6 +21,8 @@ Usage: metrics check-unnecessary-nullable [arguments] <directories>
 -r, --reporter=<console>                          The format of the output of the analysis.
                                                   [console (default), json]
 
+-c, --print-config                                Print resolved config.
+
 
     --root-folder=<./>                            Root folder.
                                                   (defaults to current directory)

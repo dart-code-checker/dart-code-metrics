@@ -9,11 +9,13 @@ class ParsedArguments {
   final String rootFolder;
   final String? jsonReportPath;
   final Map<String, Object> metricsConfig;
+  final bool shouldPrintConfig;
 
   const ParsedArguments({
     required this.excludePath,
     required this.rootFolder,
     required this.metricsConfig,
+    required this.shouldPrintConfig,
     this.jsonReportPath,
   });
 
@@ -21,6 +23,7 @@ class ParsedArguments {
         excludePath: argResults[FlagNames.exclude] as String,
         rootFolder: argResults[FlagNames.rootFolder] as String,
         jsonReportPath: argResults[FlagNames.jsonReportPath] as String?,
+        shouldPrintConfig: argResults[FlagNames.printConfig] as bool,
         metricsConfig: {
           for (final metric in getMetrics(config: {}))
             if (argResults.wasParsed(metric.id))

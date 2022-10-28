@@ -45,10 +45,12 @@ Usage: metrics check-unused-l10n [arguments] <directories>
                                                   [console (default), json]
     --report-to-file=<path/to/report.json>        The path, where a JSON file with the analysis result will be placed (only for the JSON reporter).
 
+-c, --print-config                                Print resolved config.
+
 
     --root-folder=<./>                            Root folder.
                                                   (defaults to current directory)
-    --sdk-path=<directory-path>                   Dart SDK directory path. 
+    --sdk-path=<directory-path>                   Dart SDK directory path.
                                                   Should be provided only when you run the application as compiled executable(https://dart.dev/tools/dart-compile#exe) and automatic Dart SDK path detection fails.
     --exclude=<{/**.g.dart,/**.template.dart}>    File paths in Glob syntax to be exclude.
                                                   (defaults to "{/**.g.dart,/**.template.dart}")

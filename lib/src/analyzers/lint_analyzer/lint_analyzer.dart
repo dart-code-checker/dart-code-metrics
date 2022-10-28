@@ -85,6 +85,10 @@ class LintAnalyzer {
       final lintAnalysisConfig =
           _getAnalysisConfig(context, rootFolder, config);
 
+      if (config.shouldPrintConfig) {
+        _logger?.printConfig(lintAnalysisConfig.toJson());
+      }
+
       final filePaths = getFilePaths(
         folders,
         context,

@@ -44,6 +44,7 @@ const _defaults = LintConfig(
   antiPatterns: {
     'anti-patterns-id1': {},
   },
+  shouldPrintConfig: false,
 );
 
 const _empty = LintConfig(
@@ -53,6 +54,7 @@ const _empty = LintConfig(
   excludeForRulesPatterns: [],
   rules: {},
   antiPatterns: {},
+  shouldPrintConfig: false,
 );
 
 const _merged = LintConfig(
@@ -73,6 +75,7 @@ const _merged = LintConfig(
     'anti-patterns-id1': {},
     'anti-patterns-id2': {'severity': 'error'},
   },
+  shouldPrintConfig: true,
 );
 
 const _overrides = LintConfig(
@@ -89,6 +92,7 @@ const _overrides = LintConfig(
   antiPatterns: {
     'anti-patterns-id2': {'severity': 'error'},
   },
+  shouldPrintConfig: true,
 );
 
 void main() {
@@ -143,6 +147,7 @@ void main() {
             excludePath: '',
             metricsConfig: {},
             rootFolder: '',
+            shouldPrintConfig: false,
           ),
         );
 
@@ -151,6 +156,7 @@ void main() {
         expect(config.metrics, isEmpty);
         expect(config.excludeForRulesPatterns, isEmpty);
         expect(config.rules, isEmpty);
+        expect(config.shouldPrintConfig, false);
       });
 
       test('data', () {
@@ -164,6 +170,7 @@ void main() {
               'metric-id4': '0',
             },
             rootFolder: '',
+            shouldPrintConfig: true,
           ),
         );
 
@@ -179,6 +186,7 @@ void main() {
         );
         expect(config.excludeForRulesPatterns, isEmpty);
         expect(config.rules, isEmpty);
+        expect(config.shouldPrintConfig, true);
       });
     });
 
@@ -197,6 +205,7 @@ void main() {
           equals(_defaults.excludeForRulesPatterns),
         );
         expect(result.rules, equals(_defaults.rules));
+        expect(result.shouldPrintConfig, equals(_defaults.shouldPrintConfig));
       });
 
       test('empty and overrides configs', () {
@@ -213,6 +222,7 @@ void main() {
           equals(_overrides.excludeForRulesPatterns),
         );
         expect(result.rules, equals(_overrides.rules));
+        expect(result.shouldPrintConfig, equals(_overrides.shouldPrintConfig));
       });
 
       test('defaults and overrides configs', () {
@@ -229,6 +239,7 @@ void main() {
           equals(_merged.excludeForRulesPatterns),
         );
         expect(result.rules, equals(_merged.rules));
+        expect(result.shouldPrintConfig, equals(_merged.shouldPrintConfig));
       });
     });
   });

@@ -47,6 +47,19 @@ class MemberOrderingRule extends CommonRule {
         );
 
   @override
+  Map<String, Object?> toJson() {
+    final json = super.toJson();
+    json[_ConfigParser._orderConfig] =
+        _groupsOrder.map((group) => group.rawRepresentation).toList();
+    json[_ConfigParser._widgetsOrderConfig] =
+        _widgetsGroupsOrder.map((group) => group.rawRepresentation).toList();
+    json[_ConfigParser._alphabetizeConfig] = _alphabetize;
+    json[_ConfigParser._alphabetizeByTypeConfig] = _alphabetizeByType;
+
+    return json;
+  }
+
+  @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
     final visitor = _Visitor(_groupsOrder, _widgetsGroupsOrder);
 

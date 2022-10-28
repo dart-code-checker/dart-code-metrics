@@ -27,32 +27,37 @@ class _ConfigParser {
     'build-method',
   ];
 
+  static const _orderConfig = 'order';
+  static const _widgetsOrderConfig = 'widgets-order';
+  static const _alphabetizeConfig = 'alphabetize';
+  static const _alphabetizeByTypeConfig = 'alphabetize-by-type';
+
   static final _regExp = RegExp(
     '(overridden-|protected-)?(private-|public-)?(static-)?(late-)?'
     '(var-|final-|const-)?(nullable-)?(named-)?(factory-)?',
   );
 
   static List<_MemberGroup> parseOrder(Map<String, Object> config) {
-    final order = config['order'] is Iterable
-        ? List<String>.from(config['order'] as Iterable)
+    final order = config[_orderConfig] is Iterable
+        ? List<String>.from(config[_orderConfig] as Iterable)
         : _defaultOrderList;
 
     return order.map(_parseGroup).whereNotNull().toList();
   }
 
   static List<_MemberGroup> parseWidgetsOrder(Map<String, Object> config) {
-    final widgetsOrder = config['widgets-order'] is Iterable
-        ? List<String>.from(config['widgets-order'] as Iterable)
+    final widgetsOrder = config[_widgetsOrderConfig] is Iterable
+        ? List<String>.from(config[_widgetsOrderConfig] as Iterable)
         : _defaultWidgetsOrderList;
 
     return widgetsOrder.map(_parseGroup).whereNotNull().toList();
   }
 
   static bool parseAlphabetize(Map<String, Object> config) =>
-      (config['alphabetize'] as bool?) ?? false;
+      (config[_alphabetizeConfig] as bool?) ?? false;
 
   static bool parseAlphabetizeByType(Map<String, Object> config) =>
-      (config['alphabetize-by-type'] as bool?) ?? false;
+      (config[_alphabetizeByTypeConfig] as bool?) ?? false;
 
   // ignore: long-method
   static _MemberGroup? _parseGroup(String group) {

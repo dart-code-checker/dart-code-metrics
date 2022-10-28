@@ -12,7 +12,6 @@ import '../../models/common_rule.dart';
 import '../../rule_utils.dart';
 
 part 'config_parser.dart';
-
 part 'visitor.dart';
 
 class MissingTestAssertionRule extends CommonRule {
@@ -32,6 +31,15 @@ class MissingTestAssertionRule extends CommonRule {
           excludes:
               hasExcludes(config) ? readExcludes(config) : ['lib/**', 'bin/**'],
         );
+
+  @override
+  Map<String, Object?> toJson() {
+    final json = super.toJson();
+    json[_ConfigParser._includeAssertionsConfig] = _includeAssertions.toList();
+    json[_ConfigParser._includeMethodsConfig] = _includeMethods.toList();
+
+    return json;
+  }
 
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {

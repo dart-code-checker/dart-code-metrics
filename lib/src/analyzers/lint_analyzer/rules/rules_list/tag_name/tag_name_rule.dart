@@ -31,6 +31,16 @@ class TagNameRule extends CommonRule {
         );
 
   @override
+  Map<String, Object?> toJson() {
+    final json = super.toJson();
+    json[_varNamesLabel] = _parsedConfig.varNames;
+    json[_stripPrefixLabel] = _parsedConfig.stripPrefix;
+    json[_stripPostfixLabel] = _parsedConfig.stripPostfix;
+
+    return json;
+  }
+
+  @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
     final visitor = _Visitor(_parsedConfig);
 

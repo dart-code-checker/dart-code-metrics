@@ -13,6 +13,7 @@
 * feat: support proxy calls for check-unused-l10n.
 * feat: **Breaking change** cleanup public API.
 * chore: restrict `analyzer` version to `>=5.1.0 <5.3.0`.
+* feat: add `print-config` option to all commands.
 
 ## 4.21.2
 

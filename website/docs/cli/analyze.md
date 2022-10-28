@@ -35,6 +35,9 @@ Usage: metrics analyze [arguments...] <directories>
     --weight-of-class=<0.33>                      Weight Of a Class threshold.
     --maintainability-index=<50>                  Maintainability Index threshold.
 
+-c, --print-config                                Print resolved config.
+
+
     --root-folder=<./>                            Root folder
                                                   (defaults to current directory)
     --sdk-path=<directory-path>                   Dart SDK directory path.

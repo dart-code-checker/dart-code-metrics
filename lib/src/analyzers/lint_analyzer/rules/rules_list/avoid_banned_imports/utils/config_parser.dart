@@ -37,4 +37,10 @@ class _AvoidBannedImportsConfigEntry {
     required this.deny,
     required this.message,
   });
+
+  Map<String, Object?> toJson() => {
+        'paths': paths.map((exp) => exp.pattern).toList(),
+        'deny': deny.map((exp) => exp.pattern).toList(),
+        'message': message,
+      };
 }

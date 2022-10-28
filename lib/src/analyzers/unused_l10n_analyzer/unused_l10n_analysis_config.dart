@@ -10,4 +10,9 @@ class UnusedL10nAnalysisConfig {
     this.globalExcludes,
     String? classPattern,
   ) : classPattern = RegExp(classPattern ?? r'I18n$');
+
+  Map<String, Object?> toJson() => {
+        'global-excludes': globalExcludes.map((glob) => glob.pattern).toList(),
+        'class-pattern': classPattern.pattern,
+      };
 }

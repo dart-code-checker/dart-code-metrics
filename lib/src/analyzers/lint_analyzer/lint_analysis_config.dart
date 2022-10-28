@@ -12,8 +12,8 @@ class LintAnalysisConfig {
   final Iterable<Glob> rulesExcludes;
   final Iterable<Pattern> antiPatterns;
   final Iterable<Metric> classesMetrics;
-  final Iterable<Metric> fileMetrics;
   final Iterable<Metric> methodsMetrics;
+  final Iterable<Metric> fileMetrics;
   final Iterable<Glob> metricsExcludes;
   final Map<String, Object> metricsConfig;
   final String excludesRootFolder;
@@ -30,4 +30,17 @@ class LintAnalysisConfig {
     this.metricsConfig,
     this.excludesRootFolder,
   );
+
+  Map<String, Object?> toJson() => {
+        'rules': codeRules.map((rule) => rule.toJson()).toList(),
+        'rules-excludes': rulesExcludes.map((glob) => glob.pattern).toList(),
+        'anti-patterns':
+            antiPatterns.map((pattern) => pattern.toJson()).toList(),
+        'metrics-config': metricsConfig,
+        'class-metrics': classesMetrics.map((metric) => metric.id).toList(),
+        'method-metrics': methodsMetrics.map((metric) => metric.id).toList(),
+        'file-metrics': fileMetrics.map((metric) => metric.id).toList(),
+        'metrics-excludes':
+            metricsExcludes.map((glob) => glob.pattern).toList(),
+      };
 }

@@ -57,6 +57,10 @@ class UnusedL10nAnalyzer {
       final unusedLocalizationAnalysisConfig =
           _getAnalysisConfig(context, rootFolder, config);
 
+      if (config.shouldPrintConfig) {
+        _logger?.printConfig(unusedLocalizationAnalysisConfig.toJson());
+      }
+
       final filePaths = getFilePaths(
         folders,
         context,
