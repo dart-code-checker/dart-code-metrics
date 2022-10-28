@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs
+// ignore_for_file: public_member_api_docs, deprecated_member_use
 
 import 'package:analyzer/dart/element/type.dart';
 import 'package:collection/collection.dart';

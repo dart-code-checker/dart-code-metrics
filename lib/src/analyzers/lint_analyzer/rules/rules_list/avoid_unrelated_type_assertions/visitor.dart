@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 part of 'avoid_unrelated_type_assertions_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
