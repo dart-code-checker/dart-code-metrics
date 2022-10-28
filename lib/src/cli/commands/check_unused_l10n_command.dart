@@ -40,12 +40,14 @@ class CheckUnusedL10nCommand extends BaseCommand {
     final classPattern = argResults[FlagNames.l10nClassPattern] as String;
     final excludePath = argResults[FlagNames.exclude] as String;
     final reporterName = argResults[FlagNames.reporter] as String;
+    final shouldPrintConfig = argResults[FlagNames.printConfig] as bool;
 
     final folders = argResults.rest;
 
     final config = ConfigBuilder.getUnusedL10nConfigFromArgs(
       [excludePath],
       classPattern,
+      shouldPrintConfig: shouldPrintConfig,
     );
 
     final unusedL10nResult = await _analyzer.runCliAnalysis(

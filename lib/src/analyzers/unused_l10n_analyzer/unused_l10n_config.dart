@@ -5,11 +5,13 @@ class UnusedL10nConfig {
   final Iterable<String> excludePatterns;
   final Iterable<String> analyzerExcludePatterns;
   final String? classPattern;
+  final bool shouldPrintConfig;
 
   const UnusedL10nConfig({
     required this.excludePatterns,
     required this.analyzerExcludePatterns,
     required this.classPattern,
+    required this.shouldPrintConfig,
   });
 
   /// Creates the config from analysis [options].
@@ -21,14 +23,17 @@ class UnusedL10nConfig {
         analyzerExcludePatterns:
             options.readIterableOfString(['analyzer', 'exclude']),
         classPattern: null,
+        shouldPrintConfig: false,
       );
 
   /// Creates the config from cli args.
   factory UnusedL10nConfig.fromArgs(
     Iterable<String> excludePatterns,
-    String classPattern,
-  ) =>
+    String classPattern, {
+    required bool shouldPrintConfig,
+  }) =>
       UnusedL10nConfig(
+        shouldPrintConfig: shouldPrintConfig,
         excludePatterns: excludePatterns,
         analyzerExcludePatterns: const [],
         classPattern: classPattern,
@@ -45,5 +50,6 @@ class UnusedL10nConfig {
           ...overrides.analyzerExcludePatterns,
         },
         classPattern: overrides.classPattern ?? classPattern,
+        shouldPrintConfig: shouldPrintConfig || overrides.shouldPrintConfig,
       );
 }

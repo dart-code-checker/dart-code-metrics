@@ -24,6 +24,8 @@ Usage: metrics check-unused-code [arguments] <directories>
                                                   [console (default), json]
     --report-to-file=<path/to/report.json>        The path, where a JSON file with the analysis result will be placed (only for the JSON reporter).
 
+-c, --print-config                                Print resolved config.
+
 
     --root-folder=<./>                            Root folder.
                                                   (defaults to current directory)

@@ -54,6 +54,10 @@ class UnusedFilesAnalyzer {
       final unusedFilesAnalysisConfig =
           _getAnalysisConfig(context, rootFolder, config);
 
+      if (config.shouldPrintConfig) {
+        _logger?.printConfig(unusedFilesAnalysisConfig.toJson());
+      }
+
       final filePaths = getFilePaths(
         folders,
         context,

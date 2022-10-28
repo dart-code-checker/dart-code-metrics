@@ -154,4 +154,5 @@ UnusedL10nConfig _createConfig({
       excludePatterns: const [],
       analyzerExcludePatterns: analyzerExcludePatterns,
       classPattern: classPattern,
+      shouldPrintConfig: false,
     );

@@ -124,13 +124,6 @@ class AnalyzeCommand extends BaseCommand {
   void _usesReporterOption() {
     argParser
       ..addSeparator('')
-      ..addFlag(
-        FlagNames.printConfig,
-        abbr: 'c',
-        help: 'Print resolved config.',
-        negatable: false,
-      )
-      ..addSeparator('')
       ..addOption(
         FlagNames.reporter,
         abbr: 'r',

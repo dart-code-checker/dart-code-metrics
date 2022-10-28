@@ -17,9 +17,6 @@ Usage: metrics analyze [arguments...] <directories>
 -h, --help                                        Print this usage information.
 
 
--c, --print-config                                Print resolved config.
-
-
 -r, --reporter=<console>                          The format of the output of the analysis
                                                   [console (default), console-verbose, checkstyle, codeclimate, github, gitlab, html, json]
 -o, --output-directory=<OUTPUT>                   Write HTML output to OUTPUT
@@ -37,6 +34,9 @@ Usage: metrics analyze [arguments...] <directories>
     --technical-debt=<0>                          Technical Debt threshold.
     --weight-of-class=<0.33>                      Weight Of a Class threshold.
     --maintainability-index=<50>                  Maintainability Index threshold.
+
+-c, --print-config                                Print resolved config.
+
 
     --root-folder=<./>                            Root folder
                                                   (defaults to current directory)

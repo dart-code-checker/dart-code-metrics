@@ -81,11 +81,23 @@ abstract class BaseCommand extends Command<void> {
   }
 
   void addCommonFlags() {
+    usesPrintConfig();
     usesRootFolderOption();
     usesSdkPathOption();
     usesExcludeOption();
     usesCongratulateFlag();
     usesVerboseFlag();
+  }
+
+  void usesPrintConfig() {
+    argParser
+      ..addSeparator('')
+      ..addFlag(
+        FlagNames.printConfig,
+        abbr: 'c',
+        help: 'Print resolved config.',
+        negatable: false,
+      );
   }
 
   void usesRootFolderOption() {

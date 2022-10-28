@@ -42,10 +42,12 @@ class CheckUnusedFilesCommand extends BaseCommand {
     final reporterName = argResults[FlagNames.reporter] as String;
     final isMonorepo = argResults[FlagNames.isMonorepo] as bool;
     final deleteFiles = argResults[FlagNames.deleteFiles] as bool;
+    final shouldPrintConfig = argResults[FlagNames.printConfig] as bool;
 
     final config = ConfigBuilder.getUnusedFilesConfigFromArgs(
       [excludePath],
       isMonorepo: isMonorepo,
+      shouldPrintConfig: shouldPrintConfig,
     );
 
     final unusedFilesResult = await _analyzer.runCliAnalysis(

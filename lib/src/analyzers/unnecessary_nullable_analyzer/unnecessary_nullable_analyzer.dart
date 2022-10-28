@@ -67,6 +67,10 @@ class UnnecessaryNullableAnalyzer {
       final unnecessaryNullableAnalysisConfig =
           _getAnalysisConfig(context, rootFolder, config);
 
+      if (config.shouldPrintConfig) {
+        _logger?.printConfig(unnecessaryNullableAnalysisConfig.toJson());
+      }
+
       final filePaths = getFilePaths(
         folders,
         context,

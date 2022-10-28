@@ -14,24 +14,28 @@ const _defaults = UnusedFilesConfig(
   excludePatterns: ['test/resources/**'],
   analyzerExcludePatterns: ['test/**'],
   isMonorepo: false,
+  shouldPrintConfig: false,
 );
 
 const _empty = UnusedFilesConfig(
   excludePatterns: [],
   analyzerExcludePatterns: [],
   isMonorepo: false,
+  shouldPrintConfig: false,
 );
 
 const _merged = UnusedFilesConfig(
   excludePatterns: ['test/resources/**'],
   analyzerExcludePatterns: ['test/**', 'examples/**'],
   isMonorepo: true,
+  shouldPrintConfig: true,
 );
 
 const _overrides = UnusedFilesConfig(
   excludePatterns: [],
   analyzerExcludePatterns: ['examples/**'],
   isMonorepo: true,
+  shouldPrintConfig: true,
 );
 
 void main() {
@@ -45,6 +49,7 @@ void main() {
         expect(config.excludePatterns, isEmpty);
         expect(config.analyzerExcludePatterns, isEmpty);
         expect(config.isMonorepo, false);
+        expect(config.shouldPrintConfig, false);
       });
 
       test('data', () {
@@ -56,11 +61,16 @@ void main() {
 
     group('fromArgs constructs instance from passed', () {
       test('data', () {
-        final config = UnusedFilesConfig.fromArgs(['hello'], isMonorepo: true);
+        final config = UnusedFilesConfig.fromArgs(
+          ['hello'],
+          isMonorepo: true,
+          shouldPrintConfig: true,
+        );
 
         expect(config.excludePatterns, equals(['hello']));
         expect(config.analyzerExcludePatterns, isEmpty);
         expect(config.isMonorepo, true);
+        expect(config.shouldPrintConfig, true);
       });
     });
 
@@ -74,6 +84,7 @@ void main() {
           equals(_defaults.analyzerExcludePatterns),
         );
         expect(result.isMonorepo, equals(_defaults.isMonorepo));
+        expect(result.shouldPrintConfig, equals(_defaults.shouldPrintConfig));
       });
 
       test('empty and overrides configs', () {
@@ -85,6 +96,7 @@ void main() {
           equals(_overrides.analyzerExcludePatterns),
         );
         expect(result.isMonorepo, equals(_overrides.isMonorepo));
+        expect(result.shouldPrintConfig, equals(_overrides.shouldPrintConfig));
       });
 
       test('defaults and overrides configs', () {
@@ -96,6 +108,7 @@ void main() {
           equals(_merged.analyzerExcludePatterns),
         );
         expect(result.isMonorepo, equals(_merged.isMonorepo));
+        expect(result.shouldPrintConfig, equals(_merged.shouldPrintConfig));
       });
     });
   });

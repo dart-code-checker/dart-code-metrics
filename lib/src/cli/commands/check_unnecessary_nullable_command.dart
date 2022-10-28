@@ -42,10 +42,12 @@ class CheckUnnecessaryNullableCommand extends BaseCommand {
     final excludePath = argResults[FlagNames.exclude] as String;
     final reporterName = argResults[FlagNames.reporter] as String;
     final isMonorepo = argResults[FlagNames.isMonorepo] as bool;
+    final shouldPrintConfig = argResults[FlagNames.printConfig] as bool;
 
     final config = ConfigBuilder.getUnnecessaryNullableConfigFromArgs(
       [excludePath],
       isMonorepo: isMonorepo,
+      shouldPrintConfig: shouldPrintConfig,
     );
 
     final unusedCodeResult = await _analyzer.runCliAnalysis(

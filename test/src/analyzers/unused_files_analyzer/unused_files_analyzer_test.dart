@@ -52,4 +52,5 @@ UnusedFilesConfig _createConfig({
       excludePatterns: const [],
       analyzerExcludePatterns: analyzerExcludePatterns,
       isMonorepo: false,
+      shouldPrintConfig: false,
     );

@@ -5,11 +5,13 @@ class UnusedFilesConfig {
   final Iterable<String> excludePatterns;
   final Iterable<String> analyzerExcludePatterns;
   final bool isMonorepo;
+  final bool shouldPrintConfig;
 
   const UnusedFilesConfig({
     required this.excludePatterns,
     required this.analyzerExcludePatterns,
     required this.isMonorepo,
+    required this.shouldPrintConfig,
   });
 
   /// Creates the config from analysis [options].
@@ -19,14 +21,17 @@ class UnusedFilesConfig {
         analyzerExcludePatterns:
             options.readIterableOfString(['analyzer', 'exclude']),
         isMonorepo: false,
+        shouldPrintConfig: false,
       );
 
   /// Creates the config from cli args.
   factory UnusedFilesConfig.fromArgs(
     Iterable<String> excludePatterns, {
     required bool isMonorepo,
+    required bool shouldPrintConfig,
   }) =>
       UnusedFilesConfig(
+        shouldPrintConfig: shouldPrintConfig,
         excludePatterns: excludePatterns,
         analyzerExcludePatterns: const [],
         isMonorepo: isMonorepo,
@@ -43,5 +48,6 @@ class UnusedFilesConfig {
           ...overrides.analyzerExcludePatterns,
         },
         isMonorepo: isMonorepo || overrides.isMonorepo,
+        shouldPrintConfig: shouldPrintConfig || overrides.shouldPrintConfig,
       );
 }
