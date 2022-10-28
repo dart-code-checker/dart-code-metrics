@@ -35,6 +35,15 @@ class FormatCommentRule extends CommonRule {
         );
 
   @override
+  Map<String, Object?> toJson() {
+    final json = super.toJson();
+    json[_ConfigParser._ignoredPatternsConfig] =
+        _ignoredPatterns.map((exp) => exp.pattern).toList();
+
+    return json;
+  }
+
+  @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
     final visitor = _Visitor(_ignoredPatterns)..checkComments(source.unit.root);
 

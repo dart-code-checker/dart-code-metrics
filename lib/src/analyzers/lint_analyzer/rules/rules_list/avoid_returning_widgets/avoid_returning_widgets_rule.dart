@@ -39,6 +39,16 @@ class AvoidReturningWidgetsRule extends FlutterRule {
         );
 
   @override
+  Map<String, Object?> toJson() {
+    final json = super.toJson();
+    json[_ConfigParser._ignoredNamesConfig] = _ignoredNames.toList();
+    json[_ConfigParser._ignoredAnnotationsConfig] =
+        _ignoredAnnotations.toList();
+
+    return json;
+  }
+
+  @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
     final visitor = _Visitor(_ignoredNames, _ignoredAnnotations);
 

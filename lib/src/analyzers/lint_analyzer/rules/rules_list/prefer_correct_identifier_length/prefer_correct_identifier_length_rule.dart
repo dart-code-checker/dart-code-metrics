@@ -33,6 +33,16 @@ class PreferCorrectIdentifierLengthRule extends CommonRule {
         );
 
   @override
+  Map<String, Object?> toJson() {
+    final json = super.toJson();
+    json[_minIdentifierLengthLabel] = _validator.minLength;
+    json[_maxIdentifierLengthLabel] = _validator.maxLength;
+    json[_exceptionsLabel] = _validator.exceptions;
+
+    return json;
+  }
+
+  @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
     final visitor = _Visitor(_validator);
 

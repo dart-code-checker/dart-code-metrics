@@ -32,6 +32,14 @@ class PreferMovingToVariableRule extends CommonRule {
         );
 
   @override
+  Map<String, Object?> toJson() {
+    final json = super.toJson();
+    json[_ConfigParser._allowedDuplicatedChains] = _duplicatesThreshold;
+
+    return json;
+  }
+
+  @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
     final visitor = _Visitor(_duplicatesThreshold);
 

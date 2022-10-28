@@ -36,6 +36,15 @@ class PreferExtractingCallbacksRule extends FlutterRule {
         );
 
   @override
+  Map<String, Object?> toJson() {
+    final json = super.toJson();
+    json[_ConfigParser._allowedLineCountConfig] = _allowedLineCount;
+    json[_ConfigParser._ignoredArgumentsConfig] = _ignoredArguments;
+
+    return json;
+  }
+
+  @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
     final visitor =
         _Visitor(source.lineInfo, _ignoredArguments, _allowedLineCount);

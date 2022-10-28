@@ -24,4 +24,9 @@ class _BanNameConfigEntry {
   final String description;
 
   _BanNameConfigEntry({required this.ident, required this.description});
+
+  Map<String, Object?> toJson() => {
+        'identifier': ident,
+        'description': description,
+      };
 }

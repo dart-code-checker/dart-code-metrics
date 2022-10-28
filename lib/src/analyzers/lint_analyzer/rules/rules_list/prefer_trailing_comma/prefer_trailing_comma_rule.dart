@@ -35,6 +35,14 @@ class PreferTrailingCommaRule extends CommonRule {
         );
 
   @override
+  Map<String, Object?> toJson() {
+    final json = super.toJson();
+    json[_ConfigParser._breakOnConfigName] = _itemsBreakpoint;
+
+    return json;
+  }
+
+  @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
     final visitor = _Visitor(source.lineInfo, _itemsBreakpoint);
 

@@ -33,6 +33,16 @@ class PreferCorrectTypeNameRule extends CommonRule {
         );
 
   @override
+  Map<String, Object?> toJson() {
+    final json = super.toJson();
+    json[_minTypeLengthLabel] = _validator.minLength;
+    json[_maxTypeLengthLabel] = _validator.maxLength;
+    json[_excludeLabel] = _validator.exceptions;
+
+    return json;
+  }
+
+  @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
     final visitor = _Visitor(_validator);
 

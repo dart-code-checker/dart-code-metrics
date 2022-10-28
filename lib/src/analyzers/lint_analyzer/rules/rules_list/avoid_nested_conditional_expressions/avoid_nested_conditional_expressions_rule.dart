@@ -30,6 +30,14 @@ class AvoidNestedConditionalExpressionsRule extends CommonRule {
         );
 
   @override
+  Map<String, Object?> toJson() {
+    final json = super.toJson();
+    json[_ConfigParser._acceptableLevelConfig] = _acceptableLevel;
+
+    return json;
+  }
+
+  @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
     final visitor = _Visitor(_acceptableLevel);
 

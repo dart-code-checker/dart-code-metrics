@@ -28,6 +28,14 @@ class AvoidBannedImportsRule extends CommonRule {
         );
 
   @override
+  Map<String, Object?> toJson() {
+    final json = super.toJson();
+    json[_entriesLabel] = _entries.map((entry) => entry.toJson()).toList();
+
+    return json;
+  }
+
+  @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
     final activeEntries = _entries
         .where((entry) => entry.paths.any((path) => path.hasMatch(source.path)))
