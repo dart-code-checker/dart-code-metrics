@@ -48,6 +48,7 @@ bool _isWidget(DartType? type) =>
 bool _isSubclassOfWidget(DartType? type) =>
     type is InterfaceType && type.allSupertypes.any(_isWidget);
 
+// ignore: deprecated_member_use
 bool _isWidgetState(DartType? type) => type?.element2?.displayName == 'State';
 
 bool _isSubclassOfWidgetState(DartType? type) =>
