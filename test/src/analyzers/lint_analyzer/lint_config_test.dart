@@ -45,6 +45,7 @@ const _defaults = LintConfig(
     'anti-patterns-id1': {},
   },
   shouldPrintConfig: false,
+  analysisOptionsPath: '',
 );
 
 const _empty = LintConfig(
@@ -55,6 +56,7 @@ const _empty = LintConfig(
   rules: {},
   antiPatterns: {},
   shouldPrintConfig: false,
+  analysisOptionsPath: '',
 );
 
 const _merged = LintConfig(
@@ -76,6 +78,7 @@ const _merged = LintConfig(
     'anti-patterns-id2': {'severity': 'error'},
   },
   shouldPrintConfig: true,
+  analysisOptionsPath: '',
 );
 
 const _overrides = LintConfig(
@@ -93,6 +96,7 @@ const _overrides = LintConfig(
     'anti-patterns-id2': {'severity': 'error'},
   },
   shouldPrintConfig: true,
+  analysisOptionsPath: '',
 );
 
 void main() {

@@ -67,6 +67,7 @@ class ConfigBuilder {
       prepareExcludes(config.excludeForMetricsPatterns, excludesRootFolder),
       config.metrics,
       excludesRootFolder,
+      config.analysisOptionsPath,
     );
   }
 

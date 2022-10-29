@@ -402,7 +402,7 @@ class LintHtmlReporter extends HtmlReporter<LintFileReport, LintReportParams> {
       }
 
       final debt = record.file
-          .metric(TechnicalDebtMetric.metricId)
+          ?.metric(TechnicalDebtMetric.metricId)
           ?.context
           .firstWhereOrNull(
             (context) => context.location.start.line == lineIndex,

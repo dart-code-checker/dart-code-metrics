@@ -8,6 +8,7 @@ import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
 
 import '../analyzers/lint_analyzer/lint_analysis_config.dart';
+import '../analyzers/lint_analyzer/lint_analysis_options_validator.dart';
 import '../analyzers/lint_analyzer/lint_analyzer.dart';
 import '../analyzers/lint_analyzer/metrics/metrics_list/number_of_parameters_metric.dart';
 import '../analyzers/lint_analyzer/metrics/metrics_list/source_lines_of_code/source_lines_of_code_metric.dart';
@@ -28,7 +29,7 @@ class AnalyzerPlugin extends ServerPlugin {
       'https://github.com/dart-code-checker/dart-code-metrics/issues';
 
   @override
-  List<String> get fileGlobsToAnalyze => const ['*.dart'];
+  List<String> get fileGlobsToAnalyze => const ['*.dart', '*.yaml'];
 
   @override
   String get name => 'Dart Code Metrics $packageVersion';
@@ -62,15 +63,21 @@ class AnalyzerPlugin extends ServerPlugin {
       return;
     }
 
+    final rootPath = analysisContext.contextRoot.root.path;
+    if (path.endsWith('analysis_options.yaml')) {
+      final config = _configs[rootPath];
+      if (config != null) {
+        _validateAnalysisOptions(config, rootPath);
+      }
+    }
+
     try {
       final resolvedUnit =
           await analysisContext.currentSession.getResolvedUnit(path);
 
       if (resolvedUnit is ResolvedUnitResult) {
-        final analysisErrors = _getErrorsForResolvedUnit(
-          resolvedUnit,
-          analysisContext.contextRoot.root.path,
-        );
+        final analysisErrors =
+            _getErrorsForResolvedUnit(resolvedUnit, rootPath);
 
         channel.sendNotification(
           plugin.AnalysisErrorsParams(
@@ -181,6 +188,31 @@ class AnalyzerPlugin extends ServerPlugin {
       );
 
       _configs[rootPath] = lintConfig;
+
+      _validateAnalysisOptions(lintConfig, rootPath);
     }
+  }
+
+  void _validateAnalysisOptions(LintAnalysisConfig config, String rootPath) {
+    if (config.analysisOptionsPath == null) {
+      return;
+    }
+
+    final result = <plugin.AnalysisErrorFixes>[];
+
+    final report =
+        LintAnalysisOptionsValidator.validateOptions(config, rootPath);
+    if (report != null) {
+      result.addAll(report.issues.map(
+        (issue) => codeIssueToAnalysisErrorFixes(issue, null),
+      ));
+    }
+
+    channel.sendNotification(
+      plugin.AnalysisErrorsParams(
+        config.analysisOptionsPath!,
+        result.map((analysisError) => analysisError.error).toList(),
+      ).toNotification(),
+    );
   }
 }

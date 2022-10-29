@@ -28,8 +28,10 @@ class LintConsoleReporter
     var hasReportData = false;
 
     for (final file in records) {
+      final fileReport = file.file;
+
       final lines = [
-        ..._reportMetrics('', file.file),
+        if (fileReport != null) ..._reportMetrics('', fileReport),
         ..._reportIssues(
           [...file.issues, ...file.antiPatternCases],
           file.path,

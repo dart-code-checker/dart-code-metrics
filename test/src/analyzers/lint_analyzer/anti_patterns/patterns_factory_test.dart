@@ -13,6 +13,7 @@ void main() {
         excludeForRulesPatterns: [],
         antiPatterns: {},
         shouldPrintConfig: false,
+        analysisOptionsPath: '',
       )),
       isEmpty,
     );
@@ -29,6 +30,7 @@ void main() {
           'sample-pattern': {},
         },
         shouldPrintConfig: false,
+        analysisOptionsPath: '',
       )).map((pattern) => pattern.id),
       equals(['long-method', 'long-parameter-list']),
     );
