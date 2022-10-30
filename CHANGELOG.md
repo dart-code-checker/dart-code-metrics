@@ -15,6 +15,7 @@
 * chore: restrict `analyzer` version to `>=5.1.0 <5.3.0`.
 * feat: add `print-config` option to all commands.
 * feat: support `includes` in the rules config.
+* fix: ignore `@override` methods for [`avoid-redundant-async`](https://dartcodemetrics.dev/docs/rules/common/avoid-redundant-async).
 
 ## 4.21.2
 
