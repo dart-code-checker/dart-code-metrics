@@ -42,9 +42,12 @@ class ConfigBuilder {
         .toSet();
 
     return LintAnalysisConfig(
-      prepareExcludes(config.excludePatterns, excludesRootFolder),
+      createAbsolutePatterns(config.excludePatterns, excludesRootFolder),
       getRulesById(config.rules),
-      prepareExcludes(config.excludeForRulesPatterns, excludesRootFolder),
+      createAbsolutePatterns(
+        config.excludeForRulesPatterns,
+        excludesRootFolder,
+      ),
       patterns,
       classMetrics ??
           getMetrics(
@@ -64,7 +67,10 @@ class ConfigBuilder {
             patternsDependencies: patternsDependencies,
             measuredType: EntityType.methodEntity,
           ),
-      prepareExcludes(config.excludeForMetricsPatterns, excludesRootFolder),
+      createAbsolutePatterns(
+        config.excludeForMetricsPatterns,
+        excludesRootFolder,
+      ),
       config.metrics,
       excludesRootFolder,
     );
@@ -94,7 +100,7 @@ class ConfigBuilder {
     String rootPath,
   ) =>
       UnusedFilesAnalysisConfig(
-        prepareExcludes(config.excludePatterns, rootPath),
+        createAbsolutePatterns(config.excludePatterns, rootPath),
         isMonorepo: config.isMonorepo,
       );
 
@@ -122,8 +128,8 @@ class ConfigBuilder {
     String rootPath,
   ) =>
       UnusedCodeAnalysisConfig(
-        prepareExcludes(config.excludePatterns, rootPath),
-        prepareExcludes(config.analyzerExcludePatterns, rootPath),
+        createAbsolutePatterns(config.excludePatterns, rootPath),
+        createAbsolutePatterns(config.analyzerExcludePatterns, rootPath),
         isMonorepo: config.isMonorepo,
       );
 
@@ -151,7 +157,7 @@ class ConfigBuilder {
     String rootPath,
   ) =>
       UnusedL10nAnalysisConfig(
-        prepareExcludes(config.excludePatterns, rootPath),
+        createAbsolutePatterns(config.excludePatterns, rootPath),
         config.classPattern,
       );
 
@@ -179,8 +185,8 @@ class ConfigBuilder {
     String rootPath,
   ) =>
       UnnecessaryNullableAnalysisConfig(
-        prepareExcludes(config.excludePatterns, rootPath),
-        prepareExcludes(config.analyzerExcludePatterns, rootPath),
+        createAbsolutePatterns(config.excludePatterns, rootPath),
+        createAbsolutePatterns(config.analyzerExcludePatterns, rootPath),
         isMonorepo: config.isMonorepo,
       );
 }

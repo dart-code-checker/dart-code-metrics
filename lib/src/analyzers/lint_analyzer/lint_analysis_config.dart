@@ -16,7 +16,7 @@ class LintAnalysisConfig {
   final Iterable<Metric> fileMetrics;
   final Iterable<Glob> metricsExcludes;
   final Map<String, Object> metricsConfig;
-  final String excludesRootFolder;
+  final String rootFolder;
 
   const LintAnalysisConfig(
     this.globalExcludes,
@@ -28,7 +28,7 @@ class LintAnalysisConfig {
     this.methodsMetrics,
     this.metricsExcludes,
     this.metricsConfig,
-    this.excludesRootFolder,
+    this.rootFolder,
   );
 
   Map<String, Object?> toJson() => {

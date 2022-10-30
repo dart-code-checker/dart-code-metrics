@@ -25,6 +25,7 @@ class AvoidPreserveWhitespaceFalseRule extends AngularRule {
           id: ruleId,
           severity: readSeverity(config, Severity.warning),
           excludes: readExcludes(config),
+          includes: readIncludes(config),
         );
 
   @override

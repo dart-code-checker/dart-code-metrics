@@ -26,6 +26,7 @@ class AvoidBorderAllRule extends FlutterRule {
           id: ruleId,
           severity: readSeverity(config, Severity.performance),
           excludes: readExcludes(config),
+          includes: readIncludes(config),
         );
 
   @override
