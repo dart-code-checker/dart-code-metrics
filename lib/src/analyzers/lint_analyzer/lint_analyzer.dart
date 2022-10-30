@@ -181,11 +181,9 @@ class LintAnalyzer {
     final contextConfig =
         ConfigBuilder.getLintConfigFromOptions(analysisOptions).merge(config);
 
-    final excludesRootFolder = analysisOptions.folderPath ?? rootFolder;
-
     return ConfigBuilder.getLintAnalysisConfig(
       contextConfig,
-      excludesRootFolder,
+      analysisOptions.folderPath ?? rootFolder,
     );
   }
 

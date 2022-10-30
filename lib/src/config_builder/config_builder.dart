@@ -30,7 +30,7 @@ class ConfigBuilder {
   /// Creates a lint config from given raw config.
   static LintAnalysisConfig getLintAnalysisConfig(
     LintConfig config,
-    String excludesRootFolder, {
+    String rootFolder, {
     Iterable<Metric>? classMetrics,
     Iterable<Metric>? fileMetrics,
     Iterable<Metric>? functionMetrics,
@@ -42,12 +42,9 @@ class ConfigBuilder {
         .toSet();
 
     return LintAnalysisConfig(
-      createAbsolutePatterns(config.excludePatterns, excludesRootFolder),
+      createAbsolutePatterns(config.excludePatterns, rootFolder),
       getRulesById(config.rules),
-      createAbsolutePatterns(
-        config.excludeForRulesPatterns,
-        excludesRootFolder,
-      ),
+      createAbsolutePatterns(config.excludeForRulesPatterns, rootFolder),
       patterns,
       classMetrics ??
           getMetrics(
@@ -67,12 +64,9 @@ class ConfigBuilder {
             patternsDependencies: patternsDependencies,
             measuredType: EntityType.methodEntity,
           ),
-      createAbsolutePatterns(
-        config.excludeForMetricsPatterns,
-        excludesRootFolder,
-      ),
+      createAbsolutePatterns(config.excludeForMetricsPatterns, rootFolder),
       config.metrics,
-      excludesRootFolder,
+      rootFolder,
     );
   }
 
