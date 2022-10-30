@@ -25,6 +25,7 @@ class AvoidWrappingInPaddingRule extends FlutterRule {
           id: ruleId,
           severity: readSeverity(config, Severity.warning),
           excludes: readExcludes(config),
+          includes: readIncludes(config),
         );
 
   @override

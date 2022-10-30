@@ -22,8 +22,8 @@ class AvoidTopLevelMembersInTestsRule extends CommonRule {
       : super(
           id: ruleId,
           severity: readSeverity(config, Severity.warning),
-          excludes:
-              hasExcludes(config) ? readExcludes(config) : ['lib/**', 'bin/**'],
+          excludes: readExcludes(config),
+          includes: hasIncludes(config) ? readIncludes(config) : ['test/**'],
         );
 
   @override

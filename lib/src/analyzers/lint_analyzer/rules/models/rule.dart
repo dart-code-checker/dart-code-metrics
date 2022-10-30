@@ -19,12 +19,16 @@ abstract class Rule {
   /// A list of excluded files for the rule.
   final Iterable<String> excludes;
 
+  /// A list of excluded files for the rule. If empty, all files considered included.
+  final Iterable<String> includes;
+
   /// Initialize a newly created [Rule].
   const Rule({
     required this.id,
     required this.type,
     required this.severity,
     required this.excludes,
+    required this.includes,
   });
 
   /// Returns [Iterable] with [Issue]'s detected while check the passed [source]

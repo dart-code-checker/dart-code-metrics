@@ -31,6 +31,7 @@ class ComponentAnnotationArgumentsOrderingRule extends AngularRule {
           id: ruleId,
           severity: readSeverity(config, Severity.style),
           excludes: readExcludes(config),
+          includes: readIncludes(config),
         );
 
   @override

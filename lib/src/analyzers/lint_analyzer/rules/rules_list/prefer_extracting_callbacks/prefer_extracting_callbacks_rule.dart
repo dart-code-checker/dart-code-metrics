@@ -33,6 +33,7 @@ class PreferExtractingCallbacksRule extends FlutterRule {
           id: ruleId,
           severity: readSeverity(config, Severity.style),
           excludes: readExcludes(config),
+          includes: readIncludes(config),
         );
 
   @override

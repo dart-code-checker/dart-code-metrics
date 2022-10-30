@@ -23,6 +23,7 @@ class PreferEnumsByNameRule extends CommonRule {
           id: ruleId,
           severity: readSeverity(config, Severity.style),
           excludes: readExcludes(config),
+          includes: readIncludes(config),
         );
 
   @override
