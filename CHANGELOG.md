@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 5.0.0
 
 * feat: **Breaking change** rename `member-ordering-extended` to `member-ordering`, discarding the old implementation.
 * feat: support report to the json file option for the `analyze` command.

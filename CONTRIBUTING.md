@@ -89,10 +89,10 @@ To set this up:
     ```yaml
     name: dart_code_metrics_plugin_loader
     description: This pubspec determines the version of the analyzer plugin to load.
-    version: 4.21.2
+    version: 5.0.0
 
     environment:
-      sdk: ">=2.17.0 <3.0.0"
+      sdk: ">=2.18.0 <3.0.0"
 
     dependencies:
       dart_code_metrics:

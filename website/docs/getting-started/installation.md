@@ -20,10 +20,10 @@ add it manually to `pubspec.yaml`
 
 ```yaml title="pubspec.yaml"
 environment:
-  sdk: '>=2.17.0 <3.0.0'
+  sdk: '>=2.18.0 <3.0.0'
 
 dev_dependencies:
-  dart_code_metrics: ^4.21.2
+  dart_code_metrics: ^5.0.0
 ```
 
 and then run
