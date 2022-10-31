@@ -14,10 +14,10 @@ import '../../../models/severity.dart';
 import '../../models/flutter_rule.dart';
 import '../../rule_utils.dart';
 
+part 'models/edge_insets_data.dart';
+part 'models/edge_insets_param.dart';
 part 'validator.dart';
 part 'visitor.dart';
-part 'models/edge_insets_param.dart';
-part 'models/edge_insets_data.dart';
 
 class PreferCorrectEdgeInsetsConstructorRule extends FlutterRule {
   static const ruleId = 'prefer-correct-edge-insets-constructor';
@@ -29,6 +29,7 @@ class PreferCorrectEdgeInsetsConstructorRule extends FlutterRule {
           id: ruleId,
           severity: readSeverity(config, Severity.style),
           excludes: readExcludes(config),
+          includes: readIncludes(config),
         );
 
   @override

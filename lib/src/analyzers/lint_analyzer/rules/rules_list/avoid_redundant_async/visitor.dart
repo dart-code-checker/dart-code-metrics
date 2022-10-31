@@ -9,7 +9,12 @@ class _Visitor extends RecursiveAstVisitor<void> {
   void visitMethodDeclaration(MethodDeclaration node) {
     super.visitMethodDeclaration(node);
 
-    if (_hasRedundantAsync(node.body)) {
+    final isOverride = node.metadata.any(
+      (node) =>
+          node.name.name == 'override' && node.atSign.type == TokenType.AT,
+    );
+
+    if (!isOverride && _hasRedundantAsync(node.body)) {
       _declarations.add(node);
     }
   }

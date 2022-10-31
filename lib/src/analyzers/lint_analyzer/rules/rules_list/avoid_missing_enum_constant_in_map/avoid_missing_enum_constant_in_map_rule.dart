@@ -24,6 +24,7 @@ class AvoidMissingEnumConstantInMapRule extends CommonRule {
           id: ruleId,
           severity: readSeverity(config, Severity.warning),
           excludes: readExcludes(config),
+          includes: readIncludes(config),
         );
 
   @override

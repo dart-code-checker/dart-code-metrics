@@ -16,7 +16,7 @@ class LintAnalysisConfig {
   final Iterable<Metric> fileMetrics;
   final Iterable<Glob> metricsExcludes;
   final Map<String, Object> metricsConfig;
-  final String excludesRootFolder;
+  final String rootFolder;
   final String? analysisOptionsPath;
 
   const LintAnalysisConfig(
@@ -29,7 +29,7 @@ class LintAnalysisConfig {
     this.methodsMetrics,
     this.metricsExcludes,
     this.metricsConfig,
-    this.excludesRootFolder,
+    this.rootFolder,
     this.analysisOptionsPath,
   );
 

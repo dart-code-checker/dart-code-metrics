@@ -190,11 +190,9 @@ class LintAnalyzer {
     final contextConfig =
         ConfigBuilder.getLintConfigFromOptions(analysisOptions).merge(config);
 
-    final excludesRootFolder = analysisOptions.folderPath ?? rootFolder;
-
     return ConfigBuilder.getLintAnalysisConfig(
       contextConfig,
-      excludesRootFolder,
+      analysisOptions.folderPath ?? rootFolder,
     );
   }
 
@@ -267,9 +265,13 @@ class LintAnalyzer {
       config.codeRules
           .where((rule) =>
               !ignores.isSuppressed(rule.id) &&
+              isIncluded(
+                source.path,
+                createAbsolutePatterns(rule.includes, config.rootFolder),
+              ) &&
               !isExcluded(
                 source.path,
-                prepareExcludes(rule.excludes, config.excludesRootFolder),
+                createAbsolutePatterns(rule.excludes, config.rootFolder),
               ))
           .expand(
             (rule) =>
@@ -292,7 +294,7 @@ class LintAnalyzer {
               !ignores.isSuppressed(pattern.id) &&
               !isExcluded(
                 source.path,
-                prepareExcludes(pattern.excludes, config.excludesRootFolder),
+                createAbsolutePatterns(pattern.excludes, config.rootFolder),
               ))
           .expand((pattern) => pattern
               .check(source, classMetrics, functionMetrics)
