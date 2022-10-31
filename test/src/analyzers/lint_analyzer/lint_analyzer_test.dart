@@ -227,6 +227,7 @@ LintConfig _createConfig({
   Map<String, Map<String, Object>> rules = const {},
   Iterable<String> excludeForRulesPatterns = const [],
   bool shouldPrintConfig = false,
+  String analysisOptionsPath = '',
 }) =>
     LintConfig(
       antiPatterns: antiPatterns,
@@ -236,6 +237,7 @@ LintConfig _createConfig({
       rules: rules,
       excludeForRulesPatterns: excludeForRulesPatterns,
       shouldPrintConfig: shouldPrintConfig,
+      analysisOptionsPath: analysisOptionsPath,
     );
 
 LintFileReport reportForFile(

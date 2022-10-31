@@ -74,26 +74,27 @@ class LintCodeClimateReporter
           ));
 
   Iterable<CodeClimateIssue> _reportsToCodeClimate(
-    Iterable<Report> reports,
+    Iterable<Report?> reports,
     String relativePath,
   ) =>
       [
         for (final report in reports)
-          for (final value in report.metrics)
-            if (isReportLevel(value.level))
-              CodeClimateIssue(
-                checkName: value.metricsId,
-                description: value.comment,
-                categories: const [CodeClimateIssueCategory.complexity],
-                location:
-                    CodeClimateIssueLocation(relativePath, report.location),
-                severity: CodeClimateIssueSeverity.info,
-                fingerprint: md5
-                    .convert(utf8.encode(
-                      '${value.metricsId} ${value.comment} $relativePath ${report.location.text}',
-                    ))
-                    .toString(),
-              ),
+          if (report != null)
+            for (final value in report.metrics)
+              if (isReportLevel(value.level))
+                CodeClimateIssue(
+                  checkName: value.metricsId,
+                  description: value.comment,
+                  categories: const [CodeClimateIssueCategory.complexity],
+                  location:
+                      CodeClimateIssueLocation(relativePath, report.location),
+                  severity: CodeClimateIssueSeverity.info,
+                  fingerprint: md5
+                      .convert(utf8.encode(
+                        '${value.metricsId} ${value.comment} $relativePath ${report.location.text}',
+                      ))
+                      .toString(),
+                ),
       ];
 }
 

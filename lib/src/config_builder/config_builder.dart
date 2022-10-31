@@ -67,6 +67,7 @@ class ConfigBuilder {
       createAbsolutePatterns(config.excludeForMetricsPatterns, rootFolder),
       config.metrics,
       rootFolder,
+      config.analysisOptionsPath,
     );
   }
 

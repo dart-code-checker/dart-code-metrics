@@ -17,6 +17,7 @@ class LintAnalysisConfig {
   final Iterable<Glob> metricsExcludes;
   final Map<String, Object> metricsConfig;
   final String rootFolder;
+  final String? analysisOptionsPath;
 
   const LintAnalysisConfig(
     this.globalExcludes,
@@ -29,6 +30,7 @@ class LintAnalysisConfig {
     this.metricsExcludes,
     this.metricsConfig,
     this.rootFolder,
+    this.analysisOptionsPath,
   );
 
   Map<String, Object?> toJson() => {
@@ -42,5 +44,6 @@ class LintAnalysisConfig {
         'file-metrics': fileMetrics.map((metric) => metric.id).toList(),
         'metrics-excludes':
             metricsExcludes.map((glob) => glob.pattern).toList(),
+        'analysis-options-path': analysisOptionsPath,
       };
 }

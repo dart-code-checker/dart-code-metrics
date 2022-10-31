@@ -65,17 +65,20 @@ class LintCheckstyleReporter
   }
 
   void _reportMetrics(XmlBuilder builder, LintFileReport record) {
-    for (final metric in record.file.metrics) {
-      if (_isMetricNeedToReport(metric.level)) {
-        builder.element(
-          'error',
-          attributes: {
-            'line': '0',
-            'severity': _metricSeverityMapping[metric.level] ?? 'ignore',
-            'message': metric.comment,
-            'source': metric.metricsId,
-          },
-        );
+    final metrics = record.file?.metrics;
+    if (metrics != null) {
+      for (final metric in metrics) {
+        if (_isMetricNeedToReport(metric.level)) {
+          builder.element(
+            'error',
+            attributes: {
+              'line': '0',
+              'severity': _metricSeverityMapping[metric.level] ?? 'ignore',
+              'message': metric.comment,
+              'source': metric.metricsId,
+            },
+          );
+        }
       }
     }
 
@@ -107,7 +110,7 @@ class LintCheckstyleReporter
   bool _needToReport(LintFileReport report) =>
       report.issues.isNotEmpty ||
       report.antiPatternCases.isNotEmpty ||
-      _isMetricNeedToReport(report.file.metricsLevel);
+      (report.file != null && _isMetricNeedToReport(report.file!.metricsLevel));
 
   bool _isMetricNeedToReport(MetricValueLevel level) =>
       level > MetricValueLevel.none;

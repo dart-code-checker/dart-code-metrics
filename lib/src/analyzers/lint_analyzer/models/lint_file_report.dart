@@ -13,7 +13,7 @@ class LintFileReport implements FileReport {
   final String relativePath;
 
   /// The metrics report about the target file.
-  final Report file;
+  final Report? file;
 
   /// The all classes reports in the target file.
   final Map<String, Report> classes;
@@ -40,9 +40,9 @@ class LintFileReport implements FileReport {
   const LintFileReport.onlyIssues({
     required this.path,
     required this.relativePath,
-    required this.file,
     required this.issues,
   })  : classes = const {},
         functions = const {},
-        antiPatternCases = const {};
+        antiPatternCases = const {},
+        file = null;
 }

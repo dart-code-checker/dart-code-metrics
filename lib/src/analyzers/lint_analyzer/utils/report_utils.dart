@@ -54,16 +54,16 @@ String totalTechDebt(Iterable<LintFileReport> records) {
     0,
     (prevValue, fileReport) =>
         prevValue +
-        (fileReport.file.metric(TechnicalDebtMetric.metricId)?.value ?? 0),
+        (fileReport.file?.metric(TechnicalDebtMetric.metricId)?.value ?? 0),
   );
 
   final debtUnitType = records
           .firstWhereOrNull(
             (record) =>
-                record.file.metric(TechnicalDebtMetric.metricId) != null,
+                record.file?.metric(TechnicalDebtMetric.metricId) != null,
           )
           ?.file
-          .metric(TechnicalDebtMetric.metricId)
+          ?.metric(TechnicalDebtMetric.metricId)
           ?.unitType ??
       '';
 

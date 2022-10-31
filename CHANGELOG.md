@@ -14,6 +14,7 @@
 * feat: **Breaking change** cleanup public API.
 * chore: restrict `analyzer` version to `>=5.1.0 <5.3.0`.
 * feat: add `print-config` option to all commands.
+* feat: add validation for rule names in `analysis_options.yaml` both for the `analyze` command and the plugin.
 * feat: support `includes` in the rules config.
 * fix: ignore `@override` methods for [`avoid-redundant-async`](https://dartcodemetrics.dev/docs/rules/common/avoid-redundant-async).
 

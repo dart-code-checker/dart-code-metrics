@@ -12,6 +12,7 @@ class LintConfig {
   final Iterable<String> excludeForRulesPatterns;
   final Map<String, Map<String, Object>> antiPatterns;
   final bool shouldPrintConfig;
+  final String? analysisOptionsPath;
 
   const LintConfig({
     required this.excludePatterns,
@@ -21,6 +22,7 @@ class LintConfig {
     required this.excludeForRulesPatterns,
     required this.antiPatterns,
     required this.shouldPrintConfig,
+    required this.analysisOptionsPath,
   });
 
   /// Creates the config from analysis [options].
@@ -35,6 +37,7 @@ class LintConfig {
         antiPatterns:
             options.readMapOfMap(['anti-patterns'], packageRelated: true),
         shouldPrintConfig: false,
+        analysisOptionsPath: options.fullPath,
       );
 
   /// Creates the config from cli [arguments].
@@ -51,6 +54,7 @@ class LintConfig {
         rules: const {},
         excludeForRulesPatterns: const [],
         antiPatterns: const {},
+        analysisOptionsPath: null,
       );
 
   /// Merges two configs into a single one
@@ -74,5 +78,7 @@ class LintConfig {
         antiPatterns:
             mergeMaps(defaults: antiPatterns, overrides: overrides.antiPatterns)
                 .cast<String, Map<String, Object>>(),
+        analysisOptionsPath:
+            analysisOptionsPath ?? overrides.analysisOptionsPath,
       );
 }

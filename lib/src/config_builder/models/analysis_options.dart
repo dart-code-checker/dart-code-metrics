@@ -26,6 +26,8 @@ class AnalysisOptions {
     return finalPath == null ? null : p.dirname(finalPath);
   }
 
+  String? get fullPath => _path;
+
   Iterable<String> readIterableOfString(
     Iterable<String> pathSegments, {
     bool packageRelated = false,

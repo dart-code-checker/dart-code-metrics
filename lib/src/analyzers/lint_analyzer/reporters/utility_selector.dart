@@ -60,13 +60,14 @@ class UtilitySelector {
         .length;
 
     final technicalDeptMetric =
-        record.file.metric(TechnicalDebtMetric.metricId);
+        record.file?.metric(TechnicalDebtMetric.metricId);
     final technicalDebt = technicalDeptMetric?.value.toDouble() ?? 0.0;
-    final technicalDebtViolations = record.file.metrics
-        .where((value) =>
-            value.metricsId == TechnicalDebtMetric.metricId &&
-            isReportLevel(value.level))
-        .length;
+    final technicalDebtViolations = record.file?.metrics
+            .where((value) =>
+                value.metricsId == TechnicalDebtMetric.metricId &&
+                isReportLevel(value.level))
+            .length ??
+        0;
     final technicalDebtUnitType = technicalDeptMetric?.unitType;
 
     return FileMetricsReport(

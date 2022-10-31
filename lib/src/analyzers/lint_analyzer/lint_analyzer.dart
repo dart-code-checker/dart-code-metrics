@@ -14,6 +14,7 @@ import '../../utils/exclude_utils.dart';
 import '../../utils/node_utils.dart';
 import '../../utils/suppression.dart';
 import 'lint_analysis_config.dart';
+import 'lint_analysis_options_validator.dart';
 import 'lint_config.dart';
 import 'metrics/metrics_list/cyclomatic_complexity/cyclomatic_complexity_metric.dart';
 import 'metrics/metrics_list/source_lines_of_code/source_lines_of_code_metric.dart';
@@ -84,6 +85,14 @@ class LintAnalyzer {
     for (final context in collection.contexts) {
       final lintAnalysisConfig =
           _getAnalysisConfig(context, rootFolder, config);
+
+      final report = LintAnalysisOptionsValidator.validateOptions(
+        lintAnalysisConfig,
+        rootFolder,
+      );
+      if (report != null) {
+        analyzerResult.add(report);
+      }
 
       if (config.shouldPrintConfig) {
         _logger?.printConfig(lintAnalysisConfig.toJson());
@@ -244,7 +253,6 @@ class LintAnalyzer {
     return LintFileReport.onlyIssues(
       path: filePath,
       relativePath: relativePath,
-      file: _getEmptyFileReport(internalResult),
       issues: issues,
     );
   }
@@ -370,14 +378,6 @@ class LintAnalyzer {
       metrics: metrics,
     );
   }
-
-  Report _getEmptyFileReport(InternalResolvedUnitResult internalResult) =>
-      Report(
-        location:
-            nodeLocation(node: internalResult.unit, source: internalResult),
-        metrics: const [],
-        declaration: internalResult.unit,
-      );
 
   Map<ScopedFunctionDeclaration, Report> _checkFunctionMetrics(
     ScopeVisitor visitor,

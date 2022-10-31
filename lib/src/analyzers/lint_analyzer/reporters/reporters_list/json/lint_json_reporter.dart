@@ -53,7 +53,7 @@ class LintJsonReporter extends JsonReporter<LintFileReport, LintReportParams> {
 
   Map<String, Object> _lintFileReportToJson(LintFileReport report) => {
         'path': report.relativePath,
-        'fileMetrics': _metricValuesToJson(report.file.metrics),
+        'fileMetrics': _metricValuesToJson(report.file?.metrics),
         'classes': _reportToJson(report.classes),
         'functions': _reportToJson(report.functions),
         'issues': _issueToJson(report.issues),
@@ -103,9 +103,9 @@ class LintJsonReporter extends JsonReporter<LintFileReport, LintReportParams> {
       };
 
   List<Map<String, Object>> _metricValuesToJson(
-    Iterable<MetricValue> metrics,
+    Iterable<MetricValue>? metrics,
   ) =>
-      metrics.map((metric) {
+      (metrics ?? []).map((metric) {
         final unitType = metric.unitType;
         final recommendation = metric.recommendation;
 
