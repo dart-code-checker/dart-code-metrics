@@ -8,7 +8,7 @@ To use Dart Code Metrics as a plugin or a CLI, check out [this repository](https
 
 ## As a library
 
-Dart Code Metrics can be used as a library, imported and called directly from your code. Continue with [this example](https://github.com/dart-code-checker/dart-code-metrics/blob/master/example/example.dart) in order to get more details.
+Dart Code Metrics can be used as a library, imported and called directly from your code. Continue with [this example](https://github.com/dart-code-checker/dart-code-metrics/blob/master/example/lib/main.dart) in order to get more details.
 
 ## Presets
 

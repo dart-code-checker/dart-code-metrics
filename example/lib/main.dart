@@ -24,7 +24,7 @@ Future<void> main() async {
     },
     antiPatterns: {'long-method': {}},
     shouldPrintConfig: false,
-    analysisOptionsPath: '',
+    analysisOptionsPath: null,
   );
 
   const analyzer = LintAnalyzer();
