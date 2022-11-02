@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 5.0.1
 
 * fix: correctly available check rule names.
 
