@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* fix: correctly available check rule names.
+
 ## 5.0.0
 
 * feat: **Breaking change** rename `member-ordering-extended` to `member-ordering`, discarding the old implementation.
