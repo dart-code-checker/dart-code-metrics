@@ -47,4 +47,4 @@ To use Dart Code Metrics as a command-line tool refer to the [Command Line Inter
 
 ### Library {#library}
 
-To use Dart Code Metrics as a library refer to this [example](https://github.com/dart-code-checker/dart-code-metrics/blob/master/example/example.dart).
+To use Dart Code Metrics as a library refer to this [example](https://github.com/dart-code-checker/dart-code-metrics/blob/master/example/lib/main.dart).
