@@ -9,6 +9,7 @@ import 'lint_analysis_config.dart';
 import 'models/issue.dart';
 import 'models/lint_file_report.dart';
 import 'models/severity.dart';
+import 'rules/rules_factory.dart';
 
 class LintAnalysisOptionsValidator {
   static LintFileReport? validateOptions(
@@ -28,11 +29,11 @@ class LintAnalysisOptionsValidator {
       return null;
     }
 
-    final parsedRuleIds = config.codeRules.map((rule) => rule.id).toList();
+    final ids = allRuleIds.toSet();
     final issues = <Issue>[];
 
     for (final rule in rulesList) {
-      if (!parsedRuleIds.contains(rule.ruleName)) {
+      if (!ids.contains(rule.ruleName)) {
         issues.add(
           Issue(
             ruleId: 'unknown-config',
