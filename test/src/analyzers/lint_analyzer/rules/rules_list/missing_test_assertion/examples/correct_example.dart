@@ -74,5 +74,9 @@ void main() {
     expectAsyncUntil6((p0, p1, p2, p3, p4, p5) {}, () => true);
   });
 
+  test('with fail', () {
+    fail('some failure reason');
+  });
+
   test(null, () => expect(1, 1));
 }
