@@ -74,6 +74,7 @@ class _MethodAssertionVisitor extends RecursiveAstVisitor<void> {
     'expectAsyncUntil5',
     'expectAsyncUntil6',
     'expectLater',
+    'fail',
   };
 
   _MethodAssertionVisitor(Iterable<String> includeAssertions) {
