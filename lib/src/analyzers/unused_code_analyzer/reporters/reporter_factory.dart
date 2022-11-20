@@ -1,9 +1,11 @@
 import 'dart:io';
 
-import '../../../../unused_code_analyzer.dart';
 import '../../../reporters/models/console_reporter.dart';
 import '../../../reporters/models/json_reporter.dart';
 import '../../../reporters/models/reporter.dart';
+import '../models/unused_code_file_report.dart';
+import 'reporters_list/console/unused_code_console_reporter.dart';
+import 'reporters_list/json/unused_code_json_reporter.dart';
 import 'unused_code_report_params.dart';
 
 final _implementedReports = <
