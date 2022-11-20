@@ -17,7 +17,7 @@ jobs:
           ref: "master"
 
       - name: Install SSH key
-        uses: shimataro/ssh-key-action@v2.3.1
+        uses: shimataro/ssh-key-action@v2.4.0
         with:
           key: ${{ secrets.SSH_PRIVATE_RSA_KEY }}
           name: id_rsa
