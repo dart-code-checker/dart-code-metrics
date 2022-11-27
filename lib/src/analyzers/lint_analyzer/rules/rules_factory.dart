@@ -1,5 +1,6 @@
 import 'models/rule.dart';
 import 'rules_list/always_remove_listener/always_remove_listener_rule.dart';
+import 'rules_list/arguments_ordering/arguments_ordering_rule.dart';
 import 'rules_list/avoid_banned_imports/avoid_banned_imports_rule.dart';
 import 'rules_list/avoid_border_all/avoid_border_all_rule.dart';
 import 'rules_list/avoid_cascade_after_if_null/avoid_cascade_after_if_null_rule.dart';
@@ -68,6 +69,7 @@ import 'rules_list/tag_name/tag_name_rule.dart';
 
 final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   AlwaysRemoveListenerRule.ruleId: AlwaysRemoveListenerRule.new,
+  ArgumentsOrderingRule.ruleId: ArgumentsOrderingRule.new,
   AvoidBannedImportsRule.ruleId: AvoidBannedImportsRule.new,
   AvoidBorderAllRule.ruleId: AvoidBorderAllRule.new,
   AvoidCascadeAfterIfNullRule.ruleId: AvoidCascadeAfterIfNullRule.new,
