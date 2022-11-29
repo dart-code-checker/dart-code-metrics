@@ -3,6 +3,7 @@
 ## Unreleased
 
 * feat: add static code diagnostic [`arguments-ordering`](https://dartcodemetrics.dev/docs/rules/common/arguments-ordering).
+* feat: add method call chains support for [`ban-name`](https://dartcodemetrics.dev/docs/rules/common/ban-name).
 
 ## 5.0.1
 

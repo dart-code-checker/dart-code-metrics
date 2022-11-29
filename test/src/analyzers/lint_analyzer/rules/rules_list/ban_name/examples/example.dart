@@ -17,12 +17,17 @@ class AnotherStrangeName {
   late var strangeName; // LINT
 }
 
-StrangeClass.someMethod(); // LINT
-NonStrangeClass.someMethod();
+void main() {
+  StrangeClass.someMethod(); // LINT
+  NonStrangeClass.someMethod();
 
-DateTime.now(); // LINT
-DateTime.now().day; // LINT
+  DateTime.now(); // LINT
+  DateTime.now().day; // LINT
+  DateTime.now().day.isFinite; // LINT
+
+  DateTime now = DateTime(2022);
+}
+
 class DateTimeTest {
   final currentTimestamp = DateTime.now(); // LINT
 }
-DateTime now = DateTime(2022);

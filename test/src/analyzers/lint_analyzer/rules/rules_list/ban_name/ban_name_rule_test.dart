@@ -40,8 +40,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startLines: [7, 8, 10, 13, 16, 17, 20, 23, 24, 26],
-        startColumns: [3, 12, 7, 1, 1, 12, 1, 1, 1, 28],
+        startLines: [7, 8, 10, 13, 16, 17, 21, 24, 25, 26, 32],
+        startColumns: [3, 12, 7, 1, 1, 12, 3, 3, 3, 3, 28],
         locationTexts: [
           'showDialog',
           'showDialog',
@@ -51,10 +51,11 @@ void main() {
               '  late var strangeName; // LINT\n'
               '}',
           'strangeName',
-          'StrangeClass.someMethod();',
-          'DateTime.now();',
+          'StrangeClass.someMethod()',
           'DateTime.now()',
-          'DateTime.now',
+          'DateTime.now()',
+          'DateTime.now()',
+          'DateTime.now()',
         ],
         messages: [
           'Please use myShowDialog (showDialog is banned)',
@@ -64,6 +65,7 @@ void main() {
           'Oops (AnotherStrangeName is banned)',
           'The name is too strange (strangeName is banned)',
           'Please use NonStrangeClass.someMethod instead (StrangeClass.someMethod is banned)',
+          'Please use clock.now instead (DateTime.now is banned)',
           'Please use clock.now instead (DateTime.now is banned)',
           'Please use clock.now instead (DateTime.now is banned)',
           'Please use clock.now instead (DateTime.now is banned)',
