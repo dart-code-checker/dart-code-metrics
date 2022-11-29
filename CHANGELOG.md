@@ -4,6 +4,7 @@
 
 * feat: add static code diagnostic [`arguments-ordering`](https://dartcodemetrics.dev/docs/rules/common/arguments-ordering).
 * feat: add method call chains support for [`ban-name`](https://dartcodemetrics.dev/docs/rules/common/ban-name).
+* fix: update `dart_all.yaml` preset to contain missing rules.
 
 ## 5.0.1
 
