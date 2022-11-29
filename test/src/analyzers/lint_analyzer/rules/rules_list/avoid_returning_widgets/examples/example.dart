@@ -63,6 +63,9 @@ Widget _getStatelessFunctionalWidget() => Container();
 @hwidget
 Widget _getHookFunctionalWidget() => Container();
 
+@hcwidget
+Widget _getHookConsumerFunctionalWidget() => Container();
+
 // LINT
 @ignoredAnnotation
 Widget _getWidgetWithIgnoredAnnotation() => Container();
@@ -73,6 +76,7 @@ class FunctionalWidget {
 
 const swidget = FunctionalWidget();
 const hwidget = FunctionalWidget();
+const hcwidget = FunctionalWidget();
 
 class IgnoredAnnotation {
   const IgnoredAnnotation();

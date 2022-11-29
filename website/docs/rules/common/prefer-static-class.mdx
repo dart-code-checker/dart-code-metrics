@@ -1,0 +1,75 @@
+import RuleDetails from '@site/src/components/RuleDetails';
+
+<RuleDetails version="5.1.0" severity="style" hasConfig />
+
+Suggests to use static class member instead of global constants, variables and functions.
+
+Pros:
+
+- **Easy to search**: great help from IDE autocomplete. Type class/file name to find domain, and type dot to list all members.
+- **Easy to import**: name conflicts will happen less often since all names are scoped to file name/class name. No need to use `import 'file.dart' as 'file'` to resolve name conflicts.
+- **Easy to read**: declarations in code will be always shown paired with domain they belong to. Compare `Circle.getArea` and `getArea` or `getCircleArea`.
+- [member-ordering](https://dartcodemetrics.dev/docs/rules/common/member-ordering) rule will be applied to class members.
+
+Cons:
+
+- The code amount might somehow increase.
+
+:::info
+
+When fixing rule issues and moving global members into a class, consider also renaming to avoid duplicating context.
+For example, `getCircleArea` global function should become `Circle.getArea`, not `Circle.getCircleArea`.
+
+:::
+
+:::note
+
+For this rule it's recommended to exclude the `test` folder.
+
+:::
+
+Use `ignore-private` configuration to ignore private global declarations.
+
+Use `ignore-names` to ignore names matching regular expressions (for example, Riverpod providers, flutter hooks, etc).
+
+Use `ignore-annotations` configuration to override default ignored annotation list.
+
+### ⚙️ Config example {#config-example}
+
+```yaml
+dart_code_metrics:
+  ...
+  rules:
+    ...
+    - prefer-static-class
+        ignore-annotations:
+          - allowedAnnotation
+        ignore-private: true
+        ignore-names:
+          - (.*)Provider
+          - use(.*)
+```
+
+### Example {#example}
+
+**❌ Bad:**
+
+```dart
+// circle.dart
+int getCircleArea() {} // LINT
+int getPerimeter() // LINT
+
+const _PI = 3.14; // LINT
+```
+
+**✅ Good:**
+
+```dart
+// circle.dart
+class Circle {
+    static int getArea() {}
+    static int getPerimeter() {}
+
+    static const _PI = 3.14;
+}
+```

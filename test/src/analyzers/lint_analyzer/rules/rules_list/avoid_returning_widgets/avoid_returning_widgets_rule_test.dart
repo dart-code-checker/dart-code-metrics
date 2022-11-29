@@ -27,7 +27,7 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startLines: [36, 38, 40, 42, 44, 47, 16, 53, 67],
+        startLines: [36, 38, 40, 42, 44, 47, 16, 53, 70],
         startColumns: [5, 5, 5, 5, 5, 14, 3, 1, 1],
         locationTexts: [
           '_localBuildMyWidget()',
@@ -73,8 +73,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startLines: [36, 38, 40, 16, 53, 57, 60, 63],
-        startColumns: [5, 5, 5, 3, 1, 1, 1, 1],
+        startLines: [36, 38, 40, 16, 53, 57, 60, 63, 66],
+        startColumns: [5, 5, 5, 3, 1, 1, 1, 1, 1],
         locationTexts: [
           '_localBuildMyWidget()',
           '_getWidgetsIterable()',
@@ -89,12 +89,15 @@ void main() {
               'Widget _getStatelessFunctionalWidget() => Container();',
           '@hwidget\n'
               'Widget _getHookFunctionalWidget() => Container();',
+          '@hcwidget\n'
+              'Widget _getHookConsumerFunctionalWidget() => Container();',
         ],
         messages: [
           'Avoid returning widgets from a function.',
           'Avoid returning widgets from a function.',
           'Avoid returning widgets from a function.',
           'Avoid returning widgets from a getter.',
+          'Avoid returning widgets from a global function.',
           'Avoid returning widgets from a global function.',
           'Avoid returning widgets from a global function.',
           'Avoid returning widgets from a global function.',

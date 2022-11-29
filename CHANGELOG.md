@@ -5,6 +5,8 @@
 * feat: add static code diagnostic [`arguments-ordering`](https://dartcodemetrics.dev/docs/rules/common/arguments-ordering).
 * feat: add method call chains support for [`ban-name`](https://dartcodemetrics.dev/docs/rules/common/ban-name).
 * fix: update `dart_all.yaml` preset to contain missing rules.
+* feat: add static code diagnostic [`prefer-static-class`](https://dartcodemetrics.dev/docs/rules/common/prefer-static-class).
+* feat: ignore `hcwidget` annotations in ['avoid-returning-widgets'](https://dartcodemetrics.dev/docs/rules/common/avoid-returning-widgets) rule by default.
 
 ## 5.0.1
 
