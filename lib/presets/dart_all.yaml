@@ -1,6 +1,8 @@
 dart_code_metrics:
   rules:
+    - arguments-ordering
     - avoid-banned-imports
+    - avoid-cascade-after-if-null
     - avoid-collection-methods-with-unrelated-types
     - avoid-duplicate-exports
     - avoid-dynamic
