@@ -27,13 +27,21 @@ void main() {
           {'ident': 'showDialog', 'description': 'Please use myShowDialog'},
           {'ident': 'strangeName', 'description': 'The name is too strange'},
           {'ident': 'AnotherStrangeName', 'description': 'Oops'},
+          {
+            'ident': 'StrangeClass.someMethod',
+            'description': 'Please use NonStrangeClass.someMethod instead',
+          },
+          {
+            'ident': 'DateTime.now',
+            'description': 'Please use clock.now instead',
+          },
         ],
       }).check(unit);
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startLines: [6, 7, 9, 12, 15, 16],
-        startColumns: [3, 12, 7, 1, 1, 12],
+        startLines: [7, 8, 10, 13, 16, 17, 20, 23, 24, 26],
+        startColumns: [3, 12, 7, 1, 1, 12, 1, 1, 1, 28],
         locationTexts: [
           'showDialog',
           'showDialog',
@@ -43,6 +51,10 @@ void main() {
               '  late var strangeName; // LINT\n'
               '}',
           'strangeName',
+          'StrangeClass.someMethod();',
+          'DateTime.now();',
+          'DateTime.now()',
+          'DateTime.now',
         ],
         messages: [
           'Please use myShowDialog (showDialog is banned)',
@@ -51,6 +63,10 @@ void main() {
           'The name is too strange (strangeName is banned)',
           'Oops (AnotherStrangeName is banned)',
           'The name is too strange (strangeName is banned)',
+          'Please use NonStrangeClass.someMethod instead (StrangeClass.someMethod is banned)',
+          'Please use clock.now instead (DateTime.now is banned)',
+          'Please use clock.now instead (DateTime.now is banned)',
+          'Please use clock.now instead (DateTime.now is banned)',
         ],
       );
     });

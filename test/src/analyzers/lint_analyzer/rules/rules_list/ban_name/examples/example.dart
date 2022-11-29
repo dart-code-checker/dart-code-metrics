@@ -1,5 +1,6 @@
 import 'dialog.dart';
 import 'dialog.dart' as material;
+import 'classes.dart';
 
 void func() {
   myShowDialog('some_arguments', 'another_argument');
@@ -15,3 +16,13 @@ void strangeName() {} // LINT
 class AnotherStrangeName {
   late var strangeName; // LINT
 }
+
+StrangeClass.someMethod(); // LINT
+NonStrangeClass.someMethod();
+
+DateTime.now(); // LINT
+DateTime.now().day; // LINT
+class DateTimeTest {
+  final currentTimestamp = DateTime.now(); // LINT
+}
+DateTime now = DateTime(2022);
