@@ -62,13 +62,7 @@ void main() {
       final unit = await RuleTestHelper.resolveFromFile(_correctExamplePath);
       final issues = PreferStaticClassRule().check(unit);
 
-      RuleTestHelper.verifyIssues(
-        issues: issues,
-        startLines: [],
-        startColumns: [],
-        locationTexts: [],
-        messages: [],
-      );
+      RuleTestHelper.verifyNoIssues(issues);
     });
 
     test(
