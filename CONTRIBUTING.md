@@ -20,7 +20,7 @@ To create a new rule:
 
 1. Choose a rule name according to our naming guide or take it from existing issue for the rule.
 2. Add an `.md` file with the rule documentation to `website/docs/rules`. If the rule supports configuration add ![Configurable](https://img.shields.io/badge/-configurable-informational) badge, if it has auto-fixes add ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success) badge.
-3. Add rule entry into rule index file `website\docs\rules\index.mdx`.
+3. Add rule entry into rule index file `website/docs/rules/index.mdx`.
 4. Create a rule `.dart` file under `lib/src/analyzers/lint_analyzer/rules/rules_list`.
 5. Create a class that extends an abstract rule class depending on your rule type. Available classes: `FlutterRule`, `CommonRule`, `IntlRule`, `AngularRule`. Add a public field with rule id, documentation url.
 
@@ -77,7 +77,7 @@ To create a new rule:
     ```
 
 11. Add the rule tests under `test/analyzers/lint_analyzer/rules/rules_list/`. Prefer to split test examples to a correct/incorrect groups.
-12. Add rule into appropriate presets file: `lib\presets\dart_all.yaml` or `lib\presets\flutter_all.yaml`.
+12. Add rule into appropriate presets file: `lib/presets/dart_all.yaml` or `lib/presets/flutter_all.yaml`.
 
 ## Run the plugin in IDE
 
