@@ -13,6 +13,7 @@ import '../../../models/issue.dart';
 import '../../../models/severity.dart';
 import '../../models/flutter_rule.dart';
 import '../../rule_utils.dart';
+import '../common_config.dart';
 
 part 'config_parser.dart';
 part 'visit_declaration.dart';

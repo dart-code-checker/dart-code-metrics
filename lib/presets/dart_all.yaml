@@ -46,6 +46,6 @@ dart_code_metrics:
     - prefer-last
     - prefer-match-file-name
     - prefer-moving-to-variable
-    - prefer-trailing-comma
+    - prefer-static-class
     - prefer-trailing-comma
     - tag-name
