@@ -41,7 +41,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
   }
 
   bool _shouldIgnoreName(String name) =>
-      (_ignorePrivate && name.startsWith('_')) ||
+      (_ignorePrivate && Identifier.isPrivateName(name)) ||
       _ignoreNames.any((element) => element.hasMatch(name));
 
   bool _hasIgnoredAnnotation(Declaration node) => node.metadata.any(
