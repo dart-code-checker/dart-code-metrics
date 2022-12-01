@@ -35,7 +35,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
     if (node.parent is CompilationUnit &&
         !_hasIgnoredAnnotation(node) &&
         !_shouldIgnoreName(nodeName) &&
-        nodeName != 'main') {
+        !isEntrypoint(nodeName, node.metadata)) {
       _declarations.add(node);
     }
   }

@@ -81,13 +81,7 @@ void main() {
           'ignore-private': true,
         }).check(unit);
 
-        RuleTestHelper.verifyIssues(
-          issues: issues,
-          startLines: [],
-          startColumns: [],
-          locationTexts: [],
-          messages: [],
-        );
+        RuleTestHelper.verifyNoIssues(issues);
       },
     );
 
@@ -104,13 +98,7 @@ void main() {
           ],
         }).check(unit);
 
-        RuleTestHelper.verifyIssues(
-          issues: issues,
-          startLines: [],
-          startColumns: [],
-          locationTexts: [],
-          messages: [],
-        );
+        RuleTestHelper.verifyNoIssues(issues);
       },
     );
 
@@ -126,13 +114,7 @@ void main() {
           ],
         }).check(unit);
 
-        RuleTestHelper.verifyIssues(
-          issues: issues,
-          startLines: [],
-          startColumns: [],
-          locationTexts: [],
-          messages: [],
-        );
+        RuleTestHelper.verifyNoIssues(issues);
       },
     );
   });
