@@ -1,5 +1,9 @@
 # Changelog
 
+## Future Release
+
+* feat: add static code diagnostic [`prefer-using-list-view`](https://dartcodemetrics.dev/docs/rules/flutter/prefer-using-list-view).
+
 ## 5.1.0
 
 * feat: add static code diagnostic [`arguments-ordering`](https://dartcodemetrics.dev/docs/rules/common/arguments-ordering).

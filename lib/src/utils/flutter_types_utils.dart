@@ -30,6 +30,9 @@ bool isSubclassOfListenable(DartType? type) =>
 bool isListViewWidget(DartType? type) =>
     type?.getDisplayString(withNullability: false) == 'ListView';
 
+bool isSingleChildScrollViewWidget(DartType? type) =>
+    type?.getDisplayString(withNullability: false) == 'SingleChildScrollView';
+
 bool isColumnWidget(DartType? type) =>
     type?.getDisplayString(withNullability: false) == 'Column';
 
