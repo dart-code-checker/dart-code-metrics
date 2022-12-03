@@ -52,6 +52,10 @@ To extend an existing preset add a reference to the `.yaml` file with the preset
 dart_code_metrics:
   extends:
     - package:dart_code_metrics/presets/all.yaml
+  rules:
+    - arguments-ordering:
+        child-last: true
+    - avoid-banned-imports: false
 ```
 
 All predefined preset [can be found here](https://github.com/dart-code-checker/dart-code-metrics/tree/master/lib/presets).
