@@ -1,0 +1,35 @@
+import RuleDetails from '@site/src/components/RuleDetails';
+
+<RuleDetails version="5.2.0" severity="performance" />
+
+Warns when a `Column` widget with only `children` parameter is wrapped in a `SingleChildScrollView` widget.
+
+Additional resources:
+
+- <https://stackoverflow.com/a/62147092>
+
+### Example {#example}
+
+**❌ Bad:**
+
+```dart
+SingleChildScrollView(
+  child: Column(
+    children: [
+      Text('Wow lint rule'),
+      Text('Wow another lint rule'),
+    ],
+  ),
+),
+```
+
+**✅ Good:**
+
+```dart
+ListView(
+  children: [
+    Text('Wow lint rule'),
+    Text('Wow another lint rule'),
+  ],
+),
+```

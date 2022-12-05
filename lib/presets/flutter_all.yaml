@@ -13,3 +13,4 @@ dart_code_metrics:
     - prefer-correct-edge-insets-constructor
     - prefer-extracting-callbacks
     - prefer-single-widget-per-file
+    - prefer-using-list-view

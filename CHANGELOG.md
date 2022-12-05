@@ -3,6 +3,7 @@
 ## Unreleased
 
 * fix: remove recursive traversal for [`ban-name`](https://dartcodemetrics.dev/docs/rules/common/ban-name) rule.
+* feat: add static code diagnostic [`prefer-using-list-view`](https://dartcodemetrics.dev/docs/rules/flutter/prefer-using-list-view).
 
 ## 5.1.0
 

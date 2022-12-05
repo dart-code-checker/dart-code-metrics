@@ -48,6 +48,7 @@ void main() {
         'format-comment': <String, Object>{},
         'prefer-immediate-return': <String, Object>{},
         'tag-name': <String, Object>{},
+        'prefer-using-list-view': <String, Object>{},
       }).map((rule) => rule.id),
       equals([
         'always-remove-listener',
@@ -89,6 +90,7 @@ void main() {
         'prefer-on-push-cd-strategy',
         'prefer-single-widget-per-file',
         'prefer-trailing-comma',
+        'prefer-using-list-view',
         'provide-correct-intl-args',
         'tag-name',
       ]),
