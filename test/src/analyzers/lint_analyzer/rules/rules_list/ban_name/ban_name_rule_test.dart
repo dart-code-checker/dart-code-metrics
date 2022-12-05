@@ -51,11 +51,11 @@ void main() {
               '  late var strangeName; // LINT\n'
               '}',
           'strangeName',
-          'StrangeClass.someMethod()',
-          'DateTime.now()',
-          'DateTime.now()',
-          'DateTime.now()',
-          'DateTime.now()',
+          'StrangeClass.someMethod',
+          'DateTime.now',
+          'DateTime.now',
+          'DateTime.now',
+          'DateTime.now',
         ],
         messages: [
           'Please use myShowDialog (showDialog is banned)',

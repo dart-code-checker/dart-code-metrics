@@ -42,14 +42,33 @@ class BanNameRule extends CommonRule {
 
     source.unit.visitChildren(visitor);
 
-    return visitor.nodes
-        .map(
-          (node) => createIssue(
-            rule: this,
-            location: nodeLocation(node: node.node, source: source),
-            message: node.message,
-          ),
-        )
-        .toList(growable: false);
+    final filteredNodeList = visitor.nodes.where((node) {
+      if (node.endNode != null) {
+        final inlineNode = source.content
+            .substring(
+              node.node.offset,
+              node.endNode!.end,
+            )
+            .replaceAll('\n', '');
+
+        if (!inlineNode.contains(node.fullName)) {
+          return false;
+        }
+      }
+
+      return true;
+    });
+
+    return filteredNodeList.map(
+      (node) => createIssue(
+        rule: this,
+        location: nodeLocation(
+          node: node.node,
+          source: source,
+          endNode: node.endNode,
+        ),
+        message: node.message,
+      ),
+    );
   }
 }
