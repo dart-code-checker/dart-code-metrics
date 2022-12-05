@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* fix: remove recursive traversal for [`ban-name`](https://dartcodemetrics.dev/docs/rules/common/ban-name) rule.
+
 ## 5.1.0
 
 * feat: add static code diagnostic [`arguments-ordering`](https://dartcodemetrics.dev/docs/rules/common/arguments-ordering).
