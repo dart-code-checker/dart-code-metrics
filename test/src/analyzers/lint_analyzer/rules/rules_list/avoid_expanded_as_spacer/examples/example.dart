@@ -36,7 +36,7 @@ class Spacer extends Widget {
 class Column extends Widget {
   final List<Widget> children;
 
-  Column({required this.children});
+  const Column({required this.children});
 }
 
 class StatelessWidget extends Widget {}

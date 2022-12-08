@@ -27,8 +27,18 @@ void main() {
 
         RuleTestHelper.verifyIssues(
           issues: issues,
-          startLines: [11],
+          startLines: [9],
           startColumns: [12],
+          locationTexts: [
+            'SingleChildScrollView(\n'
+                '      child: Column(\n'
+                '        children: [\n'
+                "          Text('Wow lint rule'),\n"
+                "          Text('Wow another lint rule'),\n"
+                '        ],\n'
+                '      ),\n'
+                '    )',
+          ],
           messages: [
             'Preferred to use ListView instead of the combo SingleChildScrollView and Column.',
           ],

@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 void main() {
   runApp(MyApp());
 }
@@ -62,6 +60,43 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class SingleChildScrollView {}
+class SingleChildScrollView {
+  final Widget child;
 
-class Column {}
+  const SingleChildScrollView({required this.child});
+}
+
+class Column extends Widget {
+  final List<Widget> children;
+  final MainAxisAlignment mainAxisAlignment;
+
+  const Column({required this.children, required this.mainAxisAlignment});
+}
+
+enum MainAxisAlignment { start }
+
+class StatelessWidget extends Widget {}
+
+class Widget {
+  const Widget();
+}
+
+class Text extends Widget {
+  final String? text;
+
+  const Text(this.text);
+}
+
+class MaterialApp extends Widget {
+  final Widget home;
+
+  const MaterialApp({required this.home});
+}
+
+class Scaffold extends Widget {
+  final Widget body;
+
+  const Scaffold({required this.body});
+}
+
+class BuildContext {}
