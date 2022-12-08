@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 5.2.0
 
 * fix: remove recursive traversal for [`ban-name`](https://dartcodemetrics.dev/docs/rules/common/ban-name) rule.
 * feat: add static code diagnostic [`avoid-double-slash-imports`](https://dartcodemetrics.dev/docs/rules/common/avoid-double-slash-imports).
