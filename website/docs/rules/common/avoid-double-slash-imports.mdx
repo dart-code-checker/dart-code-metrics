@@ -1,0 +1,37 @@
+import RuleDetails from '@site/src/components/RuleDetails';
+
+<RuleDetails version="5.2.0" severity="warning" hasFix />
+
+Warns when an import/export directive contains a double slash.
+
+Double slash in the URI is considered valid, but under some circumstances the programm won't run.
+
+See:
+
+- <https://github.com/dart-lang/sdk/issues/36337>
+
+### Example {#example}
+
+**❌ Bad:**
+
+```dart
+import 'package:test//material.dart'; // LINT
+import 'package:mocktail/good_file.dart';
+import '../../..//rule_utils_test.dart'; // LINT
+
+export 'package:mocktail//good_file.dart'; // LINT
+
+part '..//empty.dart'; // LINT
+```
+
+**✅ Good:**
+
+```dart
+import 'package:test/material.dart';
+import 'package:mocktail/good_file.dart';
+import '../../../rule_utils_test.dart';
+
+export 'package:mocktail/good_file.dart';
+
+part '../empty.dart';
+```
