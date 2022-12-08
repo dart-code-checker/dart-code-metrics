@@ -25,29 +25,21 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startLines: [1, 3, 5, 7],
-        startColumns: [1, 1, 1, 1],
+        startLines: [3, 5],
+        startColumns: [1, 1],
         locationTexts: [
-          "import 'package:test//material.dart';",
           "import '../../..//rule_utils_test.dart';",
-          "export 'package:mocktail//good_file.dart';",
           "part '..//empty.dart';",
         ],
         messages: [
           'Avoid double slash import/export directives.',
           'Avoid double slash import/export directives.',
-          'Avoid double slash import/export directives.',
-          'Avoid double slash import/export directives.',
         ],
         replacements: [
-          "import 'package:test/material.dart';",
           "import '../../../rule_utils_test.dart';",
-          "export 'package:mocktail/good_file.dart';",
           "part '../empty.dart';",
         ],
         replacementComments: [
-          'Remove double slash.',
-          'Remove double slash.',
           'Remove double slash.',
           'Remove double slash.',
         ],
