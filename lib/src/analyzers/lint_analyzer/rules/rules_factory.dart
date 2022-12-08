@@ -5,6 +5,7 @@ import 'rules_list/avoid_banned_imports/avoid_banned_imports_rule.dart';
 import 'rules_list/avoid_border_all/avoid_border_all_rule.dart';
 import 'rules_list/avoid_cascade_after_if_null/avoid_cascade_after_if_null_rule.dart';
 import 'rules_list/avoid_collection_methods_with_unrelated_types/avoid_collection_methods_with_unrelated_types_rule.dart';
+import 'rules_list/avoid_double_slash_imports/avoid_double_slash_imports_rule.dart';
 import 'rules_list/avoid_duplicate_exports/avoid_duplicate_exports_rule.dart';
 import 'rules_list/avoid_dynamic/avoid_dynamic_rule.dart';
 import 'rules_list/avoid_expanded_as_spacer/avoid_expanded_as_spacer_rule.dart';
@@ -78,6 +79,7 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   AvoidCascadeAfterIfNullRule.ruleId: AvoidCascadeAfterIfNullRule.new,
   AvoidCollectionMethodsWithUnrelatedTypesRule.ruleId:
       AvoidCollectionMethodsWithUnrelatedTypesRule.new,
+  AvoidDoubleSlashImportsRule.ruleId: AvoidDoubleSlashImportsRule.new,
   AvoidDuplicateExportsRule.ruleId: AvoidDuplicateExportsRule.new,
   AvoidDynamicRule.ruleId: AvoidDynamicRule.new,
   AvoidGlobalStateRule.ruleId: AvoidGlobalStateRule.new,
