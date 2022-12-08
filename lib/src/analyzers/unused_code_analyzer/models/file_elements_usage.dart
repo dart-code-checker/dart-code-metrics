@@ -16,10 +16,13 @@ class FileElementsUsage {
 
   final Set<String> exports = {};
 
+  final Map<Set<String>, Set<Element>> conditionalElements = {};
+
   void merge(FileElementsUsage other) {
     prefixMap.addAll(other.prefixMap);
     elements.addAll(other.elements);
     usedExtensions.addAll(other.usedExtensions);
     exports.addAll(other.exports);
+    conditionalElements.addAll(other.conditionalElements);
   }
 }

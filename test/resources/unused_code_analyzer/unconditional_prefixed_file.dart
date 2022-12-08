@@ -1,0 +1,1 @@
+int calculate() => 2;
