@@ -6,6 +6,7 @@
 * feat: add static code diagnostic [`avoid-double-slash-imports`](https://dartcodemetrics.dev/docs/rules/common/avoid-double-slash-imports).
 * feat: add static code diagnostic [`prefer-using-list-view`](https://dartcodemetrics.dev/docs/rules/flutter/prefer-using-list-view).
 * feat: add static code diagnostic [`avoid-unnecessary-conditionals`](https://dartcodemetrics.dev/docs/rules/common/avoid-unnecessary-conditionals).
+* feat: support boolean literals removal for [`prefer-conditional-expressions`](https://dartcodemetrics.dev/docs/rules/common/prefer-conditional-expressions) auto-fix.
 
 ## 5.1.0
 

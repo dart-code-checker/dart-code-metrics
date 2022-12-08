@@ -173,4 +173,12 @@ int newCase() {
   } else {
     value /= 5;
   }
+
+  // LINT
+  bool val = false;
+  if (true) {
+    val = true;
+  } else {
+    val = false;
+  }
 }
