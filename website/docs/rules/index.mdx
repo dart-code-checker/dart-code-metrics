@@ -24,8 +24,8 @@ Rules are grouped by category to help you understand their purpose. Each rule ha
   hasConfig
   hasFix
 >
-  Enforces named argument order in function and constructor invocations
-  to be the same as corresponding named parameter declaration order.
+  Enforces named argument order in function and constructor invocations to be
+  the same as corresponding named parameter declaration order.
 </RuleEntry>
 
 <RuleEntry
@@ -180,6 +180,16 @@ Rules are grouped by category to help you understand their purpose. Each rule ha
 >
   Warns when a public top-level member (except the entrypoint) is declared
   inside a test file.
+</RuleEntry>
+
+<RuleEntry
+  name="avoid-unnecessary-conditionals"
+  type="common"
+  severity="warning"
+  version="5.2.0"
+  hasFix
+>
+  Checks for unnessesary conditional expressions.
 </RuleEntry>
 
 <RuleEntry
@@ -487,8 +497,8 @@ Rules are grouped by category to help you understand their purpose. Each rule ha
   version="5.1.0"
   hasConfig
 >
-  Suggests to use static class member instead of global constants, variables
-  and functions.
+  Suggests to use static class member instead of global constants, variables and
+  functions.
 </RuleEntry>
 
 <RuleEntry
@@ -654,7 +664,8 @@ Rules are grouped by category to help you understand their purpose. Each rule ha
   severity="performance"
   version="5.2.0"
 >
-  Warns when a <code>Column</code> widget with only <code>children</code> parameter is wrapped in a <code>SingleChildScrollView</code> widget.
+  Warns when a <code>Column</code> widget with only <code>children</code>{' '}
+  parameter is wrapped in a <code>SingleChildScrollView</code> widget.
 </RuleEntry>
 
 ## Intl specific {#intl-specific}
