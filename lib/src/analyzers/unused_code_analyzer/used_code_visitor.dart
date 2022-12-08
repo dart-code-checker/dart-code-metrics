@@ -3,6 +3,7 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/dart/element/element.dart';
+import 'package:collection/collection.dart';
 
 import '../../utils/flutter_types_utils.dart';
 import 'models/file_elements_usage.dart';
@@ -12,6 +13,30 @@ import 'models/prefix_element_usage.dart';
 
 class UsedCodeVisitor extends RecursiveAstVisitor<void> {
   final fileElementsUsage = FileElementsUsage();
+
+  UsedCodeVisitor();
+
+  @override
+  void visitImportDirective(ImportDirective node) {
+    if (node.configurations.isNotEmpty) {
+      final paths = node.configurations.map((config) {
+        final uri = config.resolvedUri;
+
+        return (uri is DirectiveUriWithSource) ? uri.source.fullName : null;
+      }).whereNotNull();
+      final mainImport = node.element2?.importedLibrary?.source.fullName;
+
+      final allPaths = {if (mainImport != null) mainImport, ...paths};
+
+      fileElementsUsage.conditionalElements.update(
+        allPaths,
+        (conditionalElements) => conditionalElements,
+        ifAbsent: () => {},
+      );
+    }
+
+    super.visitImportDirective(node);
+  }
 
   @override
   void visitExportDirective(ExportDirective node) {
@@ -130,6 +155,24 @@ class UsedCodeVisitor extends RecursiveAstVisitor<void> {
     return false;
   }
 
+  bool _recordConditionalElement(Element element) {
+    final elementPath = element.source?.fullName;
+    if (elementPath == null) {
+      return false;
+    }
+
+    final entries = fileElementsUsage.conditionalElements.entries;
+    for (final conditionalElement in entries) {
+      if (conditionalElement.key.contains(elementPath)) {
+        conditionalElement.value.add(element);
+
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   /// Records use of a not prefixed [element].
   void _recordUsedElement(Element element) {
     // Ignore if an unknown library.
@@ -157,8 +200,13 @@ class UsedCodeVisitor extends RecursiveAstVisitor<void> {
       return;
     }
 
-    // Usage in State<WidgetClassName> is not a sing of usage.
+    // Usage in State<WidgetClassName> is not a sign of usage.
     if (_isUsedAsNamedTypeForWidgetState(identifier)) {
+      return;
+    }
+
+    // Record elements that are imported with conditional imports
+    if (_recordConditionalElement(element)) {
       return;
     }
 

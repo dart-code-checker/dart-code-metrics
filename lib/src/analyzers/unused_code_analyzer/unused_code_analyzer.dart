@@ -210,25 +210,25 @@ class UnusedCodeAnalyzer {
             .contains(declaredSource.fullName);
   }
 
-  bool _isUnused(
-    FileElementsUsage codeUsages,
-    String path,
-    Element element,
-  ) =>
-      !codeUsages.elements.any(
-        (usedElement) => _isUsed(usedElement, element),
-      ) &&
-      !codeUsages.usedExtensions.any(
-        (usedElement) => _isUsed(usedElement, element),
-      ) &&
-      !codeUsages.prefixMap.values.any(
-        (usage) =>
-            usage.paths.contains(path) &&
-            usage.elements.any((usedElement) =>
+  bool _isUnused(FileElementsUsage codeUsages, String path, Element element) =>
+      !codeUsages.conditionalElements.entries.any((entry) =>
+          entry.key.contains(path) &&
+          entry.value.any((usedElement) =>
+              _isUsed(usedElement, element) ||
+              (usedElement.name == element.name &&
+                  usedElement.kind == element.kind))) &&
+      !codeUsages.elements
+          .any((usedElement) => _isUsed(usedElement, element)) &&
+      !codeUsages.usedExtensions
+          .any((usedElement) => _isUsed(usedElement, element)) &&
+      !codeUsages.prefixMap.values.any((usage) =>
+          usage.paths.contains(path) &&
+          usage.elements.any(
+            (usedElement) =>
                 _isUsed(usedElement, element) ||
                 (usedElement.name == element.name &&
-                    usedElement.kind == element.kind)),
-      );
+                    usedElement.kind == element.kind),
+          ));
 
   UnusedCodeIssue _createUnusedCodeIssue(
     ElementImpl element,

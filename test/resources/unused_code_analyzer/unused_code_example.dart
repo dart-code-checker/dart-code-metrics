@@ -3,7 +3,10 @@
 import 'public_members.dart';
 import 'unconditional_file.dart'
     if (dart.library.html) 'conditional_file.dart'
-    if (dart.library.io) 'conditional_file.dart' as config;
+    if (dart.library.io) 'conditional_file.dart';
+import 'unconditional_prefixed_file.dart'
+    if (dart.library.html) 'conditional_prefixed_file.dart'
+    if (dart.library.io) 'conditional_prefixed_file.dart' as config;
 
 void main() {
   final widget = MyWidget('hello');
@@ -23,7 +26,9 @@ void main() {
 
   SomeEnum.hello;
 
-  config.calculateResults();
+  calculateResults();
+
+  config.calculate();
 
   setPadding();
 }

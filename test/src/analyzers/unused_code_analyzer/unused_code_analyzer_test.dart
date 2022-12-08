@@ -35,8 +35,8 @@ void main() {
           );
         });
 
-        test('should report 4 files and not report excluded file', () {
-          expect(result, hasLength(4));
+        test('should report 5 files and not report excluded file', () {
+          expect(result, hasLength(5));
         });
 
         test('should analyze not used files', () async {
@@ -81,6 +81,27 @@ void main() {
           expect(firstIssue.declarationName, 'hello');
           expect(firstIssue.declarationType, 'function');
           expect(firstIssue.location.line, 6);
+          expect(firstIssue.location.column, 1);
+        });
+
+        test('should analyze conditional prefixed import files', () async {
+          final unconditionalReport = result.firstWhereOrNull(
+            (report) =>
+                report.path.endsWith('unconditional_prefixed_file.dart'),
+          );
+
+          expect(unconditionalReport, null);
+
+          final report = result.firstWhere(
+            (report) => report.path.endsWith('conditional_prefixed_file.dart'),
+          );
+
+          expect(report.issues, hasLength(1));
+
+          final firstIssue = report.issues.first;
+          expect(firstIssue.declarationName, 'helloWorld');
+          expect(firstIssue.declarationType, 'function');
+          expect(firstIssue.location.line, 3);
           expect(firstIssue.location.column, 1);
         });
 
