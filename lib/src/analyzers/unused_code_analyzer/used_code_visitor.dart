@@ -157,7 +157,8 @@ class UsedCodeVisitor extends RecursiveAstVisitor<void> {
   }
 
   bool _recordConditionalElement(Element element) {
-    final elementPath = element.source?.fullName;
+    // ignore: deprecated_member_use
+    final elementPath = element.enclosingElement3?.source?.fullName;
     if (elementPath == null) {
       return false;
     }

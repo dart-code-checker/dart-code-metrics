@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.2.1
+
+* fix: avoid null check exception in the analyzer.
+
 ## 5.2.0
 
 * fix: remove recursive traversal for [`ban-name`](https://dartcodemetrics.dev/docs/rules/common/ban-name) rule.
