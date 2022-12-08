@@ -25,21 +25,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startLines: [
-          11,
-          30,
-          45,
-          51,
-          58,
-          64,
-          93,
-          109,
-          150,
-          157,
-          164,
-          171,
-        ],
-        startColumns: [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+        startLines: [11, 30, 45, 51, 58, 64, 93, 109, 150, 157, 164, 171, 179],
+        startColumns: [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
         locationTexts: [
           'if (a == 3) {\n'
               '    a = 2;\n'
@@ -97,8 +84,14 @@ void main() {
               '  } else {\n'
               '    value /= 5;\n'
               '  }',
+          'if (true) {\n'
+              '    val = true;\n'
+              '  } else {\n'
+              '    val = false;\n'
+              '  }',
         ],
         messages: [
+          'Prefer conditional expression.',
           'Prefer conditional expression.',
           'Prefer conditional expression.',
           'Prefer conditional expression.',
@@ -125,8 +118,10 @@ void main() {
           'cond ? value -= delta : value += delta;',
           'cond ? value -= 2 : value += 5;',
           'cond ? value *= 2 : value /= 5;',
+          'val = true;',
         ],
         replacementComments: [
+          'Convert to conditional expression.',
           'Convert to conditional expression.',
           'Convert to conditional expression.',
           'Convert to conditional expression.',

@@ -75,17 +75,32 @@ class PreferConditionalExpressionsRule extends CommonRule {
       return _isAssignmentOperatorNotEq(thenStatementOperator) &&
               _isAssignmentOperatorNotEq(elseStatementOperator)
           ? '$condition ? ${thenStatement.leftHandSide} ${thenStatementOperator.stringValue} $firstExpression : ${thenStatement.leftHandSide} ${elseStatementOperator.stringValue} $secondExpression;'
-          : '$target = $condition ? $firstExpression : $secondExpression;';
+          : '$target = ${_createCorrectionForLiterals(condition, firstExpression, secondExpression)}';
     }
 
     if (thenStatement is ReturnStatement && elseStatement is ReturnStatement) {
       final firstExpression = thenStatement.expression;
       final secondExpression = elseStatement.expression;
 
-      return 'return $condition ? $firstExpression : $secondExpression;';
+      return 'return ${_createCorrectionForLiterals(condition, firstExpression, secondExpression)}';
     }
 
     return null;
+  }
+
+  String _createCorrectionForLiterals(
+    Expression condition,
+    Expression? firstExpression,
+    Expression? secondExpression,
+  ) {
+    if (firstExpression is BooleanLiteral &&
+        secondExpression is BooleanLiteral) {
+      final isInverted = !firstExpression.value && secondExpression.value;
+
+      return '${isInverted ? "!" : ""}$condition;';
+    }
+
+    return '$condition ? $firstExpression : $secondExpression;';
   }
 
   bool _isAssignmentOperatorNotEq(TokenType token) =>
