@@ -24,6 +24,7 @@ class UsedCodeVisitor extends RecursiveAstVisitor<void> {
 
         return (uri is DirectiveUriWithSource) ? uri.source.fullName : null;
       }).whereNotNull();
+      // ignore: deprecated_member_use
       final mainImport = node.element2?.importedLibrary?.source.fullName;
 
       final allPaths = {if (mainImport != null) mainImport, ...paths};
