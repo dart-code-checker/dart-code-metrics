@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* feat: add static code diagnostic [`list-all-equatable-fields`](https://dartcodemetrics.dev/docs/rules/common/list-all-equatable-fields).
+
 ## 5.2.1
 
 * fix: avoid null check exception in the analyzer.
