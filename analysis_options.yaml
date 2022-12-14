@@ -12,8 +12,8 @@ analyzer:
   language:
     strict-inference: true
     strict-raw-types: true
-  # plugins:
-  #   - dart_code_metrics
+  plugins:
+    - dart_code_metrics
   strong-mode:
     implicit-casts: false
     implicit-dynamic: false
