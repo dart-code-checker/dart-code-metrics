@@ -14,6 +14,7 @@ class _Visitor extends GeneralizingAstVisitor<void> {
 
     final fieldNames = node.members
         .whereType<FieldDeclaration>()
+        .whereNot((field) => field.isStatic)
         .map((declaration) =>
             declaration.fields.variables.firstOrNull?.name.lexeme)
         .whereNotNull()
@@ -28,24 +29,37 @@ class _Visitor extends GeneralizingAstVisitor<void> {
       return;
     }
 
-    final body = props.body;
-    if (body is ExpressionFunctionBody) {
-      final expression = body.expression;
-      if (expression is ListLiteral) {
-        final usedFields = expression.elements
-            .whereType<SimpleIdentifier>()
-            .map((identifier) => identifier.name)
-            .toSet();
+    final expression = _extractExpression(props.body);
+    if (expression is ListLiteral) {
+      final usedFields = expression.elements
+          .whereType<SimpleIdentifier>()
+          .map((identifier) => identifier.name)
+          .toSet();
 
-        if (!usedFields.containsAll(fieldNames)) {
-          final missingFields = fieldNames.difference(usedFields).join(', ');
-          _declarations.add(_DeclarationInfo(
-            props,
-            'Missing declared class fields: $missingFields',
-          ));
-        }
+      if (!usedFields.containsAll(fieldNames)) {
+        final missingFields = fieldNames.difference(usedFields).join(', ');
+        _declarations.add(_DeclarationInfo(
+          props,
+          'Missing declared class fields: $missingFields',
+        ));
       }
     }
+  }
+
+  Expression? _extractExpression(FunctionBody body) {
+    if (body is ExpressionFunctionBody) {
+      return body.expression;
+    }
+
+    if (body is BlockFunctionBody) {
+      final returnStatement = body.block.statements
+          .firstWhereOrNull((statement) => statement is ReturnStatement);
+      if (returnStatement is ReturnStatement) {
+        return returnStatement.expression;
+      }
+    }
+
+    return null;
   }
 
   bool _isEquatableOrSubclass(DartType? type) =>

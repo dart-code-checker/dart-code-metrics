@@ -25,13 +25,17 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startLines: [34],
-        startColumns: [3],
+        startLines: [34, 47],
+        startColumns: [3, 3],
         locationTexts: [
           'List<Object> get props => [name];',
+          'List<Object> get props {\n'
+              '    return [name];  // LINT\n'
+              '  }',
         ],
         messages: [
           'Missing declared class fields: age',
+          'Missing declared class fields: age, address',
         ],
       );
     });

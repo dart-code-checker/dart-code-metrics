@@ -24,7 +24,7 @@ class Person extends Equatable {
 }
 
 class AnotherPerson extends Equatable {
-  const AnotherPerson(this.name);
+  const AnotherPerson(this.name, this.age);
 
   final String name;
 
@@ -32,6 +32,32 @@ class AnotherPerson extends Equatable {
 
   @override
   List<Object> get props => [name]; // LINT
+}
+
+class AndAnotherPerson extends Equatable {
+  const AndAnotherPerson(this.name, this.age, this.address);
+
+  final String name;
+
+  final int age;
+
+  final String address;
+
+  @override
+  List<Object> get props {
+    return [name];  // LINT
+  }
+}
+
+class AndAnotherPerson extends Equatable {
+  static final someProp = 'hello';
+
+  const AndAnotherPerson(this.name);
+
+  final String name;
+
+  @override
+  List<Object> get props => [name];
 }
 
 class Equatable {
