@@ -85,6 +85,34 @@ void main() {
       );
     });
 
+    test('reports about found issues only for doc comments', () async {
+      final unit = await RuleTestHelper.resolveFromFile(_multiline);
+      final issues = FormatCommentRule(const {
+        'only-doc-comments': true,
+      }).check(unit);
+
+      RuleTestHelper.verifyIssues(
+        issues: issues,
+        startLines: [2, 5, 17],
+        startColumns: [3, 3, 1],
+        locationTexts: [
+          '/// The value this wraps',
+          '/// true if this box contains a value.',
+          '/// deletes the file at [path] from the file system.',
+        ],
+        messages: [
+          'Prefer formatting comments like sentences.',
+          'Prefer formatting comments like sentences.',
+          'Prefer formatting comments like sentences.',
+        ],
+        replacements: [
+          '/// The value this wraps.',
+          '/// True if this box contains a value.',
+          '/// Deletes the file at [path] from the file system.',
+        ],
+      );
+    });
+
     test('reports no issues', () async {
       final unit = await RuleTestHelper.resolveFromFile(_withoutIssuePath);
       RuleTestHelper.verifyNoIssues(FormatCommentRule().check(unit));

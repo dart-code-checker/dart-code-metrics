@@ -26,8 +26,11 @@ class FormatCommentRule extends CommonRule {
   /// match at least one of them.
   final Iterable<RegExp> _ignoredPatterns;
 
+  final bool _onlyDocComments;
+
   FormatCommentRule([Map<String, Object> config = const {}])
-      : _ignoredPatterns = _ConfigParser.getIgnoredPatterns(config),
+      : _ignoredPatterns = _ConfigParser.parseIgnoredPatterns(config),
+        _onlyDocComments = _ConfigParser.parseOnlyDocComments(config),
         super(
           id: ruleId,
           severity: readSeverity(config, Severity.style),
@@ -40,13 +43,17 @@ class FormatCommentRule extends CommonRule {
     final json = super.toJson();
     json[_ConfigParser._ignoredPatternsConfig] =
         _ignoredPatterns.map((exp) => exp.pattern).toList();
+    json[_ConfigParser._onlyDocComments] = _onlyDocComments;
 
     return json;
   }
 
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
-    final visitor = _Visitor(_ignoredPatterns)..checkComments(source.unit.root);
+    final visitor = _Visitor(
+      _ignoredPatterns,
+      _onlyDocComments,
+    )..checkComments(source.unit.root);
 
     return [
       for (final comment in visitor.comments)

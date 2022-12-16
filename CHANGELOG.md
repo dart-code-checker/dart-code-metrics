@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* feat: support ignoring regular comments for [`format-comment`](https://dartcodemetrics.dev/docs/rules/common/format-comment).
+
 ## 5.2.1
 
 * fix: avoid null check exception in the analyzer.
