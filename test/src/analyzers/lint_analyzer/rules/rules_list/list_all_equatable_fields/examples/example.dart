@@ -5,10 +5,10 @@ class SomePerson {
 
   @override
   bool operator ==(Object other) =>
-    identical(this, other) ||
-    other is SomePerson &&
-    runtimeType == other.runtimeType &&
-    name == other.name;
+      identical(this, other) ||
+      other is SomePerson &&
+          runtimeType == other.runtimeType &&
+          name == other.name;
 
   @override
   int get hashCode => name.hashCode;
@@ -45,7 +45,7 @@ class AndAnotherPerson extends Equatable {
 
   @override
   List<Object> get props {
-    return [name];  // LINT
+    return [name]; // LINT
   }
 }
 
