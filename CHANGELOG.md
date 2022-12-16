@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* feat: add `strict` config option to [`avoid-collection-methods-with-unrelated-types`](https://dartcodemetrics.dev/docs/rules/common/avoid-collection-methods-with-unrelated-types).
+
 ## 5.2.1
 
 * fix: avoid null check exception in the analyzer.

@@ -3,7 +3,12 @@ part of 'avoid_collection_methods_with_unrelated_types_rule.dart';
 class _Visitor extends RecursiveAstVisitor<void> {
   final _expressions = <Expression>[];
 
+  final bool _isStrictMode;
+
   Iterable<Expression> get expressions => _expressions;
+
+  // ignore: avoid_positional_boolean_parameters
+  _Visitor(this._isStrictMode);
 
   // for `operator []` and `operator []=`
   @override
@@ -66,12 +71,19 @@ class _Visitor extends RecursiveAstVisitor<void> {
   ) {
     if (parentElement != null &&
         childType != null &&
-        childType.asInstanceOf(parentElement.element) == null &&
+        (_isNotInstance(childType, parentElement) &&
+            _isNotDynamic(childType)) &&
         !(parentElement.type.nullabilitySuffix == NullabilitySuffix.question &&
             childType.isDartCoreNull)) {
       _expressions.add(node);
     }
   }
+
+  bool _isNotInstance(DartType type, _TypedClassElement parentElement) =>
+      type.asInstanceOf(parentElement.element) == null;
+
+  bool _isNotDynamic(DartType type) =>
+      _isStrictMode || !(type.isDynamic || type.isDartCoreObject);
 
   List<_TypedClassElement>? _getMapTypeElement(DartType? type) =>
       _getTypeArgElements(getSupertypeMap(type));

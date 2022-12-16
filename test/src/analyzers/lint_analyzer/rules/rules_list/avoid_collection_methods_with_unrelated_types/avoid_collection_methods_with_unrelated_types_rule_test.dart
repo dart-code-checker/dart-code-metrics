@@ -8,6 +8,8 @@ const _examplePath =
     'avoid_collection_methods_with_unrelated_types/examples/example.dart';
 const _nullableExamplePath =
     'avoid_collection_methods_with_unrelated_types/examples/nullable_example.dart';
+const _dynamicExamplePath =
+    'avoid_collection_methods_with_unrelated_types/examples/dynamic_example.dart';
 
 void main() {
   group('AvoidCollectionMethodsWithUnrelatedTypesRule', () {
@@ -160,6 +162,34 @@ void main() {
           'Avoid collection methods with unrelated types.',
         ],
       );
+    });
+
+    test('reports about found issues for dynamic keys', () async {
+      final unit = await RuleTestHelper.resolveFromFile(_dynamicExamplePath);
+      final issues = AvoidCollectionMethodsWithUnrelatedTypesRule().check(unit);
+
+      RuleTestHelper.verifyIssues(
+        issues: issues,
+        startLines: [6, 13],
+        startColumns: [5, 5],
+        locationTexts: [
+          'regularMap[key]',
+          'regularMap[key]',
+        ],
+        messages: [
+          'Avoid collection methods with unrelated types.',
+          'Avoid collection methods with unrelated types.',
+        ],
+      );
+    });
+
+    test('reports no issues for dynamic keys if not in strict mode', () async {
+      final unit = await RuleTestHelper.resolveFromFile(_dynamicExamplePath);
+      final issues = AvoidCollectionMethodsWithUnrelatedTypesRule(const {
+        'strict': false,
+      }).check(unit);
+
+      RuleTestHelper.verifyNoIssues(issues);
     });
   });
 }
