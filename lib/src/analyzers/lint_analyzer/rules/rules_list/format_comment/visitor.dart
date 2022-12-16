@@ -1,6 +1,6 @@
 part of 'format_comment_rule.dart';
 
-const commentsOperator = {
+const _commentsOperator = {
   _CommentType.base: '//',
   _CommentType.documentation: '///',
 };
@@ -12,8 +12,10 @@ const _ignoreForFileExp = 'ignore_for_file:';
 
 class _Visitor extends RecursiveAstVisitor<void> {
   final Iterable<RegExp> _ignoredPatterns;
+  final bool _onlyDocComments;
 
-  _Visitor(this._ignoredPatterns);
+  // ignore: avoid_positional_boolean_parameters
+  _Visitor(this._ignoredPatterns, this._onlyDocComments);
 
   final _comments = <_CommentInfo>[];
 
@@ -41,7 +43,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
       final token = commentToken.toString();
       if (token.startsWith('///')) {
         _checkCommentByType(commentToken, _CommentType.documentation);
-      } else if (token.startsWith('//')) {
+      } else if (token.startsWith('//') && !_onlyDocComments) {
         _checkCommentByType(commentToken, _CommentType.base);
       }
     }
@@ -49,7 +51,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
   void _checkCommentByType(Token commentToken, _CommentType type) {
     final commentText =
-        commentToken.toString().substring(commentsOperator[type]!.length);
+        commentToken.toString().substring(_commentsOperator[type]!.length);
 
     var text = commentText.trim();
 
