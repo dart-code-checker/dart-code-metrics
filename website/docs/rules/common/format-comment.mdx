@@ -6,6 +6,8 @@ Prefer format comments like sentences.
 
 Use `ignored-patterns` configuration, if you want to ignore comments that match the given regular expressions.
 
+Use `only-doc-comments` configuration, if you want to check only documentation comments (`///`).
+
 ### ⚙️ Config example {#config-example}
 
 ```yaml
@@ -14,6 +16,7 @@ dart_code_metrics:
   rules:
     ...
     - format-comment:
+        only-doc-comments: true
         ignored-patterns:
           - ^ cSpell.*  # Ignores all the comments that start with 'cSpell' (for example: '// cSpell:disable-next-line').
 ```

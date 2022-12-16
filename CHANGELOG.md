@@ -3,6 +3,7 @@
 ## Unreleased
 
 * feat: add static code diagnostic [`list-all-equatable-fields`](https://dartcodemetrics.dev/docs/rules/common/list-all-equatable-fields).
+* feat: support ignoring regular comments for [`format-comment`](https://dartcodemetrics.dev/docs/rules/common/format-comment).
 
 ## 5.2.1
 
