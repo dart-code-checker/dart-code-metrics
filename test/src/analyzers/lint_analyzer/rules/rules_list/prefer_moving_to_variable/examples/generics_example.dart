@@ -10,5 +10,5 @@ class GetIt {
 
   T get<T extends Object>() => 'str' as T;
 
-  T call<T extends Object>() => return get<T>;
+  T call<T extends Object>() => get<T>;
 }

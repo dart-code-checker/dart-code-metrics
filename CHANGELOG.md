@@ -3,6 +3,7 @@
 ## Unreleased
 
 * fix: support function expression invocations for [`prefer-moving-to-variable`](https://dartcodemetrics.dev/docs/rules/common/prefer-moving-to-variable).
+* feat: support ignoring regular comments for [`format-comment`](https://dartcodemetrics.dev/docs/rules/common/format-comment).
 
 ## 5.2.1
 
