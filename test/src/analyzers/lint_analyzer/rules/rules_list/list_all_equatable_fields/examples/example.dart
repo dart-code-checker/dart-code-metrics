@@ -61,5 +61,5 @@ class AndAnotherPerson extends Equatable {
 }
 
 class Equatable {
-  abstract List<Object> get props;
+  List<Object> get props;
 }
