@@ -64,7 +64,7 @@ class _BlockVisitor extends RecursiveAstVisitor<void> {
   }
 
   bool _checkForDuplicates(AstNode node, Expression? target) {
-    final access = node.toString();
+    final access = _extractAccess(node);
     final visitedInvocation = _visitedInvocations[access];
     final isDuplicate =
         visitedInvocation != null && _isDuplicate(visitedInvocation, node);
@@ -84,6 +84,18 @@ class _BlockVisitor extends RecursiveAstVisitor<void> {
     _visitAllTargets(target);
 
     return false;
+  }
+
+  String _extractAccess(AstNode node) {
+    final parent = node.parent;
+    if (parent is FunctionExpressionInvocation) {
+      final typeArguments = parent.typeArguments;
+      if (typeArguments != null && typeArguments.arguments.isNotEmpty) {
+        return parent.toString();
+      }
+    }
+
+    return node.toString();
   }
 
   bool _isDuplicate(AstNode visitedInvocation, AstNode node) {

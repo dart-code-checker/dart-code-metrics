@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* fix: support function expression invocations for [`prefer-moving-to-variable`](https://dartcodemetrics.dev/docs/rules/common/prefer-moving-to-variable).
+
 ## 5.2.1
 
 * fix: avoid null check exception in the analyzer.
