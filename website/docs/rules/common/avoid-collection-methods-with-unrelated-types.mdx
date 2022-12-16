@@ -12,6 +12,19 @@ Related: Dart's built-in `list_remove_unrelated_type` and `iterable_contains_unr
 
 :::
 
+Use `strict` configuration (default is `true`), if you want `dynamic` or `Object` type keys to not trigger the warning.
+
+### ⚙️ Config example {#config-example}
+
+```yaml
+dart_code_metrics:
+  ...
+  rules:
+    ...
+    - avoid-collection-methods-with-unrelated-types:
+        strict: false
+```
+
 ### Example {#example}
 
 **❌ Bad:**
