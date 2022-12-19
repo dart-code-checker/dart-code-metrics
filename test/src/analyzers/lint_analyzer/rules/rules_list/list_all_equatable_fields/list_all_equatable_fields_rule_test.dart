@@ -30,7 +30,7 @@ void main() {
         locationTexts: [
           'List<Object> get props => [name];',
           'List<Object> get props {\n'
-              '    return [name];  // LINT\n'
+              '    return [name]; // LINT\n'
               '  }',
         ],
         messages: [
