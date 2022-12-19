@@ -37,6 +37,7 @@ import 'rules_list/component_annotation_arguments_ordering/component_annotation_
 import 'rules_list/consistent_update_render_object/consistent_update_render_object_rule.dart';
 import 'rules_list/double_literal_format/double_literal_format_rule.dart';
 import 'rules_list/format_comment/format_comment_rule.dart';
+import 'rules_list/list_all_equatable_fields/list_all_equatable_fields_rule.dart';
 import 'rules_list/member_ordering/member_ordering_rule.dart';
 import 'rules_list/missing_test_assertion/missing_test_assertion_rule.dart';
 import 'rules_list/newline_before_return/newline_before_return_rule.dart';
@@ -117,6 +118,7 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   ConsistentUpdateRenderObjectRule.ruleId: ConsistentUpdateRenderObjectRule.new,
   DoubleLiteralFormatRule.ruleId: DoubleLiteralFormatRule.new,
   FormatCommentRule.ruleId: FormatCommentRule.new,
+  ListAllEquatableFieldsRule.ruleId: ListAllEquatableFieldsRule.new,
   MemberOrderingRule.ruleId: MemberOrderingRule.new,
   MissingTestAssertionRule.ruleId: MissingTestAssertionRule.new,
   NewlineBeforeReturnRule.ruleId: NewlineBeforeReturnRule.new,

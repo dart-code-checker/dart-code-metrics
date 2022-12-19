@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* feat: add static code diagnostic [`list-all-equatable-fields`](https://dartcodemetrics.dev/docs/rules/common/list-all-equatable-fields).
 * feat: add `strict` config option to [`avoid-collection-methods-with-unrelated-types`](https://dartcodemetrics.dev/docs/rules/common/avoid-collection-methods-with-unrelated-types).
 * fix: support function expression invocations for [`prefer-moving-to-variable`](https://dartcodemetrics.dev/docs/rules/common/prefer-moving-to-variable).
 * feat: support ignoring regular comments for [`format-comment`](https://dartcodemetrics.dev/docs/rules/common/format-comment).

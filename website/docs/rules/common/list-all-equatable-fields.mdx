@@ -1,0 +1,125 @@
+import RuleDetails from '@site/src/components/RuleDetails';
+
+<RuleDetails version="5.3.0" severity="warning" />
+
+Warns when a field is not added to `props` getter of a class that extends `Equtable` or `EquatableMixin`.
+
+:::info
+
+This rule is specific to [`equatable` package](https://pub.dev/packages/equatable). Enable it only if you use this package.
+
+:::
+
+### Example {#example}
+
+**❌ Bad:**
+
+```dart
+class AnotherPerson extends Equatable {
+  const AnotherPerson(this.name, this.age);
+
+  final String name;
+
+  final int age;
+
+  @override
+  List<Object> get props => [name]; // LINT
+}
+
+class AndAnotherPerson extends Equatable {
+  static final someProp = 'hello';
+
+  const AndAnotherPerson(this.name);
+
+  final String name;
+
+  @override
+  List<Object> get props => [name];
+}
+
+class SubPerson extends AndAnotherPerson {
+  const SubPerson(this.value, String name) : super();
+
+  final int value;
+
+  @override
+  List<Object> get props {
+    return super.props..addAll([]); // LINT
+  }
+}
+
+class EquatableDateTimeSubclass extends EquatableDateTime {
+  final int century;
+
+  EquatableDateTimeSubclass(
+    this.century,
+    int year, [
+    int month = 1,
+    int day = 1,
+    int hour = 0,
+    int minute = 0,
+    int second = 0,
+    int millisecond = 0,
+    int microsecond = 0,
+  ]) : super(year, month, day, hour, minute, second, millisecond, microsecond);
+
+  @override
+  List<Object> get props => super.props..addAll([]); // LINT
+}
+```
+
+**✅ Good:**
+
+```dart
+class AnotherPerson extends Equatable {
+  const AnotherPerson(this.name, this.age);
+
+  final String name;
+
+  final int age;
+
+  @override
+  List<Object> get props => [name, age];
+}
+
+class AndAnotherPerson extends Equatable {
+  static final someProp = 'hello';
+
+  const AndAnotherPerson(this.name);
+
+  final String name;
+
+  @override
+  List<Object> get props => [name];
+}
+
+class SubPerson extends AndAnotherPerson {
+  const SubPerson(this.value, String name) : super();
+
+  final int value;
+
+  @override
+  List<Object> get props {
+    return super.props..addAll([value]);
+  }
+}
+
+class EquatableDateTimeSubclass extends EquatableDateTime {
+  final int century;
+
+  EquatableDateTimeSubclass(
+    this.century,
+    int year, [
+    int month = 1,
+    int day = 1,
+    int hour = 0,
+    int minute = 0,
+    int second = 0,
+    int millisecond = 0,
+    int microsecond = 0,
+  ]) : super(year, month, day, hour, minute, second, millisecond, microsecond);
+
+  @override
+  List<Object> get props => super.props..addAll([century]);
+}
+```
