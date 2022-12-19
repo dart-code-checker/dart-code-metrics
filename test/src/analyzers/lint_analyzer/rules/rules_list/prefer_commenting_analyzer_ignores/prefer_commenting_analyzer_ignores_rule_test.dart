@@ -25,13 +25,15 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startLines: [3, 6],
-        startColumns: [3, 3],
+        startLines: [3, 6, 23],
+        startColumns: [3, 3, 3],
         locationTexts: [
           '// ignore: deprecated_member_use',
           '// ignore: deprecated_member_use, long-method',
+          '// ignore: avoid-non-null-assertion',
         ],
         messages: [
+          'Prefer commenting analyzer ignores.',
           'Prefer commenting analyzer ignores.',
           'Prefer commenting analyzer ignores.',
         ],

@@ -5,6 +5,7 @@
 * feat: add `strict` config option to [`avoid-collection-methods-with-unrelated-types`](https://dartcodemetrics.dev/docs/rules/common/avoid-collection-methods-with-unrelated-types).
 * fix: support function expression invocations for [`prefer-moving-to-variable`](https://dartcodemetrics.dev/docs/rules/common/prefer-moving-to-variable).
 * feat: support ignoring regular comments for [`format-comment`](https://dartcodemetrics.dev/docs/rules/common/format-comment).
+* fix: ignore doc comments for [`prefer-commenting-analyzer-ignores`](https://dartcodemetrics.dev/docs/rules/common/prefer-commenting-analyzer-ignores).
 
 ## 5.2.1
 
