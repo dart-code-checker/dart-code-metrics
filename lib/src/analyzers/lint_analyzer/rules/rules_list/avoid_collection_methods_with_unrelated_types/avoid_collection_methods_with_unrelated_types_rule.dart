@@ -16,6 +16,7 @@ import '../../../models/severity.dart';
 import '../../models/common_rule.dart';
 import '../../rule_utils.dart';
 
+part 'config_parser.dart';
 part 'visitor.dart';
 
 class AvoidCollectionMethodsWithUnrelatedTypesRule extends CommonRule {
@@ -23,9 +24,12 @@ class AvoidCollectionMethodsWithUnrelatedTypesRule extends CommonRule {
 
   static const _warning = 'Avoid collection methods with unrelated types.';
 
+  final bool _isStrictMode;
+
   AvoidCollectionMethodsWithUnrelatedTypesRule([
     Map<String, Object> config = const {},
-  ]) : super(
+  ])  : _isStrictMode = _ConfigParser.parseIsStrictMode(config),
+        super(
           id: ruleId,
           severity: readSeverity(config, Severity.warning),
           excludes: readExcludes(config),
@@ -34,7 +38,7 @@ class AvoidCollectionMethodsWithUnrelatedTypesRule extends CommonRule {
 
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
-    final visitor = _Visitor();
+    final visitor = _Visitor(_isStrictMode);
 
     source.unit.visitChildren(visitor);
 

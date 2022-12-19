@@ -13,6 +13,8 @@ const _scopeExamplePath =
     'prefer_moving_to_variable/examples/scope_example.dart';
 const _cascadeExamplePath =
     'prefer_moving_to_variable/examples/cascade_example.dart';
+const _genericsExamplePath =
+    'prefer_moving_to_variable/examples/generics_example.dart';
 
 void main() {
   group('PreferMovingToVariableRule', () {
@@ -208,6 +210,13 @@ void main() {
 
     test('reports no issues for cascade', () async {
       final unit = await RuleTestHelper.resolveFromFile(_cascadeExamplePath);
+      final issues = PreferMovingToVariableRule().check(unit);
+
+      RuleTestHelper.verifyNoIssues(issues);
+    });
+
+    test('reports no issues for generics', () async {
+      final unit = await RuleTestHelper.resolveFromFile(_genericsExamplePath);
       final issues = PreferMovingToVariableRule().check(unit);
 
       RuleTestHelper.verifyNoIssues(issues);
