@@ -18,4 +18,8 @@ void main() {
 
   // ignore: avoid-non-null-assertion, checked for non-null
   final hashMap = HashMap();
+
+  /// documentation comment
+  // ignore: avoid-non-null-assertion
+  final value = 1; // LINT
 }

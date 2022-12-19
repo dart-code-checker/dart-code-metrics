@@ -54,7 +54,8 @@ class _Visitor extends RecursiveAstVisitor<void> {
     final previous = node.previous;
 
     return previous == null ||
-        (previous.type != TokenType.SINGLE_LINE_COMMENT ||
+        ((previous.type != TokenType.SINGLE_LINE_COMMENT ||
+                previous.toString().startsWith('///')) ||
             _lineInfo.getLocation(node.offset).lineNumber - 1 !=
                 _lineInfo.getLocation(previous.offset).lineNumber);
   }
