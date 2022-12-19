@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 5.3.0
 
 * feat: add static code diagnostic [`list-all-equatable-fields`](https://dartcodemetrics.dev/docs/rules/common/list-all-equatable-fields).
 * feat: add `strict` config option to [`avoid-collection-methods-with-unrelated-types`](https://dartcodemetrics.dev/docs/rules/common/avoid-collection-methods-with-unrelated-types).
