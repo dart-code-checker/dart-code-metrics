@@ -25,17 +25,37 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startLines: [34, 47],
-        startColumns: [3, 3],
+        startLines: [34, 47, 69, 90, 106],
+        startColumns: [3, 3, 3, 3, 3],
         locationTexts: [
           'List<Object> get props => [name];',
           'List<Object> get props {\n'
               '    return [name]; // LINT\n'
               '  }',
+          'List<Object> get props {\n'
+              '    return super.props..addAll([]); // LINT\n'
+              '  }',
+          'List<Object> get props => super.props..addAll([]);',
+          'List<Object> get props {\n'
+              '    return [\n'
+              '      year,\n'
+              '      month,\n'
+              '      day,\n'
+              '      hour,\n'
+              '      minute,\n'
+              '      second,\n'
+              '      millisecond,\n'
+              '      microsecond,\n'
+              '      // LINT\n'
+              '    ];\n'
+              '  }',
         ],
         messages: [
           'Missing declared class fields: age',
           'Missing declared class fields: age, address',
+          'Missing declared class fields: value',
+          'Missing declared class fields: century',
+          'Missing declared class fields: isUtc, millisecondsSinceEpoch, microsecondsSinceEpoch, timeZoneName, timeZoneOffset, weekday',
         ],
       );
     });

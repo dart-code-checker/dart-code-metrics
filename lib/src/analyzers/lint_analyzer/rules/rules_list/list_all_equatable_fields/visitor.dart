@@ -8,7 +8,13 @@ class _Visitor extends GeneralizingAstVisitor<void> {
   @override
   void visitClassDeclaration(ClassDeclaration node) {
     final classType = node.extendsClause?.superclass.type;
-    if (!_isEquatableOrSubclass(classType)) {
+
+    final isEquatable = _isEquatableOrSubclass(classType);
+    final isMixin = node.withClause?.mixinTypes
+            .any((mixinType) => _isEquatableMixin(mixinType.type)) ??
+        false;
+    final isSubclassOfMixin = _isSubclassOfEquatableMixin(classType);
+    if (!isEquatable && !isMixin && !isSubclassOfMixin) {
       return;
     }
 
@@ -20,6 +26,10 @@ class _Visitor extends GeneralizingAstVisitor<void> {
         .whereNotNull()
         .toSet();
 
+    if (isMixin) {
+      fieldNames.addAll(_getParentFields(classType));
+    }
+
     final props = node.members.firstWhereOrNull((declaration) =>
         declaration is MethodDeclaration &&
         declaration.isGetter &&
@@ -29,8 +39,11 @@ class _Visitor extends GeneralizingAstVisitor<void> {
       return;
     }
 
-    final expression = _extractExpression(props.body);
-    if (expression is ListLiteral) {
+    final literalVisitor = _ListLiteralVisitor();
+    props.body.visitChildren(literalVisitor);
+
+    final expression = literalVisitor.literals.firstOrNull;
+    if (expression != null) {
       final usedFields = expression.elements
           .whereType<SimpleIdentifier>()
           .map((identifier) => identifier.name)
@@ -46,20 +59,23 @@ class _Visitor extends GeneralizingAstVisitor<void> {
     }
   }
 
-  Expression? _extractExpression(FunctionBody body) {
-    if (body is ExpressionFunctionBody) {
-      return body.expression;
+  Set<String> _getParentFields(DartType? classType) {
+    // ignore: deprecated_member_use
+    final element = classType?.element2;
+    if (element is! ClassElement) {
+      return {};
     }
 
-    if (body is BlockFunctionBody) {
-      final returnStatement = body.block.statements
-          .firstWhereOrNull((statement) => statement is ReturnStatement);
-      if (returnStatement is ReturnStatement) {
-        return returnStatement.expression;
-      }
-    }
-
-    return null;
+    return element.fields
+        .where(
+          (field) =>
+              !field.isStatic &&
+              !field.isConst &&
+              !field.isPrivate &&
+              field.name != 'hashCode',
+        )
+        .map((field) => field.name)
+        .toSet();
   }
 
   bool _isEquatableOrSubclass(DartType? type) =>
@@ -70,6 +86,29 @@ class _Visitor extends GeneralizingAstVisitor<void> {
 
   bool _isEquatable(DartType? type) =>
       type?.getDisplayString(withNullability: false) == 'Equatable';
+
+  bool _isEquatableMixin(DartType? type) =>
+      // ignore: deprecated_member_use
+      type?.element2 is MixinElement &&
+      type?.getDisplayString(withNullability: false) == 'EquatableMixin';
+
+  bool _isSubclassOfEquatableMixin(DartType? type) {
+    // ignore: deprecated_member_use
+    final element = type?.element2;
+
+    return element is ClassElement && element.mixins.any(_isEquatableMixin);
+  }
+}
+
+class _ListLiteralVisitor extends RecursiveAstVisitor<void> {
+  final literals = <ListLiteral>{};
+
+  @override
+  void visitListLiteral(ListLiteral node) {
+    super.visitListLiteral(node);
+
+    literals.add(node);
+  }
 }
 
 class _DeclarationInfo {
