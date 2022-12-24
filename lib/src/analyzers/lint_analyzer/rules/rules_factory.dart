@@ -1,6 +1,7 @@
 import 'models/rule.dart';
 import 'rules_list/always_remove_listener/always_remove_listener_rule.dart';
 import 'rules_list/arguments_ordering/arguments_ordering_rule.dart';
+import 'rules_list/avoid_async_setstate/avoid_async_setstate_rule.dart';
 import 'rules_list/avoid_banned_imports/avoid_banned_imports_rule.dart';
 import 'rules_list/avoid_border_all/avoid_border_all_rule.dart';
 import 'rules_list/avoid_cascade_after_if_null/avoid_cascade_after_if_null_rule.dart';
@@ -102,6 +103,7 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   AvoidTopLevelMembersInTestsRule.ruleId: AvoidTopLevelMembersInTestsRule.new,
   AvoidUnnecessaryConditionalsRule.ruleId: AvoidUnnecessaryConditionalsRule.new,
   AvoidUnnecessarySetStateRule.ruleId: AvoidUnnecessarySetStateRule.new,
+  AvoidAsyncSetStateRule.ruleId: AvoidAsyncSetStateRule.new,
   AvoidUnnecessaryTypeAssertionsRule.ruleId:
       AvoidUnnecessaryTypeAssertionsRule.new,
   AvoidUnnecessaryTypeCastsRule.ruleId: AvoidUnnecessaryTypeCastsRule.new,
