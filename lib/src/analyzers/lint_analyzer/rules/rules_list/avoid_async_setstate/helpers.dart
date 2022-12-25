@@ -1,43 +1,43 @@
 part of 'avoid_async_setstate_rule.dart';
 
 @pragma('vm:prefer-inline')
-bool _isIdentifier(Expression expr, String ident) =>
-    expr is Identifier && expr.name == ident;
+bool _isIdentifier(Expression node, String ident) =>
+    node is Identifier && node.name == ident;
 
 @pragma('vm:prefer-inline')
-bool _isDivergent(Statement stmt) =>
-    stmt is ReturnStatement ||
-    stmt is ExpressionStatement && stmt.expression is ThrowExpression;
+bool _isDivergent(Statement node) =>
+    node is ReturnStatement ||
+    node is ExpressionStatement && node.expression is ThrowExpression;
 
-Expression _thisOr(Expression expr) {
-  if (expr is PropertyAccess && expr.target is ThisExpression) {
-    return expr.propertyName;
+Expression _thisOr(Expression node) {
+  if (node is PropertyAccess && node.target is ThisExpression) {
+    return node.propertyName;
   }
 
-  return expr;
+  return node;
 }
 
 /// If null, the check was not indicative of whether mounted was true.
-bool? _extractMountedCheck(Expression cond) {
+bool? _extractMountedCheck(Expression condition) {
   // ![this.]mounted
-  if (cond is PrefixExpression &&
-      cond.operator.type == TokenType.BANG &&
-      _isIdentifier(_thisOr(cond.operand), 'mounted')) {
+  if (condition is PrefixExpression &&
+      condition.operator.type == TokenType.BANG &&
+      _isIdentifier(_thisOr(condition.operand), 'mounted')) {
     return false;
   }
 
   // [this.]mounted
-  if (_isIdentifier(_thisOr(cond), 'mounted')) {
+  if (_isIdentifier(_thisOr(condition), 'mounted')) {
     return true;
   }
 
   return null;
 }
 
-bool _blockDiverges(Statement blk) {
-  if (blk is! Block) {
-    return _isDivergent(blk);
+bool _blockDiverges(Statement block) {
+  if (block is! Block) {
+    return _isDivergent(block);
   }
 
-  return blk.statements.any(_isDivergent);
+  return block.statements.any(_isDivergent);
 }

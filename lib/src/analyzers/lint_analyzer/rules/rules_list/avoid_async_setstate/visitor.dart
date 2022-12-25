@@ -56,13 +56,13 @@ class _AsyncSetStateVisitor extends RecursiveAstVisitor<void> {
     node.thenStatement.visitChildren(this);
 
     var elseDiverges = false;
-    final elseStmt = node.elseStatement;
-    if (elseStmt != null) {
+    final elseStatement = node.elseStatement;
+    if (elseStatement != null) {
       if (newMounted != null) {
-        elseDiverges = _blockDiverges(elseStmt);
+        elseDiverges = _blockDiverges(elseStatement);
         shouldBeMounted = !shouldBeMounted;
       }
-      elseStmt.visitChildren(this);
+      elseStatement.visitChildren(this);
       if (newMounted != null) {
         shouldBeMounted = !shouldBeMounted;
       }
