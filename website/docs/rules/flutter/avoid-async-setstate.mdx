@@ -11,7 +11,7 @@ that the widget has been unmounted needs to be checked before calling [`setState
 Consider storing Futures directly in your state and use [`FutureBuilder`](https://api.flutter.dev/flutter/widgets/FutureBuilder-class.html)
 to unwrap them.
 
-If not possible, you can also check for [`mounted`] to only update state when the widget is still mounted. However, an effective fix usually
+If this is not possible, you can also check for [`mounted`] to only update state when the widget is still mounted. However, an effective fix usually
 does not make use of [`mounted`], but rather revolves around refactoring your states.
 
 :::info
@@ -59,6 +59,29 @@ class _MyWidgetState extends State<MyWidget> {
         setState(() {
           message = fromServer;
         });
+      },
+      child: Text(message),
+    );
+  }
+}
+```
+
+**✅ Good:**
+
+```dart
+class _MyWidgetState extends State<MyWidget> {
+  String message;
+
+  @override
+  Widget build(BuildContext context) {
+    return Button(
+      onPressed: () async {
+        String fromServer = await fetch(...);
+        if (mounted) {
+          setState(() {
+            message = fromServer;
+          });
+        }
       },
       child: Text(message),
     );
