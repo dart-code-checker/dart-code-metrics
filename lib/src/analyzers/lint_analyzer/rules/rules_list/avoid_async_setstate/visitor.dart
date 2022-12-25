@@ -11,11 +11,16 @@ class _Visitor extends RecursiveAstVisitor<void> {
   }
 
   @override
-  void visitBlock(Block node) {
-    final visitor = _AsyncSetStateVisitor();
-    node.visitChildren(visitor);
+  void visitBlockFunctionBody(BlockFunctionBody node) {
+    if (node.isAsynchronous) {
+      final visitor = _AsyncSetStateVisitor();
+      node.visitChildren(visitor);
+      nodes.addAll(visitor.nodes);
 
-    nodes.addAll(visitor.nodes);
+      return;
+    }
+
+    node.visitChildren(this);
   }
 }
 
@@ -78,7 +83,7 @@ class _AsyncSetStateVisitor extends RecursiveAstVisitor<void> {
     shouldBeMounted = newMounted ?? shouldBeMounted;
     node.body.visitChildren(this);
 
-    shouldBeMounted = _blockDiverges(node.body) && newMounted != null
+    shouldBeMounted = newMounted != null && _blockDiverges(node.body)
         ? !shouldBeMounted
         : oldMounted;
   }
