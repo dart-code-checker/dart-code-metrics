@@ -16,12 +16,11 @@ does not make use of [`mounted`], but rather revolves around refactoring your st
 
 :::info
 
-Only these conditionals are considered for mounted-ness:
+Only these patterns are considered for mounted-ness:
 
-- `if ([this.]mounted)`
-- `if (![this.]mounted)`
-- `while ([this.]mounted)`
-- `while (![this.]mounted)`
+- `if (mounted)`
+- `if (!mounted)`
+- `if (mounted && ..)`
 
 If a `!mounted` check diverges, i.e. ends in a `return` or `throw`, the outer scope is considered mounted and vice versa:
 

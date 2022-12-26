@@ -5,22 +5,11 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
   @override
   void visitClassDeclaration(ClassDeclaration node) {
-    if (node.extendsClause?.superclass.name.name == 'State') {
-      node.visitChildren(this);
-    }
-  }
-
-  @override
-  void visitBlockFunctionBody(BlockFunctionBody node) {
-    if (node.isAsynchronous) {
+    if (isWidgetStateOrSubclass(node.extendsClause?.superclass.type)) {
       final visitor = _AsyncSetStateVisitor();
       node.visitChildren(visitor);
       nodes.addAll(visitor.nodes);
-
-      return;
     }
-
-    node.visitChildren(this);
   }
 }
 
@@ -29,9 +18,17 @@ class _AsyncSetStateVisitor extends RecursiveAstVisitor<void> {
   final nodes = <SimpleIdentifier>[];
 
   @override
+  void visitBlockFunctionBody(BlockFunctionBody node) {
+    final oldMounted = shouldBeMounted;
+    shouldBeMounted = true;
+    node.visitChildren(this);
+    shouldBeMounted = oldMounted;
+  }
+
+  @override
   void visitAwaitExpression(AwaitExpression node) {
     shouldBeMounted = false;
-    node.visitChildren(this);
+    super.visitAwaitExpression(node);
   }
 
   @override
@@ -43,13 +40,12 @@ class _AsyncSetStateVisitor extends RecursiveAstVisitor<void> {
       nodes.add(node.methodName);
     }
 
-    node.visitChildren(this);
+    super.visitMethodInvocation(node);
   }
 
   @override
   void visitIfStatement(IfStatement node) {
     node.condition.visitChildren(this);
-
     final oldMounted = shouldBeMounted;
     final newMounted = _extractMountedCheck(node.condition);
     shouldBeMounted = newMounted ?? shouldBeMounted;

@@ -25,7 +25,7 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startLines: [6, 11, 18, 33, 41],
+        startLines: [6, 11, 18, 33, 48],
         startColumns: [10, 7, 7, 5, 9],
         locationTexts: [
           'setState',

@@ -31,6 +31,13 @@ class _FooState extends State<StatefulWidget> {
       return;
     }
     setState(() {}); // LINT
+
+    if (mounted && foo) {
+      setState(() {});
+    }
+
+    if (foo && !this.mounted) return;
+    setState(() {});
   }
 
   Widget build(context) {
@@ -45,3 +52,5 @@ class _FooState extends State<StatefulWidget> {
     );
   }
 }
+
+class State {}

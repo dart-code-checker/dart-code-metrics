@@ -1,5 +1,29 @@
 part of 'avoid_async_setstate_rule.dart';
 
+/// If null, the check was not indicative of whether mounted was true.
+bool? _extractMountedCheck(Expression node) {
+  // ![this.]mounted
+  if (node is PrefixExpression &&
+      node.operator.type == TokenType.BANG &&
+      _isIdentifier(_thisOr(node.operand), 'mounted')) {
+    return false;
+  }
+
+  // [this.]mounted
+  if (_isIdentifier(_thisOr(node), 'mounted')) {
+    return true;
+  }
+
+  // mounted && ..
+  if (node is BinaryExpression &&
+      node.operator.type == TokenType.AMPERSAND_AMPERSAND) {
+    return _extractMountedCheck(node.leftOperand) ??
+        _extractMountedCheck(node.rightOperand);
+  }
+
+  return null;
+}
+
 @pragma('vm:prefer-inline')
 bool _isIdentifier(Expression node, String ident) =>
     node is Identifier && node.name == ident;
@@ -9,35 +33,11 @@ bool _isDivergent(Statement node) =>
     node is ReturnStatement ||
     node is ExpressionStatement && node.expression is ThrowExpression;
 
-Expression _thisOr(Expression node) {
-  if (node is PropertyAccess && node.target is ThisExpression) {
-    return node.propertyName;
-  }
+@pragma('vm:prefer-inline')
+Expression _thisOr(Expression node) =>
+    node is PropertyAccess && node.target is ThisExpression
+        ? node.propertyName
+        : node;
 
-  return node;
-}
-
-/// If null, the check was not indicative of whether mounted was true.
-bool? _extractMountedCheck(Expression condition) {
-  // ![this.]mounted
-  if (condition is PrefixExpression &&
-      condition.operator.type == TokenType.BANG &&
-      _isIdentifier(_thisOr(condition.operand), 'mounted')) {
-    return false;
-  }
-
-  // [this.]mounted
-  if (_isIdentifier(_thisOr(condition), 'mounted')) {
-    return true;
-  }
-
-  return null;
-}
-
-bool _blockDiverges(Statement block) {
-  if (block is! Block) {
-    return _isDivergent(block);
-  }
-
-  return block.statements.any(_isDivergent);
-}
+bool _blockDiverges(Statement block) =>
+    block is Block ? block.statements.any(_isDivergent) : _isDivergent(block);
