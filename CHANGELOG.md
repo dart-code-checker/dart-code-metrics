@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* feat: support ignoring nesting for [`prefer-conditional-expressions`](https://dartcodemetrics.dev/docs/rules/common/prefer-conditional-expressions).
+
 ## 5.3.0
 
 * feat: add static code diagnostic [`list-all-equatable-fields`](https://dartcodemetrics.dev/docs/rules/common/list-all-equatable-fields).

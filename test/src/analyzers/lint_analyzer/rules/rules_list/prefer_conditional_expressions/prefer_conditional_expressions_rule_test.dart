@@ -5,6 +5,8 @@ import 'package:test/test.dart';
 import '../../../../../helpers/rule_test_helper.dart';
 
 const _examplePath = 'prefer_conditional_expressions/examples/example.dart';
+const _nestedExamplePath =
+    'prefer_conditional_expressions/examples/nested_example.dart';
 
 void main() {
   group('PreferConditionalExpressionsRule', () {
@@ -136,6 +138,14 @@ void main() {
           'Convert to conditional expression.',
         ],
       );
+    });
+
+    test('reports no issues for nested conditionals', () async {
+      final unit = await RuleTestHelper.resolveFromFile(_nestedExamplePath);
+      final issues =
+          PreferConditionalExpressionsRule({'ignore-nested': true}).check(unit);
+
+      RuleTestHelper.verifyNoIssues(issues);
     });
   });
 }
