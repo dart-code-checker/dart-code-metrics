@@ -12,3 +12,8 @@ class GetIt {
 
   T call<T extends Object>() => get<T>;
 }
+
+enum AnotherEnum {
+  firstValue,
+  anotherValue,
+}

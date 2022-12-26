@@ -56,3 +56,10 @@ class Theme {
 }
 
 String getValue() => 'hello';
+
+enum SomeValue {
+  firstValue,
+  secondValue,
+  entry1,
+  entry2,
+}
