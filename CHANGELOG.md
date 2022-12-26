@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* fix: correctly handle FunctionExpressions for [`avoid-redundant-async`](https://dartcodemetrics.dev/docs/rules/common/avoid-redundant-async).
+
 ## 5.3.0
 
 * feat: add static code diagnostic [`list-all-equatable-fields`](https://dartcodemetrics.dev/docs/rules/common/list-all-equatable-fields).

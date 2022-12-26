@@ -44,3 +44,19 @@ class SomeClass {
     }
   }
 }
+
+class WithFunctionField {
+  final Function(void) onSelected;
+  final Function(void) onSelectedNamed;
+
+  const WithFunctionField(this.onSelected, {required this.onSelectedNamed});
+}
+
+void main() {
+  final instance = SomeClass();
+
+  WithFunctionField(
+    () async => instance.someAsyncMethod(), // LINT
+    onSelectedNamed: () async => instance.someAsyncMethod(); // LINT
+  )
+}
