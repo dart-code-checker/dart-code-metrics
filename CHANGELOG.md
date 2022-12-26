@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* fix: ignore Providers for ['avoid-returning-widgets'](https://dartcodemetrics.dev/docs/rules/common/avoid-returning-widgets).
+
 ## 5.3.0
 
 * feat: add static code diagnostic [`list-all-equatable-fields`](https://dartcodemetrics.dev/docs/rules/common/list-all-equatable-fields).
