@@ -57,6 +57,6 @@ void main() {
 
   WithFunctionField(
     () async => instance.someAsyncMethod(), // LINT
-    onSelectedNamed: () async => instance.someAsyncMethod(); // LINT
-  )
+    onSelectedNamed: () async => instance.someAsyncMethod(), // LINT
+  );
 }
