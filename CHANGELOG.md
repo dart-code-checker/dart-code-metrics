@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* feat: ignore tear-off methods for [`avoid-unused-parameters`](https://dartcodemetrics.dev/docs/rules/common/avoid-unused-parameters).
+
 ## 5.3.0
 
 * feat: add static code diagnostic [`list-all-equatable-fields`](https://dartcodemetrics.dev/docs/rules/common/list-all-equatable-fields).
