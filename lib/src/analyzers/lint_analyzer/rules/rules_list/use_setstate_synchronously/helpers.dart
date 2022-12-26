@@ -1,4 +1,4 @@
-part of 'avoid_async_setstate_rule.dart';
+part of 'use_setstate_synchronously_rule.dart';
 
 /// If null, the check was not indicative of whether mounted was true.
 bool? _extractMountedCheck(Expression node) {

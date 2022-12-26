@@ -11,15 +11,15 @@ import '../../../models/severity.dart';
 import '../../models/flutter_rule.dart';
 import '../../rule_utils.dart';
 
-part 'visitor.dart';
 part 'helpers.dart';
+part 'visitor.dart';
 
-class AvoidAsyncSetStateRule extends FlutterRule {
-  static const ruleId = 'avoid-async-setstate';
+class UseSetStateSynchronouslyRule extends FlutterRule {
+  static const ruleId = 'use-setstate-synchronously';
   static const _warning =
       "Avoid calling 'setState' past an await point without checking if the widget is mounted.";
 
-  AvoidAsyncSetStateRule([Map<String, Object> options = const {}])
+  UseSetStateSynchronouslyRule([Map<String, Object> options = const {}])
       : super(
           id: ruleId,
           severity: readSeverity(options, Severity.warning),

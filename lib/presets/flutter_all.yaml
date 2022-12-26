@@ -7,7 +7,7 @@ dart_code_metrics:
     - avoid-unnecessary-setstate
     - avoid-expanded-as-spacer
     - avoid-wrapping-in-padding
-    - avoid-async-setstate
+    - use-setstate-synchronously
     - check-for-equals-in-render-object-setters
     - consistent-update-render-object
     - prefer-const-border-radius

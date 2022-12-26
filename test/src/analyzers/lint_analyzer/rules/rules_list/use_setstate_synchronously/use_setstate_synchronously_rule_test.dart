@@ -1,27 +1,27 @@
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
-import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/avoid_async_setstate/avoid_async_setstate_rule.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/use_setstate_synchronously/use_setstate_synchronously_rule.dart';
 import 'package:test/test.dart';
 
 import '../../../../../helpers/rule_test_helper.dart';
 
-const _examplePath = 'avoid_async_setstate/examples/example.dart';
+const _examplePath = 'use_setstate_synchronously/examples/example.dart';
 
 void main() {
-  group('AvoidAsyncSetStateRule', () {
+  group('UseSetStateSynchronouslyTest', () {
     test('initialization', () async {
       final unit = await RuleTestHelper.resolveFromFile(_examplePath);
-      final issues = AvoidAsyncSetStateRule().check(unit);
+      final issues = UseSetStateSynchronouslyRule().check(unit);
 
       RuleTestHelper.verifyInitialization(
         issues: issues,
-        ruleId: 'avoid-async-setstate',
+        ruleId: 'use-setstate-synchronously',
         severity: Severity.warning,
       );
     });
 
     test('reports about found issues', () async {
       final unit = await RuleTestHelper.resolveFromFile(_examplePath);
-      final issues = AvoidAsyncSetStateRule().check(unit);
+      final issues = UseSetStateSynchronouslyRule().check(unit);
 
       RuleTestHelper.verifyIssues(
         issues: issues,

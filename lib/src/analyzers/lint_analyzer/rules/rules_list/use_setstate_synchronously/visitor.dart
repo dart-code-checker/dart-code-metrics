@@ -1,4 +1,4 @@
-part of 'avoid_async_setstate_rule.dart';
+part of 'use_setstate_synchronously_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
   final nodes = <SimpleIdentifier>[];
