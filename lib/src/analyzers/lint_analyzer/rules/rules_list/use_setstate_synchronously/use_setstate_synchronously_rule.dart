@@ -13,15 +13,17 @@ import '../../rule_utils.dart';
 
 part 'fact.dart';
 part 'helpers.dart';
+part 'config.dart';
 part 'visitor.dart';
 
 class UseSetStateSynchronouslyRule extends FlutterRule {
   static const ruleId = 'use-setstate-synchronously';
-  static const _warning =
-      "Avoid calling 'setState' past an await point without checking if the widget is mounted.";
+
+  Set<String> methods;
 
   UseSetStateSynchronouslyRule([Map<String, Object> options = const {}])
-      : super(
+      : methods = readMethods(options),
+        super(
           id: ruleId,
           severity: readSeverity(options, Severity.warning),
           excludes: readExcludes(options),
@@ -30,14 +32,15 @@ class UseSetStateSynchronouslyRule extends FlutterRule {
 
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
-    final visitor = _Visitor();
+    final visitor = _Visitor(methods: methods);
     source.unit.visitChildren(visitor);
 
     return visitor.nodes
         .map((node) => createIssue(
               rule: this,
               location: nodeLocation(node: node, source: source),
-              message: _warning,
+              message: "Avoid calling '${node.name}' past an await point "
+                  'without checking if the widget is mounted.',
             ))
         .toList(growable: false);
   }

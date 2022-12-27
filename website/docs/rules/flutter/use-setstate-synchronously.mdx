@@ -1,6 +1,6 @@
 import RuleDetails from '@site/src/components/RuleDetails';
 
-<RuleDetails version="UNRELEASED" severity="warning" />
+<RuleDetails version="UNRELEASED" severity="warning" hasConfig />
 
 Warns when [`setState`] is called past an *await point* (also known as asynchronous gap) within a subclass of State.
 
@@ -41,6 +41,21 @@ Additional resources:
 - <https://stackoverflow.com/questions/49340116/setstate-called-after-dispose>
 - [`use_build_context_synchronously`](https://dart-lang.github.io/linter/lints/use_build_context_synchronously.html),
   a lint that checks for async usages of `BuildContext`
+
+### ⚙️ Config example {#config-example}
+
+```yaml
+dart_code_metrics:
+  ...
+  rules:
+    ...
+    - use-setstate-synchronously:
+        methods:
+          - setState
+          - yourMethod
+```
+
+configures the methods `setState` and `yourMethod` to be scanned for unchecked async calls.
 
 ### Example {#example}
 
