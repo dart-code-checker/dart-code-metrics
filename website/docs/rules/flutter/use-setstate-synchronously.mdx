@@ -21,6 +21,7 @@ Only these patterns are considered for mounted-ness:
 - `if (mounted)`
 - `if (!mounted)`
 - `if (mounted && ..)`
+- `if (!mounted || ..) return;`
 
 If a `!mounted` check diverges, i.e. ends in a `return` or `throw`, the outer scope is considered mounted and vice versa:
 

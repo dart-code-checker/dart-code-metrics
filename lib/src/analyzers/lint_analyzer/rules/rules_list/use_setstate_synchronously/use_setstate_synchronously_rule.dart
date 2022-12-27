@@ -11,6 +11,7 @@ import '../../../models/severity.dart';
 import '../../models/flutter_rule.dart';
 import '../../rule_utils.dart';
 
+part 'fact.dart';
 part 'helpers.dart';
 part 'visitor.dart';
 

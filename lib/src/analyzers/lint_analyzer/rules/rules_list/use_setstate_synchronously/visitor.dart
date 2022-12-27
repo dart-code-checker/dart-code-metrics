@@ -14,27 +14,29 @@ class _Visitor extends RecursiveAstVisitor<void> {
 }
 
 class _AsyncSetStateVisitor extends RecursiveAstVisitor<void> {
-  bool shouldBeMounted = true;
+  MountedFact mounted = true.asFact();
+  bool inFlow = false;
   final nodes = <SimpleIdentifier>[];
 
   @override
   void visitBlockFunctionBody(BlockFunctionBody node) {
-    final oldMounted = shouldBeMounted;
-    shouldBeMounted = true;
+    final oldMounted = mounted;
+    mounted = true.asFact();
     node.visitChildren(this);
-    shouldBeMounted = oldMounted;
+    mounted = oldMounted;
   }
 
   @override
   void visitAwaitExpression(AwaitExpression node) {
-    shouldBeMounted = false;
+    mounted = false.asFact();
     super.visitAwaitExpression(node);
   }
 
   @override
   void visitMethodInvocation(MethodInvocation node) {
     // [this.]setState()
-    if (!shouldBeMounted &&
+    final mounted_ = mounted.value ?? false;
+    if (!mounted_ &&
         node.methodName.name == 'setState' &&
         node.target is ThisExpression?) {
       nodes.add(node.methodName);
@@ -46,41 +48,41 @@ class _AsyncSetStateVisitor extends RecursiveAstVisitor<void> {
   @override
   void visitIfStatement(IfStatement node) {
     node.condition.visitChildren(this);
-    final oldMounted = shouldBeMounted;
+    final oldMounted = mounted;
     final newMounted = _extractMountedCheck(node.condition);
-    shouldBeMounted = newMounted ?? shouldBeMounted;
+
+    mounted = newMounted.or(mounted);
+    final beforeThen = mounted;
     node.thenStatement.visitChildren(this);
+    final afterThen = mounted;
 
     var elseDiverges = false;
     final elseStatement = node.elseStatement;
     if (elseStatement != null) {
-      if (newMounted != null) {
-        elseDiverges = _blockDiverges(elseStatement);
-        shouldBeMounted = !shouldBeMounted;
-      }
+      elseDiverges = _blockDiverges(elseStatement);
+      mounted = _tryInvert(newMounted);
       elseStatement.visitChildren(this);
-      if (newMounted != null) {
-        shouldBeMounted = !shouldBeMounted;
-      }
     }
 
-    if (newMounted != null && _blockDiverges(node.thenStatement)) {
-      shouldBeMounted = !shouldBeMounted;
-    } else if (!elseDiverges) {
-      shouldBeMounted = oldMounted;
+    if (_blockDiverges(node.thenStatement)) {
+      mounted = _tryInvert(newMounted);
+    } else if (elseDiverges) {
+      mounted = beforeThen != afterThen
+          ? afterThen
+          : _extractMountedCheck(node.condition, permitAnd: false);
+    } else {
+      mounted = oldMounted;
     }
   }
 
   @override
   void visitWhileStatement(WhileStatement node) {
     node.condition.visitChildren(this);
-    final oldMounted = shouldBeMounted;
+    final oldMounted = mounted;
     final newMounted = _extractMountedCheck(node.condition);
-    shouldBeMounted = newMounted ?? shouldBeMounted;
+    mounted = newMounted.or(mounted);
     node.body.visitChildren(this);
 
-    shouldBeMounted = newMounted != null && _blockDiverges(node.body)
-        ? !shouldBeMounted
-        : oldMounted;
+    mounted = _blockDiverges(node.body) ? _tryInvert(newMounted) : oldMounted;
   }
 }

@@ -1,27 +1,83 @@
+// ignore_for_file: parameter_assignments
+
 part of 'use_setstate_synchronously_rule.dart';
 
-/// If null, the check was not indicative of whether mounted was true.
-bool? _extractMountedCheck(Expression node) {
+typedef MountedFact = Fact<BinaryExpression>;
+
+extension on BinaryExpression {
+  bool get isOr => operator.type == TokenType.BAR_BAR;
+  bool get isAnd => operator.type == TokenType.AMPERSAND_AMPERSAND;
+}
+
+MountedFact _extractMountedCheck(
+  Expression node, {
+  bool permitAnd = true,
+  bool expandOr = false,
+}) {
   // ![this.]mounted
   if (node is PrefixExpression &&
       node.operator.type == TokenType.BANG &&
       _isIdentifier(_thisOr(node.operand), 'mounted')) {
-    return false;
+    return false.asFact();
   }
 
   // [this.]mounted
   if (_isIdentifier(_thisOr(node), 'mounted')) {
-    return true;
+    return true.asFact();
   }
 
-  // mounted && ..
-  if (node is BinaryExpression &&
-      node.operator.type == TokenType.AMPERSAND_AMPERSAND) {
-    return _extractMountedCheck(node.leftOperand) ??
-        _extractMountedCheck(node.rightOperand);
+  if (node is BinaryExpression) {
+    final right = node.rightOperand;
+    // mounted && ..
+    if (node.isAnd && permitAnd) {
+      return _extractMountedCheck(node.leftOperand)
+          .orElse(() => _extractMountedCheck(right));
+    }
+
+    if (node.isOr) {
+      if (!expandOr) {
+        // Or-chains don't indicate anything in the then-branch yet,
+        // but may yield information for the else-branch or divergence analysis.
+        return Fact.maybe(node);
+      }
+
+      return _extractMountedCheck(
+        node.leftOperand,
+        expandOr: expandOr,
+        permitAnd: permitAnd,
+      ).orElse(() => _extractMountedCheck(
+            right,
+            expandOr: expandOr,
+            permitAnd: permitAnd,
+          ));
+    }
   }
 
-  return null;
+  return const Fact.maybe();
+}
+
+/// If [fact] is indeterminate, try to recover a fact from its metadata.
+MountedFact _tryInvert(MountedFact fact) {
+  final node = fact.info;
+
+  // a || b
+  if (node != null && node.isOr) {
+    return _extractMountedCheck(
+      node.leftOperand,
+      expandOr: true,
+      permitAnd: false,
+    )
+        .orElse(
+          () => _extractMountedCheck(
+            node.rightOperand,
+            expandOr: true,
+            permitAnd: false,
+          ),
+        )
+        .not;
+  }
+
+  return fact.not;
 }
 
 @pragma('vm:prefer-inline')

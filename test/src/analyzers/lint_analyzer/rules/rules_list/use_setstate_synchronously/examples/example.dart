@@ -38,6 +38,30 @@ class _FooState extends State<StatefulWidget> {
 
     if (foo && !this.mounted) return;
     setState(() {});
+
+    await fetch();
+    if (!mounted || foo || foo) return;
+    setState(() {});
+
+    await fetch();
+    if (mounted && foo || foo) {
+      setState(() {}); // LINT
+    }
+
+    if (!mounted && foo || foo) return;
+    setState(() {}); // LINT
+
+    if (mounted && foo) {
+    } else {
+      return;
+    }
+    setState(() {}); // LINT
+
+    if (!mounted || foo || foo) {
+    } else {
+      return;
+    }
+    setState(() {}); // LINT
   }
 
   Widget build(context) {
