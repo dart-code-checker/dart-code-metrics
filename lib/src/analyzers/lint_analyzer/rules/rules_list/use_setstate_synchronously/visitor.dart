@@ -6,25 +6,21 @@ class _Visitor extends RecursiveAstVisitor<void> {
   @override
   void visitClassDeclaration(ClassDeclaration node) {
     if (isWidgetStateOrSubclass(node.extendsClause?.superclass.type)) {
-      final visitor = _AsyncSetStateVisitor();
-      node.visitChildren(visitor);
-      nodes.addAll(visitor.nodes);
+      node.visitChildren(this);
     }
+  }
+
+  @override
+  void visitBlockFunctionBody(BlockFunctionBody node) {
+    final visitor = _AsyncSetStateVisitor();
+    node.visitChildren(visitor);
+    nodes.addAll(visitor.nodes);
   }
 }
 
 class _AsyncSetStateVisitor extends RecursiveAstVisitor<void> {
   MountedFact mounted = true.asFact();
-  bool inFlow = false;
   final nodes = <SimpleIdentifier>[];
-
-  @override
-  void visitBlockFunctionBody(BlockFunctionBody node) {
-    final oldMounted = mounted;
-    mounted = true.asFact();
-    node.visitChildren(this);
-    mounted = oldMounted;
-  }
 
   @override
   void visitAwaitExpression(AwaitExpression node) {
@@ -60,12 +56,12 @@ class _AsyncSetStateVisitor extends RecursiveAstVisitor<void> {
     final elseStatement = node.elseStatement;
     if (elseStatement != null) {
       elseDiverges = _blockDiverges(elseStatement);
-      mounted = _tryInvert(newMounted);
+      mounted = _tryInvert(newMounted).or(mounted);
       elseStatement.visitChildren(this);
     }
 
     if (_blockDiverges(node.thenStatement)) {
-      mounted = _tryInvert(newMounted);
+      mounted = _tryInvert(newMounted).or(beforeThen);
     } else if (elseDiverges) {
       mounted = beforeThen != afterThen
           ? afterThen
