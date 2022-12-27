@@ -5,6 +5,7 @@ import 'package:test/test.dart';
 import '../../../../../helpers/rule_test_helper.dart';
 
 const _examplePath = 'use_setstate_synchronously/examples/example.dart';
+const _issuesPath = 'use_setstate_synchronously/examples/known_errors.dart';
 
 void main() {
   group('UseSetStateSynchronouslyTest', () {
@@ -47,6 +48,21 @@ void main() {
           "Avoid calling 'setState' past an await point without checking if the widget is mounted.",
           "Avoid calling 'setState' past an await point without checking if the widget is mounted.",
           "Avoid calling 'setState' past an await point without checking if the widget is mounted.",
+          "Avoid calling 'setState' past an await point without checking if the widget is mounted.",
+        ],
+      );
+    });
+
+    test('reports known issues', () async {
+      final unit = await RuleTestHelper.resolveFromFile(_issuesPath);
+      final issues = UseSetStateSynchronouslyRule().check(unit);
+
+      RuleTestHelper.verifyIssues(
+        issues: issues,
+        startLines: [4],
+        startColumns: [5],
+        locationTexts: ['setState'],
+        messages: [
           "Avoid calling 'setState' past an await point without checking if the widget is mounted.",
         ],
       );
