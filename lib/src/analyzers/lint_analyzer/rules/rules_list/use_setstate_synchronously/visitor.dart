@@ -16,7 +16,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
   @override
   void visitBlockFunctionBody(BlockFunctionBody node) {
     if (!node.isAsynchronous) {
-      return super.visitBlockFunctionBody(node);
+      return node.visitChildren(this);
     }
     final visitor = _AsyncSetStateVisitor(validateMethod: methods.contains);
     node.visitChildren(visitor);
@@ -31,6 +31,7 @@ class _AsyncSetStateVisitor extends RecursiveAstVisitor<void> {
   _AsyncSetStateVisitor({this.validateMethod = _noop});
 
   MountedFact mounted = true.asFact();
+  bool inAsync = true;
   final nodes = <SimpleIdentifier>[];
 
   @override
@@ -41,11 +42,15 @@ class _AsyncSetStateVisitor extends RecursiveAstVisitor<void> {
 
   @override
   void visitMethodInvocation(MethodInvocation node) {
+    if (!inAsync) {
+      return node.visitChildren(this);
+    }
+
     // [this.]setState()
     final mounted_ = mounted.value ?? false;
     if (!mounted_ &&
-        (node.target is ThisExpression?) &&
-        validateMethod(node.methodName.name)) {
+        validateMethod(node.methodName.name) &&
+        node.target is ThisExpression?) {
       nodes.add(node.methodName);
     }
 
@@ -54,6 +59,10 @@ class _AsyncSetStateVisitor extends RecursiveAstVisitor<void> {
 
   @override
   void visitIfStatement(IfStatement node) {
+    if (!inAsync) {
+      return node.visitChildren(this);
+    }
+
     node.condition.visitChildren(this);
     final oldMounted = mounted;
     final newMounted = _extractMountedCheck(node.condition);
@@ -84,6 +93,10 @@ class _AsyncSetStateVisitor extends RecursiveAstVisitor<void> {
 
   @override
   void visitWhileStatement(WhileStatement node) {
+    if (!inAsync) {
+      return node.visitChildren(this);
+    }
+
     node.condition.visitChildren(this);
     final oldMounted = mounted;
     final newMounted = _extractMountedCheck(node.condition);
@@ -91,5 +104,18 @@ class _AsyncSetStateVisitor extends RecursiveAstVisitor<void> {
     node.body.visitChildren(this);
 
     mounted = _blockDiverges(node.body) ? _tryInvert(newMounted) : oldMounted;
+  }
+
+  @override
+  void visitBlockFunctionBody(BlockFunctionBody node) {
+    final oldMounted = mounted;
+    final oldInAsync = inAsync;
+    mounted = true.asFact();
+    inAsync = node.isAsynchronous;
+
+    node.visitChildren(this);
+
+    mounted = oldMounted;
+    inAsync = oldInAsync;
   }
 }

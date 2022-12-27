@@ -75,6 +75,12 @@ class _FooState extends State<StatefulWidget> {
       },
     );
   }
+
+  void customConfig() async {
+    await fetch();
+    foobar(); // LINT
+    this.foobar(); // LINT
+  }
 }
 
 class State {}

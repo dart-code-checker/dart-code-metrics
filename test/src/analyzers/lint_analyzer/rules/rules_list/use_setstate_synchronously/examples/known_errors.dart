@@ -3,6 +3,11 @@ class _MyState extends State {
     await Future<void>.value();
     setState(() {}); // LINT
   }
+
+  void syncRegression() {
+    doStuff();
+    setState(() {});
+  }
 }
 
 class State {}

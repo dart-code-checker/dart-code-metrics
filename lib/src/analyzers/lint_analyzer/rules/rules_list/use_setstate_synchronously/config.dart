@@ -1,9 +1,9 @@
 part of 'use_setstate_synchronously_rule.dart';
 
 Set<String> readMethods(Map<String, Object> options) {
-  final fromConfig = options['methods'];
+  final methods = options['methods'];
 
-  return fromConfig is List
-      ? fromConfig.whereType<String>().toSet()
+  return methods != null && methods is Iterable
+      ? methods.whereType<String>().toSet()
       : {'setState'};
 }

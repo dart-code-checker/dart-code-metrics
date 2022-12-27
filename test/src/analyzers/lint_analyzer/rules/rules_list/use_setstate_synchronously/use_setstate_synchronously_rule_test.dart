@@ -67,5 +67,27 @@ void main() {
         ],
       );
     });
+
+    test('reports issues with custom config', () async {
+      final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+      final config = {
+        'methods': ['foobar'],
+      };
+      final issues = UseSetStateSynchronouslyRule(config).check(unit);
+
+      RuleTestHelper.verifyIssues(
+        issues: issues,
+        startLines: [81, 82],
+        startColumns: [5, 10],
+        locationTexts: [
+          'foobar',
+          'foobar',
+        ],
+        messages: [
+          "Avoid calling 'foobar' past an await point without checking if the widget is mounted.",
+          "Avoid calling 'foobar' past an await point without checking if the widget is mounted.",
+        ],
+      );
+    });
   });
 }
