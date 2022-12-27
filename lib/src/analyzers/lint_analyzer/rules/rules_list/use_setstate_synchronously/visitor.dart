@@ -12,6 +12,9 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
   @override
   void visitBlockFunctionBody(BlockFunctionBody node) {
+    if (!node.isAsynchronous) {
+      return super.visitBlockFunctionBody(node);
+    }
     final visitor = _AsyncSetStateVisitor();
     node.visitChildren(visitor);
     nodes.addAll(visitor.nodes);
