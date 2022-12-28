@@ -19,12 +19,9 @@ class _Visitor extends RecursiveAstVisitor<void> {
       return;
     }
 
-    final isOverride = node.metadata.any(
-      (node) =>
-          node.name.name == 'override' && node.atSign.type == TokenType.AT,
-    );
+    final isTearOff = _usedAsTearOff(node);
 
-    if (!isOverride) {
+    if (!isOverride(node.metadata) && !isTearOff) {
       _unusedParameters.addAll(
         _getUnusedParameters(
           node.body,
@@ -77,6 +74,18 @@ class _Visitor extends RecursiveAstVisitor<void> {
   bool _hasNoUnderscoresInName(FormalParameter parameter) =>
       parameter.name != null &&
       parameter.name!.lexeme.replaceAll('_', '').isNotEmpty;
+
+  bool _usedAsTearOff(MethodDeclaration node) {
+    final name = node.name.lexeme;
+    if (!Identifier.isPrivateName(name)) {
+      return false;
+    }
+
+    final visitor = _InvocationsVisitor(name);
+    node.root.visitChildren(visitor);
+
+    return visitor.hasTearOffInvocations;
+  }
 }
 
 class _IdentifiersVisitor extends RecursiveAstVisitor<void> {
@@ -90,5 +99,24 @@ class _IdentifiersVisitor extends RecursiveAstVisitor<void> {
     if (element != null) {
       elements.add(element);
     }
+  }
+}
+
+class _InvocationsVisitor extends RecursiveAstVisitor<void> {
+  final String methodName;
+
+  bool hasTearOffInvocations = false;
+
+  _InvocationsVisitor(this.methodName);
+
+  @override
+  void visitSimpleIdentifier(SimpleIdentifier node) {
+    if (node.name == methodName &&
+        node.staticElement is MethodElement &&
+        node.parent! is MethodInvocation) {
+      hasTearOffInvocations = true;
+    }
+
+    super.visitSimpleIdentifier(node);
   }
 }
