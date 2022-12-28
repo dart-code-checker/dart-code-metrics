@@ -17,6 +17,7 @@ abstract class Fact<T> {
       return value! ? false.asFact() : true.asFact();
     }
 
+    // ignore: avoid_returning_this
     return this;
   }
 
