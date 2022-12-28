@@ -3,6 +3,11 @@
 ## Unreleased
 
 * feat: ignore tear-off methods for [`avoid-unused-parameters`](https://dartcodemetrics.dev/docs/rules/common/avoid-unused-parameters).
+* feat: show warning for rules without config that require config to work.
+* fix: correctly handle FunctionExpressions for [`avoid-redundant-async`](https://dartcodemetrics.dev/docs/rules/common/avoid-redundant-async).
+* feat: support ignoring nesting for [`prefer-conditional-expressions`](https://dartcodemetrics.dev/docs/rules/common/prefer-conditional-expressions).
+* fix: ignore Providers for ['avoid-returning-widgets'](https://dartcodemetrics.dev/docs/rules/common/avoid-returning-widgets).
+* feat: add [`use-setstate-synchronously`](https://dartcodemetrics.dev/docs/rules/flutter/use-setstate-synchronously).
 
 ## 5.3.0
 

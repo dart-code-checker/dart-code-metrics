@@ -400,6 +400,7 @@ Rules are grouped by category to help you understand their purpose. Each rule ha
   severity="style"
   version="1.8.0"
   hasFix
+  hasConfig
 >
   Recommends to use a conditional expression instead of assigning to the same
   thing or return statement in each branch of an if statement.
@@ -595,6 +596,16 @@ Rules are grouped by category to help you understand their purpose. Each rule ha
   Warns when <code>setState</code> is called inside <code>initState</code>,{' '}
   <code>didUpdateWidget</code> or <code>build</code> methods and when it is
   called from a <code>sync</code> method that is called inside those methods.
+</RuleEntry>
+
+<RuleEntry
+  name="use-setstate-synchronously"
+  type="flutter"
+  severity="warning"
+  version="UNRELEASED"
+  hasConfig
+>
+  Warns when <code>setState</code> is called past an await point.
 </RuleEntry>
 
 <RuleEntry

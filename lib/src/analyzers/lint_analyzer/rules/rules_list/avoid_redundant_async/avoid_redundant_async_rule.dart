@@ -35,13 +35,15 @@ class AvoidRedundantAsyncRule extends CommonRule {
 
     source.unit.visitChildren(visitor);
 
-    return visitor.declarations.map((declaration) => createIssue(
-          rule: this,
-          location: nodeLocation(
-            node: declaration,
-            source: source,
-          ),
-          message: _warningMessage,
-        ));
+    return visitor.nodes.map(
+      (node) => createIssue(
+        rule: this,
+        location: nodeLocation(
+          node: node,
+          source: source,
+        ),
+        message: _warningMessage,
+      ),
+    );
   }
 }

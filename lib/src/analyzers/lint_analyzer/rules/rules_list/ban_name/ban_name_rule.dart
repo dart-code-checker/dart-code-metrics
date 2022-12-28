@@ -29,6 +29,9 @@ class BanNameRule extends CommonRule {
         );
 
   @override
+  bool get requiresConfig => true;
+
+  @override
   Map<String, Object?> toJson() {
     final json = super.toJson();
     json[_entriesLabel] = _entries.map((entry) => entry.toJson()).toList();

@@ -25,15 +25,19 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startLines: [12, 22],
-        startColumns: [1, 3],
+        startLines: [12, 22, 59, 60],
+        startColumns: [26, 3, 5, 22],
         locationTexts: [
-          'Future<int> fastestBranch(Future<int> left, Future<int> right) async {\n'
+          '(Future<int> left, Future<int> right) async {\n'
               '  return Future.any([left, right]);\n'
               '}',
           "Future<String> anotherAsyncMethod() async => Future.value('value');",
+          '() async => instance.someAsyncMethod()',
+          '() async => instance.someAsyncMethod()',
         ],
         messages: [
+          "'async' keyword is redundant, consider removing it.",
+          "'async' keyword is redundant, consider removing it.",
           "'async' keyword is redundant, consider removing it.",
           "'async' keyword is redundant, consider removing it.",
         ],

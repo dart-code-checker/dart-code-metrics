@@ -1,25 +1,25 @@
 part of 'avoid_redundant_async_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
-  final _declarations = <Declaration>[];
+  final _nodes = <AstNode>[];
 
-  Iterable<Declaration> get declarations => _declarations;
+  Iterable<AstNode> get nodes => _nodes;
 
   @override
   void visitMethodDeclaration(MethodDeclaration node) {
     super.visitMethodDeclaration(node);
 
     if (!isOverride(node.metadata) && _hasRedundantAsync(node.body)) {
-      _declarations.add(node);
+      _nodes.add(node);
     }
   }
 
   @override
-  void visitFunctionDeclaration(FunctionDeclaration node) {
-    super.visitFunctionDeclaration(node);
+  void visitFunctionExpression(FunctionExpression node) {
+    super.visitFunctionExpression(node);
 
-    if (_hasRedundantAsync(node.functionExpression.body)) {
-      _declarations.add(node);
+    if (_hasRedundantAsync(node.body)) {
+      _nodes.add(node);
     }
   }
 
