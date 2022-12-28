@@ -1,8 +1,21 @@
 import RuleDetails from '@site/src/components/RuleDetails';
 
-<RuleDetails version="1.8.0" severity="style" hasFix />
+<RuleDetails version="1.8.0" severity="style" hasFix hasConfig />
 
 Recommends to use a conditional expression instead of assigning to the same thing or return statement in each branch of an if statement.
+
+Use `ignore-nested` configuration, if you want to ignore cases with multiple nested conditional expressions (default is false).
+
+### ⚙️ Config example {#config-example}
+
+```yaml
+dart_code_metrics:
+  ...
+  rules:
+    ...
+    - prefer-conditional-expressions:
+        ignore-nested: true
+```
 
 ### Example {#example}
 

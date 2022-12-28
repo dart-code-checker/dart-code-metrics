@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* feat: support ignoring nesting for [`prefer-conditional-expressions`](https://dartcodemetrics.dev/docs/rules/common/prefer-conditional-expressions).
 * fix: ignore Providers for ['avoid-returning-widgets'](https://dartcodemetrics.dev/docs/rules/common/avoid-returning-widgets).
 * feat: add [`use-setstate-synchronously`](https://dartcodemetrics.dev/docs/rules/flutter/use-setstate-synchronously).
 
