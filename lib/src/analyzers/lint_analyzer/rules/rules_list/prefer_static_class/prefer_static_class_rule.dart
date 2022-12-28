@@ -27,9 +27,9 @@ class PreferStaticClassRule extends CommonRule {
   final Iterable<String> _ignoreAnnotations;
 
   PreferStaticClassRule([Map<String, Object> config = const {}])
-      : _ignorePrivate = _ConfigParser.getIgnorePrivate(config),
-        _ignoreAnnotations = _ConfigParser.getIgnoreAnnotations(config),
-        _ignoreNames = _ConfigParser.getIgnoreNames(config),
+      : _ignorePrivate = _ConfigParser.parseIgnorePrivate(config),
+        _ignoreAnnotations = _ConfigParser.parseIgnoreAnnotations(config),
+        _ignoreNames = _ConfigParser.parseIgnoreNames(config),
         super(
           id: ruleId,
           severity: readSeverity(config, Severity.style),
