@@ -5,23 +5,22 @@ class _ConfigParser {
   static const _ignoreNames = 'ignore-names';
   static const _ignoreAnnotations = 'ignore-annotations';
 
-  static const _defaultIgnorePrivate = false;
   static const _defaultIgnoreNames = <String>[];
   static const _defaultIgnoreAnnotations = [
     ...functionalWidgetAnnotations,
     'riverpod',
   ];
 
-  static bool getIgnorePrivate(Map<String, Object> config) =>
-      config[_ignorePrivate] as bool? ?? _defaultIgnorePrivate;
+  static bool parseIgnorePrivate(Map<String, Object> config) =>
+      config[_ignorePrivate] as bool? ?? false;
 
-  static Iterable<String> getIgnoreNames(Map<String, Object> config) =>
-      _getIterable(config, _ignoreNames) ?? _defaultIgnoreNames;
+  static Iterable<String> parseIgnoreNames(Map<String, Object> config) =>
+      _parseIterable(config, _ignoreNames) ?? _defaultIgnoreNames;
 
-  static Iterable<String> getIgnoreAnnotations(Map<String, Object> config) =>
-      _getIterable(config, _ignoreAnnotations) ?? _defaultIgnoreAnnotations;
+  static Iterable<String> parseIgnoreAnnotations(Map<String, Object> config) =>
+      _parseIterable(config, _ignoreAnnotations) ?? _defaultIgnoreAnnotations;
 
-  static Iterable<String>? _getIterable(
+  static Iterable<String>? _parseIterable(
     Map<String, Object> config,
     String name,
   ) =>

@@ -13,6 +13,7 @@ import '../../../models/severity.dart';
 import '../../models/common_rule.dart';
 import '../../rule_utils.dart';
 
+part 'config_parser.dart';
 part 'visitor.dart';
 
 // Inspired by TSLint (https://palantir.github.io/tslint/rules/prefer-conditional-expression/)
@@ -23,8 +24,11 @@ class PreferConditionalExpressionsRule extends CommonRule {
   static const _warningMessage = 'Prefer conditional expression.';
   static const _correctionMessage = 'Convert to conditional expression.';
 
+  final bool _ignoreNested;
+
   PreferConditionalExpressionsRule([Map<String, Object> config = const {}])
-      : super(
+      : _ignoreNested = _ConfigParser.parseIgnoreNested(config),
+        super(
           id: ruleId,
           severity: readSeverity(config, Severity.style),
           excludes: readExcludes(config),
@@ -32,8 +36,16 @@ class PreferConditionalExpressionsRule extends CommonRule {
         );
 
   @override
+  Map<String, Object?> toJson() {
+    final json = super.toJson();
+    json[_ConfigParser._ignoreNestedConfig] = _ignoreNested;
+
+    return json;
+  }
+
+  @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
-    final visitor = _Visitor();
+    final visitor = _Visitor(_ignoreNested);
 
     source.unit.visitChildren(visitor);
 
