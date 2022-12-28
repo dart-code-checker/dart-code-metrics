@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* feat: add [`use-setstate-synchronously`](https://dartcodemetrics.dev/docs/rules/flutter/use-setstate-synchronously)
+
 ## 5.3.0
 
 * feat: add static code diagnostic [`list-all-equatable-fields`](https://dartcodemetrics.dev/docs/rules/common/list-all-equatable-fields).
