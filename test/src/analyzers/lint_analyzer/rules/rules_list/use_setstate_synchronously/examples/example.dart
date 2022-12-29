@@ -1,5 +1,23 @@
 class _FooState extends State<StatefulWidget> {
-  void fetchData() async {
+  Widget build(context) {
+    return FooWidget(
+      onChange: (value) async {
+        setState(() {});
+        await fetchData();
+        setState(() {}); // LINT
+
+        if (mounted) setState(() {});
+      },
+    );
+  }
+
+  void customConfig() async {
+    await fetch();
+    foobar(); // LINT
+    this.foobar(); // LINT
+  }
+
+  void pathologicalCases() async {
     setState(() {});
 
     await fetch();
@@ -62,24 +80,21 @@ class _FooState extends State<StatefulWidget> {
       return;
     }
     setState(() {}); // LINT
-  }
 
-  Widget build(context) {
-    return FooWidget(
-      onChange: (value) async {
-        setState(() {});
-        await fetchData();
-        setState(() {}); // LINT
+    while (!mounted || foo || foo) {
+      return;
+    }
+    setState(() {});
 
-        if (mounted) setState(() {});
-      },
-    );
-  }
+    while (mounted) {
+      await fetch();
+    }
+    setState(() {}); // LINT
 
-  void customConfig() async {
-    await fetch();
-    foobar(); // LINT
-    this.foobar(); // LINT
+    if (mounted) {
+      await fetch();
+    }
+    setState(() {}); // LINT
   }
 }
 

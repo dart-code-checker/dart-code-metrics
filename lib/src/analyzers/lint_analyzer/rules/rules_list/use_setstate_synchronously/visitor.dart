@@ -64,10 +64,9 @@ class _AsyncSetStateVisitor extends RecursiveAstVisitor<void> {
     }
 
     node.condition.visitChildren(this);
-    final oldMounted = mounted;
     final newMounted = _extractMountedCheck(node.condition);
-
     mounted = newMounted.or(mounted);
+
     final beforeThen = mounted;
     node.thenStatement.visitChildren(this);
     final afterThen = mounted;
@@ -86,8 +85,6 @@ class _AsyncSetStateVisitor extends RecursiveAstVisitor<void> {
       mounted = beforeThen != afterThen
           ? afterThen
           : _extractMountedCheck(node.condition, permitAnd: false);
-    } else {
-      mounted = oldMounted;
     }
   }
 
@@ -103,7 +100,9 @@ class _AsyncSetStateVisitor extends RecursiveAstVisitor<void> {
     mounted = newMounted.or(mounted);
     node.body.visitChildren(this);
 
-    mounted = _blockDiverges(node.body) ? _tryInvert(newMounted) : oldMounted;
+    if (_blockDiverges(node.body)) {
+      mounted = _tryInvert(newMounted).or(oldMounted);
+    }
   }
 
   @override
