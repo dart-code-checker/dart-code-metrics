@@ -13,8 +13,6 @@ import '../../models/common_rule.dart';
 import '../../rule_utils.dart';
 
 part 'config_parser.dart';
-part 'models/comment_info.dart';
-part 'models/comment_type.dart';
 part 'visitor.dart';
 
 class FormatCommentRule extends CommonRule {
@@ -53,61 +51,72 @@ class FormatCommentRule extends CommonRule {
     final visitor = _Visitor(
       _ignoredPatterns,
       _onlyDocComments,
-    )..checkComments(source.unit.root);
+    )..checkRegularComments(source.unit.root);
 
-    return [
-      for (final comment in visitor.comments)
-        createIssue(
+    source.unit.visitChildren(visitor);
+
+    final issues = <Issue>[];
+
+    for (final comment in visitor.comments) {
+      if (comment is _DocCommentInfo) {
+        issues.add(createIssue(
           rule: this,
-          location: nodeLocation(
-            node: comment.token,
-            source: source,
-          ),
+          location: nodeLocation(node: comment.comment, source: source),
           message: _warning,
-          replacement: _createReplacement(comment),
-        ),
-    ];
-  }
-
-  Replacement _createReplacement(_CommentInfo commentInfo) {
-    final commentToken = commentInfo.token;
-    var resultString = commentToken.toString();
-
-    switch (commentInfo.type) {
-      case _CommentType.base:
-        String commentText;
-
-        final isHasNextComment = commentToken.next != null &&
-            commentToken.next!.type == TokenType.SINGLE_LINE_COMMENT &&
-            commentToken.next!.offset ==
-                commentToken.offset + resultString.length + 1;
-        final subString = resultString.substring(2, resultString.length);
-
-        commentText = isHasNextComment
-            ? subString.trim().capitalize()
-            : formatComment(subString);
-
-        resultString = '// $commentText';
-        break;
-      case _CommentType.documentation:
-        final commentText =
-            formatComment(resultString.substring(3, resultString.length));
-        resultString = '/// $commentText';
-        break;
+          replacement: _docCommentReplacement(comment.comment),
+        ));
+      }
+      if (comment is _RegularCommentInfo) {
+        issues.addAll(
+          comment.tokens
+              .map((token) => createIssue(
+                    rule: this,
+                    location: nodeLocation(node: token, source: source),
+                    message: _warning,
+                    replacement: _regularCommentReplacement(
+                      token,
+                      comment.tokens.length == 1,
+                    ),
+                  ))
+              .toList(),
+        );
+      }
     }
 
-    return Replacement(
-      comment: 'Format comment like sentences',
-      replacement: resultString,
-    );
+    return issues;
   }
 
-  String formatComment(String res) => res.trim().capitalize().replaceEnd();
-}
+  Replacement? _docCommentReplacement(Comment comment) {
+    if (comment.tokens.length == 1) {
+      final commentToken = comment.tokens.first;
+      final text = commentToken.toString();
+      final commentText = formatComment(text.substring(3, text.length));
 
-const _punctuation = ['.', '!', '?'];
+      return Replacement(
+        comment: 'Format comment.',
+        replacement: '/// $commentText',
+      );
+    }
 
-extension _StringExtension on String {
-  String replaceEnd() =>
-      !_punctuation.contains(this[length - 1]) ? '$this.' : this;
+    return null;
+  }
+
+  Replacement? _regularCommentReplacement(Token token, bool isSingle) {
+    if (isSingle) {
+      final text = token.toString();
+      final commentText = formatComment(text.substring(2, text.length));
+
+      return Replacement(
+        comment: 'Format comment.',
+        replacement: '// $commentText',
+      );
+    }
+
+    return null;
+  }
+
+  String formatComment(String res) => replaceEnd(res.trim().capitalize());
+
+  String replaceEnd(String text) =>
+      !_punctuation.contains(text[text.length - 1]) ? '$text.' : text;
 }
