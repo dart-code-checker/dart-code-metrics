@@ -8,7 +8,8 @@
 * feat: support ignoring nesting for [`prefer-conditional-expressions`](https://dartcodemetrics.dev/docs/rules/common/prefer-conditional-expressions).
 * fix: ignore Providers for ['avoid-returning-widgets'](https://dartcodemetrics.dev/docs/rules/common/avoid-returning-widgets).
 * feat: add [`use-setstate-synchronously`](https://dartcodemetrics.dev/docs/rules/flutter/use-setstate-synchronously).
-* fix: correctly invalidate edge cases for [`use-setstate-synchronously`](https://dartcodemetrics.dev/docs/rules/flutter/use-setstate-synchronously)
+* fix: correctly invalidate edge cases for [`use-setstate-synchronously`](https://dartcodemetrics.dev/docs/rules/flutter/use-setstate-synchronously).
+* fix: handle multiline comments for [`format-comment`](https://dartcodemetrics.dev/docs/rules/common/format-comment).
 
 ## 5.3.0
 

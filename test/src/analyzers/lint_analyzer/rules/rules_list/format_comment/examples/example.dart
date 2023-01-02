@@ -7,12 +7,10 @@ class Test {
 
   /// With start space without dot
   function() {
-    /// with start space with dot.
+    //Any other comment
   }
 // ignore:
 }
 
 // ignore_for_file:
 var a;
-
-/// [WidgetModel] for widget.
