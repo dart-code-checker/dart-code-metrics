@@ -113,7 +113,7 @@ class _InvocationsVisitor extends RecursiveAstVisitor<void> {
   void visitSimpleIdentifier(SimpleIdentifier node) {
     if (node.name == methodName &&
         node.staticElement is MethodElement &&
-        node.parent! is MethodInvocation) {
+        node.parent is ArgumentList) {
       hasTearOffInvocations = true;
     }
 

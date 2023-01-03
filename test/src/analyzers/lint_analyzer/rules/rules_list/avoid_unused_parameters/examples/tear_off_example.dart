@@ -13,8 +13,18 @@ class TestClass {
   void _anotherMethod(String firstString, String secondString) {
     someMethod(_otherMethod);
     _someOtherMethod(value);
+
+    final replacement = value.isNotEmpty ? _someAnotherMethod(1, '1') : null;
   }
 
   // LINT
-  _someOtherMethod(String value) {}
+  void _someOtherMethod(String value) {}
+
+  // LINT
+  String _someAnotherMethod(
+    int value,
+    String name,
+  ) {
+    return '';
+  }
 }

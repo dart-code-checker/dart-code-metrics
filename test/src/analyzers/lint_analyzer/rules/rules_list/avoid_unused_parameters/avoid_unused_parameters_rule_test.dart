@@ -70,14 +70,18 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startLines: [8, 13, 13],
-        startColumns: [36, 23, 43],
+        startLines: [13, 13, 21, 25, 26],
+        startColumns: [23, 43, 25, 5, 5],
         locationTexts: [
-          'int value',
           'String firstString',
           'String secondString',
+          'String value',
+          'int value',
+          'String name',
         ],
         messages: [
+          'Parameter is unused.',
+          'Parameter is unused.',
           'Parameter is unused.',
           'Parameter is unused.',
           'Parameter is unused.',
