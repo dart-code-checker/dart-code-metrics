@@ -10,6 +10,7 @@
 * feat: add [`use-setstate-synchronously`](https://dartcodemetrics.dev/docs/rules/flutter/use-setstate-synchronously).
 * fix: correctly invalidate edge cases for [`use-setstate-synchronously`](https://dartcodemetrics.dev/docs/rules/flutter/use-setstate-synchronously).
 * fix: handle multiline comments for [`format-comment`](https://dartcodemetrics.dev/docs/rules/common/format-comment).
+* chore: update presets reference.
 
 ## 5.3.0
 
