@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 5.4.0
 
 * feat: ignore tear-off methods for [`avoid-unused-parameters`](https://dartcodemetrics.dev/docs/rules/common/avoid-unused-parameters).
 * feat: show warning for rules without config that require config to work.
