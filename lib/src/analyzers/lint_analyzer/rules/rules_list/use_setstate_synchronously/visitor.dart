@@ -31,6 +31,7 @@ class _AsyncSetStateVisitor extends RecursiveAstVisitor<void> {
   _AsyncSetStateVisitor({this.validateMethod = _noop});
 
   MountedFact mounted = true.asFact();
+  bool get isMounted => mounted.value ?? false;
   bool inAsync = true;
   final nodes = <SimpleIdentifier>[];
 
@@ -47,8 +48,7 @@ class _AsyncSetStateVisitor extends RecursiveAstVisitor<void> {
     }
 
     // [this.]setState()
-    final mounted_ = mounted.value ?? false;
-    if (!mounted_ &&
+    if (!isMounted &&
         validateMethod(node.methodName.name) &&
         node.target is ThisExpression?) {
       nodes.add(node.methodName);
@@ -116,5 +116,31 @@ class _AsyncSetStateVisitor extends RecursiveAstVisitor<void> {
 
     mounted = oldMounted;
     inAsync = oldInAsync;
+  }
+
+  @override
+  void visitTryStatement(TryStatement node) {
+    if (!inAsync) {
+      return node.visitChildren(this);
+    }
+
+    final oldMounted = mounted;
+    node.body.visitChildren(this);
+    final afterBody = mounted;
+    // ignore: omit_local_variable_types
+    final MountedFact beforeCatch =
+        mounted == oldMounted ? oldMounted : false.asFact();
+    for (final clause in node.catchClauses) {
+      mounted = beforeCatch;
+      clause.visitChildren(this);
+    }
+
+    final finallyBlock = node.finallyBlock;
+    if (finallyBlock != null) {
+      mounted = beforeCatch;
+      finallyBlock.visitChildren(this);
+    } else {
+      mounted = afterBody;
+    }
   }
 }
