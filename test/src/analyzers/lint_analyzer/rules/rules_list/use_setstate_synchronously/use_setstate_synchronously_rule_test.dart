@@ -99,13 +99,17 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startLines: [9, 11],
-        startColumns: [7, 5],
+        startLines: [9, 11, 33, 39],
+        startColumns: [7, 5, 9, 5],
         locationTexts: [
+          'setState',
+          'setState',
           'setState',
           'setState',
         ],
         messages: [
+          "Avoid calling 'setState' past an await point without checking if the widget is mounted.",
+          "Avoid calling 'setState' past an await point without checking if the widget is mounted.",
           "Avoid calling 'setState' past an await point without checking if the widget is mounted.",
           "Avoid calling 'setState' past an await point without checking if the widget is mounted.",
         ],

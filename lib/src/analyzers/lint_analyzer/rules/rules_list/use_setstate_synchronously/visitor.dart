@@ -31,8 +31,10 @@ class _AsyncSetStateVisitor extends RecursiveAstVisitor<void> {
   _AsyncSetStateVisitor({this.validateMethod = _noop});
 
   MountedFact mounted = true.asFact();
-  bool get isMounted => mounted.value ?? false;
+  bool inControlFlow = false;
   bool inAsync = true;
+
+  bool get isMounted => mounted.value ?? false;
   final nodes = <SimpleIdentifier>[];
 
   @override
@@ -74,12 +76,15 @@ class _AsyncSetStateVisitor extends RecursiveAstVisitor<void> {
     var elseDiverges = false;
     final elseStatement = node.elseStatement;
     if (elseStatement != null) {
-      elseDiverges = _blockDiverges(elseStatement);
+      elseDiverges = _blockDiverges(
+        elseStatement,
+        allowControlFlow: inControlFlow,
+      );
       mounted = _tryInvert(newMounted).or(mounted);
       elseStatement.visitChildren(this);
     }
 
-    if (_blockDiverges(node.thenStatement)) {
+    if (_blockDiverges(node.thenStatement, allowControlFlow: inControlFlow)) {
       mounted = _tryInvert(newMounted).or(beforeThen);
     } else if (elseDiverges) {
       mounted = beforeThen != afterThen
@@ -100,7 +105,7 @@ class _AsyncSetStateVisitor extends RecursiveAstVisitor<void> {
     mounted = newMounted.or(mounted);
     node.body.visitChildren(this);
 
-    if (_blockDiverges(node.body)) {
+    if (_blockDiverges(node.body, allowControlFlow: inControlFlow)) {
       mounted = _tryInvert(newMounted).or(oldMounted);
     }
   }
@@ -142,5 +147,32 @@ class _AsyncSetStateVisitor extends RecursiveAstVisitor<void> {
     } else {
       mounted = afterBody;
     }
+  }
+
+  @override
+  void visitSwitchStatement(SwitchStatement node) {
+    if (!inAsync) {
+      return node.visitChildren(this);
+    }
+
+    node.expression.visitChildren(this);
+
+    final oldInControlFlow = inControlFlow;
+    inControlFlow = true;
+
+    final caseInvariant = mounted;
+    for (final arm in node.members) {
+      arm.visitChildren(this);
+      if (mounted != caseInvariant &&
+          !_caseDiverges(arm, allowControlFlow: false)) {
+        mounted = false.asFact();
+      }
+
+      if (_caseDiverges(arm, allowControlFlow: true)) {
+        mounted = caseInvariant;
+      }
+    }
+
+    inControlFlow = oldInControlFlow;
   }
 }

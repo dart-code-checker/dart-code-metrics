@@ -21,6 +21,32 @@ class MyState extends State {
     }
     setState(() {});
   }
+
+  void switchStatements() async {
+    await doStuff();
+    switch (foobar) {
+      case 'foo':
+        if (!mounted) break;
+        setState(() {});
+        break;
+      case 'bar':
+        setState(() {}); // LINT
+        break;
+      case 'baz':
+        await doStuff();
+        break;
+    }
+    setState(() {}); // LINT
+  }
+
+  void switchAsync() async {
+    switch (foobar) {
+      case 'foo':
+        await doStuff();
+        return;
+    }
+    setState(() {});
+  }
 }
 
 class State {}
