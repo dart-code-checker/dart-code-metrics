@@ -100,14 +100,35 @@ class _AsyncSetStateVisitor extends RecursiveAstVisitor<void> {
     }
 
     node.condition.visitChildren(this);
+
     final oldMounted = mounted;
     final newMounted = _extractMountedCheck(node.condition);
     mounted = newMounted.or(mounted);
+    final oldInControlFlow = inControlFlow;
+    inControlFlow = true;
     node.body.visitChildren(this);
 
     if (_blockDiverges(node.body, allowControlFlow: inControlFlow)) {
       mounted = _tryInvert(newMounted).or(oldMounted);
     }
+
+    inControlFlow = oldInControlFlow;
+  }
+
+  @override
+  void visitForStatement(ForStatement node) {
+    if (!inAsync) {
+      return node.visitChildren(this);
+    }
+
+    node.forLoopParts.visitChildren(this);
+
+    final oldInControlFlow = inControlFlow;
+    inControlFlow = true;
+
+    node.body.visitChildren(this);
+
+    inControlFlow = oldInControlFlow;
   }
 
   @override
