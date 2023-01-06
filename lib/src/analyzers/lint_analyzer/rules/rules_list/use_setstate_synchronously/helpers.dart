@@ -85,8 +85,9 @@ bool _isIdentifier(Expression node, String ident) =>
     node is Identifier && node.name == ident;
 
 @pragma('vm:prefer-inline')
-bool _isDivergent(Statement node) =>
+bool _isDivergent(Statement node, {bool allowControlFlow = false}) =>
     node is ReturnStatement ||
+    allowControlFlow && (node is BreakStatement || node is ContinueStatement) ||
     node is ExpressionStatement && node.expression is ThrowExpression;
 
 @pragma('vm:prefer-inline')
@@ -95,5 +96,12 @@ Expression _thisOr(Expression node) =>
         ? node.propertyName
         : node;
 
-bool _blockDiverges(Statement block) =>
-    block is Block ? block.statements.any(_isDivergent) : _isDivergent(block);
+bool _blockDiverges(Statement block, {required bool allowControlFlow}) => block
+        is Block
+    ? block.statements
+        .any((node) => _isDivergent(node, allowControlFlow: allowControlFlow))
+    : _isDivergent(block, allowControlFlow: allowControlFlow);
+
+bool _caseDiverges(SwitchMember arm, {required bool allowControlFlow}) =>
+    arm.statements
+        .any((node) => _isDivergent(node, allowControlFlow: allowControlFlow));

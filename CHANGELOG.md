@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* fix: handle try and switch statements for [`use-setstate-synchronously`](https://dartcodemetrics.dev/docs/rules/flutter/use-setstate-synchronously)
+
 ## 5.4.0
 
 * feat: ignore tear-off methods for [`avoid-unused-parameters`](https://dartcodemetrics.dev/docs/rules/common/avoid-unused-parameters).
