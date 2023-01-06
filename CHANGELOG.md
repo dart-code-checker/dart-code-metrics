@@ -3,6 +3,7 @@
 ## Unreleased
 
 * fix: handle try and switch statements for [`use-setstate-synchronously`](https://dartcodemetrics.dev/docs/rules/flutter/use-setstate-synchronously)
+* chore: restrict `analyzer` version to `>=5.1.0 <5.4.0`.
 
 ## 5.4.0
 
