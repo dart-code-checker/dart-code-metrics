@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* chore: restrict `analyzer` version to `>=5.1.0 <5.4.0`.
+
 ## 5.4.0
 
 * feat: ignore tear-off methods for [`avoid-unused-parameters`](https://dartcodemetrics.dev/docs/rules/common/avoid-unused-parameters).
