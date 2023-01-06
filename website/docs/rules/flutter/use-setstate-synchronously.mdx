@@ -16,12 +16,13 @@ does not make use of [`mounted`], but rather revolves around refactoring your st
 
 :::info
 
-Only these patterns are considered for mounted-ness:
+The following patterns are recognized when statically determining mountedness:
 
 - `if (mounted)`
-- `if (!mounted)`
 - `if (mounted && ..)`
-- `if (!mounted || ..) return;`
+- `if (!mounted || ..)`
+- `try` and `switch` mountedness per branch
+- Divergence in `for`, `while` and `switch` statements using `break` or `continue`
 
 If a `!mounted` check diverges, i.e. ends in a `return` or `throw`, the outer scope is considered mounted and vice versa:
 
@@ -32,6 +33,13 @@ setState(() { ... });
 
 // After this statement, need to check 'mounted' again
 await fetch(...);
+
+// In control flow statements, 'break' and 'continue' diverges
+while (...) {
+  if (!mounted) break;
+  // Should be mounted right now
+  setState(() { ... });
+}
 ```
 
 :::
