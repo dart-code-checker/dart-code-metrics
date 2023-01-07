@@ -1,4 +1,6 @@
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/severity.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/models/rule_type.dart';
+import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rule_utils.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/rules/rules_list/list_all_equatable_fields/list_all_equatable_fields_rule.dart';
 import 'package:test/test.dart';
 
@@ -8,6 +10,22 @@ const _examplePath = 'list_all_equatable_fields/examples/example.dart';
 
 void main() {
   group('ListAllEquatableFieldsRule', () {
+    test('is of type common', () {
+      expect(
+        ListAllEquatableFieldsRule().type,
+        equals(RuleType.common),
+      );
+    });
+
+    test('has expected documentation path', () {
+      final documentationUri = documentation(ListAllEquatableFieldsRule());
+
+      expect(
+        documentationUri.path,
+        equals('/docs/rules/common/list-all-equatable-fields'),
+      );
+    });
+
     test('initialization', () async {
       final unit = await RuleTestHelper.resolveFromFile(_examplePath);
       final issues = ListAllEquatableFieldsRule().check(unit);
