@@ -34,32 +34,32 @@ Full command description:
 
 ```text
 Usage: metrics check-unused-l10n [arguments] <directories>
--h, --help                                        Print this usage information.
+-h, --help                                       Print this usage information.
 
 
--p, --class-pattern=<I18n$>                       The pattern to detect classes providing localization
-                                                  (defaults to "I18n$")
+-p, --class-pattern=<I18n$>                      The pattern to detect classes providing localization
+                                                 (defaults to "I18n$")
 
 
--r, --reporter=<console>                          The format of the output of the analysis.
-                                                  [console (default), json]
-    --report-to-file=<path/to/report.json>        The path, where a JSON file with the analysis result will be placed (only for the JSON reporter).
+-r, --reporter=<console>                         The format of the output of the analysis.
+                                                 [console (default), json]
+    --report-to-file=<path/to/report.json>       The path, where a JSON file with the analysis result will be placed (only for the JSON reporter).
 
--c, --print-config                                Print resolved config.
-
-
-    --root-folder=<./>                            Root folder.
-                                                  (defaults to current directory)
-    --sdk-path=<directory-path>                   Dart SDK directory path.
-                                                  Should be provided only when you run the application as compiled executable(https://dart.dev/tools/dart-compile#exe) and automatic Dart SDK path detection fails.
-    --exclude=<{/**.g.dart,/**.template.dart}>    File paths in Glob syntax to be exclude.
-                                                  (defaults to "{/**.g.dart,/**.template.dart}")
+-c, --print-config                               Print resolved config.
 
 
-    --no-congratulate                             Don't show output even when there are no issues.
+    --root-folder=<./>                           Root folder.
+                                                 (defaults to current directory)
+    --sdk-path=<directory-path>                  Dart SDK directory path.
+                                                 Should be provided only when you run the application as compiled executable(https://dart.dev/tools/dart-compile#exe) and automatic Dart SDK path detection fails.
+    --exclude=<{/**.g.dart,/**.freezed.dart}>    File paths in Glob syntax to be exclude.
+                                                 (defaults to "{/**.g.dart,/**.freezed.dart}")
 
 
-    --[no-]fatal-unused                           Treat find unused l10n as fatal.
+    --no-congratulate                            Don't show output even when there are no issues.
+
+
+    --[no-]fatal-unused                          Treat find unused l10n as fatal.
 ```
 
 ## Output example {#output-example}

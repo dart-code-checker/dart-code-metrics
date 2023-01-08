@@ -15,29 +15,29 @@ Full command description:
 
 ```text
 Usage: metrics check-unnecessary-nullable [arguments] <directories>
--h, --help                                        Print this usage information.
+-h, --help                                       Print this usage information.
 
 
--r, --reporter=<console>                          The format of the output of the analysis.
-                                                  [console (default), json]
+-r, --reporter=<console>                         The format of the output of the analysis.
+                                                 [console (default), json]
 
--c, --print-config                                Print resolved config.
-
-
-    --root-folder=<./>                            Root folder.
-                                                  (defaults to current directory)
-    --sdk-path=<directory-path>                   Dart SDK directory path. Should be provided only when you run the application as compiled executable(https://dart.dev/tools/dart-compile#exe) and automatic Dart SDK path detection fails.
-    --exclude=<{/**.g.dart,/**.template.dart}>    File paths in Glob syntax to be exclude.
-                                                  (defaults to "{/**.g.dart,/**.template.dart}")
+-c, --print-config                               Print resolved config.
 
 
-    --no-congratulate                             Don't show output even when there are no issues.
+    --root-folder=<./>                           Root folder.
+                                                 (defaults to current directory)
+    --sdk-path=<directory-path>                  Dart SDK directory path. Should be provided only when you run the application as compiled executable(https://dart.dev/tools/dart-compile#exe) and automatic Dart SDK path detection fails.
+    --exclude=<{/**.g.dart,/**.freezed.dart}>    File paths in Glob syntax to be exclude.
+                                                 (defaults to "{/**.g.dart,/**.freezed.dart}")
 
 
-    --[no-]monorepo                               Treat all exported code with parameters as non-nullable by default.
+    --no-congratulate                            Don't show output even when there are no issues.
 
 
-    --[no-]fatal-found                            Treat found unnecessary nullable parameters as fatal.
+    --[no-]monorepo                              Treat all exported code with parameters as non-nullable by default.
+
+
+    --[no-]fatal-found                           Treat found unnecessary nullable parameters as fatal.
 ```
 
 ## Suppressing the command

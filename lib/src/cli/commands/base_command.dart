@@ -124,8 +124,8 @@ abstract class BaseCommand extends Command<void> {
     argParser.addOption(
       FlagNames.exclude,
       help: 'File paths in Glob syntax to be exclude.',
-      valueHelp: '{/**.g.dart,/**.template.dart}',
-      defaultsTo: '{/**.g.dart,/**.template.dart}',
+      valueHelp: '{/**.g.dart,/**.freezed.dart}',
+      defaultsTo: '{/**.g.dart,/**.freezed.dart}',
     );
   }
 
