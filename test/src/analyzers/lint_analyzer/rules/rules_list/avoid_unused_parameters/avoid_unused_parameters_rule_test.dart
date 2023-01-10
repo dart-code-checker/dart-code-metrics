@@ -8,6 +8,8 @@ const _correctExamplePath =
     'avoid_unused_parameters/examples/correct_example.dart';
 const _incorrectExamplePath =
     'avoid_unused_parameters/examples/incorrect_example.dart';
+const _tearOffExamplePath =
+    'avoid_unused_parameters/examples/tear_off_example.dart';
 
 void main() {
   group('AvoidUnusedParametersRule', () {
@@ -53,6 +55,31 @@ void main() {
           'Parameter is unused.',
           'Parameter is unused.',
           'Parameter is unused.',
+          'Parameter is unused.',
+          'Parameter is unused.',
+          'Parameter is unused.',
+          'Parameter is unused.',
+          'Parameter is unused.',
+        ],
+      );
+    });
+
+    test('should report about found issues for tear-offs', () async {
+      final unit = await RuleTestHelper.resolveFromFile(_tearOffExamplePath);
+      final issues = AvoidUnusedParametersRule().check(unit);
+
+      RuleTestHelper.verifyIssues(
+        issues: issues,
+        startLines: [13, 13, 21, 25, 26],
+        startColumns: [23, 43, 25, 5, 5],
+        locationTexts: [
+          'String firstString',
+          'String secondString',
+          'String value',
+          'int value',
+          'String name',
+        ],
+        messages: [
           'Parameter is unused.',
           'Parameter is unused.',
           'Parameter is unused.',

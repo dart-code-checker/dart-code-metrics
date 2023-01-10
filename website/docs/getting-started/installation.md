@@ -23,7 +23,7 @@ environment:
   sdk: '>=2.18.0 <3.0.0'
 
 dev_dependencies:
-  dart_code_metrics: ^5.3.0
+  dart_code_metrics: ^5.4.0
 ```
 
 and then run

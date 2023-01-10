@@ -418,5 +418,7 @@ class LintAnalyzer {
   }
 
   bool _isSupported(FileResult result) =>
-      result.path.endsWith('.dart') && !result.path.endsWith('.g.dart');
+      result.path.endsWith('.dart') &&
+      !result.path.endsWith('.g.dart') &&
+      !result.path.endsWith('.freezed.dart');
 }

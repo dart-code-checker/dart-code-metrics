@@ -6,3 +6,4 @@ ignore:
   - good_package
   - my_app
   - platform
+  - dart_code_metrics_presets

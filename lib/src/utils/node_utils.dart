@@ -1,5 +1,6 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/syntactic_entity.dart';
+import 'package:analyzer/dart/ast/token.dart';
 import 'package:source_span/source_span.dart';
 
 import '../analyzers/lint_analyzer/models/internal_resolved_unit_result.dart';
@@ -36,6 +37,11 @@ SourceSpan nodeLocation({
     source.content.substring(offset, end),
   );
 }
+
+bool isOverride(List<Annotation> metadata) => metadata.any(
+      (node) =>
+          node.name.name == 'override' && node.atSign.type == TokenType.AT,
+    );
 
 bool isEntrypoint(String name, NodeList<Annotation> metadata) =>
     name == 'main' ||

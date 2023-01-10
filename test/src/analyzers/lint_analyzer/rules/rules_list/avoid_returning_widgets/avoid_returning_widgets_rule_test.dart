@@ -7,6 +7,8 @@ import '../../../../../helpers/rule_test_helper.dart';
 const _examplePath = 'avoid_returning_widgets/examples/example.dart';
 const _notNamedParameterExamplePath =
     'avoid_returning_widgets/examples/not_named_parameter_example.dart';
+const _providerExamplePath =
+    'avoid_returning_widgets/examples/provider_example.dart';
 
 void main() {
   group('AvoidReturningWidgetsRule', () {
@@ -109,6 +111,13 @@ void main() {
     test('reports no issues for not named parameters', () async {
       final unit =
           await RuleTestHelper.resolveFromFile(_notNamedParameterExamplePath);
+      final issues = AvoidReturningWidgetsRule().check(unit);
+
+      RuleTestHelper.verifyNoIssues(issues);
+    });
+
+    test('reports no issues for providers', () async {
+      final unit = await RuleTestHelper.resolveFromFile(_providerExamplePath);
       final issues = AvoidReturningWidgetsRule().check(unit);
 
       RuleTestHelper.verifyNoIssues(issues);

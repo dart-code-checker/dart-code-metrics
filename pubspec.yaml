@@ -1,5 +1,5 @@
 name: dart_code_metrics
-version: 5.3.0
+version: 5.4.0
 description: Software analytics tool that helps developers analyse and improve software quality.
 homepage: https://dartcodemetrics.dev
 repository: https://github.com/dart-code-checker/dart-code-metrics
@@ -15,12 +15,13 @@ platforms:
   macos:
 
 dependencies:
-  analyzer: ">=5.1.0 <5.4.0"
+  analyzer: ">=5.1.0 <5.5.0"
   analyzer_plugin: ">=0.11.0 <0.12.0"
   ansicolor: ^2.0.1
   args: ^2.0.0
   collection: ^1.16.0
   crypto: ^3.0.0
+  dart_code_metrics_presets: ^1.0.1
   file: ^6.0.0
   glob: ^2.0.1
   html: ">=0.15.0 <1.0.0"

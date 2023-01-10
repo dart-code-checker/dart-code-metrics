@@ -14,47 +14,47 @@ Full command description:
 ```text
 Usage: metrics analyze [arguments...] <directories>
 
--h, --help                                        Print this usage information.
+-h, --help                                       Print this usage information.
 
 
--r, --reporter=<console>                          The format of the output of the analysis
-                                                  [console (default), console-verbose, checkstyle, codeclimate, github, gitlab, html, json]
--o, --output-directory=<OUTPUT>                   Write HTML output to OUTPUT
-                                                  (defaults to "metrics/")
-    --json-path=<path/to/file.json>               Path to the JSON file with the output of the analysis.
+-r, --reporter=<console>                         The format of the output of the analysis
+                                                 [console (default), console-verbose, checkstyle, codeclimate, github, gitlab, html, json]
+-o, --output-directory=<OUTPUT>                  Write HTML output to OUTPUT
+                                                 (defaults to "metrics/")
+    --json-path=<path/to/file.json>              Path to the JSON file with the output of the analysis.
 
 
-    --cyclomatic-complexity=<20>                  Cyclomatic Complexity threshold.
-    --halstead-volume=<150>                       Halstead Volume threshold.
-    --lines-of-code=<100>                         Lines of Code threshold.
-    --maximum-nesting-level=<5>                   Maximum Nesting Level threshold.
-    --number-of-methods=<10>                      Number of Methods threshold.
-    --number-of-parameters=<4>                    Number of Parameters threshold.
-    --source-lines-of-code=<50>                   Source lines of Code threshold.
-    --technical-debt=<0>                          Technical Debt threshold.
-    --weight-of-class=<0.33>                      Weight Of a Class threshold.
-    --maintainability-index=<50>                  Maintainability Index threshold.
+    --cyclomatic-complexity=<20>                 Cyclomatic Complexity threshold.
+    --halstead-volume=<150>                      Halstead Volume threshold.
+    --lines-of-code=<100>                        Lines of Code threshold.
+    --maximum-nesting-level=<5>                  Maximum Nesting Level threshold.
+    --number-of-methods=<10>                     Number of Methods threshold.
+    --number-of-parameters=<4>                   Number of Parameters threshold.
+    --source-lines-of-code=<50>                  Source lines of Code threshold.
+    --technical-debt=<0>                         Technical Debt threshold.
+    --weight-of-class=<0.33>                     Weight Of a Class threshold.
+    --maintainability-index=<50>                 Maintainability Index threshold.
 
--c, --print-config                                Print resolved config.
-
-
-    --root-folder=<./>                            Root folder
-                                                  (defaults to current directory)
-    --sdk-path=<directory-path>                   Dart SDK directory path.
-                                                  Should be provided only when you run the application as compiled executable(https://dart.dev/tools/dart-compile#exe) and automatic Dart SDK path detection fails.
-    --exclude=<{/**.g.dart,/**.template.dart}>    File paths in Glob syntax to be exclude
-                                                  (defaults to "{/**.g.dart,/**.template.dart}")
+-c, --print-config                               Print resolved config.
 
 
-    --no-congratulate                             Don't show output even when there are no issues.
+    --root-folder=<./>                           Root folder
+                                                 (defaults to current directory)
+    --sdk-path=<directory-path>                  Dart SDK directory path.
+                                                 Should be provided only when you run the application as compiled executable(https://dart.dev/tools/dart-compile#exe) and automatic Dart SDK path detection fails.
+    --exclude=<{/**.g.dart,/**.freezed.dart}>    File paths in Glob syntax to be exclude
+                                                 (defaults to "{/**.g.dart,/**.freezed.dart}")
 
 
-    --set-exit-on-violation-level=<warning>       Set exit code 2 if code violations
-                                                  have the same or higher level
-                                                  [none, warning, alarm]
-    --[no-]fatal-style                            Treat style level issues as fatal.
-    --[no-]fatal-performance                      Treat performance level issues as fatal.
-    --[no-]fatal-warnings                         Treat warning level issues as fatal.
+    --no-congratulate                            Don't show output even when there are no issues.
+
+
+    --set-exit-on-violation-level=<warning>      Set exit code 2 if code violations
+                                                 have the same or higher level
+                                                 [none, warning, alarm]
+    --[no-]fatal-style                           Treat style level issues as fatal.
+    --[no-]fatal-performance                     Treat performance level issues as fatal.
+    --[no-]fatal-warnings                        Treat warning level issues as fatal.
 ```
 
 ## Output example {#output-example}

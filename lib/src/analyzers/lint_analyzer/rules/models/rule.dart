@@ -31,6 +31,8 @@ abstract class Rule {
     required this.includes,
   });
 
+  bool get requiresConfig => false;
+
   /// Returns [Iterable] with [Issue]'s detected while check the passed [source]
   Iterable<Issue> check(InternalResolvedUnitResult source);
 

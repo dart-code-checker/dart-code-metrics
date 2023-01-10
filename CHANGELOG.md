@@ -3,6 +3,22 @@
 ## Unreleased
 
 * fix: correctly handle prefixed enums and static instance fields for [`prefer-moving-to-variable`](https://dartcodemetrics.dev/docs/rules/common/prefer-moving-to-variable).
+* feat: add static code diagnostic [`prefer-provide-intl-description`](https://dartcodemetrics.dev/docs/rules/intl/prefer-provide-intl-description).
+* feat: exclude `.freezed.dart` files by default.
+* fix: handle try and switch statements for [`use-setstate-synchronously`](https://dartcodemetrics.dev/docs/rules/flutter/use-setstate-synchronously)
+* chore: restrict `analyzer` version to `>=5.1.0 <5.4.0`.
+
+## 5.4.0
+
+* feat: ignore tear-off methods for [`avoid-unused-parameters`](https://dartcodemetrics.dev/docs/rules/common/avoid-unused-parameters).
+* feat: show warning for rules without config that require config to work.
+* fix: correctly handle FunctionExpressions for [`avoid-redundant-async`](https://dartcodemetrics.dev/docs/rules/common/avoid-redundant-async).
+* feat: support ignoring nesting for [`prefer-conditional-expressions`](https://dartcodemetrics.dev/docs/rules/common/prefer-conditional-expressions).
+* fix: ignore Providers for [`avoid-returning-widgets`](https://dartcodemetrics.dev/docs/rules/common/avoid-returning-widgets).
+* feat: add [`use-setstate-synchronously`](https://dartcodemetrics.dev/docs/rules/flutter/use-setstate-synchronously).
+* fix: correctly invalidate edge cases for [`use-setstate-synchronously`](https://dartcodemetrics.dev/docs/rules/flutter/use-setstate-synchronously).
+* fix: handle multiline comments for [`format-comment`](https://dartcodemetrics.dev/docs/rules/common/format-comment).
+* chore: update presets reference.
 
 ## 5.3.0
 

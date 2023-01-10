@@ -9,6 +9,7 @@ import 'lint_analysis_config.dart';
 import 'models/issue.dart';
 import 'models/lint_file_report.dart';
 import 'models/severity.dart';
+import 'rules/models/rule.dart';
 import 'rules/rules_factory.dart';
 
 class LintAnalysisOptionsValidator {
@@ -29,24 +30,12 @@ class LintAnalysisOptionsValidator {
       return null;
     }
 
-    final ids = allRuleIds.toSet();
-    final issues = <Issue>[];
+    final parsedRulesById = config.codeRules.fold(
+      <String, Rule>{},
+      (rules, rule) => rules..putIfAbsent(rule.id, () => rule),
+    );
 
-    for (final rule in rulesList) {
-      if (!ids.contains(rule.ruleName)) {
-        issues.add(
-          Issue(
-            ruleId: 'unknown-config',
-            severity: Severity.warning,
-            message:
-                "'${rule.ruleName}' is not recognized as a valid rule name.",
-            documentation: Uri.parse('https://dartcodemetrics.dev/docs/rules'),
-            location: _copySpanWithOffset(rule.span),
-          ),
-        );
-      }
-    }
-
+    final issues = _validateForIssues(rulesList, parsedRulesById);
     if (issues.isNotEmpty) {
       final filePath = file.path;
       final relativePath = relative(filePath, from: rootFolder);
@@ -72,12 +61,20 @@ class LintAnalysisOptionsValidator {
               if (rule is YamlMap) {
                 final key = rule.nodes.keys.first as Object?;
                 if (key is YamlScalar && key.value is String) {
-                  return _RuleWithSpan(key.value as String, key.span);
+                  return _RuleWithSpan(
+                    key.value as String,
+                    key.span,
+                    hasConfig: true,
+                  );
                 }
               }
 
               if (rule is YamlScalar && rule.value is String) {
-                return _RuleWithSpan(rule.value as String, rule.span);
+                return _RuleWithSpan(
+                  rule.value as String,
+                  rule.span,
+                  hasConfig: false,
+                );
               }
 
               return null;
@@ -105,11 +102,51 @@ class LintAnalysisOptionsValidator {
         ),
         span.text,
       );
+
+  static List<Issue> _validateForIssues(
+    List<_RuleWithSpan> rulesList,
+    Map<String, Rule> parsedRulesById,
+  ) {
+    final ids = allRuleIds.toSet();
+    final issues = <Issue>[];
+
+    for (final rule in rulesList) {
+      if (!ids.contains(rule.ruleName)) {
+        issues.add(
+          Issue(
+            ruleId: 'unknown-config',
+            severity: Severity.warning,
+            message:
+                "'${rule.ruleName}' is not recognized as a valid rule name.",
+            documentation: Uri.parse('https://dartcodemetrics.dev/docs/rules'),
+            location: _copySpanWithOffset(rule.span),
+          ),
+        );
+      }
+
+      final parsedRule = parsedRulesById[rule.ruleName];
+      if (parsedRule != null && parsedRule.requiresConfig && !rule.hasConfig) {
+        issues.add(
+          Issue(
+            ruleId: 'requires-config',
+            severity: Severity.warning,
+            message:
+                "'${rule.ruleName}' requires a config to produce any diagnostics.",
+            documentation: Uri.parse('https://dartcodemetrics.dev/docs/rules'),
+            location: _copySpanWithOffset(rule.span),
+          ),
+        );
+      }
+    }
+
+    return issues;
+  }
 }
 
 class _RuleWithSpan {
   final String ruleName;
   final SourceSpan span;
+  final bool hasConfig;
 
-  const _RuleWithSpan(this.ruleName, this.span);
+  const _RuleWithSpan(this.ruleName, this.span, {required this.hasConfig});
 }

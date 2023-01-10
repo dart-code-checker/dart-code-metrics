@@ -30,6 +30,10 @@ on:
       - "dart_dependency_validator.yaml"
       - "pubspec.yaml"
 
+permissions:
+  statuses: write
+  checks: write
+
 jobs:
   analysis:
     runs-on: ubuntu-latest
