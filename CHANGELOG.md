@@ -7,6 +7,7 @@
 * fix: handle try and switch statements for [`use-setstate-synchronously`](https://dartcodemetrics.dev/docs/rules/flutter/use-setstate-synchronously)
 * chore: restrict `analyzer` version to `>=5.1.0 <5.4.0`.
 * feat: add `allow-initialized` option to [`avoid-late-keyword`](https://dartcodemetrics.dev/docs/rules/common/avoid-late-keyword).
+* feat: add `ignored-types` option to [`avoid-late-keyword`](https://dartcodemetrics.dev/docs/rules/common/avoid-late-keyword).
 
 ## 5.4.0
 

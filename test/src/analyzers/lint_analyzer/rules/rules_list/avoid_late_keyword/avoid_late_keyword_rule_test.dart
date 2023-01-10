@@ -29,7 +29,7 @@ void main() {
         startColumns: [3, 3, 5, 5, 1, 1],
         locationTexts: [
           "late final field = 'string'",
-          'late String uninitializedField',
+          'late int uninitializedField',
           "late final variable = 'string'",
           'late String uninitializedVariable',
           "late final topLevelVariable = 'string'",
@@ -46,7 +46,7 @@ void main() {
       );
     });
 
-    test('reports about found issues with config', () async {
+    test('reports about found issues with allow initialized config', () async {
       final unit = await RuleTestHelper.resolveFromFile(_examplePath);
       final issues =
           AvoidLateKeywordRule({'allow-initialized': true}).check(unit);
@@ -56,13 +56,32 @@ void main() {
         startLines: [8, 17, 23],
         startColumns: [3, 5, 1],
         locationTexts: [
-          'late String uninitializedField',
+          'late int uninitializedField',
           'late String uninitializedVariable',
           'late String topLevelUninitializedVariable',
         ],
         messages: [
           "Avoid using 'late' keyword.",
           "Avoid using 'late' keyword.",
+          "Avoid using 'late' keyword.",
+        ],
+      );
+    });
+
+    test('reports about found issues with ignored types config', () async {
+      final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+      final issues = AvoidLateKeywordRule({
+        'ignored-types': ['String'],
+      }).check(unit);
+
+      RuleTestHelper.verifyIssues(
+        issues: issues,
+        startLines: [8],
+        startColumns: [3],
+        locationTexts: [
+          'late int uninitializedField',
+        ],
+        messages: [
           "Avoid using 'late' keyword.",
         ],
       );

@@ -20,9 +20,11 @@ class AvoidLateKeywordRule extends CommonRule {
   static const _warning = "Avoid using 'late' keyword.";
 
   final bool _allowInitialized;
+  final Iterable<String> _ignoredTypes;
 
   AvoidLateKeywordRule([Map<String, Object> config = const {}])
       : _allowInitialized = _ConfigParser.parseAllowInitialized(config),
+        _ignoredTypes = _ConfigParser.parseIgnoredTypes(config),
         super(
           id: ruleId,
           severity: readSeverity(config, Severity.warning),
@@ -32,7 +34,7 @@ class AvoidLateKeywordRule extends CommonRule {
 
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
-    final visitor = _Visitor(_allowInitialized);
+    final visitor = _Visitor(_allowInitialized, _ignoredTypes);
 
     source.unit.visitChildren(visitor);
 
