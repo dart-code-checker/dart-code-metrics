@@ -45,5 +45,27 @@ void main() {
         ],
       );
     });
+
+    test('reports about found issues with config', () async {
+      final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+      final issues =
+          AvoidLateKeywordRule({'allow-initialized': true}).check(unit);
+
+      RuleTestHelper.verifyIssues(
+        issues: issues,
+        startLines: [8, 17, 23],
+        startColumns: [3, 5, 1],
+        locationTexts: [
+          'late String uninitializedField',
+          'late String uninitializedVariable',
+          'late String topLevelUninitializedVariable',
+        ],
+        messages: [
+          "Avoid using 'late' keyword.",
+          "Avoid using 'late' keyword.",
+          "Avoid using 'late' keyword.",
+        ],
+      );
+    });
   });
 }
