@@ -63,3 +63,11 @@ enum SomeValue {
   entry1,
   entry2,
 }
+
+class SomeClass {
+  static final value = '10';
+
+  final field = 11;
+}
+
+final instance = SomeClass();

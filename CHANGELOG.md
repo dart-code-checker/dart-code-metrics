@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* fix: correctly handle prefixed enums and static instance fields for [`prefer-moving-to-variable`](https://dartcodemetrics.dev/docs/rules/common/prefer-moving-to-variable).
+
 ## 5.3.0
 
 * feat: add static code diagnostic [`list-all-equatable-fields`](https://dartcodemetrics.dev/docs/rules/common/list-all-equatable-fields).
