@@ -6,9 +6,9 @@ void main() {
   AnotherEnum.anotherValue;
   AnotherEnum.firstValue;
 
-  // prefix.SomeValue.firstValue;
-  // prefix.SomeValue.firstValue;
-  // prefix.SomeValue.secondValue;
+  prefix.SomeValue.firstValue;
+  prefix.SomeValue.firstValue;
+  prefix.SomeValue.secondValue;
 
   prefix.SomeClass.value;
   prefix.SomeClass.value;
