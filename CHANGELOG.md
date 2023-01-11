@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* fix: partially handle normal completion function body for [`avoid-redundant-async`](https://dartcodemetrics.dev/docs/rules/common/avoid-redundant-async).
 * feat: add static code diagnostic [`prefer-provide-intl-description`](https://dartcodemetrics.dev/docs/rules/intl/prefer-provide-intl-description).
 * feat: exclude `.freezed.dart` files by default.
 * fix: handle try and switch statements for [`use-setstate-synchronously`](https://dartcodemetrics.dev/docs/rules/flutter/use-setstate-synchronously)
