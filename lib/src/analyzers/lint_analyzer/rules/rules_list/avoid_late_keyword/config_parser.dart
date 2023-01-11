@@ -11,5 +11,5 @@ class _ConfigParser {
       config.containsKey(_ignoredTypesConfig) &&
               config[_ignoredTypesConfig] is Iterable
           ? List<String>.from(config[_ignoredTypesConfig] as Iterable)
-          : <String>[];
+          : <String>['AnimationController'];
 }
