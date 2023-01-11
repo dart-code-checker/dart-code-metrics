@@ -56,3 +56,18 @@ class Theme {
 }
 
 String getValue() => 'hello';
+
+enum SomeValue {
+  firstValue,
+  secondValue,
+  entry1,
+  entry2,
+}
+
+class SomeClass {
+  static final value = '10';
+
+  final field = 11;
+}
+
+final instance = SomeClass();

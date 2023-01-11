@@ -12,6 +12,19 @@ Use this rule if you want to avoid unexpected runtime exceptions.
 
 :::
 
+Use `allow-initialized` configuration (default is `false`), if you want to allow initialized late variable declarations.
+
+### ⚙️ Config example {#config-example}
+
+```yaml
+dart_code_metrics:
+  ...
+  rules:
+    ...
+    - avoid-late-keyword:
+        allow-initialized: true
+```
+
 ### Example {#example}
 
 **❌ Bad:**
