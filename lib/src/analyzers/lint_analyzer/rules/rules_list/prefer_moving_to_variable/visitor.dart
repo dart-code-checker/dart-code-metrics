@@ -61,6 +61,7 @@ class _BlockVisitor extends RecursiveAstVisitor<void> {
   @override
   void visitMethodInvocation(MethodInvocation node) {
     if (node.parent is CascadeExpression ||
+        node.parent is VariableDeclaration ||
         (node.staticType?.isVoid ?? false)) {
       return;
     }
