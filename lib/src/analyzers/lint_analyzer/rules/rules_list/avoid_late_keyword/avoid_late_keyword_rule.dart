@@ -33,6 +33,15 @@ class AvoidLateKeywordRule extends CommonRule {
         );
 
   @override
+  Map<String, Object?> toJson() {
+    final json = super.toJson();
+    json[_ConfigParser._allowInitializedConfig] = _allowInitialized;
+    json[_ConfigParser._ignoredTypesConfig] = _ignoredTypes.toList();
+
+    return json;
+  }
+
+  @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
     final visitor = _Visitor(_allowInitialized, _ignoredTypes);
 
