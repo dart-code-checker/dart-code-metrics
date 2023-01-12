@@ -9,6 +9,7 @@
 * chore: restrict `analyzer` version to `>=5.1.0 <5.4.0`.
 * fix: ignore method invocations in a variable declaration for [`prefer-moving-to-variable`](https://dartcodemetrics.dev/docs/rules/common/prefer-moving-to-variable).
 * feat: add `allow-initialized` option to [`avoid-late-keyword`](https://dartcodemetrics.dev/docs/rules/common/avoid-late-keyword).
+* feat: add `ignored-types` option to [`avoid-late-keyword`](https://dartcodemetrics.dev/docs/rules/common/avoid-late-keyword).
 
 ## 5.4.0
 
