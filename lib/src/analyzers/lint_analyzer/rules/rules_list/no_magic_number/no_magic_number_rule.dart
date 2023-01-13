@@ -53,6 +53,7 @@ class NoMagicNumberRule extends CommonRule {
         .where(_isNotInsideConstConstructor)
         .where(_isNotInDateTime)
         .where(_isNotInsideIndexExpression)
+        .where(_isNotInsideEnumConstantArguments)
         .map((lit) => createIssue(
               rule: this,
               location: nodeLocation(node: lit, source: source),
@@ -79,6 +80,14 @@ class NoMagicNumberRule extends CommonRule {
                 'DateTime',
       ) ==
       null;
+
+  bool _isNotInsideEnumConstantArguments(Literal l) {
+    final node = l.thisOrAncestorMatching(
+      (ancestor) => ancestor is EnumConstantArguments,
+    );
+
+    return node == null;
+  }
 
   bool _isNotInsideCollectionLiteral(Literal l) => l.parent is! TypedLiteral;
 
