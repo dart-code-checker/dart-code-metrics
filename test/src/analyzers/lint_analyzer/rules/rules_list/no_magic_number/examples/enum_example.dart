@@ -13,5 +13,5 @@ enum ExampleNamedMagicNumbers {
 
   final int value;
 
-  const ExampleMagicNumbers({required this.value});
+  const ExampleNamedMagicNumbers({required this.value});
 }
