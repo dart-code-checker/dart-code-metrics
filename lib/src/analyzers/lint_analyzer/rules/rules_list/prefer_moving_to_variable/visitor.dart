@@ -40,8 +40,16 @@ class _BlockVisitor extends RecursiveAstVisitor<void> {
 
   @override
   void visitPropertyAccess(PropertyAccess node) {
-    if (node.target == null) {
+    final target = node.target;
+    if (target == null) {
       return;
+    }
+
+    if (target is PrefixedIdentifier) {
+      final element = target.identifier.staticElement;
+      if (element is EnumElement || element is ClassElement) {
+        return;
+      }
     }
 
     final hasDuplicates = _checkForDuplicates(node, node.target);
@@ -53,6 +61,7 @@ class _BlockVisitor extends RecursiveAstVisitor<void> {
   @override
   void visitMethodInvocation(MethodInvocation node) {
     if (node.parent is CascadeExpression ||
+        node.parent is VariableDeclaration ||
         (node.staticType?.isVoid ?? false)) {
       return;
     }

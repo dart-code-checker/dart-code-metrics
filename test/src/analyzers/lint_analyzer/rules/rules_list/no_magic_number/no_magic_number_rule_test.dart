@@ -9,6 +9,7 @@ const _incorrectExamplePath = 'no_magic_number/examples/incorrect_example.dart';
 const _exceptionsExamplePath =
     'no_magic_number/examples/exceptions_example.dart';
 const _arrayExamplePath = 'no_magic_number/examples/array_example.dart';
+const _enumExamplePath = 'no_magic_number/examples/enum_example.dart';
 
 void main() {
   group('NoMagicNumberRule', () {
@@ -37,6 +38,13 @@ void main() {
 
     test("doesn't report constants", () async {
       final unit = await RuleTestHelper.resolveFromFile(_examplePath);
+      final issues = NoMagicNumberRule().check(unit);
+
+      RuleTestHelper.verifyNoIssues(issues);
+    });
+
+    test("doesn't report enum arguments", () async {
+      final unit = await RuleTestHelper.resolveFromFile(_enumExamplePath);
       final issues = NoMagicNumberRule().check(unit);
 
       RuleTestHelper.verifyNoIssues(issues);

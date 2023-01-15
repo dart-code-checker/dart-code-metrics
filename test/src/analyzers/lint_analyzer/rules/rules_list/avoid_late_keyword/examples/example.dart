@@ -5,7 +5,7 @@ class Test {
 
   String? nullableField;
 
-  late String uninitializedField; // LINT
+  late int uninitializedField; // LINT
 
   void method() {
     late final variable = 'string'; // LINT

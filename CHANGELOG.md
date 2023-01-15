@@ -3,10 +3,15 @@
 ## Unreleased
 
 * fix: partially handle normal completion function body for [`avoid-redundant-async`](https://dartcodemetrics.dev/docs/rules/common/avoid-redundant-async).
+* fix: ignore enum constant arguments for [`no-magic-number`](https://dartcodemetrics.dev/docs/rules/common/no-magic-number).
+* fix: correctly handle prefixed enums and static instance fields for [`prefer-moving-to-variable`](https://dartcodemetrics.dev/docs/rules/common/prefer-moving-to-variable).
 * feat: add static code diagnostic [`prefer-provide-intl-description`](https://dartcodemetrics.dev/docs/rules/intl/prefer-provide-intl-description).
 * feat: exclude `.freezed.dart` files by default.
 * fix: handle try and switch statements for [`use-setstate-synchronously`](https://dartcodemetrics.dev/docs/rules/flutter/use-setstate-synchronously)
 * chore: restrict `analyzer` version to `>=5.1.0 <5.4.0`.
+* fix: ignore method invocations in a variable declaration for [`prefer-moving-to-variable`](https://dartcodemetrics.dev/docs/rules/common/prefer-moving-to-variable).
+* feat: add `allow-initialized` option to [`avoid-late-keyword`](https://dartcodemetrics.dev/docs/rules/common/avoid-late-keyword).
+* feat: add `ignored-types` option to [`avoid-late-keyword`](https://dartcodemetrics.dev/docs/rules/common/avoid-late-keyword).
 
 ## 5.4.0
 

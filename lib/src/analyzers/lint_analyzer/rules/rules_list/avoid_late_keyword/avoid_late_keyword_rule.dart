@@ -11,6 +11,7 @@ import '../../../models/severity.dart';
 import '../../models/common_rule.dart';
 import '../../rule_utils.dart';
 
+part 'config_parser.dart';
 part 'visitor.dart';
 
 class AvoidLateKeywordRule extends CommonRule {
@@ -18,8 +19,13 @@ class AvoidLateKeywordRule extends CommonRule {
 
   static const _warning = "Avoid using 'late' keyword.";
 
+  final bool _allowInitialized;
+  final Iterable<String> _ignoredTypes;
+
   AvoidLateKeywordRule([Map<String, Object> config = const {}])
-      : super(
+      : _allowInitialized = _ConfigParser.parseAllowInitialized(config),
+        _ignoredTypes = _ConfigParser.parseIgnoredTypes(config),
+        super(
           id: ruleId,
           severity: readSeverity(config, Severity.warning),
           excludes: readExcludes(config),
@@ -27,8 +33,17 @@ class AvoidLateKeywordRule extends CommonRule {
         );
 
   @override
+  Map<String, Object?> toJson() {
+    final json = super.toJson();
+    json[_ConfigParser._allowInitializedConfig] = _allowInitialized;
+    json[_ConfigParser._ignoredTypesConfig] = _ignoredTypes.toList();
+
+    return json;
+  }
+
+  @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
-    final visitor = _Visitor();
+    final visitor = _Visitor(_allowInitialized, _ignoredTypes);
 
     source.unit.visitChildren(visitor);
 
