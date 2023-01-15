@@ -40,6 +40,12 @@ class _Visitor extends RecursiveAstVisitor<void> {
     final asyncVisitor = _AsyncVisitor(body);
     body.parent?.visitChildren(asyncVisitor);
 
+    if (asyncVisitor._allReturns.isNotEmpty) {
+      return !asyncVisitor.hasValidAsync &&
+          asyncVisitor._allReturns.length !=
+              asyncVisitor._returnsInsideIf.length;
+    }
+
     return !asyncVisitor.hasValidAsync;
   }
 }
@@ -49,6 +55,9 @@ class _AsyncVisitor extends RecursiveAstVisitor<void> {
 
   bool hasValidAsync = false;
 
+  final _allReturns = <ReturnStatement>{};
+  final _returnsInsideIf = <ReturnStatement>{};
+
   _AsyncVisitor(this.body);
 
   @override
@@ -57,10 +66,14 @@ class _AsyncVisitor extends RecursiveAstVisitor<void> {
 
     final type = node.expression?.staticType;
 
+    _allReturns.add(node);
+    if (_isInsideIfStatement(node, body)) {
+      _returnsInsideIf.add(node);
+    }
+
     if (type == null ||
         !type.isDartAsyncFuture ||
-        type.nullabilitySuffix == NullabilitySuffix.question ||
-        _isInsideIfStatement(node, body)) {
+        type.nullabilitySuffix == NullabilitySuffix.question) {
       hasValidAsync = true;
     }
   }
