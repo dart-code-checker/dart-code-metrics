@@ -10,6 +10,7 @@ import 'reporter.dart';
 abstract class ConsoleReporter<T extends FileReport, P> extends Reporter<T, P> {
   static const String id = 'console';
   static const String verboseId = 'console-verbose';
+  static const String olaId = 'ola-console';
 
   final alarmPen = AnsiPen()..rgb(r: 0.88, g: 0.32, b: 0.36);
   final warningPen = AnsiPen()..rgb(r: 0.98, g: 0.68, b: 0.4);

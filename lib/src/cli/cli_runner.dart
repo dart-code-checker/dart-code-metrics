@@ -80,7 +80,7 @@ To hide this message pass the 'disable-sunset-warning' option.
       exit(1);
     }
 
-    await _checkForUpdates();
+    // await _checkForUpdates();
 
     exit(0);
   }

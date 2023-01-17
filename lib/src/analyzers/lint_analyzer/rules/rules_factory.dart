@@ -14,6 +14,7 @@ import 'rules_list/avoid_global_state/avoid_global_state_rule.dart';
 import 'rules_list/avoid_ignoring_return_values/avoid_ignoring_return_values_rule.dart';
 import 'rules_list/avoid_initializing_in_on_mount/avoid_initializing_in_on_mount_rule.dart';
 import 'rules_list/avoid_late_keyword/avoid_late_keyword_rule.dart';
+import 'rules_list/avoid_literal_string_in_text_widget/avoid_literal_string_in_text_widget_rule.dart';
 import 'rules_list/avoid_missing_enum_constant_in_map/avoid_missing_enum_constant_in_map_rule.dart';
 import 'rules_list/avoid_nested_conditional_expressions/avoid_nested_conditional_expressions_rule.dart';
 import 'rules_list/avoid_non_ascii_symbols/avoid_non_ascii_symbols_rule.dart';
@@ -78,6 +79,7 @@ import 'rules_list/prefer_trailing_comma/prefer_trailing_comma_rule.dart';
 import 'rules_list/prefer_using_list_view/prefer_using_list_view_rule.dart';
 import 'rules_list/provide_correct_intl_args/provide_correct_intl_args_rule.dart';
 import 'rules_list/tag_name/tag_name_rule.dart';
+import 'rules_list/use_intl_widget/use_intl_widget_rule.dart';
 import 'rules_list/use_setstate_synchronously/use_setstate_synchronously_rule.dart';
 
 final _implementedRules = <String, Rule Function(Map<String, Object>)>{
@@ -86,8 +88,7 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   AvoidBannedImportsRule.ruleId: AvoidBannedImportsRule.new,
   AvoidBorderAllRule.ruleId: AvoidBorderAllRule.new,
   AvoidCascadeAfterIfNullRule.ruleId: AvoidCascadeAfterIfNullRule.new,
-  AvoidCollectionMethodsWithUnrelatedTypesRule.ruleId:
-      AvoidCollectionMethodsWithUnrelatedTypesRule.new,
+  AvoidCollectionMethodsWithUnrelatedTypesRule.ruleId: AvoidCollectionMethodsWithUnrelatedTypesRule.new,
   AvoidCreatingVectorInUpdateRule.ruleId: AvoidCreatingVectorInUpdateRule.new,
   AvoidDoubleSlashImportsRule.ruleId: AvoidDoubleSlashImportsRule.new,
   AvoidDuplicateExportsRule.ruleId: AvoidDuplicateExportsRule.new,
@@ -96,14 +97,11 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   AvoidIgnoringReturnValuesRule.ruleId: AvoidIgnoringReturnValuesRule.new,
   AvoidInitializingInOnMountRule.ruleId: AvoidInitializingInOnMountRule.new,
   AvoidLateKeywordRule.ruleId: AvoidLateKeywordRule.new,
-  AvoidMissingEnumConstantInMapRule.ruleId:
-      AvoidMissingEnumConstantInMapRule.new,
-  AvoidNestedConditionalExpressionsRule.ruleId:
-      AvoidNestedConditionalExpressionsRule.new,
+  AvoidMissingEnumConstantInMapRule.ruleId: AvoidMissingEnumConstantInMapRule.new,
+  AvoidNestedConditionalExpressionsRule.ruleId: AvoidNestedConditionalExpressionsRule.new,
   AvoidNonAsciiSymbolsRule.ruleId: AvoidNonAsciiSymbolsRule.new,
   AvoidNonNullAssertionRule.ruleId: AvoidNonNullAssertionRule.new,
-  AvoidPassingAsyncWhenSyncExpectedRule.ruleId:
-      AvoidPassingAsyncWhenSyncExpectedRule.new,
+  AvoidPassingAsyncWhenSyncExpectedRule.ruleId: AvoidPassingAsyncWhenSyncExpectedRule.new,
   AvoidPreserveWhitespaceFalseRule.ruleId: AvoidPreserveWhitespaceFalseRule.new,
   AvoidRedundantAsyncRule.ruleId: AvoidRedundantAsyncRule.new,
   AvoidRedundantAsyncOnLoadRule.ruleId: AvoidRedundantAsyncOnLoadRule.new,
@@ -115,8 +113,7 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   AvoidUnnecessaryConditionalsRule.ruleId: AvoidUnnecessaryConditionalsRule.new,
   AvoidUnnecessarySetStateRule.ruleId: AvoidUnnecessarySetStateRule.new,
   UseSetStateSynchronouslyRule.ruleId: UseSetStateSynchronouslyRule.new,
-  AvoidUnnecessaryTypeAssertionsRule.ruleId:
-      AvoidUnnecessaryTypeAssertionsRule.new,
+  AvoidUnnecessaryTypeAssertionsRule.ruleId: AvoidUnnecessaryTypeAssertionsRule.new,
   AvoidUnnecessaryTypeCastsRule.ruleId: AvoidUnnecessaryTypeCastsRule.new,
   AvoidUnrelatedTypeAssertionsRule.ruleId: AvoidUnrelatedTypeAssertionsRule.new,
   AvoidUnusedParametersRule.ruleId: AvoidUnusedParametersRule.new,
@@ -124,10 +121,8 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   AvoidExpandedAsSpacerRule.ruleId: AvoidExpandedAsSpacerRule.new,
   BanNameRule.ruleId: BanNameRule.new,
   BinaryExpressionOperandOrderRule.ruleId: BinaryExpressionOperandOrderRule.new,
-  CheckForEqualsInRenderObjectSettersRule.ruleId:
-      CheckForEqualsInRenderObjectSettersRule.new,
-  ComponentAnnotationArgumentsOrderingRule.ruleId:
-      ComponentAnnotationArgumentsOrderingRule.new,
+  CheckForEqualsInRenderObjectSettersRule.ruleId: CheckForEqualsInRenderObjectSettersRule.new,
+  ComponentAnnotationArgumentsOrderingRule.ruleId: ComponentAnnotationArgumentsOrderingRule.new,
   ConsistentUpdateRenderObjectRule.ruleId: ConsistentUpdateRenderObjectRule.new,
   CorrectGameInstantiatingRule.ruleId: CorrectGameInstantiatingRule.new,
   DoubleLiteralFormatRule.ruleId: DoubleLiteralFormatRule.new,
@@ -146,10 +141,8 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   PreferCommentingAnalyzerIgnores.ruleId: PreferCommentingAnalyzerIgnores.new,
   PreferConditionalExpressionsRule.ruleId: PreferConditionalExpressionsRule.new,
   PreferConstBorderRadiusRule.ruleId: PreferConstBorderRadiusRule.new,
-  PreferCorrectEdgeInsetsConstructorRule.ruleId:
-      PreferCorrectEdgeInsetsConstructorRule.new,
-  PreferCorrectIdentifierLengthRule.ruleId:
-      PreferCorrectIdentifierLengthRule.new,
+  PreferCorrectEdgeInsetsConstructorRule.ruleId: PreferCorrectEdgeInsetsConstructorRule.new,
+  PreferCorrectIdentifierLengthRule.ruleId: PreferCorrectIdentifierLengthRule.new,
   PreferCorrectTestFileNameRule.ruleId: PreferCorrectTestFileNameRule.new,
   PreferCorrectTypeNameRule.ruleId: PreferCorrectTypeNameRule.new,
   PreferDefineHeroTagRule.ruleId: PreferDefineHeroTagRule.new,
@@ -170,11 +163,12 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   PreferUsingListViewRule.ruleId: PreferUsingListViewRule.new,
   ProvideCorrectIntlArgsRule.ruleId: ProvideCorrectIntlArgsRule.new,
   TagNameRule.ruleId: TagNameRule.new,
+  UseIntlWidget.ruleId: UseIntlWidget.new,
+  AvoidLiteralStringInTextWidgetRule.ruleId: AvoidLiteralStringInTextWidgetRule.new,
 };
 
 Iterable<String> get allRuleIds => _implementedRules.keys;
 
-Iterable<Rule> getRulesById(Map<String, Map<String, Object>> rulesConfig) =>
-    List.unmodifiable(_implementedRules.keys
-        .where((id) => rulesConfig.keys.contains(id))
-        .map<Rule>((id) => _implementedRules[id]!(rulesConfig[id]!)));
+Iterable<Rule> getRulesById(Map<String, Map<String, Object>> rulesConfig) => List.unmodifiable(_implementedRules.keys
+    .where((id) => rulesConfig.keys.contains(id))
+    .map<Rule>((id) => _implementedRules[id]!(rulesConfig[id]!)));

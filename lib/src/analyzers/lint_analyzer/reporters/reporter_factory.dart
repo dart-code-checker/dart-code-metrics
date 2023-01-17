@@ -23,14 +23,12 @@ final _implementedReports = <String,
 )>{
   CheckstyleReporter.id: (output, _) => LintCheckstyleReporter(output),
   ConsoleReporter.id: (output, _) => LintConsoleReporter(output),
-  ConsoleReporter.verboseId: (output, _) =>
-      LintConsoleReporter(output, reportAll: true),
+  ConsoleReporter.verboseId: (output, _) => LintConsoleReporter(output, reportAll: true),
   CodeClimateReporter.id: (output, _) => LintCodeClimateReporter(output),
   HtmlReporter.id: (_, reportFolder) => LintHtmlReporter(reportFolder),
   JsonReporter.id: (output, _) => LintJsonReporter(output),
   GitHubReporter.id: (output, _) => LintGitHubReporter(output),
-  CodeClimateReporter.alternativeId: (output, _) =>
-      LintCodeClimateReporter(output, gitlabCompatible: true),
+  CodeClimateReporter.alternativeId: (output, _) => LintCodeClimateReporter(output, gitlabCompatible: true),
 };
 
 Reporter<FileReport, LintReportParams>? reporter({

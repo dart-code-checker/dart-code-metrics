@@ -76,15 +76,14 @@ class LintAnalyzer {
     String rootFolder,
     LintConfig config, {
     String? sdkPath,
+    Set<String>? analyzedFiles,
   }) async {
-    final collection =
-        createAnalysisContextCollection(folders, rootFolder, sdkPath);
+    final collection = createAnalysisContextCollection(folders, rootFolder, sdkPath);
 
     final analyzerResult = <LintFileReport>[];
 
     for (final context in collection.contexts) {
-      final lintAnalysisConfig =
-          _getAnalysisConfig(context, rootFolder, config);
+      final lintAnalysisConfig = _getAnalysisConfig(context, rootFolder, config);
 
       final report = LintAnalysisOptionsValidator.validateOptions(
         lintAnalysisConfig,
@@ -98,15 +97,16 @@ class LintAnalyzer {
         _logger?.printConfig(lintAnalysisConfig.toJson());
       }
 
-      final filePaths = getFilePaths(
-        folders,
-        context,
-        rootFolder,
-        lintAnalysisConfig.globalExcludes,
-      );
+      if (analyzedFiles == null) {
+        final filePaths = getFilePaths(
+          folders,
+          context,
+          rootFolder,
+          lintAnalysisConfig.globalExcludes,
+        );
 
-      final analyzedFiles =
-          filePaths.intersection(context.contextRoot.analyzedFiles().toSet());
+        analyzedFiles = filePaths.intersection(context.contextRoot.analyzedFiles().toSet());
+      }
 
       final contextsLength = collection.contexts.length;
       final filesLength = analyzedFiles.length;
@@ -164,14 +164,12 @@ class LintAnalyzer {
         SummaryLintReportRecord<num>(
           title: 'Average Cyclomatic Number per line of code',
           value: averageCYCLO(records),
-          violations:
-              metricViolations(records, CyclomaticComplexityMetric.metricId),
+          violations: metricViolations(records, CyclomaticComplexityMetric.metricId),
         ),
         SummaryLintReportRecord<int>(
           title: 'Average Source Lines of Code per method',
           value: averageSLOC(records),
-          violations:
-              metricViolations(records, SourceLinesOfCodeMetric.metricId),
+          violations: metricViolations(records, SourceLinesOfCodeMetric.metricId),
         ),
         SummaryLintReportRecord<String>(
           title: 'Total tech debt',
@@ -184,11 +182,9 @@ class LintAnalyzer {
     String rootFolder,
     LintConfig config,
   ) {
-    final analysisOptions = analysisOptionsFromContext(context) ??
-        analysisOptionsFromFilePath(rootFolder, context);
+    final analysisOptions = analysisOptionsFromContext(context) ?? analysisOptionsFromFilePath(rootFolder, context);
 
-    final contextConfig =
-        ConfigBuilder.getLintConfigFromOptions(analysisOptions).merge(config);
+    final contextConfig = ConfigBuilder.getLintConfigFromOptions(analysisOptions).merge(config);
 
     return ConfigBuilder.getLintAnalysisConfig(
       contextConfig,
@@ -231,8 +227,7 @@ class LintAnalyzer {
 
       final classMetrics = _checkClassMetrics(visitor, internalResult, config);
       final fileMetrics = _checkFileMetrics(visitor, internalResult, config);
-      final functionMetrics =
-          _checkFunctionMetrics(visitor, internalResult, config);
+      final functionMetrics = _checkFunctionMetrics(visitor, internalResult, config);
       final antiPatterns = _checkOnAntiPatterns(
         ignores,
         internalResult,
@@ -280,11 +275,10 @@ class LintAnalyzer {
                 createAbsolutePatterns(rule.excludes, config.rootFolder),
               ))
           .expand(
-            (rule) =>
-                rule.check(source).where((issue) => !ignores.isSuppressedAt(
-                      issue.ruleId,
-                      issue.location.start.line,
-                    )),
+            (rule) => rule.check(source).where((issue) => !ignores.isSuppressedAt(
+                  issue.ruleId,
+                  issue.location.start.line,
+                )),
           )
           .toList();
 
@@ -302,9 +296,8 @@ class LintAnalyzer {
                 source.path,
                 createAbsolutePatterns(pattern.excludes, config.rootFolder),
               ))
-          .expand((pattern) => pattern
-              .check(source, classMetrics, functionMetrics)
-              .where((issue) => !ignores.isSuppressedAt(
+          .expand((pattern) =>
+              pattern.check(source, classMetrics, functionMetrics).where((issue) => !ignores.isSuppressedAt(
                     issue.ruleId,
                     issue.location.start.line,
                   )))
@@ -424,7 +417,5 @@ class LintAnalyzer {
   }
 
   bool _isSupported(FileResult result) =>
-      result.path.endsWith('.dart') &&
-      !result.path.endsWith('.g.dart') &&
-      !result.path.endsWith('.freezed.dart');
+      result.path.endsWith('.dart') && !result.path.endsWith('.g.dart') && !result.path.endsWith('.freezed.dart');
 }

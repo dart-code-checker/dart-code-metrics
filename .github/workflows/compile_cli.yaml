@@ -1,0 +1,23 @@
+name: "Compile cli"
+
+# Controls when the workflow will run
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  pack:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+      - name: Install dependencies
+        run: dart pub get
+      - name: Compile jit snapshot
+        run: dart compile jit-snapshot bin/metrics_cli.dart
+      - uses: actions/upload-artifact@v2.3.1
+        with: 
+          name: metrics
+          path: bin/metrics_cli.jit         
