@@ -8,11 +8,11 @@
 
 <img
   src="https://raw.githubusercontent.com/dart-code-checker/dart-code-metrics/master/assets/logo.svg"
-  alt="Dart Code Metrics logo"
+  alt="DCM logo"
   height="150" width="150"
   align="right">
 
-# Dart Code Metrics
+# DCM
 
 **Note: you can find [the full documentation on the website](https://dartcodemetrics.dev/docs/getting-started/introduction)**
 
@@ -29,7 +29,7 @@
   align="right">
 </a>
 
-Dart Code Metrics is a static analysis tool that helps you analyse and improve your code quality.
+DCM is a static analysis tool that helps you analyse and improve your code quality.
 
 - Reports [code metrics](https://dartcodemetrics.dev/docs/metrics)
 - Provides [additional rules](https://dartcodemetrics.dev/docs/rules) for the dart analyzer
@@ -105,7 +105,7 @@ You can read more about the configuration [on the website](https://dartcodemetri
 
 ### Analyzer plugin
 
-Dart Code Metrics can be used as a plugin for the Dart `analyzer` [package](https://pub.dev/packages/analyzer) providing additional rules. All issues produced by rules or anti-patterns will be highlighted in IDE.
+DCM can be used as a plugin for the Dart `analyzer` [package](https://pub.dev/packages/analyzer) providing additional rules. All issues produced by rules or anti-patterns will be highlighted in IDE.
 
 ![Highlighted issue example](https://raw.githubusercontent.com/dart-code-checker/dart-code-metrics/master/assets/plugin-example.png)
 
@@ -127,7 +127,7 @@ The package can be used as CLI and supports multiple commands:
 
 For additional help on any of the commands, enter `dart run dart_code_metrics:metrics help <command>`
 
-**Note:** if you're setting up Dart Code Metrics for multi-package repository, check out [this website section](https://dartcodemetrics.dev/docs/cli#multi-package-repositories-usage).
+**Note:** if you're setting up DCM for multi-package repository, check out [this website section](https://dartcodemetrics.dev/docs/cli#multi-package-repositories-usage).
 
 #### Analyze
 
@@ -261,16 +261,16 @@ If you are interested in contributing, please check out the [contribution guidel
 
 ### En
 
-- [Finding Unused Files With Dart Code Metrics](https://medium.com/wriketechclub/finding-unused-files-with-dart-code-metrics-b9aba48ad7ca) - This article considers one of the first commands, checking unused Dart files, by [Dmitry Zhifarsky](https://github.com/incendial)
-- [Improving Code Quality With Dart Code Metrics](https://medium.com/wriketechclub/improving-code-quality-with-dart-code-metrics-430a5e3e316d) -  Advantages of using Dart Code Metrics, by [Dmitry Zhifarsky](https://github.com/incendial)
+- [Finding Unused Files With DCM](https://medium.com/wriketechclub/finding-unused-files-with-dart-code-metrics-b9aba48ad7ca) - This article considers one of the first commands, checking unused Dart files, by [Dmitry Zhifarsky](https://github.com/incendial)
+- [Improving Code Quality With DCM](https://medium.com/wriketechclub/improving-code-quality-with-dart-code-metrics-430a5e3e316d) -  Advantages of using DCM, by [Dmitry Zhifarsky](https://github.com/incendial)
 - [Creating a Custom Plugin for Dart Analyzer](https://medium.com/wriketechclub/creating-a-custom-plugin-for-dart-analyzer-48b76d81a239) -  How to develop a custom Dart code analyzer plugin, by [Dmitry Zhifarsky](https://github.com/incendial)
-- [Flutter Static Analysis, Dart Code Metrics](https://fredgrott.medium.com/flutter-static-analysis-dart-code-metrics-c9ec484f4e0f) -  How to install the dart_code-metrics plugin and effectively use it to analyze dart code, by [Fred Grott](https://github.com/fredgrott)
+- [Flutter Static Analysis, DCM](https://fredgrott.medium.com/flutter-static-analysis-dart-code-metrics-c9ec484f4e0f) -  How to install the dart_code-metrics plugin and effectively use it to analyze dart code, by [Fred Grott](https://github.com/fredgrott)
 
 ### Ru
 
-- [Повышаем качество кода с Dart Code Metrics](https://habr.com/ru/company/wrike/blog/552012/) -  Преимущества использования Dart Code Metrics, от [Dmitry Zhifarsky](https://github.com/incendial)
+- [Повышаем качество кода с DCM](https://habr.com/ru/company/wrike/blog/552012/) -  Преимущества использования DCM, от [Dmitry Zhifarsky](https://github.com/incendial)
 - [Как создать кастомный плагин для Dart-анализатора](https://habr.com/ru/company/wrike/blog/541672/) -  Описан процесс создания плагина для анализатора кода, от [Dmitry Zhifarsky](https://github.com/incendial)
-- [Dart Code Metrics — мой первый pull request](https://habr.com/ru/post/592131/) -  Инструкция по созданию нового правила, от [Vlad Konoshenko](https://github.com/Konoshenko)
+- [DCM — мой первый pull request](https://habr.com/ru/post/592131/) -  Инструкция по созданию нового правила, от [Vlad Konoshenko](https://github.com/Konoshenko)
 
 ## How to reach us
 

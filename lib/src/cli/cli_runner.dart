@@ -48,7 +48,7 @@ class CliRunner extends CommandRunner<void> {
       final showVersion = results[FlagNames.version] as bool;
 
       if (showVersion) {
-        _logger.info('Dart Code Metrics version: $packageVersion');
+        _logger.info('DCM version: $packageVersion');
 
         return;
       }
