@@ -22,4 +22,6 @@ class ClassWithMethods {
 
   // ignore: unnecessary-nullable
   void ignoredAlwaysNonNullable(String? anotherValue) {}
+
+  void tearOff(String? anotherValue) {}
 }
