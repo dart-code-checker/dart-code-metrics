@@ -14,12 +14,12 @@
 
 # DCM
 
-**Note: you can find [the full documentation on the website](https://dartcodemetrics.dev/docs/getting-started/introduction)**
+**Note: you can find [the full documentation on the website](https://dcm.dev/individuals/docs/getting-started)**
 
-[Configuration](https://dartcodemetrics.dev/docs/getting-started/configuration) |
-[Rules](https://dartcodemetrics.dev/docs/rules) |
-[Metrics](https://dartcodemetrics.dev/docs/metrics) |
-[Anti-patterns](https://dartcodemetrics.dev/docs/anti-patterns/overivew)
+[Configuration](https://dcm.dev/docs/individuals/configuration) |
+[Rules](https://dcm.dev/docs/individuals/rules) |
+[Metrics](https://dcm.dev/docs/individuals/metrics) |
+[Anti-patterns](https://dcm.dev/docs/individuals/anti-patterns/overivew)
 
 <a href="https://flutter.dev/docs/development/packages-and-plugins/favorites">
 <img
@@ -31,13 +31,13 @@
 
 DCM is a static analysis tool that helps you analyse and improve your code quality.
 
-- Reports [code metrics](https://dartcodemetrics.dev/docs/metrics)
-- Provides [additional rules](https://dartcodemetrics.dev/docs/rules) for the dart analyzer
-- Checks for [anti-patterns](https://dartcodemetrics.dev/docs/anti-patterns)
-- Checks [unused `*.dart` files](https://dartcodemetrics.dev/docs/cli/check-unused-files)
-- Checks [unused l10n](https://dartcodemetrics.dev/docs/cli/check-unused-l10n)
-- Checks [unnecessary nullable parameters](https://dartcodemetrics.dev/docs/cli/check-unnecessary-nullable)
-- Can be used as [CLI](https://dartcodemetrics.dev/docs/cli), [analyzer plugin](https://dartcodemetrics.dev/docs/analyzer-plugin) or [library](https://dartcodemetrics.dev/docs/getting-started/installation#library)
+- Reports [code metrics](https://dcm.dev/docs/individuals/metrics)
+- Provides [additional rules](https://dcm.dev/individuals/docs/rules) for the dart analyzer
+- Checks for [anti-patterns](https://dcm.dev/docs/individuals/anti-patterns)
+- Checks [unused `*.dart` files](https://dcm.dev/docs/individuals/cli/check-unused-files)
+- Checks [unused l10n](https://dcm.dev/docs/individuals/cli/check-unused-l10n)
+- Checks [unnecessary nullable parameters](https://dcm.dev/docs/individuals/cli/check-unnecessary-nullable)
+- Can be used as [CLI](https://dcm.dev/docs/individuals/cli), [analyzer plugin](https://dcm.dev/docs/individuals/analyzer-plugin) or [library](https://dcm.dev/docs/individuals/getting-started/#library)
 
 ## Links
 
@@ -99,7 +99,7 @@ dart_code_metrics:
 
 Reload IDE to allow the analyzer to discover the plugin config.
 
-You can read more about the configuration [on the website](https://dartcodemetrics.dev/docs/getting-started/configuration).
+You can read more about the configuration [on the website](https://dcm.dev/docs/individuals/configuration).
 
 ## Usage
 
@@ -127,7 +127,7 @@ The package can be used as CLI and supports multiple commands:
 
 For additional help on any of the commands, enter `dart run dart_code_metrics:metrics help <command>`
 
-**Note:** if you're setting up DCM for multi-package repository, check out [this website section](https://dartcodemetrics.dev/docs/cli#multi-package-repositories-usage).
+**Note:** if you're setting up DCM for multi-package repository, check out [this website section](https://dcm.dev/docs/individuals/cli#multi-package-repositories-usage).
 
 #### Analyze
 

@@ -23,9 +23,10 @@ Issue createIssue({
 /// Returns a url of a page containing documentation associated with [pattern]
 Uri documentation(Pattern pattern) => Uri(
       scheme: 'https',
-      host: 'dartcodemetrics.dev',
+      host: 'dcm.dev',
       pathSegments: [
         'docs',
+        'individuals',
         'anti-patterns',
         pattern.id,
       ],

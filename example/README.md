@@ -1,6 +1,6 @@
 # Examples
 
-DCM is a static analysis tool and code from it is not expected to be used directly. Instead, it should be added as a dev dependency and installed [as described here](https://dartcodemetrics.dev/docs/getting-started/installation).
+DCM is a static analysis tool and code from it is not expected to be used directly. Instead, it should be added as a dev dependency and installed [as described here](https://dcm.dev/docs/individuals/getting-started).
 
 ## Plugin and CLI
 
@@ -12,4 +12,4 @@ DCM can be used as a library, imported and called directly from your code. Conti
 
 ## Presets
 
-Presets can be enabled with `extends` config, more details [can be found here](https://dartcodemetrics.dev/docs/getting-started/configuration#extending-an-existing-configuration-preset).
+Presets can be enabled with `extends` config, more details [can be found here](https://dcm.dev/docs/individuals/configuration/presets/).

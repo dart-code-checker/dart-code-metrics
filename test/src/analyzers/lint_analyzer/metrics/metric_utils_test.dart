@@ -13,7 +13,7 @@ void main() {
       expect(
         documentation(metricId1).toString(),
         equals(
-          'https://dartcodemetrics.dev/docs/metrics/metric-id-1',
+          'https://dcm.dev/docs/individuals/metrics/metric-id-1',
         ),
       );
       expect(
