@@ -11,6 +11,7 @@
 * fix: ignore method invocations in a variable declaration for [`prefer-moving-to-variable`](https://dartcodemetrics.dev/docs/rules/common/prefer-moving-to-variable).
 * feat: add `allow-initialized` option to [`avoid-late-keyword`](https://dartcodemetrics.dev/docs/rules/common/avoid-late-keyword).
 * feat: add `ignored-types` option to [`avoid-late-keyword`](https://dartcodemetrics.dev/docs/rules/common/avoid-late-keyword).
+* fix: support tear-off methods for `check-unnecessary-nullable`.
 
 ## 5.4.0
 
