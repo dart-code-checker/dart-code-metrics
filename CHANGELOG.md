@@ -13,6 +13,7 @@
 * feat: add `allow-initialized` option to [`avoid-late-keyword`](https://dcm.dev/docs/individuals/rules/common/avoid-late-keyword).
 * feat: add `ignored-types` option to [`avoid-late-keyword`](https://dcm.dev/docs/individuals/rules/common/avoid-late-keyword).
 * fix: support tear-off methods for `check-unnecessary-nullable`.
+* feat: support type=lint suppression.
 
 ## 5.4.0
 

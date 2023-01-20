@@ -7,12 +7,18 @@ class Suppression {
   static final _ignoreForFileMatcher =
       RegExp('//[ ]*ignore_for_file:(.*)', multiLine: true);
 
+  static const _typeLint = 'type=lint';
+
   final _ignoreMap = <int, List<String>>{};
   final _ignoreForFileSet = <String>{};
+
+  bool _hasAllLintsSuppressed = false;
+
   final LineInfo lineInfo;
 
   /// Checks that the [id] is globally suppressed.
-  bool isSuppressed(String id) => _ignoreForFileSet.contains(_canonicalize(id));
+  bool isSuppressed(String id) =>
+      _hasAllLintsSuppressed || _ignoreForFileSet.contains(_canonicalize(id));
 
   /// Checks that the [id] is suppressed for the [lineIndex].
   bool isSuppressedAt(String id, int lineIndex) =>
@@ -40,7 +46,12 @@ class Suppression {
     }
 
     for (final match in _ignoreForFileMatcher.allMatches(content)) {
-      _ignoreForFileSet.addAll(match.group(1)!.split(',').map(_canonicalize));
+      final suppressed = match.group(1)!.split(',').map(_canonicalize);
+      if (suppressed.contains(_typeLint)) {
+        _hasAllLintsSuppressed = true;
+      } else {
+        _ignoreForFileSet.addAll(suppressed);
+      }
     }
   }
 
