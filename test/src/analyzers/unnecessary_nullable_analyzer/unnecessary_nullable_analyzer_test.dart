@@ -73,7 +73,7 @@ void main() {
           expect(firstIssue.declarationName, 'alwaysNonNullable');
           expect(firstIssue.declarationType, 'method');
           expect(firstIssue.parameters.toString(), '(String? anotherValue)');
-          expect(firstIssue.location.line, 7);
+          expect(firstIssue.location.line, 9);
           expect(firstIssue.location.column, 3);
 
           final secondIssue = report.issues.last;
@@ -83,7 +83,7 @@ void main() {
             secondIssue.parameters.toString(),
             '(String? value, required String? name)',
           );
-          expect(secondIssue.location.line, 16);
+          expect(secondIssue.location.line, 18);
           expect(secondIssue.location.column, 3);
         });
 

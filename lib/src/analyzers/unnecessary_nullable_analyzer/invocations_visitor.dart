@@ -22,6 +22,15 @@ class InvocationsVisitor extends RecursiveAstVisitor<void> {
   }
 
   @override
+  void visitPropertyAccess(PropertyAccess node) {
+    super.visitPropertyAccess(node);
+
+    if (node.propertyName.staticType is FunctionType) {
+      _recordUsedElement(node.propertyName.staticElement, null);
+    }
+  }
+
+  @override
   void visitPrefixedIdentifier(PrefixedIdentifier node) {
     super.visitPrefixedIdentifier(node);
 

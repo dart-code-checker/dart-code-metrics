@@ -47,6 +47,7 @@ void main() {
   MyWidget(GlobalKey());
 
   AnotherWidget(onSubmit: withMethods.tearOff);
+  AnotherWidget(onSubmit: withMethods.inner.anotherTearOff);
 }
 
 class _Test {
