@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* fix: partially handle normal completion function body for [`avoid-redundant-async`](https://dcm.dev/docs/individuals/rules/common/avoid-redundant-async).
 * fix: ignore enum constant arguments for [`no-magic-number`](https://dcm.dev/docs/individuals/rules/common/no-magic-number).
 * fix: correctly handle prefixed enums and static instance fields for [`prefer-moving-to-variable`](https://dcm.dev/docs/individuals/rules/common/prefer-moving-to-variable).
 * feat: add static code diagnostic [`prefer-provide-intl-description`](https://dcm.dev/docs/individuals/rules/intl/prefer-provide-intl-description).
