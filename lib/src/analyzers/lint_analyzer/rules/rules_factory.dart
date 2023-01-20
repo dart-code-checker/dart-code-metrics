@@ -38,6 +38,7 @@ import 'rules_list/avoid_wrapping_in_padding/avoid_wrapping_in_padding_rule.dart
 import 'rules_list/ban_name/ban_name_rule.dart';
 import 'rules_list/binary_expression_operand_order/binary_expression_operand_order_rule.dart';
 import 'rules_list/check_for_equals_in_render_object_setters/check_for_equals_in_render_object_setters_rule.dart';
+import 'rules_list/check_post_frame_callback/check_post_frame_callback_rule.dart';
 import 'rules_list/component_annotation_arguments_ordering/component_annotation_arguments_ordering_rule.dart';
 import 'rules_list/consistent_update_render_object/consistent_update_render_object_rule.dart';
 import 'rules_list/correct_game_instantiating/correct_game_instantiating_rule.dart';
@@ -165,6 +166,7 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   TagNameRule.ruleId: TagNameRule.new,
   UseIntlWidget.ruleId: UseIntlWidget.new,
   AvoidLiteralStringInTextWidgetRule.ruleId: AvoidLiteralStringInTextWidgetRule.new,
+  CheckPostFrameCallbackRule.ruleId: CheckPostFrameCallbackRule.new,
 };
 
 Iterable<String> get allRuleIds => _implementedRules.keys;
