@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Report an issue with Dart code metrics.
+about: Report an issue with DCM.
 title: "[BUG] "
 labels: bug
 assignees: dkrutskikh, incendial
@@ -10,7 +10,7 @@ assignees: dkrutskikh, incendial
     This template is for bug reports. If you want to to ask a question, improve existing rule or suggest a new one please use another template.
 -->
 
-* **Dart code metrics version:**
+* **DCM version:**
 * **Dart sdk version:**
 
 **Please show your full configuration:**
