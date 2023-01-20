@@ -22,7 +22,7 @@ void main() {
 
       expect(
         documentationUri.path,
-        equals('/docs/rules/common/list-all-equatable-fields'),
+        equals('/docs/inidividuals/rules/common/list-all-equatable-fields'),
       );
     });
 
