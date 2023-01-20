@@ -26,7 +26,11 @@ class Suppression {
       (_ignoreMap[lineIndex]?.contains(_canonicalize(id)) ?? false);
 
   /// Initialize a newly created [Suppression] with the given [content] and [lineInfo].
-  Suppression(String content, this.lineInfo) {
+  Suppression(
+    String content,
+    this.lineInfo, {
+    bool supportsTypeLintIgnore = false,
+  }) {
     for (final match in _ignoreMatchers.allMatches(content)) {
       final ids = match.group(1)!.split(',').map(_canonicalize);
       final location = lineInfo.getLocation(match.start);
@@ -47,7 +51,7 @@ class Suppression {
 
     for (final match in _ignoreForFileMatcher.allMatches(content)) {
       final suppressed = match.group(1)!.split(',').map(_canonicalize);
-      if (suppressed.contains(_typeLint)) {
+      if (supportsTypeLintIgnore && suppressed.contains(_typeLint)) {
         _hasAllLintsSuppressed = true;
       } else {
         _ignoreForFileSet.addAll(suppressed);

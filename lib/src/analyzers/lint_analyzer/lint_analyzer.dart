@@ -196,6 +196,7 @@ class LintAnalyzer {
     );
   }
 
+  // ignore: long-method
   LintFileReport? _analyzeFile(
     ResolvedUnitResult result,
     LintAnalysisConfig config,
@@ -206,7 +207,11 @@ class LintAnalyzer {
       return null;
     }
 
-    final ignores = Suppression(result.content, result.lineInfo);
+    final ignores = Suppression(
+      result.content,
+      result.lineInfo,
+      supportsTypeLintIgnore: true,
+    );
     final internalResult = InternalResolvedUnitResult(
       filePath,
       result.content,
@@ -240,11 +245,12 @@ class LintAnalyzer {
         path: filePath,
         relativePath: relativePath,
         file: fileMetrics,
-        classes: Map.unmodifiable(classMetrics
-            .map<String, Report>((key, value) => MapEntry(key.name, value))),
-        functions: Map.unmodifiable(functionMetrics.map<String, Report>(
-          (key, value) => MapEntry(key.fullName, value),
-        )),
+        classes: Map.unmodifiable(
+          classMetrics.map((key, value) => MapEntry(key.name, value)),
+        ),
+        functions: Map.unmodifiable(
+          functionMetrics.map((key, value) => MapEntry(key.fullName, value)),
+        ),
         issues: issues,
         antiPatternCases: antiPatterns,
       );

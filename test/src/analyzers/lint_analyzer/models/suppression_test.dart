@@ -10,7 +10,11 @@ void main() {
   test('suppression in content', () async {
     final parseResult = await FileResolver.resolve(_examplePath);
 
-    final suppression = Suppression(parseResult.content, parseResult.lineInfo);
+    final suppression = Suppression(
+      parseResult.content,
+      parseResult.lineInfo,
+      supportsTypeLintIgnore: true,
+    );
 
     expect(suppression.isSuppressed('rule_id1'), isTrue);
     expect(suppression.isSuppressed('rule_id2'), isTrue);
@@ -28,7 +32,11 @@ void main() {
   test('suppression with type=lint', () async {
     final parseResult = await FileResolver.resolve(_exampleAllPath);
 
-    final suppression = Suppression(parseResult.content, parseResult.lineInfo);
+    final suppression = Suppression(
+      parseResult.content,
+      parseResult.lineInfo,
+      supportsTypeLintIgnore: true,
+    );
 
     expect(suppression.isSuppressed('rule_id1'), isTrue);
     expect(suppression.isSuppressed('rule_id2'), isTrue);
