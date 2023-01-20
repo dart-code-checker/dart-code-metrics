@@ -59,4 +59,12 @@ void main() {
     () async => instance.someAsyncMethod(), // LINT
     onSelectedNamed: () async => instance.someAsyncMethod(), // LINT
   );
+
+  WithFunctionField(onSelectedNamed: () async {
+    if (shouldRefresh) return apiCall();
+  });
+}
+
+Future<void> apiCall() {
+  return Future.value();
 }

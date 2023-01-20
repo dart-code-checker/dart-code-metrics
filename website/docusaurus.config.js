@@ -21,12 +21,12 @@ module.exports = {
       additionalLanguages: ['dart'],
     },
     announcementBar: {
-      id: 'support_us',
+      id: 'new_website',
       content:
-        "⭐ If you like DCM, give it a star on <a target='_blank' rel='noopener noreferrer' href='https://github.com/dart-code-checker/dart-code-metrics'>GitHub</a> ⭐",
+        "This website is archived and might not reflect the latest version, you can find the new website on <a target='_blank' rel='noopener noreferrer' href='https://dcm.dev'>dcm.dev</a>",
       backgroundColor: '#fff',
       textColor: '#000',
-      isCloseable: true,
+      isCloseable: false,
     },
     navbar: {
       title: 'Dart Code Metrics',

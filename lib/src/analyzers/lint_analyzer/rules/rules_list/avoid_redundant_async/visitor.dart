@@ -37,21 +37,39 @@ class _Visitor extends RecursiveAstVisitor<void> {
       }
     }
 
-    final asyncVisitor = _AsyncVisitor();
+    final asyncVisitor = _AsyncVisitor(body);
     body.parent?.visitChildren(asyncVisitor);
+
+    if (asyncVisitor._allReturns.isNotEmpty) {
+      return !asyncVisitor.hasValidAsync &&
+          asyncVisitor._allReturns.length !=
+              asyncVisitor._returnsInsideIf.length;
+    }
 
     return !asyncVisitor.hasValidAsync;
   }
 }
 
 class _AsyncVisitor extends RecursiveAstVisitor<void> {
+  final FunctionBody body;
+
   bool hasValidAsync = false;
+
+  final _allReturns = <ReturnStatement>{};
+  final _returnsInsideIf = <ReturnStatement>{};
+
+  _AsyncVisitor(this.body);
 
   @override
   void visitReturnStatement(ReturnStatement node) {
     super.visitReturnStatement(node);
 
     final type = node.expression?.staticType;
+
+    _allReturns.add(node);
+    if (_isInsideIfStatement(node, body)) {
+      _returnsInsideIf.add(node);
+    }
 
     if (type == null ||
         !type.isDartAsyncFuture ||
@@ -79,5 +97,13 @@ class _AsyncVisitor extends RecursiveAstVisitor<void> {
     super.visitYieldStatement(node);
 
     hasValidAsync = true;
+  }
+
+  bool _isInsideIfStatement(ReturnStatement node, FunctionBody body) {
+    final parent = node.thisOrAncestorMatching(
+      (parent) => parent == body || parent is IfStatement,
+    );
+
+    return parent is IfStatement;
   }
 }

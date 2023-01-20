@@ -16,7 +16,7 @@ void main() {
       () {
         const id = 'rule-id';
         final documentationUrl = Uri.parse(
-          'https://dartcodemetrics.dev/docs/rules/flutter/rule-id',
+          'https://dcm.dev/docs/individuals/rules/flutter/rule-id',
         );
         const severity = Severity.none;
 
@@ -72,7 +72,7 @@ void main() {
       expect(
         documentation(rule1).toString(),
         equals(
-          'https://dartcodemetrics.dev/docs/rules/flutter/$ruleId1',
+          'https://dcm.dev/docs/individuals/rules/flutter/$ruleId1',
         ),
       );
 
