@@ -25,10 +25,10 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startLines: [5],
+        startLines: [4],
         startColumns: [3],
         locationTexts: [
-          'WidgetsBinding.instance?.addPostFrameCallback((_) {})',
+          'WidgetsBinding.instance.addPostFrameCallback((_) {})',
         ],
         messages: [
           'To be compatiable with flutter2, `addPostFrameCallback` should be called on `WidgetsBinding.instance?`',

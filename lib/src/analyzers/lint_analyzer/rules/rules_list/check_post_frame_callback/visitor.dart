@@ -10,7 +10,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
     super.visitMethodInvocation(node);
 
     if (node.methodName.name == 'addPostFrameCallback' &&
-        node.operator?.type == TokenType.QUESTION_PERIOD &&
+        node.operator?.type != TokenType.QUESTION_PERIOD &&
         node.target.toString() == 'WidgetsBinding.instance') {
       _expressions.add(node);
     }
