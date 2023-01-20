@@ -39,7 +39,7 @@ void main() {
             verify(() => output.writeln(captureAny())).captured.cast<String>();
 
         expect(captured, isNotEmpty);
-        expect(captured.first, startsWith('Dart Code Metrics version: '));
+        expect(captured.first, startsWith('DCM version: '));
       });
     });
   });

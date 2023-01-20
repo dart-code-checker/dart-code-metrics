@@ -5,14 +5,20 @@ import 'package:analyzer/dart/element/element.dart';
 /// elements.
 class InvocationsUsage {
   /// The set of referenced top-level elements.
-  final Map<Element, Set<ArgumentList>> elements = {};
+  final Map<Element, Set<ArgumentList>?> elements = {};
 
   final Set<String> exports = {};
 
-  void addElementUsage(Element element, Set<ArgumentList> expressions) {
+  void addElementUsage(Element element, Set<ArgumentList>? expressions) {
     elements.update(
       element,
-      (value) => value..addAll(expressions),
+      (value) {
+        if (expressions == null || value == null) {
+          return null;
+        }
+
+        return value..addAll(expressions);
+      },
       ifAbsent: () => expressions,
     );
   }

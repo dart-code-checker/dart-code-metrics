@@ -1,5 +1,5 @@
 class MyWidget extends StatelessWidget {
-  const MyWidget(Key? key) : super(key);
+  const MyWidget(super.key);
 }
 
 class Widget {
@@ -9,9 +9,15 @@ class Widget {
 }
 
 class StatelessWidget extends Widget {
-  const StatelessWidget(Key? key) : super(key);
+  const StatelessWidget(super.key);
 }
 
 class Key {}
 
 class GlobalKey extends Key {}
+
+class AnotherWidget extends Widget {
+  final void Function(String?) onSubmit;
+
+  const AnotherWidget({required this.onSubmit}) : super(null);
+}

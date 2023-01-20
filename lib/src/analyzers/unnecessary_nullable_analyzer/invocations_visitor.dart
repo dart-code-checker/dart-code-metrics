@@ -3,6 +3,7 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/type.dart';
 
 import 'models/invocations_usage.dart';
 
@@ -17,6 +18,15 @@ class InvocationsVisitor extends RecursiveAstVisitor<void> {
     final uri = node.element2?.uri;
     if (uri is DirectiveUriWithSource) {
       invocationsUsages.exports.add(uri.source.fullName);
+    }
+  }
+
+  @override
+  void visitPrefixedIdentifier(PrefixedIdentifier node) {
+    super.visitPrefixedIdentifier(node);
+
+    if (node.identifier.staticType is FunctionType) {
+      _recordUsedElement(node.identifier.staticElement, null);
     }
   }
 
@@ -42,7 +52,7 @@ class InvocationsVisitor extends RecursiveAstVisitor<void> {
   }
 
   /// Records use of a not prefixed [element].
-  void _recordUsedElement(Element? element, ArgumentList arguments) {
+  void _recordUsedElement(Element? element, ArgumentList? arguments) {
     if (element == null) {
       return;
     }
@@ -52,6 +62,7 @@ class InvocationsVisitor extends RecursiveAstVisitor<void> {
       return;
     }
     // Remember the element.
-    invocationsUsages.addElementUsage(element, {arguments});
+    final usedArguments = arguments == null ? null : {arguments};
+    invocationsUsages.addElementUsage(element, usedArguments);
   }
 }
