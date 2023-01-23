@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 5.5.0
 
 * fix: partially handle normal completion function body for [`avoid-redundant-async`](https://dcm.dev/docs/individuals/rules/common/avoid-redundant-async).
 * fix: ignore enum constant arguments for [`no-magic-number`](https://dcm.dev/docs/individuals/rules/common/no-magic-number).
