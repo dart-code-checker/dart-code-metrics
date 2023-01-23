@@ -17,9 +17,6 @@ final _implementedPatterns = <String, CreatePattern>{
       ),
 };
 
-Iterable<Pattern> get allPatterns =>
-    _implementedPatterns.keys.map((id) => _implementedPatterns[id]!({}, {}));
-
 Iterable<Pattern> getPatternsById(LintConfig config) =>
     List.unmodifiable(_implementedPatterns.keys
         .where((id) => config.antiPatterns.keys.contains(id))

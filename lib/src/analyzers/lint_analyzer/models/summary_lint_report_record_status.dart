@@ -23,8 +23,6 @@ class SummaryLintReportRecordStatus {
   /// Status for a record without a decision.
   static const none = SummaryLintReportRecordStatus._('none');
 
-  static const values = [error, warning, ok, none];
-
   final String _value;
 
   const SummaryLintReportRecordStatus._(this._value);

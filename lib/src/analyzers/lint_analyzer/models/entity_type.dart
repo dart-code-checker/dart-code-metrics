@@ -11,9 +11,6 @@ class EntityType {
   /// The entity representing a class method or constructor, function, getter or setter.
   static const methodEntity = EntityType._('method');
 
-  /// A list containing all of the enum values that are defined.
-  static const values = [classEntity, fileEntity, methodEntity];
-
   final String _value;
 
   const EntityType._(this._value);
