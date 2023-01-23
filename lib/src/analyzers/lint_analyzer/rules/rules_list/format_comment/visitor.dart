@@ -110,6 +110,9 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
   bool _isValidSentence(String sentence) {
     final trimmedSentence = sentence.trim();
+    if (trimmedSentence.isEmpty) {
+      return true;
+    }
 
     final upperCase = trimmedSentence[0] == trimmedSentence[0].toUpperCase();
     final lastSymbol =
