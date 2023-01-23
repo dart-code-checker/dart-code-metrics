@@ -13,6 +13,7 @@
 * feat: add `allow-initialized` option to [`avoid-late-keyword`](https://dcm.dev/docs/individuals/rules/common/avoid-late-keyword).
 * feat: add `ignored-types` option to [`avoid-late-keyword`](https://dcm.dev/docs/individuals/rules/common/avoid-late-keyword).
 * fix: support tear-off methods for `check-unnecessary-nullable`.
+* fix: correctly handle empty comment sentence for [`format-comment`](https://dcm.dev/docs/individuals/rules/common/format-comment).
 
 ## 5.4.0
 
