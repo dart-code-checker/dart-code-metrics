@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* fix: export missing parts of public API.
+
 ## 5.5.0
 
 * fix: partially handle normal completion function body for [`avoid-redundant-async`](https://dcm.dev/docs/individuals/rules/common/avoid-redundant-async).
