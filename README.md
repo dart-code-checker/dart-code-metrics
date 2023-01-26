@@ -14,12 +14,12 @@
 
 # DCM
 
-**Note: you can find [the full documentation on the website](https://dcm.dev/individuals/docs/getting-started)**
+**Note: you can find [the full documentation on the website](https://dcm.dev/docs/individuals/getting-started)**
 
 [Configuration](https://dcm.dev/docs/individuals/configuration) |
 [Rules](https://dcm.dev/docs/individuals/rules) |
 [Metrics](https://dcm.dev/docs/individuals/metrics) |
-[Anti-patterns](https://dcm.dev/docs/individuals/anti-patterns/overivew)
+[Anti-patterns](https://dcm.dev/docs/individuals/anti-patterns)
 
 <a href="https://flutter.dev/docs/development/packages-and-plugins/favorites">
 <img
@@ -32,7 +32,7 @@
 DCM is a static analysis tool that helps you analyse and improve your code quality.
 
 - Reports [code metrics](https://dcm.dev/docs/individuals/metrics)
-- Provides [additional rules](https://dcm.dev/individuals/docs/rules) for the dart analyzer
+- Provides [additional rules](https://dcm.dev/docs/individuals/rules) for the dart analyzer
 - Checks for [anti-patterns](https://dcm.dev/docs/individuals/anti-patterns)
 - Checks [unused `*.dart` files](https://dcm.dev/docs/individuals/cli/check-unused-files)
 - Checks [unused l10n](https://dcm.dev/docs/individuals/cli/check-unused-l10n)
