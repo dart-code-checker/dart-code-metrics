@@ -1,27 +1,27 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:analyzer/dart/ast/ast.dart';
-import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
-import 'package:analyzer/dart/element/nullability_suffix.dart';
+import 'package:analyzer/dart/element/type.dart';
+import 'package:collection/collection.dart';
 
+import '../../../../../utils/flame_type_utils.dart';
 import '../../../../../utils/node_utils.dart';
 import '../../../lint_utils.dart';
 import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
 import '../../../models/severity.dart';
-import '../../models/common_rule.dart';
+import '../../models/flame_rule.dart';
 import '../../rule_utils.dart';
 
 part 'visitor.dart';
 
-class AvoidRedundantAsyncRule extends CommonRule {
-  static const String ruleId = 'avoid-redundant-async';
+class AvoidRedundantAsyncOnLoadRule extends FlameRule {
+  static const String ruleId = 'avoid-redundant-async-on-load';
 
-  static const _warningMessage =
-      "'async' keyword is redundant, consider removing it.";
+  static const _warningMessage = "Avoid unnecessary async 'onLoad'.";
 
-  AvoidRedundantAsyncRule([Map<String, Object> config = const {}])
+  AvoidRedundantAsyncOnLoadRule([Map<String, Object> config = const {}])
       : super(
           id: ruleId,
           severity: readSeverity(config, Severity.warning),
@@ -35,12 +35,12 @@ class AvoidRedundantAsyncRule extends CommonRule {
 
     source.unit.visitChildren(visitor);
 
-    return visitor.nodes.map(
-      (node) => createIssue(
-        rule: this,
-        location: nodeLocation(node: node, source: source),
-        message: _warningMessage,
-      ),
-    );
+    return visitor.declarations
+        .map((declaration) => createIssue(
+              rule: this,
+              location: nodeLocation(node: declaration, source: source),
+              message: _warningMessage,
+            ))
+        .toList(growable: false);
   }
 }

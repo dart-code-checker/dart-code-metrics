@@ -21,6 +21,7 @@ import 'rules_list/avoid_non_null_assertion/avoid_non_null_assertion_rule.dart';
 import 'rules_list/avoid_passing_async_when_sync_expected/avoid_passing_async_when_sync_expected_rule.dart';
 import 'rules_list/avoid_preserve_whitespace_false/avoid_preserve_whitespace_false_rule.dart';
 import 'rules_list/avoid_redundant_async/avoid_redundant_async_rule.dart';
+import 'rules_list/avoid_redundant_async_on_load/avoid_redundant_async_on_load_rule.dart';
 import 'rules_list/avoid_returning_widgets/avoid_returning_widgets_rule.dart';
 import 'rules_list/avoid_shrink_wrap_in_lists/avoid_shrink_wrap_in_lists_rule.dart';
 import 'rules_list/avoid_throw_in_catch_block/avoid_throw_in_catch_block_rule.dart';
@@ -103,6 +104,7 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
       AvoidPassingAsyncWhenSyncExpectedRule.new,
   AvoidPreserveWhitespaceFalseRule.ruleId: AvoidPreserveWhitespaceFalseRule.new,
   AvoidRedundantAsyncRule.ruleId: AvoidRedundantAsyncRule.new,
+  AvoidRedundantAsyncOnLoadRule.ruleId: AvoidRedundantAsyncOnLoadRule.new,
   AvoidReturningWidgetsRule.ruleId: AvoidReturningWidgetsRule.new,
   AvoidShrinkWrapInListsRule.ruleId: AvoidShrinkWrapInListsRule.new,
   AvoidThrowInCatchBlockRule.ruleId: AvoidThrowInCatchBlockRule.new,

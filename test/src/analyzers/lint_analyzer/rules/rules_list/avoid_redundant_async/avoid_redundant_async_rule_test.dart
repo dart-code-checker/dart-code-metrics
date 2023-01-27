@@ -19,7 +19,7 @@ void main() {
       );
     });
 
-    test('reports about found issues with the default config', () async {
+    test('reports about found issues', () async {
       final unit = await RuleTestHelper.resolveFromFile(_examplePath);
       final issues = AvoidRedundantAsyncRule().check(unit);
 
