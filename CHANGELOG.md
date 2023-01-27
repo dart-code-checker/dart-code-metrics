@@ -3,6 +3,7 @@
 ## Unreleased
 
 * fix: export missing parts of public API.
+* feat: add static code diagnostic [`correct-game-instantiating`](https://dcm.dev/docs/individuals/rules/flame/correct-game-instantiating).
 
 ## 5.5.0
 

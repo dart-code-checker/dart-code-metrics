@@ -46,8 +46,8 @@ class RuleTestHelper {
     Iterable<int>? startColumns,
     Iterable<String>? locationTexts,
     Iterable<String>? messages,
-    Iterable<String>? replacements,
-    Iterable<String>? replacementComments,
+    Iterable<String?>? replacements,
+    Iterable<String?>? replacementComments,
   }) {
     if (startLines != null) {
       expect(
@@ -83,7 +83,7 @@ class RuleTestHelper {
 
     if (replacements != null) {
       expect(
-        issues.map((issue) => issue.suggestion!.replacement),
+        issues.map((issue) => issue.suggestion?.replacement),
         equals(replacements),
         reason: 'incorrect replacement',
       );
@@ -91,7 +91,7 @@ class RuleTestHelper {
 
     if (replacementComments != null) {
       expect(
-        issues.map((issue) => issue.suggestion!.comment),
+        issues.map((issue) => issue.suggestion?.comment),
         equals(replacementComments),
         reason: 'incorrect replacement comment',
       );
