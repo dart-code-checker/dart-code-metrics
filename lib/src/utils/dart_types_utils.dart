@@ -9,6 +9,7 @@ bool isIterableOrSubclass(DartType? type) =>
 bool isListOrSubclass(DartType? type) =>
     _checkSelfOrSupertypes(type, (t) => t?.isDartCoreList ?? false);
 
+// ignore: unused-code
 bool isMapOrSubclass(DartType? type) =>
     _checkSelfOrSupertypes(type, (t) => t?.isDartCoreMap ?? false);
 

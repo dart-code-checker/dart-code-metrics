@@ -8,7 +8,6 @@ import '../../../../utils/node_utils.dart';
 import '../../lint_utils.dart';
 import '../../metrics/metric_utils.dart';
 import '../../metrics/metrics_list/source_lines_of_code/source_lines_of_code_metric.dart';
-import '../../models/entity_type.dart';
 import '../../models/internal_resolved_unit_result.dart';
 import '../../models/issue.dart';
 import '../../models/report.dart';
@@ -35,7 +34,6 @@ class LongMethod extends Pattern {
         ),
         super(
           id: patternId,
-          supportedType: EntityType.methodEntity,
           severity: readSeverity(patternSettings, Severity.none),
           excludes: readExcludes(patternSettings),
         );
