@@ -14,15 +14,15 @@ MountedFact _extractMountedCheck(
   bool permitAnd = true,
   bool expandOr = false,
 }) {
-  // ![this.]mounted
+  // ![this. || context.]mounted
   if (node is PrefixExpression &&
       node.operator.type == TokenType.BANG &&
-      _isIdentifier(_thisOr(node.operand), 'mounted')) {
+      _isIdentifier(_thisOrContextOr(node.operand), 'mounted')) {
     return false.asFact();
   }
 
-  // [this.]mounted
-  if (_isIdentifier(_thisOr(node), 'mounted')) {
+  // [this. || context.]mounted
+  if (_isIdentifier(_thisOrContextOr(node), 'mounted')) {
     return true.asFact();
   }
 
@@ -91,10 +91,17 @@ bool _isDivergent(Statement node, {bool allowControlFlow = false}) =>
     node is ExpressionStatement && node.expression is ThrowExpression;
 
 @pragma('vm:prefer-inline')
-Expression _thisOr(Expression node) =>
-    node is PropertyAccess && node.target is ThisExpression
-        ? node.propertyName
-        : node;
+Expression _thisOrContextOr(Expression node) {
+  if (node is PropertyAccess && node.target is ThisExpression) {
+    return node.propertyName;
+  }
+
+  if (node is PrefixedIdentifier && isBuildContext(node.prefix.staticType)) {
+    return node.identifier;
+  }
+
+  return node;
+}
 
 bool _blockDiverges(Statement block, {required bool allowControlFlow}) => block
         is Block
