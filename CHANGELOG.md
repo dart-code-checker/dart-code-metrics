@@ -4,6 +4,7 @@
 
 * fix: export missing parts of public API.
 * feat: add static code diagnostic [`correct-game-instantiating`](https://dcm.dev/docs/individuals/rules/flame/correct-game-instantiating).
+* feat: add static code diagnostic [`avoid-initializing-in-on-mount`](https://dcm.dev/docs/individuals/rules/flame/avoid-initializing-in-on-mount).
 
 ## 5.5.0
 

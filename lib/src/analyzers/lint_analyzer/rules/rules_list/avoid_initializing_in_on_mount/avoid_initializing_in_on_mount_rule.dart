@@ -3,24 +3,28 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/dart/element/element.dart';
+// ignore: implementation_imports
+import 'package:analyzer/src/dart/ast/ast.dart';
+import 'package:collection/collection.dart';
 
+import '../../../../../utils/flame_type_utils.dart';
 import '../../../../../utils/node_utils.dart';
 import '../../../lint_utils.dart';
 import '../../../models/internal_resolved_unit_result.dart';
 import '../../../models/issue.dart';
 import '../../../models/severity.dart';
-import '../../models/common_rule.dart';
+import '../../models/flame_rule.dart';
 import '../../rule_utils.dart';
 
 part 'visitor.dart';
 
-class AvoidGlobalStateRule extends CommonRule {
-  static const String ruleId = 'avoid-global-state';
+class AvoidInitializingInOnMountRule extends FlameRule {
+  static const String ruleId = 'avoid-initializing-in-on-mount';
 
-  static const _warning =
-      'Avoid using global variable without const or final keywords.';
+  static const _warningMessage =
+      'Avoid initializing final late variables in onMount.';
 
-  AvoidGlobalStateRule([Map<String, Object> config = const {}])
+  AvoidInitializingInOnMountRule([Map<String, Object> config = const {}])
       : super(
           id: ruleId,
           severity: readSeverity(config, Severity.warning),
@@ -34,11 +38,11 @@ class AvoidGlobalStateRule extends CommonRule {
 
     source.unit.visitChildren(visitor);
 
-    return visitor.declarations
-        .map((declaration) => createIssue(
+    return visitor.expressions
+        .map((expression) => createIssue(
               rule: this,
-              location: nodeLocation(node: declaration, source: source),
-              message: _warning,
+              location: nodeLocation(node: expression, source: source),
+              message: _warningMessage,
             ))
         .toList(growable: false);
   }
