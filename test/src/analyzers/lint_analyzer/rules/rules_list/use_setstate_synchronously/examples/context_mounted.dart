@@ -18,7 +18,7 @@ class State {
 }
 
 class BuildContext {
-  bool get mounted = true;
+  bool get mounted => true;
 }
 
 Future<String> fetchData() => Future.value('123');
