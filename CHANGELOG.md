@@ -4,6 +4,7 @@
 
 * fix: export missing parts of public API.
 * feat: support `context.mounted` for [`use-setstate-synchronously`](https://dcm.dev/docs/individuals/rules/flutter/use-setstate-synchronously).
+* feat: add `allow-only-once` option to [`no-magic-number`](https://dcm.dev/docs/individuals/rules/common/no-magic-number).
 
 ## 5.5.0
 
