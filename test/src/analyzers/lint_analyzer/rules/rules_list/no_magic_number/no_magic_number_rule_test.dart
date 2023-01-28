@@ -68,7 +68,7 @@ void main() {
       RuleTestHelper.verifyNoIssues(issues);
     });
 
-    test("doesn't report magic numbers used only once", () async {
+    test('reports magic numbers used more than once', () async {
       final unit = await RuleTestHelper.resolveFromFile(_incorrectExamplePath);
       final config = {
         'allow-only-once': true,

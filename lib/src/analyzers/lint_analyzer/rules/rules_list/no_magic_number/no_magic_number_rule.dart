@@ -83,7 +83,7 @@ class NoMagicNumberRule extends CommonRule {
 
     return literals.where((l) =>
         l is IntegerLiteral && literalsCount[l.value] != 1 ||
-        l is DoubleLiteral && literalsCount[l.value] != 1.0);
+        l is DoubleLiteral && literalsCount[l.value] != 1);
   }
 
   bool _isMagicNumber(Literal l) =>
