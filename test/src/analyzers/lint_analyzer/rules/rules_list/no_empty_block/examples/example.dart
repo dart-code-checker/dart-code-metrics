@@ -7,7 +7,6 @@ int simpleFunction() {
   if (a > 70) {
   } else if (a > 65) {
     // TODO(developerName): message.
-
   } else if (a > 60) {
     return a + 2;
   }

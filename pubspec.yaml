@@ -1,10 +1,10 @@
 name: dart_code_metrics
-version: 5.5.0
+version: 5.5.1
 description: Software analytics tool that helps developers analyse and improve software quality.
 homepage: https://dcm.dev
 repository: https://github.com/dart-code-checker/dart-code-metrics
 issue_tracker: https://github.com/dart-code-checker/dart-code-metrics/issues
-documentation: https://dcm.dev/docs/individuals/getting-started/introduction
+documentation: https://dcm.dev/docs/individuals/getting-started
 
 environment:
   sdk: ">=2.18.0 <3.0.0"

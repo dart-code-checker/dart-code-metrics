@@ -1,5 +1,10 @@
 # Changelog
 
+## 5.5.1
+
+* fix: export missing parts of public API.
+* feat: support `context.mounted` for [`use-setstate-synchronously`](https://dcm.dev/docs/individuals/rules/flutter/use-setstate-synchronously).
+
 ## 5.5.0
 
 * fix: partially handle normal completion function body for [`avoid-redundant-async`](https://dcm.dev/docs/individuals/rules/common/avoid-redundant-async).
