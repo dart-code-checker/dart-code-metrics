@@ -21,9 +21,11 @@ class NoMagicNumberRule extends CommonRule {
       'Avoid using magic numbers. Extract them to named constants or variables.';
 
   final Iterable<num> _allowedMagicNumbers;
+  final bool _allowOnlyOnce;
 
   NoMagicNumberRule([Map<String, Object> config = const {}])
       : _allowedMagicNumbers = _ConfigParser.parseAllowedNumbers(config),
+        _allowOnlyOnce = _ConfigParser.parseAllowOnlyOnce(config),
         super(
           id: ruleId,
           severity: readSeverity(config, Severity.warning),
@@ -45,7 +47,11 @@ class NoMagicNumberRule extends CommonRule {
 
     source.unit.visitChildren(visitor);
 
-    return visitor.literals
+    final literals = _allowOnlyOnce
+        ? _getNotSingleLiterals(visitor.literals)
+        : visitor.literals;
+
+    return literals
         .where(_isMagicNumber)
         .where(_isNotInsideVariable)
         .where(_isNotInsideCollectionLiteral)
@@ -60,6 +66,24 @@ class NoMagicNumberRule extends CommonRule {
               message: _warningMessage,
             ))
         .toList(growable: false);
+  }
+
+  Iterable<Literal> _getNotSingleLiterals(Iterable<Literal> literals) {
+    final literalsCount = <num, int>{};
+    for (final l in literals) {
+      if (l is IntegerLiteral) {
+        final value = l.value;
+        if (value != null) {
+          literalsCount.update(value, (count) => ++count, ifAbsent: () => 1);
+        }
+      } else if (l is DoubleLiteral) {
+        literalsCount.update(l.value, (count) => ++count, ifAbsent: () => 1);
+      }
+    }
+
+    return literals.where((l) =>
+        l is IntegerLiteral && literalsCount[l.value] != 1 ||
+        l is DoubleLiteral && literalsCount[l.value] != 1.0);
   }
 
   bool _isMagicNumber(Literal l) =>
