@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 5.5.1
 
 * fix: export missing parts of public API.
 * feat: support `context.mounted` for [`use-setstate-synchronously`](https://dcm.dev/docs/individuals/rules/flutter/use-setstate-synchronously).
