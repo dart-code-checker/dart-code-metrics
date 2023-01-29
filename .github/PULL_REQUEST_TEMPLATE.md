@@ -13,6 +13,7 @@ checked during review or continuous integration.
 - \[ ] Followed lint naming conventions
 - \[ ] Tests pass locally
 - \[ ] Updated the changelog
+- \[ ] Added the docs to this PR
 
 Note that you can skip the above if you are just opening a WIP PR in
 order to get feedback.
@@ -26,6 +27,9 @@ Delete this line and everything above before opening your PR.
 
 # Please write a short comment explaining your change (or "none" for internal only changes)
 
+<!-- Uncomment the section below, if you the PR adds or changes a rule>
+<!--
+
 ## Rule documentation
 
 ### Config example (if applicable)
@@ -33,3 +37,5 @@ Delete this line and everything above before opening your PR.
 ### Good example
 
 ### Bad example
+
+-->
