@@ -50,6 +50,9 @@ bool isPaddingWidget(DartType? type) =>
 bool isBuildContext(DartType? type) =>
     type?.getDisplayString(withNullability: false) == 'BuildContext';
 
+bool isGameWidget(DartType? type) =>
+    type?.getDisplayString(withNullability: false) == 'GameWidget';
+
 bool _isWidget(DartType? type) =>
     type?.getDisplayString(withNullability: false) == 'Widget';
 

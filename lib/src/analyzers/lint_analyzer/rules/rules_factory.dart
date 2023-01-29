@@ -35,6 +35,7 @@ import 'rules_list/binary_expression_operand_order/binary_expression_operand_ord
 import 'rules_list/check_for_equals_in_render_object_setters/check_for_equals_in_render_object_setters_rule.dart';
 import 'rules_list/component_annotation_arguments_ordering/component_annotation_arguments_ordering_rule.dart';
 import 'rules_list/consistent_update_render_object/consistent_update_render_object_rule.dart';
+import 'rules_list/correct_game_instantiating/correct_game_instantiating_rule.dart';
 import 'rules_list/double_literal_format/double_literal_format_rule.dart';
 import 'rules_list/format_comment/format_comment_rule.dart';
 import 'rules_list/list_all_equatable_fields/list_all_equatable_fields_rule.dart';
@@ -119,6 +120,7 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   ComponentAnnotationArgumentsOrderingRule.ruleId:
       ComponentAnnotationArgumentsOrderingRule.new,
   ConsistentUpdateRenderObjectRule.ruleId: ConsistentUpdateRenderObjectRule.new,
+  CorrectGameInstantiatingRule.ruleId: CorrectGameInstantiatingRule.new,
   DoubleLiteralFormatRule.ruleId: DoubleLiteralFormatRule.new,
   FormatCommentRule.ruleId: FormatCommentRule.new,
   ListAllEquatableFieldsRule.ruleId: ListAllEquatableFieldsRule.new,
