@@ -19,19 +19,6 @@ updates:
     commit-message:
       prefix: "chore: "
 
-  # Maintain dependencies for npm
-  - package-ecosystem: "npm"
-    directory: "website"
-    schedule:
-      interval: "daily"
-    assignees:
-      - "dependabot"
-    reviewers:
-      - "incendial"
-      - "dkrutskikh"
-    commit-message:
-      prefix: "chore: "
-
   # Maintain dependencies for Dart pub
   - package-ecosystem: "pub"
     directory: "/"
