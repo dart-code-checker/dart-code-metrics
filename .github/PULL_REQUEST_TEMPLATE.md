@@ -2,28 +2,34 @@
     Thank you for contributing!
 -->
 
-### What is the purpose of this pull request? (put an "X" next to an item)
+If your PR fixes an issue, you can add `#issue_number` into this
+PR description. Please don't reference the issue with `closes` (or other) syntax
+since we close the issues only after the code is released.
 
-- [ ] Documentation update
-- [ ] Bug fix
-- [ ] New rule
-- [ ] Changes an existing rule
-- [ ] Add autofixing to a rule
-- [ ] Add a CLI option
-- [ ] Add something to the core
-- [ ] Other, please explain:
+If you added a new lint rule, here's a checklist for things that will be
+checked during review or continuous integration.
 
-<!--
-    If this pull request is addressing an issue, please paste a link to the issue here.
--->
+- \[ ] Red the [contributing guidelines](https://github.com/dart-code-checker/dart-code-metrics/blob/master/CONTRIBUTING.md).
+- \[ ] Followed lint naming conventions
+- \[ ] Tests pass locally
+- \[ ] Updated the changelog
 
-<!--
-    Please ensure your pull request is ready:
+Note that you can skip the above if you are just opening a WIP PR in
+order to get feedback.
 
-    - Include tests for this change
-    - Update documentation for this change
--->
+Since the website was moved out from this repo, please add the rule documentation in the description.
+Refer to [this documentation](https://dcm.dev/docs/individuals/rules/common/format-comment/) as an example.
 
-### What changes did you make? (Give an overview)
+Delete this line and everything above before opening your PR.
 
-### Is there anything you'd like reviewers to focus on?
+---
+
+# Please write a short comment explaining your change (or "none" for internal only changes)
+
+## Rule documentation
+
+### Config example (if applicable)
+
+### Good example
+
+### Bad example

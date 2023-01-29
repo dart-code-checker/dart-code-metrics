@@ -1,5 +1,5 @@
 name: "Request a rule change"
-description: "Request a change to an existing rule."
+description: "Request a change to an existing rule"
 title: "[Rule change] (fill in)"
 assignees: incendial
 labels:
