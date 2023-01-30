@@ -8,6 +8,8 @@ const _examplePath = 'use_setstate_synchronously/examples/example.dart';
 const _issuesPath = 'use_setstate_synchronously/examples/known_errors.dart';
 const _trySwitchPath =
     'use_setstate_synchronously/examples/extras_try_switch.dart';
+const _contextMountedPath =
+    'use_setstate_synchronously/examples/context_mounted.dart';
 
 void main() {
   group('UseSetStateSynchronouslyTest', () {
@@ -114,6 +116,13 @@ void main() {
           "Avoid calling 'setState' past an await point without checking if the widget is mounted.",
         ],
       );
+    });
+
+    test('reports no issues for context.mounted', () async {
+      final unit = await RuleTestHelper.resolveFromFile(_contextMountedPath);
+      final issues = UseSetStateSynchronouslyRule().check(unit);
+
+      RuleTestHelper.verifyNoIssues(issues);
     });
   });
 }

@@ -68,6 +68,22 @@ void main() {
       RuleTestHelper.verifyNoIssues(issues);
     });
 
+    test('reports magic numbers used more than once', () async {
+      final unit = await RuleTestHelper.resolveFromFile(_incorrectExamplePath);
+      final config = {
+        'allow-only-once': true,
+      };
+
+      final issues = NoMagicNumberRule(config).check(unit);
+
+      RuleTestHelper.verifyIssues(
+        issues: issues,
+        startLines: [2, 4],
+        startColumns: [28, 25],
+        locationTexts: ['12', '12'],
+      );
+    });
+
     test(
       'reports magic numbers in objects in widget array structures',
       () async {
