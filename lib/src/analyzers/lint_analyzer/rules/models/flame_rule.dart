@@ -1,10 +1,9 @@
 import 'rule.dart';
 import 'rule_type.dart';
 
-/// Represents a base class for Flutter-specific rules.
+/// Represents a base class for Flame-specific rules.
+/// link: https://pub.dev/packages/flame
 abstract class FlameRule extends Rule {
-  static const link = 'https://pub.dev/packages/flame';
-
   const FlameRule({
     required super.id,
     required super.severity,
