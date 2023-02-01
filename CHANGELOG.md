@@ -2,7 +2,17 @@
 
 ## Unreleased
 
+* docs: remove old website
+* feat: add static code diagnostic [`correct-game-instantiating`](https://dcm.dev/docs/individuals/rules/flame/correct-game-instantiating).
+* feat: add static code diagnostic [`avoid-initializing-in-on-mount`](https://dcm.dev/docs/individuals/rules/flame/avoid-initializing-in-on-mount).
+* feat: add static code diagnostic [`avoid-creating-vector-in-update`](https://dcm.dev/docs/individuals/rules/flame/avoid-creating-vector-in-update).
+* feat: add static code diagnostic [`avoid-redundant-async-on-load`](https://dcm.dev/docs/individuals/rules/flame/avoid-redundant-async-on-load).
+
+## 5.5.1
+
 * fix: export missing parts of public API.
+* feat: support `context.mounted` for [`use-setstate-synchronously`](https://dcm.dev/docs/individuals/rules/flutter/use-setstate-synchronously).
+* feat: add `allow-only-once` option to [`no-magic-number`](https://dcm.dev/docs/individuals/rules/common/no-magic-number).
 
 ## 5.5.0
 

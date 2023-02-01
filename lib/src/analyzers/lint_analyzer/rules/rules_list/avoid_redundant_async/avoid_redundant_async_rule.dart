@@ -38,10 +38,7 @@ class AvoidRedundantAsyncRule extends CommonRule {
     return visitor.nodes.map(
       (node) => createIssue(
         rule: this,
-        location: nodeLocation(
-          node: node,
-          source: source,
-        ),
+        location: nodeLocation(node: node, source: source),
         message: _warningMessage,
       ),
     );

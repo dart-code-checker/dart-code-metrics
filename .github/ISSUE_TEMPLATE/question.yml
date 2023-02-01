@@ -1,0 +1,8 @@
+name: "Ask a Question, Discuss"
+description: "Get help using DCM"
+title: "[Question] (fill in)"
+assignees: incendial
+labels:
+  - "type: question"
+body:
+  - type: textarea
