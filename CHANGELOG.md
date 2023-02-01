@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 5.6.0-dev.1
 
 * docs: remove old website
 * feat: add static code diagnostic [`correct-game-instantiating`](https://dcm.dev/docs/individuals/rules/flame/correct-game-instantiating).
