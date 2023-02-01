@@ -20,7 +20,7 @@ class _Visitor extends SimpleAstVisitor<void> {
         isOverride(member.metadata));
 
     if (onMountMethod is MethodDeclaration) {
-      final visitor = _AssignmentExpression();
+      final visitor = _AssignmentExpressionVisitor();
       onMountMethod.visitChildren(visitor);
 
       _expressions.addAll(visitor.wrongAssignments);
@@ -28,21 +28,18 @@ class _Visitor extends SimpleAstVisitor<void> {
   }
 }
 
-class _AssignmentExpression extends RecursiveAstVisitor<void> {
+class _AssignmentExpressionVisitor extends RecursiveAstVisitor<void> {
   final wrongAssignments = <AssignmentExpression>{};
 
   @override
   void visitAssignmentExpression(AssignmentExpression node) {
     super.visitAssignmentExpression(node);
 
-    final target = node.leftHandSide;
-    if (target is SimpleIdentifierImpl) {
-      final element = target.scopeLookupResult?.getter;
-      if (element is PropertyAccessorElement &&
-          element.variable.isFinal &&
-          element.variable.isLate) {
-        wrongAssignments.add(node);
-      }
+    final element = node.writeElement;
+    if (element is PropertyAccessorElement &&
+        element.variable.isFinal &&
+        element.variable.isLate) {
+      wrongAssignments.add(node);
     }
   }
 }
