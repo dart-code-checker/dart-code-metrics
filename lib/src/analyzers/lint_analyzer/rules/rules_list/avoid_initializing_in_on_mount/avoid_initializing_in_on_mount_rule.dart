@@ -3,8 +3,6 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/dart/element/element.dart';
-// ignore: implementation_imports
-import 'package:analyzer/src/dart/ast/ast.dart';
 import 'package:collection/collection.dart';
 
 import '../../../../../utils/flame_type_utils.dart';
