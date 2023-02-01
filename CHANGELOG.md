@@ -6,6 +6,7 @@
 * feat: add static code diagnostic [`correct-game-instantiating`](https://dcm.dev/docs/individuals/rules/flame/correct-game-instantiating).
 * feat: add static code diagnostic [`avoid-initializing-in-on-mount`](https://dcm.dev/docs/individuals/rules/flame/avoid-initializing-in-on-mount).
 * feat: add static code diagnostic [`avoid-creating-vector-in-update`](https://dcm.dev/docs/individuals/rules/flame/avoid-creating-vector-in-update).
+* feat: add static code diagnostic [`avoid-redundant-async-on-load`](https://dcm.dev/docs/individuals/rules/flame/avoid-redundant-async-on-load).
 
 ## 5.5.1
 
