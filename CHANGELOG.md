@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* fix: support `assert(mounted)` for [`use-setstate-synchronously`](https://dcm.dev/docs/individuals/rules/flutter/use-setstate-synchronously).
+
 ## 5.6.0-dev.1
 
 * docs: remove old website
