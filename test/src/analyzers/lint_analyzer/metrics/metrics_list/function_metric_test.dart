@@ -9,8 +9,6 @@ import 'package:test/test.dart';
 
 class CompilationUnitMemberMock extends Mock implements CompilationUnitMember {}
 
-class DeclarationMock extends Mock implements Declaration {}
-
 class DocumentationMock extends Mock implements MetricDocumentation {}
 
 class FunctionMetricTest extends FunctionMetric<int> {

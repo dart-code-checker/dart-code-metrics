@@ -1,3 +1,5 @@
+// ignore_for_file: unused-code
+
 /// Represents a Code Climate issue category.
 class CodeClimateIssueCategory {
   static const bugRisk = CodeClimateIssueCategory._('Bug Risk');

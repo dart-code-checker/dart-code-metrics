@@ -11,8 +11,6 @@ const _constructorNameOnly = 'only';
 class _Visitor extends RecursiveAstVisitor<void> {
   final _expressions = <InstanceCreationExpression, EdgeInsetsData>{};
 
-  final _Validator validator = _Validator();
-
   Map<InstanceCreationExpression, EdgeInsetsData> get expressions =>
       _expressions;
 

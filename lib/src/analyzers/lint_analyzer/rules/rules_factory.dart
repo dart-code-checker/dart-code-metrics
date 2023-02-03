@@ -170,9 +170,6 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
 
 Iterable<String> get allRuleIds => _implementedRules.keys;
 
-Iterable<Rule> get allRules =>
-    _implementedRules.keys.map((id) => _implementedRules[id]!({}));
-
 Iterable<Rule> getRulesById(Map<String, Map<String, Object>> rulesConfig) =>
     List.unmodifiable(_implementedRules.keys
         .where((id) => rulesConfig.keys.contains(id))

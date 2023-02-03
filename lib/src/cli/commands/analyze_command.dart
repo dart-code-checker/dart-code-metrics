@@ -2,8 +2,6 @@
 
 import 'dart:io';
 
-import 'package:collection/collection.dart';
-
 import '../../analyzers/lint_analyzer/lint_analyzer.dart';
 import '../../analyzers/lint_analyzer/metrics/metrics_factory.dart';
 import '../../analyzers/lint_analyzer/metrics/models/metric_value_level.dart';
@@ -13,7 +11,6 @@ import '../../analyzers/lint_analyzer/reporters/lint_report_params.dart';
 import '../../analyzers/lint_analyzer/reporters/reporters_list/json/lint_json_reporter.dart';
 import '../../analyzers/lint_analyzer/utils/report_utils.dart';
 import '../../config_builder/config_builder.dart';
-import '../../config_builder/models/deprecated_option.dart';
 import '../../logger/logger.dart';
 import '../models/flag_names.dart';
 import '../models/parsed_arguments.dart';
@@ -160,15 +157,9 @@ class AnalyzeCommand extends BaseCommand {
     argParser.addSeparator('');
 
     for (final metric in getMetrics(config: {})) {
-      final deprecation = deprecatedOptions
-          .firstWhereOrNull((option) => option.deprecated == metric.id);
-      final deprecationMessage = deprecation != null
-          ? ' (deprecated, will be removed in ${deprecation.supportUntilVersion} version)'
-          : '';
-
       argParser.addOption(
         metric.id,
-        help: '${metric.documentation.name} threshold$deprecationMessage.',
+        help: '${metric.documentation.name} threshold.',
         valueHelp: '${metric.documentation.recommendedThreshold}',
         callback: (i) {
           if (i != null && int.tryParse(i) == null) {
