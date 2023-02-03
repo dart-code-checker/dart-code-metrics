@@ -5,6 +5,7 @@ import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/dart/element/type.dart';
 
+import '../../../../../utils/dart_types_utils.dart';
 import '../../../../../utils/flutter_types_utils.dart';
 import '../../../../../utils/node_utils.dart';
 import '../../../lint_utils.dart';
@@ -29,10 +30,12 @@ class AvoidReturningWidgetsRule extends FlutterRule {
 
   final Iterable<String> _ignoredNames;
   final Iterable<String> _ignoredAnnotations;
+  final bool _allowNullable;
 
   AvoidReturningWidgetsRule([Map<String, Object> config = const {}])
       : _ignoredNames = _ConfigParser.getIgnoredNames(config),
         _ignoredAnnotations = _ConfigParser.getIgnoredAnnotations(config),
+        _allowNullable = _ConfigParser.getAllowNullable(config),
         super(
           id: ruleId,
           severity: readSeverity(config, Severity.warning),
@@ -46,13 +49,15 @@ class AvoidReturningWidgetsRule extends FlutterRule {
     json[_ConfigParser._ignoredNamesConfig] = _ignoredNames.toList();
     json[_ConfigParser._ignoredAnnotationsConfig] =
         _ignoredAnnotations.toList();
+    json[_ConfigParser._allowNullable] = _allowNullable;
 
     return json;
   }
 
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
-    final visitor = _Visitor(_ignoredNames, _ignoredAnnotations);
+    final visitor =
+        _Visitor(_ignoredNames, _ignoredAnnotations, _allowNullable);
 
     source.unit.visitChildren(visitor);
 

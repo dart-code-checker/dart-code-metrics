@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* feat: add `allow-nullable` config option for [`avoid-returning-widgets`](https://dcm.dev/docs/individuals/rules/common/avoid-returning-widgets).
+
 ## 5.6.0-dev.1
 
 * docs: remove old website

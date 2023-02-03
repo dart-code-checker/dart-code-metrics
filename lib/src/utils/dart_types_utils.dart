@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs
 
+import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:collection/collection.dart';
 
@@ -11,6 +12,9 @@ bool isListOrSubclass(DartType? type) =>
 
 bool isMapOrSubclass(DartType? type) =>
     _checkSelfOrSupertypes(type, (t) => t?.isDartCoreMap ?? false);
+
+bool isNullableType(DartType? type) =>
+    type?.nullabilitySuffix == NullabilitySuffix.question;
 
 DartType? getSupertypeIterable(DartType? type) =>
     _getSelfOrSupertypes(type, (t) => t?.isDartCoreIterable ?? false);
