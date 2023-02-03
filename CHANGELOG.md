@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* fix: correctly support dartdoc tags for [`format-comment`](https://dcm.dev/docs/individuals/rules/common/format-comment).
+
 ## 5.6.0-dev.1
 
 * docs: remove old website
