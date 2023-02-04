@@ -3,6 +3,7 @@
 ## Unreleased
 
 * fix: correctly support dartdoc tags for [`format-comment`](https://dcm.dev/docs/individuals/rules/common/format-comment).
+* feat: add static code diagnostic [prefer-define-hero-tag](https://github.com/dart-code-checker/dart-code-metrics/issues/1027).
 
 ## 5.6.0-dev.1
 
