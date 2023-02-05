@@ -3,8 +3,7 @@ part of 'format_comment_rule.dart';
 const _punctuation = ['.', '!', '?', ':'];
 
 final _sentencesRegExp = RegExp(r'(?<=([\.|:](?=\s|\n|$)))');
-final _regMacrosExp = RegExp('{@(template|macro) .+}');
-const _macrosEndExp = '{@endtemplate}';
+final _regMacrosExp = RegExp('{@.+}');
 const _ignoreExp = 'ignore:';
 const _ignoreForFileExp = 'ignore_for_file:';
 
@@ -141,7 +140,6 @@ class _Visitor extends RecursiveAstVisitor<void> {
     final trimmed = text.trim();
 
     return _regMacrosExp.hasMatch(text) ||
-        text.contains(_macrosEndExp) ||
         _isIgnoreComment(trimmed) ||
         _isIgnoredPattern(trimmed);
   }
@@ -149,8 +147,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
   bool _isIgnoreComment(String text) =>
       text.startsWith(_ignoreExp) || text.startsWith(_ignoreForFileExp);
 
-  bool _isMacros(String text) =>
-      _regMacrosExp.hasMatch(text) || text == _macrosEndExp;
+  bool _isMacros(String text) => _regMacrosExp.hasMatch(text);
 
   bool _isIgnoredPattern(String text) =>
       _ignoredPatterns.any((regExp) => regExp.hasMatch(text));

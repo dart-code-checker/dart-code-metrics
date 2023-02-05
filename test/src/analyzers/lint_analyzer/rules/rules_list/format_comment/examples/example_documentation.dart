@@ -28,3 +28,6 @@ void f3() {}
 
 /// {@template my_project.my_class.my_method}
 void f4() {}
+
+/// {@nodoc}
+void f5() {}
