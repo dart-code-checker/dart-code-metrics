@@ -8,8 +8,6 @@ import 'package:mocktail/mocktail.dart';
 import 'package:source_span/source_span.dart';
 import 'package:test/test.dart';
 
-class AnalysisResultMock extends Mock implements AnalysisResult {}
-
 class ResolvedUnitResultMock extends Mock implements ResolvedUnitResult {}
 
 void main() {
@@ -140,39 +138,4 @@ void main() {
       testOn: 'posix',
     );
   });
-
-  test(
-    'metricReportToAnalysisErrorFixes constructs AnalysisErrorFixes from metric report',
-    () {
-      const metricMessage = 'diagnostic message';
-      const metricId = 'metric id';
-
-      final fixes = metricReportToAnalysisErrorFixes(
-        SourceLocation(
-          offset,
-          sourceUrl: Uri.parse(sourcePath),
-          line: line,
-          column: column,
-        ),
-        length,
-        metricMessage,
-        metricId,
-      );
-
-      expect(fixes.error.severity, equals(AnalysisErrorSeverity.INFO));
-      expect(fixes.error.type, equals(AnalysisErrorType.LINT));
-      expect(fixes.error.location.file, equals(sourcePath));
-      expect(fixes.error.location.offset, equals(5));
-      expect(fixes.error.location, hasLength(length));
-      expect(fixes.error.location.startLine, equals(line));
-      expect(fixes.error.location.startColumn, equals(column));
-      expect(fixes.error.message, equals(metricMessage));
-      expect(fixes.error.code, equals(metricId));
-      expect(fixes.error.correction, isNull);
-      expect(fixes.error.url, isNull);
-      expect(fixes.error.contextMessages, isNull);
-      expect(fixes.error.hasFix, isFalse);
-      expect(fixes.fixes, isEmpty);
-    },
-  );
 }

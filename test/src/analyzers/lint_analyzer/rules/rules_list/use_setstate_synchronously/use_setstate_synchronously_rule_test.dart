@@ -10,6 +10,8 @@ const _trySwitchPath =
     'use_setstate_synchronously/examples/extras_try_switch.dart';
 const _contextMountedPath =
     'use_setstate_synchronously/examples/context_mounted.dart';
+const _assertExample =
+    'use_setstate_synchronously/examples/assert_example.dart';
 
 void main() {
   group('UseSetStateSynchronouslyTest', () {
@@ -30,9 +32,10 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startLines: [7, 24, 29, 36, 51, 66, 70, 76, 82, 92, 97],
-        startColumns: [9, 10, 7, 7, 5, 7, 5, 5, 5, 5, 5],
+        startLines: [7, 24, 29, 36, 51, 66, 70, 76, 82, 92, 97, 102],
+        startColumns: [9, 10, 7, 7, 5, 7, 5, 5, 5, 5, 5, 7],
         locationTexts: [
+          'setState',
           'setState',
           'setState',
           'setState',
@@ -46,6 +49,7 @@ void main() {
           'setState',
         ],
         messages: [
+          "Avoid calling 'setState' past an await point without checking if the widget is mounted.",
           "Avoid calling 'setState' past an await point without checking if the widget is mounted.",
           "Avoid calling 'setState' past an await point without checking if the widget is mounted.",
           "Avoid calling 'setState' past an await point without checking if the widget is mounted.",
@@ -110,6 +114,31 @@ void main() {
           'setState',
         ],
         messages: [
+          "Avoid calling 'setState' past an await point without checking if the widget is mounted.",
+          "Avoid calling 'setState' past an await point without checking if the widget is mounted.",
+          "Avoid calling 'setState' past an await point without checking if the widget is mounted.",
+          "Avoid calling 'setState' past an await point without checking if the widget is mounted.",
+        ],
+      );
+    });
+
+    test('reports issues with assert statements', () async {
+      final unit = await RuleTestHelper.resolveFromFile(_assertExample);
+      final issues = UseSetStateSynchronouslyRule().check(unit);
+
+      RuleTestHelper.verifyIssues(
+        issues: issues,
+        startLines: [7, 19, 22, 28, 36],
+        startColumns: [9, 10, 7, 5, 5],
+        locationTexts: [
+          'setState',
+          'setState',
+          'setState',
+          'setState',
+          'setState',
+        ],
+        messages: [
+          "Avoid calling 'setState' past an await point without checking if the widget is mounted.",
           "Avoid calling 'setState' past an await point without checking if the widget is mounted.",
           "Avoid calling 'setState' past an await point without checking if the widget is mounted.",
           "Avoid calling 'setState' past an await point without checking if the widget is mounted.",

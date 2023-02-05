@@ -116,19 +116,6 @@ jobs:
           dart run coverage:format_coverage --in coverage --out coverage/coverage.lcov --lcov --report-on=lib
           bash <(curl -s https://codecov.io/bash) -f coverage/coverage.lcov
 
-      - name: Publish test results
-        uses: dorny/test-reporter@v1.6.0
-        if: success() || failure() # run this step even if previous step failed
-        with:
-          name: Tests result
-          path: reports/tests.json
-          reporter: dart-json
-          list-suites: "all"
-          list-tests: "all"
-          max-annotations: 16
-          fail-on-error: true
-          token: ${{ secrets.GITHUB_TOKEN }}
-
   check-minimal-supported-dart-compatibility:
     needs: analysis
     runs-on: ubuntu-latest

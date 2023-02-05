@@ -1,4 +1,3 @@
-import '../../models/entity_type.dart';
 import '../../models/internal_resolved_unit_result.dart';
 import '../../models/issue.dart';
 import '../../models/report.dart';
@@ -13,9 +12,6 @@ abstract class Pattern {
   /// The id of the pattern.
   final String id;
 
-  /// The type of entities which will be analyzed by the pattern.
-  final EntityType supportedType;
-
   /// The severity of issues emitted by the pattern.
   final Severity severity;
 
@@ -27,7 +23,6 @@ abstract class Pattern {
 
   const Pattern({
     required this.id,
-    required this.supportedType,
     required this.severity,
     required this.excludes,
   });
