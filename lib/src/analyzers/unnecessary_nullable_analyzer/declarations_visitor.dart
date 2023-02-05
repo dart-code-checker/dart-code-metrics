@@ -3,8 +3,8 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/dart/element/element.dart';
-import 'package:analyzer/dart/element/nullability_suffix.dart';
 
+import '../../utils/dart_types_utils.dart';
 import '../../utils/node_utils.dart';
 import '../../utils/suppression.dart';
 
@@ -75,7 +75,7 @@ class DeclarationsVisitor extends RecursiveAstVisitor<void> {
         final type = parameter.declaredElement?.type;
 
         return type != null &&
-                (type.nullabilitySuffix == NullabilitySuffix.question &&
+                (isNullableType(type) &&
                     (!parameter.isOptional ||
                         parameter.isOptional && parameter.isRequired)) ||
             (parameter is DefaultFormalParameter &&

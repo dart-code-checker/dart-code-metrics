@@ -76,10 +76,8 @@ class _Visitor extends RecursiveAstVisitor<void> {
   }
 
   bool _checkNullableCompatibility(DartType objectType, DartType castedType) {
-    final isObjectTypeNullable =
-        objectType.nullabilitySuffix != NullabilitySuffix.none;
-    final isCastedTypeNullable =
-        castedType.nullabilitySuffix != NullabilitySuffix.none;
+    final isObjectTypeNullable = isNullableType(objectType);
+    final isCastedTypeNullable = isNullableType(castedType);
 
     // Only one case `Type? is Type` always valid assertion case.
     return isObjectTypeNullable && !isCastedTypeNullable;
