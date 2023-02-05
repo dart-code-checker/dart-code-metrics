@@ -11,15 +11,15 @@ import '../../../models/severity.dart';
 import '../../models/flutter_rule.dart';
 import '../../rule_utils.dart';
 
+part 'config.dart';
 part 'fact.dart';
 part 'helpers.dart';
-part 'config.dart';
 part 'visitor.dart';
 
 class UseSetStateSynchronouslyRule extends FlutterRule {
   static const ruleId = 'use-setstate-synchronously';
 
-  Set<String> methods;
+  final Set<String> methods;
 
   UseSetStateSynchronouslyRule([Map<String, Object> options = const {}])
       : methods = readMethods(options),

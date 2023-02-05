@@ -95,7 +95,17 @@ class _FooState extends State<StatefulWidget> {
       await fetch();
     }
     setState(() {}); // LINT
+
+    if (!mounted) return;
+
+    if (await condition()) {
+      setState(() {}); // LINT
+    }
   }
 }
 
 class State {}
+
+Future<void> fetch() {}
+
+Future<bool> condition() {}
