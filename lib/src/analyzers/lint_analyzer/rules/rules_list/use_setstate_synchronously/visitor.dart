@@ -2,6 +2,7 @@ part of 'use_setstate_synchronously_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
   final Set<String> methods;
+
   _Visitor({required this.methods});
 
   final nodes = <SimpleIdentifier>[];
@@ -72,6 +73,8 @@ class _AsyncSetStateVisitor extends RecursiveAstVisitor<void> {
       return node.visitChildren(this);
     }
 
+    node.condition.accept(this);
+
     final newMounted = _extractMountedCheck(node.condition);
     mounted = newMounted.or(mounted);
 
@@ -105,7 +108,7 @@ class _AsyncSetStateVisitor extends RecursiveAstVisitor<void> {
       return node.visitChildren(this);
     }
 
-    node.condition.visitChildren(this);
+    node.condition.accept(this);
 
     final oldMounted = mounted;
     final newMounted = _extractMountedCheck(node.condition);
@@ -127,7 +130,7 @@ class _AsyncSetStateVisitor extends RecursiveAstVisitor<void> {
       return node.visitChildren(this);
     }
 
-    node.forLoopParts.visitChildren(this);
+    node.forLoopParts.accept(this);
 
     final oldInControlFlow = inControlFlow;
     inControlFlow = true;
@@ -181,7 +184,7 @@ class _AsyncSetStateVisitor extends RecursiveAstVisitor<void> {
       return node.visitChildren(this);
     }
 
-    node.expression.visitChildren(this);
+    node.expression.accept(this);
 
     final oldInControlFlow = inControlFlow;
     inControlFlow = true;
