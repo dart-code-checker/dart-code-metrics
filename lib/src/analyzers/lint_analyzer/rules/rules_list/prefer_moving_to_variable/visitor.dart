@@ -108,6 +108,13 @@ class _BlockVisitor extends RecursiveAstVisitor<void> {
   }
 
   bool _isDuplicate(AstNode visitedInvocation, AstNode node) {
+    if (visitedInvocation is Expression &&
+        node is Expression &&
+        visitedInvocation.staticParameterElement !=
+            node.staticParameterElement) {
+      return false;
+    }
+
     final visitedSwitch =
         visitedInvocation.thisOrAncestorOfType<SwitchStatement>();
 
