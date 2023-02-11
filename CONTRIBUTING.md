@@ -19,10 +19,8 @@ PR titles should follow the format below:
 To create a new rule:
 
 1. Choose a rule name according to our naming guide or take it from existing issue for the rule.
-2. Add an `.md` file with the rule documentation to `website/docs/rules`. If the rule supports configuration add ![Configurable](https://img.shields.io/badge/-configurable-informational) badge, if it has auto-fixes add ![Has auto-fix](https://img.shields.io/badge/-has%20auto--fix-success) badge.
-3. Add rule entry into rule index file `website/docs/rules/index.mdx`.
-4. Create a rule `.dart` file under `lib/src/analyzers/lint_analyzer/rules/rules_list`.
-5. Create a class that extends an abstract rule class depending on your rule type. Available classes: `FlutterRule`, `CommonRule`, `IntlRule`, `AngularRule`. Add a public field with rule id, documentation url.
+2. Create a rule `.dart` file under `lib/src/analyzers/lint_analyzer/rules/rules_list`.
+3. Create a class that extends an abstract rule class depending on your rule type. Available classes: `FlutterRule`, `CommonRule`, `IntlRule`, `AngularRule`. Add a public field with rule id, documentation url.
 
     The class constructor should take `Map<String, Object> config` parameter which represents config that is passed to the rule from the `analysis_options.yaml`. Example:
 
@@ -36,10 +34,10 @@ To create a new rule:
         );
     ```
 
-6. Add a visitor class which extends any of the base visitors. Usually you will need `RecursiveAstVisitor`. All visitors are [listed there](https://github.com/dart-lang/sdk/blob/master/pkg/analyzer/lib/dart/ast/visitor.dart). Visitor should be added to a separate file and imported with `part` directive.
-7. Add methods overrides to the visitor class for nodes that you want to check (ex. `visitBinaryExpression`, `visitBlock`).
-8. Collect all data needed for the rule (we usually use a private field for data storage and public getter to access it from the `check` method).
-9. In the rule class add override to `check` method. Create a visitor instance and visit all compilation unit children with it.
+4. Add a visitor class which extends any of the base visitors. Usually you will need `RecursiveAstVisitor`. All visitors are [listed there](https://github.com/dart-lang/sdk/blob/master/pkg/analyzer/lib/dart/ast/visitor.dart). Visitor should be added to a separate file and imported with `part` directive.
+5. Add methods overrides to the visitor class for nodes that you want to check (ex. `visitBinaryExpression`, `visitBlock`).
+6. Collect all data needed for the rule (we usually use a private field for data storage and public getter to access it from the `check` method).
+7. In the rule class add override to `check` method. Create a visitor instance and visit all compilation unit children with it.
 
     Convert data to `Issue`'s and return them from the method. Example:
 
@@ -65,7 +63,7 @@ To create a new rule:
     ```
 
     > Override `toJson` method if the rule is configurable.
-10. Add the rule to the `lib/src/analyzers/lint_analyzer/rules/rules_factory.dart`. Example:
+8. Add the rule to the `lib/src/analyzers/lint_analyzer/rules/rules_factory.dart`. Example:
 
     ```dart
     final _implementedRules = <String, Rule Function(Map<String, Object>)>{
@@ -76,8 +74,9 @@ To create a new rule:
     }
     ```
 
-11. Add the rule tests under `test/analyzers/lint_analyzer/rules/rules_list/`. Prefer to split test examples to a correct/incorrect groups.
-12. Add rule into appropriate presets file: `lib/presets/dart_all.yaml` or `lib/presets/flutter_all.yaml`.
+9. Add the rule tests under `test/analyzers/lint_analyzer/rules/rules_list/`. Prefer to split test examples to a correct/incorrect groups.
+10. Add rule into appropriate presets file: `lib/presets/dart_all.yaml` or `lib/presets/flutter_all.yaml`.
+11. Before submitting the PR, add the rule documentation to the PR's description. Refer [to this rule](https://dcm.dev/docs/individuals/rules/common/prefer-trailing-comma/) as an example.
 
 ## Run the plugin in IDE
 
