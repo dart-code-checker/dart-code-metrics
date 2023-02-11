@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* feat: add `allow-nullable` config option for [`avoid-returning-widgets`](https://dcm.dev/docs/individuals/rules/common/avoid-returning-widgets).
 * fix: support `assert(mounted)` for [`use-setstate-synchronously`](https://dcm.dev/docs/individuals/rules/flutter/use-setstate-synchronously).
 * fix: correctly support dartdoc tags for [`format-comment`](https://dcm.dev/docs/individuals/rules/common/format-comment).
 * fix: resolve several false-positives with while loops, setters and implicit type parameters for [`prefer-moving-to-variable`](https://dcm.dev/docs/individuals/rules/common/prefer-moving-to-variable).

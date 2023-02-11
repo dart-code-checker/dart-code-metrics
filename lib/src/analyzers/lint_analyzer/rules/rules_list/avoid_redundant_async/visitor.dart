@@ -71,9 +71,7 @@ class _AsyncVisitor extends RecursiveAstVisitor<void> {
       _returnsInsideIf.add(node);
     }
 
-    if (type == null ||
-        !type.isDartAsyncFuture ||
-        type.nullabilitySuffix == NullabilitySuffix.question) {
+    if (type == null || !type.isDartAsyncFuture || isNullableType(type)) {
       hasValidAsync = true;
     }
   }

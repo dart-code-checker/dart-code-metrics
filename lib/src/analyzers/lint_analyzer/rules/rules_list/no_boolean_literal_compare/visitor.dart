@@ -24,7 +24,5 @@ class _Visitor extends RecursiveAstVisitor<void> {
   }
 
   bool _isTypeBoolean(DartType? type) =>
-      type != null &&
-      type.isDartCoreBool &&
-      type.nullabilitySuffix == NullabilitySuffix.none;
+      type != null && type.isDartCoreBool && !isNullableType(type);
 }
