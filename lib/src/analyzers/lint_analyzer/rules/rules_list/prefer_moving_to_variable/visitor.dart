@@ -115,6 +115,18 @@ class _BlockVisitor extends RecursiveAstVisitor<void> {
       return false;
     }
 
+    if (_hasMutableArguments(visitedInvocation, node)) {
+      return false;
+    }
+
+    final visitedWhile =
+        visitedInvocation.thisOrAncestorOfType<WhileStatement>();
+    final parentWhile = node.thisOrAncestorOfType<WhileStatement>();
+
+    if (visitedWhile != null && visitedWhile == parentWhile) {
+      return false;
+    }
+
     final visitedSwitch =
         visitedInvocation.thisOrAncestorOfType<SwitchStatement>();
 
@@ -160,4 +172,22 @@ class _BlockVisitor extends RecursiveAstVisitor<void> {
       }
     }
   }
+
+  bool _hasMutableArguments(AstNode visitedInvocation, AstNode node) =>
+      visitedInvocation is MethodInvocation &&
+      node is MethodInvocation &&
+      visitedInvocation.argumentList.arguments.any((argument) {
+        final expression =
+            argument is NamedExpression ? argument.expression : argument;
+
+        if (expression is SimpleIdentifier) {
+          final element = expression.staticElement;
+
+          return element is VariableElement &&
+              !element.isConst &&
+              !element.isFinal;
+        }
+
+        return false;
+      });
 }

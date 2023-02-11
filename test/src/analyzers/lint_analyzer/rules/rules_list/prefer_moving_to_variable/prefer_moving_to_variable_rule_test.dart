@@ -21,6 +21,8 @@ const _prefixExamplePath =
     'prefer_moving_to_variable/examples/prefix_example.dart';
 const _providerExamplePath =
     'prefer_moving_to_variable/examples/provider_example.dart';
+const _whileExamplePath =
+    'prefer_moving_to_variable/examples/while_example.dart';
 
 void main() {
   group('PreferMovingToVariableRule', () {
@@ -244,6 +246,13 @@ void main() {
 
     test('reports no issues for provider read', () async {
       final unit = await RuleTestHelper.resolveFromFile(_providerExamplePath);
+      final issues = PreferMovingToVariableRule().check(unit);
+
+      RuleTestHelper.verifyNoIssues(issues);
+    });
+
+    test('reports no issues for while', () async {
+      final unit = await RuleTestHelper.resolveFromFile(_whileExamplePath);
       final issues = PreferMovingToVariableRule().check(unit);
 
       RuleTestHelper.verifyNoIssues(issues);
