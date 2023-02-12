@@ -26,7 +26,7 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startLines: [49, 54, 57, 84],
+        startLines: [49, 54, 57, 87],
         startColumns: [7, 7, 7, 9],
         locationTexts: [
           'synchronousWork: work1',

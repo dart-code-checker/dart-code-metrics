@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* fix: correctly handle `dynamic` type for [`avoid-passing-async-when-sync-expected`](https://dcm.dev/docs/individuals/rules/common/avoid-passing-async-when-sync-expected).
 * fix: check `didChangeDependencies` for [`avoid-unnecessary-setstate`](https://dcm.dev/docs/individuals/rules/flutter/avoid-unnecessary-setstate).
 * fix: add new config option for [`no-equal-arguments`](https://dcm.dev/docs/individuals/rules/common/no-equal-arguments).
 * feat: add `allow-nullable` config option for [`avoid-returning-widgets`](https://dcm.dev/docs/individuals/rules/common/avoid-returning-widgets).
