@@ -36,10 +36,7 @@ class AvoidPassingAsyncWhenSyncExpectedRule extends CommonRule {
     return visitor.invalidArguments
         .map((invocation) => createIssue(
               rule: this,
-              location: nodeLocation(
-                node: invocation,
-                source: source,
-              ),
+              location: nodeLocation(node: invocation, source: source),
               message: _warningMessage,
             ))
         .toList(growable: false);

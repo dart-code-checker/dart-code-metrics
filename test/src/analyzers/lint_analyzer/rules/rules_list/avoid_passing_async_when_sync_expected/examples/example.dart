@@ -55,6 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
         print('work 3');
       },
       synchronousWork4: work4, // LINT
+      synchronousWork5: work1,
     );
   }
 
@@ -63,11 +64,13 @@ class _MyHomePageState extends State<MyHomePage> {
     required VoidCallback synchronousWork2,
     required VoidCallback synchronousWork3,
     required VoidCallback synchronousWork4,
+    required dynamic Function() synchronousWork5,
   }) {
     synchronousWork();
     synchronousWork2();
     synchronousWork3();
     synchronousWork4();
+    synchronousWork5();
   }
 
   void _incrementCounter() {

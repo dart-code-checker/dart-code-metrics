@@ -96,4 +96,33 @@ void main() {
       RuleTestHelper.verifyNoIssues(issues);
     });
   });
+
+  test('reports about found issue with ignored arguments config', () async {
+    final unit = await RuleTestHelper.resolveFromFile(_incorrectExamplePath);
+    final issues = NoEqualArgumentsRule({
+      'ignored-arguments': ['firstName'],
+    }).check(unit);
+
+    RuleTestHelper.verifyIssues(
+      issues: issues,
+      startLines: [32, 37, 42, 47, 54, 59],
+      startColumns: [5, 5, 5, 5, 5, 5],
+      locationTexts: [
+        'user.firstName',
+        'user.getName',
+        'user.getFirstName()',
+        "user.getNewName('name')",
+        'user.getNewName(name)',
+        'lastName: user.firstName',
+      ],
+      messages: [
+        'The argument has already been passed.',
+        'The argument has already been passed.',
+        'The argument has already been passed.',
+        'The argument has already been passed.',
+        'The argument has already been passed.',
+        'The argument has already been passed.',
+      ],
+    );
+  });
 }
