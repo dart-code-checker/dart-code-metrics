@@ -60,40 +60,40 @@ void main() {
 
       RuleTestHelper.verifyNoIssues(issues);
     });
-  });
 
-  test('reports about found issue with default config', () async {
-    final unit =
-        await RuleTestHelper.resolveFromFile(_namedParametersExamplePath);
-    final issues = NoEqualArgumentsRule().check(unit);
+    test('reports about found issue with default config', () async {
+      final unit =
+          await RuleTestHelper.resolveFromFile(_namedParametersExamplePath);
+      final issues = NoEqualArgumentsRule().check(unit);
 
-    RuleTestHelper.verifyIssues(
-      issues: issues,
-      startLines: [9],
-      startColumns: [3],
-      locationTexts: ['lastName: firstName'],
-      messages: ['The argument has already been passed.'],
-    );
-  });
+      RuleTestHelper.verifyIssues(
+        issues: issues,
+        startLines: [9],
+        startColumns: [3],
+        locationTexts: ['lastName: firstName'],
+        messages: ['The argument has already been passed.'],
+      );
+    });
 
-  test('reports no issues for provider read', () async {
-    final unit = await RuleTestHelper.resolveFromFile(_providerExamplePath);
-    final issues = NoEqualArgumentsRule().check(unit);
+    test('reports no issues for provider read', () async {
+      final unit = await RuleTestHelper.resolveFromFile(_providerExamplePath);
+      final issues = NoEqualArgumentsRule().check(unit);
 
-    RuleTestHelper.verifyNoIssues(issues);
-  });
+      RuleTestHelper.verifyNoIssues(issues);
+    });
 
-  test('reports no issues with custom config', () async {
-    final unit =
-        await RuleTestHelper.resolveFromFile(_namedParametersExamplePath);
-    final config = {
-      'ignored-parameters': [
-        'lastName',
-      ],
-    };
+    test('reports no issues with custom config', () async {
+      final unit =
+          await RuleTestHelper.resolveFromFile(_namedParametersExamplePath);
+      final config = {
+        'ignored-parameters': [
+          'lastName',
+        ],
+      };
 
-    final issues = NoEqualArgumentsRule(config).check(unit);
+      final issues = NoEqualArgumentsRule(config).check(unit);
 
-    RuleTestHelper.verifyNoIssues(issues);
+      RuleTestHelper.verifyNoIssues(issues);
+    });
   });
 }

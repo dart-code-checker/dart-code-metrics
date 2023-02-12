@@ -39,8 +39,8 @@ class _Visitor extends RecursiveAstVisitor<void> {
             arg is NamedExpression &&
             argument.expression is! Literal &&
             arg.expression is! Literal) {
-          return argument.expression.staticParameterElement ==
-                  arg.expression.staticParameterElement &&
+          return argument.expression.staticParameterElement?.type ==
+                  arg.expression.staticParameterElement?.type &&
               argument.expression.toString() == arg.expression.toString();
         }
 
@@ -48,7 +48,8 @@ class _Visitor extends RecursiveAstVisitor<void> {
           return argument == arg;
         }
 
-        return argument.staticParameterElement == arg.staticParameterElement &&
+        return argument.staticParameterElement?.type ==
+                arg.staticParameterElement?.type &&
             argument.toString() == arg.toString();
       });
 
