@@ -108,6 +108,14 @@ class _BlockVisitor extends RecursiveAstVisitor<void> {
   }
 
   bool _isDuplicate(AstNode visitedInvocation, AstNode node) {
+    if (_haveDifferentParameterTypes(visitedInvocation, node) ||
+        _isSetter(node) ||
+        _isSetter(visitedInvocation) ||
+        _hasMutableArguments(visitedInvocation, node) ||
+        _bothInsideWhile(visitedInvocation, node)) {
+      return false;
+    }
+
     final visitedSwitch =
         visitedInvocation.thisOrAncestorOfType<SwitchStatement>();
 
@@ -153,4 +161,46 @@ class _BlockVisitor extends RecursiveAstVisitor<void> {
       }
     }
   }
+
+  bool _hasMutableArguments(AstNode visitedInvocation, AstNode node) =>
+      visitedInvocation is MethodInvocation &&
+      node is MethodInvocation &&
+      visitedInvocation.argumentList.arguments.any((argument) {
+        final expression =
+            argument is NamedExpression ? argument.expression : argument;
+
+        if (expression is SimpleIdentifier) {
+          final element = expression.staticElement;
+
+          return element is VariableElement &&
+              !element.isConst &&
+              !element.isFinal;
+        }
+
+        return false;
+      });
+
+  bool _isSetter(AstNode node) {
+    if (node is! PropertyAccess) {
+      return false;
+    }
+
+    final parent = node.parent;
+
+    return parent is AssignmentExpression && parent.leftHandSide == node;
+  }
+
+  bool _bothInsideWhile(AstNode visitedInvocation, AstNode node) {
+    final visitedWhile =
+        visitedInvocation.thisOrAncestorOfType<WhileStatement>();
+    final parentWhile = node.thisOrAncestorOfType<WhileStatement>();
+
+    return visitedWhile != null && visitedWhile == parentWhile;
+  }
+
+  bool _haveDifferentParameterTypes(AstNode visitedInvocation, AstNode node) =>
+      visitedInvocation is Expression &&
+      node is Expression &&
+      visitedInvocation.staticParameterElement?.type !=
+          node.staticParameterElement?.type;
 }

@@ -2,6 +2,7 @@
 
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
+import 'package:collection/collection.dart';
 
 import '../../../../../utils/node_utils.dart';
 import '../../../lint_utils.dart';
@@ -20,9 +21,11 @@ class NoEqualArgumentsRule extends CommonRule {
   static const _warningMessage = 'The argument has already been passed.';
 
   final Iterable<String> _ignoredParameters;
+  final Iterable<String> _ignoredArguments;
 
   NoEqualArgumentsRule([Map<String, Object> config = const {}])
       : _ignoredParameters = _ConfigParser.parseIgnoredParameters(config),
+        _ignoredArguments = _ConfigParser.parseIgnoredArguments(config),
         super(
           id: ruleId,
           severity: readSeverity(config, Severity.warning),
@@ -34,13 +37,14 @@ class NoEqualArgumentsRule extends CommonRule {
   Map<String, Object?> toJson() {
     final json = super.toJson();
     json[_ConfigParser._ignoredParametersConfig] = _ignoredParameters.toList();
+    json[_ConfigParser._ignoredArgumentsConfig] = _ignoredArguments.toList();
 
     return json;
   }
 
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
-    final visitor = _Visitor(_ignoredParameters);
+    final visitor = _Visitor(_ignoredParameters, _ignoredArguments);
 
     source.unit.visitChildren(visitor);
 
