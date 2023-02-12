@@ -27,8 +27,8 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startLines: [16, 22, 35, 57, 63, 27, 78],
-        startColumns: [5, 7, 5, 5, 7, 5, 5],
+        startLines: [16, 22, 35, 45, 68, 74, 27, 48, 89],
+        startColumns: [5, 7, 5, 5, 5, 7, 5, 5, 5],
         locationTexts: [
           'setState(() {\n'
               '      myString = "Hello";\n'
@@ -43,8 +43,12 @@ void main() {
               '      myString = "Hello";\n'
               '    })',
           'setState(() {\n'
+              '      myString = "Hello";\n'
+              '    })',
+          'setState(() {\n'
               '        myString = "Hello";\n'
               '      })',
+          'myMethod()',
           'myMethod()',
           'myMethod()',
         ],
@@ -54,6 +58,8 @@ void main() {
           'Avoid calling unnecessary setState. Consider changing the state directly.',
           'Avoid calling unnecessary setState. Consider changing the state directly.',
           'Avoid calling unnecessary setState. Consider changing the state directly.',
+          'Avoid calling unnecessary setState. Consider changing the state directly.',
+          'Avoid calling a sync method with setState.',
           'Avoid calling a sync method with setState.',
           'Avoid calling a sync method with setState.',
         ],

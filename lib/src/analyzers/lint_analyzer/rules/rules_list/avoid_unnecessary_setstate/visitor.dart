@@ -1,7 +1,12 @@
 part of 'avoid_unnecessary_setstate_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
-  static const _checkedMethods = ['initState', 'didUpdateWidget', 'build'];
+  static const _checkedMethods = [
+    'initState',
+    'didUpdateWidget',
+    'didChangeDependencies',
+    'build',
+  ];
 
   final _setStateInvocations = <MethodInvocation>[];
   final _classMethodsInvocations = <MethodInvocation>[];
