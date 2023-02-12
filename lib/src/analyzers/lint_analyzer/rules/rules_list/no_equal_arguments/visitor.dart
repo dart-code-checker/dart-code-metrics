@@ -4,10 +4,11 @@ class _Visitor extends RecursiveAstVisitor<void> {
   final _arguments = <Expression>[];
 
   final Iterable<String> _ignoredParameters;
+  final Iterable<String> _ignoredArguments;
 
   Iterable<Expression> get arguments => _arguments;
 
-  _Visitor(this._ignoredParameters);
+  _Visitor(this._ignoredParameters, this._ignoredArguments);
 
   @override
   void visitMethodInvocation(MethodInvocation node) {
@@ -31,7 +32,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
   }
 
   void _visitArguments(Iterable<Expression> arguments) {
-    final notIgnoredArguments = arguments.where(_isNotIgnored).toList();
+    final notIgnoredArguments = arguments.whereNot(_isIgnored).toList();
 
     for (final argument in notIgnoredArguments) {
       final lastAppearance = notIgnoredArguments.lastWhere((arg) {
@@ -62,6 +63,15 @@ class _Visitor extends RecursiveAstVisitor<void> {
           right is PrefixExpression &&
           right.operand is Literal);
 
-  bool _isNotIgnored(Expression arg) => !(arg is NamedExpression &&
-      _ignoredParameters.contains(arg.name.label.name));
+  bool _isIgnored(Expression arg) {
+    if (arg is NamedExpression) {
+      final expression = arg.expression;
+
+      return _ignoredParameters.contains(arg.name.label.name) ||
+          (expression is SimpleIdentifier &&
+              _ignoredArguments.contains(expression.name));
+    }
+
+    return arg is SimpleIdentifier && _ignoredArguments.contains(arg.name);
+  }
 }
