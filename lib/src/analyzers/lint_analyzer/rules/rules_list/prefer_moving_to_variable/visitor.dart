@@ -201,6 +201,5 @@ class _BlockVisitor extends RecursiveAstVisitor<void> {
   bool _haveDifferentParameterTypes(AstNode visitedInvocation, AstNode node) =>
       visitedInvocation is Expression &&
       node is Expression &&
-      visitedInvocation.staticParameterElement?.type !=
-          node.staticParameterElement?.type;
+      !haveSameParameterType(visitedInvocation, node);
 }

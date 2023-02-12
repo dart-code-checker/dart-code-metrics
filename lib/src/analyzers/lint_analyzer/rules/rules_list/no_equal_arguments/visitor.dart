@@ -40,14 +40,16 @@ class _Visitor extends RecursiveAstVisitor<void> {
             arg is NamedExpression &&
             argument.expression is! Literal &&
             arg.expression is! Literal) {
-          return argument.expression.toString() == arg.expression.toString();
+          return haveSameParameterType(argument.expression, arg.expression) &&
+              argument.expression.toString() == arg.expression.toString();
         }
 
         if (_bothLiterals(argument, arg)) {
           return argument == arg;
         }
 
-        return argument.toString() == arg.toString();
+        return haveSameParameterType(argument, arg) &&
+            argument.toString() == arg.toString();
       });
 
       if (argument != lastAppearance) {

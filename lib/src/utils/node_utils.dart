@@ -43,6 +43,9 @@ bool isOverride(List<Annotation> metadata) => metadata.any(
           node.name.name == 'override' && node.atSign.type == TokenType.AT,
     );
 
+bool haveSameParameterType(Expression left, Expression right) =>
+    left.staticParameterElement?.type == right.staticParameterElement?.type;
+
 bool isEntrypoint(String name, NodeList<Annotation> metadata) =>
     name == 'main' ||
     _hasPragmaAnnotation(metadata) ||
