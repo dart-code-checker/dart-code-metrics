@@ -11,10 +11,8 @@
   * ./CHANGELOG.md
   * ./CONTRIBUTING.md
   * ./pubspec.yaml
-  * ./README.md
   * ./lib/src/version.dart
   * ./tools/analyzer_plugin/pubspec.yaml
-  * ./website/docs/getting-started/installation.md
 
 ## Publishing
 

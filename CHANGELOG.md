@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 5.6.0
 
 * fix: correctly handle implicit type parameters for [`no-equal-arguments`](https://dcm.dev/docs/individuals/rules/common/no-equal-arguments).
 * fix: correctly handle `dynamic` type for [`avoid-passing-async-when-sync-expected`](https://dcm.dev/docs/individuals/rules/common/avoid-passing-async-when-sync-expected).
