@@ -35,4 +35,9 @@ class SomeClass {
 
 abstract class BaseClass<T> {}
 
-class Generic extends BaseClass<dynamic> {} // LINT
+// LINT
+class Generic extends BaseClass<dynamic> {
+  final Map<String, dynamic> myMap = {};
+
+  final myMap = <String, dynamic>{};
+}

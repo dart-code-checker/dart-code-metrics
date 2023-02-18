@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* fix: handle dynamics in map literals for [`avoid-dynamic`](https://dcm.dev/docs/individuals/rules/common/avoid-dynamic).
+
 ## 5.6.0
 
 * fix: correctly handle implicit type parameters for [`no-equal-arguments`](https://dcm.dev/docs/individuals/rules/common/no-equal-arguments).
