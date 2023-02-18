@@ -34,7 +34,7 @@ class LongMethod extends Pattern {
         ),
         super(
           id: patternId,
-          severity: readSeverity(patternSettings, Severity.none),
+          severity: readSeverity(patternSettings, Severity.warning),
           excludes: readExcludes(patternSettings),
         );
 

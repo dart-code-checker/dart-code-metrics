@@ -3,6 +3,7 @@
 ## Unreleased
 
 * fix: handle dynamics in map literals for [`avoid-dynamic`](https://dcm.dev/docs/individuals/rules/common/avoid-dynamic).
+* fix: change anti-patterns default severity to `warning`.
 
 ## 5.6.0
 
