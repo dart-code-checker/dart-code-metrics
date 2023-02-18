@@ -4,7 +4,6 @@ import 'package:analyzer/dart/analysis/analysis_context.dart';
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/element/element.dart';
-import 'package:analyzer/dart/element/nullability_suffix.dart';
 // ignore: implementation_imports
 import 'package:analyzer/src/dart/element/element.dart';
 import 'package:collection/collection.dart';
@@ -16,6 +15,7 @@ import '../../config_builder/models/analysis_options.dart';
 import '../../logger/logger.dart';
 import '../../reporters/models/reporter.dart';
 import '../../utils/analyzer_utils.dart';
+import '../../utils/dart_types_utils.dart';
 import '../../utils/flutter_types_utils.dart';
 import '../../utils/suppression.dart';
 import 'declarations_visitor.dart';
@@ -244,8 +244,7 @@ class UnnecessaryNullableAnalyzer {
       (parameter) =>
           !_shouldIgnoreWidgetKey(parameter) &&
           !markedParameters.contains(parameter) &&
-          parameter.declaredElement?.type.nullabilitySuffix ==
-              NullabilitySuffix.question,
+          isNullableType(parameter.declaredElement?.type),
     );
 
     if (unnecessaryNullable.isEmpty) {
@@ -287,8 +286,7 @@ class UnnecessaryNullableAnalyzer {
 
     final isNullable = argument is NullLiteral ||
         (staticType != null &&
-            (staticType.isDynamic ||
-                staticType.nullabilitySuffix == NullabilitySuffix.question));
+            (staticType.isDynamic || isNullableType(staticType)));
 
     return isNullable;
   }

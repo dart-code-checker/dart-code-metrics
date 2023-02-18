@@ -29,7 +29,7 @@
   align="right">
 </a>
 
-DCM is a static analysis tool that helps you analyse and improve your code quality.
+DCM is a toolkit that helps you identify and fix problems in your Dart and Flutter code. These problems can range from potential runtime bugs and violations of best practices to styling issues. DCM includes over 70 built-in rules to validate your code against various expectations, and you can customize these rules to fit your specific needs.
 
 - Reports [code metrics](https://dcm.dev/docs/individuals/metrics)
 - Provides [additional rules](https://dcm.dev/docs/individuals/rules) for the dart analyzer
@@ -37,7 +37,7 @@ DCM is a static analysis tool that helps you analyse and improve your code quali
 - Checks [unused `*.dart` files](https://dcm.dev/docs/individuals/cli/check-unused-files)
 - Checks [unused l10n](https://dcm.dev/docs/individuals/cli/check-unused-l10n)
 - Checks [unnecessary nullable parameters](https://dcm.dev/docs/individuals/cli/check-unnecessary-nullable)
-- Can be used as [CLI](https://dcm.dev/docs/individuals/cli), [analyzer plugin](https://dcm.dev/docs/individuals/analyzer-plugin) or [library](https://dcm.dev/docs/individuals/getting-started/#library)
+- Can be used as [CLI](https://dcm.dev/docs/individuals/cli) and the [analyzer plugin](https://dcm.dev/docs/individuals/analyzer-plugin)
 
 ## Links
 
@@ -54,52 +54,73 @@ $ dart pub add --dev dart_code_metrics
 $ flutter pub add --dev dart_code_metrics
 ```
 
-## OR
-
-add it manually to `pubspec.yaml`
-
-```yaml
-dev_dependencies:
-  dart_code_metrics: ^5.5.1
-```
-
-and then run
-
-```sh
-$ dart pub get
-
-# or for a Flutter package
-$ flutter pub get
-```
-
 ## Basic configuration
 
-Add configuration to `analysis_options.yaml`
+Add configuration to `analysis_options.yaml` and reload IDE to allow the analyzer to discover the plugin config.
 
-```yaml
+You can read more about the configuration [on the website](https://dcm.dev/docs/individuals/configuration).
+
+### Basic config example
+
+```yaml title="analysis_options.yaml"
+analyzer:
+  plugins:
+    - dart_code_metrics
+
 dart_code_metrics:
-  anti-patterns:
-    - long-method
-    - long-parameter-list
-  metrics:
-    cyclomatic-complexity: 20
-    maximum-nesting-level: 5
-    number-of-parameters: 4
-    source-lines-of-code: 50
-  metrics-exclude:
-    - test/**
   rules:
+    - avoid-dynamic
+    - avoid-redundant-async
+    - avoid-passing-async-when-sync-expected
+    - avoid-redundant-async
+    - avoid-unnecessary-type-assertions
+    - avoid-unnecessary-type-casts
+    - avoid-unrelated-type-assertions
+    - avoid-unused-parameters
+    - avoid-nested-conditional-expressions
     - newline-before-return
     - no-boolean-literal-compare
     - no-empty-block
     - prefer-trailing-comma
     - prefer-conditional-expressions
     - no-equal-then-else
+    - prefer-moving-to-variable
+    - prefer-match-file-name
 ```
 
-Reload IDE to allow the analyzer to discover the plugin config.
+### Basic config with metrics
 
-You can read more about the configuration [on the website](https://dcm.dev/docs/individuals/configuration).
+```yaml title="analysis_options.yaml"
+analyzer:
+  plugins:
+    - dart_code_metrics
+
+dart_code_metrics:
+  metrics:
+    cyclomatic-complexity: 20
+    number-of-parameters: 4
+    maximum-nesting-level: 5
+  metrics-exclude:
+    - test/**
+  rules:
+    - avoid-dynamic
+    - avoid-redundant-async
+    - avoid-passing-async-when-sync-expected
+    - avoid-redundant-async
+    - avoid-unnecessary-type-assertions
+    - avoid-unnecessary-type-casts
+    - avoid-unrelated-type-assertions
+    - avoid-unused-parameters
+    - avoid-nested-conditional-expressions
+    - newline-before-return
+    - no-boolean-literal-compare
+    - no-empty-block
+    - prefer-trailing-comma
+    - prefer-conditional-expressions
+    - no-equal-then-else
+    - prefer-moving-to-variable
+    - prefer-match-file-name
+```
 
 ## Usage
 
@@ -107,11 +128,9 @@ You can read more about the configuration [on the website](https://dcm.dev/docs/
 
 DCM can be used as a plugin for the Dart `analyzer` [package](https://pub.dev/packages/analyzer) providing additional rules. All issues produced by rules or anti-patterns will be highlighted in IDE.
 
-![Highlighted issue example](https://raw.githubusercontent.com/dart-code-checker/dart-code-metrics/master/assets/plugin-example.png)
+Rules that marked with 🛠 have auto-fixes available through the IDE context menu. VS Code example:
 
-Rules that marked with a `has auto-fix` badge have auto-fixes available through the IDE context menu. VS Code example:
-
-![VS Code example](https://raw.githubusercontent.com/dart-code-checker/dart-code-metrics/master/assets/quick-fix.gif)
+![VS Code example](https://raw.githubusercontent.com/dart-code-checker/dart-code-metrics/master/assets/quick-fixes.png)
 
 ### CLI
 
@@ -261,6 +280,8 @@ If you are interested in contributing, please check out the [contribution guidel
 
 ### En
 
+- [What’s new in DCM for Teams 1.1.0](https://medium.com/@incendial/whats-new-in-dcm-for-teams-1-1-0-501fd6223b0)
+- [Announcing DCM for Teams](https://incendial.medium.com/announcing-dcm-for-teams-84db2cffce99)
 - [Finding Unused Files With DCM](https://medium.com/wriketechclub/finding-unused-files-with-dart-code-metrics-b9aba48ad7ca) - This article considers one of the first commands, checking unused Dart files, by [Dmitry Zhifarsky](https://github.com/incendial)
 - [Improving Code Quality With DCM](https://medium.com/wriketechclub/improving-code-quality-with-dart-code-metrics-430a5e3e316d) -  Advantages of using DCM, by [Dmitry Zhifarsky](https://github.com/incendial)
 - [Creating a Custom Plugin for Dart Analyzer](https://medium.com/wriketechclub/creating-a-custom-plugin-for-dart-analyzer-48b76d81a239) -  How to develop a custom Dart code analyzer plugin, by [Dmitry Zhifarsky](https://github.com/incendial)

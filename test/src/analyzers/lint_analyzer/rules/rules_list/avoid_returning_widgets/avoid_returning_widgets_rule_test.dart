@@ -9,6 +9,8 @@ const _notNamedParameterExamplePath =
     'avoid_returning_widgets/examples/not_named_parameter_example.dart';
 const _providerExamplePath =
     'avoid_returning_widgets/examples/provider_example.dart';
+const _nullableExamplePath =
+    'avoid_returning_widgets/examples/nullable_example.dart';
 
 void main() {
   group('AvoidReturningWidgetsRule', () {
@@ -119,6 +121,14 @@ void main() {
     test('reports no issues for providers', () async {
       final unit = await RuleTestHelper.resolveFromFile(_providerExamplePath);
       final issues = AvoidReturningWidgetsRule().check(unit);
+
+      RuleTestHelper.verifyNoIssues(issues);
+    });
+
+    test('reports no issues for nullable with config', () async {
+      final unit = await RuleTestHelper.resolveFromFile(_nullableExamplePath);
+      final issues =
+          AvoidReturningWidgetsRule({'allow-nullable': true}).check(unit);
 
       RuleTestHelper.verifyNoIssues(issues);
     });

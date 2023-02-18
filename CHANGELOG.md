@@ -2,8 +2,18 @@
 
 ## Unreleased
 
-* fix: correctly support dartdoc tags for [`format-comment`](https://dcm.dev/docs/individuals/rules/common/format-comment).
 * feat: add static code diagnostic [prefer-define-hero-tag](https://github.com/dart-code-checker/dart-code-metrics/issues/1027).
+
+## 5.6.0
+
+* fix: correctly handle implicit type parameters for [`no-equal-arguments`](https://dcm.dev/docs/individuals/rules/common/no-equal-arguments).
+* fix: correctly handle `dynamic` type for [`avoid-passing-async-when-sync-expected`](https://dcm.dev/docs/individuals/rules/common/avoid-passing-async-when-sync-expected).
+* fix: check `didChangeDependencies` for [`avoid-unnecessary-setstate`](https://dcm.dev/docs/individuals/rules/flutter/avoid-unnecessary-setstate).
+* fix: add new config option for [`no-equal-arguments`](https://dcm.dev/docs/individuals/rules/common/no-equal-arguments).
+* feat: add `allow-nullable` config option for [`avoid-returning-widgets`](https://dcm.dev/docs/individuals/rules/common/avoid-returning-widgets).
+* fix: support `assert(mounted)` for [`use-setstate-synchronously`](https://dcm.dev/docs/individuals/rules/flutter/use-setstate-synchronously).
+* fix: correctly support dartdoc tags for [`format-comment`](https://dcm.dev/docs/individuals/rules/common/format-comment).
+* fix: resolve several false-positives with while loops, setters and implicit type parameters for [`prefer-moving-to-variable`](https://dcm.dev/docs/individuals/rules/common/prefer-moving-to-variable).
 
 ## 5.6.0-dev.1
 

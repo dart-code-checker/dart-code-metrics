@@ -43,8 +43,7 @@ class _FieldMemberGroup extends _MemberGroup {
         Identifier.isPrivateName(declaration.fields.variables.first.name.lexeme)
             ? _Modifier.private
             : _Modifier.public;
-    final isNullable = declaration.fields.type?.type?.nullabilitySuffix ==
-        NullabilitySuffix.question;
+    final isNullable = isNullableType(declaration.fields.type?.type);
     final keyword = declaration.fields.isConst
         ? _FieldKeyword.isConst
         : declaration.fields.isFinal

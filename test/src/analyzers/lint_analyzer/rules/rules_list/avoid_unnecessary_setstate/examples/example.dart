@@ -37,6 +37,17 @@ class _MyWidgetState extends State<MyWidget> {
     });
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    // LINT
+    setState(() {
+      myString = "Hello";
+    });
+    myMethod(); // LINT
+  }
+
   void myMethod() {
     setState(() {
       myString = "Hello";

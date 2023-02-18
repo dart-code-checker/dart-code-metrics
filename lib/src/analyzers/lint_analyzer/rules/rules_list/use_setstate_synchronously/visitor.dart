@@ -2,6 +2,7 @@ part of 'use_setstate_synchronously_rule.dart';
 
 class _Visitor extends RecursiveAstVisitor<void> {
   final Set<String> methods;
+
   _Visitor({required this.methods});
 
   final nodes = <SimpleIdentifier>[];
@@ -44,6 +45,13 @@ class _AsyncSetStateVisitor extends RecursiveAstVisitor<void> {
   }
 
   @override
+  void visitAssertStatement(AssertStatement node) {
+    final newMounted = _extractMountedCheck(node.condition);
+    mounted = newMounted.or(mounted);
+    super.visitAssertStatement(node);
+  }
+
+  @override
   void visitMethodInvocation(MethodInvocation node) {
     if (!inAsync) {
       return node.visitChildren(this);
@@ -65,7 +73,8 @@ class _AsyncSetStateVisitor extends RecursiveAstVisitor<void> {
       return node.visitChildren(this);
     }
 
-    node.condition.visitChildren(this);
+    node.condition.accept(this);
+
     final newMounted = _extractMountedCheck(node.condition);
     mounted = newMounted.or(mounted);
 
@@ -99,7 +108,7 @@ class _AsyncSetStateVisitor extends RecursiveAstVisitor<void> {
       return node.visitChildren(this);
     }
 
-    node.condition.visitChildren(this);
+    node.condition.accept(this);
 
     final oldMounted = mounted;
     final newMounted = _extractMountedCheck(node.condition);
@@ -121,7 +130,7 @@ class _AsyncSetStateVisitor extends RecursiveAstVisitor<void> {
       return node.visitChildren(this);
     }
 
-    node.forLoopParts.visitChildren(this);
+    node.forLoopParts.accept(this);
 
     final oldInControlFlow = inControlFlow;
     inControlFlow = true;
@@ -153,9 +162,8 @@ class _AsyncSetStateVisitor extends RecursiveAstVisitor<void> {
     final oldMounted = mounted;
     node.body.visitChildren(this);
     final afterBody = mounted;
-    // ignore: omit_local_variable_types
-    final MountedFact beforeCatch =
-        mounted == oldMounted ? oldMounted : false.asFact();
+    final beforeCatch =
+        mounted == oldMounted ? oldMounted : false.asFact<BinaryExpression>();
     for (final clause in node.catchClauses) {
       mounted = beforeCatch;
       clause.visitChildren(this);
@@ -176,7 +184,7 @@ class _AsyncSetStateVisitor extends RecursiveAstVisitor<void> {
       return node.visitChildren(this);
     }
 
-    node.expression.visitChildren(this);
+    node.expression.accept(this);
 
     final oldInControlFlow = inControlFlow;
     inControlFlow = true;

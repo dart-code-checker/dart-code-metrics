@@ -73,8 +73,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
         childType != null &&
         (_isNotInstance(childType, parentElement) &&
             _isNotDynamic(childType)) &&
-        !(parentElement.type.nullabilitySuffix == NullabilitySuffix.question &&
-            childType.isDartCoreNull)) {
+        !(isNullableType(parentElement.type) && childType.isDartCoreNull)) {
       _expressions.add(node);
     }
   }
