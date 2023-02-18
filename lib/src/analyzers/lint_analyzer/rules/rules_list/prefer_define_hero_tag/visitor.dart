@@ -1,5 +1,7 @@
 part of 'prefer_define_hero_tag_rule.dart';
 
+const _cupertinoNavigationBarClassName = 'CupertinoNavigationBar';
+const _cupertinoSliverNavigationBarClassName = 'CupertinoSliverNavigationBar';
 const _floatingActionButtonClassName = 'FloatingActionButton';
 const _constructorExtendedName = 'extended';
 const _constructorLargeName = 'large';
@@ -16,14 +18,16 @@ class _Visitor extends RecursiveAstVisitor<void> {
     super.visitMethodInvocation(node);
 
     final methodName = node.methodName.name;
-    if (methodName == _floatingActionButtonClassName ||
+    if (methodName == _cupertinoNavigationBarClassName ||
+        methodName == _cupertinoSliverNavigationBarClassName ||
+        methodName == _floatingActionButtonClassName ||
         node.beginToken.lexeme == _floatingActionButtonClassName &&
             (methodName == _constructorExtendedName ||
                 methodName == _constructorLargeName ||
                 methodName == _constructorSmallName)) {
-      if (!node.argumentList.arguments
-          .cast<NamedExpression>()
-          .any((arg) => arg.name.label.name == _heroTagPropertyName)) {
+      if (!node.argumentList.arguments.any((arg) =>
+          arg is NamedExpression &&
+          arg.name.label.name == _heroTagPropertyName)) {
         _invocations.add(node);
       }
     }

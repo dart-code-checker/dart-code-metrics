@@ -20,7 +20,7 @@ class PreferDefineHeroTagRule extends FlutterRule {
   PreferDefineHeroTagRule([Map<String, Object> config = const {}])
       : super(
           id: ruleId,
-          severity: readSeverity(config, Severity.performance),
+          severity: readSeverity(config, Severity.warning),
           excludes: readExcludes(config),
           includes: readIncludes(config),
         );

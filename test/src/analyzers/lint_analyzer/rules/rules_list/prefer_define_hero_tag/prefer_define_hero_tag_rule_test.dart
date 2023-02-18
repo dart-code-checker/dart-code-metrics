@@ -17,7 +17,7 @@ void main() {
         RuleTestHelper.verifyInitialization(
           issues: issues,
           ruleId: 'prefer-define-hero-tag',
-          severity: Severity.performance,
+          severity: Severity.warning,
         );
       });
 
@@ -27,9 +27,11 @@ void main() {
 
         RuleTestHelper.verifyIssues(
           issues: issues,
-          startLines: [6, 17, 29, 40],
-          startColumns: [31, 31, 31, 31],
+          startLines: [6, 17, 29, 40, 102, 131],
+          startColumns: [31, 31, 31, 31, 13, 24],
           messages: [
+            'Prefer define heroTag property.',
+            'Prefer define heroTag property.',
             'Prefer define heroTag property.',
             'Prefer define heroTag property.',
             'Prefer define heroTag property.',
@@ -52,6 +54,14 @@ FloatingActionButton.large(
             '''
 FloatingActionButton.small(
           onPressed: () {},
+        )''',
+            '''
+CupertinoSliverNavigationBar(
+              largeTitle: Text('Contacts'),
+            )''',
+            '''
+CupertinoNavigationBar(
+          middle: Text('CupertinoNavigationBar Sample'),
         )''',
           ],
         );

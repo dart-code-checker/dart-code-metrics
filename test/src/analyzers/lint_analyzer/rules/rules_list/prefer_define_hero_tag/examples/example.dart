@@ -91,3 +91,110 @@ class MyWidget9 extends StatelessWidget {
         ),
       );
 }
+
+class SliverNavBarExample extends StatelessWidget {
+  const SliverNavBarExample({super.key});
+
+  @override
+  Widget build(BuildContext context) => const CupertinoPageScaffold(
+        child: CustomScrollView(
+          slivers: <Widget>[
+            CupertinoSliverNavigationBar(
+              largeTitle: Text('Contacts'),
+            ),
+          ],
+        ),
+      );
+}
+
+class SliverNavBarExample2 extends StatelessWidget {
+  const SliverNavBarExample2({super.key});
+
+  @override
+  Widget build(BuildContext context) => const CupertinoPageScaffold(
+        child: CustomScrollView(
+          slivers: <Widget>[
+            CupertinoSliverNavigationBar(
+              largeTitle: Text('Contacts'),
+              heroTag: 'heroTag',
+            ),
+          ],
+        ),
+      );
+}
+
+class NavBarExample extends StatelessWidget {
+  const NavBarExample({super.key});
+
+  @override
+  Widget build(BuildContext context) => const CupertinoPageScaffold(
+        navigationBar: CupertinoNavigationBar(
+          middle: Text('CupertinoNavigationBar Sample'),
+        ),
+        child: Text('data'),
+      );
+}
+
+class NavBarExample2 extends StatelessWidget {
+  const NavBarExample2({super.key});
+
+  @override
+  Widget build(BuildContext context) => const CupertinoPageScaffold(
+        navigationBar: CupertinoNavigationBar(
+          heroTag: 'heroTag',
+          middle: Text('CupertinoNavigationBar Sample'),
+        ),
+        child: Text('data'),
+      );
+}
+
+class BuildContext {}
+
+class Key {}
+
+class Widget {
+  final Key? key;
+
+  const Widget(this.key);
+}
+
+class StatelessWidget extends Widget {
+  const StatelessWidget(super.key);
+}
+
+class Scaffold extends Widget {
+  final Widget? floatingActionButton;
+
+  Scaffold({
+    this.floatingActionButton,
+  });
+}
+
+class CupertinoPageScaffold extends Widget {
+  final Widget child;
+  final Widget? navigationBar;
+
+  const CupertinoPageScaffold({
+    super.key,
+    required this.child,
+    this.navigationBar,
+  });
+}
+
+class CustomScrollView extends Widget {
+  final List<Widget> slivers;
+
+  const CustomScrollView({
+    super.key,
+    required this.slivers,
+  });
+}
+
+class Text extends Widget {
+  final String data;
+
+  const Text(
+    this.data, {
+    super.key,
+  });
+}
