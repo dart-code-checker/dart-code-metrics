@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* chore: restrict `analyzer` version to `>=5.1.0 <5.6.0`.
+
 ## 5.6.0
 
 * fix: correctly handle implicit type parameters for [`no-equal-arguments`](https://dcm.dev/docs/individuals/rules/common/no-equal-arguments).
