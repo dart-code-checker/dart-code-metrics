@@ -70,7 +70,6 @@ analyzer:
 dart_code_metrics:
   rules:
     - avoid-dynamic
-    - avoid-redundant-async
     - avoid-passing-async-when-sync-expected
     - avoid-redundant-async
     - avoid-unnecessary-type-assertions
@@ -104,7 +103,6 @@ dart_code_metrics:
     - test/**
   rules:
     - avoid-dynamic
-    - avoid-redundant-async
     - avoid-passing-async-when-sync-expected
     - avoid-redundant-async
     - avoid-unnecessary-type-assertions
