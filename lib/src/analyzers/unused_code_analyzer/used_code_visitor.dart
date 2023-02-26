@@ -131,10 +131,12 @@ class UsedCodeVisitor extends RecursiveAstVisitor<void> {
       if (target is SimpleIdentifier) {
         final targetElement = target.staticElement;
         if (targetElement is PrefixElement) {
-          (fileElementsUsage.prefixMap.putIfAbsent(
-            targetElement,
-            () => PrefixElementUsage(_getPrefixUsagePaths(target), {}),
-          )).add(element);
+          fileElementsUsage.prefixMap
+              .putIfAbsent(
+                targetElement,
+                () => PrefixElementUsage(_getPrefixUsagePaths(target), {}),
+              )
+              .add(element);
 
           return true;
         }
