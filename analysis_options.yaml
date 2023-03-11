@@ -9,6 +9,7 @@ analyzer:
     - test/resources/unnecessary_nullable_analyzer/generated/**
     - test/resources/file_path_folder/**
     - test/**/examples/**
+    - tools/**/__brick__/**
   language:
     strict-casts: true
     strict-inference: true

@@ -1,0 +1,3 @@
+bricks:
+  rule:
+    path: tools/rule_brick
