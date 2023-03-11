@@ -3,6 +3,7 @@
 ## Unreleased
 
 * chore: restrict `analyzer` version to `>=5.1.0 <5.8.0`.
+* feat: add avoid-substring rule
 
 ## 5.6.0
 
