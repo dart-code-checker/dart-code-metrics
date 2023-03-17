@@ -24,6 +24,7 @@ import 'rules_list/avoid_redundant_async/avoid_redundant_async_rule.dart';
 import 'rules_list/avoid_redundant_async_on_load/avoid_redundant_async_on_load_rule.dart';
 import 'rules_list/avoid_returning_widgets/avoid_returning_widgets_rule.dart';
 import 'rules_list/avoid_shrink_wrap_in_lists/avoid_shrink_wrap_in_lists_rule.dart';
+import 'rules_list/avoid_substring/avoid_substring_rule.dart';
 import 'rules_list/avoid_throw_in_catch_block/avoid_throw_in_catch_block_rule.dart';
 import 'rules_list/avoid_top_level_members_in_tests/avoid_top_level_members_in_tests_rule.dart';
 import 'rules_list/avoid_unnecessary_conditionals/avoid_unnecessary_conditionals_rule.dart';
@@ -108,6 +109,7 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   AvoidRedundantAsyncOnLoadRule.ruleId: AvoidRedundantAsyncOnLoadRule.new,
   AvoidReturningWidgetsRule.ruleId: AvoidReturningWidgetsRule.new,
   AvoidShrinkWrapInListsRule.ruleId: AvoidShrinkWrapInListsRule.new,
+  AvoidSubstringRule.ruleId: AvoidSubstringRule.new,
   AvoidThrowInCatchBlockRule.ruleId: AvoidThrowInCatchBlockRule.new,
   AvoidTopLevelMembersInTestsRule.ruleId: AvoidTopLevelMembersInTestsRule.new,
   AvoidUnnecessaryConditionalsRule.ruleId: AvoidUnnecessaryConditionalsRule.new,

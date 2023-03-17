@@ -4,6 +4,7 @@
 
 * feat: add static code diagnostic [prefer-define-hero-tag](https://github.com/dart-code-checker/dart-code-metrics/issues/1027).
 * chore: restrict `analyzer` version to `>=5.1.0 <5.8.0`.
+* feat: add avoid-substring rule
 
 ## 5.6.0
 
