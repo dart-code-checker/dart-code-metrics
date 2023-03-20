@@ -38,6 +38,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
       !_isEmptyFutureOrType(type);
 
   bool _isEmptyType(DartType type) =>
+      // ignore: deprecated_member_use
       type.isBottom || type.isDartCoreNull || type.isVoid;
 
   bool _isEmptyFutureType(DartType type) =>
