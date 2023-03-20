@@ -7,6 +7,7 @@
 * feat: add static code diagnostic [`prefer-define-hero-tag`](https://dcm.dev/docs/individuals/rules/common/prefer-define-hero-tag).
 * chore: restrict `analyzer` version to `>=5.1.0 <5.8.0`.
 * feat: add static code diagnostic [`avoid-substring`](https://dcm.dev/docs/individuals/rules/common/avoid-substring).
+* fix: correctly track prefixes usage for check-unused-code.
 
 ## 5.6.0
 
