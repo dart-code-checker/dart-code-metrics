@@ -55,7 +55,7 @@ void main() {
       AntiPatternTestHelper.verifyInitialization(
         issues: issues,
         antiPatternId: 'long-method',
-        severity: Severity.none,
+        severity: Severity.warning,
       );
 
       AntiPatternTestHelper.verifyIssues(

@@ -25,7 +25,7 @@ void main() {
 
       RuleTestHelper.verifyIssues(
         issues: issues,
-        startLines: [2, 6, 10, 10, 10, 12, 23, 28, 31, 38],
+        startLines: [2, 6, 10, 10, 10, 12, 23, 28, 31, 39],
         startColumns: [3, 4, 1, 22, 33, 7, 3, 3, 3, 32],
         locationTexts: [
           'dynamic s = 1',
