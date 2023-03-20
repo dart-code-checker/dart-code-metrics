@@ -97,6 +97,7 @@ class _ReturnVisitor extends RecursiveAstVisitor<void> {
 
     final type = node.expression?.staticType;
 
+    // ignore: deprecated_member_use
     if (type == null || type.isVoid) {
       _hasValidReturn = true;
     }

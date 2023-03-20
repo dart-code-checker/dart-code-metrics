@@ -53,7 +53,7 @@ void main() {
     AntiPatternTestHelper.verifyInitialization(
       issues: issues,
       antiPatternId: 'long-parameter-list',
-      severity: Severity.none,
+      severity: Severity.warning,
     );
 
     AntiPatternTestHelper.verifyIssues(
