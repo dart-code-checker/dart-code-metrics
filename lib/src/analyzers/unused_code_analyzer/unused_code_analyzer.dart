@@ -220,15 +220,7 @@ class UnusedCodeAnalyzer {
       !codeUsages.elements
           .any((usedElement) => _isUsed(usedElement, element)) &&
       !codeUsages.usedExtensions
-          .any((usedElement) => _isUsed(usedElement, element)) &&
-      !codeUsages.prefixMap.values.any((usage) =>
-          usage.paths.contains(path) &&
-          usage.elements.any(
-            (usedElement) =>
-                _isUsed(usedElement, element) ||
-                (usedElement.name == element.name &&
-                    usedElement.kind == element.kind),
-          ));
+          .any((usedElement) => _isUsed(usedElement, element));
 
   UnusedCodeIssue _createUnusedCodeIssue(
     ElementImpl element,
