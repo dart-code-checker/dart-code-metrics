@@ -24,6 +24,7 @@ import 'rules_list/avoid_redundant_async/avoid_redundant_async_rule.dart';
 import 'rules_list/avoid_redundant_async_on_load/avoid_redundant_async_on_load_rule.dart';
 import 'rules_list/avoid_returning_widgets/avoid_returning_widgets_rule.dart';
 import 'rules_list/avoid_shrink_wrap_in_lists/avoid_shrink_wrap_in_lists_rule.dart';
+import 'rules_list/avoid_substring/avoid_substring_rule.dart';
 import 'rules_list/avoid_throw_in_catch_block/avoid_throw_in_catch_block_rule.dart';
 import 'rules_list/avoid_top_level_members_in_tests/avoid_top_level_members_in_tests_rule.dart';
 import 'rules_list/avoid_unnecessary_conditionals/avoid_unnecessary_conditionals_rule.dart';
@@ -59,6 +60,7 @@ import 'rules_list/prefer_correct_edge_insets_constructor/prefer_correct_edge_in
 import 'rules_list/prefer_correct_identifier_length/prefer_correct_identifier_length_rule.dart';
 import 'rules_list/prefer_correct_test_file_name/prefer_correct_test_file_name_rule.dart';
 import 'rules_list/prefer_correct_type_name/prefer_correct_type_name_rule.dart';
+import 'rules_list/prefer_define_hero_tag/prefer_define_hero_tag_rule.dart';
 import 'rules_list/prefer_enums_by_name/prefer_enums_by_name_rule.dart';
 import 'rules_list/prefer_extracting_callbacks/prefer_extracting_callbacks_rule.dart';
 import 'rules_list/prefer_first/prefer_first_rule.dart';
@@ -107,6 +109,7 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   AvoidRedundantAsyncOnLoadRule.ruleId: AvoidRedundantAsyncOnLoadRule.new,
   AvoidReturningWidgetsRule.ruleId: AvoidReturningWidgetsRule.new,
   AvoidShrinkWrapInListsRule.ruleId: AvoidShrinkWrapInListsRule.new,
+  AvoidSubstringRule.ruleId: AvoidSubstringRule.new,
   AvoidThrowInCatchBlockRule.ruleId: AvoidThrowInCatchBlockRule.new,
   AvoidTopLevelMembersInTestsRule.ruleId: AvoidTopLevelMembersInTestsRule.new,
   AvoidUnnecessaryConditionalsRule.ruleId: AvoidUnnecessaryConditionalsRule.new,
@@ -149,6 +152,7 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
       PreferCorrectIdentifierLengthRule.new,
   PreferCorrectTestFileNameRule.ruleId: PreferCorrectTestFileNameRule.new,
   PreferCorrectTypeNameRule.ruleId: PreferCorrectTypeNameRule.new,
+  PreferDefineHeroTagRule.ruleId: PreferDefineHeroTagRule.new,
   PreferEnumsByNameRule.ruleId: PreferEnumsByNameRule.new,
   PreferExtractingCallbacksRule.ruleId: PreferExtractingCallbacksRule.new,
   PreferFirstRule.ruleId: PreferFirstRule.new,
