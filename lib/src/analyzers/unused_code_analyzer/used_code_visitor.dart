@@ -7,7 +7,6 @@ import 'package:collection/collection.dart';
 
 import '../../utils/flutter_types_utils.dart';
 import 'models/file_elements_usage.dart';
-import 'models/prefix_element_usage.dart';
 
 // Copied from https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/lib/src/error/imports_verifier.dart#L15
 
@@ -124,40 +123,6 @@ class UsedCodeVisitor extends RecursiveAstVisitor<void> {
     }
   }
 
-  /// If the given [identifier] is prefixed with a [PrefixElement], fill the
-  /// corresponding `UsedImportedElements.prefixMap` entry and return `true`.
-  bool _recordPrefixMap(SimpleIdentifier identifier, Element element) {
-    bool recordIfTargetIsPrefixElement(Expression? target) {
-      if (target is SimpleIdentifier) {
-        final targetElement = target.staticElement;
-        if (targetElement is PrefixElement) {
-          fileElementsUsage.prefixMap
-              .putIfAbsent(
-                targetElement,
-                () => PrefixElementUsage(_getPrefixUsagePaths(target), {}),
-              )
-              .add(element);
-
-          return true;
-        }
-      }
-
-      return false;
-    }
-
-    final parent = identifier.parent;
-
-    if (parent is MethodInvocation && parent.methodName == identifier) {
-      return recordIfTargetIsPrefixElement(parent.target);
-    }
-
-    if (parent is PrefixedIdentifier && parent.identifier == identifier) {
-      return recordIfTargetIsPrefixElement(parent.prefix);
-    }
-
-    return false;
-  }
-
   bool _recordConditionalElement(Element element) {
     // ignore: deprecated_member_use
     final elementPath = element.enclosingElement3?.source?.fullName;
@@ -194,7 +159,7 @@ class UsedCodeVisitor extends RecursiveAstVisitor<void> {
   }
 
   void _visitIdentifier(SimpleIdentifier identifier, Element? element) {
-    if (element == null) {
+    if (element == null || element is PrefixElement) {
       return;
     }
 
@@ -214,11 +179,6 @@ class UsedCodeVisitor extends RecursiveAstVisitor<void> {
       return;
     }
 
-    // Record `importPrefix.identifier` into 'prefixMap'.
-    if (_recordPrefixMap(identifier, element)) {
-      return;
-    }
-
     // ignore: deprecated_member_use
     final enclosingElement = element.enclosingElement3;
     if (enclosingElement is CompilationUnitElement) {
@@ -227,11 +187,6 @@ class UsedCodeVisitor extends RecursiveAstVisitor<void> {
       _recordUsedExtension(enclosingElement);
 
       return;
-    } else if (element is PrefixElement) {
-      fileElementsUsage.prefixMap.putIfAbsent(
-        element,
-        () => PrefixElementUsage(_getPrefixUsagePaths(identifier), {}),
-      );
     } else if (element is MultiplyDefinedElement) {
       // If the element is multiply defined then call this method recursively
       // for each of the conflicting elements.
@@ -242,34 +197,6 @@ class UsedCodeVisitor extends RecursiveAstVisitor<void> {
         _visitIdentifier(identifier, elt);
       }
     }
-  }
-
-  Iterable<String> _getPrefixUsagePaths(SimpleIdentifier target) {
-    final root = target.root;
-
-    if (root is! CompilationUnit) {
-      return [];
-    }
-
-    return root.directives.fold<List<String>>([], (previousValue, directive) {
-      if (directive is ImportDirective &&
-          directive.prefix?.name == target.name) {
-        // ignore: deprecated_member_use
-        final path = directive.element2?.importedLibrary?.source.fullName;
-        if (path != null) {
-          previousValue.add(path);
-        }
-
-        for (final config in directive.configurations) {
-          final uri = config.resolvedUri;
-          if (uri is DirectiveUriWithSource) {
-            previousValue.add(uri.source.fullName);
-          }
-        }
-      }
-
-      return previousValue;
-    });
   }
 
   bool _isVariableDeclarationInitializer(
