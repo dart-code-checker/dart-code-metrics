@@ -8,6 +8,7 @@
 * chore: restrict `analyzer` version to `>=5.1.0 <5.8.0`.
 * feat: add static code diagnostic [`avoid-substring`](https://dcm.dev/docs/individuals/rules/common/avoid-substring).
 * fix: correctly track prefixes usage for check-unused-code.
+* fix: visit only widgets for [`use-setstate-synchronously`](https://dcm.dev/docs/individuals/rules/flutter/use-setstate-synchronously).
 
 ## 5.6.0
 
