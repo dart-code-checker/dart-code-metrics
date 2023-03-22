@@ -1,11 +1,11 @@
 # Changelog
 
-## Unreleased
+## 5.7.0
 
 * fix: handle dynamics in map literals for [`avoid-dynamic`](https://dcm.dev/docs/individuals/rules/common/avoid-dynamic).
 * fix: change anti-patterns default severity to `warning`.
 * feat: add static code diagnostic [`prefer-define-hero-tag`](https://dcm.dev/docs/individuals/rules/common/prefer-define-hero-tag).
-* chore: restrict `analyzer` version to `>=5.1.0 <5.8.0`.
+* chore: restrict `analyzer` version to `>=5.1.0 <5.9.0`.
 * feat: add static code diagnostic [`avoid-substring`](https://dcm.dev/docs/individuals/rules/common/avoid-substring).
 * fix: correctly track prefixes usage for check-unused-code.
 * fix: visit only widgets for [`use-setstate-synchronously`](https://dcm.dev/docs/individuals/rules/flutter/use-setstate-synchronously).
