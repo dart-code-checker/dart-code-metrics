@@ -8,9 +8,14 @@ class _Visitor extends RecursiveAstVisitor<void> {
   final nodes = <SimpleIdentifier>[];
 
   @override
-  void visitClassDeclaration(ClassDeclaration node) {
-    if (isWidgetStateOrSubclass(node.extendsClause?.superclass.type)) {
-      node.visitChildren(this);
+  void visitCompilationUnit(CompilationUnit node) {
+    for (final declaration in node.declarations) {
+      if (declaration is ClassDeclaration) {
+        final type = declaration.extendsClause?.superclass.type;
+        if (isWidgetStateOrSubclass(type)) {
+          declaration.visitChildren(this);
+        }
+      }
     }
   }
 

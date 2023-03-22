@@ -33,7 +33,7 @@ class UseSetStateSynchronouslyRule extends FlutterRule {
   @override
   Iterable<Issue> check(InternalResolvedUnitResult source) {
     final visitor = _Visitor(methods: methods);
-    source.unit.visitChildren(visitor);
+    source.unit.accept(visitor);
 
     return visitor.nodes
         .map((node) => createIssue(
