@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.7.1
+
+* chore: restrict `analyzer` version to `>=5.1.0 <5.11.0`.
+
 ## 5.7.0
 
 * fix: handle dynamics in map literals for [`avoid-dynamic`](https://dcm.dev/docs/individuals/rules/common/avoid-dynamic).
