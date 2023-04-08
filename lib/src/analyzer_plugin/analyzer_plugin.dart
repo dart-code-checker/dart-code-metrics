@@ -60,7 +60,7 @@ class AnalyzerPlugin extends ServerPlugin {
       uuid = file.readAsStringSync();
     }
 
-    final uri = Uri.parse('https://dcm.dev/analytics/usage');
+    final uri = Uri.parse('https://dcm.dev/api/analytics/usage');
 
     post(uri, body: {'uuid': uuid, 'version': packageVersion}).ignore();
   }
