@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.7.2
+
+* chore: update website links.
+
 ## 5.7.1
 
 * chore: restrict `analyzer` version to `>=5.1.0 <5.11.0`.
