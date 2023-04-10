@@ -14,12 +14,12 @@
 
 # DCM
 
-**Note: you can find [the full documentation on the website](https://dcm.dev/docs/individuals/getting-started)**
+**Note: you can find [the full documentation on the website](https://dcm.dev/docs/individuals/getting-started/)**
 
-[Configuration](https://dcm.dev/docs/individuals/configuration) |
-[Rules](https://dcm.dev/docs/individuals/rules) |
-[Metrics](https://dcm.dev/docs/individuals/metrics) |
-[Anti-patterns](https://dcm.dev/docs/individuals/anti-patterns)
+[Configuration](https://dcm.dev/docs/individuals/configuration/) |
+[Rules](https://dcm.dev/docs/individuals/rules/) |
+[Metrics](https://dcm.dev/docs/individuals/metrics/) |
+[Anti-patterns](https://dcm.dev/docs/individuals/anti-patterns/)
 
 <a href="https://flutter.dev/docs/development/packages-and-plugins/favorites">
 <img
@@ -31,13 +31,13 @@
 
 DCM is a toolkit that helps you identify and fix problems in your Dart and Flutter code. These problems can range from potential runtime bugs and violations of best practices to styling issues. DCM includes over 70 built-in rules to validate your code against various expectations, and you can customize these rules to fit your specific needs.
 
-- Reports [code metrics](https://dcm.dev/docs/individuals/metrics)
-- Provides [additional rules](https://dcm.dev/docs/individuals/rules) for the dart analyzer
-- Checks for [anti-patterns](https://dcm.dev/docs/individuals/anti-patterns)
-- Checks [unused `*.dart` files](https://dcm.dev/docs/individuals/cli/check-unused-files)
-- Checks [unused l10n](https://dcm.dev/docs/individuals/cli/check-unused-l10n)
-- Checks [unnecessary nullable parameters](https://dcm.dev/docs/individuals/cli/check-unnecessary-nullable)
-- Can be used as [CLI](https://dcm.dev/docs/individuals/cli) and the [analyzer plugin](https://dcm.dev/docs/individuals/analyzer-plugin)
+- Reports [code metrics](https://dcm.dev/docs/individuals/metrics/)
+- Provides [additional rules](https://dcm.dev/docs/individuals/rules/) for the dart analyzer
+- Checks for [anti-patterns](https://dcm.dev/docs/individuals/anti-patterns/)
+- Checks [unused `*.dart` files](https://dcm.dev/docs/individuals/cli/check-unused-files/)
+- Checks [unused l10n](https://dcm.dev/docs/individuals/cli/check-unused-l10n/)
+- Checks [unnecessary nullable parameters](https://dcm.dev/docs/individuals/cli/check-unnecessary-nullable/)
+- Can be used as [CLI](https://dcm.dev/docs/individuals/cli/) and the [analyzer plugin](https://dcm.dev/docs/individuals/analyzer-plugin/)
 
 ## Links
 
@@ -58,7 +58,7 @@ $ flutter pub add --dev dart_code_metrics
 
 Add configuration to `analysis_options.yaml` and reload IDE to allow the analyzer to discover the plugin config.
 
-You can read more about the configuration [on the website](https://dcm.dev/docs/individuals/configuration).
+You can read more about the configuration [on the website](https://dcm.dev/docs/individuals/configuration/).
 
 ### Basic config example
 
@@ -144,7 +144,7 @@ The package can be used as CLI and supports multiple commands:
 
 For additional help on any of the commands, enter `dart run dart_code_metrics:metrics help <command>`
 
-**Note:** if you're setting up DCM for multi-package repository, check out [this website section](https://dcm.dev/docs/individuals/cli#multi-package-repositories-usage).
+**Note:** if you're setting up DCM for multi-package repository, check out [this website section](https://dcm.dev/docs/individuals/cli#multi-package-repositories-usage/).
 
 #### Analyze
 
@@ -278,6 +278,8 @@ If you are interested in contributing, please check out the [contribution guidel
 
 ### En
 
+- [What’s new in DCM for Teams 1.3.0](https://dcm.dev/blog/2023/04/06/whats-new-in-dcm-1-3-0/)
+- [What’s new in DCM for Teams 1.2.0](https://dcm.dev/blog/2023/03/06/whats-new-in-dcm-1-2-0/)
 - [What’s new in DCM for Teams 1.1.0](https://medium.com/@incendial/whats-new-in-dcm-for-teams-1-1-0-501fd6223b0)
 - [Announcing DCM for Teams](https://incendial.medium.com/announcing-dcm-for-teams-84db2cffce99)
 - [Finding Unused Files With DCM](https://medium.com/wriketechclub/finding-unused-files-with-dart-code-metrics-b9aba48ad7ca) - This article considers one of the first commands, checking unused Dart files, by [Dmitry Zhifarsky](https://github.com/incendial)

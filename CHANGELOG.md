@@ -6,74 +6,74 @@
 
 ## 5.7.0
 
-* fix: handle dynamics in map literals for [`avoid-dynamic`](https://dcm.dev/docs/individuals/rules/common/avoid-dynamic).
+* fix: handle dynamics in map literals for [`avoid-dynamic`](https://dcm.dev/docs/individuals/rules/common/avoid-dynamic/).
 * fix: change anti-patterns default severity to `warning`.
-* feat: add static code diagnostic [`prefer-define-hero-tag`](https://dcm.dev/docs/individuals/rules/flutter/prefer-define-hero-tag).
+* feat: add static code diagnostic [`prefer-define-hero-tag`](https://dcm.dev/docs/individuals/rules/flutter/prefer-define-hero-tag/).
 * chore: restrict `analyzer` version to `>=5.1.0 <5.9.0`.
-* feat: add static code diagnostic [`avoid-substring`](https://dcm.dev/docs/individuals/rules/common/avoid-substring).
+* feat: add static code diagnostic [`avoid-substring`](https://dcm.dev/docs/individuals/rules/common/avoid-substring/).
 * fix: correctly track prefixes usage for check-unused-code.
-* fix: visit only widgets for [`use-setstate-synchronously`](https://dcm.dev/docs/individuals/rules/flutter/use-setstate-synchronously).
+* fix: visit only widgets for [`use-setstate-synchronously`](https://dcm.dev/docs/individuals/rules/flutter/use-setstate-synchronously/).
 
 ## 5.6.0
 
-* fix: correctly handle implicit type parameters for [`no-equal-arguments`](https://dcm.dev/docs/individuals/rules/common/no-equal-arguments).
-* fix: correctly handle `dynamic` type for [`avoid-passing-async-when-sync-expected`](https://dcm.dev/docs/individuals/rules/common/avoid-passing-async-when-sync-expected).
-* fix: check `didChangeDependencies` for [`avoid-unnecessary-setstate`](https://dcm.dev/docs/individuals/rules/flutter/avoid-unnecessary-setstate).
-* fix: add new config option for [`no-equal-arguments`](https://dcm.dev/docs/individuals/rules/common/no-equal-arguments).
-* feat: add `allow-nullable` config option for [`avoid-returning-widgets`](https://dcm.dev/docs/individuals/rules/common/avoid-returning-widgets).
-* fix: support `assert(mounted)` for [`use-setstate-synchronously`](https://dcm.dev/docs/individuals/rules/flutter/use-setstate-synchronously).
-* fix: correctly support dartdoc tags for [`format-comment`](https://dcm.dev/docs/individuals/rules/common/format-comment).
-* fix: resolve several false-positives with while loops, setters and implicit type parameters for [`prefer-moving-to-variable`](https://dcm.dev/docs/individuals/rules/common/prefer-moving-to-variable).
+* fix: correctly handle implicit type parameters for [`no-equal-arguments`](https://dcm.dev/docs/individuals/rules/common/no-equal-arguments/).
+* fix: correctly handle `dynamic` type for [`avoid-passing-async-when-sync-expected`](https://dcm.dev/docs/individuals/rules/common/avoid-passing-async-when-sync-expected/).
+* fix: check `didChangeDependencies` for [`avoid-unnecessary-setstate`](https://dcm.dev/docs/individuals/rules/flutter/avoid-unnecessary-setstate/).
+* fix: add new config option for [`no-equal-arguments`](https://dcm.dev/docs/individuals/rules/common/no-equal-arguments/).
+* feat: add `allow-nullable` config option for [`avoid-returning-widgets`](https://dcm.dev/docs/individuals/rules/common/avoid-returning-widgets/).
+* fix: support `assert(mounted)` for [`use-setstate-synchronously`](https://dcm.dev/docs/individuals/rules/flutter/use-setstate-synchronously/).
+* fix: correctly support dartdoc tags for [`format-comment`](https://dcm.dev/docs/individuals/rules/common/format-comment/).
+* fix: resolve several false-positives with while loops, setters and implicit type parameters for [`prefer-moving-to-variable`](https://dcm.dev/docs/individuals/rules/common/prefer-moving-to-variable/).
 
 ## 5.6.0-dev.1
 
 * docs: remove old website
-* feat: add static code diagnostic [`correct-game-instantiating`](https://dcm.dev/docs/individuals/rules/flame/correct-game-instantiating).
-* feat: add static code diagnostic [`avoid-initializing-in-on-mount`](https://dcm.dev/docs/individuals/rules/flame/avoid-initializing-in-on-mount).
-* feat: add static code diagnostic [`avoid-creating-vector-in-update`](https://dcm.dev/docs/individuals/rules/flame/avoid-creating-vector-in-update).
-* feat: add static code diagnostic [`avoid-redundant-async-on-load`](https://dcm.dev/docs/individuals/rules/flame/avoid-redundant-async-on-load).
+* feat: add static code diagnostic [`correct-game-instantiating`](https://dcm.dev/docs/individuals/rules/flame/correct-game-instantiating/).
+* feat: add static code diagnostic [`avoid-initializing-in-on-mount`](https://dcm.dev/docs/individuals/rules/flame/avoid-initializing-in-on-mount/).
+* feat: add static code diagnostic [`avoid-creating-vector-in-update`](https://dcm.dev/docs/individuals/rules/flame/avoid-creating-vector-in-update/).
+* feat: add static code diagnostic [`avoid-redundant-async-on-load`](https://dcm.dev/docs/individuals/rules/flame/avoid-redundant-async-on-load/).
 
 ## 5.5.1
 
 * fix: export missing parts of public API.
-* feat: support `context.mounted` for [`use-setstate-synchronously`](https://dcm.dev/docs/individuals/rules/flutter/use-setstate-synchronously).
-* feat: add `allow-only-once` option to [`no-magic-number`](https://dcm.dev/docs/individuals/rules/common/no-magic-number).
+* feat: support `context.mounted` for [`use-setstate-synchronously`](https://dcm.dev/docs/individuals/rules/flutter/use-setstate-synchronously/).
+* feat: add `allow-only-once` option to [`no-magic-number`](https://dcm.dev/docs/individuals/rules/common/no-magic-number/).
 
 ## 5.5.0
 
-* fix: partially handle normal completion function body for [`avoid-redundant-async`](https://dcm.dev/docs/individuals/rules/common/avoid-redundant-async).
-* fix: ignore enum constant arguments for [`no-magic-number`](https://dcm.dev/docs/individuals/rules/common/no-magic-number).
-* fix: correctly handle prefixed enums and static instance fields for [`prefer-moving-to-variable`](https://dcm.dev/docs/individuals/rules/common/prefer-moving-to-variable).
-* feat: add static code diagnostic [`prefer-provide-intl-description`](https://dcm.dev/docs/individuals/rules/intl/prefer-provide-intl-description).
+* fix: partially handle normal completion function body for [`avoid-redundant-async`](https://dcm.dev/docs/individuals/rules/common/avoid-redundant-async/).
+* fix: ignore enum constant arguments for [`no-magic-number`](https://dcm.dev/docs/individuals/rules/common/no-magic-number/).
+* fix: correctly handle prefixed enums and static instance fields for [`prefer-moving-to-variable`](https://dcm.dev/docs/individuals/rules/common/prefer-moving-to-variable/).
+* feat: add static code diagnostic [`prefer-provide-intl-description`](https://dcm.dev/docs/individuals/rules/intl/prefer-provide-intl-description/).
 * feat: exclude `.freezed.dart` files by default.
-* fix: handle try and switch statements for [`use-setstate-synchronously`](https://dcm.dev/docs/individuals/rules/flutter/use-setstate-synchronously)
+* fix: handle try and switch statements for [`use-setstate-synchronously`](https://dcm.dev/docs/individuals/rules/flutter/use-setstate-synchronously/)
 * chore: restrict `analyzer` version to `>=5.1.0 <5.4.0`.
-* fix: ignore method invocations in a variable declaration for [`prefer-moving-to-variable`](https://dcm.dev/docs/individuals/rules/common/prefer-moving-to-variable).
-* feat: add `allow-initialized` option to [`avoid-late-keyword`](https://dcm.dev/docs/individuals/rules/common/avoid-late-keyword).
-* feat: add `ignored-types` option to [`avoid-late-keyword`](https://dcm.dev/docs/individuals/rules/common/avoid-late-keyword).
+* fix: ignore method invocations in a variable declaration for [`prefer-moving-to-variable`](https://dcm.dev/docs/individuals/rules/common/prefer-moving-to-variable/).
+* feat: add `allow-initialized` option to [`avoid-late-keyword`](https://dcm.dev/docs/individuals/rules/common/avoid-late-keyword/).
+* feat: add `ignored-types` option to [`avoid-late-keyword`](https://dcm.dev/docs/individuals/rules/common/avoid-late-keyword/).
 * fix: support tear-off methods for `check-unnecessary-nullable`.
-* fix: correctly handle empty comment sentence for [`format-comment`](https://dcm.dev/docs/individuals/rules/common/format-comment).
+* fix: correctly handle empty comment sentence for [`format-comment`](https://dcm.dev/docs/individuals/rules/common/format-comment/).
 * feat: support type=lint suppression.
 
 ## 5.4.0
 
-* feat: ignore tear-off methods for [`avoid-unused-parameters`](https://dcm.dev/docs/individuals/rules/common/avoid-unused-parameters).
+* feat: ignore tear-off methods for [`avoid-unused-parameters`](https://dcm.dev/docs/individuals/rules/common/avoid-unused-parameters/).
 * feat: show warning for rules without config that require config to work.
-* fix: correctly handle FunctionExpressions for [`avoid-redundant-async`](https://dcm.dev/docs/individuals/rules/common/avoid-redundant-async).
-* feat: support ignoring nesting for [`prefer-conditional-expressions`](https://dcm.dev/docs/individuals/rules/common/prefer-conditional-expressions).
-* fix: ignore Providers for [`avoid-returning-widgets`](https://dcm.dev/docs/individuals/rules/common/avoid-returning-widgets).
-* feat: add [`use-setstate-synchronously`](https://dcm.dev/docs/individuals/rules/flutter/use-setstate-synchronously).
-* fix: correctly invalidate edge cases for [`use-setstate-synchronously`](https://dcm.dev/docs/individuals/rules/flutter/use-setstate-synchronously).
-* fix: handle multiline comments for [`format-comment`](https://dcm.dev/docs/individuals/rules/common/format-comment).
+* fix: correctly handle FunctionExpressions for [`avoid-redundant-async`](https://dcm.dev/docs/individuals/rules/common/avoid-redundant-async/).
+* feat: support ignoring nesting for [`prefer-conditional-expressions`](https://dcm.dev/docs/individuals/rules/common/prefer-conditional-expressions/).
+* fix: ignore Providers for [`avoid-returning-widgets`](https://dcm.dev/docs/individuals/rules/common/avoid-returning-widgets/).
+* feat: add [`use-setstate-synchronously`](https://dcm.dev/docs/individuals/rules/flutter/use-setstate-synchronously/).
+* fix: correctly invalidate edge cases for [`use-setstate-synchronously`](https://dcm.dev/docs/individuals/rules/flutter/use-setstate-synchronously/).
+* fix: handle multiline comments for [`format-comment`](https://dcm.dev/docs/individuals/rules/common/format-comment/).
 * chore: update presets reference.
 
 ## 5.3.0
 
-* feat: add static code diagnostic [`list-all-equatable-fields`](https://dcm.dev/docs/individuals/rules/common/list-all-equatable-fields).
-* feat: add `strict` config option to [`avoid-collection-methods-with-unrelated-types`](https://dcm.dev/docs/individuals/rules/common/avoid-collection-methods-with-unrelated-types).
-* fix: support function expression invocations for [`prefer-moving-to-variable`](https://dcm.dev/docs/individuals/rules/common/prefer-moving-to-variable).
-* feat: support ignoring regular comments for [`format-comment`](https://dcm.dev/docs/individuals/rules/common/format-comment).
-* fix: ignore doc comments for [`prefer-commenting-analyzer-ignores`](https://dcm.dev/docs/individuals/rules/common/prefer-commenting-analyzer-ignores).
+* feat: add static code diagnostic [`list-all-equatable-fields`](https://dcm.dev/docs/individuals/rules/common/list-all-equatable-fields/).
+* feat: add `strict` config option to [`avoid-collection-methods-with-unrelated-types`](https://dcm.dev/docs/individuals/rules/common/avoid-collection-methods-with-unrelated-types/).
+* fix: support function expression invocations for [`prefer-moving-to-variable`](https://dcm.dev/docs/individuals/rules/common/prefer-moving-to-variable/).
+* feat: support ignoring regular comments for [`format-comment`](https://dcm.dev/docs/individuals/rules/common/format-comment/).
+* fix: ignore doc comments for [`prefer-commenting-analyzer-ignores`](https://dcm.dev/docs/individuals/rules/common/prefer-commenting-analyzer-ignores/).
 
 ## 5.2.1
 
@@ -81,21 +81,21 @@
 
 ## 5.2.0
 
-* fix: remove recursive traversal for [`ban-name`](https://dcm.dev/docs/individuals/rules/common/ban-name) rule.
-* feat: add static code diagnostic [`avoid-double-slash-imports`](https://dcm.dev/docs/individuals/rules/common/avoid-double-slash-imports).
-* feat: add static code diagnostic [`prefer-using-list-view`](https://dcm.dev/docs/individuals/rules/flutter/prefer-using-list-view).
-* feat: add static code diagnostic [`avoid-unnecessary-conditionals`](https://dcm.dev/docs/individuals/rules/common/avoid-unnecessary-conditionals).
-* feat: support boolean literals removal for [`prefer-conditional-expressions`](https://dcm.dev/docs/individuals/rules/common/prefer-conditional-expressions) auto-fix.
-* fix: correctly support conditional imports for [`check-unused-code`](https://dcm.dev/docs/individuals/cli/check-unused-code).
+* fix: remove recursive traversal for [`ban-name`](https://dcm.dev/docs/individuals/rules/common/ban-name/) rule.
+* feat: add static code diagnostic [`avoid-double-slash-imports`](https://dcm.dev/docs/individuals/rules/common/avoid-double-slash-imports/).
+* feat: add static code diagnostic [`prefer-using-list-view`](https://dcm.dev/docs/individuals/rules/flutter/prefer-using-list-view/).
+* feat: add static code diagnostic [`avoid-unnecessary-conditionals`](https://dcm.dev/docs/individuals/rules/common/avoid-unnecessary-conditionals/).
+* feat: support boolean literals removal for [`prefer-conditional-expressions`](https://dcm.dev/docs/individuals/rules/common/prefer-conditional-expressions/) auto-fix.
+* fix: correctly support conditional imports for [`check-unused-code`](https://dcm.dev/docs/individuals/cli/check-unused-code/).
 
 ## 5.1.0
 
-* feat: add static code diagnostic [`arguments-ordering`](https://dcm.dev/docs/individuals/rules/common/arguments-ordering).
-* feat: add method call chains support for [`ban-name`](https://dcm.dev/docs/individuals/rules/common/ban-name).
+* feat: add static code diagnostic [`arguments-ordering`](https://dcm.dev/docs/individuals/rules/common/arguments-ordering/).
+* feat: add method call chains support for [`ban-name`](https://dcm.dev/docs/individuals/rules/common/ban-name/).
 * fix: update `dart_all.yaml` preset to contain missing rules.
 * docs: improve rule checklist for contributors
-* feat: add static code diagnostic [`prefer-static-class`](https://dcm.dev/docs/individuals/rules/common/prefer-static-class).
-* feat: ignore `hcwidget` annotations in ['avoid-returning-widgets'](https://dcm.dev/docs/individuals/rules/common/avoid-returning-widgets) rule by default.
+* feat: add static code diagnostic [`prefer-static-class`](https://dcm.dev/docs/individuals/rules/common/prefer-static-class/).
+* feat: ignore `hcwidget` annotations in ['avoid-returning-widgets'](https://dcm.dev/docs/individuals/rules/common/avoid-returning-widgets/) rule by default.
 
 ## 5.0.1
 
@@ -106,10 +106,10 @@
 * feat: **Breaking change** rename `member-ordering-extended` to `member-ordering`, discarding the old implementation.
 * feat: support report to the json file option for the `analyze` command.
 * feat: make CliRunner a part of public API in order to support transitive executable calls use-case.
-* feat: add static code diagnostic [`avoid-cascade-after-if-null`](https://dcm.dev/docs/individuals/rules/common/avoid-cascade-after-if-null).
-* feat: **Breaking change** handle widget members order separately in [`member-ordering`](https://dcm.dev/docs/individuals/rules/common/member-ordering).
-* feat: support dynamic method names for [`member-ordering`](https://dcm.dev/docs/individuals/rules/common/member-ordering).
-* fix: check `of` constructor exist for [`prefer-iterable-of`](https://dcm.dev/docs/individuals/rules/common/prefer-iterable-of)
+* feat: add static code diagnostic [`avoid-cascade-after-if-null`](https://dcm.dev/docs/individuals/rules/common/avoid-cascade-after-if-null/).
+* feat: **Breaking change** handle widget members order separately in [`member-ordering`](https://dcm.dev/docs/individuals/rules/common/member-ordering/).
+* feat: support dynamic method names for [`member-ordering`](https://dcm.dev/docs/individuals/rules/common/member-ordering/).
+* fix: check `of` constructor exist for [`prefer-iterable-of`](https://dcm.dev/docs/individuals/rules/common/prefer-iterable-of/)
 * feat: **Breaking change** change severity for avoid-banned-imports, prefer-trailing-comma, ban-name rules.
 * feat: support proxy calls for check-unused-l10n.
 * feat: **Breaking change** cleanup public API.
@@ -117,7 +117,7 @@
 * feat: add `print-config` option to all commands.
 * feat: add validation for rule names in `analysis_options.yaml` both for the `analyze` command and the plugin.
 * feat: support `includes` in the rules config.
-* fix: ignore `@override` methods for [`avoid-redundant-async`](https://dcm.dev/docs/individuals/rules/common/avoid-redundant-async).
+* fix: ignore `@override` methods for [`avoid-redundant-async`](https://dcm.dev/docs/individuals/rules/common/avoid-redundant-async/).
 
 ## 4.21.2
 
