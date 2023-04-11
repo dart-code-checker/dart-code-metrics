@@ -29,7 +29,7 @@ dependencies:
   meta: ^1.7.0
   path: ^1.8.0
   platform: ^3.1.0 # overridden for lowest versions compatibility
-  pub_updater: ^0.2.2
+  pub_updater: ">=0.2.2 <0.4.0"
   source_span: ^1.8.0
   uuid: ^3.0.7
   xml: ">=5.3.0 <7.0.0"
