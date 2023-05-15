@@ -65,7 +65,7 @@ jobs:
         run: dart analyze --fatal-warnings --fatal-infos .
 
       - name: Analyze by DCM
-        uses: dart-code-checker/dart-code-metrics-action@v3.0.0
+        uses: dart-code-checker/dart-code-metrics-action@v4.0.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           folders: "bin, example, lib, test"
