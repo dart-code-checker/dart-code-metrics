@@ -8,8 +8,7 @@ import 'reporters_list/console/unused_l10n_console_reporter.dart';
 import 'reporters_list/json/unused_l10n_json_reporter.dart';
 import 'unused_l10n_report_params.dart';
 
-final _implementedReports = <
-    String,
+final _implementedReports = <String,
     Reporter<UnusedL10nFileReport, UnusedL10NReportParams> Function(
   IOSink output,
 )>{

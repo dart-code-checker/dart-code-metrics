@@ -8,8 +8,7 @@ import 'reporters_list/console/unused_code_console_reporter.dart';
 import 'reporters_list/json/unused_code_json_reporter.dart';
 import 'unused_code_report_params.dart';
 
-final _implementedReports = <
-    String,
+final _implementedReports = <String,
     Reporter<UnusedCodeFileReport, UnusedCodeReportParams> Function(
   IOSink output,
 )>{

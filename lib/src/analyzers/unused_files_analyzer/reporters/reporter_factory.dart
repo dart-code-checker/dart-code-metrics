@@ -8,8 +8,7 @@ import 'reporters_list/console/unused_files_console_reporter.dart';
 import 'reporters_list/json/unused_files_json_reporter.dart';
 import 'unused_files_report_params.dart';
 
-final _implementedReports = <
-    String,
+final _implementedReports = <String,
     Reporter<UnusedFilesFileReport, UnusedFilesReportParams> Function(
   IOSink output,
 )>{
