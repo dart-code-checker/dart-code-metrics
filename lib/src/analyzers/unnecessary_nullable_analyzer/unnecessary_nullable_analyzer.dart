@@ -286,6 +286,7 @@ class UnnecessaryNullableAnalyzer {
 
     final isNullable = argument is NullLiteral ||
         (staticType != null &&
+            // ignore: deprecated_member_use
             (staticType.isDynamic || isNullableType(staticType)));
 
     return isNullable;

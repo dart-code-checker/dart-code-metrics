@@ -39,6 +39,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
   bool _hasValidFutureType(DartType type) =>
       type.isDartAsyncFuture ||
       type.isDartAsyncFutureOr ||
+      // ignore: deprecated_member_use
       type.isDynamic ||
       type.isDartCoreObject;
 }

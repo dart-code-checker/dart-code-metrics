@@ -82,6 +82,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
       type.asInstanceOf(parentElement.element) == null;
 
   bool _isNotDynamic(DartType type) =>
+      // ignore: deprecated_member_use
       _isStrictMode || !(type.isDynamic || type.isDartCoreObject);
 
   List<_TypedClassElement>? _getMapTypeElement(DartType? type) =>

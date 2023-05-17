@@ -25,5 +25,6 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
   bool _hasObjectType(TypeAnnotation? type) =>
       type?.type?.isDartCoreObject ??
+      // ignore: deprecated_member_use
       (type is NamedType && type.name.name == 'Object');
 }
