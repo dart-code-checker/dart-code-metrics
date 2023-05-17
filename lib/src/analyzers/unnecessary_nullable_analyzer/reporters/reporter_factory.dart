@@ -8,8 +8,7 @@ import 'reporters_list/console/unnecessary_nullable_console_reporter.dart';
 import 'reporters_list/json/unnecessary_nullable_json_reporter.dart';
 import 'unnecessary_nullable_report_params.dart';
 
-final _implementedReports = <
-    String,
+final _implementedReports = <String,
     Reporter<UnnecessaryNullableFileReport, UnnecessaryNullableReportParams>
         Function(
   IOSink output,

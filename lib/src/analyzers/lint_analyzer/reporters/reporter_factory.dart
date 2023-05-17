@@ -16,8 +16,7 @@ import 'reporters_list/github/lint_github_reporter.dart';
 import 'reporters_list/html/lint_html_reporter.dart';
 import 'reporters_list/json/lint_json_reporter.dart';
 
-final _implementedReports = <
-    String,
+final _implementedReports = <String,
     Reporter<FileReport, LintReportParams> Function(
   IOSink output,
   String reportFolder,
