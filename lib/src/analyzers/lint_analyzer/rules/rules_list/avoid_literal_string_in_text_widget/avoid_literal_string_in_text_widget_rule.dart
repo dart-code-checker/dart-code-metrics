@@ -24,7 +24,7 @@ class AvoidLiteralStringInTextWidgetRule extends FlutterRule {
   AvoidLiteralStringInTextWidgetRule([Map<String, Object> config = const {}])
       : super(
           id: ruleId,
-          severity: readSeverity(config, Severity.error),
+          severity: readSeverity(config, Severity.warning),
           excludes: readExcludes(config),
           includes: readIncludes(config),
         );
