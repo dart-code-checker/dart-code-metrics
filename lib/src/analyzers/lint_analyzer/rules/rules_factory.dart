@@ -9,6 +9,7 @@ import 'rules_list/avoid_creating_vector_in_update/avoid_creating_vector_in_upda
 import 'rules_list/avoid_double_slash_imports/avoid_double_slash_imports_rule.dart';
 import 'rules_list/avoid_duplicate_exports/avoid_duplicate_exports_rule.dart';
 import 'rules_list/avoid_dynamic/avoid_dynamic_rule.dart';
+import 'rules_list/avoid_edgesinset_only/avoid_edgeinsets_only_rule.dart';
 import 'rules_list/avoid_expanded_as_spacer/avoid_expanded_as_spacer_rule.dart';
 import 'rules_list/avoid_global_state/avoid_global_state_rule.dart';
 import 'rules_list/avoid_ignoring_return_values/avoid_ignoring_return_values_rule.dart';
@@ -167,6 +168,7 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   UseIntlWidget.ruleId: UseIntlWidget.new,
   AvoidLiteralStringInTextWidgetRule.ruleId: AvoidLiteralStringInTextWidgetRule.new,
   CheckPostFrameCallbackRule.ruleId: CheckPostFrameCallbackRule.new,
+  AvoidEdgeInsetsOnlyRule.ruleId: AvoidEdgeInsetsOnlyRule.new,
 };
 
 Iterable<String> get allRuleIds => _implementedRules.keys;
