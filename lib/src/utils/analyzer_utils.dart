@@ -20,6 +20,7 @@ AnalysisContextCollection createAnalysisContextCollection(
   Iterable<String> folders,
   String rootFolder,
   String? sdkPath,
+  {List<String>? excludedPaths,}
 ) {
   final includedPaths =
       folders.map((path) => normalize(join(rootFolder, path))).toList();
@@ -28,6 +29,7 @@ AnalysisContextCollection createAnalysisContextCollection(
   return AnalysisContextCollectionImpl(
     sdkPath: sdkPath,
     includedPaths: includedPaths,
+    excludedPaths: excludedPaths,
     resourceProvider: resourceProvider,
     byteStore: createByteStore(resourceProvider),
   );

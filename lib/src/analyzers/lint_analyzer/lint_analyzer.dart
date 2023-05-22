@@ -77,12 +77,23 @@ class LintAnalyzer {
     LintConfig config, {
     String? sdkPath,
     Set<String>? analyzedFiles,
+    List<String>? excludedPaths
   }) async {
-    final collection = createAnalysisContextCollection(folders, rootFolder, sdkPath);
+    excludedPaths = excludedPaths?.map((e) => join(rootFolder,e)).toList();
+    analyzedFiles = analyzedFiles?.map((e) => join(rootFolder,e)).toSet();
+    final collection = createAnalysisContextCollection(folders, rootFolder, sdkPath, excludedPaths: excludedPaths);
 
     final analyzerResult = <LintFileReport>[];
+    final Map<String, AnalysisContext> contextsMap = {};
 
-    for (final context in collection.contexts) {
+    final contexts = collection.contexts.where((element) {
+      final key = element.contextRoot.optionsFile?.path;
+      if(key == null || contextsMap.containsKey(key)) return false;
+      contextsMap[key] = element;
+      return true;
+    }).toList();
+
+    for (final context in contexts) {
       final lintAnalysisConfig = _getAnalysisConfig(context, rootFolder, config);
 
       final report = LintAnalysisOptionsValidator.validateOptions(
