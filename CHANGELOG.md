@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* chore: restrict `analyzer` version to `>=5.1.0 <5.14.0`.
+
 ## 5.7.4
 
 * chore: restrict `analyzer` version to `>=5.1.0 <5.13.0`.
