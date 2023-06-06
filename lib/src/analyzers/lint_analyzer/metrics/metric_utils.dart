@@ -6,7 +6,6 @@ Uri documentation(String metricId) => Uri(
       host: 'dcm.dev',
       pathSegments: [
         'docs',
-        'individuals',
         'metrics',
         metricId,
       ],

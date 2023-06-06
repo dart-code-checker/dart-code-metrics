@@ -32,6 +32,7 @@ class CliRunner extends CommandRunner<void> {
     ].forEach(addCommand);
 
     _usesVersionOption();
+    _usesDeprecationOption();
   }
 
   /// Represents the invocation string message.
@@ -51,6 +52,19 @@ class CliRunner extends CommandRunner<void> {
         _logger.info('DCM version: $packageVersion');
 
         return;
+      }
+
+      if (!(results[FlagNames.disableMessage] as bool)) {
+        _logger.info(warningPen('''
+This package is entering the deprecation process and will be fully discontinued on July 16th.
+You can read more in this blog post https://dcm.dev/blog/2023/06/06/announcing-dcm-free-version-sunset/.
+
+We are grateful to you for being a DCM user. If you are a DCM contributor, you can apply for a special license, feel free to reach out to info@dcm.dev.
+
+If you think DCM is valuable and it helps you, please consider to upgrade to the new Individuals or Teams version.
+
+To hide this message pass the 'disable-sunset-warning' option.
+'''));
       }
 
       await super.run(argsWithDefaultCommand);
@@ -83,6 +97,16 @@ class CliRunner extends CommandRunner<void> {
       ..addFlag(
         FlagNames.version,
         help: 'Reports the version of this tool.',
+        negatable: false,
+      );
+  }
+
+  void _usesDeprecationOption() {
+    argParser
+      ..addSeparator('')
+      ..addFlag(
+        FlagNames.disableMessage,
+        help: 'Hide deprecation message.',
         negatable: false,
       );
   }

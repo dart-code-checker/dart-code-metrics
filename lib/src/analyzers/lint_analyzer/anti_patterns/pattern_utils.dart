@@ -24,7 +24,6 @@ Uri documentation(Pattern pattern) => Uri(
       host: 'dcm.dev',
       pathSegments: [
         'docs',
-        'individuals',
         'anti-patterns',
         pattern.id,
       ],

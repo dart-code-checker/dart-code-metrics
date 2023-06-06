@@ -30,7 +30,6 @@ Uri documentation(Rule rule) => Uri(
       host: 'dcm.dev',
       pathSegments: [
         'docs',
-        'individuals',
         'rules',
         rule.type.value,
         rule.id,
