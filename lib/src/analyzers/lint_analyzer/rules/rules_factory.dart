@@ -13,6 +13,7 @@ import 'rules_list/avoid_expanded_as_spacer/avoid_expanded_as_spacer_rule.dart';
 import 'rules_list/avoid_global_state/avoid_global_state_rule.dart';
 import 'rules_list/avoid_ignoring_return_values/avoid_ignoring_return_values_rule.dart';
 import 'rules_list/avoid_initializing_in_on_mount/avoid_initializing_in_on_mount_rule.dart';
+import 'rules_list/avoid_inverted_boolean_checks/avoid_inverted_boolean_checks_rule.dart';
 import 'rules_list/avoid_late_keyword/avoid_late_keyword_rule.dart';
 import 'rules_list/avoid_missing_enum_constant_in_map/avoid_missing_enum_constant_in_map_rule.dart';
 import 'rules_list/avoid_nested_conditional_expressions/avoid_nested_conditional_expressions_rule.dart';
@@ -95,6 +96,7 @@ final _implementedRules = <String, Rule Function(Map<String, Object>)>{
   AvoidGlobalStateRule.ruleId: AvoidGlobalStateRule.new,
   AvoidIgnoringReturnValuesRule.ruleId: AvoidIgnoringReturnValuesRule.new,
   AvoidInitializingInOnMountRule.ruleId: AvoidInitializingInOnMountRule.new,
+  AvoidInvertedBooleanChecksRule.ruleId: AvoidInvertedBooleanChecksRule.new,
   AvoidLateKeywordRule.ruleId: AvoidLateKeywordRule.new,
   AvoidMissingEnumConstantInMapRule.ruleId:
       AvoidMissingEnumConstantInMapRule.new,
