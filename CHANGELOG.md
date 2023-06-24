@@ -3,6 +3,7 @@
 ## Unreleased
 
 * chore: restrict `analyzer` version to `>=5.1.0 <5.14.0`.
+* feat: add static code diagnostic `avoid-inverted-boolean-checks`.
 
 ## 5.7.4
 
