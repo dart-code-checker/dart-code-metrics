@@ -25,11 +25,11 @@ dependencies:
   file: ^6.0.0
   glob: ^2.0.1
   html: ">=0.15.0 <1.0.0"
-  http: ^0.13.5
+  http: ^1.1.0
   meta: ^1.7.0
   path: ^1.8.0
   platform: ^3.1.0 # overridden for lowest versions compatibility
-  pub_updater: ^0.3.0
+  pub_updater: ^0.3.1
   source_span: ^1.8.0
   uuid: ^3.0.7
   xml: ">=5.3.0 <7.0.0"
