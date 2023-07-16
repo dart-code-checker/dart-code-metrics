@@ -4,10 +4,10 @@
   height="150" width="150"
   align="right">
 
-# DCM
+# Dart Code Metrics
 
-This package is entering the deprecation process and will be fully discontinued on July 16th. You can read more in this blog post <https://dcm.dev/blog/2023/06/06/announcing-dcm-free-version-sunset/>.
+This package has been discontinued and is no longer maintained.
 
-We are grateful to our users and especially contributors for using and working on this package!
+To continue using Dart Code Metrics, visit our website to purchase a license <https://dcm.dev/pricing/>.
 
-If you are a DCM contributor, you can receive a special license. Feel free to reach out to <info@dcm.dev>.
+If you were a Dart Code Metrics contributor, you can receive a special license. Feel free to contact <info@dcm.dev>.
